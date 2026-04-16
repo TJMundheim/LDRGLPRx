@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free GLP-1 Eligibility Calculator | BMI Check — LDRGLPRx</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Free BMI calculator and GLP-1 eligibility checker. Find out if you qualify for semaglutide or tirzepatide weight loss medication with our instant assessment tool." />
+  <meta name="keywords" content="GLP-1 eligibility calculator, BMI calculator weight loss, semaglutide eligibility, tirzepatide eligibility, weight loss medication calculator, BMI check GLP-1, am I eligible for GLP-1" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ldrglprx.com/bmi-calculator.html" />
+
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="Free GLP-1 Eligibility Calculator — LDRGLPRx" />
+  <meta property="og:description" content="Check your BMI and find out if you may qualify for GLP-1 weight loss medications like semaglutide or tirzepatide. Free, instant results." />
+  <meta property="og:image" content="https://ldrglprx.com/images/og-bmi-calculator.jpg" />
+  <meta property="og:url" content="https://ldrglprx.com/bmi-calculator.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LDRGLPRx" />
+
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free GLP-1 Eligibility Calculator — LDRGLPRx" />
+  <meta name="twitter:description" content="Check your BMI and find out if you may qualify for GLP-1 weight loss medications. Free, instant results." />
+  <meta name="twitter:image" content="https://ldrglprx.com/images/og-bmi-calculator.jpg" />
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "GLP-1 Eligibility BMI Calculator",
+    "description": "Free BMI calculator to check eligibility for GLP-1 weight loss medications such as semaglutide and tirzepatide.",
+    "url": "https://ldrglprx.com/bmi-calculator.html",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "provider": {
+      "@type": "MedicalBusiness",
+      "name": "LDRGLPRx",
+      "url": "https://ldrglprx.com/"
+    }
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #0f4c75;
+      --primary-light: #1b6fa8;
+      --accent: #00b894;
+      --accent-dark: #00a381;
+      --dark: #0a1628;
+      --text: #2d3748;
+      --text-light: #718096;
+      --bg: #ffffff;
+      --bg-soft: #f7fafc;
+      --bg-accent: #edf7f6;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--dark);
+      line-height: 1.2;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+
+    .navbar.scrolled { box-shadow: var(--shadow-md); }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+
+    .logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0,184,148,0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-large {
+      padding: 1rem 2.2rem;
+      font-size: 1rem;
+    }
+
+    /* Mobile menu */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 10rem 0 5rem;
+      background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+    }
+
+    .hero-badge i {
+      color: var(--accent);
+    }
+
+    /* ===== CALCULATOR SECTION ===== */
+    .calc-section {
+      padding: 5rem 0;
+      background: var(--bg-soft);
+    }
+
+    .calc-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 3rem;
+      position: relative;
+      margin-top: -4rem;
+      z-index: 10;
+    }
+
+    .calc-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .calc-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .calc-header p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    /* Unit toggle */
+    .unit-toggle {
+      display: flex;
+      background: var(--bg-soft);
+      border-radius: 50px;
+      padding: 4px;
+      margin-bottom: 2rem;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .unit-toggle button {
+      flex: 1;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 50px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-light);
+      transition: all 0.25s;
+    }
+
+    .unit-toggle button.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(15,76,117,0.3);
+    }
+
+    /* Form inputs */
+    .calc-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .input-field {
+      position: relative;
+      flex: 1;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      transition: border-color 0.2s;
+      background: white;
+    }
+
+    .input-field input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .input-field .unit-label {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-weight: 500;
+      pointer-events: none;
+    }
+
+    .calc-btn {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 50px;
+      background: var(--accent);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 0.5rem;
+    }
+
+    .calc-btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0,184,148,0.4);
+    }
+
+    .calc-btn i { margin-left: 0.5rem; }
+
+    /* ===== RESULT AREA ===== */
+    .result-area {
+      display: none;
+      margin-top: 2.5rem;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .result-area.visible { display: block; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bmi-result-card {
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg-soft);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+    }
+
+    .bmi-number {
+      font-size: 4rem;
+      font-weight: 800;
+      font-family: 'Inter', sans-serif;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .bmi-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Gauge */
+    .bmi-gauge {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      height: 18px;
+      border-radius: 50px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(to right,
+        #3b82f6 0%, #3b82f6 15%,
+        #22c55e 15%, #22c55e 40%,
+        #eab308 40%, #eab308 60%,
+        #f97316 60%, #f97316 80%,
+        #ef4444 80%, #ef4444 100%
+      );
+      overflow: visible;
+    }
+
+    .gauge-marker {
+      position: absolute;
+      top: -6px;
+      width: 4px;
+      height: 30px;
+      background: var(--dark);
+      border-radius: 2px;
+      transform: translateX(-50%);
+      transition: left 0.6s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .gauge-marker::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--dark);
+      border-radius: 50%;
+    }
+
+    .gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      max-width: 480px;
+      margin: 0.5rem auto 0;
+      padding: 0 0.25rem;
+    }
+
+    /* Eligibility card */
+    .eligibility-card {
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .eligibility-card.eligible {
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+      border: 2px solid #6ee7b7;
+    }
+
+    .eligibility-card.conditional {
+      background: linear-gradient(135deg, #fefce8, #fef3c7);
+      border: 2px solid #fcd34d;
+    }
+
+    .eligibility-card.not-eligible {
+      background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+      border: 2px solid #a5b4fc;
+    }
+
+    .eligibility-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .eligible .eligibility-icon {
+      background: #059669;
+      color: white;
+    }
+
+    .conditional .eligibility-icon {
+      background: #d97706;
+      color: white;
+    }
+
+    .not-eligible .eligibility-icon {
+      background: #6366f1;
+      color: white;
+    }
+
+    .eligibility-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .eligible h3 { color: #065f46; }
+    .conditional h3 { color: #92400e; }
+    .not-eligible h3 { color: #3730a3; }
+
+    .eligibility-card p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+
+    .eligible p { color: #064e3b; }
+    .conditional p { color: #78350f; }
+    .not-eligible p { color: #312e81; }
+
+    .eligibility-card .next-steps {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .eligibility-card .next-steps h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .eligible .next-steps h4 { color: #059669; }
+    .conditional .next-steps h4 { color: #d97706; }
+    .not-eligible .next-steps h4 { color: #6366f1; }
+
+    .eligibility-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .eligibility-card ul li {
+      padding: 0.3rem 0;
+      font-size: 0.88rem;
+      padding-left: 1.4rem;
+      position: relative;
+    }
+
+    .eligibility-card ul li::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      font-size: 0.75rem;
+    }
+
+    .eligible ul li::before { color: #059669; }
+    .conditional ul li::before { color: #d97706; }
+    .not-eligible ul li::before { color: #6366f1; }
+
+    .result-cta {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .result-cta .btn {
+      font-size: 1rem;
+      padding: 1rem 2.5rem;
+    }
+
+    /* ===== EDUCATION SECTION ===== */
+    .education-section {
+      padding: 5rem 0;
+      background: white;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-light);
+      font-size: 1.05rem;
+    }
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .edu-card {
+      background: var(--bg-soft);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .edu-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .edu-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      background: var(--bg-accent);
+      color: var(--primary);
+    }
+
+    .edu-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .edu-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    .edu-card ul {
+      margin-top: 0.75rem;
+      padding-left: 1.2rem;
+    }
+
+    .edu-card ul li {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ===== EMAIL CAPTURE ===== */
+    .email-section {
+      padding: 4rem 0;
+      background: var(--bg-soft);
+    }
+
+    .email-wrapper {
+      max-width: 580px;
+      margin: 0 auto;
+      text-align: center;
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .email-wrapper h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .email-wrapper > p {
+      color: var(--text-light);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .email-form input {
+      flex: 1;
+      padding: 0.85rem 1.2rem;
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+
+    .email-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .email-form button {
+      padding: 0.85rem 1.8rem;
+      border-radius: 50px;
+      background: var(--primary);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      white-space: nowrap;
+    }
+
+    .email-form button:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    .email-confirmation {
+      display: none;
+      padding: 1.5rem;
+      background: #ecfdf5;
+      border-radius: var(--radius);
+      border: 1px solid #6ee7b7;
+      margin-top: 1rem;
+    }
+
+    .email-confirmation.visible { display: block; }
+
+    .email-confirmation i {
+      color: #059669;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .email-confirmation p {
+      color: #065f46;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .email-note {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 0.75rem;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.7);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand .logo {
+      font-size: 1.4rem;
+      color: white;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand .logo span { color: var(--accent); }
+
+    .footer-brand p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      max-width: 300px;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .footer-col ul { list-style: none; }
+
+    .footer-col li { margin-bottom: 0.6rem; }
+
+    .footer-col a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom p { font-size: 0.82rem; }
+
+    .footer-socials {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-socials a {
+      color: rgba(255,255,255,0.5);
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+
+    .footer-socials a:hover { color: var(--accent); }
+
+    .medical-disclaimer {
+      background: #0d1f35;
+      padding: 1.5rem 0;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .edu-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .hero { padding: 8rem 0 4rem; }
+      .hero h1 { font-size: 2.2rem; }
+
+      .calc-wrapper { padding: 2rem 1.5rem; margin-top: -3rem; }
+      .bmi-number { font-size: 3rem; }
+
+      .edu-grid { grid-template-columns: 1fr; }
+
+      .email-form { flex-direction: column; }
+
+      .section-header h2 { font-size: 1.8rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .input-row { flex-direction: column; }
+      .calc-wrapper { padding: 1.5rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">LDRGLP<span>Rx</span></a>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html#about">About GLP-1</a></li>
+      <li><a href="index.html#treatments">Treatments</a></li>
+      <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="index.html#get-started" class="btn btn-primary">Get Started</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <h1>Free <em>GLP-1</em> Eligibility Check</h1>
+    <p>Use our BMI calculator to see if you may qualify for doctor-prescribed GLP-1 weight loss medication like semaglutide or tirzepatide.</p>
+    <div class="hero-badges">
+      <div class="hero-badge"><i class="fas fa-clock"></i> Takes 30 seconds</div>
+      <div class="hero-badge"><i class="fas fa-lock"></i> 100% private</div>
+      <div class="hero-badge"><i class="fas fa-user-doctor"></i> Clinically based</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BMI CALCULATOR ===== -->
+<section class="calc-section">
+  <div class="container">
+    <div class="calc-wrapper">
+      <div class="calc-header">
+        <h2>Calculate Your BMI</h2>
+        <p>Enter your height and weight to check your Body Mass Index and GLP-1 eligibility.</p>
+      </div>
+
+      <!-- Unit toggle -->
+      <div class="unit-toggle">
+        <button class="active" id="btn-imperial" onclick="switchUnit('imperial')">Imperial (lb/ft)</button>
+        <button id="btn-metric" onclick="switchUnit('metric')">Metric (kg/cm)</button>
+      </div>
+
+      <form class="calc-form" id="bmi-form" onsubmit="calculateBMI(event)">
+        <!-- Imperial inputs -->
+        <div id="imperial-inputs">
+          <div class="input-group">
+            <label>Height</label>
+            <div class="input-row">
+              <div class="input-field">
+                <input type="number" id="feet" min="1" max="8" placeholder="5" required />
+                <span class="unit-label">ft</span>
+              </div>
+              <div class="input-field">
+                <input type="number" id="inches" min="0" max="11" placeholder="7" required />
+                <span class="unit-label">in</span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Weight</label>
+            <div class="input-field">
+              <input type="number" id="weight-lbs" min="50" max="800" placeholder="185" required />
+              <span class="unit-label">lbs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric inputs -->
+        <div id="metric-inputs" style="display:none;">
+          <div class="input-group">
+            <label>Height</label>
+            <div class="input-field">
+              <input type="number" id="height-cm" min="50" max="280" placeholder="170" />
+              <span class="unit-label">cm</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Weight</label>
+            <div class="input-field">
+              <input type="number" id="weight-kg" min="20" max="400" placeholder="84" />
+              <span class="unit-label">kg</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="calc-btn">Calculate My BMI <i class="fas fa-arrow-right"></i></button>
+      </form>
+
+      <!-- ===== RESULT ===== -->
+      <div class="result-area" id="result-area">
+        <div class="bmi-result-card">
+          <div class="bmi-number" id="bmi-number">--</div>
+          <div class="bmi-label" id="bmi-label">Your BMI</div>
+
+          <div class="bmi-gauge">
+            <div class="gauge-marker" id="gauge-marker" style="left: 0%;"></div>
+          </div>
+          <div class="gauge-labels">
+            <span>Underweight</span>
+            <span>Normal</span>
+            <span>Overweight</span>
+            <span>Obese</span>
+          </div>
+        </div>
+
+        <div id="eligibility-result"></div>
+
+        <div class="result-cta">
+          <a href="index.html#get-started" class="btn btn-primary btn-large">Start Your Free Assessment <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDUCATION SECTION ===== -->
+<section class="education-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Understanding BMI and GLP-1 Eligibility</h2>
+      <p>BMI is one of several factors physicians consider when evaluating candidates for GLP-1 weight loss medication.</p>
+    </div>
+
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-card-icon">
+          <i class="fas fa-scale-balanced"></i>
+        </div>
+        <h3>What BMI Means</h3>
+        <p>Body Mass Index is a screening tool that estimates body fat based on height and weight. While widely used, it has important limitations.</p>
+        <ul>
+          <li>Does not directly measure body fat percentage</li>
+          <li>May overestimate fat in muscular individuals</li>
+          <li>Does not account for age, sex, or ethnicity variations</li>
+          <li>Best used alongside other health assessments</li>
+        </ul>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-card-icon">
+          <i class="fas fa-prescription-bottle-medical"></i>
+        </div>
+        <h3>BMI and GLP-1 Eligibility</h3>
+        <p>FDA guidelines generally consider GLP-1 medications for adults who meet specific BMI thresholds along with other clinical criteria.</p>
+        <ul>
+          <li>BMI of 30 or higher (obesity)</li>
+          <li>BMI of 27+ with weight-related conditions</li>
+          <li>Conditions include type 2 diabetes, hypertension, or high cholesterol</li>
+          <li>A physician makes the final determination</li>
+        </ul>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-card-icon">
+          <i class="fas fa-stethoscope"></i>
+        </div>
+        <h3>What Physicians Consider</h3>
+        <p>Your doctor evaluates a comprehensive picture of your health beyond just BMI when prescribing GLP-1 medications.</p>
+        <ul>
+          <li>Complete medical history and current medications</li>
+          <li>Blood work and metabolic health markers</li>
+          <li>Previous weight loss attempts</li>
+          <li>Family history and individual risk factors</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EMAIL CAPTURE ===== -->
+<section class="email-section">
+  <div class="container">
+    <div class="email-wrapper">
+      <h2>Get Your Results Emailed</h2>
+      <p>Receive a copy of your BMI results and eligibility information, plus helpful weight loss resources.</p>
+      <form class="email-form" id="email-form" onsubmit="submitEmail(event)">
+        <input type="email" id="email-input" placeholder="you@example.com" required />
+        <button type="submit">Send Results</button>
+      </form>
+      <div class="email-confirmation" id="email-confirmation">
+        <i class="fas fa-circle-check"></i>
+        <p>Thank you! Your results will be sent shortly. Check your inbox.</p>
+      </div>
+      <p class="email-note"><i class="fas fa-lock"></i> We respect your privacy. No spam, unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">LDRGLP<span>Rx</span></a>
+        <p>Doctor-guided GLP-1 weight loss treatment. Licensed physicians, licensed pharmacies, real results. Your health journey starts here.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Treatments</h4>
+        <ul>
+          <li><a href="index.html#treatments">Semaglutide</a></li>
+          <li><a href="index.html#treatments">Tirzepatide</a></li>
+          <li><a href="index.html#treatments">Oral GLP-1</a></li>
+          <li><a href="index.html#how-it-works">How It Works</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a href="index.html#about">About GLP-1</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Medical Consent</a></li>
+          <li><a href="#">HIPAA Notice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 LDRGLPRx. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="X / Twitter"><i class="fab fa-x-twitter"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="medical-disclaimer">
+  <div class="container">
+    <strong>Medical Disclaimer:</strong> LDRGLPRx provides access to telehealth services and prescription medications through licensed healthcare providers and pharmacies.
+    Compounded medications are not FDA-approved. Individual results may vary. GLP-1 medications are prescription-only and require a physician evaluation.
+    This website does not provide medical advice. Always consult with a qualified healthcare provider regarding your health.
+    This BMI calculator is for informational purposes only and does not constitute a medical diagnosis.
+  </div>
+</div>
+
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Mobile menu toggle
+  function toggleMenu() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.remove('open');
+    });
+  });
+
+  // Current unit system
+  var currentUnit = 'imperial';
+
+  function switchUnit(unit) {
+    currentUnit = unit;
+    document.getElementById('btn-imperial').classList.toggle('active', unit === 'imperial');
+    document.getElementById('btn-metric').classList.toggle('active', unit === 'metric');
+    document.getElementById('imperial-inputs').style.display = unit === 'imperial' ? 'block' : 'none';
+    document.getElementById('metric-inputs').style.display = unit === 'metric' ? 'block' : 'none';
+
+    // Update required attributes
+    var impFields = document.querySelectorAll('#imperial-inputs input');
+    var metFields = document.querySelectorAll('#metric-inputs input');
+    impFields.forEach(function(f) { f.required = (unit === 'imperial'); });
+    metFields.forEach(function(f) { f.required = (unit === 'metric'); });
+  }
+
+  function calculateBMI(e) {
+    e.preventDefault();
+
+    var bmi;
+
+    if (currentUnit === 'imperial') {
+      var feet = parseFloat(document.getElementById('feet').value);
+      var inches = parseFloat(document.getElementById('inches').value) || 0;
+      var weightLbs = parseFloat(document.getElementById('weight-lbs').value);
+
+      if (!feet || !weightLbs) return;
+
+      var totalInches = (feet * 12) + inches;
+      bmi = (weightLbs / (totalInches * totalInches)) * 703;
+    } else {
+      var heightCm = parseFloat(document.getElementById('height-cm').value);
+      var weightKg = parseFloat(document.getElementById('weight-kg').value);
+
+      if (!heightCm || !weightKg) return;
+
+      var heightM = heightCm / 100;
+      bmi = weightKg / (heightM * heightM);
+    }
+
+    bmi = Math.round(bmi * 10) / 10;
+    displayResult(bmi);
+  }
+
+  function displayResult(bmi) {
+    var resultArea = document.getElementById('result-area');
+    resultArea.classList.add('visible');
+
+    // BMI number
+    var bmiNumEl = document.getElementById('bmi-number');
+    bmiNumEl.textContent = bmi;
+
+    // Category and color
+    var category, color;
+    if (bmi < 18.5) {
+      category = 'Underweight';
+      color = '#3b82f6';
+    } else if (bmi < 25) {
+      category = 'Normal Weight';
+      color = '#22c55e';
+    } else if (bmi < 30) {
+      category = 'Overweight';
+      color = '#eab308';
+    } else if (bmi < 35) {
+      category = 'Obese (Class I)';
+      color = '#f97316';
+    } else if (bmi < 40) {
+      category = 'Obese (Class II)';
+      color = '#ef4444';
+    } else {
+      category = 'Obese (Class III)';
+      color = '#dc2626';
+    }
+
+    bmiNumEl.style.color = color;
+    document.getElementById('bmi-label').textContent = category;
+    document.getElementById('bmi-label').style.color = color;
+
+    // Gauge position (map BMI 15-45 to 0-100%)
+    var gaugePos = Math.max(0, Math.min(100, ((bmi - 15) / 30) * 100));
+    document.getElementById('gauge-marker').style.left = gaugePos + '%';
+
+    // Eligibility result
+    var eligDiv = document.getElementById('eligibility-result');
+    if (bmi >= 30) {
+      eligDiv.innerHTML =
+        '<div class="eligibility-card eligible">' +
+          '<div class="eligibility-icon"><i class="fas fa-circle-check"></i></div>' +
+          '<h3>You May Be Eligible for GLP-1 Medication</h3>' +
+          '<p>Based on your BMI of ' + bmi + ', you meet the primary BMI threshold for GLP-1 weight loss medications such as semaglutide (Wegovy, Ozempic) or tirzepatide (Mounjaro, Zepbound).</p>' +
+          '<p>A licensed physician will review your complete health profile to confirm eligibility and create a personalized treatment plan.</p>' +
+          '<div class="next-steps">' +
+            '<h4>Recommended Next Steps</h4>' +
+            '<ul>' +
+              '<li>Complete a free online medical assessment</li>' +
+              '<li>A licensed physician reviews your health history</li>' +
+              '<li>If approved, medication ships directly to you</li>' +
+            '</ul>' +
+          '</div>' +
+        '</div>';
+    } else if (bmi >= 27) {
+      eligDiv.innerHTML =
+        '<div class="eligibility-card conditional">' +
+          '<div class="eligibility-icon"><i class="fas fa-info-circle"></i></div>' +
+          '<h3>You May Be Eligible with Weight-Related Conditions</h3>' +
+          '<p>With a BMI of ' + bmi + ', you could qualify for GLP-1 medication if you have one or more weight-related health conditions such as type 2 diabetes, high blood pressure, high cholesterol, or sleep apnea.</p>' +
+          '<p>Many patients in your BMI range successfully receive prescriptions after physician evaluation.</p>' +
+          '<div class="next-steps">' +
+            '<h4>Recommended Next Steps</h4>' +
+            '<ul>' +
+              '<li>Take the free assessment to share your health conditions</li>' +
+              '<li>A physician evaluates your full health picture</li>' +
+              '<li>You may still qualify based on your overall health profile</li>' +
+            '</ul>' +
+          '</div>' +
+        '</div>';
+    } else {
+      eligDiv.innerHTML =
+        '<div class="eligibility-card not-eligible">' +
+          '<div class="eligibility-icon"><i class="fas fa-hand-holding-heart"></i></div>' +
+          '<h3>GLP-1 Medication May Not Be Appropriate Right Now</h3>' +
+          '<p>With a BMI of ' + bmi + ', GLP-1 weight loss medications are generally not prescribed under current clinical guidelines. These medications are designed for patients with a BMI of 30 or higher, or 27 and above with weight-related health conditions.</p>' +
+          '<p>If you are concerned about your weight or health, we recommend speaking with a healthcare provider about the options best suited for you.</p>' +
+          '<div class="next-steps">' +
+            '<h4>Other Options to Consider</h4>' +
+            '<ul>' +
+              '<li>Consult with your primary care physician</li>' +
+              '<li>Explore nutrition and exercise programs</li>' +
+              '<li>Recheck your eligibility if your health profile changes</li>' +
+            '</ul>' +
+          '</div>' +
+        '</div>';
+    }
+
+    // Scroll to result
+    resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Email form handler (placeholder)
+  function submitEmail(e) {
+    e.preventDefault();
+    var emailInput = document.getElementById('email-input');
+    if (emailInput.value) {
+      document.getElementById('email-form').style.display = 'none';
+      document.getElementById('email-confirmation').classList.add('visible');
+    }
+  }
+</script>
+
+</body>
+</html>
