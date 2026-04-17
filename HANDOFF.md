@@ -3,179 +3,114 @@
 ## Project Overview
 A GLP-1 weight loss telehealth marketing website modeled after medvi.org. The goal is a full platform that promotes GLP-1 medications, takes orders, processes payments, interfaces with telemedicine providers, communicates with pharmacies, and maintains HIPAA compliance.
 
-## Current State — Phase 1 + Marketing (COMPLETE)
+## Current State
 **Project folder:** `/Users/thomasmundheim/Desktop/Development/LDRGLPRx/`
-**Desktop copy of main page:** `/Users/thomasmundheim/Desktop/LDRGLPRx.html`
+**GitHub:** `github.com/TJMundheim/LDRGLPRx`
+**Live (once Pages enabled):** `https://tjmundheim.github.io/LDRGLPRx/`
 
-### Files Built
+## All Files Built
+
+### Main Pages
 | File | Description |
 |------|-------------|
-| `index.html` | Main landing page — hero, treatments, how it works, testimonials, FAQ, intake form |
-| `blog.html` | SEO blog with 3 full articles, newsletter signup, share buttons |
+| `index.html` | Landing page — hero, treatments, how it works, testimonials, FAQ, intake form, floating social bar, newsletter popup |
+| `about.html` | Our Story, Values, Medical Team bios, Pharmacy Partners, stats |
+| `blog.html` | 3 SEO articles: Semaglutide vs Tirzepatide, First Month Guide, Eligibility Guide |
 | `bmi-calculator.html` | Interactive BMI calculator with GLP-1 eligibility checker |
-| `referral.html` | "Give $50, Get $50" referral program with link generator & share buttons |
-| `HANDOFF.md` | This file |
+| `contact.html` | Contact cards, form, emergency notice, FAQ quick-links |
+| `referral.html` | Give $50/Get $50 program with link generator + share buttons |
+| `links.html` | Linktree-style page for Instagram/TikTok bios |
+| `404.html` | Styled error page |
 
-### Main Site (index.html) Features
-- Fixed navbar with mobile hamburger menu
-- Links to: About GLP-1, Treatments, How It Works, Blog, BMI Check, Refer & Save, FAQ, Get Started
-- Hero section with CTA buttons and trust badges (HIPAA, Licensed Physicians, Free Shipping, Secure)
-- "What is GLP-1" educational section with stats (15%+ weight loss, 100% doctor supervised, 24/7 access)
-- Treatments grid: Semaglutide ($299/mo), Tirzepatide ($399/mo), Oral Semaglutide ($249/mo)
-- How It Works: 4-step process (Assessment → Consult → Prescription → Ongoing Support)
-- Why Choose Us: 6 benefit cards
-- Testimonials: 3 patient stories
-- FAQ accordion: 6 questions
-- CTA banner section
-- Get Started intake form (name, email, phone, DOB, state, treatment interest, goals)
-- Footer with links + social icons
-- Medical disclaimer bar
-- **Floating social media sidebar** (Facebook, Instagram, X, TikTok, YouTube, LinkedIn)
-- **Newsletter popup** (appears after 30 seconds, dismissible, stored in sessionStorage)
-- **Full SEO meta tags**: description, keywords, Open Graph, Twitter Cards, Schema.org JSON-LD
+### Legal / Compliance
+| File | Description |
+|------|-------------|
+| `privacy.html` | HIPAA-compliant Privacy Policy (12 sections, TOC) |
+| `terms.html` | Terms of Service (comprehensive legal terms) |
+| `consent.html` | Medical & Telehealth Consent with interactive checkbox form |
 
-### Blog (blog.html) Features
-- 3 full SEO-optimized articles (500-700 words each):
-  1. "Semaglutide vs Tirzepatide: Which Is Right for You?" — with comparison table
-  2. "What to Expect During Your First Month on GLP-1" — week-by-week breakdown
-  3. "Am I Eligible for GLP-1 Weight Loss Medication?" — complete eligibility guide
-- Each article has: read time, date, author, share buttons (copy link, X, Facebook)
-- Newsletter signup at bottom of each article
-- Sidebar with CTA, table of contents, quick facts
-- Full SEO meta tags and Schema.org BlogPosting structured data
+### Infrastructure
+| File | Description |
+|------|-------------|
+| `sitemap.xml` | All 9 pages with priorities and lastmod |
+| `robots.txt` | Allows all crawlers, points to sitemap |
+| `cookie-banner.js` | Cookie consent banner + GA4 placeholder |
+| `images/` | 6 stock photos: hero, science, semaglutide, injection, pills, telehealth |
 
-### BMI Calculator (bmi-calculator.html) Features
-- Fully functional JavaScript BMI calculator
-- Imperial/metric toggle
-- Visual BMI gauge with animated marker
-- Color-coded results by category
-- GLP-1 eligibility assessment based on BMI:
-  - BMI >= 30: likely eligible (green)
-  - BMI 27-29.9: conditionally eligible (yellow)
-  - BMI < 27: likely not eligible (blue)
-- Educational section about BMI and GLP-1 criteria
-- Email capture for results (placeholder)
-- SEO optimized for "GLP-1 eligibility calculator", "BMI calculator weight loss"
+## Features
 
-### Referral Program (referral.html) Features
-- "Give $50, Get $50" hero with glass-style cards
-- 3-step "How It Works" visual
-- Referral link generator (random code, e.g., ldrglprx.com/ref/X7K9P)
-- Copy-to-clipboard with visual feedback
-- Share buttons: Text (sms:), Email (mailto:), WhatsApp, Facebook, X/Twitter
-- Mock rewards tracker with milestone tiers (1 referral = $50, 2 = $100, 3 = free month)
-- FAQ accordion about the program
-- CTA for non-patients
+### Marketing Already Wired In
+- [x] Full SEO meta tags on every page (Open Graph, Twitter Cards, Schema.org)
+- [x] 3 SEO-optimized blog articles
+- [x] Floating social sidebar (FB, IG, X, TikTok, YT, LinkedIn) on main page
+- [x] Newsletter popup (30s delay, localStorage-dismissible)
+- [x] Referral program with share buttons (SMS, email, WhatsApp, FB, X)
+- [x] Lead magnet (BMI calculator)
+- [x] Share buttons on blog articles
+- [x] Cookie consent banner
+- [x] Linktree-style page for social media bios
+- [x] Sitemap + robots.txt
 
-### Marketing Channels Set Up
-- [x] **SEO** — Full meta tags, Schema.org structured data, keyword-optimized content on all pages
-- [x] **Blog / Content Marketing** — 3 SEO articles targeting high-search GLP-1 queries
-- [x] **Social Media Presence** — Floating social bar (FB, IG, X, TikTok, YT, LinkedIn) on all pages
-- [x] **Email Marketing** — Newsletter popup on main page + signup forms on blog
-- [x] **Referral Program** — Full referral page with link generation and social sharing
-- [x] **Lead Magnet** — Free BMI calculator / eligibility checker to capture interest
-- [x] **Social Sharing** — Share buttons on all blog articles
+### What Still Needs Manual Setup
+- [ ] Create real social media accounts → update links in all pages
+- [ ] Enable GitHub Pages at: https://github.com/TJMundheim/LDRGLPRx/settings/pages
+- [ ] Buy a real domain (ldrglprx.com recommended)
+- [ ] Set up Google Business Profile (free)
+- [ ] Create Google Analytics 4 account → replace `G-XXXXXXXXXX` in cookie-banner.js
+- [ ] Submit sitemap to Google Search Console
+- [ ] Set up email service (Mailchimp free tier or Brevo)
+- [ ] Connect intake/contact forms to a real backend (JotForm HIPAA plan recommended, $34/mo)
 
-### Marketing Channels Still Needed (Manual Setup)
-- [ ] Create actual social media accounts (Instagram, TikTok, Facebook, X, YouTube, LinkedIn)
-- [ ] Update social links in floating sidebar and footer with real account URLs
-- [ ] Set up Google Business Profile (free, google.com/business)
-- [ ] Set up Google Analytics (analytics.google.com) — add tracking snippet to all pages
-- [ ] Connect email signup forms to Mailchimp/Brevo (free tiers available)
-- [ ] Create first batch of social content (educational GLP-1 posts, reels, shorts)
-- [ ] Submit sitemap to Google Search Console for indexing
-- [ ] Set up Facebook Pixel for retargeting (when ready for paid ads)
-- [ ] Post helpful content on Reddit (r/semaglutide, r/tirzepatide, r/loseit)
-- [ ] Create a Facebook Group for patient community
+## Still To Build (Future Phases)
 
-## What's NOT Built Yet (Future Phases)
+### Phase 2 — Real Hosting
+- Enable GitHub Pages (or deploy to Netlify/Vercel)
+- Buy custom domain
+- Configure SSL (automatic with GH Pages/Netlify)
 
-### Phase 2 — GitHub Repo & Hosting
-- [ ] Create GitHub repo for LDRGLPRx
-- [ ] Push code
-- [ ] Set up GitHub Pages or deploy to Netlify/Vercel
-- [ ] Get custom domain (ldrglprx.com or similar)
-- [ ] Set up SSL certificate (automatic with Netlify/GitHub Pages)
-
-### Phase 3 — Replace Placeholder Images
-- [ ] Hero image: person looking healthy/confident
-- [ ] About section: science/medical illustration
-- [ ] Treatment cards: product photography (vials, pens, tablets)
-- [ ] Blog article images
-- [ ] Use royalty-free medical stock photos (Unsplash, Pexels) or commission custom photography
+### Phase 3 — Replace Stock Photos
+- Currently using free Unsplash/Pexels photos in `/images/`
+- Consider commissioning custom photography for hero + team
 
 ### Phase 4 — Payment Processing
-- [ ] Integrate Stripe (stripe.com) for payment processing
-- [ ] Create product pages with checkout flow
-- [ ] Subscription billing for monthly medication plans
-- [ ] Stripe requires a business account and must sign a BAA for HIPAA
+- Stripe account with BAA signed
+- Product pages with checkout flow
+- Subscription billing
 
 ### Phase 5 — Telemedicine Integration
-- [ ] Partner with a telehealth platform (OpenLoop, Wheel, Truepill, etc.)
-- [ ] Integrate their API for scheduling consultations
-- [ ] Build patient portal for video visits
-- [ ] Or embed partner's scheduling widget
+- Partner with OpenLoop, Wheel, or similar
+- Integrate scheduling API or embed widget
 
 ### Phase 6 — Pharmacy Interface
-- [ ] Partner with licensed compounding pharmacy
-- [ ] Integrate via HL7/FHIR or pharmacy API
-- [ ] Automated prescription routing from provider → pharmacy
-- [ ] Order tracking and shipping notifications to patients
+- Partner with licensed compounding pharmacy
+- HL7/FHIR or direct API integration
+- Automated Rx routing + order tracking
 
-### Phase 7 — HIPAA-Compliant Backend
-- [ ] Move to HIPAA-eligible cloud (AWS with BAA, or similar)
-- [ ] Encrypted database for patient records (PostgreSQL with encryption at rest)
-- [ ] Encrypted data in transit (TLS everywhere)
-- [ ] Role-based access control
-- [ ] Audit logging for all data access
-- [ ] Sign BAAs with all vendors (Stripe, hosting, telehealth, pharmacy)
-- [ ] Patient authentication (secure login, MFA)
-- [ ] Consent management system
+### Phase 7 — HIPAA Backend
+- HIPAA-eligible cloud (AWS + BAA)
+- Encrypted database for patient records
+- Role-based access + audit logging
+- Patient authentication with MFA
 
-### Phase 8 — Legal & Compliance
-- [ ] Hire healthcare attorney
-- [ ] Draft Privacy Policy, Terms of Service, Medical Consent forms
-- [ ] HIPAA Notice of Privacy Practices
-- [ ] State-by-state telehealth licensing compliance
-- [ ] Prescription drug advertising compliance (FDA regulations)
-
-### Phase 9 — Additional Features
-- [ ] Patient dashboard (view orders, upcoming consults, track progress)
-- [ ] Live chat support widget (Intercom, Drift, or Tidio free tier)
-- [ ] Google Analytics + conversion tracking
-- [ ] A/B testing on landing page headlines/CTAs
-
-## Tech Stack Recommendations for Full Build
-- **Frontend:** React or Next.js
-- **Backend:** Node.js or Python (Django) with HIPAA-eligible hosting
-- **Database:** PostgreSQL with encryption
-- **Hosting:** AWS (with BAA) or Azure Healthcare APIs
-- **Payments:** Stripe (with BAA)
-- **Telehealth:** OpenLoop Health, Wheel, or similar
-- **Pharmacy:** Direct API integration with partner pharmacy
-- **Auth:** Auth0 or AWS Cognito with MFA
-- **Email Marketing:** Mailchimp (free up to 500 contacts) or Brevo (free up to 300 emails/day)
-- **Analytics:** Google Analytics 4 (free)
+### Phase 8 — Legal
+- Healthcare attorney review of all legal pages
+- State-by-state telehealth licensing
+- FDA prescription drug advertising compliance
 
 ## Design System
 - **Colors:** Primary `#0f4c75`, Accent `#00b894`, Dark `#0a1628`
-- **Fonts:** Playfair Display (headings), Inter (body) via Google Fonts
+- **Fonts:** Playfair Display (headings), Inter (body)
 - **Icons:** Font Awesome 6.5 via CDN
-- **Border radius:** 12px (cards), 20px (large cards), 50px (buttons)
-- **Shadows:** `0 4px 20px rgba(0,0,0,0.1)` (medium), `0 10px 40px rgba(0,0,0,0.12)` (large)
+- **Border radius:** 12px cards, 20px large cards, 50px buttons
 
 ## Related Project
 - **Budget App:** `/Users/thomasmundheim/Desktop/Development/Budget/`
 - GitHub: `github.com/TJMundheim/budget-1st-draft`
-- Features: Month navigation, transaction tracking, monthly comparison table
 
 ## Important Notes
-- Prices shown ($249-$399/mo) are placeholders — update with real pricing
-- Testimonials are fictional — replace with real patient stories (with consent) or remove
-- Intake form currently shows a success message only — needs backend (JotForm HIPAA plan recommended for quick setup)
-- All "Company" and "Legal" footer links are placeholder `#` hrefs — need real pages
-- Social media links in floating sidebar point to platform homepages — update with real account URLs
-- Newsletter popup and email captures are front-end only — connect to email marketing service
-- Referral codes are generated client-side — need backend to actually track referrals
-- SSH key is set up on this Mac for GitHub access
-- All pages are self-contained single HTML files with inline CSS/JS — no build tools needed
+- Prices ($249-$399/mo) are placeholders
+- Testimonials are fictional
+- Doctor bios in About Us are placeholders
+- All forms are front-end only (need backend)
+- Social media links point to platform homepages (need real URLs)
+- SSH key configured on this Mac for GitHub access
