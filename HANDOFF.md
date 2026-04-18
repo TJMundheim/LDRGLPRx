@@ -1,116 +1,108 @@
-# LDRGLPRx — Project Handoff
+# LDRGLPRx — Handoff (Current State)
 
-## Project Overview
-A GLP-1 weight loss telehealth marketing website modeled after medvi.org. The goal is a full platform that promotes GLP-1 medications, takes orders, processes payments, interfaces with telemedicine providers, communicates with pharmacies, and maintains HIPAA compliance.
+## Project
+GLP-1 weight loss telehealth marketing site (modeled after medvi.org). Static HTML, no build step.
 
-## Current State
-**Project folder:** `/Users/thomasmundheim/Desktop/Development/LDRGLPRx/`
-**GitHub:** `github.com/TJMundheim/LDRGLPRx`
-**Live (once Pages enabled):** `https://tjmundheim.github.io/LDRGLPRx/`
+- **Working dir:** `/Users/thomasmundheim/Desktop/Development/LDRGLPRx/`
+- **Git remote:** `github.com/TJMundheim/LDRGLPRx` (branch: `main`, in sync with origin)
+- **Intended domain:** `ldrglprx.com` (NOT YET REGISTERED — user plans to buy)
+- **Local preview:** `python3 -m http.server 8000` from the project root
 
-## All Files Built
+## AWS
+- `aws-cli/2.34.32` installed via pkg installer
+- `~/.aws/credentials` + `~/.aws/config` configured
+- IAM user: `tmundheim`, account `879696522760`, region `us-east-2`
+- Output format: not set (defaults to json)
+- **No AWS resources created yet** — deployment is pending domain purchase
 
-### Main Pages
-| File | Description |
-|------|-------------|
-| `index.html` | Landing page — hero, treatments, how it works, testimonials, FAQ, intake form, floating social bar, newsletter popup |
-| `about.html` | Our Story, Values, Medical Team bios, Pharmacy Partners, stats |
-| `blog.html` | 3 SEO articles: Semaglutide vs Tirzepatide, First Month Guide, Eligibility Guide |
-| `bmi-calculator.html` | Interactive BMI calculator with GLP-1 eligibility checker |
-| `contact.html` | Contact cards, form, emergency notice, FAQ quick-links |
-| `referral.html` | Give $50/Get $50 program with link generator + share buttons |
-| `links.html` | Linktree-style page for Instagram/TikTok bios |
-| `404.html` | Styled error page |
+## Planned deployment (not built)
+- Target bucket name: `website-ldrglprx`
+- Deployment must be via a single `deploy.sh` script (no CloudFormation, no direct CLI)
+- Script should handle both infra bootstrap AND content sync (detect & create missing)
+- HTTPS via CloudFront + ACM (us-east-1 cert), custom domain to be attached after purchase
+- `deploy.sh` has NOT been written yet
 
-### Legal / Compliance
-| File | Description |
-|------|-------------|
-| `privacy.html` | HIPAA-compliant Privacy Policy (12 sections, TOC) |
-| `terms.html` | Terms of Service (comprehensive legal terms) |
-| `consent.html` | Medical & Telehealth Consent with interactive checkbox form |
+## File inventory
+| File | Purpose |
+|---|---|
+| `index.html` | Landing page — hero, treatments, about GLP-1, how it works, FAQ, intake form |
+| `about.html` | Our Story, Values, Medical Team, Pharmacy Partners, stats, FAQ |
+| `blog.html` | 3 full articles on a single page (TLDR + rich content each) — SEE "Pending Split" below |
+| `bmi-calculator.html` | Interactive BMI tool + GLP-1 eligibility indicator, FAQ |
+| `contact.html` | Contact cards, form, emergency notice, FAQ |
+| `referral.html` | Give $50 / Get $50 referral program, FAQ |
+| `links.html` | Linktree-style link hub |
+| `privacy.html`, `terms.html`, `consent.html` | Legal pages |
+| `404.html` | 404 page (noindex) |
+| `cookie-banner.js` | Cookie consent banner |
+| `robots.txt` | Permissive, points to sitemap.xml |
+| `sitemap.xml` | 10 URLs, lastmod `2026-04-18` |
+| `images/` | Static images (og-image.jpg, hero.jpg, etc.) |
 
-### Infrastructure
-| File | Description |
-|------|-------------|
-| `sitemap.xml` | All 9 pages with priorities and lastmod |
-| `robots.txt` | Allows all crawlers, points to sitemap |
-| `cookie-banner.js` | Cookie consent banner + GA4 placeholder |
-| `images/` | 6 stock photos: hero, science, semaglutide, injection, pills, telehealth |
+## SEO / AEO state (just completed)
+Every indexed page has full JSON-LD structured data:
 
-## Features
+| Page | Schemas present |
+|---|---|
+| `index.html` | Organization, WebSite, MedicalBusiness (3 services), WebPage, BreadcrumbList, **FAQPage (8 Q)** |
+| `blog.html` | Organization, WebSite, Blog, BreadcrumbList, 3× MedicalWebPage, **FAQPage (6 Q)** |
+| `about.html` | Organization (with knowsAbout), AboutPage, BreadcrumbList, **FAQPage (5 Q)** — visible FAQ section added |
+| `bmi-calculator.html` | Organization, WebApplication (with AggregateRating), MedicalWebPage, HowTo (5 steps), BreadcrumbList, **FAQPage (6 Q)** — visible FAQ section added |
+| `referral.html` | Organization, WebPage, BreadcrumbList, **FAQPage (4 Q)** |
+| `contact.html` | Organization (3 ContactPoints with hours), ContactPage, BreadcrumbList, **FAQPage (4 Q)** — visible FAQ section added |
+| `privacy.html` | Organization, PrivacyPolicy, BreadcrumbList |
+| `terms.html` | Organization, TermsOfService, BreadcrumbList |
+| `consent.html` | Organization, MedicalWebPage, BreadcrumbList |
+| `links.html` | Organization, CollectionPage, BreadcrumbList |
+| `404.html` | None (noindex) |
 
-### Marketing Already Wired In
-- [x] Full SEO meta tags on every page (Open Graph, Twitter Cards, Schema.org)
-- [x] 3 SEO-optimized blog articles
-- [x] Floating social sidebar (FB, IG, X, TikTok, YT, LinkedIn) on main page
-- [x] Newsletter popup (30s delay, localStorage-dismissible)
-- [x] Referral program with share buttons (SMS, email, WhatsApp, FB, X)
-- [x] Lead magnet (BMI calculator)
-- [x] Share buttons on blog articles
-- [x] Cookie consent banner
-- [x] Linktree-style page for social media bios
-- [x] Sitemap + robots.txt
+**TLDR blocks:** visible `<aside class="tldr-box">` at top of each of the 3 blog articles with summary paragraph + 6 bullet points. AEO-optimized for LLM extraction.
 
-### What Still Needs Manual Setup
-- [ ] Create real social media accounts → update links in all pages
-- [ ] Enable GitHub Pages at: https://github.com/TJMundheim/LDRGLPRx/settings/pages
-- [ ] Buy a real domain (ldrglprx.com recommended)
-- [ ] Set up Google Business Profile (free)
-- [ ] Create Google Analytics 4 account → replace `G-XXXXXXXXXX` in cookie-banner.js
-- [ ] Submit sitemap to Google Search Console
-- [ ] Set up email service (Mailchimp free tier or Brevo)
-- [ ] Connect intake/contact forms to a real backend (JotForm HIPAA plan recommended, $34/mo)
+**Sitemap:** bumped all `lastmod` to `2026-04-18`, added `links.html`.
 
-## Still To Build (Future Phases)
+**llms.txt:** intentionally NOT added — user doesn't want one.
 
-### Phase 2 — Real Hosting
-- Enable GitHub Pages (or deploy to Netlify/Vercel)
-- Buy custom domain
-- Configure SSL (automatic with GH Pages/Netlify)
+## Pending / open work
 
-### Phase 3 — Replace Stock Photos
-- Currently using free Unsplash/Pexels photos in `/images/`
-- Consider commissioning custom photography for hero + team
+### 1. Blog split (AGREED, NOT STARTED)
+User wants `blog.html` split into separate article pages for SEO (avoid one URL hosting all 3 posts). Decided structure:
+- Keep `blog.html` as listing page (cards with excerpts + TLDR previews + "Read full article" links)
+- Create `/blog/semaglutide-vs-tirzepatide.html`
+- Create `/blog/what-to-expect-first-month-glp1.html`
+- Create `/blog/am-i-eligible-for-glp1.html`
+- Each article gets its own canonical, JSON-LD (Article/MedicalWebPage + Breadcrumb + per-article FAQPage), related-reading links
+- Listing page gets `Blog` + `ItemList` schema
+- Plan was to extract shared CSS to `/blog/article.css` to avoid 4× CSS duplication
+- Update `sitemap.xml` with the 3 new article URLs
+- `/blog/` directory has already been created (empty)
 
-### Phase 4 — Payment Processing
-- Stripe account with BAA signed
-- Product pages with checkout flow
-- Subscription billing
+### 2. Split other pages (USER-REQUESTED, UNDECIDED SCOPE)
+User said "other pages need split outs too not just blogs." Candidates proposed:
+- **Treatments split** (highest AEO value): `index.html#treatments` → `/treatments/semaglutide.html`, `/treatments/tirzepatide.html`, `/treatments/oral-glp1.html` — each drug gets its own rankable page
+- **About split** (lower value): `about.html` → `/about/team.html`, `/about/pharmacy-partners.html`
+- **Awaiting user confirmation** on which to do before implementing
 
-### Phase 5 — Telemedicine Integration
-- Partner with OpenLoop, Wheel, or similar
-- Integrate scheduling API or embed widget
+### 3. Domain + deployment
+- User needs to register `ldrglprx.com` first (registrar TBD — Route 53 is simplest)
+- Then write `deploy.sh` (specs above under "Planned deployment")
 
-### Phase 6 — Pharmacy Interface
-- Partner with licensed compounding pharmacy
-- HL7/FHIR or direct API integration
-- Automated Rx routing + order tracking
+### 4. Nice-to-haves (not requested, flag if relevant)
+- robots.txt could add explicit allow lines for GPTBot/ClaudeBot/PerplexityBot (AEO)
+- Open Graph images could be made page-specific (most pages share `images/og-image.jpg`)
 
-### Phase 7 — HIPAA Backend
-- HIPAA-eligible cloud (AWS + BAA)
-- Encrypted database for patient records
-- Role-based access + audit logging
-- Patient authentication with MFA
+## Git
+```
+main (clean, synced with origin)
+Recent commits:
+  042a486 Update HANDOFF with all completed pages and marketing features
+  605f908 Add legal pages, about, contact, SEO infrastructure, and marketing
+  df53208 Initial launch of LDRGLPRx marketing site
+```
+All SEO/AEO work done this session is **uncommitted** — user has not asked for a commit.
 
-### Phase 8 — Legal
-- Healthcare attorney review of all legal pages
-- State-by-state telehealth licensing
-- FDA prescription drug advertising compliance
-
-## Design System
-- **Colors:** Primary `#0f4c75`, Accent `#00b894`, Dark `#0a1628`
-- **Fonts:** Playfair Display (headings), Inter (body)
-- **Icons:** Font Awesome 6.5 via CDN
-- **Border radius:** 12px cards, 20px large cards, 50px buttons
-
-## Related Project
-- **Budget App:** `/Users/thomasmundheim/Desktop/Development/Budget/`
-- GitHub: `github.com/TJMundheim/budget-1st-draft`
-
-## Important Notes
-- Prices ($249-$399/mo) are placeholders
-- Testimonials are fictional
-- Doctor bios in About Us are placeholders
-- All forms are front-end only (need backend)
-- Social media links point to platform homepages (need real URLs)
-- SSH key configured on this Mac for GitHub access
+## User preferences observed
+- Terse responses preferred
+- Don't over-engineer; confirm scope before big refactors
+- No emojis unless asked
+- No llms.txt
+- Deployment must go through `deploy.sh`, not direct CLI or CloudFormation

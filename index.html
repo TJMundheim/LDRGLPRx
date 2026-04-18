@@ -29,22 +29,154 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": ["MedicalBusiness", "HealthAndBeautyBusiness"],
-    "name": "LDRGLPRx",
-    "description": "Doctor-guided GLP-1 weight loss programs using semaglutide and tirzepatide. Medically supervised, personalized treatment plans for sustainable weight loss.",
-    "url": "https://ldrglprx.com/",
-    "image": "https://ldrglprx.com/images/og-image.jpg",
-    "medicalSpecialty": "Bariatrics",
-    "availableService": [
+    "@graph": [
       {
-        "@type": "MedicalTherapy",
-        "name": "Semaglutide Weight Loss Program",
-        "description": "Doctor-guided semaglutide (GLP-1) treatment for medical weight loss."
+        "@type": "Organization",
+        "@id": "https://ldrglprx.com/#organization",
+        "name": "LDRGLPRx",
+        "url": "https://ldrglprx.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ldrglprx.com/images/og-image.jpg",
+          "width": 1200,
+          "height": 630
+        },
+        "description": "Telehealth platform providing doctor-guided GLP-1 weight loss treatment with semaglutide and tirzepatide, prescribed by licensed physicians and dispensed by licensed compounding pharmacies.",
+        "sameAs": [
+          "https://facebook.com/ldrglprx",
+          "https://instagram.com/ldrglprx",
+          "https://x.com/ldrglprx",
+          "https://linkedin.com/company/ldrglprx"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "availableLanguage": ["English"],
+          "areaServed": "US"
+        }
       },
       {
-        "@type": "MedicalTherapy",
-        "name": "Tirzepatide Weight Loss Program",
-        "description": "Doctor-guided tirzepatide (GLP-1/GIP) treatment for medical weight loss."
+        "@type": "WebSite",
+        "@id": "https://ldrglprx.com/#website",
+        "url": "https://ldrglprx.com/",
+        "name": "LDRGLPRx",
+        "publisher": { "@id": "https://ldrglprx.com/#organization" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": ["MedicalBusiness", "HealthAndBeautyBusiness"],
+        "@id": "https://ldrglprx.com/#business",
+        "name": "LDRGLPRx",
+        "description": "Doctor-guided GLP-1 weight loss programs using semaglutide and tirzepatide. Medically supervised, personalized treatment plans for sustainable weight loss.",
+        "url": "https://ldrglprx.com/",
+        "image": "https://ldrglprx.com/images/og-image.jpg",
+        "medicalSpecialty": "Bariatrics",
+        "areaServed": "US",
+        "priceRange": "$$",
+        "availableService": [
+          {
+            "@type": "MedicalTherapy",
+            "name": "Semaglutide Weight Loss Program",
+            "description": "Doctor-guided semaglutide (GLP-1 receptor agonist) treatment for medical weight loss, including telehealth consultation, prescription, and ongoing physician supervision."
+          },
+          {
+            "@type": "MedicalTherapy",
+            "name": "Tirzepatide Weight Loss Program",
+            "description": "Doctor-guided tirzepatide (dual GLP-1/GIP receptor agonist) treatment for medical weight loss, including telehealth consultation, prescription, and ongoing physician supervision."
+          },
+          {
+            "@type": "MedicalTherapy",
+            "name": "Oral Semaglutide Weight Loss Program",
+            "description": "Oral semaglutide prescribed via telehealth for patients who prefer a non-injectable GLP-1 option."
+          }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://ldrglprx.com/#webpage",
+        "url": "https://ldrglprx.com/",
+        "name": "LDRGLPRx — Doctor-Guided GLP-1 Weight Loss",
+        "isPartOf": { "@id": "https://ldrglprx.com/#website" },
+        "about": { "@id": "https://ldrglprx.com/#business" },
+        "description": "LDRGLPRx is a telehealth service providing doctor-guided GLP-1 weight loss treatment. Licensed physicians evaluate eligibility, prescribe semaglutide or tirzepatide when appropriate, and supervise ongoing care.",
+        "primaryImageOfPage": "https://ldrglprx.com/images/og-image.jpg",
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ldrglprx.com/" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://ldrglprx.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who is eligible for GLP-1 medication?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GLP-1 medications are typically prescribed for adults with a BMI of 30 or greater, or a BMI of 27 or greater with at least one weight-related health condition such as high blood pressure, type 2 diabetes, or high cholesterol. A licensed physician determines eligibility during your telehealth consultation based on your full health profile."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are these medications FDA-approved?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The active ingredients semaglutide and tirzepatide are FDA-approved. LDRGLPRx uses compounded formulations prepared by licensed pharmacies following FDA regulations. Compounded medications are not individually FDA-approved but are legally prescribed and dispensed when a licensed provider determines they are medically appropriate for a specific patient."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the common side effects of GLP-1 medications?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The most common side effects are nausea, diarrhea, constipation, and reduced appetite, especially during dose titration. These effects typically lessen over time. Physicians start patients on a low dose and gradually increase it to minimize side effects, and the care team is available to address any concerns."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the telehealth consultation work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "After completing an online health assessment, patients are scheduled for a secure, HIPAA-compliant video consultation with a licensed physician. The physician reviews medical history, discusses goals, and determines whether GLP-1 therapy is appropriate. The entire process is done from home."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How quickly will I receive my medication?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Once a physician issues a prescription, it is typically filled and shipped within 3 to 5 business days. Medications ship in temperature-controlled packaging, and patients receive tracking information as soon as the order ships."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my health information secure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. LDRGLPRx is fully HIPAA-compliant. All patient data is encrypted in transit and at rest, access is strictly controlled, and comprehensive audit logs are maintained. Health information is never shared without explicit consent, except as required for medical care."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much weight can I expect to lose on GLP-1 medication?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Clinical trials show patients typically lose 15% or more of their body weight over 12 to 16 months when GLP-1 therapy is combined with lifestyle changes and physician supervision. Individual results vary based on starting weight, adherence, diet, activity, and medical history."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between semaglutide and tirzepatide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Semaglutide is a GLP-1 receptor agonist. Tirzepatide is a dual agonist that activates both GLP-1 and GIP receptors, and in clinical studies has produced somewhat greater average weight loss. Which medication is right for you depends on your health profile, and that decision is made with your physician."
+            }
+          }
+        ]
       }
     ]
   }

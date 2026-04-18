@@ -29,36 +29,181 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": "LDRGLPRx Health Blog",
-    "description": "Expert articles on GLP-1 weight loss medications, treatment options, and medical weight loss guidance.",
-    "url": "https://ldrglprx.com/blog.html",
-    "publisher": {
-      "@type": "Organization",
-      "name": "LDRGLPRx",
-      "url": "https://ldrglprx.com/"
-    },
-    "blogPost": [
+    "@graph": [
       {
-        "@type": "BlogPosting",
+        "@type": "Organization",
+        "@id": "https://ldrglprx.com/#organization",
+        "name": "LDRGLPRx",
+        "url": "https://ldrglprx.com/",
+        "logo": "https://ldrglprx.com/images/og-image.jpg",
+        "sameAs": [
+          "https://facebook.com/ldrglprx",
+          "https://instagram.com/ldrglprx",
+          "https://x.com/ldrglprx",
+          "https://linkedin.com/company/ldrglprx"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://ldrglprx.com/#website",
+        "url": "https://ldrglprx.com/",
+        "name": "LDRGLPRx",
+        "publisher": { "@id": "https://ldrglprx.com/#organization" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "Blog",
+        "@id": "https://ldrglprx.com/blog.html#blog",
+        "name": "LDRGLPRx Health Blog",
+        "description": "Expert articles on GLP-1 weight loss medications, treatment options, and medical weight loss guidance from the LDRGLPRx medical team.",
+        "url": "https://ldrglprx.com/blog.html",
+        "publisher": { "@id": "https://ldrglprx.com/#organization" },
+        "inLanguage": "en-US",
+        "blogPost": [
+          { "@id": "https://ldrglprx.com/blog.html#article-semaglutide-vs-tirzepatide" },
+          { "@id": "https://ldrglprx.com/blog.html#article-first-month-glp1" },
+          { "@id": "https://ldrglprx.com/blog.html#article-glp1-eligibility" }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ldrglprx.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ldrglprx.com/blog.html" }
+        ]
+      },
+      {
+        "@type": "MedicalWebPage",
+        "@id": "https://ldrglprx.com/blog.html#article-semaglutide-vs-tirzepatide",
+        "url": "https://ldrglprx.com/blog.html#article-semaglutide-vs-tirzepatide",
+        "mainEntityOfPage": "https://ldrglprx.com/blog.html#article-semaglutide-vs-tirzepatide",
         "headline": "Semaglutide vs Tirzepatide: Which GLP-1 Medication Is Right for You?",
+        "name": "Semaglutide vs Tirzepatide: Which GLP-1 Medication Is Right for You?",
+        "description": "A comprehensive head-to-head comparison of semaglutide and tirzepatide covering mechanism of action, efficacy, clinical trial data, side effects, titration, cardiovascular benefit, and cost.",
+        "abstract": "Semaglutide and tirzepatide are both weekly-injection GLP-1 medications for medical weight loss. Tirzepatide (dual GLP-1/GIP agonist) produces greater average weight loss in trials (20-22.5% vs 15-17% body weight), while semaglutide has proven cardiovascular benefit. The right choice depends on your health profile and is made with a licensed physician.",
         "datePublished": "2026-03-28",
-        "author": {"@type": "Organization", "name": "LDRGLPRx Medical Team"},
-        "description": "A comprehensive comparison of semaglutide and tirzepatide covering mechanism of action, efficacy, side effects, and cost."
+        "dateModified": "2026-04-18",
+        "author": {
+          "@type": "MedicalOrganization",
+          "name": "LDRGLPRx Medical Team",
+          "url": "https://ldrglprx.com/about.html"
+        },
+        "publisher": { "@id": "https://ldrglprx.com/#organization" },
+        "image": "https://ldrglprx.com/images/og-image.jpg",
+        "inLanguage": "en-US",
+        "wordCount": 950,
+        "articleSection": "Medication Guide",
+        "keywords": "semaglutide, tirzepatide, GLP-1, weight loss, Ozempic, Wegovy, Mounjaro, Zepbound, SURMOUNT, STEP trial, GIP, dual agonist",
+        "about": [
+          { "@type": "Drug", "name": "Semaglutide", "description": "GLP-1 receptor agonist used for weight loss and type 2 diabetes." },
+          { "@type": "Drug", "name": "Tirzepatide", "description": "Dual GLP-1/GIP receptor agonist used for weight loss and type 2 diabetes." }
+        ],
+        "medicalAudience": ["Patient"],
+        "lastReviewed": "2026-04-18"
       },
       {
-        "@type": "BlogPosting",
+        "@type": "MedicalWebPage",
+        "@id": "https://ldrglprx.com/blog.html#article-first-month-glp1",
+        "url": "https://ldrglprx.com/blog.html#article-first-month-glp1",
+        "mainEntityOfPage": "https://ldrglprx.com/blog.html#article-first-month-glp1",
         "headline": "What to Expect During Your First Month on GLP-1 Medication",
+        "name": "What to Expect During Your First Month on GLP-1 Medication",
+        "description": "A week-by-week guide to your first month on GLP-1 medication, including starting doses, common side effects, typical weight loss, and practical tips.",
+        "abstract": "Your first month on GLP-1 medication is an adjustment period. Patients start at the lowest dose, gradually notice appetite reduction over weeks 1-3, and typically lose 3-6 pounds by week 4. Most side effects are mild, GI-related, and improve with time.",
         "datePublished": "2026-04-02",
-        "author": {"@type": "Organization", "name": "LDRGLPRx Medical Team"},
-        "description": "A week-by-week guide to your first month on GLP-1 medication, including common side effects and tips for success."
+        "dateModified": "2026-04-18",
+        "author": {
+          "@type": "MedicalOrganization",
+          "name": "LDRGLPRx Medical Team",
+          "url": "https://ldrglprx.com/about.html"
+        },
+        "publisher": { "@id": "https://ldrglprx.com/#organization" },
+        "image": "https://ldrglprx.com/images/og-image.jpg",
+        "inLanguage": "en-US",
+        "wordCount": 1100,
+        "articleSection": "Treatment Journey",
+        "keywords": "GLP-1 first month, semaglutide starting dose, tirzepatide starting dose, GLP-1 side effects, nausea GLP-1, weight loss week by week",
+        "medicalAudience": ["Patient"],
+        "lastReviewed": "2026-04-18"
       },
       {
-        "@type": "BlogPosting",
+        "@type": "MedicalWebPage",
+        "@id": "https://ldrglprx.com/blog.html#article-glp1-eligibility",
+        "url": "https://ldrglprx.com/blog.html#article-glp1-eligibility",
+        "mainEntityOfPage": "https://ldrglprx.com/blog.html#article-glp1-eligibility",
         "headline": "Am I Eligible for GLP-1 Weight Loss Medication? A Complete Guide",
+        "name": "Am I Eligible for GLP-1 Weight Loss Medication? A Complete Guide",
+        "description": "Everything you need to know about GLP-1 medication eligibility: BMI requirements, qualifying health conditions, contraindications, and the consultation process.",
+        "abstract": "Most adults with a BMI of 30 or higher are eligible for GLP-1 weight loss medication. Adults with a BMI of 27-29.9 may qualify if they also have a weight-related condition like type 2 diabetes, hypertension, high cholesterol, or obstructive sleep apnea. Final eligibility is determined by a licensed physician.",
         "datePublished": "2026-04-08",
-        "author": {"@type": "Organization", "name": "LDRGLPRx Medical Team"},
-        "description": "Everything you need to know about GLP-1 medication eligibility, BMI requirements, health conditions, and what to expect during consultation."
+        "dateModified": "2026-04-18",
+        "author": {
+          "@type": "MedicalOrganization",
+          "name": "LDRGLPRx Medical Team",
+          "url": "https://ldrglprx.com/about.html"
+        },
+        "publisher": { "@id": "https://ldrglprx.com/#organization" },
+        "image": "https://ldrglprx.com/images/og-image.jpg",
+        "inLanguage": "en-US",
+        "wordCount": 900,
+        "articleSection": "Eligibility",
+        "keywords": "GLP-1 eligibility, BMI requirements, semaglutide eligibility, tirzepatide eligibility, weight loss medication qualification, contraindications",
+        "medicalAudience": ["Patient"],
+        "lastReviewed": "2026-04-18"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://ldrglprx.com/blog.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which is more effective for weight loss — semaglutide or tirzepatide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In clinical trials, tirzepatide produced greater average weight loss than semaglutide. The SURMOUNT trials reported average weight loss of 20 to 22.5 percent of body weight at the highest tirzepatide dose over 72 weeks. The STEP trials reported average weight loss of 15 to 17 percent of body weight with semaglutide 2.4 mg over 68 weeks. Individual results vary, and the best choice depends on your health profile."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What BMI do I need to qualify for GLP-1 medication?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A BMI of 30 or greater generally qualifies most adults for GLP-1 weight loss medication. A BMI of 27 to 29.9 qualifies with at least one weight-related health condition such as type 2 diabetes, high blood pressure, high cholesterol, or obstructive sleep apnea. A licensed physician determines final eligibility during consultation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much weight will I lose in my first month on GLP-1?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most patients lose between 3 and 6 pounds during their first month on GLP-1 medication. Results vary with starting weight, adherence, diet, activity, and the specific medication. The first month is primarily an adjustment period at low starting doses, and the most significant weight loss typically occurs between months 3 and 12 as the dose increases."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the most common side effects of GLP-1 medications?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The most common side effects are gastrointestinal: nausea, diarrhea, constipation, vomiting, and decreased appetite. These are typically mild to moderate and most noticeable during dose titration. They usually improve over time as the body adjusts. Staying hydrated, eating smaller meals, and avoiding high-fat foods can help reduce symptoms."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who should not take GLP-1 medications?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GLP-1 medications are not appropriate for people with a personal or family history of medullary thyroid carcinoma, Multiple Endocrine Neoplasia type 2 (MEN 2), pregnancy or planned pregnancy, active pancreatitis, or severe gastrointestinal disease. Your LDRGLPRx physician will review your full medical history to determine if GLP-1 therapy is safe for you."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How are semaglutide and tirzepatide administered?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Both are self-administered as a weekly subcutaneous injection, typically into the abdomen, thigh, or upper arm. Injection sites should be rotated each week. Starting doses are low (semaglutide 0.25 mg, tirzepatide 2.5 mg) and increased gradually over several months to minimize side effects."
+            }
+          }
+        ]
       }
     ]
   }
@@ -369,6 +514,50 @@
 
     .article-body strong {
       color: var(--dark);
+    }
+
+    /* TLDR Box (AEO / LLM-optimized summary) */
+    .tldr-box {
+      background: linear-gradient(135deg, #f0f9f6 0%, #edf7f6 100%);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      margin: 0 0 1.8rem;
+    }
+
+    .tldr-box .tldr-label {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 0.6rem;
+    }
+
+    .tldr-box p.tldr-summary {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 0.8rem;
+      line-height: 1.65;
+    }
+
+    .tldr-box ul.tldr-points {
+      margin: 0 0 0 1.2rem;
+      padding: 0;
+      font-size: 0.92rem;
+    }
+
+    .tldr-box ul.tldr-points li {
+      margin-bottom: 0.35rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .tldr-box ul.tldr-points li strong {
+      color: var(--primary);
     }
 
     /* Comparison Table */
@@ -881,6 +1070,18 @@
             <h2><a href="#article-semaglutide-vs-tirzepatide">Semaglutide vs Tirzepatide: Which GLP-1 Medication Is Right for You?</a></h2>
           </div>
           <div class="article-body">
+            <aside class="tldr-box" aria-label="Article summary">
+              <span class="tldr-label">TL;DR</span>
+              <p class="tldr-summary">Semaglutide and tirzepatide are both weekly-injection GLP-1 medications for medical weight loss. Tirzepatide (dual GLP-1/GIP agonist) produces greater average weight loss in trials (20–22.5% vs 15–17% body weight), while semaglutide has proven cardiovascular benefit. The right choice depends on your health profile and is made with a licensed physician.</p>
+              <ul class="tldr-points">
+                <li><strong>Mechanism:</strong> semaglutide = GLP-1 only; tirzepatide = GLP-1 + GIP dual agonist.</li>
+                <li><strong>Average weight loss:</strong> semaglutide 15–17% (STEP trials); tirzepatide 20–22.5% (SURMOUNT trials) at highest dose.</li>
+                <li><strong>Administration:</strong> both are weekly subcutaneous injections with gradual dose titration over 16–28 weeks.</li>
+                <li><strong>Side effects:</strong> similar GI profile — nausea, diarrhea, constipation, decreased appetite; worst during titration.</li>
+                <li><strong>Cardiovascular data:</strong> semaglutide has proven CV risk reduction (SELECT trial); tirzepatide CV outcome trial is ongoing.</li>
+                <li><strong>Who decides:</strong> your LDRGLPRx physician, based on your medical history, goals, and how your body responds.</li>
+              </ul>
+            </aside>
             <p>If you are exploring prescription weight loss medications, you have likely come across two leading names: <strong>semaglutide</strong> (the active ingredient in Ozempic and Wegovy) and <strong>tirzepatide</strong> (the active ingredient in Mounjaro and Zepbound). Both belong to the class of GLP-1 receptor agonists and have demonstrated remarkable efficacy in clinical trials, but they differ in important ways. Understanding these differences can help you and your physician choose the medication that best fits your health profile and goals.</p>
 
             <h3>How They Work: Mechanism of Action</h3>
@@ -989,6 +1190,18 @@
             <h2><a href="#article-first-month-glp1">What to Expect During Your First Month on GLP-1 Medication</a></h2>
           </div>
           <div class="article-body">
+            <aside class="tldr-box" aria-label="Article summary">
+              <span class="tldr-label">TL;DR</span>
+              <p class="tldr-summary">Your first month on GLP-1 medication is an adjustment period. Patients start at the lowest dose (semaglutide 0.25 mg or tirzepatide 2.5 mg), gradually notice appetite reduction over weeks 1–3, and typically lose 3–6 pounds by week 4. Most side effects are mild, GI-related, and improve with time. Communication with your physician and basic lifestyle habits (hydration, protein, movement) drive success.</p>
+              <ul class="tldr-points">
+                <li><strong>Week 1:</strong> lowest starting dose; subtle appetite changes; mild nausea possible.</li>
+                <li><strong>Week 2:</strong> side effects often peak as medication stabilizes; cravings begin to decrease.</li>
+                <li><strong>Week 3:</strong> meaningful hunger reduction for most patients; good time to establish healthy eating patterns.</li>
+                <li><strong>Week 4:</strong> first physician check-in; typical weight loss 3–6 lbs; dose may be increased.</li>
+                <li><strong>Managing side effects:</strong> small frequent meals, 64+ oz water daily, 60–80 g protein, rotate injection sites.</li>
+                <li><strong>Expectation:</strong> GLP-1 treatment is a marathon — greatest results typically between months 3–12.</li>
+              </ul>
+            </aside>
             <p>Starting a GLP-1 medication is a significant step in your weight loss journey. Knowing what to expect during your first four weeks can help you feel prepared, manage side effects effectively, and stay motivated as the medication begins to take effect. Here is a detailed week-by-week guide based on common patient experiences and clinical data.</p>
 
             <h3>Week 1: Getting Started</h3>
@@ -1077,6 +1290,18 @@
             <h2><a href="#article-glp1-eligibility">Am I Eligible for GLP-1 Weight Loss Medication? A Complete Guide</a></h2>
           </div>
           <div class="article-body">
+            <aside class="tldr-box" aria-label="Article summary">
+              <span class="tldr-label">TL;DR</span>
+              <p class="tldr-summary">Most adults with a BMI of 30 or higher are eligible for GLP-1 weight loss medication. Adults with a BMI of 27–29.9 may qualify if they also have a weight-related condition like type 2 diabetes, hypertension, high cholesterol, or obstructive sleep apnea. Final eligibility is determined by a licensed physician during a telehealth consultation that reviews BMI, medical history, current medications, and contraindications.</p>
+              <ul class="tldr-points">
+                <li><strong>BMI ≥ 30:</strong> generally eligible for GLP-1 weight loss treatment.</li>
+                <li><strong>BMI 27–29.9:</strong> eligible with at least one weight-related comorbidity.</li>
+                <li><strong>Qualifying conditions:</strong> type 2 diabetes, prediabetes, hypertension, high cholesterol, sleep apnea, cardiovascular disease.</li>
+                <li><strong>Contraindications include:</strong> personal/family history of medullary thyroid carcinoma or MEN 2, pregnancy, active pancreatitis, severe GI disease.</li>
+                <li><strong>Consultation covers:</strong> medical history, current medications, labs if needed, goals, and whether GLP-1 therapy is appropriate.</li>
+                <li><strong>Process:</strong> online assessment → HIPAA-compliant video consult → physician decision → prescription (if appropriate) → shipment in 3–5 business days.</li>
+              </ul>
+            </aside>
             <p>One of the most common questions we receive at LDRGLPRx is whether a patient qualifies for GLP-1 weight loss medication. Eligibility depends on several factors including body mass index, overall health, medical history, and individual risk factors. This guide covers everything you need to know about qualifying for treatment and what the consultation process looks like.</p>
 
             <h3>BMI Requirements and Clinical Criteria</h3>
