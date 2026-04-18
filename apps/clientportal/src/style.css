@@ -1,0 +1,124 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,serif;background:#F4F6F2;color:#1A2E1E;line-height:1.6}
+
+/* ── LAYOUT ── */
+.shell{display:flex;min-height:100vh}
+.sidebar{width:230px;flex-shrink:0;background:#F0F5F0;border-right:none;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100}
+.main{margin-left:230px;padding:32px 36px;max-width:920px;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.logo{padding:22px 18px 16px;border-bottom:1px solid #C8DCC8}
+.logo-title{font-size:12px;font-weight:700;letter-spacing:.14em;color:#1D9E75;margin-bottom:3px}
+.logo-sub{font-size:9px;color:#5A8A64;letter-spacing:.07em;margin-bottom:2px}
+.logo-name{font-size:10px;color:#3A6A44;margin-top:4px;min-height:14px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 18px;cursor:pointer;border-left:3px solid transparent;font-size:11.5px;letter-spacing:.02em;color:#3A6A44;transition:all .14s;user-select:none}
+.nav-item.active{border-left-color:#1D9E75;background:#1D9E75;color:#FFFFFF}
+.nav-item:hover:not(.active){color:#1A4A28;background:rgba(29,158,117,.08)}
+.nav-item .icon{font-size:14px;flex-shrink:0}
+.sb-stats{padding:14px 18px;border-top:1px solid #C8DCC8;margin-top:auto}
+.sb-stats-title{font-size:8px;letter-spacing:.08em;color:#5A8A64;margin-bottom:6px;font-weight:700}
+.sb-stat{font-size:10px;color:#3A6A44;margin-bottom:3px}
+
+/* ── CARDS ── */
+.card{background:#FFFFFF;border:1px solid #D8E8DC;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card-title{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#4A7A54;margin-bottom:14px}
+
+/* ── PAGE HEADERS ── */
+.page-title{font-size:28px;font-weight:700;margin-bottom:5px;letter-spacing:-.02em;color:#1A2E1E}
+.page-sub{font-size:13px;color:#5A7A5E;margin-bottom:26px;letter-spacing:.02em}
+
+/* ── WEEK BANNER ── */
+.week-banner{border-radius:11px;padding:16px 20px;margin-bottom:20px}
+.week-tag{font-size:10px;font-weight:700;letter-spacing:.12em}
+.week-name{font-size:19px;font-weight:700;margin-top:2px;color:#FFFFFF}
+.week-sub{font-size:11px;color:rgba(255,255,255,.75);margin-top:3px;letter-spacing:.02em}
+
+/* ── FORMS ── */
+input,textarea,select{background:#FAFBF9;border:1px solid #C8DBC8;border-radius:8px;padding:10px 12px;color:#1A2E1E;font-size:13px;font-family:Georgia,serif;width:100%;outline:none;transition:border-color .15s}
+input:focus,textarea:focus{border-color:#1D9E75;background:#FFFFFF}
+textarea{resize:vertical;min-height:58px;line-height:1.6}
+label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A8A64;margin-bottom:5px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border-radius:8px;border:1px solid #C8DBC8;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.03em;font-family:Georgia,serif;background:#FFFFFF;color:#3A6A44;transition:all .14s}
+.btn:hover{border-color:#1D9E75;color:#1D9E75;background:#F0FAF5}
+.btn.primary{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.btn.primary:hover{background:#19876A}
+.btn.sm{padding:5px 11px;font-size:10px}
+.btn.xs{padding:3px 8px;font-size:9px;border-radius:6px}
+
+/* ── SCORE BUTTONS ── */
+.score-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid #C8DBC8;cursor:pointer;font-size:13px;font-weight:700;background:#FFFFFF;color:#6A9A74;font-family:Georgia,serif;transition:all .14s;flex-shrink:0}
+.score-btn:hover{border-color:#1D9E75}
+
+/* ── PILLS ── */
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.03em}
+
+/* ── PROGRESS BAR ── */
+.pbar-wrap{height:6px;background:#E0EBE0;border-radius:3px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+
+/* ── STAT CARDS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat-card{background:#FFFFFF;border:1px solid #D8E8DC;border-radius:10px;padding:15px 12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.stat-num{font-size:30px;font-weight:700;line-height:1;margin-bottom:3px}
+.stat-lbl{font-size:9px;color:#6A9A74;letter-spacing:.07em}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+
+/* ── FACTOR CARDS ── */
+.factor-card{border:1.5px solid #D8E8DC;border-radius:10px;overflow:hidden;margin-bottom:9px;background:#FFFFFF}
+.factor-header{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;background:#FFFFFF;user-select:none;transition:background .12s}
+.factor-header:hover{background:#F5FAF6}
+.factor-num{font-size:10px;font-weight:700;color:#8AB89A;min-width:22px;letter-spacing:.04em;flex-shrink:0}
+.factor-body{background:#F9FCF9;padding:16px;border-top:1.5px solid #D8E8DC}
+.factor-name{font-size:12.5px;font-weight:600;color:#1A2E1E;margin-bottom:2px}
+.factor-sub{font-size:10px;color:#7A9A7E;line-height:1.4}
+
+/* ── FACTOR TABS ── */
+.ftab-row{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.ftab{padding:5px 13px;border-radius:18px;border:1.5px solid #C8DBC8;cursor:pointer;font-size:11px;background:#FFFFFF;color:#5A8A64;font-family:Georgia,serif;transition:all .13s}
+.ftab.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
+
+/* ── BULLET ITEMS ── */
+.bitem{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #E8F0E8;font-size:12.5px;line-height:1.5}
+.bitem:last-child{border-bottom:none}
+.bitem .dot{flex-shrink:0;margin-top:2px}
+
+/* ── MORNING TRACKER ── */
+.day-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid #C8DBC8;cursor:pointer;font-size:10px;font-weight:700;background:#FFFFFF;color:#8AB89A;font-family:Georgia,serif;transition:all .14s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.cold-btn{width:28px;height:28px;border-radius:6px;border:1.5px solid #C8DBC8;cursor:pointer;font-size:9px;font-weight:700;background:#FFFFFF;color:#8AB89A;font-family:Georgia,serif;transition:all .14s}
+
+/* ── TABLES ── */
+.compare-table{width:100%;border-collapse:collapse;font-size:12px}
+.compare-table th{padding:8px 10px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.06em;border-bottom:1.5px solid #D8E8DC;color:#5A8A64;background:#F0F8F2}
+.compare-table td{padding:8px 10px;border-bottom:1px solid #EAF2EA}
+.compare-table td input{padding:4px 8px;font-size:11px;width:75px}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;right:24px;background:#1D9E75;color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:600;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:Georgia,serif;box-shadow:0 4px 16px rgba(29,158,117,.35)}
+#toast.show{opacity:1}
+
+/* ── LINK PILLS ── */
+a.res-pill{text-decoration:none;background:#E8F4FF;color:#1E5FA0;padding:5px 12px;border-radius:18px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px;transition:background .14s;border:1px solid #C8DCEE}
+a.res-pill:hover{background:#D0E8FF}
+
+/* ── INFO BOXES ── */
+.info-box{border-radius:10px;padding:13px 16px;font-size:12px;line-height:1.7;margin-bottom:14px}
+
+/* ── SUPP ROW ── */
+.supp-row{display:grid;grid-template-columns:1.8fr 0.9fr 0.9fr 0.7fr;gap:8px;padding:10px 0;border-bottom:1px solid #E8F0E8;align-items:center}
+.supp-name{font-size:12px;font-weight:600;color:#1A2E1E}
+.supp-why{font-size:10px;color:#7A9A7E}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid #C8DCC8}
+  .main{margin-left:0;padding:20px 16px}
+  .shell{flex-direction:column}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .g2,.g3{grid-template-columns:1fr}
+}
