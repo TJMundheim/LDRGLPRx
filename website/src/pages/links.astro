@@ -1,0 +1,300 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "LDRGLPRx — Links";
+const description = "LDRGLPRx links — Doctor-guided GLP-1 weight loss programs. Find our resources, blog, and get started.";
+const canonical = "https://ldrglprx.com/links.html";
+const ogImage = "https://ldrglprx.com/images/og-image.jpg";
+const robots = "index, follow";
+---
+<BaseLayout title={title} description={description} canonical={canonical} ogImage={ogImage} robots={robots}>
+<script type="application/ld+json" is:inline set:html={`{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ldrglprx.com/#organization","name":"LDRGLPRx","url":"https://ldrglprx.com/","logo":"https://ldrglprx.com/images/og-image.jpg"},{"@type":"CollectionPage","@id":"https://ldrglprx.com/links.html#webpage","url":"https://ldrglprx.com/links.html","name":"LDRGLPRx — Links","description":"Quick-access link hub for LDRGLPRx: start your consultation, check BMI eligibility, read the blog, and find company resources.","inLanguage":"en-US","publisher":{"@id":"https://ldrglprx.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ldrglprx.com/"},{"@type":"ListItem","position":2,"name":"Links","item":"https://ldrglprx.com/links.html"}]}]}`} slot="head" />
+
+  <div class="links-container">
+
+    <!-- Profile -->
+    <div class="profile fade-in">
+      <div class="profile-image">
+        <i class="fa-solid fa-staff-snake"></i>
+      </div>
+      <div class="brand-name">LDRGLP<span>Rx</span></div>
+      <div class="tagline">Doctor-Guided GLP-1 Weight Loss</div>
+    </div>
+
+    <!-- Link Buttons -->
+    <a href="/bmi-calculator" class="link-btn featured fade-in">
+      <i class="fa-solid fa-calculator"></i>
+      Check Your GLP-1 Eligibility (Free)
+    </a>
+
+    <a href="index.html#get-started" class="link-btn primary fade-in">
+      <i class="fa-solid fa-clipboard-check"></i>
+      Start Your Assessment
+    </a>
+
+    <a href="/blog" class="link-btn default fade-in">
+      <i class="fa-solid fa-newspaper"></i>
+      Read Our Blog
+    </a>
+
+    <a href="blog.html#article-1" class="link-btn default fade-in">
+      <i class="fa-solid fa-capsules"></i>
+      Semaglutide vs Tirzepatide Guide
+    </a>
+
+    <a href="/referral" class="link-btn default fade-in">
+      <i class="fa-solid fa-gift"></i>
+      Refer a Friend &mdash; Get $50
+    </a>
+
+    <a href="/contact" class="link-btn default fade-in">
+      <i class="fa-solid fa-envelope"></i>
+      Contact Us
+    </a>
+
+    <a href="/about" class="link-btn default fade-in">
+      <i class="fa-solid fa-circle-info"></i>
+      About LDRGLPRx
+    </a>
+
+    <!-- Social Icons -->
+    <div class="socials fade-in">
+      <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#" class="social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      <a href="#" class="social-icon" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer fade-in">
+      <a href="/">LDRGLPRx.com</a>
+    </div>
+
+  </div>
+
+</BaseLayout>
+
+<style is:global>
+
+    :root {
+      --primary: #0f4c75;
+      --primary-light: #1b6fa8;
+      --accent: #00b894;
+      --accent-dark: #00a381;
+      --dark: #0a1628;
+      --text: #2d3748;
+      --text-light: #718096;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 1rem;
+    }
+
+    .links-container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    /* Profile section */
+    .profile {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-image {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(0,184,148,0.35));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      border: 3px solid rgba(255,255,255,0.2);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+
+    .profile-image i {
+      font-size: 2.4rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .brand-name {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 1.75rem;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.35rem;
+    }
+
+    .brand-name span {
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.7);
+      font-weight: 400;
+    }
+
+    /* Link buttons */
+    .link-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border-radius: 14px;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      position: relative;
+      text-align: center;
+      gap: 0.6rem;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+    }
+
+    .link-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Featured (accent green) */
+    .link-btn.featured {
+      background: var(--accent);
+      color: #ffffff;
+      padding: 1.15rem 1.5rem;
+      font-size: 1rem;
+      box-shadow: 0 4px 20px rgba(0,184,148,0.35);
+    }
+
+    .link-btn.featured:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 8px 32px rgba(0,184,148,0.45);
+    }
+
+    /* Primary blue */
+    .link-btn.primary {
+      background: var(--primary-light);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(15,76,117,0.3);
+    }
+
+    .link-btn.primary:hover {
+      background: var(--primary);
+      box-shadow: 0 8px 28px rgba(15,76,117,0.4);
+    }
+
+    /* Default (white/light) */
+    .link-btn.default {
+      background: rgba(255,255,255,0.1);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    .link-btn.default:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.35);
+    }
+
+    .link-btn i {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* Social icons */
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .social-icon:hover {
+      background: rgba(255,255,255,0.18);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    .footer a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+
+    .footer a:hover {
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Staggered fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in:nth-child(1)  { animation-delay: 0s; }
+    .fade-in:nth-child(2)  { animation-delay: 0.07s; }
+    .fade-in:nth-child(3)  { animation-delay: 0.14s; }
+    .fade-in:nth-child(4)  { animation-delay: 0.21s; }
+    .fade-in:nth-child(5)  { animation-delay: 0.28s; }
+    .fade-in:nth-child(6)  { animation-delay: 0.35s; }
+    .fade-in:nth-child(7)  { animation-delay: 0.42s; }
+    .fade-in:nth-child(8)  { animation-delay: 0.49s; }
+    .fade-in:nth-child(9)  { animation-delay: 0.56s; }
+    .fade-in:nth-child(10) { animation-delay: 0.63s; }
+    .fade-in:nth-child(11) { animation-delay: 0.70s; }
+  
+</style>

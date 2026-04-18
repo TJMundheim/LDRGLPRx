@@ -1,0 +1,1226 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "Referral Program — LDRGLPRx";
+const description = "Give $50, Get $50. Share LDRGLPRx with friends and both save on doctor-guided GLP-1 weight loss treatment.";
+const canonical = "https://ldrglprx.com/referral.html";
+const keywords = "LDRGLPRx referral, GLP-1 referral program, semaglutide referral credit, tirzepatide referral, refer a friend weight loss";
+const ogImage = "https://ldrglprx.com/images/og-image.jpg";
+const robots = "index, follow";
+---
+<BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} robots={robots}>
+<script type="application/ld+json" is:inline set:html={`{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://ldrglprx.com/#organization","name":"LDRGLPRx","url":"https://ldrglprx.com/","logo":"https://ldrglprx.com/images/og-image.jpg"},{"@type":"WebPage","@id":"https://ldrglprx.com/referral.html#webpage","url":"https://ldrglprx.com/referral.html","name":"LDRGLPRx Referral Program — Give $50, Get $50","description":"LDRGLPRx customers earn a $50 account credit for each friend who signs up and completes their first physician consultation. Referred friends get $50 off their first month. No limit on referrals; credits do not expire.","inLanguage":"en-US"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ldrglprx.com/"},{"@type":"ListItem","position":2,"name":"Referral Program","item":"https://ldrglprx.com/referral.html"}]},{"@type":"FAQPage","@id":"https://ldrglprx.com/referral.html#faq","mainEntity":[{"@type":"Question","name":"How does the $50 referral credit work?","acceptedAnswer":{"@type":"Answer","text":"When your friend signs up using your referral link and completes their first physician consultation, a $50 credit is automatically applied to your account and deducted from your next monthly treatment charge. Your friend also receives $50 off their first month. Credits do not expire and can be stacked from multiple referrals."}},{"@type":"Question","name":"Is there a limit to how many friends I can refer?","acceptedAnswer":{"@type":"Answer","text":"No. You can refer as many friends as you like and earn a $50 credit for every friend who completes their first consultation. Referring three friends covers a full month of treatment. Additional referrals keep stacking."}},{"@type":"Question","name":"When do I receive my referral credit?","acceptedAnswer":{"@type":"Answer","text":"Credits are applied to your account within 48 hours of your friend completing their first physician consultation. You receive an email notification when the credit is added, and it applies to your next billing cycle automatically."}},{"@type":"Question","name":"Do I need to be a current patient to refer friends?","acceptedAnswer":{"@type":"Answer","text":"Yes, the referral program is available to active LDRGLPRx patients. If you are not yet a patient, start with your own consultation and then begin referring friends to earn credits. Your referred friend does not need to be an existing patient."}}]}]}`} slot="head" />
+
+
+<!-- ===== NAVBAR ===== -->
+
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <i class="fas fa-gift"></i>
+      Referral Program
+    </div>
+    <h1>Give <em>$50</em>, Get <em>$50</em></h1>
+    <p>Share the gift of health with friends and family. When they start their GLP-1 weight loss journey, you both save on your next month of treatment.</p>
+    <div class="hero-amount">
+      <div class="hero-amount-card">
+        <div class="amount">$50</div>
+        <div class="label">Your friend saves</div>
+      </div>
+      <div class="hero-plus">+</div>
+      <div class="hero-amount-card">
+        <div class="amount">$50</div>
+        <div class="label">You save</div>
+      </div>
+    </div>
+    <a href="#generate" class="btn btn-primary btn-large">Get Your Referral Link <i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">How It Works</div>
+      <h2>Three Simple Steps</h2>
+      <p>Earning rewards is easy. Share your link, and when your friend gets started, you both benefit.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-icon"><i class="fas fa-link"></i></div>
+        <h3>Share Your Link</h3>
+        <p>Generate your unique referral link below and share it with friends, family, or anyone who could benefit from doctor-guided weight loss.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-icon"><i class="fas fa-user-doctor"></i></div>
+        <h3>Friend Consults</h3>
+        <p>Your friend uses your link to sign up and completes their first physician consultation. They get $50 off their first month.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-icon"><i class="fas fa-piggy-bank"></i></div>
+        <h3>You Both Save</h3>
+        <p>Once your friend completes their consultation, you automatically receive a $50 credit applied to your next month of treatment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REFERRAL LINK GENERATOR ===== -->
+<section class="referral-generator" id="generate">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Your Referral Link</div>
+      <h2>Generate & Share</h2>
+      <p>Enter your details to create your personal referral link, then share it however you like.</p>
+    </div>
+    <div class="generator-wrapper">
+      <h3>Create Your Referral Link</h3>
+      <p class="generator-subtitle">Your link will be ready to share instantly.</p>
+      <form id="referral-form" onsubmit="generateLink(event)">
+        <div class="form-group">
+          <label for="ref-name">Your Name</label>
+          <input type="text" id="ref-name" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label for="ref-email">Your Email</label>
+          <input type="email" id="ref-email" placeholder="jane@example.com" required />
+        </div>
+        <button type="submit" class="generate-btn">
+          <i class="fas fa-wand-magic-sparkles"></i>
+          Generate My Link
+        </button>
+      </form>
+
+      <div class="link-output" id="link-output">
+        <div class="link-box">
+          <input type="text" id="referral-link" readonly />
+          <button type="button" class="copy-btn" onclick="copyLink()">
+            <i class="fas fa-copy" id="copy-icon"></i>
+            <span id="copy-text">Copy</span>
+          </button>
+        </div>
+        <div class="share-label">Share via</div>
+        <div class="share-buttons" id="share-buttons">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REWARDS TRACKER ===== -->
+<section class="rewards-tracker">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Your Rewards</div>
+      <h2>Referral Tracker</h2>
+      <p>Track your referrals and unlock bonus rewards as you share with more friends.</p>
+    </div>
+    <div class="tracker-card">
+      <div class="tracker-header">
+        <h3>Your Referral Dashboard</h3>
+        <div class="tracker-count">
+          <i class="fas fa-users"></i>
+          <span id="referral-count">0</span> friends referred
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="progress-labels">
+          <span>Progress to free month</span>
+          <span id="progress-text">0 / 3 referrals</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+      <div class="milestone-cards">
+        <div class="milestone active">
+          <div class="m-icon"><i class="fas fa-user-plus"></i></div>
+          <div class="m-count">1</div>
+          <div class="m-reward">$50 credit</div>
+        </div>
+        <div class="milestone">
+          <div class="m-icon"><i class="fas fa-user-group"></i></div>
+          <div class="m-count">2</div>
+          <div class="m-reward">$100 total saved</div>
+        </div>
+        <div class="milestone">
+          <div class="m-icon"><i class="fas fa-star"></i></div>
+          <div class="m-count">3</div>
+          <div class="m-reward">Free month</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Questions</div>
+      <h2>Referral Program FAQ</h2>
+      <p>Everything you need to know about earning rewards by sharing LDRGLPRx.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          How does the $50 credit work?
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            When your friend signs up using your referral link and completes their first physician consultation, a $50 credit is automatically applied to your account. This credit will be deducted from your next monthly treatment charge. Your friend also receives $50 off their first month. Credits do not expire and can be stacked from multiple referrals.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          Is there a limit to how many friends I can refer?
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            There is no limit. You can refer as many friends as you like, and you will earn a $50 credit for every friend who completes their first consultation. Refer 3 friends and your next month of treatment is completely free. Keep referring to continue saving on future months.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          When do I receive my referral credit?
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Your $50 credit is applied to your account within 48 hours of your friend completing their first physician consultation. You will receive an email notification when the credit has been added. The credit will automatically apply to your next billing cycle.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          Do I need to be a current patient to refer friends?
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes, the referral program is available to active LDRGLPRx patients. If you are not yet a patient, you can get started with your own consultation first, and then begin referring friends to earn credits on your treatment. Your referred friend does not need to be an existing patient.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Not a Patient Yet?</h2>
+    <p>Start your own doctor-guided GLP-1 weight loss journey today. Your first consultation is simple, private, and can be done from home.</p>
+    <a href="index.html#get-started" class="btn btn-primary btn-large">Get Started <i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+
+
+
+<script is:inline>
+  // Navbar scroll effect
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Mobile menu toggle
+  function toggleMenu() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      document.getElementById('nav-links').classList.remove('open');
+    });
+  });
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    var item = btn.parentElement;
+    var wasActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    if (!wasActive) item.classList.add('active');
+  }
+
+  // Generate referral link
+  function generateLink(e) {
+    e.preventDefault();
+    var name = document.getElementById('ref-name').value.trim();
+    var email = document.getElementById('ref-email').value.trim();
+    if (!name || !email) return;
+
+    // Generate random 5-char code
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    var code = '';
+    for (var i = 0; i < 5; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    var link = 'ldrglprx.com/ref/' + code;
+    document.getElementById('referral-link').value = link;
+
+    var shareMsg = "I've been using LDRGLPRx for doctor-guided GLP-1 weight loss and it's been amazing. Use my referral link to get $50 off your first month: https://" + link;
+    var shareSubject = "Get $50 off GLP-1 weight loss treatment with LDRGLPRx";
+    var shareUrl = 'https://' + link;
+
+    var buttonsHtml = '';
+    buttonsHtml += '<a class="share-btn sms" href="sms:?&body=' + encodeURIComponent(shareMsg) + '" target="_blank"><i class="fas fa-comment-dots"></i> Text</a>';
+    buttonsHtml += '<a class="share-btn email" href="mailto:?subject=' + encodeURIComponent(shareSubject) + '&body=' + encodeURIComponent(shareMsg) + '" target="_blank"><i class="fas fa-envelope"></i> Email</a>';
+    buttonsHtml += '<a class="share-btn whatsapp" href="https://wa.me/?text=' + encodeURIComponent(shareMsg) + '" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>';
+    buttonsHtml += '<a class="share-btn facebook" href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + encodeURIComponent(shareMsg) + '" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>';
+    buttonsHtml += '<a class="share-btn twitter" href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareMsg) + '" target="_blank"><i class="fab fa-x-twitter"></i> X</a>';
+
+    document.getElementById('share-buttons').innerHTML = buttonsHtml;
+    document.getElementById('link-output').classList.add('visible');
+
+    // Scroll to the output
+    document.getElementById('link-output').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Copy link to clipboard
+  function copyLink() {
+    var linkInput = document.getElementById('referral-link');
+    var fullLink = 'https://' + linkInput.value;
+    navigator.clipboard.writeText(fullLink).then(function() {
+      document.getElementById('copy-icon').className = 'fas fa-check';
+      document.getElementById('copy-text').textContent = 'Copied!';
+      setTimeout(function() {
+        document.getElementById('copy-icon').className = 'fas fa-copy';
+        document.getElementById('copy-text').textContent = 'Copy';
+      }, 2000);
+    }).catch(function() {
+      // Fallback for older browsers
+      linkInput.select();
+      document.execCommand('copy');
+      document.getElementById('copy-text').textContent = 'Copied!';
+      setTimeout(function() {
+        document.getElementById('copy-text').textContent = 'Copy';
+      }, 2000);
+    });
+  }
+</script>
+
+
+</BaseLayout>
+
+<style is:global>
+
+    :root {
+      --primary: #0f4c75;
+      --primary-light: #1b6fa8;
+      --accent: #00b894;
+      --accent-dark: #00a381;
+      --dark: #0a1628;
+      --text: #2d3748;
+      --text-light: #718096;
+      --bg: #ffffff;
+      --bg-soft: #f7fafc;
+      --bg-accent: #edf7f6;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--dark);
+      line-height: 1.2;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+
+    .navbar.scrolled { box-shadow: var(--shadow-md); }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+
+    .logo {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0,184,148,0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-large {
+      padding: 1rem 2.2rem;
+      font-size: 1rem;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--primary);
+    }
+
+    .btn-white:hover {
+      background: var(--bg-soft);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* ===== SECTION HEADER ===== */
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      color: var(--text-light);
+      font-size: 1.05rem;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 10rem 0 6rem;
+      background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,184,148,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      color: white;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(0,184,148,0.15);
+      border: 1px solid rgba(0,184,148,0.3);
+      border-radius: 50px;
+      padding: 0.6rem 1.5rem;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .hero-badge i { font-size: 1.1rem; }
+
+    .hero-amount {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .hero-amount-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-lg);
+      padding: 2rem 3rem;
+      text-align: center;
+    }
+
+    .hero-amount-card .amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-amount-card .label {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .hero-plus {
+      display: flex;
+      align-items: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 2rem;
+      font-weight: 300;
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    .how-it-works {
+      padding: 6rem 0;
+      background: var(--bg-soft);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 48px;
+      left: 16.66%;
+      right: 16.66%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      z-index: 0;
+    }
+
+    .step-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .step-icon {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .step-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-card p {
+      color: var(--text-light);
+      font-size: 0.92rem;
+    }
+
+    /* ===== REFERRAL GENERATOR ===== */
+    .referral-generator {
+      padding: 6rem 0;
+    }
+
+    .generator-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .generator-wrapper h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .generator-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent);
+    }
+
+    .form-group input::placeholder {
+      color: var(--text-light);
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 50px;
+      background: var(--accent);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .generate-btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0,184,148,0.4);
+    }
+
+    /* Link output */
+    .link-output {
+      display: none;
+      margin-top: 2rem;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .link-output.visible { display: block; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .link-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg-soft);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .link-box input {
+      flex: 1;
+      padding: 0.85rem 1.2rem;
+      border: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      color: var(--primary);
+      font-weight: 600;
+      outline: none;
+    }
+
+    .copy-btn {
+      padding: 0.85rem 1.4rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .copy-btn:hover { background: var(--primary-light); }
+
+    .share-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.75rem;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.2rem;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .share-btn.sms { background: #34c759; }
+    .share-btn.email { background: var(--primary); }
+    .share-btn.whatsapp { background: #25d366; }
+    .share-btn.facebook { background: #1877f2; }
+    .share-btn.twitter { background: #0f1419; }
+
+    /* ===== REWARDS TRACKER ===== */
+    .rewards-tracker {
+      padding: 6rem 0;
+      background: var(--bg-soft);
+    }
+
+    .tracker-card {
+      max-width: 680px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+    }
+
+    .tracker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .tracker-header h3 {
+      font-size: 1.35rem;
+    }
+
+    .tracker-count {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-accent);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .tracker-count i { color: var(--accent); }
+
+    .progress-section {
+      margin-bottom: 2rem;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .progress-labels span:first-child {
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .progress-labels span:last-child {
+      color: var(--text-light);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: var(--border);
+      border-radius: 50px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--primary));
+      border-radius: 50px;
+      transition: width 1s ease;
+    }
+
+    .milestone-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .milestone {
+      text-align: center;
+      padding: 1.2rem 1rem;
+      border-radius: var(--radius);
+      border: 2px solid var(--border);
+      transition: border-color 0.2s;
+    }
+
+    .milestone.active {
+      border-color: var(--accent);
+      background: var(--bg-accent);
+    }
+
+    .milestone .m-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone .m-count {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .milestone .m-reward {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .milestone.active .m-reward {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section {
+      padding: 6rem 0;
+    }
+
+    .faq-list {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .faq-item:hover { box-shadow: var(--shadow-sm); }
+
+    .faq-btn {
+      width: 100%;
+      padding: 1.2rem 1.5rem;
+      background: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark);
+      text-align: left;
+      gap: 1rem;
+    }
+
+    .faq-btn i {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 1.5rem 1.5rem;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .faq-item.active .faq-btn i {
+      transform: rotate(180deg);
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      padding: 6rem 0;
+      background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,184,148,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .cta-section h2 {
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.7);
+      font-size: 1.1rem;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      position: relative;
+    }
+
+    .cta-section .btn {
+      position: relative;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.7);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand .logo {
+      font-size: 1.4rem;
+      color: white;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand .logo span { color: var(--accent); }
+
+    .footer-brand p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      max-width: 300px;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+
+    .footer-col a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom p { font-size: 0.82rem; }
+
+    .footer-socials {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .footer-socials a {
+      color: rgba(255,255,255,0.5);
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+
+    .footer-socials a:hover { color: var(--accent); }
+
+    .medical-disclaimer {
+      background: #0d1f35;
+      padding: 1.5rem 0;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid::before { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .hero { padding: 8rem 0 4rem; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero-amount { flex-direction: column; align-items: center; gap: 1rem; }
+      .hero-plus { transform: rotate(90deg); }
+      .hero-amount-card { padding: 1.5rem 2.5rem; }
+
+      .steps-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+
+      .generator-wrapper { padding: 2rem 1.5rem; }
+      .share-buttons { justify-content: center; }
+
+      .tracker-card { padding: 2rem 1.5rem; }
+      .milestone-cards { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+
+      .section-header h2 { font-size: 2rem; }
+      .cta-section h2 { font-size: 2rem; }
+
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero-amount-card .amount { font-size: 2.2rem; }
+    }
+  
+</style>

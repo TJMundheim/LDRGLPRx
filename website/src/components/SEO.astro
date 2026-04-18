@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  robots?: string;
+  keywords?: string;
+  ogType?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = 'https://ldrglprx.com/images/og-image.jpg',
+  robots = 'index, follow',
+  keywords,
+  ogType = 'website',
+} = Astro.props;
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+{keywords && <meta name="keywords" content={keywords} />}
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:url" content={canonical} />
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content="LDRGLPRx" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+</content>

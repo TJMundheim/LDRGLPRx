@@ -1,0 +1,42 @@
+/* Global tokens and resets shared across all pages. Page-specific
+   styles remain inline per page (preserved verbatim from legacy). */
+:root {
+  --primary: #0f4c75;
+  --primary-light: #1b6fa8;
+  --accent: #00b894;
+  --accent-dark: #00a381;
+  --dark: #0a1628;
+  --text: #2d3748;
+  --text-light: #718096;
+  --bg: #ffffff;
+  --bg-soft: #f7fafc;
+  --bg-accent: #edf7f6;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--dark);
+  line-height: 1.2;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}

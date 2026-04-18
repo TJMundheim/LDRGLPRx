@@ -1,0 +1,139 @@
+---
+// Shared navigation. Styles match legacy navbar markup exactly.
+---
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="logo">LDRGLP<span>Rx</span></a>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#about">About GLP-1</a></li>
+      <li><a href="/#treatments">Treatments</a></li>
+      <li><a href="/#how-it-works">How It Works</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/bmi-calculator">BMI Check</a></li>
+      <li><a href="/referral">Refer &amp; Save</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li><a href="/#get-started" class="btn btn-primary">Get Started</a></li>
+    </ul>
+  </div>
+</nav>
+
+<style is:global>
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  .navbar.scrolled { box-shadow: var(--shadow-md); }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 72px;
+  }
+  .logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--primary); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.6rem;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0,184,148,0.4);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary); color: white; }
+  .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
+  .btn-white { background: white; color: var(--primary); }
+  .btn-white:hover {
+    background: var(--bg-soft);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--dark);
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  @media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 72px; left: 0; right: 0;
+      background: white;
+      flex-direction: column;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+    }
+    .nav-links.open { display: flex; }
+  }
+</style>
+
+<script is:inline>
+  window.addEventListener('scroll', function() {
+    var nav = document.getElementById('navbar');
+    if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+  function toggleMenu() {
+    var el = document.getElementById('nav-links');
+    if (el) el.classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      var el = document.getElementById('nav-links');
+      if (el) el.classList.remove('open');
+    });
+  });
+</script>

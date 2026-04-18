@@ -1,0 +1,19 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/article.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  robots?: string;
+  keywords?: string;
+  schema?: unknown;
+}
+
+const props = Astro.props;
+---
+<BaseLayout {...props} ogType="article">
+  <slot />
+</BaseLayout>
