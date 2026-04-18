@@ -64,17 +64,12 @@ Every indexed page has full JSON-LD structured data:
 
 ## Pending / open work
 
-### 1. Blog split (AGREED, NOT STARTED)
-User wants `blog.html` split into separate article pages for SEO (avoid one URL hosting all 3 posts). Decided structure:
-- Keep `blog.html` as listing page (cards with excerpts + TLDR previews + "Read full article" links)
-- Create `/blog/semaglutide-vs-tirzepatide.html`
-- Create `/blog/what-to-expect-first-month-glp1.html`
-- Create `/blog/am-i-eligible-for-glp1.html`
-- Each article gets its own canonical, JSON-LD (Article/MedicalWebPage + Breadcrumb + per-article FAQPage), related-reading links
-- Listing page gets `Blog` + `ItemList` schema
-- Plan was to extract shared CSS to `/blog/article.css` to avoid 4× CSS duplication
-- Update `sitemap.xml` with the 3 new article URLs
-- `/blog/` directory has already been created (empty)
+### 1. Blog split (DONE)
+- `blog.html` rewritten as listing page (3 cards with full TLDR + "Read full article →"). JSON-LD: Organization, WebSite, BreadcrumbList, Blog, ItemList. FAQPage moved to individual articles.
+- `blog/article.css` — shared styles extracted.
+- `blog/semaglutide-vs-tirzepatide.html`, `blog/what-to-expect-first-month-glp1.html`, `blog/am-i-eligible-for-glp1.html` — each standalone, own canonical + MedicalWebPage + BreadcrumbList + FAQPage (2 Qs each), related articles block.
+- `sitemap.xml` updated with 3 new URLs.
+- `robots.txt` updated with AEO bot allow-lines (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc).
 
 ### 2. Split other pages (USER-REQUESTED, UNDECIDED SCOPE)
 User said "other pages need split outs too not just blogs." Candidates proposed:
