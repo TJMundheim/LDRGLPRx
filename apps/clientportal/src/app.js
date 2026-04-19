@@ -2151,6 +2151,10 @@ function render() {
 // ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
+// Inline onclick="..." attributes in rendered templates need these on window
+// because Vite loads this file as an ES module (no implicit globals).
+Object.assign(window, { S, save, render, goTo, setScore, toggleFactor, setFactorTab, toggleDay });
+
 buildNav();
 updateSidebar();
 render();
