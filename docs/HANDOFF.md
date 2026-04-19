@@ -1,103 +1,108 @@
-# LDRGLPRx — Handoff (Current State)
+# LDRGLPRx — Handoff
 
-## Project
-GLP-1 weight loss telehealth marketing site (modeled after medvi.org). Static HTML, no build step.
-
-- **Working dir:** `/Users/thomasmundheim/Desktop/Development/LDRGLPRx/`
-- **Git remote:** `github.com/TJMundheim/LDRGLPRx` (branch: `main`, in sync with origin)
-- **Intended domain:** `ldrglprx.com` (NOT YET REGISTERED — user plans to buy)
-- **Local preview:** `python3 -m http.server 8000` from the project root
-
-## AWS
-- `aws-cli/2.34.32` installed via pkg installer
-- `~/.aws/credentials` + `~/.aws/config` configured
-- IAM user: `tmundheim`, account `879696522760`, region `us-east-2`
-- Output format: not set (defaults to json)
-- **No AWS resources created yet** — deployment is pending domain purchase
-
-## Planned deployment (not built)
-- Target bucket name: `website-ldrglprx`
-- Deployment must be via a single `deploy.sh` script (no CloudFormation, no direct CLI)
-- Script should handle both infra bootstrap AND content sync (detect & create missing)
-- HTTPS via CloudFront + ACM (us-east-1 cert), custom domain to be attached after purchase
-- `deploy.sh` has NOT been written yet
-
-## File inventory
-| File | Purpose |
-|---|---|
-| `index.html` | Landing page — hero, treatments, about GLP-1, how it works, FAQ, intake form |
-| `about.html` | Our Story, Values, Medical Team, Pharmacy Partners, stats, FAQ |
-| `blog.html` | 3 full articles on a single page (TLDR + rich content each) — SEE "Pending Split" below |
-| `bmi-calculator.html` | Interactive BMI tool + GLP-1 eligibility indicator, FAQ |
-| `contact.html` | Contact cards, form, emergency notice, FAQ |
-| `referral.html` | Give $50 / Get $50 referral program, FAQ |
-| `links.html` | Linktree-style link hub |
-| `privacy.html`, `terms.html`, `consent.html` | Legal pages |
-| `404.html` | 404 page (noindex) |
-| `cookie-banner.js` | Cookie consent banner |
-| `robots.txt` | Permissive, points to sitemap.xml |
-| `sitemap.xml` | 10 URLs, lastmod `2026-04-18` |
-| `images/` | Static images (og-image.jpg, hero.jpg, etc.) |
-
-## SEO / AEO state (just completed)
-Every indexed page has full JSON-LD structured data:
-
-| Page | Schemas present |
-|---|---|
-| `index.html` | Organization, WebSite, MedicalBusiness (3 services), WebPage, BreadcrumbList, **FAQPage (8 Q)** |
-| `blog.html` | Organization, WebSite, Blog, BreadcrumbList, 3× MedicalWebPage, **FAQPage (6 Q)** |
-| `about.html` | Organization (with knowsAbout), AboutPage, BreadcrumbList, **FAQPage (5 Q)** — visible FAQ section added |
-| `bmi-calculator.html` | Organization, WebApplication (with AggregateRating), MedicalWebPage, HowTo (5 steps), BreadcrumbList, **FAQPage (6 Q)** — visible FAQ section added |
-| `referral.html` | Organization, WebPage, BreadcrumbList, **FAQPage (4 Q)** |
-| `contact.html` | Organization (3 ContactPoints with hours), ContactPage, BreadcrumbList, **FAQPage (4 Q)** — visible FAQ section added |
-| `privacy.html` | Organization, PrivacyPolicy, BreadcrumbList |
-| `terms.html` | Organization, TermsOfService, BreadcrumbList |
-| `consent.html` | Organization, MedicalWebPage, BreadcrumbList |
-| `links.html` | Organization, CollectionPage, BreadcrumbList |
-| `404.html` | None (noindex) |
-
-**TLDR blocks:** visible `<aside class="tldr-box">` at top of each of the 3 blog articles with summary paragraph + 6 bullet points. AEO-optimized for LLM extraction.
-
-**Sitemap:** bumped all `lastmod` to `2026-04-18`, added `links.html`.
-
-**llms.txt:** intentionally NOT added — user doesn't want one.
-
-## Pending / open work
-
-### 1. Blog split (DONE)
-- `blog.html` rewritten as listing page (3 cards with full TLDR + "Read full article →"). JSON-LD: Organization, WebSite, BreadcrumbList, Blog, ItemList. FAQPage moved to individual articles.
-- `blog/article.css` — shared styles extracted.
-- `blog/semaglutide-vs-tirzepatide.html`, `blog/what-to-expect-first-month-glp1.html`, `blog/am-i-eligible-for-glp1.html` — each standalone, own canonical + MedicalWebPage + BreadcrumbList + FAQPage (2 Qs each), related articles block.
-- `sitemap.xml` updated with 3 new URLs.
-- `robots.txt` updated with AEO bot allow-lines (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc).
-
-### 2. Split other pages (USER-REQUESTED, UNDECIDED SCOPE)
-User said "other pages need split outs too not just blogs." Candidates proposed:
-- **Treatments split** (highest AEO value): `index.html#treatments` → `/treatments/semaglutide.html`, `/treatments/tirzepatide.html`, `/treatments/oral-glp1.html` — each drug gets its own rankable page
-- **About split** (lower value): `about.html` → `/about/team.html`, `/about/pharmacy-partners.html`
-- **Awaiting user confirmation** on which to do before implementing
-
-### 3. Domain + deployment
-- User needs to register `ldrglprx.com` first (registrar TBD — Route 53 is simplest)
-- Then write `deploy.sh` (specs above under "Planned deployment")
-
-### 4. Nice-to-haves (not requested, flag if relevant)
-- robots.txt could add explicit allow lines for GPTBot/ClaudeBot/PerplexityBot (AEO)
-- Open Graph images could be made page-specific (most pages share `images/og-image.jpg`)
-
-## Git
+## Repo layout
 ```
-main (clean, synced with origin)
-Recent commits:
-  042a486 Update HANDOFF with all completed pages and marketing features
-  605f908 Add legal pages, about, contact, SEO infrastructure, and marketing
-  df53208 Initial launch of LDRGLPRx marketing site
+LDRGLPRx/
+  website/           Astro (marketing site) — static output
+  website_legacy/    Pre-Astro static HTML (reference; safe to delete)
+  apps/clientportal/ Svelte 5 + Vite + TS (4M workbook / client portal)
+  docs/              HANDOFF.md, plan/
 ```
-All SEO/AEO work done this session is **uncommitted** — user has not asked for a commit.
+- Git remote: `github.com/TJMundheim/LDRGLPRx`, branch `main`
+- Package manager: **pnpm** (standalone; `$PNPM_HOME=/Users/thomasmundheim/Library/pnpm`, Node 24 managed by pnpm)
 
-## User preferences observed
-- Terse responses preferred
-- Don't over-engineer; confirm scope before big refactors
-- No emojis unless asked
+## Marketing site — `website/`
+Astro static output, TypeScript strict. 13 pages + 404 + auto sitemap.
+- Shared components: `Navbar`, `Footer`, `SEO`, `JsonLd`, `CookieBanner`, `MedicalDisclaimer`
+- Per-page JSON-LD (Organization, MedicalBusiness, MedicalWebPage, FAQPage, etc.)
+- `@astrojs/sitemap` auto-emits `dist/sitemap-index.xml`
+- `public/robots.txt` has explicit allows for GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.
+- Dev: `cd website && pnpm dev` · Build: `pnpm build` → `dist/`
+- Canonical domain: `https://ldrglprx.com` — **not yet registered**
+- Deployment: pending domain purchase; planned `deploy.sh` → S3 + CloudFront + ACM (not written)
+
+## Client portal — `apps/clientportal/`
+Beta-prep port of the 2160-line vanilla-JS 4M workbook → Svelte 5 + Vite + TS strict. **Uncommitted at end of this session.**
+
+```
+src/
+  main.ts, App.svelte, app.css
+  lib/
+    components/     Sidebar, WeekBanner, StatCard, ScoreButtons,
+                    FactorCard, MorningTracker, SupplementCard, TrainingLog
+    content/        factors.ts, supplements.ts, morningProtocol.ts,
+                    nutrition.ts, weeks.ts, cognitive.ts  (all typed)
+    data/schema.ts  Workbook + related types (maps to future Supabase schema)
+    storage/        Storage interface + LocalStorageAdapter
+                    (300ms debounce, keys 4m:workbook:<id> / 4m:index:<userId>)
+    integrations/   telemed.ts, payments.ts, auth.ts — stubbed, typed contracts,
+                    throw "Not implemented"
+    renderer.ts     Typed port of legacy rendering, consumes content/*.
+                    HTML strings injected via {@html}. Inline handlers call
+                    window.portalAction / window.portalField, bridged in App.svelte.
+src/*.legacy        Old vanilla JS/CSS kept as reference
+public/_redirects, _headers   Cloudflare Pages config
+README.md           dev/build/deploy instructions
+vite.config.js      PWA preserved; Svelte plugin added
+```
+
+- Dev: `pnpm dev` · Build: `pnpm build` · Typecheck: `pnpm check`
+- Build: **passes clean.** Typecheck: **0 errors**, 5 a11y warnings (non-blocking: click-on-div / form-label).
+- Hardcoded `userId = "local-user"`, `workbookId = "local-workbook"` until auth lands.
+- Placeholder portal domain: `app.ldrglprx.com`. User wants a better product name — suggestions offered: **fourm.app** (top pick), fourm.health, meridian, lodestar, apogee, vanguard.club, keystone, prologue, sentinel.
+
+### Architectural decisions made
+- Svelte 5 with runes (`$state`, `$derived`, `$effect`) — no stores unless needed
+- No router library — sidebar-driven `currentView` state in App.svelte
+- Storage is abstracted behind an interface so Supabase swap = one file change
+- Integration seams (telemed/payments/auth) exist as stubs with typed contracts
+- Weeks 2/3/4 currently use condensed stubs in renderer; full content still in `src/app.js.legacy` for progressive migration
+- PWA manifest preserved from pre-port config
+
+## What's blocking beta-testability
+User is gathering (1–2 days):
+- Telemed provider (Healthie / Spruce / iframe / other) → `integrations/telemed.ts`
+- Stripe model: one-time vs subscription; self-checkout vs invoice → `integrations/payments.ts`
+- Auth model: self-signup vs cohort-invite → `integrations/auth.ts`
+- Coach/admin view: does TJ see clients' progress? separate app or role flag?
+- Cohort mechanics (group chat? see each other?)
+- Email/SMS nudges
+- Additional content + outbound video links (add to `content/*.ts`)
+- HIPAA posture if PHI stored
+
+### When info arrives, next steps
+1. Pick auth/data backend — **Supabase** recommended (swap `LocalStorageAdapter` for `SupabaseAdapter`)
+2. Implement `auth.ts` / `payments.ts` / `telemed.ts` against chosen vendors
+3. Componentize remaining renderer page functions (bring week 2/3/4 full content over from `app.js.legacy`)
+4. Coach/admin view against mock data
+5. Connect CF Pages project — build `pnpm -C apps/clientportal build`, output `apps/clientportal/dist`
+6. Register chosen product domain, wire DNS
+
+## Deferred / editorial
+- Workbook PDF content issues flagged earlier (supplement count "4" vs 5 actual, box-breathing cadence "4-4" vs "4-4-4-4", loneliness/cold-shower citation accuracy, layout bugs on pages 5+21) — **user said skip**. Revisit during polish.
+- BPC-157 / "Doctor TJ Special" — legal handled per user; do NOT flag as risk again.
+- `website_legacy/` — delete once confident in Astro parity.
+
+## User preferences (durable)
+- Terse responses, no emojis
+- Confirm scope before big refactors
+- Don't over-engineer; no premature abstractions
+- Deployment for marketing site via `deploy.sh`, not direct CLI or CloudFormation
+- pnpm, not npm/yarn
 - No llms.txt
-- Deployment must go through `deploy.sh`, not direct CLI or CloudFormation
+
+## Git — recent commits
+```
+40ee252 Port static site to Astro with shared components and layouts
+386f7c6 Trim project CLAUDE.md
+717ac44 Migrate to Vite PWA (clientportal), Astro (website), add project rules
+73daad3 Split blog into listing + 3 article pages, add AEO bot allow-lines
+cefb6fb Add comprehensive JSON-LD structured data and FAQ sections for SEO/AEO
+```
+
+## Session-end TODO
+- Review and commit the Svelte port of `apps/clientportal/` (currently ~30 new/modified files, build passes)
+- Verify dev server looks right in a browser before committing (not done this session — build only)
+
+## User instruction at session end
+User was about to supply (days later): telemed provider choice, Stripe model, auth model, coach-view requirements, cohort mechanics, additional content + video links, and any other integrations. Pick up there.
