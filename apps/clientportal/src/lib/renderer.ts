@@ -11,7 +11,8 @@
  * renderX() functions below can be replaced by dedicated .svelte views.
  */
 
-import { factors, type Factor } from './content/factors';
+import { factors } from './content/factors';
+import type { Factor } from './content/factors';
 import { supplements } from './content/supplements';
 import { morningProtocol } from './content/morningProtocol';
 import { foodTiers, fasting } from './content/nutrition';
@@ -414,22 +415,666 @@ function renderMorn(W: Workbook): string {
   ${([1, 2, 3, 4] as const).map(w => morningTracker(W, w)).join('')}`;
 }
 
-function renderWeekStub(W: Workbook, w: 1 | 2 | 3 | 4, title: string, intro: string): string {
-  const keyPrefix = `w${w}_`;
-  return `${weekBanner(w)}
+function renderW2(W: Workbook): string {
+  const wRef = W.weekReflections;
+  const g = (k: string) => esc(wRef[k] ?? '');
+
+  const pillarActionBox = (color: string, content: string) =>
+    `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
+      <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">▶ ACTION THIS WEEK</div>
+      <div style="font-size:12px;color:#1A2E1E;line-height:1.6">${content}</div>
+    </div>`;
+
+  return `${weekBanner(2)}
+
+  <div class="card" style="background:rgba(224,92,42,.04);border:1px solid rgba(224,92,42,.18)">
+    <div style="font-size:14px;font-weight:700;color:#7A2E14;margin-bottom:6px">All 4 Pillars Continue — Week 2</div>
+    <div style="font-size:12.5px;color:#5A3020;line-height:1.7">
+      Your baseline is set. This week everything moves from measurement to action.
+      Deep focus this week is <strong>Muscle</strong> — your movement protocol and protein target.
+      All four pillars get check-ins and action items below.
+    </div>
+  </div>
+
+  <!-- MOTIVATE W2 -->
+  <div class="card" style="border-left:4px solid #6B5ED4">
+    <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Week 2 Check-In</div>
+    <div style="margin-bottom:12px">
+      <label>My WHY (from Week 1) — read it out loud right now</label>
+      <textarea style="min-height:52px;background:#F9F7FF;border-color:#C8C0F0;font-size:13px;font-style:italic"
+        placeholder="Copy your Week 1 why statement here to keep it front of mind..."
+        oninput="portalField('weekReflections.w2_why',this.value)">${g('w2_why')}</textarea>
+    </div>
+    <div class="g2" style="margin-bottom:12px">
+      <div>
+        <label>Did my Week 1 identity statement feel true?</label>
+        <textarea style="min-height:52px" placeholder="Honest reflection..."
+          oninput="portalField('weekReflections.w2_identity_check',this.value)">${g('w2_identity_check')}</textarea>
+      </div>
+      <div>
+        <label>Who is my accountability partner for this cohort?</label>
+        <input placeholder="Name and check-in method..."
+          value="${g('w2_acct')}" oninput="portalField('weekReflections.w2_acct',this.value)">
+        <div style="margin-top:6px">
+          <label>We agreed to check in every</label>
+          <input placeholder="e.g. Sunday evening by text..."
+            value="${g('w2_acct_freq')}" oninput="portalField('weekReflections.w2_acct_freq',this.value)">
+        </div>
+      </div>
+    </div>
+    ${pillarActionBox('#6B5ED4', 'Send your WHY statement to your accountability partner by Wednesday. No explanation needed — just send it. Let someone outside your own head know what you are doing and why.')}
+  </div>
+
+  <!-- MITIGATE W2 -->
+  <div class="card" style="border-left:4px solid #1D9E75">
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Top 3 Factor Actions</div>
+    <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
+      You identified your top 3 highest-scoring risk factors in Week 1.
+      This week: execute the first immediate action for each one. Track your progress at the end of the week.
+    </div>
+    ${[1, 2, 3].map(n => `
+    <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">PRIORITY FACTOR ${n}</div>
+      <div class="g2">
+        <div>
+          <label>Factor name (from your Week 1 audit)</label>
+          <input placeholder="e.g. Sleep quality..."
+            value="${g(`w2_factor${n}_name`)}"
+            oninput="portalField('weekReflections.w2_factor${n}_name',this.value)">
+        </div>
+        <div>
+          <label>Week 1 score (1–5) you gave it</label>
+          <input type="number" min="1" max="5" placeholder="1–5"
+            value="${g(`w2_factor${n}_score`)}"
+            oninput="portalField('weekReflections.w2_factor${n}_score',this.value)">
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <label>Immediate action I took this week</label>
+        <textarea style="min-height:48px" placeholder="What did you actually do?"
+          oninput="portalField('weekReflections.w2_factor${n}_action',this.value)">${g(`w2_factor${n}_action`)}</textarea>
+      </div>
+      <div style="margin-top:8px">
+        <label>End-of-week: did it move the needle? How?</label>
+        <input placeholder="Honest assessment..."
+          value="${g(`w2_factor${n}_result`)}"
+          oninput="portalField('weekReflections.w2_factor${n}_result',this.value)">
+      </div>
+    </div>`).join('')}
+    ${pillarActionBox('#1D9E75', 'One immediate action per factor. No perfect plans. Just one small move on each of your top 3. Progress compounds — even a 2/5 is better than a 1/5 by week 4.')}
+  </div>
+
+  <!-- MUSCLE W2 DEEP FOCUS -->
+  <div class="card" style="border-left:4px solid #E05C2A">
+    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Week 2 Deep Focus — Movement & Protein</div>
+    <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:#E05C2A;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
+      <div style="font-size:12.5px;color:#7A3A20;line-height:1.6">
+        <strong>Movement starts now.</strong> The KOT beginner playlist (Ben Patrick / Knees Over Toes Guy)
+        is your gym-free foundation. 3 sessions this week.
+        Protein target must be hit at least 5 out of 7 days.
+        Eating window: still 14:10 (first meal after 9am, last before 7pm).
+      </div>
+    </div>
+
+    <div class="card-title" style="font-size:10px;margin-bottom:8px">WORKOUT LOG — WEEK 2</div>
+    <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:7px">
+      ${['Exercise', 'Weight / Resistance', 'Reps / Duration', 'Notes'].map(h =>
+        `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+      ).join('')}
+    </div>
+    ${[['squat', 'Squat / goblet squat'], ['hingeRDL', 'Hip hinge / RDL'],
+       ['pushPull', 'Push + pull superset'], ['zone2', 'Zone 2 walk (minutes)'],
+       ['kotSession', 'KOT session (Y/N)']].map(([k, l]) => `
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:8px;align-items:center">
+        <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.15);border-radius:7px;
+          padding:8px 10px;font-size:11px;color:#5A3020">${l}</div>
+        ${['weight', 'reps', 'notes'].map(f => `
+          <input placeholder="${f}" style="font-size:11px"
+            value="${esc(W.trainLog[`w2_${k}_${f}`] ?? '')}"
+            oninput="portalField('trainLog.w2_${k}_${f}',this.value)">`).join('')}
+      </div>`).join('')}
+
+    <div style="margin-top:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">PROTEIN & EATING WINDOW COMPLIANCE</div>
+      <div class="g2">
+        <div>
+          <label>My protein target (from Week 1 calculator)</label>
+          <input placeholder="e.g. 165g/day" value="${g('w2_protein_target')}"
+            oninput="portalField('weekReflections.w2_protein_target',this.value)">
+        </div>
+        <div>
+          <label>Days I hit protein target (out of 7)</label>
+          <input type="number" min="0" max="7" placeholder="0–7"
+            value="${g('w2_protein_days')}"
+            oninput="portalField('weekReflections.w2_protein_days',this.value)">
+        </div>
+        <div>
+          <label>Days I held 14:10 eating window (out of 7)</label>
+          <input type="number" min="0" max="7" placeholder="0–7"
+            value="${g('w2_fasting_days')}"
+            oninput="portalField('weekReflections.w2_fasting_days',this.value)">
+        </div>
+        <div>
+          <label>Biggest nutrition win this week</label>
+          <input placeholder="What worked?"
+            value="${g('w2_nutr_win')}" oninput="portalField('weekReflections.w2_nutr_win',this.value)">
+        </div>
+      </div>
+    </div>
+
+    ${pillarActionBox('#E05C2A', `3 KOT sessions. Hit protein 5 of 7 days. Hold your 14:10 window.
+      These three numbers are the only scorecard that matters this week.
+      <a class="res-pill" href="https://www.youtube.com/c/TheKneesovertoesguy"
+        target="_blank" style="margin-left:8px">KOT Playlist ↗</a>`)}
+  </div>
+
+  <!-- MIND W2 -->
+  <div class="card" style="border-left:4px solid #2E7FD9">
+    <div class="card-title" style="color:#2E7FD9">🔵 M3 — MIND: Week 2 Cognitive Check-In</div>
+    <div class="g3" style="margin-bottom:14px">
+      ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
+        <div>
+          <label>W2 ${l} (1–10)</label>
+          <input type="number" min="1" max="10" placeholder="1–10"
+            value="${esc(W.cogRatings[`w2_${k}`] ?? '')}"
+            oninput="portalField('cogRatings.w2_${k}',this.value)">
+          <div style="font-size:9px;color:#8AB89A;margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
+        </div>`).join('')}
+    </div>
+
+    <div style="margin-bottom:12px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">WEEK 2 SUPPLEMENT COMPLIANCE</div>
+      ${['The Doctor TJ Special (BPC-157 + L-Glutamine)', 'Magnesium Glycinate 300–400mg before bed'].map((name, i) => {
+        const key = `w2s${i}`;
+        const resp = W.supplements[key]?.response ?? '';
+        return `<div style="display:flex;justify-content:space-between;align-items:center;
+          padding:9px 0;border-bottom:1px solid #E8F0E8">
+          <div style="font-size:12px;color:#1A2E1E">${esc(name)}</div>
+          <div style="display:flex;gap:5px">
+            ${(['Yes', 'No'] as const).map(v => `
+              <button class="btn xs"
+                style="background:${resp === v ? (v === 'Yes' ? '#1D9E75' : '#E8E8E8') : '#FFFFFF'};
+                  color:${resp === v ? '#fff' : '#4A7A54'};
+                  border-color:${resp === v ? (v === 'Yes' ? '#1D9E75' : '#999') : '#D8E8DC'}"
+                onclick="portalAction('setSupp','${key}','${v}')">${v}</button>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div>
+      <label>Am I noticing anything different? Sleep, energy, digestion, focus — anything?</label>
+      <textarea style="min-height:58px" placeholder="Honest early observations only. No judgment."
+        oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
+    </div>
+
+    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Doctor TJ Special + Magnesium Glycinate).
+      <strong>Week 2 — Add: Omega-3 fish oil</strong> (2–3g EPA/DHA daily, with a meal) + <strong>D3/K2</strong> (5,000 IU D3 + 100mcg K2-MK7, with a fatty meal).
+      Score your cognitive triad (focus / memory / mood) on Sunday.
+      Download the dual n-back app and complete your first session before Saturday.`)}
+  </div>
+
+  ${morningTracker(W, 2)}
+
   <div class="card">
-    <div class="card-title">${title}</div>
-    <div style="font-size:12.5px;color:#3A5A44;line-height:1.7;margin-bottom:14px">${intro}</div>
-    <div class="card-title">Weekly Reflection</div>
-    ${[['motivate', 'MOTIVATE reflection'], ['mitigate', 'MITIGATE reflection'],
-       ['muscle', 'MUSCLE reflection'], ['mind', 'MIND reflection']
+    <div class="card-title">Week 2 Reflection — All 4 Pillars</div>
+    ${[['w2_motivate_ref', 'MOTIVATE: Did sharing your WHY make it feel more real?'],
+       ['w2_mitigate_ref', 'MITIGATE: Which factor action was hardest to start?'],
+       ['w2_muscle_ref', 'MUSCLE: How did your body feel after your first KOT sessions?'],
+       ['w2_mind_ref', 'MIND: Any early signals from supplements or sleep quality change?']
     ].map(([k, l]) => `
       <div style="margin-bottom:12px">
         <label>${l}</label>
-        <textarea oninput="portalField('weekReflections.${keyPrefix}${k}_ref',this.value)">${esc(W.weekReflections[`${keyPrefix}${k}_ref`] ?? '')}</textarea>
+        <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
       </div>`).join('')}
+  </div>`;
+}
+
+function renderW3(W: Workbook): string {
+  const wRef = W.weekReflections;
+  const g = (k: string) => esc(wRef[k] ?? '');
+  const { supplements } = W;
+
+  const pillarActionBox = (color: string, content: string) =>
+    `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
+      <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">▶ ACTION THIS WEEK</div>
+      <div style="font-size:12px;color:#1A2E1E;line-height:1.6">${content}</div>
+    </div>`;
+
+  return `${weekBanner(3)}
+
+  <div class="card" style="background:rgba(46,127,217,.04);border:1px solid rgba(46,127,217,.18)">
+    <div style="font-size:14px;font-weight:700;color:#0C447C;margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
+    <div style="font-size:12.5px;color:#1A3050;line-height:1.7">
+      Two weeks in. This is where it gets real. Deep focus this week is <strong>Mind</strong> —
+      we introduce the full 7-supplement brain stack.
+      Every other pillar gets a mid-month check-in and upgraded actions.
+    </div>
   </div>
-  ${morningTracker(W, w)}`;
+
+  <!-- MOTIVATE W3 -->
+  <div class="card" style="border-left:4px solid #6B5ED4">
+    <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Momentum & Obstacles</div>
+    <div class="g2" style="margin-bottom:12px">
+      <div>
+        <label>My biggest win from the first 2 weeks</label>
+        <textarea style="min-height:52px" placeholder="Something that actually happened..."
+          oninput="portalField('weekReflections.w3_big_win',this.value)">${g('w3_big_win')}</textarea>
+      </div>
+      <div>
+        <label>The hardest obstacle I ran into</label>
+        <textarea style="min-height:52px" placeholder="Be specific — what exactly got in the way?"
+          oninput="portalField('weekReflections.w3_obstacle',this.value)">${g('w3_obstacle')}</textarea>
+      </div>
+    </div>
+    <div style="margin-bottom:12px">
+      <label>What did I do when I missed a day or fell short? Did I get back on track?</label>
+      <textarea style="min-height:52px" placeholder="The recovery pattern matters more than perfection..."
+        oninput="portalField('weekReflections.w3_recovery',this.value)">${g('w3_recovery')}</textarea>
+    </div>
+    <div style="margin-bottom:12px">
+      <label>My identity is evolving — complete this sentence: "The man I am becoming..."</label>
+      <textarea style="min-height:52px;font-size:13px;font-style:italic;border-color:#C8C0F0"
+        placeholder="The man I am becoming..."
+        oninput="portalField('weekReflections.w3_identity_evolve',this.value)">${g('w3_identity_evolve')}</textarea>
+    </div>
+    ${pillarActionBox('#6B5ED4', 'Share your Week 3 identity sentence with your accountability partner. Tell someone what you are actually doing — not just that you are "eating better." Specifics only.')}
+  </div>
+
+  <!-- MITIGATE W3 -->
+  <div class="card" style="border-left:4px solid #1D9E75">
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Mid-Month Factor Progress</div>
+    <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
+      Progress-check your top 3 factors from Week 1.
+      Rescore each one based on what you have actually done. Then identify your next step.
+    </div>
+    ${[1, 2, 3].map(n => `
+    <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">FACTOR ${n} — MID-MONTH UPDATE</div>
+      <div class="g2" style="margin-bottom:8px">
+        <div>
+          <label>Factor name</label>
+          <input placeholder="Same as Week 1..." value="${g(`w3_factor${n}_name`) || g(`w2_factor${n}_name`)}"
+            oninput="portalField('weekReflections.w3_factor${n}_name',this.value)">
+        </div>
+        <div>
+          <label>Re-score this factor (1–5)</label>
+          <input type="number" min="1" max="5" placeholder="Better than Week 1?"
+            value="${g(`w3_factor${n}_rescore`)}"
+            oninput="portalField('weekReflections.w3_factor${n}_rescore',this.value)">
+        </div>
+      </div>
+      <div>
+        <label>What specifically changed? What is still stuck?</label>
+        <textarea style="min-height:44px" placeholder="Honest update..."
+          oninput="portalField('weekReflections.w3_factor${n}_progress',this.value)">${g(`w3_factor${n}_progress`)}</textarea>
+      </div>
+      <div style="margin-top:8px">
+        <label>Next concrete action — before Week 4 check-in</label>
+        <input placeholder="Specific, time-bound action..."
+          value="${g(`w3_factor${n}_next`)}"
+          oninput="portalField('weekReflections.w3_factor${n}_next',this.value)">
+      </div>
+    </div>`).join('')}
+    ${pillarActionBox('#1D9E75', 'Rescore all three factors. Even a half-point improvement is real progress. Focus your Week 4 deep-dive on whichever factor has moved the least.')}
+  </div>
+
+  <!-- MUSCLE W3 -->
+  <div class="card" style="border-left:4px solid #E05C2A">
+    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Mid-Month Body Check + Progression</div>
+
+    <div style="margin-bottom:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">MID-MONTH BODY COMPOSITION CHECK</div>
+      <div class="g2">
+        ${[['weight_w3', 'Body weight (lbs)'], ['waist_w3', 'Waist at navel (in)'],
+           ['energy_w3', 'Morning energy (1–10)'], ['sleep_w3', 'Sleep quality (1–10)']].map(([k, l]) => `
+          <div>
+            <label>${l}</label>
+            <input placeholder="Week 3 measurement..." value="${g(k)}"
+              oninput="portalField('weekReflections.${k}',this.value)">
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">STRENGTH PROGRESSION — WEEK 3</div>
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:7px">
+        ${['Exercise', 'Weight', 'Reps', 'vs Week 1?'].map(h =>
+          `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+        ).join('')}
+      </div>
+      ${[['squat3', 'Squat / goblet squat'], ['hinge3', 'Hip hinge / RDL'],
+         ['push3', 'Push / pull'], ['zone2_3', 'Zone 2 cardio (min)']].map(([k, l]) => `
+        <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:8px;align-items:center">
+          <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.15);border-radius:7px;
+            padding:8px 10px;font-size:11px;color:#5A3020">${l}</div>
+          ${['weight', 'reps', 'progress'].map(f => `
+            <input placeholder="${f}" style="font-size:11px"
+              value="${esc(W.trainLog[`w3_${k}_${f}`] ?? '')}"
+              oninput="portalField('trainLog.w3_${k}_${f}',this.value)">`).join('')}
+        </div>`).join('')}
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">FASTING WINDOW UPGRADE</div>
+      <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:#7A3A20;margin-bottom:4px">Still on 14:10 → Optional 16:8 trial</div>
+        <div style="font-size:11.5px;color:#9A5A40;line-height:1.6">
+          If your 14:10 window felt easy last week, try 16:8 for 2–3 days this week
+          (first meal after 11am, last before 7pm). Not required — only if 14:10 feels effortless.
+        </div>
+      </div>
+      <div class="g2">
+        <div>
+          <label>Days I attempted 16:8 this week</label>
+          <input type="number" min="0" max="7" placeholder="0 = staying at 14:10"
+            value="${g('w3_1628_days')}" oninput="portalField('weekReflections.w3_1628_days',this.value)">
+        </div>
+        <div>
+          <label>How did it feel?</label>
+          <input placeholder="Energy, hunger, mood impact..."
+            value="${g('w3_1628_feel')}" oninput="portalField('weekReflections.w3_1628_feel',this.value)">
+        </div>
+      </div>
+    </div>
+
+    ${pillarActionBox('#E05C2A', '4 sessions this week (adding one from Week 2). Record your progressions. Try at least 2 days of optional 16:8 if 14:10 has felt easy.')}
+  </div>
+
+  <!-- MIND W3 DEEP FOCUS -->
+  <div class="card" style="border-left:4px solid #2E7FD9">
+    <div class="card-title" style="color:#2E7FD9">🔵 M3 — MIND: Week 3 Deep Focus — Full Supplement Stack</div>
+
+    <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:#2E7FD9;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
+      <div style="font-size:12.5px;color:#1A3050;line-height:1.6">
+        Week 3 is when we complete the Month 1 supplement stack. You have been running the Doctor TJ Special + Magnesium for two weeks, and added Omega-3 + D3/K2 in Week 2.
+        <strong>Week 3 — Add: Methylated B Complex</strong> (B6 as P-5-P, B12 as methylcobalamin, folate as methylfolate — methylated forms only for best absorption).
+        This completes your 4-supplement Month 1 stack. Additional supplements introduced in Month 2.
+      </div>
+    </div>
+
+    <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 1 COMPLETE SUPPLEMENT STACK (4 SUPPLEMENTS)</div>
+    <div style="display:grid;grid-template-columns:1.8fr 0.9fr 0.9fr 0.7fr;gap:8px;padding:8px 0;margin-bottom:4px">
+      ${['Supplement', 'Dose', 'Timing', 'Taking?'].map(h =>
+        `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+      ).join('')}
+    </div>
+    ${renderSupplementsPanel(W)}
+
+    <div style="margin-top:16px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">COGNITIVE PERFORMANCE — WEEKLY SCORES</div>
+      <div style="font-size:12px;color:#3A6A44;margin-bottom:10px">
+        Score focus, memory, and mood every Sunday evening (1–10). The trend across 4 weeks is your data.
+      </div>
+      ${[1, 2, 3, 4].map(w => `
+        <div style="margin-bottom:13px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#4A7A54;margin-bottom:7px">WEEK ${w}</div>
+          <div class="g3">
+            ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
+              <div>
+                <label>${l}</label>
+                <input type="number" min="1" max="10" placeholder="1–10"
+                  value="${esc(W.cogRatings[`w${w}_${k}`] ?? '')}"
+                  oninput="portalField('cogRatings.w${w}_${k}',this.value)">
+              </div>`).join('')}
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <div style="margin-top:12px">
+      <label>What cognitive changes have I noticed across the first 3 weeks?</label>
+      <textarea style="min-height:58px" placeholder="Sleep quality, energy on waking, afternoon focus, stress tolerance..."
+        oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
+    </div>
+
+    ${pillarActionBox('#2E7FD9', `Add your final Month 1 supplement: <strong>methylated B Complex</strong>. Your Month 1 stack is now complete — 4 supplements total. Take B Complex with breakfast. Additional supplements (Lion's Mane, Bacopa, Phosphatidylserine) begin in Month 2. Continue dual n-back 3–4× per week.`)}
+  </div>
+
+  ${morningTracker(W, 3)}
+
+  <div class="card">
+    <div class="card-title">Week 3 Reflection — All 4 Pillars</div>
+    ${[['w3_motivate_ref', 'MOTIVATE: How has your sense of identity shifted in 3 weeks?'],
+       ['w3_mitigate_ref', 'MITIGATE: Which factor showed the most improvement?'],
+       ['w3_muscle_ref', 'MUSCLE: Am I stronger or more capable than Week 1?'],
+       ['w3_mind_ref', 'MIND: What is my body telling me about the new supplements?']
+    ].map(([k, l]) => `
+      <div style="margin-bottom:12px">
+        <label>${l}</label>
+        <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
+      </div>`).join('')}
+  </div>`;
+}
+
+function renderW4(W: Workbook): string {
+  const wRef = W.weekReflections;
+  const g = (k: string) => esc(wRef[k] ?? '');
+
+  const pillarActionBox = (color: string, content: string) =>
+    `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
+      <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">▶ ACTION THIS WEEK</div>
+      <div style="font-size:12px;color:#1A2E1E;line-height:1.6">${content}</div>
+    </div>`;
+
+  const metrics: [string, string][] = [
+    ['Mitigate audit score (/70)', 'audit'],
+    ['Body weight (lbs)', 'weight'],
+    ['Waist at navel (in)', 'waist'],
+    ['Morning energy (1–10)', 'energy'],
+    ['Afternoon focus (1–10)', 'focus'],
+    ['Sleep quality (1–10)', 'sleep'],
+    ['Mood rating (1–10)', 'mood'],
+    ['Squat baseline', 'squat'],
+    ['Morning protocol (days/wk)', 'mornDays'],
+    ['Cold shower (days/wk)', 'coldDays']
+  ];
+
+  const factorList: Factor[] = factors;
+
+  return `${weekBanner(4)}
+
+  <div class="card" style="background:rgba(107,94,212,.05);border:1px solid rgba(107,94,212,.2)">
+    <div style="font-size:14px;font-weight:700;color:#3C3489;margin-bottom:6px">Month 1 Completion — All 4 Pillars</div>
+    <div style="font-size:12.5px;color:#3A3070;line-height:1.7">
+      This is the final week of Month 1. Deep focus this week is <strong>Motivate</strong> —
+      locking in your identity and committing to Month 2.
+      Every other pillar gets a final check-in, re-audit, and Month 2 plan.
+    </div>
+  </div>
+
+  <!-- MOTIVATE W4 DEEP FOCUS -->
+  <div class="card" style="border-left:4px solid #6B5ED4">
+    <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Week 4 Deep Focus — Identity & Month 2 Vision</div>
+    <div style="background:rgba(107,94,212,.06);border:1px solid rgba(107,94,212,.2);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:#6B5ED4;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
+      <div style="font-size:12.5px;color:#4A3A80;line-height:1.6">
+        The man who finishes Month 1 is not the same man who started it.
+        This week you name that man, commit to Month 2, and declare who you are becoming.
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">IDENTITY STATEMENT — Month 1 Final</div>
+      <div style="font-size:11.5px;color:#4A7A54;margin-bottom:10px">Write in present tense. "I am a man who..." — not "I will try to..."</div>
+      <textarea style="min-height:80px;border-color:#6B5ED455;font-size:14px"
+        placeholder="I am a man who..."
+        oninput="portalField('identityStatement',this.value)">${esc(W.identityStatement)}</textarea>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">MY 3 BIGGEST WINS FROM MONTH 1</div>
+      ${[0, 1, 2].map(i => `
+        <div style="margin-bottom:10px">
+          <label>Win ${i + 1}</label>
+          <input value="${esc(W.month1Wins[i] ?? '')}" placeholder="Describe this win..."
+            oninput="portalField('month1Wins.${i}',this.value)">
+        </div>`).join('')}
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 2 COMMITMENT</div>
+      ${[['training', 'Training plan — 3 days/week + Zone 2'],
+         ['nutrition', 'Nutrition focus (moving to 16:8 fasting — first meal after 11am)'],
+         ['supplements', 'Supplements to continue or add in Month 2'],
+         ['cognitive', 'Cognitive practice — dual n-back and reading schedule'],
+         ['accountability', 'Accountability partner and weekly check-in plan']
+      ].map(([k, l]) => `
+        <div style="margin-bottom:11px">
+          <label>${l}</label>
+          <input value="${esc(W.month2[k as keyof typeof W.month2] ?? '')}" placeholder="${l}..."
+            oninput="portalField('month2.${k}',this.value)">
+        </div>`).join('')}
+    </div>
+
+    <div style="border:2px solid #6B5ED455;border-radius:10px;padding:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px;color:#6B5ED4">GRADUATION COMMITMENT — Read Aloud on the Final Call</div>
+      <textarea style="min-height:85px;border-color:#6B5ED444;font-size:13.5px"
+        placeholder="Write your graduation commitment here..."
+        oninput="portalField('graduation',this.value)">${esc(W.graduation)}</textarea>
+      <div style="margin-top:13px;padding:12px 14px;background:rgba(107,94,212,.07);
+        border-radius:8px;font-size:11.5px;color:#7060A8;font-style:italic;text-align:center;line-height:1.6">
+        "In completing Month 1 of the 4M program I commit to continuing my brain optimization practice because the man I am becoming is worth protecting."
+      </div>
+    </div>
+  </div>
+
+  <!-- MITIGATE W4 RE-AUDIT -->
+  <div class="card" style="border-left:4px solid #1D9E75">
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — All 14 Factors</div>
+    <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
+      Score every factor again using the same 1–5 scale from Week 1.
+      Compare your final audit score to your baseline to see how far you moved in 30 days.
+      Week 1 scores are <strong>auto-populated from your original audit</strong> — no manual entry needed.
+    </div>
+
+    <div style="background:#F5FAF6;border:1.5px solid #1D9E7533;border-radius:10px;padding:14px 16px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:13px;font-weight:700;color:#1A3A20">Side-by-Side Audit Comparison</div>
+        <div style="display:flex;gap:12px;font-size:11px">
+          <span style="color:#6A8A6E">Week 1 total: <strong style="color:#1D9E75">${auditTotal(W)} / ${auditFilled(W) * 5}</strong></span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:0;font-size:10.5px">
+        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#3A6A44;border-radius:6px 0 0 0">Factor</div>
+        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#3A6A44;text-align:center">Week 1</div>
+        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#6B5ED4;text-align:center">Week 4</div>
+        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#E05C2A;text-align:center;border-radius:0 6px 0 0">Δ</div>
+        ${factorList.map((f, i) => {
+          const bg = i % 2 === 0 ? '#FFFFFF' : '#F8FBF8';
+          const w1: number | '' = W.factorScores[String(f.n)] || '';
+          const w4: number | '' = W.w4audit[String(f.n)] || '';
+          const delta: number | '' = w1 !== '' && w4 !== '' ? (w4 - w1) : '';
+          const color = delta === '' ? '#3A5A42' : (Number(delta) < 0 ? '#1D9E75' : Number(delta) > 0 ? '#E05C2A' : '#3A5A42');
+          return `<div style="padding:6px 8px;background:${bg};color:#1A3A20">${f.n}. ${esc(f.name)}</div>
+            <div style="padding:6px 8px;background:${bg};text-align:center;color:#5A8A64">${w1 || '—'}</div>
+            <div style="padding:6px 8px;background:${bg};text-align:center"><input style="width:40px;text-align:center" value="${esc(String(w4))}" placeholder="—" oninput="portalField('w4audit.${f.n}',this.value)"></div>
+            <div style="padding:6px 8px;background:${bg};text-align:center;color:${color};font-weight:700">${delta === '' ? '—' : (Number(delta) > 0 ? '+' : '') + delta}</div>`;
+        }).join('')}
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#6A8A6E">
+        Score 1–5 per factor. &nbsp; <strong>1 = fully addressed</strong> &nbsp;·&nbsp; <strong>5 = major risk still present</strong> &nbsp;·&nbsp; Lower Week 4 score = improvement.
+      </div>
+    </div>
+
+    <div>
+      <label>Which factor showed the most improvement over 30 days?</label>
+      <input placeholder="Factor name and what changed..."
+        value="${g('w4_most_improved')}" oninput="portalField('weekReflections.w4_most_improved',this.value)">
+    </div>
+    <div style="margin-top:10px">
+      <label>Which factor still needs the most work in Month 2?</label>
+      <input placeholder="Factor name and why it is still sticky..."
+        value="${g('w4_needs_work')}" oninput="portalField('weekReflections.w4_needs_work',this.value)">
+    </div>
+
+    ${pillarActionBox('#1D9E75', 'Complete the full re-audit. Your score improvement is the concrete evidence that the work is real. Carry your lowest-scoring factors forward as Month 2 priorities.')}
+  </div>
+
+  <!-- MUSCLE W4 -->
+  <div class="card" style="border-left:4px solid #E05C2A">
+    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Month 1 Progress Comparison</div>
+    <div style="font-size:12.5px;color:#5A3020;margin-bottom:12px;line-height:1.6">
+      Enter your Week 4 numbers. Week 1 baselines pull from your earlier entries.
+    </div>
+    <div style="overflow-x:auto">
+      <table class="compare-table">
+        <thead><tr style="background:rgba(224,92,42,.1)">
+          ${['Metric', 'Week 1', 'Week 4', 'Change', 'Direction'].map(h =>
+            `<th style="color:#7A3A20">${h}</th>`).join('')}
+        </tr></thead>
+        <tbody>
+          ${metrics.map(([label, key], i) => {
+            const w1 = (W.bodyBaseline as unknown as Record<string, string>)[key] ?? '';
+            const w4 = (W.w4 as unknown as Record<string, string>)[key] ?? '';
+            const diff = w1 && w4 ? (Number(w4) - Number(w1)).toFixed(1) : '';
+            const better = ['waist', 'weight'].includes(key) ? Number(diff) < 0 : Number(diff) > 0;
+            return `<tr style="background:${i % 2 === 0 ? '#FFFFFF' : '#FFF8F5'}">
+              <td style="color:#1A3A20">${label}</td>
+              <td style="color:#5A8A64">${w1 || '—'}</td>
+              <td><input value="${esc(w4)}" placeholder="Enter..."
+                oninput="portalField('w4.${key}',this.value)"></td>
+              <td style="color:${diff ? (better ? '#1D9E75' : '#E05C2A') : '#3A5A42'};font-weight:${diff ? '700' : '400'}">
+                ${diff || '—'}
+              </td>
+              <td style="color:${diff ? (better ? '#1D9E75' : '#E05C2A') : '#3A5A42'}">
+                ${diff ? (better ? '↑ Better' : '↓ Check') : '—'}
+              </td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+    ${pillarActionBox('#E05C2A', 'Record all your Week 4 measurements. Compare honestly. Strength and waist measurement are more meaningful than scale weight at this stage.')}
+  </div>
+
+  <!-- MIND W4 -->
+  <div class="card" style="border-left:4px solid #2E7FD9">
+    <div class="card-title" style="color:#2E7FD9">🔵 M3 — MIND: Month 1 Cognitive Wrap-Up</div>
+    <div style="margin-bottom:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">FINAL COGNITIVE SCORES — WEEK 4</div>
+      <div class="g3">
+        ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
+          <div>
+            <label>W4 ${l} (1–10)</label>
+            <input type="number" min="1" max="10" placeholder="1–10"
+              value="${esc(W.cogRatings[`w4_${k}`] ?? '')}"
+              oninput="portalField('cogRatings.w4_${k}',this.value)">
+            <div style="font-size:9px;color:#8AB89A;margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label>Which supplement or practice made the most noticeable cognitive difference?</label>
+      <input placeholder="Be specific — what did you actually notice?"
+        value="${g('w4_best_supp')}" oninput="portalField('weekReflections.w4_best_supp',this.value)">
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label>My supplement routine for Month 2 — what stays, what changes?</label>
+      <textarea style="min-height:52px" placeholder="Build on what worked..."
+        oninput="portalField('weekReflections.w4_supp_plan',this.value)">${g('w4_supp_plan')}</textarea>
+    </div>
+
+    ${pillarActionBox('#2E7FD9', 'Score all 4 weeks in the cognitive tracker. The trend line is your Month 1 story. Decide which supplements are locked in for Month 2 and write it down.')}
+  </div>
+
+  ${morningTracker(W, 4)}
+
+  <div class="card" style="border:2px solid rgba(107,94,212,.2)">
+    <div class="card-title">Month 1 Final Reflection — All 4 Pillars</div>
+    ${[['w4_motivate_ref', 'MOTIVATE: In one sentence — who is the man who completed Month 1?'],
+       ['w4_mitigate_ref', 'MITIGATE: How many points did your audit score improve?'],
+       ['w4_muscle_ref', 'MUSCLE: What is the most significant physical change you feel or see?'],
+       ['w4_mind_ref', 'MIND: What cognitive change are you most proud of from Month 1?']
+    ].map(([k, l]) => `
+      <div style="margin-bottom:12px">
+        <label>${l}</label>
+        <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
+      </div>`).join('')}
+  </div>`;
 }
 
 function renderNutr(W: Workbook): string {
@@ -532,13 +1177,10 @@ export function renderPage(ctx: RenderContext): string {
   switch (ctx.curTab) {
     case 'w1': return renderW1(ctx);
     case 'morn': return renderMorn(ctx.W);
-    case 'w2': return renderWeekStub(ctx.W, 2, 'Week 2 — Build the Foundation',
-      'Your baseline is set. This week everything moves from measurement to action. Deep focus this week is Muscle — your movement protocol and protein target.');
+    case 'w2': return renderW2(ctx.W);
     case 'nutr': return renderNutr(ctx.W);
-    case 'w3': return renderWeekStub(ctx.W, 3, 'Week 3 — Deepen the Work',
-      'Mid-month deep work. Deep focus this week is Mind — we introduce the full 7-supplement brain stack.');
-    case 'w4': return renderWeekStub(ctx.W, 4, 'Week 4 — Integration & Identity',
-      'Final week of Month 1. Deep focus is Motivate — locking in your identity and committing to Month 2.');
+    case 'w3': return renderW3(ctx.W);
+    case 'w4': return renderW4(ctx.W);
     case 'regen': return renderRegen(ctx.W);
     case 'dash':
     default: return renderDash(ctx.W);
