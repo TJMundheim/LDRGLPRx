@@ -5,8 +5,12 @@
     stats: { audit: string; score: string; morn: string; cold: string };
     discoveryActive?: boolean;
     pricingActive?: boolean;
+    userRole?: 'patient' | 'clinician' | 'admin';
+    adminActive?: boolean;
   }
-  let { navHtml, name, stats, discoveryActive = false, pricingActive = false }: Props = $props();
+  let { navHtml, name, stats, discoveryActive = false, pricingActive = false, userRole, adminActive = false }: Props = $props();
+
+  const isStaff = $derived(userRole === 'admin' || userRole === 'clinician');
 </script>
 
 <div class="sidebar" id="sidebar">
@@ -35,6 +39,19 @@
       ◈ Pricing & Tiers
     </button>
   </div>
+
+  {#if isStaff}
+    <div class="discovery-nav admin-nav">
+      <button
+        class="discovery-btn admin-btn"
+        class:discovery-active={adminActive}
+        onclick={() => { (window as Window & { portalAction?: (a: string, ...args: unknown[]) => void }).portalAction?.('goTo', 'admin'); }}
+        aria-current={adminActive ? 'page' : undefined}
+      >
+        ⬡ Admin Queue
+      </button>
+    </div>
+  {/if}
 
   <div id="nav-items">{@html navHtml}</div>
   <div class="sb-stats" style="margin-top:8px">
@@ -83,4 +100,15 @@
     outline: 2px solid #4a9eff;
     outline-offset: 2px;
   }
+
+  .admin-nav {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 8px;
+    margin-top: 6px;
+    border-bottom: none;
+  }
+
+  .admin-btn { color: #c8a8ff; }
+  .admin-btn:hover { background: rgba(200,168,255,0.1); color: #c8a8ff; }
+  .admin-btn.discovery-active { background: rgba(200,168,255,0.15); color: #c8a8ff; }
 </style>

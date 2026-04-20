@@ -1,6 +1,6 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-04-19 (late evening session).
+Last updated: 2026-04-19 (late evening + overnight autonomous push).
 
 ## Repo layout
 ```
@@ -91,22 +91,54 @@ LDRGLPRx/
 - `pnpm -C apps/clientportal check` — 0 errors, a few Svelte a11y warnings (pre-existing + some new benign ones)
 - `pnpm -C apps/clientportal build` — passes, ~230KB JS / ~40KB CSS gzipped
 
+### Added in overnight autonomous push
+
+**Outcome capture UI**
+- `src/lib/data/schema.ts` — extended `Workbook` with `weeklyOutcomes?: WeeklyOutcome[]`
+- `src/lib/content/outcomeQuestions.ts` — maps protocol slugs to which outcome domains to ask about
+- `src/lib/components/outcomes/OutcomeCheckIn.svelte` — weekly slider form
+- `src/lib/components/outcomes/OutcomeTrendChart.svelte` — SVG line chart, no deps
+- `src/lib/components/outcomes/OutcomePanel.svelte` — container w/ due-check-in indicator
+
+**Coach/admin view**
+- `src/lib/integrations/auth.ts` — added `role?: 'patient' | 'clinician' | 'admin'` (dev stub = admin)
+- `src/lib/data/adminQueue.ts` — QueueItem types + `getPendingQueue()` + `resolveQueueItem()` (5 seed items, localStorage-backed)
+- `src/lib/components/admin/AdminDashboard.svelte` — urgency + patient + intake stat cards
+- `src/lib/components/admin/QueueList.svelte` — approve/edit/defer/escalate workflow
+- `src/lib/components/admin/PatientOverview.svelte` — de-identified patient detail
+- Admin nav entry hides for non-admin/clinician roles
+
+**Anthropic coach proxy Lambda**
+- `lambdas/coach-proxy/src/handler.ts` — 68-line handler, API Gateway event, calls Anthropic SDK
+- `lambdas/coach-proxy/package.json` + `tsconfig.json` + `README.md`
+- `lambdas/coach-proxy/infra/deploy.sh` — esbuild + zip + commented AWS CLI
+- `apps/clientportal/src/lib/integrations/coach.ts` — rewired to POST to proxy via `VITE_COACH_PROXY_URL`; falls back to clinician-escalation on error; tier-based model selection (opus for concierge, sonnet otherwise)
+
+**Website deploy skeleton**
+- `website/deploy.sh` — `pnpm build` + S3 sync + CloudFront invalidation. Exits 1 with friendly error until `DOMAIN` / `BUCKET` / `DISTRIBUTION_ID` are filled in.
+
+**Tests**
+- `apps/clientportal/package.json` — added vitest devDep + `test` script
+- `src/lib/intake/router.test.ts` — 10 tests covering BiomeAxisForge default-on, meniscus → Genesis RPA, post-concussion clinician flag, BMI → GLP-1, APOE memory → biomarkers, tier escalation, SI screener → concierge
+- `src/lib/intake/report.test.ts` — 3 tests covering tier flow, cart totals, clinician flags
+- All 13 tests pass
+
 ### Still pending on portal
 - **Integration wiring** (all stubs):
   - `integrations/auth.ts` → Supabase (recommended) or alternative
   - `integrations/payments.ts` → Stripe (need account, price IDs, webhook secret)
   - `integrations/telemed.ts` → vendor TBD (Healthie / Spruce / iframe)
-  - `integrations/coach.ts` → `@anthropic-ai/sdk` via server proxy (client-side key would leak)
+  - `integrations/coach.ts` → deploy the Lambda (already built) and set `VITE_COACH_PROXY_URL`
 - **AI avatar video** — user to provide deck rendered through HeyGen/Synthesia; drop URL into AvatarPlaceholder
 - **Pharmacy partner API** — MD Specialty Group for Rx fulfillment (BiomeAxisForge, SleepRestore, ArmorVita, NeuroBridge, peptides)
 - **Mobile provider API** — Genesis RPA scheduling + administration tracking
 - **Lab vendor** — Rupa Health or Evexia for direct-to-consumer lab ordering
-- **Legacy Week 2/3/4 content** — still in `src/app.js.legacy`, not yet ported to typed content modules
+- **Legacy Week 2/3/4 content** — still in `src/app.js.legacy`, not yet ported to typed content modules (overnight attempt timed out; punt to next session)
 - **Cohort dates** — hardcoded placeholder `[DATE]` strings; needs CMS/config
 - **Product photography / illustrations** — none yet; placeholders throughout
-- Coach/admin view for TJ — not started
-- Outcome capture (weekly symptom scores feeding coach + testimonials) — schema fields present, UI not built
 - Re-test scheduling (auto lab re-order cadence) — not built
+- Full patient list + search for admin view (currently mock)
+- IaC (CloudFormation/CDK/Terraform) in `infra/` to deploy the Lambda + API Gateway
 
 ## Marketing site — `website/` — current state
 

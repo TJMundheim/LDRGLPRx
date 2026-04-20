@@ -140,8 +140,28 @@ export interface Workbook {
   /** True once the Genesis RPA intro bonus module at end of Month 1 has been seen. */
   rpaIntroSeen?: boolean;
 
+  /** Weekly symptom outcome check-ins. */
+  weeklyOutcomes?: WeeklyOutcome[];
+
   createdAt: string;
   updatedAt: string;
+}
+
+// ── Weekly outcome tracking ────────────────────────────────────────────────
+
+export type OutcomeDomainKey =
+  | 'bloat' | 'stool_quality' | 'brain_fog' | 'mood' | 'sleep_quality'
+  | 'energy' | 'focus' | 'joint_pain' | 'libido';
+
+export interface WeeklyOutcome {
+  /** ISO week string, e.g. "2026-W16" */
+  weekISO: string;
+  month: 1 | 2 | 3 | 4 | 'maintenance';
+  week: number;
+  /** Domain slug → score 0–10 */
+  scores: Partial<Record<OutcomeDomainKey, number>>;
+  freeText?: string;
+  submittedAt: number;
 }
 
 export function createEmptyWorkbook(id: string, userId: string): Workbook {

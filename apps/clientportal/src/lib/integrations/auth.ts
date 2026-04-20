@@ -9,6 +9,7 @@ export interface User {
   id: string;
   email: string;
   cohortId?: string;
+  role?: 'patient' | 'clinician' | 'admin';
 }
 
 /** Initiates a sign-in flow (magic link / OAuth). */
@@ -24,7 +25,8 @@ export async function signOut(): Promise<void> {
 /** Returns the current user, if any. */
 export async function currentUser(): Promise<User | null> {
   // During beta, return a local anonymous user so the app is usable offline.
-  return { id: 'local-user', email: 'local@clientportal' };
+  // TODO: remove default role:'admin' once real auth wires up — role must come from the auth token.
+  return { id: 'local-user', email: 'local@clientportal', role: 'admin' };
 }
 
 /** Whether there is a signed-in user. */

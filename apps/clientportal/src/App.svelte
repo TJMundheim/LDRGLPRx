@@ -8,6 +8,8 @@
   import Sidebar from './lib/components/Sidebar.svelte';
   import DiscoveryFlow from './lib/components/discovery/DiscoveryFlow.svelte';
   import PricingPage from './lib/components/tiers/PricingPage.svelte';
+  import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
+  import { currentUser } from './lib/integrations/auth';
 
   // ── State ───────────────────────────────────────────────
   // Single-workbook mode during beta; auth wiring will supply real ids.
@@ -16,6 +18,8 @@
 
   let workbook = $state<Workbook>(createEmptyWorkbook(WORKBOOK_ID, USER_ID));
   let curTab = $state('dash');
+  let userRole = $state<'patient' | 'clinician' | 'admin' | undefined>(undefined);
+  let currentView = $state<'workbook' | 'admin'>('workbook');
   let showDiscovery = $state(
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'discovery'
   );
@@ -92,6 +96,16 @@
   }
 
   function goTo(id: string, params?: Record<string, string>): void {
+    if (id === 'admin') {
+      if (userRole === 'admin' || userRole === 'clinician') {
+        currentView = 'admin';
+        showDiscovery = false;
+        showPricing = false;
+      }
+      window.scrollTo(0, 0);
+      return;
+    }
+    currentView = 'workbook';
     if (id === 'discovery') {
       showDiscovery = true;
       showPricing = false;
@@ -141,6 +155,9 @@
     (window as PortalWindow).portalAction = portalAction;
     (window as PortalWindow).portalField = portalField;
 
+    const user = await currentUser();
+    userRole = user?.role;
+
     const existing = await storage.getWorkbook(WORKBOOK_ID);
     if (existing) {
       // Merge to tolerate old snapshots missing newer fields.
@@ -151,9 +168,11 @@
 </script>
 
 <div class="shell">
-  <Sidebar {navHtml} name={workbook.name} {stats} discoveryActive={showDiscovery} pricingActive={showPricing} />
+  <Sidebar {navHtml} name={workbook.name} {stats} discoveryActive={showDiscovery} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} />
   <div class="main" id="main-content">
-    {#if showDiscovery}
+    {#if currentView === 'admin'}
+      <AdminDashboard />
+    {:else if showDiscovery}
       <DiscoveryFlow
         userId={USER_ID}
         onGoToPricing={(tierId) => goTo('pricing', { tier: tierId })}

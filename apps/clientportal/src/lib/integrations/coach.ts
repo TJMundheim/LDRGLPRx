@@ -1,36 +1,12 @@
 /**
- * AI Coach integration — stub. Not implemented.
+ * AI Coach integration — proxied through lambdas/coach-proxy.
  *
- * This module defines the typed contract for the LDRGLPRx AI health coach,
- * which runs the 4M workbook program: weekly check-ins, content delivery,
- * motivational interviewing, and retention nudges.
- *
- * ── HOW TO WIRE UP ──────────────────────────────────────────────────────────
- * 1. Install the SDK:
- *      pnpm add @anthropic-ai/sdk
- *
- * 2. Set the env var in .env.local:
- *      VITE_ANTHROPIC_API_KEY=sk-ant-...
- *
- *    ⚠️  WARNING: Vite exposes VITE_* vars to the browser bundle. Never ship a
- *    real Anthropic API key to the client. Before going to production, proxy
- *    all Anthropic calls through a server-side Lambda endpoint (see
- *    lambdas/coach-proxy/) and remove the VITE_ANTHROPIC_API_KEY var entirely.
- *
- * 3. Import and instantiate:
- *      import Anthropic from '@anthropic-ai/sdk';
- *      const client = new Anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY });
- *
- * 4. Model selection per tier:
- *      ctx.tier === 'concierge' ? 'claude-opus-4-7' : 'claude-sonnet-4-6'
- *
- * 5. Replace each `throw new Error('Not implemented …')` body with a
- *    `client.messages.create(…)` call using prompts from
- *    `src/lib/coach/prompts.ts`.
- * ────────────────────────────────────────────────────────────────────────────
+ * All Anthropic API calls go via VITE_COACH_PROXY_URL (a Lambda endpoint).
+ * If that env var is unset the functions throw, same as before.
  */
 
 import type { IntakeAnswer, IntakeResult } from '../data/intake.js';
+import { SYSTEM_PROMPT_BASE, MONTH_PROMPTS, WEEKLY_CHECKIN_TEMPLATE, INTAKE_REPORT_TEMPLATE } from '../coach/prompts.js';
 
 // ---------------------------------------------------------------------------
 // Shared types
@@ -75,62 +51,139 @@ export interface CoachReply {
 }
 
 // ---------------------------------------------------------------------------
-// Functions
+// Internal helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Sends a daily or weekly check-in prompt to the AI coach and returns a reply.
- *
- * TODO: Wire up — use `WEEKLY_CHECKIN_TEMPLATE` from prompts.ts, pass
- * `ctx.recentSymptomScores` and month context; call Anthropic messages.create.
- */
-export async function sendCheckIn(
-  _ctx: CoachContext,
-  _history: CoachMessage[],
-): Promise<CoachReply> {
-  throw new Error('Not implemented: sendCheckIn — wire to Anthropic SDK (see header comment)');
+type ProxyRole = 'user' | 'assistant';
+interface ProxyMessage { role: ProxyRole; content: string }
+
+function modelFor(tier: ProgramTier): 'claude-opus-4-7' | 'claude-sonnet-4-6' {
+  return tier === 'concierge' ? 'claude-opus-4-7' : 'claude-sonnet-4-6';
 }
 
-/**
- * Generates a weekly progress report with a narrative summary, retention nudges,
- * and any clinician alerts for the care team dashboard.
- *
- * TODO: Wire up — build a structured prompt from weekData + ctx, call Anthropic
- * messages.create, parse the JSON response into the return shape.
- */
-export async function generateWeeklyReport(
-  _ctx: CoachContext,
-  _weekData: unknown,
-): Promise<{ summary: string; nudges: string[]; clinicianAlerts: string[] }> {
-  throw new Error('Not implemented: generateWeeklyReport — wire to Anthropic SDK (see header comment)');
+function buildSystem(ctx: CoachContext): string {
+  return `${SYSTEM_PROMPT_BASE}\n\n${MONTH_PROMPTS[ctx.currentMonth]}`;
 }
 
-/**
- * Handles freeform chat messages from the user in the coach chat UI.
- *
- * TODO: Wire up — prepend SYSTEM_PROMPT_BASE + month prompt, pass full history,
- * call Anthropic messages.create with streaming or single-shot, check
- * ESCALATION_RULES on reply content before returning.
- */
-export async function respondToMessage(
-  _ctx: CoachContext,
-  _history: CoachMessage[],
-  _userMessage: string,
-): Promise<CoachReply> {
-  throw new Error('Not implemented: respondToMessage — wire to Anthropic SDK (see header comment)');
+function filterHistory(history: CoachMessage[]): ProxyMessage[] {
+  return history
+    .filter((m): m is CoachMessage & { role: 'user' | 'assistant' } => m.role === 'user' || m.role === 'assistant')
+    .map(m => ({ role: m.role as ProxyRole, content: m.content }));
 }
 
-/**
- * Produces the personalized "what we found, what we recommend, why" narrative
- * for the Discovery report page, based on raw intake answers and the computed
- * IntakeResult.
- *
- * TODO: Wire up — use INTAKE_REPORT_TEMPLATE from prompts.ts, call Anthropic
- * messages.create (sonnet-4-6 is sufficient here), return message.content[0].text.
- */
-export async function generateIntakeReport(
-  _answers: IntakeAnswer[],
-  _result: IntakeResult,
+async function callProxy(
+  system: string,
+  messages: ProxyMessage[],
+  model: 'claude-opus-4-7' | 'claude-sonnet-4-6',
+  maxTokens = 1024,
 ): Promise<string> {
-  throw new Error('Not implemented: generateIntakeReport — wire to Anthropic SDK (see header comment)');
+  const url = import.meta.env.VITE_COACH_PROXY_URL as string | undefined;
+  if (!url) throw new Error('VITE_COACH_PROXY_URL is not set — coach proxy not configured');
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, messages, model, maxTokens }),
+  });
+
+  if (!res.ok) {
+    let detail = '';
+    try { detail = (await res.json() as { error?: string }).error ?? ''; } catch { /* ignore */ }
+    throw new Error(`Coach proxy ${res.status}: ${detail}`);
+  }
+
+  const data = await res.json() as { content: string };
+  return data.content;
+}
+
+const FALLBACK_REPLY: CoachReply = {
+  message: 'We\'re having trouble reaching the coach right now. Your care team has been notified.',
+  clinicianEscalation: true,
+};
+
+// ---------------------------------------------------------------------------
+// Public functions
+// ---------------------------------------------------------------------------
+
+export async function sendCheckIn(ctx: CoachContext, history: CoachMessage[]): Promise<CoachReply> {
+  const scoreLines = Object.entries(ctx.recentSymptomScores ?? {})
+    .map(([k, v]) => `  ${k}: ${v}/10`)
+    .join('\n') || '  (none recorded)';
+
+  const system = buildSystem(ctx);
+  const userContent = WEEKLY_CHECKIN_TEMPLATE
+    .replace('{{MONTH_PROMPT}}', MONTH_PROMPTS[ctx.currentMonth])
+    .replace('{{CURRENT_WEEK}}', String(ctx.currentWeek))
+    .replace('{{SYMPTOM_SCORES}}', scoreLines)
+    .replace('{{ACTIVE_PRODUCTS}}', ctx.activeProducts.join(', ') || 'none');
+
+  const messages: ProxyMessage[] = [
+    ...filterHistory(history),
+    { role: 'user', content: userContent },
+  ];
+
+  try {
+    const message = await callProxy(system, messages, modelFor(ctx.tier));
+    return { message };
+  } catch {
+    return FALLBACK_REPLY;
+  }
+}
+
+export async function generateWeeklyReport(
+  ctx: CoachContext,
+  weekData: unknown,
+): Promise<{ summary: string; nudges: string[]; clinicianAlerts: string[] }> {
+  const system = buildSystem(ctx);
+  const messages: ProxyMessage[] = [{
+    role: 'user',
+    content: `Generate a weekly progress report in JSON format with keys "summary" (string), "nudges" (string[]), "clinicianAlerts" (string[]). Week data: ${JSON.stringify(weekData)}`,
+  }];
+
+  try {
+    const raw = await callProxy(system, messages, modelFor(ctx.tier));
+    const parsed = JSON.parse(raw) as { summary: string; nudges: string[]; clinicianAlerts: string[] };
+    return parsed;
+  } catch {
+    return { summary: 'Report unavailable — please check in with your care team.', nudges: [], clinicianAlerts: ['Report generation failed'] };
+  }
+}
+
+export async function respondToMessage(
+  ctx: CoachContext,
+  history: CoachMessage[],
+  userMessage: string,
+): Promise<CoachReply> {
+  const system = buildSystem(ctx);
+  const messages: ProxyMessage[] = [
+    ...filterHistory(history),
+    { role: 'user', content: userMessage },
+  ];
+
+  try {
+    const message = await callProxy(system, messages, modelFor(ctx.tier));
+    return { message };
+  } catch {
+    return FALLBACK_REPLY;
+  }
+}
+
+export async function generateIntakeReport(
+  answers: IntakeAnswer[],
+  result: IntakeResult,
+): Promise<string> {
+  const system = SYSTEM_PROMPT_BASE;
+  const prompt = INTAKE_REPORT_TEMPLATE
+    .replace('{{TOP_PRIORITIES}}', JSON.stringify(result.topPriorities))
+    .replace('{{RECOMMENDED_TIER}}', result.recommendedTier)
+    .replace('{{TRIGGERED_PRODUCTS}}', result.triggeredProducts.map(p => p.slug).join(', '))
+    .replace('{{TRIGGERED_LABS}}', result.triggeredLabs.map(l => l.slug).join(', '))
+    .replace('{{INTAKE_SUMMARY}}', result.summary);
+
+  const messages: ProxyMessage[] = [{ role: 'user', content: prompt }];
+
+  const url = import.meta.env.VITE_COACH_PROXY_URL as string | undefined;
+  if (!url) throw new Error('VITE_COACH_PROXY_URL is not set — coach proxy not configured');
+
+  return callProxy(system, messages, 'claude-sonnet-4-6', 2048);
 }
