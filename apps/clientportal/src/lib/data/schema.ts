@@ -3,6 +3,8 @@
  * Discriminated unions are used where the shape is conditional.
  */
 
+import type { PillarId } from '../content/pillars';
+
 export type MotivationChoice = '0' | '1' | '2' | '';
 
 export interface Resource {
@@ -128,6 +130,15 @@ export interface Workbook {
   graduation: string;
   regenPriority: string;
   regenNext: string;
+
+  /** Current month in the 4M program (optional — added in pillar refactor). */
+  currentMonth?: 1 | 2 | 3 | 4 | 'maintenance';
+  /** The pillar the member is currently working within. */
+  currentPillar?: PillarId;
+  /** True once the member has completed Month 1 graduation criteria. */
+  graduatedFromMonth1?: boolean;
+  /** True once the Genesis RPA intro bonus module at end of Month 1 has been seen. */
+  rpaIntroSeen?: boolean;
 
   createdAt: string;
   updatedAt: string;

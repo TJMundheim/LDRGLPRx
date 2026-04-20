@@ -6,6 +6,8 @@
     renderPage, renderSidebar, sidebarStats, type RenderContext
   } from './lib/renderer';
   import Sidebar from './lib/components/Sidebar.svelte';
+  import DiscoveryFlow from './lib/components/discovery/DiscoveryFlow.svelte';
+  import PricingPage from './lib/components/tiers/PricingPage.svelte';
 
   // ── State ───────────────────────────────────────────────
   // Single-workbook mode during beta; auth wiring will supply real ids.
@@ -14,6 +16,15 @@
 
   let workbook = $state<Workbook>(createEmptyWorkbook(WORKBOOK_ID, USER_ID));
   let curTab = $state('dash');
+  let showDiscovery = $state(
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'discovery'
+  );
+  let showPricing = $state(
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'pricing'
+  );
+  let pricingHighlightTier = $state(
+    typeof window !== 'undefined' ? (new URLSearchParams(window.location.search).get('tier') ?? '') : ''
+  );
   let openFactor = $state<string | null>(null);
   let factorTab = $state<'imm' | 'tools' | 'adv' | 'res'>('imm');
   let toastMsg = $state('');
@@ -80,7 +91,22 @@
     persist();
   }
 
-  function goTo(id: string): void {
+  function goTo(id: string, params?: Record<string, string>): void {
+    if (id === 'discovery') {
+      showDiscovery = true;
+      showPricing = false;
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (id === 'pricing') {
+      showPricing = true;
+      showDiscovery = false;
+      pricingHighlightTier = params?.tier ?? '';
+      window.scrollTo(0, 0);
+      return;
+    }
+    showDiscovery = false;
+    showPricing = false;
     curTab = id;
     window.scrollTo(0, 0);
   }
@@ -92,7 +118,7 @@
     | 'goTo' | 'setScore' | 'toggleFactor' | 'setFactorTab' | 'toggleDay' | 'setSupp';
   function portalAction(action: PortalAction, ...args: unknown[]): void {
     switch (action) {
-      case 'goTo':         goTo(String(args[0])); break;
+      case 'goTo':         goTo(String(args[0]), args[1] as Record<string, string> | undefined); break;
       case 'setScore':     setScore(String(args[0]), Number(args[1])); break;
       case 'toggleFactor': toggleFactor(String(args[0])); break;
       case 'setFactorTab': setFactorTab(args[0] as 'imm' | 'tools' | 'adv' | 'res'); break;
@@ -125,9 +151,21 @@
 </script>
 
 <div class="shell">
-  <Sidebar {navHtml} name={workbook.name} {stats} />
+  <Sidebar {navHtml} name={workbook.name} {stats} discoveryActive={showDiscovery} pricingActive={showPricing} />
   <div class="main" id="main-content">
-    {@html pageHtml}
+    {#if showDiscovery}
+      <DiscoveryFlow
+        userId={USER_ID}
+        onGoToPricing={(tierId) => goTo('pricing', { tier: tierId })}
+      />
+    {:else if showPricing}
+      <PricingPage
+        highlightTierId={pricingHighlightTier}
+        onGoToDiscovery={() => goTo('discovery')}
+      />
+    {:else}
+      {@html pageHtml}
+    {/if}
   </div>
 </div>
 <div id="toast" class:show={toastShow}>{toastMsg}</div>

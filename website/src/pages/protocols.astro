@@ -1,0 +1,265 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Protocols — Essential Manage | BiomeAxisForge, Genesis RPA, GLP-1, Hormones, Peptides";
+const description = "Explore all Essential Manage protocol families: BiomeAxisForge, Genesis RPA, GLP-1 weight management, hormone optimisation, peptide stacks, and supplement stacks.";
+const canonical = "https://ldrglprx.com/protocols";
+const keywords = "Essential Manage protocols, BiomeAxisForge, Genesis RPA, GLP-1, hormone optimization, peptide stack, supplement stack";
+const ogImage = "https://ldrglprx.com/images/og-image.jpg";
+
+const protocols = [
+  {
+    id: 'biomeaxisforge',
+    name: 'BiomeAxisForge',
+    subtitle: 'Gut-Brain Axis Restoration',
+    description: 'Physician-prescribed oral compound of BPC-157, L-Glutamine, and Aloe Vera. Supports gut lining integrity, neuroinflammation reduction, and gut-brain axis repair over a 4-week cycle.',
+    icon: 'fas fa-bacterium',
+    tags: ['Compounded Rx', 'Oral', '4-Week Cycle'],
+    link: '/biomeaxisforge',
+    linkLabel: 'View BiomeAxisForge',
+    dedicated: true,
+    highlight: 'Foundational Rx — included in all 4M cohort tiers that prescribe formulas'
+  },
+  {
+    id: 'genesis-rpa',
+    name: 'Genesis RPA',
+    subtitle: 'Regenerative Protein Array',
+    description: 'Advanced regenerative administration via mobile clinical team, nationwide. Five routes: intra-articular, IV, nebulizer, intrathecal, intranasal. Supports joint injuries, post-concussion, long-COVID, and cognitive decline.',
+    icon: 'fas fa-syringe',
+    tags: ['Mobile Delivery', 'Nationwide', 'Multi-Route'],
+    link: '/genesis-rpa',
+    linkLabel: 'View Genesis RPA',
+    dedicated: true,
+    highlight: 'High-touch regenerative — available as add-on to all membership tiers'
+  },
+  {
+    id: 'glp1',
+    name: 'GLP-1 Track',
+    subtitle: 'Weight Management & Metabolic Optimisation',
+    description: 'Compounded semaglutide or tirzepatide protocols for metabolic health, weight management, and cardiovascular risk reduction. Physician-supervised with ongoing monitoring.',
+    icon: 'fas fa-weight-scale',
+    tags: ['Compounded Rx', 'Ongoing Subscription', 'Weekly Injection'],
+    link: 'https://app.ldrglprx.com?view=discovery',
+    linkLabel: 'Start Discovery Assessment',
+    dedicated: false,
+    highlight: 'From $299/mo · Available to Foundation members and above'
+  },
+  {
+    id: 'hormones',
+    name: 'Hormone Optimisation',
+    subtitle: 'TRT, HRT & Enclomiphene',
+    description: 'Evidence-based testosterone replacement therapy (men) and bioidentical hormone replacement (women), plus fertility-preserving enclomiphene. Lab-guided, physician-prescribed, quarterly monitoring.',
+    icon: 'fas fa-flask',
+    tags: ['Compounded Rx', 'Quarterly Labs', 'Ongoing'],
+    link: 'https://app.ldrglprx.com?view=discovery',
+    linkLabel: 'Start Discovery Assessment',
+    dedicated: false,
+    highlight: 'Included in Longevity + Concierge · Add-on for Optimization'
+  },
+  {
+    id: 'peptides',
+    name: 'Peptide Stack',
+    subtitle: 'Semax, Selank, DSIP, Epitalon, Cerebrolysin',
+    description: 'Cycle-based peptide protocols targeting cognitive enhancement, anxiety reduction, deep sleep restoration, telomere support, and neuroregeneration. Each peptide selected based on your intake assessment and lab markers.',
+    icon: 'fas fa-dna',
+    tags: ['Cycle-Based Rx', 'Multiple Routes', 'Clinician-Directed'],
+    link: 'https://app.ldrglprx.com?view=discovery',
+    linkLabel: 'Start Discovery Assessment',
+    dedicated: false,
+    highlight: 'Full peptide stack included in Longevity + Concierge'
+  },
+  {
+    id: 'supplements',
+    name: 'Supplement Stacks',
+    subtitle: 'Foundation, Focus, Recovery & Longevity',
+    description: 'Four evidence-based supplement stacks covering micronutrient foundations, cholinergic cognitive support, sleep and cortisol recovery, and NAD+/mitochondrial longevity — each at clinical doses.',
+    icon: 'fas fa-capsules',
+    tags: ['OTC + Rx', 'Monthly Subscription', 'No Prescription Required'],
+    link: 'https://app.ldrglprx.com?view=discovery',
+    linkLabel: 'Learn More',
+    dedicated: false,
+    highlight: 'Foundation stack included in all memberships · Full stack in Optimization and above'
+  }
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage}>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="section-tag" style="color:rgba(255,255,255,0.6);">Protocol Families</span>
+      <h1>Every symptom has a name,<br/><em>a cause, and a fix.</em></h1>
+      <p>Six protocol families covering gut-brain axis, regenerative medicine, metabolic health, hormones, peptides, and supplement stacks — all physician-supervised, all clinically dosed.</p>
+      <div class="hero-buttons">
+        <a href="https://app.ldrglprx.com?view=discovery" class="btn btn-primary btn-large">Take the Discovery Quiz <i class="fas fa-arrow-right"></i></a>
+        <a href="#protocols" class="btn btn-white btn-large">Explore Protocols <i class="fas fa-chevron-down"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROTOCOL CARDS ===== -->
+<section class="section" id="protocols">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">All Protocol Families</span>
+      <h2>Six families. One system.</h2>
+      <p>Protocols are prescribed based on your intake assessment, lab markers, and goals — not a generic plan.</p>
+    </div>
+    <div class="protocols-grid">
+      {protocols.map((p) => (
+        <div class={`protocol-card fade-in${p.dedicated ? ' protocol-dedicated' : ''}`}>
+          <div class="pc-header">
+            <div class="pc-icon"><i class={p.icon}></i></div>
+            <div>
+              <div class="pc-name">{p.name}</div>
+              <div class="pc-subtitle">{p.subtitle}</div>
+            </div>
+          </div>
+          <p class="pc-description">{p.description}</p>
+          <div class="pc-tags">
+            {p.tags.map((tag) => <span class="pc-tag">{tag}</span>)}
+          </div>
+          {p.highlight && <div class="pc-highlight">{p.highlight}</div>}
+          <div class="pc-footer">
+            <a href={p.link} class={`btn ${p.dedicated ? 'btn-primary' : 'btn-outline'}`}>
+              {p.linkLabel} <i class="fas fa-arrow-right"></i>
+            </a>
+            {!p.dedicated && (
+              <span class="pc-quiz-note">No dedicated page yet — start with the Discovery quiz</span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW PROTOCOLS ARE SELECTED ===== -->
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">How It Works</span>
+      <h2>Protocols are prescribed — not picked from a shelf.</h2>
+    </div>
+    <div class="how-grid fade-in">
+      <div class="how-step">
+        <div class="how-num">01</div>
+        <h3>Discovery Assessment</h3>
+        <p>Complete the AI-powered health quiz. Map your 15 depletion factors, goals, and current symptoms into a personalised health avatar.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">02</div>
+        <h3>Lab Work</h3>
+        <p>Your protocol is built on your actual numbers — not guesswork. Labs ordered remotely and reviewed by a licensed clinician before Week 1.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">03</div>
+        <h3>Physician Prescription</h3>
+        <p>All compounded Rx products require a prescription from a licensed MD, DO, NP, or PA in Dr. Mundheim's telemedicine network.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">04</div>
+        <h3>Ongoing Monitoring</h3>
+        <p>Labs, clinician visits, and protocol adjustments happen on schedule — not one-and-done. Your system evolves as your biology does.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section cta-section">
+  <div class="container fade-in">
+    <span class="section-tag">Where to Start</span>
+    <h2>Not sure which protocol is right for you?</h2>
+    <p>Take the 3-minute Discovery quiz. Get your health avatar, personalised tier recommendation, and one free async message to a clinician — no credit card required.</p>
+    <div class="cta-buttons">
+      <a href="https://app.ldrglprx.com?view=discovery" class="btn btn-primary btn-large">Take the Discovery Quiz <i class="fas fa-arrow-right"></i></a>
+      <a href="/tiers" class="btn btn-outline btn-large">Compare All Tiers</a>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+</script>
+
+<style is:global>
+  :root {
+    --primary: #0f4c75; --primary-light: #1b6fa8; --accent: #00b894; --accent-dark: #00a381;
+    --dark: #0a1628; --text: #2d3748; --text-light: #718096; --bg: #ffffff;
+    --bg-soft: #f7fafc; --bg-accent: #edf7f6; --border: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12); --radius: 12px; --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); line-height: 1.7; overflow-x: hidden; }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); line-height: 1.2; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  .section { padding: 6rem 0; }
+  .section-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
+  .section-header { text-align: center; max-width: 640px; margin: 0 auto 4rem; }
+  .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+  .section-header p { color: var(--text-light); font-size: 1.05rem; }
+  .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .hero { padding: 10rem 0 6rem; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); position: relative; overflow: hidden; text-align: center; }
+  .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 70%); border-radius: 50%; }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+  .hero h1 { font-size: 2.8rem; color: white; margin-bottom: 1.5rem; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem; }
+  .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: all 0.25s; }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
+  .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+  .btn-outline:hover { background: var(--primary); color: white; }
+  .btn-white { background: white; color: var(--primary); border-color: white; }
+  .btn-white:hover { background: var(--bg-soft); }
+  .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
+
+  .protocols-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .protocol-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; display: flex; flex-direction: column; gap: 1rem; transition: all 0.3s; }
+  .protocol-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+  .protocol-dedicated { border-color: var(--accent); }
+  .pc-header { display: flex; align-items: flex-start; gap: 1rem; }
+  .pc-icon { width: 52px; height: 52px; border-radius: 12px; background: var(--bg-accent); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent); flex-shrink: 0; }
+  .pc-name { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--dark); }
+  .pc-subtitle { font-size: 0.82rem; color: var(--text-light); margin-top: 0.2rem; }
+  .pc-description { color: var(--text-light); font-size: 0.92rem; line-height: 1.6; flex: 1; }
+  .pc-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pc-tag { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 50px; padding: 0.25rem 0.8rem; font-size: 0.75rem; font-weight: 600; color: var(--text-light); }
+  .pc-highlight { background: var(--bg-accent); border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.82rem; color: var(--accent-dark); font-weight: 600; }
+  .pc-footer { display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto; }
+  .pc-quiz-note { font-size: 0.78rem; color: var(--text-light); }
+
+  .how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .how-step { text-align: center; }
+  .how-num { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--accent); line-height: 1; margin-bottom: 1rem; }
+  .how-step h3 { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; }
+  .how-step p { color: var(--text-light); font-size: 0.92rem; }
+
+  .cta-section { background: var(--bg-accent); text-align: center; }
+  .cta-section h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+  .cta-section p { color: var(--text-light); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  @media (max-width: 1024px) {
+    .protocols-grid { grid-template-columns: repeat(2, 1fr); }
+    .how-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .protocols-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .how-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  }
+</style>
+
+</BaseLayout>

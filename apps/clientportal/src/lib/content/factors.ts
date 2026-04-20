@@ -1,4 +1,5 @@
 import type { Resource } from '../data/schema';
+import type { PillarId } from './pillars';
 
 /**
  * A single 4M Mitigate audit factor. Content is authored here and consumed
@@ -25,10 +26,12 @@ export interface Factor {
   adv?: string[];
   /** Resource links. */
   res: Resource[];
+  /** Which 4M pillar this factor primarily belongs to. */
+  pillarId?: PillarId;
 }
 
 export const factors: Factor[] = [
-  { n:'00', name:'Allergies & immune reactivity', tag:'IMMUNE', tc:'#9B4D8A',
+  { n:'00', name:'Allergies & immune reactivity', tag:'IMMUNE', tc:'#9B4D8A', pillarId:'mitigate',
     act:['List all known food allergies and sensitivities (gluten, dairy, nuts, shellfish, etc.)',
          'Note environmental allergies — pollen, mold, dust mites, pet dander',
          'Consider that undiagnosed food sensitivities drive gut inflammation and leaky gut',
@@ -42,7 +45,7 @@ export const factors: Factor[] = [
          'Consider working with a functional medicine provider on full allergy/sensitivity testing'],
     res:[{n:'FARE — Food Allergy Research & Education',u:'https://www.foodallergy.org'},
          {n:'Viome — gut and immune testing',u:'https://www.viome.com'}] },
-  { n:'01', name:'Mental health & mental wellness', tag:'Connected Mind', tc:'#2E7FD9',
+  { n:'01', name:'Mental health & mental wellness', tag:'Connected Mind', tc:'#2E7FD9', pillarId:'motivate',
     sub:'Anxiety, depression, mood instability, or unaddressed trauma', cm:true,
     imm:['Complete the Connected Mind assessment BEFORE scoring this factor',
          'Rate your current mood, anxiety, and emotional stability honestly — this is private',
@@ -58,7 +61,7 @@ export const factors: Factor[] = [
     res:[{n:'Psychology Today — find a therapist',u:'https://www.psychologytoday.com/us/therapists'},
          {n:'NAMI Helpline',u:'https://www.nami.org/help'},
          {n:'Huberman Lab — depression & anxiety tools',u:'https://hubermanlab.com'}] },
-  { n:'02', name:'Gut microbiome health', tag:null,
+  { n:'02', name:'Gut microbiome health', tag:null, pillarId:'mitigate',
     sub:'Bloating, irregular digestion, processed food diet, or frequent antibiotic use',
     imm:['Add one fermented food today: Greek yogurt, kefir, sauerkraut, or kimchi',
          'Replace one ultra-processed snack with a high-fiber whole food this week',
@@ -74,7 +77,7 @@ export const factors: Factor[] = [
     res:[{n:'Viome gut testing',u:'https://viome.com'},
          {n:'Seed DS-01 probiotic',u:'https://seed.com'},
          {n:'ZOE nutrition program',u:'https://zoe.com'}] },
-  { n:'03', name:'Poor dental health & oral microbiome', tag:'Oral · Brain · Heart', tc:'#D4920A',
+  { n:'03', name:'Poor dental health & oral microbiome', tag:'Oral · Brain · Heart', tc:'#D4920A', pillarId:'mitigate',
     sub:'Gum disease, bleeding gums, poor hygiene, or no recent dental cleaning',
     imm:['Schedule a dental cleaning this month — one annual cleaning reduces cardiovascular risk by 14%',
          'Brush twice daily with a remineralizing toothpaste — before bed is the most critical session',
@@ -96,7 +99,7 @@ export const factors: Factor[] = [
          {n:'American Academy of Periodontology',u:'https://perio.org/for-patients'},
          {n:'IFM — oral microbiome & cardiometabolic',u:'https://ifm.org'},
          {n:'Huberman Lab — oral health protocol',u:'https://hubermanlab.com'}] },
-  { n:'04', name:'Sunlight & vitamin D', tag:null,
+  { n:'04', name:'Sunlight & vitamin D', tag:null, pillarId:'muscle',
     sub:'Less than 20 min daily outdoor exposure, known D deficiency, or mostly indoor lifestyle',
     imm:['Get outside within 60 minutes of waking — no sunglasses — 10–20 minutes minimum',
          'Order a vitamin D blood test — no prescription needed at most walk-in labs',
@@ -111,7 +114,7 @@ export const factors: Factor[] = [
     res:[{n:'GrassrootsHealth D*Action',u:'https://grassrootshealth.net'},
          {n:'Examine.com — Vitamin D',u:'https://examine.com/supplements/vitamin-d/'},
          {n:'Huberman Lab — light & circadian rhythm',u:'https://hubermanlab.com'}] },
-  { n:'05', name:'Alcohol consumption', tag:null,
+  { n:'05', name:'Alcohol consumption', tag:null, pillarId:'mitigate',
     sub:'More than 7 drinks per week, binge drinking, or drinking nightly to unwind',
     imm:['Track every drink for 7 days — no judgment, just honest honest data to work from',
          'Identify your primary trigger: stress, habit, social pressure, or boredom',
@@ -126,7 +129,7 @@ export const factors: Factor[] = [
     res:[{n:'Reframe app',u:'https://reframeapp.com'},
          {n:'Dry January',u:'https://dryjanuary.org.uk'},
          {n:'Huberman Lab — alcohol & the brain',u:'https://hubermanlab.com'}] },
-  { n:'06', name:'Sleep quality & duration', tag:null,
+  { n:'06', name:'Sleep quality & duration', tag:null, pillarId:'mitigate',
     sub:'Less than 7 hours most nights, poor quality, frequent waking, or no consistent schedule',
     imm:['Set a fixed wake time and hold it 7 days per week — including weekends without exception',
          'Get 10 minutes of outdoor light within 60 minutes of waking — this anchors your circadian clock',
@@ -141,7 +144,7 @@ export const factors: Factor[] = [
     res:[{n:'Huberman Lab sleep toolkit',u:'https://hubermanlab.com/newsletter/toolkit-for-sleep'},
          {n:'Sleep Foundation',u:'https://sleepfoundation.org'},
          {n:'Oura Ring',u:'https://ouraring.com'}] },
-  { n:'07', name:'Poor nutrition quality', tag:'Keto-Paleo', tc:'#1D9E75',
+  { n:'07', name:'Poor nutrition quality', tag:'Keto-Paleo', tc:'#1D9E75', pillarId:'mind',
     sub:'Ultra-processed food, poor animal food quality, or chronic under-eating protein',
     imm:['Set your eating window now: first meal after 9am (after morning routine), last meal by 7pm — work toward moving to 6pm, then 5pm over time',
          'Do your morning routine completely fasted — water or black coffee only, nothing else',
@@ -161,7 +164,7 @@ export const factors: Factor[] = [
          {n:'Force of Nature — ancestral blend',u:'https://forceofnaturemeats.com'},
          {n:'Vital Choice — wild-caught seafood',u:'https://vitalchoice.com'},
          {n:'Ancestral Supplements — organ capsules',u:'https://ancestralsupplements.com'}] },
-  { n:'08', name:'Physical inactivity & injuries', tag:'KOT', tc:'#D85A30',
+  { n:'08', name:'Physical inactivity & injuries', tag:'KOT', tc:'#D85A30', pillarId:'muscle',
     sub:'Not exercising regularly, or chronic injuries preventing consistent movement',
     imm:['Schedule your 3 training days in your calendar right now — these are non-negotiable',
          'Start your morning movement stack tomorrow: fireside squat, sumo squat, lunge, hip circles',
@@ -176,7 +179,7 @@ export const factors: Factor[] = [
     res:[{n:'KOT Beginner Playlist — Ben Patrick',u:'https://www.youtube.com/c/TheKneesovertoesguy'},
          {n:'Examine.com — BPC-157',u:'https://examine.com/supplements/bpc-157/'},
          {n:'APTA — Find a physical therapist',u:'https://choosept.com'}] },
-  { n:'08b', name:'Injury history & joint health', tag:'JOINTS', tc:'#C04A20',
+  { n:'08b', name:'Injury history & joint health', tag:'JOINTS', tc:'#C04A20', pillarId:'muscle',
     act:['List all current injuries, surgeries, or chronic pain areas honestly',
          'Joint pain is a signal — inflammation is upstream of injury and must be addressed',
          'KOT system: knees over toes is the long-term solution to joint degeneration',
@@ -184,7 +187,7 @@ export const factors: Factor[] = [
          'Consider whether unresolved injuries are limiting your training and quality of life'],
     res:[{n:'KOT Channel — Ben Patrick',u:'https://www.youtube.com/c/TheKneesovertoesguy'},
          {n:'ATG Online Coaching',u:'https://www.atgonlinecoaching.com'}] },
-  { n:'09', name:'Chronic stress', tag:null,
+  { n:'09', name:'Chronic stress', tag:null, pillarId:'mitigate',
     sub:'Persistent work, financial, or relationship stress — cortisol chronically elevated',
     imm:['Name your single biggest cortisol driver — write it down specifically and precisely right now',
          'Add one 10-minute daily decompression ritual: walk, breathwork, or complete silence',
@@ -198,7 +201,7 @@ export const factors: Factor[] = [
     res:[{n:'Huberman Lab — stress & anxiety tools',u:'https://hubermanlab.com'},
          {n:'HeartMath HRV biofeedback',u:'https://heartmath.com'},
          {n:'Calm app',u:'https://calm.com'}] },
-  { n:'10', name:'Excess body fat', tag:null,
+  { n:'10', name:'Excess body fat', tag:null, pillarId:'muscle',
     sub:'Significant visceral or abdominal fat — waist over 40 in, or body fat over 25%',
     imm:['Measure your waist at the navel right now and record that number in your workbook',
          'Calculate your protein target: target bodyweight (lbs) × 0.9 = daily grams',
@@ -213,7 +216,7 @@ export const factors: Factor[] = [
     res:[{n:'InBody scan locator',u:'https://inbodyusa.com/pages/find-a-location'},
          {n:'Peter Attia — metabolic health',u:'https://peterattiamd.com'},
          {n:'DEXA scan locator',u:'https://dexascan.com'}] },
-  { n:'11', name:'Social isolation & lack of purpose', tag:null,
+  { n:'11', name:'Social isolation & lack of purpose', tag:null, pillarId:'motivate',
     sub:'Limited meaningful connection, or absence of goals that genuinely excite you',
     imm:['Reach out to one person you have been meaning to connect with this week — today',
          'Write down one goal that genuinely excites you for the next 90 days',
@@ -227,7 +230,7 @@ export const factors: Factor[] = [
          'The 4M alumni community at graduation directly addresses this factor long-term'],
     res:[{n:'Meetup.com',u:'https://meetup.com'},
          {n:'Good Men Project',u:'https://goodmenproject.com'}] },
-  { n:'12', name:'Cognitive disengagement', tag:null,
+  { n:'12', name:'Cognitive disengagement', tag:null, pillarId:'mind',
     sub:'No learning, reading, creative hobbies, or mentally stimulating activities daily',
     imm:['Commit to 30 minutes of uninterrupted reading today — no phone, no TV, no interruptions',
          'Download a dual n-back app and complete your first session this week',
