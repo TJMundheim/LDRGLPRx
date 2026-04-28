@@ -2,9 +2,9 @@
 set -euo pipefail
 
 # ── Required configuration ────────────────────────────────────────────────────
-DOMAIN=""              # REQUIRED — fill in when domain registered (e.g. ldrglprx.com)
-BUCKET=""              # REQUIRED — fill in when S3 bucket created (e.g. ldrglprx-website)
-DISTRIBUTION_ID=""     # REQUIRED — fill in when CloudFront distribution created
+DOMAIN="my4mlife.com"              # REQUIRED — fill in when domain registered (e.g. ldrglprx.com)
+BUCKET="website-my4mlifecom"              # REQUIRED — fill in when S3 bucket created (e.g. ldrglprx-website)
+DISTRIBUTION_ID="E3J19LI34BC2VR"     # REQUIRED — fill in when CloudFront distribution created
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Validate required vars
