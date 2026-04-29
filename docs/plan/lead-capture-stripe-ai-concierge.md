@@ -29,7 +29,7 @@ Attorney produces the six documents listed in `docs/legal/attorney-brief.md`. Do
 TJ designates self as Privacy Officer + Security Officer and commits a one-page plan to `docs/legal/hipaa-compliance-plan.md`.
 
 **P0.4 — Bedrock model access**
-In AWS Console → Bedrock → Model access, request access for Claude Sonnet and Claude Haiku in `us-east-1` or `us-east-2`. Confirm availability (Claude 3.x models are generally available in `us-east-1`; if Haiku/Sonnet unavailable in `us-east-2`, Lambdas will target `us-east-1` via `BEDROCK_REGION`). Done = models listed as "Access granted."
+**Region decision (locked 2026-04-29): rest of stack stays in `us-east-2`; Bedrock-only calls go cross-region to `us-east-1`.** In AWS Console (region selector = `us-east-1`) → Bedrock → Model access, request access for Claude Sonnet and Claude Haiku. Lambdas live in `us-east-2`, instantiate `BedrockRuntimeClient` with `region: "us-east-1"`, accept ~30ms cross-region latency. Done = models listed as "Access granted" in us-east-1.
 
 **P0.5 — CloudTrail**
 Confirm CloudTrail is enabled org-wide. If not, enable it and document in `docs/legal/hipaa-compliance-plan.md`.
