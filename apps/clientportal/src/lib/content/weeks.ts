@@ -10,7 +10,6 @@ export interface Tab {
 export const tabs: Tab[] = [
   {id:'dash',  label:'Dashboard',           icon:'⚡'},
   {id:'w1',    label:'Week 1',              icon:'🧠'},
-  {id:'morn',  label:'Morning Protocol',   icon:'🌅'},
   {id:'w2',    label:'Week 2',             icon:'💪'},
   {id:'nutr',  label:'Nutrition & Fasting',icon:'🥩'},
   {id:'w3',    label:'Week 3',             icon:'🔬'},

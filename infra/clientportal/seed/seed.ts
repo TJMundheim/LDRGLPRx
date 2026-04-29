@@ -330,7 +330,7 @@ const WEEKLY_CONTENT = [
     week: 1,
     pillar: 'mitigate',
     title: 'Week 1',
-    bodyMarkdown: `## Week 1 — All Four M's Begin Today\n\n### Morning Protocol\n- Box breathing → morning sunlight → cold shower/plunge.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n\n### Muscle\n- Walk 20 min daily.\n\n### Mind\n- 5 min daily focused breathing or meditation.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n\n### Nutrition\n- Placeholder — your Week 1 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
+    bodyMarkdown: `## Week 1 — All Four M's Begin Today\n\n### Morning Protocol\nDone fasted · Outdoors · Every morning · Cold shower closes. Check off each day in the tracker below.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n\n### Muscle\n- Walk 20 min daily.\n\n### Mind\n- 5 min daily focused breathing or meditation.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n\n### Nutrition\n- Placeholder — your Week 1 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
     resources: [
       { name: '15-Factor Audit Guide', url: 'https://app.my4mlife.com/#w1' },
     ],
@@ -342,7 +342,7 @@ const WEEKLY_CONTENT = [
     week: 2,
     pillar: 'muscle',
     title: 'Week 2',
-    bodyMarkdown: `## Week 2 — Build the Foundation\n\n### Morning Protocol\n- Box breathing → morning sunlight → cold shower/plunge.\n- + Fireside squat or sumo squat.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n- + Cut one inflammatory input — added sugar, alcohol, or seed oils (pick one).\n\n### Muscle\n- Walk 20 min daily.\n- + Resistance 2×/week — 5 push-ups, 10 squats, 30-sec plank (scale to your level).\n\n### Mind\n- 5 min daily focused breathing or meditation.\n- + Read 10 pages or listen to one long-form podcast/day.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n- + Tell one person what you're doing and why.\n\n### Nutrition\n- Placeholder — your Week 2 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
+    bodyMarkdown: `## Week 2 — Build the Foundation\n\n### Morning Protocol\nDone fasted · Outdoors · Every morning · Cold shower closes. This week adds the fireside/sumo squat. Check off each day in the tracker below.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n- + Cut one inflammatory input — added sugar, alcohol, or seed oils (pick one).\n\n### Muscle\n- Walk 20 min daily.\n- + Resistance 2×/week — 5 push-ups, 10 squats, 30-sec plank (scale to your level).\n\n### Mind\n- 5 min daily focused breathing or meditation.\n- + Read 10 pages or listen to one long-form podcast/day.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n- + Tell one person what you're doing and why.\n\n### Nutrition\n- Placeholder — your Week 2 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
     resources: [],
   },
   {
@@ -352,7 +352,7 @@ const WEEKLY_CONTENT = [
     week: 3,
     pillar: 'mind',
     title: 'Week 3',
-    bodyMarkdown: `## Week 3 — Deepen the Work\n\n### Morning Protocol\n- Box breathing → morning sunlight → cold shower/plunge.\n- + Fireside squat or sumo squat.\n- + Lunge stretch.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n- + Cut one inflammatory input — added sugar, alcohol, or seed oils (pick one).\n- + Recovery practice 3×/week — sauna, Epsom-salt bath, or extended cold exposure.\n\n### Muscle\n- Walk 20 min daily.\n- + Resistance 2×/week — 5 push-ups, 10 squats, 30-sec plank (scale to your level).\n- + Mobility flow 3×/week — 5 min of hip circles, spinal rotation, shoulder rolls.\n\n### Mind\n- 5 min daily focused breathing or meditation.\n- + Read 10 pages or listen to one long-form podcast/day.\n- + Morning brain-dump journal — 5 min, whatever's in your head, no editing.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n- + Tell one person what you're doing and why.\n- + Share one win in the cohort space.\n\n### Nutrition\n- Placeholder — your Week 3 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
+    bodyMarkdown: `## Week 3 — Deepen the Work\n\n### Morning Protocol\nDone fasted · Outdoors · Every morning · Cold shower closes. This week adds the lunge stretch. Check off each day in the tracker below.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n- + Cut one inflammatory input — added sugar, alcohol, or seed oils (pick one).\n- + Recovery practice 3×/week — sauna, Epsom-salt bath, or extended cold exposure.\n\n### Muscle\n- Walk 20 min daily.\n- + Resistance 2×/week — 5 push-ups, 10 squats, 30-sec plank (scale to your level).\n- + Mobility flow 3×/week — 5 min of hip circles, spinal rotation, shoulder rolls.\n\n### Mind\n- 5 min daily focused breathing or meditation.\n- + Read 10 pages or listen to one long-form podcast/day.\n- + Morning brain-dump journal — 5 min, whatever's in your head, no editing.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n- + Tell one person what you're doing and why.\n- + Share one win in the cohort space.\n\n### Nutrition\n- Placeholder — your Week 3 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
     resources: [],
   },
   {
@@ -362,7 +362,7 @@ const WEEKLY_CONTENT = [
     week: 4,
     pillar: 'motivate',
     title: 'Week 4',
-    bodyMarkdown: `## Week 4 — Integration & Identity\n\n### Morning Protocol\n- All of the above (box breathing → morning sunlight → cold shower → fireside/sumo squat → lunge stretch), with more focus and passion.\n\n### Mitigate\n- All of above, daily, with intention.\n\n### Muscle\n- All of above + one challenging session/week (longer walk, more reps, harder hold).\n\n### Mind\n- All of above + one thing learned this month, written down.\n\n### Motivate\n- All of above + write what Month 2 looks like for you.\n\n### Nutrition\n- Placeholder — your Week 4 meal plan goes here. Food log: 3 meals + snacks, free-text.\n\n---\n\n**Want live coaching with Dr. TJ? Available Month 2+ as an upgrade tier.**`,
+    bodyMarkdown: `## Week 4 — Integration & Identity\n\n### Morning Protocol\nAll elements — with more focus and passion. Check off each day in the tracker below.\n\n### Mitigate\n- All of above, daily, with intention.\n\n### Muscle\n- All of above + one challenging session/week (longer walk, more reps, harder hold).\n\n### Mind\n- All of above + one thing learned this month, written down.\n\n### Motivate\n- All of above + write what Month 2 looks like for you.\n\n### Nutrition\n- Placeholder — your Week 4 meal plan goes here. Food log: 3 meals + snacks, free-text.\n\n---\n\n**Want live coaching with Dr. TJ? Available Month 2+ as an upgrade tier.**`,
     resources: [
       { name: 'Genesis RPA — Introduction', url: 'https://genesisregenerative.com' },
     ],

@@ -14,7 +14,7 @@
 import { factors } from './content/factors';
 import type { Factor } from './content/factors';
 import { supplements } from './content/supplements';
-import { morningProtocol } from './content/morningProtocol';
+import { stepsForWeek } from './content/morningProtocol';
 import { foodTiers, fasting } from './content/nutrition';
 import { tabs, weekMeta } from './content/weeks';
 import type { Workbook } from './data/schema';
@@ -107,9 +107,19 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
       onclick="portalAction('toggleDay','cold',${w},'${key}')">${d.charAt(0)}</button>`;
   }).join('');
   const doneCt = days.filter((_, i) => wl.morn[`w${w}d${i + 1}`]).length;
+  const steps = stepsForWeek(w);
+  const week4Note = w === 4 ? ' — with more focus and passion' : '';
+  const stepsHtml = steps.length > 0 ? `
+    <div style="margin-bottom:12px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:6px;text-transform:uppercase">Today's morning practice${week4Note} — check off as you complete:</div>
+      <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
+        ${steps.map(s => `<li style="font-size:12px;color:#e8eaf0;line-height:1.4"><strong>${esc(s.n)}</strong> — <span style="color:#9ba3b2">${esc(s.p)}</span>${s.u ? ` <a href="${s.u}" target="_blank" rel="noopener noreferrer" style="color:${wc.ac};font-size:10px;margin-left:4px">▶ video</a>` : ''}</li>`).join('')}
+      </ol>
+    </div>` : '';
   return `<div class="card" style="border-color:${wc.ac}55">
     <div class="card-title"><span style="color:${wc.ac}">Week ${w}</span> Morning Protocol Tracker</div>
-    <div style="font-size:11px;color:#6A8A6E;margin-bottom:8px">Tap each day you completed all 7 elements</div>
+    ${stepsHtml}
+    <div style="font-size:11px;color:#6A8A6E;margin-bottom:8px">Tap each day you completed all elements</div>
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">${dayBtns}</div>
     <div class="g2" style="margin-bottom:12px">
       <div>
@@ -554,35 +564,6 @@ function renderW1(ctx: RenderContext): string {
   </div>
 
   ${morningTracker(W, 1)}`;
-}
-
-function renderMorn(W: Workbook): string {
-  return `
-  <div class="page-title" style="color:#1D9E75">4M Morning Protocol</div>
-  <div class="page-sub">Level 1 · Done fasted · Outdoors · Every morning · Cold shower closes</div>
-
-  <div class="info-box" style="background:rgba(29,158,117,.06);border:1px solid rgba(29,158,117,.2)">
-    <strong style="color:#1D9E75">Stack all elements simultaneously outdoors.</strong>
-    Step outside fasted within 60 min of waking. Box breathe throughout. Move through the full sequence.
-    Cold shower closes every morning — non-negotiable. First meal after 9AM, only after morning routine is complete.
-  </div>
-
-  <div class="card">
-    <div class="card-title">Level 1 — All Elements</div>
-    ${morningProtocol.map((mv, i) => `
-      <div style="display:flex;gap:13px;padding:12px 0;${i < morningProtocol.length - 1 ? 'border-bottom:1px solid #E8F0E855' : ''};align-items:flex-start">
-        <div style="width:28px;height:28px;border-radius:50%;background:#0D2E1A;border:1px solid #1D9E75;
-          display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
-          color:#1D9E75;flex-shrink:0">${i + 1}</div>
-        <div style="flex:1">
-          <div style="font-size:13px;font-weight:600;color:#1A3A20;margin-bottom:3px">${esc(mv.n)}</div>
-          <div style="font-size:11px;color:#4A7A54;margin-bottom:6px">${esc(mv.p)}</div>
-          ${mv.u ? `<a href="${mv.u}" target="_blank" class="btn xs" style="color:#1D9E75;border-color:#1D9E7555">▶ Watch tutorial ↗</a>` : ''}
-        </div>
-      </div>`).join('')}
-  </div>
-
-  ${([1, 2, 3, 4] as const).map(w => morningTracker(W, w)).join('')}`;
 }
 
 function renderW2(W: Workbook): string {
@@ -1309,7 +1290,6 @@ function renderRegen(W: Workbook): string {
 export function renderPage(ctx: RenderContext): string {
   switch (ctx.curTab) {
     case 'w1': return renderW1(ctx);
-    case 'morn': return renderMorn(ctx.W);
     case 'w2': return renderW2(ctx.W);
     case 'nutr': return renderNutr(ctx.W);
     case 'w3': return renderW3(ctx.W);
