@@ -1,7 +1,9 @@
 # Plan: Public Lead Capture → Stripe Cart → AI Concierge
 
 ## Context
-Build a public, no-login lead funnel for 4M Life: anonymous visitor submits a discovery form, lands in a Stripe Checkout cart, pays for a consult, and from then on Claude autonomously emails and texts them to schedule and upsell. A single `Contact` table is the golden record across the platform; `Conversations`, `Touchpoints`, and `Orders` tables capture every interaction. Mirrors the proven Hims/Ro/Noom funnel; AI handles all conversation; capital-efficient (~$6K runway constraint).
+Build a public, no-login lead funnel for 4M Life: anonymous visitor submits a discovery form, lands in a Stripe Checkout cart, pays for a consult, and from then on Claude (via AWS Bedrock) autonomously emails and texts them to schedule and upsell. A single `Contact` table is the golden record across the platform; `Conversations`, `Touchpoints`, and `Orders` tables capture every interaction. Mirrors the proven Hims/Ro/Noom funnel; AI handles all conversation; capital-efficient (~$6K runway constraint).
+
+**HIPAA note:** All AI calls route through AWS Bedrock (`@aws-sdk/client-bedrock-runtime`), not direct Anthropic API. AWS BAA covers Bedrock-routed Claude calls. No PHI in SMS bodies — SMS delivers "log in to see update" notices only; PHI lives behind authentication.
 
 ## Execution rules
 - Orchestrator delegates every task to a subagent (per global rules + TJ's explicit request).
@@ -14,14 +16,36 @@ Build a public, no-login lead funnel for 4M Life: anonymous visitor submits a di
 
 ## Tasks
 
+### [P0] Compliance prerequisites  [sequential — TJ-blocked, runs before P1]
+model: no-delegate (TJ action items)
+
+**P0.1 — Sign AWS BAA**
+TJ accepts the AWS Business Associate Agreement via AWS Console → Artifact → Agreements → AWS BAA → Accept. Done = BAA on file. Verify: `aws artifact list-customer-agreements` (if CLI available).
+
+**P0.2 — Attorney delivers legal documents**
+Attorney produces the six documents listed in `docs/legal/attorney-brief.md`. Done = signed PDFs committed to `docs/legal/`.
+
+**P0.3 — HIPAA Compliance Plan**
+TJ designates self as Privacy Officer + Security Officer and commits a one-page plan to `docs/legal/hipaa-compliance-plan.md`.
+
+**P0.4 — Bedrock model access**
+In AWS Console → Bedrock → Model access, request access for Claude Sonnet and Claude Haiku in `us-east-1` or `us-east-2`. Confirm availability (Claude 3.x models are generally available in `us-east-1`; if Haiku/Sonnet unavailable in `us-east-2`, Lambdas will target `us-east-1` via `BEDROCK_REGION`). Done = models listed as "Access granted."
+
+**P0.5 — CloudTrail**
+Confirm CloudTrail is enabled org-wide. If not, enable it and document in `docs/legal/hipaa-compliance-plan.md`.
+
+✓ DONE WHEN: BAA on file; `docs/legal/` has all attorney docs; `docs/legal/hipaa-compliance-plan.md` committed; Bedrock model access granted; CloudTrail verified.
+
+---
+
 ### [P1] Audit reusable code + Stripe/reCAPTCHA decisions  [parallel]
 model: haiku
-Read: existing AppSync schema (`infra/clientportal/appsync/schema.graphql`), existing DDB tables in `infra/clientportal/cdk/lib/data-stack.ts`, current Discovery flow (`apps/clientportal/src/lib/components/discovery/*` + `submitDiscovery` in `operations.ts`), and `apps/clientportal/.env.local`. Produce `docs/plan/lead-funnel-inventory.md` listing: existing entities reused, new entities needed (Contact/Conversations/Touchpoints/Orders), every Discovery callsite to refactor (file:line), existing SES setup in `lib/auth-stack.ts` to mirror for `concierge@my4mlife.com`. Also list env vars the build will need (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, ANTHROPIC_API_KEY, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY).
+Read: existing AppSync schema (`infra/clientportal/appsync/schema.graphql`), existing DDB tables in `infra/clientportal/cdk/lib/data-stack.ts`, current Discovery flow (`apps/clientportal/src/lib/components/discovery/*` + `submitDiscovery` in `operations.ts`), and `apps/clientportal/.env.local`. Produce `docs/plan/lead-funnel-inventory.md` listing: existing entities reused, new entities needed (Contact/Conversations/Touchpoints/Orders), every Discovery callsite to refactor (file:line), existing SES setup in `lib/auth-stack.ts` to mirror for `concierge@my4mlife.com`. Also list env vars the build will need (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, BEDROCK_REGION, BEDROCK_MODEL_ID, RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY).
 ✓ DONE WHEN: `docs/plan/lead-funnel-inventory.md` exists with all four sections populated.
 
 ### [P1] Extend GraphQL schema with public + new types  [parallel]
 model: opus
-Edit `infra/clientportal/appsync/schema.graphql`. Add types: `Contact`, `Conversation`, `ConversationMessage`, `Touchpoint`, `Order`. Add a public mutation `submitLead(input: SubmitLeadInput!): Contact!` annotated `@aws_api_key` (NO @aws_cognito_user_pools — public). `SubmitLeadInput` carries `email!`, `phone`, `name`, `category`, `intakeAnswers: AWSJSON`, `recaptchaToken!`, optional `utmSource/utmMedium/utmCampaign`. Authenticated queries: `getContact(contactId)` (admin), `listMyConversations`, `listMyTouchpoints` (owner-scoped). Resolver intent comments: lead-router Lambda invokes via IAM; reCAPTCHA verified server-side before write. Add `@aws_iam` to admin queries so Lambdas can call.
+Edit `infra/clientportal/appsync/schema.graphql`. Add types: `Contact`, `Conversation`, `ConversationMessage`, `Touchpoint`, `Order`. Add consent fields to `Contact`: `nppAcceptedAt`, `phiAuthAcceptedAt`, `aiCommunicationConsentAt`, `marketingConsentAt` (all AWSDateTime, marketing nullable). Add a public mutation `submitLead(input: SubmitLeadInput!): Contact!` annotated `@aws_api_key` (NO @aws_cognito_user_pools — public). `SubmitLeadInput` carries `email!`, `phone`, `name`, `category`, `intakeAnswers: AWSJSON`, `recaptchaToken!`, optional `utmSource/utmMedium/utmCampaign`, and the four consent fields. Authenticated queries: `getContact(contactId)` (admin), `listMyConversations`, `listMyTouchpoints` (owner-scoped). Resolver intent comments: lead-router Lambda invokes via IAM; reCAPTCHA verified server-side before write. Add `@aws_iam` to admin queries so Lambdas can call.
 ✓ DONE WHEN: `npx graphql-schema-linter` exits 0 (using existing `.graphql-schema-linterrc`).
 
 ### [P1] Research Stripe + reCAPTCHA wiring (no code)  [parallel]
@@ -48,7 +72,7 @@ Extend `test/api.test.ts` to assert: API has `API_KEY` listed in additional auth
 
 ### [P2] IMPL: AppSync API key + resolvers for new types  [sequential after TEST above]
 model: opus
-Edit `infra/clientportal/cdk/lib/api-stack.ts`: add `API_KEY` to additional auth providers; create `IApiKey` resource (1 year expiry, output value). Add JS resolvers under `infra/clientportal/cdk/resolvers/`: `submitLead.js` (calls a NONE data source pipeline that invokes a Lambda data source for reCAPTCHA verify, then PutItem to Contacts; stamps `contactId = util.autoId()`, `lifecycleStage = "lead"`, `createdAt`), `getContact.js` (admin-gated GetItem), `listMyConversations.js` (owner-scoped Query on Conversations PK), `listMyTouchpoints.js` (owner-scoped Query). For owner scoping: contact owns rows where `cognitoSub == ctx.identity.sub` — resolver looks up Contact by sub via `byEmail` GSI fallback if needed; if no contact yet, return empty.
+Edit `infra/clientportal/cdk/lib/api-stack.ts`: add `API_KEY` to additional auth providers; create `IApiKey` resource (1 year expiry, output value). Add JS resolvers under `infra/clientportal/cdk/resolvers/`: `submitLead.js` (calls a NONE data source pipeline that invokes a Lambda data source for reCAPTCHA verify, then PutItem to Contacts; stamps `contactId = util.autoId()`, `lifecycleStage = "lead"`, `createdAt`, and all four consent fields + timestamps from input), `getContact.js` (admin-gated GetItem), `listMyConversations.js` (owner-scoped Query on Conversations PK), `listMyTouchpoints.js` (owner-scoped Query). For owner scoping: contact owns rows where `cognitoSub == ctx.identity.sub`.
 ✓ DONE WHEN: `pnpm test api --run` exits 0; `cdk synth` exits 0.
 
 ### [P2] TEST + IMPL: reCAPTCHA verify Lambda  [parallel after P1, sequential after P1 schema]
@@ -63,14 +87,14 @@ In `lib/api-stack.ts` add `wafv2.CfnWebACL` with rule `RateBasedStatement` (limi
 
 ---
 
-### [P3] TEST: lead-router Lambda invokes Claude + sends email/SMS  [sequential after P2]
+### [P3] TEST: lead-router Lambda invokes Bedrock + sends email/SMS  [sequential after P2]
 model: sonnet
-`test/lead-router.test.ts`: mock `@aws-sdk/client-sesv2`, `@aws-sdk/client-sns`, `@aws-sdk/client-dynamodb`, and `@anthropic-ai/sdk`. Assert handler (a) parses DDB Streams INSERT event from Contacts, (b) calls Anthropic `messages.create` with cache-control on system prompt + product catalog, (c) sends SES email from `concierge@my4mlife.com` with In-Reply-To-eligible Message-ID, (d) publishes SNS SMS if `phone` present, (e) writes 2 rows to Conversations (system+assistant), (f) writes Touchpoints (`emailOut`, optional `smsOut`).
+`test/lead-router.test.ts`: mock `@aws-sdk/client-sesv2`, `@aws-sdk/client-sns`, `@aws-sdk/client-dynamodb`, and `@aws-sdk/client-bedrock-runtime`. Assert handler (a) parses DDB Streams INSERT event from Contacts, (b) calls Bedrock `ConverseCommand` with cache-enabled system prompt + product catalog (using `anthropic.claude-haiku-4-5-20251001-v1:0` or equivalent Bedrock model ID from `BEDROCK_MODEL_ID` env), (c) sends SES email from `concierge@my4mlife.com` with In-Reply-To-eligible Message-ID, (d) **SMS body contains NO PHI** — only a "You have an update — log in at https://app.my4mlife.com" style notice, (e) publishes SNS SMS if `phone` present, (f) writes 2 rows to Conversations (system+assistant), (g) writes Touchpoints (`emailOut`, optional `smsOut`).
 ✓ DONE WHEN: `pnpm test lead-router --run` red.
 
 ### [P3] IMPL: lead-router Lambda  [sequential after TEST above]
 model: opus
-`lambdas/lead/lead-router.ts` (<100 lines split across small files if needed: `lead-router.ts`, `concierge-prompt.ts`, `claude-client.ts`). System prompt establishes 4M Life voice (mirror Hims tone — warm, expert, concise; brain-health framing). Pulls product catalog from `AppConfig` table and pricing from `TierCatalog`. Email body links to `https://app.my4mlife.com/cart?contactId=<id>&category=<cat>`. SES + SNS clients. Adds `@anthropic-ai/sdk` to bundling externals; reads `ANTHROPIC_API_KEY` from env. Wire as DDB Streams trigger on Contacts in `data-stack.ts` or new `lib/concierge-stack.ts`.
+`lambdas/lead/lead-router.ts` (<100 lines split across small files if needed: `lead-router.ts`, `concierge-prompt.ts`, `bedrock-client.ts`). Uses `@aws-sdk/client-bedrock-runtime` — `BedrockRuntimeClient` + `ConverseCommand`. Model ID read from `BEDROCK_MODEL_ID` env; region from `BEDROCK_REGION` env. System prompt establishes 4M Life voice (warm, expert, concise; brain-health framing). Prompt caching enabled via `CachePoint` on the system block (Bedrock supports cache points for Claude models). Pulls product catalog from `AppConfig` table. Email body links to `https://app.my4mlife.com/cart?contactId=<id>&category=<cat>`. **SMS text must not contain PHI** — use generic "update available, log in" pattern only. Wire as DDB Streams trigger on Contacts in `data-stack.ts` or new `lib/concierge-stack.ts`.
 ✓ DONE WHEN: `pnpm test lead-router --run` exits 0; lambda <100 lines per file; `cdk synth` exits 0.
 
 ### [P3] TEST + IMPL: SES concierge identity setup  [parallel after P2]
@@ -82,24 +106,24 @@ Extend `infra/clientportal/setup-ses.sh` to also verify `concierge@my4mlife.com`
 
 ### [P4] TEST: SES inbound handler  [sequential after P3]
 model: sonnet
-`test/inbound-email.test.ts`: simulate S3 PutObject event for raw email (mailparser-stub), mock SES, DDB, Anthropic. Assert handler (a) parses email, looks up Contact by From: address (byEmail GSI), (b) loads last 20 messages from Conversations, (c) calls Claude with full thread + system prompt, (d) sends reply via SES with In-Reply-To + References headers preserving thread, (e) appends 2 rows to Conversations, (f) appends `emailIn` + `emailOut` Touchpoints.
+`test/inbound-email.test.ts`: simulate S3 PutObject event for raw email (mailparser-stub), mock SES, DDB, `@aws-sdk/client-bedrock-runtime`. Assert handler (a) parses email, looks up Contact by From: address (byEmail GSI), (b) loads last 20 messages from Conversations, (c) calls Bedrock `ConverseCommand` with full thread + system prompt, (d) sends reply via SES with In-Reply-To + References headers preserving thread, (e) appends 2 rows to Conversations, (f) appends `emailIn` + `emailOut` Touchpoints.
 ✓ DONE WHEN: `pnpm test inbound-email --run` red.
 
 ### [P4] IMPL: SES inbound receipt rule + handler Lambda  [sequential after TEST above]
 model: opus
-Create `lib/inbound-stack.ts`: S3 bucket `clientportal-inbound-mail` (lifecycle expire 90d), SES receipt rule set storing mail to S3 + invoking `lambdas/lead/inbound-email.ts` (<100 lines using `mailparser`). MX records for `my4mlife.com` upserted to Route53 pointing at `inbound-smtp.us-east-2.amazonaws.com` priority 10. Handler logic per test.
+Create `lib/inbound-stack.ts`: S3 bucket `clientportal-inbound-mail` (lifecycle expire 90d), SES receipt rule set storing mail to S3 + invoking `lambdas/lead/inbound-email.ts` (<100 lines using `mailparser`). MX records for `my4mlife.com` upserted to Route53 pointing at `inbound-smtp.us-east-2.amazonaws.com` priority 10. Handler uses `@aws-sdk/client-bedrock-runtime` — no direct Anthropic SDK. Handler logic per test.
 ✓ DONE WHEN: `pnpm test inbound-email --run` exits 0; `cdk synth` exits 0; deploy script idempotent.
 
 ### [P4] TEST + IMPL: SNS inbound SMS handler  [parallel after P3]
 model: sonnet
-SNS two-way SMS via `aws sns set-sms-attributes` is limited; for v1 use SNS topic `inbound-sms` that the user's reply hits via SNS subscription on origination number. Lambda `lambdas/lead/inbound-sms.ts` (<100 lines): parse SNS message, lookup Contact by `byPhone` GSI (add to Contacts table via P2 migration if not present — adjust P2 task plan), load Conversations, call Claude, publish reply via SNS. Test mocks SNS + Claude + DDB. Note: until phone-number provisioning is done, deploy this stack but don't expose; document gap in handoff.
+SNS two-way SMS via `aws sns set-sms-attributes` is limited; for v1 use SNS topic `inbound-sms` that the user's reply hits via SNS subscription on origination number. Lambda `lambdas/lead/inbound-sms.ts` (<100 lines): parse SNS message, lookup Contact by `byPhone` GSI (add to Contacts table via P2 migration if not present), load Conversations, call Bedrock `ConverseCommand`, **reply SMS must not contain PHI** — "We received your message. Log in at https://app.my4mlife.com for your response." pattern only. Test mocks SNS + Bedrock + DDB. Note: until phone-number provisioning is done, deploy this stack but don't expose; document gap in handoff.
 ✓ DONE WHEN: `pnpm test inbound-sms --run` exits 0.
 
 ---
 
 ### [P5] TEST: Stripe Checkout session Lambda + webhook  [sequential after P3]
 model: sonnet
-`test/stripe.test.ts`: 
+`test/stripe.test.ts`:
 (a) `createCheckoutSession` Lambda — given `{contactId, lineItems[]}`, returns Stripe session URL with `metadata.contactId`, `success_url=https://app.my4mlife.com/cart/success?session_id=...`, `cancel_url=.../cart`. Mock Stripe SDK.
 (b) `stripe-webhook` Lambda — verifies signature, on `checkout.session.completed` updates Contact `lifecycleStage=consult-paid`, creates Order row, writes Touchpoint `paymentSucceeded`, triggers a follow-up message on Contacts (rewrites `lastEvent` field — DDB Stream UPDATE picks it up; OR direct invoke lead-router with event type).
 ✓ DONE WHEN: `pnpm test stripe --run` red.
@@ -125,6 +149,18 @@ model: sonnet
 - Component tests for both with vitest+jsdom asserting submit happy-path and free-tier path.
 ✓ DONE WHEN: `pnpm --dir apps/clientportal test --run` exits 0; `pnpm check` exits 0.
 
+### [P6] TEST + IMPL: HIPAA consent UI  [sequential after P2 (API key), parallel with cart route]
+model: sonnet
+Add to `DiscoveryFlow.svelte` (or a pre-Discovery splash modal):
+- NPP display: linked text + scrollable modal with full Notice of Privacy Practices (link to `docs/legal/` PDF or inline text). Required — user must scroll or click "I have read."
+- Patient Authorization checkbox: "I authorize 4M Life to share my health information with my care team (telemedicine, lab, pharmacy)." Must be checked to enable Submit.
+- AI Communication Consent checkbox: "I consent to receive automated/AI-drafted communications about my care." Must be checked to enable Submit.
+- Marketing-Use Authorization checkbox: "I consent to use of my de-identified data for marketing." Optional — unchecked by default.
+- On submit: capture `nppAcceptedAt = new Date().toISOString()`, `phiAuthAcceptedAt`, `aiCommunicationConsentAt`, and `marketingConsentAt` (null if unchecked). Capture `consentIp` (from fetch to `/api/ip` or embed in API Gateway context) and `consentUserAgent = navigator.userAgent` — pass all in `SubmitLeadInput`.
+- All four timestamps + ip/ua written to Contact row in `submitLead` resolver.
+- Tests: assert Submit is disabled until both required checkboxes checked; assert timestamps sent in mutation payload.
+✓ DONE WHEN: `pnpm --dir apps/clientportal test --run` exits 0; `pnpm check` exits 0.
+
 ### [P6] TEST + IMPL: Touchpoints append helper + admin dashboard hook  [parallel after P5]
 model: sonnet
 `apps/clientportal/src/lib/api/operations.ts`: add `adminListContacts`, `adminGetContact(contactId)`, `adminListConversations(contactId)`, `adminListTouchpoints(contactId)`. Update `AdminDashboard.svelte` to render Contacts list with lifecycleStage badges + drill-in showing conversation thread. Tests mock operations.
@@ -145,14 +181,14 @@ Extend `infra/clientportal/seed/seed.ts` to upsert v1 SKUs into AppConfig:
 
 ### [P8] Deploy infra to live  [sequential after P7, no-delegate: requires user AWS confirmation]
 model: sonnet  [no-delegate: requires user AWS credential confirmation]
-Confirm with TJ. Run `./infra/clientportal/deploy.sh` (now deploys: data, auth, api, concierge, inbound, payments stacks). Run `setup-ses.sh` for concierge@. Place Stripe **test mode** keys in Secrets Manager via `aws secretsmanager put-secret-value` (TJ to provide; until then leave placeholder — webhook will fail signature check, intended). Update `apps/clientportal/.env.local`: add `VITE_APPSYNC_API_KEY`, `VITE_RECAPTCHA_SITE_KEY`, `VITE_STRIPE_CHECKOUT_API_URL`. Rebuild + deploy frontend via `apps/clientportal/deploy.sh`.
+Confirm with TJ that P0 is complete (BAA on file, Bedrock access granted). Run `./infra/clientportal/deploy.sh` (now deploys: data, auth, api, concierge, inbound, payments stacks). Run `setup-ses.sh` for concierge@. Place Stripe **test mode** keys in Secrets Manager via `aws secretsmanager put-secret-value` (TJ to provide; until then leave placeholder — webhook will fail signature check, intended). Update `apps/clientportal/.env.local`: add `VITE_APPSYNC_API_KEY`, `VITE_RECAPTCHA_SITE_KEY`, `VITE_STRIPE_CHECKOUT_API_URL`, `BEDROCK_REGION` (us-east-1 or us-east-2 per P0.4 outcome), `BEDROCK_MODEL_ID`. Rebuild + deploy frontend via `apps/clientportal/deploy.sh`.
 ✓ DONE WHEN: `aws appsync list-graphql-apis` shows API key; `https://app.my4mlife.com/cart?contactId=test` returns 200; webhook endpoint reachable.
 
 ---
 
 ### [P9] Smoke test the full funnel  [sequential after P8, no-delegate: needs TJ to use Stripe test card]
 model: sonnet  [no-delegate: requires real Stripe test-mode keys + manual interaction]
-Manual smoke (or scripted with TJ): submit Discovery as anonymous → land on /cart → pay with Stripe test card 4242 4242 4242 4242 → confirm webhook fires (CloudWatch logs lead-router) → check inbox for AI-drafted email → reply to email → confirm Claude responds within 60s → check admin dashboard for contact + conversation thread + touchpoints + AdminQueue item.
+Manual smoke (or scripted with TJ): submit Discovery as anonymous → consent checkboxes visible + required → land on /cart → pay with Stripe test card 4242 4242 4242 4242 → confirm webhook fires (CloudWatch logs lead-router) → check inbox for AI-drafted email → reply to email → confirm Claude responds within 60s → check admin dashboard for contact + conversation thread + touchpoints + AdminQueue item.
 ✓ DONE WHEN: TJ confirms each step or screenshot of CloudWatch + DynamoDB rows captured in `docs/HANDOFF.md`.
 
 ---
@@ -163,12 +199,18 @@ model: opus
 - [ ] `pnpm --dir apps/clientportal test --run` green
 - [ ] `pnpm --dir infra/clientportal/cdk test --run` green
 - [ ] `pnpm --dir infra/clientportal/cdk exec cdk synth` clean (all stacks)
-- [ ] No Stripe secrets / Anthropic API keys / reCAPTCHA secret committed (grep `git ls-files` and `git diff main`)
+- [ ] No Stripe secrets / Bedrock keys / reCAPTCHA secret committed (grep `git ls-files` and `git diff main`)
+- [ ] **AWS BAA on file (P0.1)**
+- [ ] **Bedrock used — no direct Anthropic SDK in any Lambda** (`grep -r "@anthropic-ai/sdk" infra/clientportal/cdk/lambdas` returns 0)
 - [ ] Each new Lambda <100 lines and esbuild-bundled (NodejsFunction)
 - [ ] Public `submitLead` mutation enforces reCAPTCHA + WAF rate limit (verify resolver pipeline + WebACL association)
-- [ ] AI concierge prompt cached (verify `cache_control` on system block in lead-router + inbound-email)
+- [ ] AI concierge prompt cache-enabled (verify `CachePoint` on system block in lead-router + inbound-email Bedrock calls)
+- [ ] **All four consent fields (`nppAcceptedAt`, `phiAuthAcceptedAt`, `aiCommunicationConsentAt`, `marketingConsentAt`) written on Contact creation**
+- [ ] **No PHI in SMS bodies** — audit lead-router.ts and inbound-sms.ts; SMS must be generic "log in" notices only
 - [ ] Conversations + Touchpoints written on every inbound/outbound event (grep handlers)
 - [ ] No password flows reintroduced
+- [ ] **CloudTrail enabled** (`aws cloudtrail describe-trails | grep IsLogging` = true)
+- [ ] **BAAs in `docs/legal/` for: AWS (P0.1), Bedrock-routed Anthropic (covered by AWS BAA), telemedicine vendor (when contracted), pharmacy (when contracted), lab (when contracted)**
 - [ ] `docs/HANDOFF.md` updated with funnel description, env-var inventory, smoke-test screenshots, Stripe key TODO
 - [ ] PR description written with summary + test plan + Loom-style end-to-end walkthrough
 
