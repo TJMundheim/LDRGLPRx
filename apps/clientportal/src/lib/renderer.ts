@@ -577,6 +577,8 @@ function renderW1(ctx: RenderContext): string {
 
   ${morningTracker(W, 1)}
 
+  ${renderWeekCogTraining(1)}
+
   ${renderWeekNutritionSection(1)}`;
 }
 
@@ -770,6 +772,8 @@ function renderW2(W: Workbook): string {
       Download the dual n-back app and complete your first session before Saturday.`)}
   </div>
 
+  ${renderWeekCogTraining(2)}
+
   ${morningTracker(W, 2)}
 
   <div class="card">
@@ -955,6 +959,8 @@ function renderW3(W: Workbook): string {
 
     ${pillarActionBox('#2E7FD9', `Add your final Month 1 supplement: <strong>methylated B Complex</strong>. Your Month 1 stack is now complete — 4 supplements total. Take B Complex with breakfast. Additional supplements (Lion's Mane, Bacopa, Phosphatidylserine) begin in Month 2. Continue dual n-back 3–4× per week.`)}
   </div>
+
+  ${renderWeekCogTraining(3)}
 
   ${morningTracker(W, 3)}
 
@@ -1193,6 +1199,8 @@ function renderW4(W: Workbook): string {
     ${pillarActionBox('#2E7FD9', 'Score all 4 weeks in the cognitive tracker. The trend line is your Month 1 story. Decide which supplements are locked in for Month 2 and write it down.')}
   </div>
 
+  ${renderWeekCogTraining(4)}
+
   ${morningTracker(W, 4)}
 
   <div class="card" style="border:2px solid rgba(107,94,212,.2)">
@@ -1220,6 +1228,40 @@ const affiliateSuppliers = [
   { name: 'Ancestral Supplements',   desc: 'Grass-fed organ capsules — liver, heart, kidney.',          url: 'https://ancestralsupplements.com' },
   { name: 'Thrive Market',           desc: 'Pantry staples & keto/paleo essentials — members only pricing.', url: 'https://thrivemarket.com' },
 ];
+
+/** Per-week cognitive training cue. */
+const weekCogTrainData: Record<1 | 2 | 3 | 4, string> = {
+  1: "Install Dual N-Back (free on iOS). Start at 2-back. 5–10 minutes daily. Don't worry about score — focus on showing up.",
+  2: "Stay daily. If 2-back feels easy three days running, push to 3-back.",
+  3: "Mix difficulty — some days 2-back for warm-up, then 3-back challenge sets.",
+  4: "Aim for 4-back. Note your best level — that's your Month-1 baseline.",
+};
+
+function renderWeekCogTraining(w: 1 | 2 | 3 | 4): string {
+  const wc = weekMeta[w];
+  const cue = weekCogTrainData[w];
+  return `
+  <div class="card" style="border-top:3px solid #2E7FD9;margin-top:8px">
+    <div style="font-size:14px;font-weight:700;color:#2E7FD9;margin-bottom:4px;letter-spacing:.01em">
+      Cognitive Training — Week ${w}
+    </div>
+    <div style="font-size:11.5px;color:#3A5A7A;margin-bottom:16px;line-height:1.6;font-style:italic">${esc(cue)}</div>
+
+    <div style="background:#F8FAF8;border:1.5px solid #D8E8DC;border-radius:9px;
+      padding:12px 14px;display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:#1A3A20">Dual N-Back (iOS)</div>
+      <div style="font-size:11px;color:#5A8A64;line-height:1.5">Free · Peer-reviewed transfer to working memory &amp; fluid intelligence.</div>
+      <a href="https://apps.apple.com/us/app/dual-n-back/id507031600" target="_blank" rel="noopener noreferrer"
+        style="font-size:11px;font-weight:700;color:#2E7FD9;text-decoration:none;
+          background:#2E7FD918;border:1px solid #2E7FD944;border-radius:6px;
+          padding:5px 10px;text-align:center;display:block">Open App &rarr;</a>
+    </div>
+
+    <div style="font-size:10px;color:#8A9A88;font-style:italic">
+      Lumosity, Duolingo, and other tools become available in Month 2+.
+    </div>
+  </div>`;
+}
 
 /** Per-week fasting cue and supplement stack tagline. */
 const weekNutrData: Record<1 | 2 | 3 | 4, { fastingCue: string; suppTagline: string; suppNames: string[] }> = {
