@@ -1,0 +1,1472 @@
+{
+ "Resources": {
+  "ApiF70053CD": {
+   "Type": "AWS::AppSync::GraphQLApi",
+   "Properties": {
+    "AdditionalAuthenticationProviders": [
+     {
+      "AuthenticationType": "AWS_IAM"
+     }
+    ],
+    "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "Name": "clientportal-api",
+    "UserPoolConfig": {
+     "AwsRegion": "us-east-2",
+     "DefaultAction": "ALLOW",
+     "UserPoolId": {
+      "Fn::ImportValue": "AuthStack:ExportsOutputRefUserPool6BA7E5F296FD7236"
+     }
+    },
+    "XrayEnabled": false
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/Resource"
+   }
+  },
+  "ApiSchema510EECD7": {
+   "Type": "AWS::AppSync::GraphQLSchema",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "Definition": "# LDRGLPRx Client Portal — AppSync GraphQL schema\n#\n# Auth model:\n#   - Default authentication is Amazon Cognito User Pools (set on the API).\n#   - User-owned types carry `owner: ID!` (= Cognito `sub`); resolvers stamp\n#     `owner = ctx.identity.sub` on writes and filter by `owner` on reads via\n#     a `byOwner` GSI.\n#   - Admin-only fields are gated with @aws_auth(cognito_groups:[\"Admins\"]).\n#\n# Resolver intent (documented here, implemented in api-stack.ts):\n#   - On the first authenticated GraphQL call for a given identity (typically\n#     `getMyProfile` or `upsertMyProfile`), the resolver auto-creates a\n#     `UserProfile` row keyed by `ctx.identity.sub`, populating\n#     `primaryEmail` from the ID-token `email` claim. The PostConfirmation\n#     Lambda is the primary path for profile creation; this resolver-level\n#     auto-create is defense-in-depth for users who pre-date the trigger.\n#   - PostAuthentication reconciles `primaryEmail` if the Cognito email\n#     attribute has been changed since last login.\n#   - `secondaryEmail` is DynamoDB-only and is NEVER written to Cognito.\n\nschema {\n  query: Query\n  mutation: Mutation\n}\n\n# ─── Scalars / shared enums ───────────────────────────────────────────────\n\nenum TierId {\n  foundation\n  optimization\n  longevity\n  concierge\n}\n\nenum ProgramMonth {\n  M1\n  M2\n  M3\n  M4\n  MAINTENANCE\n}\n\nenum PillarId {\n  mitigate\n  muscle\n  mind\n  motivate\n}\n\nenum QueueItemKind {\n  intake_review\n  clinician_escalation\n  rx_approval\n  protocol_check\n  lab_result_review\n  outcome_flag\n}\n\nenum QueueUrgency { routine soon urgent }\nenum QueueStatus  { pending in_progress resolved deferred }\n\n# ─── UserProfile (owner-scoped; id = Cognito sub) ─────────────────────────\n\ntype Address {\n  line1: String\n  line2: String\n  city: String\n  region: String\n  postalCode: String\n  country: String\n}\n\ntype UserPrefs {\n  marketingOptIn: Boolean\n  smsOptIn: Boolean\n  timezone: String\n  units: String\n}\n\ninput AddressInput {\n  line1: String\n  line2: String\n  city: String\n  region: String\n  postalCode: String\n  country: String\n}\n\ninput UserPrefsInput {\n  marketingOptIn: Boolean\n  smsOptIn: Boolean\n  timezone: String\n  units: String\n}\n\ntype UserProfile {\n  # Cognito `sub` — also the partition key.\n  id: ID!\n  # Mirror of Cognito `email` attribute, reconciled on each login.\n  primaryEmail: AWSEmail!\n  # DynamoDB-only; never written to Cognito.\n  secondaryEmail: AWSEmail\n  firstName: String\n  lastName: String\n  displayName: String\n  dob: AWSDate\n  phone: AWSPhone\n  address: Address\n  tier: TierId\n  currentMonth: ProgramMonth\n  currentPillar: PillarId\n  prefs: UserPrefs\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ninput UpsertMyProfileInput {\n  firstName: String\n  lastName: String\n  displayName: String\n  dob: AWSDate\n  phone: AWSPhone\n  address: AddressInput\n  tier: TierId\n  currentMonth: ProgramMonth\n  currentPillar: PillarId\n  prefs: UserPrefsInput\n}\n\n# ─── Program / curriculum (global config) ─────────────────────────────────\n\ntype MonthPillar @aws_iam @aws_cognito_user_pools {\n  month: ProgramMonth!\n  pillar: PillarId!\n  title: String!\n  summary: String\n  objectives: [String!]!\n}\n\ntype Program @aws_iam @aws_cognito_user_pools {\n  id: ID!\n  name: String!\n  description: String\n  pillars: [MonthPillar!]!\n  updatedAt: AWSDateTime!\n}\n\ntype WeeklyContent @aws_iam @aws_cognito_user_pools {\n  id: ID!\n  programId: ID!\n  month: ProgramMonth!\n  week: Int!\n  pillar: PillarId!\n  title: String!\n  bodyMarkdown: String!\n  resources: [Resource!]\n  updatedAt: AWSDateTime!\n}\n\ntype Resource @aws_iam @aws_cognito_user_pools {\n  name: String!\n  url: AWSURL!\n}\n\ninput ResourceInput {\n  name: String!\n  url: AWSURL!\n}\n\ninput MonthPillarInput {\n  month: ProgramMonth!\n  pillar: PillarId!\n  title: String!\n  summary: String\n  objectives: [String!]!\n}\n\ninput UpsertProgramInput {\n  id: ID!\n  name: String!\n  description: String\n  pillars: [MonthPillarInput!]!\n}\n\ninput UpsertWeeklyContentInput {\n  id: ID!\n  programId: ID!\n  month: ProgramMonth!\n  week: Int!\n  pillar: PillarId!\n  title: String!\n  bodyMarkdown: String!\n  resources: [ResourceInput!]\n}\n\n# ─── Tier / catalog (global config) ───────────────────────────────────────\n\ntype Tier @aws_iam @aws_cognito_user_pools {\n  id: TierId!\n  name: String!\n  tagline: String!\n  monthlyUSD: Int\n  annualUSD: Int\n  onboardingFeeUSD: Int\n  oneTimePriceUSD: Int\n  kind: String\n  includedProductSlugs: [String!]!\n  features: [String!]!\n  description: String!\n  idealFor: [String!]!\n  updatedAt: AWSDateTime!\n}\n\ntype TierCatalog @aws_iam @aws_cognito_user_pools {\n  id: ID!\n  tiers: [Tier!]!\n  updatedAt: AWSDateTime!\n}\n\ninput TierInput {\n  id: TierId!\n  name: String!\n  tagline: String!\n  monthlyUSD: Int\n  annualUSD: Int\n  onboardingFeeUSD: Int\n  oneTimePriceUSD: Int\n  kind: String\n  includedProductSlugs: [String!]!\n  features: [String!]!\n  description: String!\n  idealFor: [String!]!\n}\n\ninput UpsertTierCatalogInput {\n  id: ID!\n  tiers: [TierInput!]!\n}\n\n# ─── AppConfig (global config; admin-write, auth-read) ────────────────────\n\ntype AppConfig @aws_iam @aws_cognito_user_pools {\n  key: ID!\n  valueJson: AWSJSON!\n  updatedAt: AWSDateTime!\n}\n\ninput UpsertAppConfigInput {\n  key: ID!\n  valueJson: AWSJSON!\n}\n\n# ─── DiscoveryResponse (owner-scoped) ─────────────────────────────────────\n\ntype DiscoveryAnswer {\n  questionId: String!\n  valueJson: AWSJSON!\n}\n\ntype DiscoveryResult {\n  recommendedTier: TierId!\n  tierRationale: String!\n  triggeredProductSlugs: [String!]!\n  triggeredLabSlugs: [String!]!\n  topPriorities: [DiscoveryPriority!]!\n  clinicianFlags: [DiscoveryFlag!]!\n  summary: String!\n}\n\ntype DiscoveryPriority {\n  domain: String!\n  severity: Float!\n}\n\ntype DiscoveryFlag {\n  questionId: String!\n  reason: String!\n}\n\ntype DiscoveryResponse {\n  id: ID!\n  owner: ID!\n  answers: [DiscoveryAnswer!]!\n  result: DiscoveryResult\n  submittedAt: AWSDateTime!\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ninput DiscoveryAnswerInput {\n  questionId: String!\n  valueJson: AWSJSON!\n}\n\ninput SubmitDiscoveryInput {\n  answers: [DiscoveryAnswerInput!]!\n}\n\n# ─── Outcome (owner-scoped weekly check-ins) ──────────────────────────────\n\ntype OutcomeScore {\n  domain: String!\n  score: Int!\n}\n\ntype Outcome {\n  id: ID!\n  owner: ID!\n  weekISO: String!\n  month: ProgramMonth!\n  week: Int!\n  scores: [OutcomeScore!]!\n  freeText: String\n  submittedAt: AWSDateTime!\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ninput OutcomeScoreInput {\n  domain: String!\n  score: Int!\n}\n\ninput CreateOutcomeInput {\n  weekISO: String!\n  month: ProgramMonth!\n  week: Int!\n  scores: [OutcomeScoreInput!]!\n  freeText: String\n}\n\n# ─── IntakeForm (owner-scoped) ────────────────────────────────────────────\n\ntype IntakeAnswer {\n  questionId: String!\n  valueJson: AWSJSON!\n}\n\ntype IntakeForm {\n  id: ID!\n  owner: ID!\n  version: String!\n  answers: [IntakeAnswer!]!\n  status: String!\n  submittedAt: AWSDateTime\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ninput IntakeAnswerInput {\n  questionId: String!\n  valueJson: AWSJSON!\n}\n\ninput UpsertIntakeFormInput {\n  version: String!\n  answers: [IntakeAnswerInput!]!\n  status: String!\n}\n\n# ─── AdminQueueItem (admin-only) ──────────────────────────────────────────\n\ntype AdminQueueItem {\n  id: ID!\n  kind: QueueItemKind!\n  patientId: ID!\n  patientLabel: String!\n  summary: String!\n  draftedAction: String\n  urgency: QueueUrgency!\n  status: QueueStatus!\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ninput UpdateAdminQueueItemInput {\n  id: ID!\n  status: QueueStatus\n  draftedAction: String\n  urgency: QueueUrgency\n}\n\n# ─── Pagination ───────────────────────────────────────────────────────────\n\ntype UserProfileConnection {\n  items: [UserProfile!]!\n  nextToken: String\n}\n\ntype OutcomeConnection {\n  items: [Outcome!]!\n  nextToken: String\n}\n\ntype AdminQueueItemConnection {\n  items: [AdminQueueItem!]!\n  nextToken: String\n}\n\n# ─── Root ─────────────────────────────────────────────────────────────────\n\ntype Query {\n  # Owner-scoped reads.\n  # `getMyProfile` auto-creates the profile from `ctx.identity.sub` +\n  # ID-token email claim if missing (defense-in-depth alongside\n  # PostConfirmation Lambda).\n  getMyProfile: UserProfile!\n  listMyOutcomes(limit: Int, nextToken: String): OutcomeConnection!\n  getMyDiscoveryResponse: DiscoveryResponse\n  getMyIntakeForm: IntakeForm\n\n  # Global config (any authenticated user may read).\n  getAppConfig(key: ID!): AppConfig\n  getProgram(id: ID!): Program\n  listWeeklyContent(programId: ID!, month: ProgramMonth): [WeeklyContent!]!\n  getTierCatalog(id: ID!): TierCatalog\n  listTiers: [Tier!]!\n\n  # Admin-only.\n  adminGetProfile(userId: ID!): UserProfile\n    @aws_auth(cognito_groups: [\"Admins\"])\n  adminListUsers(limit: Int, nextToken: String): UserProfileConnection!\n    @aws_auth(cognito_groups: [\"Admins\"])\n  adminListOutcomes(\n    userId: ID\n    limit: Int\n    nextToken: String\n  ): OutcomeConnection!\n    @aws_auth(cognito_groups: [\"Admins\"])\n  adminListQueue(\n    status: QueueStatus\n    limit: Int\n    nextToken: String\n  ): AdminQueueItemConnection!\n    @aws_auth(cognito_groups: [\"Admins\"])\n}\n\ntype Mutation {\n  # Owner-scoped writes. Resolvers stamp `owner = ctx.identity.sub`.\n  # `upsertMyProfile` auto-creates the UserProfile row on first call,\n  # seeding `primaryEmail` from the ID-token `email` claim.\n  upsertMyProfile(input: UpsertMyProfileInput!): UserProfile!\n  # Updates the DynamoDB-only secondary email; never propagated to Cognito.\n  updateSecondaryEmail(secondaryEmail: AWSEmail): UserProfile!\n  submitDiscovery(input: SubmitDiscoveryInput!): DiscoveryResponse!\n  upsertMyIntakeForm(input: UpsertIntakeFormInput!): IntakeForm!\n  createOutcome(input: CreateOutcomeInput!): Outcome!\n\n  # Admin-only writes (curriculum + catalog + global config + queue).\n  upsertProgram(input: UpsertProgramInput!): Program!\n    @aws_auth(cognito_groups: [\"Admins\"])\n    @aws_iam\n  upsertWeeklyContent(input: UpsertWeeklyContentInput!): WeeklyContent!\n    @aws_auth(cognito_groups: [\"Admins\"])\n    @aws_iam\n  upsertTierCatalog(input: UpsertTierCatalogInput!): TierCatalog!\n    @aws_auth(cognito_groups: [\"Admins\"])\n    @aws_iam\n  upsertAppConfig(input: UpsertAppConfigInput!): AppConfig!\n    @aws_auth(cognito_groups: [\"Admins\"])\n    @aws_iam\n  updateAdminQueueItem(input: UpdateAdminQueueItemInput!): AdminQueueItem!\n    @aws_auth(cognito_groups: [\"Admins\"])\n    @aws_iam\n}\n"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/Schema"
+   }
+  },
+  "ApiUsersDSServiceRole5A2C4191": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/UsersDS/ServiceRole/Resource"
+   }
+  },
+  "ApiUsersDSServiceRoleDefaultPolicy5DCF6035": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttUsers0A0EEA89Arn6658B146"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttUsers0A0EEA89Arn6658B146"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttUsers0A0EEA89Arn6658B146"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttUsers0A0EEA89Arn6658B146"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiUsersDSServiceRoleDefaultPolicy5DCF6035",
+    "Roles": [
+     {
+      "Ref": "ApiUsersDSServiceRole5A2C4191"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/UsersDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiUsersDS68BDA33B": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefUsers0A0EEA89A1309EA5"
+     }
+    },
+    "Name": "UsersDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiUsersDSServiceRole5A2C4191",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/UsersDS/Resource"
+   }
+  },
+  "ApiOutcomesDSServiceRole4BDA2EFC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/OutcomesDS/ServiceRole/Resource"
+   }
+  },
+  "ApiOutcomesDSServiceRoleDefaultPolicy89645985": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttOutcomes9EC31B62Arn6688AE17"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttOutcomes9EC31B62Arn6688AE17"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttOutcomes9EC31B62Arn6688AE17"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttOutcomes9EC31B62Arn6688AE17"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiOutcomesDSServiceRoleDefaultPolicy89645985",
+    "Roles": [
+     {
+      "Ref": "ApiOutcomesDSServiceRole4BDA2EFC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/OutcomesDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiOutcomesDSC8164FFC": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefOutcomes9EC31B62C9DF6E3D"
+     }
+    },
+    "Name": "OutcomesDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiOutcomesDSServiceRole4BDA2EFC",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/OutcomesDS/Resource"
+   }
+  },
+  "ApiAppConfigDSServiceRole84C6D8A7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/AppConfigDS/ServiceRole/Resource"
+   }
+  },
+  "ApiAppConfigDSServiceRoleDefaultPolicy85BCF8ED": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttAppConfig1FDF3617Arn333235A7"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttAppConfig1FDF3617Arn333235A7"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiAppConfigDSServiceRoleDefaultPolicy85BCF8ED",
+    "Roles": [
+     {
+      "Ref": "ApiAppConfigDSServiceRole84C6D8A7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/AppConfigDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiAppConfigDS7440975D": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefAppConfig1FDF3617C0191FEF"
+     }
+    },
+    "Name": "AppConfigDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiAppConfigDSServiceRole84C6D8A7",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/AppConfigDS/Resource"
+   }
+  },
+  "ApiProgramsDSServiceRoleFFAA0B7F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/ProgramsDS/ServiceRole/Resource"
+   }
+  },
+  "ApiProgramsDSServiceRoleDefaultPolicyBC1C87DF": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttPrograms7352D0C2ArnAECB1FC7"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttPrograms7352D0C2ArnAECB1FC7"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiProgramsDSServiceRoleDefaultPolicyBC1C87DF",
+    "Roles": [
+     {
+      "Ref": "ApiProgramsDSServiceRoleFFAA0B7F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/ProgramsDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiProgramsDSDC224407": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefPrograms7352D0C25FDAE405"
+     }
+    },
+    "Name": "ProgramsDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiProgramsDSServiceRoleFFAA0B7F",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/ProgramsDS/Resource"
+   }
+  },
+  "ApiWeeklyDSServiceRoleDECD1CDB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/WeeklyDS/ServiceRole/Resource"
+   }
+  },
+  "ApiWeeklyDSServiceRoleDefaultPolicyF07E7FD3": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttWeeklyContent6865CC6CArnEDBE94BE"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttWeeklyContent6865CC6CArnEDBE94BE"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiWeeklyDSServiceRoleDefaultPolicyF07E7FD3",
+    "Roles": [
+     {
+      "Ref": "ApiWeeklyDSServiceRoleDECD1CDB"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/WeeklyDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiWeeklyDS9661BD4F": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefWeeklyContent6865CC6C83275FC6"
+     }
+    },
+    "Name": "WeeklyDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiWeeklyDSServiceRoleDECD1CDB",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/WeeklyDS/Resource"
+   }
+  },
+  "ApiTierCatalogDSServiceRole6A152E99": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/TierCatalogDS/ServiceRole/Resource"
+   }
+  },
+  "ApiTierCatalogDSServiceRoleDefaultPolicy899001A5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttTierCatalog080C6C73ArnA0B63ACD"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttTierCatalog080C6C73ArnA0B63ACD"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiTierCatalogDSServiceRoleDefaultPolicy899001A5",
+    "Roles": [
+     {
+      "Ref": "ApiTierCatalogDSServiceRole6A152E99"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/TierCatalogDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiTierCatalogDSA0577AE8": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefTierCatalog080C6C736D0EC7C9"
+     }
+    },
+    "Name": "TierCatalogDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiTierCatalogDSServiceRole6A152E99",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/TierCatalogDS/Resource"
+   }
+  },
+  "ApiDiscoveryDSServiceRoleBA2E9D51": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/DiscoveryDS/ServiceRole/Resource"
+   }
+  },
+  "ApiDiscoveryDSServiceRoleDefaultPolicy0E297D77": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttDiscoveryResponses892D59A0ArnD2CE3C43"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttDiscoveryResponses892D59A0ArnD2CE3C43"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttDiscoveryResponses892D59A0ArnD2CE3C43"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttDiscoveryResponses892D59A0ArnD2CE3C43"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiDiscoveryDSServiceRoleDefaultPolicy0E297D77",
+    "Roles": [
+     {
+      "Ref": "ApiDiscoveryDSServiceRoleBA2E9D51"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/DiscoveryDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiDiscoveryDS3EA389C2": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefDiscoveryResponses892D59A05AADD100"
+     }
+    },
+    "Name": "DiscoveryDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiDiscoveryDSServiceRoleBA2E9D51",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/DiscoveryDS/Resource"
+   }
+  },
+  "ApiIntakeDSServiceRoleA9A992E3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/IntakeDS/ServiceRole/Resource"
+   }
+  },
+  "ApiIntakeDSServiceRoleDefaultPolicy3D67549B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttIntakeForms2CC757E1ArnA8883578"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttIntakeForms2CC757E1ArnA8883578"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttIntakeForms2CC757E1ArnA8883578"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttIntakeForms2CC757E1ArnA8883578"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiIntakeDSServiceRoleDefaultPolicy3D67549B",
+    "Roles": [
+     {
+      "Ref": "ApiIntakeDSServiceRoleA9A992E3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/IntakeDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiIntakeDS0FEB2F08": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefIntakeForms2CC757E1993E1B51"
+     }
+    },
+    "Name": "IntakeDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiIntakeDSServiceRoleA9A992E3",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/IntakeDS/Resource"
+   }
+  },
+  "ApiAdminQueueDSServiceRole2F50CE90": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/AdminQueueDS/ServiceRole/Resource"
+   }
+  },
+  "ApiAdminQueueDSServiceRoleDefaultPolicy8D4DD3DB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttAdminQueue45A1D880ArnE5627B6B"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "DataStack:ExportsOutputFnGetAttAdminQueue45A1D880ArnE5627B6B"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiAdminQueueDSServiceRoleDefaultPolicy8D4DD3DB",
+    "Roles": [
+     {
+      "Ref": "ApiAdminQueueDSServiceRole2F50CE90"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/AdminQueueDS/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiAdminQueueDS300A8491": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": "us-east-2",
+     "TableName": {
+      "Fn::ImportValue": "DataStack:ExportsOutputRefAdminQueue45A1D880D53BBFEE"
+     }
+    },
+    "Name": "AdminQueueDS",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "ApiAdminQueueDSServiceRole2F50CE90",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/Api/AdminQueueDS/Resource"
+   }
+  },
+  "GetProfileFnA2E0BEBF": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/e640939d68140bf342edfcbc04afc981a6d2ad8ececdb9aacb868d4e78dba4b2.js",
+    "DataSourceName": "UsersDS",
+    "FunctionVersion": "2018-05-29",
+    "Name": "getProfileFn",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    }
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiUsersDS68BDA33B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/GetProfileFn/Resource"
+   }
+  },
+  "CreateProfileFnFF4053D5": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/936791405ab9c863e2f4714cd6df4bdd3cf7917cc0a929bddb236cd162fc6f21.js",
+    "DataSourceName": "UsersDS",
+    "FunctionVersion": "2018-05-29",
+    "Name": "createProfileFn",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    }
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiUsersDS68BDA33B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/CreateProfileFn/Resource"
+   }
+  },
+  "GetMyProfileResolver27B5553A": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/ade2091bfd14b04d7c2f9b25b3e8fbe2cba140164cd1083a9e2d3a9cf6aecb29.js",
+    "FieldName": "getMyProfile",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "GetProfileFnA2E0BEBF",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "CreateProfileFnFF4053D5",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/GetMyProfileResolver/Resource"
+   }
+  },
+  "UpsertProfileResolver7CC4D3F5": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/2907464280f8ae06dd94e7ad1502f2fe1b6746e0f6a3c4af9e3cc3af76f73087.js",
+    "DataSourceName": "UsersDS",
+    "FieldName": "upsertMyProfile",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiUsersDS68BDA33B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/UpsertProfileResolver/Resource"
+   }
+  },
+  "UpdateSecondaryEmailResolverA7801817": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/922860e8e7749eee9bbe11b6b4b1124e1e976aeda2153e52b6f75d7d8e32b27c.js",
+    "DataSourceName": "UsersDS",
+    "FieldName": "updateSecondaryEmail",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiUsersDS68BDA33B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/UpdateSecondaryEmailResolver/Resource"
+   }
+  },
+  "ListMyOutcomesResolver408C7859": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/1d1e17072f319c1450979e7883266fc743f0ebaa9437dfb0e17891e7305b2197.js",
+    "DataSourceName": "OutcomesDS",
+    "FieldName": "listMyOutcomes",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "ApiOutcomesDSC8164FFC",
+    "ApiSchema510EECD7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/ListMyOutcomesResolver/Resource"
+   }
+  },
+  "CreateOutcomeResolver125CBFD0": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/2174f8817be3dac6f2948ee51bf3a7910a71aad14a47444c76b7a7b36d1d57b5.js",
+    "DataSourceName": "OutcomesDS",
+    "FieldName": "createOutcome",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "ApiOutcomesDSC8164FFC",
+    "ApiSchema510EECD7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/CreateOutcomeResolver/Resource"
+   }
+  },
+  "GetAppConfigResolver0CDA4382": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/6c24b9be55f04ce18a0a02678df62180fa7a86344efb368f8056edf0d7c33e14.js",
+    "DataSourceName": "AppConfigDS",
+    "FieldName": "getAppConfig",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "ApiAppConfigDS7440975D",
+    "ApiSchema510EECD7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/GetAppConfigResolver/Resource"
+   }
+  },
+  "AdminListUsersResolver4DA45414": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/86ad3e22721e669c929b44f096c13da5b04364e813de89042ff497aedde6aa01.js",
+    "DataSourceName": "UsersDS",
+    "FieldName": "adminListUsers",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiUsersDS68BDA33B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AdminListUsersResolver/Resource"
+   }
+  },
+  "AdminGetProfileResolver8C1FE5B2": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/4951e61002941a33c6fa0081d96a6e1079c9f2c74b6de394a29753cc0017fc1d.js",
+    "DataSourceName": "UsersDS",
+    "FieldName": "adminGetProfile",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiUsersDS68BDA33B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AdminGetProfileResolver/Resource"
+   }
+  },
+  "UpsertProgramResolverFD7D1837": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/9ff48ea58992e2b6f46fefb704a0f9907eac6aa90163d02b1f6b5c1926325f59.js",
+    "DataSourceName": "ProgramsDS",
+    "FieldName": "upsertProgram",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "ApiProgramsDSDC224407",
+    "ApiSchema510EECD7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/UpsertProgramResolver/Resource"
+   }
+  },
+  "UpsertWeeklyContentResolver3BEAA967": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/9ff48ea58992e2b6f46fefb704a0f9907eac6aa90163d02b1f6b5c1926325f59.js",
+    "DataSourceName": "WeeklyDS",
+    "FieldName": "upsertWeeklyContent",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiWeeklyDS9661BD4F"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/UpsertWeeklyContentResolver/Resource"
+   }
+  },
+  "UpsertTierCatalogResolverBED937D1": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/9ff48ea58992e2b6f46fefb704a0f9907eac6aa90163d02b1f6b5c1926325f59.js",
+    "DataSourceName": "TierCatalogDS",
+    "FieldName": "upsertTierCatalog",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "ApiSchema510EECD7",
+    "ApiTierCatalogDSA0577AE8"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/UpsertTierCatalogResolver/Resource"
+   }
+  },
+  "UpsertAppConfigResolver5AC22B28": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "ApiF70053CD",
+      "ApiId"
+     ]
+    },
+    "CodeS3Location": "s3://cdk-hnb659fds-assets-879696522760-us-east-2/5aab11b16024c77f506db5a4639b2f80679cb584d403232bf94b8a6f15cdb049.js",
+    "DataSourceName": "AppConfigDS",
+    "FieldName": "upsertAppConfig",
+    "Kind": "UNIT",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "ApiAppConfigDS7440975D",
+    "ApiSchema510EECD7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/UpsertAppConfigResolver/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOUW7CMBBEz8K/s4VQDhCI2p9KbZMDoMWYsMSxXa8NiqLcvbIjpPZr5mlmR1tCudvAeoUPLuS5LzSdYGoDyl7gg48TOsejkTC9e3TXH105EoeLyfT98Z9aeVUDino0ONj6VGPA1kYvVer8oWrZfItGBrImpU9/sOZCXfSYg0ax1XflU+PpZ0E4wNRYnWezfllNcky4uFnw9ojMKjBUSQRvYR9lr8IeWc15eHklpW3AjkyX7j9jcDHMwtizghu/3MtX2OxgvboxUeGjCTQoaBb9BXINc9w8AQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "graphqlUrl": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ApiF70053CD",
+     "GraphQLUrl"
+    ]
+   }
+  },
+  "apiId": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ApiF70053CD",
+     "ApiId"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

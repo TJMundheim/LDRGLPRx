@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../lambdas/auth/post-confirmation.ts"],
+  "sourcesContent": ["import type { PostConfirmationTriggerHandler } from 'aws-lambda';\n\n// Placeholder \u2014 fleshed out in next plan task to PutItem into Users table.\nexport const handler: PostConfirmationTriggerHandler = async (event) => {\n  return event;\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAGO,IAAM,UAA0C,OAAO,UAAU;AACtE,SAAO;AACT;",
+  "names": []
+}

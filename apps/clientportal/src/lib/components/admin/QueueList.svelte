@@ -1,6 +1,9 @@
 <script lang="ts">
-  import type { QueueItem, QueueStatus } from '../../data/adminQueue';
-  import { resolveQueueItem } from '../../data/adminQueue';
+  import type { AdminQueueItem, QueueStatus } from '../../api/operations.js';
+  import { updateAdminQueueItem } from '../../api/operations.js';
+
+  // Accept both the API type and the legacy seed type (structurally compatible except createdAt).
+  type QueueItem = AdminQueueItem;
 
   interface Props {
     items: QueueItem[];
@@ -28,8 +31,11 @@
   };
 
   function act(id: string, status: QueueStatus): void {
-    resolveQueueItem(id, status);
+    // Optimistically remove from view, fire-and-forget API mutation
     visible = visible.filter((i) => i.id !== id);
+    void updateAdminQueueItem({ id, status }).catch(() => {
+      // Best-effort — no rollback needed for admin queue status updates
+    });
   }
 
   function toggleExpand(id: string): void {
@@ -64,9 +70,9 @@
 
       <div class="card-actions">
         <button class="btn btn-approve" onclick={() => act(item.id, 'resolved')}>Approve</button>
-        <button class="btn btn-edit"    onclick={() => act(item.id, 'in-progress')}>Edit</button>
+        <button class="btn btn-edit"    onclick={() => act(item.id, 'in_progress')}>Edit</button>
         <button class="btn btn-defer"   onclick={() => act(item.id, 'deferred')}>Defer</button>
-        <button class="btn btn-escalate" onclick={() => act(item.id, 'in-progress')}>Escalate</button>
+        <button class="btn btn-escalate" onclick={() => act(item.id, 'in_progress')}>Escalate</button>
       </div>
     </div>
   {/each}

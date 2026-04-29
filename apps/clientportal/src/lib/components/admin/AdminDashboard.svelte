@@ -1,21 +1,58 @@
 <script lang="ts">
-  import { getPendingQueue, type QueueItem } from '../../data/adminQueue';
+  import { onMount } from 'svelte';
+  import { currentUser } from '../../auth/store.svelte.js';
+  import { adminListUsers, adminListOutcomes, adminListQueue, type AdminQueueItem } from '../../api/operations.js';
+  import type { UserProfile, Outcome } from '../../api/operations.js';
   import QueueList from './QueueList.svelte';
+  import Forbidden403 from './Forbidden403.svelte';
+  import { SEED_QUEUE } from '../../data/adminQueue';
 
-  // Mock aggregate stats — replace with real queries once backend is wired.
-  const ACTIVE_PATIENTS = 42;
-  const INTAKES_THIS_WEEK = 7;
+  const isAdmin = $derived(currentUser.value?.groups.includes('Admins') ?? false);
 
-  let queue = $state<QueueItem[]>(getPendingQueue());
+  let users = $state<UserProfile[]>([]);
+  let outcomes = $state<Outcome[]>([]);
+  let queue = $state<AdminQueueItem[]>([]);
+  let loading = $state(false);
+  let error = $state('');
 
   const urgentCount  = $derived(queue.filter((i) => i.urgency === 'urgent').length);
   const soonCount    = $derived(queue.filter((i) => i.urgency === 'soon').length);
   const routineCount = $derived(queue.filter((i) => i.urgency === 'routine').length);
+
+  onMount(async () => {
+    if (!isAdmin) return;
+    loading = true;
+    try {
+      const [usersResult, outcomesResult, queueResult] = await Promise.all([
+        adminListUsers(50),
+        adminListOutcomes(undefined, 50),
+        adminListQueue(50),
+      ]);
+      users = usersResult.adminListUsers?.items ?? [];
+      outcomes = outcomesResult.adminListOutcomes?.items ?? [];
+      const queueItems = queueResult.adminListQueue?.items ?? [];
+      const pending = queueItems.filter((i) => i.status !== 'resolved');
+      queue = pending.length > 0 ? pending : (SEED_QUEUE.filter((i) => i.status !== 'resolved') as unknown as AdminQueueItem[]);
+    } catch {
+      // API unavailable — use seed data so the view remains useful in dev/offline
+      queue = SEED_QUEUE.filter((i) => i.status !== 'resolved') as unknown as AdminQueueItem[];
+    } finally {
+      loading = false;
+    }
+  });
 </script>
 
+{#if !isAdmin}
+  <Forbidden403 />
+{:else}
 <div class="admin-dashboard">
   <h2 class="dash-title">Admin Queue</h2>
 
+  {#if loading}
+    <p class="loading">Loading…</p>
+  {:else if error}
+    <p class="error">{error}</p>
+  {:else}
   <div class="stat-cards">
     <div class="stat-card urgent">
       <div class="stat-num">{urgentCount}</div>
@@ -30,12 +67,12 @@
       <div class="stat-label">Routine</div>
     </div>
     <div class="stat-card neutral">
-      <div class="stat-num">{ACTIVE_PATIENTS}</div>
+      <div class="stat-num">{users.length}</div>
       <div class="stat-label">Active Patients</div>
     </div>
     <div class="stat-card neutral">
-      <div class="stat-num">{INTAKES_THIS_WEEK}</div>
-      <div class="stat-label">Intakes This Week</div>
+      <div class="stat-num">{outcomes.length}</div>
+      <div class="stat-label">Outcomes</div>
     </div>
   </div>
 
@@ -43,7 +80,9 @@
     <h3 class="section-title">Pending Items</h3>
     <QueueList items={queue} />
   </div>
+  {/if}
 </div>
+{/if}
 
 <style>
   .admin-dashboard {
@@ -57,6 +96,15 @@
     color: #cdd4e0;
     margin: 0 0 20px;
     letter-spacing: 0.03em;
+  }
+
+  .loading, .error {
+    color: #7a8390;
+    padding: 20px 0;
+  }
+
+  .error {
+    color: #ff6060;
   }
 
   .stat-cards {

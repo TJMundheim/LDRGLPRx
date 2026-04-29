@@ -1,17 +1,18 @@
 <script lang="ts">
-  import type { Workbook, WeeklyOutcome, OutcomeDomainKey } from '../../data/schema';
+  import { onMount } from 'svelte';
+  import type { WeeklyOutcome, OutcomeDomainKey } from '../../data/schema';
   import { getDomainsForProtocols } from '../../content/outcomeQuestions';
+  import { listMyOutcomes } from '../../api/operations.js';
   import OutcomeCheckIn from './OutcomeCheckIn.svelte';
   import OutcomeTrendChart from './OutcomeTrendChart.svelte';
 
   interface Props {
-    workbook: Workbook;
     activeProductSlugs: string[];
     currentMonth: 1 | 2 | 3 | 4 | 'maintenance';
     currentWeek: number;
   }
 
-  let { workbook, activeProductSlugs, currentMonth, currentWeek }: Props = $props();
+  let { activeProductSlugs, currentMonth, currentWeek }: Props = $props();
 
   function currentWeekISO(): string {
     const now = new Date();
@@ -22,11 +23,55 @@
 
   const weekISO = currentWeekISO();
 
-  const outcomes: WeeklyOutcome[] = $derived(workbook.weeklyOutcomes ?? []);
+  let outcomes = $state<WeeklyOutcome[]>([]);
+  let loadingOutcomes = $state(true);
 
   const submittedThisWeek = $derived(
     outcomes.some(o => o.weekISO === weekISO)
   );
+
+  onMount(async () => {
+    try {
+      const result = await listMyOutcomes(100);
+      // Map API Outcome shape to local WeeklyOutcome shape
+      outcomes = (result.listMyOutcomes?.items ?? []).map((o) => ({
+        weekISO: o.weekISO,
+        month: mapMonth(o.month),
+        week: o.week,
+        scores: Object.fromEntries((o.scores ?? []).map((s) => [s.domain, s.score])) as Partial<Record<OutcomeDomainKey, number>>,
+        freeText: o.freeText ?? undefined,
+        submittedAt: typeof o.submittedAt === 'number' ? o.submittedAt : Date.parse(o.submittedAt as unknown as string),
+      }));
+    } catch {
+      // API unavailable — start with empty list; user can still submit
+    } finally {
+      loadingOutcomes = false;
+    }
+  });
+
+  function mapMonth(m: string): 1 | 2 | 3 | 4 | 'maintenance' {
+    const map: Record<string, 1 | 2 | 3 | 4 | 'maintenance'> = {
+      M1: 1, M2: 2, M3: 3, M4: 4, MAINTENANCE: 'maintenance',
+    };
+    return map[m] ?? 1;
+  }
+
+  function handleOutcomeSubmitted(): void {
+    // Re-fetch outcomes after a new one is submitted
+    void listMyOutcomes(100).then((result) => {
+      outcomes = (result.listMyOutcomes?.items ?? []).map((o) => ({
+        weekISO: o.weekISO,
+        month: mapMonth(o.month),
+        week: o.week,
+        scores: Object.fromEntries((o.scores ?? []).map((s) => [s.domain, s.score])) as Partial<Record<OutcomeDomainKey, number>>,
+        freeText: o.freeText ?? undefined,
+        submittedAt: typeof o.submittedAt === 'number' ? o.submittedAt : Date.parse(o.submittedAt as unknown as string),
+      }));
+    }).catch(() => {
+      // ignore
+    });
+    forceShow = false;
+  }
 
   const domains = $derived(getDomainsForProtocols(activeProductSlugs));
 
@@ -51,12 +96,11 @@
 
   {#if !submittedThisWeek || forceShow}
     <OutcomeCheckIn
-      {workbook}
       {activeProductSlugs}
       {currentMonth}
       {currentWeek}
       {weekISO}
-      onSubmitted={() => { forceShow = false; }}
+      onSubmitted={handleOutcomeSubmitted}
     />
   {:else}
     <p class="next-checkin">Next check-in in {daysUntilNextCheckin()} day{daysUntilNextCheckin() === 1 ? '' : 's'}.</p>

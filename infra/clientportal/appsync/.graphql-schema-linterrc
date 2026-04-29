@@ -1,0 +1,9 @@
+{
+  "schemaPaths": [
+    "appsync-prelude.graphql",
+    "schema.graphql"
+  ],
+  "rules": [
+    "deprecations-have-a-reason"
+  ]
+}

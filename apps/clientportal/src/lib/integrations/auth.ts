@@ -1,35 +1,50 @@
 /**
- * Auth integration — stub. Not implemented.
- *
- * Expected: Supabase Auth (magic link + passkey). TODO: implement alongside storage
- * migration to Supabase.
+ * Auth integration — delegates to the Cognito passwordless (CUSTOM_AUTH) module.
+ * API surface is kept compatible with previous stub.
  */
+
+import {
+  requestEmailCode,
+  submitEmailCode,
+  getCurrentUser as cognitoGetCurrentUser,
+  signOut as cognitoSignOut,
+  getIdToken,
+} from '../auth/cognito.js';
+
+export { requestEmailCode, submitEmailCode, getIdToken };
 
 export interface User {
   id: string;
   email: string;
-  cohortId?: string;
-  role?: 'patient' | 'clinician' | 'admin';
+  groups: string[];
+  /** Derived from Cognito groups: first matching group is used, falls back to 'patient'. */
+  role: 'patient' | 'clinician' | 'admin';
 }
 
-/** Initiates a sign-in flow (magic link / OAuth). */
-export async function signIn(_email: string): Promise<void> {
-  throw new Error('Not implemented: auth provider pending');
+function toUser(raw: { sub: string; email: string; groups: string[] }): User {
+  const roleMap: Record<string, User['role']> = {
+    admin: 'admin',
+    clinician: 'clinician',
+    patient: 'patient',
+  };
+  const role: User['role'] =
+    raw.groups.map((g) => roleMap[g]).find(Boolean) ?? 'patient';
+  return { id: raw.sub, email: raw.email, groups: raw.groups, role };
 }
 
 /** Signs out the current user. */
 export async function signOut(): Promise<void> {
-  throw new Error('Not implemented: auth provider pending');
+  cognitoSignOut();
 }
 
 /** Returns the current user, if any. */
 export async function currentUser(): Promise<User | null> {
-  // During beta, return a local anonymous user so the app is usable offline.
-  // TODO: remove default role:'admin' once real auth wires up — role must come from the auth token.
-  return { id: 'local-user', email: 'local@clientportal', role: 'admin' };
+  const raw = cognitoGetCurrentUser();
+  if (!raw) return null;
+  return toUser(raw);
 }
 
 /** Whether there is a signed-in user. */
 export async function isAuthenticated(): Promise<boolean> {
-  return (await currentUser()) !== null;
+  return cognitoGetCurrentUser() !== null;
 }

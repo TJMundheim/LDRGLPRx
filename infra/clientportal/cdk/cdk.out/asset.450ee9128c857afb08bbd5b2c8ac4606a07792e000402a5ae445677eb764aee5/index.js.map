@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../lambdas/auth/verify-auth-challenge.ts"],
+  "sourcesContent": ["import type { VerifyAuthChallengeResponseTriggerHandler } from 'aws-lambda';\n\nexport const handler: VerifyAuthChallengeResponseTriggerHandler = async (\n  event,\n) => {\n  const expected = event.request.privateChallengeParameters?.code;\n  const submitted = (event.request.challengeAnswer ?? '').trim();\n  event.response.answerCorrect = !!expected && submitted === expected;\n  return event;\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEO,IAAM,UAAqD,OAChE,UACG;AACH,QAAM,WAAW,MAAM,QAAQ,4BAA4B;AAC3D,QAAM,aAAa,MAAM,QAAQ,mBAAmB,IAAI,KAAK;AAC7D,QAAM,SAAS,gBAAgB,CAAC,CAAC,YAAY,cAAc;AAC3D,SAAO;AACT;",
+  "names": []
+}

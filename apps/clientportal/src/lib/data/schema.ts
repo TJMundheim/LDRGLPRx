@@ -34,6 +34,7 @@ export interface StrengthTest {
   pushupsType?: 'full' | 'incline' | 'knee' | '';
   squats?: string;
   squatsType?: 'full' | 'assisted' | '';
+  plankSec?: string;
 }
 
 export interface BodyBaseline {
@@ -99,6 +100,8 @@ export interface Workbook {
   strengthBaseline: StrengthTest;
   bodyBaseline: BodyBaseline;
   trainLog: TrainingSession;
+  /** Daily first/last meal times, keyed as `w{week}d{n}_firstMeal|lastMeal`. */
+  fastingLog: Record<string, string>;
 
   weekLogs: Record<1 | 2 | 3 | 4, WeekLog>;
 
@@ -186,6 +189,7 @@ export function createEmptyWorkbook(id: string, userId: string): Workbook {
     strengthBaseline: {},
     bodyBaseline: { weight: '', waist: '', energy: '', focus: '', sleep: '', mood: '' },
     trainLog: {},
+    fastingLog: {},
     weekLogs: {
       1: emptyWeek(1),
       2: emptyWeek(2),

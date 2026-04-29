@@ -1,0 +1,20 @@
+{
+  "name": "@ldrglprx/clientportal-seed",
+  "version": "1.0.0",
+  "description": "Seed script for AppSync AppConfig, Program, WeeklyContent, and TierCatalog mutations",
+  "type": "module",
+  "scripts": {
+    "seed": "tsx seed.ts",
+    "dry-run": "tsx seed.ts --dry-run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.0.0",
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "aws4fetch": "^1.0.20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

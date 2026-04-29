@@ -10,6 +10,7 @@
   import { tiers } from '../../content/tiers';
   import { evaluateIntake } from '../../intake/router';
   import { buildIntakeReport } from '../../intake/report';
+  import { submitDiscovery } from '../../api/operations.js';
 
   import type { IntakeAnswer } from '../../data/intake';
   import type { IntakeReport as IntakeReportType } from '../../intake/report';
@@ -39,6 +40,15 @@
     // Cast tiers — MembershipTier id is now string (extended in catalog.ts)
     report = buildIntakeReport(result, products, labs, tiers);
     step = 'report';
+    // Fire-and-forget: persist discovery to the server. Failure is non-blocking.
+    void submitDiscovery({
+      answers: answers.map((a) => ({
+        questionId: a.questionId,
+        valueJson: JSON.stringify(a.value),
+      })),
+    }).catch(() => {
+      // Best-effort submission — user can still see their report offline
+    });
   }
 
   function handleCheckout(): void {

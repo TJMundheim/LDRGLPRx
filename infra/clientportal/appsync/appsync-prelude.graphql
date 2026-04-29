@@ -1,0 +1,26 @@
+# AppSync scalar + directive prelude.
+#
+# AppSync extends GraphQL with a set of built-in scalars and auth directives
+# that are not part of the GraphQL spec. They are provided by the AppSync
+# service at runtime, but local linting needs them defined so the schema
+# parses cleanly. This file is consumed only by `graphql-schema-linter`
+# (see `.graphql-schema-linterrc`); AppSync itself ignores it because the
+# real schema file is the one passed to the AppSync API construct.
+
+scalar AWSDate
+scalar AWSTime
+scalar AWSDateTime
+scalar AWSTimestamp
+scalar AWSEmail
+scalar AWSJSON
+scalar AWSURL
+scalar AWSPhone
+scalar AWSIPAddress
+
+directive @aws_auth(cognito_groups: [String!]!) on FIELD_DEFINITION | OBJECT
+directive @aws_cognito_user_pools(cognito_groups: [String!]) on FIELD_DEFINITION | OBJECT
+directive @aws_iam on FIELD_DEFINITION | OBJECT
+directive @aws_api_key on FIELD_DEFINITION | OBJECT
+directive @aws_oidc on FIELD_DEFINITION | OBJECT
+directive @aws_lambda on FIELD_DEFINITION | OBJECT
+directive @aws_subscribe(mutations: [String!]!) on FIELD_DEFINITION

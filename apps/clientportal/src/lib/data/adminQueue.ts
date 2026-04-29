@@ -15,7 +15,7 @@ export type QueueItemKind =
   | 'outcome-flag';
 
 export type QueueUrgency = 'routine' | 'soon' | 'urgent';
-export type QueueStatus = 'pending' | 'in-progress' | 'resolved' | 'deferred';
+export type QueueStatus = 'pending' | 'in_progress' | 'resolved' | 'deferred';
 
 export interface QueueItem {
   id: string;
@@ -29,9 +29,8 @@ export interface QueueItem {
   status: QueueStatus;
 }
 
-const STORAGE_KEY = '4m:admin:queue';
-
-const SEED_ITEMS: QueueItem[] = [
+/** Exported seed items — used as fallback when the API is unavailable. */
+export const SEED_QUEUE: QueueItem[] = [
   {
     id: 'q-001',
     kind: 'intake-review',
@@ -62,7 +61,7 @@ const SEED_ITEMS: QueueItem[] = [
     summary: 'Patient reported chest discomfort during cold exposure session (Day 11). Symptom resolved within 2 minutes. Flagged by automated outcome monitor.',
     createdAt: Date.now() - 1_800_000,
     urgency: 'urgent',
-    status: 'in-progress',
+    status: 'in_progress',
   },
   {
     id: 'q-004',
@@ -88,32 +87,17 @@ const SEED_ITEMS: QueueItem[] = [
   },
 ];
 
-function loadQueue(): QueueItem[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw) as QueueItem[];
-  } catch {
-    // ignore parse errors
-  }
-  // First call — seed and persist.
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_ITEMS));
-  return SEED_ITEMS;
-}
-
-/** Returns all non-resolved items. Seeds localStorage on first call. */
+/**
+ * Returns all non-resolved seed items.
+ * Used as an offline/dev fallback when the admin API is unavailable.
+ */
 export function getPendingQueue(): QueueItem[] {
-  return loadQueue().filter((i) => i.status !== 'resolved');
+  return SEED_QUEUE.filter((i) => i.status !== 'resolved');
 }
 
-/** Updates the status of a single item and persists the queue. */
-export function resolveQueueItem(id: string, status: QueueStatus): void {
-  const queue = loadQueue();
-  const idx = queue.findIndex((i) => i.id === id);
-  if (idx === -1) {
-    console.warn('[adminQueue] resolveQueueItem: item not found', id);
-    return;
-  }
-  queue[idx] = { ...queue[idx]!, status };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(queue));
-  console.log(`[adminQueue] item ${id} → ${status}`);
+/**
+ * Mark a queue item with the given status (no-op stub — real impl will call API).
+ */
+export function resolveQueueItem(_id: string, _status: QueueStatus): void {
+  // Stub: backend mutation will be wired here.
 }

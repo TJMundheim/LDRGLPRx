@@ -1,0 +1,97 @@
+/**
+ * AdminDashboard — Cognito group gating tests.
+ *
+ * Tests:
+ *   1. Non-admin user sees 403 Forbidden component.
+ *   2. Admin user sees admin content (operations are mocked).
+ */
+
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/svelte';
+
+// ── Mock auth store ─────────────────────────────────────────────────────────
+// currentUser has a `.value` getter — mirror that shape.
+let mockUserValue: null | { sub: string; email: string; groups: string[] } = null;
+
+vi.mock('../../auth/store.js', () => ({
+  get currentUser() {
+    return {
+      get value() { return mockUserValue; },
+    };
+  },
+  setUser: vi.fn(),
+  clearUser: vi.fn(),
+}));
+
+// ── Mock admin operations ───────────────────────────────────────────────────
+vi.mock('../../api/operations.js', () => ({
+  adminListUsers: vi.fn().mockResolvedValue({
+    adminListUsers: { items: [{ id: 'u1', primaryEmail: 'a@b.com', groups: [] }], nextToken: null },
+  }),
+  adminListOutcomes: vi.fn().mockResolvedValue({
+    adminListOutcomes: { items: [{ id: 'o1', owner: 'u1' }], nextToken: null },
+  }),
+}));
+
+// ── Mock adminQueue (legacy) ────────────────────────────────────────────────
+vi.mock('../../data/adminQueue', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../data/adminQueue')>();
+  return {
+    ...actual,
+    getPendingQueue: vi.fn().mockReturnValue([]),
+  };
+});
+
+import AdminDashboard from './AdminDashboard.svelte';
+import * as ops from '../../api/operations.js';
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  mockUserValue = null;
+  // Restore default resolved values after clearAllMocks
+  (ops.adminListUsers as ReturnType<typeof vi.fn>).mockResolvedValue({
+    adminListUsers: { items: [{ id: 'u1', primaryEmail: 'a@b.com' }], nextToken: null },
+  });
+  (ops.adminListOutcomes as ReturnType<typeof vi.fn>).mockResolvedValue({
+    adminListOutcomes: { items: [{ id: 'o1', owner: 'u1' }], nextToken: null },
+  });
+});
+
+describe('AdminDashboard group gating', () => {
+  it('renders 403 when user has no Admins group', async () => {
+    mockUserValue = { sub: 'x', email: 'user@test.com', groups: [] };
+
+    render(AdminDashboard, {});
+
+    await waitFor(() => {
+      expect(screen.getByText('403')).toBeInTheDocument();
+      expect(screen.getByText(/admins only/i)).toBeInTheDocument();
+    });
+
+    expect(ops.adminListUsers).not.toHaveBeenCalled();
+    expect(ops.adminListOutcomes).not.toHaveBeenCalled();
+  });
+
+  it('renders 403 when user is null', async () => {
+    mockUserValue = null;
+
+    render(AdminDashboard, {});
+
+    await waitFor(() => {
+      expect(screen.getByText('403')).toBeInTheDocument();
+    });
+  });
+
+  it('renders admin content when user has Admins group', async () => {
+    mockUserValue = { sub: 'admin1', email: 'admin@test.com', groups: ['Admins'] };
+
+    render(AdminDashboard, {});
+
+    await waitFor(() => {
+      expect(screen.getByText(/admin queue/i)).toBeInTheDocument();
+    });
+
+    expect(ops.adminListUsers).toHaveBeenCalled();
+    expect(ops.adminListOutcomes).toHaveBeenCalled();
+  });
+});

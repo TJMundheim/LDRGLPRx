@@ -1,0 +1,517 @@
+{
+ "Resources": {
+  "Users0A0EEA89": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "owner",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "byOwner",
+      "KeySchema": [
+       {
+        "AttributeName": "owner",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "Users"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/Users/Resource"
+   }
+  },
+  "DiscoveryResponses892D59A0": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "owner",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "byOwner",
+      "KeySchema": [
+       {
+        "AttributeName": "owner",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "DiscoveryResponses"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/DiscoveryResponses/Resource"
+   }
+  },
+  "Outcomes9EC31B62": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "owner",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "byOwner",
+      "KeySchema": [
+       {
+        "AttributeName": "owner",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "Outcomes"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/Outcomes/Resource"
+   }
+  },
+  "IntakeForms2CC757E1": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "owner",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "byOwner",
+      "KeySchema": [
+       {
+        "AttributeName": "owner",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "IntakeForms"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/IntakeForms/Resource"
+   }
+  },
+  "Programs7352D0C2": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "Programs"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/Programs/Resource"
+   }
+  },
+  "WeeklyContent6865CC6C": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "WeeklyContent"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/WeeklyContent/Resource"
+   }
+  },
+  "AdminQueue45A1D880": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "AdminQueue"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/AdminQueue/Resource"
+   }
+  },
+  "TierCatalog080C6C73": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "TierCatalog"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/TierCatalog/Resource"
+   }
+  },
+  "AppConfig1FDF3617": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "key",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "DeletionProtectionEnabled": true,
+    "KeySchema": [
+     {
+      "AttributeName": "key",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "AppConfig"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "DataStack/AppConfig/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXGSwqAIBAA0LO016kkT9ANqn2MOoF9FJosIrx7UKv3FChdQ1XgxdK6Ra7ewNMfaBeBF4/uDrhFZ+AZ0Kwk2il8yaIjjmm3lEWIjmDm8lQN1BqqYmbv5Z7C4TeC7vcFnUMRZ2gAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "DataStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttUsers0A0EEA89Arn6658B146": {
+   "Value": {
+    "Fn::GetAtt": [
+     "Users0A0EEA89",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttUsers0A0EEA89Arn6658B146"
+   }
+  },
+  "ExportsOutputRefUsers0A0EEA89A1309EA5": {
+   "Value": {
+    "Ref": "Users0A0EEA89"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefUsers0A0EEA89A1309EA5"
+   }
+  },
+  "ExportsOutputFnGetAttOutcomes9EC31B62Arn6688AE17": {
+   "Value": {
+    "Fn::GetAtt": [
+     "Outcomes9EC31B62",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttOutcomes9EC31B62Arn6688AE17"
+   }
+  },
+  "ExportsOutputRefOutcomes9EC31B62C9DF6E3D": {
+   "Value": {
+    "Ref": "Outcomes9EC31B62"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefOutcomes9EC31B62C9DF6E3D"
+   }
+  },
+  "ExportsOutputFnGetAttAppConfig1FDF3617Arn333235A7": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AppConfig1FDF3617",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttAppConfig1FDF3617Arn333235A7"
+   }
+  },
+  "ExportsOutputRefAppConfig1FDF3617C0191FEF": {
+   "Value": {
+    "Ref": "AppConfig1FDF3617"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefAppConfig1FDF3617C0191FEF"
+   }
+  },
+  "ExportsOutputFnGetAttPrograms7352D0C2ArnAECB1FC7": {
+   "Value": {
+    "Fn::GetAtt": [
+     "Programs7352D0C2",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttPrograms7352D0C2ArnAECB1FC7"
+   }
+  },
+  "ExportsOutputRefPrograms7352D0C25FDAE405": {
+   "Value": {
+    "Ref": "Programs7352D0C2"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefPrograms7352D0C25FDAE405"
+   }
+  },
+  "ExportsOutputFnGetAttWeeklyContent6865CC6CArnEDBE94BE": {
+   "Value": {
+    "Fn::GetAtt": [
+     "WeeklyContent6865CC6C",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttWeeklyContent6865CC6CArnEDBE94BE"
+   }
+  },
+  "ExportsOutputRefWeeklyContent6865CC6C83275FC6": {
+   "Value": {
+    "Ref": "WeeklyContent6865CC6C"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefWeeklyContent6865CC6C83275FC6"
+   }
+  },
+  "ExportsOutputFnGetAttTierCatalog080C6C73ArnA0B63ACD": {
+   "Value": {
+    "Fn::GetAtt": [
+     "TierCatalog080C6C73",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttTierCatalog080C6C73ArnA0B63ACD"
+   }
+  },
+  "ExportsOutputRefTierCatalog080C6C736D0EC7C9": {
+   "Value": {
+    "Ref": "TierCatalog080C6C73"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefTierCatalog080C6C736D0EC7C9"
+   }
+  },
+  "ExportsOutputFnGetAttDiscoveryResponses892D59A0ArnD2CE3C43": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DiscoveryResponses892D59A0",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttDiscoveryResponses892D59A0ArnD2CE3C43"
+   }
+  },
+  "ExportsOutputRefDiscoveryResponses892D59A05AADD100": {
+   "Value": {
+    "Ref": "DiscoveryResponses892D59A0"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefDiscoveryResponses892D59A05AADD100"
+   }
+  },
+  "ExportsOutputFnGetAttIntakeForms2CC757E1ArnA8883578": {
+   "Value": {
+    "Fn::GetAtt": [
+     "IntakeForms2CC757E1",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttIntakeForms2CC757E1ArnA8883578"
+   }
+  },
+  "ExportsOutputRefIntakeForms2CC757E1993E1B51": {
+   "Value": {
+    "Ref": "IntakeForms2CC757E1"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefIntakeForms2CC757E1993E1B51"
+   }
+  },
+  "ExportsOutputFnGetAttAdminQueue45A1D880ArnE5627B6B": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AdminQueue45A1D880",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputFnGetAttAdminQueue45A1D880ArnE5627B6B"
+   }
+  },
+  "ExportsOutputRefAdminQueue45A1D880D53BBFEE": {
+   "Value": {
+    "Ref": "AdminQueue45A1D880"
+   },
+   "Export": {
+    "Name": "DataStack:ExportsOutputRefAdminQueue45A1D880D53BBFEE"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

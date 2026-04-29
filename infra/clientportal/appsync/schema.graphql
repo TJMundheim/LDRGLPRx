@@ -1,0 +1,465 @@
+# LDRGLPRx Client Portal — AppSync GraphQL schema
+#
+# Auth model:
+#   - Default authentication is Amazon Cognito User Pools (set on the API).
+#   - User-owned types carry `owner: ID!` (= Cognito `sub`); resolvers stamp
+#     `owner = ctx.identity.sub` on writes and filter by `owner` on reads via
+#     a `byOwner` GSI.
+#   - Admin-only fields are gated with @aws_auth(cognito_groups:["Admins"]).
+#
+# Resolver intent (documented here, implemented in api-stack.ts):
+#   - On the first authenticated GraphQL call for a given identity (typically
+#     `getMyProfile` or `upsertMyProfile`), the resolver auto-creates a
+#     `UserProfile` row keyed by `ctx.identity.sub`, populating
+#     `primaryEmail` from the ID-token `email` claim. The PostConfirmation
+#     Lambda is the primary path for profile creation; this resolver-level
+#     auto-create is defense-in-depth for users who pre-date the trigger.
+#   - PostAuthentication reconciles `primaryEmail` if the Cognito email
+#     attribute has been changed since last login.
+#   - `secondaryEmail` is DynamoDB-only and is NEVER written to Cognito.
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+# ─── Scalars / shared enums ───────────────────────────────────────────────
+
+enum TierId {
+  foundation
+  optimization
+  longevity
+  concierge
+}
+
+enum ProgramMonth {
+  M1
+  M2
+  M3
+  M4
+  MAINTENANCE
+}
+
+enum PillarId {
+  mitigate
+  muscle
+  mind
+  motivate
+}
+
+enum QueueItemKind {
+  intake_review
+  clinician_escalation
+  rx_approval
+  protocol_check
+  lab_result_review
+  outcome_flag
+}
+
+enum QueueUrgency { routine soon urgent }
+enum QueueStatus  { pending in_progress resolved deferred }
+
+# ─── UserProfile (owner-scoped; id = Cognito sub) ─────────────────────────
+
+type Address {
+  line1: String
+  line2: String
+  city: String
+  region: String
+  postalCode: String
+  country: String
+}
+
+type UserPrefs {
+  marketingOptIn: Boolean
+  smsOptIn: Boolean
+  timezone: String
+  units: String
+}
+
+input AddressInput {
+  line1: String
+  line2: String
+  city: String
+  region: String
+  postalCode: String
+  country: String
+}
+
+input UserPrefsInput {
+  marketingOptIn: Boolean
+  smsOptIn: Boolean
+  timezone: String
+  units: String
+}
+
+type UserProfile {
+  # Cognito `sub` — also the partition key.
+  id: ID!
+  # Mirror of Cognito `email` attribute, reconciled on each login.
+  primaryEmail: AWSEmail!
+  # DynamoDB-only; never written to Cognito.
+  secondaryEmail: AWSEmail
+  firstName: String
+  lastName: String
+  displayName: String
+  dob: AWSDate
+  phone: AWSPhone
+  address: Address
+  tier: TierId
+  currentMonth: ProgramMonth
+  currentPillar: PillarId
+  prefs: UserPrefs
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input UpsertMyProfileInput {
+  firstName: String
+  lastName: String
+  displayName: String
+  dob: AWSDate
+  phone: AWSPhone
+  address: AddressInput
+  tier: TierId
+  currentMonth: ProgramMonth
+  currentPillar: PillarId
+  prefs: UserPrefsInput
+}
+
+# ─── Program / curriculum (global config) ─────────────────────────────────
+
+type MonthPillar @aws_iam @aws_cognito_user_pools {
+  month: ProgramMonth!
+  pillar: PillarId!
+  title: String!
+  summary: String
+  objectives: [String!]!
+}
+
+type Program @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  name: String!
+  description: String
+  pillars: [MonthPillar!]!
+  updatedAt: AWSDateTime!
+}
+
+type WeeklyContent @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  programId: ID!
+  month: ProgramMonth!
+  week: Int!
+  pillar: PillarId!
+  title: String!
+  bodyMarkdown: String!
+  resources: [Resource!]
+  updatedAt: AWSDateTime!
+}
+
+type Resource @aws_iam @aws_cognito_user_pools {
+  name: String!
+  url: AWSURL!
+}
+
+input ResourceInput {
+  name: String!
+  url: AWSURL!
+}
+
+input MonthPillarInput {
+  month: ProgramMonth!
+  pillar: PillarId!
+  title: String!
+  summary: String
+  objectives: [String!]!
+}
+
+input UpsertProgramInput {
+  id: ID!
+  name: String!
+  description: String
+  pillars: [MonthPillarInput!]!
+}
+
+input UpsertWeeklyContentInput {
+  id: ID!
+  programId: ID!
+  month: ProgramMonth!
+  week: Int!
+  pillar: PillarId!
+  title: String!
+  bodyMarkdown: String!
+  resources: [ResourceInput!]
+}
+
+# ─── Tier / catalog (global config) ───────────────────────────────────────
+
+type Tier @aws_iam @aws_cognito_user_pools {
+  id: TierId!
+  name: String!
+  tagline: String!
+  monthlyUSD: Int
+  annualUSD: Int
+  onboardingFeeUSD: Int
+  oneTimePriceUSD: Int
+  kind: String
+  includedProductSlugs: [String!]!
+  features: [String!]!
+  description: String!
+  idealFor: [String!]!
+  updatedAt: AWSDateTime!
+}
+
+type TierCatalog @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  tiers: [Tier!]!
+  updatedAt: AWSDateTime!
+}
+
+input TierInput {
+  id: TierId!
+  name: String!
+  tagline: String!
+  monthlyUSD: Int
+  annualUSD: Int
+  onboardingFeeUSD: Int
+  oneTimePriceUSD: Int
+  kind: String
+  includedProductSlugs: [String!]!
+  features: [String!]!
+  description: String!
+  idealFor: [String!]!
+}
+
+input UpsertTierCatalogInput {
+  id: ID!
+  tiers: [TierInput!]!
+}
+
+# ─── AppConfig (global config; admin-write, auth-read) ────────────────────
+
+type AppConfig @aws_iam @aws_cognito_user_pools {
+  key: ID!
+  valueJson: AWSJSON!
+  updatedAt: AWSDateTime!
+}
+
+input UpsertAppConfigInput {
+  key: ID!
+  valueJson: AWSJSON!
+}
+
+# ─── DiscoveryResponse (owner-scoped) ─────────────────────────────────────
+
+type DiscoveryAnswer {
+  questionId: String!
+  valueJson: AWSJSON!
+}
+
+type DiscoveryResult {
+  recommendedTier: TierId!
+  tierRationale: String!
+  triggeredProductSlugs: [String!]!
+  triggeredLabSlugs: [String!]!
+  topPriorities: [DiscoveryPriority!]!
+  clinicianFlags: [DiscoveryFlag!]!
+  summary: String!
+}
+
+type DiscoveryPriority {
+  domain: String!
+  severity: Float!
+}
+
+type DiscoveryFlag {
+  questionId: String!
+  reason: String!
+}
+
+type DiscoveryResponse {
+  id: ID!
+  owner: ID!
+  answers: [DiscoveryAnswer!]!
+  result: DiscoveryResult
+  submittedAt: AWSDateTime!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input DiscoveryAnswerInput {
+  questionId: String!
+  valueJson: AWSJSON!
+}
+
+input SubmitDiscoveryInput {
+  answers: [DiscoveryAnswerInput!]!
+}
+
+# ─── Outcome (owner-scoped weekly check-ins) ──────────────────────────────
+
+type OutcomeScore {
+  domain: String!
+  score: Int!
+}
+
+type Outcome {
+  id: ID!
+  owner: ID!
+  weekISO: String!
+  month: ProgramMonth!
+  week: Int!
+  scores: [OutcomeScore!]!
+  freeText: String
+  submittedAt: AWSDateTime!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input OutcomeScoreInput {
+  domain: String!
+  score: Int!
+}
+
+input CreateOutcomeInput {
+  weekISO: String!
+  month: ProgramMonth!
+  week: Int!
+  scores: [OutcomeScoreInput!]!
+  freeText: String
+}
+
+# ─── IntakeForm (owner-scoped) ────────────────────────────────────────────
+
+type IntakeAnswer {
+  questionId: String!
+  valueJson: AWSJSON!
+}
+
+type IntakeForm {
+  id: ID!
+  owner: ID!
+  version: String!
+  answers: [IntakeAnswer!]!
+  status: String!
+  submittedAt: AWSDateTime
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input IntakeAnswerInput {
+  questionId: String!
+  valueJson: AWSJSON!
+}
+
+input UpsertIntakeFormInput {
+  version: String!
+  answers: [IntakeAnswerInput!]!
+  status: String!
+}
+
+# ─── AdminQueueItem (admin-only) ──────────────────────────────────────────
+
+type AdminQueueItem {
+  id: ID!
+  kind: QueueItemKind!
+  patientId: ID!
+  patientLabel: String!
+  summary: String!
+  draftedAction: String
+  urgency: QueueUrgency!
+  status: QueueStatus!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input UpdateAdminQueueItemInput {
+  id: ID!
+  status: QueueStatus
+  draftedAction: String
+  urgency: QueueUrgency
+}
+
+# ─── Pagination ───────────────────────────────────────────────────────────
+
+type UserProfileConnection {
+  items: [UserProfile!]!
+  nextToken: String
+}
+
+type OutcomeConnection {
+  items: [Outcome!]!
+  nextToken: String
+}
+
+type AdminQueueItemConnection {
+  items: [AdminQueueItem!]!
+  nextToken: String
+}
+
+# ─── Root ─────────────────────────────────────────────────────────────────
+
+type Query {
+  # Owner-scoped reads.
+  # `getMyProfile` auto-creates the profile from `ctx.identity.sub` +
+  # ID-token email claim if missing (defense-in-depth alongside
+  # PostConfirmation Lambda).
+  getMyProfile: UserProfile!
+  listMyOutcomes(limit: Int, nextToken: String): OutcomeConnection!
+  getMyDiscoveryResponse: DiscoveryResponse
+  getMyIntakeForm: IntakeForm
+
+  # Global config (any authenticated user may read).
+  getAppConfig(key: ID!): AppConfig
+  getProgram(id: ID!): Program
+  listWeeklyContent(programId: ID!, month: ProgramMonth): [WeeklyContent!]!
+  getTierCatalog(id: ID!): TierCatalog
+  listTiers: [Tier!]!
+
+  # Admin-only.
+  adminGetProfile(userId: ID!): UserProfile
+    @aws_auth(cognito_groups: ["Admins"])
+  adminListUsers(limit: Int, nextToken: String): UserProfileConnection!
+    @aws_auth(cognito_groups: ["Admins"])
+  adminListOutcomes(
+    userId: ID
+    limit: Int
+    nextToken: String
+  ): OutcomeConnection!
+    @aws_auth(cognito_groups: ["Admins"])
+  adminListQueue(
+    status: QueueStatus
+    limit: Int
+    nextToken: String
+  ): AdminQueueItemConnection!
+    @aws_auth(cognito_groups: ["Admins"])
+}
+
+type Mutation {
+  # Owner-scoped writes. Resolvers stamp `owner = ctx.identity.sub`.
+  # `upsertMyProfile` auto-creates the UserProfile row on first call,
+  # seeding `primaryEmail` from the ID-token `email` claim.
+  upsertMyProfile(input: UpsertMyProfileInput!): UserProfile!
+  # Updates the DynamoDB-only secondary email; never propagated to Cognito.
+  updateSecondaryEmail(secondaryEmail: AWSEmail): UserProfile!
+  submitDiscovery(input: SubmitDiscoveryInput!): DiscoveryResponse!
+  upsertMyIntakeForm(input: UpsertIntakeFormInput!): IntakeForm!
+  createOutcome(input: CreateOutcomeInput!): Outcome!
+
+  # Admin-only writes (curriculum + catalog + global config + queue).
+  upsertProgram(input: UpsertProgramInput!): Program!
+    @aws_auth(cognito_groups: ["Admins"])
+    @aws_iam
+  upsertWeeklyContent(input: UpsertWeeklyContentInput!): WeeklyContent!
+    @aws_auth(cognito_groups: ["Admins"])
+    @aws_iam
+  upsertTierCatalog(input: UpsertTierCatalogInput!): TierCatalog!
+    @aws_auth(cognito_groups: ["Admins"])
+    @aws_iam
+  upsertAppConfig(input: UpsertAppConfigInput!): AppConfig!
+    @aws_auth(cognito_groups: ["Admins"])
+    @aws_iam
+  updateAdminQueueItem(input: UpdateAdminQueueItemInput!): AdminQueueItem!
+    @aws_auth(cognito_groups: ["Admins"])
+    @aws_iam
+}

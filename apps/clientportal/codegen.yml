@@ -1,0 +1,21 @@
+overwrite: true
+schema:
+  - /Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/appsync/appsync-prelude.graphql
+  - /Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/appsync/schema.graphql
+generates:
+  src/lib/api/generated.ts:
+    plugins:
+      - typescript
+    config:
+      scalars:
+        AWSDate: string
+        AWSTime: string
+        AWSDateTime: string
+        AWSTimestamp: number
+        AWSEmail: string
+        AWSJSON: string
+        AWSURL: string
+        AWSPhone: string
+        AWSIPAddress: string
+      enumsAsTypes: true
+      avoidOptionals: false

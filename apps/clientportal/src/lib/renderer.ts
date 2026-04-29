@@ -127,6 +127,164 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
   </div>`;
 }
 
+function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
+  const exercises: Array<[string, string]> = [
+    ['squat', 'Squat / goblet squat'],
+    ['hingeRDL', 'Hip hinge / RDL'],
+    ['pushPull', 'Push + pull superset'],
+    ['zone2', 'Zone 2 walk (minutes)'],
+    ['kotSession', 'KOT session (Y/N)']
+  ];
+  const days = ['Day 1', 'Day 2', 'Day 3'];
+  const color = '#E05C2A';
+
+  // Strength baseline tests — Day 1 of each week is a retest. Show prior week's value for comparison.
+  const baselineFields: Array<[string, string]> = [
+    ['pushups', 'Max push-ups (single set)'],
+    ['pullups', 'Max pull-ups (single set)'],
+    ['squats', 'Max bodyweight squats'],
+    ['plankSec', 'Plank hold (seconds)'],
+    ['deadhang', 'Dead hang (seconds)']
+  ];
+  const baselineHeader = `
+    <div style="background:rgba(224,92,42,.08);border:1.5px solid rgba(224,92,42,.3);border-radius:9px;padding:14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">⭐ STRENGTH BASELINE — RETEST DAY 1 OF WEEK ${w}</div>
+      <div style="font-size:11.5px;color:#7A3A20;line-height:1.55;margin-bottom:12px">
+        Day 1 of every week starts with retesting your baselines. ${w === 1
+          ? 'These numbers become your benchmark for the rest of the program.'
+          : `Compare to last week — let your new numbers shape the rest of this week's work.`}
+      </div>
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:5px">
+        ${['Test', `Week ${w} retest`, w > 1 ? `Week ${w - 1}` : 'Notes', 'Δ'].map(h =>
+          `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+        ).join('')}
+      </div>
+      ${baselineFields.map(([k, l]) => {
+        const curKey = `w${w}_baseline_${k}`;
+        const cur = W.trainLog[curKey] ?? '';
+        const prevKey = w > 1 ? `w${w - 1}_baseline_${k}` : '';
+        const prev = prevKey ? (W.trainLog[prevKey] ?? '') : '';
+        const delta = cur && prev ? (Number(cur) - Number(prev)).toFixed(0) : '';
+        const deltaColor = delta && Number(delta) > 0 ? '#1D9E75' : delta && Number(delta) < 0 ? '#E05C2A' : '#6A8A6E';
+        return `
+        <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:6px;align-items:center">
+          <div style="font-size:11px;color:#5A3020">${l}</div>
+          <input placeholder="this week" style="font-size:11px"
+            value="${esc(cur)}"
+            oninput="portalField('trainLog.${curKey}',this.value)">
+          ${w > 1
+            ? `<div style="font-size:11px;color:#8A6A50;padding:7px 9px;background:rgba(224,92,42,.04);border-radius:7px">${prev || '—'}</div>`
+            : `<input placeholder="form / notes" style="font-size:11px" value="${esc(W.trainLog[`w1_baseline_${k}_notes`] ?? '')}" oninput="portalField('trainLog.w1_baseline_${k}_notes',this.value)">`}
+          <div style="font-size:12px;font-weight:700;color:${deltaColor};text-align:center">
+            ${delta ? (Number(delta) > 0 ? '+' : '') + delta : '—'}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="card-title" style="font-size:10px;margin-bottom:6px">WORKOUT LOG — WEEK ${w}</div>
+    <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px">
+      Log 3 sessions this week — recommend every other day (Mon/Wed/Fri or Tue/Thu/Sat). Pick the days that work for you.
+      Day 1 = baseline retest above; build Days 2 & 3 from those new numbers.
+    </div>`;
+  return baselineHeader + `
+    ${days.map((dLabel, di) => {
+      const d = di + 1;
+      return `
+      <div style="border:1px solid rgba(224,92,42,.2);border-radius:9px;padding:12px;margin-bottom:10px;background:rgba(224,92,42,.03)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px;flex-wrap:wrap">
+          <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em">${dLabel.toUpperCase()}</div>
+          <div style="display:flex;gap:6px;align-items:center;font-size:10px;color:#6A8A6E">
+            <label style="font-size:10px;margin:0">Date</label>
+            <input type="date" style="font-size:10px;max-width:140px"
+              value="${esc(W.trainLog[`w${w}d${d}_date`] ?? '')}"
+              oninput="portalField('trainLog.w${w}d${d}_date',this.value)">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:5px">
+          ${['Exercise', 'Weight / Resistance', 'Reps / Duration', 'Notes'].map(h =>
+            `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+          ).join('')}
+        </div>
+        ${exercises.map(([k, l]) => `
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:6px;align-items:center">
+            <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.15);border-radius:7px;
+              padding:7px 9px;font-size:11px;color:#5A3020">${l}</div>
+            ${['weight', 'reps', 'notes'].map(f => `
+              <input placeholder="${f}" style="font-size:11px"
+                value="${esc(W.trainLog[`w${w}d${d}_${k}_${f}`] ?? '')}"
+                oninput="portalField('trainLog.w${w}d${d}_${k}_${f}',this.value)">`).join('')}
+          </div>`).join('')}
+      </div>`;
+    }).join('')}`;
+}
+
+function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  return `
+    <div class="card-title" style="font-size:10px;margin-bottom:6px">DAILY FASTING LOG — WEEK ${w} (target 14:10)</div>
+    <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px">
+      Log the time of your first and last meal each day. Target: first meal after 9am, last before 7pm (14-hour fast, 10-hour eating window). Month 1 stays at 14:10 — we do not progress this window this month.
+    </div>
+    <div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px">
+      ${['Day', 'First meal', 'Last meal', 'Window (hrs)'].map(h =>
+        `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+      ).join('')}
+    </div>
+    ${days.map((d, i) => {
+      const fKey = `w${w}d${i + 1}_firstMeal`;
+      const lKey = `w${w}d${i + 1}_lastMeal`;
+      const first = W.fastingLog?.[fKey] ?? '';
+      const last = W.fastingLog?.[lKey] ?? '';
+      let windowHrs = '';
+      if (first && last) {
+        const [fh, fm] = first.split(':').map(Number);
+        const [lh, lm] = last.split(':').map(Number);
+        if (!isNaN(fh!) && !isNaN(lh!)) {
+          const diff = ((lh! * 60 + (lm ?? 0)) - (fh! * 60 + (fm ?? 0))) / 60;
+          windowHrs = diff > 0 ? diff.toFixed(1) : '';
+        }
+      }
+      return `<div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px;align-items:center">
+        <div style="font-size:11px;color:#5A3020;font-weight:600">${d}</div>
+        <input type="time" style="font-size:11px" value="${esc(first)}"
+          oninput="portalField('fastingLog.${fKey}',this.value)">
+        <input type="time" style="font-size:11px" value="${esc(last)}"
+          oninput="portalField('fastingLog.${lKey}',this.value)">
+        <div style="font-size:11px;color:${windowHrs ? (Number(windowHrs) <= 10 ? '#1D9E75' : '#E05C2A') : '#8AB89A'};font-weight:600">
+          ${windowHrs || '—'}
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function priorityActionReminder(W: Workbook, selectedName: string): string {
+  if (!selectedName) return '';
+  const f = factors.find(x => x.name === selectedName);
+  if (!f) return '';
+  const actions = f.imm ?? f.act ?? [];
+  if (!actions.length) return '';
+  return `<div style="margin-top:10px;background:rgba(29,158,117,.06);border:1px solid rgba(29,158,117,.22);border-radius:8px;padding:10px 12px">
+    <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:6px">
+      ▸ IMMEDIATE ACTIONS FOR THIS FACTOR
+    </div>
+    ${actions.map(a => `<div style="display:flex;gap:8px;padding:3px 0;font-size:11.5px;color:#1A3A20;line-height:1.5">
+      <span style="color:#1D9E75;flex-shrink:0;font-weight:700">✓</span>
+      <span>${esc(a)}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function factorNameSelect(currentVal: string, field: string): string {
+  const opts = factors.map(f =>
+    `<option value="${esc(f.name)}" ${currentVal === f.name ? 'selected' : ''}>${f.n}. ${esc(f.name)}</option>`
+  ).join('');
+  return `<select onchange="portalField('${field}',this.value)">
+    <option value="" ${!currentVal ? 'selected' : ''}>— select factor —</option>
+    ${opts}
+  </select>`;
+}
+
 function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTab']): string {
   const tabsDef = [
     { k: 'imm' as const, l: 'Immediate' },
@@ -383,6 +541,18 @@ function renderW1(ctx: RenderContext): string {
     </div>` : ''}
   </div>
 
+  <div class="card" style="border-left:4px solid #E05C2A">
+    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
+    <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:#E05C2A;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK</div>
+      <div style="font-size:12.5px;color:#7A3A20;line-height:1.6">
+        Record where you start. No judgment — just honest numbers. These become your comparison point for Week 4.
+      </div>
+    </div>
+
+    ${workoutLog(W, 1)}
+  </div>
+
   ${morningTracker(W, 1)}`;
 }
 
@@ -472,15 +642,15 @@ function renderW2(W: Workbook): string {
       You identified your top 3 highest-scoring risk factors in Week 1.
       This week: execute the first immediate action for each one. Track your progress at the end of the week.
     </div>
-    ${[1, 2, 3].map(n => `
+    ${[1, 2, 3].map(n => {
+      const selectedName = g(`w2_factor${n}_name`);
+      return `
     <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
       <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">PRIORITY FACTOR ${n}</div>
       <div class="g2">
         <div>
           <label>Factor name (from your Week 1 audit)</label>
-          <input placeholder="e.g. Sleep quality..."
-            value="${g(`w2_factor${n}_name`)}"
-            oninput="portalField('weekReflections.w2_factor${n}_name',this.value)">
+          ${factorNameSelect(selectedName, `weekReflections.w2_factor${n}_name`)}
         </div>
         <div>
           <label>Week 1 score (1–5) you gave it</label>
@@ -489,6 +659,7 @@ function renderW2(W: Workbook): string {
             oninput="portalField('weekReflections.w2_factor${n}_score',this.value)">
         </div>
       </div>
+      ${priorityActionReminder(W, selectedName)}
       <div style="margin-top:8px">
         <label>Immediate action I took this week</label>
         <textarea style="min-height:48px" placeholder="What did you actually do?"
@@ -500,7 +671,8 @@ function renderW2(W: Workbook): string {
           value="${g(`w2_factor${n}_result`)}"
           oninput="portalField('weekReflections.w2_factor${n}_result',this.value)">
       </div>
-    </div>`).join('')}
+    </div>`;
+    }).join('')}
     ${pillarActionBox('#1D9E75', 'One immediate action per factor. No perfect plans. Just one small move on each of your top 3. Progress compounds — even a 2/5 is better than a 1/5 by week 4.')}
   </div>
 
@@ -517,23 +689,7 @@ function renderW2(W: Workbook): string {
       </div>
     </div>
 
-    <div class="card-title" style="font-size:10px;margin-bottom:8px">WORKOUT LOG — WEEK 2</div>
-    <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:7px">
-      ${['Exercise', 'Weight / Resistance', 'Reps / Duration', 'Notes'].map(h =>
-        `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
-      ).join('')}
-    </div>
-    ${[['squat', 'Squat / goblet squat'], ['hingeRDL', 'Hip hinge / RDL'],
-       ['pushPull', 'Push + pull superset'], ['zone2', 'Zone 2 walk (minutes)'],
-       ['kotSession', 'KOT session (Y/N)']].map(([k, l]) => `
-      <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:8px;align-items:center">
-        <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.15);border-radius:7px;
-          padding:8px 10px;font-size:11px;color:#5A3020">${l}</div>
-        ${['weight', 'reps', 'notes'].map(f => `
-          <input placeholder="${f}" style="font-size:11px"
-            value="${esc(W.trainLog[`w2_${k}_${f}`] ?? '')}"
-            oninput="portalField('trainLog.w2_${k}_${f}',this.value)">`).join('')}
-      </div>`).join('')}
+    ${workoutLog(W, 2)}
 
     <div style="margin-top:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">PROTEIN & EATING WINDOW COMPLIANCE</div>
@@ -561,6 +717,10 @@ function renderW2(W: Workbook): string {
             value="${g('w2_nutr_win')}" oninput="portalField('weekReflections.w2_nutr_win',this.value)">
         </div>
       </div>
+    </div>
+
+    <div style="margin-top:16px">
+      ${fastingDailyTracker(W, 2)}
     </div>
 
     ${pillarActionBox('#E05C2A', `3 KOT sessions. Hit protein 5 of 7 days. Hold your 14:10 window.
@@ -689,14 +849,15 @@ function renderW3(W: Workbook): string {
       Progress-check your top 3 factors from Week 1.
       Rescore each one based on what you have actually done. Then identify your next step.
     </div>
-    ${[1, 2, 3].map(n => `
+    ${[1, 2, 3].map(n => {
+      const selectedName = g(`w3_factor${n}_name`) || g(`w2_factor${n}_name`);
+      return `
     <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
       <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">FACTOR ${n} — MID-MONTH UPDATE</div>
       <div class="g2" style="margin-bottom:8px">
         <div>
           <label>Factor name</label>
-          <input placeholder="Same as Week 1..." value="${g(`w3_factor${n}_name`) || g(`w2_factor${n}_name`)}"
-            oninput="portalField('weekReflections.w3_factor${n}_name',this.value)">
+          ${factorNameSelect(selectedName, `weekReflections.w3_factor${n}_name`)}
         </div>
         <div>
           <label>Re-score this factor (1–5)</label>
@@ -705,6 +866,7 @@ function renderW3(W: Workbook): string {
             oninput="portalField('weekReflections.w3_factor${n}_rescore',this.value)">
         </div>
       </div>
+      ${priorityActionReminder(W, selectedName)}
       <div>
         <label>What specifically changed? What is still stuck?</label>
         <textarea style="min-height:44px" placeholder="Honest update..."
@@ -716,7 +878,8 @@ function renderW3(W: Workbook): string {
           value="${g(`w3_factor${n}_next`)}"
           oninput="portalField('weekReflections.w3_factor${n}_next',this.value)">
       </div>
-    </div>`).join('')}
+    </div>`;
+    }).join('')}
     ${pillarActionBox('#1D9E75', 'Rescore all three factors. Even a half-point improvement is real progress. Focus your Week 4 deep-dive on whichever factor has moved the least.')}
   </div>
 
@@ -738,48 +901,12 @@ function renderW3(W: Workbook): string {
     </div>
 
     <div style="margin-bottom:14px">
-      <div class="card-title" style="font-size:10px;margin-bottom:8px">STRENGTH PROGRESSION — WEEK 3</div>
-      <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:7px">
-        ${['Exercise', 'Weight', 'Reps', 'vs Week 1?'].map(h =>
-          `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
-        ).join('')}
-      </div>
-      ${[['squat3', 'Squat / goblet squat'], ['hinge3', 'Hip hinge / RDL'],
-         ['push3', 'Push / pull'], ['zone2_3', 'Zone 2 cardio (min)']].map(([k, l]) => `
-        <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:8px;align-items:center">
-          <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.15);border-radius:7px;
-            padding:8px 10px;font-size:11px;color:#5A3020">${l}</div>
-          ${['weight', 'reps', 'progress'].map(f => `
-            <input placeholder="${f}" style="font-size:11px"
-              value="${esc(W.trainLog[`w3_${k}_${f}`] ?? '')}"
-              oninput="portalField('trainLog.w3_${k}_${f}',this.value)">`).join('')}
-        </div>`).join('')}
+      ${workoutLog(W, 3)}
     </div>
 
-    <div style="margin-bottom:14px">
-      <div class="card-title" style="font-size:10px;margin-bottom:8px">FASTING WINDOW UPGRADE</div>
-      <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:10px">
-        <div style="font-size:12px;font-weight:700;color:#7A3A20;margin-bottom:4px">Still on 14:10 → Optional 16:8 trial</div>
-        <div style="font-size:11.5px;color:#9A5A40;line-height:1.6">
-          If your 14:10 window felt easy last week, try 16:8 for 2–3 days this week
-          (first meal after 11am, last before 7pm). Not required — only if 14:10 feels effortless.
-        </div>
-      </div>
-      <div class="g2">
-        <div>
-          <label>Days I attempted 16:8 this week</label>
-          <input type="number" min="0" max="7" placeholder="0 = staying at 14:10"
-            value="${g('w3_1628_days')}" oninput="portalField('weekReflections.w3_1628_days',this.value)">
-        </div>
-        <div>
-          <label>How did it feel?</label>
-          <input placeholder="Energy, hunger, mood impact..."
-            value="${g('w3_1628_feel')}" oninput="portalField('weekReflections.w3_1628_feel',this.value)">
-        </div>
-      </div>
-    </div>
+    ${fastingDailyTracker(W, 3)}
 
-    ${pillarActionBox('#E05C2A', '4 sessions this week (adding one from Week 2). Record your progressions. Try at least 2 days of optional 16:8 if 14:10 has felt easy.')}
+    ${pillarActionBox('#E05C2A', '4 sessions this week. Hold the 14:10 window — first meal after 9am, last before 7pm. Month 1 stays at 14:10; we do not progress the fasting window this month.')}
   </div>
 
   <!-- MIND W3 DEEP FOCUS -->
@@ -916,7 +1043,7 @@ function renderW4(W: Workbook): string {
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 2 COMMITMENT</div>
       ${[['training', 'Training plan — 3 days/week + Zone 2'],
-         ['nutrition', 'Nutrition focus (moving to 16:8 fasting — first meal after 11am)'],
+         ['nutrition', 'Nutrition focus (holding 14:10 eating window through Month 1)'],
          ['supplements', 'Supplements to continue or add in Month 2'],
          ['cognitive', 'Cognitive practice — dual n-back and reading schedule'],
          ['accountability', 'Accountability partner and weekly check-in plan']
@@ -1025,6 +1152,12 @@ function renderW4(W: Workbook): string {
           }).join('')}
         </tbody>
       </table>
+    </div>
+    <div style="margin-top:16px">
+      ${workoutLog(W, 4)}
+    </div>
+    <div style="margin-top:16px">
+      ${fastingDailyTracker(W, 4)}
     </div>
     ${pillarActionBox('#E05C2A', 'Record all your Week 4 measurements. Compare honestly. Strength and waist measurement are more meaningful than scale weight at this stage.')}
   </div>

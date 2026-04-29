@@ -1,0 +1,487 @@
+{
+  "/AuthStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/AdminsGroup": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AdminsGroup"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:106:5)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/IdentityPool": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "IdentityPool"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:113:25)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/IdentityPoolRoles": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "IdentityPoolRoles"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:143:5)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/userPoolId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "userPoolId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:151:5)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/userPoolClientId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "userPoolClientId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:152:5)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/identityPoolId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "identityPoolId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:155:5)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "....pnpm, node internals, .pnpm...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AuthStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "....pnpm, node internals, .pnpm...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AuthStack/DefineAuthChallengeFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DefineAuthChallengeFnB0C28523"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:37:33)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/CreateAuthChallengeFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateAuthChallengeFn194629DD"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:41:33)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/VerifyAuthChallengeFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VerifyAuthChallengeFn53BA0B24"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:45:33)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/PostConfirmationFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostConfirmationFnE0D8EF4F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:49:30)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/PostAuthenticationFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostAuthenticationFnB309BCA9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:53:32)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UserPool/DefineAuthChallengeCognito": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolDefineAuthChallengeCognitoD6D10D9D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:77:21)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UserPool/CreateAuthChallengeCognito": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolCreateAuthChallengeCognito07327B9A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:77:21)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UserPool/VerifyAuthChallengeResponseCognito": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolVerifyAuthChallengeResponseCognito338D71F3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:77:21)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UserPool/PostConfirmationCognito": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolPostConfirmationCognito0E6001F8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:77:21)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UserPool/PostAuthenticationCognito": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolPostAuthenticationCognito62FAB912"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:77:21)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UserPool/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPool6BA7E5F2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:77:21)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/AuthenticatedRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AuthenticatedRole86104F1A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:136:22)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UnauthenticatedRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UnauthenticatedRole01CC4258"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:139:24)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "....pnpm, node internals, .pnpm...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AuthStack/Exports/Output{\"Ref\":\"UserPool6BA7E5F2\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefUserPool6BA7E5F296FD7236"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "....pnpm, node internals, .pnpm...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AuthStack/DefineAuthChallengeFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DefineAuthChallengeFnServiceRole217771FE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:37:33)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/CreateAuthChallengeFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateAuthChallengeFnServiceRoleFC96E196"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:41:33)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/VerifyAuthChallengeFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VerifyAuthChallengeFnServiceRole8A7D8B80"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:45:33)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/PostConfirmationFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostConfirmationFnServiceRole5E4DC5AE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:49:30)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/PostAuthenticationFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostAuthenticationFnServiceRole48F0E2DB"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in .pnpm...",
+        "mkFn (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:30:7)",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:53:32)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/UserPool/AppClient/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolAppClientDD0407EC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addClient in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:99:41)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/CreateAuthChallengeFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateAuthChallengeFnServiceRoleDefaultPolicyD1AA681F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...NodejsFunction.addToRolePolicy in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:60:25)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/PostConfirmationFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostConfirmationFnServiceRoleDefaultPolicy7B6816CA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.grantReadWriteData in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:72:24)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ],
+  "/AuthStack/PostAuthenticationFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PostAuthenticationFnServiceRoleDefaultPolicy70F171B8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.grantReadWriteData in .pnpm...",
+        "new AuthStack (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/lib/auth-stack.ts:73:24)",
+        "<anonymous> (/Users/thomasmundheim/Desktop/Development/LDRGLPRx/infra/clientportal/cdk/bin/clientportal.ts:17:19)",
+        "...node internals, .pnpm, .pnpm, .pnpm..."
+      ]
+    }
+  ]
+}

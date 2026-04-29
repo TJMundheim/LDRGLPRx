@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../lambdas/auth/post-authentication.ts"],
+  "sourcesContent": ["import type { PostAuthenticationTriggerHandler } from 'aws-lambda';\n\n// Placeholder \u2014 fleshed out in next plan task to reconcile primaryEmail in DDB.\nexport const handler: PostAuthenticationTriggerHandler = async (event) => {\n  return event;\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAGO,IAAM,UAA4C,OAAO,UAAU;AACxE,SAAO;AACT;",
+  "names": []
+}

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { storage } from '../../storage';
-  import type { Workbook, WeeklyOutcome, OutcomeDomainKey } from '../../data/schema';
+  import type { OutcomeDomainKey } from '../../data/schema';
   import { getDomainsForProtocols, type OutcomeDomainMeta } from '../../content/outcomeQuestions';
+  import { createOutcome } from '../../api/operations.js';
+  import type { ProgramMonth } from '../../api/generated.js';
 
   interface Props {
-    workbook: Workbook;
     activeProductSlugs: string[];
     currentMonth: 1 | 2 | 3 | 4 | 'maintenance';
     currentWeek: number;
@@ -12,31 +12,39 @@
     onSubmitted?: () => void;
   }
 
-  let { workbook, activeProductSlugs, currentMonth, currentWeek, weekISO, onSubmitted }: Props = $props();
+  let { activeProductSlugs, currentMonth, currentWeek, weekISO, onSubmitted }: Props = $props();
 
   const domains: OutcomeDomainMeta[] = $derived(getDomainsForProtocols(activeProductSlugs));
 
   let scores = $state<Partial<Record<OutcomeDomainKey, number>>>({});
   let freeText = $state('');
   let submitted = $state(false);
+  let submitError = $state<string | null>(null);
 
-  function handleSubmit(): void {
-    const outcome: WeeklyOutcome = {
-      weekISO,
-      month: currentMonth,
-      week: currentWeek,
-      scores: { ...scores },
-      freeText: freeText.trim() || undefined,
-      submittedAt: Date.now(),
+  async function handleSubmit(): Promise<void> {
+    submitError = null;
+    // Map month to API ProgramMonth enum value
+    const monthMap: Record<string | number, ProgramMonth> = {
+      1: 'M1', 2: 'M2', 3: 'M3', 4: 'M4', maintenance: 'MAINTENANCE',
     };
-    const updated: Workbook = {
-      ...workbook,
-      weeklyOutcomes: [...(workbook.weeklyOutcomes ?? []), outcome],
-      updatedAt: new Date().toISOString(),
-    };
-    void storage.saveWorkbook(updated);
-    submitted = true;
-    onSubmitted?.();
+    const month = monthMap[currentMonth] ?? 'M1';
+    const scoreEntries = Object.entries(scores).map(([domain, score]) => ({
+      domain,
+      score: score ?? 0,
+    }));
+    try {
+      await createOutcome({
+        weekISO,
+        month,
+        week: currentWeek,
+        scores: scoreEntries,
+        freeText: freeText.trim() || undefined,
+      });
+      submitted = true;
+      onSubmitted?.();
+    } catch (err) {
+      submitError = err instanceof Error ? err.message : 'Failed to save check-in. Try again.';
+    }
   }
 
   function scoreFor(key: OutcomeDomainKey): number {
@@ -57,7 +65,8 @@
       <p>Logged. Keep going — consistency is the data.</p>
     </div>
   {:else}
-    <form class="checkin-form" onsubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+    <form class="checkin-form" onsubmit={(e) => { e.preventDefault(); void handleSubmit(); }}>
+      {#if submitError}<p class="submit-error">{submitError}</p>{/if}
       {#each domains as domain (domain.key)}
         <div class="slider-row">
           <div class="slider-label-row">
@@ -210,6 +219,12 @@
   }
 
   .submit-btn:hover { background: #6ab4ff; }
+
+  .submit-error {
+    color: #ff6060;
+    font-size: 0.84rem;
+    margin: 0 0 8px;
+  }
 
   .checkin-thanks {
     text-align: center;

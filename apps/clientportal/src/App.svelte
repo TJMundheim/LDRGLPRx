@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, tick } from 'svelte';
+  import { onMount, tick, untrack } from 'svelte';
   import { storage } from './lib/storage';
   import { createEmptyWorkbook, type Workbook } from './lib/data/schema';
   import {
@@ -9,7 +9,8 @@
   import DiscoveryFlow from './lib/components/discovery/DiscoveryFlow.svelte';
   import PricingPage from './lib/components/tiers/PricingPage.svelte';
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
-  import { currentUser } from './lib/integrations/auth';
+  import { currentUser as currentUserLegacy } from './lib/integrations/auth';
+  import AuthGate from './lib/components/auth/AuthGate.svelte';
 
   // ── State ───────────────────────────────────────────────
   // Single-workbook mode during beta; auth wiring will supply real ids.
@@ -34,10 +35,26 @@
   let toastMsg = $state('');
   let toastShow = $state(false);
 
-  const ctx = $derived<RenderContext>({ W: workbook, curTab, openFactor, factorTab });
-  const pageHtml = $derived(renderPage(ctx));
-  const navHtml = $derived(renderSidebar(ctx));
+  // Re-render tick: structural changes (tabs, factor toggle, score, day toggle,
+  // supplement change) bump this. Field edits do NOT bump it so focus is
+  // preserved while typing into inputs.
+  let renderTick = $state(0);
+  let pageHtml = $state('');
+  let navHtml = $state('');
   const stats = $derived(sidebarStats(workbook));
+
+  $effect(() => {
+    // Track only structural triggers.
+    renderTick;
+    curTab;
+    openFactor;
+    factorTab;
+    untrack(() => {
+      const ctx: RenderContext = { W: workbook, curTab, openFactor, factorTab };
+      pageHtml = renderPage(ctx);
+      navHtml = renderSidebar(ctx);
+    });
+  });
 
   // ── Actions ─────────────────────────────────────────────
   function showToast(msg: string): void {
@@ -129,7 +146,7 @@
   // This is the documented seam the renderer uses — components that call
   // setField/setScore/etc. directly should go through these functions too.
   type PortalAction =
-    | 'goTo' | 'setScore' | 'toggleFactor' | 'setFactorTab' | 'toggleDay' | 'setSupp';
+    | 'goTo' | 'setScore' | 'toggleFactor' | 'setFactorTab' | 'toggleDay' | 'setSupp' | 'recalc';
   function portalAction(action: PortalAction, ...args: unknown[]): void {
     switch (action) {
       case 'goTo':         goTo(String(args[0]), args[1] as Record<string, string> | undefined); break;
@@ -138,7 +155,10 @@
       case 'setFactorTab': setFactorTab(args[0] as 'imm' | 'tools' | 'adv' | 'res'); break;
       case 'toggleDay':    toggleDay(args[0] as 'morn' | 'cold', Number(args[1]), String(args[2])); break;
       case 'setSupp':      setSupp(String(args[0]), args[1] as 'Yes' | 'No'); break;
+      case 'recalc':       showToast('Recalculated'); break;
     }
+    // Structural change — trigger re-render.
+    renderTick++;
   }
 
   function portalField(path: string, value: unknown): void {
@@ -155,18 +175,23 @@
     (window as PortalWindow).portalAction = portalAction;
     (window as PortalWindow).portalField = portalField;
 
-    const user = await currentUser();
-    userRole = user?.role;
+    const user = await currentUserLegacy();
+    if (user) {
+      const g = user.groups ?? [];
+      userRole = g.includes('Admins') ? 'admin' : g.includes('Clinicians') ? 'clinician' : 'patient';
+    }
 
     const existing = await storage.getWorkbook(WORKBOOK_ID);
     if (existing) {
       // Merge to tolerate old snapshots missing newer fields.
       workbook = { ...createEmptyWorkbook(WORKBOOK_ID, USER_ID), ...existing };
     }
+    renderTick++;
     await tick();
   });
 </script>
 
+<AuthGate>
 <div class="shell">
   <Sidebar {navHtml} name={workbook.name} {stats} discoveryActive={showDiscovery} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} />
   <div class="main" id="main-content">
@@ -184,7 +209,46 @@
       />
     {:else}
       {@html pageHtml}
+      <button
+        type="button"
+        class="recalc-btn"
+        onclick={() => { renderTick++; showToast('Recalculated'); }}
+        title="Refresh totals, deltas, and comparison columns"
+        aria-label="Recalculate"
+      >
+        ↻ Recalculate
+      </button>
     {/if}
   </div>
 </div>
+</AuthGate>
 <div id="toast" class:show={toastShow}>{toastMsg}</div>
+
+<style>
+  .recalc-btn {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    background: #1D9E75;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(29,158,117,0.35);
+    z-index: 50;
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  .recalc-btn:hover {
+    background: #17875F;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(29,158,117,0.45);
+  }
+  .recalc-btn:focus-visible {
+    outline: 2px solid #1D9E75;
+    outline-offset: 3px;
+  }
+</style>
