@@ -85,6 +85,145 @@ function scoreBtns(W: Workbook, fNum: string): string {
   }).join('');
 }
 
+// ── Gut Health Self-Assessment ────────────────────────────────────────────────
+// State is persisted to localStorage under key `gut-assessment-v1` and managed
+// entirely by gutAssessmentAction() exposed on window in App.svelte.
+// No workbook state is touched — assessment is self-contained.
+
+const GUT_QUESTIONS: string[] = [
+  'I frequently feel bloated after meals.',
+  'I have excess gas or flatulence on a regular basis.',
+  'I experience abdominal discomfort, cramping, or pain.',
+  'My stools are irregular — constipation, diarrhea, or both.',
+  'I have multiple food sensitivities or reactions.',
+  'I feel brain fog or fatigue after eating.',
+  'I have skin issues — acne, eczema, rashes, or rosacea.',
+  'I have joint pain without injury, or an autoimmune diagnosis.',
+  "I've had 3+ courses of antibiotics in the past 5 years.",
+  "I'm under chronic stress, or had a major stress event in the past year.",
+];
+
+interface GutAssessmentState {
+  answers: Record<number, boolean>;   // index → true (yes) / false (no)
+  score: number | null;
+  completedAt: string | null;         // ISO date string
+}
+
+function loadGutState(): GutAssessmentState {
+  if (typeof localStorage === 'undefined') {
+    return { answers: {}, score: null, completedAt: null };
+  }
+  try {
+    const raw = localStorage.getItem('gut-assessment-v1');
+    if (raw) return JSON.parse(raw) as GutAssessmentState;
+  } catch (_) { /* ignore */ }
+  return { answers: {}, score: null, completedAt: null };
+}
+
+function isGutResultRecent(completedAt: string | null): boolean {
+  if (!completedAt) return false;
+  const diff = Date.now() - new Date(completedAt).getTime();
+  return diff < 90 * 24 * 60 * 60 * 1000; // 90 days
+}
+
+function gutBand(score: number): { title: string; body: string; cta: string } {
+  if (score <= 2) {
+    return {
+      title: 'Your gut is in good shape.',
+      body: "Stay consistent with Week 1's protocol — bone broth, fermented foods, and your foundational stack maintain what you've built.",
+      cta: 'Anchor with BiomeAxisForge',
+    };
+  }
+  if (score <= 5) {
+    return {
+      title: 'Clear gut-axis signals.',
+      body: "Your gut is sending signals worth listening to. Week 1's gut-repair protocol plus BiomeAxisForge daily will drive measurable change in 30 days. Retake this assessment then.",
+      cta: 'Start with BiomeAxisForge',
+    };
+  }
+  return {
+    title: 'Strong gut-repair indication.',
+    body: 'These are the patterns BiomeAxisForge was built for. Anchor your entire Month 1 in gut repair: BiomeAxisForge daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.',
+    cta: 'Begin with BiomeAxisForge today',
+  };
+}
+
+export function renderGutAssessment(): string {
+  const state = loadGutState();
+  const showResult = state.score !== null && isGutResultRecent(state.completedAt);
+  const ac = '#1D9E75';
+
+  // Build question rows
+  const questionRows = GUT_QUESTIONS.map((q, i) => {
+    // JSON serialisation turns numeric keys to strings; coerce both sides.
+    const ans = (state.answers as Record<string, boolean>)[String(i)];
+    const yesActive = ans === true;
+    const noActive = ans === false;
+    return `<div data-gut-row="${i}" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #1D9E7518">
+      <span style="font-size:12.5px;color:#e8eaf0;line-height:1.5;flex:1">${esc(q)}</span>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="day-btn"
+          style="background:${yesActive ? ac : '#FFFFFF'};color:${yesActive ? '#fff' : '#5A8A64'};border-color:${yesActive ? ac : '#D8E8DC'};min-width:44px;font-size:12px;font-weight:700;padding:5px 10px"
+          onclick="gutAssessmentAction('answer',${i},true)">Yes</button>
+        <button class="day-btn"
+          style="background:${noActive ? '#6B5ED4' : '#FFFFFF'};color:${noActive ? '#fff' : '#5A8A64'};border-color:${noActive ? '#6B5ED4' : '#D8E8DC'};min-width:44px;font-size:12px;font-weight:700;padding:5px 10px"
+          onclick="gutAssessmentAction('answer',${i},false)">No</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  const answeredCount = Object.keys(state.answers).length;
+  const allAnswered = answeredCount === GUT_QUESTIONS.length;
+
+  // Result block
+  let resultHtml = '';
+  if (showResult && state.score !== null) {
+    const band = gutBand(state.score);
+    const scoreColor = state.score <= 2 ? '#1D9E75' : state.score <= 5 ? '#D4920A' : '#E05C2A';
+    resultHtml = `<div id="gut-result-block" style="display:block">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <div style="width:56px;height:56px;border-radius:50%;background:${scoreColor}20;border:2px solid ${scoreColor};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:22px;font-weight:800;color:${scoreColor}">${state.score}</span>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#e8eaf0;line-height:1.3">${esc(band.title)}</div>
+          <div style="font-size:10px;color:#6A8A6E;margin-top:2px">Score: ${state.score}/10</div>
+        </div>
+      </div>
+      <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${esc(band.body)}</div>
+      <a href="/cart" style="display:inline-block;background:${ac};color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
+      <div style="margin-top:16px">
+        <button onclick="gutAssessmentAction('retake')"
+          style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
+      </div>
+    </div>
+    <div id="gut-questions-block" style="display:none">
+      ${questionRows}
+      <div style="margin-top:16px;text-align:center">
+        <button id="gut-submit-btn" onclick="gutAssessmentAction('submit')"
+          style="background:${ac};color:#fff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;opacity:${allAnswered ? '1' : '.45'};pointer-events:${allAnswered ? 'auto' : 'none'}"
+          ${allAnswered ? '' : 'disabled'}>See your result</button>
+      </div>
+    </div>`;
+  } else {
+    resultHtml = `<div id="gut-questions-block" style="display:block">
+      ${questionRows}
+      <div style="margin-top:16px;text-align:center">
+        <button id="gut-submit-btn" onclick="gutAssessmentAction('submit')"
+          style="background:${ac};color:#fff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;opacity:${allAnswered ? '1' : '.45'};pointer-events:${allAnswered ? 'auto' : 'none'}"
+          ${allAnswered ? '' : 'disabled'}>See your result</button>
+      </div>
+    </div>
+    <div id="gut-result-block" style="display:none"></div>`;
+  }
+
+  return `<div class="card" style="border-color:${ac}55">
+    <div class="card-title" style="color:${ac}">Gut Health Self-Assessment — 5 minutes</div>
+    <div style="font-size:12px;color:#9ba3b2;margin-bottom:16px;line-height:1.5">How much of what's happening in your brain starts in your gut? Find out.</div>
+    ${resultHtml}
+  </div>`;
+}
+
 function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
   const wc = weekMeta[w];
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -469,6 +608,8 @@ function renderW1(ctx: RenderContext): string {
       Most cognitive issues start in the gut. This week we calm inflammation, rebuild the lining, and restore the gut–brain axis so your neurotransmitters can do their job.
     </div>
   </div>
+
+  ${renderGutAssessment()}
 
   <div style="background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:11px;padding:16px 20px;margin-bottom:20px">
     <div style="font-size:13px;font-weight:700;color:#1A5A34;margin-bottom:6px">Week 1 — All 4 Pillars Begin Today</div>

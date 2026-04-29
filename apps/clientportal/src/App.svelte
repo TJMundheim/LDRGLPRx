@@ -165,15 +165,126 @@
     setField(path, value);
   }
 
+  // ── Gut Health Self-Assessment ──────────────────────────────────────────────
+  // Fully self-contained: reads/writes localStorage under `gut-assessment-v1`,
+  // manipulates DOM directly so no workbook re-render is needed.
+  const GUT_STORAGE_KEY = 'gut-assessment-v1';
+  const GUT_TOTAL = 10;
+
+  function gutAssessmentAction(action: string, qIndex?: number, value?: boolean): void {
+    const raw = localStorage.getItem(GUT_STORAGE_KEY);
+    const state: { answers: Record<number, boolean>; score: number | null; completedAt: string | null } =
+      raw ? JSON.parse(raw) : { answers: {}, score: null, completedAt: null };
+
+    if (action === 'answer' && qIndex !== undefined && value !== undefined) {
+      state.answers[qIndex] = value;
+      localStorage.setItem(GUT_STORAGE_KEY, JSON.stringify(state));
+
+      // Visually update the two buttons for this question
+      const ac = '#1D9E75';
+      const violet = '#6B5ED4';
+      const offBg = '#FFFFFF';
+      const offColor = '#5A8A64';
+      const offBorder = '#D8E8DC';
+      const card = document.getElementById('gut-questions-block');
+      if (card) {
+        const rows = card.querySelectorAll<HTMLElement>('[data-gut-row]');
+        const row = rows[qIndex];
+        if (row) {
+          const [yesBtn, noBtn] = row.querySelectorAll<HTMLButtonElement>('button');
+          if (yesBtn && noBtn) {
+            yesBtn.style.background = value ? ac : offBg;
+            yesBtn.style.color = value ? '#fff' : offColor;
+            yesBtn.style.borderColor = value ? ac : offBorder;
+            noBtn.style.background = !value ? violet : offBg;
+            noBtn.style.color = !value ? '#fff' : offColor;
+            noBtn.style.borderColor = !value ? violet : offBorder;
+          }
+        }
+      }
+
+      // Enable/disable submit button
+      const answeredCount = Object.keys(state.answers).length;
+      const submitBtn = document.getElementById('gut-submit-btn') as HTMLButtonElement | null;
+      if (submitBtn) {
+        const allDone = answeredCount >= GUT_TOTAL;
+        submitBtn.disabled = !allDone;
+        submitBtn.style.opacity = allDone ? '1' : '.45';
+        submitBtn.style.pointerEvents = allDone ? 'auto' : 'none';
+      }
+      return;
+    }
+
+    if (action === 'submit') {
+      const answeredCount = Object.keys(state.answers).length;
+      if (answeredCount < GUT_TOTAL) return;
+      const score = Object.values(state.answers).filter(Boolean).length;
+      state.score = score;
+      state.completedAt = new Date().toISOString();
+      localStorage.setItem(GUT_STORAGE_KEY, JSON.stringify(state));
+
+      // Build result band
+      let title: string, body: string, cta: string, scoreColor: string;
+      if (score <= 2) {
+        title = 'Your gut is in good shape.';
+        body = "Stay consistent with Week 1's protocol — bone broth, fermented foods, and your foundational stack maintain what you've built.";
+        cta = 'Anchor with BiomeAxisForge';
+        scoreColor = '#1D9E75';
+      } else if (score <= 5) {
+        title = 'Clear gut-axis signals.';
+        body = "Your gut is sending signals worth listening to. Week 1's gut-repair protocol plus BiomeAxisForge daily will drive measurable change in 30 days. Retake this assessment then.";
+        cta = 'Start with BiomeAxisForge';
+        scoreColor = '#D4920A';
+      } else {
+        title = 'Strong gut-repair indication.';
+        body = 'These are the patterns BiomeAxisForge was built for. Anchor your entire Month 1 in gut repair: BiomeAxisForge daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.';
+        cta = 'Begin with BiomeAxisForge today';
+        scoreColor = '#E05C2A';
+      }
+
+      const resultBlock = document.getElementById('gut-result-block');
+      const questionsBlock = document.getElementById('gut-questions-block');
+      if (resultBlock && questionsBlock) {
+        questionsBlock.style.display = 'none';
+        resultBlock.innerHTML = `
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+            <div style="width:56px;height:56px;border-radius:50%;background:${scoreColor}20;border:2px solid ${scoreColor};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <span style="font-size:22px;font-weight:800;color:${scoreColor}">${score}</span>
+            </div>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#e8eaf0;line-height:1.3">${title}</div>
+              <div style="font-size:10px;color:#6A8A6E;margin-top:2px">Score: ${score}/10</div>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${body}</div>
+          <a href="/cart" style="display:inline-block;background:#1D9E75;color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${cta} →</a>
+          <div style="margin-top:16px">
+            <button onclick="gutAssessmentAction('retake')"
+              style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
+          </div>`;
+        resultBlock.style.display = 'block';
+      }
+      return;
+    }
+
+    if (action === 'retake') {
+      localStorage.removeItem(GUT_STORAGE_KEY);
+      // Trigger full re-render so questions re-appear fresh
+      renderTick++;
+    }
+  }
+
   // Types for the window-exposed API so TS doesn't complain.
   type PortalWindow = Window & {
     portalAction?: typeof portalAction;
     portalField?: typeof portalField;
+    gutAssessmentAction?: typeof gutAssessmentAction;
   };
 
   onMount(async () => {
     (window as PortalWindow).portalAction = portalAction;
     (window as PortalWindow).portalField = portalField;
+    (window as PortalWindow).gutAssessmentAction = gutAssessmentAction;
 
     const user = await currentUserLegacy();
     if (user) {
