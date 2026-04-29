@@ -62,7 +62,7 @@ export const months: MonthDefinition[] = [
         name: 'Genesis RPA Candidacy Review',
         slug: 'genesis-rpa-candidacy',
         description:
-          'Mid-Month 2 review for members who completed the Genesis RPA introduction. Physician reviews Month 1 labs and compliance before approving candidacy.',
+          'Mid-Month 2 review for members who completed the Genesis RPA introduction. Healthcare provider reviews Month 1 labs and compliance before approving candidacy.',
       },
     ],
     graduationCriteria: [

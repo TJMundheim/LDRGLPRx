@@ -1,5 +1,6 @@
 <script lang="ts">
   import { weekMeta } from '../content/weeks';
+  import { stepsForWeek } from '../content/morningProtocol';
   import type { WeekLog } from '../data/schema';
 
   interface Props {
@@ -12,10 +13,31 @@
   const wc = $derived(weekMeta[week]);
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] as const;
   const doneCt = $derived(days.filter((_, i) => log.morn[`w${week}d${i+1}`]).length);
+  const steps = $derived(stepsForWeek(week));
+  const week4Note = $derived(week === 4 ? ' — with more focus and passion' : '');
 </script>
 
 <div class="card" style:border-color="{wc.ac}55">
   <div class="card-title"><span style="color:{wc.ac}">Week {week}</span> Morning Protocol Tracker</div>
+
+  {#if steps.length > 0}
+    <div class="steps-list" style="margin-bottom:12px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:6px;text-transform:uppercase">
+        Active steps{week4Note}
+      </div>
+      <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
+        {#each steps as step}
+          <li style="font-size:12px;color:#e8eaf0;line-height:1.4">
+            <strong>{step.n}</strong> — <span style="color:#9ba3b2">{step.p}</span>
+            {#if step.u}
+              <a href={step.u} target="_blank" rel="noopener noreferrer" style="color:{wc.ac};font-size:10px;margin-left:4px">▶ video</a>
+            {/if}
+          </li>
+        {/each}
+      </ol>
+    </div>
+  {/if}
+
   <div style="font-size:11px;color:#6A8A6E;margin-bottom:8px">Tap each day you completed all elements</div>
   <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">
     {#each days as d, i}

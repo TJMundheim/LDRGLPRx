@@ -162,19 +162,19 @@ export const tiers: MembershipTier[] = [
   {
     id: 'cohort-foundation',
     name: 'Cohort — Foundation',
-    tagline: 'Four weeks of live clinical education and your personal 15-factor audit.',
+    tagline: 'Your free Month-1 onboarding into the 4M system.',
     kind: 'cohort',
     oneTimePriceUSD: 197,
     includedProductSlugs: [],
     features: [
-      '4 weekly live Zoom sessions with Dr. TJ',
+      '4 weekly onboarding guides — how to use the app and get the most out of it.',
       '4M Month 1 Digital Workbook',
       'Morning Protocol — all 4 levels',
       'Mitigate Audit — personal 15-factor score',
       'Private cohort community access',
     ],
     description:
-      'The Foundation cohort tier gets you into the live program — four weekly sessions, your personal 15-factor audit, the complete Morning Protocol, and the Month 1 workbook. The clinical starting point for the 4M system.',
+      'Four weeks of guided onboarding into the 4M system. The basic workbook app is free for life. Live coaching with Dr. TJ is available as a Month-2+ upgrade.',
     idealFor: [
       'The man who wants the system, the sessions, and the accountability — and is ready to start',
       'Those exploring the program before committing to a higher tier',
@@ -198,7 +198,7 @@ export const tiers: MembershipTier[] = [
     description:
       'Clinical adds the base lab panel and a telemedicine visit so you walk into Week 1 knowing your numbers. This is where personalisation begins — no more guessing.',
     idealFor: [
-      'Members who want labs and a physician\'s eyes on their numbers before starting',
+      'Members who want labs and a healthcare provider review before starting',
       '"Your labs are normal" doesn\'t cut it anymore — you want optimal',
     ],
   },
@@ -224,7 +224,7 @@ export const tiers: MembershipTier[] = [
       'Priority direct access to Dr. TJ',
     ],
     description:
-      'Full Optimization is the complete Month 1 clinical picture — every relevant lab marker, MTHFR genotyping, and all four physician-prescribed formulas prescribed and ready for Week 1. Priority access to Dr. TJ throughout.',
+      'Full Optimization is the complete Month 1 picture — every relevant lab marker, MTHFR genotyping, and all four practitioner-grade formulas ready for Week 1. Priority access to Dr. TJ throughout.',
     idealFor: [
       'The man who is done guessing and wants every data point and every tool from day one',
       '"I\'ve tried everything" — now let\'s find out why with actual data',
@@ -240,7 +240,7 @@ export const tiers: MembershipTier[] = [
     oneTimePriceUSD: undefined,
     includedProductSlugs: [],
     features: [
-      'Monthly group coaching session with Dr. TJ',
+      'Available Month 2+: monthly live group coaching with Dr. TJ (avatar-led after initial cohorts).',
       'Continued access to private cohort community',
       'Protocol check-ins and accountability',
       'Add-on after any cohort tier — begins Month 2',

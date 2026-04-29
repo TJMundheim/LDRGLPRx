@@ -12,7 +12,7 @@
 <section class="welcome" aria-labelledby="welcome-headline">
   <div class="welcome-inner">
 
-    <div class="badge">PHYSICIAN-SUPERVISED · 4M PROGRAM</div>
+    <div class="badge">4M PROGRAM</div>
 
     <h1 id="welcome-headline" class="headline">
       What if everything you've tried<br>
@@ -20,8 +20,8 @@
     </h1>
 
     <p class="subhead">
-      A physician-supervised brain optimization program.<br>
-      <span class="subhead-quiet">Root cause. Real labs. Physician-prescribed precision.</span>
+      A brain optimization program built on the four pillars: Mitigate, Muscle, Mind, Motivate.<br>
+      <span class="subhead-quiet">Root cause. Daily practice. Brain-first.</span>
     </p>
 
     <div class="avatar-block">
@@ -62,7 +62,7 @@
       </button>
       <p class="cta-description" id="cta-description">
         Your answers drive a personalized protocol — not a generic quiz.
-        A physician reviews every flagged response.
+        Your responses guide your weekly focus.
       </p>
     </div>
 

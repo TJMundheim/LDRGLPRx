@@ -178,18 +178,18 @@ const COHORT_TIERS: MembershipTier[] = [
   {
     id: 'cohort-foundation',
     name: 'Cohort — Foundation',
-    tagline: 'Four weeks of live clinical education and your personal 15-factor audit.',
+    tagline: 'Your free Month-1 onboarding into the 4M system.',
     kind: 'cohort',
     oneTimePriceUSD: 197,
     includedProductSlugs: [],
     features: [
-      '4 weekly live Zoom sessions with Dr. TJ',
+      '4 weekly onboarding guides — how to use the app and get the most out of it.',
       '4M Month 1 Digital Workbook',
       'Morning Protocol — all 4 levels',
       'Mitigate Audit — personal 15-factor score',
       'Private cohort community access',
     ],
-    description: 'The Foundation cohort tier gets you into the live program — four weekly sessions, your personal 15-factor audit, the complete Morning Protocol, and the Month 1 workbook.',
+    description: 'Four weeks of guided onboarding into the 4M system. The basic workbook app is free for life. Live coaching with Dr. TJ is available as a Month-2+ upgrade.',
     idealFor: [
       'The man who wants the system, the sessions, and the accountability — and is ready to start',
       'Those exploring the program before committing to a higher tier',
@@ -211,7 +211,7 @@ const COHORT_TIERS: MembershipTier[] = [
     ],
     description: "Clinical adds the base lab panel and a telemedicine visit so you walk into Week 1 knowing your numbers.",
     idealFor: [
-      "Members who want labs and a physician's eyes on their numbers before starting",
+      'Members who want labs and a healthcare provider review before starting',
       '"Your labs are normal" doesn\'t cut it anymore — you want optimal',
     ],
   },
@@ -229,7 +229,7 @@ const COHORT_TIERS: MembershipTier[] = [
       'All 4 proprietary formulas prescribed: BiomeAxisForge, SleepRestore, ArmorVita, NeuroBridge',
       'Priority direct access to Dr. TJ',
     ],
-    description: 'Full Optimization is the complete Month 1 clinical picture — every relevant lab marker, MTHFR genotyping, and all four physician-prescribed formulas prescribed and ready for Week 1.',
+    description: 'Full Optimization is the complete Month 1 picture — every relevant lab marker, MTHFR genotyping, and all four practitioner-grade formulas ready for Week 1.',
     idealFor: [
       'The man who is done guessing and wants every data point and every tool from day one',
       '"I\'ve tried everything" — now let\'s find out why with actual data',
@@ -243,7 +243,7 @@ const COHORT_TIERS: MembershipTier[] = [
     monthlyUSD: 67,
     includedProductSlugs: [],
     features: [
-      'Monthly group coaching session with Dr. TJ',
+      'Available Month 2+: monthly live group coaching with Dr. TJ (avatar-led after initial cohorts).',
       'Continued access to private cohort community',
       'Protocol check-ins and accountability',
       'Add-on after any cohort tier — begins Month 2',
@@ -329,8 +329,8 @@ const WEEKLY_CONTENT = [
     month: 'M1',
     week: 1,
     pillar: 'mitigate',
-    title: 'Week 1 — All 4 Pillars Begin Today',
-    bodyMarkdown: `## Week 1 — Mitigate (Deep Focus)\n\n**Remove the 15 factors stealing your brain & body.**\n\nThis week you complete your personal 15-factor audit. Score each root cause honestly — gut, sleep, stress, toxins, and more. Your score tells us exactly where to begin.\n\n### Actions\n- Complete the 15-Factor Audit (score 0–5 per factor)\n- Set your Top 3 priorities and write your commitments\n- Record your body baseline: weight, waist, energy, focus, sleep, mood\n- Record your strength baseline: pull-ups, push-ups, dead hang, squats, plank\n- Start BiomeAxisForge (gut-brain axis repair)\n\n### Morning Protocol — Level 1\nGlass of water upon waking. That is the entire protocol this week — consistency over complexity.`,
+    title: 'Week 1',
+    bodyMarkdown: `## Week 1 — All Four M's Begin Today\n\n### Morning Protocol\n- Box breathing → morning sunlight → cold shower/plunge.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n\n### Muscle\n- Walk 20 min daily.\n\n### Mind\n- 5 min daily focused breathing or meditation.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n\n### Nutrition\n- Placeholder — your Week 1 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
     resources: [
       { name: '15-Factor Audit Guide', url: 'https://app.my4mlife.com/#w1' },
     ],
@@ -341,8 +341,8 @@ const WEEKLY_CONTENT = [
     month: 'M1',
     week: 2,
     pillar: 'muscle',
-    title: 'Week 2 — Build the Foundation',
-    bodyMarkdown: `## Week 2 — Muscle (Deep Focus)\n\n**Rebuild the body that powers the brain.**\n\nThe body is the vehicle. This week we add movement, outdoor fasted training, and the ArmorVita fat-soluble stack (D3/K2/Boron).\n\n### Actions\n- Begin fasted outdoor training (minimum 20 min, 3×/week)\n- Start ArmorVita supplementation\n- Track morning protocol days (target: 5/7 days)\n- Track cold exposure days (optional — target: 3/7 days)\n- Log protein intake (target: 1 g/lb bodyweight)\n\n### Morning Protocol — Level 2\nWater + 5 minutes outdoor light exposure within 30 minutes of waking.`,
+    title: 'Week 2',
+    bodyMarkdown: `## Week 2 — Build the Foundation\n\n### Morning Protocol\n- Box breathing → morning sunlight → cold shower/plunge.\n- + Fireside squat or sumo squat.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n- + Cut one inflammatory input — added sugar, alcohol, or seed oils (pick one).\n\n### Muscle\n- Walk 20 min daily.\n- + Resistance 2×/week — 5 push-ups, 10 squats, 30-sec plank (scale to your level).\n\n### Mind\n- 5 min daily focused breathing or meditation.\n- + Read 10 pages or listen to one long-form podcast/day.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n- + Tell one person what you're doing and why.\n\n### Nutrition\n- Placeholder — your Week 2 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
     resources: [],
   },
   {
@@ -351,8 +351,8 @@ const WEEKLY_CONTENT = [
     month: 'M1',
     week: 3,
     pillar: 'mind',
-    title: 'Week 3 — Deepen the Work',
-    bodyMarkdown: `## Week 3 — Mind (Deep Focus)\n\n**Feed, fuel, and sharpen your cognitive edge.**\n\nNutrition quality, methylation support, and the NeuroBridge active-form B-complex — especially critical if you carry MTHFR.\n\n### Actions\n- Complete food quality audit (Tier 1 / 2 / 3 categorisation)\n- Start NeuroBridge (active methylated B-complex)\n- Extend fasting window by 1–2 hours from Week 2 baseline\n- Log cognitive ratings (focus / memory / mood) weekly\n- Review full supplement stack — confirm all three formulas are running\n\n### Morning Protocol — Level 3\nWater + light + 10 minutes of focused breath or meditation work.`,
+    title: 'Week 3',
+    bodyMarkdown: `## Week 3 — Deepen the Work\n\n### Morning Protocol\n- Box breathing → morning sunlight → cold shower/plunge.\n- + Fireside squat or sumo squat.\n- + Lunge stretch.\n\n### Mitigate\n- Hydrate to ½ body weight in ounces daily. Lights out by 10:30pm. No screens 30 min before bed.\n- + Cut one inflammatory input — added sugar, alcohol, or seed oils (pick one).\n- + Recovery practice 3×/week — sauna, Epsom-salt bath, or extended cold exposure.\n\n### Muscle\n- Walk 20 min daily.\n- + Resistance 2×/week — 5 push-ups, 10 squats, 30-sec plank (scale to your level).\n- + Mobility flow 3×/week — 5 min of hip circles, spinal rotation, shoulder rolls.\n\n### Mind\n- 5 min daily focused breathing or meditation.\n- + Read 10 pages or listen to one long-form podcast/day.\n- + Morning brain-dump journal — 5 min, whatever's in your head, no editing.\n\n### Motivate\n- Write your "why" in one sentence. Read it daily.\n- + Tell one person what you're doing and why.\n- + Share one win in the cohort space.\n\n### Nutrition\n- Placeholder — your Week 3 meal plan goes here. Food log: 3 meals + snacks, free-text.`,
     resources: [],
   },
   {
@@ -361,8 +361,8 @@ const WEEKLY_CONTENT = [
     month: 'M1',
     week: 4,
     pillar: 'motivate',
-    title: 'Week 4 — Integration & Identity',
-    bodyMarkdown: `## Week 4 — Motivate (Deep Focus)\n\n**Lock in your identity and daily system.**\n\nBy Week 4, you do not have a program — you have a system. Re-audit all 15 factors, write your identity statement, and prepare for Month 2.\n\n### Actions\n- Re-score the 15-Factor Audit (compare Week 1 vs Week 4)\n- Write your identity statement\n- Record your Month 1 wins (top 3)\n- Complete Month 2 commitment (training / nutrition / supplements / cognitive / accountability)\n- Watch the Genesis RPA bonus module\n\n### Graduation Criteria\n- 20+ morning protocol days completed\n- 10+ cold exposure sessions\n- Factor score improvement ≥ 10 points vs Week 1 baseline\n\n### Morning Protocol — Level 4\nFull stack: water + light + movement + breath + protein within 60 minutes of waking.`,
+    title: 'Week 4',
+    bodyMarkdown: `## Week 4 — Integration & Identity\n\n### Morning Protocol\n- All of the above (box breathing → morning sunlight → cold shower → fireside/sumo squat → lunge stretch), with more focus and passion.\n\n### Mitigate\n- All of above, daily, with intention.\n\n### Muscle\n- All of above + one challenging session/week (longer walk, more reps, harder hold).\n\n### Mind\n- All of above + one thing learned this month, written down.\n\n### Motivate\n- All of above + write what Month 2 looks like for you.\n\n### Nutrition\n- Placeholder — your Week 4 meal plan goes here. Food log: 3 meals + snacks, free-text.\n\n---\n\n**Want live coaching with Dr. TJ? Available Month 2+ as an upgrade tier.**`,
     resources: [
       { name: 'Genesis RPA — Introduction', url: 'https://genesisregenerative.com' },
     ],

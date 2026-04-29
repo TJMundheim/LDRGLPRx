@@ -122,7 +122,7 @@
     <section class="report-section" aria-labelledby="products-heading">
       <h2 id="products-heading" class="section-heading">Recommended Formulas</h2>
       <p class="section-sub">
-        Physician-prescribed compounds — not available anywhere else.
+        Practitioner-grade formulas built for cognitive longevity — not available anywhere else.
         Not your fault you've been guessing. Now you don't have to.
       </p>
       <div class="product-grid">
