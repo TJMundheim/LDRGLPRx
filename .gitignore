@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# Vite cache
+.vite/
+**/.vite/
+
+# CDK
+cdk.out/
+**/cdk.out/
+.cdk.staging/
+**/.cdk.staging/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+**/.env.local
+**/.env.*.local
+*.state.env
+**/*.state.env
+
+# AWS / secrets
+.aws/
+*.pem
+
+# TypeScript
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Test coverage
+coverage/
+**/coverage/
+
+# Turbo
+.turbo/
+**/.turbo/
+
+# OS
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+**/logs/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
