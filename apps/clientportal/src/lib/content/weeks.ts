@@ -11,8 +11,7 @@ export const tabs: Tab[] = [
   {id:'dash',  label:'Dashboard',           icon:'⚡'},
   {id:'w1',    label:'Week 1',              icon:'🧠'},
   {id:'w2',    label:'Week 2',             icon:'💪'},
-  {id:'nutr',  label:'Nutrition & Fasting',icon:'🥩'},
-  {id:'w3',    label:'Week 3',             icon:'🔬'},
+    {id:'w3',    label:'Week 3',             icon:'🔬'},
   {id:'w4',    label:'Week 4',             icon:'🎯'},
   {id:'regen', label:'Bonus — Regenerative',icon:'⊕'}
 ];

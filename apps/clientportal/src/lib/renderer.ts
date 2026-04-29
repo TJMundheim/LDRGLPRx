@@ -15,7 +15,7 @@ import { factors } from './content/factors';
 import type { Factor } from './content/factors';
 import { supplements } from './content/supplements';
 import { stepsForWeek } from './content/morningProtocol';
-import { foodTiers, fasting } from './content/nutrition';
+// nutrition.ts content is no longer imported centrally — fasting data lives in weekNutrData below
 import { tabs, weekMeta } from './content/weeks';
 import type { Workbook } from './data/schema';
 
@@ -461,6 +461,15 @@ function renderW1(ctx: RenderContext): string {
 
   return `${weekBanner(1)}
 
+  <div style="background:linear-gradient(135deg,#064030,#085041);border:2px solid #1D9E75;border-radius:13px;padding:20px 22px;margin-bottom:20px">
+    <div style="font-size:17px;font-weight:800;color:#1D9E75;margin-bottom:7px;letter-spacing:.01em;line-height:1.25">
+      Week 1: Repair the Gut. Restore the Brain.
+    </div>
+    <div style="font-size:12.5px;color:#A8D8C0;line-height:1.75">
+      Most cognitive issues start in the gut. This week we calm inflammation, rebuild the lining, and restore the gut–brain axis so your neurotransmitters can do their job.
+    </div>
+  </div>
+
   <div style="background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:11px;padding:16px 20px;margin-bottom:20px">
     <div style="font-size:13px;font-weight:700;color:#1A5A34;margin-bottom:6px">Week 1 — All 4 Pillars Begin Today</div>
     <div style="font-size:12px;color:#3A7A4E;line-height:1.75">
@@ -500,6 +509,9 @@ function renderW1(ctx: RenderContext): string {
 
   <div class="card">
     ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Score all 14 risk factors. Identify your top 3 leverage points.')}
+    <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
+      Gut first — what you remove this week matters more than what you add.
+    </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
       <div style="font-size:12px;color:#5A8A64">Score each factor honestly 1–5. High score = fastest results when addressed.</div>
       <div style="text-align:right">
@@ -563,7 +575,9 @@ function renderW1(ctx: RenderContext): string {
     ${workoutLog(W, 1)}
   </div>
 
-  ${morningTracker(W, 1)}`;
+  ${morningTracker(W, 1)}
+
+  ${renderWeekNutritionSection(1)}`;
 }
 
 function renderW2(W: Workbook): string {
@@ -769,7 +783,9 @@ function renderW2(W: Workbook): string {
         <label>${l}</label>
         <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
       </div>`).join('')}
-  </div>`;
+  </div>
+
+  ${renderWeekNutritionSection(2)}`;
 }
 
 function renderW3(W: Workbook): string {
@@ -953,7 +969,9 @@ function renderW3(W: Workbook): string {
         <label>${l}</label>
         <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
       </div>`).join('')}
-  </div>`;
+  </div>
+
+  ${renderWeekNutritionSection(3)}`;
 }
 
 function renderW4(W: Workbook): string {
@@ -1188,55 +1206,145 @@ function renderW4(W: Workbook): string {
         <label>${l}</label>
         <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
       </div>`).join('')}
-  </div>`;
+  </div>
+
+  ${renderWeekNutritionSection(4)}`;
 }
 
-function renderNutr(W: Workbook): string {
-  const pt = Number(W.protein) || 0;
-  return `
-  <div class="page-title" style="color:#1D9E75">Keto-Paleo Ancestral Nutrition</div>
-  <div class="page-sub">Food quality determines brain quality · 9am–7pm eating window · Morning fasted</div>
+/** Affiliate supplier data for the pantry sourcing grid. */
+const affiliateSuppliers = [
+  { name: 'ButcherBox',              desc: 'Grass-fed beef & wild salmon delivered to your door.',      url: 'https://butcherbox.com' },
+  { name: 'US Wellness Meats',       desc: 'Organ meats, game, and pasture-raised proteins.',           url: 'https://uswellnessmeats.com' },
+  { name: 'Vital Choice',            desc: 'Wild-caught seafood — salmon, sardines, oysters.',          url: 'https://vitalchoice.com' },
+  { name: 'Force of Nature',         desc: 'Ancestral blend — nose-to-tail regenerative meats.',        url: 'https://forceofnaturemeats.com' },
+  { name: 'Ancestral Supplements',   desc: 'Grass-fed organ capsules — liver, heart, kidney.',          url: 'https://ancestralsupplements.com' },
+  { name: 'Thrive Market',           desc: 'Pantry staples & keto/paleo essentials — members only pricing.', url: 'https://thrivemarket.com' },
+];
 
-  <div class="card">
-    <div class="card-title">My Daily Protein Target</div>
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <div style="flex:1;min-width:180px">
-        <label>Target bodyweight (lbs)</label>
-        <input type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
-          oninput="portalField('protein',this.value)">
+/** Per-week fasting cue and supplement stack tagline. */
+const weekNutrData: Record<1 | 2 | 3 | 4, { fastingCue: string; suppTagline: string; suppNames: string[] }> = {
+  1: {
+    fastingCue: 'Eat for gut repair — bone broth, fermented foods, organ meats, no inflammatory inputs (sugar, seed oils, alcohol). Three meals, no snacks.',
+    suppTagline: 'This week, get familiar with your practitioner-grade stack. Start with the foundational formula — BiomeAxisForge — and add SleepRestore at bedtime.',
+    suppNames: ['BiomeAxisForge', 'SleepRestore'],
+  },
+  2: {
+    fastingCue: 'Hold your 14:10 window. Push your last meal 15 minutes earlier every 2 days — you are building the habit before we tighten the window next month.',
+    suppTagline: 'Continue your stack. This week add ArmorVita with your largest meal — fat-soluble vitamins need dietary fat to absorb.',
+    suppNames: ['BiomeAxisForge', 'SleepRestore', 'ArmorVita'],
+  },
+  3: {
+    fastingCue: 'Tighten your eating window slightly. Aim for your first meal closer to 10–10:30am this week. You are preparing your metabolism for the Month 2 progression to 16:8.',
+    suppTagline: 'Continue your stack. Week 3 completes your Month 1 protocol — add NeuroBridge with breakfast to activate your methylation cycle.',
+    suppNames: ['BiomeAxisForge', 'SleepRestore', 'ArmorVita', 'NeuroBridge'],
+  },
+  4: {
+    fastingCue: 'Run your full stack. Fast clean — water and black coffee only inside the fast window. Eat with intent — quality over quantity.',
+    suppTagline: 'Your Month 1 stack is complete. Continue all four formulas. Review what you noticed and build your Month 2 commitment.',
+    suppNames: ['BiomeAxisForge', 'SleepRestore', 'ArmorVita', 'NeuroBridge'],
+  },
+};
+
+function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
+  const wc = weekMeta[w];
+  const { fastingCue, suppTagline, suppNames } = weekNutrData[w];
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  const supplierCards = affiliateSuppliers.map(s => `
+    <div style="background:#F8FAF8;border:1.5px solid #D8E8DC;border-radius:9px;
+      padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+      <div style="font-size:12px;font-weight:700;color:#1A3A20">${esc(s.name)}</div>
+      <div style="font-size:11px;color:#5A8A64;line-height:1.5;flex:1">${esc(s.desc)}</div>
+      <a href="${s.url}" target="_blank" rel="sponsored noopener noreferrer"
+        style="font-size:11px;font-weight:700;color:${wc.ac};text-decoration:none;
+          background:${wc.ac}18;border:1px solid ${wc.ac}44;border-radius:6px;
+          padding:5px 10px;text-align:center;display:block">Shop &rarr;</a>
+    </div>`).join('');
+
+  const fastingRows = days.map((d, i) => {
+    const fKey = `w${w}d${i + 1}_firstMeal`;
+    const lKey = `w${w}d${i + 1}_lastMeal`;
+    return `<div style="display:grid;grid-template-columns:0.6fr 1fr 1fr;gap:8px;margin-bottom:6px;align-items:center">
+      <div style="font-size:11px;color:#1A3A20;font-weight:600">${d}</div>
+      <input type="time" style="font-size:11px" placeholder="First meal"
+        oninput="portalField('fastingLog.${fKey}',this.value)">
+      <input type="time" style="font-size:11px" placeholder="Last meal"
+        oninput="portalField('fastingLog.${lKey}',this.value)">
+    </div>`;
+  }).join('');
+
+  const suppCards = suppNames.map(name => `
+    <div style="display:flex;justify-content:space-between;align-items:center;
+      padding:10px 14px;background:#F8FAF8;border:1.5px solid #D8E8DC;border-radius:9px;margin-bottom:8px">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#1A3A20">${esc(name)}</div>
+        <div style="font-size:10px;color:#5A8A64;margin-top:2px">Practitioner-grade — recommended for this program</div>
       </div>
-      ${pt > 0 ? `<div style="background:rgba(29,158,117,.06);border:1px solid rgba(29,158,117,.25);
-        border-radius:10px;padding:14px 20px;text-align:center;flex-shrink:0">
-        <div style="font-size:34px;font-weight:700;color:#1D9E75;line-height:1">${Math.round(pt * 0.9)}g</div>
-        <div style="font-size:10px;color:#6A8A6E;margin-top:2px">protein per day</div>
-      </div>` : ''}
+      <span style="font-size:10px;color:#888;background:#F0F0F0;border-radius:5px;padding:4px 9px;white-space:nowrap">Coming soon</span>
+    </div>`).join('');
+
+  return `
+  <div class="card" style="border-top:3px solid ${wc.ac};margin-top:8px">
+    <div style="font-size:14px;font-weight:700;color:${wc.ac};margin-bottom:4px;letter-spacing:.01em">
+      Nutrition &amp; Fueling — Week ${w}
     </div>
-  </div>
+    <div style="font-size:11.5px;color:#4A7A54;margin-bottom:16px;line-height:1.6;font-style:italic">${esc(fastingCue)}</div>
 
-  <div class="card">
-    <div class="card-title">4M Food Quality Hierarchy</div>
-    ${foodTiers.map(({ tier, color, items }) => `
-      <div style="margin-bottom:14px">
-        <span class="pill" style="background:${color}15;color:${color};margin-bottom:8px;display:inline-block">${tier}</span>
-        ${items.map(item => `
-          <div class="bitem">
-            <span class="dot" style="color:${color}">${tier.includes('Elim') ? '✕' : '▸'}</span>
-            <span style="font-size:12px;color:#1A3A20">${esc(item)}</span>
-          </div>`).join('')}
-      </div>`).join('')}
-  </div>
+    <!-- MEAL PLAN PREVIEW -->
+    <div style="position:relative;background:#F5FAF6;border:1.5px dashed #B8E8D0;border-radius:10px;padding:14px 16px;margin-bottom:16px">
+      <span style="position:absolute;top:-10px;right:14px;background:#D4920A;color:#fff;
+        font-size:9px;font-weight:700;letter-spacing:.07em;padding:3px 9px;border-radius:4px">PREVIEW</span>
+      <div style="font-size:11px;font-weight:700;color:#1D9E75;letter-spacing:.07em;margin-bottom:6px;text-transform:uppercase">
+        Week ${w} Recommended Meal Plan
+      </div>
+      <ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px">
+        <li style="font-size:11.5px;color:#3A6A44">Breakfast: 3–4 pasture-raised eggs + grass-fed beef or salmon + cooking fat</li>
+        <li style="font-size:11.5px;color:#3A6A44">Lunch: Large grass-fed protein portion + leafy greens + avocado</li>
+        <li style="font-size:11.5px;color:#3A6A44">Dinner: Ruminant protein or wild fish + cruciferous vegetable + bone broth</li>
+        <li style="font-size:11.5px;color:#3A6A44;font-style:italic;color:#6A8A6E">Full authored Week ${w} meal plan coming soon — TJ will provide exact recipes.</li>
+      </ul>
+    </div>
 
-  <div class="card">
-    <div class="card-title">4M Fasting Progression — 120 Days</div>
-    ${fasting.map(r => `
-      <div style="display:grid;grid-template-columns:1fr 0.7fr 1fr 1fr 1.6fr;gap:8px;
-        padding:10px 0;border-bottom:1px solid #E8F0E855;align-items:center;font-size:12px">
-        <span style="font-weight:700;color:${r.c}">${r.m}</span>
-        <span class="pill" style="background:#FAFBF9;border:1px solid #D8E8DC;color:#1A2E1E">${r.w}</span>
-        <span style="color:#5A8A64">First: <span style="color:#1A3A20">${r.f}</span></span>
-        <span style="color:#5A8A64">Last: <span style="color:#1A3A20">${r.l}</span></span>
-        <span style="font-size:10px;color:#6A8A6E">${r.n}</span>
-      </div>`).join('')}
+    <!-- AFFILIATE SOURCING GRID -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:8px;text-transform:uppercase">
+      Build Your Ancestral Pantry — Recommended Suppliers
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px">
+      ${supplierCards}
+    </div>
+
+    <!-- MEAL PREP VIDEOS -->
+    <div style="background:#F8FAF8;border:1.5px dashed #D8E8DC;border-radius:9px;
+      padding:14px 16px;margin-bottom:16px;text-align:center">
+      <div style="font-size:22px;margin-bottom:6px">&#127909;</div>
+      <div style="font-size:11px;font-weight:700;color:#4A7A54;margin-bottom:3px">Keto/Paleo Meal-Prep Videos</div>
+      <div style="font-size:10.5px;color:#8A9A88">Step-by-step meal prep video guides coming soon.</div>
+    </div>
+
+    <!-- FASTING LOG -->
+    <div style="margin-bottom:16px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:4px;text-transform:uppercase">
+        Fasting Tracker — Week ${w}
+      </div>
+      <div style="font-size:11px;color:#5A8A64;margin-bottom:8px">
+        Log first and last meal each day. Month 1 target: 14:10 window (first meal after 9am, last by 7pm).
+      </div>
+      <div style="display:grid;grid-template-columns:0.6fr 1fr 1fr;gap:8px;margin-bottom:6px">
+        ${['Day', 'First meal', 'Last meal'].map(h =>
+          `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+        ).join('')}
+      </div>
+      ${fastingRows}
+    </div>
+
+    <!-- SUPPLEMENT STACK -->
+    <div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:4px;text-transform:uppercase">
+        Recommended Supplement Stack — Week ${w}
+      </div>
+      <div style="font-size:11px;color:#5A8A64;margin-bottom:10px;line-height:1.5">${esc(suppTagline)}</div>
+      ${suppCards}
+    </div>
   </div>`;
 }
 
@@ -1291,7 +1399,6 @@ export function renderPage(ctx: RenderContext): string {
   switch (ctx.curTab) {
     case 'w1': return renderW1(ctx);
     case 'w2': return renderW2(ctx.W);
-    case 'nutr': return renderNutr(ctx.W);
     case 'w3': return renderW3(ctx.W);
     case 'w4': return renderW4(ctx.W);
     case 'regen': return renderRegen(ctx.W);
