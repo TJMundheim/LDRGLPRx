@@ -36,6 +36,25 @@ export interface CategoryDiscovery {
 
 export const DISCOVERY: CategoryDiscovery[] = [
   {
+    // Legacy id kept as 'purpose-social' to preserve in-flight localStorage data (discovery-v1.answers['purpose-social']).
+    id: 'purpose-social',
+    label: 'Lack of purpose, goals',
+    anchorKey: 'anchor_problem',
+    alwaysAsk: false,
+    anchor: {
+      id: 'purpose-anchor',
+      type: 'yesno',
+      text: 'Do you have a clear sense of purpose and specific goals you\'re actively working toward?',
+      problemAnchor: 'no',
+    },
+    follows: [
+      { id: 'f1', type: 'yesno', text: 'Do you lack written goals for the next 12 months?', problemAnchor: 'yes' },
+      { id: 'f2', type: 'yesno', text: 'Do your daily activities feel disconnected from what you find most meaningful?', problemAnchor: 'yes' },
+      { id: 'f3', type: 'yesno', text: 'Do you struggle to identify a compelling reason to get out of bed in the morning?', problemAnchor: 'yes' },
+      { id: 'f4', type: 'yesno', text: 'Do you go months without reviewing or updating your personal goals?', problemAnchor: 'yes' },
+    ],
+  },
+  {
     id: 'morning-routine',
     label: 'Lack of morning routine',
     anchorKey: 'anchor_problem',
@@ -292,22 +311,6 @@ export const DISCOVERY: CategoryDiscovery[] = [
     follows: [
       { id: 'f1', type: 'yesno', text: 'Does stress regularly interfere with your sleep or recovery?', problemAnchor: 'yes' },
       { id: 'f2', type: 'yesno', text: 'Do you have fewer than 3 dedicated stress-management practices per week (exercise, meditation, time in nature, etc.)?', problemAnchor: 'yes' },
-    ],
-  },
-  {
-    id: 'purpose-social',
-    label: 'Lack of purpose / social isolation',
-    anchorKey: 'anchor_problem',
-    alwaysAsk: false,
-    anchor: {
-      id: 'purpose-anchor',
-      type: 'yesno',
-      text: 'Do you feel a clear sense of purpose AND have at least one strong social connection you see weekly?',
-      problemAnchor: 'no',
-    },
-    follows: [
-      { id: 'f1', type: 'yesno', text: 'Do you regularly feel lonely or disconnected from people around you?', problemAnchor: 'yes' },
-      { id: 'f2', type: 'yesno', text: 'Do you often feel that your daily activities lack meaning or direction?', problemAnchor: 'yes' },
     ],
   },
   {

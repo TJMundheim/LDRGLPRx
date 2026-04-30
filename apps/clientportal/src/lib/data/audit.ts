@@ -36,6 +36,22 @@ function likertScoreInverted(v: unknown): number {
 
 export const AUDIT_CATEGORIES: AuditCategory[] = [
   {
+    // Legacy id kept as 'purpose-social' to preserve in-flight localStorage data (discovery-v1.answers['purpose-social']).
+    id: 'purpose-social',
+    label: 'Lack of purpose, goals',
+    priorityTier: false,
+    score(a) {
+      const answers = a as Record<string, Record<string, unknown>>;
+      const cat = answers['purpose-social'] ?? {};
+      if (!yesNo(cat['anchor_problem'])) return 0;
+      let s = 5;
+      if (yesNo(cat['f1'])) s += 2;
+      if (yesNo(cat['f2'])) s += 2;
+      if (yesNo(cat['f3'])) s += 1;
+      return clamp(s);
+    },
+  },
+  {
     id: 'morning-routine',
     label: 'Lack of morning routine',
     priorityTier: false,
@@ -249,20 +265,6 @@ export const AUDIT_CATEGORIES: AuditCategory[] = [
       let s = base;
       if (yesNo(cat['f1'])) s += 1;
       if (yesNo(cat['f2'])) s += 1;
-      return clamp(s);
-    },
-  },
-  {
-    id: 'purpose-social',
-    label: 'Lack of purpose / social isolation',
-    priorityTier: false,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      const cat = answers['purpose-social'] ?? {};
-      if (!yesNo(cat['anchor_problem'])) return 0;
-      let s = 5;
-      if (yesNo(cat['f1'])) s += 2;
-      if (yesNo(cat['f2'])) s += 2;
       return clamp(s);
     },
   },
