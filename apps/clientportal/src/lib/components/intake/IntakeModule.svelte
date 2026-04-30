@@ -6,15 +6,13 @@
    * Completion flag: `intake-complete-v1`.
    */
   import Stage1Basics from './Stage1Basics.svelte';
-  import Stage2Gut from './Stage2Gut.svelte';
+  import Stage2Discovery from './Stage2Discovery.svelte';
   import Stage3Mind from './Stage3Mind.svelte';
-  import Stage4Allergy from './Stage4Allergy.svelte';
-  import Stage5Goals from './Stage5Goals.svelte';
-  import Stage6Audit from './Stage6Audit.svelte';
+  import Stage4Audit from './Stage4Audit.svelte';
 
   const STAGE_KEY = 'intake-stage-v1';
   const COMPLETE_KEY = 'intake-complete-v1';
-  const TOTAL_STAGES = 6;
+  const TOTAL_STAGES = 4;
 
   interface Props {
     onComplete: () => void;
@@ -39,11 +37,9 @@
 
   const stageLabels: Record<number, string> = {
     1: 'Discovery Basics',
-    2: 'Gut Health Self-Assessment',
+    2: 'Discovery Questionnaire',
     3: 'Connected Mind',
-    4: 'Allergy & Sensitivity',
-    5: 'Optimize Your Goals',
-    6: 'Risk Factor Audit',
+    4: 'Risk Factor Audit',
   };
 
   function goTo(n: number): void {
@@ -101,15 +97,11 @@
     {#if currentStage === 1}
       <Stage1Basics onContinue={next} />
     {:else if currentStage === 2}
-      <Stage2Gut onBack={back} onContinue={next} />
+      <Stage2Discovery onBack={back} onContinue={next} />
     {:else if currentStage === 3}
       <Stage3Mind onBack={back} onContinue={next} />
     {:else if currentStage === 4}
-      <Stage4Allergy onBack={back} onContinue={next} />
-    {:else if currentStage === 5}
-      <Stage5Goals onBack={back} onContinue={next} />
-    {:else if currentStage === 6}
-      <Stage6Audit onBack={back} onComplete={complete} />
+      <Stage4Audit onBack={back} onComplete={complete} />
     {/if}
   </div>
 </div>
