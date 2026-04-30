@@ -609,8 +609,6 @@ function renderW1(ctx: RenderContext): string {
     </div>
   </div>
 
-  ${renderGutAssessment()}
-
   <div style="background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:11px;padding:16px 20px;margin-bottom:20px">
     <div style="font-size:13px;font-weight:700;color:#1A5A34;margin-bottom:6px">Week 1 — All 4 Pillars Begin Today</div>
     <div style="font-size:12px;color:#3A7A4E;line-height:1.75">

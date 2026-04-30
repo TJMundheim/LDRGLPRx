@@ -7,10 +7,14 @@
     pricingActive?: boolean;
     userRole?: 'patient' | 'clinician' | 'admin';
     adminActive?: boolean;
+    intakeComplete?: boolean;
   }
-  let { navHtml, name, stats, discoveryActive = false, pricingActive = false, userRole, adminActive = false }: Props = $props();
+  let { navHtml, name, stats, discoveryActive = false, pricingActive = false, userRole, adminActive = false, intakeComplete = true }: Props = $props();
 
   const isStaff = $derived(userRole === 'admin' || userRole === 'clinician');
+
+  /** Week tabs that are locked until intake is complete. */
+  const WEEK_TABS = new Set(['w1', 'w2', 'w3', 'w4']);
 </script>
 
 <div class="sidebar" id="sidebar">
@@ -53,7 +57,15 @@
     </div>
   {/if}
 
-  <div id="nav-items">{@html navHtml}</div>
+  <div id="nav-items" class:nav-locked={!intakeComplete}>
+    {@html navHtml}
+    {#if !intakeComplete}
+      <div class="lock-overlay" role="note">
+        <span class="lock-icon" aria-hidden="true">🔒</span>
+        <span class="lock-text">Complete intake to unlock Weeks 1–4</span>
+      </div>
+    {/if}
+  </div>
   <div class="sb-stats" style="margin-top:8px">
     <div class="sb-stats-title">WORKBOOK PROGRESS</div>
     <div class="sb-stat">{stats.audit}</div>
@@ -111,4 +123,45 @@
   .admin-btn { color: #c8a8ff; }
   .admin-btn:hover { background: rgba(200,168,255,0.1); color: #c8a8ff; }
   .admin-btn.discovery-active { background: rgba(200,168,255,0.15); color: #c8a8ff; }
+
+  /* Locked state when intake is incomplete */
+  .nav-locked {
+    position: relative;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .nav-locked :global(.nav-item) {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .lock-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 17, 23, 0.88);
+    border: 1px solid rgba(29,158,117,0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+  }
+
+  .lock-icon {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .lock-text {
+    font-size: 0.72rem;
+    color: #1D9E75;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
 </style>
