@@ -1,29 +1,26 @@
 <script lang="ts">
   /**
    * IntakeModule — gated pre-program onboarding.
-   * Stages 1-6 must be completed before Weeks 1-4 unlock.
-   * Stage state persists to localStorage key `intake-stage-v1`.
+   * 3 stages:
+   *   1 — Basics & Consents (Stage1Basics)
+   *   2 — Self-Assessment  (Stage2Likert — 20 Likert questions)
+   *   3 — Risk Factor Audit (Stage4Audit — reads audit-v1 populated by Stage 2)
    * Completion flag: `intake-complete-v1`.
    */
   import Stage1Basics from './Stage1Basics.svelte';
-  import Stage2Discovery from './Stage2Discovery.svelte';
-  import Stage3Mind from './Stage3Mind.svelte';
+  import Stage2Likert from './Stage2Likert.svelte';
   import Stage4Audit from './Stage4Audit.svelte';
   import { onMount } from 'svelte';
-  import { detectReturningUser } from '../../data/intakeMigration';
-  import type { ReturningUserStatus } from '../../data/intakeMigration';
   import { sha256, NPP_DOC, PHI_AUTH_DOC, AI_COMM_DOC } from '../../data/legalDocs';
 
   const STAGE_KEY = 'intake-stage-v1';
   const COMPLETE_KEY = 'intake-complete-v1';
-  const TOTAL_STAGES = 4;
+  const TOTAL_STAGES = 3;
 
   interface Props {
     onComplete: () => void;
   }
   let { onComplete }: Props = $props();
-
-  let returningStatus = $state<ReturningUserStatus>({ kind: 'fresh' });
 
   /** Read a JSON value from localStorage, returns null on any error. */
   function readJson<T>(key: string): T | null {
@@ -34,13 +31,28 @@
   }
 
   /**
+   * One-time clean slate: wipe stale keys from the previous multi-stage model.
+   * The schema version sentinel ensures this runs exactly once per browser session.
+   */
+  function runCleanSlate(): void {
+    const SCHEMA_VERSION_KEY = 'intake-schema-v3';
+    if (localStorage.getItem(SCHEMA_VERSION_KEY) !== '2026-05-01') {
+      ['discovery-v1', 'gut-assessment-v1', 'allergy-assessment-v1', 'goals-v1', 'connected-mind-v1',
+       'audit-v1', 'intake-stage-v1', 'intake-complete-v1'
+      ].forEach(k => localStorage.removeItem(k));
+      // basics-v1 and consent-* are deliberately preserved
+      localStorage.setItem(SCHEMA_VERSION_KEY, '2026-05-01');
+    }
+  }
+
+  /**
    * Check whether Stage 1 is already complete:
-   * - basics-v1 has name + email filled
+   * - basics-v1 has name + age + height + weight filled
    * - all 3 required consents are present and their SHA matches current doc content
    */
   async function isStage1Complete(): Promise<boolean> {
-    const basics = readJson<{ name?: string; email?: string }>(BASICS_KEY);
-    if (!basics?.name?.trim() || !basics?.email?.trim()) return false;
+    const basics = readJson<{ name?: string; age?: string; height?: string; weight?: string }>(BASICS_KEY);
+    if (!basics?.name?.trim() || !basics?.age?.trim() || !basics?.height?.trim() || !basics?.weight?.trim()) return false;
 
     const [nppSha, phiSha, aiSha] = await Promise.all([
       sha256(NPP_DOC.text),
@@ -53,8 +65,6 @@
     const ai  = readJson<{ documentSha?: string }>('consent-ai-comm-v1');
 
     if (!npp || !phi || !ai) return false;
-    // Treat 'sha256-unavailable' as matching to avoid blocking in environments
-    // where SubtleCrypto is absent (e.g. some test runners).
     const shaMatch = (stored: string, current: string) =>
       stored === current || stored === 'sha256-unavailable' || current === 'sha256-unavailable';
 
@@ -68,11 +78,13 @@
   const BASICS_KEY = 'basics-v1';
 
   onMount(async () => {
-    const status = detectReturningUser(localStorage);
-    returningStatus = status;
-    // returning-completed: skip straight to audit (stage 4)
-    if (status.kind === 'returning-completed' && currentStage < 4) {
-      goTo(4);
+    // Run clean slate first — wipes stale keys from prior multi-stage model
+    runCleanSlate();
+
+    // returning-completed: skip straight to audit review (stage 3)
+    const complete = readJson<{ completedAt?: string }>(COMPLETE_KEY);
+    if (complete?.completedAt && currentStage < 3) {
+      goTo(3);
       return;
     }
     // Auto-advance past Stage 1 if basics + all required consents already saved and valid
@@ -98,10 +110,9 @@
   let currentStage = $state(loadStage());
 
   const stageLabels: Record<number, string> = {
-    1: 'Discovery Basics',
-    2: 'Discovery Questionnaire',
-    3: 'Connected Mind',
-    4: 'Risk Factor Audit',
+    1: 'Basics & Consents',
+    2: 'Self-Assessment',
+    3: 'Risk Factor Audit',
   };
 
   function goTo(n: number): void {
@@ -159,11 +170,9 @@
     {#if currentStage === 1}
       <Stage1Basics onContinue={next} />
     {:else if currentStage === 2}
-      <Stage2Discovery onBack={back} onContinue={next} {returningStatus} />
+      <Stage2Likert onBack={back} onContinue={next} />
     {:else if currentStage === 3}
-      <Stage3Mind onBack={back} onContinue={next} />
-    {:else if currentStage === 4}
-      <Stage4Audit onBack={back} onComplete={complete} {returningStatus} />
+      <Stage4Audit onBack={back} onComplete={complete} />
     {/if}
   </div>
 </div>

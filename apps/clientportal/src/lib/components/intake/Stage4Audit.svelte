@@ -1,22 +1,20 @@
 <script lang="ts">
   /**
-   * Stage 4 — 20-category Risk Factor Audit.
-   * Auto-populates from discovery-v1.answers, merges with audit-v1.scores (manual edits win).
-   * Bumps cognitive to max(current, 5) if connected-mind-v1 is complete.
+   * Stage 3 — 20-category Risk Factor Audit Review.
+   * Reads audit-v1.scores (pre-populated by Stage2Likert; 0-10 scale per category, 0-200 total).
+   * User can adjust any score +/- before submitting.
    * Shows Top-3 Priorities panel and 20 AuditCategoryRow cards.
    */
   import AuditCategoryRow from './AuditCategoryRow.svelte';
   import { AUDIT_CATEGORIES } from '../../data/audit';
   import { selectTop3 } from '../../data/selectTop3';
   import type { ScoredCategory } from '../../data/selectTop3';
-  import type { ReturningUserStatus } from '../../data/intakeMigration';
 
   interface Props {
     onBack: () => void;
     onComplete: () => void;
-    returningStatus?: ReturningUserStatus;
   }
-  let { onBack, onComplete, returningStatus = { kind: 'fresh' } }: Props = $props();
+  let { onBack, onComplete }: Props = $props();
 
   const AUDIT_KEY = 'audit-v1';
 
@@ -24,37 +22,13 @@
     try { const r = localStorage.getItem(key); return r ? JSON.parse(r) as T : null; } catch { return null; }
   }
 
-  // Load discovery answers
-  const discoveryState = readJson<{ answers: Record<string, Record<string, unknown>> }>('discovery-v1');
-  const discoveryAnswers: Record<string, Record<string, unknown>> = discoveryState?.answers ?? {};
-
-  // Check connected mind completion
-  const cmData = readJson<{ completedAt?: string }>('connected-mind-v1');
-
-  // Compute initial scores from discovery
-  function computeFromDiscovery(): Record<string, number> {
+  function loadScores(): Record<string, number> {
+    const saved = readJson<{ scores: Record<string, number> }>(AUDIT_KEY);
     const result: Record<string, number> = {};
     for (const cat of AUDIT_CATEGORIES) {
-      let s = cat.score(discoveryAnswers);
-      if (cat.id === 'cognitive' && cmData?.completedAt) {
-        s = Math.max(s, 5);
-      }
-      result[cat.id] = s;
+      result[cat.id] = saved?.scores?.[cat.id] ?? 0;
     }
     return result;
-  }
-
-  function loadScores(): Record<string, number> {
-    const computed = computeFromDiscovery();
-    const saved = readJson<{ scores: Record<string, number> }>(AUDIT_KEY);
-    // Manual edits override, but fall back to computed
-    const merged: Record<string, number> = { ...computed };
-    if (saved?.scores) {
-      for (const [id, sc] of Object.entries(saved.scores)) {
-        merged[id] = sc;
-      }
-    }
-    return merged;
   }
 
   function saveScores(s: Record<string, number>): void {
@@ -62,8 +36,6 @@
   }
 
   let scores = $state<Record<string, number>>(loadScores());
-
-  const hasDiscoveryData = $derived(Object.keys(discoveryAnswers).length > 0);
 
   const scoredCategories = $derived(
     AUDIT_CATEGORIES.map(cat => ({
@@ -106,21 +78,15 @@
 
 <section class="stage4" aria-labelledby="s4-title">
   <div class="hero">
-    <div class="badge">INTAKE — STAGE 4 OF 4</div>
+    <div class="badge">INTAKE — STAGE 3 OF 3</div>
     <h1 id="s4-title">Risk Factor Audit</h1>
     <p class="sub">Review your 20-area health snapshot. Adjust any score, then unlock your program.</p>
   </div>
 
-  {#if returningStatus.kind === 'returning-completed'}
-    <div class="prefill-banner" role="status">
-      Welcome back. Your audit was carried over from a prior version. Review and adjust each score before finalizing.
-    </div>
-  {:else if hasDiscoveryData}
-    <div class="prefill-banner" role="status">
-      <strong>Your audit was auto-populated from your Discovery answers.</strong>
-      Review and adjust any score before finalizing — you know your body best.
-    </div>
-  {/if}
+  <div class="prefill-banner" role="status">
+    <strong>Your audit was auto-populated from your self-assessment.</strong>
+    Adjust any score before finalizing — you know your body best.
+  </div>
 
   <!-- Top 3 priorities panel -->
   {#if top3Ids.length > 0}

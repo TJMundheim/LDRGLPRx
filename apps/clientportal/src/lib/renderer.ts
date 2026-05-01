@@ -779,23 +779,18 @@ function renderW1(ctx: RenderContext): string {
     ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', '#E05C2A', 'Record where you are starting.')}
     <div class="card-title">Body Composition — Week 1 Baseline</div>
     ${(() => {
-      // Pre-fill weight and waist from discovery-v1.answers['weight-body-fat'] if available
-      let discWeight = '';
-      let discWaist = '';
+      // Pre-fill weight from basics-v1 (captured in Stage 1 intake)
+      let basicsWeight = '';
       try {
-        const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('discovery-v1') : null;
+        const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('basics-v1') : null;
         if (raw) {
-          const ds = JSON.parse(raw) as { answers?: Record<string, Record<string, unknown>> };
-          const wbf = ds.answers?.['weight-body-fat'];
-          if (wbf) {
-            if (wbf['m_weight'] !== undefined && String(wbf['m_weight']).trim()) discWeight = String(wbf['m_weight']);
-            if (wbf['m_waist'] !== undefined && String(wbf['m_waist']).trim()) discWaist = String(wbf['m_waist']);
-          }
+          const basics = JSON.parse(raw) as { weight?: string | number };
+          if (basics.weight !== undefined && String(basics.weight).trim()) basicsWeight = String(basics.weight);
         }
       } catch { /* ignore */ }
       const fields: [string, string, string][] = [
-        ['weight', 'Body weight (lbs)', discWeight],
-        ['waist', 'Waist at navel (in)', discWaist],
+        ['weight', 'Body weight (lbs)', basicsWeight],
+        ['waist', 'Waist at navel (in)', ''],
         ['energy', 'Morning energy (1–10)', ''],
         ['mood', 'Mood rating (1–10)', ''],
       ];

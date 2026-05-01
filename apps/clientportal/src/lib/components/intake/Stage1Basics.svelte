@@ -1,11 +1,11 @@
 <script lang="ts">
   /**
-   * Stage 1 — Discovery Basics + Consents.
-   * Collects: name, email, phone, DOB, state.
+   * Stage 1 — Demographics + Consents (simplified).
+   * Collects: name, age, height (inches), weight (lbs).
    * Consent checkboxes: NPP, Patient Auth, AI Comm (required), Marketing (optional).
    * Each consent stored with timestamp + version + SHA-256 of document text.
    * Requires each required modal to have been opened at least once.
-   * Persists basics to localStorage key `basics-v1`.
+   * Persists basics to localStorage key `basics-v1` as { name, age, height, weight, savedAt }.
    * Consent keys: `consent-npp-v1`, `consent-phi-auth-v1`, `consent-ai-comm-v1`, `consent-marketing-v1`.
    */
   import { onMount } from 'svelte';
@@ -14,10 +14,9 @@
 
   interface Basics {
     name: string;
-    email: string;
-    phone: string;
-    dob: string;
-    state: string;
+    age: string;
+    height: string;
+    weight: string;
   }
 
   interface ConsentRecord {
@@ -50,7 +49,6 @@
     try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* ignore */ }
   }
 
-  /** Format a stored ISO timestamp as a relative time string, e.g. "2 days ago". */
   function relativeTime(isoString: string): string {
     try {
       const ms = Date.now() - new Date(isoString).getTime();
@@ -64,10 +62,8 @@
     } catch { return 'previously'; }
   }
 
-  let basics = $state<Basics>(load(STORAGE_KEY, { name: '', email: '', phone: '', dob: '', state: '' }));
+  let basics = $state<Basics>(load(STORAGE_KEY, { name: '', age: '', height: '', weight: '' }));
 
-  // Stored consent records (may be null if not yet accepted).
-  // Read from localStorage directly so initializers don't cross-reference $state variables.
   const _initNpp = load<ConsentRecord | null>(CONSENT_KEYS.npp, null);
   const _initPhi = load<ConsentRecord | null>(CONSENT_KEYS.phi, null);
   const _initAi  = load<ConsentRecord | null>(CONSENT_KEYS.ai,  null);
@@ -78,27 +74,21 @@
   let storedAi  = $state<ConsentRecord | null>(_initAi);
   let storedMkt = $state<ConsentRecord | null>(_initMkt);
 
-  // Consent checked state — starts true only if a record exists; validated against SHA after mount
   let consentNpp = $state<boolean>(!!_initNpp);
   let consentPhi = $state<boolean>(!!_initPhi);
   let consentAi  = $state<boolean>(!!_initAi);
   let consentMkt = $state<boolean>(!!_initMkt);
 
-  // Whether stored consent SHA is stale (document changed since user accepted)
   let staleNpp = $state(false);
   let stalePhi = $state(false);
   let staleAi  = $state(false);
 
-  // Track which modals have been opened (required before checkbox can be checked for first time)
-  // Pre-set to true if there's a valid prior acceptance — user doesn't need to re-read
   let openedNpp = $state(!!_initNpp);
   let openedPhi = $state(!!_initPhi);
   let openedAi  = $state(!!_initAi);
 
-  // Modal open state
   let activeModal = $state<'npp' | 'phi' | 'ai' | null>(null);
 
-  // SHA hashes computed once on mount
   let nppSha = $state('');
   let phiSha = $state('');
   let aiSha = $state('');
@@ -110,23 +100,13 @@
       sha256(AI_COMM_DOC.text),
     ]);
 
-    // Validate stored consent SHAs against current document content.
-    // If the doc changed, mark stale for a visible warning but DO NOT revoke the
-    // prior acceptance — user is not forced to re-acknowledge work they already did.
-    // consentNpp/Phi/Ai and openedNpp/Phi/Ai stay true so the flow can continue.
-    if (storedNpp && nppSha && storedNpp.documentSha !== nppSha) {
-      staleNpp = true;
-    }
-    if (storedPhi && phiSha && storedPhi.documentSha !== phiSha) {
-      stalePhi = true;
-    }
-    if (storedAi && aiSha && storedAi.documentSha !== aiSha) {
-      staleAi = true;
-    }
+    if (storedNpp && nppSha && storedNpp.documentSha !== nppSha) staleNpp = true;
+    if (storedPhi && phiSha && storedPhi.documentSha !== phiSha) stalePhi = true;
+    if (storedAi && aiSha && storedAi.documentSha !== aiSha) staleAi = true;
   });
 
   function persistBasics(): void {
-    save(STORAGE_KEY, basics);
+    save(STORAGE_KEY, { ...basics, savedAt: new Date().toISOString() });
   }
 
   async function setConsent(key: keyof typeof CONSENT_KEYS, checked: boolean, sha: string): Promise<void> {
@@ -137,7 +117,6 @@
         documentSha: sha,
       };
       save(CONSENT_KEYS[key], record);
-      // Update stored state so the "Accepted X ago" label appears immediately
       if (key === 'npp') { storedNpp = record; staleNpp = false; }
       if (key === 'phi') { storedPhi = record; stalePhi = false; }
       if (key === 'ai')  { storedAi  = record; staleAi  = false; }
@@ -164,16 +143,12 @@
 
   const canContinue = $derived(
     basics.name.trim().length > 0 &&
-    basics.email.trim().length > 0 &&
+    basics.age.trim().length > 0 &&
+    basics.height.trim().length > 0 &&
+    basics.weight.trim().length > 0 &&
     openedNpp && openedPhi && openedAi &&
     consentNpp && consentPhi && consentAi
   );
-
-  const US_STATES = [
-    'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY',
-    'LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND',
-    'OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'
-  ];
 
   function modalDoc(m: 'npp' | 'phi' | 'ai') {
     if (m === 'npp') return NPP_DOC;
@@ -192,7 +167,7 @@
 
 <section class="stage1" aria-labelledby="s1-title">
   <div class="hero">
-    <div class="badge">INTAKE — STAGE 1 OF 6</div>
+    <div class="badge">INTAKE — STAGE 1 OF 3</div>
     <h1 id="s1-title">Let's get to know you.</h1>
     <p class="sub">A few quick details so we can personalize your 4M protocol and keep your information secure.</p>
   </div>
@@ -204,27 +179,21 @@
         <label for="s1-name">Full name <span class="req">*</span></label>
         <input id="s1-name" type="text" bind:value={basics.name} oninput={persistBasics} placeholder="First Last" autocomplete="name" />
       </div>
-      <div class="field">
-        <label for="s1-email">Email <span class="req">*</span></label>
-        <input id="s1-email" type="email" bind:value={basics.email} oninput={persistBasics} placeholder="you@example.com" autocomplete="email" />
+      <div class="field-row">
+        <div class="field">
+          <label for="s1-age">Age <span class="req">*</span></label>
+          <input id="s1-age" type="number" bind:value={basics.age} oninput={persistBasics} placeholder="e.g. 45" min="18" max="100" />
+        </div>
+        <div class="field">
+          <label for="s1-height">Height (inches) <span class="req">*</span></label>
+          <input id="s1-height" type="number" bind:value={basics.height} oninput={persistBasics} placeholder="e.g. 70" min="48" max="96" />
+        </div>
+        <div class="field">
+          <label for="s1-weight">Weight (lbs) <span class="req">*</span></label>
+          <input id="s1-weight" type="number" bind:value={basics.weight} oninput={persistBasics} placeholder="e.g. 210" min="80" max="500" />
+        </div>
       </div>
-      <div class="field">
-        <label for="s1-phone">Phone</label>
-        <input id="s1-phone" type="tel" bind:value={basics.phone} oninput={persistBasics} placeholder="(555) 000-0000" autocomplete="tel" />
-      </div>
-      <div class="field">
-        <label for="s1-dob">Date of birth</label>
-        <input id="s1-dob" type="date" bind:value={basics.dob} oninput={persistBasics} />
-      </div>
-      <div class="field">
-        <label for="s1-state">State of residence</label>
-        <select id="s1-state" bind:value={basics.state} onchange={persistBasics}>
-          <option value="">— Select state —</option>
-          {#each US_STATES as st}
-            <option value={st}>{st}</option>
-          {/each}
-        </select>
-      </div>
+      <p class="field-note">Height and weight are used to auto-populate your Week 1 baseline. Other details (email, phone, state) will be collected at telemedicine booking.</p>
     </div>
 
     <!-- Consents -->
@@ -256,7 +225,7 @@
         </button>
       </div>
       {#if staleNpp}
-        <p class="stale-note">The Notice of Privacy Practices has been updated since your last acknowledgement. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('npp')}>review updated version ↗</button></p>
+        <p class="stale-note">The Notice of Privacy Practices has been updated. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('npp')}>review updated version ↗</button></p>
       {:else if !openedNpp}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
@@ -282,7 +251,7 @@
         </button>
       </div>
       {#if stalePhi}
-        <p class="stale-note">The Patient Authorization has been updated since your last acknowledgement. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('phi')}>review updated version ↗</button></p>
+        <p class="stale-note">The Patient Authorization has been updated. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('phi')}>review updated version ↗</button></p>
       {:else if !openedPhi}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
@@ -308,7 +277,7 @@
         </button>
       </div>
       {#if staleAi}
-        <p class="stale-note">The AI Communication Consent has been updated since your last acknowledgement. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('ai')}>review updated version ↗</button></p>
+        <p class="stale-note">The AI Communication Consent has been updated. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('ai')}>review updated version ↗</button></p>
       {:else if !openedAi}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
@@ -332,18 +301,18 @@
     <div class="nav-row">
       <span></span>
       <button class="btn-continue" disabled={!canContinue} onclick={onContinue}>
-        Continue — Gut Assessment →
+        Continue — Self-Assessment →
       </button>
     </div>
     {#if !canContinue}
       <p class="req-note">
-        {#if !basics.name.trim() || !basics.email.trim()}
-          Enter your name and email, then
+        {#if !basics.name.trim() || !basics.age.trim() || !basics.height.trim() || !basics.weight.trim()}
+          Enter all required fields, then
         {/if}
         {#if !openedNpp || !openedPhi || !openedAi}
           read and acknowledge all required documents to continue.
         {:else if !consentNpp || !consentPhi || !consentAi}
-          Check all three required consents to continue.
+          check all three required consents to continue.
         {/if}
       </p>
     {/if}
@@ -406,6 +375,19 @@
     gap: 5px;
   }
 
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .field-note {
+    font-size: 0.78rem;
+    color: var(--text-muted, #9ba3b2);
+    margin: 0;
+    line-height: 1.5;
+  }
+
   label, .field > label {
     font-size: 0.85rem;
     font-weight: 600;
@@ -413,10 +395,7 @@
   }
 
   input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="date"],
-  select {
+  input[type="number"] {
     padding: 10px 14px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.15);
@@ -428,14 +407,9 @@
     box-sizing: border-box;
   }
 
-  input:focus, select:focus {
+  input:focus {
     outline: 2px solid #1D9E75;
     outline-offset: 1px;
-  }
-
-  select option {
-    background: #1a1f2e;
-    color: #e8eaf0;
   }
 
   .req {
