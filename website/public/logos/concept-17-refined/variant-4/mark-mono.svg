@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Variant 4 Mono: all deep umber on near-white -->
+  <defs>
+    <radialGradient id="v4mono-glow" cx="50%" cy="15.6%" r="30%">
+      <stop offset="0%" stop-color="#3d2410" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="256" height="256" fill="#f8f4ee"/>
+  <ellipse cx="128" cy="40" rx="110" ry="110" fill="url(#v4mono-glow)"/>
+
+  <!-- Vitruvian square + circle -->
+  <rect x="18" y="12" width="220" height="220" fill="none" stroke="#3d2410" stroke-width="0.8" opacity="0.25"/>
+  <circle cx="128" cy="118" r="100" fill="none" stroke="#3d2410" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Fibonacci spiral -->
+  <path d="M 128 34 A 96 96 0 0 1 224 130" fill="none" stroke="#3d2410" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M 224 130 A 59 59 0 0 1 165 189" fill="none" stroke="#3d2410" stroke-width="2.1" stroke-linecap="round"/>
+  <path d="M 165 189 A 37 37 0 0 1 128 152" fill="none" stroke="#3d2410" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M 128 152 A 23 23 0 0 1 105 129" fill="none" stroke="#3d2410" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M 105 129 A 14 14 0 0 1 119 115" fill="none" stroke="#3d2410" stroke-width="1.1" stroke-linecap="round"/>
+  <path d="M 119 115 A 9 9 0 0 1 128 124" fill="none" stroke="#3d2410" stroke-width="0.9" stroke-linecap="round"/>
+
+  <!-- Head glow rings (dark) -->
+  <circle cx="128" cy="40" r="20" fill="none" stroke="#3d2410" stroke-width="2" opacity="0.18"/>
+  <circle cx="128" cy="40" r="17" fill="none" stroke="#3d2410" stroke-width="1.2" opacity="0.12"/>
+
+  <!-- Head and figure -->
+  <ellipse cx="128" cy="40" rx="13" ry="14" fill="none" stroke="#3d2410" stroke-width="1.8"/>
+  <path d="M 120 37 Q 123 32 128 34 Q 133 32 136 37 Q 136 42 128 43 Q 120 42 120 37 Z" fill="none" stroke="#3d2410" stroke-width="0.9" opacity="0.5"/>
+  <line x1="121" y1="38" x2="135" y2="38" stroke="#3d2410" stroke-width="0.6" opacity="0.4"/>
+  <line x1="124" y1="54" x2="122" y2="64" stroke="#3d2410" stroke-width="1.7"/>
+  <line x1="132" y1="54" x2="134" y2="64" stroke="#3d2410" stroke-width="1.7"/>
+  <line x1="122" y1="64" x2="86" y2="74" stroke="#3d2410" stroke-width="1.7"/>
+  <line x1="134" y1="64" x2="170" y2="74" stroke="#3d2410" stroke-width="1.7"/>
+  <path d="M 86 74 Q 80 100 84 145" fill="none" stroke="#3d2410" stroke-width="1.6"/>
+  <path d="M 170 74 Q 176 100 172 145" fill="none" stroke="#3d2410" stroke-width="1.6"/>
+  <circle cx="128" cy="130" r="2.5" fill="#3d2410"/>
+  <line x1="84" y1="145" x2="172" y2="145" stroke="#3d2410" stroke-width="1.3" opacity="0.5"/>
+  <line x1="86" y1="74" x2="38" y2="38" stroke="#3d2410" stroke-width="1.7"/>
+  <line x1="38" y1="38" x2="24" y2="26" stroke="#3d2410" stroke-width="1.4"/>
+  <line x1="170" y1="74" x2="218" y2="38" stroke="#3d2410" stroke-width="1.7"/>
+  <line x1="218" y1="38" x2="232" y2="26" stroke="#3d2410" stroke-width="1.4"/>
+  <line x1="86" y1="74" x2="28" y2="92" stroke="#3d2410" stroke-width="1.2" opacity="0.4"/>
+  <line x1="170" y1="74" x2="228" y2="92" stroke="#3d2410" stroke-width="1.2" opacity="0.4"/>
+  <line x1="84" y1="145" x2="66" y2="180" stroke="#3d2410" stroke-width="1.7"/>
+  <line x1="66" y1="180" x2="58" y2="210" stroke="#3d2410" stroke-width="1.5"/>
+  <line x1="172" y1="145" x2="190" y2="180" stroke="#3d2410" stroke-width="1.7"/>
+  <line x1="190" y1="180" x2="198" y2="210" stroke="#3d2410" stroke-width="1.5"/>
+  <line x1="110" y1="145" x2="108" y2="180" stroke="#3d2410" stroke-width="1.1" opacity="0.35"/>
+  <line x1="146" y1="145" x2="148" y2="180" stroke="#3d2410" stroke-width="1.1" opacity="0.35"/>
+  <line x1="52" y1="210" x2="64" y2="210" stroke="#3d2410" stroke-width="1.3"/>
+  <line x1="192" y1="210" x2="204" y2="210" stroke="#3d2410" stroke-width="1.3"/>
+
+  <!-- 4M dots -->
+  <circle cx="128" cy="34" r="5" fill="#3d2410"/>
+  <circle cx="224" cy="130" r="4.5" fill="#3d2410"/>
+  <circle cx="165" cy="189" r="4" fill="#3d2410"/>
+  <circle cx="105" cy="129" r="4" fill="#3d2410"/>
+</svg>

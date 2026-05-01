@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Variant 4: Living Vitruvian — Mind-as-Light, spiral originates from head/brain -->
+  <!-- Palette: warm sepia parchment + gold halo + deep umber figure -->
+
+  <defs>
+    <!-- Radial glow from head center (128, 40) -->
+    <radialGradient id="v4mindglow" cx="50%" cy="15.6%" r="45%">
+      <stop offset="0%" stop-color="#ffd700" stop-opacity="0.55"/>
+      <stop offset="35%" stop-color="#d4a017" stop-opacity="0.22"/>
+      <stop offset="70%" stop-color="#c9a86c" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Soft glow specifically on head -->
+    <radialGradient id="v4headglow" cx="50%" cy="15.6%" r="15%">
+      <stop offset="0%" stop-color="#ffe566" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#d4a017" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Background gradient: lighter at top (mind origin) -->
+    <radialGradient id="v4bg" cx="50%" cy="16%" r="60%">
+      <stop offset="0%" stop-color="#fdf5dc"/>
+      <stop offset="100%" stop-color="#ede0c4"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="256" height="256" fill="url(#v4bg)"/>
+
+  <!-- Wide gold halo radiating from the head/mind — the spiral STARTS HERE -->
+  <ellipse cx="128" cy="40" rx="110" ry="110" fill="url(#v4mindglow)" opacity="0.9"/>
+
+  <!-- Vitruvian outer square -->
+  <rect x="18" y="12" width="220" height="220" fill="none" stroke="#8b6340" stroke-width="1" opacity="0.3"/>
+
+  <!-- Vitruvian circle -->
+  <circle cx="128" cy="118" r="100" fill="none" stroke="#8b6340" stroke-width="1" opacity="0.35"/>
+
+  <!-- === TRUE FIBONACCI SPIRAL — originates from head center (128, 40) ===
+       The spiral's outermost arc begins at the Mind (head) position.
+       Same geometry as other variants: arc pivots, radii 96,59,37,23,14,9
+       BUT the spiral STARTS at (128, 34) which is top of head, reading as if
+       the spiral uncoils FROM the mind outward. -->
+  <path d="M 128 34 A 96 96 0 0 1 224 130" fill="none" stroke="#d4a017" stroke-width="2.8" stroke-linecap="round" opacity="0.9"/>
+  <path d="M 224 130 A 59 59 0 0 1 165 189" fill="none" stroke="#d4a017" stroke-width="2.4" stroke-linecap="round" opacity="0.82"/>
+  <path d="M 165 189 A 37 37 0 0 1 128 152" fill="none" stroke="#d4a017" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+  <path d="M 128 152 A 23 23 0 0 1 105 129" fill="none" stroke="#d4a017" stroke-width="1.6" stroke-linecap="round" opacity="0.68"/>
+  <path d="M 105 129 A 14 14 0 0 1 119 115" fill="none" stroke="#d4a017" stroke-width="1.3" stroke-linecap="round" opacity="0.6"/>
+  <path d="M 119 115 A 9 9 0 0 1 128 124" fill="none" stroke="#d4a017" stroke-width="1.1" stroke-linecap="round" opacity="0.55"/>
+  <!-- Spiral continues inward to center (the "eye" of the spiral approaching navel) -->
+  <path d="M 128 124 A 5 5 0 0 1 133 129" fill="none" stroke="#d4a017" stroke-width="0.9" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- === ANATOMICAL VITRUVIAN FIGURE — single line-weight, elegant === -->
+  <!-- HEAD with brain-glow halo effect -->
+  <!-- Outer glow ring -->
+  <circle cx="128" cy="40" r="20" fill="none" stroke="#ffd700" stroke-width="3" opacity="0.35"/>
+  <circle cx="128" cy="40" r="17" fill="none" stroke="#ffd700" stroke-width="2" opacity="0.25"/>
+  <!-- Head proper -->
+  <ellipse cx="128" cy="40" rx="13" ry="14" fill="#fdf5dc" stroke="#5c3618" stroke-width="1.8"/>
+  <!-- Brain lobes (simplified, inside head) -->
+  <path d="M 120 37 Q 123 32 128 34 Q 133 32 136 37 Q 136 42 128 43 Q 120 42 120 37 Z" fill="none" stroke="#d4a017" stroke-width="1" opacity="0.7"/>
+  <!-- Corpus callosum suggestion -->
+  <line x1="121" y1="38" x2="135" y2="38" stroke="#d4a017" stroke-width="0.7" opacity="0.5"/>
+  <!-- Facial indication (eyes) -->
+  <circle cx="124" cy="40" r="1.2" fill="#5c3618" opacity="0.5"/>
+  <circle cx="132" cy="40" r="1.2" fill="#5c3618" opacity="0.5"/>
+
+  <!-- Neck -->
+  <line x1="124" y1="54" x2="122" y2="64" stroke="#5c3618" stroke-width="1.7"/>
+  <line x1="132" y1="54" x2="134" y2="64" stroke="#5c3618" stroke-width="1.7"/>
+
+  <!-- TORSO -->
+  <line x1="122" y1="64" x2="86" y2="74" stroke="#5c3618" stroke-width="1.7"/>
+  <line x1="134" y1="64" x2="170" y2="74" stroke="#5c3618" stroke-width="1.7"/>
+  <path d="M 86 74 Q 80 100 84 145" fill="none" stroke="#5c3618" stroke-width="1.6"/>
+  <path d="M 170 74 Q 176 100 172 145" fill="none" stroke="#5c3618" stroke-width="1.6"/>
+  <line x1="86" y1="74" x2="170" y2="74" stroke="#5c3618" stroke-width="1" opacity="0.4"/>
+  <!-- Sternum line -->
+  <line x1="128" y1="66" x2="128" y2="112" stroke="#5c3618" stroke-width="1" opacity="0.35"/>
+  <!-- Navel — golden ratio point, glowing dot -->
+  <circle cx="128" cy="130" r="3" fill="#d4a017" opacity="0.8"/>
+  <!-- Hip line -->
+  <line x1="84" y1="145" x2="172" y2="145" stroke="#5c3618" stroke-width="1.4" opacity="0.55"/>
+
+  <!-- ARMS — angled up (primary) -->
+  <line x1="86" y1="74" x2="38" y2="38" stroke="#5c3618" stroke-width="1.7"/>
+  <line x1="38" y1="38" x2="24" y2="26" stroke="#5c3618" stroke-width="1.4"/>
+  <line x1="170" y1="74" x2="218" y2="38" stroke="#5c3618" stroke-width="1.7"/>
+  <line x1="218" y1="38" x2="232" y2="26" stroke="#5c3618" stroke-width="1.4"/>
+  <!-- ARMS — horizontal (secondary, faint) -->
+  <line x1="86" y1="74" x2="28" y2="92" stroke="#5c3618" stroke-width="1.3" opacity="0.45"/>
+  <line x1="28" y1="92" x2="20" y2="110" stroke="#5c3618" stroke-width="1.1" opacity="0.4"/>
+  <line x1="170" y1="74" x2="228" y2="92" stroke="#5c3618" stroke-width="1.3" opacity="0.45"/>
+  <line x1="228" y1="92" x2="236" y2="110" stroke="#5c3618" stroke-width="1.1" opacity="0.4"/>
+
+  <!-- LEGS — apart (primary) -->
+  <line x1="84" y1="145" x2="66" y2="180" stroke="#5c3618" stroke-width="1.7"/>
+  <line x1="66" y1="180" x2="58" y2="210" stroke="#5c3618" stroke-width="1.5"/>
+  <line x1="172" y1="145" x2="190" y2="180" stroke="#5c3618" stroke-width="1.7"/>
+  <line x1="190" y1="180" x2="198" y2="210" stroke="#5c3618" stroke-width="1.5"/>
+  <!-- LEGS — together (secondary, faint) -->
+  <line x1="110" y1="145" x2="108" y2="180" stroke="#5c3618" stroke-width="1.2" opacity="0.4"/>
+  <line x1="108" y1="180" x2="106" y2="210" stroke="#5c3618" stroke-width="1.1" opacity="0.35"/>
+  <line x1="146" y1="145" x2="148" y2="180" stroke="#5c3618" stroke-width="1.2" opacity="0.4"/>
+  <line x1="148" y1="180" x2="150" y2="210" stroke="#5c3618" stroke-width="1.1" opacity="0.35"/>
+
+  <!-- Feet -->
+  <line x1="52" y1="210" x2="64" y2="210" stroke="#5c3618" stroke-width="1.4"/>
+  <line x1="192" y1="210" x2="204" y2="210" stroke="#5c3618" stroke-width="1.4"/>
+
+  <!-- === 4M GOLD DOTS ON SPIRAL PATH === -->
+  <!-- Mind dot is the GLOW at head — already rendered above -->
+  <!-- MIND label at top -->
+  <text x="128" y="17" text-anchor="middle" font-family="Georgia, serif" font-size="7.5" font-weight="700" fill="#d4a017" letter-spacing="1.5">MIND</text>
+
+  <!-- MUSCLE — spiral right-end (224,130) -->
+  <circle cx="224" cy="130" r="5.5" fill="#d4a017" opacity="0.9"/>
+  <text x="224" y="146" text-anchor="middle" font-family="Georgia, serif" font-size="6" fill="#8b6340" letter-spacing="0.5">MUSCLE</text>
+
+  <!-- MITIGATE — spiral bottom (165,189) -->
+  <circle cx="165" cy="189" r="5" fill="#d4a017" opacity="0.8"/>
+  <text x="165" y="205" text-anchor="middle" font-family="Georgia, serif" font-size="6" fill="#8b6340" letter-spacing="0.5">MITIG.</text>
+
+  <!-- MOTIVATE — spiral left (105,129) -->
+  <circle cx="105" cy="129" r="4.5" fill="#d4a017" opacity="0.75"/>
+  <text x="88" y="145" text-anchor="middle" font-family="Georgia, serif" font-size="6" fill="#8b6340" letter-spacing="0.5">MOTIV.</text>
+</svg>

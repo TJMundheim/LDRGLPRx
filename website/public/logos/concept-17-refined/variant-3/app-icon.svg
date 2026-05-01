@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Variant 3 App Icon — navy + gold spiral + M -->
+  <rect width="64" height="64" rx="14" fill="#0d1e3a"/>
+
+  <!-- Fibonacci rect outlines (faint) -->
+  <rect x="4" y="4" width="28" height="28" fill="none" stroke="#d4a017" stroke-width="0.7" opacity="0.35"/>
+  <rect x="32" y="4" width="28" height="28" fill="none" stroke="#d4a017" stroke-width="0.6" opacity="0.3"/>
+  <rect x="32" y="32" width="17" height="17" fill="none" stroke="#d4a017" stroke-width="0.5" opacity="0.25"/>
+
+  <!-- Bold gold Fibonacci spiral -->
+  <path d="M 32 4 A 28 28 0 0 1 60 32" fill="none" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 60 32 A 17 17 0 0 1 43 49" fill="none" stroke="#d4a017" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 43 49 A 11 11 0 0 1 32 38" fill="none" stroke="#d4a017" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M 32 38 A 6 6 0 0 1 26 32" fill="none" stroke="#d4a017" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M 26 32 A 4 4 0 0 1 30 28" fill="none" stroke="#d4a017" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- Large M in largest square -->
+  <text x="18" y="29" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#d4a017" opacity="0.9">M</text>
+
+  <!-- Smaller Ms in next squares -->
+  <text x="46" y="26" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="700" fill="#c9a86c" opacity="0.7">M</text>
+  <text x="41" y="47" text-anchor="middle" font-family="Georgia, serif" font-size="9" font-weight="700" fill="#b8996a" opacity="0.6">M</text>
+</svg>

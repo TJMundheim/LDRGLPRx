@@ -1,7 +1,34 @@
 ---
 // Logo Concepts — Internal Review (noindex)
 const title = "Logo Concepts — Internal Review | My4MLife";
-const description = "Round 3 Vitruvian Man logo concepts for My4MLife brand. Internal review only.";
+const description = "Concept 17 refined variants — Vitruvian + Golden Ratio. Founder pick. Internal review only.";
+
+const concept17Variants = [
+  {
+    number: 1,
+    name: "True Fibonacci, Anatomical Figure",
+    description: "Mathematically correct Fibonacci spiral (true quarter-arc construction through successive Fibonacci rectangles) with a fully anatomical Vitruvian figure — head, torso, dual arm positions, dual leg positions, navel at the golden-ratio body point. Renaissance parchment palette: warm sepia ground, deep umber figure, gold leaf spiral.",
+    fourM: "4M markers placed at spiral/circle intersections. Mind at top (gold, largest, spiral origin). Muscle, Mitigate, Motivate clockwise at successive arc endpoints.",
+  },
+  {
+    number: 2,
+    name: "Minimalist Construction Diagram",
+    description: "The mark as a pure geometric construction diagram: Vitruvian circle + square + golden-ratio spiral + figure as a single clean silhouette outline. Zero anatomical fill — just essential geometry. Charcoal lines on near-white. The single gold accent on Mind is the only color departure. Scales flawlessly to 32px favicon while reading as Vitruvian + spiral.",
+    fourM: "4M as tiny labeled dots at canonical golden-ratio intersection points — where the navel falls, where arms cross the spiral, where spiral meets circle.",
+  },
+  {
+    number: 3,
+    name: "Spiral as Hero",
+    description: "The golden spiral itself is the primary mark. Fibonacci rectangles are rendered as faint gold outlines structuring the composition. The Vitruvian figure appears as a near-watermark inside the largest square. The 4M letters are inscribed inside successive Fibonacci squares — the 4M structure is literally built into the mathematical geometry, not floating outside it. Deep navy + bright gold palette.",
+    fourM: "M letters live inside their Fibonacci square — Mind in the largest, decreasing in size through Muscle, Mitigate, Motivate. The spiral and 4M sequence are inseparable.",
+  },
+  {
+    number: 4,
+    name: "Living Vitruvian — Mind as Light",
+    description: "Anatomical Vitruvian with a glowing brain. The head/brain area emits a gold halo that radiates outward. The spiral appears to originate from the mind and unfurl outward — visually expressing 'begin with the end in mind.' Brain lobe detail inside the head. Navel marked with a gold dot at the golden-ratio body point. Warm sepia + gold, figure in elegant single-weight umber.",
+    fourM: "Spiral originates at Mind (head glow). Gold dots mark Muscle, Mitigate, Motivate at successive spiral endpoints. The journey from Mind outward = the 4M progression.",
+  },
+];
 
 const round3 = [
   {
@@ -186,6 +213,7 @@ const round1 = [
       border-radius: 50px;
       margin-bottom: 0.75rem;
     }
+    .concept17-badge { background: rgba(212,160,23,0.25); color: #8a5f00; border: 1px solid rgba(212,160,23,0.4); }
     .round3-badge { background: rgba(212,160,23,0.15); color: var(--gold); }
     .round2-badge { background: rgba(15,76,117,0.1); color: var(--primary); }
     .round1-badge { background: rgba(113,128,150,0.12); color: var(--text-light); }
@@ -365,19 +393,68 @@ const round1 = [
     <div class="badge">Internal Review Only</div>
     <h1>My4MLife — Logo Concepts</h1>
     <p>
-      Round 3 pivots to the <strong>Vitruvian Man</strong> — TJ's founder pick and lifelong reference. Six new concepts each integrate
-      the 4M structure (Mind → Muscle → Mitigate → Motivate) directly into the Vitruvian geometry, so the mark never reads
-      as generic wellness. Rounds 1 &amp; 2 are preserved below for direct comparison.
+      <strong>Now in Concept 17 refinement.</strong> TJ locked in the Vitruvian + Golden Ratio direction. Four refined variants below address the original weaknesses (approximate spiral, geometric figure) with true Fibonacci geometry and anatomical Vitruvian path traces. Rounds 1–3 preserved below for comparison.
     </p>
   </div>
 
   <div class="container">
 
     <!-- ═══════════════════════════════════════════════════ -->
+    <!-- CONCEPT 17 REFINED VARIANTS — FOUNDER PICK -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section-header">
+      <span class="round-badge concept17-badge">★ Concept 17 — Refined Variants (Founder Pick: Vitruvian + Golden Ratio)</span>
+      <h2>Concept 17 — 4 Refined Variants</h2>
+      <p>TJ locked in Concept 17. These four variants correct the original weaknesses — true Fibonacci spiral (quarter-arc construction, not approximation) and anatomically faithful Vitruvian path traces — while each expressing a distinct creative direction. All share: <strong>Mind at the spiral's origin, always gold, always the destination.</strong></p>
+    </div>
+
+    <div class="grid-2">
+      {concept17Variants.map((v) => (
+        <div class="card hero" style="border: 2px solid rgba(212,160,23,0.35);">
+          <div class="card-header" style="background: linear-gradient(135deg, #5a3800 0%, #8a5f00 100%);">
+            <span class="num" style="background: var(--gold); color: #3d2000;">V{v.number}</span>
+            <h2>Variant {v.number} — {v.name}</h2>
+          </div>
+          <div class="card-body">
+            <div class="mark-row">
+              <div class="mark-preview mark-color-box" style="width:250px;height:250px;">
+                <img src={`/logos/concept-17-refined/variant-${v.number}/mark-color.svg`} alt={`Variant ${v.number} color mark`} width="230" height="230" />
+              </div>
+              <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:center;">
+                <div class="mark-preview mark-mono-box">
+                  <img src={`/logos/concept-17-refined/variant-${v.number}/mark-mono.svg`} alt={`Variant ${v.number} mono`} width="64" height="64" />
+                </div>
+                <div class="app-icon-box">
+                  <img src={`/logos/concept-17-refined/variant-${v.number}/app-icon.svg`} alt={`Variant ${v.number} app icon`} width="64" height="64" style="display:block;width:100%;height:100%;" />
+                </div>
+                <div style="font-size:0.65rem;color:var(--text-light);text-align:center;line-height:1.3;">Mono<br/>App 64px</div>
+              </div>
+            </div>
+            <div class="lockup-row">
+              <img src={`/logos/concept-17-refined/variant-${v.number}/lockup-color.svg`} alt={`Variant ${v.number} lockup`} width="500" height="133" />
+            </div>
+            <div class="fourem-tag">4M Integration: {v.fourM}</div>
+            <p class="card-desc">{v.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="cta-section" style="margin-bottom:2rem; border-color: var(--gold);">
+      <h3>Pick a variant — or describe a hybrid</h3>
+      <p>
+        <strong>Reply with a variant number (1–4)</strong> to lock in that direction, OR describe a hybrid:
+        e.g. <em>"Variant 1's anatomical figure + Variant 4's brain glow"</em> or <em>"Variant 3's navy palette with Variant 2's minimalist line weight."</em>
+      </p>
+    </div>
+
+    <hr class="section-divider" />
+
+    <!-- ═══════════════════════════════════════════════════ -->
     <!-- ROUND 3 — HERO -->
     <!-- ═══════════════════════════════════════════════════ -->
     <div class="section-header">
-      <span class="round-badge round3-badge">Round 3 — Founder Pick Direction</span>
+      <span class="round-badge round3-badge">Round 3 — Original Concepts (reference)</span>
       <h2>Vitruvian Man Concepts (13–18)</h2>
       <p>Each concept makes the 4M framework visible in the Vitruvian geometry — not just as decoration, but as structural meaning. Mind is always the destination.</p>
     </div>

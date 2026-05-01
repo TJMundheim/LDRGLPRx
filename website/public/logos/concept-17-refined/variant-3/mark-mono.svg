@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Variant 3 Mono: dark background, all ivory/white -->
+  <rect width="256" height="256" fill="#1a1a1a"/>
+
+  <!-- Fibonacci rectangle outlines -->
+  <rect x="32" y="34" width="96" height="96" fill="none" stroke="#f0ead8" stroke-width="0.7" opacity="0.3"/>
+  <rect x="128" y="34" width="96" height="96" fill="none" stroke="#f0ead8" stroke-width="0.7" opacity="0.25"/>
+  <rect x="128" y="130" width="37" height="59" fill="none" stroke="#f0ead8" stroke-width="0.6" opacity="0.2"/>
+  <rect x="128" y="152" width="37" height="37" fill="none" stroke="#f0ead8" stroke-width="0.5" opacity="0.15"/>
+
+  <!-- Vitruvian figure watermark -->
+  <g opacity="0.15">
+    <ellipse cx="128" cy="60" rx="14" ry="15" fill="none" stroke="#f0ead8" stroke-width="1"/>
+    <line x1="124" y1="75" x2="122" y2="84" stroke="#f0ead8" stroke-width="1"/>
+    <line x1="132" y1="75" x2="134" y2="84" stroke="#f0ead8" stroke-width="1"/>
+    <line x1="122" y1="84" x2="80" y2="94" stroke="#f0ead8" stroke-width="1"/>
+    <line x1="134" y1="84" x2="176" y2="94" stroke="#f0ead8" stroke-width="1"/>
+    <path d="M 80 94 Q 72 115 76 155 L 180 155 Q 184 115 176 94" fill="none" stroke="#f0ead8" stroke-width="1"/>
+    <line x1="80" y1="94" x2="38" y2="60" stroke="#f0ead8" stroke-width="0.9"/>
+    <line x1="176" y1="94" x2="218" y2="60" stroke="#f0ead8" stroke-width="0.9"/>
+    <line x1="76" y1="155" x2="58" y2="210" stroke="#f0ead8" stroke-width="1"/>
+    <line x1="180" y1="155" x2="198" y2="210" stroke="#f0ead8" stroke-width="1"/>
+  </g>
+
+  <!-- Fibonacci spiral all white -->
+  <path d="M 128 34 A 96 96 0 0 1 224 130" fill="none" stroke="#f0ead8" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 224 130 A 59 59 0 0 1 165 189" fill="none" stroke="#f0ead8" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M 165 189 A 37 37 0 0 1 128 152" fill="none" stroke="#f0ead8" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 128 152 A 23 23 0 0 1 105 129" fill="none" stroke="#f0ead8" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M 105 129 A 14 14 0 0 1 119 115" fill="none" stroke="#f0ead8" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M 119 115 A 9 9 0 0 1 128 124" fill="none" stroke="#f0ead8" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- 4M in ivory -->
+  <text x="80" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="62" font-weight="700" fill="#f0ead8" opacity="0.9">M</text>
+  <text x="80" y="114" text-anchor="middle" font-family="Georgia, serif" font-size="9" font-weight="700" fill="#f0ead8" opacity="0.7" letter-spacing="2">MIND</text>
+  <text x="176" y="94" text-anchor="middle" font-family="Georgia, serif" font-size="42" font-weight="700" fill="#f0ead8" opacity="0.65">M</text>
+  <text x="147" y="170" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#f0ead8" opacity="0.5">M</text>
+  <text x="135" y="171" text-anchor="middle" font-family="Georgia, serif" font-size="13" font-weight="700" fill="#f0ead8" opacity="0.4">M</text>
+</svg>

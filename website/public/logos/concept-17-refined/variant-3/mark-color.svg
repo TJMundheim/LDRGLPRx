@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Variant 3: Spiral as Hero — navy bg, gold spiral, 4M inside Fibonacci squares -->
+
+  <rect width="256" height="256" fill="#0d1e3a"/>
+
+  <!-- Fibonacci rectangle fills (colored regions to show the structure) -->
+  <!-- Largest rectangle: x=32, y=34, w=96, h=96 — "Mind" square -->
+  <rect x="32" y="34" width="96" height="96" fill="#d4a017" opacity="0.06"/>
+  <!-- Second: x=128, y=34, w=59, h=59 — "Muscle" square (approximate: r=59 for the arc) -->
+  <rect x="128" y="34" width="96" height="96" fill="#c9a86c" opacity="0.04"/>
+  <!-- Third rectangle region -->
+  <rect x="128" y="130" width="37" height="59" fill="#c9a86c" opacity="0.03"/>
+
+  <!-- Fibonacci rectangle OUTLINES in faint gold -->
+  <rect x="32" y="34" width="96" height="96" fill="none" stroke="#d4a017" stroke-width="0.8" opacity="0.35"/>
+  <rect x="128" y="34" width="96" height="96" fill="none" stroke="#d4a017" stroke-width="0.8" opacity="0.3"/>
+  <rect x="128" y="130" width="37" height="59" fill="none" stroke="#d4a017" stroke-width="0.7" opacity="0.25"/>
+  <rect x="128" y="152" width="37" height="37" fill="none" stroke="#d4a017" stroke-width="0.6" opacity="0.2"/>
+  <rect x="128" y="152" width="14" height="23" fill="none" stroke="#d4a017" stroke-width="0.5" opacity="0.15"/>
+
+  <!-- Vitruvian circle (faint guideline) -->
+  <circle cx="128" cy="118" r="100" fill="none" stroke="#d4a017" stroke-width="0.6" opacity="0.15" stroke-dasharray="2 6"/>
+
+  <!-- Vitruvian figure — very light watermark inside largest square -->
+  <g opacity="0.2">
+    <ellipse cx="128" cy="60" rx="14" ry="15" fill="none" stroke="#e8d5a3" stroke-width="1.2"/>
+    <line x1="124" y1="75" x2="122" y2="84" stroke="#e8d5a3" stroke-width="1.2"/>
+    <line x1="132" y1="75" x2="134" y2="84" stroke="#e8d5a3" stroke-width="1.2"/>
+    <line x1="122" y1="84" x2="80" y2="94" stroke="#e8d5a3" stroke-width="1.2"/>
+    <line x1="134" y1="84" x2="176" y2="94" stroke="#e8d5a3" stroke-width="1.2"/>
+    <path d="M 80 94 Q 72 115 76 155 L 180 155 Q 184 115 176 94" fill="none" stroke="#e8d5a3" stroke-width="1.2"/>
+    <line x1="80" y1="94" x2="38" y2="60" stroke="#e8d5a3" stroke-width="1.1"/>
+    <line x1="176" y1="94" x2="218" y2="60" stroke="#e8d5a3" stroke-width="1.1"/>
+    <line x1="80" y1="94" x2="30" y2="108" stroke="#e8d5a3" stroke-width="1" opacity="0.7"/>
+    <line x1="176" y1="94" x2="226" y2="108" stroke="#e8d5a3" stroke-width="1" opacity="0.7"/>
+    <line x1="76" y1="155" x2="58" y2="210" stroke="#e8d5a3" stroke-width="1.2"/>
+    <line x1="180" y1="155" x2="198" y2="210" stroke="#e8d5a3" stroke-width="1.2"/>
+    <line x1="100" y1="155" x2="98" y2="210" stroke="#e8d5a3" stroke-width="0.9" opacity="0.7"/>
+    <line x1="156" y1="155" x2="158" y2="210" stroke="#e8d5a3" stroke-width="0.9" opacity="0.7"/>
+  </g>
+
+  <!-- === GOLDEN SPIRAL — HERO, bold gold === -->
+  <path d="M 128 34 A 96 96 0 0 1 224 130" fill="none" stroke="#d4a017" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 224 130 A 59 59 0 0 1 165 189" fill="none" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 165 189 A 37 37 0 0 1 128 152" fill="none" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 128 152 A 23 23 0 0 1 105 129" fill="none" stroke="#d4a017" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 105 129 A 14 14 0 0 1 119 115" fill="none" stroke="#d4a017" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 119 115 A 9 9 0 0 1 128 124" fill="none" stroke="#d4a017" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M 128 124 A 5 5 0 0 1 133 129" fill="none" stroke="#d4a017" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- === 4M LETTERS INSCRIBED INSIDE FIBONACCI SQUARES === -->
+  <!-- MIND — largest square (x=32,y=34,w=96,h=96): center (80,82) -->
+  <text x="80" y="100" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="62" font-weight="700" fill="#d4a017" opacity="0.95" letter-spacing="-2">M</text>
+  <text x="80" y="114" text-anchor="middle" font-family="Georgia, serif" font-size="9" font-weight="700" fill="#d4a017" opacity="0.8" letter-spacing="2">MIND</text>
+
+  <!-- MUSCLE — second square (x=128,y=34,w=96,h=96 — right-top): center (176,82) -->
+  <text x="176" y="94" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="42" font-weight="700" fill="#c9a86c" opacity="0.75" letter-spacing="-1">M</text>
+  <text x="176" y="106" text-anchor="middle" font-family="Georgia, serif" font-size="7" font-weight="600" fill="#c9a86c" opacity="0.65" letter-spacing="1.5">MUSCLE</text>
+
+  <!-- MITIGATE — third rect (x=128,y=130,w=37,h=59): center (147,160) -->
+  <text x="147" y="170" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="700" fill="#b8996a" opacity="0.65" letter-spacing="-0.5">M</text>
+  <text x="147" y="181" text-anchor="middle" font-family="Georgia, serif" font-size="5.5" font-weight="600" fill="#b8996a" opacity="0.55" letter-spacing="0.8">MITIGATE</text>
+
+  <!-- MOTIVATE — fourth rect (x=128,y=152,w=37,h=37): center (147,171) — same area, shift down -->
+  <!-- Actually use the smaller rectangle below: x=128,y=152 is MITIGATE; MOTIVATE goes in next: ~(137,160) -->
+  <!-- Let's put MOTIVATE in the smallest visible square region (x=128,y=152,w=14,h=23) center (135,163) -->
+  <text x="135" y="171" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="13" font-weight="700" fill="#a07840" opacity="0.55">M</text>
+  <text x="135" y="180" text-anchor="middle" font-family="Georgia, serif" font-size="4" font-weight="600" fill="#a07840" opacity="0.5" letter-spacing="0.3">MOTIV.</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Variant 2: Minimalist Construction diagram -->
+  <!-- Charcoal lines on near-white, single gold accent on Mind -->
+
+  <rect width="256" height="256" fill="#f8f7f4"/>
+
+  <!-- Outer Vitruvian square — construction line -->
+  <rect x="20" y="16" width="216" height="216" fill="none" stroke="#2d2d2d" stroke-width="1.2" opacity="0.3"/>
+
+  <!-- Inner proportioning lines (very faint) -->
+  <line x1="128" y1="16" x2="128" y2="232" stroke="#2d2d2d" stroke-width="0.5" opacity="0.12" stroke-dasharray="2 6"/>
+  <line x1="20" y1="124" x2="236" y2="124" stroke="#2d2d2d" stroke-width="0.5" opacity="0.12" stroke-dasharray="2 6"/>
+
+  <!-- Vitruvian circle -->
+  <circle cx="128" cy="118" r="100" fill="none" stroke="#2d2d2d" stroke-width="1.2" opacity="0.4"/>
+
+  <!-- Golden ratio sub-circle (phi-proportion) -->
+  <circle cx="128" cy="118" r="61.8" fill="none" stroke="#2d2d2d" stroke-width="0.6" opacity="0.15" stroke-dasharray="1 4"/>
+
+  <!-- === TRUE FIBONACCI SPIRAL — charcoal, clean construction weight === -->
+  <path d="M 128 34 A 96 96 0 0 1 224 130" fill="none" stroke="#2d2d2d" stroke-width="1.4" stroke-linecap="round" opacity="0.55"/>
+  <path d="M 224 130 A 59 59 0 0 1 165 189" fill="none" stroke="#2d2d2d" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 165 189 A 37 37 0 0 1 128 152" fill="none" stroke="#2d2d2d" stroke-width="1.3" stroke-linecap="round" opacity="0.45"/>
+  <path d="M 128 152 A 23 23 0 0 1 105 129" fill="none" stroke="#2d2d2d" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M 105 129 A 14 14 0 0 1 119 115" fill="none" stroke="#2d2d2d" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
+  <path d="M 119 115 A 9 9 0 0 1 128 124" fill="none" stroke="#2d2d2d" stroke-width="0.8" stroke-linecap="round" opacity="0.3"/>
+  <path d="M 128 124 A 5 5 0 0 1 133 129" fill="none" stroke="#2d2d2d" stroke-width="0.6" stroke-linecap="round" opacity="0.25"/>
+
+  <!-- Fibonacci rectangle outlines (very light construction guides) -->
+  <rect x="32" y="34" width="96" height="96" fill="none" stroke="#2d2d2d" stroke-width="0.5" opacity="0.15" stroke-dasharray="1 5"/>
+  <rect x="128" y="34" width="96" height="96" fill="none" stroke="#2d2d2d" stroke-width="0.5" opacity="0.12" stroke-dasharray="1 5"/>
+  <rect x="128" y="130" width="37" height="59" fill="none" stroke="#2d2d2d" stroke-width="0.5" opacity="0.1" stroke-dasharray="1 5"/>
+  <rect x="128" y="152" width="37" height="37" fill="none" stroke="#2d2d2d" stroke-width="0.5" opacity="0.1" stroke-dasharray="1 5"/>
+
+  <!-- === VITRUVIAN SILHOUETTE — single clean outline path === -->
+  <!-- Head -->
+  <ellipse cx="128" cy="40" rx="13" ry="14" fill="none" stroke="#2d2d2d" stroke-width="1.3"/>
+  <!-- Neck -->
+  <line x1="123" y1="54" x2="120" y2="63" stroke="#2d2d2d" stroke-width="1.2"/>
+  <line x1="133" y1="54" x2="136" y2="63" stroke="#2d2d2d" stroke-width="1.2"/>
+  <!-- Shoulders and torso outline -->
+  <path d="M 120 63 L 84 73 Q 78 100 82 145 L 174 145 Q 178 100 172 73 L 136 63" fill="none" stroke="#2d2d2d" stroke-width="1.3"/>
+  <!-- Navel dot (golden-ratio body midpoint) -->
+  <circle cx="128" cy="130" r="2" fill="#2d2d2d" opacity="0.6"/>
+  <!-- Arms extended (faint — second position) -->
+  <line x1="84" y1="73" x2="22" y2="100" stroke="#2d2d2d" stroke-width="1.1" opacity="0.4"/>
+  <line x1="172" y1="73" x2="234" y2="100" stroke="#2d2d2d" stroke-width="1.1" opacity="0.4"/>
+  <!-- Arms angled up (main position) -->
+  <line x1="84" y1="73" x2="36" y2="36" stroke="#2d2d2d" stroke-width="1.3"/>
+  <line x1="172" y1="73" x2="220" y2="36" stroke="#2d2d2d" stroke-width="1.3"/>
+  <!-- Legs apart -->
+  <line x1="82" y1="145" x2="60" y2="208" stroke="#2d2d2d" stroke-width="1.3"/>
+  <line x1="174" y1="145" x2="196" y2="208" stroke="#2d2d2d" stroke-width="1.3"/>
+  <!-- Legs together (faint) -->
+  <line x1="112" y1="145" x2="110" y2="208" stroke="#2d2d2d" stroke-width="1" opacity="0.35"/>
+  <line x1="144" y1="145" x2="146" y2="208" stroke="#2d2d2d" stroke-width="1" opacity="0.35"/>
+
+  <!-- === 4M MARKERS — tiny dots at canonical golden-ratio intersections === -->
+  <!-- MIND — top, spiral origin. GOLD accent dot -->
+  <circle cx="128" cy="30" r="6" fill="#d4a017"/>
+  <text x="128" y="33.5" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="6" font-weight="700" fill="white">M</text>
+  <!-- Label -->
+  <text x="128" y="22" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="6" font-weight="700" fill="#d4a017" letter-spacing="1">MIND</text>
+
+  <!-- MUSCLE — right, navel-level spiral intersection -->
+  <circle cx="228" cy="130" r="4.5" fill="#2d2d2d"/>
+  <text x="228" y="147" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="5.5" fill="#2d2d2d" letter-spacing="0.5">MUSCLE</text>
+
+  <!-- MITIGATE — bottom spiral point -->
+  <circle cx="165" cy="191" r="4.5" fill="#2d2d2d"/>
+  <text x="165" y="205" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="5.5" fill="#2d2d2d" letter-spacing="0.5">MITIGATE</text>
+
+  <!-- MOTIVATE — arm/spiral intersection (left) -->
+  <circle cx="105" cy="129" r="4.5" fill="#2d2d2d"/>
+  <text x="90" y="147" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="5.5" fill="#2d2d2d" letter-spacing="0.5">MOTIVATE</text>
+</svg>

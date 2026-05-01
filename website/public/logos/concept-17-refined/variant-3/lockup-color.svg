@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" width="520" height="140">
+  <!-- Variant 3 Lockup: Navy bg, gold spiral mark + ivory wordmark -->
+  <rect width="520" height="140" fill="#0d1e3a"/>
+
+  <!-- Mark region (scaled) -->
+  <g transform="translate(8, 8) scale(0.43)">
+    <!-- Fibonacci rects faint -->
+    <rect x="32" y="34" width="96" height="96" fill="none" stroke="#d4a017" stroke-width="0.8" opacity="0.3"/>
+    <rect x="128" y="34" width="96" height="96" fill="none" stroke="#d4a017" stroke-width="0.7" opacity="0.25"/>
+    <rect x="128" y="130" width="37" height="59" fill="none" stroke="#d4a017" stroke-width="0.6" opacity="0.2"/>
+    <!-- Figure watermark -->
+    <g opacity="0.15">
+      <ellipse cx="128" cy="60" rx="14" ry="15" fill="none" stroke="#e8d5a3" stroke-width="1.2"/>
+      <line x1="122" y1="84" x2="80" y2="94" stroke="#e8d5a3" stroke-width="1.2"/>
+      <line x1="134" y1="84" x2="176" y2="94" stroke="#e8d5a3" stroke-width="1.2"/>
+      <path d="M 80 94 Q 72 115 76 155 L 180 155 Q 184 115 176 94" fill="none" stroke="#e8d5a3" stroke-width="1.2"/>
+      <line x1="80" y1="94" x2="38" y2="60" stroke="#e8d5a3" stroke-width="1"/>
+      <line x1="176" y1="94" x2="218" y2="60" stroke="#e8d5a3" stroke-width="1"/>
+      <line x1="76" y1="155" x2="58" y2="210" stroke="#e8d5a3" stroke-width="1.2"/>
+      <line x1="180" y1="155" x2="198" y2="210" stroke="#e8d5a3" stroke-width="1.2"/>
+    </g>
+    <!-- Bold gold spiral -->
+    <path d="M 128 34 A 96 96 0 0 1 224 130" fill="none" stroke="#d4a017" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M 224 130 A 59 59 0 0 1 165 189" fill="none" stroke="#d4a017" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 165 189 A 37 37 0 0 1 128 152" fill="none" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 128 152 A 23 23 0 0 1 105 129" fill="none" stroke="#d4a017" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 105 129 A 14 14 0 0 1 119 115" fill="none" stroke="#d4a017" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 119 115 A 9 9 0 0 1 128 124" fill="none" stroke="#d4a017" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- 4M letters in gold -->
+    <text x="80" y="100" text-anchor="middle" font-family="Georgia, serif" font-size="62" font-weight="700" fill="#d4a017" opacity="0.9">M</text>
+    <text x="176" y="94" text-anchor="middle" font-family="Georgia, serif" font-size="42" font-weight="700" fill="#c9a86c" opacity="0.7">M</text>
+    <text x="147" y="170" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#b8996a" opacity="0.6">M</text>
+    <text x="135" y="171" text-anchor="middle" font-family="Georgia, serif" font-size="13" font-weight="700" fill="#a07840" opacity="0.5">M</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="126" y1="16" x2="126" y2="124" stroke="#d4a017" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Wordmark — ivory on navy -->
+  <text x="144" y="58" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700" fill="#f0ead8" letter-spacing="-0.5">My4MLife</text>
+
+  <!-- Gold tagline -->
+  <text x="144" y="78" font-family="Georgia, serif" font-size="10.5" fill="#d4a017" font-style="italic" letter-spacing="0.5">Begin with the end in mind.</text>
+
+  <!-- 4M pillars in light gold -->
+  <text x="144" y="104" font-family="Georgia, serif" font-size="7.5" fill="#c9a86c" letter-spacing="1.8">MIND · MUSCLE · MITIGATE · MOTIVATE</text>
+</svg>

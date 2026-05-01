@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" width="520" height="140">
+  <!-- Variant 1 Lockup: Mark + Wordmark + Tagline -->
+  <rect width="520" height="140" fill="#f5edd6"/>
+
+  <!-- Mark (scaled down from 256→110px) -->
+  <g transform="translate(8, 8) scale(0.43)">
+    <!-- Parchment bg already on outer rect -->
+    <circle cx="128" cy="118" r="100" fill="none" stroke="#8b6340" stroke-width="1.2" opacity="0.45"/>
+    <rect x="18" y="12" width="220" height="220" fill="none" stroke="#8b6340" stroke-width="1" opacity="0.35"/>
+    <!-- Fibonacci spiral -->
+    <path d="M 128 34 A 96 96 0 0 1 224 130" fill="none" stroke="#d4a017" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M 224 130 A 59 59 0 0 1 165 189" fill="none" stroke="#d4a017" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 165 189 A 37 37 0 0 1 128 152" fill="none" stroke="#d4a017" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M 128 152 A 23 23 0 0 1 105 129" fill="none" stroke="#d4a017" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 105 129 A 14 14 0 0 1 119 115" fill="none" stroke="#d4a017" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M 119 115 A 9 9 0 0 1 128 124" fill="none" stroke="#d4a017" stroke-width="1" stroke-linecap="round"/>
+    <!-- Anatomical figure -->
+    <ellipse cx="128" cy="40" rx="13" ry="14" fill="none" stroke="#5c3618" stroke-width="1.8"/>
+    <line x1="124" y1="54" x2="122" y2="64" stroke="#5c3618" stroke-width="1.6"/>
+    <line x1="132" y1="54" x2="134" y2="64" stroke="#5c3618" stroke-width="1.6"/>
+    <line x1="122" y1="64" x2="86" y2="74" stroke="#5c3618" stroke-width="1.8"/>
+    <line x1="134" y1="64" x2="170" y2="74" stroke="#5c3618" stroke-width="1.8"/>
+    <path d="M 86 74 Q 80 100 84 145" fill="none" stroke="#5c3618" stroke-width="1.6"/>
+    <path d="M 170 74 Q 176 100 172 145" fill="none" stroke="#5c3618" stroke-width="1.6"/>
+    <line x1="86" y1="74" x2="38" y2="38" stroke="#5c3618" stroke-width="1.8"/>
+    <line x1="170" y1="74" x2="218" y2="38" stroke="#5c3618" stroke-width="1.8"/>
+    <line x1="86" y1="74" x2="28" y2="88" stroke="#5c3618" stroke-width="1.3" opacity="0.5"/>
+    <line x1="170" y1="74" x2="228" y2="88" stroke="#5c3618" stroke-width="1.3" opacity="0.5"/>
+    <line x1="84" y1="145" x2="172" y2="145" stroke="#5c3618" stroke-width="1.3" opacity="0.5"/>
+    <line x1="84" y1="145" x2="62" y2="208" stroke="#5c3618" stroke-width="1.6"/>
+    <line x1="172" y1="145" x2="194" y2="208" stroke="#5c3618" stroke-width="1.6"/>
+    <line x1="84" y1="145" x2="80" y2="208" stroke="#5c3618" stroke-width="1.2" opacity="0.45"/>
+    <line x1="172" y1="145" x2="176" y2="208" stroke="#5c3618" stroke-width="1.2" opacity="0.45"/>
+    <!-- 4M markers -->
+    <circle cx="128" cy="28" r="13" fill="#d4a017"/>
+    <text x="128" y="33" text-anchor="middle" font-family="Georgia, serif" font-size="10" font-weight="bold" fill="white">M</text>
+    <circle cx="228" cy="130" r="10" fill="#6b4c2a"/>
+    <text x="228" y="134" text-anchor="middle" font-family="Georgia, serif" font-size="8" font-weight="bold" fill="white">M</text>
+    <circle cx="165" cy="193" r="10" fill="#4a6b4a"/>
+    <text x="165" y="197" text-anchor="middle" font-family="Georgia, serif" font-size="8" font-weight="bold" fill="white">M</text>
+    <circle cx="96" cy="155" r="10" fill="#6b4c2a"/>
+    <text x="96" y="159" text-anchor="middle" font-family="Georgia, serif" font-size="8" font-weight="bold" fill="white">M</text>
+  </g>
+
+  <!-- Divider -->
+  <line x1="126" y1="20" x2="126" y2="120" stroke="#8b6340" stroke-width="1" opacity="0.35"/>
+
+  <!-- Wordmark -->
+  <text x="144" y="60" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="700" fill="#3d2410" letter-spacing="-0.5">My4MLife</text>
+
+  <!-- Tagline -->
+  <text x="144" y="82" font-family="Georgia, 'Times New Roman', serif" font-size="11" fill="#8b6340" font-style="italic" letter-spacing="0.5">Begin with the end in mind.</text>
+
+  <!-- 4M pillars line -->
+  <text x="144" y="106" font-family="Georgia, serif" font-size="8.5" fill="#8b6340" letter-spacing="1.5" font-weight="600">MIND · MUSCLE · MITIGATE · MOTIVATE</text>
+</svg>
