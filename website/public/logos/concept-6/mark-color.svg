@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Geometric M: numeral 4 and letter M merged into one geometric form -->
+  <!-- The "4" is formed by the left vertical bar, horizontal crossbar, and right vertical upper -->
+  <!-- The "M" peaks complete the right side -->
+  <!-- Overall shape: minimalist, straight lines, no curves -->
+  <!-- Graphite body with electric-green accent on the 4's crossbar -->
+
+  <!-- Left vertical of 4/M (tall left leg) -->
+  <rect x="40" y="48" width="22" height="160" rx="2" fill="#2D2D2D"/>
+
+  <!-- 4's horizontal crossbar — electric green accent -->
+  <rect x="40" y="136" width="100" height="18" rx="2" fill="#1D9E75"/>
+
+  <!-- Right vertical of 4 (short upper right) -->
+  <rect x="118" y="48" width="22" height="106" rx="2" fill="#2D2D2D"/>
+
+  <!-- M center peak: diagonal strokes from top of left bar to center, center to top of right leg -->
+  <!-- Left diagonal of M peak -->
+  <polygon points="62,48 84,48 128,108 106,108" fill="#2D2D2D"/>
+  <!-- Right diagonal of M peak -->
+  <polygon points="128,108 150,108 194,48 172,48" fill="#2D2D2D"/>
+
+  <!-- Right leg of M -->
+  <rect x="172" y="48" width="22" height="160" rx="2" fill="#2D2D2D"/>
+</svg>

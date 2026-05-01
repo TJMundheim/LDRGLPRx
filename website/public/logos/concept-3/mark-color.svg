@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Brain-Wave M: EEG-pulse line tracing an M letterform -->
+  <!-- The line starts left, rises to form left leg of M, dips to center valley, rises to right peak, descends right leg -->
+  <!-- EEG baseline approach: flat line → left spike → center dip → right spike → flat line, all forming M silhouette -->
+  <path d="
+    M 20,148
+    L 52,148
+    L 52,80
+    L 84,80
+    L 84,148
+    L 128,68
+    L 172,148
+    L 172,80
+    L 204,80
+    L 204,148
+    L 236,148
+  " fill="none" stroke="#4338CA" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Subtle pulse ticks on the flat sections -->
+  <path d="M 30,148 L 30,140 L 36,156 L 42,144 L 42,148" fill="none" stroke="#4338CA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <path d="M 210,148 L 212,140 L 216,156 L 220,144 L 222,148" fill="none" stroke="#4338CA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <!-- Glow dot at center peak -->
+  <circle cx="128" cy="68" r="6" fill="#4338CA" opacity="0.4"/>
+  <!-- Label -->
+  <text x="128" y="200" font-family="'Inter',Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#4338CA" letter-spacing="4" opacity="0.7">MY 4M LIFE</text>
+</svg>

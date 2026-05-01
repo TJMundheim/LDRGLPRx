@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160">
+  <!-- Scaled brain-wave M mark -->
+  <g transform="translate(10,30) scale(0.47)">
+    <path d="M 20,148 L 52,148 L 52,80 L 84,80 L 84,148 L 128,68 L 172,148 L 172,80 L 204,80 L 204,148 L 236,148"
+      fill="none" stroke="#4338CA" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 30,148 L 30,140 L 36,156 L 42,144 L 42,148" fill="none" stroke="#4338CA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="152" y="76" font-family="'Inter',Arial,sans-serif" font-size="44" font-weight="800" fill="#4338CA" letter-spacing="-1">MY 4M LIFE</text>
+  <text x="152" y="108" font-family="'Inter',Arial,sans-serif" font-size="13" font-weight="500" fill="#6D28D9" letter-spacing="4">MIND · BODY · OPTIMIZED</text>
+</svg>

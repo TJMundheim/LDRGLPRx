@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="c1grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0E7C66"/>
+      <stop offset="100%" stop-color="#1D9E75"/>
+    </linearGradient>
+  </defs>
+  <!-- Four ascending bars forming M silhouette -->
+  <!-- Bar 1 (leftmost, shortest) -->
+  <rect x="44" y="176" width="34" height="56" rx="4" fill="url(#c1grad)"/>
+  <!-- Bar 2 -->
+  <rect x="94" y="140" width="34" height="92" rx="4" fill="url(#c1grad)"/>
+  <!-- Bar 3 -->
+  <rect x="144" y="100" width="34" height="132" rx="4" fill="url(#c1grad)"/>
+  <!-- Bar 4 (tallest) -->
+  <rect x="194" y="56" width="34" height="176" rx="4" fill="url(#c1grad)"/>
+  <!-- M connector line at top of bars 1 and 2, dipping between -->
+  <polyline points="61,176 61,136 128,180 195,136 195,56" stroke="url(#c1grad)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/>
+  <!-- Small "4M" label at bottom center -->
+  <text x="128" y="248" font-family="'Inter',Arial,sans-serif" font-size="18" font-weight="800" text-anchor="middle" fill="#0E7C66" letter-spacing="2">4M</text>
+</svg>

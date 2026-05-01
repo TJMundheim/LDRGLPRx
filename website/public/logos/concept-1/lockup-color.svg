@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160">
+  <defs>
+    <linearGradient id="c1lg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0E7C66"/>
+      <stop offset="100%" stop-color="#1D9E75"/>
+    </linearGradient>
+  </defs>
+  <!-- Mark (scaled down to ~100px) -->
+  <rect x="16" y="108" width="20" height="34" rx="3" fill="url(#c1lg)"/>
+  <rect x="46" y="86" width="20" height="56" rx="3" fill="url(#c1lg)"/>
+  <rect x="76" y="62" width="20" height="80" rx="3" fill="url(#c1lg)"/>
+  <rect x="106" y="36" width="20" height="106" rx="3" fill="url(#c1lg)"/>
+  <!-- Wordmark -->
+  <text x="152" y="76" font-family="'Inter',Arial,sans-serif" font-size="44" font-weight="800" fill="#0E7C66" letter-spacing="-1">MY 4M LIFE</text>
+  <text x="152" y="108" font-family="'Inter',Arial,sans-serif" font-size="14" font-weight="500" fill="#1D9E75" letter-spacing="4">OPTIMIZE · TRANSFORM · THRIVE</text>
+</svg>

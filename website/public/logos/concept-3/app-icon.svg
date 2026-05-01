@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" rx="220" fill="#1e1b4b"/>
+  <path d="
+    M 80,592
+    L 208,592
+    L 208,320
+    L 336,320
+    L 336,592
+    L 512,272
+    L 688,592
+    L 688,320
+    L 816,320
+    L 816,592
+    L 944,592
+  " fill="none" stroke="#6D28D9" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Pulse decorators -->
+  <path d="M 120,592 L 120,560 L 144,624 L 168,576 L 168,592" fill="none" stroke="#a78bfa" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+  <path d="M 840,592 L 848,556 L 864,628 L 880,576 L 888,592" fill="none" stroke="#a78bfa" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+  <circle cx="512" cy="272" r="24" fill="#a78bfa" opacity="0.6"/>
+</svg>

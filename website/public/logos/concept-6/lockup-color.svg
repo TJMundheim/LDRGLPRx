@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160">
+  <!-- Compact geometric 4M mark -->
+  <g transform="translate(8,8) scale(0.57)">
+    <rect x="40" y="48" width="22" height="160" rx="2" fill="#2D2D2D"/>
+    <rect x="40" y="136" width="100" height="18" rx="2" fill="#1D9E75"/>
+    <rect x="118" y="48" width="22" height="106" rx="2" fill="#2D2D2D"/>
+    <polygon points="62,48 84,48 128,108 106,108" fill="#2D2D2D"/>
+    <polygon points="128,108 150,108 194,48 172,48" fill="#2D2D2D"/>
+    <rect x="172" y="48" width="22" height="160" rx="2" fill="#2D2D2D"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="152" y="76" font-family="'Inter',Arial,sans-serif" font-size="44" font-weight="800" fill="#2D2D2D" letter-spacing="-1">MY 4M LIFE</text>
+  <text x="152" y="108" font-family="'Inter',Arial,sans-serif" font-size="13" font-weight="500" fill="#1D9E75" letter-spacing="4">PRECISION · PERFORMANCE · LONGEVITY</text>
+</svg>

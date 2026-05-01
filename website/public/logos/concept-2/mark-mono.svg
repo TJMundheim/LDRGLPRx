@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <path d="M128,128 L128,16 A112,112 0 0,1 240,128 Z" fill="#222"/>
+  <path d="M128,128 L240,128 A112,112 0 0,1 128,240 Z" fill="#555"/>
+  <path d="M128,128 L128,240 A112,112 0 0,1 16,128 Z" fill="#888"/>
+  <path d="M128,128 L16,128 A112,112 0 0,1 128,16 Z" fill="#bbb"/>
+  <text x="168" y="92" font-family="'Inter',Arial,sans-serif" font-size="30" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+  <text x="186" y="182" font-family="'Inter',Arial,sans-serif" font-size="30" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+  <text x="90" y="182" font-family="'Inter',Arial,sans-serif" font-size="30" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+  <text x="90" y="92" font-family="'Inter',Arial,sans-serif" font-size="30" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+  <line x1="128" y1="16" x2="128" y2="240" stroke="white" stroke-width="2" opacity="0.5"/>
+  <line x1="16" y1="128" x2="240" y2="128" stroke="white" stroke-width="2" opacity="0.5"/>
+  <circle cx="128" cy="128" r="10" fill="white"/>
+</svg>

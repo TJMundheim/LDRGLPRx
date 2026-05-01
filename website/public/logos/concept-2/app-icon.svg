@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" rx="220" fill="#0f1f2e"/>
+  <g transform="translate(112,112)">
+    <path d="M400,400 L400,0 A400,400 0 0,1 800,400 Z" fill="#1a6b56"/>
+    <path d="M400,400 L800,400 A400,400 0 0,1 400,800 Z" fill="#1a4a8c"/>
+    <path d="M400,400 L400,800 A400,400 0 0,1 0,400 Z" fill="#b8860b"/>
+    <path d="M400,400 L0,400 A400,400 0 0,1 400,0 Z" fill="#8b4513"/>
+    <line x1="400" y1="0" x2="400" y2="800" stroke="white" stroke-width="6" opacity="0.5"/>
+    <line x1="0" y1="400" x2="800" y2="400" stroke="white" stroke-width="6" opacity="0.5"/>
+    <circle cx="400" cy="400" r="38" fill="white"/>
+    <text x="560" y="260" font-family="'Inter',Arial,sans-serif" font-size="110" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+    <text x="630" y="570" font-family="'Inter',Arial,sans-serif" font-size="110" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+    <text x="180" y="570" font-family="'Inter',Arial,sans-serif" font-size="110" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+    <text x="240" y="260" font-family="'Inter',Arial,sans-serif" font-size="110" font-weight="900" text-anchor="middle" fill="white" opacity="0.9">M</text>
+  </g>
+</svg>

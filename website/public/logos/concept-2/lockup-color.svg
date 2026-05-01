@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160">
+  <!-- Compact mandala mark -->
+  <g transform="translate(20,80) scale(0.44)">
+    <path d="M128,128 L128,16 A112,112 0 0,1 240,128 Z" fill="#1a6b56"/>
+    <path d="M128,128 L240,128 A112,112 0 0,1 128,240 Z" fill="#1a4a8c"/>
+    <path d="M128,128 L128,240 A112,112 0 0,1 16,128 Z" fill="#b8860b"/>
+    <path d="M128,128 L16,128 A112,112 0 0,1 128,16 Z" fill="#8b4513"/>
+    <line x1="128" y1="16" x2="128" y2="240" stroke="white" stroke-width="3" opacity="0.6"/>
+    <line x1="16" y1="128" x2="240" y2="128" stroke="white" stroke-width="3" opacity="0.6"/>
+    <circle cx="128" cy="128" r="12" fill="white"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="152" y="76" font-family="'Inter',Arial,sans-serif" font-size="44" font-weight="800" fill="#1a3a2e" letter-spacing="-1">MY 4M LIFE</text>
+  <text x="152" y="108" font-family="'Inter',Arial,sans-serif" font-size="13" font-weight="500" fill="#1a4a8c" letter-spacing="4">MITIGATE · MUSCLE · MIND · MOTIVATE</text>
+</svg>

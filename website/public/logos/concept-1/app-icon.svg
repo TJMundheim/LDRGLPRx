@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="c1bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a5c4e"/>
+      <stop offset="100%" stop-color="#0E7C66"/>
+    </linearGradient>
+    <linearGradient id="c1bars" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1D9E75"/>
+      <stop offset="100%" stop-color="#4ECBA0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="220" fill="url(#c1bg)"/>
+  <!-- Four ascending bars -->
+  <rect x="176" y="688" width="136" height="224" rx="16" fill="url(#c1bars)"/>
+  <rect x="376" y="560" width="136" height="352" rx="16" fill="url(#c1bars)"/>
+  <rect x="576" y="400" width="136" height="512" rx="16" fill="url(#c1bars)"/>
+  <rect x="776" y="224" width="136" height="688" rx="16" fill="url(#c1bars)"/>
+  <!-- "4M" label at bottom -->
+  <text x="512" y="988" font-family="'Inter',Arial,sans-serif" font-size="56" font-weight="800" text-anchor="middle" fill="rgba(255,255,255,0.35)" letter-spacing="8">MY 4M LIFE</text>
+</svg>

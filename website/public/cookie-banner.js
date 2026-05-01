@@ -1,13 +1,13 @@
 /**
  * Cookie Consent Banner & Google Analytics Loader
- * For LDRGLPRx — matches the site design system (Inter font, brand colors).
+ * For My 4M Life — matches the site design system (Inter font, brand colors).
  *
  * Usage: add <script src="cookie-banner.js"></script> before </body> on every page.
  */
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'ldrglprx_cookie_consent'; // 'accepted' | 'declined'
+  var STORAGE_KEY = 'my4mlife_cookie_consent'; // 'accepted' | 'declined'
 
   // ── Google Analytics placeholder ──────────────────────────────────────────
   // Replace "G-XXXXXXXXXX" with your actual GA4 measurement ID.
@@ -46,7 +46,7 @@
   var banner = document.createElement('div');
   banner.id = 'cookie-consent-banner';
 
-  // Styles — fixed bottom, slide-up animation, matching LDRGLPRx design system
+  // Styles — fixed bottom, slide-up animation, matching My 4M Life design system
   banner.style.cssText = [
     'position:fixed',
     'bottom:0',

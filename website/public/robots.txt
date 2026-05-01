@@ -47,4 +47,4 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 
-Sitemap: https://ldrglprx.com/sitemap-index.xml
+Sitemap: https://my4mlife.com/sitemap-index.xml

@@ -1,0 +1,302 @@
+---
+// Logo Concepts — Internal Review (noindex)
+const title = "Logo Concepts — Internal Review | My 4M Life";
+const description = "Six logo concept directions for My 4M Life brand. Internal review only.";
+
+const concepts = [
+  {
+    number: 1,
+    name: "Four-Pillar Ascending M",
+    description: "Four vertical bars rise in height left-to-right, forming an M silhouette. The ascending staircase represents the optimization journey — each pillar (Mitigate, Muscle, Mind, Motivate) building on the last. Deep teal-to-green gradient reads as growth, vitality, and forward momentum. Clean and confidence-inspiring.",
+  },
+  {
+    number: 2,
+    name: "Quadrant Mandala",
+    description: "A circle divided into four equal quadrants, each containing an M letterform. Emerald, sapphire, gold, and copper symbolize the four M pillars as complementary forces. The mandala form conveys wholeness, system thinking, and the cyclic nature of brain-health optimization. Conveys authority and depth.",
+  },
+  {
+    number: 3,
+    name: "Brain-Wave M",
+    description: "A continuous EEG-pulse line traces the exact letterform of an M. Flanking pulse ticks reinforce the neuroscience/cognition angle. Indigo on white — single-line elegance that signals brain health, precision medicine, and clinical credibility without looking medical-sterile. Highly distinctive and memorable.",
+  },
+  {
+    number: 4,
+    name: "Tree of 4M",
+    description: "A stylized tree with four main canopy clusters, each represented in earth tones: terracotta, olive, sage, and copper. Roots convey longevity, nature-based medicine, and enduring health. The organic form contrasts with typical pharma branding — warm and trustworthy. Excellent for community/lifestyle positioning.",
+  },
+  {
+    number: 5,
+    name: "Cyclic Flow",
+    description: "Four arcs form a continuous gradient circle — teal → green → gold → orange → back to teal. Each arc represents one M pillar flowing into the next, emphasizing that true optimization is a cycle, not a destination. The center 4M mark anchors the brand. Kinetic, modern, and optimistic.",
+  },
+  {
+    number: 6,
+    name: "Geometric 4M",
+    description: "The numeral '4' and letter 'M' merged into a single geometric mark using only straight lines and angles. Graphite body with electric green accent on the crossbar. Zero ornamentation — tech-forward, premium, and immediately recognizable at any scale. Appeals to performance-driven, analytically-minded men 35–60.",
+  },
+];
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #0f4c75;
+      --accent: #00b894;
+      --dark: #0a1628;
+      --text: #2d3748;
+      --text-light: #718096;
+      --bg: #ffffff;
+      --bg-soft: #f7fafc;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text);
+      line-height: 1.7;
+      background: var(--bg-soft);
+    }
+    .page-header {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .page-header .badge {
+      display: inline-block;
+      background: rgba(0,184,148,0.2);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.75rem;
+    }
+    .page-header p {
+      color: rgba(255,255,255,0.65);
+      max-width: 560px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      padding: 3rem 0;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .card-header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .card-header .num {
+      background: var(--accent);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 800;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-header h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .card-body { padding: 1.5rem; }
+    .mark-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      margin-bottom: 1.25rem;
+    }
+    .mark-preview {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      flex-shrink: 0;
+    }
+    .mark-preview img,
+    .mark-preview object {
+      display: block;
+    }
+    .mark-color-box {
+      width: 180px;
+      height: 180px;
+    }
+    .mark-mono-box {
+      width: 80px;
+      height: 80px;
+    }
+    .app-icon-box {
+      width: 64px;
+      height: 64px;
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .lockup-row {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+    }
+    .lockup-row img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .cta-section {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 2.5rem;
+      margin: 0 0 4rem;
+      text-align: center;
+      border: 2px solid var(--accent);
+    }
+    .cta-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+    .cta-section p {
+      color: var(--text);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 0.95rem;
+    }
+    .cta-section strong { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="badge">Internal Review Only</div>
+    <h1>My 4M Life — Logo Concepts</h1>
+    <p>Six distinct directions for the brand mark. Review each concept below, then reply with your pick.</p>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+      {concepts.map((c) => (
+        <div class="card">
+          <div class="card-header">
+            <span class="num">{c.number}</span>
+            <h2>{c.name}</h2>
+          </div>
+          <div class="card-body">
+            <!-- Mark row: color mark + mono mark + app icon -->
+            <div class="mark-row">
+              <div class="mark-preview mark-color-box">
+                <img
+                  src={`/logos/concept-${c.number}/mark-color.svg`}
+                  alt={`Concept ${c.number} color mark`}
+                  width="160"
+                  height="160"
+                />
+              </div>
+              <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:center;">
+                <div class="mark-preview mark-mono-box">
+                  <img
+                    src={`/logos/concept-${c.number}/mark-mono.svg`}
+                    alt={`Concept ${c.number} mono mark`}
+                    width="64"
+                    height="64"
+                  />
+                </div>
+                <div class="app-icon-box">
+                  <img
+                    src={`/logos/concept-${c.number}/app-icon.svg`}
+                    alt={`Concept ${c.number} app icon`}
+                    width="64"
+                    height="64"
+                    style="display:block;width:100%;height:100%;"
+                  />
+                </div>
+                <div style="font-size:0.65rem;color:var(--text-light);text-align:center;line-height:1.3;">Mono<br/>App Icon</div>
+              </div>
+            </div>
+            <!-- Lockup -->
+            <div class="lockup-row">
+              <img
+                src={`/logos/concept-${c.number}/lockup-color.svg`}
+                alt={`Concept ${c.number} horizontal lockup`}
+                width="520"
+                height="138"
+              />
+            </div>
+            <!-- Description -->
+            <p class="card-desc">{c.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="cta-section">
+      <h3>Ready to lock in a direction?</h3>
+      <p>
+        Reply with the <strong>concept number</strong> you'd like to proceed with (e.g. "Concept 3"), or note specific tweaks to any of them —
+        for example: "Concept 5 but with the Concept 6 wordmark treatment" or "Concept 1, swap the green for the indigo from Concept 3."<br/><br/>
+        Once you pick, the next step is generating production-ready SVG + PNG exports at all required sizes, plus a brand guidelines doc.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

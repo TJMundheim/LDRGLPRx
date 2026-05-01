@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160">
+  <!-- Compact tree mark -->
+  <g transform="translate(8,8) scale(0.55)">
+    <rect x="120" y="148" width="16" height="88" rx="6" fill="#8B4513"/>
+    <path d="M122,200 Q90,186 64,168" fill="none" stroke="#6B7C3A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M134,200 Q166,186 192,168" fill="none" stroke="#6B7C3A" stroke-width="6" stroke-linecap="round"/>
+    <path d="M124,172 Q96,148 76,124" fill="none" stroke="#5A6E2B" stroke-width="5" stroke-linecap="round"/>
+    <path d="M132,172 Q160,148 180,124" fill="none" stroke="#5A6E2B" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="128" cy="80" rx="52" ry="48" fill="#556B2F" opacity="0.9"/>
+    <ellipse cx="68" cy="112" rx="32" ry="28" fill="#8B7355" opacity="0.85"/>
+    <ellipse cx="188" cy="112" rx="32" ry="28" fill="#6B8E5A" opacity="0.85"/>
+    <ellipse cx="56" cy="156" rx="28" ry="24" fill="#CD853F" opacity="0.8"/>
+    <ellipse cx="200" cy="156" rx="28" ry="24" fill="#6B7C3A" opacity="0.8"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="152" y="76" font-family="'Inter',Arial,sans-serif" font-size="44" font-weight="800" fill="#556B2F" letter-spacing="-1">MY 4M LIFE</text>
+  <text x="152" y="108" font-family="'Inter',Arial,sans-serif" font-size="13" font-weight="500" fill="#8B4513" letter-spacing="4">ROOTED IN SCIENCE · BUILT TO LAST</text>
+</svg>
