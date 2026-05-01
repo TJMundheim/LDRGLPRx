@@ -1,0 +1,360 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!--
+    Variant 5 — Da Vinci Faithful Vitruvian Man
+    My4MLife brand mark
+    Parchment: #F5EFE0  Ink: #3D2817  Gold accent: #C8933A
+    Circle center: navel at (128,133)  r=109
+    Square: x=19 y=24 w=218 h=218 (center at groin ~(128,187), toes at y=242)
+    Head top ~y=24, feet at ~y=242, total height 218px
+    Navel = golden ratio: 218/1.618 = 134.7 from top => y = 24+134.7 = ~159...
+    Actual da Vinci: navel above center, circle centered at navel
+    Using: head top=24, feet=242, height=218
+    Golden ratio from bottom: 218/1.618=134.7, from top: 218-134.7=83.3 => navel at y=24+83.3=107
+    Square center (groin) at y= 24+109=133 => navel ~107, circle center 107, r to feet = 242-107=135?
+    Let me use practical:
+      Square: x=19,y=22, side=214 (feet at y=236, head top y=22)
+      Navel (circle center): at (128, 100) — approx 1/phi from top of 214px = 214/1.618=132 => y=22+132=154 from bottom...
+      From top: 214-132=82 => y=22+82=104
+      Circle radius = feet_y - navel_y = 236-104=132 => but that's too large for 256px
+    REVISED practical layout (fits 256x256 with margin):
+      head top: y=12
+      feet: y=244
+      body height: 232px
+      navel (circle ctr): y=12 + 232/1.618 = 12+143.4... from bottom. From top: 232-143=89 => y=12+89=101
+      Actually phi ratio from top: 89/143 = 0.623 ~ 1/phi ✓
+      circle center: (128, 101)
+      circle radius: 244-101 = 143 => way too large
+    FINAL practical (keeping figure proportional in 256px square):
+      Margin 8px each side. Usable: 240px
+      head top: y=8
+      feet: y=248 — too much.
+    Let's just use sensible numbers that look right:
+      Square: x=18, y=20, side=220 (feet at y=240, sides at x=18 and x=238)
+      Head top: y=20, head height ~32px, so head center at y=36
+      Navel: from top, navel at 220*(1-1/1.618) ...
+        Actually: navel is at 220/1.618 = 136px from FEET = 240-136=104
+      Circle center: (128, 104)
+      Circle radius: 240-104 = 136 => too large, would go to x=128+136=264, outside canvas
+    WORKING SOLUTION — scale figure to fit:
+      Circle radius: 108 (diameter 216, fits 256 with 20px margin each side)
+      Circle center: (128, 132) — navel position
+      Feet at y = 132+108 = 240
+      Head top at y = 132-108 = 24 (circle top)
+      Square side: feet_y - head_top_y = 240-24 = 216 (equal to diameter = correct da Vinci proportion)
+      Square: x=128-108=20, y=24, w=216, h=216 (toes touch bottom, fingertips of horiz arms touch sides)
+      But wait: in da Vinci the square's bottom = circle's bottom = feet
+        Square top = head top = 24
+        Square sides at x=20 and x=236
+      Navel (circle center) at y=132. Groin at navel + some amount below...
+      In da Vinci: navel divides body at golden ratio. Feet to navel / navel to head = phi
+        Feet at 240, navel at 132: feet-to-navel = 108
+        Navel to head(24): 132-24 = 108 => equal! Circle perfectly centered between head top and feet. That's da Vinci!
+      So groin is below navel: approximately at y=132+44=176 (based on da Vinci proportions)
+      Total body (feet to crown): 240-24=216. Navel at 132 divides: 108/108 = 1:1 because circle center = navel.
+      In da Vinci figure (8 heads tall):
+        Head: 24-54 (30px = 216/7.2)
+        Chin to navel: navel at 132, chin~54, distance=78
+        Navel to pubic: ~44px => groin at 176
+        Pubic to feet: 64px
+  -->
+
+  <!-- ── PARCHMENT BACKGROUND ── -->
+  <defs>
+    <radialGradient id="parchment" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#FAF4E6"/>
+      <stop offset="100%" stop-color="#EDE3C8"/>
+    </radialGradient>
+    <!-- Aged paper texture via feTurbulence -->
+    <filter id="papergrain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+      <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <clipPath id="roundedSquare">
+      <rect x="4" y="4" width="248" height="248" rx="12"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="256" height="256" rx="12" fill="url(#parchment)"/>
+  <!-- Subtle vignette for aged look -->
+  <radialGradient id="vignette" cx="50%" cy="50%" r="70%" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="transparent"/>
+    <stop offset="100%" stop-color="#8B6914" stop-opacity="0.12"/>
+  </radialGradient>
+  <rect x="0" y="0" width="256" height="256" rx="12" fill="url(#vignette)"/>
+
+  <!-- ── GEOMETRIC FRAMEWORK: CIRCLE + SQUARE ── -->
+  <!-- The square: x=20, y=24, side=216. Feet at y=240, top at y=24, sides x=20 & x=236 -->
+  <rect x="20" y="24" width="216" height="216" fill="none" stroke="#3D2817" stroke-width="1.2" opacity="0.65"/>
+  <!-- The circle: center (128,132), r=108 -->
+  <circle cx="128" cy="132" r="108" fill="none" stroke="#3D2817" stroke-width="1.2" opacity="0.65"/>
+
+  <!-- ── GOLD NAVEL ACCENT ── -->
+  <!-- Navel at circle center (128,132) -->
+  <circle cx="128" cy="132" r="2.8" fill="#C8933A" opacity="0.9"/>
+  <circle cx="128" cy="132" r="1.4" fill="#E8B054"/>
+
+  <!-- ================================================================
+       VITRUVIAN FIGURE — Deep anatomical ink trace
+       Color: #3D2817 (sepia ink), stroke-linecap="round", stroke-linejoin="round"
+       stroke-width varies: 1.8 for main body outline, 1.0 for internal detail, 0.7 for fine lines
+
+       Layout (all y values, top=0):
+         Head crown: y=24 (square top)
+         Head center: y=40 (crown to chin ~30px, head = 1/8 body)
+         Chin: y=54
+         Neck base / shoulder line: y=64
+         Shoulder width: x=76 to x=180 (shoulders)
+         Chest: y=64-95
+         Navel: y=132
+         Groin/pubic: y=176
+         Knee: y=200
+         Ankle: y=230
+         Feet: y=240
+
+         Arms horizontal (touching square x=20 & x=236):
+           Shoulder: y=72
+           Wrist at y=72: x=20 & x=236
+         Arms raised (touching circle):
+           Raised arm angle: ~45° up from shoulder
+           Circle touch points: at ~45° on circle => offset from center(128,132):
+             ±108*cos(45°)=±76.4, -108*sin(45°)=-76.4 => (51.6,55.6) and (204.4,55.6)
+         Legs together (touching square base y=240):
+           Feet close, roughly at x=115 and x=141
+         Legs spread (touching circle base):
+           Circle bottom is at y=240, x=128. Circle at 60° from bottom:
+             60° each side: x=128±108*sin(60°)=128±93.5 => x=34.5 & x=221.5 at y=132+108*cos(60°)=132+54=186?
+             No — spread legs touch circle. Feet at circle's lower arc.
+             Foot positions: ~x=75,y=240 and x=181,y=240 (approximate — they arc down to y=240)
+       ================================================================ -->
+
+  <!-- ── HEAD (curly hair + skull + face) ── -->
+  <!-- Skull outline -->
+  <ellipse cx="128" cy="39" rx="17" ry="19" fill="none" stroke="#3D2817" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- Hair mass — top and sides, curly texture -->
+  <!-- Hair dome -->
+  <path d="M 113 30 Q 109 22 115 18 Q 121 14 128 13 Q 135 13 141 18 Q 147 22 143 30"
+        fill="none" stroke="#3D2817" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Curly hair strands — left side -->
+  <path d="M 111 24 Q 107 27 108 31" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <path d="M 112 19 Q 108 22 107 27" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <path d="M 116 15 Q 112 17 110 21" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <path d="M 122 14 Q 119 15 117 18" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <!-- Hair strands — right side (mirror) -->
+  <path d="M 145 24 Q 149 27 148 31" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <path d="M 144 19 Q 148 22 149 27" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <path d="M 140 15 Q 144 17 146 21" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <path d="M 134 14 Q 137 15 139 18" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <!-- Hair along sides of head — curly locks falling -->
+  <path d="M 111 33 Q 108 35 109 39 Q 108 43 111 45" fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round"/>
+  <path d="M 109 38 Q 106 41 108 46 Q 107 50 110 52" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <path d="M 145 33 Q 148 35 147 39 Q 148 43 145 45" fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round"/>
+  <path d="M 147 38 Q 150 41 148 46 Q 149 50 146 52" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+
+  <!-- ── FACIAL FEATURES ── -->
+  <!-- Eyes (subtle horizontal strokes, da Vinci style) -->
+  <path d="M 120 39 Q 122 37 124 39 Q 122 41 120 39" fill="#3D2817" opacity="0.8"/>
+  <path d="M 132 39 Q 134 37 136 39 Q 134 41 132 39" fill="#3D2817" opacity="0.8"/>
+  <!-- Eyebrows (light arcs) -->
+  <path d="M 119 36 Q 122 34 125 36" fill="none" stroke="#3D2817" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <path d="M 131 36 Q 134 34 137 36" fill="none" stroke="#3D2817" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Nose bridge + tip -->
+  <path d="M 128 40 L 128 46 Q 126 48 125 47 M 128 46 Q 130 48 131 47" fill="none" stroke="#3D2817" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- Mouth — subtle horizontal line with gentle curve -->
+  <path d="M 124 51 Q 128 53 132 51" fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round"/>
+  <!-- Chin definition -->
+  <path d="M 123 54 Q 128 58 133 54" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- ── NECK ── -->
+  <path d="M 123 56 L 121 65" fill="none" stroke="#3D2817" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M 133 56 L 135 65" fill="none" stroke="#3D2817" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- Sternocleidomastoid suggestion -->
+  <path d="M 124 58 Q 122 62 121 65" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 132 58 Q 134 62 135 65" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- ── TORSO OUTLINE — main body shape ── -->
+  <!-- Left side: shoulder → waist → hip -->
+  <path d="M 121 65 Q 90 68 76 75 Q 66 80 68 95 Q 70 108 76 118 Q 82 128 86 140 Q 90 155 88 170 Q 87 180 90 190 L 115 192"
+        fill="none" stroke="#3D2817" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right side: shoulder → waist → hip (mirror) -->
+  <path d="M 135 65 Q 166 68 180 75 Q 190 80 188 95 Q 186 108 180 118 Q 174 128 170 140 Q 166 155 168 170 Q 169 180 166 190 L 141 192"
+        fill="none" stroke="#3D2817" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Chest bottom / ribcage base -->
+  <path d="M 90 190 Q 128 196 166 190" fill="none" stroke="#3D2817" stroke-width="1.7" stroke-linecap="round"/>
+
+  <!-- ── CHEST / PECTORAL DEFINITION ── -->
+  <!-- Left pec lower arc -->
+  <path d="M 90 85 Q 100 90 110 88 Q 120 86 122 92 Q 118 100 108 102 Q 96 103 88 97 Q 82 92 90 85"
+        fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round" opacity="0.7"/>
+  <!-- Right pec (mirror) -->
+  <path d="M 166 85 Q 156 90 146 88 Q 136 86 134 92 Q 138 100 148 102 Q 160 103 168 97 Q 174 92 166 85"
+        fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round" opacity="0.7"/>
+  <!-- Sternum line -->
+  <path d="M 128 68 L 128 108" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.4"/>
+  <!-- Clavicles -->
+  <path d="M 121 68 Q 110 65 90 72" fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round" opacity="0.6"/>
+  <path d="M 135 68 Q 146 65 166 72" fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- ── RIBCAGE SUGGESTION ── -->
+  <!-- Faint rib arcs, left -->
+  <path d="M 100 100 Q 110 103 118 100" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.35"/>
+  <path d="M 96 108 Q 108 112 118 108" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.30"/>
+  <path d="M 94 116 Q 106 120 117 116" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.25"/>
+  <!-- Right -->
+  <path d="M 156 100 Q 146 103 138 100" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.35"/>
+  <path d="M 160 108 Q 148 112 138 108" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.30"/>
+  <path d="M 162 116 Q 150 120 139 116" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.25"/>
+
+  <!-- ── ABDOMINAL DEFINITION ── -->
+  <!-- Linea alba (center vertical) -->
+  <path d="M 128 108 Q 128 120 128 132 Q 128 145 128 170" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.4"/>
+  <!-- Ab segment lines — horizontal transverse -->
+  <path d="M 116 116 Q 128 118 140 116" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.3"/>
+  <path d="M 112 126 Q 128 128 144 126" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.3"/>
+  <path d="M 110 138 Q 128 140 146 138" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.25"/>
+  <path d="M 108 150 Q 128 152 148 150" fill="none" stroke="#3D2817" stroke-width="0.6" stroke-linecap="round" opacity="0.2"/>
+
+  <!-- ── GENITALIA — anatomical, modest, da Vinci style ── -->
+  <!-- Small pubic mound and phallus suggestion — rendered as in the original 1490 anatomical study -->
+  <path d="M 122 192 Q 124 196 126 200 Q 128 202 130 200 Q 132 196 134 192"
+        fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round" opacity="0.6"/>
+  <ellipse cx="128" cy="204" rx="3.5" ry="5" fill="none" stroke="#3D2817" stroke-width="0.8" opacity="0.55"/>
+  <!-- Testes suggestion (light) -->
+  <ellipse cx="124" cy="210" rx="3" ry="2.5" fill="none" stroke="#3D2817" stroke-width="0.7" opacity="0.4"/>
+  <ellipse cx="132" cy="210" rx="3" ry="2.5" fill="none" stroke="#3D2817" stroke-width="0.7" opacity="0.4"/>
+
+  <!-- ================================================================
+       ARMS — dual position: horizontal (square) + raised (circle)
+       ================================================================ -->
+
+  <!-- ── ARMS HORIZONTAL (touching square sides x=20 & x=236) ── -->
+  <!-- LEFT ARM horizontal — shoulder at ~(76,75), elbow at ~(48,75), wrist at (20,75) -->
+  <!-- Deltoid / upper arm outline -->
+  <path d="M 76 75 Q 68 72 60 72 Q 48 72 38 73 Q 28 74 20 75"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 76 75 Q 68 78 60 78 Q 48 78 38 77 Q 28 76 20 75"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Deltoid bulge left -->
+  <path d="M 78 70 Q 72 64 66 67 Q 62 70 64 75 Q 66 80 72 80"
+        fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round" opacity="0.65"/>
+  <!-- Bicep/forearm left -->
+  <path d="M 60 72 Q 58 68 54 68" fill="none" stroke="#3D2817" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- RIGHT ARM horizontal — shoulder at (180,75), wrist at (236,75) -->
+  <path d="M 180 75 Q 188 72 196 72 Q 208 72 218 73 Q 228 74 236 75"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 180 75 Q 188 78 196 78 Q 208 78 218 77 Q 228 76 236 75"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Deltoid right -->
+  <path d="M 178 70 Q 184 64 190 67 Q 194 70 192 75 Q 190 80 184 80"
+        fill="none" stroke="#3D2817" stroke-width="0.9" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- LEFT HAND (horizontal arm) — fingers, 5 digits suggestion -->
+  <path d="M 20 75 L 13 74 M 20 75 L 13 72 M 20 75 L 13 75 M 20 75 L 13 77 M 20 75 L 14 79"
+        stroke="#3D2817" stroke-width="0.9" stroke-linecap="round" opacity="0.75"/>
+  <!-- Right HAND (horizontal) -->
+  <path d="M 236 75 L 243 74 M 236 75 L 243 72 M 236 75 L 243 75 M 236 75 L 243 77 M 236 75 L 242 79"
+        stroke="#3D2817" stroke-width="0.9" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- ── ARMS RAISED (touching circle at ~45° — points ≈ (52,56) and (204,56)) ── -->
+  <!-- Circle at angle: 128+108*cos(135°)=128-76.4=51.6, 132+108*sin(135°)=132-76.4=55.6 -->
+  <!-- LEFT arm raised — from shoulder (76,75) to circle touch (52,56) -->
+  <path d="M 76 75 Q 70 70 62 63 Q 57 59 52 56"
+        fill="none" stroke="#3D2817" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 76 75 Q 72 68 65 60 Q 60 56 55 54"
+        fill="none" stroke="#3D2817" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- LEFT raised hand fingers -->
+  <path d="M 52 56 L 47 52 M 52 56 L 48 49 M 52 56 L 51 47 M 52 56 L 54 47 M 52 56 L 56 49"
+        stroke="#3D2817" stroke-width="0.85" stroke-linecap="round" opacity="0.72"/>
+
+  <!-- RIGHT arm raised — from shoulder (180,75) to circle touch (204,56) -->
+  <path d="M 180 75 Q 186 70 194 63 Q 199 59 204 56"
+        fill="none" stroke="#3D2817" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 180 75 Q 184 68 191 60 Q 196 56 201 54"
+        fill="none" stroke="#3D2817" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- RIGHT raised hand fingers -->
+  <path d="M 204 56 L 209 52 M 204 56 L 208 49 M 204 56 L 205 47 M 204 56 L 202 47 M 204 56 L 200 49"
+        stroke="#3D2817" stroke-width="0.85" stroke-linecap="round" opacity="0.72"/>
+
+  <!-- ================================================================
+       LEGS — dual position: together (touching square base) + spread (touching circle)
+       ================================================================ -->
+
+  <!-- ── LEGS TOGETHER — straight down, feet at y=240, close together ── -->
+  <!-- Left leg together — from hip (108,192) to foot (116,240) -->
+  <path d="M 108 192 Q 107 204 106 214 Q 105 224 104 232 Q 105 237 110 240 Q 112 242 116 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 115 192 Q 115 204 114 214 Q 113 226 112 232 Q 111 237 113 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Right leg together — from hip (148,192) to foot (140,240) -->
+  <path d="M 148 192 Q 149 204 150 214 Q 151 224 152 232 Q 151 237 146 240 Q 144 242 140 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 141 192 Q 141 204 142 214 Q 143 226 144 232 Q 145 237 143 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Knee definition (together legs) -->
+  <path d="M 105 214 Q 107 211 110 214 Q 107 217 105 214" fill="none" stroke="#3D2817" stroke-width="0.7" opacity="0.5"/>
+  <path d="M 151 214 Q 149 211 146 214 Q 149 217 151 214" fill="none" stroke="#3D2817" stroke-width="0.7" opacity="0.5"/>
+  <!-- Calf musculature (together) -->
+  <path d="M 104 220 Q 102 228 104 234" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.4"/>
+  <path d="M 152 220 Q 154 228 152 234" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- ── LEGS SPREAD — touching circle at bottom arc ── -->
+  <!-- Circle at ±60° from bottom:
+       Left foot: x=128-108*sin(60°)=128-93.5=34.5, y=132+108*cos(60°)=132+54=186 — that's not feet at y=240
+       Actually da Vinci spread legs have feet AT BOTTOM of circle (y=240) spread apart.
+       Left foot spread: x≈75, y=240. Right foot spread: x≈181, y=240 (touch circle arc at y=240)
+       Circle at y=240: 240=132+108*sin(angle) => sin=1 => angle=90° => x=128. Only one point at bottom.
+       So spread feet are on the circle arc at different angles.
+       At x=75: (75-128)²+(y-132)²=108² => (-53)²+(y-132)²=11664 => 2809+(y-132)²=11664 => (y-132)²=8855 => y-132=94.1 => y=226
+       At x=75, y=226. Let's use that.
+       At x=181: y=226 (mirror). These are where spread feet touch circle.
+       Better: use x=80,y=228 and x=176,y=228 as approximate foot positions for spread legs.
+  -->
+  <!-- Left leg spread — from hip (102,190) angling to (80,228) -->
+  <path d="M 102 190 Q 97 202 90 214 Q 84 224 80 228 Q 78 233 80 238 Q 82 241 86 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 110 190 Q 106 202 100 214 Q 94 224 90 230 Q 87 235 88 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Right leg spread — from hip (154,190) angling to (176,228) -->
+  <path d="M 154 190 Q 159 202 166 214 Q 172 224 176 228 Q 178 233 176 238 Q 174 241 170 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 146 190 Q 150 202 156 214 Q 162 224 166 230 Q 169 235 168 240"
+        fill="none" stroke="#3D2817" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Knee definition (spread legs) -->
+  <path d="M 90 214 Q 92 211 95 214 Q 92 217 90 214" fill="none" stroke="#3D2817" stroke-width="0.7" opacity="0.5"/>
+  <path d="M 166 214 Q 164 211 161 214 Q 164 217 166 214" fill="none" stroke="#3D2817" stroke-width="0.7" opacity="0.5"/>
+
+  <!-- ── FEET — toes, arches ── -->
+  <!-- Left foot together -->
+  <path d="M 104 240 Q 110 243 116 240 Q 116 244 114 246 Q 112 248 110 247 Q 108 248 106 246 Q 104 244 104 240"
+        fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round"/>
+  <!-- Left foot toes -->
+  <path d="M 106 246 L 105 249 M 108 247 L 108 250 M 110 247 L 110 250 M 112 246 L 112 249 M 114 245 L 115 248"
+        stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.65"/>
+  <!-- Right foot together -->
+  <path d="M 140 240 Q 146 243 152 240 Q 152 244 150 246 Q 148 248 146 247 Q 144 248 142 246 Q 140 244 140 240"
+        fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round"/>
+  <!-- Right foot toes -->
+  <path d="M 142 246 L 141 249 M 144 247 L 144 250 M 146 247 L 146 250 M 148 246 L 148 249 M 150 245 L 151 248"
+        stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.65"/>
+  <!-- Left foot spread -->
+  <path d="M 80 238 Q 86 241 90 238 Q 90 242 88 244 Q 86 246 84 245 Q 82 246 80 244 Q 79 242 80 238"
+        fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round"/>
+  <!-- Left spread toes -->
+  <path d="M 80 244 L 79 247 M 82 245 L 81 248 M 84 245 L 84 248 M 86 244 L 87 247 M 88 243 L 89 246"
+        stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.65"/>
+  <!-- Right foot spread -->
+  <path d="M 166 238 Q 170 241 176 238 Q 177 242 175 244 Q 173 246 171 245 Q 169 246 167 244 Q 166 242 166 238"
+        fill="none" stroke="#3D2817" stroke-width="1.0" stroke-linecap="round"/>
+  <!-- Right spread toes -->
+  <path d="M 167 244 L 167 247 M 169 245 L 169 248 M 171 245 L 171 248 M 173 244 L 173 247 M 175 243 L 176 246"
+        stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- ── QUADRICEPS / THIGH musculature ── -->
+  <!-- Left thigh (together) -->
+  <path d="M 111 195 Q 109 205 108 215" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.4"/>
+  <!-- Right thigh (together) -->
+  <path d="M 145 195 Q 147 205 148 215" fill="none" stroke="#3D2817" stroke-width="0.7" stroke-linecap="round" opacity="0.4"/>
+</svg>

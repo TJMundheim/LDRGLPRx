@@ -141,11 +141,14 @@
     activeModal = null;
   }
 
+  // Note: type="number" inputs bind values as number | null, not string.
+  // Coerce to String() before checking, otherwise .trim() throws and the
+  // $derived block fails silently — leaving Continue permanently disabled.
   const canContinue = $derived(
-    basics.name.trim().length > 0 &&
-    basics.age.trim().length > 0 &&
-    basics.height.trim().length > 0 &&
-    basics.weight.trim().length > 0 &&
+    String(basics.name ?? '').trim().length > 0 &&
+    String(basics.age ?? '').trim().length > 0 &&
+    String(basics.height ?? '').trim().length > 0 &&
+    String(basics.weight ?? '').trim().length > 0 &&
     openedNpp && openedPhi && openedAi &&
     consentNpp && consentPhi && consentAi
   );
