@@ -197,3 +197,7 @@ a6ed59e Expose handler functions on window so inline onclick attrs resolve
    - Port Week 2/3/4 legacy content from `src/app.js.legacy` → typed `content/` modules
    - Build coach/admin view (TJ sees all patient state + AI agent queue)
    - Write `deploy.sh` once domain registered
+
+## Future Work
+
+- Week 4 audit redo: re-present the 20-category Discovery Questionnaire (same anchors + follows as intake) so users can compare scores apples-to-apples vs. baseline. Render delta per category. Reuses `discovery.ts` + `audit.ts` infrastructure already in place.

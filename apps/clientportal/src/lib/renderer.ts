@@ -18,6 +18,7 @@ import { stepsForWeek } from './content/morningProtocol';
 // nutrition.ts content is no longer imported centrally — fasting data lives in weekNutrData below
 import { tabs, weekMeta } from './content/weeks';
 import type { Workbook } from './data/schema';
+import { AUDIT_CATEGORIES } from './data/audit';
 
 export interface RenderContext {
   W: Workbook;
@@ -475,6 +476,76 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
   </div>`;
 }
 
+// ── Audit Summary Card (Fix 1) ────────────────────────────────────────────────
+// Reads audit-v1.scores from localStorage (set by intake Stage 4).
+// Only renders if intake-complete-v1 is set and at least one score is non-zero.
+
+interface AuditScores { [categoryId: string]: number }
+
+function loadAuditScores(): AuditScores | null {
+  if (typeof localStorage === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem('audit-v1.scores');
+    if (!raw) return null;
+    const intakeOk = !!localStorage.getItem('intake-complete-v1');
+    if (!intakeOk) return null;
+    const parsed = JSON.parse(raw) as AuditScores;
+    if (Object.values(parsed).every(v => v === 0)) return null;
+    return parsed;
+  } catch (_) { return null; }
+}
+
+function selectTop3(scores: AuditScores): Array<{ label: string; score: number }> {
+  return AUDIT_CATEGORIES
+    .map(cat => ({ label: cat.label, score: scores[cat.id] ?? 0 }))
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
+}
+
+function auditBand200(total: number): { label: string; color: string; bg: string } {
+  if (total <= 60) return { label: 'Low', color: '#1D9E75', bg: 'rgba(29,158,117,.08)' };
+  if (total <= 120) return { label: 'Moderate', color: '#D4920A', bg: 'rgba(212,146,10,.08)' };
+  return { label: 'Elevated', color: '#E05C2A', bg: 'rgba(224,92,42,.08)' };
+}
+
+function renderAuditSummaryCard(): string {
+  const scores = loadAuditScores();
+  if (!scores) return '';
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const band = auditBand200(total);
+  const top3 = selectTop3(scores);
+
+  const top3Html = top3.map(item => `
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:8px 12px;background:rgba(255,255,255,.04);border-radius:8px;margin-bottom:6px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px">⭐</span>
+        <span style="font-size:12.5px;color:#e8eaf0">${esc(item.label)}</span>
+      </div>
+      <span style="font-size:13px;font-weight:700;color:${band.color}">${item.score}</span>
+    </div>`).join('');
+
+  return `<div class="card" style="background:${band.bg};border-color:${band.color}55">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div>
+        <div class="card-title" style="color:${band.color}">Your Risk Factor Audit</div>
+        <div style="font-size:11px;color:#6A8A6E">20-category intake assessment</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:42px;font-weight:800;color:${band.color};line-height:1">${total}</div>
+        <div style="font-size:9px;color:#6A8A6E">/ 200</div>
+        <div style="font-size:10px;font-weight:700;color:${band.color};margin-top:2px">${band.label}</div>
+      </div>
+    </div>
+    ${top3.length > 0 ? `
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:8px;text-transform:uppercase">Top 3 Priorities</div>
+    ${top3Html}` : ''}
+    <button class="btn" style="margin-top:12px;width:100%;justify-content:center"
+      onclick="portalAction('goTo','audit-review')">Review Full Audit →</button>
+  </div>`;
+}
+
 function renderDash(W: Workbook): string {
   const af = auditFilled(W), at = auditTotal(W), m = mornings(W), c = colds(W);
   const risk = af === 14 ? riskBand(at) : null;
@@ -535,6 +606,8 @@ function renderDash(W: Workbook): string {
       </div>`).join('')}
   </div>
 
+  ${renderAuditSummaryCard()}
+
   <div class="card">
     <div class="card-title">Quick Navigation</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px">
@@ -546,8 +619,7 @@ function renderDash(W: Workbook): string {
 }
 
 function renderW1(ctx: RenderContext): string {
-  const { W, openFactor, factorTab } = ctx;
-  const af = auditFilled(W), at = auditTotal(W);
+  const { W } = ctx;
 
   const pillarHeader = (num: string, title: string, color: string, tagline: string): string =>
     `<div style="display:flex;align-items:center;gap:14px;padding:14px 20px;
@@ -573,24 +645,6 @@ function renderW1(ctx: RenderContext): string {
         <span>${i}</span>
       </div>`).join('')}
     </div>`;
-
-  const factorCards = factors.map(f => {
-    const open = openFactor === f.n;
-    return `<div class="factor-card" style="${f.cm ? 'border-color:#2E7FD955' : ''}">
-      <div class="factor-header" onclick="portalAction('toggleFactor','${f.n}')">
-        <span class="factor-num">${f.n}</span>
-        <div style="flex:1">
-          <div class="factor-name">${esc(f.name)}
-            ${f.tag ? `<span class="pill" style="background:${f.tc || '#1D9E75'}20;color:${f.tc || '#1D9E75'};margin-left:8px;font-size:9px">${f.tag}</span>` : ''}
-          </div>
-          <div class="factor-sub">${esc(f.sub ?? '')}</div>
-        </div>
-        <div style="display:flex;gap:5px;align-items:center">${scoreBtns(W, f.n)}</div>
-        <span style="color:#6A8A6E;margin-left:8px;font-size:13px">${open ? '▲' : '▼'}</span>
-      </div>
-      ${open ? factorDetail(W, f, factorTab) : ''}
-    </div>`;
-  }).join('');
 
   const motivationOptions = [
     "Fear of cognitive decline — I don't want to lose my sharpness or independence as I age",
@@ -647,24 +701,12 @@ function renderW1(ctx: RenderContext): string {
   </div>
 
   <div class="card">
-    ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Score all 14 risk factors. Identify your top 3 leverage points.')}
+    ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Review your audit results. Gut first — what you remove matters more than what you add.')}
     <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
-      Gut first — what you remove this week matters more than what you add.
+      Your 20-category Risk Factor Audit was completed during intake. Review your scores on the dashboard.
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-size:12px;color:#5A8A64">Score each factor honestly 1–5. High score = fastest results when addressed.</div>
-      <div style="text-align:right">
-        <div style="font-size:28px;font-weight:700;color:${af === 14 ? riskBand(at).color : '#1D9E75'}">
-          ${af === 14 ? at : `${af}/14`}
-        </div>
-        <div style="font-size:9px;color:#6A8A6E">${af === 14 ? '/ 70 total' : 'factors scored'}</div>
-      </div>
-    </div>
-    <div class="pbar-wrap" style="margin-bottom:16px">
-      <div class="pbar-fill" style="width:${(af / 14) * 100}%;background:#1D9E75"></div>
-    </div>
-    ${factorCards}
-    <div style="margin-top:16px">
+    <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Audit →</button>
+    <div>
       <div class="card-title">My Top 3 Priority Factors</div>
       ${[0, 1, 2].map(i => `
         <div style="margin-bottom:9px">
@@ -712,6 +754,20 @@ function renderW1(ctx: RenderContext): string {
     </div>
 
     ${workoutLog(W, 1)}
+  </div>
+
+  <div class="card" style="border-color:#2E7FD955;background:rgba(46,127,217,.04)">
+    <div class="card-title" style="color:#2E7FD9">How to Box Breathe (~2 minutes daily)</div>
+    <ol style="margin:10px 0 12px;padding-left:20px;display:flex;flex-direction:column;gap:7px">
+      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Hold</strong> at the top for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Exhale</strong> through your mouth for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Hold</strong> at the bottom for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5">Repeat for 5–10 cycles.</li>
+    </ol>
+    <div style="font-size:12px;color:#7AB8E8;line-height:1.65;border-top:1px solid rgba(46,127,217,.2);padding-top:10px">
+      Box breathing calms the autonomic nervous system, lowers cortisol, and primes focus for the day. Used by Navy SEALs and elite performers.
+    </div>
   </div>
 
   ${morningTracker(W, 1)}
@@ -1576,6 +1632,50 @@ function renderRegen(W: Workbook): string {
   </div>`;
 }
 
+function renderAuditReview(): string {
+  const scores = loadAuditScores();
+  const backBtn = `<button class="btn" onclick="portalAction('goTo','dash')" style="margin-bottom:18px">← Back to Dashboard</button>`;
+  if (!scores) {
+    return `<div class="page-title">Risk Factor Audit</div>${backBtn}
+    <div class="card"><div style="color:#6A8A6E;font-size:13px">No audit data found. Complete the intake questionnaire to generate your audit scores.</div></div>`;
+  }
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const band = auditBand200(total);
+
+  const rows = AUDIT_CATEGORIES.map(cat => {
+    const s = scores[cat.id] ?? 0;
+    const c = s <= 3 ? '#1D9E75' : s <= 6 ? '#D4920A' : '#E05C2A';
+    const barW = Math.round((s / 10) * 100);
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:12px;color:#e8eaf0">${esc(cat.label)}</span>
+        <span style="font-size:12px;font-weight:700;color:${c}">${s} / 10</span>
+      </div>
+      <div class="pbar-wrap">
+        <div class="pbar-fill" style="width:${barW}%;background:${c}"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="page-title" style="color:${band.color}">Risk Factor Audit</div>
+  <div class="page-sub">Your 20-category intake assessment</div>
+  ${backBtn}
+  <div class="card" style="background:${band.bg};border-color:${band.color}55;margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:${band.color}">${band.label} Risk</div>
+        <div style="font-size:12px;color:#6A8A6E">Total score</div>
+      </div>
+      <div style="font-size:52px;font-weight:800;color:${band.color};line-height:1">${total}</div>
+    </div>
+    <div style="font-size:11px;color:#6A8A6E;margin-top:6px">Range: 0 (best) – 200 (most room for improvement). Score each area is 0–10.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">All 20 Categories</div>
+    ${rows}
+  </div>`;
+}
+
 export function renderPage(ctx: RenderContext): string {
   switch (ctx.curTab) {
     case 'w1': return renderW1(ctx);
@@ -1583,6 +1683,7 @@ export function renderPage(ctx: RenderContext): string {
     case 'w3': return renderW3(ctx.W);
     case 'w4': return renderW4(ctx.W);
     case 'regen': return renderRegen(ctx.W);
+    case 'audit-review': return renderAuditReview();
     case 'dash':
     default: return renderDash(ctx.W);
   }
