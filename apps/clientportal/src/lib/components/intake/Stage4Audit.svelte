@@ -9,12 +9,14 @@
   import { AUDIT_CATEGORIES } from '../../data/audit';
   import { selectTop3 } from '../../data/selectTop3';
   import type { ScoredCategory } from '../../data/selectTop3';
+  import type { ReturningUserStatus } from '../../data/intakeMigration';
 
   interface Props {
     onBack: () => void;
     onComplete: () => void;
+    returningStatus?: ReturningUserStatus;
   }
-  let { onBack, onComplete }: Props = $props();
+  let { onBack, onComplete, returningStatus = { kind: 'fresh' } }: Props = $props();
 
   const AUDIT_KEY = 'audit-v1';
 
@@ -109,7 +111,11 @@
     <p class="sub">Review your 20-area health snapshot. Adjust any score, then unlock your program.</p>
   </div>
 
-  {#if hasDiscoveryData}
+  {#if returningStatus.kind === 'returning-completed'}
+    <div class="prefill-banner" role="status">
+      Welcome back. Your audit was carried over from a prior version. Review and adjust each score before finalizing.
+    </div>
+  {:else if hasDiscoveryData}
     <div class="prefill-banner" role="status">
       <strong>Your audit was auto-populated from your Discovery answers.</strong>
       Review and adjust any score before finalizing — you know your body best.

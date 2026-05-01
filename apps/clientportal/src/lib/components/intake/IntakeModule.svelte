@@ -9,6 +9,9 @@
   import Stage2Discovery from './Stage2Discovery.svelte';
   import Stage3Mind from './Stage3Mind.svelte';
   import Stage4Audit from './Stage4Audit.svelte';
+  import { onMount } from 'svelte';
+  import { detectReturningUser } from '../../data/intakeMigration';
+  import type { ReturningUserStatus } from '../../data/intakeMigration';
 
   const STAGE_KEY = 'intake-stage-v1';
   const COMPLETE_KEY = 'intake-complete-v1';
@@ -18,6 +21,17 @@
     onComplete: () => void;
   }
   let { onComplete }: Props = $props();
+
+  let returningStatus = $state<ReturningUserStatus>({ kind: 'fresh' });
+
+  onMount(() => {
+    const status = detectReturningUser(localStorage);
+    returningStatus = status;
+    // returning-completed: skip straight to audit (stage 4)
+    if (status.kind === 'returning-completed' && currentStage < 4) {
+      goTo(4);
+    }
+  });
 
   function loadStage(): number {
     try {
@@ -97,11 +111,11 @@
     {#if currentStage === 1}
       <Stage1Basics onContinue={next} />
     {:else if currentStage === 2}
-      <Stage2Discovery onBack={back} onContinue={next} />
+      <Stage2Discovery onBack={back} onContinue={next} {returningStatus} />
     {:else if currentStage === 3}
       <Stage3Mind onBack={back} onContinue={next} />
     {:else if currentStage === 4}
-      <Stage4Audit onBack={back} onComplete={complete} />
+      <Stage4Audit onBack={back} onComplete={complete} {returningStatus} />
     {/if}
   </div>
 </div>

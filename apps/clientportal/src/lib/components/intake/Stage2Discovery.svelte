@@ -8,6 +8,8 @@
   import CategoryPage from './CategoryPage.svelte';
   import { DISCOVERY, migrateFromLegacy } from '../../data/discovery';
   import type { DiscoveryState } from '../../data/discovery';
+  import { fillNeutralDefaults } from '../../data/intakeMigration';
+  import type { ReturningUserStatus } from '../../data/intakeMigration';
 
   const DISCOVERY_KEY = 'discovery-v1';
   const GOALS_KEY = 'goals-v1';
@@ -15,8 +17,21 @@
   interface Props {
     onBack: () => void;
     onContinue: () => void;
+    returningStatus?: ReturningUserStatus;
   }
-  let { onBack, onContinue }: Props = $props();
+  let { onBack, onContinue, returningStatus = { kind: 'fresh' } }: Props = $props();
+
+  const showWelcomeBack = $derived(
+    returningStatus.kind === 'returning-legacy' || returningStatus.kind === 'in-flight'
+  );
+
+  function skipToAudit(): void {
+    fillNeutralDefaults(localStorage);
+    try {
+      localStorage.setItem('intake-stage-v1', JSON.stringify({ currentStage: 4, lastUpdatedAt: new Date().toISOString() }));
+    } catch { /* ignore */ }
+    onContinue();
+  }
 
   const GOAL_OPTIONS = [
     { value: 'cognitive',   label: 'Cognitive performance & focus' },
@@ -133,6 +148,17 @@
       <p class="sub">Pick all that apply. Your AI concierge uses this to personalize your protocol.</p>
     {/if}
   </div>
+
+  {#if showWelcomeBack && !showGoals}
+    <div class="welcome-back-banner" role="status" aria-live="polite">
+      <p class="wb-heading">Welcome back. We've expanded the assessment.</p>
+      <p class="wb-body">The audit has grown from 15 factors to 20 to give you a more complete picture. You can finish answering the new categories for the most accurate scores, OR skip ahead to the audit and adjust scores manually.</p>
+      <div class="wb-actions">
+        <button class="btn-skip-audit" onclick={skipToAudit} type="button">Skip to Audit →</button>
+        <button class="btn-continue-q" onclick={() => {}} type="button">Continue Questionnaire</button>
+      </div>
+    </div>
+  {/if}
 
   {#if !showGoals}
     <!-- Category progress -->
@@ -382,4 +408,64 @@
     text-align: right;
     margin: 0;
   }
+
+  .welcome-back-banner {
+    background: rgba(212,146,10,0.08);
+    border: 1px solid rgba(212,146,10,0.4);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .wb-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #D4920A;
+    margin: 0;
+  }
+
+  .wb-body {
+    font-size: 0.85rem;
+    color: var(--text-muted, #9ba3b2);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .wb-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+  }
+
+  .btn-skip-audit {
+    background: #D4920A;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+  }
+
+  .btn-skip-audit:hover { background: #b87b08; }
+
+  .btn-continue-q {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--text-muted, #9ba3b2);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    font-family: inherit;
+  }
+
+  .btn-continue-q:hover { border-color: #D4920A; color: var(--text, #e8eaf0); }
 </style>
