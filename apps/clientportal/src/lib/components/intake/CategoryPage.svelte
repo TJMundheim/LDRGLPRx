@@ -38,7 +38,11 @@
 
   const anchorAnswered = $derived(anchorValue() !== undefined);
   const followsAnswered = $derived(
-    !showFollows || category.follows.every(f => answers[f.id] !== undefined)
+    !showFollows || category.follows.every(f => {
+      // Numeric questions are optional — don't gate continuation on them
+      if (f.type === 'numeric') return true;
+      return answers[f.id] !== undefined;
+    })
   );
   const canContinue = $derived(anchorAnswered && followsAnswered);
 
@@ -47,7 +51,7 @@
     onAnswered(category.id, answers);
   }
 
-  function setFollow(id: string, val: boolean | number): void {
+  function setFollow(id: string, val: boolean | number | string): void {
     answers = { ...answers, [id]: val };
     onAnswered(category.id, answers);
   }
@@ -115,6 +119,21 @@
                 onclick={() => setFollow(follow.id, false)}
                 aria-pressed={answers[follow.id] === false}
               >No</button>
+            </div>
+          {:else if follow.type === 'numeric'}
+            <div class="numeric-row">
+              <input
+                class="numeric-input"
+                type="number"
+                inputmode="decimal"
+                placeholder="0"
+                value={answers[follow.id] !== undefined ? String(answers[follow.id]) : ''}
+                oninput={(e) => setFollow(follow.id, (e.target as HTMLInputElement).value)}
+                aria-label={follow.text}
+              />
+              {#if follow.unit}
+                <span class="numeric-unit">{follow.unit}</span>
+              {/if}
             </div>
           {:else}
             <div class="likert-row" role="group" aria-label={follow.text}>
@@ -274,5 +293,35 @@
     color: var(--text-muted, #9ba3b2);
     margin: 0;
     text-align: center;
+  }
+
+  .numeric-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .numeric-input {
+    width: 100px;
+    padding: 9px 12px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    color: var(--text, #e8eaf0);
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .numeric-input:focus {
+    border-color: #1D9E75;
+  }
+
+  .numeric-unit {
+    font-size: 0.85rem;
+    color: var(--text-muted, #9ba3b2);
+    font-weight: 500;
   }
 </style>

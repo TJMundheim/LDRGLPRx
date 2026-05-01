@@ -9,9 +9,11 @@ export type AnswerValue = boolean | number | string;
 
 export interface DiscoveryQuestion {
   id: string;
-  /** 'yesno' | 'likert5' */
-  type: 'yesno' | 'likert5';
+  /** 'yesno' | 'likert5' | 'numeric' */
+  type: 'yesno' | 'likert5' | 'numeric';
   text: string;
+  /** For numeric: unit label to display (e.g. "in", "lbs") */
+  unit?: string;
   /**
    * For yesno: 'yes' | 'no' — which answer signals a problem.
    * For likert5: number threshold (≤ or ≥ depending on invertProblem).
@@ -132,6 +134,9 @@ export const DISCOVERY: CategoryDiscovery[] = [
       { id: 'f6', type: 'yesno', text: 'Do you frequently eat past fullness or late at night?', problemAnchor: 'yes' },
       { id: 'f7', type: 'yesno', text: 'Have you been told your blood sugar or insulin levels are elevated?', problemAnchor: 'yes' },
       { id: 'f8', type: 'yesno', text: 'Does your weight affect how you feel about participating in activities?', problemAnchor: 'yes' },
+      { id: 'm_height', type: 'numeric', text: 'Current height', unit: 'in' },
+      { id: 'm_weight', type: 'numeric', text: 'Current weight', unit: 'lbs' },
+      { id: 'm_waist', type: 'numeric', text: 'Current waist circumference (at navel)', unit: 'in' },
     ],
   },
   {

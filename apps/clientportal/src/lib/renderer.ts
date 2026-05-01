@@ -485,11 +485,12 @@ interface AuditScores { [categoryId: string]: number }
 function loadAuditScores(): AuditScores | null {
   if (typeof localStorage === 'undefined') return null;
   try {
-    const raw = localStorage.getItem('audit-v1.scores');
+    const raw = localStorage.getItem('audit-v1');
     if (!raw) return null;
     const intakeOk = !!localStorage.getItem('intake-complete-v1');
     if (!intakeOk) return null;
-    const parsed = JSON.parse(raw) as AuditScores;
+    const outer = JSON.parse(raw) as { scores?: AuditScores };
+    const parsed: AuditScores = outer.scores ?? (outer as unknown as AuditScores);
     if (Object.values(parsed).every(v => v === 0)) return null;
     return parsed;
   } catch (_) { return null; }
@@ -543,6 +544,30 @@ function renderAuditSummaryCard(): string {
     ${top3Html}` : ''}
     <button class="btn" style="margin-top:12px;width:100%;justify-content:center"
       onclick="portalAction('goTo','audit-review')">Review Full Audit →</button>
+  </div>`;
+}
+
+function renderConsultCTA(): string {
+  if (typeof localStorage === 'undefined') return '';
+  if (!localStorage.getItem('intake-complete-v1')) return '';
+  return `<div class="card" style="background:linear-gradient(135deg,#064030,#085041);border:2px solid #1D9E75;margin-bottom:4px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#6A8A6E;text-transform:uppercase;margin-bottom:8px">Next Step</div>
+    <div style="font-size:17px;font-weight:800;color:#1D9E75;line-height:1.25;margin-bottom:8px">
+      Schedule Your 4M Brain-Health Consult
+    </div>
+    <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:18px">
+      Your audit is complete. A one-on-one 4M consult covers all eight optimization domains — gut health, hormones, weight, cognitive function, and more — and maps them directly to your Month 1 protocol.
+    </div>
+    <a href="https://calendly.com/my4mlife/consult" target="_blank" rel="noopener noreferrer"
+      style="display:block;text-align:center;background:#1D9E75;color:#fff;font-size:14px;font-weight:700;padding:14px 20px;border-radius:9px;text-decoration:none;letter-spacing:.02em;margin-bottom:12px">
+      Book My Consult →
+    </a>
+    <div style="text-align:center">
+      <button onclick="portalAction('goTo','w1')"
+        style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit">
+        Skip for now — explore my Month 1 plan
+      </button>
+    </div>
   </div>`;
 }
 
@@ -605,6 +630,8 @@ function renderDash(W: Workbook): string {
         </div>
       </div>`).join('')}
   </div>
+
+  ${renderConsultCTA()}
 
   ${renderAuditSummaryCard()}
 
@@ -708,12 +735,27 @@ function renderW1(ctx: RenderContext): string {
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Audit →</button>
     <div>
       <div class="card-title">My Top 3 Priority Factors</div>
-      ${[0, 1, 2].map(i => `
-        <div style="margin-bottom:9px">
-          <label>${i + 1}. ${['Highest score — fastest results', 'Second priority', 'Third priority'][i]}</label>
-          <input value="${esc(W.priorities[i] ?? '')}" placeholder="Factor name and number..."
-            oninput="portalField('priorities.${i}',this.value)">
-        </div>`).join('')}
+      ${(() => {
+        const intakeOk = typeof localStorage !== 'undefined' && !!localStorage.getItem('intake-complete-v1');
+        if (!intakeOk) return `<div style="font-size:12px;color:#6A8A6E;font-style:italic;padding:8px 0">Complete your audit to see your top 3 priorities.</div>`;
+        const auditScores = loadAuditScores();
+        const top3 = auditScores ? selectTop3(auditScores) : [];
+        const PRIORITY_TIER_IDS = ['leaky-gut', 'gut-microbiome', 'weight-body-fat', 'hormone-balance'];
+        return [0, 1, 2].map(i => {
+          const fromAudit = top3[i];
+          const isPriority = fromAudit ? PRIORITY_TIER_IDS.includes(
+            AUDIT_CATEGORIES.find(c => c.label === fromAudit.label)?.id ?? ''
+          ) : false;
+          const auditPrefill = fromAudit ? `${fromAudit.label} (${fromAudit.score}/10)` : '';
+          const displayVal = W.priorities[i] || auditPrefill;
+          const label = ['Highest score — fastest results', 'Second priority', 'Third priority'][i];
+          return `<div style="margin-bottom:9px">
+            <label>${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#6A8A6E;font-style:italic">(auto-filled from audit)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
+            <input value="${esc(displayVal)}" placeholder="${fromAudit ? '' : 'Factor name and score...'}"
+              oninput="portalField('priorities.${i}',this.value)">
+          </div>`;
+        }).join('');
+      })()}
       <div class="card-title" style="margin-top:12px">My Specific Commitments</div>
       ${[0, 1, 2].map(i => `
         <div style="margin-bottom:9px">
@@ -727,14 +769,40 @@ function renderW1(ctx: RenderContext): string {
   <div class="card">
     ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', '#E05C2A', 'Record where you are starting.')}
     <div class="card-title">Body Composition — Week 1 Baseline</div>
-    <div class="g2" style="margin-bottom:16px">
-      ${([['weight', 'Body weight (lbs)'], ['waist', 'Waist at navel (in)'], ['energy', 'Morning energy (1–10)'], ['mood', 'Mood rating (1–10)']] as const).map(([k, l]) => `
-        <div>
-          <label>${l}</label>
-          <input value="${esc(W.bodyBaseline[k] ?? '')}" placeholder="Record now..."
-            oninput="portalField('bodyBaseline.${k}',this.value)">
-        </div>`).join('')}
-    </div>
+    ${(() => {
+      // Pre-fill weight and waist from discovery-v1.answers['weight-body-fat'] if available
+      let discWeight = '';
+      let discWaist = '';
+      try {
+        const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('discovery-v1') : null;
+        if (raw) {
+          const ds = JSON.parse(raw) as { answers?: Record<string, Record<string, unknown>> };
+          const wbf = ds.answers?.['weight-body-fat'];
+          if (wbf) {
+            if (wbf['m_weight'] !== undefined && String(wbf['m_weight']).trim()) discWeight = String(wbf['m_weight']);
+            if (wbf['m_waist'] !== undefined && String(wbf['m_waist']).trim()) discWaist = String(wbf['m_waist']);
+          }
+        }
+      } catch { /* ignore */ }
+      const fields: [string, string, string][] = [
+        ['weight', 'Body weight (lbs)', discWeight],
+        ['waist', 'Waist at navel (in)', discWaist],
+        ['energy', 'Morning energy (1–10)', ''],
+        ['mood', 'Mood rating (1–10)', ''],
+      ];
+      return `<div class="g2" style="margin-bottom:16px">
+      ${fields.map(([k, l, prefill]) => {
+        const val = W.bodyBaseline[k as keyof typeof W.bodyBaseline] || prefill;
+        const hint = prefill && !W.bodyBaseline[k as keyof typeof W.bodyBaseline]
+          ? `<div style="font-size:10px;color:#6A8A6E;font-style:italic;margin-top:3px">from intake answers</div>` : '';
+        return `<div>
+          <label>${esc(l)}</label>
+          <input value="${esc(val)}" placeholder="Record now..."
+            oninput="portalField('bodyBaseline.${k}',this.value)">${hint}
+        </div>`;
+      }).join('')}
+    </div>`;
+    })()}
     <label>Target bodyweight for protein calc (lbs)</label>
     <input type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
       oninput="portalField('protein',this.value)">
