@@ -20,7 +20,7 @@
     </h1>
 
     <p class="subhead">
-      A brain optimization program built on the four pillars: Mitigate, Muscle, Mind, Motivate.<br>
+      A brain optimization program built on the four pillars: Mind, Muscle, Mitigate, Motivate.<br>
       <span class="subhead-quiet">Root cause. Daily practice. Brain-first.</span>
     </p>
 

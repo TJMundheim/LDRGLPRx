@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <!-- Gradient around the spiral: teal → green → gold → orange -->
+    <linearGradient id="c8-grad1" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="c8-grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="c8-grad3" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="c8-grad4" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle (subtle) -->
+  <circle cx="128" cy="128" r="124" fill="#f0fdf4" opacity="0.6"/>
+  <circle cx="128" cy="128" r="124" fill="none" stroke="#0d9488" stroke-width="1" opacity="0.2"/>
+
+  <!--
+    Spiral: 4 quarter-arc segments, each a bit larger radius.
+    Segment 1 (Mind — inner, starting small at center): arc from center-ish outward
+    Using progressively larger arcs radiating from center.
+    Approximated as a series of arcs at growing radii.
+
+    Spiral built from 4 semi-arcs:
+    - Mind (teal): small arc, bottom-center to right, r≈25
+    - Muscle (green): quarter larger, right to top, r≈52
+    - Mitigate (gold): larger quarter, top to left, r≈79
+    - Motivate (orange): largest quarter, left to bottom, r≈106
+    Then the final "return to mind" — a large outer M letterform
+
+    Constructed manually:
+    Center of spiral pivot shifts per arc to approximate Archimedean spiral.
+  -->
+
+  <!-- Spiral segment 1: Mind — small, bottom-center going right, r=28 -->
+  <!-- pivot ~(128, 128), start (128,156), end (156, 128) -->
+  <path d="M128,156 A28,28 0 0,1 156,128" fill="none" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Spiral segment 2: Muscle — r=56, pivot (128,72), start (156, 128) end (72, 128) -->
+  <path d="M156,128 A56,56 0 0,1 72,128" fill="none" stroke="#16a34a" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Spiral segment 3: Mitigate — r=84, pivot (128,156), start (72,128) end (128, 240) -->
+  <!-- approximate: center (44,128), start (44,44), end ...  let me use simpler arcs -->
+  <!-- Actually build a cleaner spiral:
+       Each arc uses center offset to produce an outward unwinding.
+       Arc 1 (Mind): center=(128,100), r=28, from 270°→0° (bottom to right)
+       Arc 2 (Muscle): center=(100,128), r=56, from 0°→90° (right to top) wait these are getting complex.
+
+       Simpler: 4 arcs using the classic golden-spiral approach with 4 squares.
+       Square sizes: 20, 20, 40, 60 (Fibonacci-like)
+       Arc 1 (Mind, teal):    center=(108,148), r=20, from 90°→0°  (top of square→right)
+       Arc 2 (Muscle, green): center=(108,108), r=40, from 180°→90° (left→top ... wait
+       Let me just use straightforward overlapping circles approach.
+  -->
+
+  <!-- Redo with clean 4-quadrant Fibonacci spiral -->
+  <!-- Arc1 Mind (teal) r=20: center(128,108) sweep from 270→360 i.e. (128,88)→(148,108) -->
+  <!-- Arc2 Muscle (green) r=40: center(88,108) sweep 0→90 i.e. (128,108)→(88,68) -->
+  <!-- Arc3 Mitigate (gold) r=70: center(88,178) sweep 90→180 i.e. (88,108)→(18,178) wait -->
+
+  <!-- Let me use a single Archimedean approximation as a polyline-based path -->
+  <!-- Removed above attempt. Using clean hand-crafted SVG spiral: -->
+
+  <!-- CLEAR APPROACH: 4 arcs in a Fibonacci-grid spiral
+    Box1: 48x48 top-right of center, arc r=48, center=(128,128+48)=(128,176)
+      from (128,128) → (176,176)  sweep CCW 270→0
+    Box2: 96x96 top-left+top-right span, center=(128-48,128)=(80,128)  r=96
+      from (176,176)... no this doesn't chain nicely
+
+    FINAL CLEAN APPROACH: parametric approximation with 4 connected arcs
+  -->
+
+  <!-- Clearing all attempts, using a smooth hand-made spiral approximation -->
+  <g>
+    <!-- Segment 1 — MIND (teal-blue): innermost arc, small, top quadrant going clockwise -->
+    <path d="M128,96 A32,32 0 0,1 160,128" fill="none" stroke="#0d9488" stroke-width="8" stroke-linecap="round"/>
+    <!-- Segment 2 — MUSCLE (green): expands right→bottom -->
+    <path d="M160,128 A62,62 0 0,1 128,190" fill="none" stroke="#16a34a" stroke-width="8" stroke-linecap="round"/>
+    <!-- Segment 3 — MITIGATE (gold): bottom→left -->
+    <path d="M128,190 A92,92 0 0,1 36,128" fill="none" stroke="#ca8a04" stroke-width="8" stroke-linecap="round"/>
+    <!-- Segment 4 — MOTIVATE (orange): left→top, completing near-full circle outward -->
+    <path d="M36,128 A118,118 0 0,1 128,10" fill="none" stroke="#ea580c" stroke-width="8" stroke-linecap="round"/>
+    <!-- Return tick: large outer M endpoint, return to mind arrow -->
+    <path d="M128,10 A8,8 0 0,1 136,18" fill="none" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Inner M (small, Mind anchor at spiral start) -->
+  <text x="128" y="134" font-family="Georgia,serif" font-size="22" font-weight="700" fill="#0d9488" text-anchor="middle">m</text>
+
+  <!-- Outer M (large, spiral end — "end in Mind") -->
+  <text x="128" y="36" font-family="Georgia,serif" font-size="32" font-weight="800" fill="#0d9488" text-anchor="middle" opacity="0.9">M</text>
+
+  <!-- Small pillar labels at arc midpoints -->
+  <!-- Muscle midpoint ~right side -->
+  <text x="168" y="165" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7" fill="#16a34a" text-anchor="start" letter-spacing="1">MUSCLE</text>
+  <!-- Mitigate midpoint ~bottom-left -->
+  <text x="60" y="175" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7" fill="#ca8a04" text-anchor="middle" letter-spacing="1">MITIGATE</text>
+  <!-- Motivate midpoint ~left -->
+  <text x="45" y="88" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7" fill="#ea580c" text-anchor="middle" letter-spacing="1">MOTIVATE</text>
+  <!-- Mind label -->
+  <text x="155" y="108" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7" fill="#0d9488" text-anchor="start" letter-spacing="1">MIND</text>
+</svg>

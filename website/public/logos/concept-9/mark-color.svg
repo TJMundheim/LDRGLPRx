@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!--
+    Concept 9: Pure Wordmark mark = wordmark itself tightly cropped.
+    Wordmark "My4MLife" with "4M" in electric green, rest graphite.
+    This file is the wordmark mark (no separate icon).
+  -->
+  <defs>
+    <!-- Subtle underline accent bar under 4M -->
+    <linearGradient id="c9-underline" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#22c55e"/>
+      <stop offset="70%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Wordmark — main, tightly centered in 256×256 -->
+  <!-- "My" in graphite -->
+  <text x="10" y="110" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="58" font-weight="800" fill="#1a1a2e" letter-spacing="-2">My</text>
+  <!-- "4M" in electric green, slightly larger -->
+  <text x="90" y="112" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="62" font-weight="900" fill="#16a34a" letter-spacing="-2">4M</text>
+  <!-- "Life" in graphite -->
+  <text x="194" y="110" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="58" font-weight="800" fill="#1a1a2e" letter-spacing="-2">Life</text>
+
+  <!-- Accent underline beneath 4M -->
+  <rect x="90" y="118" width="100" height="3" rx="1.5" fill="url(#c9-underline)"/>
+
+  <!-- Tagline -->
+  <text x="128" y="155" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" font-weight="300" fill="#6b7280" text-anchor="middle" letter-spacing="1.5">Begin with the end in mind.</text>
+</svg>

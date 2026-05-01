@@ -1,6 +1,6 @@
 /**
  * Cookie Consent Banner & Google Analytics Loader
- * For My 4M Life — matches the site design system (Inter font, brand colors).
+ * For My4MLife — matches the site design system (Inter font, brand colors).
  *
  * Usage: add <script src="cookie-banner.js"></script> before </body> on every page.
  */
@@ -46,7 +46,7 @@
   var banner = document.createElement('div');
   banner.id = 'cookie-consent-banner';
 
-  // Styles — fixed bottom, slide-up animation, matching My 4M Life design system
+  // Styles — fixed bottom, slide-up animation, matching My4MLife design system
   banner.style.cssText = [
     'position:fixed',
     'bottom:0',

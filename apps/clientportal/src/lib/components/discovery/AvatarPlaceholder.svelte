@@ -12,7 +12,7 @@
     "I'm Dr. TJ. If you're watching this, you already know something isn't right.",
     "You're tired in a way sleep doesn't fix. The focus you used to have is slipping. You're doing the things you were told to do — and it's not working.",
     "The problem was never your effort. It was the information.",
-    "The 4M program — Mitigate, Muscle, Mind, Motivate — is four weeks of root-cause work. Daily practice. Real precision.",
+    "The 4M program — Mind, Muscle, Mitigate, Motivate — is four weeks of root-cause work. Daily practice. Real precision.",
     "This 3-minute intake is how we find out if you're a fit. Let's begin."
   ];
 

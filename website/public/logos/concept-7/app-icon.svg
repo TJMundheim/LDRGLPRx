@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="ai7-bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1e1b72"/>
+      <stop offset="100%" stop-color="#0d0c3a"/>
+    </radialGradient>
+    <radialGradient id="ai7-center" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3730a3"/>
+      <stop offset="100%" stop-color="#1e1b72"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Rounded background -->
+  <rect width="1024" height="1024" rx="230" fill="url(#ai7-bg)"/>
+
+  <!-- Outer decorative ring -->
+  <circle cx="512" cy="512" r="450" fill="none" stroke="#c7972a" stroke-width="3" stroke-dasharray="14 10" opacity="0.5"/>
+
+  <!-- Three arcs at large scale -->
+  <path d="M828,296 A390,390 0 0,1 828,728" fill="none" stroke="#fbbf24" stroke-width="16" stroke-linecap="round"/>
+  <path d="M828,728 A390,390 0 0,1 196,728" fill="none" stroke="#34d399" stroke-width="16" stroke-linecap="round"/>
+  <path d="M196,728 A390,390 0 0,1 196,296" fill="none" stroke="#f97316" stroke-width="16" stroke-linecap="round"/>
+  <!-- Mind arc — thick + bright -->
+  <path d="M196,296 A390,390 0 0,1 828,296" fill="none" stroke="#6366f1" stroke-width="24" stroke-linecap="round"/>
+
+  <!-- Arc terminus dots -->
+  <circle cx="828" cy="296" r="18" fill="#fbbf24"/>
+  <circle cx="828" cy="728" r="18" fill="#34d399"/>
+  <circle cx="196" cy="728" r="18" fill="#f97316"/>
+  <circle cx="196" cy="296" r="18" fill="#6366f1"/>
+
+  <!-- Central circle -->
+  <circle cx="512" cy="512" r="210" fill="url(#ai7-center)"/>
+  <circle cx="512" cy="512" r="210" fill="none" stroke="#c7972a" stroke-width="6"/>
+  <circle cx="512" cy="512" r="180" fill="none" stroke="#c7972a" stroke-width="2" stroke-dasharray="10 12" opacity="0.6"/>
+
+  <!-- M -->
+  <text x="512" y="590" font-family="Georgia,serif" font-size="220" font-weight="700" fill="#f8f4e8" text-anchor="middle" letter-spacing="-4">M</text>
+
+  <!-- MIND label -->
+  <text x="512" y="638" font-family="'Helvetica Neue',Arial,sans-serif" font-size="36" font-weight="600" fill="#c7972a" text-anchor="middle" letter-spacing="12">MIND</text>
+</svg>

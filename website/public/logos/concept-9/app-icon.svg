@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="ai9-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f1117"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="ai9-underline" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#22c55e"/>
+      <stop offset="70%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded dark background -->
+  <rect width="1024" height="1024" rx="230" fill="url(#ai9-bg)"/>
+
+  <!-- App icon shows "4M" large and dominant, with "My" and "Life" in muted white -->
+  <!-- Scale: fits within 1024×1024 with margin -->
+
+  <!-- Full wordmark at icon size — slightly smaller to fit with padding -->
+  <text x="90" y="440" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="200" font-weight="800" fill="rgba(255,255,255,0.75)" letter-spacing="-5">My</text>
+  <text x="90" y="660" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="220" font-weight="900" fill="#22c55e" letter-spacing="-6">4M</text>
+  <text x="90" y="860" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="200" font-weight="800" fill="rgba(255,255,255,0.75)" letter-spacing="-5">Life</text>
+
+  <!-- Green underline under 4M -->
+  <rect x="90" y="675" width="550" height="10" rx="5" fill="url(#ai9-underline)"/>
+</svg>

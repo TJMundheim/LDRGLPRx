@@ -211,7 +211,7 @@
           onchange={() => setConsent('phi', consentPhi, phiSha)}
         />
         <label for="cb-phi" class="consent-label">
-          I authorize My 4M Life and its contracted care team to share my health information.
+          I authorize My4MLife and its contracted care team to share my health information.
           <span class="req">*</span>
         </label>
         <button type="button" class="doc-link" onclick={() => openModal('phi')}>

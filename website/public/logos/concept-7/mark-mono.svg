@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Outer decorative ring -->
+  <circle cx="128" cy="128" r="122" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="4 3" opacity="0.3"/>
+  <circle cx="128" cy="128" r="116" fill="none" stroke="#000" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Three outer arc segments -->
+  <path d="M218,78 A100,100 0 0,1 218,178" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <path d="M218,178 A100,100 0 0,1 38,178" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <path d="M38,178 A100,100 0 0,1 38,78" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <!-- Mind arc — dominant -->
+  <path d="M38,78 A100,100 0 0,1 218,78" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Arc terminus dots -->
+  <circle cx="218" cy="78" r="5" fill="#000" opacity="0.6"/>
+  <circle cx="218" cy="178" r="5" fill="#000" opacity="0.4"/>
+  <circle cx="38" cy="178" r="5" fill="#000" opacity="0.4"/>
+  <circle cx="38" cy="78" r="5" fill="#000" opacity="0.6"/>
+
+  <!-- Cardinal ticks -->
+  <line x1="128" y1="6" x2="128" y2="14" stroke="#000" stroke-width="1.5" opacity="0.4"/>
+  <line x1="250" y1="128" x2="242" y2="128" stroke="#000" stroke-width="1.5" opacity="0.4"/>
+  <line x1="128" y1="250" x2="128" y2="242" stroke="#000" stroke-width="1.5" opacity="0.4"/>
+  <line x1="6" y1="128" x2="14" y2="128" stroke="#000" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Central circle -->
+  <circle cx="128" cy="128" r="52" fill="#111"/>
+  <circle cx="128" cy="128" r="44" fill="none" stroke="#fff" stroke-width="0.75" stroke-dasharray="3 4" opacity="0.4"/>
+
+  <!-- Bold M -->
+  <text x="128" y="143" font-family="Georgia,serif" font-size="52" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="-1">M</text>
+  <text x="128" y="158" font-family="'Helvetica Neue',Arial,sans-serif" font-size="8" font-weight="600" fill="#ccc" text-anchor="middle" letter-spacing="3">MIND</text>
+
+  <!-- Labels -->
+  <text x="210" y="130" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7.5" font-weight="600" fill="#000" text-anchor="middle" letter-spacing="1.5" opacity="0.5">MUSCLE</text>
+  <text x="128" y="218" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7.5" font-weight="600" fill="#000" text-anchor="middle" letter-spacing="1.5" opacity="0.5">MITIGATE</text>
+  <text x="46" y="130" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7.5" font-weight="600" fill="#000" text-anchor="middle" letter-spacing="1.5" opacity="0.5">MOTIVATE</text>
+</svg>

@@ -29,9 +29,9 @@ export const months: MonthDefinition[] = [
     title: 'Foundation & Repair',
     tagline: 'Audit, repair, and build the base for everything that follows.',
     description:
-      'Month 1 runs all four pillars in sequence — Mitigate, Muscle, Mind, Motivate — with a deep focus on one each week. Labs precede Week 1. Formulas are introduced week by week. The month ends with a full re-audit and the Genesis RPA bonus module.',
-    pillarIds: ['mitigate', 'muscle', 'mind', 'motivate'],
-    primaryFormulas: ['biomeaxisforge', 'sleeprestore', 'armorvita', 'neurobridge'],
+      'Month 1 runs all four pillars in sequence — Mind, Muscle, Mitigate, Motivate — with a deep focus on one each week. Labs precede Week 1. Formulas are introduced week by week. The month ends with a full re-audit and the Genesis RPA bonus module.',
+    pillarIds: ['mind', 'muscle', 'mitigate', 'motivate'],
+    primaryFormulas: ['neurobridge', 'armorvita', 'biomeaxisforge', 'sleeprestore'],
     bonusModules: [
       {
         atWeek: 4,

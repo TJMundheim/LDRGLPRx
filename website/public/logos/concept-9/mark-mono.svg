@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Mono wordmark: all black, 4M slightly heavier/larger -->
+  <text x="10" y="110" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="58" font-weight="800" fill="#000" letter-spacing="-2">My</text>
+  <text x="90" y="112" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="62" font-weight="900" fill="#000" letter-spacing="-2">4M</text>
+  <text x="194" y="110" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="58" font-weight="800" fill="#000" letter-spacing="-2">Life</text>
+
+  <!-- Accent underline under 4M — black at 60% -->
+  <rect x="90" y="118" width="100" height="3" rx="1.5" fill="#000" opacity="0.5"/>
+
+  <!-- Tagline -->
+  <text x="128" y="155" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" font-weight="300" fill="#000" text-anchor="middle" letter-spacing="1.5" opacity="0.45">Begin with the end in mind.</text>
+</svg>
