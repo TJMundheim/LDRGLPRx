@@ -482,18 +482,23 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
 
 interface AuditScores { [categoryId: string]: number }
 
+const DEBUG = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('debug') === '1';
+
 function loadAuditScores(): AuditScores | null {
   if (typeof localStorage === 'undefined') return null;
   try {
     const raw = localStorage.getItem('audit-v1');
-    if (!raw) return null;
+    if (DEBUG) console.debug('[4M] audit-v1 raw:', raw);
+    if (!raw) { if (DEBUG) console.debug('[4M] audit-v1 not found in localStorage'); return null; }
     const intakeOk = !!localStorage.getItem('intake-complete-v1');
-    if (!intakeOk) return null;
+    if (DEBUG) console.debug('[4M] intake-complete-v1 present:', intakeOk);
+    if (!intakeOk) { if (DEBUG) console.debug('[4M] intake not complete — audit suppressed'); return null; }
     const outer = JSON.parse(raw) as { scores?: AuditScores };
     const parsed: AuditScores = outer.scores ?? (outer as unknown as AuditScores);
-    if (Object.values(parsed).every(v => v === 0)) return null;
+    if (DEBUG) console.debug('[4M] parsed audit scores:', parsed);
+    if (Object.values(parsed).every(v => v === 0)) { if (DEBUG) console.debug('[4M] all scores are 0 — returning null'); return null; }
     return parsed;
-  } catch (_) { return null; }
+  } catch (e) { if (DEBUG) console.debug('[4M] loadAuditScores error:', e); return null; }
 }
 
 function selectTop3(scores: AuditScores): Array<{ label: string; score: number }> {
@@ -572,8 +577,12 @@ function renderConsultCTA(): string {
 }
 
 function renderDash(W: Workbook): string {
-  const af = auditFilled(W), at = auditTotal(W), m = mornings(W), c = colds(W);
-  const risk = af === 14 ? riskBand(at) : null;
+  const m = mornings(W), c = colds(W);
+  // Use intake audit data (localStorage audit-v1) for dashboard stats
+  const auditScores = loadAuditScores();
+  const auditTotal200 = auditScores ? Object.values(auditScores).reduce((a, b) => a + b, 0) : null;
+  const auditBand = auditTotal200 !== null ? auditBand200(auditTotal200) : null;
+  const auditCategoryCount = auditScores ? Object.values(auditScores).filter(v => v > 0).length : 0;
   return `
   <div class="page-title" style="color:#1D9E75">Mind · Muscle · Mitigate · Motivate</div>
   <div class="page-sub">Month 1 — Brain Optimization for Men 35+</div>
@@ -594,30 +603,30 @@ function renderDash(W: Workbook): string {
   </div>
 
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${af}/14</div><div class="stat-lbl">FACTORS SCORED</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${af === 14 ? at : '—'}</div><div class="stat-lbl">AUDIT SCORE /70</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">AUDIT SCORE /200</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${auditBand ? auditBand.label : '—'}</div><div class="stat-lbl">RISK BAND</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#2E7FD9">${m}</div><div class="stat-lbl">MORNINGS DONE</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#2E7FD9">${c}</div><div class="stat-lbl">COLD SHOWERS</div></div>
   </div>
 
-  ${risk ? `<div class="card" style="background:${risk.bg};border-color:${risk.color}55;margin-bottom:16px">
+  ${auditBand && auditTotal200 !== null ? `<div class="card" style="background:${auditBand.bg};border-color:${auditBand.color}55;margin-bottom:16px">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div>
-        <div style="font-size:15px;font-weight:700;color:${risk.color};margin-bottom:3px">${risk.label}</div>
+        <div style="font-size:15px;font-weight:700;color:${auditBand.color};margin-bottom:3px">${auditBand.label} Risk</div>
         <div style="font-size:12px;color:#4A7A54">
-          ${at <= 28 ? 'Strong foundations — focus on fine-tuning and optimization.'
-      : at <= 49 ? 'Multiple factors working against you. Targeted action yields rapid results.'
-        : 'This program was built for you. Major gains are available very quickly.'}
+          ${auditTotal200 <= 60 ? 'Strong foundations — focus on fine-tuning and optimization.'
+            : auditTotal200 <= 120 ? 'Multiple factors working against you. Targeted action yields rapid results.'
+              : 'This program was built for you. Major gains are available very quickly.'}
         </div>
+        <div style="font-size:11px;color:#6A8A6E;margin-top:4px">${auditCategoryCount} of 20 categories scored</div>
       </div>
-      <div style="font-size:52px;font-weight:700;color:${risk.color};line-height:1">${at}</div>
+      <div style="font-size:52px;font-weight:700;color:${auditBand.color};line-height:1">${auditTotal200}</div>
     </div>
   </div>` : ''}
 
   <div class="card">
     <div class="card-title">Month 1 Progress</div>
     ${[
-      { l: 'Mitigate audit (14 factors)', v: af, mx: 14, c: '#1D9E75' },
       { l: 'Morning protocol (28 days)', v: m, mx: 28, c: '#2E7FD9' },
       { l: 'Cold shower streak', v: c, mx: 28, c: '#2E7FD9' }
     ].map(p => `
@@ -1337,7 +1346,7 @@ function renderW4(W: Workbook): string {
 
   <!-- MITIGATE W4 RE-AUDIT -->
   <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — All 14 Factors</div>
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — Risk Factor Audit</div>
     <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
       Score every factor again using the same 1–5 scale from Week 1.
       Compare your final audit score to your baseline to see how far you moved in 30 days.
@@ -1769,10 +1778,12 @@ export function renderSidebar(ctx: RenderContext): string {
 export function sidebarStats(W: Workbook): {
   audit: string; score: string; morn: string; cold: string;
 } {
-  const af = auditFilled(W), at = auditTotal(W), m = mornings(W), c = colds(W);
+  const m = mornings(W), c = colds(W);
+  const auditScores = loadAuditScores();
+  const auditTotal200 = auditScores ? Object.values(auditScores).reduce((a, b) => a + b, 0) : null;
   return {
-    audit: `Audit: ${af} / 14 factors`,
-    score: `Score: ${af >= 14 ? at + ' / 70' : af + ' / 14 factors'}`,
+    audit: auditTotal200 !== null ? `Audit: ${auditTotal200} / 200` : 'Audit: not yet completed',
+    score: auditTotal200 !== null ? `Score: ${auditTotal200} / 200` : 'Score: —',
     morn: `Mornings: ${m} days`,
     cold: `Cold showers: ${c} days`
   };
