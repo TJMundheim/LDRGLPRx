@@ -38,7 +38,23 @@ export const AI_COMM_DOC: LegalDoc = {
 };
 
 /**
+ * Normalize document text before hashing so that trivial whitespace
+ * differences (trailing spaces, CRLF vs LF, etc.) don't invalidate
+ * a previously stored consent. Each line is trimmed and the result is
+ * joined with \n.
+ */
+function normalizeForHash(text: string): string {
+  return text
+    .split(/\r?\n/)
+    .map(line => line.trimEnd())
+    .join('\n')
+    .replace(/\n+$/, ''); // strip trailing blank lines only, preserve leading content
+}
+
+/**
  * Compute SHA-256 hash of a string using the Web Crypto API.
+ * Input is whitespace-normalized first so minor edits (trailing spaces,
+ * line-ending differences) don't change the hash.
  * Returns hex string. Used to anchor consent records to the exact document version.
  */
 export async function sha256(text: string): Promise<string> {
@@ -46,7 +62,8 @@ export async function sha256(text: string): Promise<string> {
     // Fallback for environments that lack SubtleCrypto (e.g. some test runners)
     return 'sha256-unavailable';
   }
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  const normalized = normalizeForHash(text);
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(normalized));
   return Array.from(new Uint8Array(buf))
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');

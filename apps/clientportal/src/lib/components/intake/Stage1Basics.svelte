@@ -111,21 +111,17 @@
     ]);
 
     // Validate stored consent SHAs against current document content.
-    // If the doc changed, invalidate the stored consent so user must re-acknowledge.
+    // If the doc changed, mark stale for a visible warning but DO NOT revoke the
+    // prior acceptance — user is not forced to re-acknowledge work they already did.
+    // consentNpp/Phi/Ai and openedNpp/Phi/Ai stay true so the flow can continue.
     if (storedNpp && nppSha && storedNpp.documentSha !== nppSha) {
       staleNpp = true;
-      consentNpp = false;
-      openedNpp = false;
     }
     if (storedPhi && phiSha && storedPhi.documentSha !== phiSha) {
       stalePhi = true;
-      consentPhi = false;
-      openedPhi = false;
     }
     if (storedAi && aiSha && storedAi.documentSha !== aiSha) {
       staleAi = true;
-      consentAi = false;
-      openedAi = false;
     }
   });
 
@@ -260,7 +256,7 @@
         </button>
       </div>
       {#if staleNpp}
-        <p class="stale-note">The Notice of Privacy Practices has been updated; please review and re-acknowledge.</p>
+        <p class="stale-note">The Notice of Privacy Practices has been updated since your last acknowledgement. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('npp')}>review updated version ↗</button></p>
       {:else if !openedNpp}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
@@ -286,7 +282,7 @@
         </button>
       </div>
       {#if stalePhi}
-        <p class="stale-note">The Patient Authorization has been updated; please review and re-acknowledge.</p>
+        <p class="stale-note">The Patient Authorization has been updated since your last acknowledgement. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('phi')}>review updated version ↗</button></p>
       {:else if !openedPhi}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
@@ -312,7 +308,7 @@
         </button>
       </div>
       {#if staleAi}
-        <p class="stale-note">The AI Communication Consent has been updated; please review and re-acknowledge.</p>
+        <p class="stale-note">The AI Communication Consent has been updated since your last acknowledgement. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('ai')}>review updated version ↗</button></p>
       {:else if !openedAi}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
@@ -557,6 +553,23 @@
     color: #fbbf24;
     margin: -4px 0 2px 30px;
     line-height: 1.4;
+  }
+
+  .re-ack-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #fbbf24;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .re-ack-link:hover {
+    color: #fde68a;
   }
 
   .accepted-note {
