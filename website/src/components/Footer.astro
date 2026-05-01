@@ -3,44 +3,66 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
+
+      <!-- Brand -->
       <div class="footer-brand">
         <a href="/" class="footer-logo-link" aria-label="My4MLife — home">
           <img src="/logos/concept-13/mark-mono.svg" alt="" width="48" height="48" class="footer-mark" aria-hidden="true" />
           <span class="footer-wordmark">My4MLife</span>
         </a>
         <p class="footer-tagline"><em>Begin with the end in mind.</em></p>
-        <p>Doctor-guided GLP-1 weight loss treatment. Licensed physicians, licensed pharmacies, real results. Your health journey starts here.</p>
+        <p>Doctor-guided health education and protocol design. The 4M system for optimal cognitive aging — built by Dr. TJ Mundheim, DC.</p>
       </div>
+
+      <!-- Solutions -->
       <div class="footer-col">
-        <h4>Treatments</h4>
+        <h4>Solutions</h4>
         <ul>
-          <li><a href="/#treatments">Semaglutide</a></li>
-          <li><a href="/#treatments">Tirzepatide</a></li>
-          <li><a href="/#treatments">Oral GLP-1</a></li>
-          <li><a href="/#how-it-works">How It Works</a></li>
+          <li><a href="/solutions/gut">Gut Health</a></li>
+          <li><a href="/solutions/hormones">Hormones</a></li>
+          <li><a href="/solutions/weight">Weight &amp; Body Fat</a></li>
+          <li><a href="/solutions/sleep">Sleep Quality</a></li>
+          <li><a href="/solutions/cognitive">Cognitive Function</a></li>
+          <li><a href="/solutions/stress">Stress &amp; Resilience</a></li>
         </ul>
       </div>
+
+      <!-- Cohort -->
+      <div class="footer-col">
+        <h4>Cohort</h4>
+        <ul>
+          <li><a href="https://app.my4mlife.com" target="_blank" rel="noopener">The Cohort App</a></li>
+          <li><a href="/tiers">Pricing</a></li>
+          <li><a href="/live-coaching">Live Coaching</a></li>
+          <li><a href="/resources">Resources</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/about#team">Our Physicians</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
           <li><a href="/contact">Contact</a></li>
-          <li><a href="/referral">Refer &amp; Save</a></li>
+          <li><a href="/press">Press</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/terms">Terms of Service</a></li>
-          <li><a href="/consent">Medical Consent</a></li>
-          <li><a href="/privacy">HIPAA Notice</a></li>
-        </ul>
-      </div>
+
     </div>
+
+    <!-- Medical disclaimer -->
+    <div class="footer-disclaimer">
+      <p>My4MLife provides health education, protocol design, and AI-driven coaching. Medical care, diagnosis, and prescriptions are provided by a contracted licensed telemedicine practice. Dr. Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994, and does not provide medical care through this platform.</p>
+    </div>
+
     <div class="footer-bottom">
       <p>&copy; 2026 My4MLife. All rights reserved.</p>
+      <div class="footer-legal-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/consent">Consent</a>
+      </div>
       <div class="footer-socials">
         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -61,7 +83,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 3rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
   .footer-logo-link {
     display: flex;
@@ -87,6 +109,7 @@
     font-size: 0.82rem;
     color: rgba(255,255,255,0.55);
     margin-bottom: 0.75rem;
+    font-family: 'Playfair Display', serif;
   }
   .footer-brand p { font-size: 0.88rem; line-height: 1.7; max-width: 300px; }
   .footer-col h4 {
@@ -107,9 +130,20 @@
     transition: color 0.2s;
   }
   .footer-col a:hover { color: var(--accent); }
+  .footer-disclaimer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 0;
+    margin-bottom: 1rem;
+  }
+  .footer-disclaimer p {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.7;
+    max-width: 860px;
+  }
   .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 2rem;
+    padding-top: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -117,6 +151,17 @@
     gap: 1rem;
   }
   .footer-bottom p { font-size: 0.82rem; }
+  .footer-legal-links {
+    display: flex;
+    gap: 1.2rem;
+  }
+  .footer-legal-links a {
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: color 0.2s;
+  }
+  .footer-legal-links a:hover { color: var(--accent); }
   .footer-socials { display: flex; gap: 1rem; }
   .footer-socials a {
     color: rgba(255,255,255,0.5);
@@ -130,5 +175,6 @@
   @media (max-width: 768px) {
     .footer-grid { grid-template-columns: 1fr; }
     .footer-bottom { justify-content: center; text-align: center; }
+    .footer-disclaimer p { font-size: 0.72rem; }
   }
 </style>
