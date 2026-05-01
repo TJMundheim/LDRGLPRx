@@ -69,4 +69,24 @@ describe('selectTop3', () => {
     expect(result).toContain('non-priority-3rd');
     expect(result).not.toContain('hormone-balance');
   });
+
+  it('(e) all 20 categories scored equally — priority-tier wins top 3', () => {
+    // gut-microbiome, weight-body-fat, hormone-balance are the 3 priority-tier ids.
+    // All categories share the same score, so tie-breaker must promote them.
+    const priorityIds = ['gut-microbiome', 'weight-body-fat', 'hormone-balance'];
+    const nonPriorityIds = Array.from({ length: 17 }, (_, i) => `non-priority-${i}`);
+    const allIds = [...priorityIds, ...nonPriorityIds];
+    const cats: ScoredCategory[] = allIds.map((id) =>
+      cat(id, 5, priorityIds.includes(id))
+    );
+    const result = selectTop3(cats);
+    expect(result).toHaveLength(3);
+    expect(result).toContain('gut-microbiome');
+    expect(result).toContain('weight-body-fat');
+    expect(result).toContain('hormone-balance');
+    // No non-priority should appear when all 3 priority slots are filled
+    for (const id of nonPriorityIds) {
+      expect(result).not.toContain(id);
+    }
+  });
 });

@@ -502,11 +502,22 @@ function loadAuditScores(): AuditScores | null {
 }
 
 function selectTop3(scores: AuditScores): Array<{ label: string; score: number }> {
-  return AUDIT_CATEGORIES
-    .map(cat => ({ label: cat.label, score: scores[cat.id] ?? 0 }))
-    .filter(x => x.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 3);
+  const candidates = AUDIT_CATEGORIES
+    .map(cat => ({ label: cat.label, score: scores[cat.id] ?? 0, priorityTier: cat.priorityTier, id: cat.id }))
+    .filter(x => x.score > 0);
+
+  if (candidates.length === 0) return [];
+
+  // Sort descending by score; stable: priority-tier items come first within same score
+  const sorted = [...candidates].sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    // Tie-breaker: priority-tier wins
+    if (a.priorityTier && !b.priorityTier) return -1;
+    if (!a.priorityTier && b.priorityTier) return 1;
+    return 0;
+  });
+
+  return sorted.slice(0, 3).map(({ label, score }) => ({ label, score }));
 }
 
 function auditBand200(total: number): { label: string; color: string; bg: string } {
@@ -583,9 +594,25 @@ function renderDash(W: Workbook): string {
   const auditTotal200 = auditScores ? Object.values(auditScores).reduce((a, b) => a + b, 0) : null;
   const auditBand = auditTotal200 !== null ? auditBand200(auditTotal200) : null;
   const auditCategoryCount = auditScores ? Object.values(auditScores).filter(v => v > 0).length : 0;
+
+  // Read name from workbook first; fall back to basics-v1 captured during intake
+  let displayName = W.name?.trim() ?? '';
+  if (!displayName && typeof localStorage !== 'undefined') {
+    try {
+      const raw = localStorage.getItem('basics-v1');
+      if (raw) {
+        const basics = JSON.parse(raw) as { name?: string };
+        if (basics.name?.trim()) displayName = basics.name.trim();
+      }
+    } catch { /* ignore */ }
+  }
+  const greeting = displayName
+    ? `Welcome back, ${esc(displayName)}`
+    : 'Welcome to your 4M Dashboard';
+
   return `
-  <div class="page-title" style="color:#1D9E75">Mind · Muscle · Mitigate · Motivate</div>
-  <div class="page-sub">Month 1 — Brain Optimization for Men 35+</div>
+  <div class="page-title" style="color:#1D9E75">${greeting}</div>
+  <div class="page-sub">Mind · Muscle · Mitigate · Motivate — Month 1 Brain Optimization</div>
 
   <div class="card">
     <div class="card-title">Your Profile</div>
@@ -759,8 +786,9 @@ function renderW1(ctx: RenderContext): string {
           const displayVal = W.priorities[i] || auditPrefill;
           const label = ['Highest score — fastest results', 'Second priority', 'Third priority'][i];
           return `<div style="margin-bottom:9px">
-            <label>${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#6A8A6E;font-style:italic">(auto-filled from audit)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
+            <label>${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from audit)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
             <input value="${esc(displayVal)}" placeholder="${fromAudit ? '' : 'Factor name and score...'}"
+              style="${fromAudit && !W.priorities[i] ? 'color:#1A2E1E;font-weight:600' : ''}"
               oninput="portalField('priorities.${i}',this.value)">
           </div>`;
         }).join('');
