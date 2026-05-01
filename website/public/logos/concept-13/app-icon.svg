@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- App icon: rounded bg -->
+  <rect width="1024" height="1024" rx="220" ry="220" fill="#f5f0e8"/>
+
+  <!-- Square frame -->
+  <rect x="112" y="112" width="800" height="800" fill="none" stroke="#8b7355" stroke-width="8" opacity="0.5"/>
+
+  <!-- Circle -->
+  <circle cx="512" cy="472" r="352" fill="none" stroke="#8b7355" stroke-width="8" opacity="0.7"/>
+
+  <!-- Body torso -->
+  <line x1="512" y1="288" x2="512" y2="592" stroke="#3d2b1f" stroke-width="10" stroke-linecap="round"/>
+  <!-- Head -->
+  <circle cx="512" cy="256" r="44" fill="none" stroke="#3d2b1f" stroke-width="10"/>
+  <!-- Arms spread -->
+  <line x1="512" y1="328" x2="256" y2="392" stroke="#3d2b1f" stroke-width="10" stroke-linecap="round"/>
+  <line x1="512" y1="328" x2="768" y2="392" stroke="#3d2b1f" stroke-width="10" stroke-linecap="round"/>
+  <!-- Arms horizontal -->
+  <line x1="512" y1="360" x2="208" y2="360" stroke="#3d2b1f" stroke-width="7" stroke-linecap="round" opacity="0.45"/>
+  <line x1="512" y1="360" x2="816" y2="360" stroke="#3d2b1f" stroke-width="7" stroke-linecap="round" opacity="0.45"/>
+  <!-- Legs spread -->
+  <line x1="512" y1="592" x2="352" y2="784" stroke="#3d2b1f" stroke-width="10" stroke-linecap="round"/>
+  <line x1="512" y1="592" x2="672" y2="784" stroke="#3d2b1f" stroke-width="10" stroke-linecap="round"/>
+  <!-- Legs narrow -->
+  <line x1="512" y1="592" x2="432" y2="792" stroke="#3d2b1f" stroke-width="7" stroke-linecap="round" opacity="0.45"/>
+  <line x1="512" y1="592" x2="592" y2="792" stroke="#3d2b1f" stroke-width="7" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- Cardinal M markers -->
+  <!-- NORTH = Mind (gold) -->
+  <circle cx="512" cy="92" r="48" fill="#d4a017"/>
+  <text x="512" y="110" text-anchor="middle" font-family="Georgia, serif" font-size="44" font-weight="bold" fill="white">M</text>
+
+  <!-- EAST = Muscle -->
+  <circle cx="932" cy="472" r="40" fill="#5a7a8c"/>
+  <text x="932" y="488" text-anchor="middle" font-family="Georgia, serif" font-size="38" font-weight="bold" fill="white">M</text>
+
+  <!-- SOUTH = Mitigate -->
+  <circle cx="512" cy="932" r="40" fill="#5a7a8c"/>
+  <text x="512" y="948" text-anchor="middle" font-family="Georgia, serif" font-size="38" font-weight="bold" fill="white">M</text>
+
+  <!-- WEST = Motivate -->
+  <circle cx="92" cy="472" r="40" fill="#5a7a8c"/>
+  <text x="92" y="488" text-anchor="middle" font-family="Georgia, serif" font-size="38" font-weight="bold" fill="white">M</text>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" width="800" height="220">
+  <rect width="800" height="220" fill="#ffffff"/>
+
+  <!-- Mark in left zone -->
+  <g transform="translate(10, 2) scale(0.85)">
+    <rect x="32" y="32" width="192" height="192" fill="none" stroke="#333" stroke-width="1.2"/>
+    <circle cx="128" cy="118" r="90" fill="none" stroke="#333" stroke-width="1.2"/>
+    <circle cx="128" cy="60" r="12" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+    <line x1="128" y1="72" x2="128" y2="152" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="42" y1="94" x2="214" y2="94" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="128" y1="152" x2="82" y2="200" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="128" y1="152" x2="174" y2="200" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="104" y1="88" x2="152" y2="88" stroke="#1a1a1a" stroke-width="1.2" opacity="0.5"/>
+  </g>
+
+  <!-- Divider -->
+  <line x1="218" y1="30" x2="218" y2="190" stroke="#e2e2e2" stroke-width="1"/>
+
+  <!-- Wordmark — clean geometric sans-serif feel -->
+  <text x="240" y="112" font-family="'Helvetica Neue', Arial, sans-serif" font-size="64" font-weight="700" fill="#1a1a1a" letter-spacing="-2">My4MLife</text>
+
+  <!-- Tagline -->
+  <text x="242" y="147" font-family="'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="300" fill="#555" letter-spacing="0.5">Begin with the end in mind.</text>
+</svg>

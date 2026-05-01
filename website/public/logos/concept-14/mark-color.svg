@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Concept 14: Vitruvian with Brain Glow — Mind is the focus -->
+  <defs>
+    <radialGradient id="brainGlow14" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f5c842" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#e8a020" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#e8a020" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgGrad14" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a2a3a"/>
+      <stop offset="100%" stop-color="#0d1a26"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="256" height="256" fill="url(#bgGrad14)"/>
+
+  <!-- Subtle outer circle -->
+  <circle cx="128" cy="118" r="88" fill="none" stroke="#2a4060" stroke-width="1.5"/>
+
+  <!-- Vitruvian figure — cool monochrome (deep navy body) -->
+  <!-- Arms spread -->
+  <line x1="128" y1="82" x2="64" y2="98" stroke="#4a6a8a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="82" x2="192" y2="98" stroke="#4a6a8a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Arms horizontal (ghost) -->
+  <line x1="128" y1="90" x2="52" y2="90" stroke="#3a5a7a" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="128" y1="90" x2="204" y2="90" stroke="#3a5a7a" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <!-- Body torso -->
+  <line x1="128" y1="72" x2="128" y2="148" stroke="#5a7a9a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Legs spread -->
+  <line x1="128" y1="148" x2="88" y2="196" stroke="#4a6a8a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="148" x2="168" y2="196" stroke="#4a6a8a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Legs narrow -->
+  <line x1="128" y1="148" x2="108" y2="198" stroke="#3a5a7a" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="128" y1="148" x2="148" y2="198" stroke="#3a5a7a" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <!-- Hip/shoulder lines -->
+  <line x1="110" y1="86" x2="146" y2="86" stroke="#3a5a7a" stroke-width="1.2" opacity="0.4"/>
+  <line x1="112" y1="132" x2="144" y2="132" stroke="#3a5a7a" stroke-width="1.2" opacity="0.4"/>
+
+  <!-- Brain/head glow — the star of the show -->
+  <!-- Outer aura -->
+  <circle cx="128" cy="64" r="32" fill="url(#brainGlow14)" opacity="0.7"/>
+  <!-- Inner glow -->
+  <circle cx="128" cy="64" r="18" fill="#f5c842" opacity="0.15"/>
+  <!-- Head circle (bright accent) -->
+  <circle cx="128" cy="64" r="13" fill="none" stroke="#f5c842" stroke-width="2.5"/>
+  <!-- Brain symbol inside head — simple folded line suggesting brain lobes -->
+  <path d="M 121 62 Q 124 58 128 62 Q 132 58 135 62" fill="none" stroke="#f5c842" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M 121 65 Q 124 69 128 65 Q 132 69 135 65" fill="none" stroke="#f5c842" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- "Mind" label near the glow -->
+  <text x="128" y="37" text-anchor="middle" font-family="Georgia, serif" font-size="8" font-weight="700" fill="#f5c842" letter-spacing="1.5">MIND</text>
+</svg>

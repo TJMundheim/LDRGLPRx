@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Concept 15 Mono -->
+  <rect x="26" y="26" width="204" height="204" fill="none" stroke="#aaa" stroke-width="2"/>
+  <!-- Full circle as base -->
+  <circle cx="128" cy="118" r="90" fill="none" stroke="#ddd" stroke-width="8"/>
+  <!-- Top arc bold (Mind) -->
+  <circle cx="128" cy="118" r="90"
+    fill="none" stroke="#111" stroke-width="10"
+    stroke-dasharray="141 424.5" stroke-dashoffset="70.75"
+    transform="rotate(-90 128 118)"
+  />
+  <!-- Other arcs thinner -->
+  <circle cx="128" cy="118" r="90"
+    fill="none" stroke="#555" stroke-width="6"
+    stroke-dasharray="141 424.5" stroke-dashoffset="-70.75"
+    transform="rotate(-90 128 118)"
+  />
+  <circle cx="128" cy="118" r="90"
+    fill="none" stroke="#555" stroke-width="6"
+    stroke-dasharray="141 424.5" stroke-dashoffset="-212.25"
+    transform="rotate(-90 128 118)"
+  />
+  <circle cx="128" cy="118" r="90"
+    fill="none" stroke="#555" stroke-width="6"
+    stroke-dasharray="141 424.5" stroke-dashoffset="-353.75"
+    transform="rotate(-90 128 118)"
+  />
+  <!-- Figure -->
+  <line x1="128" y1="72" x2="128" y2="148" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="128" cy="64" r="10" fill="none" stroke="#111" stroke-width="2.5"/>
+  <line x1="128" y1="82" x2="66" y2="97" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="82" x2="190" y2="97" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="90" x2="54" y2="90" stroke="#111" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="90" x2="202" y2="90" stroke="#111" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="148" x2="89" y2="194" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="148" x2="167" y2="194" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="148" x2="109" y2="196" stroke="#111" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="148" x2="147" y2="196" stroke="#111" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+</svg>

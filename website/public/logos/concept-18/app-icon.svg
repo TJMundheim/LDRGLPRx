@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <rect width="1024" height="1024" rx="220" ry="220" fill="#1a2a1e"/>
+  <!-- Petals scaled to 1024 — center at 512,512 -->
+  <path d="M 512 512 C 320 320 320 112 512 112 C 704 112 704 320 512 512 Z" fill="#2d6a4f" opacity="0.9"/>
+  <path d="M 512 512 C 704 320 912 320 912 512 C 912 704 704 704 512 512 Z" fill="#40916c" opacity="0.85"/>
+  <path d="M 512 512 C 704 704 704 912 512 912 C 320 912 320 704 512 512 Z" fill="#52b788" opacity="0.8"/>
+  <path d="M 512 512 C 320 704 112 704 112 512 C 112 320 320 320 512 512 Z" fill="#74c69d" opacity="0.75"/>
+  <!-- Figure in white (scaled) -->
+  <circle cx="512" cy="360" r="36" fill="white" opacity="0.92"/>
+  <rect x="502" y="396" width="20" height="144" rx="8" fill="white" opacity="0.92"/>
+  <rect x="432" y="412" width="160" height="14" rx="7" fill="white" opacity="0.85"/>
+  <line x1="512" y1="424" x2="408" y2="464" stroke="white" stroke-width="14" stroke-linecap="round" opacity="0.88"/>
+  <line x1="512" y1="424" x2="616" y2="464" stroke="white" stroke-width="14" stroke-linecap="round" opacity="0.88"/>
+  <line x1="512" y1="540" x2="452" y2="648" stroke="white" stroke-width="14" stroke-linecap="round" opacity="0.88"/>
+  <line x1="512" y1="540" x2="572" y2="648" stroke="white" stroke-width="14" stroke-linecap="round" opacity="0.88"/>
+  <rect x="456" y="520" width="112" height="12" rx="6" fill="white" opacity="0.75"/>
+</svg>

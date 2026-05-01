@@ -1,38 +1,100 @@
 ---
 // Logo Concepts — Internal Review (noindex)
 const title = "Logo Concepts — Internal Review | My4MLife";
-const description = "Six logo concept directions for My4MLife brand. Internal review only.";
+const description = "Round 3 Vitruvian Man logo concepts for My4MLife brand. Internal review only.";
 
-const concepts = [
+const round3 = [
+  {
+    number: 13,
+    name: "Classic Vitruvian + 4 Cardinal M Markers",
+    description: "Faithful simplified Vitruvian Man (figure inscribed in circle + square — the iconic da Vinci composition) with four M markers at cardinal points. <strong>North = Mind (gold accent, larger — the destination)</strong>, East = Muscle, South = Mitigate, West = Motivate. The compass-rose arrangement makes the 4M structure unmistakable. Renaissance-warm palette: graphite figure on parchment, gold accent on Mind.",
+    fourM: "4M structure via cardinal compass placement — Mind at 12 o'clock, always the destination.",
+  },
+  {
+    number: 14,
+    name: "Vitruvian with Brain Glow",
+    description: "Standard Vitruvian Man silhouette with the head region visibly highlighted: a radiant amber/gold halo and simplified brain-lobe motif inside the head. The rest of the figure is cool deep-navy monochrome — the eye is pulled directly to the brain. Subtly states <em>Mind is the focus</em> without text. Wordmark + tagline carry the 4M meaning.",
+    fourM: "Mind-as-destination made visual: the glowing head is the first and last thing the eye lands on.",
+  },
+  {
+    number: 15,
+    name: "Vitruvian Inscribed in 4M Ring",
+    description: "Vitruvian figure centered inside a circle divided into four colored arcs — each arc one M pillar: <strong>Mind (gold, top arc, bolder)</strong>, Muscle (teal, right), Mitigate (sage, bottom), Motivate (copper, left). The outer square frame is preserved. The layered geometry (figure + 4-color ring + square) carries all brand meaning at a glance. Clean and legible at small sizes.",
+    fourM: "Circle itself becomes a 4M color-coded ring — the figure literally lives inside the 4M framework.",
+  },
+  {
+    number: 16,
+    name: "Modern Minimalist Vitruvian",
+    description: "Highly abstracted: the Vitruvian figure reduced to a single thin-stroke line drawing — head, torso, arms spread wide, legs in a gentle V. Plus the circle and square in matching thin strokes. Zero anatomical detail; pure geometric elegance. Charcoal on white. Scales flawlessly from app icon to billboard. The tagline carries the 4M meaning since the mark itself is reductive.",
+    fourM: "Stripped to essence — the circle/square/figure triad reads as human optimization; 4M lives in the tagline.",
+  },
+  {
+    number: 17,
+    name: "Vitruvian + Golden Ratio",
+    description: "Vitruvian figure inscribed inside the circle and square, overlaid with a <strong>subtle golden-ratio (Fibonacci) spiral</strong> in thin, semi-transparent sepia lines. The spiral isn't overwhelming — it's a whisper of sacred geometry behind the figure. Four M markers placed where the spiral intersects the circle: <strong>Mind (gold) at the spiral's origin (top)</strong>, the other three at subsequent intersection points. Premium, intellectual, longevity-coded.",
+    fourM: "4M markers at golden-ratio intersection points — proportion and human optimization as one idea.",
+  },
+  {
+    number: 18,
+    name: "Negative-Space Hybrid",
+    description: "Four leaf/petal shapes (one per M pillar, four progressively lighter shades of forest green) overlap at the center. In the central <strong>white negative space, a Vitruvian figure silhouette emerges</strong> — it's a puzzle-like reveal that rewards a second look. <strong>The top petal = Mind</strong>, always the most prominent. Dark background makes the petals glow. Sophisticated and distinctive — the figure is implied, not drawn.",
+    fourM: "Four petals = four M's; the human figure is the space they create together — interdependence made visual.",
+  },
+];
+
+const round2 = [
+  {
+    number: 7,
+    name: "Helix of 4M",
+    description: "A double helix rendered in four gradient segments — each strand a distinct M-pillar color — wrapping around a central axis. Suggests DNA, biological optimization, and the intertwined nature of the four pillars. Biotech-meets-wellness aesthetic, premium deep navy palette.",
+  },
+  {
+    number: 8,
+    name: "Monogram Diamond",
+    description: "A geometric diamond/rhombus formed from four interlocking M letterforms, each rotated 90°. The figure-ground relationship creates both the diamond outline and the central void. Charcoal on warm white — icon-grade simplicity with strong mark recognition.",
+  },
+  {
+    number: 9,
+    name: "The 4M Compass",
+    description: "A precision compass rose with four directional arms, each labeled with an M pillar and color-coded in the brand palette. North always points to Mind. Strong wayfinding metaphor — you are here, Mind is the destination. Clean, authoritative.",
+  },
+  {
+    number: 10,
+    name: "Stacked Pillar Gate",
+    description: "Four rectangular columns of increasing height arranged as a gateway arch — the tallest pillar (Mind) forms the apex. Viewed head-on, it reads as an entrance; from the side, the silhouette spells an M. Deep slate with gold accent on the Mind pillar.",
+  },
+];
+
+const round1 = [
   {
     number: 1,
     name: "Four-Pillar Ascending M",
-    description: "Four vertical bars rise in height left-to-right, forming an M silhouette. The ascending staircase represents the optimization journey — each pillar (Mind, Muscle, Mitigate, Motivate) building on the last. Deep teal-to-green gradient reads as growth, vitality, and forward momentum. Clean and confidence-inspiring.",
+    description: "Four vertical bars rise in height left-to-right, forming an M silhouette. The ascending staircase represents the optimization journey — each pillar building on the last. Deep teal-to-green gradient reads as growth, vitality, and forward momentum.",
   },
   {
     number: 2,
     name: "Quadrant Mandala",
-    description: "A circle divided into four equal quadrants, each containing an M letterform. Emerald, sapphire, gold, and copper symbolize the four M pillars as complementary forces. The mandala form conveys wholeness, system thinking, and the cyclic nature of brain-health optimization. Conveys authority and depth.",
+    description: "A circle divided into four equal quadrants, each containing an M letterform. Emerald, sapphire, gold, and copper symbolize the four M pillars as complementary forces. The mandala form conveys wholeness and the cyclic nature of brain-health optimization.",
   },
   {
     number: 3,
     name: "Brain-Wave M",
-    description: "A continuous EEG-pulse line traces the exact letterform of an M. Flanking pulse ticks reinforce the neuroscience/cognition angle. Indigo on white — single-line elegance that signals brain health, precision medicine, and clinical credibility without looking medical-sterile. Highly distinctive and memorable.",
+    description: "A continuous EEG-pulse line traces the exact letterform of an M. Indigo on white — single-line elegance that signals brain health, precision medicine, and clinical credibility without looking medical-sterile.",
   },
   {
     number: 4,
     name: "Tree of 4M",
-    description: "A stylized tree with four main canopy clusters, each represented in earth tones: terracotta, olive, sage, and copper. Roots convey longevity, nature-based medicine, and enduring health. The organic form contrasts with typical pharma branding — warm and trustworthy. Excellent for community/lifestyle positioning.",
+    description: "A stylized tree with four main canopy clusters in earth tones: terracotta, olive, sage, and copper. Roots convey longevity, nature-based medicine, and enduring health. Organic form contrasts with typical pharma branding.",
   },
   {
     number: 5,
     name: "Cyclic Flow",
-    description: "Four arcs form a continuous gradient circle — teal → green → gold → orange → back to teal. Each arc represents one M pillar flowing into the next, emphasizing that true optimization is a cycle, not a destination. The center 4M mark anchors the brand. Kinetic, modern, and optimistic.",
+    description: "Four arcs form a continuous gradient circle — teal → green → gold → orange → back to teal. Each arc is one M pillar flowing into the next, emphasizing that optimization is a cycle, not a destination. The center 4M mark anchors the brand.",
   },
   {
     number: 6,
     name: "Geometric 4M",
-    description: "The numeral '4' and letter 'M' merged into a single geometric mark using only straight lines and angles. Graphite body with electric green accent on the crossbar. Zero ornamentation — tech-forward, premium, and immediately recognizable at any scale. Appeals to performance-driven, analytically-minded men 35–60.",
+    description: "The numeral '4' and letter 'M' merged into a single geometric mark using only straight lines and angles. Graphite body with electric green accent on the crossbar. Zero ornamentation — tech-forward and immediately recognizable at any scale.",
   },
 ];
 ---
@@ -51,6 +113,7 @@ const concepts = [
     :root {
       --primary: #0f4c75;
       --accent: #00b894;
+      --gold: #d4a017;
       --dark: #0a1628;
       --text: #2d3748;
       --text-light: #718096;
@@ -70,10 +133,12 @@ const concepts = [
       line-height: 1.7;
       background: var(--bg-soft);
     }
+
+    /* ── PAGE HEADER ── */
     .page-header {
       background: var(--dark);
       color: white;
-      padding: 3rem 2rem;
+      padding: 3.5rem 2rem 3rem;
       text-align: center;
     }
     .page-header .badge {
@@ -95,29 +160,82 @@ const concepts = [
     }
     .page-header p {
       color: rgba(255,255,255,0.65);
-      max-width: 560px;
+      max-width: 620px;
       margin: 0 auto;
       font-size: 1rem;
     }
+
+    /* ── CONTAINERS ── */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
     }
-    .grid {
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      padding: 2.5rem 0 0.5rem;
+    }
+    .section-header .round-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 0.75rem;
+    }
+    .round3-badge { background: rgba(212,160,23,0.15); color: var(--gold); }
+    .round2-badge { background: rgba(15,76,117,0.1); color: var(--primary); }
+    .round1-badge { background: rgba(113,128,150,0.12); color: var(--text-light); }
+
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+    .section-header p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      max-width: 680px;
+    }
+    .section-header.deemphasized h2 { color: var(--text-light); font-size: 1.25rem; }
+
+    /* ── GRIDS ── */
+    .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
-      padding: 3rem 0;
+      padding: 1.5rem 0 3rem;
     }
-    @media (max-width: 768px) {
-      .grid { grid-template-columns: 1fr; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding: 1.5rem 0 3rem;
     }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARDS ── */
     .card {
       background: white;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
       overflow: hidden;
+    }
+    .card.hero {
+      box-shadow: 0 6px 32px rgba(0,0,0,0.14);
+    }
+    .card.small {
+      box-shadow: var(--shadow-sm);
+      opacity: 0.88;
     }
     .card-header {
       background: var(--primary);
@@ -127,6 +245,8 @@ const concepts = [
       align-items: center;
       gap: 0.75rem;
     }
+    .card.hero .card-header { background: linear-gradient(135deg, #0d3a5c 0%, #0f4c75 100%); }
+    .card.small .card-header { background: #3a4a5a; padding: 0.75rem 1.25rem; }
     .card-header .num {
       background: var(--accent);
       color: white;
@@ -140,12 +260,13 @@ const concepts = [
       justify-content: center;
       flex-shrink: 0;
     }
-    .card-header h2 {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.2px;
-    }
+    .card.hero .card-header .num { background: var(--gold); width: 32px; height: 32px; font-size: 0.8rem; }
+    .card-header h2 { font-size: 1rem; font-weight: 700; letter-spacing: -0.2px; }
+    .card.small .card-header h2 { font-size: 0.88rem; }
+
     .card-body { padding: 1.5rem; }
+    .card.small .card-body { padding: 1.1rem; }
+
     .mark-row {
       display: flex;
       gap: 1rem;
@@ -162,26 +283,21 @@ const concepts = [
       padding: 1rem;
       flex-shrink: 0;
     }
-    .mark-preview img,
-    .mark-preview object {
-      display: block;
-    }
-    .mark-color-box {
-      width: 180px;
-      height: 180px;
-    }
-    .mark-mono-box {
-      width: 80px;
-      height: 80px;
-    }
+    .mark-preview img, .mark-preview object { display: block; }
+    .mark-color-box { width: 180px; height: 180px; }
+    .mark-mono-box { width: 80px; height: 80px; }
     .app-icon-box {
-      width: 64px;
-      height: 64px;
+      width: 64px; height: 64px;
       background: #111;
       border-radius: 12px;
       overflow: hidden;
       flex-shrink: 0;
     }
+    .card.small .mark-color-box { width: 120px; height: 120px; }
+    .card.small .mark-mono-box { width: 56px; height: 56px; }
+    .card.small .app-icon-box { width: 48px; height: 48px; border-radius: 9px; }
+    .card.small .mark-preview { padding: 0.7rem; }
+
     .lockup-row {
       background: #fafafa;
       border: 1px solid var(--border);
@@ -190,11 +306,8 @@ const concepts = [
       margin-bottom: 1.25rem;
       overflow: hidden;
     }
-    .lockup-row img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+    .lockup-row img { width: 100%; height: auto; display: block; }
+
     .card-desc {
       font-size: 0.875rem;
       color: var(--text-light);
@@ -202,6 +315,27 @@ const concepts = [
       border-top: 1px solid var(--border);
       padding-top: 1rem;
     }
+    .card.small .card-desc { font-size: 0.8rem; }
+    .fourem-tag {
+      display: inline-block;
+      background: rgba(212,160,23,0.12);
+      color: #8a6200;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── CTA ── */
     .cta-section {
       background: white;
       border-radius: var(--radius-lg);
@@ -219,7 +353,7 @@ const concepts = [
     }
     .cta-section p {
       color: var(--text);
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto;
       font-size: 0.95rem;
     }
@@ -230,73 +364,147 @@ const concepts = [
   <div class="page-header">
     <div class="badge">Internal Review Only</div>
     <h1>My4MLife — Logo Concepts</h1>
-    <p>Six distinct directions for the brand mark. Review each concept below, then reply with your pick.</p>
+    <p>
+      Round 3 pivots to the <strong>Vitruvian Man</strong> — TJ's founder pick and lifelong reference. Six new concepts each integrate
+      the 4M structure (Mind → Muscle → Mitigate → Motivate) directly into the Vitruvian geometry, so the mark never reads
+      as generic wellness. Rounds 1 &amp; 2 are preserved below for direct comparison.
+    </p>
   </div>
 
   <div class="container">
-    <div class="grid">
-      {concepts.map((c) => (
-        <div class="card">
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- ROUND 3 — HERO -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section-header">
+      <span class="round-badge round3-badge">Round 3 — Founder Pick Direction</span>
+      <h2>Vitruvian Man Concepts (13–18)</h2>
+      <p>Each concept makes the 4M framework visible in the Vitruvian geometry — not just as decoration, but as structural meaning. Mind is always the destination.</p>
+    </div>
+
+    <div class="grid-2">
+      {round3.map((c) => (
+        <div class="card hero">
           <div class="card-header">
             <span class="num">{c.number}</span>
             <h2>{c.name}</h2>
           </div>
           <div class="card-body">
-            <!-- Mark row: color mark + mono mark + app icon -->
             <div class="mark-row">
               <div class="mark-preview mark-color-box">
-                <img
-                  src={`/logos/concept-${c.number}/mark-color.svg`}
-                  alt={`Concept ${c.number} color mark`}
-                  width="160"
-                  height="160"
-                />
+                <img src={`/logos/concept-${c.number}/mark-color.svg`} alt={`Concept ${c.number} color mark`} width="160" height="160" />
               </div>
               <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:center;">
                 <div class="mark-preview mark-mono-box">
-                  <img
-                    src={`/logos/concept-${c.number}/mark-mono.svg`}
-                    alt={`Concept ${c.number} mono mark`}
-                    width="64"
-                    height="64"
-                  />
+                  <img src={`/logos/concept-${c.number}/mark-mono.svg`} alt={`Concept ${c.number} mono`} width="64" height="64" />
                 </div>
                 <div class="app-icon-box">
-                  <img
-                    src={`/logos/concept-${c.number}/app-icon.svg`}
-                    alt={`Concept ${c.number} app icon`}
-                    width="64"
-                    height="64"
-                    style="display:block;width:100%;height:100%;"
-                  />
+                  <img src={`/logos/concept-${c.number}/app-icon.svg`} alt={`Concept ${c.number} app icon`} width="64" height="64" style="display:block;width:100%;height:100%;" />
                 </div>
                 <div style="font-size:0.65rem;color:var(--text-light);text-align:center;line-height:1.3;">Mono<br/>App Icon</div>
               </div>
             </div>
-            <!-- Lockup -->
             <div class="lockup-row">
-              <img
-                src={`/logos/concept-${c.number}/lockup-color.svg`}
-                alt={`Concept ${c.number} horizontal lockup`}
-                width="520"
-                height="138"
-              />
+              <img src={`/logos/concept-${c.number}/lockup-color.svg`} alt={`Concept ${c.number} lockup`} width="520" height="138" />
             </div>
-            <!-- Description -->
+            <div class="fourem-tag">4M Integration: {c.fourM}</div>
+            <p class="card-desc" set:html={c.description} />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <hr class="section-divider" />
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- ROUND 2 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section-header deemphasized">
+      <span class="round-badge round2-badge">Round 2 — Earlier Refinements</span>
+      <h2>Concepts 7–10</h2>
+      <p>Prior round exploring abstract and geometric directions. Preserved for comparison.</p>
+    </div>
+
+    <div class="grid-3" style="grid-template-columns: repeat(2, 1fr);">
+      {round2.map((c) => (
+        <div class="card small">
+          <div class="card-header">
+            <span class="num">{c.number}</span>
+            <h2>{c.name}</h2>
+          </div>
+          <div class="card-body">
+            <div class="mark-row">
+              <div class="mark-preview mark-color-box">
+                <img src={`/logos/concept-${c.number}/mark-color.svg`} alt={`Concept ${c.number} color mark`} width="120" height="120" />
+              </div>
+              <div style="display:flex;flex-direction:column;gap:0.6rem;align-items:center;">
+                <div class="mark-preview mark-mono-box">
+                  <img src={`/logos/concept-${c.number}/mark-mono.svg`} alt={`Concept ${c.number} mono`} width="56" height="56" />
+                </div>
+                <div class="app-icon-box">
+                  <img src={`/logos/concept-${c.number}/app-icon.svg`} alt={`Concept ${c.number} app icon`} width="48" height="48" style="display:block;width:100%;height:100%;" />
+                </div>
+              </div>
+            </div>
+            <div class="lockup-row">
+              <img src={`/logos/concept-${c.number}/lockup-color.svg`} alt={`Concept ${c.number} lockup`} width="520" height="138" />
+            </div>
             <p class="card-desc">{c.description}</p>
           </div>
         </div>
       ))}
     </div>
 
+    <hr class="section-divider" />
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- ROUND 1 -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="section-header deemphasized">
+      <span class="round-badge round1-badge">Round 1 — Initial Concepts</span>
+      <h2>Concepts 1–6</h2>
+      <p>Original six directions. Preserved for reference.</p>
+    </div>
+
+    <div class="grid-3">
+      {round1.map((c) => (
+        <div class="card small">
+          <div class="card-header">
+            <span class="num">{c.number}</span>
+            <h2>{c.name}</h2>
+          </div>
+          <div class="card-body">
+            <div class="mark-row">
+              <div class="mark-preview mark-color-box">
+                <img src={`/logos/concept-${c.number}/mark-color.svg`} alt={`Concept ${c.number} color mark`} width="120" height="120" />
+              </div>
+              <div style="display:flex;flex-direction:column;gap:0.6rem;align-items:center;">
+                <div class="mark-preview mark-mono-box">
+                  <img src={`/logos/concept-${c.number}/mark-mono.svg`} alt={`Concept ${c.number} mono`} width="56" height="56" />
+                </div>
+                <div class="app-icon-box">
+                  <img src={`/logos/concept-${c.number}/app-icon.svg`} alt={`Concept ${c.number} app icon`} width="48" height="48" style="display:block;width:100%;height:100%;" />
+                </div>
+              </div>
+            </div>
+            <div class="lockup-row">
+              <img src={`/logos/concept-${c.number}/lockup-color.svg`} alt={`Concept ${c.number} lockup`} width="520" height="138" />
+            </div>
+            <p class="card-desc">{c.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- CTA -->
     <div class="cta-section">
       <h3>Ready to lock in a direction?</h3>
       <p>
-        Reply with the <strong>concept number</strong> you'd like to proceed with (e.g. "Concept 3"), or note specific tweaks to any of them —
-        for example: "Concept 5 but with the Concept 6 wordmark treatment" or "Concept 1, swap the green for the indigo from Concept 3."<br/><br/>
-        Once you pick, the next step is generating production-ready SVG + PNG exports at all required sizes, plus a brand guidelines doc.
+        <strong>To lock in a direction, reply with the concept number</strong>, OR describe specific elements you'd like combined across two concepts
+        (e.g. "Concept 14's brain glow inside Concept 13's cardinal M markers").
       </p>
     </div>
+
   </div>
 </body>
 </html>

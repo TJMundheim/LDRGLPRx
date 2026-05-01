@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" width="800" height="220">
+  <rect width="800" height="220" fill="#1a2a1e"/>
+
+  <!-- Mark in left zone (scaled) -->
+  <g transform="translate(12, 12) scale(0.77)">
+    <path d="M 128 128 C 80 80 80 28 128 28 C 176 28 176 80 128 128 Z" fill="#2d6a4f" opacity="0.9"/>
+    <path d="M 128 128 C 176 80 228 80 228 128 C 228 176 176 176 128 128 Z" fill="#40916c" opacity="0.85"/>
+    <path d="M 128 128 C 176 176 176 228 128 228 C 80 228 80 176 128 128 Z" fill="#52b788" opacity="0.8"/>
+    <path d="M 128 128 C 80 176 28 176 28 128 C 28 80 80 80 128 128 Z" fill="#74c69d" opacity="0.75"/>
+    <circle cx="128" cy="90" r="9" fill="white" opacity="0.92"/>
+    <rect x="125.5" y="99" width="5" height="36" rx="2" fill="white" opacity="0.92"/>
+    <rect x="108" y="103" width="40" height="3.5" rx="1.5" fill="white" opacity="0.85"/>
+    <line x1="128" y1="106" x2="102" y2="116" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+    <line x1="128" y1="106" x2="154" y2="116" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+    <line x1="128" y1="135" x2="113" y2="162" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+    <line x1="128" y1="135" x2="143" y2="162" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+    <rect x="114" y="130" width="28" height="3" rx="1.5" fill="white" opacity="0.75"/>
+  </g>
+
+  <!-- Divider -->
+  <line x1="210" y1="30" x2="210" y2="190" stroke="#2d6a4f" stroke-width="1"/>
+
+  <!-- Wordmark -->
+  <text x="232" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="62" font-weight="700" fill="#e8f5ee" letter-spacing="-1">My4MLife</text>
+
+  <!-- Tagline -->
+  <text x="234" y="145" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-weight="400" fill="#74c69d" font-style="italic">Begin with the end in mind.</text>
+</svg>

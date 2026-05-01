@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!--
+    Concept 10: Brain + Concentric Rings
+    Minimal single-line brain silhouette at center.
+    4 concentric rings: Mind (inner) → Muscle → Mitigate → Motivate (outer).
+    Palette: cool grays + warm coral on the brain.
+  -->
+  <defs>
+    <radialGradient id="c10-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f8f9fa"/>
+      <stop offset="100%" stop-color="#e9ecef"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Concentric rings: outer to inner so inner renders on top -->
+  <!-- Ring 4 — Motivate (outermost) -->
+  <circle cx="128" cy="128" r="118" fill="none" stroke="#b0b8c5" stroke-width="3"/>
+  <!-- Ring 3 — Mitigate -->
+  <circle cx="128" cy="128" r="96" fill="none" stroke="#8a95a3" stroke-width="3.5"/>
+  <!-- Ring 2 — Muscle -->
+  <circle cx="128" cy="128" r="72" fill="none" stroke="#5c6775" stroke-width="4"/>
+  <!-- Ring 1 — Mind (innermost, heaviest, glows coral accent) -->
+  <circle cx="128" cy="128" r="48" fill="none" stroke="#e05a2b" stroke-width="5"/>
+
+  <!-- Ring labels (small, just outside each ring) -->
+  <text x="128" y="7" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7.5" font-weight="600" fill="#b0b8c5" text-anchor="middle" letter-spacing="2">MOTIVATE</text>
+  <text x="128" y="29" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7.5" font-weight="600" fill="#8a95a3" text-anchor="middle" letter-spacing="2">MITIGATE</text>
+  <text x="128" y="53" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7.5" font-weight="600" fill="#5c6775" text-anchor="middle" letter-spacing="2">MUSCLE</text>
+  <text x="128" y="76" font-family="'Helvetica Neue',Arial,sans-serif" font-size="7.5" font-weight="700" fill="#e05a2b" text-anchor="middle" letter-spacing="2">MIND</text>
+
+  <!--
+    Minimal brain silhouette at center: a clean two-lobe form using bezier curves.
+    The brain is drawn as a stylized outline — left lobe and right lobe.
+    Coral stroke, no fill except a very light wash.
+  -->
+  <g transform="translate(93, 100)">
+    <!--
+      Brain outline: two lobes joined at bottom, subtle gyrus hint lines.
+      Left lobe: width ~32, height ~40
+      Right lobe: mirror
+    -->
+    <!-- Overall brain outer contour -->
+    <path d="
+      M35,40
+      C35,50 20,56 12,52
+      C4,48 0,40 2,32
+      C0,22 4,14 12,10
+      C16,4 24,2 30,6
+      C32,2 40,0 46,4
+      C52,0 60,2 64,8
+      C70,10 72,20 70,28
+      C72,38 68,48 60,52
+      C52,56 38,50 35,40
+      Z
+    " fill="#fff0eb" stroke="#e05a2b" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Center dividing line (interhemispheric fissure) -->
+    <line x1="35" y1="8" x2="35" y2="50" stroke="#e05a2b" stroke-width="1" opacity="0.4"/>
+    <!-- Subtle gyrus hint on left lobe -->
+    <path d="M20,18 C14,22 16,30 22,30" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.35"/>
+    <path d="M16,34 C18,40 24,38 26,34" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.35"/>
+    <!-- Right lobe gyrus -->
+    <path d="M50,18 C56,22 54,30 48,30" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.35"/>
+    <path d="M54,34 C52,40 46,38 44,34" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.35"/>
+  </g>
+</svg>

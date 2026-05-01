@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <radialGradient id="ai10-bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#2d3748"/>
+      <stop offset="100%" stop-color="#1a202c"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="230" fill="url(#ai10-bg)"/>
+
+  <!-- Concentric rings scaled ×4, centered at 512,512 -->
+  <circle cx="512" cy="512" r="472" fill="none" stroke="#4a5568" stroke-width="10" opacity="0.5"/>
+  <circle cx="512" cy="512" r="385" fill="none" stroke="#5c6775" stroke-width="12" opacity="0.65"/>
+  <circle cx="512" cy="512" r="288" fill="none" stroke="#8a95a3" stroke-width="14" opacity="0.8"/>
+  <!-- Mind ring — coral, bold -->
+  <circle cx="512" cy="512" r="192" fill="none" stroke="#e05a2b" stroke-width="18"/>
+
+  <!-- Brain at center, scaled up ~4× from original (70px wide → 280px) -->
+  <g transform="translate(372, 400) scale(4)">
+    <path d="M35,40 C35,50 20,56 12,52 C4,48 0,40 2,32 C0,22 4,14 12,10 C16,4 24,2 30,6 C32,2 40,0 46,4 C52,0 60,2 64,8 C70,10 72,20 70,28 C72,38 68,48 60,52 C52,56 38,50 35,40 Z" fill="rgba(224,90,43,0.12)" stroke="#e05a2b" stroke-width="2"/>
+    <line x1="35" y1="8" x2="35" y2="50" stroke="#e05a2b" stroke-width="1" opacity="0.5"/>
+    <path d="M20,18 C14,22 16,30 22,30" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.5"/>
+    <path d="M16,34 C18,40 24,38 26,34" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.5"/>
+    <path d="M50,18 C56,22 54,30 48,30" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.5"/>
+    <path d="M54,34 C52,40 46,38 44,34" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.5"/>
+  </g>
+</svg>

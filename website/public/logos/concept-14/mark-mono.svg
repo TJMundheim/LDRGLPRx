@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Concept 14 Mono -->
+  <circle cx="128" cy="118" r="88" fill="none" stroke="#333" stroke-width="1.5" opacity="0.4"/>
+  <!-- Arms spread -->
+  <line x1="128" y1="82" x2="64" y2="98" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="82" x2="192" y2="98" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Arms horizontal -->
+  <line x1="128" y1="90" x2="52" y2="90" stroke="#555" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="90" x2="204" y2="90" stroke="#555" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <!-- Body torso -->
+  <line x1="128" y1="72" x2="128" y2="148" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Legs spread -->
+  <line x1="128" y1="148" x2="88" y2="196" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="148" x2="168" y2="196" stroke="#555" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Legs narrow -->
+  <line x1="128" y1="148" x2="108" y2="198" stroke="#555" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="148" x2="148" y2="198" stroke="#555" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <!-- Glow rings around head (mono = just outlines) -->
+  <circle cx="128" cy="64" r="28" fill="none" stroke="#111" stroke-width="1" opacity="0.25"/>
+  <circle cx="128" cy="64" r="20" fill="none" stroke="#111" stroke-width="1" opacity="0.4"/>
+  <!-- Head (bold) -->
+  <circle cx="128" cy="64" r="13" fill="none" stroke="#111" stroke-width="2.5"/>
+  <!-- Brain mark -->
+  <path d="M 121 62 Q 124 58 128 62 Q 132 58 135 62" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M 121 65 Q 124 69 128 65 Q 132 69 135 65" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

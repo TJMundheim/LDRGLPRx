@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <rect width="1024" height="1024" rx="220" ry="220" fill="#ffffff"/>
+  <!-- Square frame -->
+  <rect x="128" y="128" width="768" height="768" fill="none" stroke="#333" stroke-width="5"/>
+  <!-- Circle -->
+  <circle cx="512" cy="472" r="360" fill="none" stroke="#333" stroke-width="5"/>
+  <!-- Head -->
+  <circle cx="512" cy="240" r="48" fill="none" stroke="#111" stroke-width="7"/>
+  <!-- Body -->
+  <line x1="512" y1="288" x2="512" y2="608" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <!-- Arms wide -->
+  <line x1="168" y1="376" x2="856" y2="376" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <!-- Legs V -->
+  <line x1="512" y1="608" x2="328" y2="800" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <line x1="512" y1="608" x2="696" y2="800" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <!-- Shoulder bar -->
+  <line x1="416" y1="352" x2="608" y2="352" stroke="#111" stroke-width="4.5" opacity="0.5"/>
+</svg>

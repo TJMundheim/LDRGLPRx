@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <rect width="1024" height="1024" rx="220" ry="220" fill="#fafafa"/>
+  <!-- Square frame -->
+  <rect x="104" y="104" width="816" height="816" fill="none" stroke="#ccc" stroke-width="8"/>
+  <!-- 4 arc ring, r=360, c=512,512 -->
+  <!-- circ ≈ 2263; each arc ≈ 565.7 -->
+  <circle cx="512" cy="472" r="360" fill="none" stroke="#d4a017" stroke-width="36" stroke-dasharray="565 1697" stroke-dashoffset="283" transform="rotate(-90 512 472)"/>
+  <circle cx="512" cy="472" r="360" fill="none" stroke="#2a7d8c" stroke-width="28" stroke-dasharray="565 1697" stroke-dashoffset="-283" transform="rotate(-90 512 472)"/>
+  <circle cx="512" cy="472" r="360" fill="none" stroke="#4a8c5a" stroke-width="28" stroke-dasharray="565 1697" stroke-dashoffset="-849" transform="rotate(-90 512 472)"/>
+  <circle cx="512" cy="472" r="360" fill="none" stroke="#b5621e" stroke-width="28" stroke-dasharray="565 1697" stroke-dashoffset="-1415" transform="rotate(-90 512 472)"/>
+
+  <!-- Figure -->
+  <line x1="512" y1="288" x2="512" y2="592" stroke="#2c2c2c" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="512" cy="256" r="40" fill="none" stroke="#2c2c2c" stroke-width="10"/>
+  <line x1="512" y1="328" x2="256" y2="392" stroke="#2c2c2c" stroke-width="10" stroke-linecap="round"/>
+  <line x1="512" y1="328" x2="768" y2="392" stroke="#2c2c2c" stroke-width="10" stroke-linecap="round"/>
+  <line x1="512" y1="360" x2="208" y2="360" stroke="#2c2c2c" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="512" y1="360" x2="816" y2="360" stroke="#2c2c2c" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="512" y1="592" x2="356" y2="784" stroke="#2c2c2c" stroke-width="10" stroke-linecap="round"/>
+  <line x1="512" y1="592" x2="668" y2="784" stroke="#2c2c2c" stroke-width="10" stroke-linecap="round"/>
+  <line x1="512" y1="592" x2="436" y2="792" stroke="#2c2c2c" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="512" y1="592" x2="588" y2="792" stroke="#2c2c2c" stroke-width="6" stroke-linecap="round" opacity="0.4"/>
+</svg>

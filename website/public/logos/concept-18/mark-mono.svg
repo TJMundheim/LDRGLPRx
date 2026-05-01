@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Concept 18 Mono — petals in greyscale -->
+  <rect width="256" height="256" fill="#111"/>
+  <!-- Petals -->
+  <path d="M 128 128 C 80 80 80 28 128 28 C 176 28 176 80 128 128 Z" fill="#555" opacity="0.9"/>
+  <path d="M 128 128 C 176 80 228 80 228 128 C 228 176 176 176 128 128 Z" fill="#666" opacity="0.85"/>
+  <path d="M 128 128 C 176 176 176 228 128 228 C 80 228 80 176 128 128 Z" fill="#777" opacity="0.8"/>
+  <path d="M 128 128 C 80 176 28 176 28 128 C 28 80 80 80 128 128 Z" fill="#888" opacity="0.75"/>
+  <!-- Figure white -->
+  <circle cx="128" cy="90" r="9" fill="white" opacity="0.92"/>
+  <rect x="125.5" y="99" width="5" height="36" rx="2" fill="white" opacity="0.92"/>
+  <rect x="108" y="103" width="40" height="3.5" rx="1.5" fill="white" opacity="0.85"/>
+  <line x1="128" y1="106" x2="102" y2="116" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+  <line x1="128" y1="106" x2="154" y2="116" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+  <line x1="128" y1="135" x2="113" y2="162" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+  <line x1="128" y1="135" x2="143" y2="162" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.88"/>
+  <rect x="114" y="130" width="28" height="3" rx="1.5" fill="white" opacity="0.75"/>
+</svg>

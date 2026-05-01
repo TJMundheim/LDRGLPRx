@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" width="800" height="220">
+  <rect width="800" height="220" fill="#fafafa"/>
+
+  <!-- Mark in left zone, scaled -->
+  <g transform="translate(8, 0) scale(0.84)">
+    <rect x="26" y="26" width="204" height="204" fill="none" stroke="#ccc" stroke-width="2"/>
+    <circle cx="128" cy="118" r="90" fill="none" stroke="#d4a017" stroke-width="9" stroke-dasharray="141 424.5" stroke-dashoffset="70.75" transform="rotate(-90 128 118)"/>
+    <circle cx="128" cy="118" r="90" fill="none" stroke="#2a7d8c" stroke-width="7" stroke-dasharray="141 424.5" stroke-dashoffset="-70.75" transform="rotate(-90 128 118)"/>
+    <circle cx="128" cy="118" r="90" fill="none" stroke="#4a8c5a" stroke-width="7" stroke-dasharray="141 424.5" stroke-dashoffset="-212.25" transform="rotate(-90 128 118)"/>
+    <circle cx="128" cy="118" r="90" fill="none" stroke="#b5621e" stroke-width="7" stroke-dasharray="141 424.5" stroke-dashoffset="-353.75" transform="rotate(-90 128 118)"/>
+    <line x1="128" y1="72" x2="128" y2="148" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="128" cy="64" r="10" fill="none" stroke="#2c2c2c" stroke-width="2.5"/>
+    <line x1="128" y1="82" x2="66" y2="97" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="128" y1="82" x2="190" y2="97" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="128" y1="90" x2="54" y2="90" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+    <line x1="128" y1="90" x2="202" y2="90" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+    <line x1="128" y1="148" x2="89" y2="194" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="128" y1="148" x2="167" y2="194" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="128" y1="148" x2="109" y2="196" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+    <line x1="128" y1="148" x2="147" y2="196" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  </g>
+
+  <!-- Divider -->
+  <line x1="228" y1="30" x2="228" y2="190" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Wordmark -->
+  <text x="250" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="62" font-weight="700" fill="#1a1a1a" letter-spacing="-1">My4MLife</text>
+
+  <!-- Tagline -->
+  <text x="252" y="145" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-weight="400" fill="#888" font-style="italic">Begin with the end in mind.</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" width="800" height="220">
+  <!-- Mark (scaled ~170px): concentric rings + brain -->
+  <g transform="translate(10,10) scale(0.66)">
+    <circle cx="128" cy="128" r="118" fill="none" stroke="#b0b8c5" stroke-width="3"/>
+    <circle cx="128" cy="128" r="96" fill="none" stroke="#8a95a3" stroke-width="3.5"/>
+    <circle cx="128" cy="128" r="72" fill="none" stroke="#5c6775" stroke-width="4"/>
+    <circle cx="128" cy="128" r="48" fill="none" stroke="#e05a2b" stroke-width="5"/>
+    <!-- Brain -->
+    <g transform="translate(93, 100)">
+      <path d="M35,40 C35,50 20,56 12,52 C4,48 0,40 2,32 C0,22 4,14 12,10 C16,4 24,2 30,6 C32,2 40,0 46,4 C52,0 60,2 64,8 C70,10 72,20 70,28 C72,38 68,48 60,52 C52,56 38,50 35,40 Z" fill="#fff0eb" stroke="#e05a2b" stroke-width="2"/>
+      <line x1="35" y1="8" x2="35" y2="50" stroke="#e05a2b" stroke-width="1" opacity="0.4"/>
+      <path d="M20,18 C14,22 16,30 22,30" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.35"/>
+      <path d="M50,18 C56,22 54,30 48,30" fill="none" stroke="#e05a2b" stroke-width="1" opacity="0.35"/>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="200" y="106" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="66" font-weight="800" fill="#2d3748" letter-spacing="-1">My<tspan fill="#e05a2b">4M</tspan>Life</text>
+
+  <!-- Tagline -->
+  <text x="202" y="144" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="18" font-weight="300" fill="#8a95a3" letter-spacing="1.5">Begin with the end in mind.</text>
+</svg>

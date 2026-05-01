@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Concept 16: Modern Minimalist Vitruvian — single thin-stroke outline -->
+  <!-- Charcoal on white. One clean pose (arms out, legs slightly spread). Pure geometry. -->
+
+  <rect width="256" height="256" fill="#ffffff"/>
+
+  <!-- Square -->
+  <rect x="32" y="32" width="192" height="192" fill="none" stroke="#333" stroke-width="1.2"/>
+
+  <!-- Circle -->
+  <circle cx="128" cy="118" r="90" fill="none" stroke="#333" stroke-width="1.2"/>
+
+  <!-- Minimalist figure — single weight line, one pose (da Vinci spread-arm-and-leg pose) -->
+  <!-- Head (simple circle) -->
+  <circle cx="128" cy="60" r="12" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+
+  <!-- Neck to torso to hips -->
+  <line x1="128" y1="72" x2="128" y2="152" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Arms horizontal (wide spread) -->
+  <line x1="42" y1="94" x2="214" y2="94" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Legs (V-spread) -->
+  <line x1="128" y1="152" x2="82" y2="200" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="128" y1="152" x2="174" y2="200" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Shoulder line (slight crossbar at shoulder level) -->
+  <line x1="104" y1="88" x2="152" y2="88" stroke="#1a1a1a" stroke-width="1.2" opacity="0.5"/>
+</svg>

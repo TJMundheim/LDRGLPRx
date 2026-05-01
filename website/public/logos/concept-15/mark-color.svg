@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <!-- Concept 15: Vitruvian Inscribed in 4M Ring -->
+  <!-- 4 colored arcs represent 4 M pillars around the Vitruvian figure -->
+  <!-- cx=128, cy=118, r=90 -->
+
+  <rect width="256" height="256" fill="#fafafa"/>
+
+  <!-- Outer square frame -->
+  <rect x="26" y="26" width="204" height="204" fill="none" stroke="#ccc" stroke-width="2"/>
+
+  <!-- 4 arc segments of the ring (stroke-dasharray technique on circle path) -->
+  <!-- Circle circumference = 2π*90 ≈ 565.5; each arc = ~141.4 with ~0 gap between -->
+  <!-- North arc = Mind (gold/amber) — top quarter -->
+  <circle cx="128" cy="118" r="90"
+    fill="none"
+    stroke="#d4a017"
+    stroke-width="9"
+    stroke-dasharray="141 424.5"
+    stroke-dashoffset="70.75"
+    transform="rotate(-90 128 118)"
+  />
+  <!-- East arc = Muscle (teal) -->
+  <circle cx="128" cy="118" r="90"
+    fill="none"
+    stroke="#2a7d8c"
+    stroke-width="7"
+    stroke-dasharray="141 424.5"
+    stroke-dashoffset="-70.75"
+    transform="rotate(-90 128 118)"
+  />
+  <!-- South arc = Mitigate (sage green) -->
+  <circle cx="128" cy="118" r="90"
+    fill="none"
+    stroke="#4a8c5a"
+    stroke-width="7"
+    stroke-dasharray="141 424.5"
+    stroke-dashoffset="-212.25"
+    transform="rotate(-90 128 118)"
+  />
+  <!-- West arc = Motivate (copper) -->
+  <circle cx="128" cy="118" r="90"
+    fill="none"
+    stroke="#b5621e"
+    stroke-width="7"
+    stroke-dasharray="141 424.5"
+    stroke-dashoffset="-353.75"
+    transform="rotate(-90 128 118)"
+  />
+
+  <!-- Vitruvian figure (graphite) -->
+  <line x1="128" y1="72" x2="128" y2="148" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="128" cy="64" r="10" fill="none" stroke="#2c2c2c" stroke-width="2.5"/>
+  <line x1="128" y1="82" x2="66" y2="97" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="82" x2="190" y2="97" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="90" x2="54" y2="90" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="90" x2="202" y2="90" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="148" x2="89" y2="194" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="148" x2="167" y2="194" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="128" y1="148" x2="109" y2="196" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="128" y1="148" x2="147" y2="196" stroke="#2c2c2c" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="110" y1="86" x2="146" y2="86" stroke="#2c2c2c" stroke-width="1.2" opacity="0.35"/>
+  <line x1="112" y1="130" x2="144" y2="130" stroke="#2c2c2c" stroke-width="1.2" opacity="0.35"/>
+
+  <!-- 4M arc labels (small, placed just outside each arc) -->
+  <!-- Mind top -->
+  <text x="128" y="18" text-anchor="middle" font-family="Georgia, serif" font-size="8" font-weight="700" fill="#d4a017" letter-spacing="1">MIND</text>
+  <!-- Muscle right -->
+  <text x="232" y="122" text-anchor="middle" font-family="Georgia, serif" font-size="7.5" font-weight="700" fill="#2a7d8c" letter-spacing="0.5">MUSCLE</text>
+  <!-- Mitigate bottom -->
+  <text x="128" y="243" text-anchor="middle" font-family="Georgia, serif" font-size="7.5" font-weight="700" fill="#4a8c5a" letter-spacing="0.5">MITIGATE</text>
+  <!-- Motivate left -->
+  <text x="24" y="122" text-anchor="middle" font-family="Georgia, serif" font-size="7.5" font-weight="700" fill="#b5621e" letter-spacing="0.5">MOTIVATE</text>
+</svg>
