@@ -1,0 +1,85 @@
+---
+export interface Props {
+  group: 'mind' | 'muscle' | 'mitigate' | 'motivate';
+}
+
+const { group } = Astro.props;
+
+const menus = {
+  mind: {
+    label: 'Mind',
+    items: [
+      { label: 'Cognitive function & focus', desc: 'Sharpen memory, concentration, and clarity', href: '/solutions/cognitive' },
+      { label: 'Sleep quality', desc: 'Deeper rest and restored sleep cycles', href: '/solutions/sleep' },
+      { label: 'Stress & resilience', desc: 'Build capacity to handle daily pressure', href: '/solutions/stress' },
+      { label: 'Lack of purpose & goals', desc: 'Find direction and sustained motivation', href: '/solutions/purpose-goals' },
+    ],
+  },
+  muscle: {
+    label: 'Muscle',
+    items: [
+      { label: 'Weight & body fat', desc: 'Sustainable fat loss and body recomposition', href: '/solutions/weight' },
+      { label: 'Hormone balance & low T', desc: 'Optimize testosterone and hormonal health', href: '/solutions/hormones' },
+      { label: 'Acute pain limiting activity', desc: 'Fast relief to keep you moving', href: '/solutions/pain-acute' },
+      { label: 'Chronic pain', desc: 'Long-term protocols for persistent pain', href: '/solutions/pain-chronic' },
+      { label: 'Morning routine', desc: 'Start every day primed for performance', href: '/solutions/morning-routine' },
+    ],
+  },
+  mitigate: {
+    label: 'Mitigate',
+    items: [
+      { label: 'Gut microbiome / leaky gut', desc: 'Heal your gut lining and restore flora', href: '/solutions/gut' },
+      { label: 'Dental biome & oral health', desc: 'Mouth-body connection and oral microbiome', href: '/solutions/dental' },
+      { label: 'Allergies & immune issues', desc: 'Calm overactive immune responses', href: '/solutions/allergies' },
+      { label: 'Alcohol / smoking / vaping', desc: 'Break the cycle with clinical support', href: '/solutions/substance-use' },
+      { label: 'Poor nutrition / diet', desc: 'Targeted guidance for real dietary change', href: '/solutions/nutrition' },
+      { label: 'Vitamin D', desc: 'Correct deficiency driving systemic decline', href: '/solutions/vitamin-d' },
+      { label: 'Environment (light, EMF, air, water)', desc: 'Reduce toxic burden in your daily space', href: '/solutions/environment' },
+    ],
+  },
+  motivate: {
+    label: 'Motivate',
+    items: [
+      { label: 'Self-image & confidence', desc: 'Rebuild identity from the inside out', href: '/solutions/self-image' },
+      { label: 'Access to health knowledge', desc: 'Learn what your body actually needs', href: '/solutions/health-knowledge' },
+      { label: 'Access to healthcare services', desc: 'Get care without barriers or delays', href: '/solutions/healthcare-access' },
+      { label: 'Financial stress', desc: 'Affordable pathways to lasting health', href: '/solutions/financial-stress' },
+    ],
+  },
+};
+
+const current = menus[group];
+---
+
+<li class="mega-trigger" data-group={group}>
+  <button
+    class="mega-btn"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls={`mega-panel-${group}`}
+  >
+    {current.label}
+    <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="mega-panel" id={`mega-panel-${group}`} role="region" aria-label={`${current.label} solutions`}>
+    <div class="mega-inner">
+      <p class="mega-heading">{current.label}</p>
+      <ul class="mega-list">
+        {current.items.map((item) => (
+          <li>
+            <a href={item.href} class="mega-item">
+              <span class="mega-dot" aria-hidden="true">•</span>
+              <span class="mega-text">
+                <span class="mega-label">{item.label}</span>
+                <span class="mega-desc">{item.desc}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</li>

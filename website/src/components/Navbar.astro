@@ -1,90 +1,352 @@
 ---
-// Shared navigation. Styles match legacy navbar markup exactly.
+import MegaMenu from './MegaMenu.astro';
+
+const mobileGroups = [
+  {
+    group: 'mind',
+    label: 'Mind',
+    items: [
+      { label: 'Cognitive function & focus', href: '/solutions/cognitive' },
+      { label: 'Sleep quality', href: '/solutions/sleep' },
+      { label: 'Stress & resilience', href: '/solutions/stress' },
+      { label: 'Lack of purpose & goals', href: '/solutions/purpose-goals' },
+    ],
+  },
+  {
+    group: 'muscle',
+    label: 'Muscle',
+    items: [
+      { label: 'Weight & body fat', href: '/solutions/weight' },
+      { label: 'Hormone balance & low T', href: '/solutions/hormones' },
+      { label: 'Acute pain limiting activity', href: '/solutions/pain-acute' },
+      { label: 'Chronic pain', href: '/solutions/pain-chronic' },
+      { label: 'Morning routine', href: '/solutions/morning-routine' },
+    ],
+  },
+  {
+    group: 'mitigate',
+    label: 'Mitigate',
+    items: [
+      { label: 'Gut microbiome / leaky gut', href: '/solutions/gut' },
+      { label: 'Dental biome & oral health', href: '/solutions/dental' },
+      { label: 'Allergies & immune issues', href: '/solutions/allergies' },
+      { label: 'Alcohol / smoking / vaping', href: '/solutions/substance-use' },
+      { label: 'Poor nutrition / diet', href: '/solutions/nutrition' },
+      { label: 'Vitamin D', href: '/solutions/vitamin-d' },
+      { label: 'Environment (light, EMF, air, water)', href: '/solutions/environment' },
+    ],
+  },
+  {
+    group: 'motivate',
+    label: 'Motivate',
+    items: [
+      { label: 'Self-image & confidence', href: '/solutions/self-image' },
+      { label: 'Access to health knowledge', href: '/solutions/health-knowledge' },
+      { label: 'Access to healthcare services', href: '/solutions/healthcare-access' },
+      { label: 'Financial stress', href: '/solutions/financial-stress' },
+    ],
+  },
+];
 ---
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
-    <a href="/" class="logo" aria-label="My4MLife">My4MLife</a>
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
-      <i class="fas fa-bars"></i>
-    </button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="/#about">About GLP-1</a></li>
-      <li><a href="/#treatments">Treatments</a></li>
-      <li><a href="/#how-it-works">How It Works</a></li>
-      <li><a href="/4m-cohort">4M Cohort</a></li>
-      <li><a href="/protocols">Protocols</a></li>
-      <li><a href="/tiers">Tiers</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/bmi-calculator">BMI Check</a></li>
-      <li><a href="/referral">Refer &amp; Save</a></li>
-      <li><a href="/#faq">FAQ</a></li>
-      <li><a href="/#get-started" class="btn btn-primary">Get Started</a></li>
+
+    <!-- Logo -->
+    <a href="/" class="nav-logo" aria-label="My4MLife — home">
+      <img
+        class="logo-lockup"
+        src="/logos/concept-13/lockup-color.svg"
+        alt="My4MLife"
+        width="160"
+        height="44"
+      />
+      <img
+        class="logo-mark"
+        src="/logos/concept-13/mark-color.svg"
+        alt="My4MLife"
+        width="44"
+        height="44"
+      />
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="nav-links" id="nav-links" role="menubar">
+      <MegaMenu group="mind" />
+      <MegaMenu group="muscle" />
+      <MegaMenu group="mitigate" />
+      <MegaMenu group="motivate" />
+      <li role="none"><a href="/cohort-app" class="nav-link" role="menuitem">The Cohort App</a></li>
+      <li role="none"><a href="/about" class="nav-link" role="menuitem">About</a></li>
+      <li role="none"><a href="/blog" class="nav-link" role="menuitem">Blog</a></li>
+      <li role="none">
+        <a href="https://app.my4mlife.com" class="btn btn-primary nav-signin" role="menuitem">
+          Sign In &rarr;
+        </a>
+      </li>
     </ul>
+
+    <!-- Hamburger -->
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-top">
+      <a href="https://app.my4mlife.com" class="btn btn-primary mobile-signin">Sign In &rarr;</a>
+    </div>
+
+    {mobileGroups.map((section) => (
+      <div class="mobile-section">
+        <button class="mobile-section-btn" aria-expanded="false" aria-controls={`mobile-${section.group}`}>
+          {section.label}
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="mobile-section-list" id={`mobile-${section.group}`} hidden>
+          {section.items.map((item) => (
+            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    <div class="mobile-flat">
+      <a href="/cohort-app" class="mobile-link">The Cohort App</a>
+      <a href="/about" class="mobile-link">About</a>
+      <a href="/blog" class="mobile-link">Blog</a>
+    </div>
   </div>
 </nav>
 
+<!-- Mega-menu backdrop -->
+<div class="mega-backdrop" id="mega-backdrop" aria-hidden="true"></div>
+
 <style is:global>
+  /* ── Base navbar ── */
   .navbar {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 1000;
-    background: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.96);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     transition: box-shadow 0.3s;
   }
   .navbar.scrolled { box-shadow: var(--shadow-md); }
+
   .nav-inner {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: 72px;
+    gap: 0;
   }
-  .logo {
-    font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--primary);
+
+  /* ── Logo ── */
+  .nav-logo {
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    letter-spacing: -0.5px;
+    margin-right: 2rem;
+    flex-shrink: 0;
   }
-  .logo span { color: var(--accent); }
+  .logo-lockup {
+    height: 40px;
+    width: auto;
+    display: block;
+  }
+  .logo-mark {
+    height: 40px;
+    width: auto;
+    display: none;
+  }
+
+  /* ── Desktop nav links ── */
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 2rem;
     list-style: none;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    flex: 1;
   }
-  .nav-links a {
-    text-decoration: none;
+  .nav-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
     color: var(--text);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 500;
-    transition: color 0.2s;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
   }
-  .nav-links a:hover { color: var(--primary); }
+  .nav-link:hover { color: var(--primary); background: var(--bg-soft, #f5f0e8); }
+
+  .nav-signin { margin-left: auto; }
+
+  /* ── Mega-menu trigger button ── */
+  .mega-trigger { position: static; list-style: none; }
+  .mega-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+  .mega-btn:hover,
+  .mega-btn[aria-expanded="true"] {
+    color: var(--primary);
+    background: var(--bg-soft, #f5f0e8);
+  }
+  .mega-btn .chevron {
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .mega-btn[aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ── Mega panel ── */
+  .mega-panel {
+    display: none;
+    position: fixed;
+    top: 72px;
+    left: 0; right: 0;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 999;
+    animation: megaFadeIn 0.15s ease;
+  }
+  .mega-panel.open { display: block; }
+
+  @keyframes megaFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .mega-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 2rem 2.5rem;
+  }
+  .mega-heading {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--primary);
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .mega-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .mega-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .mega-item:hover { background: var(--bg-soft, #f5f0e8); }
+  .mega-dot {
+    color: var(--accent);
+    font-size: 1rem;
+    line-height: 1.4;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .mega-text { display: flex; flex-direction: column; gap: 0.15rem; }
+  .mega-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--dark, #1a1a1a);
+    line-height: 1.3;
+  }
+  .mega-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted, #666);
+    line-height: 1.4;
+  }
+
+  /* ── Backdrop ── */
+  .mega-backdrop {
+    display: none;
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: rgba(0,0,0,0.25);
+    z-index: 998;
+  }
+  .mega-backdrop.open { display: block; }
+
+  /* ── Hamburger ── */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: auto;
+  }
+  .hamburger-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--dark, #1a1a1a);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  /* ── Btn helpers ── */
   .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.7rem 1.6rem;
+    padding: 0.6rem 1.4rem;
     border-radius: 50px;
     font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
     text-decoration: none;
     border: none;
     cursor: pointer;
     transition: all 0.25s;
+    white-space: nowrap;
   }
   .btn-primary { background: var(--accent); color: white; }
   .btn-primary:hover {
-    background: var(--accent-dark);
+    background: var(--accent-dark, #00a884);
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(0,184,148,0.4);
+    box-shadow: 0 4px 15px rgba(0,184,148,0.35);
   }
   .btn-outline {
     background: transparent;
@@ -95,48 +357,197 @@
   .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
   .btn-white { background: white; color: var(--primary); }
   .btn-white:hover {
-    background: var(--bg-soft);
+    background: var(--bg-soft, #f5f0e8);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
   }
-  .menu-toggle {
+
+  /* ── Mobile menu ── */
+  .mobile-menu {
     display: none;
+    flex-direction: column;
+    background: white;
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem 2rem;
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+  }
+  .mobile-menu.open { display: flex; }
+
+  .mobile-top {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+  }
+  .mobile-signin { width: 100%; justify-content: center; }
+
+  .mobile-section { border-bottom: 1px solid var(--border); }
+  .mobile-section-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.9rem 0;
     background: none;
     border: none;
-    font-size: 1.5rem;
-    color: var(--dark);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark, #1a1a1a);
     cursor: pointer;
-    padding: 0.5rem;
+    text-align: left;
   }
-  @media (max-width: 768px) {
-    .menu-toggle { display: block; }
-    .nav-links {
-      display: none;
-      position: absolute;
-      top: 72px; left: 0; right: 0;
-      background: white;
-      flex-direction: column;
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--border);
-      box-shadow: var(--shadow-md);
-    }
-    .nav-links.open { display: flex; }
+  .mobile-section-btn .chevron { transition: transform 0.2s; }
+  .mobile-section-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+  .mobile-section-list {
+    list-style: none;
+    padding: 0 0 0.75rem 0.5rem;
+    margin: 0;
+  }
+  .mobile-section-list li { margin-bottom: 0.1rem; }
+
+  .mobile-link {
+    display: block;
+    padding: 0.5rem 0.25rem;
+    font-size: 0.88rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mobile-link:hover { color: var(--primary); }
+
+  .mobile-flat {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.75rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 960px) {
+    .nav-links { display: none !important; }
+    .menu-toggle { display: flex; }
+    .logo-lockup { display: none; }
+    .logo-mark { display: block; }
+  }
+  @media (min-width: 961px) {
+    .mobile-menu { display: none !important; }
+    .menu-toggle { display: none; }
   }
 </style>
 
 <script is:inline>
-  window.addEventListener('scroll', function() {
+(function () {
+  // Scroll shadow
+  window.addEventListener('scroll', function () {
     var nav = document.getElementById('navbar');
     if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
   });
-  function toggleMenu() {
-    var el = document.getElementById('nav-links');
-    if (el) el.classList.toggle('open');
+
+  // Hamburger toggle
+  var toggleBtn = document.getElementById('menu-toggle');
+  var mobileMenu = document.getElementById('mobile-menu');
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener('click', function () {
+      var open = mobileMenu.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    });
   }
-  document.querySelectorAll('.nav-links a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      var el = document.getElementById('nav-links');
-      if (el) el.classList.remove('open');
+
+  // Mobile accordions
+  document.querySelectorAll('.mobile-section-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.getAttribute('aria-controls');
+      var panel = id ? document.getElementById(id) : null;
+      if (!panel) return;
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      panel.hidden = expanded;
     });
   });
+
+  // Desktop mega-menu
+  var backdrop = document.getElementById('mega-backdrop');
+  var openGroup = null;
+
+  function openMega(group) {
+    if (openGroup && openGroup !== group) closeMega(openGroup);
+    var panel = document.getElementById('mega-panel-' + group);
+    var btn = document.querySelector('[data-group="' + group + '"] .mega-btn');
+    if (panel && btn) {
+      panel.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      if (backdrop) backdrop.classList.add('open');
+      openGroup = group;
+    }
+  }
+
+  function closeMega(group) {
+    var panel = document.getElementById('mega-panel-' + group);
+    var btn = document.querySelector('[data-group="' + group + '"] .mega-btn');
+    if (panel) panel.classList.remove('open');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    if (backdrop) backdrop.classList.remove('open');
+    openGroup = null;
+  }
+
+  function closeAll() { if (openGroup) closeMega(openGroup); }
+
+  document.querySelectorAll('.mega-trigger').forEach(function (trigger) {
+    var group = trigger.getAttribute('data-group');
+    var btn = trigger.querySelector('.mega-btn');
+    if (!btn || !group) return;
+
+    // Hover
+    trigger.addEventListener('mouseenter', function () { openMega(group); });
+    trigger.addEventListener('mouseleave', function (e) {
+      var panel = document.getElementById('mega-panel-' + group);
+      if (panel && panel.contains(e.relatedTarget)) return;
+      closeMega(group);
+    });
+
+    // Click (touch / keyboard)
+    btn.addEventListener('click', function () {
+      if (openGroup === group) { closeMega(group); } else { openMega(group); }
+    });
+
+    // Keyboard
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (openGroup === group) { closeMega(group); } else { openMega(group); }
+      }
+      if (e.key === 'Escape') closeAll();
+    });
+  });
+
+  // Keep panel open while hovering it
+  ['mind','muscle','mitigate','motivate'].forEach(function (group) {
+    var panel = document.getElementById('mega-panel-' + group);
+    if (!panel) return;
+    panel.addEventListener('mouseenter', function () { openMega(group); });
+    panel.addEventListener('mouseleave', function (e) {
+      var trigger = document.querySelector('[data-group="' + group + '"]');
+      if (trigger && trigger.contains(e.relatedTarget)) return;
+      closeMega(group);
+    });
+  });
+
+  // Backdrop click closes
+  if (backdrop) backdrop.addEventListener('click', closeAll);
+
+  // Escape key
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
+
+  // Close mobile menu on link click
+  if (mobileMenu) {
+    mobileMenu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        mobileMenu.classList.remove('open');
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+  }
+})();
 </script>

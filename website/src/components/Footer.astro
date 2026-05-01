@@ -4,7 +4,11 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="logo">My 4M <span>Life</span></a>
+        <a href="/" class="footer-logo-link" aria-label="My4MLife — home">
+          <img src="/logos/concept-13/mark-mono.svg" alt="" width="48" height="48" class="footer-mark" aria-hidden="true" />
+          <span class="footer-wordmark">My4MLife</span>
+        </a>
+        <p class="footer-tagline"><em>Begin with the end in mind.</em></p>
         <p>Doctor-guided GLP-1 weight loss treatment. Licensed physicians, licensed pharmacies, real results. Your health journey starts here.</p>
       </div>
       <div class="footer-col">
@@ -59,13 +63,31 @@
     gap: 3rem;
     margin-bottom: 3rem;
   }
-  .footer-brand .logo {
-    font-size: 1.4rem;
-    color: white;
-    display: inline-block;
-    margin-bottom: 1rem;
+  .footer-logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
   }
-  .footer-brand .logo span { color: var(--accent); }
+  .footer-mark {
+    width: 40px;
+    height: 40px;
+    opacity: 0.85;
+    filter: invert(1) brightness(2);
+  }
+  .footer-wordmark {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+  }
+  .footer-tagline {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0.75rem;
+  }
   .footer-brand p { font-size: 0.88rem; line-height: 1.7; max-width: 300px; }
   .footer-col h4 {
     color: white;
