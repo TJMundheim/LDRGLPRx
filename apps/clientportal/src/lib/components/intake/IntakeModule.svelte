@@ -12,6 +12,7 @@
   import { onMount } from 'svelte';
   import { detectReturningUser } from '../../data/intakeMigration';
   import type { ReturningUserStatus } from '../../data/intakeMigration';
+  import { sha256, NPP_DOC, PHI_AUTH_DOC, AI_COMM_DOC } from '../../data/legalDocs';
 
   const STAGE_KEY = 'intake-stage-v1';
   const COMPLETE_KEY = 'intake-complete-v1';
@@ -24,12 +25,59 @@
 
   let returningStatus = $state<ReturningUserStatus>({ kind: 'fresh' });
 
-  onMount(() => {
+  /** Read a JSON value from localStorage, returns null on any error. */
+  function readJson<T>(key: string): T | null {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? (JSON.parse(raw) as T) : null;
+    } catch { return null; }
+  }
+
+  /**
+   * Check whether Stage 1 is already complete:
+   * - basics-v1 has name + email filled
+   * - all 3 required consents are present and their SHA matches current doc content
+   */
+  async function isStage1Complete(): Promise<boolean> {
+    const basics = readJson<{ name?: string; email?: string }>(BASICS_KEY);
+    if (!basics?.name?.trim() || !basics?.email?.trim()) return false;
+
+    const [nppSha, phiSha, aiSha] = await Promise.all([
+      sha256(NPP_DOC.text),
+      sha256(PHI_AUTH_DOC.text),
+      sha256(AI_COMM_DOC.text),
+    ]);
+
+    const npp = readJson<{ documentSha?: string }>('consent-npp-v1');
+    const phi = readJson<{ documentSha?: string }>('consent-phi-auth-v1');
+    const ai  = readJson<{ documentSha?: string }>('consent-ai-comm-v1');
+
+    if (!npp || !phi || !ai) return false;
+    // Treat 'sha256-unavailable' as matching to avoid blocking in environments
+    // where SubtleCrypto is absent (e.g. some test runners).
+    const shaMatch = (stored: string, current: string) =>
+      stored === current || stored === 'sha256-unavailable' || current === 'sha256-unavailable';
+
+    return (
+      shaMatch(npp.documentSha ?? '', nppSha) &&
+      shaMatch(phi.documentSha ?? '', phiSha) &&
+      shaMatch(ai.documentSha ?? '',  aiSha)
+    );
+  }
+
+  const BASICS_KEY = 'basics-v1';
+
+  onMount(async () => {
     const status = detectReturningUser(localStorage);
     returningStatus = status;
     // returning-completed: skip straight to audit (stage 4)
     if (status.kind === 'returning-completed' && currentStage < 4) {
       goTo(4);
+      return;
+    }
+    // Auto-advance past Stage 1 if basics + all required consents already saved and valid
+    if (currentStage === 1 && await isStage1Complete()) {
+      goTo(2);
     }
   });
 

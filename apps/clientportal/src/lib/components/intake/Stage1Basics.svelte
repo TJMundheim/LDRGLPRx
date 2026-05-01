@@ -50,18 +50,50 @@
     try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* ignore */ }
   }
 
+  /** Format a stored ISO timestamp as a relative time string, e.g. "2 days ago". */
+  function relativeTime(isoString: string): string {
+    try {
+      const ms = Date.now() - new Date(isoString).getTime();
+      const mins = Math.floor(ms / 60_000);
+      if (mins < 1) return 'just now';
+      if (mins < 60) return `${mins} minute${mins !== 1 ? 's' : ''} ago`;
+      const hrs = Math.floor(mins / 60);
+      if (hrs < 24) return `${hrs} hour${hrs !== 1 ? 's' : ''} ago`;
+      const days = Math.floor(hrs / 24);
+      return `${days} day${days !== 1 ? 's' : ''} ago`;
+    } catch { return 'previously'; }
+  }
+
   let basics = $state<Basics>(load(STORAGE_KEY, { name: '', email: '', phone: '', dob: '', state: '' }));
 
-  // Consent checked state
-  let consentNpp = $state<boolean>(!!load<ConsentRecord | null>(CONSENT_KEYS.npp, null));
-  let consentPhi = $state<boolean>(!!load<ConsentRecord | null>(CONSENT_KEYS.phi, null));
-  let consentAi = $state<boolean>(!!load<ConsentRecord | null>(CONSENT_KEYS.ai, null));
-  let consentMkt = $state<boolean>(!!load<ConsentRecord | null>(CONSENT_KEYS.mkt, null));
+  // Stored consent records (may be null if not yet accepted).
+  // Read from localStorage directly so initializers don't cross-reference $state variables.
+  const _initNpp = load<ConsentRecord | null>(CONSENT_KEYS.npp, null);
+  const _initPhi = load<ConsentRecord | null>(CONSENT_KEYS.phi, null);
+  const _initAi  = load<ConsentRecord | null>(CONSENT_KEYS.ai,  null);
+  const _initMkt = load<ConsentRecord | null>(CONSENT_KEYS.mkt, null);
 
-  // Track which modals have been opened (required before checkbox can be checked)
-  let openedNpp = $state(false);
-  let openedPhi = $state(false);
-  let openedAi = $state(false);
+  let storedNpp = $state<ConsentRecord | null>(_initNpp);
+  let storedPhi = $state<ConsentRecord | null>(_initPhi);
+  let storedAi  = $state<ConsentRecord | null>(_initAi);
+  let storedMkt = $state<ConsentRecord | null>(_initMkt);
+
+  // Consent checked state — starts true only if a record exists; validated against SHA after mount
+  let consentNpp = $state<boolean>(!!_initNpp);
+  let consentPhi = $state<boolean>(!!_initPhi);
+  let consentAi  = $state<boolean>(!!_initAi);
+  let consentMkt = $state<boolean>(!!_initMkt);
+
+  // Whether stored consent SHA is stale (document changed since user accepted)
+  let staleNpp = $state(false);
+  let stalePhi = $state(false);
+  let staleAi  = $state(false);
+
+  // Track which modals have been opened (required before checkbox can be checked for first time)
+  // Pre-set to true if there's a valid prior acceptance — user doesn't need to re-read
+  let openedNpp = $state(!!_initNpp);
+  let openedPhi = $state(!!_initPhi);
+  let openedAi  = $state(!!_initAi);
 
   // Modal open state
   let activeModal = $state<'npp' | 'phi' | 'ai' | null>(null);
@@ -77,6 +109,24 @@
       sha256(PHI_AUTH_DOC.text),
       sha256(AI_COMM_DOC.text),
     ]);
+
+    // Validate stored consent SHAs against current document content.
+    // If the doc changed, invalidate the stored consent so user must re-acknowledge.
+    if (storedNpp && nppSha && storedNpp.documentSha !== nppSha) {
+      staleNpp = true;
+      consentNpp = false;
+      openedNpp = false;
+    }
+    if (storedPhi && phiSha && storedPhi.documentSha !== phiSha) {
+      stalePhi = true;
+      consentPhi = false;
+      openedPhi = false;
+    }
+    if (storedAi && aiSha && storedAi.documentSha !== aiSha) {
+      staleAi = true;
+      consentAi = false;
+      openedAi = false;
+    }
   });
 
   function persistBasics(): void {
@@ -91,8 +141,17 @@
         documentSha: sha,
       };
       save(CONSENT_KEYS[key], record);
+      // Update stored state so the "Accepted X ago" label appears immediately
+      if (key === 'npp') { storedNpp = record; staleNpp = false; }
+      if (key === 'phi') { storedPhi = record; stalePhi = false; }
+      if (key === 'ai')  { storedAi  = record; staleAi  = false; }
+      if (key === 'mkt') { storedMkt = record; }
     } else {
       save(CONSENT_KEYS[key], null);
+      if (key === 'npp') storedNpp = null;
+      if (key === 'phi') storedPhi = null;
+      if (key === 'ai')  storedAi  = null;
+      if (key === 'mkt') storedMkt = null;
     }
   }
 
@@ -186,18 +245,23 @@
           type="checkbox"
           id="cb-npp"
           bind:checked={consentNpp}
-          disabled={!openedNpp}
+          disabled={!openedNpp || (consentNpp && !!storedNpp && !staleNpp)}
           onchange={() => setConsent('npp', consentNpp, nppSha)}
         />
         <label for="cb-npp" class="consent-label">
           I have reviewed the Notice of Privacy Practices.
           <span class="req">*</span>
+          {#if consentNpp && storedNpp && !staleNpp}
+            <span class="accepted-note">Accepted {relativeTime(storedNpp.acceptedAt)}</span>
+          {/if}
         </label>
         <button type="button" class="doc-link" onclick={() => openModal('npp')}>
           {openedNpp ? 'Review again' : 'Read document'} ↗
         </button>
       </div>
-      {#if !openedNpp}
+      {#if staleNpp}
+        <p class="stale-note">The Notice of Privacy Practices has been updated; please review and re-acknowledge.</p>
+      {:else if !openedNpp}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
 
@@ -207,18 +271,23 @@
           type="checkbox"
           id="cb-phi"
           bind:checked={consentPhi}
-          disabled={!openedPhi}
+          disabled={!openedPhi || (consentPhi && !!storedPhi && !stalePhi)}
           onchange={() => setConsent('phi', consentPhi, phiSha)}
         />
         <label for="cb-phi" class="consent-label">
           I authorize My4MLife and its contracted care team to share my health information.
           <span class="req">*</span>
+          {#if consentPhi && storedPhi && !stalePhi}
+            <span class="accepted-note">Accepted {relativeTime(storedPhi.acceptedAt)}</span>
+          {/if}
         </label>
         <button type="button" class="doc-link" onclick={() => openModal('phi')}>
           {openedPhi ? 'Review again' : 'Read document'} ↗
         </button>
       </div>
-      {#if !openedPhi}
+      {#if stalePhi}
+        <p class="stale-note">The Patient Authorization has been updated; please review and re-acknowledge.</p>
+      {:else if !openedPhi}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
 
@@ -228,18 +297,23 @@
           type="checkbox"
           id="cb-ai"
           bind:checked={consentAi}
-          disabled={!openedAi}
+          disabled={!openedAi || (consentAi && !!storedAi && !staleAi)}
           onchange={() => setConsent('ai', consentAi, aiSha)}
         />
         <label for="cb-ai" class="consent-label">
           I consent to receive AI-generated email and SMS communications about my care.
           <span class="req">*</span>
+          {#if consentAi && storedAi && !staleAi}
+            <span class="accepted-note">Accepted {relativeTime(storedAi.acceptedAt)}</span>
+          {/if}
         </label>
         <button type="button" class="doc-link" onclick={() => openModal('ai')}>
           {openedAi ? 'Review again' : 'Read document'} ↗
         </button>
       </div>
-      {#if !openedAi}
+      {#if staleAi}
+        <p class="stale-note">The AI Communication Consent has been updated; please review and re-acknowledge.</p>
+      {:else if !openedAi}
         <p class="must-read-note">Read the document above before checking.</p>
       {/if}
 
@@ -476,6 +550,21 @@
     color: #f87171;
     margin: -4px 0 2px 30px;
     line-height: 1.4;
+  }
+
+  .stale-note {
+    font-size: 0.75rem;
+    color: #fbbf24;
+    margin: -4px 0 2px 30px;
+    line-height: 1.4;
+  }
+
+  .accepted-note {
+    display: block;
+    font-size: 0.72rem;
+    color: #1D9E75;
+    margin-top: 2px;
+    font-weight: 500;
   }
 
   /* Navigation */
