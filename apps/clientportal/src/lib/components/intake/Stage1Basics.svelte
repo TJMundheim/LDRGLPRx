@@ -206,18 +206,22 @@
 
       <!-- NPP -->
       <div class="consent-row" class:checked={consentNpp}>
-        <input
-          type="checkbox"
-          id="cb-npp"
-          bind:checked={consentNpp}
-          disabled={!openedNpp || (consentNpp && !!storedNpp && !staleNpp)}
-          onchange={() => setConsent('npp', consentNpp, nppSha)}
-        />
+        {#if consentNpp && storedNpp && !staleNpp}
+          <span class="accepted-tick" aria-hidden="true">✓</span>
+        {:else}
+          <input
+            type="checkbox"
+            id="cb-npp"
+            checked={consentNpp}
+            disabled={!openedNpp}
+            onchange={(e) => { consentNpp = (e.target as HTMLInputElement).checked; setConsent('npp', consentNpp, nppSha); }}
+          />
+        {/if}
         <label for="cb-npp" class="consent-label">
           I have reviewed the Notice of Privacy Practices.
           <span class="req">*</span>
           {#if consentNpp && storedNpp && !staleNpp}
-            <span class="accepted-note">Accepted {relativeTime(storedNpp.acceptedAt)}</span>
+            <span class="accepted-note">&#10003; Accepted {relativeTime(storedNpp.acceptedAt)}</span>
           {/if}
         </label>
         <button type="button" class="doc-link" onclick={() => openModal('npp')}>
@@ -232,18 +236,22 @@
 
       <!-- PHI Auth -->
       <div class="consent-row" class:checked={consentPhi}>
-        <input
-          type="checkbox"
-          id="cb-phi"
-          bind:checked={consentPhi}
-          disabled={!openedPhi || (consentPhi && !!storedPhi && !stalePhi)}
-          onchange={() => setConsent('phi', consentPhi, phiSha)}
-        />
+        {#if consentPhi && storedPhi && !stalePhi}
+          <span class="accepted-tick" aria-hidden="true">✓</span>
+        {:else}
+          <input
+            type="checkbox"
+            id="cb-phi"
+            checked={consentPhi}
+            disabled={!openedPhi}
+            onchange={(e) => { consentPhi = (e.target as HTMLInputElement).checked; setConsent('phi', consentPhi, phiSha); }}
+          />
+        {/if}
         <label for="cb-phi" class="consent-label">
           I authorize My4MLife and its contracted care team to share my health information.
           <span class="req">*</span>
           {#if consentPhi && storedPhi && !stalePhi}
-            <span class="accepted-note">Accepted {relativeTime(storedPhi.acceptedAt)}</span>
+            <span class="accepted-note">&#10003; Accepted {relativeTime(storedPhi.acceptedAt)}</span>
           {/if}
         </label>
         <button type="button" class="doc-link" onclick={() => openModal('phi')}>
@@ -258,18 +266,22 @@
 
       <!-- AI Communication Consent -->
       <div class="consent-row" class:checked={consentAi}>
-        <input
-          type="checkbox"
-          id="cb-ai"
-          bind:checked={consentAi}
-          disabled={!openedAi || (consentAi && !!storedAi && !staleAi)}
-          onchange={() => setConsent('ai', consentAi, aiSha)}
-        />
+        {#if consentAi && storedAi && !staleAi}
+          <span class="accepted-tick" aria-hidden="true">✓</span>
+        {:else}
+          <input
+            type="checkbox"
+            id="cb-ai"
+            checked={consentAi}
+            disabled={!openedAi}
+            onchange={(e) => { consentAi = (e.target as HTMLInputElement).checked; setConsent('ai', consentAi, aiSha); }}
+          />
+        {/if}
         <label for="cb-ai" class="consent-label">
           I consent to receive AI-generated email and SMS communications about my care.
           <span class="req">*</span>
           {#if consentAi && storedAi && !staleAi}
-            <span class="accepted-note">Accepted {relativeTime(storedAi.acceptedAt)}</span>
+            <span class="accepted-note">&#10003; Accepted {relativeTime(storedAi.acceptedAt)}</span>
           {/if}
         </label>
         <button type="button" class="doc-link" onclick={() => openModal('ai')}>
@@ -552,6 +564,21 @@
     color: #1D9E75;
     margin-top: 2px;
     font-weight: 500;
+  }
+
+  .accepted-tick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: #1D9E75;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   /* Navigation */
