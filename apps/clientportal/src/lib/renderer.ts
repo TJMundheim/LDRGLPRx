@@ -569,14 +569,21 @@ function renderConsultCTA(): string {
   return `<div class="card" style="background:linear-gradient(135deg,#064030,#085041);border:2px solid #1D9E75;margin-bottom:4px">
     <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#6A8A6E;text-transform:uppercase;margin-bottom:8px">Next Step</div>
     <div style="font-size:17px;font-weight:800;color:#1D9E75;line-height:1.25;margin-bottom:8px">
-      Schedule Your 4M Brain-Health Consult
+      Schedule Your Comprehensive 4M Consult
     </div>
-    <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:18px">
-      Your audit is complete. A one-on-one 4M consult covers all eight optimization domains — gut health, hormones, weight, cognitive function, and more — and maps them directly to your Month 1 protocol.
+    <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:10px">
+      One consult, full review — see if you're a candidate for weight loss medication (GLP-1s), peptides (nootropic + GH), hormone optimization, prescription protocols, practitioner-grade supplements, and the rest of your personalized 4M plan.
     </div>
+    <ul style="margin:0 0 14px;padding:0 0 0 1rem;list-style:none">
+      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Weight loss medication candidacy (GLP-1s)</li>
+      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Hormone optimization (TRT, thyroid, peptides)</li>
+      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Nootropic peptides &amp; cognitive support</li>
+      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Practitioner-grade supplement protocol</li>
+      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Prescription protocols &amp; lab review</li>
+    </ul>
     <a href="https://calendly.com/my4mlife/consult" target="_blank" rel="noopener noreferrer"
       style="display:block;text-align:center;background:#1D9E75;color:#fff;font-size:14px;font-weight:700;padding:14px 20px;border-radius:9px;text-decoration:none;letter-spacing:.02em;margin-bottom:12px">
-      Book My Consult →
+      Book My Comprehensive 4M Consult →
     </a>
     <div style="text-align:center">
       <button onclick="portalAction('goTo','w1')"

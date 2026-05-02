@@ -50,9 +50,16 @@ const canonical = `https://my4mlife.com${canonicalPath ?? `/solutions/${slug}`}`
         </div>
         <div class="sol-path-step">
           <div class="sol-path-num">2</div>
-          <h3>4M Consult</h3>
-          <p>Work directly with the My4MLife team to map your personal protocol.</p>
-          <a href="/consult" class="btn-sol secondary">Schedule Your 4M Consult</a>
+          <h3>Comprehensive 4M Consult</h3>
+          <p>One consult, full review — see if you're a candidate for weight loss medication (GLP-1s), peptides, hormone optimization, prescription protocols, practitioner-grade supplements, and the rest of your personalized 4M plan.</p>
+          <ul class="sol-path-bullets">
+            <li>Weight loss medication candidacy (GLP-1s)</li>
+            <li>Hormone optimization (TRT, thyroid, peptides)</li>
+            <li>Nootropic peptides &amp; cognitive support</li>
+            <li>Practitioner-grade supplement protocol</li>
+            <li>Prescription protocols &amp; lab review</li>
+          </ul>
+          <a href="/consult" class="btn-sol secondary">Schedule Your Comprehensive 4M Consult</a>
         </div>
         <div class="sol-path-step">
           <div class="sol-path-num">3</div>
@@ -258,6 +265,27 @@ const canonical = `https://my4mlife.com${canonicalPath ?? `/solutions/${slug}`}`
   color: var(--dark);
 }
 .sol-path-step p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.75rem; }
+.sol-path-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.75rem;
+  text-align: left;
+  width: 100%;
+}
+.sol-path-bullets li {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  padding: 0.2rem 0;
+  padding-left: 1.1rem;
+  position: relative;
+}
+.sol-path-bullets li::before {
+  content: "•";
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
 
 /* ── Buttons ── */
 .btn-sol {
