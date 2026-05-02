@@ -34,7 +34,8 @@
 
   function ctaLabel(): string {
     if (tier.monthlyUSD === 0) return 'Start free';
-    if (tier.kind === 'cohort') return 'Join cohort';
+    if (tier.kind === 'program' && tier.id === 'protege') return 'Become a Protégé — Free';
+    if (tier.kind === 'program') return 'Notify me when Insider opens';
     if (tier.onboardingFeeUSD !== undefined) return 'Start onboarding';
     return 'Upgrade';
   }
@@ -62,11 +63,12 @@
   <div class="price-block">
     {#if tier.monthlyUSD === 0 && tier.annualUSD === 0}
       <span class="price-main">Free</span>
-    {:else if tier.kind === 'cohort' && tier.oneTimePriceUSD !== undefined}
-      <span class="price-main">{usd(tier.oneTimePriceUSD)}</span>
-      <span class="price-sub">one-time · Month 1</span>
-    {:else if tier.kind === 'cohort' && tier.monthlyUSD !== undefined}
-      <span class="price-main">{usd(tier.monthlyUSD)}<span class="price-unit">/mo</span></span>
+    {:else if tier.kind === 'program' && tier.id === 'protege'}
+      <span class="price-main">Free</span>
+      <span class="price-sub">no card required</span>
+    {:else if tier.kind === 'program'}
+      <span class="price-main">TBD</span>
+      <span class="price-sub">pricing coming soon</span>
     {:else if tier.monthlyUSD !== undefined && tier.annualUSD !== undefined}
       <span class="price-main">{usd(tier.monthlyUSD)}<span class="price-unit">/mo</span></span>
       <span class="price-sub">or {usd(tier.annualUSD)}/yr (save {usd(tier.monthlyUSD * 12 - tier.annualUSD)})</span>

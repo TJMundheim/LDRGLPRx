@@ -85,7 +85,7 @@
       {#if recommendedTier.oneTimePriceUSD !== undefined}
         <div class="tier-price">
           <span class="price-value">{usd(recommendedTier.oneTimePriceUSD)}</span>
-          <span class="price-label">one-time · Month 1 cohort</span>
+          <span class="price-label">one-time · program entry</span>
         </div>
       {:else if recommendedTier.monthlyUSD !== undefined}
         <div class="tier-price">

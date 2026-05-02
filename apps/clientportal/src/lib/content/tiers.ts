@@ -1,9 +1,9 @@
 /**
- * LDRGLPRx membership tiers — ongoing subscriptions + cohort one-time tiers.
+ * LDRGLPRx membership tiers — ongoing subscriptions + program entry tiers.
  * Content only — no logic.
  *
- * Cohort tiers use id prefix "cohort-" and kind: 'cohort'.
- * Use cohortTiers / membershipTiers filtered exports for each context.
+ * Program entry tiers (Protégé / Insider) use kind: 'program'.
+ * Use programTiers / membershipTiers filtered exports for each context.
  */
 
 import type { MembershipTier } from '../data/catalog';
@@ -157,99 +157,97 @@ export const tiers: MembershipTier[] = [
     ],
   },
 
-  // ─── Cohort tiers (one-time; id prefix "cohort-") ────────────────────────
+  // ─── Program entry tiers (Protégé / Insider) ──────────────────────────────
 
   {
-    id: 'cohort-foundation',
-    name: 'Cohort — Foundation',
-    tagline: 'Your free Month-1 onboarding into the 4M system.',
-    kind: 'cohort',
-    oneTimePriceUSD: 197,
+    id: 'protege',
+    name: 'Protégé',
+    tagline: 'Your free entry to the My4MLife framework. Yours forever — no card required.',
+    kind: 'program',
+    oneTimePriceUSD: 0,
     includedProductSlugs: [],
     features: [
-      '4 weekly onboarding guides — how to use the app and get the most out of it.',
-      '4M Month 1 Digital Workbook',
-      'Morning Protocol — all 4 levels',
+      'Full access to the My4MLife App',
+      'Weekly onboarding sessions — open to all Protégés',
+      'Daily protocols and morning routine tracker',
+      'Gut-brain repair protocol (BiomeAxisForge overview)',
       'Mitigate Audit — personal 15-factor score',
-      'Private cohort community access',
     ],
     description:
-      'Four weeks of guided onboarding into the 4M system. The basic workbook app is free for life. Live coaching with Dr. TJ is available as a Month-2+ upgrade.',
+      'Protégé is Tier 0, completely free. Full access to the My4MLife App, weekly onboarding sessions, daily protocols, gut-brain repair, morning routine tracker. Yours forever — no card required.',
     idealFor: [
-      'The man who wants the system, the sessions, and the accountability — and is ready to start',
-      'Those exploring the program before committing to a higher tier',
+      'The man starting his 4M journey and exploring the framework',
+      'Anyone who wants the system in their hands before committing to more',
     ],
   },
 
   {
-    id: 'cohort-clinical',
-    name: 'Cohort — Clinical',
-    tagline: 'Everything in Foundation, plus labs and a telemedicine visit.',
-    kind: 'cohort',
-    oneTimePriceUSD: 497,
+    id: 'insider',
+    name: 'Insider',
+    tagline: 'Inside the protocol. Live Insider sessions with Dr. TJ. Deeper education and member-only pricing.',
+    kind: 'program',
+    monthlyUSD: undefined, // TJ to confirm pricing
+    oneTimePriceUSD: undefined,
     includedProductSlugs: ['lab-foundation'],
     features: [
-      'Everything in Cohort Foundation',
-      'Base lab panel (5 markers: 25(OH)D, hs-CRP, homocysteine, fasting glucose, TSH)',
-      'Licensed provider telemedicine visit — reviewed before Week 1',
-      'Personalized supplement guidance based on your labs',
-      'Monthly ongoing coaching option ($67/mo add-on)',
+      'Everything in Protégé',
+      'Live Insider sessions with Dr. TJ',
+      'Deeper clinical education modules',
+      'Member-only Rx & supplement pricing',
+      'Group coaching and community access',
+      'Three sub-tiers: Insider, Insider Plus, Insider Concierge',
     ],
     description:
-      'Clinical adds the base lab panel and a telemedicine visit so you walk into Week 1 knowing your numbers. This is where personalisation begins — no more guessing.',
+      'Inside the protocol. Live Insider sessions with Dr. TJ. Deeper education, member-only Rx & supplement pricing, group coaching. Three sub-tiers: Insider, Insider Plus, Insider Concierge.',
     idealFor: [
-      'Members who want labs and a healthcare provider review before starting',
-      '"Your labs are normal" doesn\'t cut it anymore — you want optimal',
+      'Members ready to go deeper than the free onboarding',
+      'Those who want live access to Dr. TJ and clinical accountability',
     ],
   },
 
   {
-    id: 'cohort-full-optimization',
-    name: 'Cohort — Full Optimization',
-    tagline: 'The complete picture. Every test. All four formulas. Priority access.',
-    kind: 'cohort',
-    oneTimePriceUSD: 697,
-    includedProductSlugs: [
-      'lab-foundation',
-      'biome-axis-forge',
-      'sleeprestore',
-      'armorvita',
-      'neurobridge',
-    ],
-    features: [
-      'Everything in Cohort Clinical',
-      'Premium lab panel (Total T, Free T, SHBG, DHEA-S, Estradiol, Cortisol AM, MTHFR, RBC Mg, B12, Folate, Ferritin, HbA1c, full lipid, Lp(a))',
-      'MTHFR genotype testing',
-      'All 4 proprietary formulas prescribed: BiomeAxisForge, SleepRestore, ArmorVita, NeuroBridge',
-      'Priority direct access to Dr. TJ',
-    ],
-    description:
-      'Full Optimization is the complete Month 1 picture — every relevant lab marker, MTHFR genotyping, and all four practitioner-grade formulas ready for Week 1. Priority access to Dr. TJ throughout.',
-    idealFor: [
-      'The man who is done guessing and wants every data point and every tool from day one',
-      '"I\'ve tried everything" — now let\'s find out why with actual data',
-    ],
-  },
-
-  {
-    id: 'cohort-ongoing',
-    name: 'Ongoing Coaching',
-    tagline: 'Month 2 and beyond — stay in the system after Month 1.',
-    kind: 'cohort',
-    monthlyUSD: 67,
+    id: 'insider-plus',
+    name: 'Insider Plus',
+    tagline: 'More benefits, more contact — the next step inside the protocol.',
+    kind: 'program',
+    monthlyUSD: undefined, // TJ to confirm pricing
     oneTimePriceUSD: undefined,
-    includedProductSlugs: [],
+    includedProductSlugs: ['lab-foundation', 'biome-axis-forge'],
     features: [
-      'Available Month 2+: monthly live group coaching with Dr. TJ (avatar-led after initial cohorts).',
-      'Continued access to private cohort community',
-      'Protocol check-ins and accountability',
-      'Add-on after any cohort tier — begins Month 2',
+      'Everything in Insider',
+      'More frequent contact and check-ins',
+      'Priority session access',
+      'Enhanced supplement and Rx guidance',
     ],
     description:
-      'Month 1 builds the system. Ongoing Coaching keeps it running. $67/mo after you complete your first cohort — the lowest-cost way to stay in the room and stay on protocol.',
+      'Insider Plus is the mid-tier inside the Insider track — more benefits, more contact, and priority access to Dr. TJ.',
     idealFor: [
-      'Cohort graduates who want to maintain momentum after Month 1',
-      'Members not ready for a full membership tier but wanting continued access to Dr. TJ',
+      'Insiders who want more structure and contact',
+      'Members managing multiple protocol areas simultaneously',
+    ],
+  },
+
+  {
+    id: 'insider-concierge',
+    name: 'Insider Concierge',
+    tagline: '1:1 access tier. Personal protocol design with Dr. TJ.',
+    kind: 'program',
+    monthlyUSD: undefined, // TJ to confirm pricing
+    oneTimePriceUSD: undefined,
+    includedProductSlugs: ['lab-foundation', 'biome-axis-forge', 'sleeprestore', 'armorvita', 'neurobridge'],
+    features: [
+      'Everything in Insider Plus',
+      'Direct messaging access to Dr. TJ',
+      'Personal protocol design',
+      'Priority consult booking',
+      'Full lab review included',
+      'Limited founder slots',
+    ],
+    description:
+      'Insider Concierge is the top Insider sub-tier. Personal protocol design with Dr. TJ. Direct messaging, priority consult booking, full lab review. Limited founder slots.',
+    idealFor: [
+      'The man who wants maximum access and personal accountability',
+      'Those managing complex multi-system protocols requiring Dr. TJ\'s direct involvement',
     ],
   },
 
@@ -308,5 +306,7 @@ export const tiers: MembershipTier[] = [
 ];
 
 // ─── Filtered views ────────────────────────────────────────────────────────────
-export const cohortTiers     = tiers.filter(t => t.id.startsWith('cohort-'));
-export const membershipTiers = tiers.filter(t => !t.id.startsWith('cohort-'));
+/** Program entry tiers: Protégé, Insider, Insider Plus, Insider Concierge */
+export const programTiers    = tiers.filter(t => t.kind === 'program');
+/** Ongoing membership tiers: Foundation, Optimization, Longevity, Concierge */
+export const membershipTiers = tiers.filter(t => t.kind !== 'program');

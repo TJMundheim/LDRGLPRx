@@ -66,10 +66,10 @@ export interface MembershipTier {
   monthlyUSD?: number;
   annualUSD?: number;
   onboardingFeeUSD?: number;
-  /** For cohort / one-time tiers; undefined for subscription tiers. */
+  /** For program entry / one-time tiers; undefined for subscription tiers. */
   oneTimePriceUSD?: number;
-  /** Distinguishes ongoing membership tiers from cohort (one-time) tiers. */
-  kind?: 'membership' | 'cohort';
+  /** Distinguishes ongoing membership tiers from program entry tiers (Protégé/Insider). */
+  kind?: 'membership' | 'program';
   includedProductSlugs: string[];
   features: string[];
   description: string;

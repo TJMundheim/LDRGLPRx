@@ -29,8 +29,8 @@
   const subtotal = $derived((): number => {
     if (!selectedTier) return 0;
     let total = 0;
-    if (selectedTier.kind === 'cohort') {
-      total += selectedTier.oneTimePriceUSD ?? selectedTier.monthlyUSD ?? 0;
+    if (selectedTier.kind === 'program') {
+      total += selectedTier.oneTimePriceUSD ?? 0;
     } else {
       total += selectedTier.onboardingFeeUSD ?? 0;
       total += selectedTier.monthlyUSD ?? 0;
@@ -65,15 +65,17 @@
       <div class="line tier-line">
         <div class="line-info">
           <span class="line-name">{selectedTier.name}</span>
-          {#if selectedTier.kind === 'cohort'}
-            <span class="line-tag">Month 1 cohort</span>
-          {:else}
+          {#if selectedTier.kind === 'program'}
             <span class="line-tag">Membership tier</span>
+          {:else}
+            <span class="line-tag">Ongoing membership</span>
           {/if}
         </div>
         <span class="line-price">
-          {#if selectedTier.kind === 'cohort' && selectedTier.oneTimePriceUSD !== undefined}
-            {usd(selectedTier.oneTimePriceUSD)}
+          {#if selectedTier.kind === 'program' && selectedTier.id === 'protege'}
+            Free
+          {:else if selectedTier.kind === 'program'}
+            Pricing TBD
           {:else if selectedTier.monthlyUSD !== undefined}
             {usd(selectedTier.monthlyUSD)}/mo
           {/if}
