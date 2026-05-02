@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { cohortTiers, membershipTiers } from '../../content/tiers';
+  import { programTiers, membershipTiers } from '../../content/tiers';
   import TierCard from './TierCard.svelte';
   import TierComparisonTable from './TierComparisonTable.svelte';
-  import CohortBanner from './CohortBanner.svelte';
+  import MembershipBanner from './MembershipBanner.svelte';
   import CartPreview from './CartPreview.svelte';
 
   interface Props {
@@ -18,10 +18,10 @@
   let showComparison = $state(false);
   let selectedTierId = $state('');
 
-  const cohortMain = $derived(cohortTiers.filter(t =>
-    t.id === 'cohort-foundation' || t.id === 'cohort-clinical' || t.id === 'cohort-full-optimization'
+  const programMain = $derived(programTiers.filter(t =>
+    t.id === 'protege' || t.id === 'insider' || t.id === 'insider-concierge'
   ));
-  const cohortOngoing = $derived(cohortTiers.find(t => t.id === 'cohort-ongoing'));
+  const programPlus = $derived(programTiers.find(t => t.id === 'insider-plus'));
 
   const discovery = $derived(membershipTiers.find(t => t.id === 'discovery'));
   const mainMembership = $derived(membershipTiers.filter(t => t.id !== 'discovery'));
@@ -36,7 +36,7 @@
 </script>
 
 <div class="pricing-page">
-  <CohortBanner />
+  <MembershipBanner />
 
   <!-- Hero -->
   <header class="pricing-hero">
@@ -44,8 +44,8 @@
     <h1 class="hero-headline">Normal is not optimal.<br>And optimal is what you're after.</h1>
     <p class="hero-attr">— Dr. TJ Mundheim, DC, DABAAHP</p>
     <p class="hero-explainer">
-      <strong>Cohort tiers</strong> are one-time Month 1 program entry — a structured, live clinical education experience.
-      <strong>Membership tiers</strong> are ongoing platform access for protocols, products, and clinician oversight beyond Month 1.
+      <strong>Membership tiers</strong> — from free Protégé onboarding through Insider, Insider Plus, and Insider Concierge.
+      <strong>Ongoing membership</strong> provides platform access, clinician oversight, and your full protocol beyond Month 1.
       Not sure where to start? Take the 3-minute quiz and we'll tell you.
     </p>
   </header>
@@ -53,31 +53,31 @@
   <div class="pricing-layout">
     <div class="pricing-main">
 
-      <!-- Section A: Cohort Month-1 Entry -->
-      <section class="pricing-section" aria-labelledby="cohort-heading">
+      <!-- Section A: Membership Tiers (Protégé / Insider) -->
+      <section class="pricing-section" aria-labelledby="program-heading">
         <div class="section-header">
-          <div class="section-badge">MONTH 1 ENTRY</div>
-          <h2 id="cohort-heading" class="section-title">Cohort Month-1 Entry</h2>
-          <p class="section-sub">Three ways in. Choose your level of commitment.</p>
+          <div class="section-badge">MEMBERSHIP TIERS</div>
+          <h2 id="program-heading" class="section-title">Protégé &amp; Insider</h2>
+          <p class="section-sub">Start free as a Protégé. Upgrade to Insider when you're ready for more.</p>
         </div>
 
-        <div class="tier-grid cohort-grid">
-          {#each cohortMain as tier}
+        <div class="tier-grid program-grid">
+          {#each programMain as tier}
             <TierCard
               {tier}
-              mostPopular={tier.id === 'cohort-clinical'}
+              mostPopular={tier.id === 'insider'}
               highlightId={effectiveHighlight}
               onSelect={handleSelect}
             />
           {/each}
         </div>
 
-        {#if cohortOngoing}
+        {#if programPlus}
           <div class="ongoing-section">
-            <div class="ongoing-label">After Month 1 — optional ongoing coaching</div>
+            <div class="ongoing-label">Also available — Insider Plus (mid-tier upgrade)</div>
             <div class="ongoing-card-wrap">
               <TierCard
-                tier={cohortOngoing}
+                tier={programPlus}
                 compact={true}
                 highlightId={effectiveHighlight}
                 onSelect={handleSelect}
@@ -271,7 +271,7 @@
     gap: 20px;
   }
 
-  .cohort-grid {
+  .program-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -413,7 +413,7 @@
       position: static;
     }
 
-    .cohort-grid {
+    .program-grid {
       grid-template-columns: 1fr;
     }
 

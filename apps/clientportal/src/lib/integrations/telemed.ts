@@ -9,7 +9,7 @@ export interface AppointmentRequest {
   userId: string;
   preferredDate: string; // ISO
   reason: string;
-  cohortId?: string;
+  sessionGroupId?: string;
 }
 
 export interface Appointment {

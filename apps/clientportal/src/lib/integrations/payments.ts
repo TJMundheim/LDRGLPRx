@@ -1,7 +1,7 @@
 /**
  * Payments integration — stub. Not implemented.
  *
- * Expected vendor: Stripe Checkout (hosted) for cohort subscription billing.
+ * Expected vendor: Stripe Checkout (hosted) for membership subscription billing.
  * TODO: implement once pricing + Stripe account finalized.
  */
 
@@ -19,7 +19,7 @@ export interface CheckoutSession {
 
 export interface SubscriptionStatus {
   active: boolean;
-  tier: 'cohort' | 'alumni' | null;
+  tier: 'member' | 'alumni' | null;
   currentPeriodEnd?: string;
 }
 

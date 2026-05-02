@@ -623,9 +623,9 @@ function renderDash(W: Workbook): string {
       <div><label>Start date</label>
         <input value="${esc(W.startDate)}" placeholder="e.g. April 14, 2026"
           oninput="portalField('startDate',this.value)"></div>
-      <div><label>Cohort</label>
-        <input value="${esc(W.cohortId ?? '')}" placeholder="Cohort #"
-          oninput="portalField('cohortId',this.value)"></div>
+      <div><label>Program Group</label>
+        <input value="${esc(W.cohortId ?? '')}" placeholder="Group ID"
+          oninput="portalField('cohortId',this.value)"></div><!-- cohortId field retained for data compatibility -->
     </div>
   </div>
 
@@ -914,7 +914,7 @@ function renderW2(W: Workbook): string {
           oninput="portalField('weekReflections.w2_identity_check',this.value)">${g('w2_identity_check')}</textarea>
       </div>
       <div>
-        <label>Who is my accountability partner for this cohort?</label>
+        <label>Who is my accountability partner in this program?</label>
         <input placeholder="Name and check-in method..."
           value="${g('w2_acct')}" oninput="portalField('weekReflections.w2_acct',this.value)">
         <div style="margin-top:6px">

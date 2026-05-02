@@ -83,6 +83,7 @@ export interface SupplementStatus {
 export interface Workbook {
   id: string;
   userId: string;
+  /** Program enrollment / group ID (legacy field, formerly cohortId — retained for data compatibility). */
   cohortId?: string;
   startDate: string;
   motivation: MotivationChoice;

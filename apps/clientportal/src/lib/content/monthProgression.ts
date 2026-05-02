@@ -105,7 +105,7 @@ export const months: MonthDefinition[] = [
     title: 'Ongoing Optimization',
     tagline: 'Long-term support, periodic re-testing, protocol evolution.',
     description:
-      'Post-graduation maintenance track. Quarterly lab reviews, protocol evolution as biology changes, and ongoing cohort community access. Designed to lock in gains and continue compounding.',
+      'Post-graduation maintenance track. Quarterly lab reviews, protocol evolution as biology changes, and ongoing member community access. Designed to lock in gains and continue compounding.',
     primaryFormulas: ['armorvita', 'neurobridge'],
   },
 ]
