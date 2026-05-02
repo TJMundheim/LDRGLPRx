@@ -1,0 +1,949 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUDIT_QUESTIONS } from '../data/audit-questions';
+
+const title = "Free 4M Health Assessment — My4MLife";
+const description = "Take the free 4M Assessment. 20 quick questions, about 5 minutes. We'll show you your top 3 mitigating factors so you know exactly where to start.";
+const canonical = "https://my4mlife.com/assessment";
+const keywords = "4M assessment, health audit, gut health quiz, hormone balance test, cognitive health assessment, My4MLife, free health quiz";
+const robots = "index, follow";
+---
+<BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} robots={robots}>
+
+<!-- ===== HERO ===== -->
+<section class="assess-hero">
+  <div class="container assess-hero-inner">
+    <div class="assess-badge">FREE · 5 MINUTES · NO ACCOUNT REQUIRED</div>
+    <h1>Take the Free <em>4M Assessment</em></h1>
+    <p class="assess-sub">20 quick questions. About 5 minutes. We'll show you your top 3 mitigating factors so you know where to start.</p>
+    <div class="assess-meta">
+      <span class="assess-chip">20 questions</span>
+      <span class="assess-chip">~5 min</span>
+      <span class="assess-chip">Results instantly</span>
+      <span class="assess-chip">Private — no data sold</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STICKY PROGRESS HEADER ===== -->
+<div class="assess-sticky" id="assess-sticky" role="status" aria-live="polite">
+  <div class="container assess-sticky-inner">
+    <span class="assess-sticky-label" id="progress-label">0 of 20 answered</span>
+    <div class="assess-progress-bar" aria-hidden="true">
+      <div class="assess-progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUESTIONS ===== -->
+<section class="assess-questions" id="questions-section">
+  <div class="container assess-questions-inner">
+    <div class="assess-instructions">
+      Rate each area honestly. <strong>0 = no problem at all &middot; 5 = severe / highly problematic.</strong>
+    </div>
+
+    <div class="q-list" id="q-list">
+      {AUDIT_QUESTIONS.map((q) => (
+        <div class="q-card" id={`card-${q.id}`} data-id={q.id} aria-label={`Question ${q.n}: ${q.prompt}`}>
+          <div class="q-header">
+            <span class="q-num">{q.n}</span>
+            <span class="q-label">{q.label}</span>
+          </div>
+          <p class="q-prompt">{q.prompt}</p>
+
+          <!-- 0-5 Likert buttons -->
+          <div class="likert-row" role="group" aria-label={`Score for ${q.label}`} data-qid={q.id}>
+            {[0,1,2,3,4,5].map((val) => (
+              <button
+                class="likert-btn"
+                data-val={val}
+                data-qid={q.id}
+                aria-pressed="false"
+                aria-label={`Score ${val}`}
+                type="button"
+              >{val}</button>
+            ))}
+          </div>
+          <div class="likert-labels">
+            <span>No problem</span>
+            <span>Severe</span>
+          </div>
+
+          <!-- Expandable scoring guide -->
+          <button
+            class="guide-toggle"
+            data-qid={q.id}
+            aria-expanded="false"
+            type="button"
+          >&#9660; How to score this</button>
+          <div class="guide-panel" id={`guide-${q.id}`} hidden>
+            <p class="guide-text">{q.scoreGuide}</p>
+            <p class="guide-note">{q.categoryNote}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="assess-footer">
+      <button class="btn btn-primary btn-large" id="continue-btn" disabled type="button">
+        See My Results &rarr;
+      </button>
+      <p class="req-note" id="req-note">Answer all 20 questions to continue</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EMAIL CAPTURE FORM ===== -->
+<section class="assess-capture" id="capture-section" hidden>
+  <div class="container assess-capture-inner">
+    <h2>Almost there — where should we send your results?</h2>
+    <p class="capture-sub">We'll show your top 3 factors on screen immediately. Your information is never sold.</p>
+
+    <form class="capture-form" id="capture-form" novalidate>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="field-name">First name <span aria-hidden="true">*</span></label>
+          <input type="text" id="field-name" name="firstName" autocomplete="given-name" required placeholder="Your first name" />
+        </div>
+        <div class="form-field">
+          <label for="field-email">Email <span aria-hidden="true">*</span></label>
+          <input type="email" id="field-email" name="email" autocomplete="email" required placeholder="you@example.com" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="field-phone">Phone <span class="optional">(optional)</span></label>
+          <input type="tel" id="field-phone" name="phone" autocomplete="tel" placeholder="(555) 000-0000" />
+        </div>
+      </div>
+      <div class="form-check">
+        <label class="check-label">
+          <input type="checkbox" id="field-consent" name="aiConsent" required />
+          <span>I consent to receive AI-assisted health communications from My4MLife. I understand I may opt out at any time.</span>
+        </label>
+      </div>
+      <p class="form-error" id="form-error" hidden></p>
+      <button class="btn btn-primary btn-large" type="submit" id="submit-btn">
+        Show My Top 3 Factors &rarr;
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== RESULTS PANEL ===== -->
+<section class="assess-results" id="results-section" hidden>
+  <div class="container assess-results-inner">
+    <div class="results-header">
+      <div class="results-badge">YOUR ASSESSMENT RESULTS</div>
+      <h2 id="results-greeting">Here are your top 3 mitigating factors.</h2>
+      <p class="results-sub">These are the areas where addressing the root cause will create the biggest ripple effect across your health.</p>
+    </div>
+
+    <div class="results-cards" id="results-cards">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="results-ctas">
+      <a
+        href="https://app.my4mlife.com/?source=public-assessment"
+        class="btn btn-primary btn-large"
+        target="_blank"
+        rel="noopener"
+      >Continue in the My4MLife App &mdash; Free</a>
+      <a href="/consult" class="btn btn-outline btn-large">Schedule a 4M Consult</a>
+    </div>
+
+    <p class="results-disclaimer">
+      This assessment is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before making changes to your health regimen.
+    </p>
+  </div>
+</section>
+
+<script is:inline>
+(function () {
+  'use strict';
+
+  // ── Data mirrored from website/src/data/audit-questions.ts ──
+  var QUESTIONS = [
+    { id: 'purpose-social',   n: '01', label: 'Lack of purpose, goals',                         priorityTier: false, solutionSlug: 'purpose-goals'     },
+    { id: 'morning-routine',  n: '02', label: 'Lack of morning routine',                        priorityTier: false, solutionSlug: 'morning-routine'   },
+    { id: 'sleep',            n: '03', label: 'Sleep quality & duration',                        priorityTier: false, solutionSlug: 'sleep'             },
+    { id: 'gut-microbiome',   n: '04', label: 'Leaky gut / gut microbiome',                     priorityTier: true,  solutionSlug: 'gut'               },
+    { id: 'weight-body-fat',  n: '05', label: 'Weight / body fat',                              priorityTier: true,  solutionSlug: 'weight'            },
+    { id: 'hormone-balance',  n: '06', label: 'Hormone balance / low testosterone',             priorityTier: true,  solutionSlug: 'hormones'          },
+    { id: 'dental-health',    n: '07', label: 'Dental biome & dental health',                   priorityTier: false, solutionSlug: 'dental'            },
+    { id: 'substance-use',    n: '08', label: 'Excessive alcohol / smoking / vaping',           priorityTier: false, solutionSlug: 'substance-use'     },
+    { id: 'nutrition',        n: '09', label: 'Poor nutrition / diet',                          priorityTier: false, solutionSlug: 'nutrition'         },
+    { id: 'vitamin-d',        n: '10', label: 'Vitamin D level',                                priorityTier: false, solutionSlug: 'vitamin-d'         },
+    { id: 'environment',      n: '11', label: 'Environment (sun, blue light, EMF, air, water)', priorityTier: false, solutionSlug: 'environment'       },
+    { id: 'pain-acute',       n: '12', label: 'Acute injury or pain limiting activity',         priorityTier: false, solutionSlug: 'pain-acute'        },
+    { id: 'pain-chronic',     n: '13', label: 'Chronic injury or pain limiting activity',       priorityTier: false, solutionSlug: 'pain-chronic'      },
+    { id: 'allergies-immune', n: '14', label: 'Allergies & immune issues',                      priorityTier: false, solutionSlug: 'allergies'         },
+    { id: 'stress',           n: '15', label: 'Stress',                                         priorityTier: false, solutionSlug: 'stress'            },
+    { id: 'cognitive',        n: '16', label: 'Cognitive dysfunction',                          priorityTier: false, solutionSlug: 'cognitive'         },
+    { id: 'access-knowledge', n: '17', label: 'Access to health knowledge / education',         priorityTier: false, solutionSlug: 'health-knowledge'  },
+    { id: 'access-care',      n: '18', label: 'Access to healthcare services',                  priorityTier: false, solutionSlug: 'healthcare-access' },
+    { id: 'financial-stress', n: '19', label: 'Financial stress',                               priorityTier: false, solutionSlug: 'financial-stress'  },
+    { id: 'self-image',       n: '20', label: 'Positive self-image',                            priorityTier: false, solutionSlug: 'self-image'        },
+  ];
+
+  var LS_KEY = 'public-assessment-v1';
+
+  // ── State ──
+  var scores = {}; // { [id]: 0-5 }
+  var userName = '';
+  var userEmail = '';
+  var userPhone = '';
+
+  // ── Restore from localStorage ──
+  (function restore() {
+    try {
+      var raw = localStorage.getItem(LS_KEY);
+      if (!raw) return;
+      var saved = JSON.parse(raw);
+      if (saved.scores) {
+        for (var id in saved.scores) {
+          var v = saved.scores[id];
+          if (typeof v === 'number' && v >= 0 && v <= 5) scores[id] = v;
+        }
+      }
+      if (saved.name) userName = saved.name;
+      if (saved.email) userEmail = saved.email;
+      if (saved.phone) userPhone = saved.phone;
+    } catch (e) { /* ignore */ }
+  })();
+
+  function persist() {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({
+        scores: scores,
+        name: userName,
+        email: userEmail,
+        phone: userPhone,
+        savedAt: new Date().toISOString(),
+      }));
+    } catch (e) { /* ignore */ }
+  }
+
+  // ── selectTop3 ──
+  function selectTop3(scores, categories) {
+    var sorted = categories.slice().sort(function (a, b) {
+      var sa = scores[a.id] !== undefined ? scores[a.id] : 0;
+      var sb = scores[b.id] !== undefined ? scores[b.id] : 0;
+      if (sb !== sa) return sb - sa;
+      return (b.priorityTier ? 1 : 0) - (a.priorityTier ? 1 : 0);
+    });
+    return sorted.slice(0, 3);
+  }
+
+  // ── Progress ──
+  function answeredCount() {
+    var count = 0;
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      if (scores[QUESTIONS[i].id] !== undefined) count++;
+    }
+    return count;
+  }
+
+  function updateProgress() {
+    var count = answeredCount();
+    var total = QUESTIONS.length;
+    var pct = Math.round((count / total) * 100);
+    var label = document.getElementById('progress-label');
+    var fill = document.getElementById('progress-fill');
+    var btn = document.getElementById('continue-btn');
+    var note = document.getElementById('req-note');
+    if (label) label.textContent = count + ' of ' + total + ' answered';
+    if (fill) fill.style.width = pct + '%';
+    if (btn) btn.disabled = count < total;
+    if (note) {
+      if (count >= total) {
+        note.hidden = true;
+      } else {
+        note.hidden = false;
+        var remaining = total - count;
+        note.textContent = remaining + ' question' + (remaining !== 1 ? 's' : '') + ' remaining — click 0 if it doesn\'t apply';
+      }
+    }
+  }
+
+  // ── Apply restored scores to DOM ──
+  function applyRestoredScores() {
+    for (var id in scores) {
+      highlightButton(id, scores[id]);
+      markCardAnswered(id);
+    }
+    updateProgress();
+  }
+
+  function highlightButton(qid, val) {
+    var row = document.querySelector('.likert-row[data-qid="' + qid + '"]');
+    if (!row) return;
+    var btns = row.querySelectorAll('.likert-btn');
+    btns.forEach(function (btn) {
+      var bval = parseInt(btn.getAttribute('data-val'), 10);
+      if (bval === val) {
+        btn.classList.add('likert-selected');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.style.cssText = getBtnStyle(val);
+      } else {
+        btn.classList.remove('likert-selected');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.style.cssText = '';
+      }
+    });
+  }
+
+  function getBtnStyle(val) {
+    var color = val <= 1 ? '#1D9E75' : val <= 3 ? '#D4920A' : '#E05C2A';
+    return 'background:' + color + ';border-color:' + color + ';color:#fff;';
+  }
+
+  function markCardAnswered(id) {
+    var card = document.getElementById('card-' + id);
+    if (card) card.classList.add('q-answered');
+  }
+
+  // ── Event wiring ──
+  document.addEventListener('DOMContentLoaded', function () {
+    applyRestoredScores();
+
+    // Likert button clicks
+    document.getElementById('q-list').addEventListener('click', function (e) {
+      var btn = e.target.closest('.likert-btn');
+      if (!btn) return;
+      var qid = btn.getAttribute('data-qid');
+      var val = parseInt(btn.getAttribute('data-val'), 10);
+      scores[qid] = val;
+      persist();
+      highlightButton(qid, val);
+      markCardAnswered(qid);
+      updateProgress();
+    });
+
+    // Guide toggle clicks
+    document.getElementById('q-list').addEventListener('click', function (e) {
+      var toggle = e.target.closest('.guide-toggle');
+      if (!toggle) return;
+      var qid = toggle.getAttribute('data-qid');
+      var panel = document.getElementById('guide-' + qid);
+      if (!panel) return;
+      var isOpen = !panel.hidden;
+      panel.hidden = isOpen;
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      toggle.innerHTML = (!isOpen ? '&#9650; Hide scoring guide' : '&#9660; How to score this');
+    });
+
+    // Continue button
+    document.getElementById('continue-btn').addEventListener('click', function () {
+      document.getElementById('questions-section').hidden = true;
+      document.getElementById('capture-section').hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Lead capture form
+    document.getElementById('capture-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nameEl = document.getElementById('field-name');
+      var emailEl = document.getElementById('field-email');
+      var phoneEl = document.getElementById('field-phone');
+      var consentEl = document.getElementById('field-consent');
+      var errorEl = document.getElementById('form-error');
+      var submitBtn = document.getElementById('submit-btn');
+
+      errorEl.hidden = true;
+
+      if (!nameEl.value.trim()) {
+        errorEl.textContent = 'Please enter your first name.';
+        errorEl.hidden = false;
+        nameEl.focus();
+        return;
+      }
+      if (!emailEl.value.trim() || !emailEl.validity.valid) {
+        errorEl.textContent = 'Please enter a valid email address.';
+        errorEl.hidden = false;
+        emailEl.focus();
+        return;
+      }
+      if (!consentEl.checked) {
+        errorEl.textContent = 'Please accept the AI communications consent to continue.';
+        errorEl.hidden = false;
+        consentEl.focus();
+        return;
+      }
+
+      userName = nameEl.value.trim();
+      userEmail = emailEl.value.trim();
+      userPhone = phoneEl.value.trim();
+      persist();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Loading…';
+
+      // TODO: Wire to AppSync submitLead mutation post-HIPAA P0.
+      // POST /api/lead-capture — does not exist yet; failure is silent.
+      fetch('/api/lead-capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: userName,
+          email: userEmail,
+          phone: userPhone,
+          aiConsent: true,
+          scores: scores,
+          source: 'public-assessment',
+          savedAt: new Date().toISOString(),
+        }),
+      }).catch(function () { /* silent — endpoint not yet wired */ });
+
+      showResults();
+    });
+  });
+
+  function showResults() {
+    document.getElementById('capture-section').hidden = true;
+    document.getElementById('results-section').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Greeting
+    var greeting = document.getElementById('results-greeting');
+    if (greeting) {
+      greeting.textContent = 'Hello ' + userName + '. Here are your top 3 mitigating factors.';
+    }
+
+    // Build top 3
+    var top3 = selectTop3(scores, QUESTIONS);
+    var container = document.getElementById('results-cards');
+    container.innerHTML = '';
+
+    top3.forEach(function (q, idx) {
+      var rawScore = scores[q.id] !== undefined ? scores[q.id] : 0;
+      var displayScore = rawScore * 2; // 0-10
+
+      var scoreClass = displayScore <= 3 ? 'score-low' : displayScore <= 6 ? 'score-mid' : 'score-high';
+      var rank = idx + 1;
+
+      var card = document.createElement('div');
+      card.className = 'result-card';
+      card.innerHTML =
+        '<div class="result-rank">#' + rank + '</div>' +
+        '<div class="result-body">' +
+          '<h3 class="result-label">' + escHtml(q.label) + '</h3>' +
+          '<div class="result-score-row">' +
+            '<span class="result-score ' + scoreClass + '">' + displayScore + ' / 10</span>' +
+            '<div class="result-bar-wrap" aria-hidden="true"><div class="result-bar-fill ' + scoreClass + '" style="width:' + (displayScore * 10) + '%"></div></div>' +
+          '</div>' +
+          '<a href="/solutions/' + escHtml(q.solutionSlug) + '" class="result-link">See ' + escHtml(q.label) + ' solution &rarr;</a>' +
+        '</div>';
+      container.appendChild(card);
+    });
+  }
+
+  function escHtml(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+})();
+</script>
+
+<style>
+/* ── Tokens ── */
+:root {
+  --assess-accent: #00b894;
+  --assess-accent-dark: #00a381;
+  --assess-warn: #D4920A;
+  --assess-danger: #E05C2A;
+  --assess-card: #ffffff;
+  --assess-border: #e2e8f0;
+  --assess-muted: #718096;
+  --assess-parchment: #faf8f4;
+}
+
+/* ── Hero ── */
+.assess-hero {
+  background: var(--assess-parchment);
+  border-bottom: 1px solid var(--assess-border);
+  padding: 64px 0 48px;
+  text-align: center;
+}
+.assess-hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.assess-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--assess-accent-dark);
+}
+.assess-hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0;
+}
+.assess-hero h1 em {
+  font-style: italic;
+  color: var(--assess-accent-dark);
+}
+.assess-sub {
+  font-size: 1.1rem;
+  color: var(--assess-muted);
+  max-width: 540px;
+  line-height: 1.6;
+  margin: 0;
+}
+.assess-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 4px;
+}
+.assess-chip {
+  background: #fff;
+  border: 1px solid var(--assess-border);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--assess-muted);
+  padding: 4px 12px;
+}
+
+/* ── Sticky progress header ── */
+.assess-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff;
+  border-bottom: 1px solid var(--assess-border);
+  padding: 10px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.assess-sticky-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.assess-sticky-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--assess-muted);
+  white-space: nowrap;
+  min-width: 120px;
+}
+.assess-progress-bar {
+  flex: 1;
+  height: 5px;
+  background: var(--assess-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.assess-progress-fill {
+  height: 100%;
+  background: var(--assess-accent);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+
+/* ── Questions section ── */
+.assess-questions {
+  background: var(--assess-parchment);
+  padding: 40px 0 64px;
+}
+.assess-questions-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.assess-instructions {
+  font-size: 0.92rem;
+  color: var(--assess-muted);
+  text-align: center;
+}
+.q-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Question card */
+.q-card {
+  background: var(--assess-card);
+  border: 1px solid var(--assess-border);
+  border-radius: var(--radius, 12px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.q-card.q-answered {
+  border-color: rgba(0,184,148,0.4);
+}
+.q-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.q-num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--assess-muted);
+  border: 1px solid var(--assess-border);
+  border-radius: 5px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.q-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--assess-muted);
+}
+.q-prompt {
+  font-size: 0.97rem;
+  font-weight: 600;
+  color: var(--dark, #0a1628);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Likert */
+.likert-row {
+  display: flex;
+  gap: 6px;
+}
+.likert-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 4px;
+  border: 1.5px solid var(--assess-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--assess-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.likert-btn:hover:not(.likert-selected) {
+  border-color: #a0aec0;
+  color: var(--dark, #0a1628);
+}
+.likert-btn.likert-selected {
+  font-weight: 800;
+}
+.likert-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--assess-muted);
+  padding: 0 2px;
+}
+
+/* Guide toggle */
+.guide-toggle {
+  background: transparent;
+  border: none;
+  color: #6A8A9E;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  font-family: inherit;
+  transition: color 0.15s;
+  align-self: flex-start;
+}
+.guide-toggle:hover { color: #4a6880; }
+.guide-panel {
+  background: var(--assess-parchment);
+  border: 1px solid var(--assess-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.guide-text {
+  font-size: 0.82rem;
+  color: var(--assess-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+.guide-note {
+  font-size: 0.78rem;
+  color: var(--assess-accent-dark);
+  font-style: italic;
+  margin: 0;
+}
+
+/* Footer */
+.assess-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+}
+.req-note {
+  font-size: 0.8rem;
+  color: var(--assess-muted);
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Capture section ── */
+.assess-capture {
+  background: #fff;
+  padding: 64px 0;
+  border-top: 1px solid var(--assess-border);
+}
+.assess-capture-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.assess-capture h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  text-align: center;
+}
+.capture-sub {
+  font-size: 0.95rem;
+  color: var(--assess-muted);
+  text-align: center;
+  margin: 0;
+}
+.capture-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.form-field {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dark, #0a1628);
+}
+.optional {
+  font-weight: 400;
+  color: var(--assess-muted);
+}
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="tel"] {
+  padding: 10px 14px;
+  border: 1.5px solid var(--assess-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--dark, #0a1628);
+  transition: border-color 0.15s;
+  background: #fff;
+  width: 100%;
+}
+.form-field input:focus {
+  outline: none;
+  border-color: var(--assess-accent);
+}
+.form-check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.check-label {
+  display: flex;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--assess-muted);
+  cursor: pointer;
+  line-height: 1.5;
+}
+.check-label input[type="checkbox"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--assess-accent);
+  width: 16px;
+  height: 16px;
+}
+.form-error {
+  color: #c53030;
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 8px 12px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 6px;
+}
+
+/* ── Results section ── */
+.assess-results {
+  background: var(--assess-parchment);
+  padding: 64px 0;
+  border-top: 1px solid var(--assess-border);
+}
+.assess-results-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.results-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.results-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--assess-accent-dark);
+}
+.results-header h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  margin: 0;
+}
+.results-sub {
+  font-size: 0.95rem;
+  color: var(--assess-muted);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.results-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.result-card {
+  background: #fff;
+  border: 1px solid var(--assess-border);
+  border-radius: var(--radius, 12px);
+  padding: 20px 24px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+}
+.result-rank {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--assess-border);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  padding-top: 4px;
+}
+.result-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.result-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--dark, #0a1628);
+}
+.result-score-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.result-score {
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.result-score.score-low  { color: #276749; }
+.result-score.score-mid  { color: var(--assess-warn); }
+.result-score.score-high { color: var(--assess-danger); }
+.result-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--assess-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.result-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+}
+.result-bar-fill.score-low  { background: #48bb78; }
+.result-bar-fill.score-mid  { background: var(--assess-warn); }
+.result-bar-fill.score-high { background: var(--assess-danger); }
+.result-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--assess-accent-dark);
+  text-decoration: none;
+}
+.result-link:hover { text-decoration: underline; }
+
+.results-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.results-disclaimer {
+  font-size: 0.75rem;
+  color: var(--assess-muted);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Shared button overrides ── */
+.btn { display: inline-block; border-radius: 8px; font-weight: 700; text-align: center; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; font-family: inherit; text-decoration: none; border: 2px solid transparent; }
+.btn-primary { background: var(--assess-accent); color: #fff; border-color: var(--assess-accent); }
+.btn-primary:hover:not(:disabled) { background: var(--assess-accent-dark); border-color: var(--assess-accent-dark); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-outline { background: transparent; color: var(--assess-accent-dark); border-color: var(--assess-accent-dark); }
+.btn-outline:hover { background: var(--assess-accent-dark); color: #fff; }
+.btn-large { padding: 14px 32px; font-size: 1rem; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .assess-sticky-inner { gap: 10px; }
+  .form-row { flex-direction: column; }
+  .result-card { gap: 12px; }
+}
+</style>
+
+</BaseLayout>
