@@ -179,12 +179,12 @@ export const AUDIT_CATEGORIES: AuditCategory[] = [
     },
   },
   {
-    id: 'vitamin-d',
-    label: 'Vitamin D level',
+    id: 'nutritional-supplements',
+    label: 'Nutritional supplement deficiencies',
     priorityTier: false,
     score(a) {
       const answers = a as Record<string, Record<string, unknown>>;
-      const cat = answers['vitamin-d'] ?? {};
+      const cat = answers['nutritional-supplements'] ?? {};
       if (!yesNo(cat['anchor'])) return 0;
       let s = 4;
       if (yesNo(cat['f1'])) s += 2;

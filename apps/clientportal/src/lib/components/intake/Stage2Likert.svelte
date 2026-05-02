@@ -56,7 +56,7 @@
     },
     {
       id: 'dental-health',
-      prompt: 'How would you rate your dental health concerns (gum bleeding, bad breath, missed cleanings)?',
+      prompt: 'How would you rate your dental health concerns (gum bleeding, bad breath, missed professional cleanings (>6 months since last))?',
       context: '0 = Excellent oral hygiene, cleaning within 6 months · 3 = Some issues; overdue for cleaning · 5 = Gum issues, >1 year since cleaning, persistent bad breath',
     },
     {
@@ -70,9 +70,9 @@
       context: '0 = Whole-foods diet, mostly home-cooked · 3 = Mix of whole foods and convenience; several times a week processed · 5 = Fast food or processed/convenience food daily',
     },
     {
-      id: 'vitamin-d',
-      prompt: 'How likely is it that your vitamin D level is suboptimal?',
-      context: '0 = >15 min direct sun daily AND tested optimal in the past year · 3 = Inconsistent sun and no recent test · 5 = Indoor work, no recent lab test, no supplementation',
+      id: 'nutritional-supplements',
+      prompt: "How likely is it that you're under-supplemented in essential nutrients (vitamin D, magnesium, omega-3, B-complex, etc.)?",
+      context: '0=I get >15 min direct sun daily, eat well, and tested optimal across panels. 5=indoor work, no recent labs, no targeted supplementation.',
     },
     {
       id: 'environment',
@@ -121,8 +121,8 @@
     },
     {
       id: 'self-image',
-      prompt: 'How dissatisfied are you with how you look and present yourself?',
-      context: '0 = Confident and satisfied with my appearance · 3 = Neutral; neither satisfied nor particularly bothered · 5 = Unhappy with my appearance; it affects social or professional interactions',
+      prompt: 'How much does dissatisfaction with your appearance affect your day-to-day confidence?',
+      context: '0=I feel confident and satisfied with how I look. 3=neutral. 5=appearance-related dissatisfaction affects my social or professional life daily.',
     },
   ];
 

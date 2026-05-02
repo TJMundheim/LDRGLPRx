@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "My4MLife — Begin with the end in mind.";
-const description = "The 4M system for optimal cognitive aging. Mind, Muscle, Mitigate, Motivate — a recursive protocol designed by Dr. TJ Mundheim, DC. Start free with the My4MLife App.";
+const description = "My4MLife is a lifestyle company giving you the best chance of having the best mind possible until your last day of life. The 4M system: Mind, Muscle, Mitigate, Motivate. Designed by Dr. TJ Mundheim, DC. Start free with the My4MLife App.";
 const canonical = "https://my4mlife.com/";
 const keywords = "4M system, cognitive aging, brain health, gut health, hormone balance, Dr. TJ Mundheim, My4MLife, membership program, health protocol";
 const ogImage = "https://my4mlife.com/logos/concept-13/lockup-color.svg";
@@ -14,8 +14,11 @@ const robots = "index, follow";
   <div class="container hp-hero-inner">
     <img src="/logos/concept-13/lockup-color.svg" alt="My4MLife" class="hp-hero-lockup" />
     <p class="hp-tagline"><em>Begin with the end in mind.</em></p>
+    <p class="hp-mission">
+      My4MLife is a lifestyle company giving you the best chance of having the best mind possible until your last day of life.
+    </p>
     <p class="hp-value-prop">
-      The 4M system is the simplest path to optimal cognitive aging. Start with <strong>Mind</strong> as your destination, work the <strong>Muscle</strong>, <strong>Mitigate</strong> the harm, <strong>Motivate</strong> the change — and return to a sharper Mind.
+      The 4M system is the path: <strong>Mind</strong> is the destination — work the <strong>Muscle</strong>, <strong>Mitigate</strong> the harm, <strong>Motivate</strong> the change, return to a sharper Mind. Recursive, by design.
     </p>
     <div class="hp-hero-ctas">
       <a href="https://app.my4mlife.com" class="btn btn-primary btn-large" target="_blank" rel="noopener">Get the My4MLife App — Free</a>
@@ -233,8 +236,17 @@ const robots = "index, follow";
   margin-bottom: 1.4rem;
   font-style: italic;
 }
+.hp-mission {
+  font-size: 1.18rem;
+  color: rgba(255,255,255,0.92);
+  max-width: 720px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.7;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+}
 .hp-value-prop {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: rgba(255,255,255,0.75);
   max-width: 640px;
   margin: 0 auto 2.5rem;
