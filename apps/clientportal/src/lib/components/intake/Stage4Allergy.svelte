@@ -78,12 +78,12 @@
     };
     if (score <= 5) return {
       title: 'Notable allergy/sensitivity signals.',
-      body: 'Start with BiomeAxisForge to support your gut-immune barrier and consider a 30-day elimination protocol to identify your specific triggers.',
+      body: 'Start with Biome-AF to support your gut-immune barrier and consider a 30-day elimination protocol to identify your specific triggers.',
       color: '#D4920A',
     };
     return {
       title: 'Significant allergy/sensitivity load.',
-      body: 'Strong indication for an elimination diet combined with BiomeAxisForge. Flag for a telemedicine consult to discuss IgG/IgE testing options.',
+      body: 'Strong indication for an elimination diet combined with Biome-AF. Flag for a telemedicine consult to discuss IgG/IgE testing options.',
       color: '#E05C2A',
     };
   }

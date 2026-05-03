@@ -10,7 +10,7 @@ Method: Full source read of `apps/clientportal/src/`; live HTTP check (200 OK); 
 
 - [ ] **W4 re-audit comparison table always shows "—" for Week 1 column.** `renderer.ts:1400` reads `W.factorScores[String(f.n)]` where `f.n` values are legacy numeric strings (`'00'`–`'13'`). But `Stage4Audit.submit()` syncs audit using `AUDIT_CATEGORIES` slug-keyed scores (e.g. `'gut-microbiome'`). The keys never match, so every Week 1 baseline cell in the side-by-side comparison will be blank for any user who completed intake with the new 3-stage flow. File: `renderer.ts:1398–1412` + `Stage4Audit.svelte:60–66`. **Severity: Critical — breaks the only Month 1 progress comparison.**
 
-- [ ] **`/cart` links are dead (404).** `renderer.ts:195` and `App.svelte:276` emit `<a href="/cart">` buttons in the Gut Health Self-Assessment result card ("Anchor with BiomeAxisForge →"). No `/cart` route exists in this SPA. Clicking navigates to the login page or a 404. **Severity: Critical — only conversion CTA in the gut assessment goes nowhere.**
+- [ ] **`/cart` links are dead (404).** `renderer.ts:195` and `App.svelte:276` emit `<a href="/cart">` buttons in the Gut Health Self-Assessment result card ("Anchor with Biome-AF →"). No `/cart` route exists in this SPA. Clicking navigates to the login page or a 404. **Severity: Critical — only conversion CTA in the gut assessment goes nowhere.**
 
 - [ ] **Profile component is unreachable — sign-out is impossible.** `Profile.svelte` exists but is not imported by `App.svelte`, `Sidebar.svelte`, or any routed tab. There is no "Profile" or "Sign Out" nav item in `tabs` (weeks.ts) or rendered sidebar. A signed-in user has no way to change their email or sign out without clearing browser storage manually. `cognito.ts:92` and `store.svelte.ts:26` implement sign-out correctly — it just has no UI surface. **Severity: Critical — users are permanently logged in with no escape.**
 
@@ -50,7 +50,7 @@ Method: Full source read of `apps/clientportal/src/`; live HTTP check (200 OK); 
 
 - [ ] **"telemedicine consult" mentioned in allergy assessment result copy.** `Stage4Allergy.svelte:86` (unused component): "flag for a telemedicine consult to discuss IgG/IgE testing options." This component is not rendered in the current intake flow (IntakeModule.svelte only imports Stage1, Stage2Likert, Stage4Audit) but the file exists and is not deleted. Also `App.svelte:359` (inside `allergyAssessmentAction`) contains the same copy. File: `Stage4Allergy.svelte:86`, `App.svelte:359`.
 
-- [ ] **"Doctor TJ Special" branding inconsistency.** `renderer.ts:1047` uses the informal "The Doctor TJ Special (BPC-157 + L-Glutamine)" as a supplement name in the Week 2 compliance table. All other copy refers to "BiomeAxisForge." If the product is branded BiomeAxisForge, the supplement compliance row should use that name. File: `renderer.ts:1047`.
+- [ ] **"Doctor TJ Special" branding inconsistency.** `renderer.ts:1047` uses the informal "The Doctor TJ Special (BPC-157 + L-Glutamine)" as a supplement name in the Week 2 compliance table. All other copy refers to "Biome-AF." If the product is branded Biome-AF, the supplement compliance row should use that name. File: `renderer.ts:1047`.
 
 - [ ] **`renderConsultCTA()` Calendly link is hardcoded to `calendly.com/my4mlife/consult`.** `renderer.ts:584`. If this link is not live, all post-intake CTAs silently fail. Not confirmed dead, but hardcoded and untested via automation. File: `renderer.ts:584`.
 

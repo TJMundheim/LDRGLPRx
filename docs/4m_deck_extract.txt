@@ -375,7 +375,7 @@ Not available anywhere else.
 
 
 Wk 1
-BiomeAxisForge
+Biome-AF
 
 Gut-Brain Axis Repair
 
@@ -423,7 +423,7 @@ B6 P-5-P · B12 Methylcobalamin
 Methylfolate 5-MTHF 1mg
 
 B5 · B1 · B2 active forms
-NOTES: SLIDE 15 — THE SUPPLEMENTS\n\nSay: "The four formulas in 4M are not available in any store. They're physician-prescribed compounds, compounded specifically for each cohort member based on their labs."\n\nBiomeAxisForge: "Week 1. Gut first. BPC-157, L-glutamine, aloe vera. The gut-brain axis is where everything starts."\nSleepRestore: "Also Week 1. At the clinical doses — 200mg elemental magnesium bisglycinate, 3 grams of glycine — you will notice the difference."\nArmorVita: "Week 2. D3, K2, boron at 6mg, astaxanthin at 8mg. Not a multivitamin."\nNeuroBridge: "Week 3. Active form B-vitamins — methylcobalamin, 5-MTHF. If you carry MTHFR, this is where your brain has been waiting."\n\nSay: "Not sold anywhere else. Part of what you get as a cohort member."
+NOTES: SLIDE 15 — THE SUPPLEMENTS\n\nSay: "The four formulas in 4M are not available in any store. They're physician-prescribed compounds, compounded specifically for each cohort member based on their labs."\n\nBiome-AF: "Week 1. Gut first. BPC-157, L-glutamine, aloe vera. The gut-brain axis is where everything starts."\nSleepRestore: "Also Week 1. At the clinical doses — 200mg elemental magnesium bisglycinate, 3 grams of glycine — you will notice the difference."\nArmorVita: "Week 2. D3, K2, boron at 6mg, astaxanthin at 8mg. Not a multivitamin."\nNeuroBridge: "Week 3. Active form B-vitamins — methylcobalamin, 5-MTHF. If you carry MTHFR, this is where your brain has been waiting."\n\nSay: "Not sold anywhere else. Part of what you get as a cohort member."
 
 --- SLIDE 17 ---
 

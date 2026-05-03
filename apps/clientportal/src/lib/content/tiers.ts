@@ -49,14 +49,14 @@ export const tiers: MembershipTier[] = [
       'Foundation lab panel included (onboarding)',
       'Cognitive baseline (Creyos) included',
       'Initial clinician intake visit (60 min)',
-      'First BiomeAxisForge 4-week cycle included',
+      'First Biome-AF 4-week cycle included',
       '4M Workbook — Month 1 content + AI coach',
       'Member pricing on all catalog products',
       'Async clinician messaging (unlimited)',
       'Quarterly clinician check-in visits',
     ],
     description:
-      'Foundation delivers the core clinical starting protocol: comprehensive labs, cognitive baseline, an initial clinician visit, and your first BiomeAxisForge cycle — all included in the onboarding fee. Monthly membership maintains access to the AI coach, async clinician support, and member pricing.',
+      'Foundation delivers the core clinical starting protocol: comprehensive labs, cognitive baseline, an initial clinician visit, and your first Biome-AF cycle — all included in the onboarding fee. Monthly membership maintains access to the AI coach, async clinician support, and member pricing.',
     idealFor: [
       'Members ready to begin a structured health optimisation protocol',
       'Those who want clinical oversight without high monthly costs',
@@ -86,7 +86,7 @@ export const tiers: MembershipTier[] = [
       'Everything in Foundation',
       'Genomic Blueprint (one-time, included year 1)',
       'Gut + Brain panel annually',
-      'BiomeAxisForge cycles — ongoing quarterly',
+      'Biome-AF cycles — ongoing quarterly',
       'Foundation + Recovery + Focus supplement stacks included',
       'CGM trial (Stelo 14-day) included',
       'Sleep study (WatchPAT) included year 1',
@@ -95,7 +95,7 @@ export const tiers: MembershipTier[] = [
       'Full 4M Workbook — all 4 months + AI coach',
     ],
     description:
-      'Optimization is the complete personalisation tier: genomic mapping, gut-brain axis assessment, continuous metabolic monitoring, and monthly clinician access — all integrated into a single monthly membership. Includes ongoing BiomeAxisForge cycles and three branded supplement stacks.',
+      'Optimization is the complete personalisation tier: genomic mapping, gut-brain axis assessment, continuous metabolic monitoring, and monthly clinician access — all integrated into a single monthly membership. Includes ongoing Biome-AF cycles and three branded supplement stacks.',
     idealFor: [
       'High performers who want data-driven protocol individualisation',
       'Members ready to integrate genomics and gut microbiome testing',
@@ -138,7 +138,7 @@ export const tiers: MembershipTier[] = [
       'Everything in Optimization',
       'Hormone optimisation track (TRT or HRT) included',
       'Brain biomarkers panel included annually',
-      'Peptide stack: BiomeAxisForge + Semax/Selank + DSIP/Epitalon (as indicated)',
+      'Peptide stack: Biome-AF + Semax/Selank + DSIP/Epitalon (as indicated)',
       'All four supplement stacks included (Foundation, Focus, Recovery, Longevity)',
       'Photobiomodulation device included (Vielight-class)',
       'Mycotoxin and heavy metals panels annually',
@@ -170,7 +170,7 @@ export const tiers: MembershipTier[] = [
       'Full access to the My4MLife App',
       'Weekly onboarding sessions — open to all Protégés',
       'Daily protocols and morning routine tracker',
-      'Gut-brain repair protocol (BiomeAxisForge overview)',
+      'Gut-brain repair protocol (Biome-AF overview)',
       'Mitigate Audit — personal 15-factor score',
     ],
     description:

@@ -14,7 +14,7 @@
 - **Freemium mobile/web app** — workbook-driven program built around four monthly pillars (Mitigate, Muscle, Mind, Motivate)
 - **AI concierge** — Claude-based (via AWS Bedrock) automated email and SMS communications that guide patients through intake, scheduling, and health coaching
 - **Telemedicine** — contracted telemedicine practice for physician-supervised consults and Rx (GLP-1, TRT, peptides, brain-health Rx)
-- **Supplements and proprietary formulas** — BiomeAxisForge and three companion formulas; direct-to-consumer fulfillment
+- **Supplements and proprietary formulas** — Biome-AF and three companion formulas; direct-to-consumer fulfillment
 - **Contracted pharmacy and lab** — third-party compound pharmacy and diagnostic lab (vendors to be contracted)
 - **Stripe-collected revenue** — consult fees, subscription tiers, supplement orders
 

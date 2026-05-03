@@ -132,20 +132,20 @@ function gutBand(score: number): { title: string; body: string; cta: string } {
     return {
       title: 'Your gut is in good shape.',
       body: "Stay consistent with Week 1's protocol — bone broth, fermented foods, and your foundational stack maintain what you've built.",
-      cta: 'Anchor with BiomeAxisForge',
+      cta: 'Anchor with Biome-AF',
     };
   }
   if (score <= 5) {
     return {
       title: 'Clear gut-axis signals.',
-      body: "Your gut is sending signals worth listening to. Week 1's gut-repair protocol plus BiomeAxisForge daily will drive measurable change in 30 days. Retake this assessment then.",
-      cta: 'Start with BiomeAxisForge',
+      body: "Your gut is sending signals worth listening to. Week 1's gut-repair protocol plus Biome-AF daily will drive measurable change in 30 days. Retake this assessment then.",
+      cta: 'Start with Biome-AF',
     };
   }
   return {
     title: 'Strong gut-repair indication.',
-    body: 'These are the patterns BiomeAxisForge was built for. Anchor your entire Month 1 in gut repair: BiomeAxisForge daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.',
-    cta: 'Begin with BiomeAxisForge today',
+    body: 'These are the patterns Biome-AF was built for. Anchor your entire Month 1 in gut repair: Biome-AF daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.',
+    cta: 'Begin with Biome-AF today',
   };
 }
 
@@ -1044,7 +1044,7 @@ function renderW2(W: Workbook): string {
 
     <div style="margin-bottom:12px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">WEEK 2 SUPPLEMENT COMPLIANCE</div>
-      ${['BiomeAxisForge (BPC-157 + L-Glutamine)', 'Magnesium Glycinate 300–400mg before bed'].map((name, i) => {
+      ${['Biome-AF (BPC-157 + L-Glutamine)', 'Magnesium Glycinate 300–400mg before bed'].map((name, i) => {
         const key = `w2s${i}`;
         const resp = W.supplements[key]?.response ?? '';
         return `<div style="display:flex;justify-content:space-between;align-items:center;
@@ -1068,7 +1068,7 @@ function renderW2(W: Workbook): string {
         oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (BiomeAxisForge + Magnesium Glycinate).
+    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Biome-AF + Magnesium Glycinate).
       <strong>Week 2 — Add: Omega-3 fish oil</strong> (2–3g EPA/DHA daily, with a meal) + <strong>D3/K2</strong> (5,000 IU D3 + 100mcg K2-MK7, with a fatty meal).
       Score your cognitive triad (focus / memory / mood) on Sunday.
       Download the dual n-back app and complete your first session before Saturday.`)}
@@ -1219,7 +1219,7 @@ function renderW3(W: Workbook): string {
     <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:#2E7FD9;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:#1A3050;line-height:1.6">
-        Week 3 is when we complete the Month 1 supplement stack. You have been running the BiomeAxisForge + Magnesium for two weeks, and added Omega-3 + D3/K2 in Week 2.
+        Week 3 is when we complete the Month 1 supplement stack. You have been running the Biome-AF + Magnesium for two weeks, and added Omega-3 + D3/K2 in Week 2.
         <strong>Week 3 — Add: Methylated B Complex</strong> (B6 as P-5-P, B12 as methylcobalamin, folate as methylfolate — methylated forms only for best absorption).
         This completes your 4-supplement Month 1 stack. Additional supplements introduced in Month 2.
       </div>
@@ -1580,23 +1580,23 @@ function renderWeekCogTraining(w: 1 | 2 | 3 | 4): string {
 const weekNutrData: Record<1 | 2 | 3 | 4, { fastingCue: string; suppTagline: string; suppNames: string[] }> = {
   1: {
     fastingCue: 'Eat for gut repair — bone broth, fermented foods, organ meats, no inflammatory inputs (sugar, seed oils, alcohol). Three meals, no snacks.',
-    suppTagline: 'This week, get familiar with your practitioner-grade stack. Start with the foundational formula — BiomeAxisForge — and add SleepRestore at bedtime.',
-    suppNames: ['BiomeAxisForge', 'SleepRestore'],
+    suppTagline: 'This week, get familiar with your practitioner-grade stack. Start with the foundational formula — Biome-AF — and add SleepRestore at bedtime.',
+    suppNames: ['Biome-AF', 'SleepRestore'],
   },
   2: {
     fastingCue: 'Hold your 14:10 window. Push your last meal 15 minutes earlier every 2 days — you are building the habit before we tighten the window next month.',
     suppTagline: 'Continue your stack. This week add ArmorVita with your largest meal — fat-soluble vitamins need dietary fat to absorb.',
-    suppNames: ['BiomeAxisForge', 'SleepRestore', 'ArmorVita'],
+    suppNames: ['Biome-AF', 'SleepRestore', 'ArmorVita'],
   },
   3: {
     fastingCue: 'Tighten your eating window slightly. Aim for your first meal closer to 10–10:30am this week. You are preparing your metabolism for the Month 2 progression to 16:8.',
     suppTagline: 'Continue your stack. Week 3 completes your Month 1 protocol — add NeuroBridge with breakfast to activate your methylation cycle.',
-    suppNames: ['BiomeAxisForge', 'SleepRestore', 'ArmorVita', 'NeuroBridge'],
+    suppNames: ['Biome-AF', 'SleepRestore', 'ArmorVita', 'NeuroBridge'],
   },
   4: {
     fastingCue: 'Run your full stack. Fast clean — water and black coffee only inside the fast window. Eat with intent — quality over quantity.',
     suppTagline: 'Your Month 1 stack is complete. Continue all four formulas. Review what you noticed and build your Month 2 commitment.',
-    suppNames: ['BiomeAxisForge', 'SleepRestore', 'ArmorVita', 'NeuroBridge'],
+    suppNames: ['Biome-AF', 'SleepRestore', 'ArmorVita', 'NeuroBridge'],
   },
 };
 

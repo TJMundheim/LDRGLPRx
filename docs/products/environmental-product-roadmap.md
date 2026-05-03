@@ -202,7 +202,7 @@ If we had to launch the absolute minimum environmental product set in the next 3
 6. **4M EMF Meter (TriField TF2 affiliate)** — ~$179 affiliate, $20 commission
 7. **4M Filter Replacement Subscription** — wraps around #3 and #4, recurring revenue
 
-Combined with the existing product line (BiomeAxisForge, SleepRestore, etc.), Phase 1 launch covers ~12 SKUs across 6 categories. Enough to populate solution-page product CTAs immediately.
+Combined with the existing product line (Biome-AF, SleepRestore, etc.), Phase 1 launch covers ~12 SKUs across 6 categories. Enough to populate solution-page product CTAs immediately.
 
 ---
 

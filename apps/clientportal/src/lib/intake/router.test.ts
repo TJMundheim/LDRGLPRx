@@ -84,13 +84,13 @@ describe('evaluateIntake — router', () => {
     expect(result.clinicianFlags).toHaveLength(0);
   });
 
-  it('gut severity ≥1 → BiomeAxisForge default-on', () => {
+  it('gut severity ≥1 → Biome-AF default-on', () => {
     const result = evaluateIntake(answers({ gut_bloating: 1 }), [BASE_SECTION]);
     const slugs = result.triggeredProducts.map(p => p.slug);
     expect(slugs).toContain('biomeaxisforge');
   });
 
-  it('brain severity ≥1 → BiomeAxisForge default-on via brain domain', () => {
+  it('brain severity ≥1 → Biome-AF default-on via brain domain', () => {
     const result = evaluateIntake(answers({ brain_focus: 2 }), [BASE_SECTION]);
     const slugs = result.triggeredProducts.map(p => p.slug);
     expect(slugs).toContain('biomeaxisforge');

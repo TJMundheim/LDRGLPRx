@@ -18,18 +18,18 @@ Compliance: never use "treat / cure / diagnose." Use "help with," "support," "ad
 
 ---
 
-## Section 2 — Gut & digestion → BiomeAxisForge primary
+## Section 2 — Gut & digestion → Biome-AF primary
 
 | Question | Trigger |
 |---|---|
-| Bloating after meals? | BiomeAxisForge + SIBO breath test |
-| Frequent gas, belching, reflux / GERD? | BiomeAxisForge + GI-MAP |
-| Loose stools, constipation, or alternating? | GI-MAP + BiomeAxisForge |
-| Diagnosed IBS, IBD, Crohn's, colitis? | GI-MAP + BiomeAxisForge (clinician review) |
-| Multiple courses of antibiotics in last 5 years? | BiomeAxisForge (post-antibiotic repair) |
-| Multiple food sensitivities or intolerances? | BiomeAxisForge + GI-MAP + zonulin |
-| Skin issues: acne, eczema, rosacea? | BiomeAxisForge (gut-skin axis) |
-| Brain fog after eating? | BiomeAxisForge + OAT |
+| Bloating after meals? | Biome-AF + SIBO breath test |
+| Frequent gas, belching, reflux / GERD? | Biome-AF + GI-MAP |
+| Loose stools, constipation, or alternating? | GI-MAP + Biome-AF |
+| Diagnosed IBS, IBD, Crohn's, colitis? | GI-MAP + Biome-AF (clinician review) |
+| Multiple courses of antibiotics in last 5 years? | Biome-AF (post-antibiotic repair) |
+| Multiple food sensitivities or intolerances? | Biome-AF + GI-MAP + zonulin |
+| Skin issues: acne, eczema, rosacea? | Biome-AF (gut-skin axis) |
+| Brain fog after eating? | Biome-AF + OAT |
 
 ---
 
@@ -37,14 +37,14 @@ Compliance: never use "treat / cure / diagnose." Use "help with," "support," "ad
 
 | Question | Trigger |
 |---|---|
-| Brain fog / mental fatigue? | BiomeAxisForge + Foundation neuro stack |
+| Brain fog / mental fatigue? | Biome-AF + Foundation neuro stack |
 | Trouble focusing or staying on task? | Citicoline / Alpha-GPC stack + cognitive baseline test |
 | Memory lapses (names, words, why-I-walked-in-here)? | Foundation neuro + cognitive baseline + APOE genotype |
 | Family history of dementia / Alzheimer's? | APOE genotype + GFAP/p-tau biomarkers + Longevity tier |
 | History of concussion(s) — count and severity? | **Genesis RPA (intranasal/IV) — post-concussion indication** |
 | Persistent post-concussion symptoms (headache, fog, light sensitivity)? | **Genesis RPA + neuro stack** |
 | Diagnosed mild cognitive impairment or early dementia? | **Genesis RPA (intrathecal/intranasal) — clinician-led** |
-| Mood: low mood, anhedonia, irritability? | BiomeAxisForge (gut-brain) + omega-3 + clinician eval (ketamine candidacy) |
+| Mood: low mood, anhedonia, irritability? | Biome-AF (gut-brain) + omega-3 + clinician eval (ketamine candidacy) |
 | Anxiety, racing thoughts, panic? | Methylation panel (COMT) + adaptogens + clinician eval |
 | History of depression unresponsive to SSRIs? | PGx panel + ketamine track eligibility |
 | Chronic stress, burnout? | Adaptogen stack + DUTCH cortisol pattern |
@@ -180,7 +180,7 @@ Compliance: never use "treat / cure / diagnose." Use "help with," "support," "ad
 Based on triggered solutions, the report renders:
 
 1. **Top 3 priority issues** (ranked by symptom severity × on-thesis relevance × commercial fit)
-2. **Recommended foundation:** always BiomeAxisForge if any gut/brain/cognitive trigger fires (which it almost always will)
+2. **Recommended foundation:** always Biome-AF if any gut/brain/cognitive trigger fires (which it almost always will)
 3. **Recommended protocol path:** Discovery → Foundation onboarding → 4M program → Maintenance tier
 4. **Recommended diagnostics bundle** (Foundation / Gut+Brain / Genomic / Hormone) based on triggers
 5. **Marquee opportunity** (when triggered): Genesis RPA candidacy with explicit indication
@@ -191,7 +191,7 @@ Based on triggered solutions, the report renders:
 
 ## Routing rules (for the AI agent)
 
-- **BiomeAxisForge** is recommended for ≥80% of intakes (gut-brain framing covers most chief complaints). Default-on unless contraindicated.
+- **Biome-AF** is recommended for ≥80% of intakes (gut-brain framing covers most chief complaints). Default-on unless contraindicated.
 - **Genesis RPA** is surfaced only with hard triggers (joint diagnosis, post-concussion symptoms, MCI/dementia, long-hauler) — never as a soft upsell.
 - **GLP-1 track** triggers on BMI, waist, pre-diabetes, or stalled weight loss.
 - **Hormone track** triggers on age + symptom cluster (men ≥35 + low T symptoms; women perimenopause symptom cluster).

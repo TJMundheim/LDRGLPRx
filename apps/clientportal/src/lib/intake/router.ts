@@ -3,7 +3,7 @@
  * evaluateIntake(answers, sections) → IntakeResult
  *
  * Rules (from docs/intake_questionnaire.md):
- *   - BiomeAxisForge is default-on when any gut/brain/cognitive trigger fires.
+ *   - Biome-AF is default-on when any gut/brain/cognitive trigger fires.
  *   - Genesis RPA is surfaced only on hard triggers (joint dx, concussion, MCI, long-COVID).
  *   - Tier: 1–2 domains → foundation | 3–4 → optimization | Genesis RPA + ≥3 → longevity | complex → concierge
  *   - Clinician flags: MCI dx, suicidal ideation screen, long-COVID high severity, multiple autoimmune.
@@ -199,7 +199,7 @@ export function evaluateIntake(
     }
   }
 
-  // ── Default-on rule: BiomeAxisForge if any gut or brain trigger fired ───────
+  // ── Default-on rule: Biome-AF if any gut or brain trigger fired ───────
   const hasGutOrBrainTrigger = GUT_BRAIN_DOMAINS.has('gut') && domainSeverity.has('gut') ||
     GUT_BRAIN_DOMAINS.has('brain') && domainSeverity.has('brain');
   if (hasGutOrBrainTrigger) {
@@ -282,7 +282,7 @@ function buildSummary(
   tier: TierRec,
 ): string {
   if (topPriorities.length === 0) {
-    return 'Your intake suggests a strong foundation for optimisation. We recommend starting with the BiomeAxisForge gut-brain protocol and our Foundation lab panel to establish your baseline.';
+    return 'Your intake suggests a strong foundation for optimisation. We recommend starting with the Biome-AF gut-brain protocol and our Foundation lab panel to establish your baseline.';
   }
 
   const top3 = topPriorities.slice(0, 3).map(p => domainLabel(p.domain));
@@ -292,7 +292,7 @@ function buildSummary(
 
   let sentence1 = `Your responses highlight ${domainStr} as your primary areas to address.`;
 
-  let sentence2 = 'BiomeAxisForge is recommended as your foundation, given the strong gut-brain connection that underlies most of these concerns.';
+  let sentence2 = 'Biome-AF is recommended as your foundation, given the strong gut-brain connection that underlies most of these concerns.';
   if (hasGenesisRPA) {
     sentence2 = 'Based on your history, you may be a candidate for Genesis RPA — a clinician-led regenerative protocol to help support recovery and cellular repair.';
   }

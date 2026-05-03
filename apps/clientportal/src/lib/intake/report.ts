@@ -143,7 +143,7 @@ function buildSuggestedCart(
 ): SuggestedCart {
   const isMember = result.recommendedTier !== 'foundation' || tier !== null;
 
-  // For non-members — offer standalone BiomeAxisForge as entry point
+  // For non-members — offer standalone Biome-AF as entry point
   const standaloneEntry = !isMember
     ? recommendedProducts.filter(p => p.slug === 'biomeaxisforge')
     : [];

@@ -48,7 +48,7 @@ ebd4faf feat(website): /solutions/peptides — peptide therapy hub
 1690dd4 feat(website): /membership page (Protégé→Graduate tiers) + /4m-cohort redirect
 2eb73c2 docs(qa): new-Protégé app walkthrough audit findings
 5e8522 feat(website): wire footer + homepage + membership email-capture forms
-d33cc4b fix(clientportal): walkthrough fixes — sign-out wired, /cart removed, /70→/200, BiomeAxisForge naming, mobile sticky-header offset
+d33cc4b fix(clientportal): walkthrough fixes — sign-out wired, /cart removed, /70→/200, Biome-AF naming, mobile sticky-header offset
 f9fff5a fix(clientportal): TS errors — Sidebar import paths + W4 audit type narrowing
 0554735 fix(website): final 404 + SEO sweep — broken links, meta tags, canonical URLs
 ```
@@ -114,7 +114,7 @@ These were surfaced in `docs/QA-app-walkthrough.md` (33 issues catalogued). Crit
 - **Stale copy fixed:**
   - "15-Factor Audit" → "20-Category Audit" (`weeks.ts:56,58`)
   - `/70` → `/200` in W4 comparison metric label (`renderer.ts:1296`)
-- **"Doctor TJ Special"** → **"BiomeAxisForge"** naming consistency (`renderer.ts:1047`)
+- **"Doctor TJ Special"** → **"Biome-AF"** naming consistency (`renderer.ts:1047`)
 - **Mobile sticky-header overlap** — Stage 2 sticky header now uses `top: <progress-shell-height>` offset instead of `top: 0`, preventing overlap with IntakeModule progress bar
 
 **Remaining open issues (not yet fixed):** See `docs/QA-app-walkthrough.md` — 30 issues remain across functional, content, UX, mobile, and accessibility categories. Key pending items:
@@ -220,7 +220,7 @@ LDRGLPRx/
 ## Strategic north star (memory-backed, summarized)
 - Goal: AI-operated telehealth + pharmacy commerce business in brain-healthspan. Medvi-scale revenue target.
 - Every workflow should be agent-runnable (intake, triage, coach, marketing, support, compliance) — human clinician signs Rx decisions.
-- **BiomeAxisForge** is the hero flagship (gut → brain); **Genesis RPA** is the marquee regenerative upsell; **GLP-1 / hormone / peptide / nootropic** tracks stack underneath.
+- **Biome-AF** is the hero flagship (gut → brain); **Genesis RPA** is the marquee regenerative upsell; **GLP-1 / hormone / peptide / nootropic** tracks stack underneath.
 - Target audience for the 4M cohort product: men 35-60. Platform itself is broader.
 - 4M = **Mitigate · Muscle · Mind · Motivate** — four weekly pillars of Month 1. Months 2-4 add build/intensify/integrate.
 
@@ -231,7 +231,7 @@ LDRGLPRx/
 2. **Long-term membership tiers** — $0 Discovery / $99/mo Foundation ($499 onboarding) / $299/mo Optimization / $799/mo Longevity / $1,499/mo Concierge. For post-cohort graduation and standalone product funnels.
 
 ### Proprietary Rx formulas (compounded via MD Specialty Group):
-- **BiomeAxisForge** — Wk 1 gut-brain (BPC-157 + L-Glutamine + Aloe) · $249/cycle retail
+- **Biome-AF** — Wk 1 gut-brain (BPC-157 + L-Glutamine + Aloe) · $249/cycle retail
 - **SleepRestore** — Wk 1 deep sleep (Mg bisglycinate + Glycine + KSM-66 + L-Theanine + Apigenin + Zinc) · $149/cycle
 - **ArmorVita** — Wk 2 fat-soluble defense (D3+K2+Boron+Astaxanthin+Vit A) · $89/cycle
 - **NeuroBridge** — Wk 3 methylated B-complex (B12 methylcobalamin + 5-MTHF + P-5-P) · $99/cycle
@@ -250,7 +250,7 @@ LDRGLPRx/
 **Data + content layer**
 - `src/lib/data/catalog.ts` — Product, LabPanel, MembershipTier, PricingModel, TierAvailability types
 - `src/lib/data/intake.ts` — IntakeSection, IntakeQuestion union, TriggerRule, IntakeAnswer, IntakeResult, TierRec
-- `src/lib/content/products.ts` — 25 products (BiomeAxisForge, Genesis RPA, SleepRestore, ArmorVita, NeuroBridge, GLP-1 sema+tirz, ED, TRT, HRT, Enclomiphene, Ketamine, Semax, Selank, Cerebrolysin, DSIP, Epitalon, Methylene Blue, 3 sleep Rx, 4 branded stacks, PBM device, CGM)
+- `src/lib/content/products.ts` — 25 products (Biome-AF, Genesis RPA, SleepRestore, ArmorVita, NeuroBridge, GLP-1 sema+tirz, ED, TRT, HRT, Enclomiphene, Ketamine, Semax, Selank, Cerebrolysin, DSIP, Epitalon, Methylene Blue, 3 sleep Rx, 4 branded stacks, PBM device, CGM)
 - `src/lib/content/labs.ts` — 10 lab panels (Foundation, Cognitive, Gut+Brain, Genomic Blueprint, Hormone, Brain Biomarkers, Sleep Study, Mycotoxin, Heavy Metals, Cardiovascular)
 - `src/lib/content/tiers.ts` — 5 membership tiers + 4 cohort tiers; `cohortTiers` / `membershipTiers` filtered exports
 - `src/lib/content/intakeQuestions.ts` — 87 questions across 12 sections; every question maps to product/lab triggers
@@ -258,7 +258,7 @@ LDRGLPRx/
 - `src/lib/content/monthProgression.ts` — M1-M4 + Maintenance; Month 1 includes Genesis RPA bonus module at end of Week 4
 
 **Intake engine**
-- `src/lib/intake/router.ts` — pure `evaluateIntake()` walks answers, fires triggers, dedupes, computes recommended tier + domain priorities + clinicianFlags. BiomeAxisForge default-on rule.
+- `src/lib/intake/router.ts` — pure `evaluateIntake()` walks answers, fires triggers, dedupes, computes recommended tier + domain priorities + clinicianFlags. Biome-AF default-on rule.
 - `src/lib/intake/report.ts` — `buildIntakeReport()` returns structured output for UI (headline, summary, priorityCards, products, labs, tier, suggestedCart)
 
 **AI coach (scaffolded, stubbed)**
@@ -322,7 +322,7 @@ LDRGLPRx/
 
 **Tests**
 - `apps/clientportal/package.json` — added vitest devDep + `test` script
-- `src/lib/intake/router.test.ts` — 10 tests covering BiomeAxisForge default-on, meniscus → Genesis RPA, post-concussion clinician flag, BMI → GLP-1, APOE memory → biomarkers, tier escalation, SI screener → concierge
+- `src/lib/intake/router.test.ts` — 10 tests covering Biome-AF default-on, meniscus → Genesis RPA, post-concussion clinician flag, BMI → GLP-1, APOE memory → biomarkers, tier escalation, SI screener → concierge
 - `src/lib/intake/report.test.ts` — 3 tests covering tier flow, cart totals, clinician flags
 - All 13 tests pass
 
@@ -333,7 +333,7 @@ LDRGLPRx/
   - `integrations/telemed.ts` → vendor TBD (Healthie / Spruce / iframe)
   - `integrations/coach.ts` → deploy the Lambda (already built) and set `VITE_COACH_PROXY_URL`
 - **AI avatar video** — user to provide deck rendered through HeyGen/Synthesia; drop URL into AvatarPlaceholder
-- **Pharmacy partner API** — MD Specialty Group for Rx fulfillment (BiomeAxisForge, SleepRestore, ArmorVita, NeuroBridge, peptides)
+- **Pharmacy partner API** — MD Specialty Group for Rx fulfillment (Biome-AF, SleepRestore, ArmorVita, NeuroBridge, peptides)
 - **Mobile provider API** — Genesis RPA scheduling + administration tracking
 - **Lab vendor** — Rupa Health or Evexia for direct-to-consumer lab ordering
 - **Legacy Week 2/3/4 content** — still in `src/app.js.legacy`, not yet ported to typed content modules (overnight attempt timed out; punt to next session)
