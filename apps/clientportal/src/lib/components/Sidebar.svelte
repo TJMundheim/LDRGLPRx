@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { signOut } from '../../auth/cognito.js';
-  import { clearUser } from '../../auth/store.svelte.js';
+  import { signOut } from '../auth/cognito.js';
+  import { clearUser } from '../auth/store.svelte.js';
 
   interface Props {
     navHtml: string;

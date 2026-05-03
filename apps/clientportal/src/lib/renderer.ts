@@ -1403,14 +1403,17 @@ function renderW4(W: Workbook): string {
         <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#E05C2A;text-align:center;border-radius:0 6px 0 0">Δ</div>
         ${AUDIT_CATEGORIES.map((cat, i) => {
           const bg = i % 2 === 0 ? '#FFFFFF' : '#F8FBF8';
-          const w1: number | '' = w1Scores[cat.id] ?? '';
-          const w4: number | '' = W.w4audit[cat.id] !== undefined ? (Number(W.w4audit[cat.id]) || '') : '';
-          const delta: number | '' = w1 !== '' && w4 !== '' ? (Number(w4) - Number(w1)) : '';
-          const color = delta === '' ? '#3A5A42' : (Number(delta) < 0 ? '#1D9E75' : Number(delta) > 0 ? '#E05C2A' : '#3A5A42');
+          const w1Raw = w1Scores[cat.id];
+          const w1: number | null = typeof w1Raw === 'number' ? w1Raw : null;
+          const w4Raw: unknown = W.w4audit?.[cat.id];
+          const w4Str = w4Raw == null ? '' : String(w4Raw);
+          const w4: number | null = w4Str !== '' && !isNaN(Number(w4Str)) ? Number(w4Str) : null;
+          const delta: number | null = w1 !== null && w4 !== null ? (w4 - w1) : null;
+          const color = delta === null ? '#3A5A42' : (delta < 0 ? '#1D9E75' : delta > 0 ? '#E05C2A' : '#3A5A42');
           return `<div style="padding:6px 8px;background:${bg};color:#1A3A20">${esc(cat.label)}</div>
-            <div style="padding:6px 8px;background:${bg};text-align:center;color:#5A8A64">${w1 !== '' ? w1 : '—'}</div>
-            <div style="padding:6px 8px;background:${bg};text-align:center"><input type="number" style="width:44px;text-align:center" min="0" max="10" value="${esc(String(w4 !== '' ? w4 : ''))}" placeholder="—" oninput="portalField('w4audit.${cat.id}',this.value)"></div>
-            <div style="padding:6px 8px;background:${bg};text-align:center;color:${color};font-weight:700">${delta === '' ? '—' : (Number(delta) > 0 ? '+' : '') + delta}</div>`;
+            <div style="padding:6px 8px;background:${bg};text-align:center;color:#5A8A64">${w1 !== null ? w1 : '—'}</div>
+            <div style="padding:6px 8px;background:${bg};text-align:center"><input type="number" style="width:44px;text-align:center" min="0" max="10" value="${esc(String(w4 !== null ? w4 : ''))}" placeholder="—" oninput="portalField('w4audit.${cat.id}',this.value)"></div>
+            <div style="padding:6px 8px;background:${bg};text-align:center;color:${color};font-weight:700">${delta === null ? '—' : (delta > 0 ? '+' : '') + delta}</div>`;
         }).join('')}
       </div>
       </div>
