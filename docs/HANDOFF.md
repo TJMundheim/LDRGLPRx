@@ -1,6 +1,209 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-04-19 (late evening + overnight autonomous push).
+Last updated: 2026-05-03.
+
+---
+
+## Session: May 1–3, 2026 — Phase 2 Marketing Rebuild + App Simplification + SEO/Go-Live Readiness
+
+### Commits this session
+```
+e2c19f3 docs(legal+brand): consolidated credentialing rules, HIPAA memory fix, private if-asked statement
+d30c157 feat(clientportal): adaptive 20-category discovery + auto-populated audit + top-3 priority rule
+0856d7c feat(clientportal): rename + promote 'Lack of purpose, goals' to audit position #1
+15b82c9 feat(clientportal): dashboard audit summary, remove W1 audit duplicate, add box-breathing how-to
+3d38ed0 feat(website): rename LDRGLPRx → My 4M Life + 6 logo concepts at /logos
+ea9e8f1 feat(brand): lock My4MLife wordmark + 4M order Mind→Muscle→Mitigate→Motivate
+3a96676 feat(website): Round 3 Vitruvian Man logo concepts + consolidate /logos page
+004473e feat(website): Concept 17 refinement — 4 Vitruvian + golden-ratio variants
+90bf326 feat(website): da Vinci faithful Vitruvian Man — Variant 5 logo concept
+90bf326 feat(website): Phase 2A — mega-menu navbar + Concept 13 logo integration
+ccda463 feat(website): Phase 2B — 20 solution stub pages
+75d2aed feat(website): Phase 2C — homepage rewrite, cohort tiers, footer cleanup
+ee7af77 feat(clientportal): welcome-back skip path for returning intake users
+cca03e6 fix(clientportal): Stage 1 restores saved basics + consent state on mount; auto-advance if complete
+b4d76b9 fix(clientportal): consent state survives revisits and minor doc whitespace changes
+91255c5 fix(clientportal): dashboard auto-populates from intake audit + strip stale 14-factor references
+b391d83 feat(clientportal): simplified 3-stage intake — basics + 20 Likert + auto-audit, clean slate
+00588354 fix(clientportal): Stage 1 consent UI clarity + Continue gate
+d09016e fix(clientportal): Stage 1 Continue activates — coerce numeric inputs to string before .trim()
+13340082 fix(clientportal): dashboard name + remove DOB + brighten week 1 audit text + verify top-3 tie-breaker
+3516e96 wip: rename cohort references in clientportal lib files
+52c253b wip: rename cohort references across all website pages
+624956 feat: complete Cohort → Protégé/Insider/Graduate rename + My4MLife App naming
+443d10b feat(website): rewrite about page with authentic My4MLife founder narrative
+2510a83 feat(website): rewrite 6 solution pages with 'Eliminate the Insulting Behavior' framing
+5eda47b feat(website): add environmental hub sub-pages — light, air, water, EMF, grounding
+91fad47 feat(website): IA shift — flat top nav with assessment CTA + environmental dropdown
+e4783b5 feat(website): public /assessment audit page with 20 Likert + lead capture
+48a0e17 feat: unified comprehensive 4M consult CTA across website + app
+d302f17 feat: Vit D→Nutritional Supplements + Q7/Q20 polish + brand statement integration + environmental product roadmap doc
+f2c578c docs(products): add Incandescent Heritage line — rough-service exempt incandescent bulbs
+4efec20 feat(website): SEO nav labels — Gut Health/Leaky Gut, Testosterone Therapy, GLP-1 Weight Loss, Brain Optimization, Peptides
+ebd4faf feat(website): /solutions/peptides — peptide therapy hub
+8a12fe9 docs(qa): new-visitor walkthrough audit findings
+2f28bd6 wip: SEO update gut and hormones pages
+0fb37a0 wip: SEO update weight and cognitive pages
+5b41a09 feat(website): /consult landing page (placeholder booking)
+1690dd4 feat(website): /membership page (Protégé→Graduate tiers) + /4m-cohort redirect
+2eb73c2 docs(qa): new-Protégé app walkthrough audit findings
+5e8522 feat(website): wire footer + homepage + membership email-capture forms
+d33cc4b fix(clientportal): walkthrough fixes — sign-out wired, /cart removed, /70→/200, BiomeAxisForge naming, mobile sticky-header offset
+f9fff5a fix(clientportal): TS errors — Sidebar import paths + W4 audit type narrowing
+0554735 fix(website): final 404 + SEO sweep — broken links, meta tags, canonical URLs
+```
+
+---
+
+### Brand + IA decisions locked (May 1)
+
+- **Wordmark:** `My4MLife` — single word, exact casing, no spaces
+- **4M order locked:** Mind → Muscle → Mitigate → Motivate (this is the correct weekly sequence; prior docs had it wrong)
+- **Tagline locked:** "Begin with the end in mind." — triple entendre (purposeful living / reverse-engineering health / medical directives)
+- **Brand statement:** "lifestyle company giving you the best chance of having the best mind possible until your last day of life"
+- **Brand phrase:** "Eliminate the Insulting Behavior" — frames every solution page
+- **Logo locked:** Concept 13 — Vitruvian Man silhouette with 4 cardinal M markers. Lives at `/logos/concept-13/`. Multiple variants committed under `website/public/logos/`.
+- **Membership tier rename** (Cohort → new system): Protégé / Insider / Insider Plus / Insider Concierge / Graduate. All references to "Cohort" stripped from app and website.
+- **Top nav restructured (May 2):** From 4M-grouped mega-menu to flat solution-focused nav with high-intent SEO labels (Gut Health/Leaky Gut, Testosterone Therapy, GLP-1 Weight Loss, Brain Optimization, Peptides). Environmental Factors dropdown retained.
+- **"Essential Manage" brand residue** stripped from 5 pages (`tiers.astro`, `4m-cohort.astro`, `genesis-rpa.astro`, `protocols.astro`, `biomeaxisforge.astro`). Titles, JSON-LD org names, and body copy all updated.
+
+---
+
+### Marketing site — Phase 2 build (May 1–2)
+
+**New pages:**
+- `website/src/pages/solutions/` — 20 solution stub pages, all routable from nav and sitemap
+- `website/src/pages/solutions/environment/` — 5 sub-pages: `light.astro`, `air.astro`, `water.astro`, `emf.astro`, `grounding.astro`
+- `website/src/pages/membership.astro` — Protégé→Graduate breakdown; `/4m-cohort` now redirects here
+- `website/src/pages/consult.astro` — placeholder booking landing; primary paid-conversion CTA destination sitewide
+- `website/src/pages/assessment.astro` — public 20-Likert audit with email capture; leads to app or consult
+- `website/src/pages/solutions/peptides.astro` — peptide therapy hub (nootropic + GH + recovery)
+- `website/src/pages/solutions/nutritional-supplements.astro` — broadened from `/vitamin-d`
+
+**Rewrites:**
+- Homepage rebuilt: hero with brand statement, 4M cycle visual, top-priorities grid, membership tiers, founder section
+- About page completely rewritten — Medvi-template residue removed, authentic My4MLife founder narrative
+- 6 primary solution pages rewritten around "Eliminate the Insulting Behavior" 4-section structure (Problem / Insulting Behaviors / Eliminate / Solution Path)
+
+**Email capture** wired (localStorage + stub POST) on: footer, homepage, membership page, consult page.
+
+---
+
+### App simplification (Apr 30 → May 1)
+
+- **Intake collapsed from 6 stages to 3:**
+  1. Basics + Consents (`Stage1Basics.svelte`)
+  2. 20-Likert Self-Assessment (`Stage2Likert.svelte`)
+  3. Audit Review (`Stage4Audit.svelte`)
+- Connected Mind stage removed (content moved to `/solutions/cognitive` marketing page)
+- Goals stage merged into intake flow
+- Discovery questionnaire flattened to 20 single Likert questions — one per audit category, anchored 0–10
+- Audit auto-populates from Stage 2 answers; user reviews and confirms at Stage 3
+- `intake-schema-v3` clean-slate sentinel added to `IntakeModule.svelte` — wipes legacy multi-stage localStorage keys on first load after `2026-05-01`
+- Welcome-back skip path added: returning users who have completed intake skip directly to dashboard
+
+---
+
+### App walkthrough fixes (May 2–3)
+
+These were surfaced in `docs/QA-app-walkthrough.md` (33 issues catalogued). Critical fixes shipped:
+
+- **Sign-out wired into Sidebar** — was completely unreachable; `Profile.svelte` was not imported or rendered anywhere. Fixed.
+- **W4 audit comparison key mismatch fixed** — `renderer.ts:1400` was reading `W.factorScores[String(f.n)]` (legacy numeric keys `'00'`–`'13'`) but `Stage4Audit.submit()` writes slug keys (`'gut-microbiome'`, etc.). Fixed with type narrowing.
+- **`/cart` dead links removed** — `renderer.ts:195` and `App.svelte:276` were emitting `<a href="/cart">` with no matching route. Links removed.
+- **Stale copy fixed:**
+  - "15-Factor Audit" → "20-Category Audit" (`weeks.ts:56,58`)
+  - `/70` → `/200` in W4 comparison metric label (`renderer.ts:1296`)
+- **"Doctor TJ Special"** → **"BiomeAxisForge"** naming consistency (`renderer.ts:1047`)
+- **Mobile sticky-header overlap** — Stage 2 sticky header now uses `top: <progress-shell-height>` offset instead of `top: 0`, preventing overlap with IntakeModule progress bar
+
+**Remaining open issues (not yet fixed):** See `docs/QA-app-walkthrough.md` — 30 issues remain across functional, content, UX, mobile, and accessibility categories. Key pending items:
+- W2/W3 factor dropdowns still pull from legacy `factors.ts` (14-item list) rather than 20-category AUDIT_CATEGORIES
+- Scale inconsistency: W2/W3 re-score inputs use 1–5 but intake stores 0–10
+- No "intake complete" celebration screen before dashboard
+- Height field has no ft/in conversion helper
+- `renderGutAssessment()` is dead code (~120 lines in App.svelte + 80 in renderer.ts)
+
+---
+
+### SEO + go-live readiness (May 2–3)
+
+- **Nav labels** updated to high-intent keywords: Gut Health/Leaky Gut, Testosterone Therapy, GLP-1 Weight Loss, Brain Optimization, Peptides
+- **Solution page meta** — titles, H1s, meta descriptions updated for primary and secondary keywords per page
+- **Canonical URLs** standardized to `https://www.my4mlife.com/` (www); prior builds used non-www
+- **Sitemap** regenerated with www URLs; `robots.txt` sitemap directive corrected
+- **Internal 404s eliminated:** broken footer links (`/live-coaching`, `/resources`, `/press`), blog Related Posts links (missing `/blog/` prefix), blog breadcrumb `href="/index"`, `/downloads/morning-protocol`
+
+**Remaining open issues (not yet fixed):** See `docs/QA-walkthrough.md` — 35 issues catalogued. Key pending items:
+- Site still needs a redeploy to push all source changes live (stale CloudFront cache)
+- OG images: SVG is used sitewide (Facebook/LinkedIn don't render SVGs); `/images/og-image.jpg` referenced by `/4m-cohort` returns 404
+- Blog section is 100% GLP-1/weight-loss posts — mismatched to brain-healthspan brand
+- `/links` page returns 200 but has no visible content
+- Social footer icons all `href="#"`
+- `apple-touch-icon` is SVG — iOS requires PNG
+
+---
+
+### Documents created this session
+
+| Path | Description |
+|---|---|
+| `docs/products/environmental-product-roadmap.md` | Internal roadmap — ~40 SKUs across Light/Air/Water/EMF/Grounding. Phase 1 quick-launch shortlist (7 SKUs). Revenue model (affiliate → white-label). Heritage Incandescent line. Drafted 2026-05-01. |
+| `docs/QA-walkthrough.md` | 35 site issues across 55 pages — critical, functional, content, SEO, visual, polish |
+| `docs/QA-app-walkthrough.md` | 33 app issues — critical, functional, content, UX, mobile, accessibility |
+| `docs/legal/attorney-brief.md` | 6 HIPAA documents requested from counsel; includes platform description, role analysis, document specs |
+| `docs/plan/lead-capture-stripe-ai-concierge.md` | Full atomic plan: public lead funnel → Stripe Checkout → AI Concierge (Bedrock). Includes DDB schema, Lambda plan, compliance prerequisites. |
+
+---
+
+### Decisions locked to memory
+
+- Brand: wordmark, tagline, 4M order, logo, tier system, brand statement, solution-page framing phrase
+- HIPAA architecture: Bedrock not Anthropic-direct; AWS BAA covers all Claude calls in production
+- Insurance/PEO vertical: exists, sequestered to Phase 2–3
+- Environmental: major revenue category; affiliate-first for Phase 1; white-label gateway SKUs at Phase 2
+- Source vet shortlist: Aero-Tech, Newcandescent, Satco (incandescent); Air Doctor, IQAir, Coway (air); AquaTru, Berkey, Waterdrop (water); Joovv, Mito Red, PlatinumLED (red light); Shieldex, Yshield, TriField (EMF); Earthing.com, Hooga (grounding)
+
+---
+
+### TJ-blocked items (as of 2026-05-03)
+
+- **AWS BAA** — Console → Artifact → Agreements → AWS BAA → Accept
+- **Bedrock model access** — us-east-1 console → Bedrock → Model access → request Claude Sonnet + Haiku
+- **Attorney** — forward `docs/legal/attorney-brief.md`; still missing docs 4 (Marketing-Use Authorization) and 6 (Workforce HIPAA Policy) from that brief
+- **Stripe keys** — test-mode first, then live; needed to unblock `integrations/payments.ts`
+- **Connected Mind URL** — needed to link from app and solution page
+- **Insider tier pricing** — not yet set
+- **Telemedicine partner** — vendor not yet contracted or named
+- **Environmental product sourcing** — contact Aero-Tech, Newcandescent, AquaTru, Air Doctor, Joovv, Earthing.com, Shieldex for affiliate/white-label terms
+- **Founder photo** — currently "TJ" initials placeholder on About page and app
+- **Blog content** — 3 Medvi-template posts (`/blog/am-i-eligible-for-glp1`, `/blog/semaglutide-vs-tirzepatide`, `/blog/what-to-expect-first-month-glp1`) pending rewrite or replacement with brain-healthspan content
+- **TJ's line-by-line review notes** — awaited
+
+---
+
+### Live URLs (as of session end)
+
+- Marketing site: `https://www.my4mlife.com` — CloudFront `E3J19LI34BC2VR`
+- App / PWA: `https://app.my4mlife.com` — CloudFront `E2RJ7NRPD4MN2X`
+- AWS account: `879696522760`, region `us-east-2` (Bedrock cross-region to `us-east-1`)
+
+---
+
+### Pick-up checklist for next session
+
+1. Read this file + memory index.
+2. **Deploy the website** — source is ahead of live by ~30 commits; run `website/deploy.sh` to push latest build.
+3. Work through `docs/QA-walkthrough.md` (site) and `docs/QA-app-walkthrough.md` (app) — address critical and functional issues first.
+4. Unblock P0 items in `docs/plan/lead-capture-stripe-ai-concierge.md` (requires TJ: BAA, Bedrock access, Stripe keys, attorney docs).
+5. Once P0 done: execute P1 of the lead-funnel plan.
+6. Replace W2/W3 factor dropdowns with AUDIT_CATEGORIES source (`renderer.ts:428–436`).
+7. Fix W2/W3 score-input scale inconsistency (1–5 vs 0–10 stored).
+8. OG image — produce a 1200×630 PNG and replace SVG references sitewide.
+
+---
+
+## Prior session: 2026-04-19 (late evening + overnight autonomous push)
 
 ## Repo layout
 ```
