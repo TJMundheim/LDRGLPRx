@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
+import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
 ---
 
 <SolutionPage
@@ -11,58 +12,78 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
 >
   <h2>The Problem</h2>
   <p>
-    Testosterone therapy has become more accessible — but low testosterone is rarely the
-    only hormonal problem. Thyroid, cortisol, DHEA, growth hormone, and estradiol all
-    degrade simultaneously in men over 35, compounding each other's effects on energy,
-    mood, body composition, libido, recovery, and cognitive sharpness. TRT without a full
-    panel is an incomplete answer to an incomplete question.
-  </p>
-  <p>
-    Men's hormone replacement and hormone optimization require data. Multiple hormonal axes
-    degrade in parallel: thyroid slows metabolic rate, elevated estradiol suppresses
-    testosterone signaling, cortisol dysregulation burns out the HPA axis. The brain needs
-    all of these in range. When they're not, no amount of willpower compensates.
-  </p>
-  <p>
-    The Muscle pillar of the 4M framework treats hormone optimization as a foundational
-    layer — because no training protocol, nutrition plan, or cognitive stack reaches its
-    ceiling inside a hormonally depleted system.
+    Testosterone rarely crashes alone. Thyroid, cortisol, DHEA, and estradiol all
+    degrade in parallel after 35 — compounding each other's effects on energy, body
+    composition, and cognition. Low T is a symptom of a broken hormonal environment,
+    not a standalone diagnosis.
   </p>
 
-  <h2>The Insulting Behaviors</h2>
-  <p>These are the most common ways men actively suppress their own hormonal function.</p>
-  <ul class="insult-list">
-    <li>No baseline lab work in the past 2 years — flying blind on your own biology</li>
-    <li>Chronic sleep deprivation (under 7 hours) — testosterone is produced during deep sleep</li>
-    <li>Chronic alcohol use — alcohol directly suppresses testosterone production</li>
-    <li>Excess visceral body fat — fat tissue converts testosterone to estrogen</li>
-    <li>Sedentary lifestyle with no resistance training — resistance training is the most reliable natural testosterone driver</li>
-    <li>Daily exposure to endocrine disruptors: plastics, fluoride, common pesticide residues in food</li>
-    <li>Chronic unmanaged stress — elevated cortisol directly suppresses testosterone synthesis</li>
+  <h2>Why this matters</h2>
+  <ul class="why-list">
+    <li>Hormonal decline after 35 degrades muscle, fat distribution, libido, mood, and brain speed simultaneously</li>
+    <li>Elevated estradiol silently suppresses testosterone signaling even when total T looks borderline</li>
+    <li>No training or nutrition protocol reaches its ceiling inside a hormonally depleted system</li>
   </ul>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <p>Start with what's suppressing you. Then optimize what remains.</p>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — Get a Full Panel</h3>
-      <p>Total T, free T, TSH, free T3/T4, cortisol AM, DHEA-S, estradiol, SHBG. Without data, you are guessing. Order labs before anything else.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — Resistance Training 3x/Week</h3>
-      <p>Compound movements — squat, deadlift, press. The most evidence-backed natural testosterone intervention available to you.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — 7+ Hours Sleep, Lights Out by 10:30pm</h3>
-      <p>Sleep is when testosterone is synthesized. A bad sleep schedule cannot be offset by any supplement protocol.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Remove Endocrine Disruptors</h3>
-      <p>Switch to glass and stainless steel for food and water storage. Filter tap water. Prioritize organic for the Dirty Dozen produce list.</p>
-    </div>
-    <div class="card">
-      <h3>Step 5 — Schedule Your Comprehensive 4M Consult</h3>
-      <p>One consult covers TRT evaluation, thyroid, peptides, weight management (GLP-1s), and your full personalized protocol — through our contracted licensed telemedicine practice for appropriate candidates.</p>
-    </div>
-  </div>
+  <TwoPathsCTA
+    otcProductName="ArmorVita Nutraceutical"
+    otcDescription="D3 + K2 + Boron + Astaxanthin — pharmaceutical-grade foundational hormonal support. Supports testosterone-adjacent pathways without a prescription."
+    otcCtaLabel="Order ArmorVita →"
+    otcCtaHref="/shop/armorvita"
+    rxDescription="Full hormone panel review (Total T, Free T, estradiol, TSH, cortisol AM, DHEA-S, SHBG), TRT evaluation, peptide hormone support, GLP-1 candidacy, and your complete personalized 4M protocol — through our licensed telemedicine partner."
+    whenOtc="Fatigue and energy issues are present but you have no clinical low-T diagnosis and want a foundational starting point."
+    whenRx="Persistent low-T symptoms — fatigue, low libido, brain fog, loss of muscle mass — and you want a full lab panel with TRT or peptide protocol if indicated."
+    protegeFooter="Become a Protégé (free) — daily protocol guidance, weekly coaching, hormone tracker →"
+  />
+
+  <h2>The Insulting Behaviors</h2>
+  <p>These habits actively suppress your hormonal function every single day.</p>
+  <ul class="insult-list">
+    <li>No baseline lab work in the past 2 years — flying blind on your own biology</li>
+    <li>Chronic sleep deprivation under 7 hours — testosterone is produced during deep sleep</li>
+    <li>Excess visceral body fat — fat tissue converts testosterone to estrogen</li>
+    <li>Daily exposure to endocrine disruptors: plastics, fluoride, common pesticide residues</li>
+  </ul>
+
+  <p class="read-more-line">
+    <a href="/blog/eliminate-the-insulting-behavior-hormones" class="read-more-link">
+      Read the full deep-dive: Eliminate the Insulting Behavior — Hormones &rarr;
+    </a>
+  </p>
 </SolutionPage>
+
+<style>
+.why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.75rem;
+}
+.why-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.97rem;
+}
+.why-list li:last-child { border-bottom: none; }
+.why-list li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.read-more-line {
+  margin-top: 1.5rem;
+}
+.read-more-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-light);
+  text-decoration: none;
+}
+.read-more-link:hover { text-decoration: underline; }
+</style>

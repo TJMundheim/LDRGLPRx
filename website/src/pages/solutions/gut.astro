@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
+import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
 ---
 
 <SolutionPage
@@ -11,58 +12,78 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
 >
   <h2>The Problem</h2>
   <p>
-    Leaky gut — increased intestinal permeability — is not a fringe diagnosis. It is the
-    mechanism behind systemic inflammation in men whose gut lining has been eroded by
-    decades of processed food, chronic stress, and antibiotic use. When the gut wall
-    becomes permeable, bacterial endotoxins enter the bloodstream, drive neuroinflammation,
-    and degrade the blood-brain barrier. The gut-brain axis isn't a wellness buzzword —
-    it's the most underestimated driver of brain decline in existence.
-  </p>
-  <p>
-    By the time you notice the brain fog, the mood flatness, the word-finding gaps — the
-    damage has been building for years. Your gut microbiome is producing roughly 90% of
-    your body's serotonin. When the lining is compromised and the biome is dysregulated,
-    the brain pays the bill.
-  </p>
-  <p>
-    The Mitigate pillar in the 4M framework leads with gut health because it acts as a
-    multiplier for every other protocol. You cannot fix cognition, hormones, or mood on
-    top of a broken gut. Start here.
+    When the gut lining becomes permeable, bacterial endotoxins enter the bloodstream,
+    drive systemic inflammation, and degrade the blood-brain barrier. Most cognitive
+    issues start in the gut — gut inflammation drives the gut-brain axis long before
+    you feel it in your head.
   </p>
 
+  <h2>Why this matters</h2>
+  <ul class="why-list">
+    <li>Your gut produces ~90% of your body's serotonin — a damaged biome flatlines mood and focus</li>
+    <li>Gut-derived neuroinflammation is the most underestimated driver of early brain aging in men 35–60</li>
+    <li>No hormone, peptide, or cognitive protocol reaches its ceiling on top of a broken gut</li>
+  </ul>
+
+  <TwoPathsCTA
+    otcProductName="Biome-AF Nutraceutical"
+    otcDescription="L-Glutamine + Aloe + pharmaceutical-grade gut-repair compounds. Pharmaceutical-grade OTC — start repair today without a prescription."
+    otcCtaLabel="Order Biome-AF Nutraceutical →"
+    otcCtaHref="/shop/biome-af"
+    rxDescription="Full BPC-157 + L-Glutamine + Aloe Rx protocol, lab review (IgG/IgE sensitivity testing), GLP-1 candidacy, hormone optimization, and your complete personalized 4M plan — through our licensed telemedicine partner."
+    whenOtc="Your symptoms are mild and you want to start gut repair today — no prescription needed."
+    whenRx="Your gut symptoms are persistent (bloating, brain fog, food sensitivities) and you want the full BPC-157 protocol plus lab-backed root-cause review."
+    protegeFooter="Become a Protégé (free) — daily protocol guidance, weekly coaching, gut-repair tracker →"
+  />
+
   <h2>The Insulting Behaviors</h2>
-  <p>If you're doing any of these right now, you are actively making your gut — and your brain — worse.</p>
+  <p>These habits are actively degrading your gut lining and your brain right now.</p>
   <ul class="insult-list">
     <li>Eating processed foods, seed oils, and refined sugars as a daily baseline</li>
     <li>Multiple antibiotic courses in the past 5 years with no targeted gut repair afterward</li>
     <li>Chronic alcohol use above 7 drinks per week</li>
-    <li>Skipping fermented foods and bone broth entirely</li>
     <li>Ignoring symptoms: bloating, gas, brain fog, food sensitivities, irregular stools</li>
-    <li>Chronic unmanaged stress — the gut runs on cortisol sensitivity</li>
   </ul>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <p>Start with removal. You cannot out-supplement a diet that is actively destroying the gut lining.</p>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — Remove the Worst Offenders</h3>
-      <p>Pick one: sugar, seed oils, or alcohol. Eliminate it completely for 30 days. Then add the next. Do not skip this step.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — Add Daily Bone Broth</h3>
-      <p>8–12 oz of bone broth daily delivers collagen, glycine, and gelatin directly to the gut lining. Non-negotiable during repair.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — Fermented Foods 1–2x Daily</h3>
-      <p>Kefir, sauerkraut, kimchi, or plain full-fat Greek yogurt. Real fermented foods outperform most probiotic supplements.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Biome-AF</h3>
-      <p>BPC-157 + L-Glutamine + Aloe — the My4MLife practitioner-grade formula built specifically for gut-lining repair. The anchor of every tier.</p>
-    </div>
-    <div class="card">
-      <h3>Step 5 — Schedule Your Comprehensive 4M Consult</h3>
-      <p>One consult covers gut-related lab review (IgG/IgE sensitivity testing), GLP-1 candidacy, hormone optimization, peptides, and your full personalized 4M protocol — through our contracted licensed telemedicine practice.</p>
-    </div>
-  </div>
+  <p class="read-more-line">
+    <a href="/blog/eliminate-the-insulting-behavior-gut" class="read-more-link">
+      Read the full deep-dive: Eliminate the Insulting Behavior — Gut &rarr;
+    </a>
+  </p>
 </SolutionPage>
+
+<style>
+.why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.75rem;
+}
+.why-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.97rem;
+}
+.why-list li:last-child { border-bottom: none; }
+.why-list li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.read-more-line {
+  margin-top: 1.5rem;
+}
+.read-more-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-light);
+  text-decoration: none;
+}
+.read-more-link:hover { text-decoration: underline; }
+</style>

@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
+import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
 ---
 
 <SolutionPage
@@ -11,56 +12,78 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
 >
   <h2>The Problem</h2>
   <p>
-    Visceral fat — the fat packed around your organs — is not inert tissue. It produces
-    inflammatory cytokines that cross the blood-brain barrier, accelerate cognitive aging,
-    and degrade hormone function in compounding ways. The brain shrinks faster in men with
-    metabolic dysfunction. This is not a cosmetic issue. It is a cognitive one.
-  </p>
-  <p>
-    Most men approach weight loss as a willpower problem and fail on the same cycle for
-    decades. It is not a willpower problem — it's a hormonal and behavioral environment
-    problem. When insulin is chronically elevated, fat burning shuts off. When cortisol
-    is high, fat stores preferentially in the visceral compartment. Fix the environment
-    first.
-  </p>
-  <p>
-    For men where lifestyle intervention alone isn't moving the needle — particularly those
-    carrying significant visceral fat — GLP-1 weight loss medication (semaglutide,
-    tirzepatide) accessed through our contracted licensed telemedicine practice represents
-    a legitimate, evidence-backed tool. Not a shortcut. A tool. If you've been looking
-    for an Ozempic alternative with clinical oversight and a full metabolic protocol behind
-    it, this is it.
+    Visceral fat is not inert tissue. It produces inflammatory cytokines that cross the
+    blood-brain barrier, accelerate cognitive aging, and suppress hormone function in
+    compounding cycles. This is not a cosmetic issue — it is a metabolic and cognitive one,
+    and willpower alone has never fixed a hormonal environment.
   </p>
 
-  <h2>The Insulting Behaviors</h2>
-  <p>These habits keep you metabolically stuck regardless of effort applied elsewhere.</p>
-  <ul class="insult-list">
-    <li>Eating in a 14+ hour window most days — insulin never fully drops, fat burning never starts</li>
-    <li>Excess processed carbohydrates and seed oils as dietary staples</li>
-    <li>Sedentary baseline — no daily movement anchor</li>
-    <li>Treating excess weight as a cosmetic problem rather than a cognitive and hormonal one</li>
-    <li>Relying on willpower-only diets that have failed every single time before</li>
-    <li>Poor sleep — deprivation elevates ghrelin (hunger) and suppresses leptin (satiety) simultaneously</li>
+  <h2>Why this matters</h2>
+  <ul class="why-list">
+    <li>Chronic visceral fat accelerates brain aging faster than almost any other lifestyle variable in men</li>
+    <li>Elevated insulin locks fat-burning off — no amount of calorie restriction overcomes it without addressing the hormonal root</li>
+    <li>GLP-1 medications (semaglutide, tirzepatide) are legitimate clinical tools, not shortcuts, when metabolic markers are off</li>
   </ul>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <p>Compress the eating window first. Everything else layers on top of that foundation.</p>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — Compress the Eating Window</h3>
-      <p>Target a 10-hour window. Move toward 8-hour (16:8) when adapted. Let insulin drop long enough each day to access stored fat.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — Eliminate Seed Oils and Processed Carbs</h3>
-      <p>These two inputs drive chronic insulin elevation and gut inflammation more than almost anything else. Remove them before adding any supplement.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — Daily Walk + 3x Resistance Training</h3>
-      <p>A 20-minute walk after eating blunts post-meal glucose spikes. Resistance training builds the metabolic engine that burns fat at rest.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Schedule Your Comprehensive 4M Consult</h3>
-      <p>One consult covers everything: GLP-1 candidacy (semaglutide, tirzepatide), hormone optimization, peptides, and your full personalized protocol — through our contracted licensed telemedicine practice.</p>
-    </div>
-  </div>
+  <TwoPathsCTA
+    otcProductName="Foundational Nutraceutical Support"
+    otcDescription="Gut-health and mineral foundation — Biome-AF + ArmorVita — to support metabolic function and reduce inflammatory load. Honest framing: supplements support the environment; they do not replace a caloric deficit or GLP-1 intervention."
+    otcCtaLabel="Explore Foundational Stack →"
+    otcCtaHref="/shop/foundational"
+    rxDescription="GLP-1 candidacy evaluation (semaglutide / tirzepatide), full metabolic and hormone panel review, peptide protocols, and your complete personalized 4M plan — through our licensed telemedicine partner."
+    whenOtc="Early-stage weight management — diet and lifestyle optimization is your first lever and symptoms are mild."
+    whenRx="More than 10 lbs above target with metabolic markers off — GLP-1 medication may safely accelerate progress when combined with a full clinical protocol."
+    protegeFooter="Become a Protégé (free) — daily protocol guidance, weekly coaching, metabolic tracker →"
+  />
+
+  <h2>The Insulting Behaviors</h2>
+  <p>These habits keep men metabolically stuck regardless of effort applied elsewhere.</p>
+  <ul class="insult-list">
+    <li>Eating in a 14+ hour window daily — insulin never fully drops, fat burning never starts</li>
+    <li>Excess processed carbohydrates and seed oils as dietary staples</li>
+    <li>Treating excess weight as a cosmetic problem rather than a cognitive and hormonal one</li>
+    <li>Relying on willpower-only diets that have failed the same cycle repeatedly</li>
+  </ul>
+
+  <p class="read-more-line">
+    <a href="/blog/eliminate-the-insulting-behavior-weight" class="read-more-link">
+      Read the full deep-dive: Eliminate the Insulting Behavior — Weight &rarr;
+    </a>
+  </p>
 </SolutionPage>
+
+<style>
+.why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.75rem;
+}
+.why-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.97rem;
+}
+.why-list li:last-child { border-bottom: none; }
+.why-list li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.read-more-line {
+  margin-top: 1.5rem;
+}
+.read-more-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-light);
+  text-decoration: none;
+}
+.read-more-link:hover { text-decoration: underline; }
+</style>
