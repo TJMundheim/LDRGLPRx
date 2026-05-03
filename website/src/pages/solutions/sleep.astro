@@ -8,58 +8,156 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   oneliner="Poor sleep is the most reliable accelerant of cognitive decline you can choose. Everything else is downstream."
   slug="sleep"
 >
-  <h2>The Problem</h2>
-  <p>
-    Sleep is when the brain clears metabolic waste through the glymphatic system, consolidates
-    memory, and resets the hormonal rhythms that govern your next day. Every hour of chronic
-    sleep debt is a withdrawal against future cognitive capital — a debt that compounds and
-    doesn't fully repay.
-  </p>
-  <p>
-    Most men optimize their training, their diet, their supplements — and then cripple all of it
-    with 5–6 hours of fragmented sleep. Cortisol is elevated. Testosterone synthesis is suppressed.
-    Memory consolidation is incomplete. Neuroinflammation accumulates. And they wonder why they
-    still feel off.
-  </p>
-  <p>
-    Sleep is not a passive state. It is the most active recovery protocol available to you — and
-    it costs nothing except discipline about your evening environment. The Mind pillar of 4M starts
-    here.
-  </p>
-
-  <h2>The Insulting Behaviors</h2>
-  <p>If you're doing any of these, your sleep is worse than you think — even if you feel fine.</p>
+  <!-- ── Why this matters ── -->
+  <h2>Why This Matters</h2>
   <ul class="insult-list">
-    <li>Bright artificial overhead lighting in the hours after sundown — suppresses melatonin production</li>
-    <li>Screens in bed or within 60 minutes of sleep — blue light tells your brain it's noon</li>
-    <li>Caffeine after 2pm — its half-life is 5–6 hours; it's still in your system at midnight</li>
-    <li>Alcohol within 3 hours of bed — it kills deep sleep architecture even if it helps you fall asleep</li>
+    <li>Sleep is when the glymphatic system clears amyloid and metabolic waste — every hour of debt is a withdrawal you can't fully repay</li>
+    <li>Chronic sleep disruption suppresses testosterone synthesis, elevates cortisol, and stalls memory consolidation simultaneously</li>
+    <li>Fixing sleep architecture is the single highest-leverage move in the entire 4M framework — it amplifies every other protocol</li>
+  </ul>
+
+  <!-- ── Two Paths to Act ── -->
+  <h2 class="section-eliminate">Two Paths to Act</h2>
+  <div class="two-paths-grid">
+    <div class="path-card path-otc">
+      <div class="path-badge">OTC Nutraceutical</div>
+      <h3>SleepRestore</h3>
+      <p class="path-price">Price: TBD</p>
+      <p>Pharmaceutical-grade nightly sleep stack — Mg bisglycinate, glycine, L-theanine, apigenin, and zinc. Supports sleep onset and deep-sleep architecture as the final layer on top of a clean environment.</p>
+      <a href="/shop/sleepRestore" class="btn-sol primary">Buy SleepRestore →</a>
+    </div>
+    <div class="path-card path-rx">
+      <div class="path-badge path-badge-rx">Rx Protocol</div>
+      <h3>Comprehensive 4M Consult</h3>
+      <p class="path-price">Rx sleep support included</p>
+      <p>For chronic insomnia, hormonal sleep disruption, or when you want the pharmacy-formulated protocol. Covers low-dose hormones, peptides for sleep architecture, and your full personalized 4M plan.</p>
+      <a href="/consult" class="btn-sol secondary">Schedule Rx Consult →</a>
+    </div>
+  </div>
+
+  <!-- ── When to choose which ── -->
+  <div class="when-strip">
+    <div class="when-col">
+      <div class="when-label">Choose OTC when:</div>
+      <p>Trouble falling asleep, mild sleep disruption — want pharmaceutical-grade nightly support without a prescription.</p>
+    </div>
+    <div class="when-divider"></div>
+    <div class="when-col">
+      <div class="when-label">Choose Rx when:</div>
+      <p>Chronic insomnia, hormonal sleep disruption, or you want the pharmacy-formulated protocol with full lab review.</p>
+    </div>
+  </div>
+
+  <!-- ── Protégé footer card ── -->
+  <div class="protege-card">
+    <strong>Want the deeper protocol?</strong> The 4M Protégé program combines your full personalized plan — sleep, cognition, gut, hormones — with ongoing coaching and app-based tracking. <a href="/consult">Learn about Protégé →</a>
+  </div>
+
+  <!-- ── Condensed Insulting Behaviors ── -->
+  <h2>The Insulting Behaviors</h2>
+  <ul class="insult-list">
+    <li>Screens in bed — blue light tells your brain it's noon, suppressing melatonin production</li>
+    <li>Alcohol within 3 hours of bed — kills deep sleep architecture even if it helps you fall asleep</li>
     <li>Inconsistent bedtime and wake time — your circadian clock runs on anchors, not approximations</li>
     <li>Bedroom warmer than 68°F or with ambient light — core temperature must drop to initiate deep sleep</li>
   </ul>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <p>Fix the environment first. Supplements are the last layer, not the first.</p>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — Lights Out by 10:30pm</h3>
-      <p>Consistent bedtime and wake time are the fastest way to reset circadian rhythm. Weekends too. The clock doesn't take days off.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — No Screens 30 Minutes Before Bed</h3>
-      <p>Switch to low-amber lighting, journaling, reading on paper, or breath work. The nervous system needs a wind-down ramp.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — Cool, Dark Bedroom</h3>
-      <p>Blackout curtains. Under 68°F. No chargers or screens at bedside. This is your most important recovery environment.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Eliminate Alcohol on Weeknights</h3>
-      <p>Even two drinks suppress REM sleep. Trade the ritual — herbal tea, sparkling water, magnesium glycinate before bed.</p>
-    </div>
-    <div class="card">
-      <h3>Step 5 — SleepRestore</h3>
-      <p>The My4MLife sleep-stack formula — formulated to support sleep onset and deep-sleep architecture as the final layer on top of a clean environment.</p>
-    </div>
-  </div>
+  <p><a href="/blog/eliminate-the-insulting-behavior-sleep" class="read-more-link">Read more: Eliminate the Insulting Behavior — Sleep →</a></p>
 </SolutionPage>
+
+<style>
+.two-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin: 1.25rem 0;
+}
+.path-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.path-card.path-rx {
+  border-color: var(--primary);
+  border-width: 2px;
+}
+.path-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.35);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.path-badge.path-badge-rx {
+  color: var(--primary);
+  background: rgba(26,54,93,0.08);
+  border-color: rgba(26,54,93,0.3);
+}
+.path-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: var(--primary);
+  margin: 0;
+}
+.path-price {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 !important;
+}
+.path-card p { font-size: 0.9rem; color: var(--text-light); margin: 0; }
+.path-card .btn-sol { align-self: flex-start; margin-top: 0.5rem; }
+.when-strip {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin: 1rem 0 1.5rem;
+}
+@media (max-width: 560px) {
+  .when-strip { flex-direction: column; }
+  .when-divider { display: none; }
+}
+.when-col { flex: 1; }
+.when-divider { width: 1px; background: var(--border); }
+.when-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  margin-bottom: 0.35rem;
+}
+.when-col p { font-size: 0.88rem; color: var(--text-light); margin: 0; }
+.protege-card {
+  background: linear-gradient(135deg, rgba(26,54,93,0.06) 0%, rgba(0,184,148,0.06) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 0 0 2rem;
+}
+.protege-card a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.protege-card a:hover { text-decoration: underline; }
+.read-more-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.read-more-link:hover { text-decoration: underline; }
+</style>
