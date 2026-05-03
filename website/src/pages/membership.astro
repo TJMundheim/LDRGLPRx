@@ -1,0 +1,459 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Membership Tiers: Protégé, Insider, Graduate | My4MLife";
+const description = "Free Protégé membership unlocks the full My4MLife App. Upgrade to Insider for live sessions with Dr. TJ. Earn Graduate status for permanent member benefits.";
+const canonical = "https://my4mlife.com/membership";
+const keywords = "My4MLife membership, brain health membership, Protégé, Insider, Graduate, Dr. TJ Mundheim, membership tiers, longevity membership, men's health membership";
+const ogImage = "https://my4mlife.com/images/og-image.jpg";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://my4mlife.com/membership",
+      "name": "Membership Tiers: Protégé, Insider, Graduate | My4MLife",
+      "description": "Five membership tiers — free Protégé to earned Graduate — built around the 4M framework for men 35–60.",
+      "url": "https://my4mlife.com/membership"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://my4mlife.com/membership#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the free Protégé tier really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. No card, no trial, no expiration. The full base app is yours forever. Insider and above are paid upgrades."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's included in Insider that's not in Protégé?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Live group sessions with Dr. TJ, deeper education content (Months 5+, advanced protocols), member-only pricing on Rx, supplements, and lab work, and group coaching."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I become a Graduate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "12+ months of continuous Insider participation plus completion of specific 4M program milestones. Graduates earn permanent member benefits including future sharing-program access."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When do paid tiers open?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pricing and rollout are TBD. Subscribe to 'notify me' to be first."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I cancel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes for paid tiers. Protégé doesn't require a subscription so there's nothing to cancel."
+          }
+        }
+      ]
+    }
+  ]
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} schema={schema}>
+
+<!-- ===== HERO ===== -->
+<section class="mem-hero">
+  <div class="container">
+    <div class="mem-hero-content">
+      <span class="section-tag">Membership</span>
+      <h1>Membership That Earns<br/><em>Its Place</em></h1>
+      <p class="mem-hero-sub">From free Protégé onboarding to permanent Graduate status — five tiers, one progression.</p>
+      <p class="mem-hero-brand">"My4MLife is a lifestyle company giving you the best chance of having the best mind possible until your last day of life. Membership is how you stay on the path."</p>
+      <div class="mem-hero-buttons">
+        <a href="https://app.my4mlife.com" class="btn btn-primary btn-large">Become a Protégé — Free <i class="fas fa-arrow-right"></i></a>
+        <a href="#tiers" class="btn btn-white btn-large">See All Tiers <i class="fas fa-chevron-down"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JOURNEY FLOW ===== -->
+<section class="section journey-section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">The Path</span>
+      <h2>One progression. Five levels of commitment.</h2>
+      <p>Every member starts free. The path forward is earned.</p>
+    </div>
+    <div class="journey-flow fade-in">
+      <div class="journey-node journey-free">
+        <div class="journey-badge">FREE</div>
+        <div class="journey-name">Protégé</div>
+        <div class="journey-desc">Start here</div>
+      </div>
+      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="journey-node journey-paid">
+        <div class="journey-badge">PAID</div>
+        <div class="journey-name">Insider</div>
+        <div class="journey-desc">Live sessions</div>
+      </div>
+      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="journey-node journey-paid">
+        <div class="journey-badge">PAID</div>
+        <div class="journey-name">Insider Plus</div>
+        <div class="journey-desc">Small-group cohort</div>
+      </div>
+      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="journey-node journey-paid journey-top">
+        <div class="journey-badge">PAID</div>
+        <div class="journey-name">Insider Concierge</div>
+        <div class="journey-desc">1:1 with Dr. TJ</div>
+      </div>
+      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="journey-node journey-earned">
+        <div class="journey-badge">EARNED</div>
+        <div class="journey-name">Graduate</div>
+        <div class="journey-desc">Permanent · Mind as destination</div>
+      </div>
+    </div>
+    <p class="journey-note fade-in">Graduate status is earned — not purchased. It is the destination.</p>
+  </div>
+</section>
+
+<!-- ===== TIER CARDS ===== -->
+<section class="section" id="tiers" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Membership Tiers</span>
+      <h2>Five tiers. One framework. One direction.</h2>
+    </div>
+    <div class="mem-tiers-grid fade-in">
+
+      <!-- Protégé -->
+      <div class="mem-card mem-card-free">
+        <div class="mem-card-label">Tier 0</div>
+        <h3 class="mem-card-title">Protégé</h3>
+        <div class="mem-card-subhead">Free, Forever</div>
+        <p class="mem-card-desc">The full My4MLife App, weekly onboarding sessions, the 20-factor self-assessment, daily protocols, gut-brain repair, morning routine tracker. No card required. No expiration. Yours.</p>
+        <ul class="mem-card-list">
+          <li>Full My4MLife App access</li>
+          <li>Weekly onboarding sessions</li>
+          <li>20-factor self-assessment</li>
+          <li>Daily protocol framework</li>
+          <li>Gut-brain repair module</li>
+          <li>Morning routine tracker</li>
+          <li>No credit card · No expiration</li>
+        </ul>
+        <a href="https://app.my4mlife.com" class="btn btn-primary mem-cta">Become a Protégé — Free <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Insider -->
+      <div class="mem-card">
+        <div class="mem-card-label">Tier 1</div>
+        <h3 class="mem-card-title">Insider</h3>
+        <div class="mem-card-subhead">Inside the Protocol</div>
+        <p class="mem-card-desc">Where the work compounds. Live Insider sessions with Dr. TJ, member-only Rx + supplement pricing, group coaching, deeper education content.</p>
+        <ul class="mem-card-list">
+          <li>Live group sessions with Dr. TJ</li>
+          <li>Member-only Rx + supplement pricing</li>
+          <li>Member-only lab pricing</li>
+          <li>Group coaching</li>
+          <li>Months 5+ advanced protocol content</li>
+          <li>Private Insider community</li>
+        </ul>
+        <a href="mailto:hello@my4mlife.com?subject=Notify me when Insider opens" class="btn btn-outline mem-cta">Notify me when Insider opens <i class="fas fa-envelope"></i></a>
+      </div>
+
+      <!-- Insider Plus -->
+      <div class="mem-card">
+        <div class="mem-card-label">Tier 2</div>
+        <h3 class="mem-card-title">Insider Plus</h3>
+        <div class="mem-card-subhead">Tightened Cohort</div>
+        <p class="mem-card-desc">Insider + small-group cohort coaching, more direct Q&amp;A, bonus protocol drops as new science emerges.</p>
+        <ul class="mem-card-list">
+          <li>Everything in Insider</li>
+          <li>Small-group cohort coaching</li>
+          <li>More direct Q&amp;A access</li>
+          <li>Bonus protocol drops</li>
+          <li>New-science updates as they land</li>
+        </ul>
+        <a href="mailto:hello@my4mlife.com?subject=Notify me when Insider Plus opens" class="btn btn-outline mem-cta">Notify me when Plus opens <i class="fas fa-envelope"></i></a>
+      </div>
+
+      <!-- Insider Concierge -->
+      <div class="mem-card mem-card-concierge">
+        <div class="mem-card-badge">Top Tier</div>
+        <div class="mem-card-label">Tier 3</div>
+        <h3 class="mem-card-title">Insider Concierge</h3>
+        <div class="mem-card-subhead">1:1 With Dr. TJ</div>
+        <p class="mem-card-desc">Personal protocol design. Direct messaging. Priority consult booking. Full lab panel review. Limited Founder-circle slots.</p>
+        <ul class="mem-card-list">
+          <li>Everything in Insider Plus</li>
+          <li>Personal protocol design with Dr. TJ</li>
+          <li>Direct messaging access</li>
+          <li>Priority consult booking</li>
+          <li>Full lab panel review</li>
+          <li>Founder-circle limited slots</li>
+        </ul>
+        <a href="mailto:drtj@my4mlife.com?subject=Insider Concierge — Founder Circle Application" class="btn btn-primary mem-cta">Apply for Founder Circle <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <!-- Graduate -->
+      <div class="mem-card mem-card-graduate">
+        <div class="mem-card-label">Earned</div>
+        <h3 class="mem-card-title">Graduate</h3>
+        <div class="mem-card-subhead">Earned, Permanent</div>
+        <p class="mem-card-desc">Earned through 12+ months of continuous Insider participation plus program milestones. Lifetime member pricing on protocol products. Future: priority access to the My4MLife sharing program.</p>
+        <ul class="mem-card-list">
+          <li>12+ months continuous Insider</li>
+          <li>4M program milestone completion</li>
+          <li>Lifetime member pricing on protocol products</li>
+          <li>Permanent Graduate designation</li>
+          <li>Phase 2: sharing program priority access</li>
+          <li>Wellness mutual-aid (future)</li>
+        </ul>
+        <a href="#graduate-faq" class="btn btn-outline-dark mem-cta">Learn how to earn Graduate status <i class="fas fa-chevron-down"></i></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT'S THE SAME ===== -->
+<section class="section commitments-section">
+  <div class="container">
+    <div class="section-header fade-in" style="color:white;">
+      <span class="section-tag" style="color:var(--accent);">Across Every Tier</span>
+      <h2 style="color:white;">Some things never change.</h2>
+      <p style="color:rgba(255,255,255,0.75);">Every membership level — free or paid — is built on the same foundation.</p>
+    </div>
+    <div class="commitments-grid fade-in">
+      <div class="commitment-card">
+        <div class="commitment-num">01</div>
+        <h3>The 4M Framework</h3>
+        <p>Mind · Muscle · Mitigate · Motivate — four pillars that compound together</p>
+      </div>
+      <div class="commitment-card">
+        <div class="commitment-num">02</div>
+        <h3>The My4MLife App</h3>
+        <p>Your daily protocol hub — built to keep you on the path every single day</p>
+      </div>
+      <div class="commitment-card">
+        <div class="commitment-num">03</div>
+        <h3>The 20-Factor Audit</h3>
+        <p>Your baseline score — the root-cause map of what's depleting you right now</p>
+      </div>
+      <div class="commitment-card">
+        <div class="commitment-num">04</div>
+        <h3>Mind as the Destination</h3>
+        <p>Every pillar, every protocol, every tier is pointed at the same north star — your best possible mind, for life</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="graduate-faq">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Common Questions</span>
+      <h2>Honest answers about membership.</h2>
+    </div>
+    <div class="mem-faq-wrap fade-in">
+      <details class="faq-item">
+        <summary>Is the free Protégé tier really free?</summary>
+        <p>Yes. No card, no trial, no expiration. The full base app is yours forever. Insider and above are paid upgrades. There's nothing hidden.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What's included in Insider that's not in Protégé?</summary>
+        <p>Live group sessions with Dr. TJ, deeper education content (Months 5+, advanced protocols), member-only pricing on Rx + supplements + lab work, and group coaching. Protégé gives you the framework — Insider is where the work compounds.</p>
+      </details>
+      <details class="faq-item" id="graduate-faq-how">
+        <summary>How do I become a Graduate?</summary>
+        <p>12+ months of continuous Insider participation plus completion of specific 4M program milestones (criteria are being formalized as the program matures). Graduates earn permanent member benefits including future sharing-program access. Graduate status is earned — it cannot be purchased.</p>
+      </details>
+      <details class="faq-item">
+        <summary>When do paid tiers open?</summary>
+        <p>Pricing and rollout are TBD. Use the "Notify me" buttons above to be first in line when Insider and Plus open. Insider Concierge Founder Circle applications are open now.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I cancel?</summary>
+        <p>Yes, for any paid tier. Protégé doesn't require a subscription so there's nothing to cancel — the app is simply yours.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why is membership structured this way?</summary>
+        <p>Because the work compounds. Day 1 you don't need 1:1 attention — you need the framework. Six months in, you've earned more direct support. A year in, you've earned Graduate-level pricing for life. The structure mirrors the reality of the protocol.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What's the My4MLife sharing program?</summary>
+        <p>A future Phase 2 vehicle for Graduates: a wellness-focused mutual-aid sharing program that covers what insurance won't — peptides, longevity protocols, off-label Rx, environmental products. It's sequestered for now. Graduates will be the first to access it when it launches.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLOSING CTA ===== -->
+<section class="section mem-closing">
+  <div class="container">
+    <div class="mem-closing-content fade-in">
+      <span class="section-tag" style="color:var(--accent);">Start Free</span>
+      <h2 style="color:white;">The path starts at Protégé.<br/><em style="color:var(--accent); font-style:normal;">No card. No risk. No expiration.</em></h2>
+      <p style="color:rgba(255,255,255,0.8); font-size:1.15rem; max-width:560px; margin:0 auto 2.5rem;">Start with the full My4MLife App, the 20-factor audit, and every daily protocol — forever. Upgrade when you're ready.</p>
+      <a href="https://app.my4mlife.com" class="btn btn-primary btn-large">Become a Protégé — Free <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DISCLAIMER ===== -->
+<section class="mem-disclaimer">
+  <div class="container">
+    <p>My4MLife provides health education, protocol design, and AI-driven coaching. Medical care, diagnosis, and prescriptions are provided by a contracted licensed telemedicine practice. Dr. Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994, and does not provide medical care through this platform.</p>
+  </div>
+</section>
+
+<script is:inline>
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+</script>
+
+<style is:global>
+  :root {
+    --primary: #0f4c75; --primary-light: #1b6fa8; --accent: #00b894; --accent-dark: #00a381;
+    --dark: #0a1628; --text: #2d3748; --text-light: #718096; --bg: #ffffff;
+    --bg-soft: #f7fafc; --bg-accent: #edf7f6; --border: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12); --radius: 12px; --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); line-height: 1.7; overflow-x: hidden; }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); line-height: 1.2; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  .section { padding: 6rem 0; }
+  .section-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
+  .section-header { text-align: center; max-width: 640px; margin: 0 auto 4rem; }
+  .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+  .section-header p { color: var(--text-light); font-size: 1.05rem; }
+  .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: all 0.25s; }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
+  .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+  .btn-outline:hover { background: var(--primary); color: white; }
+  .btn-outline-dark { background: transparent; color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.4); }
+  .btn-outline-dark:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
+  .btn-white { background: white; color: var(--primary); border-color: white; }
+  .btn-white:hover { background: var(--bg-soft); transform: translateY(-1px); }
+  .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
+
+  /* HERO */
+  .mem-hero { padding: 10rem 0 6rem; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); position: relative; overflow: hidden; text-align: center; }
+  .mem-hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 70%); border-radius: 50%; }
+  .mem-hero-content { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
+  .mem-hero h1 { font-size: 3.2rem; color: white; margin-bottom: 1.2rem; font-weight: 700; }
+  .mem-hero h1 em { font-style: italic; color: var(--accent); }
+  .mem-hero-sub { font-size: 1.2rem; color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; }
+  .mem-hero-brand { font-size: 1rem; color: rgba(255,255,255,0.6); font-style: italic; max-width: 600px; margin: 0 auto 2.5rem; border-left: 3px solid var(--accent); padding-left: 1rem; text-align: left; }
+  .mem-hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* JOURNEY */
+  .journey-section { background: white; }
+  .journey-flow { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .journey-node { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; padding: 1.2rem 1.5rem; border-radius: var(--radius); border: 2px solid var(--border); background: white; min-width: 120px; text-align: center; transition: all 0.3s; }
+  .journey-node:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .journey-free { border-color: var(--accent); background: var(--bg-accent); }
+  .journey-paid { border-color: var(--primary-light); }
+  .journey-top { border-color: var(--primary); }
+  .journey-earned { border-color: #7B4F12; background: #FDF6EC; }
+  .journey-badge { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 0.2rem 0.6rem; border-radius: 20px; }
+  .journey-free .journey-badge { background: var(--accent); color: white; }
+  .journey-paid .journey-badge { background: var(--primary); color: white; }
+  .journey-top .journey-badge { background: var(--dark); color: white; }
+  .journey-earned .journey-badge { background: #7B4F12; color: white; }
+  .journey-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--dark); }
+  .journey-desc { font-size: 0.75rem; color: var(--text-light); }
+  .journey-arrow { font-size: 1.2rem; color: var(--text-light); flex-shrink: 0; }
+  .journey-note { text-align: center; color: var(--text-light); font-style: italic; font-size: 0.95rem; }
+
+  /* TIER CARDS */
+  .mem-tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .mem-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; display: flex; flex-direction: column; position: relative; transition: all 0.3s; }
+  .mem-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .mem-card-free { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+  .mem-card-concierge { border-color: var(--primary); padding-top: 3.5rem; }
+  .mem-card-graduate { background: linear-gradient(160deg, #0a1628 0%, #1a2a4a 100%); border-color: #7B4F12; color: white; }
+  .mem-card-graduate .mem-card-label { color: #D4A851; }
+  .mem-card-graduate .mem-card-title { color: white; }
+  .mem-card-graduate .mem-card-subhead { color: #D4A851; }
+  .mem-card-graduate .mem-card-desc { color: rgba(255,255,255,0.8); }
+  .mem-card-graduate .mem-card-list li { color: rgba(255,255,255,0.85); border-bottom-color: rgba(255,255,255,0.1); }
+  .mem-card-graduate .mem-card-list li::before { color: #D4A851; }
+  .mem-card-badge { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 0.3rem 1.2rem; border-radius: 0 0 8px 8px; white-space: nowrap; }
+  .mem-card-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); margin-bottom: 0.4rem; }
+  .mem-card-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 0.3rem; }
+  .mem-card-subhead { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 1rem; }
+  .mem-card-desc { color: var(--text); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.65; }
+  .mem-card-list { list-style: none; margin-bottom: 2rem; flex: 1; }
+  .mem-card-list li { padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text); padding-left: 1.4rem; position: relative; }
+  .mem-card-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .mem-card-list li:last-child { border-bottom: none; }
+  .mem-cta { width: 100%; justify-content: center; margin-top: auto; }
+
+  /* COMMITMENTS */
+  .commitments-section { background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); }
+  .commitments-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .commitment-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding: 2rem; text-align: center; }
+  .commitment-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--accent); line-height: 1; margin-bottom: 0.8rem; }
+  .commitment-card h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.8rem; }
+  .commitment-card p { color: rgba(255,255,255,0.65); font-size: 0.88rem; }
+
+  /* FAQ */
+  .mem-faq-wrap { max-width: 820px; margin: 0 auto; }
+  .faq-item { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem 1.5rem; margin-bottom: 0.8rem; }
+  .faq-item summary { font-weight: 600; color: var(--dark); cursor: pointer; font-size: 1.02rem; }
+  .faq-item p { margin-top: 0.8rem; color: var(--text); font-size: 0.95rem; }
+
+  /* CLOSING */
+  .mem-closing { background: linear-gradient(135deg, #0a1628, #0f4c75); padding: 8rem 0; }
+  .mem-closing-content { text-align: center; max-width: 700px; margin: 0 auto; }
+  .mem-closing-content h2 { font-size: 2.8rem; margin-bottom: 1.5rem; }
+
+  /* DISCLAIMER */
+  .mem-disclaimer { background: var(--bg-soft); border-top: 1px solid var(--border); padding: 2rem 0; }
+  .mem-disclaimer p { max-width: 820px; margin: 0 auto; font-size: 0.82rem; color: var(--text-light); text-align: center; line-height: 1.7; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .mem-tiers-grid { grid-template-columns: repeat(2, 1fr); }
+    .commitments-grid { grid-template-columns: repeat(2, 1fr); }
+    .journey-flow { gap: 0.25rem; }
+    .journey-node { min-width: 100px; padding: 1rem; }
+  }
+  @media (max-width: 768px) {
+    .mem-hero h1 { font-size: 2.4rem; }
+    .mem-tiers-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .commitments-grid { grid-template-columns: 1fr 1fr; }
+    .journey-flow { flex-direction: column; align-items: stretch; max-width: 320px; margin: 0 auto 2rem; }
+    .journey-arrow { transform: rotate(90deg); text-align: center; }
+    .journey-node { flex-direction: row; justify-content: space-between; min-width: unset; text-align: left; }
+    .section-header h2 { font-size: 2rem; }
+    .mem-closing-content h2 { font-size: 2.2rem; }
+  }
+  @media (max-width: 480px) {
+    .commitments-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+</BaseLayout>
