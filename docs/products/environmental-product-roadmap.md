@@ -26,6 +26,30 @@ This doc itemizes specific product candidates per sub-category, with positioning
 
 **Bundle: "4M Sleep Sanctuary — Light"** — Night-light pack + blackout dots + 2 circadian bedroom bulbs + 1 pair amber blue-blockers. Positioned at $89 (vs ~$108 individually). Strong gateway bundle.
 
+### Incandescent Heritage line (added per TJ 2026-05-02)
+
+**The science TJ flagged is correct.** Incandescent bulbs produce a **continuous blackbody radiation spectrum** with CRI 100, **zero flicker** (analog DC-like steady output), heavy red and near-infrared content, and dim smoothly without color shift. They are — by physics — the most biologically aligned artificial light source ever invented. Modern legislation pushed efficiency-per-watt over biology; long-lived specialty incandescents remain legal under exemptions.
+
+**The legal loophole:** the DOE 2023 rule (45 lumens/watt minimum) ended general-service incandescents but explicitly exempts **rough-service** bulbs, vibration-service bulbs, heat lamps / infrared lamps, appliance bulbs, and certain industrial shatter-resistant categories. Rough-service incandescents — rated for 130V, run on 120V — have heavier filaments, last **10,000–20,000 hours** (vs 1,000 for standard), are vibration-rated, run slightly cooler and are actually **safer** than legacy incandescents.
+
+**Suggested SKUs:**
+
+| Product | What it does | Target user | Suggested price | Source path |
+|---|---|---|---|---|
+| **4M Heritage Bulb 4-Pack** — 60W or 75W rough-service incandescent, 130V/120V, 10,000+ hr life | Replace bedroom + dining + last-hour-of-day fixtures with biology-aligned full-spectrum light | All members; flagship light product | $39–$59 | Verify with Aero-Tech, Satco rough-service, Newcandescent |
+| **4M Heritage Heat Lamp** — 250W red infrared | Budget red-light-therapy alternative; warm, full-spectrum, rich in near-infrared | Members exploring red light therapy at low entry price | $19–$29 | Affiliate (Philips, Westinghouse) — easily sourceable |
+| **4M Heritage Dimmer Kit** — paired analog dimmer + incandescent set | Smooth dimming down to candle-level, no color shift | Insider+ tier — premium experience | $89 | Bundled product |
+| **4M Heritage Edison-Style Decorative** — vintage filament aesthetic | Living spaces — combines aesthetic appeal with biological benefit | Aesthetics-conscious members | $14 each | Affiliate / white-label |
+
+**Positioning paragraph for /solutions/environment/light:**
+> "Edison's incandescent bulb is — by physics — still the most biologically aligned artificial light source ever invented. Continuous full-spectrum blackbody radiation. Color rendering index of 100. Zero flicker. Rich in red and near-infrared. Smooth analog dimming. Modern legislation pushed efficiency-per-watt over biology, but specialty incandescents — rough-service rated for industrial use — remain legal and now last 10–20× longer than the bulbs your grandparents used. We source and curate them as the My4MLife Heritage Bulb line."
+
+**Lock-down priority:** TJ flagged this as something we need to find a source for and lock down. Recommended approach:
+1. Get pricing and minimum order quantities from Aero-Tech, Newcandescent, and Satco
+2. Verify the 130V-on-120V life claims with sample testing
+3. Negotiate a private-label arrangement OR start as direct affiliate with whichever brand has best product + margin
+4. **Add to /solutions/environment/light page** as featured product once locked in
+
 ---
 
 ## 2. Air quality
