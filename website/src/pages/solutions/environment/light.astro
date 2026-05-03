@@ -8,83 +8,189 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   oneliner="The light entering your eyes controls your hormones, your sleep, and your energy — and most indoor light is wrong."
   slug="environment-light"
   canonicalPath="/solutions/environment/light"
+  showSolutionPath={false}
+  showDisclaimer={false}
 >
-  <h2>The Problem</h2>
-  <p>
-    Light is the most powerful circadian signal your body receives. The spectrum, timing,
-    and intensity of the light entering your eyes dictates melatonin production, cortisol
-    curves, testosterone release timing, and metabolic rate throughout the day. Your biology
-    evolved calibrating to sunlight. Modern indoor lighting delivers the wrong spectrum at
-    the wrong times — all day, every day.
-  </p>
-  <p>
-    Standard LED and fluorescent bulbs emit a blue-dominant spectrum that tells the brain
-    it's high noon — at 10pm, while you're trying to wind down. Melatonin production
-    suppresses. Sleep onset delays. Sleep architecture degrades. And most men have no idea
-    their light environment is the primary culprit.
-  </p>
-  <p>
-    The inverse is equally important: most men indoors all morning are never getting the
-    full-spectrum sunlight exposure that anchors the circadian clock. The result is a system
-    with no strong signal at either end — no powerful morning anchor, no clean evening
-    drop-off. The clock drifts, and everything it controls drifts with it.
-  </p>
-
-  <h2>The Insulting Behaviors</h2>
+  <!-- ── Why This Matters ── -->
+  <h2>Why This Matters</h2>
   <ul class="insult-list">
-    <li>Blue-spectrum LED bulbs in the bedroom and living room active all evening</li>
-    <li>Lack of sun at the right times — no direct morning sun (the primary circadian anchor) and no low-evening sun (the dusk signal that primes melatonin)</li>
-    <li>Screens (phone, TV, laptop) within 60 minutes of sleep</li>
-    <li>Overhead fluorescent or LED lighting in home office throughout the day with no natural light</li>
-    <li>Sunglasses during the first 30 minutes after waking — blocks the signal before it reaches the suprachiasmatic nucleus</li>
+    <li>Light spectrum, timing, and intensity dictates melatonin production, cortisol curves, testosterone release timing, and metabolic rate throughout the day</li>
+    <li>Standard LED and fluorescent bulbs emit a blue-dominant spectrum that tells your brain it's high noon — at 10pm — suppressing melatonin and degrading sleep architecture</li>
+    <li>Most men indoors all morning never get the full-spectrum sunlight that anchors the circadian clock — the result is a system running with no strong signal at either end</li>
   </ul>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — Sun at the Right Times</h3>
-      <p>5–10 minutes of direct morning sun within 30 minutes of waking — no glasses — anchors your circadian clock. Then 5 minutes of low-evening sun (the last hour before sunset) signals dusk to your brain and primes melatonin release. Both timings carry the day; midday alone doesn't replace either.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — Swap Evening Bulbs</h3>
-      <p>Replace bedroom and living-room LED bulbs with warm-spectrum (2200–2700K) or red-spectrum bulbs. After sundown, your biology needs amber and red — not blue and white.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — Blue-Blockers After Sundown</h3>
-      <p>Amber-lens blue-blocking glasses worn from sundown until sleep. Eliminates screen-driven melatonin suppression without eliminating screen use entirely.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Red Light Therapy 10–20 Min/Day</h3>
-      <p>660nm and 850nm red and near-infrared light panels support mitochondrial function, tissue recovery, and mood. Used morning or midday — not within 2 hours of sleep.</p>
-    </div>
-  </div>
-
-  <h2>Protocol-Matched Products</h2>
-  <p>Curated products to support your light environment protocol. Affiliate relationships disclosed below.</p>
-  <div class="card-grid">
+  <!-- ── Featured Products — E-Commerce Hero ── -->
+  <h2 class="section-eliminate">Featured Products</h2>
+  <p>Protocol-matched products for your light environment. Affiliate relationships disclosed below.</p>
+  <div class="product-grid">
     <div class="product-card">
       <h3>Circadian-Friendly LED Bulbs</h3>
-      <p>Warm-spectrum (2200K) LED replacement bulbs for bedroom and living areas. Designed to minimize blue-light output in evening hours.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Minimizes blue-light output in evening hours to protect melatonin production.</p>
+      <p>Warm-spectrum (2200K) LED replacement bulbs for bedroom and living areas.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=led-circadian-bulbs -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Circadian-Friendly LED Bulbs" class="btn-cart">Notify Me →</a>
     </div>
     <div class="product-card">
       <h3>Blue-Light Blocking Glasses</h3>
-      <p>Amber-lens frames for evening wear. Blocks 90%+ of blue-spectrum light from screens and overhead lighting.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Blocks 90%+ of blue-spectrum from screens and overhead lighting after sundown.</p>
+      <p>Amber-lens frames for evening wear — no change to screen habits required.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=blue-blocker-glasses -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Blue-Light Blocking Glasses" class="btn-cart">Notify Me →</a>
     </div>
     <div class="product-card">
       <h3>Red-Light Therapy Panel</h3>
-      <p>Full-size 660nm / 850nm panel for whole-body red and near-infrared light therapy sessions.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Supports mitochondrial function, tissue recovery, and mood via 660nm / 850nm wavelengths.</p>
+      <p>Full-size panel for whole-body red and near-infrared light therapy sessions (10–20 min/day).</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=red-light-panel -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Red-Light Therapy Panel" class="btn-cart">Notify Me →</a>
     </div>
     <div class="product-card">
       <h3>Full-Spectrum Morning Lamp</h3>
-      <p>10,000 lux full-spectrum lamp for indoor workers and northern-latitude users without reliable morning sun access.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Anchors circadian rhythm for indoor workers and northern-latitude users without reliable morning sun.</p>
+      <p>10,000 lux full-spectrum lamp — 10 min exposure on waking replaces outdoor morning light.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=morning-lamp -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Full-Spectrum Morning Lamp" class="btn-cart">Notify Me →</a>
     </div>
   </div>
 
-  <p style="margin-top:2rem; font-size:0.82rem; color:var(--text-light);">
+  <!-- ── Deeper Protocol ── -->
+  <h2>The Deeper Protocol</h2>
+  <ul class="insult-list">
+    <li>Blue-spectrum LED bulbs in the bedroom and living room active all evening</li>
+    <li>No direct morning sun within 30 minutes of waking — the primary circadian anchor</li>
+    <li>Screens within 60 minutes of sleep — melatonin suppression at the worst possible time</li>
+    <li>Sunglasses during the first 30 minutes after waking — blocks the signal before it reaches the suprachiasmatic nucleus</li>
+  </ul>
+  <p>
+    Fix sequence: morning sun first (free, immediate, highest leverage) → swap evening bulbs to warm-spectrum →
+    add blue-blockers for screens after sundown → layer in red-light therapy for mitochondrial support.
+    Each step compounds the one before it.
+  </p>
+
+  <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
+    Read More: Full Environmental Protocol →
+  </a>
+
+  <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--text-light);">
     <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through product links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
   </p>
+
+  <!-- ── Optional Protégé footer ── -->
+  <div class="protege-card">
+    Want personalized guidance on your environmental protocol? <strong>Become a Protégé free</strong> — the My4MLife App walks you through environmental optimization week by week.
+    <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
+  </div>
 </SolutionPage>
+
+<style>
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1rem 0 2.5rem;
+}
+.product-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+.product-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(0,184,148,0.14);
+  transform: translateY(-2px);
+}
+.product-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+.product-why {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 !important;
+}
+.product-card p {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0;
+  flex: 1;
+}
+.notify-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(0,184,148,0.1);
+  border: 1px solid rgba(0,184,148,0.35);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+.btn-cart {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.45rem 1.1rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+.btn-cart:hover { background: var(--accent-dark); }
+
+.blog-deepdive-btn {
+  display: inline-block;
+  margin: 0.75rem 0 2rem;
+  padding: 0.55rem 1.4rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.blog-deepdive-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.protege-card {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.06) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.protege-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.protege-link:hover { text-decoration: underline; }
+</style>

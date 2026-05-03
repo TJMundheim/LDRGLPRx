@@ -8,81 +8,189 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   oneliner="Humans evolved in constant electrical contact with the earth. Modern life has eliminated it entirely — and the biology notices."
   slug="environment-grounding"
   canonicalPath="/solutions/environment/grounding"
+  showSolutionPath={false}
+  showDisclaimer={false}
 >
-  <h2>The Problem</h2>
-  <p>
-    Grounding — also called earthing — is the direct electrical contact between the human
-    body and the surface of the earth. Grass, soil, sand, and natural bodies of water
-    maintain a negative electrical charge. When your bare skin contacts these surfaces,
-    free electrons transfer into the body, where they act as natural antioxidants — neutralizing
-    positively-charged free radicals that drive inflammation and oxidative stress.
-  </p>
-  <p>
-    For virtually all of human history, this contact was continuous. Modern life has
-    eliminated it almost entirely: rubber and synthetic soles on every shoe, elevated
-    structures, synthetic flooring, and a lifestyle pattern that rarely places bare feet
-    on natural ground. Peer-reviewed research has documented measurable effects of grounding
-    on inflammatory markers, cortisol rhythm, wound healing rate, and sleep quality.
-  </p>
-  <p>
-    This is not a complicated intervention. The challenge is simply that modern life has
-    engineered it out of existence. Restoring it requires intentionality.
-  </p>
+  <!-- ── Why This Matters ── -->
+  <h2>Why This Matters</h2>
+  <ul class="insult-list">
+    <li>Grounding (earthing) transfers free electrons from the earth's surface into the body, where they act as natural antioxidants neutralizing positively-charged free radicals that drive inflammation and oxidative stress</li>
+    <li>For virtually all of human history this contact was continuous — modern life has eliminated it almost entirely via rubber soles, elevated structures, and synthetic flooring</li>
+    <li>Peer-reviewed research has documented measurable effects on inflammatory markers, cortisol rhythm, wound healing rate, and sleep quality — the intervention is real, and the barrier is only inconvenience</li>
+  </ul>
 
-  <h2>The Insulting Behaviors</h2>
+  <!-- ── Featured Products — E-Commerce Hero ── -->
+  <h2 class="section-eliminate">Featured Products</h2>
+  <p>Protocol-matched grounding products for daily and sleep use. Affiliate relationships disclosed below.</p>
+  <div class="product-grid">
+    <div class="product-card">
+      <h3>Grounding Sleep Mat</h3>
+      <p class="product-why">Delivers 7–8 hours of passive grounding during sleep — the longest sustained contact window available.</p>
+      <p>Conductive mat for under-sheet placement. Connects to standard ground outlet — no special wiring required.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-sleep-mat -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Sleep Mat" class="btn-cart">Notify Me →</a>
+    </div>
+    <div class="product-card">
+      <h3>Grounding Floor Mat (Desk / Workstation)</h3>
+      <p class="product-why">Delivers grounding during work hours without changing your desk routine — barefoot under your desk.</p>
+      <p>Large-format conductive floor mat. Connects to standard ground outlet. No outdoor access required.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-floor-mat -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Floor Mat" class="btn-cart">Notify Me →</a>
+    </div>
+    <div class="product-card">
+      <h3>Grounding Fitted Sheet</h3>
+      <p class="product-why">Highest-surface-area grounding solution — full-body contact throughout the sleep period.</p>
+      <p>Silver-thread conductive fitted sheet. For those who want maximum contact area during sleep without a mat layer.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-fitted-sheet -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Fitted Sheet" class="btn-cart">Notify Me →</a>
+    </div>
+    <div class="product-card">
+      <h3>Grounding Patches</h3>
+      <p class="product-why">Targeted contact for injury sites, travel, or extended indoor periods without mat access.</p>
+      <p>Adhesive conductive patches for feet, wrists, or areas of chronic inflammation. Portable grounding on the go.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-patches -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Patches" class="btn-cart">Notify Me →</a>
+    </div>
+  </div>
+
+  <!-- ── Deeper Protocol ── -->
+  <h2>The Deeper Protocol</h2>
   <ul class="insult-list">
     <li>Wearing rubber-soled shoes exclusively — the most universal insulator between humans and earth</li>
     <li>Living and working on upper floors or synthetic flooring with no bare-ground contact</li>
     <li>Never spending time on grass, soil, sand, or natural water without footwear</li>
     <li>Urban-only lifestyle with no access to natural ground surfaces in daily routine</li>
-    <li>Dismissing grounding as implausible without reviewing the indexed literature on inflammatory markers</li>
   </ul>
+  <p>
+    Fix sequence: 20+ minutes barefoot on natural ground daily (free — grass, soil, sand, concrete all work; patio pavers do not) →
+    grounding mat under your desk during work hours → grounding sleep mat or fitted sheet for passive overnight contact →
+    patches for travel or targeted inflammation sites. Each layer adds time-under-ground and compounds the anti-inflammatory benefit.
+  </p>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — 20+ Minutes Barefoot on Natural Ground Daily</h3>
-      <p>Grass, soil, sand, or concrete in direct contact with bare feet. Patio pavers do not conduct. This is the gold standard — free, zero side effects, requires only consistency.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — Grounding Mat While Working</h3>
-      <p>A conductive floor mat connected to the ground port of a standard outlet allows grounding while seated at a desk or workstation. No outdoor access required.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — Grounding Sleep Mat or Sheet</h3>
-      <p>A conductive sleep mat or fitted sheet provides 7–8 hours of passive grounding during sleep — the longest sustained period of electrical contact available.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Grounding Patches for Targeted Use</h3>
-      <p>Adhesive conductive patches placed on the feet, wrists, or areas of chronic inflammation. Used during periods of extended indoor time or travel.</p>
-    </div>
-  </div>
+  <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
+    Read More: Full Environmental Protocol →
+  </a>
 
-  <h2>Protocol-Matched Products</h2>
-  <div class="card-grid">
-    <div class="product-card">
-      <h3>Grounding Sleep Mat</h3>
-      <p>Conductive mat for under-sheet placement. Provides continuous grounding contact through the sleep period via standard ground outlet connection.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
-    </div>
-    <div class="product-card">
-      <h3>Grounding Floor Mat (Desk / Workstation)</h3>
-      <p>Large-format conductive floor mat for barefoot use under a desk or workstation. Delivers grounding during work hours without any routine change.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
-    </div>
-    <div class="product-card">
-      <h3>Grounding Patches</h3>
-      <p>Adhesive conductive patches for targeted placement. Useful for travel, injury sites, or extended periods without mat access.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
-    </div>
-    <div class="product-card">
-      <h3>Grounding Fitted Sheet</h3>
-      <p>Silver-thread conductive fitted sheet for full-body contact during sleep. The highest-surface-area grounding solution for the sleep environment.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
-    </div>
-  </div>
-
-  <p style="margin-top:2rem; font-size:0.82rem; color:var(--text-light);">
+  <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--text-light);">
     <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through product links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
   </p>
+
+  <!-- ── Optional Protégé footer ── -->
+  <div class="protege-card">
+    Want personalized guidance on your environmental protocol? <strong>Become a Protégé free</strong> — the My4MLife App walks you through environmental optimization week by week.
+    <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
+  </div>
 </SolutionPage>
+
+<style>
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1rem 0 2.5rem;
+}
+.product-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+.product-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(0,184,148,0.14);
+  transform: translateY(-2px);
+}
+.product-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+.product-why {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 !important;
+}
+.product-card p {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0;
+  flex: 1;
+}
+.notify-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(0,184,148,0.1);
+  border: 1px solid rgba(0,184,148,0.35);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+.btn-cart {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.45rem 1.1rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+.btn-cart:hover { background: var(--accent-dark); }
+
+.blog-deepdive-btn {
+  display: inline-block;
+  margin: 0.75rem 0 2rem;
+  padding: 0.55rem 1.4rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.blog-deepdive-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.protege-card {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.06) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.protege-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.protege-link:hover { text-decoration: underline; }
+</style>

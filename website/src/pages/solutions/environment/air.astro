@@ -8,83 +8,189 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   oneliner="Indoor air is typically more polluted than outdoor air — and you spend 90% of your time breathing it."
   slug="environment-air"
   canonicalPath="/solutions/environment/air"
+  showSolutionPath={false}
+  showDisclaimer={false}
 >
-  <h2>The Problem</h2>
-  <p>
-    The EPA has documented indoor air as 2–5x more polluted than outdoor air in the average
-    American home. Volatile organic compounds (VOCs) off-gas continuously from furniture,
-    flooring, paint, and cleaning products. Cooking generates particulate matter that lingers
-    for hours. Mold spores from hidden moisture colonize HVAC systems and release mycotoxins
-    that act as direct neurotoxins. You breathe this mix all night while your brain is
-    supposedly recovering.
-  </p>
-  <p>
-    Mycotoxin exposure is particularly underestimated. Even at subclinical levels, mold-derived
-    toxins impair cognitive function, disrupt the HPA axis, and generate chronic inflammatory
-    load that compounds with every other stressor in the 4M profile. Most men with persistent
-    brain fog, fatigue, and unexplained mood disruption have never been assessed for this.
-  </p>
-  <p>
-    The intervention isn't complicated. A quality HEPA + activated carbon filtration unit in
-    the bedroom — where you spend the most concentrated time breathing — is the highest-ROI
-    environmental upgrade most people haven't made.
-  </p>
-
-  <h2>The Insulting Behaviors</h2>
+  <!-- ── Why This Matters ── -->
+  <h2>Why This Matters</h2>
   <ul class="insult-list">
-    <li>No air filtration in the bedroom — breathing unfiltered indoor air during your 7–8 hour recovery window</li>
-    <li>HVAC filters changed less than quarterly — the system distributes whatever has accumulated in the filter</li>
-    <li>Cooking without ventilation — gas stoves produce NO₂ and particulates that can linger for hours</li>
-    <li>Sealing the home in winter without any fresh air exchange — VOC levels spike in sealed spaces</li>
-    <li>Ignoring visible mold or musty odors — the visible is always a fraction of the biological load present</li>
-    <li>Synthetic air fresheners and candles — primary VOC source in many homes</li>
+    <li>The EPA documents indoor air as 2–5x more polluted than outdoor air in the average American home — VOCs, particulates, and mold continuously off-gas from furniture, flooring, and HVAC systems</li>
+    <li>Mycotoxins from hidden mold act as direct neurotoxins — even subclinical exposure impairs cognitive function, disrupts the HPA axis, and generates chronic inflammatory load</li>
+    <li>A quality HEPA + activated carbon unit in your bedroom is the single highest-ROI environmental upgrade most men haven't made — you breathe that air for 7–8 hours nightly</li>
   </ul>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — Bedroom HEPA + Carbon Unit</h3>
-      <p>A properly-sized HEPA + activated carbon air purifier running in your bedroom while you sleep. This is the single most impactful air quality intervention available.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — Change HVAC Filters Every 90 Days</h3>
-      <p>MERV-13 filters at minimum. Set a recurring calendar reminder. This is the most commonly neglected maintenance task with the most widespread impact.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — Mold Testing If Symptoms Match</h3>
-      <p>Brain fog, fatigue, chronic congestion, and mood disruption that don't respond to other interventions — get a professional mold inspection and ERMI test.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Source Control</h3>
-      <p>Replace synthetic air fresheners, conventional cleaning products, and scented candles with unscented or naturally-scented alternatives. Remove the VOC sources before filtering them.</p>
-    </div>
-  </div>
-
-  <h2>Protocol-Matched Products</h2>
-  <div class="card-grid">
-    <div class="product-card">
-      <h3>Whole-Room HEPA + Carbon Air Purifier</h3>
-      <p>Large-room capacity unit for living areas and open-plan spaces. True HEPA + activated carbon for particulates and VOCs.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
-    </div>
+  <!-- ── Featured Products — E-Commerce Hero ── -->
+  <h2 class="section-eliminate">Featured Products</h2>
+  <p>Protocol-matched products for your air quality protocol. Affiliate relationships disclosed below.</p>
+  <div class="product-grid">
     <div class="product-card">
       <h3>Bedroom Air Purifier</h3>
-      <p>Whisper-quiet compact unit sized for bedrooms (150–300 sq ft). Runs continuously on low without disrupting sleep.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Highest ROI air intervention — protects your 7–8 hour recovery window.</p>
+      <p>Whisper-quiet compact unit sized for bedrooms (150–300 sq ft). True HEPA + activated carbon. Runs continuously on low without disrupting sleep.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=bedroom-air-purifier -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Bedroom Air Purifier" class="btn-cart">Notify Me →</a>
+    </div>
+    <div class="product-card">
+      <h3>Whole-Room HEPA + Carbon Air Purifier</h3>
+      <p class="product-why">Covers open-plan living and work spaces — removes particulates and VOCs.</p>
+      <p>Large-room capacity unit. True HEPA + activated carbon for comprehensive filtration of living areas.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=whole-room-air-purifier -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Whole-Room Air Purifier" class="btn-cart">Notify Me →</a>
     </div>
     <div class="product-card">
       <h3>MERV-13 HVAC Filter Subscription</h3>
-      <p>Quarterly delivery of the correct filter size for your system — so the replacement actually happens on schedule.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Most commonly neglected maintenance task with the most widespread impact.</p>
+      <p>Quarterly delivery of the correct filter size for your HVAC system — so the replacement actually happens on schedule.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=merv13-hvac-subscription -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: MERV-13 HVAC Subscription" class="btn-cart">Notify Me →</a>
     </div>
     <div class="product-card">
       <h3>Home Mold Test Kit</h3>
-      <p>ERMI-style test kit for preliminary mold assessment. Screens for the most pathogenic mold species in household dust.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Screens for pathogenic mold species — the root cause of persistent brain fog and fatigue.</p>
+      <p>ERMI-style test kit for preliminary mold assessment in household dust. Know before you treat.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=home-mold-test -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Home Mold Test Kit" class="btn-cart">Notify Me →</a>
     </div>
   </div>
 
-  <p style="margin-top:2rem; font-size:0.82rem; color:var(--text-light);">
+  <!-- ── Deeper Protocol ── -->
+  <h2>The Deeper Protocol</h2>
+  <ul class="insult-list">
+    <li>No air filtration in the bedroom — unfiltered indoor air during your 7–8 hour recovery window</li>
+    <li>HVAC filters changed less than quarterly — the system distributes whatever has accumulated</li>
+    <li>Cooking without ventilation — gas stoves produce NO₂ and particulates that linger for hours</li>
+    <li>Synthetic air fresheners and candles — a primary VOC source in many homes</li>
+  </ul>
+  <p>
+    Fix sequence: bedroom HEPA unit first (protects your longest continuous exposure window) → HVAC filter on schedule →
+    eliminate synthetic air fresheners and candles → mold test if brain fog and fatigue don't resolve.
+    Source control matters as much as filtration.
+  </p>
+
+  <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
+    Read More: Full Environmental Protocol →
+  </a>
+
+  <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--text-light);">
     <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through product links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
   </p>
+
+  <!-- ── Optional Protégé footer ── -->
+  <div class="protege-card">
+    Want personalized guidance on your environmental protocol? <strong>Become a Protégé free</strong> — the My4MLife App walks you through environmental optimization week by week.
+    <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
+  </div>
 </SolutionPage>
+
+<style>
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1rem 0 2.5rem;
+}
+.product-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+.product-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(0,184,148,0.14);
+  transform: translateY(-2px);
+}
+.product-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+.product-why {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 !important;
+}
+.product-card p {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0;
+  flex: 1;
+}
+.notify-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(0,184,148,0.1);
+  border: 1px solid rgba(0,184,148,0.35);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+.btn-cart {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.45rem 1.1rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+.btn-cart:hover { background: var(--accent-dark); }
+
+.blog-deepdive-btn {
+  display: inline-block;
+  margin: 0.75rem 0 2rem;
+  padding: 0.55rem 1.4rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.blog-deepdive-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.protege-card {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.06) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.protege-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.protege-link:hover { text-decoration: underline; }
+</style>

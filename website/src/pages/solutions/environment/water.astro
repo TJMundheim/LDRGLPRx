@@ -8,83 +8,188 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   oneliner="Tap water is delivering endocrine disruptors, neurotoxins, and microplastics with every glass — filtration is not optional."
   slug="environment-water"
   canonicalPath="/solutions/environment/water"
+  showSolutionPath={false}
+  showDisclaimer={false}
 >
-  <h2>The Problem</h2>
-  <p>
-    Municipal tap water meets legal safety standards that were written decades before PFAS,
-    microplastics, and pharmaceutical residues were detected in water supplies. The legal
-    threshold and the biological safety threshold are not the same number. Fluoride directly
-    suppresses thyroid function at chronic exposure levels. Chlorine and chloramine byproducts
-    (trihalomethanes) are documented carcinogens. PFAS "forever chemicals" disrupt hormone
-    signaling and accumulate in tissue.
-  </p>
-  <p>
-    Shower and bath exposure adds a second route: chlorinated hot water creates inhalation
-    exposure to volatile byproducts and skin absorption that can exceed oral ingestion in
-    total daily load. Most men who filter their drinking water have never addressed shower
-    exposure.
-  </p>
-  <p>
-    Water filtration is one of the most straightforward, one-time interventions available
-    in the 4M environmental protocol. The cost-per-day of a quality filtration system
-    is lower than almost any supplement in the stack — and it eliminates a daily source of
-    biological interference that supplements cannot compensate for.
-  </p>
-
-  <h2>The Insulting Behaviors</h2>
+  <!-- ── Why This Matters ── -->
+  <h2>Why This Matters</h2>
   <ul class="insult-list">
-    <li>Drinking unfiltered tap water daily — fluoride, PFAS, chlorine, chloramines, and microplastics with every glass</li>
-    <li>Using plastic water bottles — microplastics and endocrine-disrupting compounds leach into the water, especially with heat</li>
-    <li>Showering in unfiltered hot water — chlorine volatilizes and is inhaled and absorbed through skin</li>
-    <li>Filtering drinking water only — ignoring bathing, cooking, and ice as additional exposure routes</li>
-    <li>Never replacing filter cartridges — an expired filter delivers contaminants plus whatever has grown in the filter media</li>
+    <li>Municipal water meets legal standards written before PFAS, microplastics, and pharmaceutical residues were detected — fluoride suppresses thyroid, chloramine byproducts are documented carcinogens, PFAS disrupts hormone signaling and accumulates in tissue</li>
+    <li>Shower and bath exposure is a second route: chlorinated hot water creates inhalation exposure to volatile byproducts that can exceed oral ingestion in total daily load</li>
+    <li>Water filtration is one of the most straightforward, one-time interventions in the environmental protocol — cost-per-day is lower than almost any supplement, and it eliminates a daily load no supplement can compensate for</li>
   </ul>
 
-  <h2 class="section-eliminate">Eliminate the Insulting Behavior</h2>
-  <div class="card-grid">
-    <div class="card">
-      <h3>Step 1 — Under-Sink Reverse Osmosis</h3>
-      <p>RO removes fluoride, PFAS, heavy metals, nitrates, chlorine, and microplastics at the point of use. The most comprehensive drinking-water intervention available.</p>
-    </div>
-    <div class="card">
-      <h3>Step 2 — Shower Filter</h3>
-      <p>A KDF or vitamin C shower filter removes chlorine and chloramine from shower water. Protects the skin microbiome and eliminates inhalation exposure during hot showers.</p>
-    </div>
-    <div class="card">
-      <h3>Step 3 — Switch to Glass or Stainless Steel</h3>
-      <p>Eliminate all plastic food and water containers — especially single-use plastic bottles left in cars or exposed to heat. This is free.</p>
-    </div>
-    <div class="card">
-      <h3>Step 4 — Whole-Home Filtration (Upgrade Path)</h3>
-      <p>A whole-home carbon filter protects all water entry points — drinking, cooking, bathing, and laundry. The most comprehensive option for high-exposure or well-water households.</p>
-    </div>
-  </div>
-
-  <h2>Protocol-Matched Products</h2>
-  <div class="card-grid">
+  <!-- ── Featured Products — E-Commerce Hero ── -->
+  <h2 class="section-eliminate">Featured Products</h2>
+  <p>Protocol-matched products for your water filtration protocol. Affiliate relationships disclosed below.</p>
+  <div class="product-grid">
     <div class="product-card">
       <h3>Under-Sink Reverse Osmosis System</h3>
-      <p>Multi-stage RO system with remineralization filter. Removes 99%+ of PFAS, fluoride, heavy metals, and microplastics from drinking and cooking water.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
-    </div>
-    <div class="product-card">
-      <h3>Whole-Home Carbon Filtration</h3>
-      <p>Whole-house carbon block filter for comprehensive protection at every tap and shower. For well-water and high-contamination municipal supplies.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Removes 99%+ of PFAS, fluoride, heavy metals, and microplastics at the point of use.</p>
+      <p>Multi-stage RO system with remineralization filter. The most comprehensive drinking-water intervention available.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=ro-system -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Under-Sink RO System" class="btn-cart">Notify Me →</a>
     </div>
     <div class="product-card">
       <h3>Shower Head Filter</h3>
-      <p>KDF + vitamin C shower filter compatible with standard shower heads. Removes chlorine and chloramine effectively in hot water.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Protects skin microbiome and eliminates chlorine inhalation during hot showers.</p>
+      <p>KDF + vitamin C filter compatible with standard shower heads. Removes chlorine and chloramine effectively in hot water.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=shower-filter -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Shower Head Filter" class="btn-cart">Notify Me →</a>
+    </div>
+    <div class="product-card">
+      <h3>Whole-Home Carbon Filtration</h3>
+      <p class="product-why">Comprehensive protection at every tap and shower — the upgrade path for high-exposure households.</p>
+      <p>Whole-house carbon block filter. For well-water and high-contamination municipal supplies.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=whole-home-filter -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Whole-Home Carbon Filter" class="btn-cart">Notify Me →</a>
     </div>
     <div class="product-card">
       <h3>Filter Cartridge Replacement Subscription</h3>
-      <p>Quarterly or semi-annual delivery of replacement cartridges for common RO and shower filter systems — so replacement actually happens on schedule.</p>
-      <span class="coming-soon-pill">Shop Coming Soon</span>
+      <p class="product-why">Expired filters deliver contaminants plus whatever has grown in the filter media — subscriptions fix this.</p>
+      <p>Quarterly or semi-annual delivery for common RO and shower filter systems — replacement happens on schedule.</p>
+      <span class="notify-pill">Notify Me When Available</span>
+      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=filter-subscription -->
+      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Filter Replacement Subscription" class="btn-cart">Notify Me →</a>
     </div>
   </div>
 
-  <p style="margin-top:2rem; font-size:0.82rem; color:var(--text-light);">
+  <!-- ── Deeper Protocol ── -->
+  <h2>The Deeper Protocol</h2>
+  <ul class="insult-list">
+    <li>Drinking unfiltered tap water — fluoride, PFAS, chlorine, chloramines, and microplastics with every glass</li>
+    <li>Plastic water bottles — microplastics and endocrine-disrupting compounds leach in, especially with heat</li>
+    <li>Showering in unfiltered hot water — chlorine volatilizes and is inhaled and absorbed through skin</li>
+    <li>Never replacing filter cartridges — an expired filter delivers contaminants plus whatever has grown inside it</li>
+  </ul>
+  <p>
+    Fix sequence: under-sink RO first (drinking and cooking water — your primary oral route) → shower filter (inhalation and skin route) →
+    switch to glass or stainless containers (eliminates plastic leaching, costs nothing) → whole-home filtration if on a well or high-exposure municipal supply.
+  </p>
+
+  <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
+    Read More: Full Environmental Protocol →
+  </a>
+
+  <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--text-light);">
     <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through product links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
   </p>
+
+  <!-- ── Optional Protégé footer ── -->
+  <div class="protege-card">
+    Want personalized guidance on your environmental protocol? <strong>Become a Protégé free</strong> — the My4MLife App walks you through environmental optimization week by week.
+    <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
+  </div>
 </SolutionPage>
+
+<style>
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 1rem 0 2.5rem;
+}
+.product-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+.product-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(0,184,148,0.14);
+  transform: translateY(-2px);
+}
+.product-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+.product-why {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 !important;
+}
+.product-card p {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0;
+  flex: 1;
+}
+.notify-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(0,184,148,0.1);
+  border: 1px solid rgba(0,184,148,0.35);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+.btn-cart {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.45rem 1.1rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s;
+}
+.btn-cart:hover { background: var(--accent-dark); }
+
+.blog-deepdive-btn {
+  display: inline-block;
+  margin: 0.75rem 0 2rem;
+  padding: 0.55rem 1.4rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.blog-deepdive-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.protege-card {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.06) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.protege-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.protege-link:hover { text-decoration: underline; }
+</style>

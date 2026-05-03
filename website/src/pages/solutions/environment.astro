@@ -7,6 +7,8 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   parent="Mitigate"
   oneliner="Your environment is dictating your biology 24/7 whether you notice or not."
   slug="environment"
+  showSolutionPath={false}
+  showDisclaimer={false}
 >
   <!-- ── Why this matters ── -->
   <h2>Why This Matters</h2>
@@ -16,76 +18,39 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
     <li>Small, targeted environmental interventions produce compounding benefit across every 4M pillar — sleep, cognition, hormones, and gut health all improve downstream</li>
   </ul>
 
-  <!-- ── Two Paths to Act ── -->
-  <h2 class="section-eliminate">Two Paths to Act</h2>
-  <div class="two-paths-grid">
-    <div class="path-card path-otc">
-      <div class="path-badge">Shop by Category</div>
-      <h3>Environmental Products</h3>
-      <p class="path-price">Protocol-matched, curated</p>
-      <p>Explore the five environmental sub-categories below — each has protocol details and curated product recommendations for that specific exposure type.</p>
-      <a href="#environment-categories" class="btn-sol primary">Browse Categories →</a>
-    </div>
-    <div class="path-card path-rx">
-      <div class="path-badge path-badge-rx">Personalized Protocol</div>
-      <h3>Comprehensive 4M Consult</h3>
-      <p class="path-price">Full environmental + supplement review</p>
-      <p>For a personalized environmental and supplement protocol matched to your living situation, exposures, labs, and the rest of your 4M plan.</p>
-      <a href="/consult" class="btn-sol secondary">Schedule 4M Consult →</a>
-    </div>
-  </div>
-
-  <!-- ── When to choose which ── -->
-  <div class="when-strip">
-    <div class="when-col">
-      <div class="when-label">Start with products when:</div>
-      <p>You know the exposure you want to address (light, air, water, EMF, or grounding) and want curated recommendations without a full consult.</p>
-    </div>
-    <div class="when-divider"></div>
-    <div class="when-col">
-      <div class="when-label">Book a consult when:</div>
-      <p>You want a personalized environmental audit matched to your supplement stack, labs, and full 4M protocol — not just product picks.</p>
-    </div>
-  </div>
-
-  <!-- ── Protégé footer card ── -->
-  <div class="protege-card">
-    <strong>Want the deeper protocol?</strong> The 4M Protégé program includes a full environmental audit as part of your Mitigate pillar onboarding — light, air, water, EMF, and grounding assessed and prioritized for your specific situation. <a href="/consult">Learn about Protégé →</a>
-  </div>
-
-  <!-- ── Environmental sub-categories ── -->
-  <h2 id="environment-categories">Explore by Category</h2>
-  <p>Each factor has its own dedicated solution page with protocol details and curated products.</p>
+  <!-- ── Shop by Sub-Category ── -->
+  <h2 id="environment-categories">Shop by Category</h2>
+  <p>Five environmental factors. Each has curated protocol-matched products. Click in to explore and purchase.</p>
   <div class="env-grid">
     <a href="/solutions/environment/light" class="env-card">
       <div class="env-icon">☀</div>
       <h3>Light</h3>
       <p>Circadian-friendly bulbs, blue-blockers, red-light therapy, and morning light protocols.</p>
-      <span class="env-cta">Explore Light →</span>
+      <span class="env-cta">Explore Products →</span>
     </a>
     <a href="/solutions/environment/air" class="env-card">
       <div class="env-icon">💨</div>
       <h3>Air</h3>
       <p>HEPA + carbon filtration, mold testing, and indoor air quality interventions.</p>
-      <span class="env-cta">Explore Air →</span>
+      <span class="env-cta">Explore Products →</span>
     </a>
     <a href="/solutions/environment/water" class="env-card">
       <div class="env-icon">💧</div>
       <h3>Water</h3>
       <p>Reverse osmosis, whole-home filtration, shower filters, and replacement schedules.</p>
-      <span class="env-cta">Explore Water →</span>
+      <span class="env-cta">Explore Products →</span>
     </a>
     <a href="/solutions/environment/emf" class="env-card">
       <div class="env-icon">⚡</div>
       <h3>EMF</h3>
       <p>Shielding bedding, faraday cases, low-EMF routers, and distance-based strategies.</p>
-      <span class="env-cta">Explore EMF →</span>
+      <span class="env-cta">Explore Products →</span>
     </a>
     <a href="/solutions/environment/grounding" class="env-card">
       <div class="env-icon">🌿</div>
       <h3>Grounding</h3>
       <p>Sleep mats, floor mats, grounding patches, and outdoor grounding protocols.</p>
-      <span class="env-cta">Explore Grounding →</span>
+      <span class="env-cta">Explore Products →</span>
     </a>
   </div>
 
@@ -98,150 +63,106 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
     <li>Feet never touching earth — modern footwear and flooring eliminate grounding, a measurable anti-inflammatory input</li>
   </ul>
 
-  <p><a href="/blog/eliminate-the-insulting-behavior-environment" class="read-more-link">Read more: Eliminate the Insulting Behavior — Environment →</a></p>
+  <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
+    Read More: Eliminate the Insulting Behavior — Environment →
+  </a>
+
+  <!-- ── Optional Protégé footer ── -->
+  <div class="protege-card">
+    Want a personalized environmental + supplement protocol? <strong>Become a Protégé (free)</strong> — the My4MLife App includes environmental coaching by week.
+    <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
+  </div>
 </SolutionPage>
 
 <style>
-.two-paths-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
-  margin: 1.25rem 0;
-}
-.path-card {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.path-card.path-rx {
-  border-color: var(--primary);
-  border-width: 2px;
-}
-.path-badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  background: rgba(0,184,148,0.12);
-  border: 1px solid rgba(0,184,148,0.35);
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  align-self: flex-start;
-}
-.path-badge.path-badge-rx {
-  color: var(--primary);
-  background: rgba(26,54,93,0.08);
-  border-color: rgba(26,54,93,0.3);
-}
-.path-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
-  color: var(--primary);
-  margin: 0;
-}
-.path-price {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--accent);
-  margin: 0 !important;
-}
-.path-card p { font-size: 0.9rem; color: var(--text-light); margin: 0; }
-.path-card .btn-sol { align-self: flex-start; margin-top: 0.5rem; }
-.when-strip {
-  display: flex;
-  gap: 1.5rem;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem 1.5rem;
-  margin: 1rem 0 1.5rem;
-}
-@media (max-width: 560px) {
-  .when-strip { flex-direction: column; }
-  .when-divider { display: none; }
-}
-.when-col { flex: 1; }
-.when-divider { width: 1px; background: var(--border); }
-.when-label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--primary);
-  margin-bottom: 0.35rem;
-}
-.when-col p { font-size: 0.88rem; color: var(--text-light); margin: 0; }
-.protege-card {
-  background: linear-gradient(135deg, rgba(26,54,93,0.06) 0%, rgba(0,184,148,0.06) 100%);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 1.1rem 1.4rem;
-  font-size: 0.92rem;
-  color: var(--text);
-  margin: 0 0 2rem;
-}
-.protege-card a { color: var(--accent); font-weight: 600; text-decoration: none; }
-.protege-card a:hover { text-decoration: underline; }
-
 /* 5-card environment grid */
 .env-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
-  margin: 1rem 0 2rem;
+  margin: 1rem 0 2.5rem;
 }
 .env-card {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.25rem 1rem;
+  padding: 1.5rem 1.1rem;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   text-decoration: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
 }
 .env-card:hover {
   border-color: var(--accent);
-  box-shadow: 0 2px 12px rgba(0,184,148,0.12);
+  box-shadow: 0 4px 18px rgba(0,184,148,0.15);
+  transform: translateY(-2px);
 }
 .env-icon {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   line-height: 1;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
 }
 .env-card h3 {
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0;
 }
 .env-card p {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-light);
   margin: 0;
   flex: 1;
 }
 .env-cta {
   display: inline-block;
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 600;
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 700;
   color: var(--accent);
 }
-.read-more-link {
+
+/* Blog deep-dive link styled as button */
+.blog-deepdive-btn {
   display: inline-block;
-  margin-top: 0.5rem;
+  margin: 1rem 0 2rem;
+  padding: 0.55rem 1.4rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
   color: var(--accent);
+  font-size: 0.875rem;
   font-weight: 600;
-  font-size: 0.9rem;
   text-decoration: none;
+  transition: background 0.15s, color 0.15s;
 }
-.read-more-link:hover { text-decoration: underline; }
+.blog-deepdive-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Protégé footer */
+.protege-card {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.06) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 0 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.protege-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.protege-link:hover { text-decoration: underline; }
 </style>

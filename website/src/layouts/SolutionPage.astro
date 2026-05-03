@@ -9,9 +9,13 @@ interface Props {
   description?: string;
   /** Override the default canonical path (e.g. for sub-pages) */
   canonicalPath?: string;
+  /** Show the 3-step Assessment → Consult → App CTA chain (default true) */
+  showSolutionPath?: boolean;
+  /** Show the telemedicine disclaimer footer (default true) */
+  showDisclaimer?: boolean;
 }
 
-const { title, parent, oneliner, slug, description, canonicalPath } = Astro.props;
+const { title, parent, oneliner, slug, description, canonicalPath, showSolutionPath = true, showDisclaimer = true } = Astro.props;
 const pageDescription = description ?? oneliner;
 const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug}`}`;
 ---
@@ -37,7 +41,8 @@ const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug
     </div>
   </section>
 
-  <!-- Solution Path — three-step CTA chain -->
+  <!-- Solution Path — three-step CTA chain (hidden when showSolutionPath={false}) -->
+  {showSolutionPath && (
   <section class="sol-path">
     <div class="container">
       <h2 class="sol-path-heading">Take the Solution Path</h2>
@@ -70,6 +75,7 @@ const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug
       </div>
     </div>
   </section>
+  )}
 
   <!-- Product CTA override slot (optional) -->
   <slot name="product-cta" />
