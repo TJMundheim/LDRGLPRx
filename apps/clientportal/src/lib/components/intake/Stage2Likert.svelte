@@ -281,7 +281,9 @@
 
   .sticky-header {
     position: sticky;
-    top: 0;
+    /* Offset by IntakeModule's progress-shell height to avoid stack overlap on mobile.
+       IntakeModule progress-shell uses z-index:20 + top:0; this header sits below it. */
+    top: var(--intake-progress-h, 52px);
     z-index: 10;
     background: var(--bg, #0f1117);
     border-bottom: 1px solid rgba(255,255,255,0.07);

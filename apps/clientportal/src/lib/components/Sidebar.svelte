@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { signOut } from '../../auth/cognito.js';
+  import { clearUser } from '../../auth/store.svelte.js';
+
   interface Props {
     navHtml: string;
     name: string;
@@ -10,6 +13,11 @@
     intakeComplete?: boolean;
   }
   let { navHtml, name, stats, discoveryActive = false, pricingActive = false, userRole, adminActive = false, intakeComplete = true }: Props = $props();
+
+  function handleSignOut() {
+    signOut();
+    clearUser();
+  }
 
   const isStaff = $derived(userRole === 'admin' || userRole === 'clinician');
 

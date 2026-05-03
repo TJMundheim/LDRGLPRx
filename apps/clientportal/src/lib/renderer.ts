@@ -192,7 +192,7 @@ export function renderGutAssessment(): string {
         </div>
       </div>
       <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${esc(band.body)}</div>
-      <a href="/cart" style="display:inline-block;background:${ac};color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
+      <a href="https://my4mlife.com/membership" style="display:inline-block;background:${ac};color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
       <div style="margin-top:16px">
         <button onclick="gutAssessmentAction('retake')"
           style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
@@ -952,8 +952,8 @@ function renderW2(W: Workbook): string {
           ${factorNameSelect(selectedName, `weekReflections.w2_factor${n}_name`)}
         </div>
         <div>
-          <label>Week 1 score (1–5) you gave it</label>
-          <input type="number" min="1" max="5" placeholder="1–5"
+          <label>Week 1 score (0–10) you gave it</label>
+          <input type="number" min="0" max="10" placeholder="0–10"
             value="${g(`w2_factor${n}_score`)}"
             oninput="portalField('weekReflections.w2_factor${n}_score',this.value)">
         </div>
@@ -972,7 +972,7 @@ function renderW2(W: Workbook): string {
       </div>
     </div>`;
     }).join('')}
-    ${pillarActionBox('#1D9E75', 'One immediate action per factor. No perfect plans. Just one small move on each of your top 3. Progress compounds — even a 2/5 is better than a 1/5 by week 4.')}
+    ${pillarActionBox('#1D9E75', 'One immediate action per factor. No perfect plans. Just one small move on each of your top 3. Progress compounds — even a 4/10 is better than an 8/10 by week 4.')}
   </div>
 
   <!-- MUSCLE W2 DEEP FOCUS -->
@@ -1044,7 +1044,7 @@ function renderW2(W: Workbook): string {
 
     <div style="margin-bottom:12px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">WEEK 2 SUPPLEMENT COMPLIANCE</div>
-      ${['The Doctor TJ Special (BPC-157 + L-Glutamine)', 'Magnesium Glycinate 300–400mg before bed'].map((name, i) => {
+      ${['BiomeAxisForge (BPC-157 + L-Glutamine)', 'Magnesium Glycinate 300–400mg before bed'].map((name, i) => {
         const key = `w2s${i}`;
         const resp = W.supplements[key]?.response ?? '';
         return `<div style="display:flex;justify-content:space-between;align-items:center;
@@ -1068,7 +1068,7 @@ function renderW2(W: Workbook): string {
         oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Doctor TJ Special + Magnesium Glycinate).
+    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (BiomeAxisForge + Magnesium Glycinate).
       <strong>Week 2 — Add: Omega-3 fish oil</strong> (2–3g EPA/DHA daily, with a meal) + <strong>D3/K2</strong> (5,000 IU D3 + 100mcg K2-MK7, with a fatty meal).
       Score your cognitive triad (focus / memory / mood) on Sunday.
       Download the dual n-back app and complete your first session before Saturday.`)}
@@ -1163,8 +1163,8 @@ function renderW3(W: Workbook): string {
           ${factorNameSelect(selectedName, `weekReflections.w3_factor${n}_name`)}
         </div>
         <div>
-          <label>Re-score this factor (1–5)</label>
-          <input type="number" min="1" max="5" placeholder="Better than Week 1?"
+          <label>Re-score this factor (0–10)</label>
+          <input type="number" min="0" max="10" placeholder="Better than Week 1?"
             value="${g(`w3_factor${n}_rescore`)}"
             oninput="portalField('weekReflections.w3_factor${n}_rescore',this.value)">
         </div>
@@ -1219,7 +1219,7 @@ function renderW3(W: Workbook): string {
     <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:#2E7FD9;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:#1A3050;line-height:1.6">
-        Week 3 is when we complete the Month 1 supplement stack. You have been running the Doctor TJ Special + Magnesium for two weeks, and added Omega-3 + D3/K2 in Week 2.
+        Week 3 is when we complete the Month 1 supplement stack. You have been running the BiomeAxisForge + Magnesium for two weeks, and added Omega-3 + D3/K2 in Week 2.
         <strong>Week 3 — Add: Methylated B Complex</strong> (B6 as P-5-P, B12 as methylcobalamin, folate as methylfolate — methylated forms only for best absorption).
         This completes your 4-supplement Month 1 stack. Additional supplements introduced in Month 2.
       </div>
@@ -1293,7 +1293,7 @@ function renderW4(W: Workbook): string {
     </div>`;
 
   const metrics: [string, string][] = [
-    ['Mitigate audit score (/70)', 'audit'],
+    ['Mitigate audit score (/200)', 'audit'],
     ['Body weight (lbs)', 'weight'],
     ['Waist at navel (in)', 'waist'],
     ['Morning energy (1–10)', 'energy'],
@@ -1376,41 +1376,49 @@ function renderW4(W: Workbook): string {
 
   <!-- MITIGATE W4 RE-AUDIT -->
   <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — Risk Factor Audit</div>
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — 20-Category Risk Audit</div>
     <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
-      Score every factor again using the same 1–5 scale from Week 1.
+      Score every category again using the 0–10 scale from your Week 1 intake.
       Compare your final audit score to your baseline to see how far you moved in 30 days.
       Week 1 scores are <strong>auto-populated from your original audit</strong> — no manual entry needed.
     </div>
-
+    ${(() => {
+      const w1Scores = loadAuditScores() ?? {};
+      const w1Total = AUDIT_CATEGORIES.reduce((s, c) => s + (w1Scores[c.id] ?? 0), 0);
+      const w4Total = AUDIT_CATEGORIES.reduce((s, c) => s + (Number(W.w4audit[c.id]) || 0), 0);
+      return `
     <div style="background:#F5FAF6;border:1.5px solid #1D9E7533;border-radius:10px;padding:14px 16px;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div style="font-size:13px;font-weight:700;color:#1A3A20">Side-by-Side Audit Comparison</div>
         <div style="display:flex;gap:12px;font-size:11px">
-          <span style="color:#6A8A6E">Week 1 total: <strong style="color:#1D9E75">${auditTotal(W)} / ${auditFilled(W) * 5}</strong></span>
+          <span style="color:#6A8A6E">Week 1 total: <strong style="color:#1D9E75">${w1Total} / 200</strong></span>
+          ${w4Total > 0 ? `<span style="color:#6A8A6E">Week 4 total: <strong style="color:#6B5ED4">${w4Total} / 200</strong></span>` : ''}
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:0;font-size:10.5px">
-        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#3A6A44;border-radius:6px 0 0 0">Factor</div>
+      <div style="overflow-x:auto">
+      <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:0;font-size:10.5px;min-width:320px">
+        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#3A6A44;border-radius:6px 0 0 0">Category</div>
         <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#3A6A44;text-align:center">Week 1</div>
         <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#6B5ED4;text-align:center">Week 4</div>
         <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#E05C2A;text-align:center;border-radius:0 6px 0 0">Δ</div>
-        ${factorList.map((f, i) => {
+        ${AUDIT_CATEGORIES.map((cat, i) => {
           const bg = i % 2 === 0 ? '#FFFFFF' : '#F8FBF8';
-          const w1: number | '' = W.factorScores[String(f.n)] || '';
-          const w4: number | '' = W.w4audit[String(f.n)] || '';
-          const delta: number | '' = w1 !== '' && w4 !== '' ? (w4 - w1) : '';
+          const w1: number | '' = w1Scores[cat.id] ?? '';
+          const w4: number | '' = W.w4audit[cat.id] !== undefined ? (Number(W.w4audit[cat.id]) || '') : '';
+          const delta: number | '' = w1 !== '' && w4 !== '' ? (Number(w4) - Number(w1)) : '';
           const color = delta === '' ? '#3A5A42' : (Number(delta) < 0 ? '#1D9E75' : Number(delta) > 0 ? '#E05C2A' : '#3A5A42');
-          return `<div style="padding:6px 8px;background:${bg};color:#1A3A20">${f.n}. ${esc(f.name)}</div>
-            <div style="padding:6px 8px;background:${bg};text-align:center;color:#5A8A64">${w1 || '—'}</div>
-            <div style="padding:6px 8px;background:${bg};text-align:center"><input style="width:40px;text-align:center" value="${esc(String(w4))}" placeholder="—" oninput="portalField('w4audit.${f.n}',this.value)"></div>
+          return `<div style="padding:6px 8px;background:${bg};color:#1A3A20">${esc(cat.label)}</div>
+            <div style="padding:6px 8px;background:${bg};text-align:center;color:#5A8A64">${w1 !== '' ? w1 : '—'}</div>
+            <div style="padding:6px 8px;background:${bg};text-align:center"><input type="number" style="width:44px;text-align:center" min="0" max="10" value="${esc(String(w4 !== '' ? w4 : ''))}" placeholder="—" oninput="portalField('w4audit.${cat.id}',this.value)"></div>
             <div style="padding:6px 8px;background:${bg};text-align:center;color:${color};font-weight:700">${delta === '' ? '—' : (Number(delta) > 0 ? '+' : '') + delta}</div>`;
         }).join('')}
       </div>
-      <div style="margin-top:10px;font-size:11px;color:#6A8A6E">
-        Score 1–5 per factor. &nbsp; <strong>1 = fully addressed</strong> &nbsp;·&nbsp; <strong>5 = major risk still present</strong> &nbsp;·&nbsp; Lower Week 4 score = improvement.
       </div>
-    </div>
+      <div style="margin-top:10px;font-size:11px;color:#6A8A6E">
+        Score 0–10 per category. &nbsp; <strong>0 = fully addressed</strong> &nbsp;·&nbsp; <strong>10 = major risk still present</strong> &nbsp;·&nbsp; Lower Week 4 score = improvement.
+      </div>
+    </div>`;
+    })()}
 
     <div>
       <label>Which factor showed the most improvement over 30 days?</label>

@@ -53,10 +53,10 @@ export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
     bg: '#085041', ac: '#1D9E75',
     label: 'Week 3',
     sub: 'Mind · Muscle · Mitigate · Motivate — full audit + gut-brain repair',
-    focus: 'Mitigate (deep focus): 15-Factor Audit',
+    focus: 'Mitigate (deep focus): 20-Category Risk Audit',
     pillarId: 'mitigate',
-    primaryHeadline: 'Remove the 15 factors stealing your brain & body.',
-    deckQuote: 'We start by removing what\'s working against you. Your personal 15-factor audit.',
+    primaryHeadline: 'Remove the 20 risk factors stealing your brain & body.',
+    deckQuote: 'We start by removing what\'s working against you. Your personal 20-category risk audit.',
   },
   4: {
     bg: '#3C3489', ac: '#6B5ED4',
