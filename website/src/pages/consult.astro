@@ -17,7 +17,7 @@ const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
       <img src="/logos/concept-13/lockup-color.svg" alt="My4MLife" class="hero-logo" />
       <h1>Schedule Your Comprehensive 4M Consult</h1>
       <p class="hero-tagline"><em>One consult. Full review. Personalized protocol.</em></p>
-      <p class="hero-body">Your comprehensive consult covers everything in one session: GLP-1 weight loss candidacy, testosterone and hormone optimization, peptide protocols (nootropic + growth hormone), prescription review, practitioner-grade supplement plan, and the personalized 4M roadmap that connects them all.</p>
+      <p class="hero-body">Your comprehensive consult covers everything in one session: GLP-1 weight loss candidacy, testosterone and hormone optimization, peptide protocols (nootropic + growth hormone), prescription review, pharmaceutical-grade supplement protocol, and the personalized 4M roadmap that connects them all.</p>
       <div class="hero-buttons">
         <a href="/assessment" class="btn btn-primary btn-large">Take the Free Assessment First <i class="fas fa-arrow-right"></i></a>
         <a href="#booking" class="btn btn-white btn-large">Get Notified When Open <i class="fas fa-chevron-down"></i></a>
@@ -62,8 +62,8 @@ const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
       </div>
       <div class="cover-card">
         <div class="cover-icon"><i class="fas fa-capsules"></i></div>
-        <h3>Practitioner-Grade Supplements</h3>
-        <p>The 4M foundational supplement stack matched directly to your 15-factor audit results and clinical review.</p>
+        <h3>Pharmaceutical-Grade Supplements</h3>
+        <p>The 4M foundational pharmaceutical-grade supplement protocol matched directly to your 20-category audit results and clinical review.</p>
       </div>
     </div>
   </div>
@@ -98,7 +98,10 @@ const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
         <div class="step-num">3</div>
         <div class="step-body">
           <h3>Receive Your Personalized 4M Protocol</h3>
-          <p>Delivered to the My4MLife App. Supplement and prescription fulfillment routed through our pharmacy partners. Your full roadmap in one document.</p>
+          <p><strong>If you're a Protégé (free app member):</strong> your personalized 4M Protocol is delivered to your My4MLife App, with daily protocol guidance, supplement coordination, and progress tracking.</p>
+          <p style="margin-top:0.75rem;"><strong>If you're not on the app:</strong> your personalized 4M Protocol is delivered to your email as a written plan, plus a 60-minute follow-up call to walk through implementation. (Most patients install the free Protégé app at this point — but you don't have to.)</p>
+          <p style="margin-top:0.75rem; font-style:italic; color:var(--accent);">Either way, the consult is the same.</p>
+          <p style="margin-top:0.75rem;">Supplement and prescription fulfillment routed through our pharmacy partners regardless of path.</p>
         </div>
       </div>
     </div>
@@ -126,13 +129,38 @@ const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
   </div>
 </section>
 
-<!-- PRICING TEASER -->
+<!-- PRICING -->
 <section class="section">
   <div class="container">
-    <div class="pricing-teaser fade-in">
+    <div class="section-header fade-in">
       <span class="section-tag">Pricing</span>
-      <p>Comprehensive consult pricing — TBD pending telemedicine partner finalization. Insider members will receive member pricing. Updates posted here.</p>
+      <h2>One consult, multiple paths to access it.</h2>
+      <p>The consult itself is identical regardless of how you access it. Your membership status determines the rate.</p>
     </div>
+    <div class="pricing-grid fade-in">
+      <div class="pricing-card">
+        <div class="pricing-label">Non-Member</div>
+        <h3>Single Comprehensive Consult</h3>
+        <div class="pricing-price">$XXX <span class="pricing-note">— pricing finalizing</span></div>
+        <p>No commitment to the app or any tier. Ideal for visitors who came specifically for GLP-1 weight loss medication, peptides, or a specific Rx and have no interest in the broader 4M program.</p>
+        <p class="pricing-avail">Available immediately at telemedicine partner go-live.</p>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-label">Protégé Member</div>
+        <h3>Free App Member Rate</h3>
+        <div class="pricing-price">$XXX <span class="pricing-note">— Protégé rate finalizing</span></div>
+        <p>Same comprehensive consult, member rate. For members who installed the free My4MLife App first. <a href="https://app.my4mlife.com" target="_blank" rel="noopener">Get the free app →</a></p>
+        <p class="pricing-avail">Rate goes live alongside Insider tier launch.</p>
+      </div>
+      <div class="pricing-card pricing-card--featured">
+        <div class="pricing-label">Insider Member</div>
+        <h3>Included or Significantly Discounted</h3>
+        <div class="pricing-price">Included in Insider tier <span class="pricing-note">(or member rate)</span></div>
+        <p>Paying Insider members receive the consult included or at a significant member discount — the primary benefit of the Insider tier.</p>
+        <p class="pricing-avail">Rate goes live alongside Insider tier launch.</p>
+      </div>
+    </div>
+    <p class="pricing-footnote fade-in">Member rates go live alongside Insider tier launch. The non-member rate is what's available immediately at telemedicine partner go-live.</p>
   </div>
 </section>
 
@@ -236,9 +264,17 @@ const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
   .signin-link { color: var(--primary); font-weight: 600; text-decoration: none; }
   .signin-link:hover { text-decoration: underline; }
 
-  /* PRICING TEASER */
-  .pricing-teaser { text-align: center; max-width: 600px; margin: 0 auto; }
-  .pricing-teaser p { color: var(--text-light); font-size: 1rem; }
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; margin-bottom: 2rem; }
+  .pricing-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .pricing-card--featured { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,184,148,0.2); }
+  .pricing-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); }
+  .pricing-card h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--dark); }
+  .pricing-price { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+  .pricing-note { font-size: 0.8rem; font-weight: 400; color: var(--text-light); }
+  .pricing-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.65; }
+  .pricing-avail { font-size: 0.8rem !important; font-style: italic; color: var(--text-light); }
+  .pricing-footnote { text-align: center; font-size: 0.85rem; color: var(--text-light); font-style: italic; max-width: 640px; margin: 0 auto; }
 
   /* READY */
   .ready-wrap { max-width: 640px; margin: 0 auto; }
@@ -257,6 +293,7 @@ const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
     .cards-grid { grid-template-columns: 1fr 1fr; }
     .steps { flex-direction: column; }
     .step-divider { display: none; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto 2rem; }
   }
   @media (max-width: 600px) {
     .hero h1 { font-size: 1.9rem; }
