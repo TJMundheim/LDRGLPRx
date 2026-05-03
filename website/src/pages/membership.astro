@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailCapture from '../components/EmailCapture.astro';
 
 const title = "Membership Tiers: Protégé, Insider, Graduate | My4MLife";
 const description = "Free Protégé membership unlocks the full My4MLife App. Upgrade to Insider for live sessions with Dr. TJ. Earn Graduate status for permanent member benefits.";
-const canonical = "https://my4mlife.com/membership";
+const canonical = "https://www.my4mlife.com/membership";
 const keywords = "My4MLife membership, brain health membership, Protégé, Insider, Graduate, Dr. TJ Mundheim, membership tiers, longevity membership, men's health membership";
 const ogImage = "https://my4mlife.com/images/og-image.jpg";
 
@@ -168,7 +169,10 @@ const schema = {
           <li>Months 5+ advanced protocol content</li>
           <li>Private Insider community</li>
         </ul>
-        <a href="mailto:hello@my4mlife.com?subject=Notify me when Insider opens" class="btn btn-outline mem-cta">Notify me when Insider opens <i class="fas fa-envelope"></i></a>
+        <div class="mem-notify">
+          <p class="mem-notify-label">Notify me when Insider opens</p>
+          <EmailCapture source="membership-insider-notify" buttonLabel="Notify Me" />
+        </div>
       </div>
 
       <!-- Insider Plus -->
@@ -184,7 +188,10 @@ const schema = {
           <li>Bonus protocol drops</li>
           <li>New-science updates as they land</li>
         </ul>
-        <a href="mailto:hello@my4mlife.com?subject=Notify me when Insider Plus opens" class="btn btn-outline mem-cta">Notify me when Plus opens <i class="fas fa-envelope"></i></a>
+        <div class="mem-notify">
+          <p class="mem-notify-label">Notify me when Plus opens</p>
+          <EmailCapture source="membership-plus-notify" buttonLabel="Notify Me" />
+        </div>
       </div>
 
       <!-- Insider Concierge -->
@@ -410,6 +417,8 @@ const schema = {
   .mem-card-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
   .mem-card-list li:last-child { border-bottom: none; }
   .mem-cta { width: 100%; justify-content: center; margin-top: auto; }
+  .mem-notify { margin-top: auto; padding-top: 1rem; }
+  .mem-notify-label { font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
   /* COMMITMENTS */
   .commitments-section { background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); }

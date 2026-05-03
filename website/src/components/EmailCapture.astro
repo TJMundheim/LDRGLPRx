@@ -1,0 +1,141 @@
+---
+interface Props {
+  source: string;
+  placeholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  dark?: boolean; // true = white text inputs (on dark bg), false = light inputs
+}
+const {
+  source,
+  placeholder = 'your@email.com',
+  buttonLabel = 'Stay informed',
+  successMessage = 'Got it — we\'ll be in touch.',
+  dark = false,
+} = Astro.props;
+const uid = `ec-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class={`ec-wrap ${dark ? 'ec-dark' : 'ec-light'}`} id={uid} data-source={source}>
+  <form class="ec-form" novalidate>
+    <input
+      type="email"
+      class="ec-input"
+      placeholder={placeholder}
+      aria-label="Email address"
+      autocomplete="email"
+      required
+    />
+    <button type="submit" class="ec-btn">{buttonLabel}</button>
+  </form>
+  <p class="ec-success" aria-live="polite" hidden>{successMessage}</p>
+  <p class="ec-error" aria-live="polite" hidden>Please enter a valid email address.</p>
+</div>
+
+<script>
+  // TODO: wire to AppSync submitLead mutation post-HIPAA P0
+  document.querySelectorAll<HTMLElement>('.ec-wrap').forEach((wrap) => {
+    const form = wrap.querySelector<HTMLFormElement>('.ec-form')!;
+    const input = wrap.querySelector<HTMLInputElement>('.ec-input')!;
+    const success = wrap.querySelector<HTMLElement>('.ec-success')!;
+    const error = wrap.querySelector<HTMLElement>('.ec-error')!;
+    const source = wrap.dataset.source ?? 'unknown';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = input.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        error.hidden = false;
+        return;
+      }
+      error.hidden = true;
+
+      const capturedAt = new Date().toISOString();
+      const entry = { email, source, capturedAt };
+
+      // Persist to localStorage
+      try {
+        const existing = JSON.parse(localStorage.getItem('lead-captures-v1') ?? '[]');
+        existing.push(entry);
+        localStorage.setItem('lead-captures-v1', JSON.stringify(existing));
+      } catch (_) { /* ignore */ }
+
+      // Fire-and-forget POST to stub endpoint
+      try {
+        await fetch('/api/lead-capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(entry),
+        });
+      } catch (_) { /* silent failure — endpoint not yet live */ }
+
+      // Show success state
+      form.hidden = true;
+      success.hidden = false;
+    });
+  });
+</script>
+
+<style>
+  .ec-wrap { width: 100%; }
+  .ec-form {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .ec-input {
+    flex: 1 1 180px;
+    padding: 0.7rem 1.2rem;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 0;
+  }
+  .ec-dark .ec-input {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.18);
+    color: white;
+  }
+  .ec-dark .ec-input::placeholder { color: rgba(255,255,255,0.35); }
+  .ec-dark .ec-input:focus { border-color: var(--accent); }
+  .ec-light .ec-input {
+    background: white;
+    border: 2px solid var(--border, #ddd);
+    color: var(--text, #333);
+  }
+  .ec-light .ec-input:focus { border-color: var(--accent); }
+  .ec-btn {
+    padding: 0.7rem 1.6rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: var(--accent, #00b894);
+    color: white;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .ec-btn:hover {
+    background: var(--accent-dark, #00a67e);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0,184,148,0.4);
+  }
+  .ec-success {
+    color: var(--accent, #00b894);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0;
+    padding: 0.4rem 0;
+  }
+  .ec-error {
+    color: #e74c3c;
+    font-size: 0.82rem;
+    margin: 0.25rem 0 0;
+    padding: 0;
+  }
+  .ec-dark .ec-success { color: #5effd4; }
+</style>

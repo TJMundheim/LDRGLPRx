@@ -13,7 +13,7 @@ interface Props {
 
 const { title, parent, oneliner, slug, description, canonicalPath } = Astro.props;
 const pageDescription = description ?? oneliner;
-const canonical = `https://my4mlife.com${canonicalPath ?? `/solutions/${slug}`}`;
+const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug}`}`;
 ---
 
 <BaseLayout

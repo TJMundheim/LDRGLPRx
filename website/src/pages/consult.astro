@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailCapture from '../components/EmailCapture.astro';
 
 const title = "Schedule Your Comprehensive 4M Consult | My4MLife";
 const description = "One consult covers GLP-1 weight loss, testosterone optimization, peptides (nootropic + GH), prescriptions, supplements, and your personalized 4M protocol. Telemedicine consult with our contracted licensed medical practice.";
-const canonical = "https://my4mlife.com/consult";
+const canonical = "https://www.my4mlife.com/consult";
 const keywords = "4M consult, GLP-1 candidacy, testosterone optimization, peptide protocols, hormone optimization, TJ Mundheim, My4MLife";
 const ogImage = "https://my4mlife.com/logos/concept-13/lockup-color.svg";
 ---
@@ -117,8 +118,7 @@ const ogImage = "https://my4mlife.com/logos/concept-13/lockup-color.svg";
       <div class="booking-ctas">
         <a href="/assessment" class="btn btn-primary btn-large">Take the Free Assessment First <i class="fas fa-arrow-right"></i></a>
         <div class="email-stub">
-          <input type="email" placeholder="your@email.com" class="email-input" />
-          <button class="btn btn-outline" type="button">Notify Me</button>
+          <EmailCapture source="consult-notify" buttonLabel="Notify Me" />
         </div>
       </div>
       <p class="booking-signin">Already a Protégé? <a href="https://app.my4mlife.com" class="signin-link">Sign in to schedule directly →</a></p>

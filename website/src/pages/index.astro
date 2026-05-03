@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailCapture from '../components/EmailCapture.astro';
 const title = "My4MLife — Begin with the end in mind.";
 const description = "My4MLife is a lifestyle company giving you the best chance of having the best mind possible until your last day of life. The 4M system: Mind, Muscle, Mitigate, Motivate. Designed by Dr. TJ Mundheim, DC. Start free with the My4MLife App.";
-const canonical = "https://my4mlife.com/";
+const canonical = "https://www.my4mlife.com/";
 const keywords = "4M system, cognitive aging, brain health, gut health, hormone balance, Dr. TJ Mundheim, My4MLife, membership program, health protocol";
 const ogImage = "https://my4mlife.com/logos/concept-13/lockup-color.svg";
 const robots = "index, follow";
@@ -171,8 +172,7 @@ const robots = "index, follow";
     <p class="email-band-tagline"><em>Begin with the end in mind.</em></p>
     <p class="email-band-sub">Get the weekly 4M protocol update — no spam, one email, unsubscribe anytime.</p>
     <div class="email-band-form">
-      <input type="email" placeholder="your@email.com" class="email-band-input" aria-label="Email address" />
-      <a href="mailto:hello@my4mlife.com" class="btn btn-primary">Stay Informed</a>
+      <EmailCapture source="homepage" dark={true} buttonLabel="Stay Informed" />
     </div>
   </div>
 </section>
