@@ -6,7 +6,6 @@
     renderPage, renderSidebar, sidebarStats, type RenderContext
   } from './lib/renderer';
   import Sidebar from './lib/components/Sidebar.svelte';
-  import DiscoveryFlow from './lib/components/discovery/DiscoveryFlow.svelte';
   import PricingPage from './lib/components/tiers/PricingPage.svelte';
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
   import IntakeModule from './lib/components/intake/IntakeModule.svelte';
@@ -22,9 +21,6 @@
   let curTab = $state('dash');
   let userRole = $state<'patient' | 'clinician' | 'admin' | undefined>(undefined);
   let currentView = $state<'workbook' | 'admin'>('workbook');
-  let showDiscovery = $state(
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'discovery'
-  );
   let showPricing = $state(
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'pricing'
   );
@@ -132,27 +128,18 @@
     if (id === 'admin') {
       if (userRole === 'admin' || userRole === 'clinician') {
         currentView = 'admin';
-        showDiscovery = false;
         showPricing = false;
       }
       window.scrollTo(0, 0);
       return;
     }
     currentView = 'workbook';
-    if (id === 'discovery') {
-      showDiscovery = true;
-      showPricing = false;
-      window.scrollTo(0, 0);
-      return;
-    }
     if (id === 'pricing') {
       showPricing = true;
-      showDiscovery = false;
       pricingHighlightTier = params?.tier ?? '';
       window.scrollTo(0, 0);
       return;
     }
-    showDiscovery = false;
     showPricing = false;
     curTab = id;
     window.scrollTo(0, 0);
@@ -425,22 +412,16 @@
 
 <AuthGate>
 <div class="shell">
-  <Sidebar {navHtml} name={workbook.name} {stats} discoveryActive={showDiscovery} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} />
+  <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} />
   <div class="main" id="main-content">
     {#if !intakeComplete && currentView !== 'admin'}
       <!-- Gated: show intake module until complete -->
       <IntakeModule onComplete={onIntakeComplete} />
     {:else if currentView === 'admin'}
       <AdminDashboard />
-    {:else if showDiscovery}
-      <DiscoveryFlow
-        userId={USER_ID}
-        onGoToPricing={(tierId) => goTo('pricing', { tier: tierId })}
-      />
     {:else if showPricing}
       <PricingPage
         highlightTierId={pricingHighlightTier}
-        onGoToDiscovery={() => goTo('discovery')}
       />
     {:else}
       {@html pageHtml}

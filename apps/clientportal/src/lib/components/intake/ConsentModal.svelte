@@ -1,4 +1,5 @@
 <script lang="ts">
+  // Used at consult-booking time for HIPAA-grade consent capture. Not wired during Protégé sign-up (app-only flow needs only lightweight TOS/Privacy acknowledgement).
   /**
    * ConsentModal — scrollable overlay showing full legal document text.
    * Emits `onClose` when dismissed. Parent tracks whether it was opened.

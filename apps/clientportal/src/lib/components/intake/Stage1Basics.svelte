@@ -1,16 +1,14 @@
 <script lang="ts">
   /**
-   * Stage 1 — Demographics + Consents (simplified).
+   * Stage 1 — Demographics + Lightweight Consent.
    * Collects: name, age, height (inches), weight (lbs).
-   * Consent checkboxes: NPP, Patient Auth, AI Comm (required), Marketing (optional).
-   * Each consent stored with timestamp + version + SHA-256 of document text.
-   * Requires each required modal to have been opened at least once.
+   * Single consent checkbox: TOS + Privacy + AI Comm acknowledgement.
+   * Stored as `consent-protege-v1`: { acceptedAt: ISO, version: 1 }.
    * Persists basics to localStorage key `basics-v1` as { name, age, height, weight, savedAt }.
-   * Consent keys: `consent-npp-v1`, `consent-phi-auth-v1`, `consent-ai-comm-v1`, `consent-marketing-v1`.
+   *
+   * HIPAA-grade NPP + Patient Authorization are deferred to consult-booking time.
+   * See ConsentModal.svelte + legalDocs.ts for those heavyweight gates.
    */
-  import { onMount } from 'svelte';
-  import ConsentModal from './ConsentModal.svelte';
-  import { NPP_DOC, PHI_AUTH_DOC, AI_COMM_DOC, sha256 } from '../../data/legalDocs';
 
   interface Basics {
     name: string;
@@ -19,24 +17,13 @@
     weight: string;
   }
 
-  interface ConsentRecord {
-    acceptedAt: string;
-    version: number;
-    documentSha: string;
-  }
-
   interface Props {
     onContinue: () => void;
   }
   let { onContinue }: Props = $props();
 
   const STORAGE_KEY = 'basics-v1';
-  const CONSENT_KEYS = {
-    npp: 'consent-npp-v1',
-    phi: 'consent-phi-auth-v1',
-    ai: 'consent-ai-comm-v1',
-    mkt: 'consent-marketing-v1',
-  } as const;
+  const CONSENT_KEY = 'consent-protege-v1';
 
   function load<T>(key: string, fallback: T): T {
     try {
@@ -49,96 +36,22 @@
     try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* ignore */ }
   }
 
-  function relativeTime(isoString: string): string {
-    try {
-      const ms = Date.now() - new Date(isoString).getTime();
-      const mins = Math.floor(ms / 60_000);
-      if (mins < 1) return 'just now';
-      if (mins < 60) return `${mins} minute${mins !== 1 ? 's' : ''} ago`;
-      const hrs = Math.floor(mins / 60);
-      if (hrs < 24) return `${hrs} hour${hrs !== 1 ? 's' : ''} ago`;
-      const days = Math.floor(hrs / 24);
-      return `${days} day${days !== 1 ? 's' : ''} ago`;
-    } catch { return 'previously'; }
-  }
-
   let basics = $state<Basics>(load(STORAGE_KEY, { name: '', age: '', height: '', weight: '' }));
 
-  const _initNpp = load<ConsentRecord | null>(CONSENT_KEYS.npp, null);
-  const _initPhi = load<ConsentRecord | null>(CONSENT_KEYS.phi, null);
-  const _initAi  = load<ConsentRecord | null>(CONSENT_KEYS.ai,  null);
-  const _initMkt = load<ConsentRecord | null>(CONSENT_KEYS.mkt, null);
-
-  let storedNpp = $state<ConsentRecord | null>(_initNpp);
-  let storedPhi = $state<ConsentRecord | null>(_initPhi);
-  let storedAi  = $state<ConsentRecord | null>(_initAi);
-  let storedMkt = $state<ConsentRecord | null>(_initMkt);
-
-  let consentNpp = $state<boolean>(!!_initNpp);
-  let consentPhi = $state<boolean>(!!_initPhi);
-  let consentAi  = $state<boolean>(!!_initAi);
-  let consentMkt = $state<boolean>(!!_initMkt);
-
-  let staleNpp = $state(false);
-  let stalePhi = $state(false);
-  let staleAi  = $state(false);
-
-  let openedNpp = $state(!!_initNpp);
-  let openedPhi = $state(!!_initPhi);
-  let openedAi  = $state(!!_initAi);
-
-  let activeModal = $state<'npp' | 'phi' | 'ai' | null>(null);
-
-  let nppSha = $state('');
-  let phiSha = $state('');
-  let aiSha = $state('');
-
-  onMount(async () => {
-    [nppSha, phiSha, aiSha] = await Promise.all([
-      sha256(NPP_DOC.text),
-      sha256(PHI_AUTH_DOC.text),
-      sha256(AI_COMM_DOC.text),
-    ]);
-
-    if (storedNpp && nppSha && storedNpp.documentSha !== nppSha) staleNpp = true;
-    if (storedPhi && phiSha && storedPhi.documentSha !== phiSha) stalePhi = true;
-    if (storedAi && aiSha && storedAi.documentSha !== aiSha) staleAi = true;
-  });
+  const _storedConsent = load<{ acceptedAt: string; version: number } | null>(CONSENT_KEY, null);
+  let consentAccepted = $state<boolean>(!!_storedConsent);
 
   function persistBasics(): void {
     save(STORAGE_KEY, { ...basics, savedAt: new Date().toISOString() });
   }
 
-  async function setConsent(key: keyof typeof CONSENT_KEYS, checked: boolean, sha: string): Promise<void> {
+  function handleSimpleConsent(checked: boolean): void {
+    consentAccepted = checked;
     if (checked) {
-      const record: ConsentRecord = {
-        acceptedAt: new Date().toISOString(),
-        version: 1,
-        documentSha: sha,
-      };
-      save(CONSENT_KEYS[key], record);
-      if (key === 'npp') { storedNpp = record; staleNpp = false; }
-      if (key === 'phi') { storedPhi = record; stalePhi = false; }
-      if (key === 'ai')  { storedAi  = record; staleAi  = false; }
-      if (key === 'mkt') { storedMkt = record; }
+      save(CONSENT_KEY, { acceptedAt: new Date().toISOString(), version: 1 });
     } else {
-      save(CONSENT_KEYS[key], null);
-      if (key === 'npp') storedNpp = null;
-      if (key === 'phi') storedPhi = null;
-      if (key === 'ai')  storedAi  = null;
-      if (key === 'mkt') storedMkt = null;
+      save(CONSENT_KEY, null);
     }
-  }
-
-  function openModal(m: 'npp' | 'phi' | 'ai'): void {
-    activeModal = m;
-    if (m === 'npp') openedNpp = true;
-    if (m === 'phi') openedPhi = true;
-    if (m === 'ai') openedAi = true;
-  }
-
-  function closeModal(): void {
-    activeModal = null;
   }
 
   // Note: type="number" inputs bind values as number | null, not string.
@@ -149,30 +62,15 @@
     String(basics.age ?? '').trim().length > 0 &&
     String(basics.height ?? '').trim().length > 0 &&
     String(basics.weight ?? '').trim().length > 0 &&
-    openedNpp && openedPhi && openedAi &&
-    consentNpp && consentPhi && consentAi
+    consentAccepted
   );
-
-  function modalDoc(m: 'npp' | 'phi' | 'ai') {
-    if (m === 'npp') return NPP_DOC;
-    if (m === 'phi') return PHI_AUTH_DOC;
-    return AI_COMM_DOC;
-  }
 </script>
-
-{#if activeModal}
-  <ConsentModal
-    title={modalDoc(activeModal).title}
-    text={modalDoc(activeModal).text}
-    onClose={closeModal}
-  />
-{/if}
 
 <section class="stage1" aria-labelledby="s1-title">
   <div class="hero">
     <div class="badge">INTAKE — STAGE 1 OF 3</div>
     <h1 id="s1-title">Let's get to know you.</h1>
-    <p class="sub">A few quick details so we can personalize your 4M protocol and keep your information secure.</p>
+    <p class="sub">A few quick details so we can personalize your 4M protocol.</p>
   </div>
 
   <div class="form-body">
@@ -199,115 +97,20 @@
       <p class="field-note">Height and weight are used to auto-populate your Week 1 baseline. Other details (email, phone, state) will be collected at telemedicine booking.</p>
     </div>
 
-    <!-- Consents -->
+    <!-- Single lightweight consent -->
     <div class="consent-block">
-      <h2 class="consent-heading">Authorization & Consent</h2>
-      <p class="consent-sub">
-        Please review each document (click the link), then check to acknowledge.
-        The first three are required to continue.
-      </p>
-
-      <!-- NPP -->
-      <div class="consent-row" class:checked={consentNpp}>
-        {#if consentNpp && storedNpp && !staleNpp}
-          <span class="accepted-tick" aria-hidden="true">✓</span>
-        {:else}
-          <input
-            type="checkbox"
-            id="cb-npp"
-            checked={consentNpp}
-            disabled={!openedNpp}
-            onchange={(e) => { consentNpp = (e.target as HTMLInputElement).checked; setConsent('npp', consentNpp, nppSha); }}
-          />
-        {/if}
-        <label for="cb-npp" class="consent-label">
-          I have reviewed the Notice of Privacy Practices.
-          <span class="req">*</span>
-          {#if consentNpp && storedNpp && !staleNpp}
-            <span class="accepted-note">&#10003; Accepted {relativeTime(storedNpp.acceptedAt)}</span>
-          {/if}
-        </label>
-        <button type="button" class="doc-link" onclick={() => openModal('npp')}>
-          {openedNpp ? 'Review again' : 'Read document'} ↗
-        </button>
-      </div>
-      {#if staleNpp}
-        <p class="stale-note">The Notice of Privacy Practices has been updated. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('npp')}>review updated version ↗</button></p>
-      {:else if !openedNpp}
-        <p class="must-read-note">Read the document above before checking.</p>
-      {/if}
-
-      <!-- PHI Auth -->
-      <div class="consent-row" class:checked={consentPhi}>
-        {#if consentPhi && storedPhi && !stalePhi}
-          <span class="accepted-tick" aria-hidden="true">✓</span>
-        {:else}
-          <input
-            type="checkbox"
-            id="cb-phi"
-            checked={consentPhi}
-            disabled={!openedPhi}
-            onchange={(e) => { consentPhi = (e.target as HTMLInputElement).checked; setConsent('phi', consentPhi, phiSha); }}
-          />
-        {/if}
-        <label for="cb-phi" class="consent-label">
-          I authorize My4MLife and its contracted care team to share my health information.
-          <span class="req">*</span>
-          {#if consentPhi && storedPhi && !stalePhi}
-            <span class="accepted-note">&#10003; Accepted {relativeTime(storedPhi.acceptedAt)}</span>
-          {/if}
-        </label>
-        <button type="button" class="doc-link" onclick={() => openModal('phi')}>
-          {openedPhi ? 'Review again' : 'Read document'} ↗
-        </button>
-      </div>
-      {#if stalePhi}
-        <p class="stale-note">The Patient Authorization has been updated. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('phi')}>review updated version ↗</button></p>
-      {:else if !openedPhi}
-        <p class="must-read-note">Read the document above before checking.</p>
-      {/if}
-
-      <!-- AI Communication Consent -->
-      <div class="consent-row" class:checked={consentAi}>
-        {#if consentAi && storedAi && !staleAi}
-          <span class="accepted-tick" aria-hidden="true">✓</span>
-        {:else}
-          <input
-            type="checkbox"
-            id="cb-ai"
-            checked={consentAi}
-            disabled={!openedAi}
-            onchange={(e) => { consentAi = (e.target as HTMLInputElement).checked; setConsent('ai', consentAi, aiSha); }}
-          />
-        {/if}
-        <label for="cb-ai" class="consent-label">
-          I consent to receive AI-generated email and SMS communications about my care.
-          <span class="req">*</span>
-          {#if consentAi && storedAi && !staleAi}
-            <span class="accepted-note">&#10003; Accepted {relativeTime(storedAi.acceptedAt)}</span>
-          {/if}
-        </label>
-        <button type="button" class="doc-link" onclick={() => openModal('ai')}>
-          {openedAi ? 'Review again' : 'Read document'} ↗
-        </button>
-      </div>
-      {#if staleAi}
-        <p class="stale-note">The AI Communication Consent has been updated. Your prior acceptance remains on file — <button type="button" class="re-ack-link" onclick={() => openModal('ai')}>review updated version ↗</button></p>
-      {:else if !openedAi}
-        <p class="must-read-note">Read the document above before checking.</p>
-      {/if}
-
-      <!-- Marketing (optional) -->
-      <div class="consent-row optional-row" class:checked={consentMkt}>
+      <div class="consent-row simple-consent" class:checked={consentAccepted}>
         <input
           type="checkbox"
-          id="cb-mkt"
-          bind:checked={consentMkt}
-          onchange={() => setConsent('mkt', consentMkt, '')}
+          id="cb-tos"
+          checked={consentAccepted}
+          onchange={(e) => handleSimpleConsent((e.target as HTMLInputElement).checked)}
         />
-        <label for="cb-mkt" class="consent-label">
-          I authorize use of my de-identified data for marketing purposes
-          <span class="optional-tag">(optional)</span>
+        <label for="cb-tos">
+          I agree to the
+          <a href="https://my4mlife.com/terms" target="_blank" rel="noopener">Terms of Service</a>,
+          <a href="https://my4mlife.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>,
+          and to receive AI-generated communications from My4MLife. <span class="req">*</span>
         </label>
       </div>
     </div>
@@ -321,13 +124,14 @@
     </div>
     {#if !canContinue}
       <p class="req-note">
-        {#if !basics.name.trim() || !basics.age.trim() || !basics.height.trim() || !basics.weight.trim()}
-          Enter all required fields, then
+        {#if !String(basics.name ?? '').trim() || !String(basics.age ?? '').trim() || !String(basics.height ?? '').trim() || !String(basics.weight ?? '').trim()}
+          Enter all required fields
+          {#if !consentAccepted}, then check{/if}
+        {:else if !consentAccepted}
+          Check
         {/if}
-        {#if !openedNpp || !openedPhi || !openedAi}
-          read and acknowledge all required documents to continue.
-        {:else if !consentNpp || !consentPhi || !consentAi}
-          check all three required consents to continue.
+        {#if !consentAccepted}
+          the agreement checkbox to continue.
         {/if}
       </p>
     {/if}
@@ -432,30 +236,16 @@
     margin-left: 2px;
   }
 
-  /* Consents */
+  /* Consent */
   .consent-block {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .consent-heading {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text, #e8eaf0);
-    margin: 0;
-  }
-
-  .consent-sub {
-    font-size: 0.82rem;
-    color: var(--text-muted, #9ba3b2);
-    margin: 0;
-    line-height: 1.5;
-  }
-
   .consent-row {
     display: grid;
-    grid-template-columns: 20px 1fr auto;
+    grid-template-columns: 20px 1fr;
     gap: 10px;
     align-items: start;
     padding: 14px 16px;
@@ -474,10 +264,6 @@
     color: var(--text, #e8eaf0);
   }
 
-  .optional-row {
-    opacity: 0.8;
-  }
-
   .consent-row input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -487,101 +273,21 @@
     cursor: pointer;
   }
 
-  .consent-row input[type="checkbox"]:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-
-  .consent-label {
+  .consent-row label {
     font-size: 0.88rem;
     color: inherit;
     cursor: pointer;
     line-height: 1.5;
+    font-weight: 400;
   }
 
-  .optional-tag {
-    font-size: 0.78rem;
-    color: var(--text-muted, #9ba3b2);
-    margin-left: 4px;
-  }
-
-  .doc-link {
-    background: transparent;
-    border: 1px solid rgba(29,158,117,0.4);
+  .consent-row a {
     color: #1D9E75;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    white-space: nowrap;
-    align-self: center;
-    transition: background 0.15s, color 0.15s;
-    font-family: inherit;
-  }
-
-  .doc-link:hover {
-    background: rgba(29,158,117,0.12);
-    color: #27c48e;
-  }
-
-  .doc-link:focus-visible {
-    outline: 2px solid #1D9E75;
-    outline-offset: 2px;
-  }
-
-  .must-read-note {
-    font-size: 0.75rem;
-    color: #f87171;
-    margin: -4px 0 2px 30px;
-    line-height: 1.4;
-  }
-
-  .stale-note {
-    font-size: 0.75rem;
-    color: #fbbf24;
-    margin: -4px 0 2px 30px;
-    line-height: 1.4;
-  }
-
-  .re-ack-link {
-    background: none;
-    border: none;
-    padding: 0;
-    color: #fbbf24;
-    font-size: inherit;
-    font-family: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: underline;
     text-underline-offset: 2px;
   }
 
-  .re-ack-link:hover {
-    color: #fde68a;
-  }
-
-  .accepted-note {
-    display: block;
-    font-size: 0.72rem;
-    color: #1D9E75;
-    margin-top: 2px;
-    font-weight: 500;
-  }
-
-  .accepted-tick {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    background: #1D9E75;
-    color: #fff;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 2px;
+  .consent-row a:hover {
+    color: #27c48e;
   }
 
   /* Navigation */

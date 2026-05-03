@@ -11,7 +11,6 @@
   import Stage2Likert from './Stage2Likert.svelte';
   import Stage4Audit from './Stage4Audit.svelte';
   import { onMount } from 'svelte';
-  import { sha256, NPP_DOC, PHI_AUTH_DOC, AI_COMM_DOC } from '../../data/legalDocs';
 
   const STAGE_KEY = 'intake-stage-v1';
   const COMPLETE_KEY = 'intake-complete-v1';
@@ -33,51 +32,36 @@
   /**
    * One-time clean slate: wipe stale keys from the previous multi-stage model.
    * The schema version sentinel ensures this runs exactly once per browser session.
+   * v4 (2026-05-03): also clears old HIPAA consent keys replaced by consent-protege-v1.
    */
   function runCleanSlate(): void {
-    const SCHEMA_VERSION_KEY = 'intake-schema-v3';
-    if (localStorage.getItem(SCHEMA_VERSION_KEY) !== '2026-05-01') {
+    const SCHEMA_VERSION_KEY = 'intake-schema-v4';
+    if (localStorage.getItem(SCHEMA_VERSION_KEY) !== '2026-05-03') {
       ['discovery-v1', 'gut-assessment-v1', 'allergy-assessment-v1', 'goals-v1', 'connected-mind-v1',
        'audit-v1', 'intake-stage-v1', 'intake-complete-v1'
       ].forEach(k => localStorage.removeItem(k));
-      // basics-v1 and consent-* are deliberately preserved
-      localStorage.setItem(SCHEMA_VERSION_KEY, '2026-05-01');
+      // Clear old HIPAA consent keys replaced by consent-protege-v1
+      ['consent-npp-v1', 'consent-phi-auth-v1', 'consent-ai-comm-v1', 'consent-marketing-v1'].forEach(k => localStorage.removeItem(k));
+      // basics-v1 and consent-protege-v1 are deliberately preserved
+      localStorage.setItem(SCHEMA_VERSION_KEY, '2026-05-03');
     }
   }
 
   /**
    * Check whether Stage 1 is already complete:
    * - basics-v1 has name + age + height + weight filled
-   * - all 3 required consents are present and their SHA matches current doc content
+   * - consent-protege-v1 is present (lightweight TOS/Privacy/AI-Comm acknowledgement)
    */
-  async function isStage1Complete(): Promise<boolean> {
+  function isStage1Complete(): boolean {
     const basics = readJson<{ name?: string; age?: string; height?: string; weight?: string }>(BASICS_KEY);
     if (!basics?.name?.trim() || !basics?.age?.trim() || !basics?.height?.trim() || !basics?.weight?.trim()) return false;
-
-    const [nppSha, phiSha, aiSha] = await Promise.all([
-      sha256(NPP_DOC.text),
-      sha256(PHI_AUTH_DOC.text),
-      sha256(AI_COMM_DOC.text),
-    ]);
-
-    const npp = readJson<{ documentSha?: string }>('consent-npp-v1');
-    const phi = readJson<{ documentSha?: string }>('consent-phi-auth-v1');
-    const ai  = readJson<{ documentSha?: string }>('consent-ai-comm-v1');
-
-    if (!npp || !phi || !ai) return false;
-    const shaMatch = (stored: string, current: string) =>
-      stored === current || stored === 'sha256-unavailable' || current === 'sha256-unavailable';
-
-    return (
-      shaMatch(npp.documentSha ?? '', nppSha) &&
-      shaMatch(phi.documentSha ?? '', phiSha) &&
-      shaMatch(ai.documentSha ?? '',  aiSha)
-    );
+    const consent = readJson<{ acceptedAt?: string; version?: number }>('consent-protege-v1');
+    return !!consent?.acceptedAt;
   }
 
   const BASICS_KEY = 'basics-v1';
 
-  onMount(async () => {
+  onMount(() => {
     // Run clean slate first — wipes stale keys from prior multi-stage model
     runCleanSlate();
 
@@ -87,8 +71,8 @@
       goTo(3);
       return;
     }
-    // Auto-advance past Stage 1 if basics + all required consents already saved and valid
-    if (currentStage === 1 && await isStage1Complete()) {
+    // Auto-advance past Stage 1 if basics + lightweight consent already saved
+    if (currentStage === 1 && isStage1Complete()) {
       goTo(2);
     }
   });

@@ -1,6 +1,7 @@
+// Used at consult-booking time for HIPAA-grade consent capture. Not wired during Protégé sign-up (app-only flow needs only lightweight TOS/Privacy acknowledgement).
 /**
  * Legal document text — imported as raw strings via Vite's ?raw loader.
- * Used in Stage 1 consent modals so the full verbatim text is displayed
+ * Used at consult-booking time so the full verbatim text is displayed
  * and a SHA-256 hash can be computed client-side to anchor each consent
  * to the exact document version.
  *

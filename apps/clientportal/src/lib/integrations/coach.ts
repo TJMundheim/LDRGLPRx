@@ -5,8 +5,7 @@
  * If that env var is unset the functions throw, same as before.
  */
 
-import type { IntakeAnswer, IntakeResult } from '../data/intake.js';
-import { SYSTEM_PROMPT_BASE, MONTH_PROMPTS, WEEKLY_CHECKIN_TEMPLATE, INTAKE_REPORT_TEMPLATE } from '../coach/prompts.js';
+import { SYSTEM_PROMPT_BASE, MONTH_PROMPTS, WEEKLY_CHECKIN_TEMPLATE } from '../coach/prompts.js';
 
 // ---------------------------------------------------------------------------
 // Shared types
@@ -22,8 +21,6 @@ export interface CoachContext {
   currentMonth: ProgramMonth;
   currentWeek: number;
   tier: ProgramTier;
-  /** Full intake result from Discovery, if completed. */
-  intakeResult?: IntakeResult;
   /** Most recent symptom domain scores, keyed by domain slug (0–10). */
   recentSymptomScores?: Record<string, number>;
   /** Product slugs the user is actively on. */
@@ -168,22 +165,3 @@ export async function respondToMessage(
   }
 }
 
-export async function generateIntakeReport(
-  answers: IntakeAnswer[],
-  result: IntakeResult,
-): Promise<string> {
-  const system = SYSTEM_PROMPT_BASE;
-  const prompt = INTAKE_REPORT_TEMPLATE
-    .replace('{{TOP_PRIORITIES}}', JSON.stringify(result.topPriorities))
-    .replace('{{RECOMMENDED_TIER}}', result.recommendedTier)
-    .replace('{{TRIGGERED_PRODUCTS}}', result.triggeredProducts.map(p => p.slug).join(', '))
-    .replace('{{TRIGGERED_LABS}}', result.triggeredLabs.map(l => l.slug).join(', '))
-    .replace('{{INTAKE_SUMMARY}}', result.summary);
-
-  const messages: ProxyMessage[] = [{ role: 'user', content: prompt }];
-
-  const url = import.meta.env.VITE_COACH_PROXY_URL as string | undefined;
-  if (!url) throw new Error('VITE_COACH_PROXY_URL is not set — coach proxy not configured');
-
-  return callProxy(system, messages, 'claude-sonnet-4-6', 2048);
-}

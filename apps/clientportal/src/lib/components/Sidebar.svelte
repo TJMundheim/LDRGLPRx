@@ -6,13 +6,12 @@
     navHtml: string;
     name: string;
     stats: { audit: string; score: string; morn: string; cold: string };
-    discoveryActive?: boolean;
     pricingActive?: boolean;
     userRole?: 'patient' | 'clinician' | 'admin';
     adminActive?: boolean;
     intakeComplete?: boolean;
   }
-  let { navHtml, name, stats, discoveryActive = false, pricingActive = false, userRole, adminActive = false, intakeComplete = true }: Props = $props();
+  let { navHtml, name, stats, pricingActive = false, userRole, adminActive = false, intakeComplete = true }: Props = $props();
 
   function handleSignOut() {
     signOut();
@@ -32,16 +31,8 @@
     <div class="logo-name">{name}</div>
   </div>
 
-  <!-- Discovery nav entry — shown above workbook nav items -->
+  <!-- Pricing nav entry -->
   <div class="discovery-nav">
-    <button
-      class="discovery-btn"
-      class:discovery-active={discoveryActive}
-      onclick={() => { (window as Window & { portalAction?: (a: string, ...args: unknown[]) => void }).portalAction?.('goTo', 'discovery'); }}
-      aria-current={discoveryActive ? 'page' : undefined}
-    >
-      ✦ Discovery Intake
-    </button>
     <button
       class="discovery-btn pricing-btn"
       class:discovery-active={pricingActive}
