@@ -263,16 +263,16 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">${dayBtns}</div>
     <div class="g2" style="margin-bottom:12px">
       <div>
-        <label>Days completed</label>
+        <span style="font-size:0.85rem;font-weight:600;color:var(--text,#e8eaf0)">Days completed</span>
         <div style="font-size:26px;font-weight:700;color:${wc.ac};margin-top:4px">${doneCt} / 7</div>
       </div>
       <div>
-        <label>Cold showers</label>
+        <span style="font-size:0.85rem;font-weight:600;color:var(--text,#e8eaf0)">Cold showers</span>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${coldBtns}</div>
       </div>
     </div>
-    <label>Week ${w} morning reflection</label>
-    <textarea placeholder="How did the protocol feel? What improved? What was hard?"
+    <label for="morn-reflection-w${w}">Week ${w} morning reflection</label>
+    <textarea id="morn-reflection-w${w}" placeholder="How did the protocol feel? What improved? What was hard?"
       oninput="portalField('weekLogs.${w}.reflection',this.value)">${esc(wl.reflection)}</textarea>
   </div>`;
 }
@@ -304,7 +304,8 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
           ? 'These numbers become your benchmark for the rest of the program.'
           : `Compare to last week — let your new numbers shape the rest of this week's work.`}
       </div>
-      <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:5px">
+      <div style="overflow-x:auto">
+      <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:5px;min-width:320px">
         ${['Test', `Week ${w} retest`, w > 1 ? `Week ${w - 1}` : 'Notes', 'Δ'].map(h =>
           `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
         ).join('')}
@@ -317,7 +318,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
         const delta = cur && prev ? (Number(cur) - Number(prev)).toFixed(0) : '';
         const deltaColor = delta && Number(delta) > 0 ? '#1D9E75' : delta && Number(delta) < 0 ? '#E05C2A' : '#6A8A6E';
         return `
-        <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:6px;align-items:center">
+        <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:6px;align-items:center;min-width:320px">
           <div style="font-size:11px;color:#5A3020">${l}</div>
           <input placeholder="this week" style="font-size:11px"
             value="${esc(cur)}"
@@ -330,6 +331,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
           </div>
         </div>`;
       }).join('')}
+      </div>
     </div>
 
     <div class="card-title" style="font-size:10px;margin-bottom:6px">WORKOUT LOG — WEEK ${w}</div>
@@ -345,19 +347,20 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px;flex-wrap:wrap">
           <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em">${dLabel.toUpperCase()}</div>
           <div style="display:flex;gap:6px;align-items:center;font-size:10px;color:#6A8A6E">
-            <label style="font-size:10px;margin:0">Date</label>
-            <input type="date" style="font-size:10px;max-width:140px"
+            <label for="wlog-w${w}d${d}-date" style="font-size:10px;margin:0">Date</label>
+            <input id="wlog-w${w}d${d}-date" type="date" style="font-size:10px;max-width:140px"
               value="${esc(W.trainLog[`w${w}d${d}_date`] ?? '')}"
               oninput="portalField('trainLog.w${w}d${d}_date',this.value)">
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:5px">
+        <div style="overflow-x:auto">
+        <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:5px;min-width:340px">
           ${['Exercise', 'Weight / Resistance', 'Reps / Duration', 'Notes'].map(h =>
             `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
           ).join('')}
         </div>
         ${exercises.map(([k, l]) => `
-          <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:6px;align-items:center">
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:6px;align-items:center;min-width:340px">
             <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.15);border-radius:7px;
               padding:7px 9px;font-size:11px;color:#5A3020">${l}</div>
             ${['weight', 'reps', 'notes'].map(f => `
@@ -365,6 +368,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
                 value="${esc(W.trainLog[`w${w}d${d}_${k}_${f}`] ?? '')}"
                 oninput="portalField('trainLog.w${w}d${d}_${k}_${f}',this.value)">`).join('')}
           </div>`).join('')}
+        </div>
       </div>`;
     }).join('')}`;
 }
@@ -376,7 +380,8 @@ function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
     <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px">
       Log the time of your first and last meal each day. Target: first meal after 9am, last before 7pm (14-hour fast, 10-hour eating window). Month 1 stays at 14:10 — we do not progress this window this month.
     </div>
-    <div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px">
+    <div style="overflow-x:auto">
+    <div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px;min-width:300px">
       ${['Day', 'First meal', 'Last meal', 'Window (hrs)'].map(h =>
         `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
       ).join('')}
@@ -395,7 +400,7 @@ function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
           windowHrs = diff > 0 ? diff.toFixed(1) : '';
         }
       }
-      return `<div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px;align-items:center">
+      return `<div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px;align-items:center;min-width:300px">
         <div style="font-size:11px;color:#5A3020;font-weight:600">${d}</div>
         <input type="time" style="font-size:11px" value="${esc(first)}"
           oninput="portalField('fastingLog.${fKey}',this.value)">
@@ -405,7 +410,8 @@ function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
           ${windowHrs || '—'}
         </div>
       </div>`;
-    }).join('')}`;
+    }).join('')}
+    </div>`;
 }
 
 function priorityActionReminder(W: Workbook, selectedName: string): string {
@@ -470,8 +476,8 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
     </div>
     <div class="ftab-row">${tabBtns}</div>
     <div style="margin-bottom:14px">${content}</div>
-    <label>My personal action plan for this factor</label>
-    <textarea placeholder="What specifically will I do? When? How will I measure progress?"
+    <label for="factor-plan-${f.n}">My personal action plan for this factor</label>
+    <textarea id="factor-plan-${f.n}" placeholder="What specifically will I do? When? How will I measure progress?"
       oninput="portalField('factorPlans.${f.n}',this.value)">${esc(W.factorPlans[f.n] ?? '')}</textarea>
   </div>`;
 }
@@ -624,14 +630,14 @@ function renderDash(W: Workbook): string {
   <div class="card">
     <div class="card-title">Your Profile</div>
     <div class="g3">
-      <div><label>Full name</label>
-        <input value="${esc(W.name)}" placeholder="Your name"
+      <div><label for="dash-name">Full name</label>
+        <input id="dash-name" value="${esc(W.name)}" placeholder="Your name"
           oninput="portalField('name',this.value)"></div>
-      <div><label>Start date</label>
-        <input value="${esc(W.startDate)}" placeholder="e.g. April 14, 2026"
+      <div><label for="dash-startdate">Start date</label>
+        <input id="dash-startdate" value="${esc(W.startDate)}" placeholder="e.g. April 14, 2026"
           oninput="portalField('startDate',this.value)"></div>
-      <div><label>Program Group</label>
-        <input value="${esc(W.cohortId ?? '')}" placeholder="Group ID"
+      <div><label for="dash-cohortid">Program Group</label>
+        <input id="dash-cohortid" value="${esc(W.cohortId ?? '')}" placeholder="Group ID"
           oninput="portalField('cohortId',this.value)"></div><!-- cohortId field retained for data compatibility -->
     </div>
   </div>
@@ -757,11 +763,11 @@ function renderW1(ctx: RenderContext): string {
         <span style="font-size:12.5px;color:#1A2E1E">${esc(opt)}</span>
       </div>`).join('')}
     </div>
-    <label>My "why" — the man I want to be at age 70</label>
-    <textarea style="min-height:70px" placeholder="Write it here — you will read this aloud on graduation day..."
+    <label for="w1-personal-why">My "why" — the man I want to be at age 70</label>
+    <textarea id="w1-personal-why" style="min-height:70px" placeholder="Write it here — you will read this aloud on graduation day..."
       oninput="portalField('personalWhy',this.value)">${esc(W.personalWhy)}</textarea>
-    <label style="margin-top:12px">My identity statement (draft) — "I am a man who..."</label>
-    <input placeholder="I am a man who..." value="${esc(W.identityStatement)}"
+    <label for="w1-identity-stmt" style="margin-top:12px">My identity statement (draft) — "I am a man who..."</label>
+    <input id="w1-identity-stmt" placeholder="I am a man who..." value="${esc(W.identityStatement)}"
       oninput="portalField('identityStatement',this.value)">
     ${thisWeekBox([
       'Write your "why" above — be specific about the man you want to be at 70',
@@ -793,8 +799,8 @@ function renderW1(ctx: RenderContext): string {
           const displayVal = W.priorities[i] || auditPrefill;
           const label = ['Highest score — fastest results', 'Second priority', 'Third priority'][i];
           return `<div style="margin-bottom:9px">
-            <label>${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from audit)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
-            <input value="${esc(displayVal)}" placeholder="${fromAudit ? '' : 'Factor name and score...'}"
+            <label for="w1-priority-${i}">${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from audit)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
+            <input id="w1-priority-${i}" value="${esc(displayVal)}" placeholder="${fromAudit ? '' : 'Factor name and score...'}"
               style="${fromAudit && !W.priorities[i] ? 'color:#1A2E1E;font-weight:600' : ''}"
               oninput="portalField('priorities.${i}',this.value)">
           </div>`;
@@ -803,8 +809,8 @@ function renderW1(ctx: RenderContext): string {
       <div class="card-title" style="margin-top:12px">My Specific Commitments</div>
       ${[0, 1, 2].map(i => `
         <div style="margin-bottom:9px">
-          <label>Priority ${i + 1} — this week I will</label>
-          <input value="${esc(W.commitments[i] ?? '')}" placeholder="Be specific — what, when, how..."
+          <label for="w1-commitment-${i}">Priority ${i + 1} — this week I will</label>
+          <input id="w1-commitment-${i}" value="${esc(W.commitments[i] ?? '')}" placeholder="Be specific — what, when, how..."
             oninput="portalField('commitments.${i}',this.value)">
         </div>`).join('')}
     </div>
@@ -835,15 +841,15 @@ function renderW1(ctx: RenderContext): string {
         const hint = prefill && !W.bodyBaseline[k as keyof typeof W.bodyBaseline]
           ? `<div style="font-size:10px;color:#6A8A6E;font-style:italic;margin-top:3px">from intake answers</div>` : '';
         return `<div>
-          <label>${esc(l)}</label>
-          <input value="${esc(val)}" placeholder="Record now..."
+          <label for="bodyBaseline-${k}">${esc(l)}</label>
+          <input id="bodyBaseline-${k}" value="${esc(val)}" placeholder="Record now..."
             oninput="portalField('bodyBaseline.${k}',this.value)">${hint}
         </div>`;
       }).join('')}
     </div>`;
     })()}
-    <label>Target bodyweight for protein calc (lbs)</label>
-    <input type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
+    <label for="w1-protein-target">Target bodyweight for protein calc (lbs)</label>
+    <input id="w1-protein-target" type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
       oninput="portalField('protein',this.value)">
     ${Number(W.protein) > 0 ? `<div style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px">
       <div style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein) * 0.9)}g</div>
@@ -909,24 +915,24 @@ function renderW2(W: Workbook): string {
   <div class="card" style="border-left:4px solid #6B5ED4">
     <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Week 2 Check-In</div>
     <div style="margin-bottom:12px">
-      <label>My WHY (from Week 1) — read it out loud right now</label>
-      <textarea style="min-height:52px;background:#F9F7FF;border-color:#C8C0F0;font-size:13px;font-style:italic"
+      <label for="w2-my-why">My WHY (from Week 1) — read it out loud right now</label>
+      <textarea id="w2-my-why" style="min-height:52px;background:#F9F7FF;border-color:#C8C0F0;font-size:13px;font-style:italic"
         placeholder="Copy your Week 1 why statement here to keep it front of mind..."
         oninput="portalField('weekReflections.w2_why',this.value)">${g('w2_why')}</textarea>
     </div>
     <div class="g2" style="margin-bottom:12px">
       <div>
-        <label>Did my Week 1 identity statement feel true?</label>
-        <textarea style="min-height:52px" placeholder="Honest reflection..."
+        <label for="w2-identity-check">Did my Week 1 identity statement feel true?</label>
+        <textarea id="w2-identity-check" style="min-height:52px" placeholder="Honest reflection..."
           oninput="portalField('weekReflections.w2_identity_check',this.value)">${g('w2_identity_check')}</textarea>
       </div>
       <div>
-        <label>Who is my accountability partner in this program?</label>
-        <input placeholder="Name and check-in method..."
+        <label for="w2-acct">Who is my accountability partner in this program?</label>
+        <input id="w2-acct" placeholder="Name and check-in method..."
           value="${g('w2_acct')}" oninput="portalField('weekReflections.w2_acct',this.value)">
         <div style="margin-top:6px">
-          <label>We agreed to check in every</label>
-          <input placeholder="e.g. Sunday evening by text..."
+          <label for="w2-acct-freq">We agreed to check in every</label>
+          <input id="w2-acct-freq" placeholder="e.g. Sunday evening by text..."
             value="${g('w2_acct_freq')}" oninput="portalField('weekReflections.w2_acct_freq',this.value)">
         </div>
       </div>
@@ -948,25 +954,25 @@ function renderW2(W: Workbook): string {
       <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">PRIORITY FACTOR ${n}</div>
       <div class="g2">
         <div>
-          <label>Factor name (from your Week 1 audit)</label>
+          <label for="w2-f${n}-name">Factor name (from your Week 1 audit)</label>
           ${factorNameSelect(selectedName, `weekReflections.w2_factor${n}_name`)}
         </div>
         <div>
-          <label>Week 1 score (0–10) you gave it</label>
-          <input type="number" min="0" max="10" placeholder="0–10"
+          <label for="w2-f${n}-score">Week 1 score (0–10) you gave it</label>
+          <input id="w2-f${n}-score" type="number" min="0" max="10" placeholder="0–10"
             value="${g(`w2_factor${n}_score`)}"
             oninput="portalField('weekReflections.w2_factor${n}_score',this.value)">
         </div>
       </div>
       ${priorityActionReminder(W, selectedName)}
       <div style="margin-top:8px">
-        <label>Immediate action I took this week</label>
-        <textarea style="min-height:48px" placeholder="What did you actually do?"
+        <label for="w2-f${n}-action">Immediate action I took this week</label>
+        <textarea id="w2-f${n}-action" style="min-height:48px" placeholder="What did you actually do?"
           oninput="portalField('weekReflections.w2_factor${n}_action',this.value)">${g(`w2_factor${n}_action`)}</textarea>
       </div>
       <div style="margin-top:8px">
-        <label>End-of-week: did it move the needle? How?</label>
-        <input placeholder="Honest assessment..."
+        <label for="w2-f${n}-result">End-of-week: did it move the needle? How?</label>
+        <input id="w2-f${n}-result" placeholder="Honest assessment..."
           value="${g(`w2_factor${n}_result`)}"
           oninput="portalField('weekReflections.w2_factor${n}_result',this.value)">
       </div>
@@ -994,25 +1000,25 @@ function renderW2(W: Workbook): string {
       <div class="card-title" style="font-size:10px;margin-bottom:8px">PROTEIN & EATING WINDOW COMPLIANCE</div>
       <div class="g2">
         <div>
-          <label>My protein target (from Week 1 calculator)</label>
-          <input placeholder="e.g. 165g/day" value="${g('w2_protein_target')}"
+          <label for="w2-protein-target">My protein target (from Week 1 calculator)</label>
+          <input id="w2-protein-target" placeholder="e.g. 165g/day" value="${g('w2_protein_target')}"
             oninput="portalField('weekReflections.w2_protein_target',this.value)">
         </div>
         <div>
-          <label>Days I hit protein target (out of 7)</label>
-          <input type="number" min="0" max="7" placeholder="0–7"
+          <label for="w2-protein-days">Days I hit protein target (out of 7)</label>
+          <input id="w2-protein-days" type="number" min="0" max="7" placeholder="0–7"
             value="${g('w2_protein_days')}"
             oninput="portalField('weekReflections.w2_protein_days',this.value)">
         </div>
         <div>
-          <label>Days I held 14:10 eating window (out of 7)</label>
-          <input type="number" min="0" max="7" placeholder="0–7"
+          <label for="w2-fasting-days">Days I held 14:10 eating window (out of 7)</label>
+          <input id="w2-fasting-days" type="number" min="0" max="7" placeholder="0–7"
             value="${g('w2_fasting_days')}"
             oninput="portalField('weekReflections.w2_fasting_days',this.value)">
         </div>
         <div>
-          <label>Biggest nutrition win this week</label>
-          <input placeholder="What worked?"
+          <label for="w2-nutr-win">Biggest nutrition win this week</label>
+          <input id="w2-nutr-win" placeholder="What worked?"
             value="${g('w2_nutr_win')}" oninput="portalField('weekReflections.w2_nutr_win',this.value)">
         </div>
       </div>
@@ -1034,8 +1040,8 @@ function renderW2(W: Workbook): string {
     <div class="g3" style="margin-bottom:14px">
       ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
         <div>
-          <label>W2 ${l} (1–10)</label>
-          <input type="number" min="1" max="10" placeholder="1–10"
+          <label for="w2-cog-${k}">W2 ${l} (1–10)</label>
+          <input id="w2-cog-${k}" type="number" min="1" max="10" placeholder="1–10"
             value="${esc(W.cogRatings[`w2_${k}`] ?? '')}"
             oninput="portalField('cogRatings.w2_${k}',this.value)">
           <div style="font-size:9px;color:#8AB89A;margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
@@ -1063,8 +1069,8 @@ function renderW2(W: Workbook): string {
     </div>
 
     <div>
-      <label>Am I noticing anything different? Sleep, energy, digestion, focus — anything?</label>
-      <textarea style="min-height:58px" placeholder="Honest early observations only. No judgment."
+      <label for="w2-mind-obs">Am I noticing anything different? Sleep, energy, digestion, focus — anything?</label>
+      <textarea id="w2-mind-obs" style="min-height:58px" placeholder="Honest early observations only. No judgment."
         oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
     </div>
 
@@ -1086,8 +1092,8 @@ function renderW2(W: Workbook): string {
        ['w2_mind_ref', 'MIND: Any early signals from supplements or sleep quality change?']
     ].map(([k, l]) => `
       <div style="margin-bottom:12px">
-        <label>${l}</label>
-        <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
+        <label for="ref-${k}">${l}</label>
+        <textarea id="ref-${k}" oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
       </div>`).join('')}
   </div>
 
@@ -1121,24 +1127,24 @@ function renderW3(W: Workbook): string {
     <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Momentum & Obstacles</div>
     <div class="g2" style="margin-bottom:12px">
       <div>
-        <label>My biggest win from the first 2 weeks</label>
-        <textarea style="min-height:52px" placeholder="Something that actually happened..."
+        <label for="w3-big-win">My biggest win from the first 2 weeks</label>
+        <textarea id="w3-big-win" style="min-height:52px" placeholder="Something that actually happened..."
           oninput="portalField('weekReflections.w3_big_win',this.value)">${g('w3_big_win')}</textarea>
       </div>
       <div>
-        <label>The hardest obstacle I ran into</label>
-        <textarea style="min-height:52px" placeholder="Be specific — what exactly got in the way?"
+        <label for="w3-obstacle">The hardest obstacle I ran into</label>
+        <textarea id="w3-obstacle" style="min-height:52px" placeholder="Be specific — what exactly got in the way?"
           oninput="portalField('weekReflections.w3_obstacle',this.value)">${g('w3_obstacle')}</textarea>
       </div>
     </div>
     <div style="margin-bottom:12px">
-      <label>What did I do when I missed a day or fell short? Did I get back on track?</label>
-      <textarea style="min-height:52px" placeholder="The recovery pattern matters more than perfection..."
+      <label for="w3-recovery">What did I do when I missed a day or fell short? Did I get back on track?</label>
+      <textarea id="w3-recovery" style="min-height:52px" placeholder="The recovery pattern matters more than perfection..."
         oninput="portalField('weekReflections.w3_recovery',this.value)">${g('w3_recovery')}</textarea>
     </div>
     <div style="margin-bottom:12px">
-      <label>My identity is evolving — complete this sentence: "The man I am becoming..."</label>
-      <textarea style="min-height:52px;font-size:13px;font-style:italic;border-color:#C8C0F0"
+      <label for="w3-identity-evolve">My identity is evolving — complete this sentence: "The man I am becoming..."</label>
+      <textarea id="w3-identity-evolve" style="min-height:52px;font-size:13px;font-style:italic;border-color:#C8C0F0"
         placeholder="The man I am becoming..."
         oninput="portalField('weekReflections.w3_identity_evolve',this.value)">${g('w3_identity_evolve')}</textarea>
     </div>
@@ -1159,25 +1165,25 @@ function renderW3(W: Workbook): string {
       <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">FACTOR ${n} — MID-MONTH UPDATE</div>
       <div class="g2" style="margin-bottom:8px">
         <div>
-          <label>Factor name</label>
+          <label for="w3-f${n}-name">Factor name</label>
           ${factorNameSelect(selectedName, `weekReflections.w3_factor${n}_name`)}
         </div>
         <div>
-          <label>Re-score this factor (0–10)</label>
-          <input type="number" min="0" max="10" placeholder="Better than Week 1?"
+          <label for="w3-f${n}-rescore">Re-score this factor (0–10)</label>
+          <input id="w3-f${n}-rescore" type="number" min="0" max="10" placeholder="Better than Week 1?"
             value="${g(`w3_factor${n}_rescore`)}"
             oninput="portalField('weekReflections.w3_factor${n}_rescore',this.value)">
         </div>
       </div>
       ${priorityActionReminder(W, selectedName)}
       <div>
-        <label>What specifically changed? What is still stuck?</label>
-        <textarea style="min-height:44px" placeholder="Honest update..."
+        <label for="w3-f${n}-progress">What specifically changed? What is still stuck?</label>
+        <textarea id="w3-f${n}-progress" style="min-height:44px" placeholder="Honest update..."
           oninput="portalField('weekReflections.w3_factor${n}_progress',this.value)">${g(`w3_factor${n}_progress`)}</textarea>
       </div>
       <div style="margin-top:8px">
-        <label>Next concrete action — before Week 4 check-in</label>
-        <input placeholder="Specific, time-bound action..."
+        <label for="w3-f${n}-next">Next concrete action — before Week 4 check-in</label>
+        <input id="w3-f${n}-next" placeholder="Specific, time-bound action..."
           value="${g(`w3_factor${n}_next`)}"
           oninput="portalField('weekReflections.w3_factor${n}_next',this.value)">
       </div>
@@ -1196,8 +1202,8 @@ function renderW3(W: Workbook): string {
         ${[['weight_w3', 'Body weight (lbs)'], ['waist_w3', 'Waist at navel (in)'],
            ['energy_w3', 'Morning energy (1–10)'], ['sleep_w3', 'Sleep quality (1–10)']].map(([k, l]) => `
           <div>
-            <label>${l}</label>
-            <input placeholder="Week 3 measurement..." value="${g(k)}"
+            <label for="w3-body-${k}">${l}</label>
+            <input id="w3-body-${k}" placeholder="Week 3 measurement..." value="${g(k)}"
               oninput="portalField('weekReflections.${k}',this.value)">
           </div>`).join('')}
       </div>
@@ -1244,8 +1250,8 @@ function renderW3(W: Workbook): string {
           <div class="g3">
             ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
               <div>
-                <label>${l}</label>
-                <input type="number" min="1" max="10" placeholder="1–10"
+                <label for="cog-w${w}-${k}">${l}</label>
+                <input id="cog-w${w}-${k}" type="number" min="1" max="10" placeholder="1–10"
                   value="${esc(W.cogRatings[`w${w}_${k}`] ?? '')}"
                   oninput="portalField('cogRatings.w${w}_${k}',this.value)">
               </div>`).join('')}
@@ -1254,8 +1260,8 @@ function renderW3(W: Workbook): string {
     </div>
 
     <div style="margin-top:12px">
-      <label>What cognitive changes have I noticed across the first 3 weeks?</label>
-      <textarea style="min-height:58px" placeholder="Sleep quality, energy on waking, afternoon focus, stress tolerance..."
+      <label for="w3-cog-changes">What cognitive changes have I noticed across the first 3 weeks?</label>
+      <textarea id="w3-cog-changes" style="min-height:58px" placeholder="Sleep quality, energy on waking, afternoon focus, stress tolerance..."
         oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
     </div>
 
@@ -1274,8 +1280,8 @@ function renderW3(W: Workbook): string {
        ['w3_mind_ref', 'MIND: What is my body telling me about the new supplements?']
     ].map(([k, l]) => `
       <div style="margin-bottom:12px">
-        <label>${l}</label>
-        <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
+        <label for="ref-${k}">${l}</label>
+        <textarea id="ref-${k}" oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
       </div>`).join('')}
   </div>
 
@@ -1341,8 +1347,8 @@ function renderW4(W: Workbook): string {
       <div class="card-title" style="font-size:10px;margin-bottom:8px">MY 3 BIGGEST WINS FROM MONTH 1</div>
       ${[0, 1, 2].map(i => `
         <div style="margin-bottom:10px">
-          <label>Win ${i + 1}</label>
-          <input value="${esc(W.month1Wins[i] ?? '')}" placeholder="Describe this win..."
+          <label for="w4-win-${i}">Win ${i + 1}</label>
+          <input id="w4-win-${i}" value="${esc(W.month1Wins[i] ?? '')}" placeholder="Describe this win..."
             oninput="portalField('month1Wins.${i}',this.value)">
         </div>`).join('')}
     </div>
@@ -1356,8 +1362,8 @@ function renderW4(W: Workbook): string {
          ['accountability', 'Accountability partner and weekly check-in plan']
       ].map(([k, l]) => `
         <div style="margin-bottom:11px">
-          <label>${l}</label>
-          <input value="${esc(W.month2[k as keyof typeof W.month2] ?? '')}" placeholder="${l}..."
+          <label for="m2-${k}">${l}</label>
+          <input id="m2-${k}" value="${esc(W.month2[k as keyof typeof W.month2] ?? '')}" placeholder="${l}..."
             oninput="portalField('month2.${k}',this.value)">
         </div>`).join('')}
     </div>
@@ -1424,13 +1430,13 @@ function renderW4(W: Workbook): string {
     })()}
 
     <div>
-      <label>Which factor showed the most improvement over 30 days?</label>
-      <input placeholder="Factor name and what changed..."
+      <label for="w4-most-improved">Which factor showed the most improvement over 30 days?</label>
+      <input id="w4-most-improved" placeholder="Factor name and what changed..."
         value="${g('w4_most_improved')}" oninput="portalField('weekReflections.w4_most_improved',this.value)">
     </div>
     <div style="margin-top:10px">
-      <label>Which factor still needs the most work in Month 2?</label>
-      <input placeholder="Factor name and why it is still sticky..."
+      <label for="w4-needs-work">Which factor still needs the most work in Month 2?</label>
+      <input id="w4-needs-work" placeholder="Factor name and why it is still sticky..."
         value="${g('w4_needs_work')}" oninput="portalField('weekReflections.w4_needs_work',this.value)">
     </div>
 
@@ -1488,8 +1494,8 @@ function renderW4(W: Workbook): string {
       <div class="g3">
         ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
           <div>
-            <label>W4 ${l} (1–10)</label>
-            <input type="number" min="1" max="10" placeholder="1–10"
+            <label for="w4-cog-${k}">W4 ${l} (1–10)</label>
+            <input id="w4-cog-${k}" type="number" min="1" max="10" placeholder="1–10"
               value="${esc(W.cogRatings[`w4_${k}`] ?? '')}"
               oninput="portalField('cogRatings.w4_${k}',this.value)">
             <div style="font-size:9px;color:#8AB89A;margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
@@ -1498,14 +1504,14 @@ function renderW4(W: Workbook): string {
     </div>
 
     <div style="margin-bottom:12px">
-      <label>Which supplement or practice made the most noticeable cognitive difference?</label>
-      <input placeholder="Be specific — what did you actually notice?"
+      <label for="w4-best-supp">Which supplement or practice made the most noticeable cognitive difference?</label>
+      <input id="w4-best-supp" placeholder="Be specific — what did you actually notice?"
         value="${g('w4_best_supp')}" oninput="portalField('weekReflections.w4_best_supp',this.value)">
     </div>
 
     <div style="margin-bottom:12px">
-      <label>My supplement routine for Month 2 — what stays, what changes?</label>
-      <textarea style="min-height:52px" placeholder="Build on what worked..."
+      <label for="w4-supp-plan">My supplement routine for Month 2 — what stays, what changes?</label>
+      <textarea id="w4-supp-plan" style="min-height:52px" placeholder="Build on what worked..."
         oninput="portalField('weekReflections.w4_supp_plan',this.value)">${g('w4_supp_plan')}</textarea>
     </div>
 
@@ -1524,8 +1530,8 @@ function renderW4(W: Workbook): string {
        ['w4_mind_ref', 'MIND: What cognitive change are you most proud of from Month 1?']
     ].map(([k, l]) => `
       <div style="margin-bottom:12px">
-        <label>${l}</label>
-        <textarea oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
+        <label for="ref-${k}">${l}</label>
+        <textarea id="ref-${k}" oninput="portalField('weekReflections.${k}',this.value)">${g(k)}</textarea>
       </div>`).join('')}
   </div>
 
@@ -1737,11 +1743,11 @@ function renderRegen(W: Workbook): string {
 
   <div class="card">
     <div class="card-title">My Regenerative Medicine Reflection</div>
-    <label>Which conditions are most relevant to me personally?</label>
-    <textarea style="margin-bottom:12px"
+    <label for="regen-priority">Which conditions are most relevant to me personally?</label>
+    <textarea id="regen-priority" style="margin-bottom:12px"
       oninput="portalField('regenPriority',this.value)">${esc(W.regenPriority)}</textarea>
-    <label>My commitment to investigate this further</label>
-    <textarea oninput="portalField('regenNext',this.value)">${esc(W.regenNext)}</textarea>
+    <label for="regen-next">My commitment to investigate this further</label>
+    <textarea id="regen-next" oninput="portalField('regenNext',this.value)">${esc(W.regenNext)}</textarea>
   </div>
 
   <div class="card">

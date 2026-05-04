@@ -147,6 +147,9 @@
     color: var(--text, #e8eaf0);
     display: flex;
     flex-direction: column;
+    /* Expose progress-shell height to children via CSS var.
+       Stage2Likert sticky-header uses this to avoid overlap. */
+    --intake-progress-h: 80px;
   }
 
   .progress-shell {

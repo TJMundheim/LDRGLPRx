@@ -213,6 +213,12 @@
     gap: 12px;
   }
 
+  @media (max-width: 479px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .field-note {
     font-size: 0.78rem;
     color: var(--text-muted, #9ba3b2);

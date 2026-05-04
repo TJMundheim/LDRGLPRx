@@ -171,8 +171,8 @@
   }
 
   .adj-btn {
-    width: 30px;
-    height: 30px;
+    width: 44px;
+    height: 44px;
     border: 1.5px solid rgba(255,255,255,0.2);
     border-radius: 6px;
     background: transparent;

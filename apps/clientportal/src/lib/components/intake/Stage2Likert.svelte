@@ -415,6 +415,7 @@
   .likert-btn {
     flex: 1;
     min-width: 0;
+    min-height: 44px;
     padding: 10px 4px;
     border: 1.5px solid rgba(255,255,255,0.15);
     border-radius: 8px;

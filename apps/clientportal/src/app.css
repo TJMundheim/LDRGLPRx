@@ -143,6 +143,7 @@ a.res-pill:hover{background:#D0E8FF}
     flex:1 1 0;min-width:0;
     flex-direction:column;gap:2px;
     padding:7px 2px;border-left:none;border-top:3px solid transparent;
+    min-height:44px;
     font-size:8.5px;text-align:center;
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
     justify-content:center;

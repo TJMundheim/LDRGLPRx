@@ -89,6 +89,7 @@
     border: none;
     color: #9ba3b2;
     padding: 8px 12px;
+    min-height: 44px;
     border-radius: 6px;
     font-size: 0.82rem;
     font-weight: 600;
