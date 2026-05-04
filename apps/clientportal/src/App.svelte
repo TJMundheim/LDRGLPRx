@@ -12,6 +12,50 @@
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
 
+  // ── Schema sentinel + clean-slate wipe ──────────────────────────────────────
+  // MUST run before any gating logic reads localStorage.
+  // Cognito tokens (cognito_id_token, cognito_access_token, cognito_refresh_token)
+  // are intentionally excluded so the user stays signed in.
+  const SCHEMA_KEY = 'intake-schema-v5';
+  const SCHEMA_VAL = '2026-05-03';
+
+  const INTAKE_KEYS = [
+    'basics-v1',
+    'audit-v1',
+    'discovery-v1',
+    'intake-stage-v1',
+    'intake-complete-v1',
+    'consent-protege-v1',
+    'consent-npp-v1',
+    'consent-phi-auth-v1',
+    'consent-ai-comm-v1',
+    'consent-marketing-v1',
+    'gut-assessment-v1',
+    'allergy-assessment-v1',
+    'goals-v1',
+    'connected-mind-v1',
+    'workbook-local-workbook',
+  ];
+
+  if (typeof window !== 'undefined') {
+    // ?reset=1 — developer/testing escape hatch: wipe all intake state.
+    // Triggered via https://app.my4mlife.com/?reset=1
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('reset')) {
+      INTAKE_KEYS.forEach(k => localStorage.removeItem(k));
+      localStorage.removeItem(SCHEMA_KEY);
+      // Strip ?reset from the URL so subsequent reloads don't re-wipe
+      const url = new URL(window.location.href);
+      url.searchParams.delete('reset');
+      window.history.replaceState({}, '', url.toString());
+    }
+  }
+
+  if (typeof localStorage !== 'undefined' && localStorage.getItem(SCHEMA_KEY) !== SCHEMA_VAL) {
+    INTAKE_KEYS.forEach(k => localStorage.removeItem(k));
+    localStorage.setItem(SCHEMA_KEY, SCHEMA_VAL);
+  }
+
   // ── State ───────────────────────────────────────────────
   // Single-workbook mode during beta; auth wiring will supply real ids.
   const WORKBOOK_ID = 'local-workbook';

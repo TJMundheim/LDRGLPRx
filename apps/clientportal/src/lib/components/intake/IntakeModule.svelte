@@ -30,24 +30,6 @@
   }
 
   /**
-   * One-time clean slate: wipe stale keys from the previous multi-stage model.
-   * The schema version sentinel ensures this runs exactly once per browser session.
-   * v4 (2026-05-03): also clears old HIPAA consent keys replaced by consent-protege-v1.
-   */
-  function runCleanSlate(): void {
-    const SCHEMA_VERSION_KEY = 'intake-schema-v4';
-    if (localStorage.getItem(SCHEMA_VERSION_KEY) !== '2026-05-03') {
-      ['discovery-v1', 'gut-assessment-v1', 'allergy-assessment-v1', 'goals-v1', 'connected-mind-v1',
-       'audit-v1', 'intake-stage-v1', 'intake-complete-v1'
-      ].forEach(k => localStorage.removeItem(k));
-      // Clear old HIPAA consent keys replaced by consent-protege-v1
-      ['consent-npp-v1', 'consent-phi-auth-v1', 'consent-ai-comm-v1', 'consent-marketing-v1'].forEach(k => localStorage.removeItem(k));
-      // basics-v1 and consent-protege-v1 are deliberately preserved
-      localStorage.setItem(SCHEMA_VERSION_KEY, '2026-05-03');
-    }
-  }
-
-  /**
    * Check whether Stage 1 is already complete:
    * - basics-v1 has name + age + height + weight filled
    * - consent-protege-v1 is present (lightweight TOS/Privacy/AI-Comm acknowledgement)
@@ -62,9 +44,6 @@
   const BASICS_KEY = 'basics-v1';
 
   onMount(() => {
-    // Run clean slate first — wipes stale keys from prior multi-stage model
-    runCleanSlate();
-
     // returning-completed: skip straight to audit review (stage 3)
     const complete = readJson<{ completedAt?: string }>(COMPLETE_KEY);
     if (complete?.completedAt && currentStage < 3) {
