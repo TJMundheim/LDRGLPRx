@@ -9,9 +9,10 @@ import { describe, it, expect } from 'vitest';
 
 /**
  * Mirrors the canContinue $derived logic in Stage1Basics.svelte.
+ * phone is intentionally excluded — it's optional and must never gate Continue.
  */
 function canContinue(
-  basics: { name: string; age: string; height: string; weight: string },
+  basics: { name: string; age: string; height: string; weight: string; phone?: string },
   consentAccepted: boolean,
 ): boolean {
   return (
@@ -52,6 +53,15 @@ describe('Stage1Basics lightweight consent', () => {
 
   it('whitespace-only name → canContinue=false', () => {
     expect(canContinue({ ...FULL_BASICS, name: '   ' }, true)).toBe(false);
+  });
+
+  it('phone omitted → canContinue=true (phone is optional)', () => {
+    const { ...withoutPhone } = FULL_BASICS;
+    expect(canContinue(withoutPhone, true)).toBe(true);
+  });
+
+  it('phone empty string → canContinue=true (phone is optional)', () => {
+    expect(canContinue({ ...FULL_BASICS, phone: '' }, true)).toBe(true);
   });
 });
 

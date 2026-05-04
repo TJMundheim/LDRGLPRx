@@ -15,6 +15,7 @@
     age: string;
     height: string;
     weight: string;
+    phone: string;
   }
 
   interface Props {
@@ -36,7 +37,7 @@
     try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* ignore */ }
   }
 
-  let basics = $state<Basics>(load(STORAGE_KEY, { name: '', age: '', height: '', weight: '' }));
+  let basics = $state<Basics>(load(STORAGE_KEY, { name: '', age: '', height: '', weight: '', phone: '' }));
 
   const _storedConsent = load<{ acceptedAt: string; version: number } | null>(CONSENT_KEY, null);
   let consentAccepted = $state<boolean>(!!_storedConsent);
@@ -94,7 +95,19 @@
           <input id="s1-weight" type="number" bind:value={basics.weight} oninput={persistBasics} placeholder="e.g. 210" min="80" max="500" />
         </div>
       </div>
-      <p class="field-note">Height and weight are used to auto-populate your Week 1 baseline. Other details (email, phone, state) will be collected at telemedicine booking.</p>
+      <div class="field">
+        <label for="s1-phone">Phone number <span class="optional-tag">(optional)</span></label>
+        <input
+          id="s1-phone"
+          type="tel"
+          bind:value={basics.phone}
+          oninput={persistBasics}
+          placeholder="(555) 123-4567"
+          autocomplete="tel"
+        />
+        <p class="field-hint">Add your number to receive SMS reminders for weekly Insider sessions and program nudges. Optional — you can skip and add it later.</p>
+      </div>
+      <p class="field-note">Height and weight are used to auto-populate your Week 1 baseline. Email collected at telemedicine booking. Phone is optional but recommended for SMS reminders and Insider session alerts.</p>
     </div>
 
     <!-- Single lightweight consent -->
@@ -214,7 +227,8 @@
   }
 
   input[type="text"],
-  input[type="number"] {
+  input[type="number"],
+  input[type="tel"] {
     padding: 10px 14px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.15);
@@ -229,6 +243,19 @@
   input:focus {
     outline: 2px solid #1D9E75;
     outline-offset: 1px;
+  }
+
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted, #9ba3b2);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .optional-tag {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--text-muted, #9ba3b2);
   }
 
   .req {
