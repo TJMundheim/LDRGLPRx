@@ -1,0 +1,240 @@
+# AI Concierge Engagement + Notification Strategy
+**My4MLife — Protégé Retention & Upgrade System**
+_Authored: 2026-04-28 | Status: Planning_
+
+---
+
+## 1. Goals
+
+Three primary outcomes drive every design decision in this system:
+
+**Activation** — The Protégé returns to the app daily (or near-daily) during Weeks 1-4. The first 72 hours after signup are the highest-churn window. The AI Concierge must make the app feel alive and responsive from Day 1, not passive.
+
+**Completion** — The Protégé finishes the 4-week base program without dropping off at Week 1 or 2. Most free-tier health programs lose 60-80% of users in the first two weeks. Intelligent, non-generic outreach that references the user's own audit data is the primary lever against this.
+
+**Upgrade conversion** — The Protégé converts to a paid Insider tier (Insider, Insider Plus, or Insider Concierge) after Month 1. Users who receive personalized audit-result recaps before the upgrade ask convert at meaningfully higher rates than cold conversion. The AI Concierge is the delivery mechanism for that ask.
+
+---
+
+## 2. Notification Surfaces
+
+Three channels, each with a distinct role:
+
+### Email (AWS SES + Bedrock personalization)
+Longer-form, reflective cadence. Delivered 1x per week at minimum, triggered by milestones or churn signals. Email carries the full weight of the brand voice — Dr. TJ Mundheim DC framing, gut-brain science, audit data comparisons, and the Insider invitation. Best for: weekly progress recaps, audit re-take prompts, and the Month 1 completion + upgrade invitation.
+
+### SMS (AWS SNS — no PHI in body)
+Short-form re-engagement nudges only. SMS bodies must never contain health data, audit scores, supplement names, or any user-specific clinical information (HIPAA constraint). SMS is a tap-back mechanism, not a content delivery channel. The personalized content lives behind app authentication. Example format: _"Your Week 2 protocol is ready. Log in to continue → app.my4mlife.com"_ Best for: re-engagement after 3+ days of inactivity, time-sensitive Insider session reminders.
+
+### In-App (popup/toast on next open)
+Contextual, immediate, no external delivery infrastructure required. Fired client-side on app load based on user state read from DynamoDB. Best for: welcome-back state, milestone celebrations ("Week 1 complete"), and previews of what's unlocking in the next week. Phase 1 of the build is in-app only — no email or SMS until later phases.
+
+---
+
+## 3. Trigger Calendar — Weeks 1-4
+
+### Week 1: Gut Repair (Days 1-7)
+
+| Day | Trigger | Channel | AI Prompt Shape |
+|-----|---------|---------|-----------------|
+| Day 1 evening | Signup + first app open | In-app toast | "Welcome to Week 1 — gut repair starts here. Your first 24-hour task is waiting." Celebration framing, no pressure. |
+| Day 3 evening | Streak intact → SMS; 1 day missed → email | SMS or Email | "How's the gut feeling? Most people notice a shift by Day 3. Here's what to watch for this week." Reference audit priority #1. |
+| Day 7 morning | Week 1 module complete | Email | Full Week 1 recap: audit score baseline vs Day 7, top finding, what Week 2 (Muscle) is building toward. |
+
+### Week 2: Muscle — Brain Protection (Days 8-14)
+
+| Day | Trigger | Channel | AI Prompt Shape |
+|-----|---------|---------|-----------------|
+| Day 8 | Week 2 unlock | In-app toast | "Week 2 unlocked. Muscle is brain protection — here's the science behind why this week matters." |
+| Day 10 | Resistance training day | SMS | "Resistance day. Log in to check your Week 2 protocol → app.my4mlife.com" |
+| Day 14 | Week 2 complete | Email | Muscle week recap. Running score comparison vs baseline. Brief Mitigate preview. |
+
+### Week 3: Mitigate — Supplements + Environment (Days 15-21)
+
+| Day | Trigger | Channel | AI Prompt Shape |
+|-----|---------|---------|-----------------|
+| Day 15 | Week 3 unlock | In-app toast | "Your Insider supplement protocol preview is available now. This is where gut-brain support goes next-level." |
+| Day 17 | Mid-week | SMS | "Hydrate. Light. Air. Three small wins this week. Log in to track → app.my4mlife.com" |
+| Day 21 | Week 3 complete | Email | Mitigate recap. Introduce the concept that Week 4 closes the loop — Motivate brings it back to mind. |
+
+### Week 4: Motivate — The Recursion (Days 22-30)
+
+| Day | Trigger | Channel | AI Prompt Shape |
+|-----|---------|---------|-----------------|
+| Day 22 | Week 4 unlock | In-app toast | "Final week. Mind is the destination — this is where the loop closes. Begin with the end in mind." |
+| Day 25 | 3 days before audit re-take | Email | "How was your sleep this month? The audit re-take goes live in 3 days. Here's what we'll be comparing." |
+| Day 28-30 | Month 1 complete + audit results available | Email | The most important message in the entire program. Audit before vs after comparison. Running score delta. Personal Insider invitation. |
+
+---
+
+## 4. AI Prompt Structure (Claude via AWS Bedrock)
+
+Every personalized message is generated by Claude (Haiku for SMS-trigger summaries, Sonnet for weekly email recaps) invoked from Lambda via AWS Bedrock. Anthropic-direct API is not used — all inference routes through Bedrock.
+
+### Prompt Template Structure
+
+**System prompt (static — prompt-cached):**
+```
+You are the AI Concierge for My4MLife, a lifestyle company giving people the tools 
+and resources to live their best life. You write in the voice of Dr. TJ Mundheim, DC 
+— warm, expert, brain-health-first. The 4M framework (Mitigate, Muscle, Mind, 
+Motivate) is the organizing structure of everything you write.
+
+Tagline: "Begin with the end in mind."
+
+Rules you must never break:
+- Never use the words "physician," "MD," "DO," or "Diplomate."
+- Never give medical advice. Defer clinical questions to our telemedicine partner.
+- Refer to the founder only as "Dr. TJ Mundheim, DC" or "the 4M framework."
+- Do not mention specific medication names or dosing.
+- Brand tone: warm expert, not cheerleader. Confident, never pushy.
+- Output is 80-150 words for email body blocks, 20-40 words for in-app toasts.
+```
+
+**User context (dynamic — read from DynamoDB at dispatch time):**
+```
+User first name: {{name}}
+Current week: {{current_week}}
+Top 3 audit priority categories: {{audit_top3}}
+Audit total score change vs baseline: {{score_delta}} (negative = improvement)
+Days since last app open: {{days_inactive}}
+Tier: Protégé
+```
+
+**Task instruction (dynamic per trigger):**
+```
+Write a {{message_type}} for {{name}} who has just completed Week 1 of the 4M 
+base program. Their top audit priority is {{audit_top3[0]}}. Their total score 
+moved {{score_delta}} points since Day 1. Acknowledge their specific progress, 
+preview Week 2 (Muscle), and close with one concrete action for tomorrow morning. 
+Do not mention pricing or upgrades in this message.
+```
+
+**Prompt caching note:** The system prompt and brand voice block are kept static and cached. The user context block is appended dynamically per call. This reduces Bedrock token costs on high-volume sends.
+
+### Sample Prompt — Day 7 Week 1 Recap Email
+
+```
+[SYSTEM — cached]
+You are the AI Concierge for My4MLife...
+[brand rules as above]
+
+[USER CONTEXT]
+User first name: Marcus
+Current week: 1 (complete)
+Top 3 audit priority categories: Sleep Quality, Gut Motility, Cognitive Fog
+Audit total score change vs baseline: -14 points (improvement)
+Days since last app open: 0
+
+[TASK]
+Write a 120-word email body block for Marcus, who just completed Week 1 of the 4M 
+base program. His total audit score improved 14 points — his biggest mover was 
+Sleep Quality. His remaining top priority is Cognitive Fog. Acknowledge the Week 1 
+gut-repair work specifically, celebrate the sleep improvement with specificity (not 
+generic praise), and preview Week 2 (Muscle) as the natural next layer of brain 
+protection. Close with one action: open the app tomorrow morning before coffee. 
+Warm, expert tone. No medical advice. Dr. TJ Mundheim DC framing throughout.
+```
+
+---
+
+## 5. Re-Engagement / Churn-Recovery Triggers
+
+These run independently of the weekly calendar and activate on inactivity signals detected by DynamoDB Streams:
+
+| Inactivity Window | Channel | Message Shape |
+|------------------|---------|---------------|
+| 3 days without app open | SMS | "Your 4M protocol is paused. Pick back up → app.my4mlife.com" |
+| 7 days without app open | Email | "We miss you — here's exactly where you left off and what's waiting." Includes last completed module and current week status. |
+| 14 days without app open | Email + in-app on next open | "Life gets full. The 4M framework holds your spot. Here's a 5-minute re-entry." Includes link to a consult with the team. |
+| 30 days without app open | SMS | "Final reset — pick back up where you left off, no questions asked." No-friction re-entry framing. |
+
+Churn-recovery messages do not include AI personalization beyond name injection at the 3-day and 30-day marks. The 7-day and 14-day emails do invoke Bedrock for light personalization using last known audit category and week position.
+
+---
+
+## 6. Upgrade Triggers
+
+These fire independently of the weekly calendar and churn-recovery system:
+
+| Condition | Action | Channel |
+|-----------|--------|---------|
+| Day 28+ with Month 1 complete | Insider invitation | Email (Bedrock-personalized, audit delta featured prominently) |
+| Day 30+ with audit score improvement greater than 20 points | Insider Concierge invitation (limited slots) | Email — scarcity framing, no hard sell |
+| Day 60+ continuous activity + Weeks 1-4 complete | Pre-Graduate status announcement | In-app + email |
+| Day 365+ with continuous Insider participation | Graduate status earned | Email + in-app celebration |
+
+The Month 1 completion + upgrade invitation is the highest-value send in the entire system. It receives the most carefully constructed prompt, the longest AI-generated copy (150 words), and the most prominent audit before/after comparison. This is not a generic marketing email — it is a personalized results document with an invitation appended.
+
+---
+
+## 7. Technical Architecture (High-Level)
+
+```
+DynamoDB (user-state table)
+    │
+    └─ DynamoDB Streams
+         │
+         └─ Lambda: EngagementOrchestrator
+              │
+              ├─ Reads: user state vector
+              │   (week, score delta, days inactive, last touchpoint timestamp)
+              │
+              ├─ Decides: which message? which channel? has it been sent recently?
+              │   (checks Touchpoints table to prevent double-sends)
+              │
+              ├─ Invokes Bedrock:
+              │   Claude Haiku → SMS trigger summaries + toast copy
+              │   Claude Sonnet → weekly email recaps + upgrade invitations
+              │
+              └─ Dispatches:
+                  ├─ SES → email delivery
+                  ├─ SNS → SMS delivery (no PHI in body)
+                  └─ DynamoDB write → Touchpoints table (log of all sends)
+```
+
+**Touchpoints table schema (per-user activity log):**
+- `userId` (PK), `timestamp` (SK)
+- `messageType` (weekly_recap | churn_recovery | upgrade | toast)
+- `channel` (email | sms | in_app)
+- `week` (1-4)
+- `bedrockModelId`
+- `sent` (boolean)
+
+The Touchpoints table serves two purposes: prevents the AI Concierge from double-messaging the same user within a cooldown window, and feeds the admin dashboard with "X messages sent this month" visibility.
+
+All Bedrock invocations are logged separately for cost tracking. No PHI is ever sent to Bedrock — only first name, week number, audit category labels (not raw scores), and aggregate score deltas.
+
+---
+
+## 8. Phasing Recommendation
+
+### Phase 1 — Go-Live (Week 1 of launch)
+In-app toasts only. No email or SMS infrastructure built yet. Toasts fire client-side based on user state in DynamoDB. No Bedrock invocations. Templates are static strings with name injection. Fastest path to a live, responsive-feeling app.
+
+### Phase 2 — Post-HIPAA P0 Sign-Off
+AI-personalized email via SES. The weekly recap (Day 7, Day 14, Day 21) is the highest-leverage message to build first — it directly precedes the upgrade window. Bedrock integrated. Touchpoints table live. Prompt caching enabled on system prompt block.
+
+### Phase 3 — 10DLC SMS Registration Complete
+SMS layer added. Re-engagement nudges (3-day, 30-day inactivity) are the first SMS triggers. Time-sensitive Insider session reminders follow. 10DLC registration takes 1-2 business days — begin the process in Phase 2 so it's ready when Phase 3 starts.
+
+### Phase 4 — Cross-Channel Orchestration
+The AI Concierge becomes the central decision-maker with full Touchpoints history. Message selection logic moves from hard-coded trigger rules to a lightweight scoring model: the Lambda reads the full Touchpoints history, computes the most effective next channel and message type for each user, and dispatches accordingly. The system learns at the cohort level which messages correlate with Week 4 completion and Insider conversion.
+
+---
+
+## 9. Open Questions for TJ
+
+1. **Cadence cap** — What is the maximum number of emails per week before it becomes noise? Recommendation: 2 max (1 weekly recap + 1 event-driven). Confirm before Phase 2 build.
+
+2. **10DLC SMS registration** — Should the process start now (1-2 business days, low lift) or defer to Phase 3? Starting now means SMS is ready the moment the platform is live. Deferring adds 2+ weeks to Phase 3.
+
+3. **Send time of day** — Universal send time (e.g., 7am PT) or user-timezone-aware? Timezone-aware is the right long-term answer but requires storing user timezone at signup. If not collected, default to 7am MT (Dr. TJ's base).
+
+4. **Quiet hours** — Block all notifications 10pm-6am user-local? This is standard practice and recommended. Confirm the window matches the target demographic (men 35-60 with early morning routines — 5am open may be appropriate).
+
+5. **AI personalization breadth** — Full Bedrock LLM personalization on every message, or only on key milestones (Day 7, Day 14, Day 21, Day 28+)? Recommendation: milestone-only for Phase 2 to control costs and iteration speed. Full personalization in Phase 4 after conversion data validates the ROI.
+
+---
+
+_This document is a living planning artifact. It should be updated as 10DLC registration progresses, HIPAA sign-off is received, and Phase 1 in-app toasts produce engagement data._
