@@ -55,11 +55,11 @@
   </div>
   <div class="g2" style="margin-bottom:12px">
     <div>
-      <label>Days completed</label>
+      <span class="tracker-lbl">Days completed</span>
       <div style="font-size:26px;font-weight:700;color:{wc.ac};margin-top:4px">{doneCt} / 7</div>
     </div>
     <div>
-      <label>Cold showers</label>
+      <span class="tracker-lbl">Cold showers</span>
       <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">
         {#each days as d, i}
           {@const key = `cw${week}d${i+1}`}
@@ -73,10 +73,24 @@
       </div>
     </div>
   </div>
-  <label>Week {week} morning reflection</label>
+  <label for="morn-reflection-svelte-w{week}">Week {week} morning reflection</label>
   <textarea
+    id="morn-reflection-svelte-w{week}"
     placeholder="How did the protocol feel? What improved? What was hard?"
     value={log.reflection}
     oninput={(e) => onReflection(week, (e.currentTarget as HTMLTextAreaElement).value)}
   ></textarea>
 </div>
+
+<style>
+  /* Display label for stat values (not form elements) */
+  .tracker-lbl {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #5A8A64;
+    margin-bottom: 5px;
+  }
+</style>
