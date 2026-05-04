@@ -1,6 +1,90 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-05-03.
+Last updated: 2026-05-03 evening.
+
+---
+
+## Session: 2026-05-03 evening — Brand Lock + Architecture Cleanup + Go-Live Readiness
+
+36-hour go-live window pushed hard. Five parallel subagents + sequential cleanups.
+
+### Brand + product locks
+- **Supplement tier framework**: Rx Protocol (pharmacy-only) vs Nutraceuticals (pharmaceutical-grade OTC)
+- **BiomeAxisForge → Biome-AF** site-wide (URL `/biomeaxisforge` preserved for SEO; 92 instances renamed across 25 files)
+- **Core 5**: Biome-AF, NeuroBridge, SleepRestore, ArmorVita, NeuroSeal
+- **Additional**: GLOW Peptide, NAD (TBD), Iontophoresis patch line (major USP, no-injection peptide delivery; details TBD)
+- **Retatrutide deferred** (no FDA clearance)
+
+### Solution-page restructure (buying-decision focus)
+6 top-line pages flipped: Hero → Why this matters → Two Paths to Act (OTC vs Rx Consult) → When to choose → Protégé app footer → condensed Insulting Behaviors → blog deep-dive. New `TwoPathsCTA.astro` component. ETI content moved to 6 new blog posts (~6,850 words). /blog index reorganized.
+
+### Environmental Factors (e-commerce only per TJ's call)
+Pure e-commerce — no consult/Rx framing. 5 sub-pages restructured. "Notify Me When Available" pills. SolutionPage layout: `showSolutionPath`/`showDisclaimer` props (false on env pages).
+
+### Legacy Discovery flow REMOVED
+12 files deleted (~2,200 lines): all 6 components in `lib/components/discovery/`, `intakeQuestions.ts`, `intake/router.ts/.test.ts`, `intake/report.ts/.test.ts`, `data/intake.ts`. Sidebar entry removed.
+
+### Consent architecture restructured
+- **Protégé sign-up**: SINGLE lightweight checkbox (TOS + Privacy + AI Comm) → `consent-protege-v1`
+- **HIPAA gates** deferred to consult-booking
+- Stage1Basics.svelte: ~260 lines removed
+- Schema sentinel: `intake-schema-v5`
+
+### App state-management fix
+Schema wipe + `?reset=1` URL param moved to App.svelte top-level. `?reset=1` is the permanent dev clean-slate URL. Cognito tokens preserved.
+
+### Marketing site additions
+- `/consult` placeholder booking page
+- `/membership` (Protégé→Graduate); `/4m-cohort` redirects
+- `/solutions/peptides` — top-line nav category
+- `/solutions/nutritional-supplements` (renamed from /vitamin-d)
+- `/assessment` public 20-Likert audit
+- `RequestApp.astro` email-capture flow on homepage
+- 3 Medvi-template GLP-1 blog posts rewritten in 4M voice
+- `/links` → linktree
+- `/bmi-calculator` → "Brain-Health Baseline" reframe
+
+### Site-wide consistency
+- Flat solution-focused top nav (Assessment + 6 categories + Env dropdown + More + Membership)
+- "Essential Manage" residue stripped (5 pages)
+- Canonicals standardized to www; sitemap regenerated
+- All internal 404s eliminated
+- Email-capture wired (Footer, homepage, membership, consult)
+
+### App accessibility + mobile polish
+- 49 form `<label>`/`<input>` pairs got `for`/`id` associations
+- Stage 1 basics: stacks vertically below 480px
+- Workout/fasting grids: `overflow-x:auto`
+- Touch targets: 30→44px audit row buttons; min-height 44px on Likert + sidebar
+- `--intake-progress-h: 80px` CSS var; Stage 2 sticky header offsets correctly
+
+### App new features
+- Optional **phone field** in Stage 1 (SMS opt-in framing)
+- Sign-out wired into Sidebar (previously unreachable)
+
+### Docs created/updated
+- `docs/products/supplement-catalog.md` — 6-brochure structured catalog
+- `docs/products/environmental-product-roadmap.md` — ~40 SKUs + Heritage Incandescent line
+- `docs/plan/ai-concierge-engagement-strategy.md` — 4-phase notification planning (~2,300 words)
+
+### TJ-blocked items (as of 2026-05-03 evening)
+- AWS BAA signing
+- Forward attorney-brief.md to attorney
+- Bedrock model access in us-east-1
+- Stripe test-mode keys
+- Connected Mind URL
+- Insider tier pricing
+- Telemedicine partner contract + name
+- Source-vetting: Aero-Tech, AquaTru, Air Doctor, Joovv, Earthing.com, Shieldex
+- NeuroSeal vs Biome-AF formulation clarification
+- NAD details + iontophoresis patch line list
+- Founder photo
+- TJ's full line-by-line review notes (phone walkthrough in progress)
+
+### Live URLs
+- Marketing: https://www.my4mlife.com
+- App: https://app.my4mlife.com
+- Both deployed + invalidations completed
 
 ---
 
