@@ -1,0 +1,229 @@
+---
+// RequestApp.astro — Email-capture card that sends the visitor the app link via email.
+// Inline JS only; no framework dependencies.
+const uid = `ra-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="ra-card" id={uid}>
+  <h2 class="ra-heading">Get the My4MLife App — Free</h2>
+  <p class="ra-sub">Enter your email. We'll send you a link to open the app on any device.</p>
+
+  <form class="ra-form" novalidate>
+    <div class="ra-fields">
+      <input
+        type="text"
+        class="ra-input ra-input-name"
+        placeholder="First name"
+        aria-label="First name"
+        autocomplete="given-name"
+        required
+      />
+      <input
+        type="email"
+        class="ra-input ra-input-email"
+        placeholder="your@email.com"
+        aria-label="Email address"
+        autocomplete="email"
+        required
+      />
+    </div>
+    <button type="submit" class="ra-btn">Send Me the Link &rarr;</button>
+    <p class="ra-error" aria-live="polite" hidden></p>
+  </form>
+
+  <div class="ra-success" aria-live="polite" hidden>
+    <p class="ra-success-msg">Email sent. Check your inbox (and spam folder) on your phone or computer.</p>
+    <button class="ra-retry-btn" type="button">Try a different email</button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.ra-card').forEach((card) => {
+    const form = card.querySelector<HTMLFormElement>('.ra-form')!;
+    const nameInput = card.querySelector<HTMLInputElement>('.ra-input-name')!;
+    const emailInput = card.querySelector<HTMLInputElement>('.ra-input-email')!;
+    const errorEl = card.querySelector<HTMLElement>('.ra-error')!;
+    const successEl = card.querySelector<HTMLElement>('.ra-success')!;
+    const retryBtn = card.querySelector<HTMLButtonElement>('.ra-retry-btn')!;
+
+    function showError(msg: string) {
+      errorEl.textContent = msg;
+      errorEl.hidden = false;
+    }
+
+    function clearError() {
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const firstName = nameInput.value.trim();
+      const email = emailInput.value.trim();
+
+      if (!firstName) {
+        showError('Please enter your first name.');
+        nameInput.focus();
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('Please enter a valid email address.');
+        emailInput.focus();
+        return;
+      }
+
+      const capturedAt = new Date().toISOString();
+      const entry = { email, firstName, source: 'request-app-homepage', capturedAt };
+
+      // Persist to localStorage (mirrors existing lead-captures-v1 pattern)
+      try {
+        const existing = JSON.parse(localStorage.getItem('lead-captures-v1') ?? '[]');
+        existing.push(entry);
+        localStorage.setItem('lead-captures-v1', JSON.stringify(existing));
+      } catch (_) { /* ignore */ }
+
+      // TODO: wire Lambda for /api/lead-capture via AppSync + SES post-HIPAA P0
+      try {
+        await fetch('/api/lead-capture', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(entry),
+        });
+      } catch (_) { /* silent failure — endpoint not yet live */ }
+
+      // TODO: wire Lambda for /api/send-app-link via AppSync + SES post-HIPAA P0
+      try {
+        await fetch('/api/send-app-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, firstName }),
+        });
+      } catch (_) { /* silent failure — endpoint not yet live */ }
+
+      // Show success regardless — email delivery wired later
+      form.hidden = true;
+      successEl.hidden = false;
+    });
+
+    retryBtn.addEventListener('click', () => {
+      successEl.hidden = true;
+      form.hidden = false;
+      emailInput.value = '';
+      emailInput.focus();
+    });
+  });
+</script>
+
+<style>
+  .ra-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(200, 168, 75, 0.35);
+    border-radius: 16px;
+    padding: 2.4rem 2rem;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  .ra-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .ra-sub {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 1.8rem;
+    line-height: 1.6;
+  }
+
+  .ra-fields {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .ra-input {
+    flex: 1 1 160px;
+    padding: 0.8rem 1.2rem;
+    border-radius: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    outline: none;
+    min-width: 0;
+    transition: border-color 0.2s;
+  }
+  .ra-input::placeholder { color: rgba(255, 255, 255, 0.35); }
+  .ra-input:focus { border-color: #c8a84b; }
+
+  .ra-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    background: var(--accent, #00b894);
+    color: white;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .ra-btn:hover {
+    background: var(--accent-dark, #00a67e);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 18px rgba(0, 184, 148, 0.45);
+  }
+
+  .ra-error {
+    color: #ff8080;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    text-align: left;
+    padding-left: 0.4rem;
+  }
+
+  .ra-success { padding: 0.4rem 0; }
+
+  .ra-success-msg {
+    color: #5effd4;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .ra-retry-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .ra-retry-btn:hover { color: rgba(255, 255, 255, 0.85); }
+
+  @media (max-width: 480px) {
+    .ra-card { padding: 1.8rem 1.2rem; }
+    .ra-heading { font-size: 1.35rem; }
+    .ra-fields { flex-direction: column; }
+    .ra-input { flex: unset; width: 100%; }
+  }
+</style>

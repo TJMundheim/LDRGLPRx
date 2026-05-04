@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EmailCapture from '../components/EmailCapture.astro';
+import RequestApp from '../components/RequestApp.astro';
 const title = "My4MLife — Begin with the end in mind.";
 const description = "My4MLife is a lifestyle company giving you the tools and resources to live your best life. The 4M system: Mind, Muscle, Mitigate, Motivate. Designed by Dr. TJ Mundheim, DC. Start free with the My4MLife App.";
 const canonical = "https://www.my4mlife.com/";
@@ -22,9 +23,16 @@ const robots = "index, follow";
       The 4M system is the path: <strong>Mind</strong> is the destination — work the <strong>Muscle</strong>, <strong>Mitigate</strong> the harm, <strong>Motivate</strong> the change, return to a sharper Mind. Recursive, by design.
     </p>
     <div class="hp-hero-ctas">
-      <a href="https://app.my4mlife.com" class="btn btn-primary btn-large" target="_blank" rel="noopener">Get the My4MLife App — Free</a>
       <a href="/consult" class="btn btn-outline btn-large">Schedule Your Comprehensive 4M Consult</a>
     </div>
+  </div>
+</section>
+
+<!-- ===== REQUEST APP (anchored below hero) ===== -->
+<section class="hp-request-app-band">
+  <div class="container hp-request-app-inner">
+    <RequestApp />
+    <p class="hp-signin-link"><a href="https://app.my4mlife.com" target="_blank" rel="noopener">Already a Protégé? Sign in &rarr;</a></p>
   </div>
 </section>
 
@@ -477,6 +485,30 @@ const robots = "index, follow";
 }
 .email-band-input::placeholder { color: rgba(255,255,255,0.35); }
 .email-band-input:focus { border-color: var(--accent); }
+
+/* ===== REQUEST APP BAND ===== */
+.hp-request-app-band {
+  background: linear-gradient(160deg, #0a1628 0%, #0f4c75 100%);
+  padding: 3.5rem 0 4rem;
+  margin-top: -1px; /* bleed into hero gradient */
+}
+.hp-request-app-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+.hp-signin-link {
+  text-align: center;
+  margin: 0;
+}
+.hp-signin-link a {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.hp-signin-link a:hover { color: rgba(255, 255, 255, 0.9); }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
