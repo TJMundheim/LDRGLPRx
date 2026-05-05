@@ -266,30 +266,93 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
 
   </div>
 
+  <!-- ── LDN dedicated section ── -->
+  <div class="ldn-section">
+    <div class="ldn-header">
+      <span class="ldn-badge">PRESCRIPTION OPTION</span>
+      <h2 class="ldn-title">About Low-Dose Naltrexone (LDN) — A Specific Prescription Pathway</h2>
+    </div>
+
+    <p class="ldn-para">
+      Naltrexone is an opioid receptor antagonist FDA-approved at 50&nbsp;mg/day for alcohol use
+      disorder since 1994. <em>Low-dose</em> naltrexone (typically 1.5–4.5&nbsp;mg) is used off-label
+      for a different mechanism — modulating the endorphin response — and is increasingly used for
+      alcohol reduction protocols. It is compounded by licensed pharmacies in the U.S. and is not
+      available off-the-shelf in this dosage range.
+    </p>
+
+    <p class="ldn-para">
+      The Sinclair Method (TSM) uses naltrexone taken 1–2&nbsp;hours before drinking. Over
+      weeks to months, the brain's reward link to alcohol pharmacologically extinguishes: the
+      drink no longer delivers its expected payoff, and the craving signal gradually weakens.
+      Published studies report approximately 78% efficacy. Patients typically drink less over
+      time without relying on willpower-based cessation or white-knuckling abstinence.
+    </p>
+
+    <p class="ldn-para">
+      The My4MLife pathway: discuss LDN candidacy during your comprehensive 4M consult. Our
+      contracted licensed telemedicine practice evaluates your history and current use, prescribes
+      if clinically appropriate, and dispenses through our partner compounding pharmacy. The free
+      programs listed above stay free — LDN is a prescription tool that pairs with them, not a
+      replacement for the behavioral work.
+    </p>
+
+    <p class="ldn-disclaimer">
+      LDN is a prescription medication. Candidacy is determined by a licensed clinician through
+      our contracted telemedicine practice; not all patients are appropriate candidates. We do not
+      sell or dispense medications directly — fulfillment is handled by the contracted partner
+      pharmacy.
+    </p>
+
+    <a href="/consult" class="ldn-cta-btn">Schedule Your Comprehensive 4M Consult — discuss LDN candidacy &rarr;</a>
+  </div>
+
   <!-- ── How My4MLife supports the journey ── -->
   <h2>How My4MLife supports your reduction journey</h2>
   <p>
     We won't replace these programs — but we can support the physiological piece while you work them.
     Recovery is not just behavioral; the body needs to heal alongside the habit change.
   </p>
-  <div class="support-bullets">
-    <div class="support-item">
-      <span class="support-product">Biome-AF</span>
-      <span class="support-desc">Gut healing after years of alcohol-driven intestinal inflammation. Alcohol degrades the gut lining; this formula supports repair.</span>
+
+  <!-- Two paths -->
+  <div class="two-paths">
+    <div class="path-card">
+      <div class="path-label">OTC SUPPORT</div>
+      <h3 class="path-title">Physiological Support — No Rx Required</h3>
+      <p class="path-desc">
+        Working a free program (SMART Recovery, TSM, Allen Carr) and want physiological support
+        to make the journey easier? These three formulas address the body-level damage alcohol
+        does while you do the behavioral work.
+      </p>
+      <div class="support-bullets">
+        <div class="support-item">
+          <span class="support-product">NeuroBridge</span>
+          <span class="support-desc">Methylated B-complex. Alcohol depletes B12 and folate — essential for neurotransmitter synthesis during early recovery.</span>
+        </div>
+        <div class="support-item">
+          <span class="support-product">SleepRestore</span>
+          <span class="support-desc">Sleep architecture support during the first 30–90 days of cessation while the brain recalibrates.</span>
+        </div>
+        <div class="support-item">
+          <span class="support-product">Biome-AF</span>
+          <span class="support-desc">Gut healing. Alcohol degrades the intestinal lining; this formula supports repair of alcohol-driven inflammation.</span>
+        </div>
+      </div>
     </div>
-    <div class="support-item">
-      <span class="support-product">NeuroBridge</span>
-      <span class="support-desc">Methylated B-complex. Alcohol depletes B-vitamins — especially B12 and folate — which are essential for neurotransmitter synthesis during early recovery.</span>
-    </div>
-    <div class="support-item">
-      <span class="support-product">SleepRestore</span>
-      <span class="support-desc">Sleep architecture is significantly disrupted during the first 30–90 days of cessation. This stack supports natural sleep cycling while your brain recalibrates.</span>
+
+    <div class="path-card path-card--rx">
+      <div class="path-label path-label--rx">Rx PATHWAY</div>
+      <h3 class="path-title">Comprehensive 4M Consult + LDN Evaluation</h3>
+      <p class="path-desc">
+        Want to discuss LDN candidacy — the pharmacological extinction approach where naltrexone
+        before drinking gradually reduces craving over weeks? The comprehensive 4M consult includes
+        evaluation for <strong>Low-Dose Naltrexone</strong> via our compounding pharmacy partner:
+        the Sinclair Method, formulated by a licensed compounding pharmacy, dispensed under
+        clinician oversight by our contracted licensed telemedicine practice.
+      </p>
+      <a href="/consult" class="path-cta-btn">Schedule Comprehensive Consult &rarr;</a>
     </div>
   </div>
-  <p class="consult-cta">
-    <a href="/consult">Schedule a comprehensive 4M consult</a> if you want to discuss naltrexone,
-    varenicline, or other prescription support options as part of your reduction plan.
-  </p>
 
 </SolutionPage>
 
@@ -411,15 +474,124 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   line-height: 1.5;
 }
 
-/* ── Consult CTA ── */
-.consult-cta {
+/* ── LDN section ── */
+.ldn-section {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(0,184,148,0.35);
+  border-radius: var(--radius);
+  padding: 2rem 2rem 1.75rem;
+  margin: 2.5rem 0;
+}
+.ldn-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.ldn-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.45);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ldn-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+.ldn-para {
   font-size: 0.9rem;
   color: var(--text-light);
+  line-height: 1.65;
+  margin: 0 0 0.9rem;
 }
-.consult-cta a {
+.ldn-disclaimer {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  font-style: italic;
+  opacity: 0.75;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 0.85rem;
+  margin: 1rem 0 1.25rem;
+  line-height: 1.55;
+}
+.ldn-cta-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.65rem 1.3rem;
+  border-radius: var(--radius);
+  transition: opacity 0.15s;
+}
+.ldn-cta-btn:hover { opacity: 0.88; }
+
+/* ── Two paths ── */
+.two-paths {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin: 1.5rem 0 2rem;
+}
+@media (max-width: 680px) {
+  .two-paths { grid-template-columns: 1fr; }
+}
+.path-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.path-card--rx {
+  border-color: rgba(0,184,148,0.4);
+  background: rgba(0,184,148,0.04);
+}
+.path-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+.path-label--rx {
   color: var(--accent);
-  font-weight: 600;
+}
+.path-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+.path-desc {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+.path-cta-btn {
+  display: inline-block;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
   text-decoration: none;
 }
-.consult-cta a:hover { text-decoration: underline; }
+.path-cta-btn:hover { text-decoration: underline; }
 </style>
