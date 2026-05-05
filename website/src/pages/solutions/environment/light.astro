@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../../layouts/SolutionPage.astro';
+import EmailCapture from '../../../components/EmailCapture.astro';
 ---
 
 <SolutionPage
@@ -18,6 +19,144 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
     <li>Standard LED and fluorescent bulbs emit a blue-dominant spectrum that tells your brain it's high noon — at 10pm — suppressing melatonin and degrading sleep architecture</li>
     <li>Most men indoors all morning never get the full-spectrum sunlight that anchors the circadian clock — the result is a system running with no strong signal at either end</li>
   </ul>
+
+  <!-- ══════════════════════════════════════════
+       HERITAGE INCANDESCENT FLAGSHIP SECTION
+  ══════════════════════════════════════════ -->
+  <section class="heritage-section" aria-label="Heritage Incandescent Bulb Flagship">
+    <div class="heritage-badge">FLAGSHIP · HERITAGE LINE</div>
+
+    <h2 class="heritage-title">The Heritage Bulb — Full-Spectrum, Zero-Flicker, Engineered for Biology</h2>
+
+    <div class="heritage-science">
+      <p>
+        Edison's incandescent bulb is — by physics — still the most biologically aligned artificial light source ever invented.
+        Unlike modern LEDs, which emit a narrow spike of blue-dominant wavelengths, an incandescent filament glows with
+        <strong>continuous blackbody radiation</strong> across the entire visible and near-infrared spectrum.
+        That means a color rendering index of 100, zero flicker (no 60 Hz to 4 kHz strobe effect on your retina),
+        rich red and near-infrared content that feeds mitochondrial function, and smooth analog dimming — the light dims
+        warmer and richer, the way firelight does, not the way a switching power supply does.
+        Modern efficiency legislation pushed lumens-per-watt as the sole optimization target, trading biology for a kilowatt-hour metric.
+      </p>
+      <p>
+        The good news: specialty incandescents are still legal. The 2023 DOE efficiency rule (45 lumens/watt minimum) ended
+        general-service incandescents — but explicitly exempts <strong>rough-service</strong> and vibration-service bulbs,
+        heat lamps, appliance bulbs, and certain industrial categories. Rough-service incandescents are rated at 130V and
+        run on your household 120V supply. The voltage headroom means the filament runs cooler, lasts far longer, and is
+        physically more robust. The result: <strong>10,000–20,000 hours of life</strong> — 10 to 20 times the standard
+        incandescent — sourced from verified specialty manufacturers, curated for circadian biology. We call this the
+        My4MLife Heritage Bulb line.
+      </p>
+    </div>
+
+    <!-- ── Why Edison's Bulb Still Wins — Comparison Block ── -->
+    <div class="heritage-compare-wrap">
+      <h3 class="heritage-compare-title">Why Edison's bulb still wins</h3>
+      <div class="heritage-compare-grid" role="table" aria-label="Light source comparison">
+        <div class="hc-header" role="row">
+          <div class="hc-label" role="columnheader"></div>
+          <div class="hc-col hc-led" role="columnheader">Standard LED</div>
+          <div class="hc-col hc-heritage" role="columnheader">Heritage Incandescent ✦</div>
+          <div class="hc-col hc-sun" role="columnheader">Sun (gold standard)</div>
+        </div>
+        <div class="hc-row" role="row">
+          <div class="hc-label" role="rowheader">Spectrum</div>
+          <div class="hc-col hc-led" role="cell">Discrete blue spike</div>
+          <div class="hc-col hc-heritage" role="cell">Continuous blackbody ✓</div>
+          <div class="hc-col hc-sun" role="cell">Continuous blackbody ✓</div>
+        </div>
+        <div class="hc-row" role="row">
+          <div class="hc-label" role="rowheader">Flicker</div>
+          <div class="hc-col hc-led" role="cell">60 Hz – 4 kHz</div>
+          <div class="hc-col hc-heritage" role="cell">Zero ✓</div>
+          <div class="hc-col hc-sun" role="cell">Zero ✓</div>
+        </div>
+        <div class="hc-row" role="row">
+          <div class="hc-label" role="rowheader">CRI</div>
+          <div class="hc-col hc-led" role="cell">70 – 95</div>
+          <div class="hc-col hc-heritage" role="cell">100 ✓</div>
+          <div class="hc-col hc-sun" role="cell">100 ✓</div>
+        </div>
+        <div class="hc-row" role="row">
+          <div class="hc-label" role="rowheader">Red + near-infrared</div>
+          <div class="hc-col hc-led" role="cell">Low</div>
+          <div class="hc-col hc-heritage" role="cell">High ✓</div>
+          <div class="hc-col hc-sun" role="cell">Very high ✓</div>
+        </div>
+        <div class="hc-row" role="row">
+          <div class="hc-label" role="rowheader">Dimming behavior</div>
+          <div class="hc-col hc-led" role="cell">Color shift + flicker</div>
+          <div class="hc-col hc-heritage" role="cell">Smooth, no shift ✓</div>
+          <div class="hc-col hc-sun" role="cell">N/A</div>
+        </div>
+        <div class="hc-row" role="row">
+          <div class="hc-label" role="rowheader">Rated lifespan</div>
+          <div class="hc-col hc-led" role="cell">15,000 – 25,000 hr</div>
+          <div class="hc-col hc-heritage" role="cell">10,000 – 20,000 hr</div>
+          <div class="hc-col hc-sun" role="cell">N/A</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Legal Loophole Callout ── -->
+    <blockquote class="heritage-legal">
+      These are 'rough-service' or 'vibration-service' incandescents — explicitly exempt from the 2023 DOE efficiency rule.
+      They're legally manufactured for industrial use; we source the longest-lasting versions and curate them for circadian biology.
+    </blockquote>
+
+    <!-- ── Heritage Product Cards ── -->
+    <div class="product-grid heritage-product-grid">
+      <div class="product-card heritage-card">
+        <h3>4M Heritage Bulb 4-Pack</h3>
+        <p class="product-why">Full-spectrum, zero-flicker drop-in replacement for bedroom and dining fixtures.</p>
+        <p>60W or 75W rough-service incandescent. 130V rated / runs on 120V. 10,000+ hour lifespan. Available in warm white (~2700K equivalent).</p>
+        <div class="heritage-specs">
+          <span>CRI 100</span><span>Zero flicker</span><span>10,000+ hr</span><span>$39 – $59</span>
+        </div>
+        <span class="notify-pill">Notify Me When Available</span>
+        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Bulb 4-Pack" class="btn-cart">Notify Me →</a>
+      </div>
+
+      <div class="product-card heritage-card">
+        <h3>4M Heritage Heat Lamp</h3>
+        <p class="product-why">Budget red-light alternative — naturally rich in 660nm and near-infrared.</p>
+        <p>250W red infrared heat lamp. Warm, full-spectrum output. Entry-level red-light therapy for face and body — no panel required.</p>
+        <div class="heritage-specs">
+          <span>250W</span><span>660nm + NIR</span><span>Plug-in simple</span><span>$19 – $29</span>
+        </div>
+        <span class="notify-pill">Notify Me When Available</span>
+        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Heat Lamp" class="btn-cart">Notify Me →</a>
+      </div>
+
+      <div class="product-card heritage-card">
+        <h3>4M Heritage Dimmer Kit</h3>
+        <p class="product-why">Smooth analog dim-to-candle, no color shift, no flicker at any brightness level.</p>
+        <p>Paired analog dimmer switch + matched Heritage incandescent set. Dims to near-candle level for the final hour before sleep. Insider+ experience.</p>
+        <div class="heritage-specs">
+          <span>Analog dim</span><span>No flicker</span><span>Complete kit</span><span>$89</span>
+        </div>
+        <span class="notify-pill">Notify Me When Available</span>
+        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Dimmer Kit" class="btn-cart">Notify Me →</a>
+      </div>
+
+      <div class="product-card heritage-card">
+        <h3>4M Heritage Edison-Style Decorative</h3>
+        <p class="product-why">Vintage filament aesthetic — combines visual warmth with genuine biological benefit.</p>
+        <p>Classic exposed-filament Edison bulb for living spaces, dining rooms, and accent fixtures. No trade-off between beauty and biology.</p>
+        <div class="heritage-specs">
+          <span>Vintage filament</span><span>CRI 100</span><span>Zero flicker</span><span>$14 each</span>
+        </div>
+        <span class="notify-pill">Notify Me When Available</span>
+        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Edison Decorative" class="btn-cart">Notify Me →</a>
+      </div>
+    </div>
+
+    <!-- ── Source Disclosure ── -->
+    <p class="heritage-disclosure">
+      Sourced through verified specialty incandescent manufacturers including Aero-Tech and partners.
+      Sample-tested for quoted life, color temperature, and CRI before any pack ships.
+    </p>
+  </section>
 
   <!-- ── Featured Products — E-Commerce Hero ── -->
   <h2 class="section-eliminate">Featured Products</h2>
@@ -193,4 +332,199 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   white-space: nowrap;
 }
 .protege-link:hover { text-decoration: underline; }
+
+/* ── Heritage Incandescent Flagship Section ── */
+.heritage-section {
+  background: linear-gradient(135deg, #fdf8f0 0%, #fef9ec 60%, #fdf5e6 100%);
+  border: 1.5px solid #d4a843;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem 2rem;
+  margin: 2rem 0 2.5rem;
+  position: relative;
+}
+
+.heritage-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6200;
+  background: linear-gradient(90deg, #fde68a, #fbbf24);
+  border: 1px solid #d4a843;
+  padding: 0.25rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.heritage-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+  color: #5a3800;
+  line-height: 1.25;
+  margin-bottom: 1.25rem;
+}
+
+.heritage-science {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.heritage-science p {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+.heritage-science strong {
+  color: #7a4800;
+}
+
+/* Comparison table */
+.heritage-compare-wrap {
+  background: #fff8ee;
+  border: 1px solid #e8c87a;
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem;
+  margin-bottom: 1.75rem;
+  overflow-x: auto;
+}
+
+.heritage-compare-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: #5a3800;
+  margin-bottom: 1rem;
+}
+
+.heritage-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  min-width: 520px;
+}
+
+.hc-header, .hc-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid #e8c87a;
+}
+
+.hc-header {
+  background: #fef3c7;
+  border-radius: 8px 8px 0 0;
+}
+
+.hc-row:last-child { border-bottom: none; }
+
+.hc-header > div,
+.hc-row > div {
+  padding: 0.55rem 0.7rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.hc-header > div {
+  font-weight: 700;
+  color: #7a4800;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.hc-label {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.82rem !important;
+}
+
+.hc-led {
+  color: var(--text-light);
+  text-align: center;
+}
+
+.hc-heritage {
+  background: rgba(212, 168, 67, 0.08);
+  color: #7a4800;
+  font-weight: 600;
+  text-align: center;
+}
+
+.hc-sun {
+  color: var(--text-light);
+  text-align: center;
+}
+
+/* Legal callout */
+.heritage-legal {
+  background: rgba(212, 168, 67, 0.1);
+  border-left: 4px solid #d4a843;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  color: #5a3800;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* Heritage product cards */
+.heritage-product-grid {
+  margin-bottom: 1.25rem !important;
+}
+
+.heritage-card {
+  background: #fffbf2 !important;
+  border: 1px solid #d4a843 !important;
+}
+
+.heritage-card:hover {
+  border-color: #b8860b !important;
+  box-shadow: 0 4px 18px rgba(212, 168, 67, 0.25) !important;
+}
+
+.heritage-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.35rem 0;
+}
+
+.heritage-specs span {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #8a6200;
+  background: rgba(212, 168, 67, 0.15);
+  border: 1px solid rgba(212, 168, 67, 0.4);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+/* Source disclosure */
+.heritage-disclosure {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  font-style: italic;
+  line-height: 1.6;
+  border-top: 1px solid #e8c87a;
+  padding-top: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .heritage-section {
+    padding: 1.75rem 1.25rem 1.5rem;
+  }
+  .heritage-compare-wrap {
+    padding: 1rem 0.75rem;
+  }
+  .heritage-product-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
 </style>
