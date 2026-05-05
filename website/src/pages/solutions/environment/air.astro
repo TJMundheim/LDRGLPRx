@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../../layouts/SolutionPage.astro';
+import EmailCapture from '../../../components/EmailCapture.astro';
 ---
 
 <SolutionPage
@@ -19,42 +20,146 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
     <li>A quality HEPA + activated carbon unit in your bedroom is the single highest-ROI environmental upgrade most men haven't made — you breathe that air for 7–8 hours nightly</li>
   </ul>
 
-  <!-- ── Featured Products — E-Commerce Hero ── -->
+  <!-- ── Featured Products ── -->
   <h2 class="section-eliminate">Featured Products</h2>
-  <p>Protocol-matched products for your air quality protocol. Affiliate relationships disclosed below.</p>
-  <div class="product-grid">
-    <div class="product-card">
-      <h3>Bedroom Air Purifier</h3>
-      <p class="product-why">Highest ROI air intervention — protects your 7–8 hour recovery window.</p>
-      <p>Whisper-quiet compact unit sized for bedrooms (150–300 sq ft). True HEPA + activated carbon. Runs continuously on low without disrupting sleep.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=bedroom-air-purifier -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Bedroom Air Purifier" class="btn-cart">Notify Me →</a>
+  <p class="section-sub">Protocol-matched products for your air quality protocol. Affiliate relationships disclosed below.</p>
+
+  <div class="product-grid product-grid-2col">
+
+    <!-- 1. 4M HVAC HEPA+Carbon Filter Set -->
+    <article class="product-card" id="hvac-filter-set">
+      <div class="product-badge">Recurring · High ROI</div>
+      <h3 class="product-name">4M HVAC HEPA+Carbon Filter Set</h3>
+      <p class="product-price-range">$29–$59 <span class="price-note">per quarterly delivery — launch pricing finalizing</span></p>
+      <p class="product-tagline">Quarterly auto-ship of upgraded HVAC filters — MERV-13 + activated carbon vs. the cardboard box the builder installed.</p>
+      <ul class="product-specs">
+        <li>MERV-13 rated — captures particulates, pollen, smoke, and fine dust</li>
+        <li>Activated carbon layer — adsorbs VOCs and odors the MERV rating misses</li>
+        <li>Available in all standard residential sizes (16x20, 20x25, etc.)</li>
+        <li>Quarterly auto-ship — the replacement actually happens on schedule</li>
+        <li>Supports full home coverage at low cost per day</li>
+      </ul>
+      <p class="product-why">Your HVAC is running 24/7. If it's pushing air through a clogged low-MERV filter, it's distributing everything that's accumulated in your ductwork — mold spores, pet dander, fine particulates — back into every room. Upgrading and staying on schedule is the cheapest whole-home air intervention that exists.</p>
+      <a href="#notify-air" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 2. 4M Bedroom Air Purifier -->
+    <article class="product-card" id="bedroom-air-purifier">
+      <div class="product-badge">Top Priority</div>
+      <h3 class="product-name">4M Bedroom Air Purifier</h3>
+      <p class="product-price-range">$179–$299 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Whisper-quiet HEPA + activated carbon for your 7–8 hour recovery window — the single highest-ROI air intervention.</p>
+      <ul class="product-specs">
+        <li>True HEPA filtration — captures 99.97% of particles 0.3 microns and larger</li>
+        <li>Activated carbon stage — removes VOCs, formaldehyde, and off-gassing from furniture</li>
+        <li>Sized for bedrooms (150–300 sq ft) — runs on low continuously without disrupting sleep</li>
+        <li>Real-time air quality indicator; auto-mode adjusts fan speed based on sensor</li>
+        <li>Filter replacement subscription available separately</li>
+      </ul>
+      <p class="product-why">You breathe the bedroom air for roughly one-third of your life. Every inflammatory particle that bypasses filtration is another signal adding to your cumulative cognitive load. This is the first air purchase to make — before anything else.</p>
+      <a href="#notify-air" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 3. 4M Whole-Home Air Purifier -->
+    <article class="product-card" id="whole-home-air-purifier">
+      <div class="product-badge">Insider Pick</div>
+      <h3 class="product-name">4M Whole-Home Air Purifier</h3>
+      <p class="product-price-range">$449–$799 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Multi-room or whole-floor coverage — True HEPA + carbon for the spaces where you live and work during the day.</p>
+      <ul class="product-specs">
+        <li>Coverage: 600–1,000+ sq ft depending on configuration</li>
+        <li>True HEPA + activated carbon — comprehensive particulate and VOC filtration</li>
+        <li>High-output fan; multiple speed settings</li>
+        <li>Suitable for open-plan living areas, home offices, and combined spaces</li>
+        <li>Compatible with filter replacement subscription</li>
+      </ul>
+      <p class="product-why">The bedroom unit covers sleep. The whole-home unit covers the waking hours — the time you spend cooking, working, and exercising indoors. Combined, they close the coverage gap and eliminate continuous low-grade inflammatory load during both halves of the day.</p>
+      <a href="#notify-air" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 4. 4M Air Quality Monitor -->
+    <article class="product-card" id="air-quality-monitor">
+      <div class="product-badge">Gateway: See Your Numbers</div>
+      <h3 class="product-name">4M Air Quality Monitor</h3>
+      <p class="product-price-range">$99–$149 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">VOC + PM2.5 + CO2 + humidity — live data on exactly what you're breathing. Most people are shocked by their baseline.</p>
+      <ul class="product-specs">
+        <li>Sensors: VOCs, PM2.5 fine particulates, CO2, temperature, humidity</li>
+        <li>Real-time display with historical trend graphs via companion app</li>
+        <li>Alerts when any metric exceeds safe thresholds</li>
+        <li>Identifies specific problem sources: cooking, candles, cleaning products, off-gassing</li>
+        <li>Battery + plug-in operation — portable room-to-room assessment</li>
+      </ul>
+      <p class="product-why">You can't optimize what you can't measure. Members who start with the monitor invariably buy filtration within weeks — seeing a PM2.5 spike every time you cook on a gas stove or open a cleaning product is a visceral motivator that no amount of reading can replicate.</p>
+      <a href="#notify-air" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 5. 4M Mold Test Kit -->
+    <article class="product-card" id="mold-test-kit">
+      <h3 class="product-name">4M Mold Test Kit</h3>
+      <p class="product-price-range">$39 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">DIY home mold assessment — petri-dish and air-sample test for pathogenic species. Know before you treat.</p>
+      <ul class="product-specs">
+        <li>Includes air samples + surface swabs for multiple rooms</li>
+        <li>Lab analysis included — results in 5–7 business days</li>
+        <li>Screens for common pathogenic mold species including Aspergillus and Stachybotrys</li>
+        <li>Recommended for anyone with chronic brain fog, fatigue, or unexplained symptoms</li>
+        <li>Pairs with a My4MLife protocol consult to interpret results (optional add-on)</li>
+      </ul>
+      <p class="product-why">Mycotoxin exposure is among the most underdiagnosed causes of cognitive impairment in otherwise healthy men. Hidden mold in a bathroom ceiling, basement crawlspace, or HVAC ductwork can generate persistent neurotoxic load that no supplement protocol can overcome. Screen first.</p>
+      <a href="#notify-air" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 6. 4M HVAC UV-C Sterilizer Add-On -->
+    <article class="product-card" id="hvac-uvc-sterilizer">
+      <div class="product-badge">Insider+ — Pro Install</div>
+      <h3 class="product-name">4M HVAC UV-C Sterilizer Add-On</h3>
+      <p class="product-price-range">$279–$449 <span class="price-note">+ professional installation — launch pricing finalizing</span></p>
+      <p class="product-tagline">In-duct UV-C germicidal lamp — continuously sterilizes airborne pathogens as air passes through your HVAC system.</p>
+      <ul class="product-specs">
+        <li>254nm germicidal UV-C lamp installed inside the HVAC duct</li>
+        <li>Kills airborne bacteria, viruses, and mold spores in transit — not after they've settled</li>
+        <li>Works with existing HVAC system — no structural modification required</li>
+        <li>Annual bulb replacement (included in first year)</li>
+        <li>Requires licensed HVAC installer — installer referral network available</li>
+      </ul>
+      <p class="product-why">Filtration catches particles. UV-C sterilization inactivates biological agents that survive filtration — particularly mold spores and airborne pathogens. For households with documented mold history or high occupant immune load, the UV-C layer is the completion step.</p>
+      <a href="#notify-air" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 7. Filter Replacement Subscription -->
+    <article class="product-card product-card--bundle" id="filter-subscription">
+      <div class="product-badge product-badge--bundle">Recurring · Consumable</div>
+      <h3 class="product-name">Filter Replacement Subscription</h3>
+      <p class="product-price-range">Recurring pricing <span class="price-note">tied to your specific products — set at checkout</span></p>
+      <p class="product-tagline">Auto-ship replacement filters for your bedroom purifier, whole-home unit, and HVAC system — on the schedule that keeps them performing.</p>
+      <ul class="product-specs">
+        <li>Bedroom purifier: HEPA + carbon replacement filters every 6–8 months</li>
+        <li>Whole-home unit: HEPA + carbon replacement every 6–12 months</li>
+        <li>HVAC filters: quarterly delivery in your exact size</li>
+        <li>Pause, skip, or cancel anytime — no penalty</li>
+        <li>10% discount vs one-time purchase pricing</li>
+      </ul>
+      <p class="product-why">An expired HEPA filter does not fail quietly — it begins releasing what it has captured back into your air. Subscriptions eliminate the most common single failure mode in any home air quality protocol: the filter that should have been changed three months ago.</p>
+      <a href="#notify-air" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+  </div>
+
+  <!-- ── Notify Me Capture ── -->
+  <div class="notify-capture-block" id="notify-air">
+    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
+    <p class="notify-capture-sub">Enter your email — we'll notify you when any product on this page becomes available.</p>
+    <div class="notify-checkboxes">
+      <label><input type="checkbox" name="product" value="hvac-filter-set" checked> HVAC HEPA+Carbon Filter Set</label>
+      <label><input type="checkbox" name="product" value="bedroom-air-purifier" checked> Bedroom Air Purifier</label>
+      <label><input type="checkbox" name="product" value="whole-home-purifier"> Whole-Home Air Purifier</label>
+      <label><input type="checkbox" name="product" value="air-quality-monitor"> Air Quality Monitor</label>
+      <label><input type="checkbox" name="product" value="mold-test-kit"> Mold Test Kit</label>
+      <label><input type="checkbox" name="product" value="hvac-uvc-sterilizer"> HVAC UV-C Sterilizer Add-On</label>
+      <label><input type="checkbox" name="product" value="filter-subscription"> Filter Replacement Subscription</label>
     </div>
-    <div class="product-card">
-      <h3>Whole-Room HEPA + Carbon Air Purifier</h3>
-      <p class="product-why">Covers open-plan living and work spaces — removes particulates and VOCs.</p>
-      <p>Large-room capacity unit. True HEPA + activated carbon for comprehensive filtration of living areas.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=whole-room-air-purifier -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Whole-Room Air Purifier" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>MERV-13 HVAC Filter Subscription</h3>
-      <p class="product-why">Most commonly neglected maintenance task with the most widespread impact.</p>
-      <p>Quarterly delivery of the correct filter size for your HVAC system — so the replacement actually happens on schedule.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=merv13-hvac-subscription -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: MERV-13 HVAC Subscription" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Home Mold Test Kit</h3>
-      <p class="product-why">Screens for pathogenic mold species — the root cause of persistent brain fog and fatigue.</p>
-      <p>ERMI-style test kit for preliminary mold assessment in household dust. Know before you treat.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=home-mold-test -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Home Mold Test Kit" class="btn-cart">Notify Me →</a>
-    </div>
+    <EmailCapture source="env-air-page" buttonLabel="Notify Me →" placeholder="your@email.com" />
   </div>
 
   <!-- ── Deeper Protocol ── -->
@@ -79,7 +184,7 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
     <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through product links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
   </p>
 
-  <!-- ── Optional Protégé footer ── -->
+  <!-- ── Protégé footer ── -->
   <div class="protege-card">
     Want personalized guidance on your environmental protocol? <strong>Become a Protégé free</strong> — the My4MLife App walks you through environmental optimization week by week.
     <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
@@ -87,62 +192,115 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
 </SolutionPage>
 
 <style>
+.section-sub {
+  color: var(--text-light);
+  font-size: 0.92rem;
+  margin: -0.5rem 0 1.25rem;
+}
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   margin: 1rem 0 2.5rem;
 }
+.product-grid-2col {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .product-grid-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .product-card {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.4rem 1.5rem;
+  padding: 1.5rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.55rem;
   transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
 }
 .product-card:hover {
   border-color: var(--accent);
-  box-shadow: 0 4px 18px rgba(0,184,148,0.14);
+  box-shadow: 0 4px 22px rgba(0,184,148,0.13);
   transform: translateY(-2px);
 }
-.product-card h3 {
-  font-size: 1rem;
+.product-card--bundle {
+  border-color: rgba(0,184,148,0.4);
+  background: linear-gradient(135deg, var(--bg-soft) 80%, rgba(0,184,148,0.05) 100%);
+}
+
+.product-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.3);
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.product-badge--bundle {
+  color: #e67e22;
+  background: rgba(230,126,34,0.1);
+  border-color: rgba(230,126,34,0.3);
+}
+
+.product-name {
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0;
+  line-height: 1.3;
+}
+.product-price-range {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.price-note {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+.product-tagline {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.45;
+}
+.product-specs {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.product-specs li {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.4;
 }
 .product-why {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent);
   margin: 0 !important;
-}
-.product-card p {
-  font-size: 0.875rem;
-  color: var(--text-light);
-  margin: 0;
+  line-height: 1.5;
   flex: 1;
 }
-.notify-pill {
+.notify-btn {
   display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  background: rgba(0,184,148,0.1);
-  border: 1px solid rgba(0,184,148,0.35);
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  align-self: flex-start;
-  margin-top: 0.25rem;
-}
-.btn-cart {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.45rem 1.1rem;
+  margin-top: 0.6rem;
+  padding: 0.48rem 1.2rem;
   background: var(--accent);
   color: #fff;
   border-radius: 999px;
@@ -150,9 +308,48 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   font-weight: 700;
   text-decoration: none;
   align-self: flex-start;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s;
 }
-.btn-cart:hover { background: var(--accent-dark); }
+.notify-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.notify-capture-block {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid rgba(0,184,148,0.25);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+  margin: 0 0 2.5rem;
+}
+.notify-capture-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.35rem;
+}
+.notify-capture-sub {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+}
+.notify-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.notify-checkboxes label {
+  font-size: 0.8rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+.notify-checkboxes input[type="checkbox"] {
+  accent-color: var(--accent);
+}
 
 .blog-deepdive-btn {
   display: inline-block;

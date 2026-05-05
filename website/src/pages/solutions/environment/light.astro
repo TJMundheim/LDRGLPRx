@@ -160,40 +160,151 @@ import EmailCapture from '../../../components/EmailCapture.astro';
 
   <!-- ── Featured Products — E-Commerce Hero ── -->
   <h2 class="section-eliminate">Featured Products</h2>
-  <p>Protocol-matched products for your light environment. Affiliate relationships disclosed below.</p>
-  <div class="product-grid">
-    <div class="product-card">
-      <h3>Circadian-Friendly LED Bulbs</h3>
-      <p class="product-why">Minimizes blue-light output in evening hours to protect melatonin production.</p>
-      <p>Warm-spectrum (2200K) LED replacement bulbs for bedroom and living areas.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=led-circadian-bulbs -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Circadian-Friendly LED Bulbs" class="btn-cart">Notify Me →</a>
+  <p class="section-sub">Protocol-matched products for your light environment. Affiliate relationships disclosed below.</p>
+  <div class="product-grid product-grid-2col">
+
+    <!-- 1. 4M Night-Light Pack -->
+    <article class="product-card" id="night-light-pack">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Night-Light Pack</h3>
+      <p class="product-price-range">$24–$32 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Red-spectrum bedside and hallway bulbs that won't torpedo your melatonin on a 3am bathroom run.</p>
+      <ul class="product-specs">
+        <li>4-pack of 660nm red 1W bulbs</li>
+        <li>Standard E26 base — drops into any existing fixture</li>
+        <li>No flicker, no blue spike — safe for kids' rooms too</li>
+        <li>4M-branded packaging</li>
+      </ul>
+      <p class="product-why">A single brief white-light exposure at 2am suppresses melatonin for 90+ minutes. Red light below 660nm does not activate the intrinsically photosensitive retinal ganglion cells that signal the SCN. This is the simplest swap in the entire protocol.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 2. 4M Blackout Dots -->
+    <article class="product-card" id="blackout-dots">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Blackout Dots</h3>
+      <p class="product-price-range">$12–$18 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">200 light-blocking stickers that eliminate the ambient LEDs polluting your bedroom at night.</p>
+      <ul class="product-specs">
+        <li>200 stickers in varied sizes — fits alarm clocks, smoke detectors, TV standby LEDs, charger bricks, smart speakers</li>
+        <li>Repositionable adhesive — no residue on removal</li>
+        <li>Opaque matte black finish; works on curved surfaces</li>
+      </ul>
+      <p class="product-why">The average bedroom has 10–20 ambient LEDs. Even dim blue-green indicator lights suppress melatonin and reduce sleep depth. This $12 fix addresses a light-pollution source most people never notice until it's gone.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 3. Circadian Bedroom Bulb 4-Pack -->
+    <article class="product-card" id="circadian-bedroom-bulb">
+      <h3 class="product-name">Circadian Bedroom Bulb 4-Pack</h3>
+      <p class="product-price-range">$40–$60 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Warm 2200K LEDs purpose-built for bedrooms and the last hour of the day.</p>
+      <ul class="product-specs">
+        <li>2200K color temperature — minimal blue-light output</li>
+        <li>4-pack for full bedroom replacement (overhead + two nightstands + closet)</li>
+        <li>Dimmable — pairs with standard dimmer switches</li>
+        <li>Standard E26 base, 800+ lumen output</li>
+      </ul>
+      <p class="product-why">Swapping evening overhead lights from 5000K cool-white to 2200K warm eliminates the primary melatonin suppression signal without requiring habit changes. The light becomes correct — biology follows automatically.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 4. 4M Blue-Light Blocking Glasses -->
+    <article class="product-card" id="blue-blockers">
+      <h3 class="product-name">4M Blue-Light Blocking Glasses</h3>
+      <p class="product-price-range">$39 amber / $59 red <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Amber for evening screen use. Red for full pre-sleep protection. Both block what matters.</p>
+      <ul class="product-specs">
+        <li>Amber lens: blocks 90%+ blue spectrum (430–490nm)</li>
+        <li>Red lens: blocks blue + green spectrum — maximum melatonin protection 1–2 hrs before bed</li>
+        <li>Lightweight 4M-branded acetate frames; over-glass compatible</li>
+        <li>Most members start amber, upgrade to red</li>
+      </ul>
+      <p class="product-why">Screen-induced melatonin suppression persists for hours after exposure. Blue-blockers extend your effective chronobiological night without requiring device shutoff. The red-lens version eliminates virtually all light-induced melatonin suppression.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 5. Red Light Therapy Panel -->
+    <article class="product-card" id="red-light-panel">
+      <div class="product-badge">Insider Pick</div>
+      <h3 class="product-name">Red Light Therapy Panel — Insider Edition</h3>
+      <p class="product-price-range">$399–$899 <span class="price-note">mid / large panel — launch pricing finalizing</span></p>
+      <p class="product-tagline">660nm + 850nm dual-wavelength therapy for mitochondrial support, tissue recovery, and cognition — 10–20 min/day.</p>
+      <ul class="product-specs">
+        <li>660nm red + 850nm near-infrared dual-wavelength output</li>
+        <li>Mid panel: face + upper body; Large panel: full-body coverage</li>
+        <li>Medical-grade LED array, 100mW/cm² at 6 inches</li>
+        <li>No UV, no heat — safe for daily protocol use</li>
+        <li>Mounting hardware + timer included</li>
+      </ul>
+      <p class="product-why">Photobiomodulation at 660nm and 850nm stimulates cytochrome c oxidase in mitochondria, increasing ATP production and reducing oxidative stress in neural tissue. The clinical literature on cognitive outcomes is among the most compelling in the longevity space.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 6. 4M Morning Sun Lamp -->
+    <article class="product-card" id="morning-sun-lamp">
+      <h3 class="product-name">4M Morning Sun Lamp</h3>
+      <p class="product-price-range">$99–$149 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">10,000 lux full-spectrum for indoor workers, winter mornings, and anyone without reliable morning sun access.</p>
+      <ul class="product-specs">
+        <li>10,000 lux certified output at 12-inch distance</li>
+        <li>Full-spectrum — replicates outdoor morning light quality</li>
+        <li>UV-filtered — eye-safe for daily 10–30 min sessions</li>
+        <li>Compact desktop form factor with adjustable tilt + built-in timer</li>
+      </ul>
+      <p class="product-why">Morning light is the primary signal anchoring the circadian clock and setting the 14–16 hour countdown to melatonin onset. Without a strong morning signal, the entire daily hormonal cascade runs without an anchor.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 7. 4M Smart Light Controller -->
+    <article class="product-card" id="smart-light-controller">
+      <h3 class="product-name">4M Smart Light Controller</h3>
+      <p class="product-price-range">$39 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Wi-Fi circadian schedule — auto-dims and warms your bedroom lights at sunset. Set it once, done.</p>
+      <ul class="product-specs">
+        <li>Wi-Fi enabled outlet switch — no hub required</li>
+        <li>Circadian scheduling: full brightness by day, auto-dim + warm-shift at sunset</li>
+        <li>Works with any dimmable warm-spectrum bulb (pairs with Circadian Bulb 4-Pack)</li>
+        <li>App-based schedule tied to local sunrise/sunset; Alexa + Google Assistant compatible</li>
+      </ul>
+      <p class="product-why">Behavior-based light management works until it doesn't — life interrupts. Automation removes the failure mode. The controller transitions your light environment on schedule across 100% of nights, not most of them.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 8. 4M Sleep Sanctuary — Light Bundle -->
+    <article class="product-card product-card--bundle" id="sleep-sanctuary-light">
+      <div class="product-badge product-badge--bundle">Bundle · Best Value</div>
+      <h3 class="product-name">4M Sleep Sanctuary — Light Bundle</h3>
+      <p class="product-price-range">$89 <span class="price-note">vs ~$108 individually — launch pricing finalizing</span></p>
+      <p class="product-tagline">The complete light-environment starter kit in one shipment: red bulbs + blackout dots + circadian bulbs + blue-blockers.</p>
+      <ul class="product-specs">
+        <li>4M Night-Light Pack (4 red bulbs)</li>
+        <li>4M Blackout Dots (200 stickers)</li>
+        <li>2x Circadian Bedroom Bulbs (2200K)</li>
+        <li>1x Amber Blue-Light Blocking Glasses</li>
+        <li>4M Light Protocol quickstart card</li>
+      </ul>
+      <p class="product-why">The four highest-leverage light interventions arriving simultaneously. Members who start with the bundle report noticeable sleep improvement within the first week — eliminating bad signals and adding the right ones at the same time is faster than any single product alone.</p>
+      <a href="#notify-light" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+  </div>
+
+  <!-- ── Notify Me Capture ── -->
+  <div class="notify-capture-block" id="notify-light">
+    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
+    <p class="notify-capture-sub">Enter your email — we'll notify you when any product on this page becomes available.</p>
+    <div class="notify-checkboxes">
+      <label><input type="checkbox" name="product" value="night-light-pack" checked> 4M Night-Light Pack</label>
+      <label><input type="checkbox" name="product" value="blackout-dots" checked> 4M Blackout Dots</label>
+      <label><input type="checkbox" name="product" value="circadian-bulb"> Circadian Bedroom Bulb 4-Pack</label>
+      <label><input type="checkbox" name="product" value="blue-blockers"> Blue-Light Blocking Glasses</label>
+      <label><input type="checkbox" name="product" value="red-light-panel"> Red Light Therapy Panel</label>
+      <label><input type="checkbox" name="product" value="morning-sun-lamp"> Morning Sun Lamp</label>
+      <label><input type="checkbox" name="product" value="smart-controller"> Smart Light Controller</label>
+      <label><input type="checkbox" name="product" value="sleep-sanctuary-light"> Sleep Sanctuary Bundle</label>
     </div>
-    <div class="product-card">
-      <h3>Blue-Light Blocking Glasses</h3>
-      <p class="product-why">Blocks 90%+ of blue-spectrum from screens and overhead lighting after sundown.</p>
-      <p>Amber-lens frames for evening wear — no change to screen habits required.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=blue-blocker-glasses -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Blue-Light Blocking Glasses" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Red-Light Therapy Panel</h3>
-      <p class="product-why">Supports mitochondrial function, tissue recovery, and mood via 660nm / 850nm wavelengths.</p>
-      <p>Full-size panel for whole-body red and near-infrared light therapy sessions (10–20 min/day).</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=red-light-panel -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Red-Light Therapy Panel" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Full-Spectrum Morning Lamp</h3>
-      <p class="product-why">Anchors circadian rhythm for indoor workers and northern-latitude users without reliable morning sun.</p>
-      <p>10,000 lux full-spectrum lamp — 10 min exposure on waking replaces outdoor morning light.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=morning-lamp -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Full-Spectrum Morning Lamp" class="btn-cart">Notify Me →</a>
-    </div>
+    <EmailCapture source="env-light-page" buttonLabel="Notify Me →" placeholder="your@email.com" />
   </div>
 
   <!-- ── Deeper Protocol ── -->
@@ -226,20 +337,34 @@ import EmailCapture from '../../../components/EmailCapture.astro';
 </SolutionPage>
 
 <style>
+.section-sub {
+  color: var(--text-light);
+  font-size: 0.92rem;
+  margin: -0.5rem 0 1.25rem;
+}
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   margin: 1rem 0 2.5rem;
+}
+.product-grid-2col {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .product-grid-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .product-card {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.4rem 1.5rem;
+  padding: 1.5rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.55rem;
   transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
 }
 .product-card:hover {
@@ -247,24 +372,91 @@ import EmailCapture from '../../../components/EmailCapture.astro';
   box-shadow: 0 4px 18px rgba(0,184,148,0.14);
   transform: translateY(-2px);
 }
-.product-card h3 {
-  font-size: 1rem;
+.product-card--bundle {
+  border-color: rgba(0,184,148,0.4);
+  background: linear-gradient(135deg, var(--bg-soft) 80%, rgba(0,184,148,0.05) 100%);
+}
+.product-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.3);
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.product-badge--bundle {
+  color: #e67e22;
+  background: rgba(230,126,34,0.1);
+  border-color: rgba(230,126,34,0.3);
+}
+.product-name {
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0;
+  line-height: 1.3;
+}
+.product-price-range {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.price-note {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+.product-tagline {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.45;
+}
+.product-specs {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.product-specs li {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.4;
 }
 .product-why {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent);
   margin: 0 !important;
-}
-.product-card p {
-  font-size: 0.875rem;
-  color: var(--text-light);
-  margin: 0;
+  line-height: 1.5;
   flex: 1;
 }
+.notify-btn {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.48rem 1.2rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s, transform 0.15s;
+}
+.notify-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+/* legacy compat */
 .notify-pill {
   display: inline-block;
   font-size: 0.72rem;
@@ -292,6 +484,43 @@ import EmailCapture from '../../../components/EmailCapture.astro';
   transition: background 0.15s;
 }
 .btn-cart:hover { background: var(--accent-dark); }
+
+/* Notify Me capture block */
+.notify-capture-block {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid rgba(0,184,148,0.25);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+  margin: 0 0 2.5rem;
+}
+.notify-capture-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.35rem;
+}
+.notify-capture-sub {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+}
+.notify-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.notify-checkboxes label {
+  font-size: 0.8rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+.notify-checkboxes input[type="checkbox"] {
+  accent-color: var(--accent);
+}
 
 .blog-deepdive-btn {
   display: inline-block;
