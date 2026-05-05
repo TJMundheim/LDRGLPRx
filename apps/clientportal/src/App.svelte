@@ -11,6 +11,8 @@
   import IntakeModule from './lib/components/intake/IntakeModule.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
+  import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
+  import { runNudgeTriggers, updateLastSeen, trackScreenVisit, triggerWeekMilestone } from './lib/nudge/triggers';
 
   // ── Schema sentinel + clean-slate wipe ──────────────────────────────────────
   // MUST run before any gating logic reads localStorage.
@@ -187,6 +189,15 @@
     showPricing = false;
     curTab = id;
     window.scrollTo(0, 0);
+    // Track screen visit for upgrade-nudge eligibility
+    trackScreenVisit(id);
+    // Fire week-milestone nudge when user lands on a week tab
+    const weekMatch = /^week([1-4])$/.exec(id);
+    if (weekMatch) {
+      const wn = Number(weekMatch[1]) as 1 | 2 | 3 | 4;
+      // Small delay so the stack is visible before the nudge fires
+      setTimeout(() => triggerWeekMilestone(wn), 800);
+    }
   }
 
   // Expose actions for inline onclick/oninput handlers emitted by renderer.ts.
@@ -451,9 +462,14 @@
     }
     renderTick++;
     await tick();
+
+    // ── AI Concierge Phase 1 — Nudge triggers ───────────────────────────────
+    updateLastSeen();
+    runNudgeTriggers();
   });
 </script>
 
+<NudgeStack />
 <AuthGate>
 <div class="shell">
   <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} />
