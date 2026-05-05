@@ -7,6 +7,7 @@
 
   const { onsuccess }: Props = $props();
 
+  let firstName = $state('');
   let email = $state('');
   let loading = $state(false);
   let error = $state('');
@@ -16,7 +17,7 @@
     error = '';
     loading = true;
     try {
-      const session = await requestEmailCode(email.trim());
+      const session = await requestEmailCode(email.trim(), firstName.trim() || undefined);
       onsuccess({ email: email.trim(), session });
     } catch (err) {
       error = err instanceof Error ? err.message : 'Failed to send code. Please try again.';
@@ -27,9 +28,18 @@
 </script>
 
 <div class="auth-card">
-  <h2>Sign In</h2>
-  <p class="subtitle">Enter your email to receive a one-time code.</p>
+  <h2>Sign In / Sign Up — Free Protégé</h2>
+  <p class="subtitle">Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in.</p>
   <form onsubmit={handleSubmit}>
+    <label for="firstname-input">First name <span class="optional">(optional — new accounts only)</span></label>
+    <input
+      id="firstname-input"
+      type="text"
+      autocomplete="given-name"
+      placeholder="e.g. Alex"
+      bind:value={firstName}
+      disabled={loading}
+    />
     <label for="email-input">Email address</label>
     <input
       id="email-input"
@@ -61,6 +71,7 @@
   h2 { margin: 0 0 6px; font-size: 1.4rem; color: #1a1a1a; }
   .subtitle { margin: 0 0 24px; color: #666; font-size: 0.9rem; }
   label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #333; }
+  .optional { font-weight: 400; color: #999; font-size: 0.8rem; }
   input {
     width: 100%;
     box-sizing: border-box;
@@ -70,12 +81,13 @@
     font-size: 1rem;
     outline: none;
     transition: border-color 0.15s;
+    margin-bottom: 16px;
   }
   input:focus { border-color: #1D9E75; }
   .error { color: #c0392b; font-size: 0.85rem; margin: 8px 0 0; }
   button {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 4px;
     padding: 11px;
     background: #1D9E75;
     color: #fff;

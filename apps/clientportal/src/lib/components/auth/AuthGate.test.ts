@@ -49,9 +49,9 @@ describe('AuthGate', () => {
     expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
   });
 
-  it('does not show a signup screen', () => {
+  it('does not show a separate register/create-account screen', () => {
     render(AuthGate, {});
-    expect(screen.queryByText(/sign up/i)).toBeNull();
+    // Sign In / Sign Up is on the same unified screen — no separate create-account or register page
     expect(screen.queryByText(/create account/i)).toBeNull();
     expect(screen.queryByText(/register/i)).toBeNull();
   });

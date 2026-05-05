@@ -7,9 +7,14 @@ vi.stubGlobal('import', {
       VITE_COGNITO_REGION: 'us-east-1',
       VITE_USER_POOL_CLIENT_ID: 'test-client-id',
       VITE_USER_POOL_ID: 'us-east-1_testpool',
+      VITE_LEAD_CAPTURE_API_URL: 'https://mock-api.example.com',
     },
   },
 });
+
+// Mock fetch for requestEmailCode
+const mockFetch = vi.fn();
+vi.stubGlobal('fetch', mockFetch);
 
 // Mock the AWS SDK
 const mockSend = vi.fn();
@@ -24,7 +29,6 @@ vi.mock('@aws-sdk/client-cognito-identity-provider', () => {
 });
 
 import {
-  InitiateAuthCommand,
   RespondToAuthChallengeCommand,
   UpdateUserAttributesCommand,
   VerifyUserAttributeCommand,
@@ -53,39 +57,47 @@ vi.stubGlobal('localStorage', localStorageMock);
 
 beforeEach(() => {
   mockSend.mockReset();
+  mockFetch.mockReset();
   localStorageMock.clear();
-  vi.mocked(InitiateAuthCommand).mockClear();
   vi.mocked(RespondToAuthChallengeCommand).mockClear();
   vi.mocked(UpdateUserAttributesCommand).mockClear();
   vi.mocked(VerifyUserAttributeCommand).mockClear();
 });
 
 describe('requestEmailCode', () => {
-  it('calls InitiateAuth with CUSTOM_AUTH flow and returns Session', async () => {
-    mockSend.mockResolvedValueOnce({ Session: 'session-abc' });
+  it('POSTs to /api/request-otp and returns session', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ status: 'sent', session: 'session-abc' }),
+    });
 
-    const session = await requestEmailCode('user@example.com');
+    const session = await requestEmailCode('User@Example.com', 'Alex');
 
-    expect(InitiateAuthCommand).toHaveBeenCalledWith(
-      expect.objectContaining({
-        AuthFlow: 'CUSTOM_AUTH',
-        AuthParameters: { USERNAME: 'user@example.com' },
-      }),
-    );
+    const [calledUrl, calledInit] = vi.mocked(mockFetch).mock.calls[0] as [string, RequestInit];
+    expect(calledUrl).toMatch(/\/api\/request-otp$/);
+    expect(calledInit.method).toBe('POST');
+    // Email lowercased
+    const body = JSON.parse(calledInit.body as string);
+    expect(body.email).toBe('user@example.com');
+    expect(body.firstName).toBe('Alex');
     expect(session).toBe('session-abc');
   });
 
-  it('throws if no Session in response', async () => {
-    mockSend.mockResolvedValueOnce({});
+  it('throws if no session in response', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ status: 'sent' }),
+    });
     await expect(requestEmailCode('user@example.com')).rejects.toThrow('No session');
   });
 
-  it('does not reference any password parameters', () => {
-    // The InitiateAuthCommand constructor call args must not contain "password"
-    const calls = vi.mocked(InitiateAuthCommand).mock.calls;
-    for (const [input] of calls) {
-      expect(JSON.stringify(input).toLowerCase()).not.toContain('password');
-    }
+  it('throws on non-ok HTTP response', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: false,
+      status: 400,
+      json: async () => ({ status: 'error', message: 'Invalid email address' }),
+    });
+    await expect(requestEmailCode('bad-email')).rejects.toThrow('Invalid email address');
   });
 });
 
@@ -195,14 +207,8 @@ describe('updatePrimaryEmail', () => {
 });
 
 describe('no password code paths', () => {
-  it('cognito module source does not contain the word "password"', async () => {
-    // Dynamic import the source as text via URL trick is not possible in vitest,
-    // so we assert via the mock call history — none of the command constructors
-    // should have been called with anything containing "password".
-    const allCalls = [
-      ...vi.mocked(InitiateAuthCommand).mock.calls,
-      ...vi.mocked(RespondToAuthChallengeCommand).mock.calls,
-    ];
+  it('cognito module does not reference password in RespondToAuthChallenge calls', async () => {
+    const allCalls = [...vi.mocked(RespondToAuthChallengeCommand).mock.calls];
     for (const [input] of allCalls) {
       expect(JSON.stringify(input).toLowerCase()).not.toContain('password');
     }
