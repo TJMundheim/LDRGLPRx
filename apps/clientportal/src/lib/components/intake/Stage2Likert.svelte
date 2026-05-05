@@ -76,8 +76,8 @@
     },
     {
       id: 'environment',
-      prompt: 'How much do environmental inputs (poor air, unfiltered water, blue light, EMF, fluorescent lighting) affect your daily exposure?',
-      context: '0 = Clean air, filtered water, low artificial light exposure · 3 = Some exposure but managing it · 5 = Poor air quality at home/work, tap water, screens or fluorescents most of the day',
+      prompt: 'How much do environmental inputs affect you — lack of sun at appropriate timing (morning + low-evening), excess blue light, EMF exposure, poor air, unfiltered water?',
+      context: '0 = Get morning + low-evening sun daily, clean air + water, low artificial light · 3 = Some exposure issues, managing partially · 5 = No morning sun, screens/fluorescents most of the day, tap water, no air filtration, constant EMF',
     },
     {
       id: 'pain-acute',
