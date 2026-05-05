@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../../layouts/SolutionPage.astro';
+import EmailCapture from '../../../components/EmailCapture.astro';
 ---
 
 <SolutionPage
@@ -21,40 +22,150 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
 
   <!-- ── Featured Products — E-Commerce Hero ── -->
   <h2 class="section-eliminate">Featured Products</h2>
-  <p>Protocol-matched products for EMF mitigation. Affiliate relationships disclosed below.</p>
-  <div class="product-grid">
-    <div class="product-card">
-      <h3>EMF-Shielding Bed Canopy / Bedding</h3>
-      <p class="product-why">High-attenuation shielding for your sleep environment — protects 7–8 hours of close-range exposure nightly.</p>
-      <p>Silver-thread fabric canopy or fitted sheet. For high-exposure bedroom situations (adjacent router, smart meter, multi-unit buildings).</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=emf-shielding-bedding -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: EMF-Shielding Bedding" class="btn-cart">Notify Me →</a>
+  <p class="section-sub">Protocol-matched products for EMF mitigation. Affiliate relationships disclosed below.</p>
+  <div class="product-grid product-grid-2col">
+
+    <!-- 1. EMF Sleep Sanctuary Canopy -->
+    <article class="product-card" id="emf-canopy">
+      <div class="product-badge">Insider Pick</div>
+      <h3 class="product-name">4M EMF Sleep Sanctuary Canopy</h3>
+      <p class="product-price-range">$399–$899 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Silver-thread bed canopy that creates a shielded sleep zone — high-attenuation RF protection for 7–8 hours nightly.</p>
+      <ul class="product-specs">
+        <li>Swiss-shield silver-thread fabric — 35+ dB attenuation across Wi-Fi and 5G frequencies</li>
+        <li>Universal canopy sizing — fits twin through king beds</li>
+        <li>Grounded bottom hem — blocks ELF electric fields from below as well</li>
+        <li>Machine washable; hardware-free installation on standard bed frames</li>
+      </ul>
+      <p class="product-why">Sleep is your highest-exposure window — 7 hours of close-range RF from bedroom devices, smart meters, and neighbors' Wi-Fi. The canopy converts this from your worst exposure period to your most protected. The brain does its deepest repair work during sleep; this is where shielding matters most.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 2. EMF Wall Fabric -->
+    <article class="product-card" id="emf-wall-fabric">
+      <h3 class="product-name">4M EMF Wall Fabric</h3>
+      <p class="product-price-range">$199–$399 <span class="price-note">per panel — launch pricing finalizing</span></p>
+      <p class="product-tagline">Silver-thread shielding panels for walls adjacent to smart meters, exterior-facing bedrooms, or shared multi-unit walls.</p>
+      <ul class="product-specs">
+        <li>48" x 72" per panel — covers a standard interior wall section</li>
+        <li>30+ dB RF attenuation — effective against Wi-Fi 2.4/5 GHz and LTE</li>
+        <li>Paintable surface — blends with existing wall finish</li>
+        <li>Adhesive mounting or standard fabric hanging hardware</li>
+      </ul>
+      <p class="product-why">Smart meters broadcast at full power every few minutes from the exterior wall — the source is inches away and you can't move it. A single shielding panel between the meter and your sleep space eliminates this exposure without confronting your utility.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 3. Faraday Phone Pouch -->
+    <article class="product-card" id="faraday-pouch">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Faraday Phone Pouch</h3>
+      <p class="product-price-range">$29 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Signal-blocking pouch that eliminates phone RF during sleep — the $29 bedroom intervention with the most leverage per dollar.</p>
+      <ul class="product-specs">
+        <li>Multi-layer Faraday shielding — blocks cellular, Wi-Fi, Bluetooth, and NFC simultaneously</li>
+        <li>Drop-in use — no settings change, no airplane mode required</li>
+        <li>Fits phones up to 6.7" — universal sizing</li>
+        <li>4M-branded; ideal first-step product for new members</li>
+      </ul>
+      <p class="product-why">A phone on the nightstand broadcasts continuously at full power searching for signal. For most men this is the single largest nightly RF source at the closest range. The pouch costs $29 and eliminates it completely — the highest ROI intervention in the entire EMF protocol.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 4. Low-EMF Router Kit -->
+    <article class="product-card" id="low-emf-router">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Low-EMF Router Kit</h3>
+      <p class="product-price-range">$79 <span class="price-note">starter kit — launch pricing finalizing</span></p>
+      <p class="product-tagline">Wired ethernet adapters + outlet timer — hardwire your stationary devices and schedule the router off during sleep hours.</p>
+      <ul class="product-specs">
+        <li>2x powerline ethernet adapters — extend wired internet to any outlet in the home</li>
+        <li>Programmable outlet timer — scheduled router off from 10pm to 6am</li>
+        <li>Compatible with any router and ISP modem</li>
+        <li>Setup guide for reducing router transmit power in software</li>
+      </ul>
+      <p class="product-why">A router broadcasting 24 hours a day in a bedroom or adjacent room is the most controllable source of chronic RF exposure in the home. Wiring stationary devices removes the need for Wi-Fi at those locations; a timer eliminates overnight broadcasting entirely. Both steps are reversible.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 5. EMF-Shielding Bedding -->
+    <article class="product-card" id="emf-bedding">
+      <h3 class="product-name">4M EMF-Shielding Bedding</h3>
+      <p class="product-price-range">$79–$249 <span class="price-note">per piece — launch pricing finalizing</span></p>
+      <p class="product-tagline">Silver-thread sheets, pillowcases, and blanket — layered shielding you sleep inside, not around.</p>
+      <ul class="product-specs">
+        <li>Available as pillowcase ($79), fitted sheet ($129), or full set ($249)</li>
+        <li>5% silver-thread weave — 25+ dB RF attenuation in contact range</li>
+        <li>Naturally antimicrobial — silver inhibits bacterial and fungal growth in fabric</li>
+        <li>Machine washable; 200+ wash rated</li>
+      </ul>
+      <p class="product-why">When sources can't be eliminated, interposing shielding material between the body and the field is the next-best intervention. Silver-thread bedding creates a partial Faraday layer at the skin surface — most effective for the head and torso during sleep.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 6. Smart Meter Shield -->
+    <article class="product-card" id="smart-meter-shield">
+      <h3 class="product-name">4M Smart Meter Shield</h3>
+      <p class="product-price-range">$39 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Shielding cover that mounts directly over your smart meter — reduces front-facing RF emission without affecting meter function.</p>
+      <ul class="product-specs">
+        <li>Stainless steel mesh cover — shaped to standard smart meter form factor</li>
+        <li>Directional shielding — reduces interior-facing RF by 90%+</li>
+        <li>Does not interfere with meter reading or utility communication</li>
+        <li>Tool-free install; fits 98% of residential smart meters</li>
+      </ul>
+      <p class="product-why">Smart meters pulse high-power RF bursts into your walls every few minutes, 24 hours a day. You cannot opt out in most jurisdictions. A $39 cover that redirects the forward-facing emission away from living space is the most direct mitigation available without fighting your utility.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 7. EMF Meter -->
+    <article class="product-card" id="emf-meter">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M EMF Meter</h3>
+      <p class="product-price-range">$79–$179 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">TriField/Cornet-style RF + ELF meter — map your actual exposure before buying any mitigation hardware.</p>
+      <ul class="product-specs">
+        <li>Measures RF (100 MHz–8 GHz), ELF magnetic fields, and ELF electric fields</li>
+        <li>Audio and digital readout — easy room-by-room survey in under 10 minutes</li>
+        <li>Includes protocol guide: how to read a bedroom, identify hot spots, prioritize mitigation</li>
+        <li>Used by members before and after installing shielding to confirm effectiveness</li>
+      </ul>
+      <p class="product-why">Most people buying EMF products have no idea where their actual sources are or how strong they are. The meter converts guesswork into data — you'll know within 10 minutes whether your bedroom has a problem, where it comes from, and whether any mitigation you install actually worked.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 8. Wired Headphones -->
+    <article class="product-card" id="wired-headphones">
+      <h3 class="product-name">4M Wired Headphones</h3>
+      <p class="product-price-range">$49–$129 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Replace Bluetooth headphones with wired — eliminates constant RF transmission at the ear and temporal lobe.</p>
+      <ul class="product-specs">
+        <li>3.5mm + USB-C options — compatible with all devices including iPhone (with included adapter)</li>
+        <li>Air-tube design available — ferrite bead on cable reduces conducted EMF at ear</li>
+        <li>Studio-quality audio — no perceptible downgrade from wireless</li>
+        <li>Zero RF emissions — passive signal delivery only</li>
+      </ul>
+      <p class="product-why">Bluetooth headphones transmit RF directly against the temporal lobe and ear canal for hours daily — music, calls, podcasts, all day. Wired headphones deliver identical audio with zero RF exposure. The protocol upgrade costs less than a month of streaming.</p>
+      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+  </div>
+
+  <!-- ── Notify Me Capture ── -->
+  <div class="notify-capture-block" id="notify-emf">
+    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
+    <p class="notify-capture-sub">Enter your email — we'll notify you when any product on this page becomes available.</p>
+    <div class="notify-checkboxes">
+      <label><input type="checkbox" name="product" value="emf-canopy"> 4M EMF Sleep Sanctuary Canopy</label>
+      <label><input type="checkbox" name="product" value="emf-wall-fabric"> 4M EMF Wall Fabric</label>
+      <label><input type="checkbox" name="product" value="faraday-pouch" checked> 4M Faraday Phone Pouch</label>
+      <label><input type="checkbox" name="product" value="low-emf-router" checked> 4M Low-EMF Router Kit</label>
+      <label><input type="checkbox" name="product" value="emf-bedding"> 4M EMF-Shielding Bedding</label>
+      <label><input type="checkbox" name="product" value="smart-meter-shield"> 4M Smart Meter Shield</label>
+      <label><input type="checkbox" name="product" value="emf-meter" checked> 4M EMF Meter</label>
+      <label><input type="checkbox" name="product" value="wired-headphones"> 4M Wired Headphones</label>
     </div>
-    <div class="product-card">
-      <h3>Faraday Phone Cases</h3>
-      <p class="product-why">Eliminates RF exposure from pocket carry without requiring airplane mode.</p>
-      <p>Signal-blocking phone pouch for daily carry. Effective attenuation for front-pocket and desk use.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=faraday-phone-case -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Faraday Phone Case" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Low-EMF Router</h3>
-      <p class="product-why">Adjustable transmit power — many routers broadcast at far higher output than your space requires.</p>
-      <p>Router with tunable RF output. Reduce transmission power to the minimum needed for your coverage area.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=low-emf-router -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Low-EMF Router" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>EMF Meter</h3>
-      <p class="product-why">Map actual exposure levels in your home so you can prioritize mitigation by source — not guesswork.</p>
-      <p>Handheld RF and ELF measurement meter. Know your actual exposure before buying mitigation hardware.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=emf-meter -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: EMF Meter" class="btn-cart">Notify Me →</a>
-    </div>
+    <EmailCapture source="env-emf-notify" buttonLabel="Notify Me →" placeholder="your@email.com" />
   </div>
 
   <!-- ── Deeper Protocol ── -->
@@ -66,8 +177,9 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
     <li>Wi-Fi-connected devices throughout every room — cumulative ambient RF load with no off-state</li>
   </ul>
   <p>
-    Fix sequence: phone out of the bedroom tonight (free, immediate) → router on an outlet timer during sleep hours (costs ~$10) →
+    Fix sequence: phone out of the bedroom tonight (free, immediate) → router on an outlet timer during sleep hours →
     hardwire stationary devices via ethernet → EMF meter to map remaining hot spots → shielding hardware for anything you can't move or turn off.
+    The Faraday pouch and router kit handle the two largest sources for under $110 combined.
   </p>
 
   <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
@@ -86,20 +198,34 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
 </SolutionPage>
 
 <style>
+.section-sub {
+  color: var(--text-light);
+  font-size: 0.92rem;
+  margin: -0.5rem 0 1.25rem;
+}
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   margin: 1rem 0 2.5rem;
+}
+.product-grid-2col {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .product-grid-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .product-card {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.4rem 1.5rem;
+  padding: 1.5rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.55rem;
   transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
 }
 .product-card:hover {
@@ -107,41 +233,77 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   box-shadow: 0 4px 18px rgba(0,184,148,0.14);
   transform: translateY(-2px);
 }
-.product-card h3 {
-  font-size: 1rem;
+.product-card--bundle {
+  border-color: rgba(0,184,148,0.4);
+  background: linear-gradient(135deg, var(--bg-soft) 80%, rgba(0,184,148,0.05) 100%);
+}
+.product-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.3);
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.product-badge--bundle {
+  color: #e67e22;
+  background: rgba(230,126,34,0.1);
+  border-color: rgba(230,126,34,0.3);
+}
+.product-name {
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0;
+  line-height: 1.3;
+}
+.product-price-range {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.price-note {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+.product-tagline {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.45;
+}
+.product-specs {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.product-specs li {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.4;
 }
 .product-why {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent);
   margin: 0 !important;
-}
-.product-card p {
-  font-size: 0.875rem;
-  color: var(--text-light);
-  margin: 0;
+  line-height: 1.5;
   flex: 1;
 }
-.notify-pill {
+.notify-btn {
   display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  background: rgba(0,184,148,0.1);
-  border: 1px solid rgba(0,184,148,0.35);
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  align-self: flex-start;
-  margin-top: 0.25rem;
-}
-.btn-cart {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.45rem 1.1rem;
+  margin-top: 0.6rem;
+  padding: 0.48rem 1.2rem;
   background: var(--accent);
   color: #fff;
   border-radius: 999px;
@@ -149,9 +311,49 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   font-weight: 700;
   text-decoration: none;
   align-self: flex-start;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s;
 }
-.btn-cart:hover { background: var(--accent-dark); }
+.notify-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* Notify Me capture block */
+.notify-capture-block {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid rgba(0,184,148,0.25);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+  margin: 0 0 2.5rem;
+}
+.notify-capture-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.35rem;
+}
+.notify-capture-sub {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+}
+.notify-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.notify-checkboxes label {
+  font-size: 0.8rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+.notify-checkboxes input[type="checkbox"] {
+  accent-color: var(--accent);
+}
 
 .blog-deepdive-btn {
   display: inline-block;

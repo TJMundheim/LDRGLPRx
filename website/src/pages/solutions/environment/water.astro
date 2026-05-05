@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../../layouts/SolutionPage.astro';
+import EmailCapture from '../../../components/EmailCapture.astro';
 ---
 
 <SolutionPage
@@ -21,40 +22,151 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
 
   <!-- ── Featured Products — E-Commerce Hero ── -->
   <h2 class="section-eliminate">Featured Products</h2>
-  <p>Protocol-matched products for your water filtration protocol. Affiliate relationships disclosed below.</p>
-  <div class="product-grid">
-    <div class="product-card">
-      <h3>Under-Sink Reverse Osmosis System</h3>
-      <p class="product-why">Removes 99%+ of PFAS, fluoride, heavy metals, and microplastics at the point of use.</p>
-      <p>Multi-stage RO system with remineralization filter. The most comprehensive drinking-water intervention available.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=ro-system -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Under-Sink RO System" class="btn-cart">Notify Me →</a>
+  <p class="section-sub">Protocol-matched products for your water filtration protocol. Affiliate relationships disclosed below.</p>
+  <div class="product-grid product-grid-2col">
+
+    <!-- 1. Counter-Top Filtration System -->
+    <article class="product-card" id="countertop-ro">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Counter-Top Filtration System</h3>
+      <p class="product-price-range">$179–$279 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">RO + strong-carbon multi-stage filtration that sits on your counter — no plumbing, no installation.</p>
+      <ul class="product-specs">
+        <li>Reverse osmosis + activated carbon block — removes PFAS, fluoride, chlorine, heavy metals, microplastics</li>
+        <li>No plumbing required — connects directly to faucet</li>
+        <li>3–5 gallon/day output — covers drinking and cooking</li>
+        <li>Compact footprint, 4M-branded housing</li>
+      </ul>
+      <p class="product-why">Eliminates the primary oral exposure route for endocrine-disrupting compounds and neurotoxins without any installation commitment. The fastest path from unfiltered to clean.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 2. Under-Sink Reverse Osmosis -->
+    <article class="product-card" id="undersink-ro">
+      <h3 class="product-name">4M Under-Sink Reverse Osmosis</h3>
+      <p class="product-price-range">$349–$599 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Built-in under-counter RO with dedicated faucet — the permanent, highest-output clean-water solution.</p>
+      <ul class="product-specs">
+        <li>5-stage RO with remineralization — restores calcium and magnesium post-filtration</li>
+        <li>Dedicated faucet, concealed under-sink install</li>
+        <li>10–15 gallon/day output — handles the whole household</li>
+        <li>Filter life indicators; annual replacement kit included</li>
+      </ul>
+      <p class="product-why">99%+ removal of PFAS, fluoride, nitrates, heavy metals, and microplastics at the point of use — every glass of water and every pot you cook in becomes clean. The highest-leverage single water intervention available.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 3. Whole-Home Filtration -->
+    <article class="product-card" id="whole-home-filter">
+      <div class="product-badge">Insider Pick</div>
+      <h3 class="product-name">4M Whole-Home Filtration</h3>
+      <p class="product-price-range">$899–$1,899 <span class="price-note">+ install — launch pricing finalizing</span></p>
+      <p class="product-tagline">Point-of-entry carbon + sediment filtration that protects every tap, shower, and appliance in the home.</p>
+      <ul class="product-specs">
+        <li>Whole-home carbon block + sediment pre-filter at the main water line</li>
+        <li>Removes chlorine, chloramines, sediment, and VOCs at every outlet</li>
+        <li>Recommended for well water, high-exposure municipal supplies, or households with children</li>
+        <li>Professional installation required — partner network provided</li>
+      </ul>
+      <p class="product-why">The shower, dishwasher, and laundry are significant exposure routes that a point-of-use filter never touches. Whole-home filtration eliminates inhalation and dermal exposure system-wide — every hour of the day, not just drinking.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 4. Shower Head Filter -->
+    <article class="product-card" id="shower-filter">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Shower Head Filter</h3>
+      <p class="product-price-range">$59–$89 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">KDF + vitamin C filter that removes chlorine and chloramines — protects skin microbiome and eliminates hot-shower inhalation exposure.</p>
+      <ul class="product-specs">
+        <li>KDF-55 + ascorbic acid dual-stage — effective at hot-water temperatures where carbon fails</li>
+        <li>Universal fit — installs in under 5 minutes, no tools</li>
+        <li>Covers 10,000+ gallons (6–12 months typical use)</li>
+        <li>Compatible with existing shower head</li>
+      </ul>
+      <p class="product-why">Hot showers vaporize chlorine and chloramines — you inhale them at elevated concentrations for 10 minutes daily. This is often the larger daily chlorine exposure route compared to drinking water, and it costs under $90 to eliminate.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 5. Mineral Drops -->
+    <article class="product-card" id="mineral-drops">
+      <h3 class="product-name">4M Mineral Drops</h3>
+      <p class="product-price-range">$19–$29 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Concentrated ionic minerals to restore magnesium, calcium, potassium, and trace elements stripped by RO filtration.</p>
+      <ul class="product-specs">
+        <li>Ionic magnesium, calcium, potassium, and 70+ trace minerals</li>
+        <li>Tasteless at recommended dose — 10 drops per liter</li>
+        <li>Single bottle treats 100+ liters</li>
+        <li>Sourced from inland sea mineral concentrate</li>
+      </ul>
+      <p class="product-why">Reverse osmosis removes the contaminants — and the minerals. Magnesium-deficient water is a documented contributor to cardiovascular and neurological health outcomes. Re-mineralization closes the loop on clean water without reintroducing inorganic mineral salts.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 6. Travel Water Bottle Filter -->
+    <article class="product-card" id="travel-bottle">
+      <h3 class="product-name">4M Travel Water Bottle Filter</h3>
+      <p class="product-price-range">$49–$79 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Berkey-style gravity filter in a portable bottle — clean water from any tap, hotel, or travel source.</p>
+      <ul class="product-specs">
+        <li>Multi-stage filtration media — removes bacteria, protozoa, chlorine, fluoride, and heavy metals</li>
+        <li>24 oz BPA-free stainless body — no plastic leaching</li>
+        <li>Filter element rated for 300+ gallons before replacement</li>
+        <li>Airport/hotel-ready — no adapter required</li>
+      </ul>
+      <p class="product-why">Travel breaks every clean-water habit you've built at home. Tap water in hotels and airports is unfiltered and often higher in chlorine than residential supply. The bottle closes the gap so the protocol continues on the road.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 7. Structured Water Pitcher -->
+    <article class="product-card" id="structured-water-pitcher">
+      <div class="product-badge">Insider Concierge</div>
+      <h3 class="product-name">4M Structured Water Pitcher</h3>
+      <p class="product-price-range">$129–$249 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Vitalizer/Analemma-style coherent water structuring for members who want to go beyond filtration.</p>
+      <ul class="product-specs">
+        <li>Vortex + mineral-crystal structuring chamber — aligns water's hydrogen-bond network</li>
+        <li>Compatible as a post-RO finishing stage</li>
+        <li>1.5-liter glass pitcher; no electricity, no consumables</li>
+        <li>Insider Concierge tier — included in premium membership kit</li>
+      </ul>
+      <p class="product-why">Structured water research is early-stage but mechanistically plausible — the hypothesis is that H₃O₂ exclusion-zone water has improved cellular uptake characteristics. At this tier, clean is already guaranteed; structured is the next frontier.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 8. Filter Replacement Subscription -->
+    <article class="product-card product-card--bundle" id="filter-subscription">
+      <div class="product-badge product-badge--bundle">Recurring · Best Value</div>
+      <h3 class="product-name">Filter Replacement Subscription</h3>
+      <p class="product-price-range">$29–$79/quarter <span class="price-note">varies by system — launch pricing finalizing</span></p>
+      <p class="product-tagline">Quarterly or semi-annual replacement kits delivered on schedule — an expired filter doesn't protect you.</p>
+      <ul class="product-specs">
+        <li>Available for counter-top RO, under-sink RO, and shower head filter systems</li>
+        <li>Quarterly or semi-annual cadence — selectable at signup</li>
+        <li>Includes all replacement cartridges + O-rings for each serviced system</li>
+        <li>Subscription pauses and skips available anytime</li>
+      </ul>
+      <p class="product-why">An expired filter is not a neutral — it's an active liability. Old carbon media releases stored contaminants; spent RO membranes become colonized. Subscription removes the maintenance failure mode from the protocol entirely.</p>
+      <a href="#notify-water" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+  </div>
+
+  <!-- ── Notify Me Capture ── -->
+  <div class="notify-capture-block" id="notify-water">
+    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
+    <p class="notify-capture-sub">Enter your email — we'll notify you when any product on this page becomes available.</p>
+    <div class="notify-checkboxes">
+      <label><input type="checkbox" name="product" value="countertop-ro" checked> 4M Counter-Top Filtration System</label>
+      <label><input type="checkbox" name="product" value="undersink-ro" checked> 4M Under-Sink Reverse Osmosis</label>
+      <label><input type="checkbox" name="product" value="whole-home-filter"> 4M Whole-Home Filtration</label>
+      <label><input type="checkbox" name="product" value="shower-filter" checked> 4M Shower Head Filter</label>
+      <label><input type="checkbox" name="product" value="mineral-drops"> 4M Mineral Drops</label>
+      <label><input type="checkbox" name="product" value="travel-bottle"> 4M Travel Water Bottle Filter</label>
+      <label><input type="checkbox" name="product" value="structured-water"> 4M Structured Water Pitcher</label>
+      <label><input type="checkbox" name="product" value="filter-subscription"> Filter Replacement Subscription</label>
     </div>
-    <div class="product-card">
-      <h3>Shower Head Filter</h3>
-      <p class="product-why">Protects skin microbiome and eliminates chlorine inhalation during hot showers.</p>
-      <p>KDF + vitamin C filter compatible with standard shower heads. Removes chlorine and chloramine effectively in hot water.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=shower-filter -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Shower Head Filter" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Whole-Home Carbon Filtration</h3>
-      <p class="product-why">Comprehensive protection at every tap and shower — the upgrade path for high-exposure households.</p>
-      <p>Whole-house carbon block filter. For well-water and high-contamination municipal supplies.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=whole-home-filter -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Whole-Home Carbon Filter" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Filter Cartridge Replacement Subscription</h3>
-      <p class="product-why">Expired filters deliver contaminants plus whatever has grown in the filter media — subscriptions fix this.</p>
-      <p>Quarterly or semi-annual delivery for common RO and shower filter systems — replacement happens on schedule.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=filter-subscription -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Filter Replacement Subscription" class="btn-cart">Notify Me →</a>
-    </div>
+    <EmailCapture source="env-water-notify" buttonLabel="Notify Me →" placeholder="your@email.com" />
   </div>
 
   <!-- ── Deeper Protocol ── -->
@@ -68,6 +180,7 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   <p>
     Fix sequence: under-sink RO first (drinking and cooking water — your primary oral route) → shower filter (inhalation and skin route) →
     switch to glass or stainless containers (eliminates plastic leaching, costs nothing) → whole-home filtration if on a well or high-exposure municipal supply.
+    Add mineral drops daily; subscribe for replacement cartridges so the protocol never lapses.
   </p>
 
   <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
@@ -86,20 +199,34 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
 </SolutionPage>
 
 <style>
+.section-sub {
+  color: var(--text-light);
+  font-size: 0.92rem;
+  margin: -0.5rem 0 1.25rem;
+}
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   margin: 1rem 0 2.5rem;
+}
+.product-grid-2col {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .product-grid-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .product-card {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.4rem 1.5rem;
+  padding: 1.5rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.55rem;
   transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
 }
 .product-card:hover {
@@ -107,41 +234,77 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   box-shadow: 0 4px 18px rgba(0,184,148,0.14);
   transform: translateY(-2px);
 }
-.product-card h3 {
-  font-size: 1rem;
+.product-card--bundle {
+  border-color: rgba(0,184,148,0.4);
+  background: linear-gradient(135deg, var(--bg-soft) 80%, rgba(0,184,148,0.05) 100%);
+}
+.product-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.3);
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.product-badge--bundle {
+  color: #e67e22;
+  background: rgba(230,126,34,0.1);
+  border-color: rgba(230,126,34,0.3);
+}
+.product-name {
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0;
+  line-height: 1.3;
+}
+.product-price-range {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.price-note {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+.product-tagline {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.45;
+}
+.product-specs {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.product-specs li {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.4;
 }
 .product-why {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent);
   margin: 0 !important;
-}
-.product-card p {
-  font-size: 0.875rem;
-  color: var(--text-light);
-  margin: 0;
+  line-height: 1.5;
   flex: 1;
 }
-.notify-pill {
+.notify-btn {
   display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  background: rgba(0,184,148,0.1);
-  border: 1px solid rgba(0,184,148,0.35);
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  align-self: flex-start;
-  margin-top: 0.25rem;
-}
-.btn-cart {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.45rem 1.1rem;
+  margin-top: 0.6rem;
+  padding: 0.48rem 1.2rem;
   background: var(--accent);
   color: #fff;
   border-radius: 999px;
@@ -149,9 +312,49 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   font-weight: 700;
   text-decoration: none;
   align-self: flex-start;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s;
 }
-.btn-cart:hover { background: var(--accent-dark); }
+.notify-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* Notify Me capture block */
+.notify-capture-block {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid rgba(0,184,148,0.25);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+  margin: 0 0 2.5rem;
+}
+.notify-capture-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.35rem;
+}
+.notify-capture-sub {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+}
+.notify-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.notify-checkboxes label {
+  font-size: 0.8rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+.notify-checkboxes input[type="checkbox"] {
+  accent-color: var(--accent);
+}
 
 .blog-deepdive-btn {
   display: inline-block;

@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../../layouts/SolutionPage.astro';
+import EmailCapture from '../../../components/EmailCapture.astro';
 ---
 
 <SolutionPage
@@ -21,40 +22,134 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
 
   <!-- ── Featured Products — E-Commerce Hero ── -->
   <h2 class="section-eliminate">Featured Products</h2>
-  <p>Protocol-matched grounding products for daily and sleep use. Affiliate relationships disclosed below.</p>
-  <div class="product-grid">
-    <div class="product-card">
-      <h3>Grounding Sleep Mat</h3>
-      <p class="product-why">Delivers 7–8 hours of passive grounding during sleep — the longest sustained contact window available.</p>
-      <p>Conductive mat for under-sheet placement. Connects to standard ground outlet — no special wiring required.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-sleep-mat -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Sleep Mat" class="btn-cart">Notify Me →</a>
+  <p class="section-sub">Protocol-matched grounding products for daily and sleep use. Affiliate relationships disclosed below.</p>
+  <div class="product-grid product-grid-2col">
+
+    <!-- 1. Grounding Sleep Mat -->
+    <article class="product-card" id="grounding-sleep-mat">
+      <div class="product-badge">Flagship Pick</div>
+      <h3 class="product-name">4M Grounding Sleep Mat</h3>
+      <p class="product-price-range">$99–$179 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Bedroom-size conductive mat that plugs into your outlet's ground port — 7–8 hours of passive earthing every night.</p>
+      <ul class="product-specs">
+        <li>Conductive carbon + silver fabric — direct body contact through standard bed sheet</li>
+        <li>Plugs into the ground port of any standard outlet — no special wiring</li>
+        <li>Queen/king sizing; works under a fitted sheet or directly on the mattress</li>
+        <li>Includes ground continuity tester and replacement cord</li>
+      </ul>
+      <p class="product-why">Sleep is the longest uninterrupted period available for grounding — 7 hours of passive electron transfer without any behavioral change required. Published research on grounding during sleep shows the most consistent cortisol normalization and inflammatory marker reduction of any earthing modality.</p>
+      <a href="#notify-grounding" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 2. Grounding Floor Mat -->
+    <article class="product-card" id="grounding-floor-mat">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Grounding Floor Mat</h3>
+      <p class="product-price-range">$59–$89 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Desk and standing-desk version — barefoot grounding during work hours without changing your routine.</p>
+      <ul class="product-specs">
+        <li>24" x 36" conductive mat — fits under any desk or standing-desk surface</li>
+        <li>Plugs into standard outlet ground; included cord with current-limiting resistor</li>
+        <li>Easy-clean surface — wipes down in seconds</li>
+        <li>Pairs with any barefoot or sock use; no special footwear required</li>
+      </ul>
+      <p class="product-why">For men who work seated or standing for 6–8 hours daily, the desk mat delivers grounding passively throughout the workday — stacking the anti-inflammatory benefit on top of sleep mat use rather than replacing it. More hours grounded = compounding benefit.</p>
+      <a href="#notify-grounding" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 3. Grounding Patches -->
+    <article class="product-card" id="grounding-patches">
+      <div class="product-badge">Gateway Pick</div>
+      <h3 class="product-name">4M Grounding Patches</h3>
+      <p class="product-price-range">$19/pack <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Adhesive conductive body patches — targeted contact for injury sites, travel, or extended indoor periods without mat access.</p>
+      <ul class="product-specs">
+        <li>20 patches per pack — single-use conductive adhesive pads</li>
+        <li>Designed for foot arches, wrists, or areas of chronic inflammation</li>
+        <li>Connects to grounding cord or mat lead</li>
+        <li>Travel portable — no outlet required when used with outdoor ground rod (included)</li>
+      </ul>
+      <p class="product-why">Patches make grounding available anywhere — in hotels, when mats aren't accessible, or for precision placement over an inflamed joint or injury site. At $19 per pack they're the lowest-barrier entry into the protocol and an essential travel companion for members who maintain the protocol on the road.</p>
+      <a href="#notify-grounding" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 4. Grounding Pillowcase -->
+    <article class="product-card" id="grounding-pillowcase">
+      <h3 class="product-name">4M Grounding Pillowcase</h3>
+      <p class="product-price-range">$39–$59 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Head and neck targeted grounding — conductive pillowcase for members who want contact closest to the brain during sleep.</p>
+      <ul class="product-specs">
+        <li>Silver-thread conductive weave — standard pillowcase dimensions, fits queen and king</li>
+        <li>Attaches to grounding mat cord or standalone ground cord</li>
+        <li>Machine washable; retains conductivity through 150+ washes</li>
+        <li>Antimicrobial silver content — reduces pillowcase bacterial load naturally</li>
+      </ul>
+      <p class="product-why">The head and neck are the highest-priority grounding target from a brain-health standpoint — proximity to neural tissue means any electron-mediated anti-inflammatory effect is most relevant here. Pairs with the sleep mat for full-body + head-targeted coverage.</p>
+      <a href="#notify-grounding" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 5. Grounding Sheet Set -->
+    <article class="product-card" id="grounding-sheet-set">
+      <div class="product-badge">Insider Pick</div>
+      <h3 class="product-name">4M Grounding Sheet Set</h3>
+      <p class="product-price-range">$129–$219 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Full-bed earthing — fitted sheet + flat sheet in silver-thread conductive fabric for maximum surface-area contact during sleep.</p>
+      <ul class="product-specs">
+        <li>Fitted sheet + flat sheet set — complete above and below coverage</li>
+        <li>5% silver-thread content — 20+ dB RF attenuation as secondary benefit</li>
+        <li>Available queen and king; 400-thread-count equivalent softness</li>
+        <li>Single grounding cord connection — plug into outlet ground once</li>
+      </ul>
+      <p class="product-why">The sheet set provides the largest possible contact surface for passive overnight grounding — front, back, and sides simultaneously — while also providing EMF shielding at the body surface. It's the intersection of the grounding and EMF protocols in a single product.</p>
+      <a href="#notify-grounding" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 6. Outdoor Earthing Sandals -->
+    <article class="product-card" id="earthing-sandals">
+      <h3 class="product-name">4M Outdoor Earthing Sandals</h3>
+      <p class="product-price-range">$79–$129 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Copper-soled sandals that maintain earth contact while protecting your feet — grounding-compatible outdoor footwear.</p>
+      <ul class="product-specs">
+        <li>Pure copper sole insert — conductive pathway through to the earth surface</li>
+        <li>Durable natural rubber outer sole with copper contact points at heel and ball</li>
+        <li>Sizes 7–14 men's — full size run</li>
+        <li>Compatible with concrete, soil, grass, and sand surfaces (not asphalt)</li>
+      </ul>
+      <p class="product-why">Barefoot is optimal — but in many environments it's not practical. The copper-soled sandal is the next best option: maintained earth contact at both heel and forefoot while protecting against terrain hazards. Outdoor grounding time compounds with sleep and desk mat use.</p>
+      <a href="#notify-grounding" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 7. Grounding Bands -->
+    <article class="product-card" id="grounding-bands">
+      <h3 class="product-name">4M Grounding Bands</h3>
+      <p class="product-price-range">$29/pack <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Wrist and ankle conductive bands — portable grounding for sedentary periods, travel, and supplement-to-mat protocols.</p>
+      <ul class="product-specs">
+        <li>2 bands per pack — wrist and ankle in one kit</li>
+        <li>Conductive stainless-steel mesh interior — comfortable for extended wear</li>
+        <li>Connects to grounding cord or mat lead</li>
+        <li>Adjustable velcro fit — one size fits most</li>
+      </ul>
+      <p class="product-why">Grounding bands let you stay connected during desk work, TV time, or travel without standing on a mat. Wrist placement is practical during computer use; ankle placement during seated or reclined rest. Stacks with mat use to extend total daily grounding hours without adding any active time.</p>
+      <a href="#notify-grounding" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+  </div>
+
+  <!-- ── Notify Me Capture ── -->
+  <div class="notify-capture-block" id="notify-grounding">
+    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
+    <p class="notify-capture-sub">Enter your email — we'll notify you when any product on this page becomes available.</p>
+    <div class="notify-checkboxes">
+      <label><input type="checkbox" name="product" value="grounding-sleep-mat" checked> 4M Grounding Sleep Mat</label>
+      <label><input type="checkbox" name="product" value="grounding-floor-mat" checked> 4M Grounding Floor Mat</label>
+      <label><input type="checkbox" name="product" value="grounding-patches" checked> 4M Grounding Patches</label>
+      <label><input type="checkbox" name="product" value="grounding-pillowcase"> 4M Grounding Pillowcase</label>
+      <label><input type="checkbox" name="product" value="grounding-sheet-set"> 4M Grounding Sheet Set</label>
+      <label><input type="checkbox" name="product" value="earthing-sandals"> 4M Outdoor Earthing Sandals</label>
+      <label><input type="checkbox" name="product" value="grounding-bands"> 4M Grounding Bands</label>
     </div>
-    <div class="product-card">
-      <h3>Grounding Floor Mat (Desk / Workstation)</h3>
-      <p class="product-why">Delivers grounding during work hours without changing your desk routine — barefoot under your desk.</p>
-      <p>Large-format conductive floor mat. Connects to standard ground outlet. No outdoor access required.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-floor-mat -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Floor Mat" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Grounding Fitted Sheet</h3>
-      <p class="product-why">Highest-surface-area grounding solution — full-body contact throughout the sleep period.</p>
-      <p>Silver-thread conductive fitted sheet. For those who want maximum contact area during sleep without a mat layer.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-fitted-sheet -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Fitted Sheet" class="btn-cart">Notify Me →</a>
-    </div>
-    <div class="product-card">
-      <h3>Grounding Patches</h3>
-      <p class="product-why">Targeted contact for injury sites, travel, or extended indoor periods without mat access.</p>
-      <p>Adhesive conductive patches for feet, wrists, or areas of chronic inflammation. Portable grounding on the go.</p>
-      <span class="notify-pill">Notify Me When Available</span>
-      <!-- TODO: wire to Stripe Checkout when shop is live — /api/checkout?sku=grounding-patches -->
-      <a href="mailto:hello@my4mlife.com?subject=Pre-order: Grounding Patches" class="btn-cart">Notify Me →</a>
-    </div>
+    <EmailCapture source="env-grounding-notify" buttonLabel="Notify Me →" placeholder="your@email.com" />
   </div>
 
   <!-- ── Deeper Protocol ── -->
@@ -66,9 +161,9 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
     <li>Urban-only lifestyle with no access to natural ground surfaces in daily routine</li>
   </ul>
   <p>
-    Fix sequence: 20+ minutes barefoot on natural ground daily (free — grass, soil, sand, concrete all work; patio pavers do not) →
-    grounding mat under your desk during work hours → grounding sleep mat or fitted sheet for passive overnight contact →
-    patches for travel or targeted inflammation sites. Each layer adds time-under-ground and compounds the anti-inflammatory benefit.
+    Fix sequence: 20+ minutes barefoot on natural ground daily (free — grass, soil, sand, concrete all work; asphalt and patio pavers do not) →
+    grounding mat under your desk during work hours → grounding sleep mat or sheet set for passive overnight contact →
+    patches for travel or targeted inflammation sites. Each layer adds hours-under-ground and compounds the anti-inflammatory benefit over time.
   </p>
 
   <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
@@ -87,20 +182,34 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
 </SolutionPage>
 
 <style>
+.section-sub {
+  color: var(--text-light);
+  font-size: 0.92rem;
+  margin: -0.5rem 0 1.25rem;
+}
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   margin: 1rem 0 2.5rem;
+}
+.product-grid-2col {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .product-grid-2col {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .product-card {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.4rem 1.5rem;
+  padding: 1.5rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.55rem;
   transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
 }
 .product-card:hover {
@@ -108,41 +217,77 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   box-shadow: 0 4px 18px rgba(0,184,148,0.14);
   transform: translateY(-2px);
 }
-.product-card h3 {
-  font-size: 1rem;
+.product-card--bundle {
+  border-color: rgba(0,184,148,0.4);
+  background: linear-gradient(135deg, var(--bg-soft) 80%, rgba(0,184,148,0.05) 100%);
+}
+.product-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.3);
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.product-badge--bundle {
+  color: #e67e22;
+  background: rgba(230,126,34,0.1);
+  border-color: rgba(230,126,34,0.3);
+}
+.product-name {
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--primary);
   margin: 0;
+  line-height: 1.3;
+}
+.product-price-range {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.price-note {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+.product-tagline {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.45;
+}
+.product-specs {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.product-specs li {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.4;
 }
 .product-why {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent);
   margin: 0 !important;
-}
-.product-card p {
-  font-size: 0.875rem;
-  color: var(--text-light);
-  margin: 0;
+  line-height: 1.5;
   flex: 1;
 }
-.notify-pill {
+.notify-btn {
   display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  background: rgba(0,184,148,0.1);
-  border: 1px solid rgba(0,184,148,0.35);
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  align-self: flex-start;
-  margin-top: 0.25rem;
-}
-.btn-cart {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.45rem 1.1rem;
+  margin-top: 0.6rem;
+  padding: 0.48rem 1.2rem;
   background: var(--accent);
   color: #fff;
   border-radius: 999px;
@@ -150,9 +295,49 @@ import SolutionPage from '../../../layouts/SolutionPage.astro';
   font-weight: 700;
   text-decoration: none;
   align-self: flex-start;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s;
 }
-.btn-cart:hover { background: var(--accent-dark); }
+.notify-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* Notify Me capture block */
+.notify-capture-block {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid rgba(0,184,148,0.25);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+  margin: 0 0 2.5rem;
+}
+.notify-capture-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.35rem;
+}
+.notify-capture-sub {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+}
+.notify-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.notify-checkboxes label {
+  font-size: 0.8rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+.notify-checkboxes input[type="checkbox"] {
+  accent-color: var(--accent);
+}
 
 .blog-deepdive-btn {
   display: inline-block;
