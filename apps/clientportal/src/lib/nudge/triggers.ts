@@ -190,6 +190,58 @@ export function triggerWeekMilestone(weekN: 1 | 2 | 3 | 4): void {
   });
 }
 
+// ── Trigger E — Substance-use LDN awareness ──────────────────────────────────
+
+const SUBSTANCE_USE_SHOWN_KEY = 'nudges-substance-use-shown-v1';
+const AUDIT_KEY = 'audit-v1';
+const SUBSTANCE_USE_CATEGORY = 'substance-use';
+const SUBSTANCE_USE_THRESHOLD = 6;
+const TOP3_COUNT = 3;
+
+function readAuditScores(): Record<string, number> | null {
+  try {
+    const raw = ls(AUDIT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.scores ?? null;
+  } catch { return null; }
+}
+
+/** Returns top-N category keys by score (descending). */
+function selectTopN(scores: Record<string, number>, n: number): string[] {
+  return Object.entries(scores)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, n)
+    .map(([key]) => key);
+}
+
+function triggerSubstanceUseLdn(): void {
+  if (!ls(INTAKE_COMPLETE_KEY)) return;
+  if (ls(SUBSTANCE_USE_SHOWN_KEY)) return; // one-time only
+
+  const scores = readAuditScores();
+  if (!scores) return;
+
+  const substanceScore = scores[SUBSTANCE_USE_CATEGORY] ?? 0;
+  const inTop3 = selectTopN(scores, TOP3_COUNT).includes(SUBSTANCE_USE_CATEGORY);
+
+  if (substanceScore < SUBSTANCE_USE_THRESHOLD && !inTop3) return;
+
+  const id = 'substance-use-ldn';
+  if (isDismissed(id)) return;
+
+  // Mark shown before pushing to prevent re-fire
+  lsSet(SUBSTANCE_USE_SHOWN_KEY, JSON.stringify({ shownAt: new Date().toISOString() }));
+
+  push({
+    id,
+    title: 'Your audit flagged alcohol or substance use as a priority.',
+    body: "There's a prescription tool worth knowing about — Low-Dose Naltrexone (LDN) — available through our contracted licensed telemedicine practice and partner compounding pharmacy. Pairs with whatever free program you're running. Not for everyone, but worth a 60-second read.",
+    action: { label: 'Learn about LDN →', href: 'https://my4mlife.com/solutions/substance-use#about-ldn' },
+    tone: 'info',
+  });
+}
+
 // ── Trigger D — Free-tier upgrade nudge ──────────────────────────────────────
 function triggerUpgradeNudge(): void {
   const intakeComplete = !!ls(INTAKE_COMPLETE_KEY);
@@ -256,5 +308,6 @@ export function runNudgeTriggers(): void {
   triggerIntakeCelebration();
   triggerWelcomeBack();
   triggerUpgradeNudge();
+  triggerSubstanceUseLdn();
   // Week milestone triggers are fired from tab navigation, not here.
 }

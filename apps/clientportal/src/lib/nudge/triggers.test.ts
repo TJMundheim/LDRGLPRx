@@ -140,6 +140,42 @@ describe('week milestone trigger', () => {
   });
 });
 
+// ── Tests: Substance-use LDN trigger ─────────────────────────────────────────
+
+describe('substance-use LDN trigger', () => {
+  it('fires when substance-use score is >= 6 and not previously shown', async () => {
+    localStorage.setItem('intake-complete-v1', '1');
+    localStorage.setItem('audit-v1', JSON.stringify({ scores: { 'substance-use': 7, 'sleep': 4, 'stress': 3 } }));
+    const { runNudgeTriggers } = await importTriggers();
+    runNudgeTriggers();
+    expect(captured.some(n => n.id === 'substance-use-ldn')).toBe(true);
+  });
+
+  it('fires when substance-use is in top-3 even if score is below threshold (e.g. all scores = 5)', async () => {
+    localStorage.setItem('intake-complete-v1', '1');
+    localStorage.setItem('audit-v1', JSON.stringify({ scores: { 'substance-use': 5, 'sleep': 5, 'stress': 5 } }));
+    const { runNudgeTriggers } = await importTriggers();
+    runNudgeTriggers();
+    expect(captured.some(n => n.id === 'substance-use-ldn')).toBe(true);
+  });
+
+  it('does NOT fire if nudges-substance-use-shown-v1 is already set', async () => {
+    localStorage.setItem('intake-complete-v1', '1');
+    localStorage.setItem('audit-v1', JSON.stringify({ scores: { 'substance-use': 8 } }));
+    localStorage.setItem('nudges-substance-use-shown-v1', JSON.stringify({ shownAt: daysAgo(1) }));
+    const { runNudgeTriggers } = await importTriggers();
+    runNudgeTriggers();
+    expect(captured.some(n => n.id === 'substance-use-ldn')).toBe(false);
+  });
+
+  it('does NOT fire if intake-complete-v1 is not set', async () => {
+    localStorage.setItem('audit-v1', JSON.stringify({ scores: { 'substance-use': 9 } }));
+    const { runNudgeTriggers } = await importTriggers();
+    runNudgeTriggers();
+    expect(captured.some(n => n.id === 'substance-use-ldn')).toBe(false);
+  });
+});
+
 // ── Tests: Upgrade nudge ─────────────────────────────────────────────────────
 
 describe('upgrade nudge trigger', () => {
