@@ -217,3 +217,13 @@ Combined with the existing product line (Biome-AF, SleepRestore, etc.), Phase 1 
 ---
 
 *Document prepared for TJ review during overnight build session 2026-05-01.*
+I will work on gettting the affiliate partnerships set up
+no member discounts where we are an affilate getting comissions
+
+Stripe wiring (need keys)
+Real consult booking (need telemedicine partner)
+AI concierge Bedrock layer (need HIPAA P0 + AWS BAA signed)
+Real product pricing (need TJ to lock numbers)
+Founder photo
+10DLC SMS registration
+Connected Mind URL

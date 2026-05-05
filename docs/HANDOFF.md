@@ -1,6 +1,79 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-05-03 evening.
+Last updated: 2026-05-05.
+
+---
+
+## Session: 2026-05-04 → 05 — Self-Service Signup Unblock + Environmental Buildout + Engagement Skeleton
+
+### Critical go-live unblocker landed
+- **Auto-signup on first OTP request** — visitors entering an unknown email get auto-created in Cognito (AdminCreateUser, email-verified, suppressed AWS welcome) + a `Users` DDB row + immediate OTP send. New Lambda `request-otp` + extended `LeadCaptureStack` HTTP API.
+- **RequestApp form on homepage** — real Lambda + API Gateway integration; previously was a stub that did nothing. SES IAM policy bug fixed (sandbox mode requires authorization on recipient identity, not just FROM).
+- **Two new HTTP API routes**: `POST /api/send-app-link` (RequestApp form), `POST /api/request-otp` (sign-in flow).
+
+### TJ-blocked items still open (action required)
+- **AWS BAA signing** (Console)
+- **SES production access request** (Console — TJ working on)
+- **Bedrock model access** in us-east-1
+- **Stripe test-mode keys**
+- **Telemedicine partner contract + name**
+- **Affiliate partnerships** (TJ personally owning — Aero-Tech, AquaTru, Air Doctor, Joovv, Earthing.com, Shieldex, etc.)
+- **Insider tier pricing** (TBD)
+- **Connected Mind URL**
+- **Founder photo**
+
+### Environmental buildout
+- **5 sub-pages fleshed out**: light / air / water / emf / grounding now have full product cards with specs, taglines, "why this matters" framing, "Notify Me When Available" capture per page. ~36 product cards across all 5 pages.
+- **Heritage Incandescent flagship** added on `/solutions/environment/light` — full-spectrum CRI-100 incandescent positioning, 3-column comparison vs LED + sun, 4 Heritage SKUs, source disclosure.
+- **All env pages remain pure e-commerce** — no consult/Rx framing, no telemedicine references, no medical disclaimer.
+
+### App engagement skeleton (AI Concierge Phase 1)
+- **Reusable Nudge component + NudgeStack orchestrator** in app — fixed-position stack, slide-in animation, dismissal tracking, localStorage persistence. **NOT called "toast"** per TJ (alcohol implication); brand-internal name is "Nudge."
+- **5 trigger conditions wired**:
+  - Welcome-back (returning user, 2+ days)
+  - Intake-celebration (one-time after audit complete)
+  - Week milestone (W1-W4 first visit)
+  - Free-tier upgrade (14+ days post-intake, 5+ screens visited)
+  - **Substance-use LDN awareness** (when audit shows substance-use ≥6/10 or in top-3) → links to `/solutions/substance-use#about-ldn`
+- All client-side; no Bedrock or backend yet (Phase 2 work post-HIPAA P0).
+
+### Substance-use solution page strengthened
+- **Free supportive resources section** (21 resources): SMART Recovery, Sinclair Method, AA, Recovery Dharma, apps, SAMHSA helpline, AUDIT screen, smoking/vaping resources
+- **LDN (low-dose naltrexone) Rx pathway** prominently positioned — compounding pharmacy via comprehensive 4M consult. The free programs stay free; LDN is the monetizable Rx tool.
+- Hero/Two-Paths/CTA copy reframed for substance-use specifics.
+
+### Insider tier marketing buildout
+- **`/membership` rebuilt** with: 18-row feature comparison table across Protégé / Insider / Insider Plus / Insider Concierge / Graduate, richer per-tier value cards, 12-question FAQ.
+- "Pricing finalizing" placeholder consistent across all paid tiers — one-pass replace when TJ locks pricing.
+- Insider/Insider Plus stubs use `EmailCapture.astro` source-tagged for tier-specific waitlists.
+
+### Site-wide fixes
+- **TwoPathsCTA contrast bug** — was `var(--dark)` background with white text on the parchment site; now `var(--bg-soft)` with `var(--primary)` text matching the cognitive page. Hormones/weight/gut were unreadable; now match cognitive's clarity.
+- **Site-wide contrast audit** — 13 files updated, dim opacities (0.4–0.5) bumped to 0.6–0.72 on footers, social links, sign-in band, BMI footer, etc.
+- **Audit question #11 (environment)** rewritten to lead with "lack of sun at appropriate timing (morning + low-evening)" framing — both website and app.
+- **`/assessment` Continue button bug** — old `vitamin-d` id in `audit-questions.ts` mismatched the new `nutritional-supplements` id in the inline JS, so 19/20 always answered. Fixed.
+
+### Phone field
+- Optional `phone` field added to Stage 1 (basics) — SMS opt-in framing, doesn't gate Continue. Persists to `basics-v1.phone`.
+
+### Documents created/updated
+- `docs/products/supplement-catalog.md` — consolidated 6-brochure structured catalog
+- `docs/products/environmental-product-roadmap.md` — ~40 SKUs + Heritage Incandescent line + TJ's affiliate notes
+- `docs/plan/ai-concierge-engagement-strategy.md` — 4-phase notification planning
+- New memory: `feedback_affiliate_pricing_policy.md` — no member discounts on affiliate products
+
+### What's safely committed + pushed
+All commits are on `origin/main`. Last commit on the website side: `2e38860f` (env water/emf/grounding cards). Last app-side: `298ab729` (Nudge trigger E for substance-use LDN). Both deployments live + invalidations completed.
+
+### Live URLs
+- Marketing: https://www.my4mlife.com (CloudFront E3J19LI34BC2VR)
+- App: https://app.my4mlife.com (CloudFront E2RJ7NRPD4MN2X)
+- Lead-capture API: https://v9svm8ds74.execute-api.us-east-2.amazonaws.com (`/api/send-app-link`, `/api/request-otp`)
+
+### What's queued (not blocking)
+- Temperature-environment products doc (sauna / cold plunge / hot bath / cryo) — TJ asked, dispatching now
+- 3 Medvi-template GLP-1 blog posts already rewritten last session, content polish ongoing
+- Cross-device persistence (DDB sync of intake state) — Phase 2, post-HIPAA P0
 
 ---
 
