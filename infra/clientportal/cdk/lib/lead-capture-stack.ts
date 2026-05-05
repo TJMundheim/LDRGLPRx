@@ -20,12 +20,15 @@ export class LeadCaptureStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(15),
     });
 
-    // SES permission scoped to verified domain identity
+    // SES permission — wildcard across all verified identities in the account.
+    // Required because SESv2 in sandbox mode validates authorization against
+    // the recipient identity too, not just the FROM identity. Once SES
+    // production access is granted, scope back to the FROM identity only.
     sendAppLink.addToRolePolicy(
       new iam.PolicyStatement({
         actions: ['ses:SendEmail', 'ses:SendRawEmail', 'sesv2:SendEmail'],
         resources: [
-          `arn:aws:ses:us-east-2:879696522760:identity/my4mlife.com`,
+          `arn:aws:ses:us-east-2:879696522760:identity/*`,
         ],
       }),
     );
