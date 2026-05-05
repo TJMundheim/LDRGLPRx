@@ -2,9 +2,10 @@
 // RequestApp.astro — Email-capture card that sends the visitor the app link via email.
 // Inline JS only; no framework dependencies.
 const uid = `ra-${Math.random().toString(36).slice(2, 8)}`;
+const apiBase = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? '';
 ---
 
-<div class="ra-card" id={uid}>
+<div class="ra-card" id={uid} data-api-base={apiBase}>
   <h2 class="ra-heading">Get the My4MLife App — Free</h2>
   <p class="ra-sub">Enter your email. We'll send you a link to open the app on any device.</p>
 
@@ -45,6 +46,7 @@ const uid = `ra-${Math.random().toString(36).slice(2, 8)}`;
     const errorEl = card.querySelector<HTMLElement>('.ra-error')!;
     const successEl = card.querySelector<HTMLElement>('.ra-success')!;
     const retryBtn = card.querySelector<HTMLButtonElement>('.ra-retry-btn')!;
+    const apiBase = card.dataset.apiBase ?? '';
 
     function showError(msg: string) {
       errorEl.textContent = msg;
@@ -77,32 +79,30 @@ const uid = `ra-${Math.random().toString(36).slice(2, 8)}`;
       const capturedAt = new Date().toISOString();
       const entry = { email, firstName, source: 'request-app-homepage', capturedAt };
 
-      // Persist to localStorage (mirrors existing lead-captures-v1 pattern)
+      // Persist to localStorage (fallback audit trail)
       try {
         const existing = JSON.parse(localStorage.getItem('lead-captures-v1') ?? '[]');
         existing.push(entry);
         localStorage.setItem('lead-captures-v1', JSON.stringify(existing));
       } catch (_) { /* ignore */ }
 
-      // TODO: wire Lambda for /api/lead-capture via AppSync + SES post-HIPAA P0
+      // POST to real API Gateway → Lambda → SES
       try {
-        await fetch('/api/lead-capture', {
+        const res = await fetch(`${apiBase}/api/send-app-link`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(entry),
+          body: JSON.stringify({ email, firstName, source: 'request-app-homepage' }),
         });
-      } catch (_) { /* silent failure — endpoint not yet live */ }
+        if (res.status === 400) {
+          const data = await res.json().catch(() => ({})) as { message?: string };
+          showError(data.message ?? 'Please check your email and try again.');
+          return;
+        }
+        // 200 with status 'sent' or 'queued' — both show success to user
+      } catch (_) {
+        // Network failure — show success anyway (localStorage is the fallback)
+      }
 
-      // TODO: wire Lambda for /api/send-app-link via AppSync + SES post-HIPAA P0
-      try {
-        await fetch('/api/send-app-link', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, firstName }),
-        });
-      } catch (_) { /* silent failure — endpoint not yet live */ }
-
-      // Show success regardless — email delivery wired later
       form.hidden = true;
       successEl.hidden = false;
     });

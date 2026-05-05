@@ -4,6 +4,7 @@ import { ClientPortalStack } from '../lib/clientportal-stack';
 import { DataStack } from '../lib/data-stack';
 import { AuthStack } from '../lib/auth-stack';
 import { ApiStack } from '../lib/api-stack';
+import { LeadCaptureStack } from '../lib/lead-capture-stack';
 
 const app = new cdk.App();
 
@@ -15,6 +16,7 @@ const env = {
 new ClientPortalStack(app, 'ClientPortalStack', { env });
 const dataStack = new DataStack(app, 'DataStack', { env });
 const authStack = new AuthStack(app, 'AuthStack', { env, usersTable: dataStack.usersTable });
+new LeadCaptureStack(app, 'LeadCaptureStack', { env });
 new ApiStack(app, 'ApiStack', {
   env,
   userPool: authStack.userPool,
