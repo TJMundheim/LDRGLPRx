@@ -20,7 +20,7 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
 
   <!-- ── Shop by Sub-Category ── -->
   <h2 id="environment-categories">Shop by Category</h2>
-  <p>Five environmental factors. Each has curated protocol-matched products. Click in to explore and purchase.</p>
+  <p>Eight environmental factors. Each has curated protocol-matched products. Click in to explore and purchase.</p>
   <div class="env-grid">
     <a href="/solutions/environment/light" class="env-card">
       <div class="env-icon">☀</div>
@@ -52,6 +52,24 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
       <p>Sleep mats, floor mats, grounding patches, and outdoor grounding protocols.</p>
       <span class="env-cta">Explore Products →</span>
     </a>
+    <a href="/solutions/environment/sauna" class="env-card env-card--new">
+      <div class="env-icon">🔥</div>
+      <h3>Sauna</h3>
+      <p>Heat shock proteins, BDNF, cardiovascular longevity. Blankets to custom Swedish cedar builds.</p>
+      <span class="env-cta">Explore Products →</span>
+    </a>
+    <a href="/solutions/environment/cold-plunge" class="env-card env-card--new">
+      <div class="env-icon">❄</div>
+      <h3>Cold Plunge</h3>
+      <p>Norepinephrine, brown fat, dopamine. Inflatable tubs to jacuzzi conversions to custom pools.</p>
+      <span class="env-cta">Explore Products →</span>
+    </a>
+    <a href="/solutions/environment/mineral-bath" class="env-card env-card--new">
+      <div class="env-icon">⬡</div>
+      <h3>Mineral Bath</h3>
+      <p>Pure magnesium, Dead Sea salt, Himalayan, and Epsom — no fragrance, no endocrine disruptors.</p>
+      <span class="env-cta">Explore Products →</span>
+    </a>
   </div>
 
   <!-- ── Condensed Insulting Behaviors ── -->
@@ -75,12 +93,18 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
 </SolutionPage>
 
 <style>
-/* 5-card environment grid */
+/* 8-card environment grid: 1col mobile → 2col tablet → 4col desktop */
 .env-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin: 1rem 0 2.5rem;
+}
+@media (min-width: 540px) {
+  .env-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .env-grid { grid-template-columns: repeat(4, 1fr); }
 }
 .env-card {
   background: var(--bg-soft);

@@ -1,0 +1,526 @@
+---
+import SolutionPage from '../../../layouts/SolutionPage.astro';
+import EmailCapture from '../../../components/EmailCapture.astro';
+---
+
+<SolutionPage
+  title="Cold Plunge — Norepinephrine, BAT, Mood | My4MLife"
+  parent="Mitigate"
+  oneliner="11 minutes a week. Documented depression reduction. Brown fat activation."
+  slug="environment-cold-plunge"
+  canonicalPath="/solutions/environment/cold-plunge"
+  showSolutionPath={false}
+  showDisclaimer={false}
+>
+  <!-- ── Why This Matters ── -->
+  <h2>Why This Matters</h2>
+  <ul class="insult-list">
+    <li>Cold immersion produces a norepinephrine spike of 200–300% that lasts hours post-session, making it one of the most reliable non-pharmaceutical mood and energy interventions documented — the Søberg protocol achieves this with just 11 minutes total per week</li>
+    <li>Cold exposure activates brown adipose tissue (BAT) thermogenesis and drives mitochondrial biogenesis, directly countering the age-related metabolic decline that accelerates in men 35–60</li>
+    <li>The dopamine elevation following cold immersion lasts 2–4 hours — longer and more sustained than the spike from most stimulants, without the crash or dependency profile</li>
+  </ul>
+
+  <!-- ── Featured Products ── -->
+  <h2 class="section-eliminate">Featured Products</h2>
+  <p class="section-sub">From a $149 inflatable to a $50,000+ custom pool — every tier covered, including TJ's Texas DIY build. Affiliate relationships disclosed below.</p>
+  <div class="product-grid product-grid-2col">
+
+    <!-- 1. Ice Bath Tub (inflatable) -->
+    <article class="product-card" id="ice-bath-tub">
+      <div class="product-badge">Entry · Beginner / Renter</div>
+      <h3 class="product-name">4M Ice Bath Tub</h3>
+      <p class="product-price-range">$149–$299 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Inflatable portable tub. 200-liter insulated design. Get started in 10 minutes.</p>
+      <ul class="product-specs">
+        <li>200-liter insulated inflatable; holds one person seated comfortably</li>
+        <li>Insulated cover included — slows temperature rise between sessions</li>
+        <li>Drain valve; collapses for storage; outdoor or indoor use</li>
+        <li>Affiliate brands: Polar Recovery, Ice Barrel, Inergize</li>
+      </ul>
+      <p class="product-why">The lowest friction entry point to the Søberg protocol. No build, no plumber, no commitment. Use it once a day for two weeks and the data will speak for itself.</p>
+      <a href="https://my4mlife.com/affiliate/cold-plunge?product=ice-bath-tub" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 2. Stock-Tank Plunge Kit -->
+    <article class="product-card" id="stock-tank-kit">
+      <div class="product-badge">DIY · Homeowner / Hot Climate</div>
+      <h3 class="product-name">4M Stock-Tank Plunge Kit</h3>
+      <p class="product-price-range">~$300–$500 total build cost <span class="price-note">DIY guide + component links</span></p>
+      <p class="product-tagline">Galvanized horse trough converted to a cold plunge. Proven. Low cost. Outdoor-capable.</p>
+      <ul class="product-specs">
+        <li>100–150 gallon galvanized livestock trough (Tractor Supply, Rural King)</li>
+        <li>Insulation wrap + reflectix lid + drain valve bib: ~$100–$140 in materials</li>
+        <li>Ozone treatment generator (Intex or similar) recommended — chlorine-free sanitization</li>
+        <li>My4MLife DIY guide with full parts list and build walkthrough included</li>
+      </ul>
+      <p class="product-why">The galvanized stock tank is the most-used community build — durable, affordable, and scales to any climate with proper insulation and ice production. See TJ's Texas build below.</p>
+      <a href="https://my4mlife.com/affiliate/cold-plunge?product=stock-tank-kit" class="notify-btn">Get the DIY Guide →</a>
+    </article>
+
+    <!-- 3. Commercial Ice Maker -->
+    <article class="product-card" id="commercial-ice-maker">
+      <div class="product-badge">DIY Add-On · Hot Climates</div>
+      <h3 class="product-name">4M Commercial Ice Maker</h3>
+      <p class="product-price-range">$1,200–$2,500 new / $600–$1,500 refurbished <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">50–100 lbs of ice per day. Makes DIY outdoor plunge viable in Texas summers.</p>
+      <ul class="product-specs">
+        <li>Undercounter or freestanding commercial-grade unit; 50–100 lbs/day output</li>
+        <li>Refurbished Manitowoc, Hoshizaki, or Scotsman units available through restaurant supply chains</li>
+        <li>For a 150-gallon trough in 95°F Texas summer: 80 lbs/day is minimum viable</li>
+        <li>Changes the economics vs. buying bag ice at daily-use frequency</li>
+      </ul>
+      <p class="product-why">Bag ice at $4/bag adds up to $120+/month at daily use. A commercial ice maker pays for itself in under 18 months and makes consistent cold achievable year-round in hot climates.</p>
+      <a href="https://my4mlife.com/affiliate/cold-plunge?product=commercial-ice-maker" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 4. Box Chiller Add-On (TJ's flagged product) -->
+    <article class="product-card product-card--featured" id="box-chiller">
+      <div class="product-badge product-badge--featured">TJ's Pick · Jacuzzi Conversion</div>
+      <h3 class="product-name">4M Box Chiller Add-On</h3>
+      <p class="product-price-range">$1,500–$3,500 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Convert your existing hot tub or jacuzzi into a cold plunge. No new footprint. One unit, two functions.</p>
+      <ul class="product-specs">
+        <li>Standalone chiller connects to existing jacuzzi via hose fittings; drops and holds target temp</li>
+        <li>Must achieve 39–50°F in a standard 250–400 gallon hot tub</li>
+        <li>Leading brands: Penguin Chillers (1/3–1/2 HP, ~$1,800–$2,800), Cold Stoic (~$2,500), Inergize (~$1,500)</li>
+        <li>No permanent installation — chiller unit connects and disconnects as needed</li>
+      </ul>
+      <p class="product-why">Millions of Americans have underused jacuzzis — this converts existing sunk cost into a daily recovery tool. If you already have a hot tub, this is the highest ROI entry to cold plunge in the catalog.</p>
+      <a href="https://my4mlife.com/affiliate/cold-plunge?product=box-chiller" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 5. Pre-Built Plunge Tub -->
+    <article class="product-card" id="prebuilt-plunge">
+      <div class="product-badge">Premium · Turnkey</div>
+      <h3 class="product-name">4M Pre-Built Plunge Tub</h3>
+      <p class="product-price-range">$4,000–$8,000 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Insulated fiberglass or stainless tub with integrated chiller. Digital temp control. Zero DIY required.</p>
+      <ul class="product-specs">
+        <li>Integrated chiller holds 39–45°F continuously without ice</li>
+        <li>Digital temperature display + filtration system included</li>
+        <li>Fiberglass or stainless steel tub options; indoor or outdoor placement</li>
+        <li>Affiliate brands: Plunge (plunge.com, category leader ~$5K ASP), Cold Stoic, Edge Theory Labs</li>
+      </ul>
+      <p class="product-why">For members who want the outcome without the build. Consistent temperature holds, clean water automatically — the only variable remaining is showing up.</p>
+      <a href="https://my4mlife.com/affiliate/cold-plunge?product=prebuilt-plunge" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+    <!-- 6. Custom Plunge Pool Install -->
+    <article class="product-card product-card--premium" id="custom-plunge">
+      <div class="product-badge product-badge--premium">Concierge · Custom Install</div>
+      <h3 class="product-name">4M Custom Plunge Pool Install</h3>
+      <p class="product-price-range">$15,000–$50,000+ <span class="price-note">project pricing — contractor referral</span></p>
+      <p class="product-tagline">Built into outdoor deck or indoor spa space. Integrated filtration, heating, and cooling. Permanent installation.</p>
+      <ul class="product-specs">
+        <li>Partnered contractor referral network — vetted installer match for your region</li>
+        <li>Outdoor deck integration or indoor spa room build options</li>
+        <li>Full filtration, ozone, and temperature control system designed into the structure</li>
+        <li>Insider Concierge / Graduate tier — warm referral, no inventory risk</li>
+      </ul>
+      <p class="product-why">The highest-leverage cold infrastructure investment for a member who has committed to the protocol long-term. Built-in access removes every friction point permanently.</p>
+      <a href="https://my4mlife.com/affiliate/cold-plunge?product=custom-plunge" class="notify-btn">Contact to Start →</a>
+    </article>
+
+    <!-- 7. Plunge Accessories Kit -->
+    <article class="product-card" id="plunge-accessories">
+      <div class="product-badge">Add-On · Any Plunge Setup</div>
+      <h3 class="product-name">4M Plunge Accessories Kit</h3>
+      <p class="product-price-range">$59–$99 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-tagline">Everything you need to run a clean, tracked, consistent cold plunge practice.</p>
+      <ul class="product-specs">
+        <li>Digital waterproof thermometer — confirms therapeutic temp before entry</li>
+        <li>Countdown timer with magnetic mount for poolside use</li>
+        <li>Quick-dry session towel + session log card for tracking weekly Søberg minutes</li>
+        <li>Ozone treatment tabs for DIY tub water maintenance</li>
+        <li>White-label sourced; 4M-branded packaging</li>
+      </ul>
+      <p class="product-why">Protocol compliance lives in the details. Knowing your exact water temperature before entry and tracking your weekly minutes are the two habits that separate members who get results from those who don't.</p>
+      <a href="https://my4mlife.com/affiliate/cold-plunge?product=plunge-accessories" class="notify-btn">Notify Me When Available →</a>
+    </article>
+
+  </div>
+
+  <!-- ── TJ's Texas DIY Build Callout ── -->
+  <div class="diy-callout" id="texas-diy-build">
+    <div class="diy-callout-badge">Community Build · Texas Summer-Proven</div>
+    <h3 class="diy-callout-title">The Texas Outdoor Cold Plunge — Member-Favorite DIY Build</h3>
+    <p>
+      Members are sharing their builds — and the most-discussed setup in our community is the horse-trough + commercial
+      ice machine configuration designed for hot climates. Here's the overview:
+    </p>
+    <ul class="diy-list">
+      <li><strong>Trough:</strong> 150-gallon galvanized livestock tank (Tractor Supply) — fits one person with legs extended. $250–$300.</li>
+      <li><strong>Ice production:</strong> Refurbished commercial ice maker (Manitowoc or Hoshizaki, restaurant-supply sourced) producing 80+ lbs/day. $600–$1,500 refurbished.</li>
+      <li><strong>Insulation:</strong> Spray foam jacket on exterior + reflectix wrap + insulated foam lid. ~$120 in materials.</li>
+      <li><strong>Water treatment:</strong> Ozone generator (Intex or similar, $50–$150) — no chlorine, no endocrine disruptors.</li>
+      <li><strong>Drain:</strong> 3/4-inch brass garden hose bib threaded into trough side. $12 in parts.</li>
+      <li><strong>Total estimated cost:</strong> $1,300–$1,700 including refurbished ice maker.</li>
+    </ul>
+    <p class="diy-note">
+      <strong>Why this works in Texas summers:</strong> A 150-gallon trough in 95°F ambient air climbs temperature quickly.
+      A commercial ice maker producing 80 lbs/day is the minimum viable ice volume for maintaining 50–55°F.
+      Bag ice at daily use is $120+/month — the ice maker pays for itself inside 18 months.
+    </p>
+    <a href="/solutions/environment/cold-plunge#notify-cold-plunge" class="diy-guide-link">
+      DIY Cold Plunge Guide — full build walkthrough coming soon →
+    </a>
+  </div>
+
+  <!-- ── Notify Me Capture ── -->
+  <div class="notify-capture-block" id="notify-cold-plunge">
+    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
+    <p class="notify-capture-sub">Enter your email — we'll notify you when any cold plunge product or guide becomes available.</p>
+    <div class="notify-checkboxes">
+      <label><input type="checkbox" name="product" value="ice-bath-tub" checked> 4M Ice Bath Tub</label>
+      <label><input type="checkbox" name="product" value="stock-tank-kit"> Stock-Tank Plunge Kit + DIY Guide</label>
+      <label><input type="checkbox" name="product" value="commercial-ice-maker"> 4M Commercial Ice Maker</label>
+      <label><input type="checkbox" name="product" value="box-chiller" checked> 4M Box Chiller Add-On</label>
+      <label><input type="checkbox" name="product" value="prebuilt-plunge"> 4M Pre-Built Plunge Tub</label>
+      <label><input type="checkbox" name="product" value="custom-plunge"> Custom Plunge Pool Install</label>
+      <label><input type="checkbox" name="product" value="plunge-accessories"> 4M Plunge Accessories Kit</label>
+    </div>
+    <EmailCapture source="env-cold-plunge-page" buttonLabel="Notify Me →" placeholder="your@email.com" />
+  </div>
+
+  <!-- ── Educational Deep-Dive ── -->
+  <h2>Cold Protocol — Temperature Progression, Safety, and Contraindications</h2>
+  <div class="edu-section">
+    <p>
+      Cold plunge is one of the highest-leverage interventions in this catalog — and one of the most misapplied.
+      The Søberg protocol is 11 minutes total per week of cold immersion, ideally split across 3–4 sessions.
+      That is a low threshold. Quality of cold matters more than sheer duration at extreme temperatures.
+    </p>
+
+    <h3 class="edu-subhead">Temperature Progression — Beginner to Advanced</h3>
+    <ul class="edu-list">
+      <li><strong>Weeks 1–2: 60°F</strong> — cool shower, not true plunge. Acclimates the nervous system to cold shock response without cardiovascular stress. Essential if you're coming from zero cold exposure.</li>
+      <li><strong>Weeks 3–4: 55°F</strong> — first true cold plunge sensation. Start here if you're comfortable in cold showers.</li>
+      <li><strong>Weeks 5–8: 50°F</strong> — full therapeutic cold stress response. Norepinephrine spike, brown fat activation, dopamine elevation all documented at this temperature.</li>
+      <li><strong>Week 9+: 39–45°F</strong> — peak protocol. Maximum NE and BAT activation. Do not rush here — full adaptation takes 6–8 weeks.</li>
+    </ul>
+
+    <h3 class="edu-subhead">Session Structure</h3>
+    <p>
+      Enter water calmly — do not hyperventilate beforehand. Controlled breathing throughout: slow inhale through nose,
+      slow exhale through mouth. The urge to gasp is the cold shock response — it passes within 30–60 seconds.
+      Exit at the Søberg session target (2–4 min per session × 3–4x/week = 11 min/week total).
+      After exit: do not immediately warm yourself with hot water. Let the body warm naturally for 5–10 minutes —
+      this is when brown fat thermogenesis activates and produces much of the metabolic benefit.
+    </p>
+
+    <h3 class="edu-subhead">Safety — Non-Negotiable Rules</h3>
+    <ul class="edu-list">
+      <li><strong>Never alone</strong> for your first 20+ sessions — cold shock can cause sudden incapacitation</li>
+      <li><strong>Never after alcohol</strong> — cardiovascular risk from combined vasodilation + cold shock is significant</li>
+      <li><strong>Cardiac arrhythmia or uncontrolled hypertension:</strong> do not proceed without physician clearance</li>
+      <li><strong>Breathe before entry</strong> — controlled breathing throughout; never hyperventilate before a cold plunge</li>
+      <li><strong>Exit immediately</strong> if extremities lose sensation or you feel dizzy; numbness precedes the cold injury threshold</li>
+      <li><strong>Raynaud's phenomenon:</strong> cold plunge is contraindicated — the vasospasm response is severe and harmful</li>
+    </ul>
+
+    <h3 class="edu-subhead">Contrast Therapy — Sauna + Cold Plunge</h3>
+    <p>
+      The combination of sauna and cold plunge amplifies both adaptive responses. The heat vasodilates and heats the tissues;
+      the cold triggers a massive vasoconstriction + norepinephrine + dopamine cascade. Most studied protocol:
+      4 rounds × (20 min sauna + 2 min cold plunge + 5 min rest). The physiological payoff is measurably greater
+      than either intervention alone. If you have access to both, run contrast therapy — not one or the other.
+    </p>
+  </div>
+
+  <!-- ── Protégé footer ── -->
+  <div class="protege-card">
+    Want a cold and heat protocol personalized to your current fitness and cardiovascular baseline? <strong>Become a Protégé (free)</strong> — the My4MLife App includes environmental coaching by week.
+    <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
+  </div>
+
+  <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--text-light);">
+    <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through product links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
+  </p>
+</SolutionPage>
+
+<style>
+.section-sub {
+  color: var(--text-light);
+  font-size: 0.92rem;
+  margin: -0.5rem 0 1.25rem;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 1rem 0 2.5rem;
+}
+.product-grid-2col { grid-template-columns: 1fr; }
+@media (min-width: 700px) {
+  .product-grid-2col { grid-template-columns: repeat(2, 1fr); }
+}
+.product-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+}
+.product-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 18px rgba(0,184,148,0.14);
+  transform: translateY(-2px);
+}
+.product-card--featured {
+  border-color: rgba(45,74,122,0.4);
+  background: linear-gradient(135deg, var(--bg-soft) 80%, rgba(45,74,122,0.04) 100%);
+}
+.product-card--premium {
+  border-color: rgba(212,168,67,0.5);
+  background: linear-gradient(135deg, var(--bg-soft) 80%, rgba(212,168,67,0.05) 100%);
+}
+.product-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.3);
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.product-badge--featured {
+  color: var(--primary);
+  background: rgba(45,74,122,0.1);
+  border-color: rgba(45,74,122,0.3);
+}
+.product-badge--premium {
+  color: #8a6200;
+  background: rgba(212,168,67,0.15);
+  border-color: rgba(212,168,67,0.4);
+}
+.product-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1.3;
+}
+.product-price-range {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.price-note {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-light);
+}
+.product-tagline {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.45;
+}
+.product-specs {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.product-specs li {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+.product-why {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 !important;
+  line-height: 1.5;
+  flex: 1;
+}
+.notify-btn {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.48rem 1.2rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s, transform 0.15s;
+}
+.notify-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* TJ's DIY Build Callout */
+.diy-callout {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+  border: 1.5px solid rgba(45,74,122,0.3);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.8rem;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.diy-callout-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: rgba(45,74,122,0.1);
+  border: 1px solid rgba(45,74,122,0.25);
+  padding: 0.18rem 0.7rem;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.diy-callout-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1.3;
+}
+.diy-callout p {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0;
+}
+.diy-list {
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+}
+.diy-list li {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.diy-note {
+  font-size: 0.85rem !important;
+  color: var(--text-light) !important;
+  font-style: italic;
+}
+.diy-guide-link {
+  display: inline-block;
+  padding: 0.45rem 1.1rem;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s, transform 0.15s;
+}
+.diy-guide-link:hover {
+  background: #1e3560;
+  transform: translateY(-1px);
+}
+
+.notify-capture-block {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid rgba(0,184,148,0.25);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.8rem;
+  margin: 0 0 2.5rem;
+}
+.notify-capture-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.35rem;
+}
+.notify-capture-sub {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+}
+.notify-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.notify-checkboxes label {
+  font-size: 0.8rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+.notify-checkboxes input[type="checkbox"] { accent-color: var(--accent); }
+
+/* Educational section */
+.edu-section {
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.edu-section p {
+  font-size: 0.93rem;
+  color: var(--text);
+  line-height: 1.75;
+  margin: 0;
+}
+.edu-subhead {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0.5rem 0 0;
+}
+.edu-list {
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+}
+.edu-list li {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* Protégé footer */
+.protege-card {
+  background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.06) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+.protege-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.protege-link:hover { text-decoration: underline; }
+</style>
