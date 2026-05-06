@@ -2,9 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = "Genesis RPA — Regenerative Protein Array | My4MLife";
-const description = "The most advanced regenerative therapy you can access. Genesis RPA delivers clinician-supervised regenerative protocols via mobile clinical team, nationwide. Intra-articular, IV, nebulizer, intrathecal, and intranasal routes.";
+const description = "The ultimate regenerative intervention for chronic conditions and aging tissue. Genesis RPA is a Regenerative Protein Array delivered by our partner regenerative medicine practice — nationwide mobile delivery.";
 const canonical = "https://www.my4mlife.com/genesis-rpa";
-const keywords = "Genesis RPA, regenerative protein array, regenerative medicine, mobile delivery, joint injury, post-concussion, long-COVID, TJ Mundheim";
+const keywords = "regenerative medicine, RPA, regenerative protein array, COPD treatment, congestive heart failure, chronic pain regenerative, joint regeneration, neurodegeneration, autoimmune regenerative";
 const ogImage = "https://www.my4mlife.com/og-image.svg";
 
 const schema = {
@@ -14,7 +14,7 @@ const schema = {
       "@type": "MedicalProcedure",
       "@id": "https://www.my4mlife.com/genesis-rpa#procedure",
       "name": "Genesis RPA — Regenerative Protein Array",
-      "description": "Clinician-supervised regenerative administration protocol delivered via mobile clinical team; addresses joint injuries, post-concussion syndrome, long-COVID sequelae, cognitive decline, and chronic inflammation.",
+      "description": "Regenerative Protein Array delivered via nationwide mobile clinical team. Addresses joint degeneration, COPD, congestive heart failure, autoimmune conditions, neurodegeneration, and chronic pain syndromes.",
       "procedureType": "Therapeutic",
       "bodyLocation": "Multiple — intra-articular, IV, intrathecal, intranasal, pulmonary"
     },
@@ -22,8 +22,8 @@ const schema = {
       "@type": "MedicalWebPage",
       "@id": "https://www.my4mlife.com/genesis-rpa#webpage",
       "url": "https://www.my4mlife.com/genesis-rpa",
-      "name": "Genesis RPA — Regenerative Protein Array",
-      "description": "Advanced regenerative therapy delivered nationwide via mobile clinical team.",
+      "name": "Genesis RPA — Regenerative Protein Array | My4MLife",
+      "description": "The ultimate regenerative intervention for chronic conditions and aging tissue.",
       "about": { "@id": "https://www.my4mlife.com/genesis-rpa#procedure" }
     }
   ]
@@ -36,11 +36,12 @@ const schema = {
   <div class="container">
     <div class="hero-content">
       <span class="section-tag" style="color:rgba(255,255,255,0.6);">Genesis RPA</span>
-      <h1>The most advanced regenerative therapy you can access —<br/><em>without the regulatory ceiling.</em></h1>
-      <p>Clinician-supervised. Mobile delivery. Nationwide. Five administration routes targeting tissue, systemic, CNS, and pulmonary compartments.</p>
+      <h1>Genesis RPA — Regenerative Protein Array</h1>
+      <p class="hero-sub">The ultimate regenerative intervention for chronic conditions and aging tissue.</p>
+      <p class="hero-note">Delivered by our partner regenerative medicine practice. Nationwide mobile delivery. Clinician-supervised.</p>
       <div class="hero-buttons">
-        <a href="mailto:drtj@essentialmanage.com?subject=Genesis RPA — Consultation Request" class="btn btn-primary btn-large">Schedule a Consultation <i class="fas fa-arrow-right"></i></a>
-        <a href="#what-it-helps" class="btn btn-white btn-large">What It Helps With <i class="fas fa-chevron-down"></i></a>
+        <a href="/consult" class="btn btn-primary btn-large">Schedule Comprehensive 4M Consult <i class="fas fa-arrow-right"></i></a>
+        <a href="https://genesisregenerative.com" target="_blank" rel="noopener noreferrer" class="btn btn-white btn-large">Genesis Regenerative Practice <i class="fas fa-external-link-alt"></i></a>
       </div>
     </div>
   </div>
@@ -51,96 +52,69 @@ const schema = {
   <div class="container">
     <div class="rpa-intro fade-in">
       <div class="rpa-intro-text">
-        <span class="section-tag">What Is RPA</span>
-        <h2>Regenerative Protein Array — a different class of medicine.</h2>
-        <p>Genesis RPA is a high-touch regenerative administration service providing clinician-supervised delivery across multiple routes. A nationwide mobile delivery model eliminates the need for clinic visits — our clinical team comes to you.</p>
-        <p style="margin-top:1rem;">Each protocol is individually designed based on intake assessment and lab findings. No two protocols are the same — because no two patients are the same.</p>
-        <p style="margin-top:1rem; font-size:0.88rem; color:var(--text-light);">Genesis RPA operates outside the scope of FDA drug approval — delivered as a clinical service protocol. For research context, visit <a href="https://genesisregenerative.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">genesisregenerative.com</a>.</p>
+        <span class="section-tag">What Is Regenerative Protein Array</span>
+        <h2>A different class of medicine — designed for what conventional care cannot reverse.</h2>
+        <p>Genesis RPA is a Regenerative Protein Array — a high-complexity regenerative administration protocol that operates at a level beyond what PRP, stem cell injections, or exosome therapies typically achieve. Where PRP recycles your own platelets and exosomes deliver cellular signals, RPA delivers a structured protein array targeting tissue restoration across multiple biological compartments simultaneously: joint, systemic, pulmonary, and CNS.</p>
+        <p style="margin-top:1rem;">The conditions Genesis RPA addresses are the ones conventional medicine manages but cannot reverse. Chronic obstructive pulmonary disease (COPD), congestive heart failure (CHF), autoimmune flares, neurodegeneration, and post-injury chronic pain all share a common ceiling in standard care: symptom management without tissue restoration. Regenerative medicine is the frontier where actual restoration becomes possible — and Genesis RPA is the flagship intervention in that frontier.</p>
+        <p style="margin-top:1rem;">Delivery is nationwide via mobile clinical team. Our partner regenerative medicine clinic comes to you — no specialized facility visit required. Each protocol is individually designed based on candidacy review, condition profile, and lab assessment. The pathway starts with a comprehensive 4M consult through My4MLife, which coordinates candidacy review and protocol design; Genesis RPA itself is then provided directly by the contracted regenerative medicine clinic.</p>
       </div>
       <div class="rpa-visual">
-        <div class="rpa-icon-block"><i class="fas fa-syringe"></i><span>Mobile Delivery</span></div>
-        <div class="rpa-icon-block"><i class="fas fa-map-marked-alt"></i><span>Nationwide</span></div>
-        <div class="rpa-icon-block"><i class="fas fa-user-doctor"></i><span>Clinician-Supervised</span></div>
+        <div class="rpa-icon-block"><i class="fas fa-truck-medical"></i><span>Nationwide Mobile Delivery</span></div>
+        <div class="rpa-icon-block"><i class="fas fa-map-marked-alt"></i><span>Partner Clinic Network</span></div>
+        <div class="rpa-icon-block"><i class="fas fa-flask"></i><span>Protocol-Designed Per Patient</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== 5 ROUTES ===== -->
-<section class="section">
+<!-- ===== INDICATIONS GRID ===== -->
+<section class="section" id="indications">
   <div class="container">
     <div class="section-header fade-in">
-      <span class="section-tag">Administration Routes</span>
-      <h2>Five routes. One protocol designed around your biology.</h2>
-    </div>
-    <div class="routes-grid fade-in">
-      <div class="route-card">
-        <div class="route-icon"><i class="fas fa-joint"></i></div>
-        <h3>Intra-Articular</h3>
-        <p>Direct delivery to the joint space. Addresses synovial inflammation and supports cartilage remodelling in joint and musculoskeletal indications.</p>
-      </div>
-      <div class="route-card">
-        <div class="route-icon"><i class="fas fa-droplet"></i></div>
-        <h3>IV Infusion</h3>
-        <p>Systemic delivery via intravenous infusion. Addresses whole-body inflammatory burden and supports post-viral recovery.</p>
-      </div>
-      <div class="route-card">
-        <div class="route-icon"><i class="fas fa-lungs"></i></div>
-        <h3>Nebulizer</h3>
-        <p>Pulmonary route for direct lung tissue access. Used for post-COVID pulmonary sequelae and systemic inflammatory conditions.</p>
-      </div>
-      <div class="route-card">
-        <div class="route-icon"><i class="fas fa-brain"></i></div>
-        <h3>Intrathecal</h3>
-        <p>Direct CNS compartment access via intrathecal delivery. Used for neurological indications including post-concussion syndrome and cognitive decline.</p>
-      </div>
-      <div class="route-card">
-        <div class="route-icon"><i class="fas fa-nose"></i></div>
-        <h3>Intranasal</h3>
-        <p>Olfactory-limbic pathway access for CNS delivery without intrathecal procedures. Supports neurological and cognitive indications.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== WHAT IT HELPS WITH ===== -->
-<section class="section" id="what-it-helps" style="background:var(--bg-soft);">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-tag">What It Helps With</span>
-      <h2>Three clinical domains.</h2>
-      <p>Genesis RPA supports recovery and regeneration across joint/musculoskeletal, neurological, and systemic conditions. All indications use compliant clinical language.</p>
+      <span class="section-tag">Conditions &amp; Indications</span>
+      <h2>Where Genesis RPA is positioned as the ultimate intervention.</h2>
+      <p>These are the conditions where conventional care plateaus — and regenerative medicine becomes the meaningful next step.</p>
     </div>
     <div class="indications-grid fade-in">
-      <div class="indication-col">
-        <div class="indication-header"><i class="fas fa-bone"></i> Joint &amp; Musculoskeletal</div>
-        <ul>
-          <li>Helps with torn meniscus recovery</li>
-          <li>Supports ACL and MCL repair pathways</li>
-          <li>Helps with rotator cuff injuries</li>
-          <li>Supports osteoarthritis joint health</li>
-          <li>Helps with post-surgical recovery</li>
-          <li>Addresses chronic musculoskeletal pain</li>
-        </ul>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-brain"></i></div>
+        <h3>Brain &amp; Cognitive Longevity</h3>
+        <p>Early-stage cognitive decline, post-concussion syndrome, and neurological aging — targeting CNS compartment via intrathecal and intranasal routes.</p>
       </div>
-      <div class="indication-col">
-        <div class="indication-header"><i class="fas fa-brain"></i> Brain &amp; Neurological</div>
-        <ul>
-          <li>Supports post-concussion syndrome recovery</li>
-          <li>Helps with mild cognitive impairment (MCI)</li>
-          <li>Addresses long-COVID neurological symptoms</li>
-          <li>Supports early-stage cognitive decline</li>
-          <li>Helps with post-brain-injury recovery</li>
-        </ul>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-bone"></i></div>
+        <h3>Joint Regeneration</h3>
+        <p>Osteoarthritis, cartilage degeneration, chronic joint pain that has not responded to physical therapy, NSAIDs, or anti-inflammatory protocols. Intra-articular delivery to the joint space.</p>
       </div>
-      <div class="indication-col">
-        <div class="indication-header"><i class="fas fa-heart-pulse"></i> Systemic</div>
-        <ul>
-          <li>Addresses chronic inflammation</li>
-          <li>Supports post-viral recovery and fatigue</li>
-          <li>Helps with long-COVID systemic sequelae</li>
-          <li>Supports immune dysregulation</li>
-        </ul>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-lungs"></i></div>
+        <h3>COPD / Pulmonary</h3>
+        <p>Chronic obstructive pulmonary disease and pulmonary inflammation — addressed via nebulizer route for direct lung tissue access. A condition where conventional bronchodilator therapy manages but cannot restore.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-heart-pulse"></i></div>
+        <h3>Cardiovascular — CHF</h3>
+        <p>Congestive heart failure patients who have optimized conventional medical management but face a ceiling. Systemic IV delivery targeting whole-body inflammatory burden and cardiac tissue support.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>Autoimmune Conditions</h3>
+        <p>Hashimoto's thyroiditis, Graves' disease, rheumatoid arthritis, lupus, and related autoimmune flare conditions — where immune dysregulation creates chronic tissue damage.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-person-falling-burst"></i></div>
+        <h3>Chronic Pain Syndromes</h3>
+        <p>Long-standing pain that has not responded to physical therapy, medication, peptides like BPC-157, or anti-inflammatory diet. The regenerative option when standard interventions have been exhausted.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-person-walking-dashed-line-arrow-right"></i></div>
+        <h3>Post-Injury Recovery</h3>
+        <p>Chronic post-injury sequelae — including post-surgical recovery, post-concussion syndrome, and injuries that have healed structurally but left persistent functional impairment.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-network-wired"></i></div>
+        <h3>Neurodegeneration</h3>
+        <p>Early Parkinson's-spectrum presentations, multiple sclerosis-related neurological impairment, and related neurodegenerative processes where CNS compartment access is the therapeutic lever.</p>
       </div>
     </div>
   </div>
@@ -150,85 +124,100 @@ const schema = {
 <section class="section different-section">
   <div class="container">
     <div class="section-header fade-in" style="color:white;">
-      <span class="section-tag" style="color:var(--accent);">How It's Different</span>
-      <h2 style="color:white;">Three things that separate Genesis RPA.</h2>
+      <span class="section-tag" style="color:var(--accent);">How It Differs</span>
+      <h2 style="color:white;">Genesis RPA vs. PRP, stem cells, and exosomes.</h2>
     </div>
     <div class="different-grid fade-in">
       <div class="different-card">
-        <div class="diff-icon"><i class="fas fa-shield-halved"></i></div>
-        <h3>Outside FDA Regulatory Ceiling</h3>
-        <p>Genesis RPA operates as a clinical service protocol — not a pharmaceutical product — providing access to regenerative approaches not constrained by drug approval timelines.</p>
+        <div class="diff-icon"><i class="fas fa-droplet"></i></div>
+        <h3>PRP — Your Own Platelets</h3>
+        <p>Platelet-rich plasma recycles growth factors from your own blood. Useful for acute soft tissue injuries. Limited by the quality of the patient's own platelet pool — particularly in older or chronically ill patients.</p>
       </div>
       <div class="different-card">
-        <div class="diff-icon"><i class="fas fa-truck-medical"></i></div>
-        <h3>Nationwide Mobile Delivery</h3>
-        <p>Our clinical team comes to you. No clinic visits required. Mobile delivery to your home, office, or hotel nationwide — fully supervised by licensed clinicians.</p>
+        <div class="diff-icon"><i class="fas fa-circle-nodes"></i></div>
+        <h3>Exosomes — Cellular Signals</h3>
+        <p>Exosome therapy delivers extracellular vesicles that carry cellular communication signals. A meaningful advancement — but still operating primarily in the signaling domain rather than the structural protein restoration domain.</p>
       </div>
       <div class="different-card">
-        <div class="diff-icon"><i class="fas fa-route"></i></div>
-        <h3>Multiple Administration Routes</h3>
-        <p>Five routes targeting five different compartments — joint, systemic, pulmonary, CNS (intrathecal), and CNS (intranasal). One protocol designed for your specific indication.</p>
+        <div class="diff-icon"><i class="fas fa-flask"></i></div>
+        <h3>Genesis RPA — Protein Array</h3>
+        <p>A structured protein array targeting tissue restoration across multiple biological compartments simultaneously. Operates at a complexity level designed for conditions — COPD, CHF, neurodegeneration — where single-compartment approaches reach their ceiling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THE GENESIS RPA PATHWAY ===== -->
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">The Genesis RPA Pathway</span>
+      <h2>Candidacy review first. Protocol design second. Delivery third.</h2>
+      <p>Not every patient is a Genesis RPA candidate. This is a premium, clinician-designed protocol — appropriateness is determined through a structured review process, not a checkbox form.</p>
+    </div>
+    <div class="pathway-grid fade-in">
+      <div class="pathway-step">
+        <div class="pathway-num">1</div>
+        <h3>Comprehensive 4M Consult</h3>
+        <p>Every Genesis RPA pathway begins with a comprehensive 4M consult through My4MLife. This covers your full health history, current medications, lab values, condition profile, and prior interventions. Candidacy for Genesis RPA is assessed at this stage.</p>
+        <a href="/consult" class="pathway-link">Schedule Your Consult &rarr;</a>
+      </div>
+      <div class="pathway-step">
+        <div class="pathway-num">2</div>
+        <h3>Protocol Design</h3>
+        <p>If candidacy is confirmed, your Genesis RPA protocol is designed in coordination with the partner regenerative medicine clinic. Administration route selection (intra-articular, IV, nebulizer, intrathecal, intranasal), dosing, and scheduling are determined by condition and clinical profile.</p>
+      </div>
+      <div class="pathway-step">
+        <div class="pathway-num">3</div>
+        <h3>Mobile Delivery &amp; Follow-Up</h3>
+        <p>The partner clinic's mobile team delivers your protocol at your location — home, office, or hotel — nationwide. A structured follow-up protocol monitors response and adjusts if a multi-administration course is indicated.</p>
+        <a href="https://genesisregenerative.com" target="_blank" rel="noopener noreferrer" class="pathway-link">Learn About the Genesis Regenerative Practice &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Investment</span>
+      <h2>Premium tier — pricing finalized at consult.</h2>
+      <p>Protocol design, condition complexity, administration route, and number of sessions determine final pricing. This is not a one-size pricing model.</p>
+    </div>
+    <div class="pricing-box fade-in">
+      <div class="pricing-text">
+        <h3>Pricing is determined at your comprehensive 4M consult</h3>
+        <p>Genesis RPA is a premium regenerative service with pricing that reflects the mobile clinical team, clinician supervision, multi-route delivery model, and protocol complexity. Approximate COGS begin at $5,000 and scale based on protocol design.</p>
+        <p style="margin-top:1rem;"><strong>Insider Concierge and Graduate members</strong> receive priority booking and protocol guidance as part of their tier benefits. Membership does not reduce Genesis RPA pricing — it reduces coordination friction and ensures your consult is Genesis RPA-informed from the start.</p>
+      </div>
+      <div class="pricing-cta">
+        <a href="/consult" class="btn btn-primary btn-large">Schedule Comprehensive 4M Consult <i class="fas fa-arrow-right"></i></a>
+        <a href="/tiers" class="btn btn-outline" style="margin-top:0.75rem; display:block; text-align:center;">View Membership Tiers</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===== RESEARCH ===== -->
-<section class="section">
+<section class="section" style="background:var(--bg-soft);">
   <div class="container">
     <div style="max-width:700px; margin:0 auto; text-align:center;" class="fade-in">
       <span class="section-tag">Clinical Research</span>
       <h2>The research is published. The results are documented.</h2>
-      <p style="color:var(--text-light); margin-bottom:2rem;">Genesis RPA is backed by clinical research available through Genesis Regenerative. Testimonials from real patients and full reference documentation are available on the Genesis Regenerative website.</p>
-      <a href="https://genesisregenerative.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-large">View Clinical Research &amp; Testimonials <i class="fas fa-external-link-alt"></i></a>
+      <p style="color:var(--text-light); margin-bottom:2rem;">Genesis RPA is backed by clinical research available through Genesis Regenerative. Testimonials from real patients and full reference documentation are available on the Genesis Regenerative partner practice website.</p>
+      <a href="https://genesisregenerative.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-large">View Research &amp; Testimonials at genesisregenerative.com <i class="fas fa-external-link-alt"></i></a>
     </div>
   </div>
 </section>
 
-<!-- ===== PRICING ===== -->
-<section class="section" style="background:var(--bg-soft);">
+<!-- ===== AUDIT NOTE ===== -->
+<section class="section audit-note-section">
   <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-tag">Investment</span>
-      <h2>Single administration or protocol.</h2>
-      <p>Pricing reflects the mobile clinical team, clinician supervision, and multi-route delivery model. Compare to a single procedure at a specialty clinic.</p>
-    </div>
-    <div class="rpa-pricing-grid fade-in">
-      <div class="rpa-price-card">
-        <div class="rp-title">Single Administration</div>
-        <div class="rp-price">$9,500</div>
-        <ul>
-          <li>One clinician-supervised administration</li>
-          <li>Route selected based on indication</li>
-          <li>Mobile delivery to your location</li>
-          <li>Intake assessment included</li>
-        </ul>
-        <a href="mailto:drtj@essentialmanage.com?subject=Genesis RPA — Single Administration" class="btn btn-outline" style="width:100%; text-align:center; margin-top:1.5rem;">Schedule Consultation</a>
-      </div>
-      <div class="rpa-price-card rpa-featured">
-        <div class="rpa-badge">Recommended</div>
-        <div class="rp-title">3-Administration Protocol</div>
-        <div class="rp-price">$27,500</div>
-        <div class="rp-save">Save $4,000 vs. three individual administrations</div>
-        <ul>
-          <li>Three clinician-supervised administrations</li>
-          <li>Spaced 4–8 weeks apart</li>
-          <li>Recommended for CNS and systemic indications</li>
-          <li>Mobile delivery — all three sessions</li>
-          <li>Full protocol monitoring included</li>
-        </ul>
-        <a href="mailto:drtj@essentialmanage.com?subject=Genesis RPA — 3-Administration Protocol" class="btn btn-primary" style="width:100%; text-align:center; margin-top:1.5rem;">Schedule Consultation</a>
-      </div>
-      <div class="rpa-price-card">
-        <div class="rp-title">Longevity Tier Add-On</div>
-        <div class="rp-price">10% off</div>
-        <p style="color:var(--text-light); font-size:0.95rem; margin-bottom:1.5rem;">My4MLife Insider Concierge members receive 10% off all Genesis RPA protocols.</p>
-        <ul>
-          <li>Applies to both single and 3-pack protocols</li>
-          <li>Priority scheduling</li>
-        </ul>
-        <a href="/tiers" class="btn btn-outline" style="width:100%; text-align:center; margin-top:1.5rem;">View Longevity Tier</a>
-      </div>
+    <div class="audit-note fade-in">
+      <i class="fas fa-clipboard-list"></i>
+      <p>The 20-Question Audit captures broad health vectors but not specific chronic conditions. If you have a diagnosed condition like COPD, CHF, or autoimmune disease, schedule the comprehensive 4M consult — that's where condition-specific candidacy is determined.</p>
+      <a href="/consult" class="btn btn-outline" style="margin-top:1.25rem; display:inline-block;">Schedule the Comprehensive 4M Consult &rarr;</a>
     </div>
   </div>
 </section>
@@ -237,12 +226,19 @@ const schema = {
 <section class="section cta-section">
   <div class="container fade-in">
     <span class="section-tag">Ready to Explore Genesis RPA?</span>
-    <h2>Schedule a Genesis RPA Consultation</h2>
-    <p>Availability is limited. Our clinical team conducts a thorough intake assessment before every protocol to confirm candidacy and design your administration plan.</p>
+    <h2>Schedule Your Comprehensive 4M Consult</h2>
+    <p>Genesis RPA candidacy is determined at the consult — not before. Start there.</p>
     <div class="cta-buttons">
-      <a href="mailto:drtj@essentialmanage.com?subject=Genesis RPA — Consultation Request" class="btn btn-primary btn-large">Request a Consultation <i class="fas fa-arrow-right"></i></a>
-      <a href="https://app.my4mlife.com?view=discovery" class="btn btn-outline btn-large">Start Discovery Assessment</a>
+      <a href="/consult" class="btn btn-primary btn-large">Schedule Comprehensive 4M Consult <i class="fas fa-arrow-right"></i></a>
+      <a href="https://genesisregenerative.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-large">Learn About the Genesis Regenerative Practice <i class="fas fa-external-link-alt"></i></a>
     </div>
+  </div>
+</section>
+
+<!-- ===== DISCLAIMER ===== -->
+<section class="disclaimer-section">
+  <div class="container">
+    <p>Genesis RPA is delivered by our partner regenerative medicine practice. My4MLife coordinates candidacy review and protocol design through the comprehensive 4M consult; Genesis RPA itself is provided directly by the contracted regenerative medicine clinic. My4MLife is a lifestyle and wellness education platform. Content on this page is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Results vary. Always consult a qualified healthcare provider before beginning any new health protocol.</p>
   </div>
 </section>
 
@@ -268,18 +264,19 @@ const schema = {
   .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
   .section { padding: 6rem 0; }
   .section-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
-  .section-header { text-align: center; max-width: 640px; margin: 0 auto 4rem; }
-  .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+  .section-header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+  .section-header h2 { font-size: 2.2rem; margin-bottom: 1rem; }
   .section-header p { color: var(--text-light); font-size: 1.05rem; }
   .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+  /* Hero */
   .hero { padding: 10rem 0 6rem; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); position: relative; overflow: hidden; text-align: center; }
   .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 70%); border-radius: 50%; }
   .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
-  .hero h1 { font-size: 2.8rem; color: white; margin-bottom: 1.5rem; }
-  .hero h1 em { font-style: normal; color: var(--accent); }
-  .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem; }
+  .hero h1 { font-size: 2.8rem; color: white; margin-bottom: 1.2rem; }
+  .hero-sub { font-size: 1.25rem; color: rgba(255,255,255,0.92); margin-bottom: 0.75rem; font-style: italic; font-family: 'Playfair Display', serif; }
+  .hero-note { font-size: 0.95rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
   .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
   .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: all 0.25s; }
   .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
@@ -290,62 +287,73 @@ const schema = {
   .btn-white:hover { background: var(--bg-soft); }
   .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
 
-  .rpa-intro { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: center; }
-  .rpa-intro-text h2 { font-size: 2rem; margin-bottom: 1rem; }
+  /* What is RPA intro */
+  .rpa-intro { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: start; }
+  .rpa-intro-text h2 { font-size: 2rem; margin-bottom: 1.2rem; }
   .rpa-intro-text p { color: var(--text-light); font-size: 1rem; }
   .rpa-visual { display: flex; flex-direction: column; gap: 1.5rem; }
   .rpa-icon-block { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; }
   .rpa-icon-block i { font-size: 2rem; color: var(--accent); }
   .rpa-icon-block span { font-size: 0.85rem; font-weight: 600; color: var(--dark); }
 
-  .routes-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; }
-  .route-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; text-align: center; transition: all 0.3s; }
-  .route-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
-  .route-icon { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
-  .route-card h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; }
-  .route-card p { color: var(--text-light); font-size: 0.88rem; }
+  /* Indications grid */
+  .indications-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .indication-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem 1.5rem; transition: all 0.3s; }
+  .indication-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+  .ind-icon { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+  .indication-card h3 { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.6rem; }
+  .indication-card p { color: var(--text-light); font-size: 0.85rem; line-height: 1.65; }
 
-  .indications-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-  .indication-col { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
-  .indication-header { display: flex; align-items: center; gap: 0.6rem; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 1.5rem; }
-  .indication-header i { color: var(--accent); }
-  .indication-col ul { list-style: none; }
-  .indication-col li { padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text); }
-  .indication-col li:last-child { border-bottom: none; }
-
+  /* How it's different */
   .different-section { background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); }
   .different-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
   .different-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding: 2.5rem; text-align: center; }
   .diff-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1.2rem; }
-  .different-card h3 { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 1rem; }
-  .different-card p { color: rgba(255,255,255,0.7); font-size: 0.92rem; }
+  .different-card h3 { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; color: white; margin-bottom: 1rem; }
+  .different-card p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.7; }
 
-  .rpa-pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-  .rpa-price-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; }
-  .rpa-featured { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); position: relative; padding-top: 3.5rem; }
-  .rpa-badge { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 0.3rem 1.2rem; border-radius: 0 0 8px 8px; }
-  .rp-title { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 0.5rem; }
-  .rp-price { font-family: 'Inter', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--primary); line-height: 1; margin-bottom: 0.5rem; }
-  .rp-save { font-size: 0.85rem; color: var(--accent); font-weight: 600; margin-bottom: 1.2rem; }
-  .rpa-price-card ul { list-style: none; margin-bottom: 0.5rem; }
-  .rpa-price-card li { padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--text); padding-left: 1.5rem; position: relative; }
-  .rpa-price-card li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
-  .rpa-price-card li:last-child { border-bottom: none; }
+  /* Pathway */
+  .pathway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .pathway-step { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; }
+  .pathway-num { width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--accent); color: white; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+  .pathway-step h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.75rem; }
+  .pathway-step p { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; }
+  .pathway-link { display: inline-block; margin-top: 1rem; font-size: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+  .pathway-link:hover { text-decoration: underline; }
 
+  /* Pricing */
+  .pricing-box { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: center; background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 3rem; }
+  .pricing-text h3 { font-family: 'Inter', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 0.75rem; }
+  .pricing-text p { color: var(--text-light); font-size: 0.95rem; line-height: 1.7; }
+  .pricing-cta { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+
+  /* Audit note */
+  .audit-note-section { background: var(--bg-accent); }
+  .audit-note { max-width: 740px; margin: 0 auto; text-align: center; }
+  .audit-note i { font-size: 2.5rem; color: var(--accent); margin-bottom: 1.25rem; display: block; }
+  .audit-note p { color: var(--text); font-size: 1rem; line-height: 1.8; }
+
+  /* CTA */
   .cta-section { background: var(--bg-accent); text-align: center; }
   .cta-section h2 { font-size: 2.5rem; margin-bottom: 1rem; }
   .cta-section p { color: var(--text-light); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
   .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
+  /* Disclaimer */
+  .disclaimer-section { background: #f7fafc; border-top: 1px solid var(--border); padding: 2rem 0; }
+  .disclaimer-section p { font-size: 0.75rem; color: var(--text-light); line-height: 1.7; max-width: 880px; }
+
+  @media (max-width: 1100px) {
+    .indications-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 1024px) {
-    .routes-grid { grid-template-columns: repeat(3, 1fr); }
-    .rpa-pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .pathway-grid { grid-template-columns: 1fr; max-width: 540px; margin: 0 auto; }
+    .pricing-box { grid-template-columns: 1fr; }
   }
   @media (max-width: 768px) {
     .hero h1 { font-size: 2rem; }
     .rpa-intro { grid-template-columns: 1fr; }
     .rpa-visual { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-    .routes-grid { grid-template-columns: repeat(2, 1fr); }
     .indications-grid { grid-template-columns: 1fr; }
     .different-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
   }
