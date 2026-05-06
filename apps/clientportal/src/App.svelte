@@ -16,35 +16,76 @@
 
   // ── Schema sentinel + clean-slate wipe ──────────────────────────────────────
   // MUST run before any gating logic reads localStorage.
-  // Cognito tokens (cognito_id_token, cognito_access_token, cognito_refresh_token)
-  // are intentionally excluded so the user stays signed in.
-  const SCHEMA_KEY = 'intake-schema-v5';
-  const SCHEMA_VAL = '2026-05-03';
+  //
+  // WHAT GETS WIPED (WIPE_KEYS):
+  //   Intake state:     basics-v1, audit-v1, discovery-v1, intake-stage-v1,
+  //                     intake-complete-v1, intake-audit-scores-v1, intake-date-v1,
+  //                     consent-protege-v1, consent-npp-v1, consent-phi-auth-v1,
+  //                     consent-ai-comm-v1, consent-marketing-v1
+  //   Assessment state: gut-assessment-v1, allergy-assessment-v1, goals-v1,
+  //                     connected-mind-v1
+  //   Workbook data:    workbook-local-workbook, 4m:workbook:local-workbook,
+  //                     4m:index:local-user
+  //   Nudge state:      last-seen-v1, intake-celebrated-v1, nudges-shown-today-v1,
+  //                     nudges-dismissed-v1, nudges-week-1-shown-v1 through
+  //                     nudges-week-4-shown-v1, nudges-substance-use-shown-v1,
+  //                     screens-visited-v1, last-upgrade-nudge-v1
+  //
+  // WHAT IS PRESERVED (NOT in WIPE_KEYS):
+  //   Cognito tokens: cognito_id_token, cognito_access_token, cognito_refresh_token
+  //   Reason: these keep the user signed in through schema bumps. The wipe is
+  //   about resetting app/workbook state, not identity.
+  //
+  // When bumping the schema version in the future, increment SCHEMA_KEY to v7 etc.
+  // and add any newly-discovered keys to WIPE_KEYS. Never remove keys from
+  // WIPE_KEYS — old keys are harmless no-ops on removeItem.
+  const SCHEMA_KEY = 'intake-schema-v6';
+  const SCHEMA_VAL = '2026-05-05';
 
-  const INTAKE_KEYS = [
+  const WIPE_KEYS = [
+    // ── Intake state ─────────────────────────────────────────────────────────
     'basics-v1',
     'audit-v1',
     'discovery-v1',
     'intake-stage-v1',
     'intake-complete-v1',
+    'intake-audit-scores-v1',   // Stage6Audit scores (separate from audit-v1)
+    'intake-date-v1',           // set when intake completes; used by nudge upgrade trigger
+    // ── Consent state ────────────────────────────────────────────────────────
     'consent-protege-v1',
     'consent-npp-v1',
     'consent-phi-auth-v1',
     'consent-ai-comm-v1',
     'consent-marketing-v1',
+    // ── Assessment state ─────────────────────────────────────────────────────
     'gut-assessment-v1',
     'allergy-assessment-v1',
     'goals-v1',
     'connected-mind-v1',
-    'workbook-local-workbook',
+    // ── Workbook data ─────────────────────────────────────────────────────────
+    'workbook-local-workbook',          // legacy LocalStorageAdapter key (pre-4m: prefix)
+    '4m:workbook:local-workbook',       // LocalStorageAdapter workbook payload
+    '4m:index:local-user',             // LocalStorageAdapter workbook index
+    // ── Nudge state ───────────────────────────────────────────────────────────
+    'last-seen-v1',
+    'intake-celebrated-v1',
+    'nudges-shown-today-v1',
+    'nudges-dismissed-v1',
+    'nudges-week-1-shown-v1',
+    'nudges-week-2-shown-v1',
+    'nudges-week-3-shown-v1',
+    'nudges-week-4-shown-v1',
+    'nudges-substance-use-shown-v1',
+    'screens-visited-v1',
+    'last-upgrade-nudge-v1',
   ];
 
   if (typeof window !== 'undefined') {
-    // ?reset=1 — developer/testing escape hatch: wipe all intake state.
+    // ?reset=1 — developer/testing escape hatch: wipe all app state.
     // Triggered via https://app.my4mlife.com/?reset=1
     const params = new URLSearchParams(window.location.search);
     if (params.has('reset')) {
-      INTAKE_KEYS.forEach(k => localStorage.removeItem(k));
+      WIPE_KEYS.forEach(k => localStorage.removeItem(k));
       localStorage.removeItem(SCHEMA_KEY);
       // Strip ?reset from the URL so subsequent reloads don't re-wipe
       const url = new URL(window.location.href);
@@ -54,7 +95,7 @@
   }
 
   if (typeof localStorage !== 'undefined' && localStorage.getItem(SCHEMA_KEY) !== SCHEMA_VAL) {
-    INTAKE_KEYS.forEach(k => localStorage.removeItem(k));
+    WIPE_KEYS.forEach(k => localStorage.removeItem(k));
     localStorage.setItem(SCHEMA_KEY, SCHEMA_VAL);
   }
 
