@@ -1,0 +1,311 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Regenerative Medicine Solutions | My4MLife";
+const description = "Regenerative medicine for chronic conditions where conventional care plateaus — COPD, congestive heart failure, autoimmune, neurodegeneration, chronic pain. Coordinated through our partner regenerative medicine practice via the comprehensive 4M consult.";
+const canonical = "https://www.my4mlife.com/regenerative-medicine";
+const keywords = "regenerative medicine, chronic conditions, regenerative protocols, COPD regenerative, autoimmune regenerative, neurodegeneration, chronic pain";
+const ogImage = "https://www.my4mlife.com/og-image.svg";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalWebPage",
+      "@id": "https://www.my4mlife.com/regenerative-medicine#webpage",
+      "url": "https://www.my4mlife.com/regenerative-medicine",
+      "name": "Regenerative Medicine Solutions | My4MLife",
+      "description": "Regenerative medicine for chronic conditions where conventional care plateaus.",
+      "about": {
+        "@type": "MedicalTherapy",
+        "name": "Regenerative Medicine",
+        "description": "Regenerative medicine protocols delivered via nationwide mobile clinical team. Conditions we have helped include COPD, CHF, autoimmune disease, neurodegeneration, and chronic pain syndromes.",
+        "bodyLocation": "Multiple — intra-articular, IV, intrathecal, intranasal, pulmonary"
+      }
+    }
+  ]
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} schema={schema}>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="section-tag" style="color:rgba(255,255,255,0.6);">Regenerative Medicine</span>
+      <h1>Regenerative Medicine Solutions</h1>
+      <p class="hero-sub">When conventional care plateaus.</p>
+      <p class="hero-note">Coordinated through our contracted licensed regenerative medicine practice. Nationwide mobile delivery. Clinician-supervised.</p>
+      <div class="hero-buttons">
+        <a href="/consult" class="btn btn-primary btn-large">Schedule Comprehensive 4M Consult — Discuss Regenerative Medicine Candidacy <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT IS REGENERATIVE MEDICINE ===== -->
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="rpa-intro fade-in">
+      <div class="rpa-intro-text">
+        <span class="section-tag">What Is Regenerative Medicine</span>
+        <h2>A different class of medicine — designed for what conventional care cannot reverse.</h2>
+        <p>Regenerative medicine is a category of clinical intervention that goes beyond symptom management to target the underlying tissue damage driving chronic disease. Where conventional care manages symptoms — bronchodilators for COPD, diuretics for CHF, NSAIDs for joint pain — regenerative medicine protocols are designed to work at the tissue level, targeting the compartments where damage accumulates: pulmonary tissue, myocardial tissue, synovial and cartilage tissue, and neuronal tissue.</p>
+        <p style="margin-top:1rem;">The conditions where regenerative medicine is most relevant are exactly those where conventional care plateaus. Chronic obstructive pulmonary disease (COPD), congestive heart failure (CHF), autoimmune flares, neurodegeneration, and post-injury chronic pain all share a common ceiling in standard care: symptom management without tissue restoration. Regenerative medicine solutions — protocols developed at our partner regenerative medicine practice — represent the frontier where actual restoration becomes possible.</p>
+        <p style="margin-top:1rem;">Multiple administration routes (intra-articular, IV, nebulized, intrathecal, intranasal) allow targeting of nearly any tissue compartment, including the central nervous system. Delivery is nationwide via mobile clinical team — no specialized facility visit required. Each protocol is individually designed based on candidacy review, condition profile, and lab assessment. The pathway starts with a comprehensive 4M consult through My4MLife, which coordinates candidacy review and protocol design; the regenerative medicine itself is then provided directly by the contracted regenerative medicine clinic.</p>
+      </div>
+      <div class="rpa-visual">
+        <div class="rpa-icon-block"><i class="fas fa-truck-medical"></i><span>Nationwide Mobile Delivery</span></div>
+        <div class="rpa-icon-block"><i class="fas fa-map-marked-alt"></i><span>Partner Clinic Network</span></div>
+        <div class="rpa-icon-block"><i class="fas fa-flask"></i><span>Protocol-Designed Per Patient</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONDITIONS GRID ===== -->
+<section class="section" id="conditions">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Conditions We Have Helped</span>
+      <h2>Where regenerative medicine becomes the meaningful next step.</h2>
+      <p>Conditions we have helped include those where conventional care plateaus and regenerative medicine is the frontier. Listed for educational purposes — outcomes vary by individual.</p>
+    </div>
+    <div class="indications-grid fade-in">
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-brain"></i></div>
+        <h3>Brain &amp; Cognitive Longevity</h3>
+        <p>Early-stage cognitive decline, post-concussion syndrome, and neurological aging — targeting CNS compartment via intrathecal and intranasal routes.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-bone"></i></div>
+        <h3>Joint Degeneration</h3>
+        <p>Osteoarthritis, cartilage degeneration, chronic joint pain that has not responded to physical therapy, NSAIDs, or anti-inflammatory protocols. Intra-articular delivery to the joint space.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-lungs"></i></div>
+        <h3>COPD / Pulmonary</h3>
+        <p>Chronic obstructive pulmonary disease and pulmonary inflammation — addressed via nebulizer route for direct lung tissue access. A condition where conventional bronchodilator therapy manages but has not reversed the underlying process.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-heart-pulse"></i></div>
+        <h3>Cardiovascular — CHF</h3>
+        <p>Congestive heart failure where conventional medical management has been optimized but a ceiling remains. Systemic IV protocol targeting whole-body inflammatory burden and cardiac tissue support.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>Autoimmune Conditions</h3>
+        <p>Hashimoto's thyroiditis, Graves' disease, rheumatoid arthritis, lupus, and related autoimmune flare conditions — where immune dysregulation creates chronic tissue damage.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-person-falling-burst"></i></div>
+        <h3>Chronic Pain Syndromes</h3>
+        <p>Long-standing pain that has not responded to physical therapy, medication, peptides like BPC-157, or anti-inflammatory diet. The regenerative option when standard interventions have been exhausted.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-person-walking-dashed-line-arrow-right"></i></div>
+        <h3>Post-Injury Recovery &amp; Stroke Recovery</h3>
+        <p>Chronic post-injury sequelae — including post-surgical recovery, post-concussion syndrome, stroke recovery, and injuries that have healed structurally but left persistent functional impairment.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-network-wired"></i></div>
+        <h3>Neurodegeneration</h3>
+        <p>Early Parkinson's-spectrum presentations, multiple sclerosis-related neurological impairment, chronic post-COVID, and related neurodegenerative processes where CNS compartment access is the therapeutic lever.</p>
+      </div>
+      <div class="indication-card">
+        <div class="ind-icon"><i class="fas fa-kidneys"></i></div>
+        <h3>Chronic Kidney Disease</h3>
+        <p>Chronic kidney disease where conventional nephrology management has reached a functional plateau. Systemic inflammatory burden reduction as a complement to standard CKD management.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THE PATHWAY ===== -->
+<section class="section" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">The Regenerative Medicine Pathway</span>
+      <h2>Candidacy review first. Protocol design second. Delivery third.</h2>
+      <p>Not every patient is a regenerative medicine candidate. This is a premium, clinician-designed protocol — appropriateness is determined through a structured review process, not a checkbox form.</p>
+    </div>
+    <div class="pathway-grid fade-in">
+      <div class="pathway-step">
+        <div class="pathway-num">1</div>
+        <h3>Comprehensive 4M Consult</h3>
+        <p>Every regenerative medicine pathway begins with a comprehensive 4M consult through My4MLife. This covers your full health history, current medications, lab values, condition profile, and prior interventions. Regenerative medicine candidacy is assessed at this stage.</p>
+        <a href="/consult" class="pathway-link">Schedule Your Consult &rarr;</a>
+      </div>
+      <div class="pathway-step">
+        <div class="pathway-num">2</div>
+        <h3>Protocol Design</h3>
+        <p>If candidacy is confirmed, your regenerative medicine protocol is designed in coordination with our partner regenerative medicine practice. Administration route selection (intra-articular, IV, nebulizer, intrathecal, intranasal), dosing, and scheduling are determined by condition and clinical profile.</p>
+      </div>
+      <div class="pathway-step">
+        <div class="pathway-num">3</div>
+        <h3>Mobile Delivery &amp; Follow-Up</h3>
+        <p>The partner clinic's mobile team delivers your protocol at your location — home, office, or hotel — nationwide. A structured follow-up protocol monitors response and adjusts if a multi-administration course is indicated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Investment</span>
+      <h2>Premium tier — pricing finalized at consult.</h2>
+      <p>Protocol design, condition complexity, administration route, and number of sessions determine final pricing. This is not a one-size pricing model.</p>
+    </div>
+    <div class="pricing-box fade-in">
+      <div class="pricing-text">
+        <h3>Pricing is determined at your comprehensive 4M consult</h3>
+        <p>Regenerative medicine solutions are a premium service with pricing that reflects the mobile clinical team, clinician supervision, multi-route delivery model, and protocol complexity. Pricing is finalized at consult based on protocol design and candidacy.</p>
+        <p style="margin-top:1rem;"><strong>Insider Concierge and Graduate members</strong> receive priority scheduling and protocol guidance as part of their tier benefits. Membership reduces coordination friction and ensures your consult is regenerative medicine-informed from the start.</p>
+      </div>
+      <div class="pricing-cta">
+        <a href="/consult" class="btn btn-primary btn-large">Schedule Comprehensive 4M Consult <i class="fas fa-arrow-right"></i></a>
+        <a href="/tiers" class="btn btn-outline" style="margin-top:0.75rem; display:block; text-align:center;">View Membership Tiers</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUDIT NOTE ===== -->
+<section class="section audit-note-section">
+  <div class="container">
+    <div class="audit-note fade-in">
+      <i class="fas fa-clipboard-list"></i>
+      <p>The 20-Question Audit captures broad health vectors but not specific chronic conditions. If you have a diagnosed condition like COPD, CHF, or autoimmune disease, schedule the comprehensive 4M consult — that's where condition-specific candidacy is determined.</p>
+      <a href="/consult" class="btn btn-outline" style="margin-top:1.25rem; display:inline-block;">Schedule the Comprehensive 4M Consult &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section cta-section">
+  <div class="container fade-in">
+    <span class="section-tag">Ready to Explore Regenerative Medicine?</span>
+    <h2>Schedule Your Comprehensive 4M Consult — Discuss Regenerative Medicine Candidacy</h2>
+    <p>Regenerative medicine candidacy is determined at the consult — not before. Start there.</p>
+    <div class="cta-buttons">
+      <a href="/consult" class="btn btn-primary btn-large">Schedule Comprehensive 4M Consult <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DISCLAIMER ===== -->
+<section class="disclaimer-section">
+  <div class="container">
+    <p>Regenerative medicine protocols are coordinated through our partner regenerative medicine practice. My4MLife provides candidacy review through the comprehensive 4M consult; the regenerative medicine itself is delivered directly by the contracted clinical practice. My4MLife is a lifestyle and wellness education platform. Content on this page is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Outcomes vary by individual; the conditions we have helped are listed for educational purposes and do not constitute medical claims. Always consult a qualified healthcare provider before beginning any new health protocol.</p>
+  </div>
+</section>
+
+<script is:inline>
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+</script>
+
+<style is:global>
+  :root {
+    --primary: #0f4c75; --primary-light: #1b6fa8; --accent: #00b894; --accent-dark: #00a381;
+    --dark: #0a1628; --text: #2d3748; --text-light: #718096; --bg: #ffffff;
+    --bg-soft: #f7fafc; --bg-accent: #edf7f6; --border: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12); --radius: 12px; --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); line-height: 1.7; overflow-x: hidden; }
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); line-height: 1.2; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  .section { padding: 6rem 0; }
+  .section-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
+  .section-header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+  .section-header h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+  .section-header p { color: var(--text-light); font-size: 1.05rem; }
+  .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* Hero */
+  .hero { padding: 10rem 0 6rem; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); position: relative; overflow: hidden; text-align: center; }
+  .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 70%); border-radius: 50%; }
+  .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+  .hero h1 { font-size: 2.8rem; color: white; margin-bottom: 1.2rem; }
+  .hero-sub { font-size: 1.25rem; color: rgba(255,255,255,0.92); margin-bottom: 0.75rem; font-style: italic; font-family: 'Playfair Display', serif; }
+  .hero-note { font-size: 0.95rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
+  .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: all 0.25s; }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
+  .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+  .btn-outline:hover { background: var(--primary); color: white; }
+  .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
+
+  /* What is regen medicine intro */
+  .rpa-intro { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: start; }
+  .rpa-intro-text h2 { font-size: 2rem; margin-bottom: 1.2rem; }
+  .rpa-intro-text p { color: var(--text-light); font-size: 1rem; }
+  .rpa-visual { display: flex; flex-direction: column; gap: 1.5rem; }
+  .rpa-icon-block { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; }
+  .rpa-icon-block i { font-size: 2rem; color: var(--accent); }
+  .rpa-icon-block span { font-size: 0.85rem; font-weight: 600; color: var(--dark); }
+
+  /* Conditions grid */
+  .indications-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .indication-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem 1.5rem; transition: all 0.3s; }
+  .indication-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+  .ind-icon { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
+  .indication-card h3 { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.6rem; }
+  .indication-card p { color: var(--text-light); font-size: 0.85rem; line-height: 1.65; }
+
+  /* Pathway */
+  .pathway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .pathway-step { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; }
+  .pathway-num { width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--accent); color: white; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+  .pathway-step h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.75rem; }
+  .pathway-step p { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; }
+  .pathway-link { display: inline-block; margin-top: 1rem; font-size: 0.85rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+  .pathway-link:hover { text-decoration: underline; }
+
+  /* Pricing */
+  .pricing-box { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: center; background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 3rem; }
+  .pricing-text h3 { font-family: 'Inter', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 0.75rem; }
+  .pricing-text p { color: var(--text-light); font-size: 0.95rem; line-height: 1.7; }
+  .pricing-cta { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+
+  /* Audit note */
+  .audit-note-section { background: var(--bg-accent); }
+  .audit-note { max-width: 740px; margin: 0 auto; text-align: center; }
+  .audit-note i { font-size: 2.5rem; color: var(--accent); margin-bottom: 1.25rem; display: block; }
+  .audit-note p { color: var(--text); font-size: 1rem; line-height: 1.8; }
+
+  /* CTA */
+  .cta-section { background: var(--bg-accent); text-align: center; }
+  .cta-section h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+  .cta-section p { color: var(--text-light); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
+  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* Disclaimer */
+  .disclaimer-section { background: #f7fafc; border-top: 1px solid var(--border); padding: 2rem 0; }
+  .disclaimer-section p { font-size: 0.75rem; color: var(--text-light); line-height: 1.7; max-width: 880px; }
+
+  @media (max-width: 1100px) {
+    .indications-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 1024px) {
+    .pathway-grid { grid-template-columns: 1fr; max-width: 540px; margin: 0 auto; }
+    .pricing-box { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .rpa-intro { grid-template-columns: 1fr; }
+    .rpa-visual { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .indications-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+</BaseLayout>
