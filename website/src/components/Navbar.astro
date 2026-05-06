@@ -558,8 +558,25 @@ const moreItems = [
     });
   });
 
-  if (backdrop) backdrop.addEventListener('click', closeAll);
+  // Use pointerdown on backdrop so it fires before the link's click — but we
+  // must NOT close if the pointer target is inside the panel (i.e. a dd-item).
+  if (backdrop) backdrop.addEventListener('pointerdown', function (e) {
+    // Backdrop is behind the panels (z-index 1000 vs 1001) so pointer events
+    // on backdrop only fire when clicking genuinely outside a panel.
+    closeAll();
+  });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
+
+  // Defensive: ensure dd-item links always navigate even if something tries to swallow the click.
+  document.querySelectorAll('.dd-item').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      // Never preventDefault on navigation links.
+      var href = a.getAttribute('href');
+      if (href && !e.defaultPrevented) {
+        setTimeout(closeAll, 80);
+      }
+    });
+  });
 
   // Close mobile menu on link click
   if (mobileMenu) {
