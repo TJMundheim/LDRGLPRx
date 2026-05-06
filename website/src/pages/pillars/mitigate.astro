@@ -93,6 +93,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <a href="/solutions/nutritional-supplements" class="explore-link">Explore &rarr;</a>
       </div>
 
+      <div class="subtopic-card subtopic-card--rpa">
+        <div class="rpa-pill">REGENERATIVE TIER</div>
+        <h3>Chronic Conditions &amp; Regenerative Care</h3>
+        <p>COPD, congestive heart failure, autoimmune disease, neurodegeneration — where conventional management reaches its ceiling. Genesis RPA is the ultimate intervention for these conditions, delivered through our partner regenerative medicine practice.</p>
+        <a href="/solutions/chronic-conditions" class="explore-link">Explore Chronic Conditions &rarr;</a>
+      </div>
+
     </div>
   </div>
 </section>
@@ -310,6 +317,24 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   color: var(--text-light);
   line-height: 1.7;
   max-width: 880px;
+}
+.subtopic-card--rpa {
+  border-color: rgba(0,184,148,0.4);
+  background: linear-gradient(135deg, rgba(0,184,148,0.04) 0%, rgba(15,76,117,0.04) 100%);
+}
+.subtopic-card--rpa:hover { border-color: var(--accent); }
+.rpa-pill {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.4);
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
 }
 @media (max-width: 900px) {
   .subtopic-grid { grid-template-columns: repeat(2, 1fr); }

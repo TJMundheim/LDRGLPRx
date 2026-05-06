@@ -121,6 +121,20 @@ const robots = "index, follow";
         <p>Chronic cortisol elevation literally shrinks the hippocampus. This is fixable.</p>
         <span class="priority-cta">Explore &rarr;</span>
       </a>
+      <a href="/solutions/chronic-conditions" class="priority-card priority-card--regen">
+        <span class="priority-badge priority-badge--regen">Chronic Conditions</span>
+        <p>COPD, CHF, autoimmune, neurodegeneration — where conventional care plateaus and regenerative medicine begins.</p>
+        <span class="priority-cta">Explore &rarr;</span>
+      </a>
+    </div>
+    <div class="hp-genesis-banner">
+      <div class="hp-genesis-inner">
+        <div class="hp-genesis-text">
+          <strong>Living with COPD, CHF, or chronic pain that hasn't responded to conventional care?</strong>
+          <span>Genesis RPA — our regenerative medicine pathway — may be the next step.</span>
+        </div>
+        <a href="/genesis-rpa" class="hp-genesis-link">Learn About Genesis RPA &rarr;</a>
+      </div>
     </div>
   </div>
 </section>
@@ -373,6 +387,53 @@ const robots = "index, follow";
 }
 .priority-card p { font-size: 0.9rem; color: var(--text); line-height: 1.6; margin-bottom: 0.8rem; }
 .priority-cta { font-size: 0.82rem; font-weight: 600; color: var(--primary); }
+.priority-card--regen {
+  border-color: rgba(0,184,148,0.35);
+  background: linear-gradient(135deg, rgba(0,184,148,0.05) 0%, rgba(15,76,117,0.05) 100%);
+}
+.priority-card--regen:hover { border-color: var(--accent); }
+.priority-badge--regen { color: var(--primary); }
+
+/* Genesis RPA homepage banner */
+.hp-genesis-banner {
+  margin-top: 2rem;
+  background: linear-gradient(135deg, rgba(0,184,148,0.08) 0%, rgba(15,76,117,0.08) 100%);
+  border: 1px solid rgba(0,184,148,0.3);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 2rem;
+}
+.hp-genesis-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.hp-genesis-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.hp-genesis-text strong { color: var(--dark); font-weight: 700; }
+.hp-genesis-text span { color: var(--text-light); font-size: 0.9rem; }
+.hp-genesis-link {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0.65rem 1.6rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.hp-genesis-link:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
 
 /* ===== COHORT TIERS ===== */
 .hp-tiers-section { background: linear-gradient(135deg, #0a1628 0%, #0f4c75 100%); }
