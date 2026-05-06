@@ -121,8 +121,9 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <!-- 7. EMF Meter -->
     <article class="product-card" id="emf-meter">
       <div class="product-badge">Gateway Pick</div>
+      <span class="avail-badge avail-badge--affiliate">Available — Affiliate</span>
       <h3 class="product-name">4M EMF Meter</h3>
-      <p class="product-price-range">$79–$179 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-price-range">~$179 <span class="price-note">partner pricing — launch pricing finalizing</span></p>
       <p class="product-tagline">TriField/Cornet-style RF + ELF meter — map your actual exposure before buying any mitigation hardware.</p>
       <ul class="product-specs">
         <li>Measures RF (100 MHz–8 GHz), ELF magnetic fields, and ELF electric fields</li>
@@ -131,7 +132,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
         <li>Used by members before and after installing shielding to confirm effectiveness</li>
       </ul>
       <p class="product-why">Most people buying EMF products have no idea where their actual sources are or how strong they are. The meter converts guesswork into data — you'll know within 10 minutes whether your bedroom has a problem, where it comes from, and whether any mitigation you install actually worked.</p>
-      <a href="#notify-emf" class="notify-btn">Notify Me When Available →</a>
+      <a href="https://my4mlife.com/affiliate/trifield?product=trifield-tf2" class="affiliate-btn">Order via Partner →</a>
     </article>
 
     <!-- 8. Wired Headphones -->
@@ -182,12 +183,38 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     The Faraday pouch and router kit handle the two largest sources for under $110 combined.
   </p>
 
+  <!-- ── Understanding EMF: The Science ── -->
+  <section class="edu-section">
+    <h2 class="edu-title">Understanding EMF: What We Know, What We Don't</h2>
+    <p class="edu-intro">EMF mitigation is the most contested topic in the environmental protocol. The science is genuinely mixed — not because the physics are in question, but because long-term low-level biological effects are hard to study and the research base is still building. Here is an honest accounting of where the evidence stands.</p>
+
+    <div class="edu-block">
+      <h3 class="edu-h3">Acknowledged Signal Load</h3>
+      <p>The electromagnetic environment of a modern home is categorically different from anything humans evolved in. RF (radio frequency) signals from cellular networks — 3G through 5G — Wi-Fi routers broadcasting on 2.4 and 5 GHz, Bluetooth devices, smart meters pulsing at full power every 15 seconds, and "dirty electricity" (high-frequency voltage transients riding on household wiring) together create a multi-source, always-on signal environment with no historical analog.</p>
+      <p>The biological mechanisms under investigation are specific and plausible. RF at non-thermal intensities has been shown in laboratory settings to activate voltage-gated calcium channels (VGCC), leading to elevated intracellular calcium — a signaling cascade that downstream increases nitric oxide, peroxynitrite, and reactive oxygen species production. Martin Pall's VGCC hypothesis, while not yet consensus, has been replicated in multiple independent cell culture and animal studies. Oxidative stress from this pathway is the proposed mechanism linking RF exposure to neurological effects including cognitive function changes, sleep architecture disruption, and sperm motility reduction. These are moderate-evidence associations, not proven causation — but they are studied, peer-reviewed, and mechanistically grounded.</p>
+    </div>
+
+    <div class="edu-block">
+      <h3 class="edu-h3">The Honest Uncertainty</h3>
+      <p>Long-term low-level effects from the RF environment humans currently live in have not been fully characterized. The challenge is methodological: it is nearly impossible to maintain a true unexposed control group in a population that saturates the environment with Wi-Fi, cellular, and Bluetooth signals. Self-reported electromagnetic hypersensitivity (EHS) has not been consistently validated in double-blind provocation studies — people who believe they are sensitive often cannot reliably detect exposure when blinded. This does not mean EHS doesn't exist in some form; it means the mechanism, if real, may not be direct sensory detection but rather cumulative biological load expressed over time.</p>
+      <p>The International Agency for Research on Cancer (IARC) classified RF electromagnetic fields as Group 2B "possibly carcinogenic to humans" in 2011, based primarily on the Interphone and Hardell studies on glioma risk and heavy mobile phone use. This is the same classification as coffee and aloe vera extract — it means there is some evidence but it is not definitive. The WHO acknowledges that the research is ongoing and that conclusions will update as long-term cohort data matures. The precautionary case for reducing unnecessary exposure is conservative, not paranoid — it applies the same logic used to reduce any biological stressor whose long-term effects are not yet fully characterized.</p>
+    </div>
+
+    <div class="edu-block">
+      <h3 class="edu-h3">The Protocol Layers</h3>
+      <p><strong>Sleep sanctuary (highest priority).</strong> Sleep is your longest continuous high-exposure window if bedroom devices are present. A phone on the nightstand continuously broadcasts at full cellular power searching for signal. A router in or adjacent to the bedroom broadcasts Wi-Fi 24 hours a day. Creating a low-EMF sleep zone — phone out of the room or in a Faraday pouch, router on a timer — addresses the longest continuous exposure period with the simplest behavioral changes. If shielding hardware is desired, a canopy or shielding bedding converts the sleep zone into an actively protected space.</p>
+      <p><strong>Distance from devices.</strong> RF field strength drops with the square of distance — doubling your distance from a source reduces exposure by 75%. Moving a router from a nightstand to a hallway closet is not nothing. Carrying your phone in a bag rather than a front pocket during the day is not nothing. These are free, immediate, and reversible. They also don't require believing the most alarming claims about EMF — they are just reducing proximity to signal sources during extended-contact periods.</p>
+      <p><strong>Hardwired ethernet where possible.</strong> A device connected via ethernet cable produces zero Wi-Fi RF. A laptop, desktop, or TV that is always used in the same location is a candidate for wiring. Powerline ethernet adapters extend a wired network to any outlet in the home without running cable. Hardwiring stationary devices reduces the number of Wi-Fi clients on the network, which often also reduces the router's overall transmission activity.</p>
+      <p><strong>EMF meter (gateway: see your numbers).</strong> Before buying any shielding hardware, use a meter. A quality RF + ELF meter like the TriField TF2 gives you actual measurement data from your bedroom, office, and high-occupancy areas in under 15 minutes. Members who meter first invariably prioritize differently than those who guess. It converts a philosophical concern into an engineering problem — you see the numbers, you identify the sources, and you make decisions based on your actual exposure profile rather than general anxiety about EMF as a category.</p>
+    </div>
+  </section>
+
   <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
     Read More: Full Environmental Protocol →
   </a>
 
   <p style="margin-top:1.5rem; font-size:0.82rem; color:var(--text-light);">
-    <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through product links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
+    <em>Affiliate disclosure: My4MLife may earn a commission on purchases made through partner links on this page. All products are independently evaluated against the My4MLife protocol standards before inclusion.</em>
   </p>
 
   <!-- ── Optional Protégé footer ── -->
@@ -394,4 +421,78 @@ import EmailCapture from '../../../components/EmailCapture.astro';
   white-space: nowrap;
 }
 .protege-link:hover { text-decoration: underline; }
+
+/* Affiliate / available badges */
+.avail-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  align-self: flex-start;
+  margin-bottom: 0.1rem;
+}
+.avail-badge--affiliate {
+  color: #0a7c4d;
+  background: rgba(0,180,100,0.12);
+  border: 1px solid rgba(0,180,100,0.35);
+}
+.affiliate-btn {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.48rem 1.2rem;
+  background: #0a7c4d;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.15s, transform 0.15s;
+}
+.affiliate-btn:hover {
+  background: #075c3a;
+  transform: translateY(-1px);
+}
+
+/* Educational deep-dive section */
+.edu-section {
+  background: linear-gradient(135deg, rgba(26,54,93,0.04) 0%, rgba(0,184,148,0.05) 100%);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 2rem 2rem 1.5rem;
+  margin: 2.5rem 0 2rem;
+}
+.edu-title {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.75rem;
+  line-height: 1.3;
+}
+.edu-intro {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.75;
+  margin: 0 0 1.5rem;
+  font-style: italic;
+}
+.edu-block { margin-bottom: 1.5rem; }
+.edu-block:last-child { margin-bottom: 0; }
+.edu-h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.6rem;
+}
+.edu-block p {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.75;
+  margin: 0 0 0.85rem;
+}
+.edu-block p:last-child { margin-bottom: 0; }
 </style>
