@@ -3,171 +3,386 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
 ---
 
 <SolutionPage
-  title="Environmental Health"
+  title="Optimize Your Environment"
   parent="Mitigate"
-  oneliner="Your environment is dictating your biology 24/7 whether you notice or not."
+  oneliner="Eight levers in your home that are silently shaping your biology."
   slug="environment"
+  description="Light, air, water, EMF, grounding, sauna, cold plunge, mineral bath — eight environmental levers shaping your biology 24/7. Curated solutions, no consult required."
   showSolutionPath={false}
   showDisclaimer={false}
 >
+
   <!-- ── Why this matters ── -->
   <h2>Why This Matters</h2>
+  <p class="intro-para">Your environment is not a backdrop — it is a continuous biological input. Light wavelength and timing calibrate your hormone cycles, cortisol arc, and melatonin window. Indoor air quality determines how much inflammatory particulate and mycotoxin load your lymphatic system must manage overnight. Water contaminants accumulate over years into endocrine disruption that no supplement stack can fully offset. Addressing the environment is not optimization — it is base-level biology hygiene that makes every other protocol work better.</p>
   <ul class="insult-list">
-    <li>Light, air, water, EMF, and grounding are high-leverage biological inputs — they change the dose-response of every other protocol you run</li>
-    <li>Modern indoor environments are poorly matched to human biology: artificial light suppresses melatonin, tap water delivers endocrine disruptors, indoor air routinely exceeds outdoor pollution levels</li>
-    <li>Small, targeted environmental interventions produce compounding benefit across every 4M pillar — sleep, cognition, hormones, and gut health all improve downstream</li>
+    <li>Environmental inputs operate around the clock — they compound silently across years before symptoms appear</li>
+    <li>Modern indoor living severs ancient inputs (sunlight timing, earth contact, hot/cold contrast) that drove human longevity for millennia</li>
+    <li>Small, targeted environmental interventions produce downstream improvement in sleep, cognition, hormonal balance, and gut health simultaneously</li>
   </ul>
 
-  <!-- ── Shop by Sub-Category ── -->
-  <h2 id="environment-categories">Shop by Category</h2>
-  <p>Eight environmental factors. Each has curated protocol-matched products. Click in to explore and purchase.</p>
-  <div class="env-grid">
-    <a href="/solutions/environment/light" class="env-card">
-      <div class="env-icon">☀</div>
-      <h3>Light</h3>
-      <p>Circadian-friendly bulbs, blue-blockers, red-light therapy, and morning light protocols.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
-    <a href="/solutions/environment/air" class="env-card">
-      <div class="env-icon">💨</div>
-      <h3>Air</h3>
-      <p>HEPA + carbon filtration, mold testing, and indoor air quality interventions.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
-    <a href="/solutions/environment/water" class="env-card">
-      <div class="env-icon">💧</div>
-      <h3>Water</h3>
-      <p>Reverse osmosis, whole-home filtration, shower filters, and replacement schedules.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
-    <a href="/solutions/environment/emf" class="env-card">
-      <div class="env-icon">⚡</div>
-      <h3>EMF</h3>
-      <p>Shielding bedding, faraday cases, low-EMF routers, and distance-based strategies.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
-    <a href="/solutions/environment/grounding" class="env-card">
-      <div class="env-icon">🌿</div>
-      <h3>Grounding</h3>
-      <p>Sleep mats, floor mats, grounding patches, and outdoor grounding protocols.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
-    <a href="/solutions/environment/sauna" class="env-card env-card--new">
-      <div class="env-icon">🔥</div>
-      <h3>Sauna</h3>
-      <p>Heat shock proteins, BDNF, cardiovascular longevity. Blankets to custom Swedish cedar builds.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
-    <a href="/solutions/environment/cold-plunge" class="env-card env-card--new">
-      <div class="env-icon">❄</div>
-      <h3>Cold Plunge</h3>
-      <p>Norepinephrine, brown fat, dopamine. Inflatable tubs to jacuzzi conversions to custom pools.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
-    <a href="/solutions/environment/mineral-bath" class="env-card env-card--new">
-      <div class="env-icon">⬡</div>
-      <h3>Mineral Bath</h3>
-      <p>Pure magnesium, Dead Sea salt, Himalayan, and Epsom — no fragrance, no endocrine disruptors.</p>
-      <span class="env-cta">Explore Products →</span>
-    </a>
+  <!-- ────────────────────────────────────── -->
+  <!-- 1. LIGHT ENVIRONMENT -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">Light Environment <span class="cat-essence">— Lack of sun at the right times — and the wrong light at the wrong times.</span></h2>
+    <p class="cat-para">Your circadian clock is set almost entirely by light — specifically the timing, spectrum, and intensity of photons hitting your retina. Morning full-spectrum sunlight triggers a cortisol peak that calibrates your entire hormonal arc for the day. Evening blue-spectrum light (standard LEDs, screens) suppresses melatonin onset by up to 90 minutes, compressing the recovery window. Heritage incandescent bulbs and fires produce blackbody radiation — a warm, red-shifted spectrum that does not signal "daytime" to the suprachiasmatic nucleus. Dimming and shifting toward red wavelengths after sunset is among the highest-ROI sleep interventions available — especially for the 3am bathroom trip that can fully awaken you under blue light.</p>
+
+    <div class="feat-card">
+      <div class="feat-badge badge-whitelabel">Ships soon — white-label</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M Night-Light Pack</h3>
+        <p class="feat-price">$24</p>
+        <p class="feat-tag">Bedside red bulbs that won't suppress melatonin during 3am bathroom trips</p>
+        <ul class="feat-specs">
+          <li>4-pack of 1W red 660nm bulbs</li>
+          <li>Won't dock you out of sleep cycle</li>
+          <li>Bathroom + hallway + bedroom + kitchen</li>
+        </ul>
+        <a href="#shop-coming-soon" class="btn-feat">Order — Notify Me →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/light" class="explore-link">Explore Light Environment in depth →</a>
   </div>
 
-  <!-- ── Condensed Insulting Behaviors ── -->
-  <h2>The Insulting Behaviors</h2>
-  <ul class="insult-list">
-    <li>LED overhead lighting in the bedroom and living areas all night — blue-spectrum suppresses melatonin production</li>
-    <li>Drinking unfiltered tap water — fluoride, chlorine, PFAS, and microplastics delivered daily</li>
-    <li>Constant EMF immersion — router in the bedroom, phone in the pocket all day, sleeping next to chargers</li>
-    <li>Feet never touching earth — modern footwear and flooring eliminate grounding, a measurable anti-inflammatory input</li>
-  </ul>
+  <!-- ────────────────────────────────────── -->
+  <!-- 2. AIR QUALITY -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">Air Quality <span class="cat-essence">— The EPA documents indoor air as 2–5× more polluted than outdoor air.</span></h2>
+    <p class="cat-para">The average American spends more than 90% of their time indoors, breathing air that the EPA consistently measures at 2–5 times the particulate and VOC concentration of outside air. Sources include off-gassing furniture, synthetic flooring, cleaning products, mold spores, and combustion byproducts. Mycotoxins from hidden mold colonize fatty tissue and cross the blood-brain barrier, contributing to brain fog, fatigue, and inflammatory states that are difficult to trace without testing. The bedroom is the highest-ROI target: you spend 7–8 hours there every night with airway fully open. A true HEPA + activated carbon unit in the bedroom is the single highest-return environmental purchase most members make.</p>
 
-  <a href="/blog/eliminate-the-insulting-behavior-environment" class="blog-deepdive-btn">
-    Read More: Eliminate the Insulting Behavior — Environment →
-  </a>
+    <div class="feat-card">
+      <div class="feat-badge badge-affiliate">Available — Affiliate</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M Bedroom Air Purifier</h3>
+        <p class="feat-price">$249 <span class="feat-price-note">(Air Doctor 2000)</span></p>
+        <p class="feat-tag">Whisper-quiet HEPA + activated carbon for your 7–8 hour recovery window</p>
+        <ul class="feat-specs">
+          <li>True HEPA captures 99.97% of 0.3µm particles</li>
+          <li>Activated carbon removes VOCs + formaldehyde</li>
+          <li>Sized for bedrooms 150–300 sq ft · Real-time air quality indicator</li>
+        </ul>
+        <a href="https://my4mlife.com/affiliate/air-doctor?product=ad2000" class="btn-feat">Order via Partner →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/air" class="explore-link">Explore Air Quality in depth →</a>
+  </div>
 
-  <!-- ── Optional Protégé footer ── -->
+  <!-- ────────────────────────────────────── -->
+  <!-- 3. WATER QUALITY -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">Water Quality <span class="cat-essence">— Fluoride, chlorine, chloramines, PFAS, microplastics — all in the average tap.</span></h2>
+    <p class="cat-para">Municipal tap water carries a known cocktail of disinfection byproducts (chlorine, chloramines), industrial contamination (PFAS, heavy metals), agricultural runoff (nitrates, herbicide residue), and microplastics that have now been detected in human blood and lymph tissue. Fluoride, while contested in dosage debates, accumulates in the pineal gland over decades. The cumulative endocrine-disrupting load across 10–20 years is not something the liver can simply metabolize away. The gold standard protocol: reverse osmosis for drinking and cooking (removes >95% of contaminants), remineralization drops or cartridge to restore electrolyte balance, and a shower filter — skin and lung absorption during a 10-minute hot shower is often overlooked as a significant exposure route.</p>
+
+    <div class="feat-card">
+      <div class="feat-badge badge-affiliate">Available — Affiliate</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M Counter-Top Water Filter</h3>
+        <p class="feat-price">$179 <span class="feat-price-note">(AquaTru)</span></p>
+        <p class="feat-tag">No-plumbing-required reverse osmosis. Sits on your counter. Apartment-friendly.</p>
+        <ul class="feat-specs">
+          <li>4-stage RO + carbon filtration</li>
+          <li>NSF-certified for fluoride, chlorine, PFAS, lead</li>
+          <li>No installation · Replaceable filter cartridges (subscription available)</li>
+        </ul>
+        <a href="https://my4mlife.com/affiliate/aquatru?product=countertop-ro" class="btn-feat">Order via Partner →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/water" class="explore-link">Explore Water Quality in depth →</a>
+  </div>
+
+  <!-- ────────────────────────────────────── -->
+  <!-- 4. EMF MITIGATION -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">EMF Mitigation <span class="cat-essence">— What we know, what we don't, and why precaution makes sense.</span></h2>
+    <p class="cat-para">The science on radiofrequency and non-ionizing EMF is genuinely mixed — we are not in the settled-consensus zone. What peer-reviewed research does document: voltage-gated calcium channel activation under RF exposure (Martin Pall, PhD), melatonin suppression from electric-field exposure during sleep, and oxidative stress markers in cell models. What's prudent while the data matures: move the router out of the bedroom, stop sleeping with the phone at the bedside, identify dirty electricity sources. The first step for most members is simply measurement — once you see your baseline readings, the path forward becomes obvious. The TriField TF2 is the standard starting point among our members and environmental health practitioners.</p>
+
+    <div class="feat-card">
+      <div class="feat-badge badge-affiliate">Available — Affiliate</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M EMF Meter</h3>
+        <p class="feat-price">$179 <span class="feat-price-note">(TriField TF2)</span></p>
+        <p class="feat-tag">See what's actually around you. Most members are surprised by their baseline.</p>
+        <ul class="feat-specs">
+          <li>Measures RF, electric, and magnetic fields</li>
+          <li>Audio + visual alerts · Identifies hidden sources (smart meters, routers, dirty electricity)</li>
+          <li>Gateway product — once you see the numbers, the rest follows</li>
+        </ul>
+        <a href="https://my4mlife.com/affiliate/trifield?product=tf2" class="btn-feat">Order via Partner →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/emf" class="explore-link">Explore EMF Mitigation in depth →</a>
+  </div>
+
+  <!-- ────────────────────────────────────── -->
+  <!-- 5. GROUNDING -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">Grounding <span class="cat-essence">— Earth as antioxidant — published clinical data on inflammation, HRV, sleep.</span></h2>
+    <p class="cat-para">The Earth's surface carries a mild negative charge — a reservoir of free electrons. Bare-skin contact with soil, grass, or conductive earth transfers these electrons into the body, where they act as antioxidants by neutralizing reactive oxygen species. Published clinical trials (Chevalier, Sinatra et al.) demonstrate measurable reductions in cortisol curve dysregulation, inflammatory cytokines, and subjective pain scores following 8 weeks of consistent grounding. HRV improvements have been documented in cardiac patients. The mechanism is electron-field biology — a branch of biophysics that modern life's rubber-soled shoes, synthetic flooring, and elevated buildings have largely eliminated. For members who cannot access outdoor barefoot contact daily, conductive sleep mats offer the same electron transfer through a grounded outlet.</p>
+
+    <div class="feat-card">
+      <div class="feat-badge badge-affiliate">Available — Affiliate</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M Grounding Sleep Mat</h3>
+        <p class="feat-price">$129 <span class="feat-price-note">(Earthing.com)</span></p>
+        <p class="feat-tag">Sleep grounded for 7–8 hours nightly. Plug into the grounding port of any standard outlet.</p>
+        <ul class="feat-specs">
+          <li>Bedroom-size · Conductive carbon-infused fabric</li>
+          <li>Connects via grounded outlet · 30-day return guarantee</li>
+          <li>Backed by published clinical research</li>
+        </ul>
+        <a href="https://my4mlife.com/affiliate/earthing?product=sleep-mat" class="btn-feat">Order via Partner →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/grounding" class="explore-link">Explore Grounding in depth →</a>
+  </div>
+
+  <!-- ────────────────────────────────────── -->
+  <!-- 6. SAUNA -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">Sauna <span class="cat-essence">— Heat shock proteins, BDNF, cardiovascular adaptation. Finnish data: 4–7×/week → all-cause mortality reduction.</span></h2>
+    <p class="cat-para">The Finnish longitudinal sauna study (Laukkanen et al., JAMA Internal Medicine) tracked over 2,300 men across 20 years and found that 4–7 sauna sessions per week correlated with a 40% reduction in all-cause mortality compared to once weekly. The mechanisms are layered: heat shock protein induction repairs misfolded proteins and clears cellular debris; BDNF (brain-derived neurotrophic factor) rises acutely during heat exposure, supporting neuroplasticity; cardiovascular adaptation mirrors moderate aerobic exercise. Far-infrared (FIR) saunas penetrate tissue at lower ambient temperatures, making them more accessible for home use. For members without room for a traditional build, a sauna blanket delivers FIR heat in any space without installation.</p>
+
+    <div class="feat-card">
+      <div class="feat-badge badge-affiliate">Available — Affiliate</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M Sauna Blanket</h3>
+        <p class="feat-price">$349 <span class="feat-price-note">(HigherDose)</span></p>
+        <p class="feat-tag">Far-infrared heat without the install. Apartment-friendly entry point.</p>
+        <ul class="feat-specs">
+          <li>Far-infrared heat with low EMF · Heats to 158°F</li>
+          <li>Amethyst + tourmaline crystal layers · 60-min session protocol</li>
+          <li>No installation required</li>
+        </ul>
+        <a href="https://my4mlife.com/affiliate/higherdose?product=sauna-blanket" class="btn-feat">Order via Partner →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/sauna" class="explore-link">Explore Sauna in depth →</a>
+  </div>
+
+  <!-- ────────────────────────────────────── -->
+  <!-- 7. COLD PLUNGE -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">Cold Plunge <span class="cat-essence">— Norepinephrine +200–300%, brown fat activation, dopamine elevation lasting hours.</span></h2>
+    <p class="cat-para">Andrew Huberman's lab and Susanna Søberg's cold exposure research established a minimal effective dose of approximately 11 minutes of cold water immersion per week (distributed across 3–4 sessions) to activate brown adipose tissue and sustain norepinephrine elevation. A single cold session produces a 200–300% spike in norepinephrine — the neurotransmitter most correlated with drive, focus, and mood stability — and a dopamine elevation that can persist 3–6 hours post-exposure. Peer-reviewed data supports cold immersion as an adjunct in depression-reduction protocols. Paired with sauna in contrast therapy (hot-cold-hot cycling), the cardiovascular and neurological benefits compound. An inflatable tub makes this practice accessible at a fraction of purpose-built cold plunge cost.</p>
+
+    <div class="feat-card">
+      <div class="feat-badge badge-affiliate">Available — Affiliate</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M Ice Bath Tub</h3>
+        <p class="feat-price">$149 <span class="feat-price-note">(inflatable)</span></p>
+        <p class="feat-tag">Inflatable, portable, $149. Start cold therapy this week.</p>
+        <ul class="feat-specs">
+          <li>Holds 80+ gallons · Insulated walls retain ice for 4–6 hours</li>
+          <li>Drain valve included · Stores compactly when not in use</li>
+          <li>Adult sizing (5'6" – 6'4")</li>
+        </ul>
+        <a href="https://my4mlife.com/affiliate/polar-recovery?product=ice-tub" class="btn-feat">Order via Partner →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/cold-plunge" class="explore-link">Explore Cold Plunge in depth →</a>
+  </div>
+
+  <!-- ────────────────────────────────────── -->
+  <!-- 8. MINERAL BATH -->
+  <!-- ────────────────────────────────────── -->
+  <div class="cat-section">
+    <h2 class="cat-heading">Mineral Bath <span class="cat-essence">— Sauna's accessible cousin — vasodilation + transdermal mineral absorption.</span></h2>
+    <p class="cat-para">A hot mineral bath produces peripheral vasodilation, a mild cardiovascular load comparable to light exertion, and — when mineral salts are present — meaningful transdermal absorption. Magnesium in particular is absorbed efficiently through the skin; oral magnesium carries GI absorption limits that transdermal bypasses. Dead Sea salts contribute bromide, potassium, and calcium alongside magnesium; Himalayan adds trace mineral complexity; USP Epsom is the most pharmacologically pure magnesium sulfate source. Critical caveat: commercial bath products frequently add fragrance compounds, phthalates, dyes, and parabens — all documented endocrine disruptors. The 4M Mineral Bath Bundle uses pure single-ingredient salts only, third-party tested for heavy metals, with zero additives.</p>
+
+    <div class="feat-card">
+      <div class="feat-badge badge-whitelabel">Ships soon — white-label</div>
+      <div class="feat-card-body">
+        <h3 class="feat-name">4M Mineral Bath Bundle</h3>
+        <p class="feat-price">$59</p>
+        <p class="feat-tag">Pure Dead Sea + magnesium flake + Himalayan + USP Epsom. Zero fragrance, zero additives.</p>
+        <ul class="feat-specs">
+          <li>4-mineral combination pack · Pure single-ingredient salts</li>
+          <li>No fragrance, parabens, phthalates, or colorants</li>
+          <li>Third-party tested for heavy metals · 8 baths per pack</li>
+        </ul>
+        <a href="#shop-coming-soon" class="btn-feat">Order — Notify Me →</a>
+      </div>
+    </div>
+    <a href="/solutions/environment/mineral-bath" class="explore-link">Explore Mineral Bath in depth →</a>
+  </div>
+
+  <!-- ── App footer ── -->
   <div class="protege-card">
-    Want a personalized environmental + supplement protocol? <strong>Become a Protégé (free)</strong> — the My4MLife App includes environmental coaching by week.
+    <strong>Track your progress week by week.</strong> The My4MLife App guides your environmental optimization month by month — light protocol in Week 1, air and water in Week 2, heat and cold in Weeks 3–4. Every lever, sequenced and tracked.
     <a href="https://app.my4mlife.com" class="protege-link">Join My4MLife →</a>
   </div>
+
 </SolutionPage>
 
 <style>
-/* 8-card environment grid: 1col mobile → 2col tablet → 4col desktop */
-.env-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+/* ── Intro paragraph ── */
+.intro-para {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin: 0 0 1.25rem;
+}
+
+/* ── Category section ── */
+.cat-section {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-  margin: 1rem 0 2.5rem;
 }
-@media (min-width: 540px) {
-  .env-grid { grid-template-columns: repeat(2, 1fr); }
+
+.cat-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1.35;
 }
-@media (min-width: 960px) {
-  .env-grid { grid-template-columns: repeat(4, 1fr); }
+
+.cat-essence {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-light);
 }
-.env-card {
+
+.cat-para {
+  font-size: 0.91rem;
+  color: var(--text-light);
+  line-height: 1.72;
+  margin: 0;
+}
+
+/* ── Featured product card ── */
+.feat-card {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.5rem 1.1rem;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.feat-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+}
+
+.badge-affiliate {
+  color: #0a7c5c;
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.35);
+}
+
+.badge-whitelabel {
+  color: #8a5a00;
+  background: rgba(200,140,0,0.1);
+  border: 1px solid rgba(200,140,0,0.35);
+}
+
+.feat-card-body {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  text-decoration: none;
-  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
 }
-.env-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 4px 18px rgba(0,184,148,0.15);
-  transform: translateY(-2px);
-}
-.env-icon {
-  font-size: 1.6rem;
-  line-height: 1;
-  margin-bottom: 0.3rem;
-}
-.env-card h3 {
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
+
+.feat-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
   color: var(--primary);
   margin: 0;
 }
-.env-card p {
-  font-size: 0.82rem;
-  color: var(--text-light);
-  margin: 0;
-  flex: 1;
-}
-.env-cta {
-  display: inline-block;
-  margin-top: 0.6rem;
-  font-size: 0.82rem;
+
+.feat-price {
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--accent);
+  margin: 0;
 }
 
-/* Blog deep-dive link styled as button */
-.blog-deepdive-btn {
-  display: inline-block;
-  margin: 1rem 0 2rem;
-  padding: 0.55rem 1.4rem;
-  background: var(--bg-soft);
-  border: 1px solid var(--accent);
-  border-radius: 999px;
+.feat-price-note {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.feat-tag {
+  font-size: 0.88rem;
+  color: var(--text);
+  margin: 0;
+  font-style: italic;
+}
+
+.feat-specs {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.feat-specs li {
+  font-size: 0.83rem;
+  color: var(--text-light);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.feat-specs li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
   color: var(--accent);
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s;
-}
-.blog-deepdive-btn:hover {
-  background: var(--accent);
-  color: #fff;
+  font-weight: 700;
 }
 
-/* Protégé footer */
+.btn-feat {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: var(--primary);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.18s;
+  margin-top: 0.25rem;
+}
+
+.btn-feat:hover {
+  background: var(--primary-dark, #1e3560);
+  transform: translateY(-1px);
+}
+
+/* ── Explore link ── */
+.explore-link {
+  display: inline-block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.explore-link:hover { text-decoration: underline; }
+
+/* ── Protégé footer ── */
 .protege-card {
   background: linear-gradient(135deg, rgba(26,54,93,0.05) 0%, rgba(0,184,148,0.06) 100%);
   border: 1px solid var(--border);
@@ -176,17 +391,19 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   padding: 1.1rem 1.4rem;
   font-size: 0.92rem;
   color: var(--text);
-  margin: 0 0 1rem;
+  margin: 2.5rem 0 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
 }
+
 .protege-link {
   color: var(--accent);
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
 }
+
 .protege-link:hover { text-decoration: underline; }
 </style>
