@@ -316,6 +316,13 @@ const moreItems = [
     animation: ddFadeIn 0.15s ease;
   }
   .dd-panel-wide { min-width: 240px; }
+  /* The More dropdown sits near the right edge of the navbar — anchor right so the panel doesn't clip past the viewport. */
+  #dd-panel-more {
+    left: auto;
+    right: 0;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
   .dd-panel[hidden] { display: none; }
 
   @keyframes ddFadeIn {
