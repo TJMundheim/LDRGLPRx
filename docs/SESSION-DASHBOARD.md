@@ -2,7 +2,7 @@
 
 **This file is updated continuously through the work session. Keep it open in a separate IDE window so you don't lose decisions in the chat scroll. I'll add a timestamp at the top of each major change.**
 
-Last updated: 2026-05-06 — Anticipated-testimonials section live on homepage (honest forward-framing, brain-health anchored, no fabricated reviews). Organic influencer + founder-essay strategy plan committed. **TJ offline; autonomous mode active.**
+Last updated: 2026-05-07 — Age brackets stripped from public-facing copy across website + clientportal. Target reframed as "men, self-selecting by intent" (psychographic, not demographic). **TJ offline; autonomous mode active.**
 
 ---
 
@@ -18,6 +18,7 @@ Last updated: 2026-05-06 — Anticipated-testimonials section live on homepage (
 
 | SHA | Description |
 |---|---|
+| `f189ba15` | Strip age brackets — men self-select by intent, not age (locked 2026-05-07) |
 | `59c555d2` | Organic influencer + founder-essay strategy plan (docs/plan/) |
 | `70c1c8be` | Homepage anticipated-testimonials section — honest forward-framing, brain-health anchored |
 | `82765fed` | Continuation handoff runbook for next-in-line agent (TJ-authorized autonomous mode) |
