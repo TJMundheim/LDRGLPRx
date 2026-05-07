@@ -195,6 +195,15 @@ const robots = "index, follow";
   var userEmail = '';
   var userPhone = '';
 
+  // ── ?reset=1 wipe ──
+  (function maybeReset() {
+    try {
+      if (new URLSearchParams(window.location.search).get('reset') === '1') {
+        localStorage.removeItem(LS_KEY);
+      }
+    } catch (e) {}
+  })();
+
   // ── Restore from localStorage ──
   (function restore() {
     try {
