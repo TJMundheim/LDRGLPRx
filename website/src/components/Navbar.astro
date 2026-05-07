@@ -1,116 +1,130 @@
 ---
-// No MegaMenu import — 4M mega-menus removed; replaced with flat + simple dropdowns
+// Radically simplified navbar: Home | Services ▾ | Sign In →
+
+const frameworkItems = [
+  { label: 'Mind',     href: '/pillars/mind' },
+  { label: 'Muscle',   href: '/pillars/muscle' },
+  { label: 'Mitigate', href: '/pillars/mitigate' },
+  { label: 'Motivate', href: '/pillars/motivate' },
+];
+
+const categoryItems = [
+  { label: 'Gut Health / Leaky Gut',  href: '/solutions/gut' },
+  { label: 'Testosterone Therapy',    href: '/solutions/hormones' },
+  { label: 'GLP-1 Weight Loss',       href: '/solutions/weight' },
+  { label: 'Brain Optimization',      href: '/solutions/cognitive' },
+  { label: 'Peptides',                href: '/solutions/peptides' },
+  { label: 'Regenerative Medicine',   href: '/regenerative-medicine' },
+  { label: 'Chronic Conditions',      href: '/solutions/chronic-conditions' },
+];
 
 const envItems = [
-  { label: 'Environmental Factors Overview', href: '/solutions/environment' },
-  { label: 'Light environment',  href: '/solutions/environment/light' },
-  { label: 'Air quality',        href: '/solutions/environment/air' },
-  { label: 'Water quality',      href: '/solutions/environment/water' },
-  { label: 'EMF mitigation',     href: '/solutions/environment/emf' },
-  { label: 'Grounding',          href: '/solutions/environment/grounding' },
-  { label: 'Sauna',              href: '/solutions/environment/sauna' },
-  { label: 'Cold Plunge',        href: '/solutions/environment/cold-plunge' },
-  { label: 'Mineral Bath',       href: '/solutions/environment/mineral-bath' },
+  { label: 'Overview',      href: '/solutions/environment' },
+  { label: 'Light',         href: '/solutions/environment/light' },
+  { label: 'Air Quality',   href: '/solutions/environment/air' },
+  { label: 'Water Quality', href: '/solutions/environment/water' },
+  { label: 'EMF Mitigation',href: '/solutions/environment/emf' },
+  { label: 'Grounding',     href: '/solutions/environment/grounding' },
+  { label: 'Sauna',         href: '/solutions/environment/sauna' },
+  { label: 'Cold Plunge',   href: '/solutions/environment/cold-plunge' },
+  { label: 'Mineral Bath',  href: '/solutions/environment/mineral-bath' },
 ];
 
 const moreItems = [
-  { label: 'Sleep quality',           href: '/solutions/sleep' },
-  { label: 'Acute pain',              href: '/solutions/pain-acute' },
-  { label: 'Chronic pain',            href: '/solutions/pain-chronic' },
-  { label: 'Allergies & immune',      href: '/solutions/allergies' },
-  { label: 'Stress',                  href: '/solutions/stress' },
-  { label: 'Dental',                  href: '/solutions/dental' },
+  { label: 'Sleep',                    href: '/solutions/sleep' },
+  { label: 'Acute Pain',               href: '/solutions/pain-acute' },
+  { label: 'Chronic Pain',             href: '/solutions/pain-chronic' },
+  { label: 'Allergies & Immune',       href: '/solutions/allergies' },
+  { label: 'Stress',                   href: '/solutions/stress' },
+  { label: 'Dental',                   href: '/solutions/dental' },
   { label: 'Nutritional Supplements',  href: '/solutions/nutritional-supplements' },
-  { label: 'Substance use',           href: '/solutions/substance-use' },
-  { label: 'Nutrition',               href: '/solutions/nutrition' },
-  { label: 'Morning routine',         href: '/solutions/morning-routine' },
-  { label: 'Lack of purpose & goals', href: '/solutions/purpose-goals' },
-  { label: 'Self-image',              href: '/solutions/self-image' },
-  { label: 'Financial stress',        href: '/solutions/financial-stress' },
-  { label: 'Health knowledge',        href: '/solutions/health-knowledge' },
-  { label: 'Healthcare access',       href: '/solutions/healthcare-access' },
-  { label: 'Chronic conditions',      href: '/solutions/chronic-conditions' },
+  { label: 'Substance Use',            href: '/solutions/substance-use' },
+  { label: 'Nutrition',                href: '/solutions/nutrition' },
+  { label: 'Morning Routine',          href: '/solutions/morning-routine' },
+  { label: 'Lack of Purpose & Goals',  href: '/solutions/purpose-goals' },
+  { label: 'Self-Image',               href: '/solutions/self-image' },
+  { label: 'Financial Stress',         href: '/solutions/financial-stress' },
+  { label: 'Health Knowledge',         href: '/solutions/health-knowledge' },
+  { label: 'Healthcare Access',        href: '/solutions/healthcare-access' },
+];
+
+const programItems = [
+  { label: 'Membership Tiers', href: '/membership' },
+  { label: 'Take the Free Audit', href: '/assessment' },
+  { label: 'Blog',             href: '/blog' },
+  { label: 'About',            href: '/about' },
 ];
 ---
 
 <nav class="navbar" id="navbar">
   <div class="nav-inner">
 
-    <!-- Logo -->
-    <a href="/" class="nav-logo" aria-label="My4MLife — home">
-      <img
-        class="logo-lockup"
-        src="/logos/concept-13/lockup-color.svg"
-        alt="My4MLife"
-        width="160"
-        height="44"
-      />
-      <img
-        class="logo-mark"
-        src="/logos/concept-13/mark-color.svg"
-        alt="My4MLife"
-        width="44"
-        height="44"
-      />
+    <!-- Home (replaces logo lockup) -->
+    <a href="/" class="nav-home" aria-label="My4MLife — home">
+      <img src="/logos/concept-13/mark-color.svg" alt="" width="30" height="30" aria-hidden="true" />
+      <span class="nav-home-label">Home</span>
     </a>
 
     <!-- Desktop nav -->
     <ul class="nav-links" id="nav-links" role="menubar">
 
-      <!-- Primary CTA -->
-      <li role="none">
-        <a href="/assessment" class="btn btn-assessment" role="menuitem">
-          Take the Free Assessment ›
-        </a>
-      </li>
-
-      <!-- 5 flat solution links -->
-      <li role="none"><a href="/solutions/gut"       class="nav-link" role="menuitem">Gut Health / Leaky Gut</a></li>
-      <li role="none"><a href="/solutions/hormones"  class="nav-link" role="menuitem">Testosterone Therapy</a></li>
-      <li role="none"><a href="/solutions/weight"    class="nav-link" role="menuitem">GLP-1 Weight Loss</a></li>
-      <li role="none"><a href="/solutions/cognitive" class="nav-link" role="menuitem">Brain Optimization</a></li>
-      <li role="none"><a href="/solutions/peptides"  class="nav-link" role="menuitem">Peptides</a></li>
-
-      <!-- Environmental Factors dropdown -->
-      <li class="dd-trigger" role="none" id="dd-env">
-        <button class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dd-panel-env">
-          Environmental Factors
+      <!-- Services mega-menu -->
+      <li class="dd-trigger" role="none" id="dd-services">
+        <button class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dd-panel-services">
+          Services
           <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <ul class="dd-panel" id="dd-panel-env" role="menu" hidden>
-          {envItems.map((item) => (
-            <li role="none">
-              <a href={item.href} class="dd-item" role="menuitem">{item.label}</a>
-            </li>
-          ))}
-        </ul>
-      </li>
 
-      <!-- More dropdown -->
-      <li class="dd-trigger" role="none" id="dd-more">
-        <button class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dd-panel-more">
-          More
-          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <ul class="dd-panel dd-panel-wide" id="dd-panel-more" role="menu" hidden>
-          {moreItems.map((item) => (
-            <li role="none">
-              <a href={item.href} class="dd-item" role="menuitem">{item.label}</a>
-            </li>
-          ))}
-        </ul>
-      </li>
+        <!-- Mega-menu panel -->
+        <div class="mega-panel" id="dd-panel-services" hidden>
+          <div class="mega-grid">
 
-      <!-- Membership -->
-      <li role="none"><a href="/4m-cohort" class="nav-link nav-membership" role="menuitem">Membership</a></li>
+            <!-- 4M Framework -->
+            <div class="mega-section">
+              <p class="mega-heading">4M Framework</p>
+              {frameworkItems.map((item) => (
+                <a href={item.href} class="mega-link">{item.label}</a>
+              ))}
+            </div>
+
+            <!-- Top Categories -->
+            <div class="mega-section">
+              <p class="mega-heading">Top Categories</p>
+              {categoryItems.map((item) => (
+                <a href={item.href} class="mega-link">{item.label}</a>
+              ))}
+            </div>
+
+            <!-- Environmental Factors -->
+            <div class="mega-section">
+              <p class="mega-heading">Environmental Factors</p>
+              {envItems.map((item) => (
+                <a href={item.href} class="mega-link">{item.label}</a>
+              ))}
+            </div>
+
+            <!-- Right column: More Topics + Programs -->
+            <div class="mega-section mega-section-right">
+              <p class="mega-heading">More Topics</p>
+              {moreItems.map((item) => (
+                <a href={item.href} class="mega-link">{item.label}</a>
+              ))}
+
+              <p class="mega-heading mega-heading-spacer">Programs</p>
+              {programItems.map((item) => (
+                <a href={item.href} class="mega-link">{item.label}</a>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </li>
 
       <!-- Sign In -->
-      <li role="none">
-        <a href="https://app.my4mlife.com" class="btn btn-primary nav-signin" role="menuitem">
+      <li role="none" class="nav-signin-item">
+        <a href="https://app.my4mlife.com" class="btn btn-primary" role="menuitem">
           Sign In &rarr;
         </a>
       </li>
@@ -127,59 +141,92 @@ const moreItems = [
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
 
-    <!-- 1. Primary CTA -->
-    <div class="mobile-top">
-      <a href="/assessment" class="btn btn-assessment mobile-assessment">Take the Free Assessment ›</a>
-    </div>
-
-    <!-- 2. Flat solution links -->
-    <div class="mobile-flat-solutions">
-      <a href="/solutions/gut"       class="mobile-link">Gut Health / Leaky Gut</a>
-      <a href="/solutions/hormones"  class="mobile-link">Testosterone Therapy</a>
-      <a href="/solutions/weight"    class="mobile-link">GLP-1 Weight Loss</a>
-      <a href="/solutions/cognitive" class="mobile-link">Brain Optimization</a>
-      <a href="/solutions/peptides"  class="mobile-link">Peptides</a>
-    </div>
-
-    <!-- Environmental Factors accordion -->
+    <!-- Services accordion -->
     <div class="mobile-section">
-      <button class="mobile-section-btn" aria-expanded="false" aria-controls="mobile-env">
-        Environmental Factors
+      <button class="mobile-section-btn" aria-expanded="false" aria-controls="mobile-services">
+        Services
         <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
           <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <ul class="mobile-section-list" id="mobile-env" hidden>
-        {envItems.map((item) => (
-          <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
-        ))}
-      </ul>
+      <div class="mobile-section-content" id="mobile-services" hidden>
+
+        <!-- 4M Framework -->
+        <button class="mobile-sub-btn" aria-expanded="false" aria-controls="mobile-framework">
+          4M Framework
+          <svg class="chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="mobile-sub-list" id="mobile-framework" hidden>
+          {frameworkItems.map((item) => (
+            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+          ))}
+        </ul>
+
+        <!-- Top Categories -->
+        <button class="mobile-sub-btn" aria-expanded="false" aria-controls="mobile-categories">
+          Top Categories
+          <svg class="chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="mobile-sub-list" id="mobile-categories" hidden>
+          {categoryItems.map((item) => (
+            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+          ))}
+        </ul>
+
+        <!-- Environmental Factors -->
+        <button class="mobile-sub-btn" aria-expanded="false" aria-controls="mobile-env">
+          Environmental Factors
+          <svg class="chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="mobile-sub-list" id="mobile-env" hidden>
+          {envItems.map((item) => (
+            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+          ))}
+        </ul>
+
+        <!-- More Topics -->
+        <button class="mobile-sub-btn" aria-expanded="false" aria-controls="mobile-more">
+          More Topics
+          <svg class="chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="mobile-sub-list" id="mobile-more" hidden>
+          {moreItems.map((item) => (
+            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+          ))}
+        </ul>
+
+        <!-- Programs -->
+        <button class="mobile-sub-btn" aria-expanded="false" aria-controls="mobile-programs">
+          Programs
+          <svg class="chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="mobile-sub-list" id="mobile-programs" hidden>
+          {programItems.map((item) => (
+            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+          ))}
+        </ul>
+
+      </div>
     </div>
 
-    <!-- More accordion -->
-    <div class="mobile-section">
-      <button class="mobile-section-btn" aria-expanded="false" aria-controls="mobile-more">
-        More
-        <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <ul class="mobile-section-list" id="mobile-more" hidden>
-        {moreItems.map((item) => (
-          <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
-        ))}
-      </ul>
-    </div>
-
-    <!-- 3 & 4. Membership + Sign In -->
+    <!-- Sign In -->
     <div class="mobile-flat">
-      <a href="/4m-cohort" class="mobile-link mobile-membership">Membership</a>
       <a href="https://app.my4mlife.com" class="btn btn-primary mobile-signin">Sign In &rarr;</a>
     </div>
   </div>
 </nav>
 
-<!-- Simple dropdown backdrop -->
+<!-- Backdrop closes mega-menu on outside click -->
 <div class="dd-backdrop" id="dd-backdrop" aria-hidden="true"></div>
 
 <style is:global>
@@ -205,23 +252,26 @@ const moreItems = [
     gap: 0;
   }
 
-  /* ── Logo ── */
-  .nav-logo {
+  /* ── Home button (replaces logo lockup) ── */
+  .nav-home {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     text-decoration: none;
-    margin-right: 1.25rem;
+    margin-right: 1rem;
     flex-shrink: 0;
+    color: var(--dark, #1a1a1a);
+    border-radius: 8px;
+    padding: 0.4rem 0.6rem;
+    transition: background 0.2s, color 0.2s;
   }
-  .logo-lockup {
-    height: 40px;
-    width: auto;
-    display: block;
-  }
-  .logo-mark {
-    height: 40px;
-    width: auto;
-    display: none;
+  .nav-home:hover { background: var(--bg-soft, #f5f0e8); color: var(--primary); }
+  .nav-home img { display: block; flex-shrink: 0; }
+  .nav-home-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
 
   /* ── Desktop nav links ── */
@@ -234,47 +284,9 @@ const moreItems = [
     padding: 0;
     flex: 1;
   }
-  .nav-link {
-    display: block;
-    padding: 0.5rem 0.65rem;
-    color: var(--text);
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: color 0.2s, background 0.2s;
-    white-space: nowrap;
-  }
-  .nav-link:hover { color: var(--primary); background: var(--bg-soft, #f5f0e8); }
+  .nav-signin-item { margin-left: auto; }
 
-  .nav-membership { font-weight: 600; }
-  .nav-signin { margin-left: auto; }
-
-  /* ── Assessment CTA button ── */
-  .btn-assessment {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-decoration: none;
-    white-space: nowrap;
-    background: var(--primary, #2d4a7a);
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: all 0.25s;
-    margin-right: 0.5rem;
-  }
-  .btn-assessment:hover {
-    background: var(--primary-dark, #1e3560);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(45,74,122,0.3);
-  }
-
-  /* ── Simple dropdown trigger ── */
+  /* ── Services dropdown trigger ── */
   .dd-trigger {
     position: relative;
     list-style: none;
@@ -283,13 +295,13 @@ const moreItems = [
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.5rem 0.65rem;
+    padding: 0.5rem 0.8rem;
     background: none;
     border: none;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 600;
     color: var(--text);
     border-radius: 6px;
     transition: color 0.2s, background 0.2s;
@@ -303,47 +315,65 @@ const moreItems = [
   .dd-btn .chevron { transition: transform 0.2s; flex-shrink: 0; }
   .dd-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
 
-  /* ── Dropdown panel ── */
-  .dd-panel {
+  /* ── Mega-menu panel ── */
+  .mega-panel {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + 8px);
     left: 0;
-    min-width: 210px;
-    background: white;
+    width: 820px;
+    background: var(--bg-parchment, #fdf8f2);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    list-style: none;
-    margin: 0;
-    padding: 0.4rem 0;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.13);
+    padding: 1.5rem;
     z-index: 1001;
     animation: ddFadeIn 0.15s ease;
   }
-  .dd-panel-wide { min-width: 240px; }
-  /* The More dropdown sits near the right edge of the navbar — anchor right so the panel doesn't clip past the viewport. */
-  #dd-panel-more {
-    left: auto;
-    right: 0;
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-  .dd-panel[hidden] { display: none; }
+  .mega-panel[hidden] { display: none; }
 
   @keyframes ddFadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
+    from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .dd-item {
+  .mega-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 0 1.5rem;
+  }
+
+  .mega-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mega-heading {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary, #2d4a7a);
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .mega-heading-spacer {
+    margin-top: 1.25rem;
+  }
+
+  .mega-link {
     display: block;
-    padding: 0.55rem 1rem;
-    font-size: 0.86rem;
+    padding: 0.28rem 0.1rem;
+    font-size: 0.82rem;
     font-weight: 500;
     color: var(--text);
     text-decoration: none;
-    transition: background 0.15s, color 0.15s;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+    white-space: nowrap;
   }
-  .dd-item:hover { background: var(--bg-soft, #f5f0e8); color: var(--primary); }
+  .mega-link:hover { color: var(--accent, #00b894); }
 
   /* ── Dropdown backdrop ── */
   .dd-backdrop {
@@ -354,7 +384,7 @@ const moreItems = [
   }
   .dd-backdrop.open { display: block; }
 
-  /* ── Btn helpers ── */
+  /* ── Sign In button ── */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -404,26 +434,11 @@ const moreItems = [
     flex-direction: column;
     background: white;
     border-top: 1px solid var(--border);
-    padding: 1rem 1.5rem 2rem;
+    padding: 0.5rem 1.5rem 2rem;
     max-height: calc(100vh - 72px);
     overflow-y: auto;
   }
   .mobile-menu.open { display: flex; }
-
-  .mobile-top {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 0.75rem;
-  }
-  .mobile-assessment { width: 100%; justify-content: center; }
-
-  .mobile-flat-solutions {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
-    margin-bottom: 0.25rem;
-  }
 
   .mobile-section { border-bottom: 1px solid var(--border); }
   .mobile-section-btn {
@@ -443,32 +458,53 @@ const moreItems = [
   }
   .mobile-section-btn .chevron { transition: transform 0.2s; }
   .mobile-section-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
-  .mobile-section-list {
+
+  .mobile-section-content {
+    padding-bottom: 0.75rem;
+  }
+
+  /* Sub-section accordion inside Services */
+  .mobile-sub-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.6rem 0.25rem;
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--primary, #2d4a7a);
+    cursor: pointer;
+    text-align: left;
+    border-top: 1px solid var(--border);
+    margin-top: 0.25rem;
+  }
+  .mobile-sub-btn .chevron { transition: transform 0.2s; }
+  .mobile-sub-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+  .mobile-sub-list {
     list-style: none;
-    padding: 0 0 0.75rem 0.5rem;
+    padding: 0 0 0.5rem 0.75rem;
     margin: 0;
   }
-  .mobile-section-list li { margin-bottom: 0.1rem; }
+  .mobile-sub-list li { margin-bottom: 0.05rem; }
 
   .mobile-link {
     display: block;
-    padding: 0.5rem 0.25rem;
-    font-size: 0.88rem;
+    padding: 0.45rem 0.25rem;
+    font-size: 0.86rem;
     color: var(--text);
     text-decoration: none;
     transition: color 0.2s;
   }
-  .mobile-link:hover { color: var(--primary); }
+  .mobile-link:hover { color: var(--accent, #00b894); }
 
   .mobile-flat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
     padding-top: 1rem;
-  }
-  .mobile-membership {
-    font-weight: 600;
-    font-size: 0.95rem;
   }
   .mobile-signin { width: 100%; justify-content: center; }
 
@@ -476,12 +512,20 @@ const moreItems = [
   @media (max-width: 960px) {
     .nav-links { display: none !important; }
     .menu-toggle { display: flex; }
-    .logo-lockup { display: none; }
-    .logo-mark { display: block; }
   }
   @media (min-width: 961px) {
     .mobile-menu { display: none !important; }
     .menu-toggle { display: none; }
+  }
+
+  /* Keep mega-panel from clipping on narrower desktops */
+  @media (min-width: 961px) and (max-width: 1100px) {
+    .mega-panel {
+      width: 680px;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .mega-grid { gap: 0 1rem; }
+    .mega-link { font-size: 0.78rem; }
   }
 </style>
 
@@ -504,85 +548,59 @@ const moreItems = [
     });
   }
 
-  // Mobile accordions
-  document.querySelectorAll('.mobile-section-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var id = btn.getAttribute('aria-controls');
-      var panel = id ? document.getElementById(id) : null;
-      if (!panel) return;
-      var expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-      panel.hidden = expanded;
+  // Generic accordion helper
+  function bindAccordions(selector) {
+    document.querySelectorAll(selector).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('aria-controls');
+        var panel = id ? document.getElementById(id) : null;
+        if (!panel) return;
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        panel.hidden = expanded;
+      });
     });
-  });
+  }
 
-  // Desktop dropdowns
+  bindAccordions('.mobile-section-btn');
+  bindAccordions('.mobile-sub-btn');
+
+  // Desktop mega-menu
   var backdrop = document.getElementById('dd-backdrop');
-  var openId = null;
+  var servicesBtn = document.querySelector('#dd-services .dd-btn');
+  var servicesPanel = document.getElementById('dd-panel-services');
 
-  function openDd(id) {
-    if (openId && openId !== id) closeDd(openId);
-    var panel = document.getElementById('dd-panel-' + id);
-    var btn = document.querySelector('#dd-' + id + ' .dd-btn');
-    if (panel && btn) {
-      panel.hidden = false;
-      btn.setAttribute('aria-expanded', 'true');
-      if (backdrop) backdrop.classList.add('open');
-      openId = id;
-    }
+  function openServices() {
+    if (servicesPanel) servicesPanel.hidden = false;
+    if (servicesBtn) servicesBtn.setAttribute('aria-expanded', 'true');
+    if (backdrop) backdrop.classList.add('open');
   }
 
-  function closeDd(id) {
-    var panel = document.getElementById('dd-panel-' + id);
-    var btn = document.querySelector('#dd-' + id + ' .dd-btn');
-    if (panel) panel.hidden = true;
-    if (btn) btn.setAttribute('aria-expanded', 'false');
+  function closeServices() {
+    if (servicesPanel) servicesPanel.hidden = true;
+    if (servicesBtn) servicesBtn.setAttribute('aria-expanded', 'false');
     if (backdrop) backdrop.classList.remove('open');
-    openId = null;
   }
 
-  function closeAll() { if (openId) closeDd(openId); }
-
-  ['env', 'more'].forEach(function (id) {
-    var trigger = document.getElementById('dd-' + id);
-    if (!trigger) return;
-    var btn = trigger.querySelector('.dd-btn');
-    if (!btn) return;
-
-    btn.addEventListener('click', function () {
-      if (openId === id) { closeDd(id); } else { openDd(id); }
+  if (servicesBtn) {
+    servicesBtn.addEventListener('click', function () {
+      var expanded = servicesBtn.getAttribute('aria-expanded') === 'true';
+      if (expanded) { closeServices(); } else { openServices(); }
     });
-
-    btn.addEventListener('keydown', function (e) {
+    servicesBtn.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        if (openId === id) { closeDd(id); } else { openDd(id); }
+        var expanded = servicesBtn.getAttribute('aria-expanded') === 'true';
+        if (expanded) { closeServices(); } else { openServices(); }
       }
-      if (e.key === 'Escape') closeAll();
+      if (e.key === 'Escape') closeServices();
     });
-  });
+  }
 
-  // Use pointerdown on backdrop so it fires before the link's click — but we
-  // must NOT close if the pointer target is inside the panel (i.e. a dd-item).
-  if (backdrop) backdrop.addEventListener('pointerdown', function (e) {
-    // Backdrop is behind the panels (z-index 1000 vs 1001) so pointer events
-    // on backdrop only fire when clicking genuinely outside a panel.
-    closeAll();
-  });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
+  if (backdrop) backdrop.addEventListener('pointerdown', closeServices);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeServices(); });
 
-  // Defensive: ensure dd-item links always navigate even if something tries to swallow the click.
-  document.querySelectorAll('.dd-item').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      // Never preventDefault on navigation links.
-      var href = a.getAttribute('href');
-      if (href && !e.defaultPrevented) {
-        setTimeout(closeAll, 80);
-      }
-    });
-  });
-
-  // Close mobile menu on link click
+  // Close mobile menu on any link click
   if (mobileMenu) {
     mobileMenu.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', function () {
