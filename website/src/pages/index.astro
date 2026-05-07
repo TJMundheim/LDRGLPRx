@@ -1,190 +1,227 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EmailCapture from '../components/EmailCapture.astro';
-import RequestApp from '../components/RequestApp.astro';
-const title = "My4MLife — Begin with the end in mind.";
-const description = "My4MLife is a lifestyle company giving you the tools and resources to live your best life. The 4M system: Mind, Muscle, Mitigate, Motivate. Designed by Dr. TJ Mundheim, DC. Start free with the My4MLife App.";
+
+const title = "My4MLife — Live longer. Think sharper. Begin with the end in mind.";
+const description = "Brain-health-first lifestyle and telemedicine. Schedule a comprehensive consult, get the free Protégé app, or take the 5-minute audit. Founded by Dr. TJ Mundheim, DC.";
 const canonical = "https://www.my4mlife.com/";
-const keywords = "4M system, cognitive aging, brain health, gut health, hormone balance, Dr. TJ Mundheim, My4MLife, membership program, health protocol";
-const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
+const keywords = "4M system, cognitive aging, brain health, hormone optimization, GLP-1 weight loss, Dr. TJ Mundheim, My4MLife, membership program, health protocol, men 40 50 60";
+const ogImage = "https://www.my4mlife.com/images/hero/main.jpg";
 const robots = "index, follow";
 ---
 <BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} robots={robots}>
 
-<!-- ===== HERO ===== -->
+<!-- ===== HERO — Full-bleed Hims-pattern ===== -->
 <section class="hp-hero">
-  <div class="container hp-hero-inner">
-    <img src="/logos/concept-13/lockup-color.svg" alt="My4MLife" class="hp-hero-lockup" />
-    <p class="hp-tagline"><em>Begin with the end in mind.</em></p>
-    <p class="hp-mission">
-      My4MLife is a lifestyle company giving you the tools and resources to live your best life.
-    </p>
-    <p class="hp-value-prop">
-      The 4M system is the path: <strong>Mind</strong> is the destination — work the <strong>Muscle</strong>, <strong>Mitigate</strong> the harm, <strong>Motivate</strong> the change, return to a sharper Mind. Recursive, by design.
-    </p>
+  <div class="hp-hero-bg" aria-hidden="true">
+    <img
+      src="/images/hero/main.jpg"
+      alt=""
+      class="hp-hero-img"
+      loading="eager"
+      fetchpriority="high"
+      width="1920"
+      height="1280"
+    />
+    <div class="hp-hero-overlay"></div>
+  </div>
+
+  <div class="container hp-hero-content">
+    <h1 class="hp-hero-headline">
+      Live longer. Think sharper.<br />
+      <em>Begin with the end in mind.</em>
+    </h1>
+
     <div class="hp-hero-ctas">
-      <a href="/consult" class="btn btn-outline btn-large">Schedule Your Comprehensive 4M Consult</a>
+      <a href="/consult" class="btn hp-btn-ghost">Schedule a Consult</a>
+      <a href="https://app.my4mlife.com" class="btn hp-btn-filled" target="_blank" rel="noopener">Get the App — Free</a>
+      <a href="/assessment" class="btn hp-btn-ghost">Take the Free Audit</a>
     </div>
+
+    <p class="hp-hero-sub">Brain-health-first. Pick the path that fits — all three keep you engaged.</p>
   </div>
 </section>
 
-<!-- ===== REQUEST APP (anchored below hero) ===== -->
-<section class="hp-request-app-band">
-  <div class="container hp-request-app-inner">
-    <RequestApp />
-    <p class="hp-signin-link"><a href="https://app.my4mlife.com" target="_blank" rel="noopener">Already a Protégé? Sign in &rarr;</a></p>
-  </div>
-</section>
-
-<!-- ===== 4M CYCLE ===== -->
-<section class="hp-section hp-cycle-section">
-  <div class="container">
-    <div class="hp-cycle-grid">
-
-      <!-- Mind (emphasized) -->
-      <div class="cycle-card cycle-card--mind">
-        <div class="cycle-letter">M</div>
-        <h3>Mind</h3>
-        <p>The destination. Sharper cognition, clearer focus, longer healthspan.</p>
-        <a href="/pillars/mind" class="cycle-link">Explore &rarr;</a>
-      </div>
-
-      <div class="cycle-arrow" aria-hidden="true">&rarr;</div>
-
-      <!-- Muscle -->
-      <div class="cycle-card">
-        <div class="cycle-letter">M</div>
-        <h3>Muscle</h3>
-        <p>Strength and body composition as the physical engine of brain health.</p>
-        <a href="/pillars/muscle" class="cycle-link">Explore &rarr;</a>
-      </div>
-
-      <div class="cycle-arrow" aria-hidden="true">&rarr;</div>
-
-      <!-- Mitigate -->
-      <div class="cycle-card">
-        <div class="cycle-letter">M</div>
-        <h3>Mitigate</h3>
-        <p>Remove the gut-brain obstacles — inflammation, toxins, hormonal drift.</p>
-        <a href="/pillars/mitigate" class="cycle-link">Explore &rarr;</a>
-      </div>
-
-      <div class="cycle-arrow" aria-hidden="true">&rarr;</div>
-
-      <!-- Motivate -->
-      <div class="cycle-card">
-        <div class="cycle-letter">M</div>
-        <h3>Motivate</h3>
-        <p>Purpose, goals, and identity change that make the system stick.</p>
-        <a href="/pillars/motivate" class="cycle-link">Explore &rarr;</a>
-      </div>
-
-    </div>
-    <p class="cycle-loop-note">&#8635; The cycle is recursive — Motivate feeds back into a sharper Mind.</p>
-  </div>
-</section>
-
-<!-- ===== TOP PRIORITIES GRID ===== -->
-<section class="hp-section hp-priorities-section">
+<!-- ===== SECTION 1: 4M FRAMEWORK ===== -->
+<section class="hp-section hp-4m-section">
   <div class="container">
     <div class="hp-section-header">
-      <h2>What's holding you back?</h2>
+      <h2 class="hp-4m-header">The 4M System</h2>
+      <p class="hp-4m-explainer">
+        The 4M system is the path: <strong>Mind</strong> is the destination — work the <strong>Muscle</strong>, <strong>Mitigate</strong> the harm, <strong>Motivate</strong> the change, return to a sharper Mind. Recursive, by design.
+      </p>
     </div>
-    <div class="hp-priorities-grid">
-      <a href="/solutions/gut" class="priority-card">
-        <span class="priority-badge">Gut &amp; Digestion</span>
-        <p>Leaky gut, bloating, and microbiome dysfunction are upstream of almost everything.</p>
-        <span class="priority-cta">Explore &rarr;</span>
+
+    <div class="hp-4m-grid">
+
+      <a href="/pillars/mind" class="m-card m-card--mind">
+        <div class="m-letter">M</div>
+        <h3>Mind</h3>
+        <p>The destination. Sharper cognition, clearer focus, longer healthspan.</p>
+        <span class="m-link">Explore &rarr;</span>
       </a>
-      <a href="/solutions/hormones" class="priority-card">
-        <span class="priority-badge">Hormone Balance</span>
-        <p>Testosterone, cortisol, and thyroid dysregulation quietly steal your edge.</p>
-        <span class="priority-cta">Explore &rarr;</span>
+
+      <div class="m-arrow" aria-hidden="true">&rarr;</div>
+
+      <a href="/pillars/muscle" class="m-card">
+        <div class="m-letter">M</div>
+        <h3>Muscle</h3>
+        <p>Strength and body composition as the physical engine of brain health.</p>
+        <span class="m-link">Explore &rarr;</span>
       </a>
-      <a href="/solutions/weight" class="priority-card">
-        <span class="priority-badge">Weight &amp; Body Fat</span>
-        <p>Visceral adiposity is a direct neurotoxin — body composition is brain health.</p>
-        <span class="priority-cta">Explore &rarr;</span>
+
+      <div class="m-arrow" aria-hidden="true">&rarr;</div>
+
+      <a href="/pillars/mitigate" class="m-card">
+        <div class="m-letter">M</div>
+        <h3>Mitigate</h3>
+        <p>Remove the gut-brain obstacles — inflammation, toxins, hormonal drift.</p>
+        <span class="m-link">Explore &rarr;</span>
       </a>
-      <a href="/solutions/sleep" class="priority-card">
-        <span class="priority-badge">Sleep Quality</span>
-        <p>Poor sleep is the single fastest way to accelerate cognitive decline.</p>
-        <span class="priority-cta">Explore &rarr;</span>
+
+      <div class="m-arrow" aria-hidden="true">&rarr;</div>
+
+      <a href="/pillars/motivate" class="m-card">
+        <div class="m-letter">M</div>
+        <h3>Motivate</h3>
+        <p>Purpose, goals, and identity change that make the system stick.</p>
+        <span class="m-link">Explore &rarr;</span>
       </a>
-      <a href="/solutions/cognitive" class="priority-card">
-        <span class="priority-badge">Cognitive Function</span>
-        <p>Brain fog, memory gaps, and processing speed loss are not inevitable.</p>
-        <span class="priority-cta">Explore &rarr;</span>
-      </a>
-      <a href="/solutions/stress" class="priority-card">
-        <span class="priority-badge">Stress &amp; Resilience</span>
-        <p>Chronic cortisol elevation literally shrinks the hippocampus. This is fixable.</p>
-        <span class="priority-cta">Explore &rarr;</span>
-      </a>
-      <a href="/solutions/chronic-conditions" class="priority-card priority-card--regen">
-        <span class="priority-badge priority-badge--regen">Chronic Conditions</span>
-        <p>COPD, CHF, autoimmune, neurodegeneration — where conventional care plateaus and regenerative medicine begins.</p>
-        <span class="priority-cta">Explore &rarr;</span>
-      </a>
-    </div>
-    <div class="hp-genesis-banner">
-      <div class="hp-genesis-inner">
-        <div class="hp-genesis-text">
-          <strong>Living with COPD, CHF, or chronic pain that hasn't responded to conventional care?</strong>
-          <span>Regenerative medicine solutions — coordinated through our partner regenerative medicine practice — may be the next step.</span>
-        </div>
-        <a href="/regenerative-medicine" class="hp-genesis-link">Learn About Regenerative Medicine &rarr;</a>
-      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ===== MEMBERSHIP TIERS ===== -->
+<!-- ===== SECTION 2: FEATURED PROTOCOLS ===== -->
+<section class="hp-section hp-protocols-section">
+  <div class="container">
+    <div class="hp-section-header">
+      <h2>Where most men start</h2>
+    </div>
+
+    <div class="hp-protocols-grid">
+
+      <a href="/solutions/hormones" class="proto-card">
+        <div class="proto-img-wrap">
+          <img
+            src="/images/protocols/hormones.jpg"
+            alt="Confident man — hormone optimization"
+            loading="lazy"
+            width="600"
+            height="400"
+          />
+        </div>
+        <div class="proto-body">
+          <h3>Hormone Optimization</h3>
+          <p>Testosterone, cortisol, and thyroid dysregulation quietly steal your edge. There's a better baseline.</p>
+          <span class="proto-link">Explore &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/solutions/weight" class="proto-card">
+        <div class="proto-img-wrap">
+          <img
+            src="/images/protocols/weight.jpg"
+            alt="Fit man — GLP-1 weight loss"
+            loading="lazy"
+            width="600"
+            height="400"
+          />
+        </div>
+        <div class="proto-body">
+          <h3>GLP-1 Weight Loss</h3>
+          <p>Visceral fat is a direct neurotoxin. Body composition and brain health are the same conversation.</p>
+          <span class="proto-link">Explore &rarr;</span>
+        </div>
+      </a>
+
+      <a href="/solutions/cognitive" class="proto-card">
+        <div class="proto-img-wrap">
+          <img
+            src="/images/protocols/brain.jpg"
+            alt="Thoughtful man — brain optimization"
+            loading="lazy"
+            width="600"
+            height="400"
+          />
+        </div>
+        <div class="proto-body">
+          <h3>Brain Optimization</h3>
+          <p>Brain fog, memory gaps, and processing speed loss are not inevitable. We help you approach them proactively.</p>
+          <span class="proto-link">Explore &rarr;</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: MEMBERSHIP COMPARISON ===== -->
 <section class="hp-section hp-tiers-section">
   <div class="container">
     <div class="hp-section-header">
-      <h2>The 4M Membership Program</h2>
-      <p class="hp-section-sub">Start free as a Protégé. Stay forever.</p>
+      <h2 class="hp-tiers-heading">Free Protégé. Earned Graduate. Everything in between.</h2>
     </div>
+
     <div class="hp-tiers-grid">
 
       <div class="tier-card tier-card--free">
-        <div class="tier-badge">Free — Protégé</div>
-        <h3>The My4MLife App</h3>
-        <p>The complete 4M digital workbook. Daily protocols, weekly onboarding guides, full Discovery audit, gut-brain protocol, morning routine tracker. Yours forever — no card required.</p>
-        <a href="https://app.my4mlife.com" class="btn btn-primary" target="_blank" rel="noopener">Get the App — Free</a>
+        <div class="tier-badge tier-badge--free">Free</div>
+        <h3>Protégé</h3>
+        <p>The complete 4M digital workbook. Daily protocols, full Discovery audit, gut-brain protocol, morning routine tracker. Yours forever — no card required.</p>
+        <a href="https://app.my4mlife.com" class="btn btn-accent" target="_blank" rel="noopener">Get the App — Free</a>
       </div>
 
-      <div class="tier-card tier-card--plus">
-        <div class="tier-badge tier-badge--gold">Insider — Month 2+</div>
-        <h3>Continue the Journey</h3>
-        <p>Continue beyond the 4-week onboarding. Member discounts on supplements and labs. Monthly group Q&amp;A with Dr. TJ. Pricing TBD — early-bird member rate incoming.</p>
-        <a href="mailto:hello@my4mlife.com" class="btn btn-outline">Notify Me</a>
+      <div class="tier-card">
+        <div class="tier-badge tier-badge--gold">Paid</div>
+        <h3>Insider</h3>
+        <p>Continue beyond the 4-week onboarding. Member discounts on supplements and labs. Monthly group Q&amp;A with Dr. TJ.</p>
+        <a href="/membership" class="btn btn-outline-white">Learn More</a>
       </div>
 
-      <div class="tier-card tier-card--concierge">
-        <div class="tier-badge tier-badge--dark">Insider Concierge</div>
-        <h3>1:1 Protocol Design</h3>
-        <p>Personal protocol design with Dr. TJ. Direct messaging, priority consult booking, full lab panel review. Limited slots available.</p>
-        <a href="mailto:drtj@my4mlife.com" class="btn btn-outline">Apply for Insider Concierge</a>
+      <div class="tier-card">
+        <div class="tier-badge tier-badge--dark">Paid</div>
+        <h3>Insider Concierge</h3>
+        <p>Personal protocol design with Dr. TJ. Direct messaging, priority consult booking, full lab panel review. Limited slots.</p>
+        <a href="/membership" class="btn btn-outline-white">Learn More</a>
       </div>
 
+      <div class="tier-card tier-card--graduate">
+        <div class="tier-badge tier-badge--earned">Earned</div>
+        <h3>Graduate</h3>
+        <p>Completion of the full 4M program with verified outcomes. Alumni community, advanced protocols, ongoing access.</p>
+        <a href="/membership" class="btn btn-outline-white">Learn More</a>
+      </div>
+
+    </div>
+
+    <div class="hp-tiers-footer">
+      <a href="/membership" class="hp-tiers-compare-link">See full comparison &rarr;</a>
     </div>
   </div>
 </section>
 
-<!-- ===== FOUNDER SECTION ===== -->
+<!-- ===== SECTION 4: FOUNDER + MISSION ===== -->
 <section class="hp-section hp-founder-section">
   <div class="container hp-founder-inner">
-    <div class="founder-avatar" aria-label="Dr. TJ Mundheim">TJ</div>
+
+    <div class="founder-avatar-col">
+      <div class="founder-avatar" aria-label="Dr. TJ Mundheim, DC">TJ</div>
+    </div>
+
     <div class="founder-content">
       <h2>Dr. TJ Mundheim, DC</h2>
-      <p class="founder-creds">NBCE-certified since 1994 &middot; 30+ years of clinical experience &middot; Founder of My4MLife</p>
-      <blockquote class="founder-quote">
-        "I built this because I'm living it. Every protocol you see in this program is one I run myself. The 4M framework is what I wish someone had handed me at 50."
-      </blockquote>
-      <a href="/about" class="btn btn-outline">Full Bio &rarr;</a>
+      <p class="founder-creds">NBCE-certified since 1994 &middot; 30+ years of clinical experience &middot; Founder, My4MLife</p>
+
+      <p>I built My4MLife because I'm living it. Every protocol in this program is one I run myself. The 4M framework is what I wish someone had handed me at 50 — a clear system for protecting the thing that matters most: your mind.</p>
+
+      <p>The cognitive longevity thesis is simple: the brain doesn't degrade in isolation. It degrades because of what we feed it, how we move, what we ignore, and what we believe is inevitable. Almost none of it is inevitable with the right approach.</p>
+
+      <p>My4MLife exists to give men 35–65 a lifestyle company's worth of tools and a clinician's framework — without the pharmaceutical-first bias. You deserve both the strategy and the support to execute it.</p>
+
+      <a href="/about" class="btn btn-outline-dark">Read more about Dr. TJ &rarr;</a>
     </div>
+
   </div>
 </section>
 
@@ -199,131 +236,228 @@ const robots = "index, follow";
   </div>
 </section>
 
+<!-- ===== PHOTO ATTRIBUTION ===== -->
+<!--
+  Hero photo: Unsplash — https://images.unsplash.com/photo-1476480862126-209bfaa8edc8
+  Protocol photos: Unsplash — photo-1547592180-85f173990554, photo-1571019614242-c5c5dee9f50b, photo-1499750310107-5fef28a66643
+  All images used under the Unsplash License (free for commercial use, no attribution required by license).
+-->
+
 </BaseLayout>
 
 <style>
-/* ===== SHARED HELPERS ===== */
+/* ===== SHARED BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.7rem 1.6rem;
+  padding: 0.8rem 1.8rem;
   border-radius: 50px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  border: none;
+  border: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.22s;
+  white-space: nowrap;
 }
-.btn-primary { background: var(--accent); color: white; }
-.btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
-.btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
-.btn-outline:hover { background: var(--primary); color: white; }
-.btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
+
+/* Hero ghost — white outlined */
+.hp-btn-ghost {
+  background: transparent;
+  color: white;
+  border-color: rgba(255,255,255,0.65);
+}
+.hp-btn-ghost:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: white;
+}
+
+/* Hero filled — accent green (middle CTA, emphasized) */
+.hp-btn-filled {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(0,184,148,0.35);
+}
+.hp-btn-filled:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(0,184,148,0.45);
+}
+
+/* Accent — used in tier cards */
+.btn-accent {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.btn-accent:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* White outlined — dark sections */
+.btn-outline-white {
+  background: transparent;
+  color: white;
+  border-color: rgba(255,255,255,0.35);
+}
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.7);
+}
+
+/* Dark outlined — light sections */
+.btn-outline-dark {
+  background: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-outline-dark:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* ===== SHARED SECTION HELPERS ===== */
+.hp-section { padding: 5.5rem 0; }
+.hp-section-header { text-align: center; margin-bottom: 3rem; }
+.hp-section-header h2 { font-size: 2.2rem; margin-bottom: 0.5rem; }
 
 /* ===== HERO ===== */
 .hp-hero {
-  padding: 9rem 0 6rem;
-  background: linear-gradient(160deg, #0a1628 0%, #0f4c75 60%, #1b6fa8 100%);
-  text-align: center;
   position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
   overflow: hidden;
 }
-.hp-hero::before {
-  content: '';
+
+.hp-hero-bg {
   position: absolute;
-  top: -30%;
-  right: -15%;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(0,184,148,0.12) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
+  inset: 0;
+  z-index: 0;
 }
-.hp-hero-inner { position: relative; z-index: 1; }
-.hp-hero-lockup {
+
+.hp-hero-img {
   width: 100%;
-  max-width: 460px;
-  height: auto;
-  margin: 0 auto 2rem;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
   display: block;
-  filter: drop-shadow(0 4px 24px rgba(0,0,0,0.3));
 }
-.hp-tagline {
+
+.hp-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 22, 40, 0.55) 0%,
+    rgba(10, 22, 40, 0.72) 60%,
+    rgba(10, 22, 40, 0.85) 100%
+  );
+}
+
+.hp-hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding-top: 7rem;
+  padding-bottom: 5rem;
+}
+
+.hp-hero-headline {
   font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 1.4rem;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  color: white;
+  line-height: 1.22;
+  margin-bottom: 2.5rem;
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+.hp-hero-headline em {
   font-style: italic;
+  color: rgba(255,255,255,0.88);
 }
-.hp-mission {
-  font-size: 1.18rem;
-  color: rgba(255,255,255,0.92);
-  max-width: 720px;
-  margin: 0 auto 1.5rem;
-  line-height: 1.7;
-  font-weight: 500;
-  letter-spacing: 0.005em;
-}
-.hp-value-prop {
-  font-size: 1.05rem;
-  color: rgba(255,255,255,0.75);
-  max-width: 640px;
-  margin: 0 auto 2.5rem;
-  line-height: 1.8;
-}
-.hp-value-prop strong { color: var(--accent); }
+
 .hp-hero-ctas {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
-.hp-hero-ctas .btn-outline { border-color: rgba(255,255,255,0.5); color: white; }
-.hp-hero-ctas .btn-outline:hover { background: rgba(255,255,255,0.15); border-color: white; }
 
-/* ===== SECTIONS ===== */
-.hp-section { padding: 5.5rem 0; }
-.hp-section-header { text-align: center; margin-bottom: 3rem; }
-.hp-section-header h2 { font-size: 2.4rem; margin-bottom: 0.5rem; }
-.hp-section-sub { color: var(--text-light); font-size: 1.05rem; }
+.hp-hero-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+}
 
-/* ===== 4M CYCLE ===== */
-.hp-cycle-section { background: var(--bg-soft); }
-.hp-cycle-grid {
+/* ===== 4M SECTION ===== */
+.hp-4m-section { background: var(--dark); }
+.hp-4m-header {
+  color: white;
+  font-size: 2.2rem;
+}
+.hp-4m-explainer {
+  color: rgba(255,255,255,0.7);
+  font-size: 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+.hp-4m-explainer strong { color: var(--accent); }
+
+.hp-4m-grid {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
 }
-.cycle-card {
-  background: white;
-  border: 1px solid var(--border);
+
+.m-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius-lg);
   padding: 2rem 1.5rem;
   text-align: center;
   flex: 1;
   min-width: 180px;
   max-width: 220px;
-  transition: transform 0.25s, box-shadow 0.25s;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.22s, background 0.22s, border-color 0.22s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.cycle-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-.cycle-card--mind {
+.m-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.09);
+  border-color: var(--accent);
+}
+.m-card--mind {
   border-color: #c8a84b;
-  box-shadow: 0 0 0 2px rgba(200,168,75,0.25);
+  background: rgba(200,168,75,0.08);
   min-width: 200px;
   max-width: 240px;
   transform: scale(1.04);
 }
-.cycle-card--mind:hover { transform: scale(1.04) translateY(-4px); }
-.cycle-letter {
+.m-card--mind:hover { transform: scale(1.04) translateY(-4px); border-color: #e2b84a; }
+
+.m-letter {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: var(--bg-accent);
+  background: rgba(0,184,148,0.15);
   color: var(--accent);
   font-family: 'Playfair Display', serif;
   font-size: 1.6rem;
@@ -333,179 +467,202 @@ const robots = "index, follow";
   justify-content: center;
   margin: 0 auto 1rem;
 }
-.cycle-card--mind .cycle-letter {
-  background: #fdf6e3;
-  color: #c8a84b;
+.m-card--mind .m-letter {
+  background: rgba(200,168,75,0.15);
+  color: #e2b84a;
 }
-.cycle-card h3 {
+.m-card h3 {
   font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  color: white;
 }
-.cycle-card--mind h3 { color: #b8962e; }
-.cycle-card p { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; }
-.cycle-link { font-size: 0.82rem; font-weight: 600; color: var(--accent); text-decoration: none; }
-.cycle-link:hover { text-decoration: underline; }
-.cycle-arrow {
+.m-card--mind h3 { color: #e2b84a; }
+.m-card p { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem; flex: 1; }
+.m-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.m-arrow {
   font-size: 1.5rem;
-  color: var(--border);
+  color: rgba(255,255,255,0.2);
   flex-shrink: 0;
-}
-.cycle-loop-note {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.85rem;
-  color: var(--text-light);
-  font-style: italic;
+  align-self: center;
 }
 
-/* ===== PRIORITIES GRID ===== */
-.hp-priorities-section { background: white; }
-.hp-priorities-grid {
+/* ===== PROTOCOLS SECTION ===== */
+.hp-protocols-section { background: var(--bg-soft); }
+.hp-protocols-section .hp-section-header h2 { color: var(--dark); }
+
+.hp-protocols-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
 }
-.priority-card {
-  display: block;
-  background: var(--bg-soft);
+
+.proto-card {
+  background: white;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 1.6rem;
+  overflow: hidden;
   text-decoration: none;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.priority-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent); }
-.priority-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--accent);
-  margin-bottom: 0.6rem;
-}
-.priority-card p { font-size: 0.9rem; color: var(--text); line-height: 1.6; margin-bottom: 0.8rem; }
-.priority-cta { font-size: 0.82rem; font-weight: 600; color: var(--primary); }
-.priority-card--regen {
-  border-color: rgba(0,184,148,0.35);
-  background: linear-gradient(135deg, rgba(0,184,148,0.05) 0%, rgba(15,76,117,0.05) 100%);
-}
-.priority-card--regen:hover { border-color: var(--accent); }
-.priority-badge--regen { color: var(--primary); }
-
-/* Regenerative medicine homepage banner */
-.hp-genesis-banner {
-  margin-top: 2rem;
-  background: linear-gradient(135deg, rgba(0,184,148,0.08) 0%, rgba(15,76,117,0.08) 100%);
-  border: 1px solid rgba(0,184,148,0.3);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem 2rem;
-}
-.hp-genesis-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.hp-genesis-text {
+  color: var(--text);
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  font-size: 0.95rem;
-  color: var(--text);
 }
-.hp-genesis-text strong { color: var(--dark); font-weight: 700; }
-.hp-genesis-text span { color: var(--text-light); font-size: 0.9rem; }
-.hp-genesis-link {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  padding: 0.65rem 1.6rem;
-  background: var(--accent);
-  color: white;
-  border-radius: 50px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: all 0.2s;
+.proto-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
 }
-.hp-genesis-link:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
 
-/* ===== COHORT TIERS ===== */
+.proto-img-wrap {
+  width: 100%;
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+.proto-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.proto-card:hover .proto-img-wrap img { transform: scale(1.04); }
+
+.proto-body {
+  padding: 1.4rem 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.proto-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark);
+}
+.proto-body p {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+.proto-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ===== TIERS SECTION ===== */
 .hp-tiers-section { background: linear-gradient(135deg, #0a1628 0%, #0f4c75 100%); }
-.hp-tiers-section .hp-section-header h2 { color: white; }
-.hp-tiers-section .hp-section-sub { color: rgba(255,255,255,0.65); }
+.hp-tiers-heading { color: white; }
+
 .hp-tiers-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 }
+
 .tier-card {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: var(--radius-lg);
-  padding: 2.2rem;
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.9rem;
 }
+.tier-card--free {
+  border-color: rgba(0,184,148,0.4);
+  background: rgba(0,184,148,0.07);
+}
+.tier-card--graduate {
+  border-color: rgba(226,184,74,0.35);
+  background: rgba(226,184,74,0.06);
+}
+
 .tier-badge {
   display: inline-block;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: var(--accent);
-  background: rgba(0,184,148,0.12);
-  padding: 0.3rem 0.8rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 20px;
   width: fit-content;
 }
+.tier-badge--free { color: var(--accent); background: rgba(0,184,148,0.15); }
 .tier-badge--gold { color: #e2b84a; background: rgba(226,184,74,0.12); }
-.tier-badge--dark { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.08); }
-.tier-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: white; }
-.tier-card p { font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.7; flex: 1; }
-.tier-card .btn-outline { border-color: rgba(255,255,255,0.35); color: white; }
-.tier-card .btn-outline:hover { background: rgba(255,255,255,0.12); border-color: white; }
+.tier-badge--dark { color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.08); }
+.tier-badge--earned { color: #e2b84a; background: rgba(226,184,74,0.12); }
+
+.tier-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: white;
+  margin: 0;
+}
+.tier-card p {
+  font-size: 0.87rem;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.65;
+  flex: 1;
+  margin: 0;
+}
+
+.hp-tiers-footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+.hp-tiers-compare-link {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.hp-tiers-compare-link:hover { color: var(--accent); }
 
 /* ===== FOUNDER ===== */
 .hp-founder-section { background: var(--bg-soft); }
 .hp-founder-inner {
   display: flex;
-  gap: 3rem;
+  gap: 3.5rem;
   align-items: flex-start;
 }
+.founder-avatar-col { flex-shrink: 0; }
 .founder-avatar {
-  width: 96px;
-  height: 96px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background: var(--bg-accent);
   border: 3px solid var(--accent);
   color: var(--accent);
   font-family: 'Playfair Display', serif;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 .founder-content { flex: 1; }
-.founder-content h2 { font-size: 2rem; margin-bottom: 0.4rem; }
-.founder-creds { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1.2rem; }
-.founder-quote {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: 1.1rem;
+.founder-content h2 {
+  font-size: 2rem;
+  margin-bottom: 0.35rem;
+  color: var(--dark);
+}
+.founder-creds {
+  font-size: 0.83rem;
+  color: var(--text-light);
+  margin-bottom: 1.4rem;
+}
+.founder-content p {
+  font-size: 0.97rem;
   color: var(--text);
-  border-left: 3px solid var(--accent);
-  padding-left: 1.2rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.7;
+  line-height: 1.75;
+  margin-bottom: 1rem;
 }
 
 /* ===== EMAIL BAND ===== */
@@ -532,64 +689,35 @@ const robots = "index, follow";
   justify-content: center;
   flex-wrap: wrap;
 }
-.email-band-input {
-  flex: 1;
-  min-width: 220px;
-  padding: 0.85rem 1.2rem;
-  border-radius: 50px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.08);
-  color: white;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  outline: none;
-}
-.email-band-input::placeholder { color: rgba(255,255,255,0.35); }
-.email-band-input:focus { border-color: var(--accent); }
-
-/* ===== REQUEST APP BAND ===== */
-.hp-request-app-band {
-  background: linear-gradient(160deg, #0a1628 0%, #0f4c75 100%);
-  padding: 3.5rem 0 4rem;
-  margin-top: -1px; /* bleed into hero gradient */
-}
-.hp-request-app-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-}
-.hp-signin-link {
-  text-align: center;
-  margin: 0;
-}
-.hp-signin-link a {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.88rem;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.hp-signin-link a:hover { color: rgba(255, 255, 255, 0.9); }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .hp-priorities-grid { grid-template-columns: repeat(2, 1fr); }
-  .hp-tiers-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
-  .hp-cycle-grid { flex-direction: column; align-items: center; }
-  .cycle-arrow { transform: rotate(90deg); }
-  .cycle-card, .cycle-card--mind { min-width: unset; max-width: 340px; width: 100%; transform: none; }
-  .cycle-card--mind { transform: none; box-shadow: 0 0 0 2px rgba(200,168,75,0.35); }
-  .cycle-card--mind:hover { transform: translateY(-4px); }
+@media (max-width: 1100px) {
+  .hp-tiers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-@media (max-width: 600px) {
-  .hp-hero { padding: 7rem 0 4rem; }
-  .hp-hero-lockup { max-width: 280px; }
-  .hp-tagline { font-size: 1.3rem; }
-  .hp-value-prop { font-size: 0.97rem; }
-  .hp-priorities-grid { grid-template-columns: 1fr; }
+@media (max-width: 900px) {
+  .hp-protocols-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
+  .hp-4m-grid { flex-direction: column; align-items: center; }
+  .m-arrow { transform: rotate(90deg); }
+  .m-card, .m-card--mind { min-width: unset; max-width: 340px; width: 100%; transform: none; }
+  .m-card--mind { box-shadow: 0 0 0 2px rgba(200,168,75,0.3); }
+  .m-card--mind:hover { transform: translateY(-4px); }
+}
+@media (max-width: 768px) {
+  .hp-tiers-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
   .hp-founder-inner { flex-direction: column; align-items: center; text-align: center; }
-  .founder-quote { text-align: left; }
-  .hp-section-header h2 { font-size: 1.9rem; }
+  .hp-section-header h2 { font-size: 1.8rem; }
   .email-band-tagline { font-size: 1.5rem; }
+}
+@media (max-width: 640px) {
+  .hp-hero { min-height: 80vh; }
+  .hp-hero-content { padding-top: 8rem; padding-bottom: 4rem; }
+  .hp-hero-ctas {
+    flex-direction: column;
+    align-items: center;
+  }
+  .hp-hero-ctas .btn { width: 100%; max-width: 320px; justify-content: center; }
+  .hp-protocols-grid { max-width: 100%; }
 }
 </style>
