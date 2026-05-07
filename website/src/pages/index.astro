@@ -156,6 +156,52 @@ const robots = "index, follow";
   </div>
 </section>
 
+<!-- ===== SECTION 2.5: ANTICIPATED OUTCOMES — HONEST FORWARD-FRAMING ===== -->
+<section class="hp-section hp-anticipated-section">
+  <div class="container">
+    <div class="hp-section-header">
+      <h2>What we're building toward</h2>
+      <p class="hp-anticipated-subhead">
+        We won't fabricate testimonials. Our first cohort is just starting. Here's the honest forward-framing — what 30+ years of clinical pattern recognition tells us to expect, and what we're holding ourselves accountable to deliver.
+      </p>
+    </div>
+
+    <div class="hp-anticipated-grid">
+
+      <article class="anticipated-card">
+        <span class="anticipated-badge anticipated-badge--founder">Founder perspective</span>
+        <p class="anticipated-quote">"In thirty years of practice with men 35 to 65, the pattern is almost always the same: the cognitive slide starts a decade before anyone names it. Word-finding gets slower, sleep gets shallower, the workout that used to feel good now feels like a chore. Most men accept it. The whole point of 4M is that you don't have to."</p>
+        <p class="anticipated-attribution">Dr. TJ Mundheim, DC &middot; Founder</p>
+      </article>
+
+      <article class="anticipated-card">
+        <span class="anticipated-badge anticipated-badge--composite">Composite pattern &middot; not an individual</span>
+        <p class="anticipated-quote">The 52-year-old executive who walks in convinced the brain fog is just stress and not enough coffee. Labs tell a different story — inflammation, hormone drift, gut dysbiosis stacking on top of each other. Six months in, the fog is the first thing that lifts. He notices it on a Tuesday afternoon when a name he'd been hunting for three weeks lands without effort.</p>
+        <p class="anticipated-attribution">Composite based on common patterns &middot; not a single member</p>
+      </article>
+
+      <article class="anticipated-card">
+        <span class="anticipated-badge anticipated-badge--goal">90-day goal</span>
+        <p class="anticipated-quote">Our goal for every Protégé in 90 days: measurably sharper morning cognition, a sleep score they can point to, and one cognitive task — a name, a word, a workflow — that comes back faster than it did in week one. Not weight loss. Not a vanity metric. Cognitive function you can feel before noon.</p>
+        <p class="anticipated-attribution">What we're holding ourselves to &middot; not a guarantee</p>
+      </article>
+
+      <article class="anticipated-card">
+        <span class="anticipated-badge anticipated-badge--coming">Coming Q3 2026</span>
+        <p class="anticipated-quote">Real member stories land here as our first cohort graduates. We won't fake it, we won't pay for it, and we won't pull the quote out of context. If the protocol works the way 30 years of clinical experience says it should, the stories will tell themselves.</p>
+        <p class="anticipated-attribution">First-cohort outcomes &middot; published when earned</p>
+      </article>
+
+      <article class="anticipated-card anticipated-card--wide">
+        <span class="anticipated-badge anticipated-badge--founder">Founder perspective</span>
+        <p class="anticipated-quote">"The men I want in this program aren't trying to look 30 again. They're trying to be present and sharp at their granddaughter's wedding. They want to recognize her face, remember her husband's name, and finish the toast they planned. That's the brain-health thesis in one sentence — and it's the only outcome I care about delivering."</p>
+        <p class="anticipated-attribution">Dr. TJ Mundheim, DC &middot; Founder</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <!-- ===== SECTION 3: MEMBERSHIP COMPARISON ===== -->
 <section class="hp-section hp-tiers-section">
   <div class="container">
@@ -690,6 +736,62 @@ const robots = "index, follow";
   flex-wrap: wrap;
 }
 
+/* ===== ANTICIPATED OUTCOMES SECTION ===== */
+.hp-anticipated-section { background: var(--bg-soft); border-top: 1px solid var(--border); }
+.hp-anticipated-section .hp-section-header h2 { color: var(--dark); }
+.hp-anticipated-subhead {
+  font-size: 0.98rem;
+  color: var(--text-light);
+  max-width: 720px;
+  margin: 0.75rem auto 0;
+  line-height: 1.7;
+}
+.hp-anticipated-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.anticipated-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.anticipated-card--wide { grid-column: 1 / -1; }
+.anticipated-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 0.28rem 0.8rem;
+  border-radius: 20px;
+  width: fit-content;
+}
+.anticipated-badge--founder { color: var(--primary); background: rgba(15,76,117,0.08); }
+.anticipated-badge--composite { color: #8a6a1f; background: rgba(226,184,74,0.14); }
+.anticipated-badge--goal { color: var(--accent-dark, #009a7c); background: rgba(0,184,148,0.12); }
+.anticipated-badge--coming { color: var(--text-light); background: rgba(0,0,0,0.06); }
+.anticipated-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--dark);
+  line-height: 1.65;
+  margin: 0;
+}
+.anticipated-attribution {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-style: italic;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .hp-tiers-grid {
@@ -706,6 +808,8 @@ const robots = "index, follow";
 }
 @media (max-width: 768px) {
   .hp-tiers-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .hp-anticipated-grid { grid-template-columns: 1fr; }
+  .anticipated-card--wide { grid-column: auto; }
   .hp-founder-inner { flex-direction: column; align-items: center; text-align: center; }
   .hp-section-header h2 { font-size: 1.8rem; }
   .email-band-tagline { font-size: 1.5rem; }
