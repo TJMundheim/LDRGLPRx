@@ -105,7 +105,7 @@ export const factors: Factor[] = [
          'Order a vitamin D blood test — no prescription needed at most walk-in labs',
          'Stack sunlight time with box breathing and morning movement simultaneously'],
     tools:['Vitamin D is a steroid hormone regulating over 2,000 genes including brain protection pathways',
-           'Target serum level: 50–80 ng/mL — most men over 35 test at 20–30 without knowing',
+           'Target serum level: 50–80 ng/mL — most men test at 20–30 without knowing',
            'Always pair D3 with K2 (100mcg) to direct calcium to bones and not arteries',
            'Morning sunlight sets your circadian rhythm independently of vitamin D — both matter'],
     adv:['Test again 90 days after supplementing to confirm levels have normalized',

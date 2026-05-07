@@ -120,7 +120,7 @@ export const products: Product[] = [
     description:
       'Oral compounded formulation of D3 5,000IU, K2 (MK7 + MK4), Boron 6mg, Astaxanthin 8mg, Vitamin A, and MCT base supporting fat-soluble vitamin defense, bone/cardiovascular health, and hormone optimisation.',
     longDescription:
-      'ArmorVita combines the fat-soluble micronutrients most commonly deficient in the 35-60 population into a single capsule with an MCT base for maximum absorption. Boron at the clinical dose of 6mg has NIH-published data showing +28% free testosterone in 7 days. Astaxanthin at 8mg provides potent mitochondrial and cardiovascular antioxidant activity. K2 with both MK7 and MK4 isoforms ensures calcium is directed to bone rather than arterial walls.',
+      'ArmorVita combines the fat-soluble micronutrients most commonly deficient in men into a single capsule with an MCT base for maximum absorption. Boron at the clinical dose of 6mg has NIH-published data showing +28% free testosterone in 7 days. Astaxanthin at 8mg provides potent mitochondrial and cardiovascular antioxidant activity. K2 with both MK7 and MK4 isoforms ensures calcium is directed to bone rather than arterial walls.',
     heroClaim: 'The fat-soluble foundation most protocols miss.',
     mechanismBullets: [
       'D3 5,000IU restores vitamin D sufficiency — 1 in 3 men over 45 are deficient',

@@ -58,7 +58,7 @@ Starter essay topics (all brain-health-anchored):
 7. "Hormone optimization is necessary. It is not sufficient."
 8. "The granddaughter's wedding test: the only outcome that matters"
 9. "Why visceral fat is a neurotoxin, not a vanity issue"
-10. "What the longevity industry gets wrong about men 35 to 65"
+10. "What the longevity industry gets wrong about men who want to stay sharp"
 
 ## Cold pitch template (80 words)
 
@@ -66,7 +66,7 @@ Starter essay topics (all brain-health-anchored):
 >
 > Hi [Booker first name],
 >
-> I'm Dr. TJ Mundheim — NBCE-certified since 1994, 30+ years treating men 35 to 65. I've watched the same pattern repeat in thousands of intakes: cognitive decline starts a decade before anyone names it, and almost none of it is inevitable.
+> I'm Dr. TJ Mundheim — NBCE-certified since 1994, 30+ years treating cognitively aware men. I've watched the same pattern repeat in thousands of intakes: cognitive decline starts a decade before anyone names it, and almost none of it is inevitable.
 >
 > Most longevity content treats the brain as a downstream output. I'd argue the opposite — and I think [Show Name]'s audience would push back productively.
 >
