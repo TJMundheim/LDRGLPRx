@@ -2,7 +2,7 @@
 
 **This file is updated continuously through the work session. Keep it open in a separate IDE window so you don't lose decisions in the chat scroll. I'll add a timestamp at the top of each major change.**
 
-Last updated: 2026-05-05 21:25 — Post-Genesis-RPA-compliance-scrub, mid environmental + report-window pivot.
+Last updated: 2026-05-06 — Anticipated-testimonials section live on homepage (honest forward-framing, brain-health anchored, no fabricated reviews). Organic influencer + founder-essay strategy plan committed. **TJ offline; autonomous mode active.**
 
 ---
 
@@ -18,13 +18,20 @@ Last updated: 2026-05-05 21:25 — Post-Genesis-RPA-compliance-scrub, mid enviro
 
 | SHA | Description |
 |---|---|
+| `59c555d2` | Organic influencer + founder-essay strategy plan (docs/plan/) |
+| `70c1c8be` | Homepage anticipated-testimonials section — honest forward-framing, brain-health anchored |
+| `82765fed` | Continuation handoff runbook for next-in-line agent (TJ-authorized autonomous mode) |
+| `6ae1239b` | Affiliate punch-list — 105-row spreadsheet (CSV + markdown explainer) |
+| `e42e95ab` | /regenerative-medicine — multi-therapy category framing |
+| `e1254b49` | New env sub-pages: sauna + cold-plunge + mineral-bath + navbar update |
+| `d58067bd` | Env water/emf/grounding educational deep-dive sections + Phase 1 affiliate SKUs |
+| `cb854453` | Env dropdown nav fix + light/air educational sections + Phase 1 affiliate SKUs |
 | `cb04dd96` | Compliance scrub Phase 2 — remaining "treat → approach" cleanup |
 | `f4d08d5d` | Compliance scrub Phase 1 — Genesis RPA → regenerative medicine; URL rename to /regenerative-medicine |
 | `61176b8c` | More dropdown anchor right + max-height (was clipping past viewport) |
 | `62cfa318` | Chronic-conditions page + Genesis RPA on pillars + navbar More dropdown + homepage callout |
 | `e402e5b1` | Comprehensive clean-slate wipe v6 (15 → 31 keys) |
 | `8bd83eb2` | /pillars/{mind,muscle,mitigate,motivate} aggregator pages + fix homepage 4M cycle links |
-| `20b1744f` | Temperature-environment roadmap doc (sauna + cold plunge + mineral bath) |
 
 ## Recent decisions locked
 
@@ -91,9 +98,10 @@ Last updated: 2026-05-05 21:25 — Post-Genesis-RPA-compliance-scrub, mid enviro
 ## What's live RIGHT NOW
 
 ### Marketing site
+- Homepage "What we're building toward" anticipated-outcomes section (5 transparently-labeled cards: founder perspective x2, composite pattern, 90-day goal, Q3 2026 placeholder — no fabricated testimonials)
 - 4 pillar overview pages: `/pillars/mind`, `/pillars/muscle`, `/pillars/mitigate`, `/pillars/motivate`
 - 6 top-line solution pages with Two Paths CTA (gut, hormones, weight, sleep, cognitive, peptides)
-- 5 environmental sub-pages (light, air, water, EMF, grounding) with product cards (mostly "Notify Me When Available")
+- **8 environmental sub-pages** (light, air, water, EMF, grounding, sauna, cold-plunge, mineral-bath) with product cards + educational deep-dive sections + Phase 1 affiliate SKUs marked "Available — Affiliate" (others "Notify Me When Available")
 - Heritage Incandescent flagship section on `/solutions/environment/light`
 - `/solutions/chronic-conditions` aggregator page
 - `/regenerative-medicine` (was /genesis-rpa) — multi-therapy category framing
