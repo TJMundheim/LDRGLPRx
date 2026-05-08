@@ -541,10 +541,10 @@ function renderAuditSummaryCard(): string {
 
   const top3Html = top3.map(item => `
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:8px 12px;background:rgba(255,255,255,.04);border-radius:8px;margin-bottom:6px">
+      padding:8px 12px;background:#FFFFFF;border:1px solid #D8E8DC;border-radius:8px;margin-bottom:6px">
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-size:13px">⭐</span>
-        <span style="font-size:12.5px;color:#e8eaf0">${esc(item.label)}</span>
+        <span style="font-size:12.5px;color:#1A2E1E;font-weight:600">${esc(item.label)}</span>
       </div>
       <span style="font-size:13px;font-weight:700;color:${band.color}">${item.score}</span>
     </div>`).join('');
@@ -756,7 +756,7 @@ function renderW1(ctx: RenderContext): string {
         background:${W.motivation === String(i) ? 'rgba(107,94,212,.07)' : '#FFFFFF'};
         border:1.5px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
         border-radius:8px;cursor:pointer;margin-bottom:7px"
-        onclick="portalField('motivation','${i}')">
+        onclick="portalFieldRender('motivation','${i}')">
         <div style="width:16px;height:16px;border-radius:50%;
           border:2px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
           background:${W.motivation === String(i) ? '#6B5ED4' : 'transparent'};flex-shrink:0"></div>
@@ -850,7 +850,10 @@ function renderW1(ctx: RenderContext): string {
     })()}
     <label for="w1-protein-target">Target bodyweight for protein calc (lbs)</label>
     <input id="w1-protein-target" type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
-      oninput="portalField('protein',this.value)">
+      oninput="portalField('protein',this.value)"
+      onblur="portalFieldRender('protein',this.value)"
+      onchange="portalFieldRender('protein',this.value)"
+      onkeydown="if(event.key==='Enter'){portalFieldRender('protein',this.value);this.blur();}">
     ${Number(W.protein) > 0 ? `<div style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px">
       <div style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein) * 0.9)}g</div>
       <div style="font-size:10px;color:#5A8A64">protein per day target</div>

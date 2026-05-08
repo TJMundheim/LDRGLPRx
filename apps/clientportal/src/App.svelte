@@ -264,6 +264,14 @@
     setField(path, value);
   }
 
+  // Same as portalField but also bumps renderTick — use for inputs/onclick
+  // sites whose downstream UI (derived values, selection highlights) needs an
+  // immediate re-render rather than waiting on the next structural change.
+  function portalFieldRender(path: string, value: unknown): void {
+    setField(path, value);
+    renderTick++;
+  }
+
   // ── Gut Health Self-Assessment ──────────────────────────────────────────────
   // Fully self-contained: reads/writes localStorage under `gut-assessment-v1`,
   // manipulates DOM directly so no workbook re-render is needed.
@@ -477,6 +485,7 @@
   type PortalWindow = Window & {
     portalAction?: typeof portalAction;
     portalField?: typeof portalField;
+    portalFieldRender?: typeof portalFieldRender;
     gutAssessmentAction?: typeof gutAssessmentAction;
     allergyAssessmentAction?: typeof allergyAssessmentAction;
   };
@@ -484,6 +493,7 @@
   onMount(async () => {
     (window as PortalWindow).portalAction = portalAction;
     (window as PortalWindow).portalField = portalField;
+    (window as PortalWindow).portalFieldRender = portalFieldRender;
     (window as PortalWindow).gutAssessmentAction = gutAssessmentAction;
     (window as PortalWindow).allergyAssessmentAction = allergyAssessmentAction;
 
@@ -526,15 +536,6 @@
       />
     {:else}
       {@html pageHtml}
-      <button
-        type="button"
-        class="recalc-btn"
-        onclick={() => { renderTick++; showToast('Recalculated'); }}
-        title="Refresh totals, deltas, and comparison columns"
-        aria-label="Recalculate"
-      >
-        ↻ Recalculate
-      </button>
     {/if}
   </div>
 </div>
@@ -542,30 +543,4 @@
 <div id="toast" class:show={toastShow}>{toastMsg}</div>
 
 <style>
-  .recalc-btn {
-    position: fixed;
-    bottom: 22px;
-    right: 22px;
-    background: #1D9E75;
-    color: #fff;
-    border: none;
-    border-radius: 999px;
-    padding: 12px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    cursor: pointer;
-    box-shadow: 0 4px 14px rgba(29,158,117,0.35);
-    z-index: 50;
-    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
-  }
-  .recalc-btn:hover {
-    background: #17875F;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(29,158,117,0.45);
-  }
-  .recalc-btn:focus-visible {
-    outline: 2px solid #1D9E75;
-    outline-offset: 3px;
-  }
 </style>
