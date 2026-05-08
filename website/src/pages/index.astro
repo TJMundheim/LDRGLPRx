@@ -164,8 +164,11 @@ const robots = "index, follow";
 
     <div class="hp-anticipated-grid">
 
-      <article class="anticipated-card">
-        <span class="anticipated-badge anticipated-badge--founder">Founder perspective</span>
+      <article class="anticipated-card anticipated-card--founder-photo">
+        <div class="founder-quote-header">
+          <div class="founder-quote-avatar"><img src="/images/founder/founder-tj.jpg" alt="Dr. TJ" width="64" height="64" loading="lazy" /></div>
+          <span class="anticipated-badge anticipated-badge--founder">Founder perspective</span>
+        </div>
         <p class="anticipated-quote">"In thirty years of practice with men, the pattern is almost always the same: the cognitive slide starts a decade before anyone names it. Word-finding gets slower, sleep gets shallower, the workout that used to feel good now feels like a chore. Most men accept it. The whole point of 4M is that you don't have to."</p>
         <p class="anticipated-attribution">Dr. TJ &middot; Founder</p>
       </article>
@@ -806,6 +809,9 @@ const robots = "index, follow";
   gap: 1rem;
 }
 .anticipated-card--with-image { padding: 0 0 1.5rem; overflow: hidden; }
+.founder-quote-header { display: flex; align-items: center; gap: 0.9rem; }
+.founder-quote-avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--accent); }
+.founder-quote-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .anticipated-card--with-image .anticipated-badge,
 .anticipated-card--with-image .anticipated-quote,
 .anticipated-card--with-image .anticipated-attribution { padding-left: 1.75rem; padding-right: 1.75rem; }

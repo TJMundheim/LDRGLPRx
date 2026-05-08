@@ -64,3 +64,14 @@ h1, h2, h3, h4 {
   font-style: italic;
 }
 .scene-figure-wide img { max-height: 520px; }
+
+/* ── Byline avatar (small inline founder photo in article-meta) ── */
+.byline-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+  border: 1px solid var(--border, #e5e0d8);
+}
