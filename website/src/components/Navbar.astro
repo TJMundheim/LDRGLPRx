@@ -11,6 +11,7 @@ const frameworkItems = [
 const categoryItems = [
   { label: 'Gut Health / Leaky Gut',  href: '/solutions/gut' },
   { label: 'Testosterone Therapy',    href: '/solutions/hormones' },
+  { label: 'Erectile Dysfunction',    href: '/solutions/erectile-dysfunction' },
   { label: 'GLP-1 Weight Loss',       href: '/solutions/weight' },
   { label: 'Brain Optimization',      href: '/solutions/cognitive' },
   { label: 'Peptides',                href: '/solutions/peptides' },
@@ -105,14 +106,19 @@ const programItems = [
               ))}
             </div>
 
-            <!-- Right column: More Topics + Programs -->
-            <div class="mega-section mega-section-right">
+            <!-- More Topics — spans 2 grid columns, list renders in 2 internal columns -->
+            <div class="mega-section mega-section-more">
               <p class="mega-heading">More Topics</p>
-              {moreItems.map((item) => (
-                <a href={item.href} class="mega-link">{item.label}</a>
-              ))}
+              <div class="mega-more-list">
+                {moreItems.map((item) => (
+                  <a href={item.href} class="mega-link">{item.label}</a>
+                ))}
+              </div>
+            </div>
 
-              <p class="mega-heading mega-heading-spacer">Programs</p>
+            <!-- Programs — its own column -->
+            <div class="mega-section">
+              <p class="mega-heading">Programs</p>
               {programItems.map((item) => (
                 <a href={item.href} class="mega-link">{item.label}</a>
               ))}
@@ -320,7 +326,7 @@ const programItems = [
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
-    width: 820px;
+    width: 1140px;
     background: var(--bg-parchment, #fdf8f2);
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -338,8 +344,15 @@ const programItems = [
 
   .mega-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 0 1.5rem;
+    grid-template-columns: 1fr 1.1fr 1.1fr 2.2fr 1fr;
+    gap: 0 1.4rem;
+  }
+  .mega-more-list {
+    column-count: 2;
+    column-gap: 1.2rem;
+  }
+  .mega-more-list .mega-link {
+    break-inside: avoid;
   }
 
   .mega-section {
@@ -519,13 +532,16 @@ const programItems = [
   }
 
   /* Keep mega-panel from clipping on narrower desktops */
-  @media (min-width: 961px) and (max-width: 1100px) {
+  @media (min-width: 961px) and (max-width: 1200px) {
     .mega-panel {
-      width: 680px;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      width: 940px;
     }
-    .mega-grid { gap: 0 1rem; }
+    .mega-grid {
+      grid-template-columns: 0.9fr 1fr 1fr 2fr 0.9fr;
+      gap: 0 1rem;
+    }
     .mega-link { font-size: 0.78rem; }
+    .mega-more-list { column-gap: 0.8rem; }
   }
 </style>
 

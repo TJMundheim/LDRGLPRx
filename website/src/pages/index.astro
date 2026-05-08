@@ -133,6 +133,25 @@ const robots = "index, follow";
   </div>
 </section>
 
+<!-- ===== SECTION 2.4: ED — THE EARLY WARNING ===== -->
+<section class="hp-section hp-canary-section">
+  <div class="container">
+    <div class="hp-section-header">
+      <h2>The early warning your body is sending</h2>
+      <p class="hp-section-sub">One signal most men ignore for a decade. We don't.</p>
+    </div>
+
+    <a href="/solutions/erectile-dysfunction" class="proto-card canary-card">
+      <div class="proto-body proto-body-tall canary-body">
+        <span class="proto-step canary-badge">Canary in the mine</span>
+        <h3 class="canary-title">Erectile Dysfunction</h3>
+        <p class="canary-copy">ED is rarely just an erection problem. It's the earliest visible signal that hormones, cardiovascular health, and cognitive trajectory are all drifting in the wrong direction. Most men ignore the signal for a decade. We don't.</p>
+        <span class="proto-link">Learn what ED is actually telling you &rarr;</span>
+      </div>
+    </a>
+  </div>
+</section>
+
 <!-- ===== SECTION 2.5: ANTICIPATED OUTCOMES — HONEST FORWARD-FRAMING ===== -->
 <section class="hp-section hp-anticipated-section">
   <div class="container">
@@ -579,6 +598,31 @@ const robots = "index, follow";
   color: var(--accent);
 }
 .proto-body-tall { padding: 2.2rem 1.8rem 2rem; min-height: 320px; }
+
+/* ── Canary / ED card — single prominent feature card ── */
+.hp-canary-section { background: var(--bg-soft, #f5f0e8); }
+.canary-card {
+  display: block;
+  max-width: 760px;
+  margin: 0 auto;
+  border-left: 4px solid var(--accent);
+  background: var(--bg, #fff);
+}
+.canary-body { min-height: 0; padding: 2.5rem 2.25rem 2.25rem; }
+.canary-badge { color: #b85c2c; }
+.canary-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem;
+  margin: 0.25rem 0 0.85rem;
+  color: var(--dark, #1a1a1a);
+}
+.canary-copy {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 1.1rem;
+}
+
 .proto-step {
   display: inline-block;
   font-size: 0.72rem;

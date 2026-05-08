@@ -326,6 +326,21 @@ export const AUDIT_CATEGORIES: AuditCategory[] = [
     },
   },
   {
+    id: 'erectile-dysfunction',
+    label: 'Erectile / sexual function decline',
+    priorityTier: true,
+    score(a) {
+      const answers = a as Record<string, Record<string, unknown>>;
+      const cat = answers['erectile-dysfunction'] ?? {};
+      const base = likertScore(cat['anchor']);
+      if (base < 5) return 0; // ≥4 = problem
+      let s = base;
+      if (yesNo(cat['f1'])) s += 1;
+      if (yesNo(cat['f2'])) s += 1;
+      return clamp(s);
+    },
+  },
+  {
     id: 'self-image',
     label: 'Positive self-image',
     priorityTier: false,

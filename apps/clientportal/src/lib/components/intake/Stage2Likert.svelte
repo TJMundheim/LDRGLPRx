@@ -120,6 +120,11 @@
       context: '0 = Cost is rarely a factor in health decisions · 3 = I sometimes delay or downgrade care due to cost · 5 = I regularly skip or delay needed care because of cost',
     },
     {
+      id: 'erectile-dysfunction',
+      prompt: 'Erectile function or sexual performance has noticeably declined in the past 1-3 years.',
+      context: '0 = Strongly disagree — function is solid, no decline · 3 = Neutral / mixed — some off days but not a clear pattern · 5 = Strongly agree — clear, sustained decline. ED is a symptom, not a fault — this is an early-warning signal, not a verdict.',
+    },
+    {
       id: 'self-image',
       prompt: 'How much does dissatisfaction with your appearance affect your day-to-day confidence?',
       context: '0=I feel confident and satisfied with how I look. 3=neutral. 5=appearance-related dissatisfaction affects my social or professional life daily.',
