@@ -31,9 +31,8 @@ const robots = "index, follow";
 <section class="section" id="mission">
   <div class="container">
     <div class="story-grid fade-in">
-      <div class="story-image">
-        <i class="fas fa-brain"></i>
-        <span>Brain-health-first</span>
+      <div class="story-image story-image-photo">
+        <img src="/images/scenes/about-family.jpg" alt="Patriarch with family — the legacy you're optimizing for" loading="lazy" />
       </div>
       <div class="story-text">
         <span class="section-tag">The Mission</span>
@@ -459,6 +458,19 @@ const robots = "index, follow";
     .story-image span {
       color: var(--text-light);
       font-size: 0.85rem;
+    }
+
+    .story-image-photo {
+      padding: 0;
+      overflow: hidden;
+      background: none;
+      border: none;
+    }
+    .story-image-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .story-text h2 {

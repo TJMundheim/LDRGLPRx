@@ -12,7 +12,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 <!-- ===== HERO ===== -->
 <section class="pillar-hero pillar-hero--mind">
-  <div class="container pillar-hero-inner">
+  <div class="pillar-hero-bg" aria-hidden="true">
+    <img src="/images/scenes/mind-contemplative.jpg" alt="" loading="eager" fetchpriority="high" />
+    <div class="pillar-hero-overlay"></div>
+  </div>
+    <div class="container pillar-hero-inner">
     <p class="pillar-kicker">PILLAR 1 OF 4 — MIND</p>
     <h1>Mind</h1>
     <p class="pillar-tagline"><em>The mind is what we're protecting.</em></p>
@@ -133,6 +137,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   position: relative;
   overflow: hidden;
 }
+.pillar-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.pillar-hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pillar-hero-overlay { position: absolute; inset: 0; background: linear-gradient(160deg, rgba(10,22,40,0.88) 0%, rgba(26,58,92,0.78) 50%, rgba(15,76,117,0.85) 100%); }
 .pillar-hero--mind {
   background: linear-gradient(160deg, #0a1628 0%, #0f4c75 55%, #1a3a5c 100%);
 }
