@@ -18,6 +18,7 @@ Last updated: 2026-05-07 — Age brackets stripped from public-facing copy acros
 
 | SHA | Description |
 |---|---|
+| `7da4f70e` | Deep audit: enforce canonical 4M order + final age-bracket sweep |
 | `f189ba15` | Strip age brackets — men self-select by intent, not age (locked 2026-05-07) |
 | `59c555d2` | Organic influencer + founder-essay strategy plan (docs/plan/) |
 | `70c1c8be` | Homepage anticipated-testimonials section — honest forward-framing, brain-health anchored |
