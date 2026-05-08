@@ -341,6 +341,21 @@ export const AUDIT_CATEGORIES: AuditCategory[] = [
     },
   },
   {
+    id: 'libido-morning-erections',
+    label: 'Libido & morning erections',
+    priorityTier: true,
+    score(a) {
+      const answers = a as Record<string, Record<string, unknown>>;
+      const cat = answers['libido-morning-erections'] ?? {};
+      const base = likertScore(cat['anchor']);
+      if (base < 5) return 0;
+      let s = base;
+      if (yesNo(cat['f1'])) s += 1;
+      if (yesNo(cat['f2'])) s += 1;
+      return clamp(s);
+    },
+  },
+  {
     id: 'self-image',
     label: 'Positive self-image',
     priorityTier: false,

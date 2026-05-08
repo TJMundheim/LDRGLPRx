@@ -125,6 +125,11 @@
       context: '0 = Strongly disagree — function is solid, no decline · 3 = Neutral / mixed — some off days but not a clear pattern · 5 = Strongly agree — clear, sustained decline. ED is a symptom, not a fault — this is an early-warning signal, not a verdict.',
     },
     {
+      id: 'libido-morning-erections',
+      prompt: 'Libido and the frequency of morning erections have noticeably declined.',
+      context: '0 = Strongly disagree — drive and morning function feel normal · 3 = Neutral / mixed — occasional off weeks · 5 = Strongly agree — clear, sustained decline. Morning erections are an objective marker of nocturnal testosterone release and vascular health — this question paired with the ED question makes the upstream signal sharper.',
+    },
+    {
       id: 'self-image',
       prompt: 'How much does dissatisfaction with your appearance affect your day-to-day confidence?',
       context: '0=I feel confident and satisfied with how I look. 3=neutral. 5=appearance-related dissatisfaction affects my social or professional life daily.',
