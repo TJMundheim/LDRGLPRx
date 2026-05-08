@@ -2,7 +2,18 @@
 
 **This file is updated continuously through the work session. Keep it open in a separate IDE window so you don't lose decisions in the chat scroll. I'll add a timestamp at the top of each major change.**
 
-Last updated: 2026-05-07 — Age brackets stripped from public-facing copy across website + clientportal. Target reframed as "men, self-selecting by intent" (psychographic, not demographic). **TJ offline; autonomous mode active.**
+Last updated: 2026-05-08 — Hero photo candidates sourced (25 photos, 5 per category). Browse + pick at the URLs below. **TJ offline; autonomous mode active.**
+
+## Hero photo candidates — browse and pick
+
+5 candidates per category. Open each `1.jpg` through `5.jpg`:
+- Leadership: https://www.my4mlife.com/images/hero-candidates/leadership/1.jpg (and 2-5.jpg)
+- Active lifestyle: https://www.my4mlife.com/images/hero-candidates/active-lifestyle/1.jpg (and 2-5.jpg)
+- Family legacy: https://www.my4mlife.com/images/hero-candidates/family-legacy/1.jpg (and 2-5.jpg)
+- Contemplative: https://www.my4mlife.com/images/hero-candidates/contemplative/1.jpg (and 2-5.jpg)
+- Protocol/clinical: https://www.my4mlife.com/images/hero-candidates/protocol-clinical/1.jpg (and 2-5.jpg)
+
+Previous: 2026-05-07 — Age brackets stripped from public-facing copy across website + clientportal. Target reframed as "men, self-selecting by intent" (psychographic, not demographic).
 
 ---
 
