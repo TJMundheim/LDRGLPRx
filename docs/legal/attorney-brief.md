@@ -9,9 +9,9 @@
 
 ## Project Description
 
-4M Life (my4mlife.com) is a digital health platform targeting men aged 35–60 focused on brain healthspan and longevity. The platform combines:
+4M Life (my4mlife.com) is a digital health platform targeting men focused on brain healthspan and longevity. The platform combines:
 
-- **Freemium mobile/web app** — workbook-driven program built around four monthly pillars (Mitigate, Muscle, Mind, Motivate)
+- **Freemium mobile/web app** — workbook-driven program built around four monthly pillars (Mind, Muscle, Mitigate, Motivate)
 - **AI concierge** — Claude-based (via AWS Bedrock) automated email and SMS communications that guide patients through intake, scheduling, and health coaching
 - **Telemedicine** — contracted telemedicine practice for physician-supervised consults and Rx (GLP-1, TRT, peptides, brain-health Rx)
 - **Supplements and proprietary formulas** — Biome-AF and three companion formulas; direct-to-consumer fulfillment
