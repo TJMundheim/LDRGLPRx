@@ -55,7 +55,7 @@ const robots = "index, follow";
     </div>
     <div class="founder-grid fade-in">
       <div class="founder-avatar-wrap">
-        <div class="founder-avatar-circle">TJ</div>
+        <div class="founder-avatar-circle"><img src="/images/founder/founder-tj.jpg" alt="Dr. TJ Mundheim, DC" width="160" height="160" loading="lazy" /></div>
         <div class="founder-creds">
           <div class="cred-item"><i class="fas fa-certificate"></i> NBCE-Certified since 1994</div>
           <div class="cred-item"><i class="fas fa-graduation-cap"></i> BS Exercise &amp; Sports Science</div>
@@ -493,15 +493,15 @@ const robots = "index, follow";
       width: 160px;
       height: 160px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Inter', sans-serif;
-      font-weight: 700;
-      font-size: 3rem;
-      color: white;
-      letter-spacing: 2px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      background: var(--bg-soft);
+    }
+    .founder-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .founder-creds {
