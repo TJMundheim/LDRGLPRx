@@ -75,3 +75,25 @@ h1, h2, h3, h4 {
   margin-right: 0.25rem;
   border: 1px solid var(--border, #e5e0d8);
 }
+
+/* ── Alzheimer's Association stat callout ── */
+.aa-stat-callout {
+  margin: 1.6rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--bg-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+}
+.aa-stat-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: var(--dark);
+  margin: 0 0 0.6rem 0;
+}
+.aa-stat-source {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: italic;
+  margin: 0;
+}
+.aa-stat-source a { color: var(--primary); text-decoration: underline; }
