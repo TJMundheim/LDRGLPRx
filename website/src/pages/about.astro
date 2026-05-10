@@ -72,6 +72,58 @@ const robots = "index, follow";
   </div>
 </section>
 
+<!-- ===== CLINICAL ADVISORY BOARD ===== -->
+<section class="section advisory-board-section" id="advisory-board">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-tag">Clinical Advisory Board</span>
+      <h2>The team Dr. TJ is assembling.</h2>
+      <p class="advisory-intro">My4MLife is a brain-health-first protocol — and the clinical authority behind it has to match that ambition. Dr. TJ is actively assembling a clinical advisory board across neurology, endocrinology, metabolic medicine, neuropsychology, and nutritional science. Final names will be announced as agreements close. The placeholder portraits below are stand-ins, not the people. We won't fake testimonials, and we won't fake an advisory board either.</p>
+    </div>
+
+    <div class="advisor-grid fade-in">
+      <article class="advisor-card">
+        <div class="advisor-avatar"><img src="/images/advisors/advisor-1.jpg" alt="Advisor placeholder" loading="lazy" /></div>
+        <h3 class="advisor-name">Endocrinology &amp; Hormonal Health</h3>
+        <p class="advisor-role">MD candidate &middot; <em>name to be announced</em></p>
+        <p class="advisor-focus">Hormonal axis, TRT, metabolic-endocrine integration. Reviews and validates the upstream signaling logic of the protocol.</p>
+      </article>
+
+      <article class="advisor-card">
+        <div class="advisor-avatar"><img src="/images/advisors/advisor-4.jpg" alt="Advisor placeholder" loading="lazy" /></div>
+        <h3 class="advisor-name">Neurology &amp; Cognitive Longevity</h3>
+        <p class="advisor-role">MD candidate &middot; <em>name to be announced</em></p>
+        <p class="advisor-focus">Clinical neurology and cognitive decline trajectories. Anchors the upstream-prevention thesis to current Alzheimer's and dementia research.</p>
+      </article>
+
+      <article class="advisor-card">
+        <div class="advisor-avatar"><img src="/images/advisors/advisor-2.jpg" alt="Advisor placeholder" loading="lazy" /></div>
+        <h3 class="advisor-name">Neuropsychology &amp; Cognitive Performance</h3>
+        <p class="advisor-role">PhD candidate &middot; <em>name to be announced</em></p>
+        <p class="advisor-focus">Cognitive assessment, executive function measurement, baseline and progress tracking. Brings rigor to the audit and outcome data.</p>
+      </article>
+
+      <article class="advisor-card">
+        <div class="advisor-avatar"><img src="/images/advisors/advisor-3.jpg" alt="Advisor placeholder" loading="lazy" /></div>
+        <h3 class="advisor-name">Functional &amp; Metabolic Medicine</h3>
+        <p class="advisor-role">MD candidate &middot; <em>name to be announced</em></p>
+        <p class="advisor-focus">Gut-brain axis, inflammatory drivers, GLP-1 metabolic-cognitive integration. Validates the Mitigate-pillar clinical reasoning.</p>
+      </article>
+
+      <article class="advisor-card">
+        <div class="advisor-avatar"><img src="/images/advisors/advisor-5.jpg" alt="Advisor placeholder" loading="lazy" /></div>
+        <h3 class="advisor-name">Nutritional &amp; Longevity Science</h3>
+        <p class="advisor-role">PhD candidate &middot; <em>name to be announced</em></p>
+        <p class="advisor-focus">Ancestral nutrition, micronutrient adequacy, longevity research. Sources and validates the nutrition protocol that sits behind the platform.</p>
+      </article>
+    </div>
+
+    <p class="advisor-disclaimer">
+      <strong>Disclosure:</strong> Photos above are stock placeholders. Real advisor names and bios will replace them as agreements close. Dr. TJ is the only clinician currently providing platform-level guidance.
+    </p>
+  </div>
+</section>
+
 <!-- ===== THE 4M FRAMEWORK ===== -->
 <section class="section" id="framework">
   <div class="container">
@@ -241,6 +293,50 @@ const robots = "index, follow";
 </BaseLayout>
 
 <style is:global>
+
+    /* ── Advisory board ── */
+    .advisory-board-section { background: var(--bg-soft); }
+    .advisory-intro { max-width: 720px; margin: 1.4rem auto 0; font-size: 1rem; color: var(--text); line-height: 1.7; }
+    .advisor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.6rem;
+      margin-top: 3rem;
+    }
+    .advisor-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem 1.4rem 1.6rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .advisor-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 0.6rem;
+      border: 3px solid var(--accent);
+      filter: grayscale(0.35);
+    }
+    .advisor-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .advisor-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark); margin: 0; }
+    .advisor-role { font-size: 0.82rem; color: var(--primary); font-weight: 600; margin: 0; }
+    .advisor-focus { font-size: 0.88rem; color: var(--text-light); line-height: 1.55; margin: 0.4rem 0 0; }
+    .advisor-disclaimer {
+      margin: 2.5rem auto 0;
+      max-width: 760px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      text-align: center;
+      font-style: italic;
+      padding: 1rem 1.2rem;
+      background: rgba(0,0,0,0.04);
+      border-radius: 8px;
+    }
 
     :root {
       --primary: #0f4c75;
