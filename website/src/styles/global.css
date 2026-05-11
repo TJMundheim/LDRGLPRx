@@ -250,3 +250,70 @@ h1, h2, h3, h4 {
   padding-top: 0.4rem;
   border-top: 1px dashed var(--border);
 }
+
+/* ── 4M touchpoints + lifetime usage callout (every supplement page) ── */
+.four-m-touchpoints {
+  margin: 2.4rem 0;
+  padding: 1.8rem 2rem;
+  background: linear-gradient(135deg, #fff, var(--bg-soft));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.four-m-touchpoints h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin: 0 0 1rem;
+}
+.four-m-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+.four-m-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+}
+.four-m-label {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.45rem;
+}
+.four-m-card p {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.55;
+  margin: 0;
+}
+.lifetime-usage {
+  margin-top: 1.4rem;
+  padding: 1.1rem 1.3rem;
+  background: rgba(0,0,0,0.04);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+}
+.lifetime-usage h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 0 0 0.5rem;
+}
+.lifetime-usage p {
+  font-style: italic;
+  font-size: 0.94rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0;
+}
