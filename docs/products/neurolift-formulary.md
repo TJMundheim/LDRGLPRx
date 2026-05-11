@@ -37,8 +37,43 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 
 **Format options:**
 - **Unflavored powder** — purest, mixes into water/coffee/smoothie
-- **Citrus flavored** — natural citrus + monk fruit + stevia (no artificial colors or sweeteners)
+- **Citrus flavored** — natural citrus + **monk fruit + stevia ONLY**; no maltodextrin, no sucralose, no caloric carriers
 - **Single-serve sachets** — for travel / cohort starter kits
+
+**FAST-COMPATIBILITY RULE (locked 2026-05-10):** Every ingredient in NeuroLift is selected to be **fast-compatible**. The product is designed for use as a split-dose pre/post fasted workout drink (see Usage Protocol below). Flavored variants must use stevia + monk fruit only — never maltodextrin, sucralose-with-dextrose carriers, or any caloric sweetener. Total caloric load per scoop must stay under ~10 calories so the product never breaks a fast.
+
+**Fast-compatibility audit (per ingredient):**
+| Ingredient | Fast-breaking? | Notes |
+|---|---|---|
+| Creatine monohydrate 5g | No | Negligible insulin response at this dose; accepted in all major fasting protocols |
+| L-citrulline malate 6g | No | Citrulline doesn't trigger insulin; malic acid ≈6 cal — well under threshold |
+| Beetroot extract 500mg | No | Minimal calories |
+| Sodium 500mg | No | Zero calories; fast-supportive (helps electrolyte balance during fasted training) |
+| Potassium citrate 300mg | No | Zero calories |
+| Taurine 1g | No | Amino acid; standard in fasted/keto protocols |
+| P-5-P (B6) 5mg | No | Micronutrient |
+| Pycnogenol 100mg | No | Negligible caloric load |
+
+## Usage Protocol (locked 2026-05-10)
+
+**Primary use case — fasted training:**
+- Mix one full scoop in 12–16 oz water
+- **Drink half before training** (~30 min pre-workout — citrulline + beetroot peak NO availability at 60–90 min)
+- **Drink half immediately after training** (post-workout — creatine + electrolyte replenishment)
+- **Continue the fast** as long as feels sustainable for current fasting level
+- Break the fast with **30g+ lean protein, 30 min before any other food** (universal My4MLife rule — see project memory)
+
+**Why this protocol works:**
+- Caffeine-free, calorie-negligible — preserves the fasted state
+- Citrulline + beetroot provide NO-mediated performance support without breaking the fast
+- Creatine pre-loads working muscle stores AND supports post-workout recovery without insulin signaling
+- Electrolyte matrix prevents the headache / fatigue / brain fog that derails most fasted-training attempts
+- Taurine provides mild appetite suppression and cellular energy support — extends the comfortable fasting window after training
+
+**Secondary use cases (not fasted):**
+- Once-daily morning protocol (5g creatine + NO support for cognitive performance) — fine with or without food
+- Pre-deep-work / pre-meeting cognitive prime (60 min before a demanding cognitive task)
+- Pre-resistance-training (non-fasted)
 
 ---
 
