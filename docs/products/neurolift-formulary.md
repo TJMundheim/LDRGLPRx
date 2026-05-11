@@ -37,7 +37,7 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 
 **Format options:**
 - **Unflavored powder** — purest, mixes into water/coffee/smoothie
-- **Citrus flavored** — natural citrus + **monk fruit + stevia ONLY**; no maltodextrin, no sucralose, no caloric carriers
+- **Citrus flavored** — natural citrus + **monk fruit ONLY** (locked 2026-05-10 — no stevia, no maltodextrin, no sucralose, no caloric carriers). Monk fruit (Luo Han Guo / Siraitia grosvenorii) — zero glycemic, ~150-300× sweeter than sugar, used traditionally for centuries by Buddhist monks in southern China. Carries a clean heritage narrative if hyper-analytical buyers want to dig.
 - **Single-serve sachets** — for travel / cohort starter kits
 
 **FAST-COMPATIBILITY RULE (locked 2026-05-10):** Every ingredient in NeuroLift is selected to be **fast-compatible**. The product is designed for use as a split-dose pre/post fasted workout drink (see Usage Protocol below). Flavored variants must use stevia + monk fruit only — never maltodextrin, sucralose-with-dextrose carriers, or any caloric sweetener. Total caloric load per scoop must stay under ~10 calories so the product never breaks a fast.
