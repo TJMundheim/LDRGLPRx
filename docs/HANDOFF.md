@@ -40,15 +40,15 @@ Last updated: 2026-05-10.
 
 | Product | Formula | Position | Status |
 |---|---|---|---|
-| **NeuroLift** (working name) | Creatine monohydrate 5g + L-citrulline malate 6g + Beetroot extract 500mg (≥6% NO3) + Sodium 500mg + Potassium 300mg + Taurine 1g + P-5-P 5mg + optional Pycnogenol® 100mg | Bridges Muscle + Mind pillars; creatine for cognitive + sarcopenia, NO blend for cerebrovascular, electrolytes for performance | Formulary at [`docs/products/neurolift-formulary.md`](./products/neurolift-formulary.md); site placeholder on `/solutions/cognitive` + `/pillars/muscle`; pending clinical advisory board review |
+| **MitoVita** (working name) | Creatine monohydrate 5g + L-citrulline malate 6g + Beetroot extract 500mg (≥6% NO3) + Sodium 500mg + Potassium 300mg + Taurine 1g + P-5-P 5mg + optional Pycnogenol® 100mg | Bridges Muscle + Mind pillars; creatine for cognitive + sarcopenia, NO blend for cerebrovascular, electrolytes for performance | Formulary at [`docs/products/mitovita-formulary.md`](./products/mitovita-formulary.md); site placeholder on `/solutions/cognitive` + `/pillars/muscle`; pending clinical advisory board review |
 
-**Mg note:** Magnesium intentionally excluded from NeuroLift — already delivered via SleepRestore (Mg bisglycinate 350mg) and timed for evening sleep architecture, not daytime performance.
+**Mg note:** Magnesium intentionally excluded from MitoVita — already delivered via SleepRestore (Mg bisglycinate 350mg) and timed for evening sleep architecture, not daytime performance.
 
 ### Open product questions (consolidated)
 
 1. **NeuroSeal vs Biome-AF** — same triple-mechanism formula assigned to same week. Same product under two names, or two distinct SKUs? TJ to clarify canonical naming.
 2. **Tier 2 OTC versions** — Biome-AF and NeuroSeal cannot have full OTC equivalents (BPC-157 is Rx-only). Other 3 (NeuroBridge, SleepRestore, ArmorVita) can have OTC versions; private-label vs curated-stack decision pending.
-3. **NeuroLift name** — working title; trademark search and alternatives (NeuroForge, ApexLift, MetaForge, MindFuel) pending.
+3. **MitoVita name** — locked 2026-05-10 (renamed from NeuroLift). USPTO trademark search pending. Fallback names if MitoVita unavailable: PhosphaVita (phosphocreatine focus), ApexVita (outcome focus).
 4. **NAD product line** — TJ confirmed planned; details TBD (Rx IV / compounded oral NMN/NR + possible OTC Tier 2).
 5. **Iontophoresis patch line** — game-changer USP; peptide list eligible for patch delivery pending TJ.
 6. **Omega-3 EPA/DHA** — present in legacy program (2–3g daily, Week 2) but not in any branded brochure. Affiliate Tier 3 or future branded SKU?

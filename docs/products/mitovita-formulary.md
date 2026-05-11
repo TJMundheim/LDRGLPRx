@@ -1,20 +1,33 @@
-# NeuroLift — Initial Formulary (Placeholder Product)
+# MitoVita — Formulary
 
-**Status:** In development. Placeholder name. Initial formulary based on current research; subject to clinical advisory board review before manufacturing.
+**Status:** Name LOCKED 2026-05-10 (renamed from working title NeuroLift after TJ pressure-tested name vs creatine's actual mechanism — mitochondrial ATP, not vascular). In development; subject to clinical advisory board review before manufacturing.
 **Date drafted:** 2026-05-10
 **Category:** OTC Nutraceutical — Pharmaceutical-grade
-**Position in 4M:** Bridges Muscle and Mind pillars — the rare supplement with documented benefits across both.
+**Position in 4M:** Four-pillar product. One supplement addressing cognitive, sarcopenia, visceral fat, and sexual performance — unified by mitochondrial ATP support + endothelial NO production.
 
 ---
 
 ## TL;DR — What this product is
 
-**NeuroLift** is a once-daily powdered supplement combining **creatine monohydrate**, an **NO2-boosting blend** (L-citrulline malate + standardized beetroot extract), and a **functional electrolyte matrix**. Single product, dual mission:
+**MitoVita** is a once-daily powdered supplement combining **creatine monohydrate**, an **NO2-boosting blend** (L-citrulline malate + standardized beetroot extract), and a **functional electrolyte matrix**.
 
-1. **Cognitive** — published research shows creatine improves working memory, intelligence test performance, and resilience to sleep-deprived cognitive decline. NO2 boosters increase cerebral blood flow. This is the underrated brain-health story most men have never heard.
-2. **Body composition / sarcopenia mitigation** — creatine + resistance training is the single most-evidenced behavioral combination for preserving lean muscle mass with age. Lean muscle is metabolically active tissue that drives glucose disposal, reduces visceral fat, and lowers the inflammatory cytokine load that crosses the blood-brain barrier.
+### The unifying mechanism — why one product addresses four pillars
 
-The product is on-thesis for My4MLife because it operates on **both ends of the 4M framework simultaneously** — Muscle (sarcopenia prevention, metabolic engine) and Mind (cognitive function). Few supplements do.
+**Mitochondria are the upstream node every age-related decline in our demographic shares.** MitoVita supports two converging mechanisms:
+
+1. **Mitochondrial ATP buffering** (creatine → phosphocreatine) — neurons, skeletal muscle, smooth muscle, and corpus cavernosum tissue all depend on phosphocreatine availability for sustained function under load
+2. **Endothelial nitric oxide production** (L-citrulline + beetroot nitrate → NO) — vasodilation delivers oxygen and substrates TO mitochondria
+
+The four outcomes that matter to the demographic — cognitive decline, sarcopenia, visceral fat, sexual performance — all trace back to mitochondrial function under adequate vascular supply.
+
+### Four pillars of product value
+
+1. **Cognitive** — creatine increases brain phosphocreatine 5–15%, supports working memory, intelligence test performance, and resilience to sleep-deprived cognitive decline. NO blend increases cerebral blood flow during demanding tasks.
+2. **Sarcopenia / lean mass preservation** — creatine + resistance training is the single most-evidenced behavioral combination for preserving muscle mass through age 40+. Lean muscle drives metabolic flexibility.
+3. **Visceral fat reduction** — preserved/increased lean mass drives glucose disposal and insulin sensitivity, which directly reduces visceral adiposity (the inflammatory cytokine source that drives leaky gut, BBB permeability, and neuroinflammation — closing the loop with the gut-microbiome/visceral-fat content on /pillars/mitigate).
+4. **Sexual performance** — L-citrulline + beetroot drive NO-mediated penile vasodilation (the upstream production side of the same mechanism PDE5 inhibitors exploit downstream). Creatine supports corpus cavernosum mitochondrial ATP under load. The product supports healthy erectile function even in men without clinical ED — and serves as the OTC complement on the ED page's Two Solution Paths.
+
+The product is on-thesis because it operates across **three pillars of 4M simultaneously** (Mind, Muscle, Mitigate) through one mitochondrial-and-vascular mechanism. Few supplements can credibly make that claim.
 
 ---
 
@@ -33,14 +46,14 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 
 **Total scoop weight:** ~13.5g (large but acceptable for a stack; can split into two daily servings if preferred — pre-workout + evening).
 
-**Magnesium note:** intentionally excluded. Magnesium glycinate (350 mg) is already delivered through the existing **SleepRestore** proprietary formula (Mg bisglycinate + Glycine + KSM-66 ashwagandha + L-Theanine + Apigenin + Zinc — evening / sleep-architecture stack). Splitting magnesium from NeuroLift prevents double-dosing and respects circadian-appropriate ingredient timing (daytime performance vs evening sleep-architecture support).
+**Magnesium note:** intentionally excluded. Magnesium glycinate (350 mg) is already delivered through the existing **SleepRestore** proprietary formula (Mg bisglycinate + Glycine + KSM-66 ashwagandha + L-Theanine + Apigenin + Zinc — evening / sleep-architecture stack). Splitting magnesium from MitoVita prevents double-dosing and respects circadian-appropriate ingredient timing (daytime performance vs evening sleep-architecture support).
 
 **Format options:**
 - **Unflavored powder** — purest, mixes into water/coffee/smoothie
 - **Citrus flavored** — natural citrus + **monk fruit ONLY** (locked 2026-05-10 — no stevia, no maltodextrin, no sucralose, no caloric carriers). Monk fruit (Luo Han Guo / Siraitia grosvenorii) — zero glycemic, ~150-300× sweeter than sugar, used traditionally for centuries by Buddhist monks in southern China. Carries a clean heritage narrative if hyper-analytical buyers want to dig.
 - **Single-serve sachets** — for travel / cohort starter kits
 
-**FAST-COMPATIBILITY RULE (locked 2026-05-10):** Every ingredient in NeuroLift is selected to be **fast-compatible**. The product is designed for use as a split-dose pre/post fasted workout drink (see Usage Protocol below). Flavored variants must use stevia + monk fruit only — never maltodextrin, sucralose-with-dextrose carriers, or any caloric sweetener. Total caloric load per scoop must stay under ~10 calories so the product never breaks a fast.
+**FAST-COMPATIBILITY RULE (locked 2026-05-10):** Every ingredient in MitoVita is selected to be **fast-compatible**. The product is designed for use as a split-dose pre/post fasted workout drink (see Usage Protocol below). Flavored variants must use stevia + monk fruit only — never maltodextrin, sucralose-with-dextrose carriers, or any caloric sweetener. Total caloric load per scoop must stay under ~10 calories so the product never breaks a fast.
 
 **Fast-compatibility audit (per ingredient):**
 | Ingredient | Fast-breaking? | Notes |
@@ -113,11 +126,11 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 - Greens powders (AG1) — broad-spectrum micronutrient with no creatine, no NO, no clear performance story
 - Standalone L-citrulline + beetroot (Onnit, etc.) — no creatine, no electrolytes
 
-**The gap NeuroLift fills:** the brain-health-first, dual-pillar (cognitive + muscle) supplement that operates on documented physiology. No nootropic vaporware (no "Lion's Mane" / "Bacopa" / proprietary blends). No bro-science. Just the four ingredient categories with the strongest evidence stack.
+**The gap MitoVita fills:** the brain-health-first, dual-pillar (cognitive + muscle) supplement that operates on documented physiology. No nootropic vaporware (no "Lion's Mane" / "Bacopa" / proprietary blends). No bro-science. Just the four ingredient categories with the strongest evidence stack.
 
 ### Positioning copy (draft)
 
-> **NeuroLift: the single supplement at the intersection of Muscle and Mind.**
+> **MitoVita: the single supplement at the intersection of Muscle and Mind.**
 > Creatine monohydrate (5g) — improves working memory, intelligence test performance, and resilience to sleep deprivation. Slows sarcopenia. Increases lean mass.
 > L-citrulline + beetroot — increases cerebral blood flow and endothelial function. Cognitive performance is downstream of cerebrovascular health.
 > Functional electrolyte matrix — most men in this demographic are sodium-conservative, dehydrated, and magnesium-deficient. The matrix makes the creatine and NO actually work.
@@ -127,7 +140,7 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 
 **Member pricing:** $59/month (Insider tier 10% off, Insider Plus 15%, Insider Concierge 20%)
 **Non-member retail:** $79/month
-**Strategy:** premium pricing reflects pharmaceutical-grade ingredient costs (Creapure®, standardized beetroot extract) and the dual-mechanism story. Generic creatine is $20/month; NeuroLift's price premium is justified by the NO blend + electrolytes + cognitive positioning + clinical-grade sourcing.
+**Strategy:** premium pricing reflects pharmaceutical-grade ingredient costs (Creapure®, standardized beetroot extract) and the dual-mechanism story. Generic creatine is $20/month; MitoVita's price premium is justified by the NO blend + electrolytes + cognitive positioning + clinical-grade sourcing.
 
 ### Tier positioning
 
@@ -154,7 +167,7 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 ## Contraindications + label warnings (must appear on product packaging)
 
 - **Renal impairment:** Creatine increases muscle creatine stores and can elevate serum creatinine (a kidney function marker) without indicating actual kidney damage. Men with diagnosed renal insufficiency should consult a physician before use.
-- **Blood pressure medications:** Beetroot extract and L-citrulline both lower BP. Men on antihypertensive medication should monitor BP carefully when adding NeuroLift.
+- **Blood pressure medications:** Beetroot extract and L-citrulline both lower BP. Men on antihypertensive medication should monitor BP carefully when adding MitoVita.
 - **PDE5 inhibitors (sildenafil/tadalafil):** Combined NO-pathway stimulation theoretically additive; clinical relevance unclear but warrants physician guidance.
 - **Pregnancy / lactation:** Not studied; not recommended.
 - **General disclaimer:** Standard FDA dietary supplement disclaimer — "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
@@ -178,4 +191,4 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 3. **Label and packaging design** — premium clinical aesthetic matching the rest of the My4MLife product family (ArmorVita, NeuroBridge, Biome-AF)
 4. **Stability and shelf-life testing** — co-packer typically handles via accelerated stability protocol
 5. **Marketing rollout** — featured product on `/solutions/cognitive` + `/pillars/muscle`, blog post on creatine-for-cognitive-longevity, cohort education module
-6. **Brand-name finalization** — "NeuroLift" is the working title. Consider trademark search and potential alternatives: NeuroForge, ApexLift, MetaForge, MindFuel
+6. **Brand-name finalization** — "MitoVita" is the working title. Consider trademark search and potential alternatives: NeuroForge, ApexLift, MetaForge, MindFuel
