@@ -25,14 +25,15 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 | **Creatine monohydrate** (Creapure® grade) | **5,000 mg** | Standard evidence-supported daily dose. Creapure® is the German-manufactured purity standard. Cognitive + muscle benefits at this dose. |
 | **L-citrulline malate** (2:1) | **6,000 mg** | NO precursor; superior bioavailability to L-arginine. ~4g citrulline + 2g malic acid. Endothelial function, cerebral blood flow, exercise performance. |
 | **Beetroot extract** (standardized to ≥6% nitrates) | **500 mg** | Dietary nitrate → NO pathway. Lowers systolic BP modestly; improves cerebrovascular blood flow during cognitive tasks. |
-| **Magnesium glycinate** | **150 mg elemental Mg** | Bioavailable, GI-tolerant form. Cognitive, sleep architecture, neuromuscular function. Most men are deficient. |
 | **Sodium** (sea salt or sodium citrate) | **500 mg** | Hydration, exercise performance, blood pressure regulation in active adults. |
 | **Potassium citrate** | **300 mg** | Electrolyte balance, cardiovascular function, blood pressure. |
 | **Taurine** | **1,000 mg** | Synergistic with creatine; cardiovascular and cognitive support; mitochondrial function. |
 | **Pyridoxal-5-phosphate (P-5-P / active B6)** | **5 mg** | Cofactor for NO synthesis and neurotransmitter production. Active form (not pyridoxine). |
 | **Pine bark extract** (Pycnogenol® or equivalent, ≥65% procyanidins) | **100 mg** | Endothelial function, additional NO support, antioxidant. Optional — consider for premium variant. |
 
-**Total scoop weight:** ~14g (large but acceptable for a stack; can split into two daily servings if preferred — pre-workout + evening).
+**Total scoop weight:** ~13.5g (large but acceptable for a stack; can split into two daily servings if preferred — pre-workout + evening).
+
+**Magnesium note:** intentionally excluded. Magnesium glycinate (350 mg) is already delivered through the existing **SleepRestore** proprietary formula (Mg bisglycinate + Glycine + KSM-66 ashwagandha + L-Theanine + Apigenin + Zinc — evening / sleep-architecture stack). Splitting magnesium from NeuroLift prevents double-dosing and respects circadian-appropriate ingredient timing (daytime performance vs evening sleep-architecture support).
 
 **Format options:**
 - **Unflavored powder** — purest, mixes into water/coffee/smoothie
@@ -108,7 +109,6 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 - **Creatine source:** Creapure® (AlzChem, Germany) — the pharma-grade reference standard. ~$15-22/kg in bulk.
 - **L-citrulline:** Kyowa Quality™ (Kyowa Hakko, Japan) for premium grade; pharmaceutical-grade alternatives available. ~$45-60/kg.
 - **Beetroot extract:** Standardized to nitrate content (not just "beetroot powder"). NeoBeet® or comparable. ~$80-120/kg standardized.
-- **Magnesium:** Magnesium glycinate or magnesium L-threonate (premium variant — superior CNS bioavailability, ~$200-300/kg).
 - **Pine bark extract:** Pycnogenol® (Horphag Research) — patented French maritime pine bark, ~$1,200-1,600/kg. Optional premium variant.
 - **Co-packer / contract manufacturer:** US-based, NSF Sport certified or GMP-certified facility. Lab tested for heavy metals, microbial, and ingredient identity.
 
@@ -130,7 +130,7 @@ The product is on-thesis for My4MLife because it operates on **both ends of the 
 
 1. **Loading phase:** Standard creatine loading (20g/day x 5-7 days) accelerates saturation but isn't necessary. Should the product label suggest loading for first week, or just steady-state 5g/day?
 2. **Pycnogenol inclusion:** Strong evidence base but doubles ingredient cost. Include in base product or reserve for premium variant?
-3. **Magnesium form:** Glycinate (GI-tolerant, well-studied) vs L-threonate (premium, superior CNS penetration, but ~2x cost and less long-term data). Glycinate recommended for base; threonate possibly for premium "NeuroLift Plus" variant.
+3. ~~Magnesium form~~ — N/A. Magnesium intentionally moved to the separate Sleep Minerals product to avoid stack overlap and to time magnesium with evening sleep-architecture support.
 4. **Acute cognitive dose:** Given Gordji-Nejad 2024 showing 25g acute dose improves cognition under sleep deprivation, should we offer a "demanding day" 2-scoop protocol option (10g creatine)? Marketing risk: makes the standard dose feel like a teaser.
 5. **Pre-workout vs morning vs evening dosing:** Creatine timing isn't critical for chronic benefit, but NO boosters peak at 60-90 min post-ingestion. Recommended use case: ~60 min before mentally or physically demanding activity (morning routine, training, deep work block, important meeting).
 

@@ -135,3 +135,38 @@ h1, h2, h3, h4 {
   font-style: italic;
   margin-top: 0.6rem;
 }
+
+/* ── Sleep three-layer teaching cards ── */
+.sleep-layers { margin: 3rem 0; }
+.sleep-layers h2 { margin-bottom: 0.6rem; }
+.sleep-layers-intro { max-width: 760px; color: var(--text); margin-bottom: 2rem; }
+.sleep-layer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.3rem;
+}
+.sleep-layer-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  padding: 1.4rem 1.5rem;
+}
+.sleep-layer-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.sleep-layer-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--dark);
+  margin: 0 0 0.3rem;
+}
+.sleep-layer-dose { font-size: 0.9rem; color: var(--primary); font-weight: 600; margin: 0 0 0.7rem; }
+.sleep-layer-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; color: var(--text); }
+.sleep-layer-card li { margin-bottom: 0.35rem; line-height: 1.5; }
