@@ -97,3 +97,41 @@ h1, h2, h3, h4 {
   margin: 0;
 }
 .aa-stat-source a { color: var(--primary); text-decoration: underline; }
+
+/* ── Product in-development callout ── */
+.product-in-dev {
+  margin: 2rem 0;
+  padding: 1.6rem 1.8rem;
+  background: linear-gradient(135deg, var(--bg-soft), #fff);
+  border: 2px dashed var(--accent);
+  border-radius: 12px;
+}
+.product-in-dev-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0,0,0,0.04);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.7rem;
+}
+.product-in-dev h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--primary);
+  margin: 0 0 0.3rem;
+}
+.product-in-dev-tagline {
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0 0 0.8rem;
+}
+.product-in-dev-note {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  font-style: italic;
+  margin-top: 0.6rem;
+}
