@@ -1,6 +1,66 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-05-05.
+Last updated: 2026-05-10.
+
+---
+
+## Proprietary Supplement Formulations — Reference
+
+**Source of truth:** [`docs/products/supplement-catalog.md`](./products/supplement-catalog.md) — full 6-brochure structured catalog with mechanisms, evidence stats, target users, brochure positioning copy, and site placements. The summaries below are quick-reference; always consult the catalog for full detail.
+
+**Brand tier framework (locked 2026-05-03):**
+- **Tier 1 — My4MLife Rx Protocol:** prescription-compounded, dispensed via contracted licensed pharmacy partner (MD Specialty Group) under physician oversight
+- **Tier 2 — My4MLife Nutraceuticals:** pharmaceutical-grade OTC, USP-verified, GMP, third-party tested
+- **Tier 3 — Affiliate retail:** ButcherBox, Thrive Market, etc.
+
+### Core 5 — proprietary formula stack
+
+| Product | Rx (Tier 1) Formula | OTC (Tier 2) | 4M Slot | Site Page |
+|---|---|---|---|---|
+| **Biome-AF** (was BiomeAxisForge) | BPC-157 + L-Glutamine + Aloe Vera (Aloe Barbadensis) — oral compounded capsule/liquid | OTC version pending (BPC-157 is Rx-only; OTC would be L-Glutamine + Aloe + zinc carnosine / slippery elm) | Month 1 Wk 1 | `/solutions/gut` |
+| **NeuroBridge** | B6 (P-5-P) + B12 methylcobalamin + Methylfolate (5-MTHF) + B5 + B1 + B2 — fully methylated B-complex capsule | OTC methylated B-complex feasible (private-label TBD) | Month 1 Wk 3 | `/solutions/cognitive` |
+| **SleepRestore** | Mg bisglycinate 350mg + Zinc 15mg + Glycine 2,000mg + Apigenin 50mg + L-Theanine 200mg + KSM-66 Ashwagandha 300mg — compounded capsule | OTC version feasible — all 6 ingredients commercially available | Month 1 Wk 1 | `/solutions/sleep` |
+| **ArmorVita** | D3 5,000 IU + K2-MK7 + K2-MK4 + Boron 3mg + Retinol 2,500 IU + Astaxanthin 4mg — MCT-base softgel | OTC version feasible (curated stack or private-label) | Month 1 Wk 2 | `/solutions/hormones` |
+| **NeuroSeal** | BPC-157 + L-Glutamine + Aloe Vera — same triple as Biome-AF; clarification pending (same SKU? rebrand? distinct product?) | Same constraint as Biome-AF | Month 1 Wk 1 *(conflict with Biome-AF)* | **Not yet placed** |
+
+**Key evidence stats per formula (one-liner each):**
+- **Biome-AF:** 90% of serotonin is gut-derived; 3 independent mechanisms vs single-ingredient BPC; 4–6 wk minimum cycle
+- **NeuroBridge:** 60% carry MTHFR variants limiting B-vitamin conversion; 35% lower dementia risk with optimized B12 + folate; 2–4 wk to measurable mood/energy improvement
+- **SleepRestore:** 28% cortisol reduction (KSM-66 RCT); −0.8°C core temp drop (3g Glycine at bedtime); 17% testosterone increase (KSM-66 in men, 8 wks)
+- **ArmorVita:** −50% mortality risk (low → avg VO2 max); +37% free testosterone (Boron 10mg, 1 week); 16% higher mortality per 5kg grip-strength loss
+- **NeuroSeal:** identical to Biome-AF on substance; brochure ships with patient testimonials (M.T. 47 Dallas, R.K. 52 Austin, J.B. 44 Houston)
+
+### Specialty / Rx-only
+
+| Product | Formula | Indication | Dosing |
+|---|---|---|---|
+| **GLOW Peptide** | BPC-157 + TB-500 + GHK-Cu — subcutaneous injection | Tissue repair, inflammation control, skin renewal, mobility | Once-daily SQ, 4–6 wk minimum cycle, full benefit 6–8 wks |
+
+### In Development (placeholder, not yet manufactured)
+
+| Product | Formula | Position | Status |
+|---|---|---|---|
+| **NeuroLift** (working name) | Creatine monohydrate 5g + L-citrulline malate 6g + Beetroot extract 500mg (≥6% NO3) + Sodium 500mg + Potassium 300mg + Taurine 1g + P-5-P 5mg + optional Pycnogenol® 100mg | Bridges Muscle + Mind pillars; creatine for cognitive + sarcopenia, NO blend for cerebrovascular, electrolytes for performance | Formulary at [`docs/products/neurolift-formulary.md`](./products/neurolift-formulary.md); site placeholder on `/solutions/cognitive` + `/pillars/muscle`; pending clinical advisory board review |
+
+**Mg note:** Magnesium intentionally excluded from NeuroLift — already delivered via SleepRestore (Mg bisglycinate 350mg) and timed for evening sleep architecture, not daytime performance.
+
+### Open product questions (consolidated)
+
+1. **NeuroSeal vs Biome-AF** — same triple-mechanism formula assigned to same week. Same product under two names, or two distinct SKUs? TJ to clarify canonical naming.
+2. **Tier 2 OTC versions** — Biome-AF and NeuroSeal cannot have full OTC equivalents (BPC-157 is Rx-only). Other 3 (NeuroBridge, SleepRestore, ArmorVita) can have OTC versions; private-label vs curated-stack decision pending.
+3. **NeuroLift name** — working title; trademark search and alternatives (NeuroForge, ApexLift, MetaForge, MindFuel) pending.
+4. **NAD product line** — TJ confirmed planned; details TBD (Rx IV / compounded oral NMN/NR + possible OTC Tier 2).
+5. **Iontophoresis patch line** — game-changer USP; peptide list eligible for patch delivery pending TJ.
+6. **Omega-3 EPA/DHA** — present in legacy program (2–3g daily, Week 2) but not in any branded brochure. Affiliate Tier 3 or future branded SKU?
+
+### Brochure source files (PDFs on TJ's machine)
+
+- `/Users/thomasmundheim/Desktop/Development/CLIENT-PORTAL/Brochures/BiomeAxisForge_Brochure.pdf`
+- `/Users/thomasmundheim/Desktop/Development/CLIENT-PORTAL/Brochures/NeuroBridge_Brochure.pdf`
+- `/Users/thomasmundheim/Desktop/Development/CLIENT-PORTAL/Brochures/SleepRestore_Brochure.pdf`
+- `/Users/thomasmundheim/Desktop/Development/CLIENT-PORTAL/Brochures/ArmorVita_Brochure.pdf`
+- `/Users/thomasmundheim/Downloads/NeuroSeal_Brochure_FINAL.pdf`
+- `/Users/thomasmundheim/Desktop/Development/CLIENT-PORTAL/Brochures/GLOW_Peptide_Brochure.pdf`
 
 ---
 
