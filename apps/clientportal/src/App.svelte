@@ -11,6 +11,9 @@
   import IntakeModule from './lib/components/intake/IntakeModule.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
+  import LockedGate from './lib/components/LockedGate.svelte';
+  import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
+  import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
   import { runNudgeTriggers, updateLastSeen, trackScreenVisit, triggerWeekMilestone } from './lib/nudge/triggers';
 
@@ -491,6 +494,13 @@
   };
 
   onMount(async () => {
+    // Consume ?audit=<base64> param from marketing-site hand-off (must run
+    // before LockedGate reads localStorage on first render).
+    consumeAuditParam();
+    // Load hard-paywall flag for the current user. Defaults to false until
+    // the Stripe webhook is wired; ?unlocked=1 overrides for dev.
+    await loadPurchaseFlag();
+
     (window as PortalWindow).portalAction = portalAction;
     (window as PortalWindow).portalField = portalField;
     (window as PortalWindow).portalFieldRender = portalFieldRender;
@@ -522,6 +532,12 @@
 
 <NudgeStack />
 <AuthGate>
+{#if purchaseState.loaded && !purchaseState.hasActivePurchase}
+  <!-- Hard paywall: signed-in users with no purchase see only the locked gate.
+       Bypass via ?unlocked=1 for dev/test. Stripe webhook will flip
+       hasActivePurchase=true in DDB once wired. -->
+  <LockedGate />
+{:else}
 <div class="shell">
   <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} />
   <div class="main" id="main-content">
@@ -539,6 +555,7 @@
     {/if}
   </div>
 </div>
+{/if}
 </AuthGate>
 <div id="toast" class:show={toastShow}>{toastMsg}</div>
 
