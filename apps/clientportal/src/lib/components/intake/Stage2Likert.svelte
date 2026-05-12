@@ -16,7 +16,7 @@
 
   const AUDIT_KEY = 'audit-v1';
 
-  // 20 questions in audit.ts canonical order
+  // 8 questions — top-8 master taxonomy (locked 2026-05-12)
   interface QuestionDef {
     id: string;
     prompt: string;
@@ -25,114 +25,44 @@
 
   const QUESTIONS: QuestionDef[] = [
     {
-      id: 'purpose-social',
-      prompt: 'How much do you struggle with a clear sense of purpose, written goals, or daily meaning?',
-      context: '0 = I have crystal-clear purpose and goals I\'m actively pursuing · 3 = I have some direction but it\'s fuzzy · 5 = I\'m drifting; nothing feels meaningful or motivating',
-    },
-    {
-      id: 'morning-routine',
-      prompt: 'How much do you struggle with an inconsistent or absent morning routine?',
-      context: '0 = I have a consistent ritual I follow daily · 3 = I have a loose routine but skip it often · 5 = I have no routine; mornings feel chaotic',
+      id: 'gut-microbiome',
+      prompt: "I deal with bloating, gas, irregular stools, food reactions, or brain fog after meals — my gut clearly isn't happy.",
+      context: "0 = No gut issues at all · 3 = Occasional bloating or food reactions a few times a month · 5 = Daily bloating, irregular stools, multiple food sensitivities, foggy after most meals",
     },
     {
       id: 'sleep',
-      prompt: 'How much do sleep problems (poor quality, inconsistent timing, frequent waking, fatigue on waking) affect you?',
-      context: '0 = Consistently great sleep, well-rested every morning · 3 = Hit-or-miss; some nights fine, some rough · 5 = Chronic insomnia, daily fatigue, inconsistent timing, frequent waking',
-    },
-    {
-      id: 'gut-microbiome',
-      prompt: 'How much do gut symptoms (bloating, gas, irregular stools, food sensitivities, brain fog after meals) affect you?',
-      context: '0 = No notable gut symptoms · 3 = Occasional bloating or food reactions, manageable · 5 = Frequent bloating, irregular stools, brain fog after meals, multiple food sensitivities',
+      prompt: "I don't sleep well — I have trouble falling asleep, wake up during the night, or drag through mornings even after a full night in bed.",
+      context: '0 = Sleep is solid — I fall asleep fast, stay asleep, and wake rested · 3 = Some nights great, some rough · 5 = Most nights are bad, I wake up tired, and timing is all over the place',
     },
     {
       id: 'weight-body-fat',
-      prompt: 'How much excess body fat do you carry beyond your healthy target?',
-      context: '0 = At my ideal weight and composition · 3 = Roughly 10–20 lbs above target · 5 = >30 lbs above target with visible visceral fat',
-    },
-    {
-      id: 'hormone-balance',
-      prompt: 'How often do you experience symptoms of hormone imbalance (persistent fatigue, low libido, brain fog, loss of muscle mass, mood swings, poor recovery)?',
-      context: '0 = Energy, libido, mood, and recovery all feel optimal · 3 = Occasional symptoms, especially after stress · 5 = Multiple symptoms most days affecting daily function',
-    },
-    {
-      id: 'dental-health',
-      prompt: 'How would you rate your dental health concerns (gum bleeding, bad breath, missed professional cleanings (>6 months since last))?',
-      context: '0 = Excellent oral hygiene, cleaning within 6 months · 3 = Some issues; overdue for cleaning · 5 = Gum issues, >1 year since cleaning, persistent bad breath',
-    },
-    {
-      id: 'substance-use',
-      prompt: 'How much do alcohol, tobacco, vaping, or recreational drug use affect your health goals?',
-      context: '0 = None or occasional only (social) · 3 = Alcohol >7 drinks/week or daily nicotine use · 5 = Daily heavy use affecting sleep, energy, or relationships',
+      prompt: "I'm carrying more body fat than I should — clothes don't fit the way they used to and the scale has been creeping up.",
+      context: '0 = At my ideal weight, body composition feels right · 3 = About 10-20 lbs heavier than I should be · 5 = More than 30 lbs over target with visible belly fat',
     },
     {
       id: 'nutrition',
-      prompt: 'How often do you eat highly-processed, fast, or convenience foods?',
-      context: '0 = Whole-foods diet, mostly home-cooked · 3 = Mix of whole foods and convenience; several times a week processed · 5 = Fast food or processed/convenience food daily',
-    },
-    {
-      id: 'nutritional-supplements',
-      prompt: "How likely is it that you're under-supplemented in essential nutrients (vitamin D, magnesium, omega-3, B-complex, etc.)?",
-      context: '0=I get >15 min direct sun daily, eat well, and tested optimal across panels. 5=indoor work, no recent labs, no targeted supplementation.',
-    },
-    {
-      id: 'environment',
-      prompt: 'How much do environmental inputs affect you — lack of sun at appropriate timing (morning + low-evening), excess blue light, EMF exposure, poor air, unfiltered water?',
-      context: '0 = Get morning + low-evening sun daily, clean air + water, low artificial light · 3 = Some exposure issues, managing partially · 5 = No morning sun, screens/fluorescents most of the day, tap water, no air filtration, constant EMF',
-    },
-    {
-      id: 'pain-acute',
-      prompt: 'How much does an acute injury or pain (within the past 4 weeks) limit your daily activity?',
-      context: '0 = No acute injuries · 3 = Mild acute pain — present but not limiting major activities · 5 = Current acute injury significantly limiting movement or exercise',
-    },
-    {
-      id: 'pain-chronic',
-      prompt: 'How much does chronic pain (>3 months) limit your daily activity?',
-      context: '0 = No chronic pain · 3 = Manageable chronic pain; present but functional · 5 = Daily chronic pain limiting most activities and affecting quality of life',
-    },
-    {
-      id: 'allergies-immune',
-      prompt: 'How much do allergies, food sensitivities, or immune symptoms (recurrent infections, autoimmune flares) affect you?',
-      context: '0 = No notable allergy or immune symptoms · 3 = Seasonal allergies or occasional reactions, manageable · 5 = Multiple food sensitivities + recurrent infections + autoimmune diagnosis',
-    },
-    {
-      id: 'stress',
-      prompt: 'How would you rate your average stress level over the past month?',
-      context: '0 = Calm, well-managed, resilient · 3 = Manageable but constant background stress · 5 = Overwhelming, unmanaged stress affecting sleep, focus, and daily decisions',
-    },
-    {
-      id: 'cognitive',
-      prompt: 'How much do you notice cognitive issues (memory lapses, difficulty focusing, word-finding trouble, mental fatigue)?',
-      context: '0 = Sharp, focused, fast recall · 3 = Occasional brain fog or forgetfulness · 5 = Daily noticeable cognitive issues affecting work or relationships',
-    },
-    {
-      id: 'access-knowledge',
-      prompt: 'How limited is your access to trustworthy, current health information when you need it?',
-      context: '0 = I have great resources and know who to ask · 3 = I manage but often feel uncertain about sources · 5 = I rely on Google, feel confused, and don\'t know who to trust',
-    },
-    {
-      id: 'access-care',
-      prompt: 'How limited is your access to a primary care doctor or telemedicine relationship you can reach quickly?',
-      context: '0 = I have a doctor I can reach within a week · 3 = I have a provider but access is slow or inconvenient · 5 = No PCP, no telemedicine relationship; ER is my fallback',
-    },
-    {
-      id: 'financial-stress',
-      prompt: 'How often do health-related costs (food, supplements, care) influence your health decisions?',
-      context: '0 = Cost is rarely a factor in health decisions · 3 = I sometimes delay or downgrade care due to cost · 5 = I regularly skip or delay needed care because of cost',
+      prompt: 'I rely on fast food, processed snacks, or convenience meals more often than I cook real whole-food meals at home.',
+      context: '0 = Almost everything I eat is whole foods, mostly home-cooked · 3 = Mixed — some good days, some takeout / processed days · 5 = Fast food, packaged snacks, or convenience meals are my default',
     },
     {
       id: 'erectile-dysfunction',
-      prompt: 'Erectile function or sexual performance has noticeably declined in the past 1-3 years.',
-      context: '0 = Strongly disagree — function is solid, no decline · 3 = Neutral / mixed — some off days but not a clear pattern · 5 = Strongly agree — clear, sustained decline. ED is a symptom, not a fault — this is an early-warning signal, not a verdict.',
+      prompt: "My sex drive has dropped and erections aren't what they used to be — frequency, hardness, or both have declined noticeably in the past year or two.",
+      context: '0 = Drive and function feel completely normal · 3 = Some noticeable off-weeks but not a steady pattern · 5 = Clear, sustained decline in drive, hardness, or morning erections',
     },
     {
-      id: 'libido-morning-erections',
-      prompt: 'Libido and the frequency of morning erections have noticeably declined.',
-      context: '0 = Strongly disagree — drive and morning function feel normal · 3 = Neutral / mixed — occasional off weeks · 5 = Strongly agree — clear, sustained decline. Morning erections are an objective marker of nocturnal testosterone release and vascular health — this question paired with the ED question makes the upstream signal sharper.',
+      id: 'environment',
+      prompt: "I don't get morning sunlight or any meaningful outdoor time during the day — I'm under artificial lighting most of my waking hours, drinking tap water, and surrounded by screens and EMF.",
+      context: '0 = I get morning sun daily, filtered air and water, low artificial light · 3 = Some exposure issues, partially managing · 5 = No morning sun, indoors all day under fluorescents/screens, tap water, no air filtration, constant EMF',
     },
     {
-      id: 'self-image',
-      prompt: 'How much does dissatisfaction with your appearance affect your day-to-day confidence?',
-      context: '0=I feel confident and satisfied with how I look. 3=neutral. 5=appearance-related dissatisfaction affects my social or professional life daily.',
+      id: 'cognitive',
+      prompt: "My mind isn't as sharp as it used to be — I forget words mid-sentence, lose focus, or feel mentally foggy more days than not.",
+      context: '0 = Sharp, focused, fast recall every day · 3 = Occasional brain fog or forgetfulness · 5 = Daily noticeable cognitive issues that affect work or relationships',
+    },
+    {
+      id: 'hormone-balance',
+      prompt: 'I feel like my hormones are off — persistent fatigue, low drive, mood swings, poor recovery from workouts, or loss of muscle mass despite trying.',
+      context: '0 = Energy, libido, mood, and recovery all feel optimal · 3 = Occasional symptoms, especially under stress · 5 = Multiple hormone-related symptoms most days affecting daily function',
     },
   ];
 

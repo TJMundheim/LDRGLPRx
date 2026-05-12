@@ -169,11 +169,12 @@ const robots = "index, follow";
 
     <div class="results-ctas">
       <a
+        id="app-cta"
         href="https://app.my4mlife.com/?source=public-assessment"
         class="btn btn-primary btn-large"
         target="_blank"
         rel="noopener"
-      >Continue in the My4MLife App &mdash; Free</a>
+      >Continue in the My4MLife App</a>
       <a href="/consult" class="btn btn-outline btn-large">Schedule Your Comprehensive 4M Consult</a>
     </div>
 
@@ -498,6 +499,23 @@ const robots = "index, follow";
         '</div>';
       container.appendChild(card);
     });
+
+    // Append ?audit=base64(JSON) to the app CTA so the app can carry the recap across subdomain
+    try {
+      var payload = {
+        top3: top3.map(function (q) {
+          var raw = scores[q.id] !== undefined ? scores[q.id] : 0;
+          return { slug: q.solutionSlug, label: q.label, score: raw * 2 };
+        }),
+        name: userName || '',
+        capturedAt: new Date().toISOString(),
+      };
+      var enc = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      var appCta = document.getElementById('app-cta');
+      if (appCta) {
+        appCta.href = 'https://app.my4mlife.com/?source=public-assessment&audit=' + enc;
+      }
+    } catch (e) { /* graceful no-op if btoa fails */ }
   }
 
   function escHtml(str) {

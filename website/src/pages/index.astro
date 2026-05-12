@@ -3,13 +3,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 
 const title = "My4MLife — Live longer. Think sharper. Begin with the end in mind.";
-const description = "Brain-health-first lifestyle and telemedicine. Schedule a comprehensive consult, get the free Protégé app, or take the 5-minute audit. Founded by Dr. TJ Mundheim, DC.";
+const description = "Brain-health-first lifestyle and telemedicine. Schedule a comprehensive consult, take the free 3-minute audit, or pick your starting protocol. Founded by Dr. TJ Mundheim, DC.";
 const canonical = "https://www.my4mlife.com/";
 const keywords = "4M system, cognitive aging, brain health, hormone optimization, GLP-1 weight loss, Dr. TJ Mundheim, My4MLife, membership program, health protocol, men cognitive longevity";
 const ogImage = "https://www.my4mlife.com/images/hero/main.jpg";
 const robots = "index, follow";
 ---
 <BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} robots={robots}>
+
+<!-- ===== QUICK-BUY CATEGORY BAND — 8 categories above the hero ===== -->
+<section class="quick-buy-band">
+  <div class="container">
+    <p class="quick-buy-kicker">Start where you need it most</p>
+    <div class="quick-buy-grid">
+      <a href="/solutions/gut" class="quick-buy-tile">
+        <span class="quick-buy-label">Gut</span>
+        <span class="quick-buy-sub">Leaky gut · microbiome</span>
+      </a>
+      <a href="/solutions/sleep" class="quick-buy-tile">
+        <span class="quick-buy-label">Sleep</span>
+        <span class="quick-buy-sub">Deep sleep · recovery</span>
+      </a>
+      <a href="/solutions/weight" class="quick-buy-tile">
+        <span class="quick-buy-label">Weight</span>
+        <span class="quick-buy-sub">GLP-1 · body composition</span>
+      </a>
+      <a href="/solutions/nutrition" class="quick-buy-tile">
+        <span class="quick-buy-label">Nutrition</span>
+        <span class="quick-buy-sub">Real food · sourcing</span>
+      </a>
+      <a href="/solutions/erectile-dysfunction" class="quick-buy-tile">
+        <span class="quick-buy-label">Sexual</span>
+        <span class="quick-buy-sub">ED · libido · performance</span>
+      </a>
+      <a href="/solutions/environment" class="quick-buy-tile">
+        <span class="quick-buy-label">Environment</span>
+        <span class="quick-buy-sub">Light · air · water · EMF</span>
+      </a>
+      <a href="/solutions/cognitive" class="quick-buy-tile">
+        <span class="quick-buy-label">Cognitive</span>
+        <span class="quick-buy-sub">Brain fog · memory · focus</span>
+      </a>
+      <a href="/solutions/hormones" class="quick-buy-tile">
+        <span class="quick-buy-label">Hormones</span>
+        <span class="quick-buy-sub">TRT · testosterone · energy</span>
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- ===== HERO — Full-bleed Hims-pattern ===== -->
 <section class="hp-hero">
@@ -34,7 +75,7 @@ const robots = "index, follow";
 
     <div class="hp-hero-ctas">
       <a href="/consult" class="btn hp-btn-ghost">Schedule a Consult</a>
-      <a href="https://app.my4mlife.com" class="btn hp-btn-filled" target="_blank" rel="noopener">Get the App — Free</a>
+      <a href="https://app.my4mlife.com" class="btn hp-btn-filled" target="_blank" rel="noopener">Open the App</a>
       <a href="/assessment" class="btn hp-btn-ghost">Take the Free Audit</a>
     </div>
 
@@ -113,18 +154,18 @@ const robots = "index, follow";
 
       <a href="https://app.my4mlife.com" class="proto-card">
         <div class="proto-body proto-body-tall">
-          <span class="proto-step">Step 1 — Free</span>
+          <span class="proto-step">Step 1 — Make a purchase</span>
           <h3>Become a Protégé</h3>
-          <p>The free workbook app. The 4M framework — Mind, Muscle, Mitigate, Motivate — built into a daily habit anchor. Start today, no card, no consult required.</p>
+          <p>The 4M workbook app. The 4M framework — Mind, Muscle, Mitigate, Motivate — built into a daily habit anchor. App access unlocks with any My4MLife purchase.</p>
           <span class="proto-link">Open the app &rarr;</span>
         </div>
       </a>
 
       <a href="/assessment" class="proto-card">
         <div class="proto-body proto-body-tall">
-          <span class="proto-step">Step 2 — 5 minutes</span>
-          <h3>Take the Assessment</h3>
-          <p>You can't <em>begin with the end in mind</em> until you know where you're starting. A 20-question audit identifies your top-three priorities in five minutes — and shows you the path from where you are to where you want to be.</p>
+          <span class="proto-step">Step 2 — 3 minutes</span>
+          <h3>Take the Free Assessment</h3>
+          <p>You can't <em>begin with the end in mind</em> until you know where you're starting. An 8-question audit identifies your top-three priorities in three minutes — and shows you the path from where you are to where you want to be. No purchase required, no card.</p>
           <span class="proto-link">Start the audit &rarr;</span>
         </div>
       </a>
@@ -226,7 +267,7 @@ const robots = "index, follow";
         <div class="tier-badge tier-badge--free">Free</div>
         <h3>Protégé</h3>
         <p>The complete 4M digital workbook. Daily protocols, full Discovery audit, gut-brain protocol, morning routine tracker. Yours forever — no card required.</p>
-        <a href="https://app.my4mlife.com" class="btn btn-accent" target="_blank" rel="noopener">Get the App — Free</a>
+        <a href="https://app.my4mlife.com" class="btn btn-accent" target="_blank" rel="noopener">Open the App</a>
       </div>
 
       <div class="tier-card">
@@ -377,6 +418,67 @@ const robots = "index, follow";
 .btn-outline-dark:hover {
   background: var(--primary);
   color: white;
+}
+
+/* ===== QUICK-BUY CATEGORY BAND ===== */
+.quick-buy-band {
+  background: var(--dark);
+  padding: 2.2rem 0 2.4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.quick-buy-kicker {
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.4rem;
+}
+.quick-buy-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.8rem;
+}
+.quick-buy-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.1rem 0.9rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+.quick-buy-tile:hover {
+  background: rgba(0,184,148,0.12);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.quick-buy-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.01em;
+}
+.quick-buy-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.35;
+}
+@media (max-width: 1100px) {
+  .quick-buy-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 600px) {
+  .quick-buy-grid { grid-template-columns: repeat(2, 1fr); }
+  .quick-buy-tile { padding: 0.9rem 0.6rem; }
+  .quick-buy-label { font-size: 1rem; }
+  .quick-buy-sub { font-size: 0.68rem; }
 }
 
 /* ===== SHARED SECTION HELPERS ===== */
