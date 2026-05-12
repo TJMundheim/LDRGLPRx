@@ -66,10 +66,19 @@ const programItems = [
       <span class="nav-home-label">Home</span>
     </a>
 
-    <!-- Desktop nav -->
+    <!-- Desktop nav: 8 top categories + Services dropdown + Sign In -->
     <ul class="nav-links" id="nav-links" role="menubar">
 
-      <!-- Services mega-menu -->
+      <li role="none"><a href="/solutions/gut" class="nav-cat">Gut</a></li>
+      <li role="none"><a href="/solutions/sleep" class="nav-cat">Sleep</a></li>
+      <li role="none"><a href="/solutions/weight" class="nav-cat">Weight</a></li>
+      <li role="none"><a href="/solutions/nutrition" class="nav-cat">Nutrition</a></li>
+      <li role="none"><a href="/solutions/erectile-dysfunction" class="nav-cat">Sexual</a></li>
+      <li role="none"><a href="/solutions/environment" class="nav-cat">Environment</a></li>
+      <li role="none"><a href="/solutions/cognitive" class="nav-cat">Cognitive</a></li>
+      <li role="none"><a href="/solutions/hormones" class="nav-cat">Hormones</a></li>
+
+      <!-- Services mega-menu (residual catch-all) -->
       <li class="dd-trigger" role="none" id="dd-services">
         <button class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dd-panel-services">
           Services
@@ -146,6 +155,18 @@ const programItems = [
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+
+    <!-- 8 top categories — flat list at top of mobile menu -->
+    <div class="mobile-cat-list">
+      <a href="/solutions/gut" class="mobile-link mobile-link-cat">Gut</a>
+      <a href="/solutions/sleep" class="mobile-link mobile-link-cat">Sleep</a>
+      <a href="/solutions/weight" class="mobile-link mobile-link-cat">Weight</a>
+      <a href="/solutions/nutrition" class="mobile-link mobile-link-cat">Nutrition</a>
+      <a href="/solutions/erectile-dysfunction" class="mobile-link mobile-link-cat">Sexual Function</a>
+      <a href="/solutions/environment" class="mobile-link mobile-link-cat">Environment</a>
+      <a href="/solutions/cognitive" class="mobile-link mobile-link-cat">Cognitive</a>
+      <a href="/solutions/hormones" class="mobile-link mobile-link-cat">Hormones</a>
+    </div>
 
     <!-- Services accordion -->
     <div class="mobile-section">
@@ -285,12 +306,34 @@ const programItems = [
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 0.15rem;
+    gap: 0.05rem;
     margin: 0;
     padding: 0;
     flex: 1;
   }
   .nav-signin-item { margin-left: auto; }
+
+  /* ── 8-category top-level nav items ── */
+  .nav-cat {
+    display: inline-block;
+    padding: 0.5rem 0.7rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.12s, color 0.12s;
+    white-space: nowrap;
+  }
+  .nav-cat:hover {
+    background: var(--bg-soft);
+    color: var(--primary);
+  }
+  /* On narrower desktops, shrink the category labels */
+  @media (min-width: 961px) and (max-width: 1280px) {
+    .nav-cat { font-size: 0.78rem; padding: 0.45rem 0.5rem; }
+  }
 
   /* ── Services dropdown trigger ── */
   .dd-trigger {
@@ -454,6 +497,8 @@ const programItems = [
   .mobile-menu.open { display: flex; }
 
   .mobile-section { border-bottom: 1px solid var(--border); }
+  .mobile-cat-list { display: flex; flex-direction: column; border-bottom: 1px solid var(--border); padding: 0.5rem 0; }
+  .mobile-link-cat { font-weight: 600; padding: 0.85rem 1.2rem; color: var(--primary); }
   .mobile-section-btn {
     display: flex;
     align-items: center;
