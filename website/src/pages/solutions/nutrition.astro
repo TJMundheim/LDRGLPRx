@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
+import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
 ---
 
 <SolutionPage
@@ -8,7 +9,18 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   oneliner="You can't out-supplement a bad food supply — sourcing clean food is the first act of Mitigate."
   slug="nutrition"
 >
-  <figure class="scene-figure">
+  <TwoPathsCTA
+    otcProductName="Sourcing Protocol + Foundational Nutraceuticals"
+    otcDescription="Start today with the ancestral sourcing standard — vetted partners (ButcherBox, US Wellness Meats, Vital Choice, Force of Nature, Ancestral Supplements, Thrive Market) and the 30g protein-first rule. The clean-food foundation under every 4M protocol, no prescription required."
+    otcCtaLabel="Explore Sourcing Partners →"
+    otcCtaHref="#sourcing-partners"
+    rxDescription="Comprehensive 4M consult with full metabolic and micronutrient lab review — fasting glucose, HbA1c, lipid panel, hsCRP, vitamin D, B12, ferritin, RBC magnesium. Personalized nutrition prescription tied to GLP-1 candidacy, hormone optimization, and your complete 4M plan — through our licensed telemedicine partner."
+    whenOtc="You want to start with the clean-sourcing standard and the 30g protein-first rule before adding clinical labs to the picture."
+    whenRx="You want metabolic markers measured first — fasting insulin, HbA1c, full micronutrient panel — and a personalized nutrition plan layered into the full 4M protocol."
+    protegeFooter="Become a Protégé (free) — daily protocol guidance, weekly coaching, nutrition tracker →"
+  />
+
+  <figure id="why-matters" class="scene-figure">
     <img src="/images/scenes/nutrition-kitchen.jpg" alt="Premium kitchen — clean food sourcing as the first act of Mitigate" loading="lazy" />
     <figcaption>Sourcing is the first act. Where the food enters the home determines what enters the brain.</figcaption>
   </figure>
@@ -55,7 +67,7 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   </div>
 
   <fragment slot="product-cta">
-    <h3>Sourcing Partners</h3>
+    <h3 id="sourcing-partners">Sourcing Partners</h3>
     <p>ButcherBox &bull; US Wellness Meats &bull; Vital Choice &bull; Force of Nature &bull; Ancestral Supplements &bull; Thrive Market</p>
     <a href="/consult" class="btn-sol secondary">Schedule Your Comprehensive 4M Consult →</a>
   </fragment>
