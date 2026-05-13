@@ -1,6 +1,7 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
 import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
+import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
 ---
 
 <SolutionPage
@@ -39,6 +40,8 @@ import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
     The My4MLife App includes weekly nutrition anchors aligned to the 4M protocol.
   </p>
 
+  <MiniTwoPaths otcLabel="Explore Sourcing Partners" otcHref="#sourcing-partners" prompt="Take the next step:" />
+
   <aside class="protein-first-rule">
     <span class="protein-first-tag">Universal Rule</span>
     <h2>The 30g Protein-First Protocol</h2>
@@ -67,9 +70,13 @@ import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
     </div>
   </div>
 
+  <MiniTwoPaths otcLabel="Explore Sourcing Partners" otcHref="#sourcing-partners" prompt="Pick your path:" />
+
   <fragment slot="product-cta">
     <h3 id="sourcing-partners">Sourcing Partners</h3>
     <p>ButcherBox &bull; US Wellness Meats &bull; Vital Choice &bull; Force of Nature &bull; Ancestral Supplements &bull; Thrive Market</p>
     <a href="/consult" class="btn-sol secondary">Schedule Your Comprehensive 4M Consult →</a>
   </fragment>
+
+  <MiniTwoPaths otcLabel="Explore Sourcing Partners" otcHref="#sourcing-partners" prompt="Make the call:" />
 </SolutionPage>
