@@ -1,0 +1,102 @@
+---
+/**
+ * MiniTwoPaths.astro
+ *
+ * Compact "still here? choose your path" callout designed to be repeated
+ * 2–3 times throughout each solution page. Drives the reader back to the
+ * Two Paths buying decision wherever they are in the content.
+ *
+ * Conversion-first rule (locked 2026-05-12): every meaningful pause in the
+ * content gives the user a second/third/fourth chance to act. Honest tone —
+ * we name the two real choices, no marketing theater.
+ */
+interface Props {
+  /** OTC card heading/CTA copy (e.g., "Order Biome-AF Nutraceutical") */
+  otcLabel: string;
+  /** OTC link target — usually /membership or /shop/<slug> */
+  otcHref: string;
+  /** Rx link target — usually /consult */
+  rxHref?: string;
+  /** Optional context phrase, e.g., "Still here?" or "Ready to act?" */
+  prompt?: string;
+}
+
+const { otcLabel, otcHref, rxHref = '/consult', prompt = 'Ready to act?' } = Astro.props;
+---
+
+<aside class="mini-two-paths" role="complementary">
+  <p class="mini-two-paths-prompt">{prompt}</p>
+  <div class="mini-two-paths-buttons">
+    <a href={otcHref} class="mini-two-paths-btn mini-two-paths-otc">
+      <span class="mini-two-paths-tag">OTC</span>
+      <span class="mini-two-paths-label">{otcLabel} &rarr;</span>
+    </a>
+    <a href={rxHref} class="mini-two-paths-btn mini-two-paths-rx">
+      <span class="mini-two-paths-tag">Rx</span>
+      <span class="mini-two-paths-label">Schedule the 4M Consult &rarr;</span>
+    </a>
+  </div>
+</aside>
+
+<style is:global>
+.mini-two-paths {
+  margin: 2rem 0;
+  padding: 1.1rem 1.3rem;
+  background: linear-gradient(135deg, rgba(26,54,93,0.06), rgba(0,184,148,0.06));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.mini-two-paths-prompt {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 0;
+}
+.mini-two-paths-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+.mini-two-paths-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.mini-two-paths-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.mini-two-paths-otc {
+  background: var(--accent);
+  color: white;
+}
+.mini-two-paths-rx {
+  background: var(--primary);
+  color: white;
+}
+.mini-two-paths-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+}
+.mini-two-paths-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+@media (max-width: 560px) {
+  .mini-two-paths-buttons { grid-template-columns: 1fr; }
+}
+</style>

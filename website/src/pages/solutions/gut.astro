@@ -1,10 +1,12 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
 import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
+import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
 ---
 
 <SolutionPage
-  title="Gut Health & Leaky Gut Repair: The Gut-Brain Connection"
+
+  compact={true}  title="Gut Health & Leaky Gut Repair: The Gut-Brain Connection"
   parent="Mitigate"
   oneliner="Leaky gut and gut microbiome dysfunction are the most underestimated drivers of cognitive decline in men — and they start decades before you feel it."
   slug="gut"
@@ -28,6 +30,8 @@ import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
     <li>Microbiome dysfunction sits upstream of visceral fat — most metabolic protocols miss this and only chase the downstream</li>
     <li>No hormone, peptide, or cognitive protocol reaches its ceiling on top of a broken gut</li>
   </ul>
+
+  <MiniTwoPaths otcLabel="Order Biome-AF" otcHref="/membership" prompt="Ready to act?" />
 
   <h2>The Problem</h2>
   <p>
@@ -77,6 +81,10 @@ import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
       Read the full deep-dive: Eliminate the Insulting Behavior — Gut &rarr;
     </a>
   </p>
+
+  <MiniTwoPaths otcLabel="Order Biome-AF" otcHref="/membership" prompt="Seen enough?" />
+
+  <MiniTwoPaths otcLabel="Order Biome-AF" otcHref="/membership" prompt="Make the call:" />
 </SolutionPage>
 
 <style>
