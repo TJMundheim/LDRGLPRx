@@ -44,7 +44,7 @@
     <h1 class="hero-headline">Normal is not optimal.<br>And optimal is what you're after.</h1>
     <p class="hero-attr">— Dr. TJ Mundheim, DC, DABAAHP</p>
     <p class="hero-explainer">
-      <strong>Membership tiers</strong> — from free Protégé onboarding through Insider, Insider Plus, and Insider Concierge.
+      <strong>Membership tiers</strong> — from Protégé through Graduate, Insider Plus, and Insider Concierge.
       <strong>Ongoing membership</strong> provides platform access, clinician oversight, and your full protocol beyond Month 1.
       Not sure where to start? Take the 3-minute quiz and we'll tell you.
     </p>
