@@ -8,32 +8,49 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   oneliner="Poor sleep is the most reliable accelerant of cognitive decline you can choose. Everything else is downstream."
   slug="sleep"
 >
+  <!-- ── Two Paths to Act (conversion-first, top of page) ── -->
+  <section id="solution" class="two-paths-section">
+    <h2 class="section-eliminate">Two Paths to Act</h2>
+    <div class="two-paths-grid">
+      <div class="path-card path-otc">
+        <div class="path-badge">OTC Nutraceutical</div>
+        <h3>SleepRestore</h3>
+        <p class="path-price">Available at member pricing</p>
+        <p>Pharmaceutical-grade nightly sleep stack — Mg bisglycinate, glycine, L-theanine, apigenin, and zinc. Supports sleep onset and deep-sleep architecture as the final layer on top of a clean environment.</p>
+        <a href="/membership" class="btn-sol primary">Join to unlock member pricing →</a>
+      </div>
+      <div class="path-card path-rx">
+        <div class="path-badge path-badge-rx">Rx Protocol</div>
+        <h3>Comprehensive 4M Consult</h3>
+        <p class="path-price">Rx sleep support included</p>
+        <p>For chronic insomnia, hormonal sleep disruption, or when you want the pharmacy-formulated protocol. Covers low-dose hormones, peptides for sleep architecture, and your full personalized 4M plan.</p>
+        <a href="/consult" class="btn-sol secondary">Schedule Rx Consult →</a>
+      </div>
+    </div>
+
+    <!-- ── When to choose which ── -->
+    <div class="when-strip">
+      <div class="when-col">
+        <div class="when-label">Choose OTC when:</div>
+        <p>Trouble falling asleep, mild sleep disruption — want pharmaceutical-grade nightly support without a prescription.</p>
+      </div>
+      <div class="when-divider"></div>
+      <div class="when-col">
+        <div class="when-label">Choose Rx when:</div>
+        <p>Chronic insomnia, hormonal sleep disruption, or you want the pharmacy-formulated protocol with full lab review.</p>
+      </div>
+    </div>
+
+    <p class="why-matters-link"><a href="#why-matters">Read about why this matters &darr;</a></p>
+  </section>
+
   <!-- ── Why this matters ── -->
-  <h2>Why This Matters</h2>
+  <h2 id="why-matters">Why This Matters</h2>
   <ul class="insult-list">
     <li>Sleep is when the glymphatic system clears amyloid and metabolic waste — every hour of debt is a withdrawal you can't fully repay</li>
     <li>Chronic sleep disruption suppresses testosterone synthesis, elevates cortisol, and stalls memory consolidation simultaneously</li>
     <li>Fixing sleep architecture is the single highest-leverage move in the entire 4M framework — it amplifies every other protocol</li>
   </ul>
-
-  <!-- ── Two Paths to Act ── -->
-  <h2 class="section-eliminate">Two Paths to Act</h2>
-  <div class="two-paths-grid">
-    <div class="path-card path-otc">
-      <div class="path-badge">OTC Nutraceutical</div>
-      <h3>SleepRestore</h3>
-      <p class="path-price">Available at member pricing</p>
-      <p>Pharmaceutical-grade nightly sleep stack — Mg bisglycinate, glycine, L-theanine, apigenin, and zinc. Supports sleep onset and deep-sleep architecture as the final layer on top of a clean environment.</p>
-      <a href="/membership" class="btn-sol primary">Join to unlock member pricing →</a>
-    </div>
-    <div class="path-card path-rx">
-      <div class="path-badge path-badge-rx">Rx Protocol</div>
-      <h3>Comprehensive 4M Consult</h3>
-      <p class="path-price">Rx sleep support included</p>
-      <p>For chronic insomnia, hormonal sleep disruption, or when you want the pharmacy-formulated protocol. Covers low-dose hormones, peptides for sleep architecture, and your full personalized 4M plan.</p>
-      <a href="/consult" class="btn-sol secondary">Schedule Rx Consult →</a>
-    </div>
-  </div>
 
   <!-- ── Why the SleepRestore formula works — 3-layer teaching ── -->
   <section class="sleep-layers">
@@ -92,19 +109,6 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
       <p>Sleep architecture degrades with age. Cortisol rhythm flattens. Magnesium depletes faster than most diets replace it. Most men over 40 are running 5–7 hours of mediocre sleep and don't remember what good sleep felt like. The men who don't fix sleep are accepting accelerated cognitive aging, slower recovery, and weaker testosterone — every single night. SleepRestore is the cheapest, simplest, highest-leverage intervention in the entire protocol.</p>
     </div>
   </aside>
-
-  <!-- ── When to choose which ── -->
-  <div class="when-strip">
-    <div class="when-col">
-      <div class="when-label">Choose OTC when:</div>
-      <p>Trouble falling asleep, mild sleep disruption — want pharmaceutical-grade nightly support without a prescription.</p>
-    </div>
-    <div class="when-divider"></div>
-    <div class="when-col">
-      <div class="when-label">Choose Rx when:</div>
-      <p>Chronic insomnia, hormonal sleep disruption, or you want the pharmacy-formulated protocol with full lab review.</p>
-    </div>
-  </div>
 
   <!-- ── Protégé footer card ── -->
   <div class="protege-card">
@@ -218,4 +222,8 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
   text-decoration: none;
 }
 .read-more-link:hover { text-decoration: underline; }
+.two-paths-section { margin-bottom: 2rem; }
+.why-matters-link { margin-top: 1rem; text-align: center; }
+.why-matters-link a { font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.why-matters-link a:hover { text-decoration: underline; }
 </style>
