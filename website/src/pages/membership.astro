@@ -2,10 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 
-const title = "Membership Tiers — Protégé to Graduate | My4MLife";
-const description = "Five membership tiers — free Protégé onboarding through Insider, Insider Plus, Insider Concierge, and earned Graduate status — built around the 4M framework for men. Compare features, member pricing, and the path to permanent Graduate benefits.";
+const title = "Membership — From Any Purchase to Graduate Status | My4MLife";
+const description = "Any My4MLife purchase activates Protégé tier and unlocks the full 4M App. Compare Protégé, Insider, Insider Plus, Insider Concierge, and earned Graduate status — coaching, member pricing, and the path to permanent benefits.";
 const canonical = "https://www.my4mlife.com/membership";
-const keywords = "My4MLife membership, brain health membership, Protégé, Insider, Insider Plus, Insider Concierge, Graduate status, member pricing, Dr. TJ Mundheim, longevity membership, men's health membership, gut-brain protocol, 4M framework";
+const keywords = "My4MLife membership, 4M app, Protégé, Insider, Insider Plus, Insider Concierge, Graduate status, member pricing, Dr. TJ Mundheim, cognitive longevity, men's health membership, 4M framework";
 const ogImage = "https://www.my4mlife.com/og-image.svg";
 
 const schema = {
@@ -14,34 +14,26 @@ const schema = {
     {
       "@type": "WebPage",
       "@id": "https://www.my4mlife.com/membership",
-      "name": "Membership Tiers — Protégé to Graduate | My4MLife",
-      "description": "Five membership tiers — free Protégé to earned Graduate — built around the 4M framework for men.",
+      "name": "Membership — From Any Purchase to Graduate Status | My4MLife",
+      "description": "Any My4MLife purchase activates Protégé tier and unlocks the full 4M App. Five tiers, one progression.",
       "url": "https://www.my4mlife.com/membership"
     },
     {
       "@type": "FAQPage",
       "@id": "https://www.my4mlife.com/membership#faq",
       "mainEntity": [
-        { "@type": "Question", "name": "Is the free Protégé tier really free?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. No card, no trial, no expiration. The full base app is yours forever. Insider and above are paid upgrades." } },
+        { "@type": "Question", "name": "How do I unlock the 4M App?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Any My4MLife purchase — even the smallest SKU — flips your account to Protégé tier and unlocks the full app. There is no separate app subscription." } },
+        { "@type": "Question", "name": "Do I have to keep paying to use the app?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Once you've made a purchase, the app stays unlocked as long as you remain an active member. The only no-cost touchpoint before purchase is the free audit at /assessment." } },
         { "@type": "Question", "name": "What's included in Insider that's not in Protégé?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Live group sessions with Dr. TJ, deeper education content, member-only pricing on Rx, supplements, and lab work, and group coaching." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "Weekly group Zoom with Dr. TJ, deeper protocol content, group coaching access, and roughly 10% member pricing on all OTC supplements." } },
         { "@type": "Question", "name": "How do I become a Graduate?",
-          "acceptedAnswer": { "@type": "Answer", "text": "12+ months of continuous Insider participation plus completion of specific 4M program milestones. Graduates earn permanent member benefits including future sharing-program access." } },
-        { "@type": "Question", "name": "When does Insider open?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Insider pricing is finalizing. Subscribe above and we will honor the early-member rate when we launch." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "12+ months of continuous Insider-tier participation plus completion of 4M program milestones. Graduates earn permanent member benefits and lifetime member pricing." } },
+        { "@type": "Question", "name": "When is Insider pricing announced?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Pricing for Insider, Insider Plus, and Insider Concierge is finalizing. Subscribe to be notified and we'll honor the early-member rate at launch." } },
         { "@type": "Question", "name": "Can I cancel a paid tier?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes, for any paid tier at any time. Protégé does not require a subscription — the app is simply yours." } },
-        { "@type": "Question", "name": "Can I downgrade from Concierge to Insider?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes, anytime. Downgrading adjusts your access at the next billing cycle." } },
-        { "@type": "Question", "name": "What if I miss a live session?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Recordings are available to all active Insider-tier members." } },
-        { "@type": "Question", "name": "Does the member pricing apply to environmental products?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Member pricing covers Rx, supplements, and environmental products — same tier-based discount applies across the board." } },
-        { "@type": "Question", "name": "How does Graduate status differ from Concierge?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Concierge is a paid tier you subscribe to. Graduate is a status you earn through 12+ months of continuous Insider participation and program milestones. It is permanent and cannot be purchased." } },
-        { "@type": "Question", "name": "What is the My4MLife sharing program?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A future Phase 2 vehicle for Graduates: a wellness-focused mutual-aid sharing program covering what insurance won't — peptides, longevity protocols, environmental products. Sequestered now; Graduates access it first." } }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, for any paid tier at any time. Cancellation returns you to Protégé app access at the next billing date — as long as you've ever made a purchase, the app stays with you." } }
       ]
     }
   ]
@@ -49,106 +41,72 @@ const schema = {
 ---
 <BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} schema={schema}>
 
-<!-- ===== HERO ===== -->
-<section class="mem-hero">
+<!-- ===== COMPACT HERO ===== -->
+<section class="mem-hero-compact">
   <div class="container">
-    <div class="mem-hero-content">
-      <span class="section-tag">Membership</span>
-      <h1>Membership That Earns<br/><em>Its Place</em></h1>
-      <p class="mem-hero-sub">From free Protégé onboarding to permanent Graduate status — five tiers, one progression.</p>
-      <p class="mem-hero-brand">"My4MLife is a lifestyle company giving you the best chance of having the best mind possible until your last day of life. Membership is how you stay on the path."</p>
-      <div class="mem-hero-buttons">
-        <a href="https://app.my4mlife.com" class="btn btn-primary btn-large">Become a Protégé — Free <i class="fas fa-arrow-right"></i></a>
-        <a href="#tiers" class="btn btn-white btn-large">See All Tiers <i class="fas fa-chevron-down"></i></a>
+    <div class="mem-breadcrumb"><a href="/">Home</a> / Membership</div>
+    <h1>Membership — From Any Purchase to <em>Graduate Status</em></h1>
+    <p class="mem-hero-sub">Five tiers. One progression. Coaching, member pricing, and the 4M App that compounds with every month you stay.</p>
+  </div>
+</section>
+
+<!-- ===== UNLOCK PRINCIPLE ===== -->
+<section class="unlock-section">
+  <div class="container">
+    <div class="unlock-card fade-in">
+      <span class="section-tag">The Unlock Principle</span>
+      <p class="unlock-line">Any My4MLife purchase activates <strong>Protégé tier</strong> and unlocks the full <strong>4M App</strong>.</p>
+      <p class="unlock-sub">No separate app subscription. Buy any SKU — supplement, consult, Rx, environmental product — and the app turns on for as long as you remain an active member.</p>
+      <div class="unlock-ctas">
+        <a href="/shop" class="btn btn-primary btn-large">Browse Products <i class="fas fa-arrow-right"></i></a>
+        <a href="/assessment" class="btn btn-outline btn-large">Take the Free Audit</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== JOURNEY FLOW ===== -->
-<section class="section journey-section">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-tag">The Path</span>
-      <h2>One progression. Five levels of commitment.</h2>
-      <p>Every member starts free. The path forward is earned.</p>
-    </div>
-    <div class="journey-flow fade-in">
-      <div class="journey-node journey-free">
-        <div class="journey-badge">FREE</div>
-        <div class="journey-name">Protégé</div>
-        <div class="journey-desc">Start here</div>
-      </div>
-      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
-      <div class="journey-node journey-paid">
-        <div class="journey-badge">PAID</div>
-        <div class="journey-name">Insider</div>
-        <div class="journey-desc">Live sessions</div>
-      </div>
-      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
-      <div class="journey-node journey-paid">
-        <div class="journey-badge">PAID</div>
-        <div class="journey-name">Insider Plus</div>
-        <div class="journey-desc">Small-group cohort</div>
-      </div>
-      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
-      <div class="journey-node journey-paid journey-top">
-        <div class="journey-badge">PAID</div>
-        <div class="journey-name">Insider Concierge</div>
-        <div class="journey-desc">1:1 with Dr. TJ</div>
-      </div>
-      <div class="journey-arrow"><i class="fas fa-arrow-right"></i></div>
-      <div class="journey-node journey-earned">
-        <div class="journey-badge">EARNED</div>
-        <div class="journey-name">Graduate</div>
-        <div class="journey-desc">Permanent · Mind as destination</div>
-      </div>
-    </div>
-    <p class="journey-note fade-in">Graduate status is earned — not purchased. It is the destination.</p>
-  </div>
-</section>
-
-<!-- ===== TIER CARDS ===== -->
+<!-- ===== TIER COMPARISON ===== -->
 <section class="section" id="tiers" style="background:var(--bg-soft);">
   <div class="container">
     <div class="section-header fade-in">
-      <span class="section-tag">Membership Tiers</span>
-      <h2>Five tiers. One framework. One direction.</h2>
+      <span class="section-tag">Five Tiers</span>
+      <h2>Buy once. Upgrade when the work compounds.</h2>
+      <p>Protégé is the default after any purchase. Insider tiers add coaching, deeper content, and member pricing. Graduate is earned.</p>
     </div>
     <div class="mem-tiers-grid fade-in">
 
       <!-- Protégé -->
       <div class="mem-card mem-card-free">
-        <div class="mem-card-badge-top mem-badge-free">FREE · FOREVER</div>
+        <div class="mem-card-badge-top mem-badge-free">ACTIVATED BY PURCHASE</div>
         <div class="mem-card-label">Tier 0</div>
         <h3 class="mem-card-title">Protégé</h3>
-        <div class="mem-card-positioning">The complete 4M foundation — no card, no expiration, no catch.</div>
-        <div class="mem-card-price">Free</div>
+        <div class="mem-card-positioning">The default tier. Any My4MLife purchase unlocks the app and Protégé benefits.</div>
+        <div class="mem-card-price">No ongoing membership fee<br/><span>Activated by any purchase</span></div>
         <ul class="mem-card-list">
-          <li>Full My4MLife App — your daily protocol hub, available from day one</li>
-          <li>20-Factor Self-Assessment — the root-cause map of what's depleting you right now</li>
-          <li>4M Cohort App protocol — Mind, Muscle, Mitigate, Motivate, structured for Month 1</li>
-          <li>Weekly onboarding sessions (Month 1) — live group orientation with the program team</li>
-          <li>Gut-brain repair module — BiomeAxisForge protocol framework built in</li>
-          <li>Morning routine tracker — daily execution, not daily aspiration</li>
+          <li>Full 4M App access — your daily protocol hub</li>
+          <li>4M framework habit-builder — Mind, Muscle, Mitigate, Motivate</li>
+          <li>Daily protocol tracking + morning routine logger</li>
+          <li>Weekly nudges and check-ins to keep you on the path</li>
+          <li>20-Factor audit results carried in from the marketing site</li>
+          <li>Top-3 priority recap from your audit</li>
         </ul>
-        <a href="https://app.my4mlife.com" class="btn btn-primary mem-cta">Get the App — Free <i class="fas fa-arrow-right"></i></a>
+        <a href="/shop" class="btn btn-primary mem-cta">Browse Products to Unlock <i class="fas fa-arrow-right"></i></a>
       </div>
 
       <!-- Insider -->
       <div class="mem-card">
-        <div class="mem-card-badge-top mem-badge-paid">PAID</div>
+        <div class="mem-card-badge-top mem-badge-paid">PAID UPGRADE</div>
         <div class="mem-card-label">Tier 1</div>
         <h3 class="mem-card-title">Insider</h3>
-        <div class="mem-card-positioning">Where the work compounds. Live access, member pricing, deeper protocol content.</div>
-        <div class="mem-card-price mem-price-pending">Insider pricing finalizing.<br/><span>Subscribe and we'll honor the early-member rate.</span></div>
+        <div class="mem-card-positioning">Group coaching, deeper protocol content, ~10% off all OTC supplements.</div>
+        <div class="mem-card-price mem-price-pending">$X / month<br/><span>Pricing announced — date TBD</span></div>
         <ul class="mem-card-list">
-          <li>Live Insider sessions with Dr. TJ — monthly group calls, real protocol Q&amp;A</li>
-          <li>10% member-only pricing on Rx and supplements — compounding savings as the protocol deepens</li>
-          <li>10% member pricing on environmental products — air, water, light, field exposure</li>
-          <li>Access to Month 5+ advanced protocol content — deeper education as the work deepens</li>
-          <li>Private Insider community — accountability circle, not a feed</li>
-          <li>Session recordings — catch every call even when life intervenes</li>
+          <li>Everything in Protégé — full app access stays on</li>
+          <li>Weekly group Zoom with Dr. TJ — live protocol Q&amp;A</li>
+          <li>Group coaching access — accountability circle</li>
+          <li>~10% member pricing on all OTC supplements (white-label)</li>
+          <li>Deeper protocol content — Month 5+ advanced modules</li>
+          <li>Session recordings — never miss a call</li>
         </ul>
         <div class="mem-notify">
           <p class="mem-notify-label">Notify me when Insider opens</p>
@@ -158,18 +116,18 @@ const schema = {
 
       <!-- Insider Plus -->
       <div class="mem-card mem-card-plus">
-        <div class="mem-card-badge-top mem-badge-paid">PAID</div>
+        <div class="mem-card-badge-top mem-badge-paid">PAID UPGRADE</div>
         <div class="mem-card-label">Tier 2</div>
         <h3 class="mem-card-title">Insider Plus</h3>
-        <div class="mem-card-positioning">Insider + a tighter cohort. More direct Q&amp;A, bonus protocol drops, higher discount.</div>
-        <div class="mem-card-price mem-price-pending">Insider Plus pricing finalizing.<br/><span>Subscribe and we'll honor the early-member rate.</span></div>
+        <div class="mem-card-positioning">Everything in Insider + monthly 1:1 coaching + premium content + ~15% member pricing.</div>
+        <div class="mem-card-price mem-price-pending">$X / month<br/><span>Pricing announced — date TBD</span></div>
         <ul class="mem-card-list">
-          <li>Everything in Insider — all sessions, recordings, community, Month 5+ content</li>
-          <li>Small-group cohort coaching — tighter group, more time, more direct feedback</li>
-          <li>Bi-monthly live sessions with Dr. TJ — double the touchpoints of base Insider</li>
-          <li>15% member pricing on Rx, supplements, and environmental products</li>
-          <li>Bonus protocol drops — new science integrated as it lands, not on a quarterly schedule</li>
-          <li>More direct Q&amp;A access — your questions answered, not just queued</li>
+          <li>Everything in Insider</li>
+          <li>Monthly 1:1 coaching call</li>
+          <li>Premium protocol content + bonus drops</li>
+          <li>~15% member pricing on all OTC supplements</li>
+          <li>Tighter cohort, more direct Q&amp;A access</li>
+          <li>Priority on group session questions</li>
         </ul>
         <div class="mem-notify">
           <p class="mem-notify-label">Notify me when Insider Plus opens</p>
@@ -183,17 +141,16 @@ const schema = {
         <div class="mem-card-badge-top mem-badge-paid">PAID · LIMITED</div>
         <div class="mem-card-label">Tier 3</div>
         <h3 class="mem-card-title">Insider Concierge</h3>
-        <div class="mem-card-positioning">Personal protocol design, 1:1 access, priority scheduling, full lab review. Founder Circle — limited slots.</div>
-        <div class="mem-card-price mem-price-pending">Insider Concierge pricing finalizing.<br/><span>Subscribe and we'll honor the early-member rate.</span></div>
+        <div class="mem-card-positioning">Bi-weekly 1:1 with Dr. TJ, bespoke protocol design, ~20% member pricing, first access to new products.</div>
+        <div class="mem-card-price mem-price-pending">$X / month<br/><span>Pricing announced — date TBD</span></div>
         <ul class="mem-card-list">
-          <li>Everything in Insider Plus — all sessions, recordings, cohort, bonus drops</li>
-          <li>Weekly live sessions with Dr. TJ — highest-frequency access available</li>
-          <li>Personal protocol design with Dr. TJ — built around your audit, labs, and goals</li>
-          <li>Direct messaging access — reach Dr. TJ between sessions, not just during them</li>
-          <li>Priority consult booking — first access to open calendar slots</li>
-          <li>Full annual lab panel review — comprehensive biomarker assessment integrated into your protocol</li>
-          <li>20% member pricing on Rx, supplements, and environmental products</li>
-          <li>Founder Circle designation — limited slots; earliest access to Phase 2 vehicles</li>
+          <li>Everything in Insider Plus</li>
+          <li>Bi-weekly 1:1 calls with Dr. TJ</li>
+          <li>Bespoke protocol customization — built on your audit + labs</li>
+          <li>~20% member pricing on all OTC supplements</li>
+          <li>First access to new My4MLife products and services</li>
+          <li>Direct messaging access between sessions</li>
+          <li>Priority consult booking</li>
         </ul>
         <div class="mem-notify">
           <p class="mem-notify-label">Notify me when Concierge opens</p>
@@ -203,253 +160,106 @@ const schema = {
 
       <!-- Graduate -->
       <div class="mem-card mem-card-graduate">
-        <div class="mem-card-badge-top mem-badge-earned">EARNED</div>
+        <div class="mem-card-badge-top mem-badge-earned">EARNED — NOT PURCHASABLE</div>
         <div class="mem-card-label">Earned Status</div>
         <h3 class="mem-card-title">Graduate</h3>
-        <div class="mem-card-positioning">Earned through 12+ months of continuous Insider participation and 4M milestones. Permanent. Cannot be purchased.</div>
-        <div class="mem-card-price mem-price-earned">Lifetime member pricing<br/><span>No recurring cost once earned</span></div>
+        <div class="mem-card-positioning">Earned through 12+ months of active Insider-tier participation plus 4M program milestones. Permanent.</div>
+        <div class="mem-card-price mem-price-earned">Lifetime member pricing<br/><span>Permanent benefits, no recurring fee</span></div>
         <ul class="mem-card-list">
-          <li>12+ months continuous Insider participation — the work, not just the subscription</li>
-          <li>4M program milestone completion — criteria formalized as the cohort matures</li>
-          <li>Lifetime member pricing on all protocol products — permanent, no renewal required</li>
-          <li>Permanent Graduate designation — the only status that cannot be bought back once lost</li>
-          <li>Phase 2 sharing program — priority access when the wellness mutual-aid vehicle launches</li>
-          <li>Gateway status — first look at future program vehicles, partnerships, and offers</li>
+          <li>12+ months continuous Insider-tier participation</li>
+          <li>4M program milestone completion</li>
+          <li>Permanent member benefits — once earned, never lost</li>
+          <li>Lifetime member pricing on future My4MLife products</li>
+          <li>First look at new program vehicles and offers</li>
+          <li>Phase 2 sharing program — priority access at launch</li>
         </ul>
-        <a href="#graduate-faq-how" class="btn btn-outline-golden mem-cta">How to earn Graduate status <i class="fas fa-chevron-down"></i></a>
+        <a href="#faq" class="btn btn-outline-golden mem-cta">How to earn it <i class="fas fa-chevron-down"></i></a>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ===== COMPARISON TABLE ===== -->
-<section class="section" id="compare">
+<!-- ===== WHAT PROTÉGÉ GETS YOU (DEPTH) ===== -->
+<section class="section">
   <div class="container">
     <div class="section-header fade-in">
-      <span class="section-tag">Feature Comparison</span>
-      <h2>Side by side. No fine print.</h2>
-      <p>Every feature, every tier — in one table.</p>
+      <span class="section-tag">Inside Protégé</span>
+      <h2>What unlocks the moment you buy.</h2>
+      <p>Protégé is the default tier after any My4MLife purchase. This is what the app turns on.</p>
     </div>
-    <div class="compare-wrap fade-in">
-      <div class="compare-scroll">
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th class="feature-col">Feature</th>
-              <th class="tier-col tier-free">Protégé<br/><span class="tier-cost">Free</span></th>
-              <th class="tier-col">Insider<br/><span class="tier-cost tier-cost-pending">Pricing finalizing</span></th>
-              <th class="tier-col">Insider Plus<br/><span class="tier-cost tier-cost-pending">Pricing finalizing</span></th>
-              <th class="tier-col tier-top">Insider Concierge<br/><span class="tier-cost tier-cost-pending">Pricing finalizing</span></th>
-              <th class="tier-col tier-earned">Graduate<br/><span class="tier-cost">Earned</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="feature-name">The My4MLife App</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">20-Factor Audit + 4M Cohort App protocol</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Weekly onboarding sessions (Month 1)</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">Live Insider sessions with Dr. TJ</td>
-              <td class="dash">—</td>
-              <td class="feature-val">Monthly</td>
-              <td class="feature-val">Bi-monthly</td>
-              <td class="feature-val">Weekly</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Session recordings</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">Member-only pricing on Rx &amp; supplements</td>
-              <td class="dash">—</td>
-              <td class="feature-val">10% off</td>
-              <td class="feature-val">15% off</td>
-              <td class="feature-val">20% off</td>
-              <td class="feature-val">Lifetime member rate</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Member-only pricing on environmental products</td>
-              <td class="dash">—</td>
-              <td class="feature-val">10% off</td>
-              <td class="feature-val">15% off</td>
-              <td class="feature-val">20% off</td>
-              <td class="feature-val">Lifetime member rate</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">Month 5+ advanced protocol content</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Group coaching (small cohort)</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">Bonus protocol drops</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-              <td class="check">✓</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Personal protocol design with Dr. TJ</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="dash">—</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">Direct messaging access to Dr. TJ</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="dash">—</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Priority consult booking</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="dash">—</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">Full annual lab panel review</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓</td>
-              <td class="dash">—</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Founder Circle limited slots</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check">✓ (limited)</td>
-              <td class="dash">—</td>
-            </tr>
-            <tr class="row-alt">
-              <td class="feature-name">Lifetime product pricing</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check earned-check">✓</td>
-            </tr>
-            <tr>
-              <td class="feature-name">Sharing program access (Phase 2)</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="dash">—</td>
-              <td class="check earned-check">✓ (priority)</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="protege-grid fade-in">
+      <div class="protege-feature">
+        <div class="protege-num">01</div>
+        <h3>The full 4M App</h3>
+        <p>Daily protocol hub built around Mind, Muscle, Mitigate, Motivate. The same framework Dr. TJ runs himself.</p>
       </div>
-      <p class="compare-footnote">Insider pricing finalizing. Subscribe above to lock the early-member rate at launch.</p>
+      <div class="protege-feature">
+        <div class="protege-num">02</div>
+        <h3>Daily protocol tracking</h3>
+        <p>Log what you actually did — morning routine, supplements, sleep, training. Daily execution, not daily aspiration.</p>
+      </div>
+      <div class="protege-feature">
+        <div class="protege-num">03</div>
+        <h3>Weekly nudges</h3>
+        <p>Smart check-ins that keep the protocol top of mind without becoming noise.</p>
+      </div>
+      <div class="protege-feature">
+        <div class="protege-num">04</div>
+        <h3>4M habit-builder</h3>
+        <p>Structured progression through Mind, Muscle, Mitigate, Motivate over your first months.</p>
+      </div>
+      <div class="protege-feature">
+        <div class="protege-num">05</div>
+        <h3>Audit results carried in</h3>
+        <p>Your top-3 priorities from the 8-question audit travel with you from the marketing site into the app.</p>
+      </div>
+      <div class="protege-feature">
+        <div class="protege-num">06</div>
+        <h3>Stays unlocked</h3>
+        <p>No separate app fee. As long as you remain an active member, the app stays with you.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== WHY MEMBERS STAY ===== -->
-<section class="section why-stay-section">
+<!-- ===== WHY UPGRADE TO INSIDER ===== -->
+<section class="section" style="background:var(--bg-soft);">
   <div class="container">
     <div class="section-header fade-in">
-      <span class="section-tag">Why Members Stay</span>
-      <h2>Built to earn its place — not rent it.</h2>
+      <span class="section-tag">Why Upgrade</span>
+      <h2>Insider is where the work compounds.</h2>
+      <p>Protégé gives you the framework. Insider tiers give you coaching, direct access, and member pricing that pays back across every product you buy.</p>
     </div>
-    <div class="why-stay-grid fade-in">
-      <div class="why-card">
-        <div class="why-quote-mark">"</div>
-        <p>Most wellness platforms start aspirational and end commercial. We start with the framework I run myself, and earn the right to invite you deeper as you put in the work.</p>
-        <div class="why-attr">— Dr. TJ</div>
+    <div class="upgrade-grid fade-in">
+      <div class="upgrade-card">
+        <h3>Weekly group Zoom with Dr. TJ</h3>
+        <p>Live protocol Q&amp;A. Real questions, real answers, recorded for members who can't attend live. Available at Insider and above.</p>
       </div>
-      <div class="why-card">
-        <div class="why-quote-mark">"</div>
-        <p>Your free Protégé tier doesn't expire. If Insider doesn't earn its place in your life, stay free forever. I'd rather you run the protocol at zero than abandon it at any price.</p>
-        <div class="why-attr">— Dr. TJ</div>
+      <div class="upgrade-card">
+        <h3>Member pricing on supplements</h3>
+        <p>~10% Insider · ~15% Insider Plus · ~20% Insider Concierge. Applies to all OTC My4MLife white-label products. Affiliate products are not discounted.</p>
       </div>
-      <div class="why-card">
-        <div class="why-quote-mark">"</div>
-        <p>Graduate is the only status I can't sell — only earn. That's the point. The program is designed so that earning it is the proof it worked.</p>
-        <div class="why-attr">— Dr. TJ</div>
+      <div class="upgrade-card">
+        <h3>1:1 coaching access</h3>
+        <p>Insider Plus adds a monthly 1:1 call. Insider Concierge adds bi-weekly 1:1 calls with Dr. TJ plus direct messaging between sessions.</p>
       </div>
-      <div class="why-card">
-        <div class="why-quote-mark">"</div>
-        <p>The pricing model is simple: the more committed you are, the more direct access you get, and the less your protocol costs you. Commitment and cost should run in opposite directions.</p>
-        <div class="why-attr">— Dr. TJ</div>
+      <div class="upgrade-card">
+        <h3>Bespoke protocol design</h3>
+        <p>Concierge members get a protocol built around their audit, lab work, and goals — not a stock template.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== WHAT'S THE SAME ===== -->
-<section class="section commitments-section">
+<!-- ===== GRADUATE ===== -->
+<section class="section graduate-section">
   <div class="container">
-    <div class="section-header fade-in" style="color:white;">
-      <span class="section-tag" style="color:var(--accent);">Across Every Tier</span>
-      <h2 style="color:white;">Some things never change.</h2>
-      <p style="color:rgba(255,255,255,0.75);">Every membership level — free or paid — is built on the same foundation.</p>
-    </div>
-    <div class="commitments-grid fade-in">
-      <div class="commitment-card">
-        <div class="commitment-num">01</div>
-        <h3>The 4M Framework</h3>
-        <p>Mind · Muscle · Mitigate · Motivate — four pillars that compound together</p>
-      </div>
-      <div class="commitment-card">
-        <div class="commitment-num">02</div>
-        <h3>The My4MLife App</h3>
-        <p>Your daily protocol hub — built to keep you on the path every single day</p>
-      </div>
-      <div class="commitment-card">
-        <div class="commitment-num">03</div>
-        <h3>The 20-Factor Audit</h3>
-        <p>Your baseline score — the root-cause map of what's depleting you right now</p>
-      </div>
-      <div class="commitment-card">
-        <div class="commitment-num">04</div>
-        <h3>Mind as the Destination</h3>
-        <p>Every pillar, every protocol, every tier is pointed at the same north star — your best possible mind, for life</p>
-      </div>
+    <div class="graduate-content fade-in">
+      <span class="section-tag" style="color:#D4A851;">The End State</span>
+      <h2 style="color:white;">Graduate is earned — and permanent.</h2>
+      <p style="color:rgba(255,255,255,0.85); font-size:1.1rem; max-width:680px; margin:0 auto 2.5rem;">After 12+ months of active Insider-tier participation and completion of 4M program milestones, you earn Graduate status. Lifetime member pricing on future products. Permanent designation. The only status in this program that cannot be purchased.</p>
+      <a href="#faq" class="btn btn-outline-golden btn-large">Graduate criteria <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 </section>
@@ -459,63 +269,53 @@ const schema = {
   <div class="container">
     <div class="section-header fade-in">
       <span class="section-tag">Common Questions</span>
-      <h2 id="graduate-faq">Honest answers about membership.</h2>
+      <h2>Honest answers about membership.</h2>
     </div>
     <div class="mem-faq-wrap fade-in">
 
       <details class="faq-item">
-        <summary>Is the free Protégé tier really free?</summary>
-        <p>Yes. No card, no trial, no expiration. The full base app is yours forever. Insider and above are paid upgrades. There is nothing hidden.</p>
+        <summary>How do I unlock the 4M App?</summary>
+        <p>Make any My4MLife purchase — even the smallest SKU. Your account flips to Protégé tier and the full app unlocks on the next load. There is no separate app subscription.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Do I have to keep paying to use the app?</summary>
+        <p>No. Once you've bought once, the app stays unlocked as long as you remain an active member. Cancelling a paid Insider tier returns you to Protégé app access — it doesn't lock you out. The only no-cost touchpoint before purchase is the free audit at <a href="/assessment">/assessment</a>.</p>
       </details>
 
       <details class="faq-item">
         <summary>What's included in Insider that's not in Protégé?</summary>
-        <p>Live group sessions with Dr. TJ, deeper education content (Months 5+, advanced protocols), member-only pricing on Rx, supplements, and environmental products, and access to the private Insider community. Protégé gives you the framework — Insider is where the work compounds.</p>
+        <p>Weekly group Zoom with Dr. TJ, group coaching access, deeper Month 5+ protocol content, session recordings, and ~10% member pricing on all OTC supplements. Protégé gives you the framework. Insider is where the work compounds.</p>
       </details>
 
       <details class="faq-item">
-        <summary>When does Insider open?</summary>
-        <p>Insider pricing is finalizing. Use the "Notify me" buttons on this page to subscribe — we will honor the early-member rate for everyone on the list when we launch. You won't need to do anything except show up.</p>
+        <summary>When is Insider pricing announced?</summary>
+        <p>Insider, Insider Plus, and Insider Concierge pricing is finalizing. Use the "Notify me" buttons above to subscribe — we will honor the early-member rate for everyone on the list at launch.</p>
       </details>
 
       <details class="faq-item">
-        <summary>Can I downgrade from Concierge to Insider?</summary>
-        <p>Yes, anytime. Downgrading adjusts your access tier at the start of the next billing cycle. You keep your Insider-level access until that date. There are no penalties and no locked-in commitments on paid tiers.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>What if I miss a live session?</summary>
-        <p>Recordings are available to all active Insider-tier members — Insider, Plus, and Concierge. You will not lose access to session content if life gets in the way of attending live.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Does the member pricing apply to environmental products too?</summary>
-        <p>Yes. Member pricing covers Rx, supplements, and environmental products — air quality, water filtration, light optimization, EMF mitigation. The same tier-based discount (10% Insider / 15% Plus / 20% Concierge) applies across the board.</p>
+        <summary>What's the difference between Insider Plus and Concierge?</summary>
+        <p>Insider Plus adds a monthly 1:1 call to base Insider plus ~15% member pricing. Insider Concierge adds bi-weekly 1:1 calls with Dr. TJ, bespoke protocol customization built around your audit and labs, ~20% member pricing, direct messaging access, and first access to new products.</p>
       </details>
 
       <details class="faq-item">
         <summary>How do I become a Graduate?</summary>
-        <p id="graduate-faq-how">12+ months of continuous Insider participation plus completion of specific 4M program milestones (criteria are being formalized as the cohort matures). Graduates earn permanent member benefits including future sharing-program access. Graduate status is earned — it cannot be purchased, and it is the only status in this program that works that way.</p>
+        <p>12+ months of continuous Insider-tier participation plus completion of specific 4M program milestones (criteria formalize as the cohort matures). Graduate status is earned — it cannot be purchased — and it does not expire.</p>
       </details>
 
       <details class="faq-item">
         <summary>How does Graduate status differ from Concierge?</summary>
-        <p>Concierge is a paid subscription you can start or stop at any time. Graduate is a permanent earned designation — once you earn it, it doesn't expire and you don't pay a recurring fee to keep it. The tradeoffs are intentional: Concierge gives you the most direct weekly access to Dr. TJ while you are actively paying; Graduate gives you lifetime product pricing and Phase 2 access as a permanent reward for the work you put in.</p>
+        <p>Concierge is a paid subscription you can start or stop at any time. Graduate is a permanent earned designation — once earned, it doesn't expire and you don't pay a recurring fee to keep it. Concierge gives you the most direct ongoing access to Dr. TJ. Graduate gives you lifetime member pricing on future products and priority access to Phase 2 vehicles.</p>
       </details>
 
       <details class="faq-item">
-        <summary>What's the My4MLife sharing program?</summary>
-        <p>A future Phase 2 vehicle for Graduates: a wellness-focused mutual-aid sharing program designed to cover what insurance won't — peptides, longevity protocols, off-label Rx, and environmental products. It is sequestered for now. Graduates will be the first to access it when it launches.</p>
+        <summary>Does member pricing apply to all products?</summary>
+        <p>Member pricing applies to My4MLife white-label and direct products — OTC supplements, services, and consults. Affiliate products carried in the marketplace are sold at standard pricing.</p>
       </details>
 
       <details class="faq-item">
         <summary>Can I cancel a paid tier?</summary>
-        <p>Yes, for any paid tier at any time. Protégé does not require a subscription — the app is simply yours. Cancellation of a paid tier returns you to Protégé access at your next billing date.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Why is membership structured this way?</summary>
-        <p>Because the work compounds. Day 1 you don't need 1:1 attention — you need the framework. Six months in, you have earned more direct support. A year in, you have earned Graduate-level pricing for life. The structure mirrors the reality of the protocol. Selling you more than you can use at the beginning would just be extractive.</p>
+        <p>Yes, for any paid tier at any time. Cancellation adjusts your access at the next billing cycle and returns you to Protégé app access. As long as you've ever made a purchase, the app stays with you.</p>
       </details>
 
       <details class="faq-item">
@@ -527,22 +327,35 @@ const schema = {
   </div>
 </section>
 
-<!-- ===== CLOSING CTA ===== -->
-<section class="section mem-closing">
+<!-- ===== MINI TWO PATHS — drive back to a buying decision ===== -->
+<section class="section two-paths-section">
   <div class="container">
-    <div class="mem-closing-content fade-in">
-      <span class="section-tag" style="color:var(--accent);">Start Free</span>
-      <h2 style="color:white;">The path starts at Protégé.<br/><em style="color:var(--accent); font-style:normal;">No card. No risk. No expiration.</em></h2>
-      <p style="color:rgba(255,255,255,0.8); font-size:1.15rem; max-width:560px; margin:0 auto 2.5rem;">Start with the full My4MLife App, the 20-factor audit, and every daily protocol — forever. Upgrade when you're ready.</p>
-      <a href="https://app.my4mlife.com" class="btn btn-primary btn-large">Become a Protégé — Free <i class="fas fa-arrow-right"></i></a>
+    <div class="section-header fade-in">
+      <span class="section-tag" style="color:var(--accent);">Two Ways to Unlock</span>
+      <h2 style="color:white;">Make any purchase. Unlock the app.</h2>
     </div>
+    <div class="two-paths-grid fade-in">
+      <a href="/shop" class="path-card">
+        <div class="path-label">Path 1 — OTC</div>
+        <h3>Browse the supplement shop</h3>
+        <p>Any white-label supplement unlocks the full 4M App and Protégé tier. Start with one bottle, the app stays with you.</p>
+        <span class="path-cta">Browse products <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="/consult" class="path-card path-card-alt">
+        <div class="path-label">Path 2 — Consult</div>
+        <h3>Book a telehealth consult</h3>
+        <p>Booking a consult activates the app at the moment of payment. Best path if you're targeting Rx (GLP-1, TRT, peptides).</p>
+        <span class="path-cta">Book a consult <i class="fas fa-arrow-right"></i></span>
+      </a>
+    </div>
+    <p class="two-paths-note">Not ready to buy? <a href="/assessment">Take the free audit</a> — the only no-cost touchpoint.</p>
   </div>
 </section>
 
 <!-- ===== DISCLAIMER ===== -->
 <section class="mem-disclaimer">
   <div class="container">
-    <p>My4MLife provides health education, protocol design, and AI-driven coaching. Medical care, diagnosis, and prescriptions are provided by a contracted licensed telemedicine practice. Dr. Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994, and does not provide medical care through this platform.</p>
+    <p>My4MLife provides health education, protocol design, and AI-driven coaching. Medical care, diagnosis, and prescriptions are provided by a contracted licensed telemedicine practice. Dr. TJ Mundheim, DC is a Doctor of Chiropractic, NBCE-certified since 1994, and does not provide medical care through this platform.</p>
   </div>
 </section>
 
@@ -566,10 +379,10 @@ const schema = {
   body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); line-height: 1.7; overflow-x: hidden; }
   h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); line-height: 1.2; }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-  .section { padding: 6rem 0; }
+  .section { padding: 5rem 0; }
   .section-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
-  .section-header { text-align: center; max-width: 640px; margin: 0 auto 4rem; }
-  .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+  .section-header { text-align: center; max-width: 680px; margin: 0 auto 3rem; }
+  .section-header h2 { font-size: 2.4rem; margin-bottom: 1rem; }
   .section-header p { color: var(--text-light); font-size: 1.05rem; }
   .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
@@ -580,46 +393,30 @@ const schema = {
   .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
   .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
   .btn-outline:hover { background: var(--primary); color: white; }
-  .btn-outline-dark { background: transparent; color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.4); }
-  .btn-outline-dark:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
   .btn-outline-golden { background: transparent; color: #D4A851; border-color: #D4A851; }
   .btn-outline-golden:hover { background: rgba(212,168,81,0.15); }
-  .btn-white { background: white; color: var(--primary); border-color: white; }
-  .btn-white:hover { background: var(--bg-soft); transform: translateY(-1px); }
   .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
 
-  /* HERO */
-  .mem-hero { padding: 10rem 0 6rem; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); position: relative; overflow: hidden; text-align: center; }
-  .mem-hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,184,148,0.15) 0%, transparent 70%); border-radius: 50%; }
-  .mem-hero-content { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
-  .mem-hero h1 { font-size: 3.2rem; color: white; margin-bottom: 1.2rem; font-weight: 700; }
-  .mem-hero h1 em { font-style: italic; color: var(--accent); }
-  .mem-hero-sub { font-size: 1.2rem; color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; }
-  .mem-hero-brand { font-size: 1rem; color: rgba(255,255,255,0.6); font-style: italic; max-width: 600px; margin: 0 auto 2.5rem; border-left: 3px solid var(--accent); padding-left: 1rem; text-align: left; }
-  .mem-hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  /* COMPACT HERO */
+  .mem-hero-compact { padding: 7rem 0 3rem; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 100%); color: white; }
+  .mem-breadcrumb { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin-bottom: 1rem; letter-spacing: 0.5px; }
+  .mem-breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
+  .mem-breadcrumb a:hover { color: var(--accent); }
+  .mem-hero-compact h1 { font-size: 2.6rem; color: white; margin-bottom: 1rem; font-weight: 700; max-width: 880px; }
+  .mem-hero-compact h1 em { font-style: italic; color: var(--accent); }
+  .mem-hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.78); max-width: 760px; }
 
-  /* JOURNEY */
-  .journey-section { background: white; }
-  .journey-flow { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
-  .journey-node { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; padding: 1.2rem 1.5rem; border-radius: var(--radius); border: 2px solid var(--border); background: white; min-width: 120px; text-align: center; transition: all 0.3s; }
-  .journey-node:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-  .journey-free { border-color: var(--accent); background: var(--bg-accent); }
-  .journey-paid { border-color: var(--primary-light); }
-  .journey-top { border-color: var(--primary); }
-  .journey-earned { border-color: #7B4F12; background: #FDF6EC; }
-  .journey-badge { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 0.2rem 0.6rem; border-radius: 20px; }
-  .journey-free .journey-badge { background: var(--accent); color: white; }
-  .journey-paid .journey-badge { background: var(--primary); color: white; }
-  .journey-top .journey-badge { background: var(--dark); color: white; }
-  .journey-earned .journey-badge { background: #7B4F12; color: white; }
-  .journey-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--dark); }
-  .journey-desc { font-size: 0.75rem; color: var(--text-light); }
-  .journey-arrow { font-size: 1.2rem; color: var(--text-light); flex-shrink: 0; }
-  .journey-note { text-align: center; color: var(--text-light); font-style: italic; font-size: 0.95rem; }
+  /* UNLOCK PRINCIPLE */
+  .unlock-section { padding: 4rem 0 2rem; background: white; }
+  .unlock-card { max-width: 880px; margin: 0 auto; background: var(--bg-accent); border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; }
+  .unlock-line { font-size: 1.5rem; font-family: 'Playfair Display', serif; color: var(--dark); line-height: 1.4; margin-bottom: 1rem; }
+  .unlock-line strong { color: var(--accent); }
+  .unlock-sub { color: var(--text); font-size: 1rem; margin-bottom: 1.8rem; max-width: 640px; margin-left: auto; margin-right: auto; }
+  .unlock-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
   /* TIER CARDS */
   .mem-tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-  .mem-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem 2rem 2rem; display: flex; flex-direction: column; position: relative; transition: all 0.3s; padding-top: 3rem; }
+  .mem-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 3rem 2rem 2rem; display: flex; flex-direction: column; position: relative; transition: all 0.3s; }
   .mem-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
   .mem-card-free { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
   .mem-card-plus { border-color: var(--primary-light); }
@@ -630,23 +427,23 @@ const schema = {
   .mem-card-graduate .mem-card-positioning { color: rgba(255,255,255,0.8); }
   .mem-card-graduate .mem-card-list li { color: rgba(255,255,255,0.85); border-bottom-color: rgba(255,255,255,0.1); }
   .mem-card-graduate .mem-card-list li::before { color: #D4A851; }
+  .mem-card-graduate .mem-card-price { color: #D4A851; }
 
-  /* top badge on cards */
-  .mem-card-badge-top { position: absolute; top: 0; left: 0; right: 0; text-align: center; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 0.35rem 1rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .mem-card-badge-top { position: absolute; top: 0; left: 0; right: 0; text-align: center; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 0.4rem 1rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
   .mem-badge-free { background: var(--accent); color: white; }
   .mem-badge-paid { background: var(--primary); color: white; }
   .mem-badge-earned { background: #7B4F12; color: white; }
-  /* concierge "Top Tier" side badge */
   .top-badge { position: absolute; top: 2.6rem; right: -1px; background: var(--primary); color: white; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 0.25rem 0.8rem; border-radius: 6px 0 0 6px; }
 
   .mem-card-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); margin-bottom: 0.3rem; }
   .mem-card-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--dark); margin-bottom: 0.5rem; }
   .mem-card-positioning { font-size: 0.9rem; color: var(--text-light); font-style: italic; margin-bottom: 1rem; line-height: 1.5; }
-  .mem-card-price { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 1.2rem; }
-  .mem-price-pending { font-size: 0.88rem; color: var(--text-light); font-weight: 400; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; padding: 0.7rem 1rem; line-height: 1.5; }
-  .mem-price-pending span { display: block; font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-top: 0.2rem; }
-  .mem-price-earned { font-size: 0.88rem; color: #D4A851; font-weight: 600; background: rgba(212,168,81,0.1); border: 1px solid rgba(212,168,81,0.3); border-radius: 8px; padding: 0.7rem 1rem; margin-bottom: 1.2rem; }
-  .mem-price-earned span { display: block; font-size: 0.8rem; color: rgba(212,168,81,0.75); font-weight: 400; margin-top: 0.2rem; }
+  .mem-card-price { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 1.2rem; line-height: 1.4; }
+  .mem-card-price span { display: block; font-size: 0.82rem; color: var(--text-light); font-weight: 400; margin-top: 0.25rem; }
+  .mem-price-pending { font-size: 1.1rem; color: var(--primary); font-weight: 700; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1rem; line-height: 1.4; }
+  .mem-price-pending span { display: block; font-size: 0.78rem; color: var(--accent); font-weight: 600; margin-top: 0.25rem; }
+  .mem-price-earned { font-size: 0.95rem; color: #D4A851; font-weight: 700; background: rgba(212,168,81,0.1); border: 1px solid rgba(212,168,81,0.3); border-radius: 8px; padding: 0.8rem 1rem; margin-bottom: 1.2rem; }
+  .mem-price-earned span { display: block; font-size: 0.78rem; color: rgba(212,168,81,0.75); font-weight: 400; margin-top: 0.25rem; }
   .mem-card-list { list-style: none; margin-bottom: 2rem; flex: 1; }
   .mem-card-list li { padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--text); padding-left: 1.4rem; position: relative; line-height: 1.55; }
   .mem-card-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
@@ -655,43 +452,23 @@ const schema = {
   .mem-notify { margin-top: auto; padding-top: 0.5rem; }
   .mem-notify-label { font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  /* COMPARISON TABLE */
-  .compare-wrap { max-width: 1100px; margin: 0 auto; }
-  .compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-  .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: white; }
-  .compare-table thead tr { background: var(--dark); }
-  .compare-table th { padding: 1.2rem 1rem; text-align: center; font-family: 'Playfair Display', serif; font-size: 0.95rem; color: white; font-weight: 700; vertical-align: bottom; line-height: 1.3; }
-  .compare-table th.feature-col { text-align: left; color: rgba(255,255,255,0.7); font-family: 'Inter', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; width: 26%; }
-  .compare-table th.tier-free { color: var(--accent); }
-  .compare-table th.tier-top { color: #a8d4f5; }
-  .compare-table th.tier-earned { color: #D4A851; }
-  .tier-cost { display: block; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 400; margin-top: 0.2rem; color: rgba(255,255,255,0.55); }
-  .tier-cost-pending { color: rgba(255,184,0,0.7); }
-  .compare-table td { padding: 0.85rem 1rem; text-align: center; color: var(--text); border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .compare-table td.feature-name { text-align: left; font-weight: 500; color: var(--dark); font-size: 0.88rem; }
-  .compare-table tr:last-child td { border-bottom: none; }
-  .row-alt { background: var(--bg-soft); }
-  .check { color: var(--accent); font-weight: 700; font-size: 1rem; }
-  .earned-check { color: #D4A851; }
-  .dash { color: var(--border); font-size: 1.1rem; }
-  .feature-val { font-size: 0.82rem; font-weight: 600; color: var(--primary); }
-  .compare-footnote { margin-top: 1.5rem; text-align: center; font-size: 0.82rem; color: var(--text-light); font-style: italic; }
+  /* PROTÉGÉ DEPTH GRID */
+  .protege-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; max-width: 1100px; margin: 0 auto; }
+  .protege-feature { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; }
+  .protege-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); line-height: 1; margin-bottom: 0.7rem; }
+  .protege-feature h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--dark); }
+  .protege-feature p { font-size: 0.9rem; color: var(--text); line-height: 1.6; }
 
-  /* WHY MEMBERS STAY */
-  .why-stay-section { background: var(--bg-soft); }
-  .why-stay-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; }
-  .why-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; position: relative; }
-  .why-quote-mark { font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 1; color: var(--accent); opacity: 0.3; position: absolute; top: 0.5rem; left: 1rem; }
-  .why-card p { font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-top: 1.5rem; font-style: italic; }
-  .why-attr { margin-top: 1rem; font-size: 0.8rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; }
+  /* UPGRADE GRID */
+  .upgrade-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+  .upgrade-card { background: white; border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 1.8rem; box-shadow: var(--shadow-sm); }
+  .upgrade-card h3 { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 0.7rem; }
+  .upgrade-card p { font-size: 0.92rem; color: var(--text); line-height: 1.65; }
 
-  /* COMMITMENTS */
-  .commitments-section { background: linear-gradient(135deg, #0a1628 0%, #0f4c75 50%, #1b6fa8 100%); }
-  .commitments-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
-  .commitment-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding: 2rem; text-align: center; }
-  .commitment-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--accent); line-height: 1; margin-bottom: 0.8rem; }
-  .commitment-card h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.8rem; }
-  .commitment-card p { color: rgba(255,255,255,0.65); font-size: 0.88rem; }
+  /* GRADUATE SECTION */
+  .graduate-section { background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 70%, #2a1a0a 100%); padding: 5rem 0; }
+  .graduate-content { text-align: center; max-width: 760px; margin: 0 auto; }
+  .graduate-content h2 { font-size: 2.4rem; margin-bottom: 1.2rem; }
 
   /* FAQ */
   .mem-faq-wrap { max-width: 820px; margin: 0 auto; }
@@ -700,11 +477,22 @@ const schema = {
   .faq-item summary::after { content: '+'; font-size: 1.3rem; color: var(--accent); font-weight: 300; flex-shrink: 0; margin-left: 1rem; }
   .faq-item[open] summary::after { content: '−'; }
   .faq-item p { margin-top: 0.8rem; color: var(--text); font-size: 0.95rem; }
+  .faq-item a { color: var(--accent); }
 
-  /* CLOSING */
-  .mem-closing { background: linear-gradient(135deg, #0a1628, #0f4c75); padding: 8rem 0; }
-  .mem-closing-content { text-align: center; max-width: 700px; margin: 0 auto; }
-  .mem-closing-content h2 { font-size: 2.8rem; margin-bottom: 1.5rem; }
+  /* TWO PATHS */
+  .two-paths-section { background: linear-gradient(135deg, #0a1628, #0f4c75); padding: 5rem 0; }
+  .two-paths-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 960px; margin: 0 auto 1.5rem; }
+  .path-card { display: block; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius-lg); padding: 2rem; text-decoration: none; color: white; transition: all 0.25s; }
+  .path-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); border-color: var(--accent); }
+  .path-card-alt:hover { border-color: #D4A851; }
+  .path-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 0.7rem; }
+  .path-card-alt .path-label { color: #D4A851; }
+  .path-card h3 { color: white; font-size: 1.4rem; margin-bottom: 0.8rem; }
+  .path-card p { color: rgba(255,255,255,0.75); font-size: 0.95rem; margin-bottom: 1.2rem; }
+  .path-cta { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+  .path-card-alt .path-cta { color: #D4A851; }
+  .two-paths-note { text-align: center; color: rgba(255,255,255,0.65); font-size: 0.95rem; }
+  .two-paths-note a { color: var(--accent); }
 
   /* DISCLAIMER */
   .mem-disclaimer { background: var(--bg-soft); border-top: 1px solid var(--border); padding: 2rem 0; }
@@ -713,24 +501,17 @@ const schema = {
   /* RESPONSIVE */
   @media (max-width: 1024px) {
     .mem-tiers-grid { grid-template-columns: repeat(2, 1fr); }
-    .commitments-grid { grid-template-columns: repeat(2, 1fr); }
-    .journey-flow { gap: 0.25rem; }
-    .journey-node { min-width: 100px; padding: 1rem; }
+    .protege-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 768px) {
-    .mem-hero h1 { font-size: 2.4rem; }
+    .mem-hero-compact h1 { font-size: 2rem; }
+    .unlock-line { font-size: 1.2rem; }
     .mem-tiers-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-    .commitments-grid { grid-template-columns: 1fr 1fr; }
-    .journey-flow { flex-direction: column; align-items: stretch; max-width: 320px; margin: 0 auto 2rem; }
-    .journey-arrow { transform: rotate(90deg); text-align: center; }
-    .journey-node { flex-direction: row; justify-content: space-between; min-width: unset; text-align: left; }
-    .section-header h2 { font-size: 2rem; }
-    .mem-closing-content h2 { font-size: 2.2rem; }
-    .why-stay-grid { grid-template-columns: 1fr; max-width: 520px; }
-    .compare-table th, .compare-table td { padding: 0.75rem 0.6rem; font-size: 0.8rem; }
-  }
-  @media (max-width: 480px) {
-    .commitments-grid { grid-template-columns: 1fr; }
+    .protege-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .upgrade-grid { grid-template-columns: 1fr; }
+    .two-paths-grid { grid-template-columns: 1fr; }
+    .section-header h2 { font-size: 1.9rem; }
+    .graduate-content h2 { font-size: 1.9rem; }
   }
 </style>
 
