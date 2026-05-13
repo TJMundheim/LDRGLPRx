@@ -15,40 +15,60 @@ const robots = "index, follow";
 <section class="quick-buy-band">
   <div class="container">
     <p class="quick-buy-kicker">Start where you need it most</p>
+    <p class="quick-buy-headline">Tired of how you feel — and how the people who love you have stopped looking at you the way they used to?</p>
+    <p class="quick-buy-subhead">These 8 categories aren't separate problems. They compound. Together they decide whether the next 20 years are sharp, present, and worth living — or a slow disappearance from your own life and your family's.</p>
     <div class="quick-buy-grid">
       <a href="/solutions/gut" class="quick-buy-tile">
         <span class="quick-buy-label">Gut</span>
         <span class="quick-buy-sub">Leaky gut · microbiome</span>
+        <span class="quick-buy-hook">Your patience and presence are downstream of your gut. Fix the source.</span>
       </a>
       <a href="/solutions/sleep" class="quick-buy-tile">
         <span class="quick-buy-label">Sleep</span>
         <span class="quick-buy-sub">Deep sleep · recovery</span>
+        <span class="quick-buy-hook">The man who sleeps 5 hours at 50 isn't the man at 65. Choose.</span>
       </a>
       <a href="/solutions/weight" class="quick-buy-tile">
         <span class="quick-buy-label">Weight</span>
         <span class="quick-buy-sub">GLP-1 · body composition</span>
+        <span class="quick-buy-hook">The scale is feedback. The brain fog, the libido, how you carry yourself — all downstream.</span>
       </a>
       <a href="/solutions/nutrition" class="quick-buy-tile">
         <span class="quick-buy-label">Nutrition</span>
         <span class="quick-buy-sub">Real food · sourcing</span>
+        <span class="quick-buy-hook">Your kitchen is the most consequential room in your house.</span>
       </a>
       <a href="/solutions/erectile-dysfunction" class="quick-buy-tile">
         <span class="quick-buy-label">Sexual</span>
         <span class="quick-buy-sub">ED · libido · performance</span>
+        <span class="quick-buy-hook">When she stops looking at you, it's almost never about the relationship. It's the canary.</span>
       </a>
       <a href="/solutions/environment" class="quick-buy-tile">
         <span class="quick-buy-label">Environment</span>
         <span class="quick-buy-sub">Light · air · water · EMF</span>
+        <span class="quick-buy-hook">Light, air, water, EMF — quietly compounding for 30 years before the bill comes due.</span>
       </a>
       <a href="/solutions/cognitive" class="quick-buy-tile">
         <span class="quick-buy-label">Cognitive</span>
         <span class="quick-buy-sub">Brain fog · memory · focus</span>
+        <span class="quick-buy-hook">Forgetting names. Watching your family notice. Begin with the end in mind — or arrive at it by accident.</span>
       </a>
       <a href="/solutions/hormones" class="quick-buy-tile">
         <span class="quick-buy-label">Hormones</span>
         <span class="quick-buy-sub">TRT · testosterone · energy</span>
+        <span class="quick-buy-hook">Low T is the upstream driver of everything you're tired of. One panel changes the conversation.</span>
       </a>
     </div>
+  </div>
+</section>
+
+<!-- ===== LAYER C — Long-form wake-up paragraph between CTA band and hero ===== -->
+<section class="hp-wakeup">
+  <div class="container hp-wakeup-inner">
+    <p class="hp-wakeup-lead">Most men accept the slow disappearance.</p>
+    <p>The brain fog gets labeled <em>"I'm just tired."</em> The libido drop becomes <em>"we're just at that stage."</em> The patience that used to be there for the kids gets blamed on work. The way your wife stopped reaching for you gets quietly filed away as something neither of you talks about.</p>
+    <p>All of it is feedback. Hormones, sleep, gut, vascular, cognitive — every system is whispering to you. The next 20 years are decided by whether you listen.</p>
+    <p class="hp-wakeup-tag"><em>Begin with the end in mind. Or arrive at the end by accident.</em></p>
   </div>
 </section>
 
@@ -434,7 +454,58 @@ const robots = "index, follow";
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
-  margin: 0 0 1.4rem;
+  margin: 0 0 0.7rem;
+}
+.quick-buy-headline {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.55rem;
+  line-height: 1.35;
+  color: white;
+  max-width: 880px;
+  margin: 0 auto 0.8rem;
+}
+.quick-buy-subhead {
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.75);
+  max-width: 800px;
+  margin: 0 auto 1.6rem;
+}
+.quick-buy-hook {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+  margin-top: 0.5rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ===== LAYER C — Wake-up paragraph section ===== */
+.hp-wakeup { background: var(--bg-soft); padding: 4rem 0; border-bottom: 1px solid var(--border); }
+.hp-wakeup-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+.hp-wakeup-inner p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin: 0 0 1rem;
+}
+.hp-wakeup-lead {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.7rem !important;
+  font-weight: 600;
+  color: var(--primary) !important;
+  margin-bottom: 1.4rem !important;
+}
+.hp-wakeup-tag {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.25rem !important;
+  color: var(--primary) !important;
+  margin-top: 1.4rem !important;
 }
 .quick-buy-grid {
   display: grid;
