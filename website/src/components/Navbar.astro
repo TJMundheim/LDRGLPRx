@@ -66,19 +66,10 @@ const programItems = [
       <span class="nav-home-label">Home</span>
     </a>
 
-    <!-- Desktop nav: 8 top categories + Services dropdown + Sign In -->
+    <!-- Desktop nav: Home + Services dropdown + Sign In (8 categories moved to homepage CTA band) -->
     <ul class="nav-links" id="nav-links" role="menubar">
 
-      <li role="none"><a href="/solutions/gut" class="nav-cat">Gut</a></li>
-      <li role="none"><a href="/solutions/sleep" class="nav-cat">Sleep</a></li>
-      <li role="none"><a href="/solutions/weight" class="nav-cat">Weight</a></li>
-      <li role="none"><a href="/solutions/nutrition" class="nav-cat">Nutrition</a></li>
-      <li role="none"><a href="/solutions/erectile-dysfunction" class="nav-cat">Sexual</a></li>
-      <li role="none"><a href="/solutions/environment" class="nav-cat">Environment</a></li>
-      <li role="none"><a href="/solutions/cognitive" class="nav-cat">Cognitive</a></li>
-      <li role="none"><a href="/solutions/hormones" class="nav-cat">Hormones</a></li>
-
-      <!-- Services mega-menu (residual catch-all) -->
+      <!-- Services mega-menu -->
       <li class="dd-trigger" role="none" id="dd-services">
         <button class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dd-panel-services">
           Services
@@ -156,19 +147,7 @@ const programItems = [
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
 
-    <!-- 8 top categories — flat list at top of mobile menu -->
-    <div class="mobile-cat-list">
-      <a href="/solutions/gut" class="mobile-link mobile-link-cat">Gut</a>
-      <a href="/solutions/sleep" class="mobile-link mobile-link-cat">Sleep</a>
-      <a href="/solutions/weight" class="mobile-link mobile-link-cat">Weight</a>
-      <a href="/solutions/nutrition" class="mobile-link mobile-link-cat">Nutrition</a>
-      <a href="/solutions/erectile-dysfunction" class="mobile-link mobile-link-cat">Sexual Function</a>
-      <a href="/solutions/environment" class="mobile-link mobile-link-cat">Environment</a>
-      <a href="/solutions/cognitive" class="mobile-link mobile-link-cat">Cognitive</a>
-      <a href="/solutions/hormones" class="mobile-link mobile-link-cat">Hormones</a>
-    </div>
-
-    <!-- Services accordion -->
+    <!-- Services accordion (8 categories live inside Services mega-menu, not at top of mobile menu) -->
     <div class="mobile-section">
       <button class="mobile-section-btn" aria-expanded="false" aria-controls="mobile-services">
         Services

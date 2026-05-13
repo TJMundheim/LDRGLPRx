@@ -26,7 +26,7 @@ const {
 } = Astro.props;
 ---
 
-<div class="two-paths">
+<section id="solution" class="two-paths-section two-paths">
   <h2 class="two-paths-heading">Two paths to act — choose yours today</h2>
 
   <div class="two-paths-grid">
@@ -72,7 +72,11 @@ const {
       </p>
     </div>
   )}
-</div>
+
+  <p class="why-matters-link">
+    <a href="#why-matters">Read about why this matters &darr;</a>
+  </p>
+</section>
 
 <style>
 .two-paths {
@@ -243,4 +247,17 @@ const {
   text-decoration: none;
 }
 .protege-link:hover { text-decoration: underline; }
+
+.why-matters-link {
+  margin-top: 1.25rem;
+  text-align: center;
+}
+.why-matters-link a {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.why-matters-link a:hover { text-decoration: underline; }
 </style>

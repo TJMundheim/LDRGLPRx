@@ -18,45 +18,53 @@ const robots = "index, follow";
     <p class="quick-buy-headline">Tired of how you feel — and how the people who love you have stopped looking at you the way they used to?</p>
     <p class="quick-buy-subhead">These 8 categories aren't separate problems. They compound. Together they decide whether the next 20 years are sharp, present, and worth living — or a slow disappearance from your own life and your family's.</p>
     <div class="quick-buy-grid">
-      <a href="/solutions/gut" class="quick-buy-tile">
+      <a href="/solutions/gut#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Gut</span>
         <span class="quick-buy-sub">Leaky gut · microbiome</span>
         <span class="quick-buy-hook">Your patience and presence are downstream of your gut. Fix the source.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
-      <a href="/solutions/sleep" class="quick-buy-tile">
+      <a href="/solutions/sleep#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Sleep</span>
         <span class="quick-buy-sub">Deep sleep · recovery</span>
         <span class="quick-buy-hook">The man who sleeps 5 hours at 50 isn't the man at 65. Choose.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
-      <a href="/solutions/weight" class="quick-buy-tile">
+      <a href="/solutions/weight#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Weight</span>
         <span class="quick-buy-sub">GLP-1 · body composition</span>
         <span class="quick-buy-hook">The scale is feedback. The brain fog, the libido, how you carry yourself — all downstream.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
-      <a href="/solutions/nutrition" class="quick-buy-tile">
+      <a href="/solutions/nutrition#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Nutrition</span>
         <span class="quick-buy-sub">Real food · sourcing</span>
         <span class="quick-buy-hook">Your kitchen is the most consequential room in your house.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
-      <a href="/solutions/erectile-dysfunction" class="quick-buy-tile">
+      <a href="/solutions/erectile-dysfunction#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Sexual</span>
         <span class="quick-buy-sub">ED · libido · performance</span>
         <span class="quick-buy-hook">When she stops looking at you, it's almost never about the relationship. It's the canary.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
-      <a href="/solutions/environment" class="quick-buy-tile">
+      <a href="/solutions/environment#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Environment</span>
         <span class="quick-buy-sub">Light · air · water · EMF</span>
         <span class="quick-buy-hook">Light, air, water, EMF — quietly compounding for 30 years before the bill comes due.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
-      <a href="/solutions/cognitive" class="quick-buy-tile">
+      <a href="/solutions/cognitive#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Cognitive</span>
         <span class="quick-buy-sub">Brain fog · memory · focus</span>
         <span class="quick-buy-hook">Forgetting names. Watching your family notice. Begin with the end in mind — or arrive at it by accident.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
-      <a href="/solutions/hormones" class="quick-buy-tile">
+      <a href="/solutions/hormones#solution" class="quick-buy-tile">
         <span class="quick-buy-label">Hormones</span>
         <span class="quick-buy-sub">TRT · testosterone · energy</span>
         <span class="quick-buy-hook">Low T is the upstream driver of everything you're tired of. One panel changes the conversation.</span>
+      <span class="quick-buy-cta">Solution &rarr;</span>
       </a>
     </div>
   </div>
@@ -483,6 +491,25 @@ const robots = "index, follow";
   margin-top: 0.5rem;
   padding-top: 0.55rem;
   border-top: 1px solid rgba(255,255,255,0.12);
+  flex: 1;
+}
+.quick-buy-cta {
+  display: inline-block;
+  margin-top: 0.85rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--accent);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  border-radius: 6px;
+  transition: background 0.15s, transform 0.15s;
+}
+.quick-buy-tile:hover .quick-buy-cta {
+  background: #00d4a4;
+  transform: translateX(2px);
 }
 
 /* ===== LAYER C — Wake-up paragraph section ===== */
