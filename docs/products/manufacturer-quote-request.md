@@ -5,7 +5,15 @@
 **Date:** 2026-05-18
 **Contact:** [your email] · [your phone]
 
-We are launching a brain-health-first lifestyle and telemedicine platform. The five OTC nutraceuticals below are our proprietary product line. Please quote on custom formulation, encapsulation/powdering, and white-label bottling at the spec'd doses. Quote per-unit at three MOQ tiers: **1,000 / 5,000 / 25,000 units**.
+We are launching a brain-health-first lifestyle and telemedicine platform. The OTC nutraceutical line below is our proprietary product family. Please quote on custom formulation, encapsulation/powdering, and white-label bottling at the spec'd doses. Quote per-unit at three MOQ tiers: **1,000 / 5,000 / 25,000 units**.
+
+**Product family summary (5 OTC SKUs):**
+- **Biome-AF Ultra Complete** (Product 1) — powder, gut-repair (every member starts here)
+- **NeuroBridge** (Product 2) — methylated B-complex, capsule
+- **SleepRestore** (Product 3) — 6-ingredient nightly sleep stack, capsule
+- **ArmorVita** (Product 4) — D3/K2/Boron/A/Astaxanthin, softgel
+- **MitoVita** (Product 5) — creatine + L-citrulline + beetroot + electrolytes, powder
+- (Optional 6th SKU: **MitoVita Plus** premium variant with Pycnogenol®)
 
 ---
 
@@ -21,18 +29,23 @@ We are launching a brain-health-first lifestyle and telemedicine platform. The f
 
 ---
 
-## Product 1 — **Biome-AF Nutraceutical** (OTC variant)
+## Product 1 — **Biome-AF Ultra Complete** (POWDER)
 
-- **Category:** Gut-barrier repair
-- **Form:** Vegetarian capsule
-- **Serving:** 2 capsules · daily
+- **Category:** Gut-barrier repair / leaky gut + brain-axis support — the foundational starting protocol for every member
+- **Form:** Powder, single-scoop, mixes in ~8–12 oz water
+- **Use case:** Taken on empty stomach immediately on waking, 30 min before first meal. Members on the Rx tier add a separate compounded oral BPC-157 product (not part of this quote) taken concurrently with the powder — additive, not redundant.
+- **Serving:** 1 scoop (~6.5–7 g) · once daily, morning
 - **Per serving:**
-  - L-Glutamine — **3,000 mg**
-  - Aloe Vera (Aloe Barbadensis leaf extract, 200:1) — **200 mg**
-  - Zinc Carnosine — **75 mg**
-  - Slippery Elm Bark — **400 mg**
-  - L-Glycine — **500 mg**
-- **Note:** Rx-tier formula includes BPC-157 (compounded pharmacy, not part of this quote). This OTC version replaces BPC-157 with zinc carnosine + slippery elm for mucosal support.
+  - L-Glutamine (free-form) — **5,000 mg**
+  - Deglycyrrhizinated Licorice Root Extract (DGL, ≥10% glycyrrhizin removed) — **300 mg**
+  - Berberine (Berberis aristata root, ≥97% standardized) — **200 mg**
+  - Aloe Vera Leaf Extract (Aloe Barbadensis, 200:1, acemannan-active) — **75 mg**
+  - Curcumin (≥95% curcuminoids; BCM-95® or Meriva® preferred for bioavailability) — **50 mg**
+  - Zinc Carnosine (PepZin GI® preferred) — **10 mg**
+  - Vitamin A (Retinyl Palmitate) — **1,000 IU (300 mcg RAE)**
+  - Vitamin D3 (Cholecalciferol) — **1,000 IU (25 mcg)**
+- **Flavor options to quote:** (a) unflavored, (b) natural vanilla, (c) natural citrus. **Monk fruit ONLY** as sweetener — no stevia, no maltodextrin, no caloric carriers. Target <10 cal/serving (compatible with morning fasted protocol).
+- **NOT in this quote:** Standalone oral BPC-157 (250–1000 mcg dose range, prescriber-determined) is compounded separately by our licensed pharmacy partner and prescribed via our telemedicine partner. Members combine it with Ultra Complete for the deeper-repair Rx tier. This single-active compounded SKU replaces the prior "Biome-AF Rx" all-in-one compounded formula.
 
 ## Product 2 — **NeuroBridge** (Methylated B-Complex)
 
