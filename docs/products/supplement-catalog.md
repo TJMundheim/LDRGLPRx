@@ -11,22 +11,24 @@
 
 ## Core 5 (the foundational supplement line)
 
-### 1. Biome-AF — **product family restructured 2026-05-18 (powder + Rx-add-on model)**
+### 1. Biome NS — **brand renamed + restructured 2026-05-18**
 
-Replaces the prior single-compound Biome-AF Rx model. The new architecture: ONE OTC powder that every member starts on, plus a STANDALONE oral BPC-157 Rx add-on for members who want deeper repair. Two SKUs total. Clean.
+Brand family rename: **Biome-AF → Biome NS** (NS = NeuroSeal — the gut-brain seal that protects cognitive longevity; full expansion in product fine print). The rename consolidates the Biome-AF and NeuroSeal brands into one family that explicitly names the gut-brain mechanism.
 
-**1a. Biome-AF Ultra Complete (POWDER — universal OTC starting product):** L-Glutamine 5g + DGL 300mg + Berberine 200mg + Aloe Vera 75mg + Curcumin 50mg + Zinc Carnosine 10mg + Vitamin A 1,000 IU + Vitamin D3 1,000 IU. Single scoop in water, on empty stomach immediately on waking, 30 min before first meal. Monk fruit only as sweetener (flavored variants). Derived from Dr. TJ's GBCRx LGST formulary spec (2026-05-18).
+Architecture: ONE OTC powder that every member starts on, plus a STANDALONE oral BPC-157 Rx add-on for members who want deeper repair. Two SKUs total. Clean.
 
-**1b. Oral BPC-157 (Rx ADD-ON — pharmacy partner SKU):** Standalone compounded oral BPC-157, 250–1000 mcg dose range (prescriber-determined). Taken CONCURRENTLY with Ultra Complete powder. Single-active design replaces the prior all-in-one Biome-AF Rx compound — allows higher and more flexible BPC-157 dosing because it isn't competing for capsule/liquid volume with L-Glutamine and supporting compounds.
+**1a. Biome NS Ultra (POWDER — universal OTC starting product):** L-Glutamine 5g + DGL 300mg + Berberine 200mg + Aloe Vera 75mg + Curcumin 50mg + Zinc Carnosine 10mg + Vitamin A 1,000 IU + Vitamin D3 1,000 IU. Single scoop in water, on empty stomach immediately on waking, 30 min before first meal. Monk fruit only as sweetener (flavored variants). Derived from Dr. TJ's GBCRx LGST formulary spec (2026-05-18).
 
-**Member journey:** every paying member starts on Ultra Complete (universal). Members who want deeper repair (chronic gut symptoms, autoimmune presentation, persistent neuroinflammation) add the Rx BPC-157 via comprehensive consult with the licensed telemedicine partner.
+**1b. Biome NS Rx — Oral BPC-157 (ADD-ON — pharmacy partner SKU):** Standalone compounded oral BPC-157, 250–1000 mcg dose range (prescriber-determined). Taken CONCURRENTLY with Biome NS Ultra powder. Single-active design replaces the prior all-in-one Biome-AF Rx compound — allows higher and more flexible BPC-157 dosing because it isn't competing for capsule/liquid volume with L-Glutamine and supporting compounds.
 
-**NeuroSeal consolidation flag:** With this restructure, NeuroSeal (which was the consumer-facing twin of the old all-in-one Biome-AF Rx) collapses into the new model. TJ confirms whether NeuroSeal is (a) retired, (b) rebranded as the consumer name for "Ultra Complete + BPC-157 stack," or (c) kept as a separate clinical positioning. Default until clarified: NeuroSeal retired, Biome-AF Ultra Complete + oral BPC-157 are the canonical names.
+**Member journey:** every paying member starts on Biome NS Ultra (universal). Members who want deeper repair (chronic gut symptoms, autoimmune presentation, persistent neuroinflammation) add Biome NS Rx via comprehensive consult with the licensed telemedicine partner.
+
+**Brand consolidation (locked 2026-05-18):** The legacy Biome-AF brand and the legacy NeuroSeal brand are consolidated into Biome NS. NeuroSeal as a standalone product name is RETIRED — its credibility equity (gut-brain seal positioning) lives on in the "NS" abbreviation and its full-expansion fine print. All site references, brochures, and AI-concierge replies should default to Biome NS / Biome NS Ultra / Biome NS Rx going forward.
 
 | Field | Detail |
 |---|---|
-| Tier 1 (Rx) | **Oral BPC-157 (single-active)** — 250–1000 mcg compounded oral, dose prescriber-determined, taken concurrently with Ultra Complete powder |
-| Tier 2 (OTC) | **Biome-AF Ultra Complete (powder)** — full formulation per RFQ spec at `docs/products/manufacturer-quote-request.md` |
+| Tier 1 (Rx) | **Biome NS Rx (Oral BPC-157, single-active)** — 250–1000 mcg compounded oral, dose prescriber-determined, taken concurrently with Biome NS Ultra |
+| Tier 2 (OTC) | **Biome NS Ultra (powder)** — full formulation per RFQ spec at `docs/products/manufacturer-quote-request.md` |
 | Indication | Gut-brain axis repair, leaky gut syndrome, gut microbiome restoration, neuroinflammation reduction |
 | Mechanism | Triple-mechanism: (1) BPC-157 seals intestinal tight junctions and acts centrally on neuroinflammation; (2) L-Glutamine is primary fuel for enterocytes, preventing barrier breakdown; (3) Aloe vera acemannan polysaccharides coat/soothe mucosal lining and boost absorption of both actives |
 | Target user | 4M cohort members, male 35–60, presenting with brain fog, gut permeability, mood dysregulation, poor focus — Month 1 Week 1 |

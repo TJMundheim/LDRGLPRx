@@ -8,7 +8,7 @@
 We are launching a brain-health-first lifestyle and telemedicine platform. The OTC nutraceutical line below is our proprietary product family. Please quote on custom formulation, encapsulation/powdering, and white-label bottling at the spec'd doses. Quote per-unit at three MOQ tiers: **1,000 / 5,000 / 25,000 units**.
 
 **Product family summary (5 OTC SKUs):**
-- **Biome-AF Ultra Complete** (Product 1) — powder, gut-repair (every member starts here)
+- **Biome NS Ultra** (Product 1) — powder, gut-brain repair (every member starts here)
 - **NeuroBridge** (Product 2) — methylated B-complex, capsule
 - **SleepRestore** (Product 3) — 6-ingredient nightly sleep stack, capsule
 - **ArmorVita** (Product 4) — D3/K2/Boron/A/Astaxanthin, softgel
@@ -29,11 +29,12 @@ We are launching a brain-health-first lifestyle and telemedicine platform. The O
 
 ---
 
-## Product 1 — **Biome-AF Ultra Complete** (POWDER)
+## Product 1 — **Biome NS Ultra** (POWDER)
 
+- **Brand expansion (for label fine print):** *NS = NeuroSeal — the gut-brain seal that protects cognitive longevity.*
 - **Category:** Gut-barrier repair / leaky gut + brain-axis support — the foundational starting protocol for every member
 - **Form:** Powder, single-scoop, mixes in ~8–12 oz water
-- **Use case:** Taken on empty stomach immediately on waking, 30 min before first meal. Members on the Rx tier add a separate compounded oral BPC-157 product (not part of this quote) taken concurrently with the powder — additive, not redundant.
+- **Use case:** Taken on empty stomach immediately on waking, 30 min before first meal. Members on the Rx tier add a separate compounded oral BPC-157 product (Biome NS Rx — not part of this quote) taken concurrently with the powder — additive, not redundant.
 - **Serving:** 1 scoop (~6.5–7 g) · once daily, morning
 - **Per serving:**
   - L-Glutamine (free-form) — **5,000 mg**
