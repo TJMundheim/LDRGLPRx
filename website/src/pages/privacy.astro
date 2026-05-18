@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "Privacy Policy — My4MLife";
-const description = "My4MLife Privacy Policy. Learn how we collect, use, and protect your personal and health information in compliance with HIPAA.";
+const description = "My4MLife Privacy Policy. How we collect, use, share, and safeguard your information. My4MLife is an education + protocol platform; medical care is delivered by our licensed telemedicine partner.";
 const canonical = "https://www.my4mlife.com/privacy";
 const ogImage = "https://www.my4mlife.com/og-image.svg";
 const robots = "index, follow";
@@ -22,13 +22,23 @@ const robots = "index, follow";
 <section class="content">
   <div class="container">
     <div class="meta-dates">
-      <strong>Effective Date:</strong> April 16, 2026<br/>
-      <strong>Last Updated:</strong> April 16, 2026
+      <strong>Effective Date:</strong> 2026-05-18<br/>
+      <strong>Last Updated:</strong> 2026-05-18
     </div>
 
-    <p>My4MLife ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal and protected health information when you use our website, mobile services, and telehealth platform (collectively, the "Services").</p>
+    <p>My4MLife ("we," "us," or "our") is a health-education and protocol-coaching platform. Medical care, including diagnosis, prescriptions, lab orders, and clinical advice, is delivered by our contracted licensed telemedicine partner — not by My4MLife directly. This Privacy Policy explains how we collect, use, share, and safeguard your information when you use our website, mobile app, and platform (collectively, the "Services").</p>
 
-    <p>By using our Services, you acknowledge that you have read and understood this Privacy Policy. We comply with the Health Insurance Portability and Accountability Act (HIPAA) and all applicable federal and state privacy laws.</p>
+    <p>By using our Services, you acknowledge that you have read and understood this Privacy Policy. We observe data-protection practices aligned with HIPAA, even though My4MLife itself is not a HIPAA-covered entity. Our contracted telemedicine partner IS a covered entity and is the custodian of any medical record created during your care. We comply with applicable federal and state privacy laws.</p>
+
+    <aside class="role-callout">
+      <h3>Our role vs. the telemedicine partner's role</h3>
+      <ul>
+        <li><strong>My4MLife provides:</strong> health education, protocol design, the 4M framework, the app experience, AI-driven coaching, and the routing infrastructure that connects you to medical care when you choose to engage it.</li>
+        <li><strong>Our contracted licensed telemedicine partner provides:</strong> the medical encounter itself — diagnosis, prescriptions, lab orders, clinical decision-making, the medical record. The partner is the prescribing-clinician-of-record.</li>
+        <li><strong>The pharmacy partner provides:</strong> fulfillment of prescriptions issued by the licensed clinician.</li>
+        <li><strong>What this means for your data:</strong> intake answers and audit responses you give us live in our systems until you consent to a consult — at which point we forward a defined data package to the telemedicine partner. From that handoff forward, your medical record lives with the partner, governed by their HIPAA Notice of Privacy Practices.</li>
+      </ul>
+    </aside>
 
     <div class="toc">
       <h3>Quick Navigation</h3>
@@ -51,8 +61,8 @@ const robots = "index, follow";
     <h2 id="s1">1. Information We Collect</h2>
     <h3>Personal Information</h3>
     <p>We collect personal information you voluntarily provide, including your name, email address, phone number, date of birth, gender, mailing address, and government-issued identification.</p>
-    <h3>Health Information</h3>
-    <p>As part of your telehealth consultation, we collect Protected Health Information (PHI), which may include medical history, current medications, allergies, height and weight, BMI, existing health conditions, lab results, and any information you share with your healthcare provider.</p>
+    <h3>Health-Related Information</h3>
+    <p>We collect health-related information you provide to us through our 8-question audit, sign-up demographics, and any intake forms before you engage with our telemedicine partner. This may include self-reported symptoms, height and weight, biological sex, medications, and your stated goals. This information is consumer health survey data on our side. Once you consent to a consult, we forward a defined data package to the telemedicine partner — at which point that data becomes Protected Health Information (PHI) under the partner's HIPAA-covered medical record. PHI generated during your consult (diagnosis, prescriptions, lab results, clinical notes) is held by the telemedicine partner, not by My4MLife.</p>
     <h3>Payment Information</h3>
     <p>When you make a purchase, our third-party payment processor collects your payment card information. We do not store complete payment card numbers on our servers.</p>
     <h3>Device and Usage Data</h3>
@@ -83,8 +93,8 @@ const robots = "index, follow";
     <h3>Service Providers</h3>
     <p>Hosting, analytics, and communications vendors who support our operations, all bound by confidentiality agreements.</p>
 
-    <h2 id="s4">4. HIPAA Protections for PHI</h2>
-    <p>Your Protected Health Information is covered by the HIPAA Privacy Rule. We maintain:</p>
+    <h2 id="s4">4. HIPAA Posture</h2>
+    <p>My4MLife is NOT a HIPAA-covered entity. Our contracted licensed telemedicine partner IS a covered entity, and any Protected Health Information (PHI) generated during your medical care is held by them under HIPAA. We observe HIPAA-aligned data-protection practices on our side because some of the information you share with us may later become PHI when handed off to the partner. Specifically, we maintain:</p>
     <ul>
       <li>Administrative, physical, and technical safeguards for PHI</li>
       <li>Business Associate Agreements with all vendors who access PHI</li>
@@ -199,6 +209,21 @@ const robots = "index, follow";
     .toc { background: var(--bg-soft); border-radius: var(--radius); padding: 1.5rem 2rem; margin-bottom: 3rem; }
     .toc h3 { margin-top: 0; margin-bottom: 1rem; color: var(--dark); font-family: 'Inter', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
     .toc ul { list-style: none; margin: 0; columns: 2; column-gap: 2rem; }
+    .role-callout {
+      margin: 1.6rem 0;
+      padding: 1.2rem 1.4rem;
+      background: rgba(0,184,148,0.06);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+    }
+    .role-callout h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin: 0 0 0.7rem;
+    }
+    .role-callout ul { margin: 0; padding-left: 1.2rem; }
+    .role-callout li { margin-bottom: 0.5rem; line-height: 1.55; font-size: 0.94rem; }
     .toc li { margin-bottom: 0.5rem; font-size: 0.88rem; }
     .toc a { color: var(--text); text-decoration: none; }
     .toc a:hover { color: var(--accent); }
