@@ -1,0 +1,419 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUDIT_QUESTIONS } from '../data/audit-questions';
+import { SKUS } from '../data/skus';
+
+const title = 'The 4M Audit — My4MLife';
+const description = 'Take the 4M Audit. 8 questions, 3 minutes — see your top 3 priorities and the exact starting point.';
+const canonical = 'https://www.my4mlife.com/audit';
+
+const SKU_MAP: Record<string, string> = {
+  gut: 'biome-ns-ultra-sub',
+  sleep: 'sleeprestore-sub',
+  weight: 'mitovita-sub',
+  nutrition: 'comprehensive-consult',
+  'erectile-dysfunction': 'mitovita-sub',
+  environment: 'comprehensive-consult',
+  cognitive: 'neurobridge-sub',
+  hormones: 'comprehensive-consult',
+};
+
+const productCards = Object.fromEntries(
+  Object.entries(SKU_MAP).map(([slug, skuId]) => {
+    const sku = SKUS[skuId];
+    return [slug, { skuId, name: sku?.name ?? skuId, tagline: sku?.tagline ?? '' }];
+  })
+);
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="audit-hero">
+  <div class="container audit-hero-inner">
+    <div class="audit-badge">FREE · 3 MINUTES · NO ACCOUNT REQUIRED</div>
+    <h1>The <em>4M Audit</em></h1>
+    <p class="audit-sub">Begin with the end in mind. Tell us where you are — we'll show you the 3 most-leveraged places to start.</p>
+  </div>
+</section>
+
+<section class="audit-shell">
+  <div class="container">
+
+    <!-- STEP 1 -->
+    <div id="step-1" class="audit-step is-active">
+      <div class="audit-card">
+        <h2>First, where do we send your results?</h2>
+        <p class="audit-card-sub">Three quick fields, then 8 questions.</p>
+        <form id="lead-form" class="lead-form" novalidate>
+          <label class="field">
+            <span class="field-label">First name</span>
+            <input type="text" name="firstName" id="firstName" required autocomplete="given-name" />
+          </label>
+          <label class="field">
+            <span class="field-label">Email</span>
+            <input type="email" name="email" id="email" required autocomplete="email" />
+          </label>
+          <label class="field">
+            <span class="field-label">Phone <span class="optional">(optional)</span></span>
+            <input type="tel" name="phone" id="phone" autocomplete="tel" />
+            <span class="carrot">Optional — we'll text & email you a copy of your results.</span>
+          </label>
+          <div id="lead-error" class="lead-error" hidden></div>
+          <button type="submit" class="btn-primary" id="lead-submit">Start the Audit →</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step-2" class="audit-step">
+      <div class="audit-progress">
+        <span id="progress-label">0 of 8 answered</span>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <ol class="question-list">
+        {AUDIT_QUESTIONS.map((q) => (
+          <li class="question" data-qid={q.solutionSlug}>
+            <div class="q-head">
+              <span class="q-n">{q.n}</span>
+              <h3 class="q-label">{q.label}</h3>
+            </div>
+            <p class="q-prompt">{q.prompt}</p>
+            <div class="likert" role="radiogroup" aria-label={q.label}>
+              {[0, 1, 2, 3, 4, 5].map((v) => (
+                <label class="likert-opt">
+                  <input type="radio" name={`q-${q.solutionSlug}`} value={v} data-slug={q.solutionSlug} />
+                  <span>{v}</span>
+                </label>
+              ))}
+            </div>
+            <details class="score-guide">
+              <summary>Scoring guide</summary>
+              <p>{q.scoreGuide}</p>
+              <p class="cat-note">{q.categoryNote}</p>
+            </details>
+          </li>
+        ))}
+      </ol>
+      <button type="button" class="btn-primary" id="survey-submit" disabled>See My Top 3 →</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step-3" class="audit-step">
+      <div class="results-head">
+        <h2>Your top 3 priorities</h2>
+        <p class="results-sub">Start here. Every category compounds — but these three move the needle most for you right now.</p>
+      </div>
+      <div id="top3-cards" class="top3-grid"></div>
+      <details class="all-results">
+        <summary>See all 8 results</summary>
+        <ol id="all-results-list" class="all-list"></ol>
+      </details>
+    </div>
+
+  </div>
+</section>
+
+<script is:inline define:vars={{
+  productCards,
+  questions: AUDIT_QUESTIONS,
+  LEAD_URL: import.meta.env.PUBLIC_LEAD_CAPTURE_URL || '/api/lead-capture',
+  COMPLETE_URL: import.meta.env.PUBLIC_AUDIT_COMPLETE_URL || '/api/audit-complete',
+}}>
+
+  function uuid() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    return 'local-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.audit-step').forEach((el) => el.classList.remove('is-active'));
+    document.getElementById('step-' + n).classList.add('is-active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const leadForm = document.getElementById('lead-form');
+  const leadError = document.getElementById('lead-error');
+  leadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    leadError.hidden = true;
+    const firstName = document.getElementById('firstName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if (!firstName || !email || !/^\S+@\S+\.\S+$/.test(email)) {
+      leadError.textContent = 'Please enter your first name and a valid email.';
+      leadError.hidden = false;
+      return;
+    }
+    sessionStorage.setItem('audit.firstName', firstName);
+    sessionStorage.setItem('audit.email', email);
+    if (phone) sessionStorage.setItem('audit.phone', phone);
+    let contactId = null;
+    try {
+      const r = await fetch(LEAD_URL, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ firstName, email, phone: phone || undefined }),
+      });
+      if (r.ok) {
+        const data = await r.json();
+        contactId = data.contactId;
+      }
+    } catch (_) { /* fall through to local */ }
+    if (!contactId) contactId = uuid();
+    sessionStorage.setItem('audit.contactId', contactId);
+    showStep(2);
+  });
+
+  const total = questions.length;
+  const answers = {};
+  const surveySubmit = document.getElementById('survey-submit');
+  const progressLabel = document.getElementById('progress-label');
+  const progressFill = document.getElementById('progress-fill');
+
+  document.querySelectorAll('input[type=radio][data-slug]').forEach((input) => {
+    input.addEventListener('change', (e) => {
+      const t = e.target;
+      answers[t.dataset.slug] = parseInt(t.value, 10);
+      const n = Object.keys(answers).length;
+      progressLabel.textContent = `${n} of ${total} answered`;
+      progressFill.style.width = `${(n / total) * 100}%`;
+      surveySubmit.disabled = n < total;
+    });
+  });
+
+  // Inline scoring (mirrors ~/lib/survey-scoring.ts to avoid client import of TS module)
+  const BONUS_MAP = { gut: 2, weight: 1, hormones: 1 };
+  function scoreToTop3(raw) {
+    const entries = Object.entries(raw).map(([id, r]) => ({
+      id,
+      raw: r,
+      bonus: BONUS_MAP[id] || 0,
+      total: r + (BONUS_MAP[id] || 0),
+    }));
+    entries.sort((a, b) => b.total - a.total || b.bonus - a.bonus || a.id.localeCompare(b.id));
+    return entries;
+  }
+
+  surveySubmit.addEventListener('click', () => {
+    const raw = {};
+    for (const q of questions) {
+      raw[q.solutionSlug] = (answers[q.solutionSlug] || 0) * 2;
+    }
+    const ranked = scoreToTop3(raw);
+    const top3 = ranked.slice(0, 3).map((r) => r.id);
+    const contactId = sessionStorage.getItem('audit.contactId');
+
+    const cards = document.getElementById('top3-cards');
+    cards.innerHTML = '';
+    for (const slug of top3) {
+      const card = productCards[slug];
+      const q = questions.find((x) => x.solutionSlug === slug);
+      const href = `/cart?sku=${encodeURIComponent(card.skuId)}&contactId=${encodeURIComponent(contactId)}`;
+      const el = document.createElement('div');
+      el.className = 'top3-card';
+      el.innerHTML = `
+        <div class="top3-cat">${q.label}</div>
+        <h3>${card.name}</h3>
+        <p class="top3-tag">${card.tagline}</p>
+        <div class="top3-why"><strong>Why this is in your top 3:</strong> ${q.categoryNote}</div>
+        <a class="btn-primary" href="${href}">Order ${card.name.split(' — ')[0]} →</a>
+      `;
+      cards.appendChild(el);
+    }
+
+    const list = document.getElementById('all-results-list');
+    list.innerHTML = '';
+    for (const r of ranked) {
+      const q = questions.find((x) => x.solutionSlug === r.id);
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="al-label">${q.label}</span><span class="al-score">${r.total}/12</span>`;
+      list.appendChild(li);
+    }
+
+    fetch(COMPLETE_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ contactId, scores: raw, top3 }),
+    }).catch(() => {});
+
+    showStep(3);
+  });
+</script>
+
+<style>
+  .audit-hero {
+    background: linear-gradient(180deg, #fff 0%, #f7f5f0 100%);
+    padding: 4rem 0 2rem;
+    text-align: center;
+  }
+  .audit-hero-inner { max-width: 760px; margin: 0 auto; }
+  .audit-badge {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--accent, #b8722e);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .audit-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    margin: 0 0 1rem;
+    font-weight: 500;
+  }
+  .audit-hero h1 em { color: var(--accent, #b8722e); font-style: italic; }
+  .audit-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    color: #4a4a4a;
+    line-height: 1.5;
+  }
+  .audit-shell { padding: 2rem 0 5rem; font-family: 'Inter', sans-serif; }
+  .audit-step { display: none; }
+  .audit-step.is-active { display: block; }
+  .audit-card {
+    background: #fff;
+    border: 1px solid #e8e2d6;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 560px;
+    margin: 0 auto;
+    box-shadow: 0 2px 18px rgba(0,0,0,0.04);
+  }
+  .audit-card h2 {
+    font-family: 'Playfair Display', serif;
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+  }
+  .audit-card-sub { color: #6b6b6b; margin: 0 0 1.5rem; }
+  .lead-form { display: flex; flex-direction: column; gap: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field-label { font-size: 0.875rem; font-weight: 600; color: #333; }
+  .optional { font-weight: 400; color: #999; }
+  .field input {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #d4cdbf;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+  }
+  .field input:focus { outline: none; border-color: var(--accent, #b8722e); }
+  .carrot { font-size: 0.8rem; color: #777; }
+  .lead-error { background: #fdecec; color: #a02020; padding: 0.6rem 0.8rem; border-radius: 6px; font-size: 0.9rem; }
+  .btn-primary {
+    background: var(--accent, #b8722e);
+    color: #fff;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-family: inherit;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .audit-progress {
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(6px);
+    padding: 0.75rem 0;
+    z-index: 10;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    color: #555;
+  }
+  .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-top: 0.4rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent, #b8722e); width: 0; transition: width 0.25s ease; }
+
+  .question-list { list-style: none; padding: 0; margin: 0; max-width: 720px; margin: 0 auto; }
+  .question {
+    background: #fff;
+    border: 1px solid #e8e2d6;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .q-head { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .q-n { font-family: 'Playfair Display', serif; color: var(--accent, #b8722e); font-size: 1.25rem; }
+  .q-label { font-family: 'Playfair Display', serif; margin: 0; font-size: 1.25rem; font-weight: 500; }
+  .q-prompt { color: #333; margin: 0 0 1rem; line-height: 1.5; }
+  .likert { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .likert-opt { flex: 1; min-width: 48px; }
+  .likert-opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .likert-opt span {
+    display: block;
+    text-align: center;
+    padding: 0.6rem 0;
+    border: 1px solid #d4cdbf;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.15s;
+  }
+  .likert-opt input:checked + span {
+    background: var(--accent, #b8722e);
+    color: #fff;
+    border-color: var(--accent, #b8722e);
+  }
+  .score-guide { font-size: 0.875rem; color: #666; }
+  .score-guide summary { cursor: pointer; color: var(--accent, #b8722e); font-weight: 500; }
+  .score-guide p { margin: 0.5rem 0; }
+  .cat-note { font-style: italic; }
+
+  #survey-submit { display: block; margin: 2rem auto 0; min-width: 220px; }
+
+  .results-head { text-align: center; max-width: 640px; margin: 0 auto 2rem; }
+  .results-head h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin: 0 0 0.5rem; }
+  .results-sub { color: #555; }
+  .top3-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+  }
+  .top3-card {
+    background: #fff;
+    border: 1px solid #e8e2d6;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .top3-cat {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--accent, #b8722e);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .top3-card h3 { font-family: 'Playfair Display', serif; margin: 0; font-size: 1.25rem; }
+  .top3-tag { color: #555; font-size: 0.9rem; margin: 0; }
+  .top3-why { font-size: 0.875rem; color: #444; background: #faf7f1; padding: 0.75rem; border-radius: 6px; }
+  .top3-card .btn-primary { margin-top: auto; }
+
+  .all-results { max-width: 640px; margin: 0 auto; }
+  .all-results summary { cursor: pointer; color: var(--accent, #b8722e); font-weight: 500; }
+  .all-list { list-style: none; padding: 0; margin: 1rem 0 0; }
+  .all-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  .al-score { color: #777; font-variant-numeric: tabular-nums; }
+</style>
+
+</BaseLayout>
+</content>
+</invoke>
