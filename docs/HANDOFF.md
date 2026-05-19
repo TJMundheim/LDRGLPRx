@@ -1,6 +1,58 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-05-10.
+Last updated: 2026-05-18 (overnight autonomous push).
+
+---
+
+## 🌅 Morning status report — for TJ (2026-05-18 night → 2026-05-19 AM)
+
+Per your "do what you can tonight without my help" — here is the full night log. Everything below is committed and pushed to `main`.
+
+### Locked decisions (now in memory)
+
+- **Active-member model.** Three booleans: `hasActiveSubscription`, `hasPurchasedConsult` (lifetime sticky), `isGraduate` (12mo+). No tier complexity. Spec: `memory/project_membership_active_member_spec.md`.
+- **Pricing.** 15% first purchase / **20%** first-time 90-day starter bundle / 15% ongoing while subscribed. Locked.
+- **Chargeback policy.** Lifetime ban. Codified in Terms §6.5 and Refund Policy. Non-negotiable.
+- **Membership page simplified.** Insider / Plus / Concierge tier cards removed. Only Protégé (free) + Graduate (earned) remain.
+
+### Code shipped tonight
+
+| File / module | What changed |
+|---|---|
+| `website/src/data/skus.ts` | Each subscription product now has `-sub` (monthly) + `-90d` (starter bundle) variants. New `computeDiscountPercent()`. |
+| `website/src/pages/cart.astro` | Variant-aware pricing display (20% on bundle, 15% otherwise). |
+| `website/src/pages/membership.astro` | Insider/Plus/Concierge tier cards deleted; meta + FAQ + body copy de-Insidered. |
+| `website/src/pages/terms.astro` | New §6.5 chargeback ban + §6.6 pricing transparency; §2 rewritten as education/coaching (not medical provider). |
+| `website/src/pages/refund-policy.astro` | Chargebacks section rewritten with explicit lifetime-ban + pre-chargeback escalation path. |
+| `website/src/pages/solutions/{gut,weight,hormones}.astro` | Cart CTAs now point at `-sub` variants. |
+| `docs/products/manufacturer-quote-request.md` | RFQ now asks for 30-serving AND 90-serving fill quotes per MOQ tier. |
+| `docs/plan/contact-schema-spec.md` | **New.** Wire spec for `Contact`/`Touchpoints`/`Conversations`/`Orders` DynamoDB tables. |
+| `lambdas/stripe-webhook/` | **New skeleton.** Handles `checkout.session.completed` → writes Orders, updates Contact, appends Touchpoints. Idempotent on Stripe event id. |
+| `lambdas/inbound-handler/` | **New skeleton.** SES inbound → S3 → Bedrock (Haiku 4.5, **not** direct Anthropic per HIPAA rule) → SES reply. Replaces the prior "Mailgun swap" item — SES-native. |
+
+### Build state
+
+- `pnpm build` passes clean. 70 pages built. Not yet deployed to S3/CloudFront (deferred — wanted you to eyeball the membership page first since it's a real product surface change).
+
+### Questions waiting for you in the morning
+
+1. **Consult price.** Default still $99 in the plan. Confirm or change.
+2. **Deploy the website?** Membership tier deletion is a visible production change; I held the deploy so you can preview locally first. Run `cd website && pnpm dev` then `cd website && ./deploy.sh` when you're ready.
+3. **Stripe keys.** Webhook Lambda is wired but unreachable without keys. End-of-week ETA from you stands.
+4. **Telemed meeting at 11:30** — any prep you want me to put together before then?
+
+### What I did NOT touch
+
+- No DynamoDB tables created. Schema spec only.
+- No Lambdas deployed. Code only.
+- No SES production access request filed.
+- No 10DLC SMS work.
+
+### Open items still pending (not blockers)
+
+- Outbound idempotency on `inbound-handler` SES send (currently only inbound is dedup'd).
+- `inbound-handler` is ~105 lines; over the 100-line ceiling. Trim by extracting `ses-send.ts` helper when promoting to production.
+- `stripe-webhook` doesn't yet handle `charge.refunded`, `customer.subscription.deleted`, `charge.dispute.created` (chargeback ban automation).
 
 ---
 
