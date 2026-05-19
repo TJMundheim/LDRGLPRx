@@ -543,8 +543,9 @@ function selectTop3(scores: AuditScores): Array<{ label: string; score: number }
 }
 
 function auditBand200(total: number): { label: string; color: string; bg: string } {
-  if (total <= 60) return { label: 'Low', color: '#1D9E75', bg: 'rgba(29,158,117,.08)' };
-  if (total <= 120) return { label: 'Moderate', color: '#D4920A', bg: 'rgba(212,146,10,.08)' };
+  // 8 categories × 10 max = 80. Bands at 30% / 60% of max.
+  if (total <= 24) return { label: 'Low', color: '#1D9E75', bg: 'rgba(29,158,117,.08)' };
+  if (total <= 48) return { label: 'Moderate', color: '#D4920A', bg: 'rgba(212,146,10,.08)' };
   return { label: 'Elevated', color: '#E05C2A', bg: 'rgba(224,92,42,.08)' };
 }
 
@@ -569,7 +570,7 @@ function renderAuditSummaryCard(): string {
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
         <div class="card-title" style="color:${band.color}">Your Risk Factor Audit</div>
-        <div style="font-size:11px;color:#6A8A6E">20-category intake assessment</div>
+        <div style="font-size:11px;color:#6A8A6E">8-category intake assessment</div>
       </div>
       <div style="text-align:right">
         <div style="font-size:42px;font-weight:800;color:${band.color};line-height:1">${total}</div>
@@ -674,7 +675,7 @@ function renderDash(W: Workbook): string {
             : auditTotal200 <= 120 ? 'Multiple factors working against you. Targeted action yields rapid results.'
               : 'This program was built for you. Major gains are available very quickly.'}
         </div>
-        <div style="font-size:11px;color:#6A8A6E;margin-top:4px">${auditCategoryCount} of 20 categories scored</div>
+        <div style="font-size:11px;color:#6A8A6E;margin-top:4px">${auditCategoryCount} of 8 categories scored</div>
       </div>
       <div style="font-size:52px;font-weight:700;color:${auditBand.color};line-height:1">${auditTotal200}</div>
     </div>
@@ -795,7 +796,7 @@ function renderW1(ctx: RenderContext): string {
   <div class="card">
     ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Review your audit results. Gut first — what you remove matters more than what you add.')}
     <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
-      Your 20-category Risk Factor Audit was completed during intake. Review your scores on the dashboard.
+      Your 8-category Risk Factor Audit was completed during intake. Review your scores on the dashboard.
     </div>
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Audit →</button>
     <div>
@@ -1434,7 +1435,7 @@ function renderW4(W: Workbook): string {
 
   <!-- MITIGATE W4 RE-AUDIT -->
   <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — 20-Category Risk Audit</div>
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — 8-Category Risk Audit</div>
     <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
       Score every category again using the 0–10 scale from your Week 1 intake.
       Compare your final audit score to your baseline to see how far you moved in 30 days.
@@ -1834,7 +1835,7 @@ function renderAuditReview(): string {
   }).join('');
 
   return `<div class="page-title" style="color:${band.color}">Risk Factor Audit</div>
-  <div class="page-sub">Your 20-category intake assessment</div>
+  <div class="page-sub">Your 8-category intake assessment</div>
   ${backBtn}
   <div class="card" style="background:${band.bg};border-color:${band.color}55;margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center">
