@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 
 const title = "Membership — From Any Purchase to Graduate Status | My4MLife";
-const description = "Any My4MLife purchase activates Protégé tier and unlocks the full 4M App. Compare Protégé, Insider, Insider Plus, Insider Concierge, and earned Graduate status — coaching, member pricing, and the path to permanent benefits.";
+const description = "Any My4MLife subscription or consult purchase activates Protégé tier — full 4M App access, 15% subscriber discount, weekly group Zooms. After 12 continuous months of active subscription, members earn permanent Graduate status.";
 const canonical = "https://www.my4mlife.com/membership";
-const keywords = "My4MLife membership, 4M app, Protégé, Insider, Insider Plus, Insider Concierge, Graduate status, member pricing, Dr. TJ Mundheim, cognitive longevity, men's health membership, 4M framework";
+const keywords = "My4MLife membership, 4M app, Protégé, Graduate status, member pricing, subscription, weekly Zoom, Dr. TJ Mundheim, cognitive longevity, men's health membership, 4M framework";
 const ogImage = "https://www.my4mlife.com/og-image.svg";
 
 const schema = {
@@ -26,12 +26,12 @@ const schema = {
           "acceptedAnswer": { "@type": "Answer", "text": "Any My4MLife purchase — even the smallest SKU — flips your account to Protégé tier and unlocks the full app. There is no separate app subscription." } },
         { "@type": "Question", "name": "Do I have to keep paying to use the app?",
           "acceptedAnswer": { "@type": "Answer", "text": "No. Once you've made a purchase, the app stays unlocked as long as you remain an active member. The only no-cost touchpoint before purchase is the free audit at /assessment." } },
-        { "@type": "Question", "name": "What's included in Insider that's not in Protégé?",
+        { "@type": "Question", "name": "How do I become a Protégé?",
           "acceptedAnswer": { "@type": "Answer", "text": "Weekly group Zoom with Dr. TJ, deeper protocol content, group coaching access, and roughly 10% member pricing on all OTC supplements." } },
         { "@type": "Question", "name": "How do I become a Graduate?",
-          "acceptedAnswer": { "@type": "Answer", "text": "12+ months of continuous Insider-tier participation plus completion of 4M program milestones. Graduates earn permanent member benefits and lifetime member pricing." } },
-        { "@type": "Question", "name": "When is Insider pricing announced?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Pricing for Insider, Insider Plus, and Insider Concierge is finalizing. Subscribe to be notified and we'll honor the early-member rate at launch." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "Subscribe to any My4MLife product on monthly autoship, or purchase a Comprehensive 4M Consult. Either activates your Protégé status — the app turns on, the 15% subscriber discount applies, and you have a seat in the weekly group Zoom." } },
+        { "@type": "Question", "name": "What does it take to earn Graduate?",
+          "acceptedAnswer": { "@type": "Answer", "text": "12 continuous months of any active My4MLife subscription. The clock resets if you cancel and don't resubscribe within the same month. Once earned, Graduate status is permanent — your app access and member-pricing benefit stay active even if you later cancel." } },
         { "@type": "Question", "name": "Can I cancel a paid tier?",
           "acceptedAnswer": { "@type": "Answer", "text": "Yes, for any paid tier at any time. Cancellation returns you to Protégé app access at the next billing date — as long as you've ever made a purchase, the app stays with you." } }
       ]
@@ -70,8 +70,8 @@ const schema = {
   <div class="container">
     <div class="section-header fade-in">
       <span class="section-tag">Five Tiers</span>
-      <h2>Buy once. Upgrade when the work compounds.</h2>
-      <p>Protégé is the default after any purchase. Insider tiers add coaching, deeper content, and member pricing. Graduate is earned.</p>
+      <h2>Subscribe to anything. Get the app, the discount, and the Zoom — for as long as you stay subscribed.</h2>
+      <p>Protégé is the active-member tier. Subscribe to any product or buy a consult and the app turns on, the 15% subscriber discount kicks in, and you have a seat in the weekly group Zoom with Dr. TJ. Stay subscribed 12 continuous months and you earn Graduate — permanent.</p>
     </div>
     <div class="mem-tiers-grid fade-in">
 
@@ -93,85 +93,20 @@ const schema = {
         <a href="/shop" class="btn btn-primary mem-cta">Browse Products to Unlock <i class="fas fa-arrow-right"></i></a>
       </div>
 
-      <!-- Insider -->
-      <div class="mem-card">
-        <div class="mem-card-badge-top mem-badge-paid">PAID UPGRADE</div>
-        <div class="mem-card-label">Tier 1</div>
-        <h3 class="mem-card-title">Insider</h3>
-        <div class="mem-card-positioning">Group coaching, deeper protocol content, ~10% off all OTC supplements.</div>
-        <div class="mem-card-price mem-price-pending">$X / month<br/><span>Pricing announced — date TBD</span></div>
-        <ul class="mem-card-list">
-          <li>Everything in Protégé — full app access stays on</li>
-          <li>Weekly group Zoom with Dr. TJ — live protocol Q&amp;A</li>
-          <li>Group coaching access — accountability circle</li>
-          <li>~10% member pricing on all OTC supplements (white-label)</li>
-          <li>Deeper protocol content — Month 5+ advanced modules</li>
-          <li>Session recordings — never miss a call</li>
-        </ul>
-        <div class="mem-notify">
-          <p class="mem-notify-label">Notify me when Insider opens</p>
-          <EmailCapture source="membership-insider-notify" buttonLabel="Notify Me" />
-        </div>
-      </div>
-
-      <!-- Insider Plus -->
-      <div class="mem-card mem-card-plus">
-        <div class="mem-card-badge-top mem-badge-paid">PAID UPGRADE</div>
-        <div class="mem-card-label">Tier 2</div>
-        <h3 class="mem-card-title">Insider Plus</h3>
-        <div class="mem-card-positioning">Everything in Insider + monthly 1:1 coaching + premium content + ~15% member pricing.</div>
-        <div class="mem-card-price mem-price-pending">$X / month<br/><span>Pricing announced — date TBD</span></div>
-        <ul class="mem-card-list">
-          <li>Everything in Insider</li>
-          <li>Monthly 1:1 coaching call</li>
-          <li>Premium protocol content + bonus drops</li>
-          <li>~15% member pricing on all OTC supplements</li>
-          <li>Tighter cohort, more direct Q&amp;A access</li>
-          <li>Priority on group session questions</li>
-        </ul>
-        <div class="mem-notify">
-          <p class="mem-notify-label">Notify me when Insider Plus opens</p>
-          <EmailCapture source="membership-plus-notify" buttonLabel="Notify Me" />
-        </div>
-      </div>
-
-      <!-- Insider Concierge -->
-      <div class="mem-card mem-card-concierge">
-        <div class="mem-card-badge top-badge">Top Tier</div>
-        <div class="mem-card-badge-top mem-badge-paid">PAID · LIMITED</div>
-        <div class="mem-card-label">Tier 3</div>
-        <h3 class="mem-card-title">Insider Concierge</h3>
-        <div class="mem-card-positioning">Bi-weekly 1:1 with Dr. TJ, bespoke protocol design, ~20% member pricing, first access to new products.</div>
-        <div class="mem-card-price mem-price-pending">$X / month<br/><span>Pricing announced — date TBD</span></div>
-        <ul class="mem-card-list">
-          <li>Everything in Insider Plus</li>
-          <li>Bi-weekly 1:1 calls with Dr. TJ</li>
-          <li>Bespoke protocol customization — built on your audit + labs</li>
-          <li>~20% member pricing on all OTC supplements</li>
-          <li>First access to new My4MLife products and services</li>
-          <li>Direct messaging access between sessions</li>
-          <li>Priority consult booking</li>
-        </ul>
-        <div class="mem-notify">
-          <p class="mem-notify-label">Notify me when Concierge opens</p>
-          <EmailCapture source="membership-concierge-notify" buttonLabel="Notify Me" />
-        </div>
-      </div>
-
       <!-- Graduate -->
       <div class="mem-card mem-card-graduate">
         <div class="mem-card-badge-top mem-badge-earned">EARNED — NOT PURCHASABLE</div>
         <div class="mem-card-label">Earned Status</div>
         <h3 class="mem-card-title">Graduate</h3>
-        <div class="mem-card-positioning">Earned through 12+ months of active Insider-tier participation plus 4M program milestones. Permanent.</div>
-        <div class="mem-card-price mem-price-earned">Lifetime member pricing<br/><span>Permanent benefits, no recurring fee</span></div>
+        <div class="mem-card-positioning">Earned through 12+ continuous months of active subscription. Permanent — once earned, the status (and the app + member pricing) stay with you for life.</div>
+        <div class="mem-card-price mem-price-earned">Lifetime member benefits<br/><span>Permanent — no recurring fee</span></div>
         <ul class="mem-card-list">
-          <li>12+ months continuous Insider-tier participation</li>
-          <li>4M program milestone completion</li>
-          <li>Permanent member benefits — once earned, never lost</li>
-          <li>Lifetime member pricing on future My4MLife products</li>
-          <li>First look at new program vehicles and offers</li>
+          <li>12+ continuous months of any active My4MLife subscription</li>
+          <li>Permanent app access — even if you later cancel</li>
+          <li>Lifetime member-pricing benefit (15% off future orders, forever)</li>
+          <li>First look at new My4MLife products and services</li>
           <li>Phase 2 sharing program — priority access at launch</li>
+          <li>Additional perks announced as the program matures</li>
         </ul>
         <a href="#faq" class="btn btn-outline-golden mem-cta">How to earn it <i class="fas fa-chevron-down"></i></a>
       </div>
@@ -228,21 +163,21 @@ const schema = {
   <div class="container">
     <div class="section-header fade-in">
       <span class="section-tag">Why Upgrade</span>
-      <h2>Insider is where the work compounds.</h2>
-      <p>Protégé gives you the framework. Insider tiers give you coaching, direct access, and member pricing that pays back across every product you buy.</p>
+      <h2>What Protégé membership actually delivers.</h2>
+      <p>The app is the protocol. The weekly Zoom is the mission delivery. The 15% subscriber discount compounds across every order. Three real benefits, one membership.</p>
     </div>
     <div class="upgrade-grid fade-in">
       <div class="upgrade-card">
         <h3>Weekly group Zoom with Dr. TJ</h3>
-        <p>Live protocol Q&amp;A. Real questions, real answers, recorded for members who can't attend live. Available at Insider and above.</p>
+        <p>Live protocol Q&amp;A with Dr. TJ. Real questions, real answers, recorded for members who can't attend live. Available to every Protégé.</p>
       </div>
       <div class="upgrade-card">
         <h3>Member pricing on supplements</h3>
-        <p>~10% Insider · ~15% Insider Plus · ~20% Insider Concierge. Applies to all OTC My4MLife white-label products. Affiliate products are not discounted.</p>
+        <p>15% off every My4MLife OTC product, every order, for as long as your subscription stays active. Applies to all OTC My4MLife white-label products. Affiliate products are not discounted.</p>
       </div>
       <div class="upgrade-card">
         <h3>1:1 coaching access</h3>
-        <p>Insider Plus adds a monthly 1:1 call. Insider Concierge adds bi-weekly 1:1 calls with Dr. TJ plus direct messaging between sessions.</p>
+        <p>Members on premium-tier subscriptions (when available) get 1:1 coaching access. Default Protégé membership includes group Zoom access only — 1:1 access is a future expansion when there's capacity.</p>
       </div>
       <div class="upgrade-card">
         <h3>Bespoke protocol design</h3>
@@ -258,7 +193,7 @@ const schema = {
     <div class="graduate-content fade-in">
       <span class="section-tag" style="color:#D4A851;">The End State</span>
       <h2 style="color:white;">Graduate is earned — and permanent.</h2>
-      <p style="color:rgba(255,255,255,0.85); font-size:1.1rem; max-width:680px; margin:0 auto 2.5rem;">After 12+ months of active Insider-tier participation and completion of 4M program milestones, you earn Graduate status. Lifetime member pricing on future products. Permanent designation. The only status in this program that cannot be purchased.</p>
+      <p style="color:rgba(255,255,255,0.85); font-size:1.1rem; max-width:680px; margin:0 auto 2.5rem;">After 12+ continuous months of any active My4MLife subscription, you earn Graduate status. Permanent app access (even if you later cancel), lifetime 15% member-pricing benefit, first access to new products. The only status in this program that cannot be purchased — only earned.</p>
       <a href="#faq" class="btn btn-outline-golden btn-large">Graduate criteria <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
@@ -300,7 +235,7 @@ const schema = {
 
       <details class="faq-item">
         <summary>How do I become a Graduate?</summary>
-        <p>12+ months of continuous Insider-tier participation plus completion of specific 4M program milestones (criteria formalize as the cohort matures). Graduate status is earned — it cannot be purchased — and it does not expire.</p>
+        <p>12+ months of continuous subscription participation plus completion of specific 4M program milestones (criteria formalize as the cohort matures). Graduate status is earned — it cannot be purchased — and it does not expire.</p>
       </details>
 
       <details class="faq-item">
