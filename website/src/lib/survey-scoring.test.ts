@@ -7,8 +7,10 @@ const zeroes = (): Record<string, number> =>
   Object.fromEntries(CATS.map((c) => [c, 0]));
 
 describe('BONUS_MAP', () => {
-  it('exposes gut=2 only', () => {
-    expect(BONUS_MAP).toEqual({ gut: 2 });
+  it('matches the 2026-05-19 escalation: gut/sleep/weight +2, ED/hormones +1', () => {
+    expect(BONUS_MAP).toEqual({
+      gut: 2, sleep: 2, weight: 2, 'erectile-dysfunction': 1, hormones: 1,
+    });
   });
 });
 
@@ -30,35 +32,36 @@ describe('scoreToTop3', () => {
     expect(scoreToTop3(s)).toEqual(['sleep', 'cognitive', 'nutrition']);
   });
 
-  it('applies gut +2 bonus before ranking', () => {
+  it('applies gut +2 / sleep +2 / weight +2 bonuses before ranking', () => {
     const s = zeroes();
-    s.gut = 6;
-    s.sleep = 7;
-    s.cognitive = 5;
-    s.nutrition = 4;
-    expect(scoreToTop3(s)).toEqual(['gut', 'sleep', 'cognitive']);
+    s.gut = 5;       // 5 + 2 = 7
+    s.sleep = 4;     // 4 + 2 = 6
+    s.weight = 4;    // 4 + 2 = 6
+    s.cognitive = 6; // 6 + 0 = 6
+    expect(scoreToTop3(s)[0]).toBe('gut');
   });
 
-  it('weight and hormones get no bonus — pure raw score ranking', () => {
+  it('applies ED +1 / hormones +1', () => {
     const s = zeroes();
-    s.weight = 6;
-    s.hormones = 6;
-    s.sleep = 7;
-    s.cognitive = 5;
-    expect(scoreToTop3(s)[0]).toBe('sleep');
+    s['erectile-dysfunction'] = 6; // 6 + 1 = 7
+    s.hormones = 6;                // 6 + 1 = 7
+    s.cognitive = 7;               // 7 + 0 = 7 (ties; tier-2 bonuses win bonus tiebreak)
+    s.nutrition = 5;
+    const top3 = scoreToTop3(s);
+    expect(top3.slice(0, 2).sort()).toEqual(['erectile-dysfunction', 'hormones']);
+    expect(top3[2]).toBe('cognitive');
   });
 
-  it('gut still wins ties via its +2 bonus', () => {
+  it('tiebreak by bonus desc: gut(+2) > ED(+1) > cognitive(+0) at equal totals', () => {
     const s = zeroes();
-    s.gut = 5;
-    s.weight = 7;
-    s.sleep = 6;
-    expect(scoreToTop3(s)).toEqual(['gut', 'weight', 'sleep']);
+    s.gut = 5;                     // 5+2 = 7
+    s['erectile-dysfunction'] = 6; // 6+1 = 7
+    s.cognitive = 7;               // 7+0 = 7
+    expect(scoreToTop3(s)).toEqual(['gut', 'erectile-dysfunction', 'cognitive']);
   });
 
-  it('deterministic alphabetic tie-break when raw+bonus equal', () => {
+  it('deterministic alphabetic tie-break when raw+bonus and bonus both equal', () => {
     const s = zeroes();
-    s.sleep = 5;
     s.cognitive = 5;
     s.nutrition = 5;
     s.environment = 5;
@@ -67,15 +70,15 @@ describe('scoreToTop3', () => {
 
   it('realistic full 8-category input', () => {
     const s: Record<string, number> = {
-      gut: 4,
-      sleep: 9,
-      weight: 6,
-      nutrition: 3,
-      'erectile-dysfunction': 2,
-      environment: 5,
-      cognitive: 7,
-      hormones: 8,
+      gut: 4,                  // 4+2 = 6
+      sleep: 9,                // 9+2 = 11
+      weight: 6,               // 6+2 = 8
+      nutrition: 3,            // 3+0 = 3
+      'erectile-dysfunction': 2, // 2+1 = 3
+      environment: 5,          // 5+0 = 5
+      cognitive: 7,            // 7+0 = 7
+      hormones: 8,             // 8+1 = 9
     };
-    expect(scoreToTop3(s)).toEqual(['sleep', 'hormones', 'cognitive']);
+    expect(scoreToTop3(s)).toEqual(['sleep', 'hormones', 'weight']);
   });
 });

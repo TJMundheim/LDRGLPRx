@@ -215,7 +215,7 @@ for (const slug of Object.keys(SOLUTIONS)) {
   });
 
   // Inline scoring (mirrors ~/lib/survey-scoring.ts)
-  const BONUS_MAP = { gut: 2 };
+  const BONUS_MAP = { gut: 2, sleep: 2, weight: 2, 'erectile-dysfunction': 1, hormones: 1 };
   function rankAll(raw) {
     const entries = Object.entries(raw).map(([id, r]) => ({
       id,
@@ -288,18 +288,18 @@ for (const slug of Object.keys(SOLUTIONS)) {
     const firstName = sessionStorage.getItem('audit.firstName') || '';
     const email = sessionStorage.getItem('audit.email') || '';
     const phone = sessionStorage.getItem('audit.phone') || '';
+    const ranked = rankAll(raw);
+    const fields = { firstName, email, phone, contactId };
+    ranked.forEach((r, i) => {
+      const q = questions.find((x) => x.solutionSlug === r.id);
+      const label = q ? q.label : r.id;
+      const bonusTag = r.bonus > 0 ? ` (+${r.bonus} bonus)` : '';
+      fields[`#${i + 1} ${label}`] = `${r.total}/12${bonusTag} (raw ${r.raw}/10)`;
+    });
     fetch(FORM_URL, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        kind: 'form',
-        formId: 'audit-complete',
-        fields: {
-          firstName, email, phone, contactId,
-          top3: top3.join(', '),
-          'all-scores': Object.entries(raw).map(([k, v]) => `${k}: ${v}/10`).join(' · '),
-        },
-      }),
+      body: JSON.stringify({ kind: 'form', formId: 'audit-complete', fields }),
     }).catch(() => {});
 
     showStep(3);

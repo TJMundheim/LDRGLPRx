@@ -37,9 +37,21 @@ export function ingestAuditHandoff(): void {
       localStorage.setItem('audit-v1', JSON.stringify({ scores }));
       localStorage.setItem('intake-complete-v1', '1');
     }
-    if (payload.firstName) localStorage.setItem('user-firstName-v1', String(payload.firstName));
-    if (payload.email) localStorage.setItem('user-email-v1', String(payload.email));
-    if (payload.phone) localStorage.setItem('user-phone-v1', String(payload.phone));
+    // Seed basics-v1 with whatever we know so the dashboard greeting and any
+    // basics-aware UI can render immediately. Stage1Basics will fill the rest.
+    if (payload.firstName || payload.phone || payload.email) {
+      const existingRaw = localStorage.getItem('basics-v1');
+      const existing = existingRaw ? (() => { try { return JSON.parse(existingRaw); } catch { return {}; } })() : {};
+      const merged = {
+        ...existing,
+        name: existing.name || String(payload.firstName ?? '').trim(),
+        phone: existing.phone || String(payload.phone ?? '').trim(),
+        email: existing.email || String(payload.email ?? '').trim(),
+        savedAt: new Date().toISOString(),
+      };
+      localStorage.setItem('basics-v1', JSON.stringify(merged));
+    }
+    console.debug('[audit-handoff] ingested', { scoreKeys: Object.keys(scores), hasName: !!payload.firstName });
   } catch (e) {
     console.warn('[audit-handoff] failed to parse hash payload', e);
   } finally {

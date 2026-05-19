@@ -507,23 +507,39 @@ function loadAuditScores(): AuditScores | null {
   } catch (e) { if (DEBUG) console.debug('[4M] loadAuditScores error:', e); return null; }
 }
 
+// Escalation bonuses applied before ranking — mirrors website BONUS_MAP.
+// Keep in sync with website/src/lib/survey-scoring.ts.
+const AUDIT_BONUS_BY_ID: Record<string, number> = {
+  'gut-microbiome': 2,
+  'sleep': 2,
+  'weight-body-fat': 2,
+  'erectile-dysfunction': 1,
+  'hormone-balance': 1,
+};
+
 function selectTop3(scores: AuditScores): Array<{ label: string; score: number }> {
   const candidates = AUDIT_CATEGORIES
-    .map(cat => ({ label: cat.label, score: scores[cat.id] ?? 0, priorityTier: cat.priorityTier, id: cat.id }))
-    .filter(x => x.score > 0);
+    .map(cat => ({
+      label: cat.label,
+      id: cat.id,
+      raw: scores[cat.id] ?? 0,
+      bonus: AUDIT_BONUS_BY_ID[cat.id] ?? 0,
+      priorityTier: cat.priorityTier,
+    }))
+    .filter(x => x.raw > 0)
+    .map(x => ({ ...x, total: x.raw + x.bonus }));
 
   if (candidates.length === 0) return [];
 
-  // Sort descending by score; stable: priority-tier items come first within same score
   const sorted = [...candidates].sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
-    // Tie-breaker: priority-tier wins
+    if (b.total !== a.total) return b.total - a.total;
+    if (b.bonus !== a.bonus) return b.bonus - a.bonus;
     if (a.priorityTier && !b.priorityTier) return -1;
     if (!a.priorityTier && b.priorityTier) return 1;
-    return 0;
+    return a.id.localeCompare(b.id);
   });
 
-  return sorted.slice(0, 3).map(({ label, score }) => ({ label, score }));
+  return sorted.slice(0, 3).map(({ label, total }) => ({ label, score: total }));
 }
 
 function auditBand200(total: number): { label: string; color: string; bg: string } {
