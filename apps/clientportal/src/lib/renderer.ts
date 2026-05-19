@@ -1128,7 +1128,7 @@ function renderW2(W: Workbook): string {
     </div>
 
     ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Biome NS Ultra + SleepRestore).
-      <strong>Week 2 — Add: Omega-3 fish oil</strong> (2–3g EPA/DHA daily, with a meal) + <strong>D3/K2</strong> (5,000 IU D3 + 100mcg K2-MK7, with a fatty meal).
+      <strong>Week 2 — Add: OmegaCN Prime</strong> (2 softgels with dinner — EPA/DHA + Kaneka QH® ubiquinol CoQ10) and <strong>ArmorVita</strong> (1 softgel with a fatty meal — D3 + K2 + Boron + A + Astaxanthin).
       Score your cognitive triad (focus / memory / mood) on Sunday.
       Download the dual n-back app and complete your first session before Saturday.`)}
   </div>
@@ -1278,13 +1278,13 @@ function renderW3(W: Workbook): string {
     <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:#2E7FD9;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:#1A3050;line-height:1.6">
-        Week 3 is when we complete the Month 1 supplement stack. You have been running the Biome NS Ultra + Magnesium for two weeks, and added Omega-3 + D3/K2 in Week 2.
-        <strong>Week 3 — Add: Methylated B Complex</strong> (B6 as P-5-P, B12 as methylcobalamin, folate as methylfolate — methylated forms only for best absorption).
-        This completes your 4-supplement Month 1 stack. Additional supplements introduced in Month 2.
+        Week 3 completes your Month 1 stack. You've been running <strong>Biome NS Ultra</strong> + <strong>SleepRestore</strong> for two weeks and added <strong>OmegaCN Prime</strong> + <strong>ArmorVita</strong> in Week 2.
+        <strong>Week 3 — Add: NeuroBridge</strong> (methylated B-complex — P-5-P, methylcobalamin, methylfolate) and <strong>MitoVita</strong> (creatine + L-citrulline + beetroot + electrolytes).
+        This completes your full 6-supplement Month 1 stack.
       </div>
     </div>
 
-    <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 1 COMPLETE SUPPLEMENT STACK (4 SUPPLEMENTS)</div>
+    <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 1 COMPLETE SUPPLEMENT STACK (6 SUPPLEMENTS)</div>
     <div style="display:grid;grid-template-columns:1.8fr 0.9fr 0.9fr 0.7fr;gap:8px;padding:8px 0;margin-bottom:4px">
       ${['Supplement', 'Dose', 'Timing', 'Taking?'].map(h =>
         `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
@@ -1318,7 +1318,7 @@ function renderW3(W: Workbook): string {
         oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', `Add your final Month 1 supplement: <strong>methylated B Complex</strong>. Your Month 1 stack is now complete — 4 supplements total. Take B Complex with breakfast. Additional supplements (Lion's Mane, Bacopa, Phosphatidylserine) begin in Month 2. Continue dual n-back 3–4× per week.`)}
+    ${pillarActionBox('#2E7FD9', `Add your final two Month 1 supplements: <strong>NeuroBridge</strong> (with breakfast) and <strong>MitoVita</strong> (pre-workout or mid-day). Your Month 1 stack is now complete — 6 supplements total. Continue dual n-back 3–4× per week.`)}
   </div>
 
   ${renderWeekCogTraining(3)}

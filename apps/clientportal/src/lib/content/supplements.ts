@@ -1,6 +1,10 @@
 /**
  * Month-1 supplement stack. Consumed by components for display/logging.
  * `week1/week2/week3` gate when a supplement is introduced.
+ *
+ * Only My4MLife branded SKUs are listed here. Generic/affiliate items
+ * (lion's mane, bacopa, phosphatidylserine, etc.) are out until we
+ * either formulate them or carry them as vetted affiliates.
  */
 export interface Supplement {
   /** Display name. */
@@ -21,12 +25,10 @@ export interface Supplement {
 }
 
 export const supplements: Supplement[] = [
-  {n:'The Doctor TJ Special', d:'As directed (compounded)', t:'Morning — fasted or with small meal', w:'BPC-157 + L-Glutamine proprietary blend — gut lining repair, neuroinflammation reduction, dual gut-brain protection', week1:true, special:true},
-  {n:'SleepRestore', d:'1 capsule before bed (Mg bisglycinate 350mg + glycine 2g + apigenin 50mg + L-theanine 200mg + KSM-66 300mg)', t:'30–60 min before bed', w:'Sleep architecture, cortisol regulation, neuroprotection — My4MLife branded sleep stack', week1:true, special:false},
-  {n:'Omega-3 EPA/DHA', d:'2–3g EPA/DHA', t:'With a meal (Week 2+)', w:'Anti-inflammatory, neuronal membrane integrity, mood regulation, cardiovascular support', week2:true},
-  {n:'Vitamin D3 + K2', d:'5,000 IU D3 + 100mcg K2-MK7', t:'With a fatty meal (Week 2+)', w:'Neuroprotection, testosterone support, immune function — K2 ensures calcium goes to bones not arteries', week2:true},
-  {n:'B-complex (methylated)', d:'As directed', t:'With breakfast (Week 3+)', w:'Neurotransmitter synthesis, energy metabolism, homocysteine clearance — methylated forms only (B6 as P-5-P, B12 as methylcobalamin)', week3:true},
-  {n:"Lion's mane mushroom", d:'500–1000mg', t:'Daily morning (Month 2+)', w:'NGF production, neuroplasticity, memory formation — introduced in Month 2', future:true},
-  {n:'Bacopa monnieri', d:'300mg', t:'Daily — 12-week cycle (Month 2+)', w:'Memory consolidation, anxiety reduction — introduced in Month 2', future:true},
-  {n:'Phosphatidylserine', d:'100–300mg', t:'Daily (Month 2+)', w:'Cortisol regulation, cognitive sharpness — introduced in Month 2', future:true}
+  {n:'Biome NS Ultra', d:'1 scoop in 8–12 oz water (L-glutamine 5g + DGL + berberine + aloe + curcumin + zinc carnosine + A + D3)', t:'On waking, empty stomach, 30 min before first meal', w:'Gut-brain seal — foundational starting protocol. Repairs leaky gut, calms neuroinflammation.', week1:true, special:true},
+  {n:'SleepRestore', d:'1 capsule (Mg bisglycinate 350mg + glycine 2g + apigenin 50mg + L-theanine 200mg + KSM-66 300mg + B6 + Vitamin E)', t:'30–60 min before bed', w:'Sleep architecture, cortisol regulation, neuroprotection.', week1:true, special:true},
+  {n:'OmegaCN Prime', d:'2 softgels (EPA 1200 + DHA 800, IFOS 5-star + Kaneka QH® ubiquinol CoQ10 200mg)', t:'With dinner', w:'Cardio-neuro foundation — omega-3 + mitochondrial CoQ10 in one stack.', week2:true, special:true},
+  {n:'ArmorVita', d:'1 softgel (D3 5,000 IU + K2-MK7 100mcg + K2-MK4 + Boron 3mg + Retinol 2,500 IU + Astaxanthin 4mg)', t:'With a fatty meal', w:'Hormone-bone-immune scaffolding. K2 ensures calcium goes to bones not arteries.', week2:true, special:true},
+  {n:'NeuroBridge', d:'1 capsule (methylated B-complex — P-5-P, methylcobalamin, methylfolate, B5, B1, B2)', t:'With breakfast', w:'Methylation, homocysteine clearance, neurotransmitter synthesis. Methylated forms only.', week3:true, special:true},
+  {n:'MitoVita', d:'1 scoop (creatine 5g + L-citrulline 6g + beetroot + electrolytes + Redmond sea salt)', t:'Pre-workout or mid-day', w:'Mitochondrial ATP + endothelial nitric oxide — performance + cognitive + sexual support.', week3:true, special:true},
 ];
