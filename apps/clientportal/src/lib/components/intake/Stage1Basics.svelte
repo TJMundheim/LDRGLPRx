@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * Stage 1 — Demographics + Lightweight Consent.
-   * Collects: name, age, height (inches), weight (lbs).
+   * Collects: name, age, height (feet + inches input, stored as total inches), weight (lbs).
    * Single consent checkbox: TOS + Privacy + AI Comm acknowledgement.
    * Stored as `consent-protege-v1`: { acceptedAt: ISO, version: 1 }.
    * Persists basics to localStorage key `basics-v1` as { name, age, height, weight, savedAt }.
@@ -38,6 +38,18 @@
   }
 
   let basics = $state<Basics>(load(STORAGE_KEY, { name: '', age: '', height: '', weight: '', phone: '' }));
+
+  const initialInches = Number(basics.height) || 0;
+  let heightFeet = $state<string>(initialInches > 0 ? String(Math.floor(initialInches / 12)) : '');
+  let heightInches = $state<string>(initialInches > 0 ? String(initialInches % 12) : '');
+
+  function updateHeight(): void {
+    const ft = Number(heightFeet) || 0;
+    const inch = Number(heightInches) || 0;
+    const total = ft * 12 + inch;
+    basics.height = total > 0 ? String(total) : '';
+    persistBasics();
+  }
 
   const _storedConsent = load<{ acceptedAt: string; version: number } | null>(CONSENT_KEY, null);
   let consentAccepted = $state<boolean>(!!_storedConsent);
@@ -87,8 +99,13 @@
           <input id="s1-age" type="number" bind:value={basics.age} oninput={persistBasics} placeholder="e.g. 45" min="18" max="100" />
         </div>
         <div class="field">
-          <label for="s1-height">Height (inches) <span class="req">*</span></label>
-          <input id="s1-height" type="number" bind:value={basics.height} oninput={persistBasics} placeholder="e.g. 70" min="48" max="96" />
+          <label for="s1-height-ft">Height <span class="req">*</span></label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input id="s1-height-ft" type="number" bind:value={heightFeet} oninput={updateHeight} placeholder="5" min="3" max="8" style="flex:1;min-width:0" />
+            <span style="font-size:12px;color:#5A6A6E;font-weight:600">ft</span>
+            <input id="s1-height-in" type="number" bind:value={heightInches} oninput={updateHeight} placeholder="10" min="0" max="11" style="flex:1;min-width:0" />
+            <span style="font-size:12px;color:#5A6A6E;font-weight:600">in</span>
+          </div>
         </div>
         <div class="field">
           <label for="s1-weight">Weight (lbs) <span class="req">*</span></label>

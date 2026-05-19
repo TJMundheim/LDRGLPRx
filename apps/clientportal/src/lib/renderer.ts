@@ -1102,7 +1102,7 @@ function renderW2(W: Workbook): string {
 
     <div style="margin-bottom:12px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">WEEK 2 SUPPLEMENT COMPLIANCE</div>
-      ${['Biome NS Ultra (BPC-157 + L-Glutamine)', 'Magnesium Glycinate 300–400mg before bed'].map((name, i) => {
+      ${['Biome NS Ultra (BPC-157 + L-Glutamine)', 'SleepRestore (magnesium bisglycinate + glycine + apigenin + L-theanine + KSM-66 — before bed)'].map((name, i) => {
         const key = `w2s${i}`;
         const resp = W.supplements[key]?.response ?? '';
         return `<div style="display:flex;justify-content:space-between;align-items:center;
@@ -1126,7 +1126,7 @@ function renderW2(W: Workbook): string {
         oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Biome NS Ultra + Magnesium Glycinate).
+    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Biome NS Ultra + SleepRestore).
       <strong>Week 2 — Add: Omega-3 fish oil</strong> (2–3g EPA/DHA daily, with a meal) + <strong>D3/K2</strong> (5,000 IU D3 + 100mcg K2-MK7, with a fatty meal).
       Score your cognitive triad (focus / memory / mood) on Sunday.
       Download the dual n-back app and complete your first session before Saturday.`)}

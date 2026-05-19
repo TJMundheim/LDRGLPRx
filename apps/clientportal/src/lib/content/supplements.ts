@@ -22,7 +22,7 @@ export interface Supplement {
 
 export const supplements: Supplement[] = [
   {n:'The Doctor TJ Special', d:'As directed (compounded)', t:'Morning — fasted or with small meal', w:'BPC-157 + L-Glutamine proprietary blend — gut lining repair, neuroinflammation reduction, dual gut-brain protection', week1:true, special:true},
-  {n:'Magnesium glycinate', d:'300–400mg', t:'Before bed', w:'Sleep quality, cortisol regulation, neuroprotection — most impactful first supplement for sleep', week1:true, special:false},
+  {n:'SleepRestore', d:'1 capsule before bed (Mg bisglycinate 350mg + glycine 2g + apigenin 50mg + L-theanine 200mg + KSM-66 300mg)', t:'30–60 min before bed', w:'Sleep architecture, cortisol regulation, neuroprotection — My4MLife branded sleep stack', week1:true, special:false},
   {n:'Omega-3 EPA/DHA', d:'2–3g EPA/DHA', t:'With a meal (Week 2+)', w:'Anti-inflammatory, neuronal membrane integrity, mood regulation, cardiovascular support', week2:true},
   {n:'Vitamin D3 + K2', d:'5,000 IU D3 + 100mcg K2-MK7', t:'With a fatty meal (Week 2+)', w:'Neuroprotection, testosterone support, immune function — K2 ensures calcium goes to bones not arteries', week2:true},
   {n:'B-complex (methylated)', d:'As directed', t:'With breakfast (Week 3+)', w:'Neurotransmitter synthesis, energy metabolism, homocysteine clearance — methylated forms only (B6 as P-5-P, B12 as methylcobalamin)', week3:true},
