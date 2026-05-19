@@ -161,7 +161,7 @@ export function renderGutAssessment(): string {
     const yesActive = ans === true;
     const noActive = ans === false;
     return `<div data-gut-row="${i}" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #1D9E7518">
-      <span style="font-size:12.5px;color:#e8eaf0;line-height:1.5;flex:1">${esc(q)}</span>
+      <span style="font-size:12.5px;color:#1A2E1E;line-height:1.5;flex:1">${esc(q)}</span>
       <div style="display:flex;gap:6px;flex-shrink:0">
         <button class="day-btn"
           style="background:${yesActive ? ac : '#FFFFFF'};color:${yesActive ? '#fff' : '#5A8A64'};border-color:${yesActive ? ac : '#D8E8DC'};min-width:44px;font-size:12px;font-weight:700;padding:5px 10px"
@@ -187,7 +187,7 @@ export function renderGutAssessment(): string {
           <span style="font-size:22px;font-weight:800;color:${scoreColor}">${state.score}</span>
         </div>
         <div>
-          <div style="font-size:14px;font-weight:700;color:#e8eaf0;line-height:1.3">${esc(band.title)}</div>
+          <div style="font-size:14px;font-weight:700;color:#1A2E1E;line-height:1.3">${esc(band.title)}</div>
           <div style="font-size:10px;color:#6A8A6E;margin-top:2px">Score: ${state.score}/10</div>
         </div>
       </div>
@@ -220,7 +220,7 @@ export function renderGutAssessment(): string {
 
   return `<div class="card" style="border-color:${ac}55">
     <div class="card-title" style="color:${ac}">Gut Health Self-Assessment — 5 minutes</div>
-    <div style="font-size:12px;color:#9ba3b2;margin-bottom:16px;line-height:1.5">How much of what's happening in your brain starts in your gut? Find out.</div>
+    <div style="font-size:12px;color:#5A6A6E;margin-bottom:16px;line-height:1.5">How much of what's happening in your brain starts in your gut? Find out.</div>
     ${resultHtml}
   </div>`;
 }
@@ -253,7 +253,7 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
     <div style="margin-bottom:12px">
       <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:6px;text-transform:uppercase">Today's morning practice${week4Note} — check off as you complete:</div>
       <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
-        ${steps.map(s => `<li style="font-size:12px;color:#e8eaf0;line-height:1.4"><strong>${esc(s.n)}</strong> — <span style="color:#9ba3b2">${esc(s.p)}</span>${s.u ? ` <a href="${s.u}" target="_blank" rel="noopener noreferrer" style="color:${wc.ac};font-size:10px;margin-left:4px">▶ video</a>` : ''}</li>`).join('')}
+        ${steps.map(s => `<li style="font-size:12px;color:#1A2E1E;line-height:1.4"><strong>${esc(s.n)}</strong> — <span style="color:#5A6A6E">${esc(s.p)}</span>${s.u ? ` <a href="${s.u}" target="_blank" rel="noopener noreferrer" style="color:${wc.ac};font-size:10px;margin-left:4px">▶ video</a>` : ''}</li>`).join('')}
       </ol>
     </div>` : '';
   return `<div class="card" style="border-color:${wc.ac}55">
@@ -891,13 +891,13 @@ function renderW1(ctx: RenderContext): string {
   <div class="card" style="border-color:#2E7FD955;background:rgba(46,127,217,.04)">
     <div class="card-title" style="color:#2E7FD9">How to Box Breathe (~2 minutes daily)</div>
     <ol style="margin:10px 0 12px;padding-left:20px;display:flex;flex-direction:column;gap:7px">
-      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Hold</strong> at the top for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Exhale</strong> through your mouth for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5"><strong>Hold</strong> at the bottom for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#e8eaf0;line-height:1.5">Repeat for 5–10 cycles.</li>
+      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Hold</strong> at the top for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Exhale</strong> through your mouth for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Hold</strong> at the bottom for 4 seconds.</li>
+      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5">Repeat for 5–10 cycles.</li>
     </ol>
-    <div style="font-size:12px;color:#7AB8E8;line-height:1.65;border-top:1px solid rgba(46,127,217,.2);padding-top:10px">
+    <div style="font-size:12px;color:#1f4f7a;line-height:1.65;border-top:1px solid rgba(46,127,217,.2);padding-top:10px">
       Box breathing calms the autonomic nervous system, lowers cortisol, and primes focus for the day. Used by Navy SEALs and elite performers.
     </div>
   </div>
@@ -1791,7 +1791,7 @@ function renderAuditReview(): string {
     const barW = Math.round((s / 10) * 100);
     return `<div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <span style="font-size:12px;color:#e8eaf0">${esc(cat.label)}</span>
+        <span style="font-size:12px;color:#1A2E1E">${esc(cat.label)}</span>
         <span style="font-size:12px;font-weight:700;color:${c}">${s} / 10</span>
       </div>
       <div class="pbar-wrap">
