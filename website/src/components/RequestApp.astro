@@ -86,6 +86,13 @@ const apiBase = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? '';
         localStorage.setItem('lead-captures-v1', JSON.stringify(existing));
       } catch (_) { /* ignore */ }
 
+      // Notify drtj of the signup (fire-and-forget — does not block the main flow)
+      fetch(`${apiBase}/api/contact-form`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind: 'form', formId: 'request-app-homepage', fields: entry }),
+      }).catch(() => { /* silent */ });
+
       // POST to real API Gateway → Lambda → SES
       try {
         const res = await fetch(`${apiBase}/api/send-app-link`, {

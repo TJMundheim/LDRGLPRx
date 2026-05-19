@@ -273,6 +273,13 @@ const robots = "index, follow";
     var link = 'my4mlife.com/ref/' + code;
     document.getElementById('referral-link').value = link;
 
+    var apiBase = (import.meta && import.meta.env && import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL) || 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+    fetch(apiBase + '/api/contact-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ kind: 'form', formId: 'referral', fields: { referrerName: name, referrerEmail: email, code: code, link: link } }),
+    }).catch(function () { /* silent */ });
+
     var shareMsg = "I've been using My4MLife for doctor-guided GLP-1 weight loss and it's been amazing. Use my referral link to get $50 off your first month: https://" + link;
     var shareSubject = "Get $50 off GLP-1 weight loss treatment with My4MLife";
     var shareUrl = 'https://' + link;

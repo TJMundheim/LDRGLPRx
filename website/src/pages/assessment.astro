@@ -403,21 +403,22 @@ const robots = "index, follow";
       submitBtn.disabled = true;
       submitBtn.textContent = 'Loading…';
 
-      // TODO: Wire to AppSync submitLead mutation post-HIPAA P0.
-      // POST /api/lead-capture — does not exist yet; failure is silent.
-      fetch('/api/lead-capture', {
+      var apiBase = (import.meta && import.meta.env && import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL) || 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+      fetch(apiBase + '/api/contact-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName: userName,
-          email: userEmail,
-          phone: userPhone,
-          aiConsent: true,
-          scores: scores,
-          source: 'public-assessment',
-          savedAt: new Date().toISOString(),
+          kind: 'form',
+          formId: 'public-assessment',
+          fields: {
+            firstName: userName,
+            email: userEmail,
+            phone: userPhone,
+            scores: JSON.stringify(scores),
+            savedAt: new Date().toISOString(),
+          },
         }),
-      }).catch(function () { /* silent — endpoint not yet wired */ });
+      }).catch(function () { /* silent */ });
 
       showResults();
     });

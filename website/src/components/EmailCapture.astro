@@ -60,14 +60,15 @@ const uid = `ec-${Math.random().toString(36).slice(2, 8)}`;
         localStorage.setItem('lead-captures-v1', JSON.stringify(existing));
       } catch (_) { /* ignore */ }
 
-      // Fire-and-forget POST to stub endpoint
+      // Notify drtj via email-sender lambda
       try {
-        await fetch('/api/lead-capture', {
+        const apiBase = (import.meta as any).env?.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+        await fetch(`${apiBase}/api/contact-form`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(entry),
+          body: JSON.stringify({ kind: 'form', formId: `email-capture:${source}`, fields: entry }),
         });
-      } catch (_) { /* silent failure — endpoint not yet live */ }
+      } catch (_) { /* silent — UI already shows success */ }
 
       // Show success state
       form.hidden = true;

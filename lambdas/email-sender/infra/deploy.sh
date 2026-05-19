@@ -7,13 +7,15 @@ FUNCTION_NAME="my4mlife-email-sender"
 ROLE_NAME="my4mlife-email-sender-role"
 REGION="us-east-2"
 USER_POOL_ID="us-east-2_kIpKnr17R"
+HTTP_API_ID="v9svm8ds74"
+FORM_ROUTE="POST /api/contact-form"
 RUNTIME="nodejs24.x"
 HANDLER="handler.handler"
 TIMEOUT=15
 MEMORY=256
 ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
-SECRET_ARNS="arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:mailgun-api-key-* arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:mailgun-email-addresses-*"
+SECRET_ARNS="arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:mailgun-api-key-* arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:mailgun-email-addresses-* arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:form-recipients-*"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -71,4 +73,32 @@ MERGED_CONFIG=$(aws cognito-idp describe-user-pool --user-pool-id "$USER_POOL_ID
 aws cognito-idp update-user-pool --user-pool-id "$USER_POOL_ID" --region "$REGION" \
   --lambda-config "$MERGED_CONFIG" >/dev/null
 
-echo "==> Deployed + wired: $FUNCTION_NAME ($RUNTIME) → User Pool $USER_POOL_ID"
+echo "==> Wire HTTP API route $FORM_ROUTE → $FUNCTION_NAME"
+API_ARN="arn:aws:execute-api:${REGION}:${ACCOUNT_ID}:${HTTP_API_ID}/*/*/api/contact-form"
+aws lambda remove-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
+  --statement-id apigw-contact-form >/dev/null 2>&1 || true
+aws lambda add-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
+  --statement-id apigw-contact-form \
+  --action lambda:InvokeFunction \
+  --principal apigateway.amazonaws.com \
+  --source-arn "$API_ARN" >/dev/null
+
+INTEG_ID=$(aws apigatewayv2 get-integrations --api-id "$HTTP_API_ID" --region "$REGION" \
+  --query "Items[?IntegrationUri=='${FN_ARN}'].IntegrationId | [0]" --output text)
+if [ -z "$INTEG_ID" ] || [ "$INTEG_ID" = "None" ]; then
+  INTEG_ID=$(aws apigatewayv2 create-integration --api-id "$HTTP_API_ID" --region "$REGION" \
+    --integration-type AWS_PROXY --integration-uri "$FN_ARN" \
+    --payload-format-version 2.0 --query 'IntegrationId' --output text)
+fi
+
+ROUTE_ID=$(aws apigatewayv2 get-routes --api-id "$HTTP_API_ID" --region "$REGION" \
+  --query "Items[?RouteKey=='${FORM_ROUTE}'].RouteId | [0]" --output text)
+if [ -z "$ROUTE_ID" ] || [ "$ROUTE_ID" = "None" ]; then
+  aws apigatewayv2 create-route --api-id "$HTTP_API_ID" --region "$REGION" \
+    --route-key "$FORM_ROUTE" --target "integrations/${INTEG_ID}" >/dev/null
+else
+  aws apigatewayv2 update-route --api-id "$HTTP_API_ID" --region "$REGION" \
+    --route-id "$ROUTE_ID" --target "integrations/${INTEG_ID}" >/dev/null
+fi
+
+echo "==> Deployed + wired: $FUNCTION_NAME ($RUNTIME) → CustomMessage on $USER_POOL_ID + $FORM_ROUTE on $HTTP_API_ID"
