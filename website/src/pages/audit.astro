@@ -137,6 +137,11 @@ for (const slug of Object.keys(SOLUTIONS)) {
         <p class="results-sub">Listed in order of where you'll get the biggest leverage right now. Each category has an over-the-counter path and a prescription path — start with whichever fits where you are today.</p>
       </div>
       <ol id="ranked-list" class="ranked-list"></ol>
+      <div class="get-app-cta">
+        <h3>Get the App Now</h3>
+        <p>Open the 4M workbook in the app. Your top-3 priorities are auto-filled. All 4 starter weeks are open during testing.</p>
+        <a id="get-app-link" href="#" class="btn-primary btn-primary-xl">Get the App Now &rarr;</a>
+      </div>
       <p class="retake-line">
         <button type="button" id="retake-audit" class="link-button">Retake the audit</button>
       </p>
@@ -257,6 +262,14 @@ for (const slug of Object.keys(SOLUTIONS)) {
       `;
       list.appendChild(li);
     });
+    const firstName = sessionStorage.getItem('audit.firstName') || '';
+    const email = sessionStorage.getItem('audit.email') || '';
+    const phone = sessionStorage.getItem('audit.phone') || '';
+    const payload = btoa(JSON.stringify({ firstName, email, phone, scores: raw }));
+    const getAppLink = document.getElementById('get-app-link');
+    if (getAppLink) {
+      getAppLink.setAttribute('href', `https://app.my4mlife.com/?unlocked=1#audit=${encodeURIComponent(payload)}`);
+    }
     return top3;
   }
 
@@ -490,6 +503,11 @@ for (const slug of Object.keys(SOLUTIONS)) {
   .sol-body h4 { font-family: 'Playfair Display', serif; margin: 0 0 0.4rem; font-size: 1rem; }
   .sol-tag { font-size: 0.85rem; color: #444; margin: 0 0 0.75rem; line-height: 1.45; }
   .btn-primary--sm { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+  .get-app-cta { max-width: 720px; margin: 2.5rem auto 0; padding: 1.75rem 1.5rem; text-align: center; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 100%); color: #fff; border-radius: 14px; }
+  .get-app-cta h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 0 0 0.5rem; color: #fff; }
+  .get-app-cta p { color: #cbdbe8; margin: 0 0 1.25rem; }
+  .get-app-cta .btn-primary { display: inline-block; }
+  .btn-primary-xl { padding: 0.95rem 1.6rem; font-size: 1.05rem; font-weight: 700; }
   .retake-line { text-align: center; margin-top: 2rem; }
   .link-button { background: none; border: none; color: var(--accent, #b8722e); font: inherit; text-decoration: underline; cursor: pointer; padding: 0; }
   .all-list { list-style: none; padding: 0; margin: 1rem 0 0; }
