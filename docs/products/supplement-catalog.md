@@ -91,12 +91,14 @@ Listed as "B-Complex (Methylated)" OTC — "Neurotransmitter synthesis, energy m
 
 ---
 
-### 3. SleepRestore
+### 3. SleepRestore — **formulation refresh 2026-05-18 + Rx add-on added**
+
+OTC formulation now includes B6 (P-5-P, Mg cofactor + GABA-synthesis support) and Vitamin E (mild antiplatelet, nocturnal cardiovascular protection). New **SleepRestore Rx (Oral Nattokinase)** add-on pairs with the OTC for deeper nighttime cardiovascular-risk protection — same architectural pattern as Biome NS Rx pairing with Biome NS Ultra.
 
 | Field | Detail |
 |---|---|
-| Tier 1 (Rx) | Compounded prescription capsule blend: Magnesium Glycinate 350mg + Zinc 15mg + Glycine 2,000mg + Apigenin 50mg + L-Theanine 200mg + KSM-66 Ashwagandha 300mg |
-| Tier 2 (OTC nutraceutical) | All 6 ingredients are commercially available OTC; individual components or combined sleep formulas exist. An OTC Tier 2 version is highly feasible. TJ to confirm preferred SKU or private-label intent. |
+| Tier 1 (Rx add-on) | **SleepRestore Rx — Oral Nattokinase**, 50–100 mg/day, prescriber-determined. Mild fibrinolytic for the documented nocturnal blood-thickening / morning cardiovascular-event window. Compounded oral via pharmacy partner. Taken concurrently with OTC SleepRestore (additive, not redundant). |
+| Tier 2 (OTC nutraceutical) | Mg Bisglycinate 350mg + Zinc 15mg + Glycine 2,000mg + Apigenin 50mg + L-Theanine 200mg + KSM-66 Ashwagandha 300mg + **Vitamin B6 (P-5-P) 10mg** + **Vitamin E (mixed tocopherols or d-alpha-tocopheryl succinate) 200 IU**. Full formulation per RFQ spec. |
 | Indication | Deep sleep architecture, cortisol reduction, muscle recovery, hormone optimization (testosterone support in men 35+) |
 | Mechanism | Three-vector approach: (1) GABA activation via Magnesium Glycinate + Apigenin binding GABA-A receptors; (2) core body temperature reduction via Glycine 3g; (3) cortisol suppression + testosterone support via KSM-66 Ashwagandha; L-Theanine boosts alpha waves for calm without sedation; Zinc regulates melatonin synthesis |
 | Target user | 4M cohort members with poor sleep quality, elevated cortisol, low testosterone, post-training recovery needs — Month 1 Week 1 |

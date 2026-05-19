@@ -46,7 +46,7 @@ We are launching a brain-health-first lifestyle and telemedicine platform. The O
   - Vitamin A (Retinyl Palmitate) — **1,000 IU (300 mcg RAE)**
   - Vitamin D3 (Cholecalciferol) — **1,000 IU (25 mcg)**
 - **Flavor options to quote:** (a) unflavored, (b) natural vanilla, (c) natural citrus. **Monk fruit ONLY** as sweetener — no stevia, no maltodextrin, no caloric carriers. Target <10 cal/serving (compatible with morning fasted protocol).
-- **NOT in this quote:** Standalone oral BPC-157 (250–1000 mcg dose range, prescriber-determined) is compounded separately by our licensed pharmacy partner and prescribed via our telemedicine partner. Members combine it with Ultra Complete for the deeper-repair Rx tier. This single-active compounded SKU replaces the prior "Biome-AF Rx" all-in-one compounded formula.
+- **NOT in this quote — Biome NS Rx (oral BPC-157, 250–1000 mcg, prescriber-determined):** compounded separately by our licensed pharmacy partner, prescribed via our telemedicine partner. Members combine it with Biome NS Ultra for the deeper-repair Rx tier. Single-active compounded SKU; replaces the prior all-in-one Biome-AF Rx.
 
 ## Product 2 — **NeuroBridge** (Methylated B-Complex)
 
@@ -63,8 +63,8 @@ We are launching a brain-health-first lifestyle and telemedicine platform. The O
 
 ## Product 3 — **SleepRestore**
 
-- **Category:** Deep-sleep architecture / cortisol modulation
-- **Form:** Vegetarian capsule
+- **Category:** Deep-sleep architecture / cortisol modulation / nocturnal cardiovascular support
+- **Form:** Vegetarian capsule (note Vitamin E format below — softgel conversion optional)
 - **Serving:** 3 capsules · 30–45 min before bed
 - **Per serving:**
   - Magnesium Bisglycinate Chelate (Albion TRAACS® preferred) — **350 mg elemental**
@@ -73,6 +73,12 @@ We are launching a brain-health-first lifestyle and telemedicine platform. The O
   - Apigenin (≥98% from chamomile) — **50 mg**
   - L-Theanine (Suntheanine® preferred) — **200 mg**
   - Ashwagandha (KSM-66® standardized, ≥5% withanolides) — **300 mg**
+  - Vitamin B6 (Pyridoxal-5-Phosphate / P-5-P, active) — **10 mg**
+  - Vitamin E (mixed tocopherols preferred; **OR** d-alpha-tocopheryl succinate if capsule-compatible dry form is required) — **200 IU**
+- **Vitamin E format note:** Vitamin E is fat-soluble. Two options for the manufacturer to weigh:
+  - **(a)** Use d-alpha-tocopheryl succinate (dry crystalline form, fits in vegetable cellulose capsule). Acceptable.
+  - **(b)** Convert one of the three SleepRestore capsules to a softgel containing the Vitamin E in MCT oil with the other oil-loving compounds. Cleaner nutritionally (mixed tocopherols are superior to alpha-only), more expensive per unit.
+  - We will accept either; please quote both if the cost delta is meaningful.
 
 ## Product 4 — **ArmorVita**
 
@@ -97,13 +103,25 @@ We are launching a brain-health-first lifestyle and telemedicine platform. The O
   - Creatine Monohydrate (Creapure® preferred) — **5,000 mg**
   - L-Citrulline Malate 2:1 — **6,000 mg** (4 g citrulline / 2 g malic acid)
   - Beetroot Extract (standardized to ≥6% nitrates, NeoBeet® or comparable) — **500 mg**
-  - Sodium (sea salt or sodium citrate) — **500 mg**
+  - Sodium chloride (**Redmond Real Salt or equivalent unrefined Himalayan sea salt — naturally chloride + trace mineral inclusive, NO refined NaCl or sodium citrate**) — **500 mg sodium**
   - Potassium Citrate — **300 mg**
   - Taurine — **1,000 mg**
   - Vitamin B6 (Pyridoxal-5-Phosphate, active) — **5 mg**
-  - **Premium variant (NeuroLift Plus — optional second SKU):** add Pycnogenol® (Horphag, ≥65% procyanidins) — **100 mg**
+  - Selenium (Selenomethionine, USP-verified) — **100 mcg**
+  - **Premium variant (MitoVita Plus — optional second SKU):** add Pycnogenol® (Horphag, ≥65% procyanidins) — **100 mg**
 - **Flavored variant:** natural citrus flavor + **monk fruit ONLY** as sweetener. NO maltodextrin, NO sucralose, NO caloric carriers. Target total caloric load <10 cal/scoop (fast-compatible).
-- **Note:** Magnesium intentionally excluded (lives in SleepRestore — sleep-architecture timing).
+- **Note:** Magnesium intentionally excluded (lives in SleepRestore — sleep-architecture timing). Selenium added as a mitochondrial antioxidant cofactor (glutathione peroxidase) — directly on-thesis for the MitoVita mechanism.
+
+---
+
+## Rx Add-Ons (NOT part of this quote — compounded pharmacy products)
+
+For reference only, so the manufacturer understands the full product family architecture. These two Rx products pair with the OTC SKUs above as deeper-tier add-ons, compounded and dispensed by our licensed pharmacy partner under prescriptions issued by our licensed telemedicine partner.
+
+- **Biome NS Rx (Oral BPC-157, single-active)** — 250–1000 mcg/day, prescriber-determined. Pairs with **Biome NS Ultra** for the gut-brain repair protocol.
+- **SleepRestore Rx (Oral Nattokinase, single-active)** — 50–100 mg/day, prescriber-determined. Mild fibrinolytic for the nocturnal cardiovascular-risk window. Pairs with **SleepRestore** for the deeper nighttime cardiovascular-protection tier.
+
+**Pattern note:** Our product architecture is OTC core SKU + optional Rx single-active add-on. This pattern may extend to other Rx add-ons in the future (e.g., a metabolic add-on paired with MitoVita); we will let you know if any of those becomes OTC-feasible.
 
 ---
 
