@@ -80,8 +80,8 @@ const robots = "index, follow";
   </div>
 </section>
 
-<!-- ===== HERO — Full-bleed Hims-pattern ===== -->
-<section class="hp-hero">
+<!-- ===== HERO — Survey-first funnel ===== -->
+<section class="hp-hero hp-hero--survey" id="hp-hero-survey">
   <div class="hp-hero-bg" aria-hidden="true">
     <img
       src="/images/hero/main.jpg"
@@ -96,20 +96,37 @@ const robots = "index, follow";
   </div>
 
   <div class="container hp-hero-content">
-    <h1 class="hp-hero-headline">
-      Live longer. Think sharper.<br />
-      <em>Begin with the end in mind.</em>
-    </h1>
+    <p class="hp-hero-subhead-top">Begin with the end in mind. The next twenty years of your mind are decided by what you do now.</p>
 
-    <div class="hp-hero-ctas">
-      <a href="/consult" class="btn hp-btn-ghost">Schedule a Consult</a>
-      <a href="https://app.my4mlife.com" class="btn hp-btn-filled" target="_blank" rel="noopener">Open the App</a>
-      <a href="/assessment" class="btn hp-btn-ghost">Take the Free Audit</a>
-    </div>
+    <a href="/audit" class="btn-primary-xl">Take the 4M Audit &rarr;</a>
 
-    <p class="hp-hero-sub">Brain-health-first. Pick the path that fits — all three keep you engaged.</p>
+    <p class="hp-hero-subhead-bottom">Four minutes. Eight questions. Your top three priorities — ranked, ordered, and ready to act on.</p>
+
+    <p class="hp-hero-scroll-hint">Want to learn more first? Scroll down &darr;</p>
   </div>
 </section>
+
+<!-- Sticky mobile audit CTA (hidden until hero scrolls off) -->
+<a href="/audit" class="hp-sticky-audit" id="hp-sticky-audit" aria-label="Take the 4M Audit">Take the 4M Audit &rarr;</a>
+<script is:inline>
+  (function () {
+    var hero = document.getElementById('hp-hero-survey');
+    var sticky = document.getElementById('hp-sticky-audit');
+    if (!hero || !sticky || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) sticky.classList.remove('is-visible');
+        else sticky.classList.add('is-visible');
+      });
+    }, { rootMargin: '0px 0px -80% 0px' });
+    io.observe(hero);
+    // Hide near page bottom so it doesn't cover footer
+    window.addEventListener('scroll', function () {
+      var nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120);
+      sticky.classList.toggle('at-bottom', nearBottom);
+    }, { passive: true });
+  })();
+</script>
 
 <!-- ===== SECTION 0.5: THE AWARENESS GAP ===== -->
 <section class="hp-section hp-gap-section">
@@ -167,6 +184,14 @@ const robots = "index, follow";
       </a>
 
     </div>
+  </div>
+</section>
+
+<!-- ===== AUDIT REINJECTION STRIP 1 ===== -->
+<section class="hp-audit-strip">
+  <div class="container hp-audit-strip-inner">
+    <p class="hp-audit-strip-copy">Ready? Take the 4M Audit and find your top three in four minutes.</p>
+    <a href="/audit" class="btn-primary-xl btn-primary-xl--compact">Take the 4M Audit &rarr;</a>
   </div>
 </section>
 
@@ -282,6 +307,14 @@ const robots = "index, follow";
   </div>
 </section>
 
+<!-- ===== AUDIT REINJECTION STRIP 2 ===== -->
+<section class="hp-audit-strip hp-audit-strip--alt">
+  <div class="container hp-audit-strip-inner">
+    <p class="hp-audit-strip-copy">Still here? Stop guessing. The audit ranks your 4M priorities so you know what to fix first.</p>
+    <a href="/audit" class="btn-primary-xl btn-primary-xl--compact">Take the 4M Audit &rarr;</a>
+  </div>
+</section>
+
 <!-- ===== SECTION 3: MEMBERSHIP COMPARISON ===== -->
 <section class="hp-section hp-tiers-section">
   <div class="container">
@@ -348,6 +381,14 @@ const robots = "index, follow";
       <a href="/about" class="btn btn-outline-dark">Read more about Dr. TJ &rarr;</a>
     </div>
 
+  </div>
+</section>
+
+<!-- ===== AUDIT REINJECTION STRIP 3 ===== -->
+<section class="hp-audit-strip">
+  <div class="container hp-audit-strip-inner">
+    <p class="hp-audit-strip-copy">Last chance &mdash; take the audit and see what your body is actually telling you.</p>
+    <a href="/audit" class="btn-primary-xl btn-primary-xl--compact">Take the 4M Audit &rarr;</a>
   </div>
 </section>
 
@@ -1063,6 +1104,136 @@ const robots = "index, follow";
   margin: 0;
   padding-top: 0.5rem;
   border-top: 1px solid var(--border);
+}
+
+/* ===== SURVEY-FIRST HERO ===== */
+.btn-primary-xl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.35rem 3rem;
+  border-radius: 56px;
+  background: var(--accent);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 2px solid var(--accent);
+  box-shadow: 0 10px 36px rgba(0,184,148,0.45), 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary-xl:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 44px rgba(0,184,148,0.55), 0 4px 12px rgba(0,0,0,0.3);
+}
+.btn-primary-xl--compact {
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
+  box-shadow: 0 6px 20px rgba(0,184,148,0.35);
+}
+
+.hp-hero--survey { min-height: 78vh; }
+.hp-hero--survey .hp-hero-content {
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.hp-hero-subhead-top {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 2.6vw, 1.95rem);
+  line-height: 1.4;
+  color: white;
+  margin: 0 auto 2rem;
+  max-width: 680px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.hp-hero-subhead-bottom {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.55;
+  color: rgba(255,255,255,0.92);
+  margin: 2rem auto 1.4rem;
+  max-width: 620px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+}
+.hp-hero-scroll-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ===== AUDIT REINJECTION STRIP ===== */
+.hp-audit-strip {
+  background: var(--primary);
+  padding: 2.2rem 0;
+}
+.hp-audit-strip--alt { background: var(--dark); }
+.hp-audit-strip-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.hp-audit-strip-copy {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  line-height: 1.35;
+  flex: 1;
+  min-width: 260px;
+}
+
+/* ===== STICKY MOBILE AUDIT CTA ===== */
+.hp-sticky-audit {
+  position: fixed;
+  left: 50%;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 140%);
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.8rem;
+  border-radius: 50px;
+  background: var(--accent);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(0,184,148,0.5), 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  max-width: calc(100vw - 1.5rem);
+}
+.hp-sticky-audit.is-visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.hp-sticky-audit.at-bottom {
+  transform: translate(-50%, 140%);
+  opacity: 0;
+  pointer-events: none;
+}
+/* Only show on smaller screens */
+@media (min-width: 901px) {
+  .hp-sticky-audit { display: none; }
 }
 
 /* ===== RESPONSIVE ===== */
