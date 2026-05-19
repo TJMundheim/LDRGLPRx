@@ -163,7 +163,27 @@ The OTC version was listed as "Vitamin D3 + K2" — "5,000 IU D3 · 100mcg K2-MK
 
 ---
 
-### 5. NeuroSeal
+### 5. OmegaCN Prime — **new product, added 2026-05-18**
+
+Brand expansion: *CN = Cardio Neuro — foundational fat-soluble support for cardiovascular function, cognitive longevity, and mitochondrial coenzyme synthesis.* Required fine-print expansion on product label and detail page.
+
+| Field | Detail |
+|---|---|
+| Tier 2 (OTC) | EPA 1,200mg + DHA 800mg (2,000mg total EPA+DHA at 1.5:1 ratio, triglyceride form, IFOS 5-star certified) + Ubiquinol (Kaneka QH®) 200mg + mixed tocopherols stabilizer + MCT carrier. 2 softgels/day with largest fat-containing meal. |
+| Tier 1 (Rx) | No current Rx add-on. Future state may include a higher-dose Rx pure-EPA formulation similar to icosapent ethyl, but not in current scope. |
+| Indication | Cardiovascular function, brain phospholipid integrity, cognitive longevity, statin-induced CoQ10 depletion replacement, mitochondrial electron-transport-chain support |
+| Mechanism | Two-vector: (1) Omega-3 EPA/DHA — anti-inflammatory eicosanoid balance, neural membrane fluidity, cardiovascular lipid profile; (2) Ubiquinol — active CoQ10 form, mitochondrial Complex I/II/III electron transport, endogenous antioxidant regeneration |
+| Target user | All adult members on the foundational protocol; especially valuable for members on statins (statins block endogenous CoQ10 synthesis) and members with cardiovascular risk markers |
+| 4M program slot | Month 1 Week 2 — pairs with ArmorVita as the fat-soluble morning stack |
+| Dosing | 2 softgels with largest fat-containing meal; daily ongoing |
+| Key evidence stats | REDUCE-IT trial (~25% MACE reduction at higher-dose EPA); Avgerinos cognitive meta supports DHA for brain phospholipids; Kaneka QH® bioavailability 2-8x ubiquinone in adults 50+ |
+| Where on site | /solutions/cognitive (cross-listed), /solutions/hormones (cardiovascular-with-testosterone story), /membership tier descriptions, /solutions/nutritional-supplements |
+
+**Cross-stack check:** Members on full protocol take OmegaCN Prime + ArmorVita together with dinner (both fat-soluble softgels in MCT). No ingredient duplication. Astaxanthin in ArmorVita + omegas in OmegaCN Prime are complementary fat-soluble antioxidants with different mechanisms.
+
+---
+
+### 6. NeuroSeal *(LEGACY — retired 2026-05-18; brand equity absorbed into Biome NS family)*
 
 | Field | Detail |
 |---|---|

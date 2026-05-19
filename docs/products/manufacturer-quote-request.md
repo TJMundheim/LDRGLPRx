@@ -7,13 +7,14 @@
 
 We are launching a brain-health-first lifestyle and telemedicine platform. The OTC nutraceutical line below is our proprietary product family. Please quote on custom formulation, encapsulation/powdering, and white-label bottling at the spec'd doses. Quote per-unit at three MOQ tiers: **1,000 / 5,000 / 25,000 units**.
 
-**Product family summary (5 OTC SKUs):**
+**Product family summary (6 OTC SKUs):**
 - **Biome NS Ultra** (Product 1) — powder, gut-brain repair (every member starts here)
 - **NeuroBridge** (Product 2) — methylated B-complex, capsule
-- **SleepRestore** (Product 3) — 6-ingredient nightly sleep stack, capsule
+- **SleepRestore** (Product 3) — sleep architecture + cortisol + nocturnal CV protection, capsule
 - **ArmorVita** (Product 4) — D3/K2/Boron/A/Astaxanthin, softgel
 - **MitoVita** (Product 5) — creatine + L-citrulline + beetroot + electrolytes, powder
-- (Optional 6th SKU: **MitoVita Plus** premium variant with Pycnogenol®)
+- **OmegaCN Prime** (Product 6) — Omega-3 + Ubiquinol CoQ10, softgel
+- (Optional 7th SKU: **MitoVita Plus** premium variant with Pycnogenol®)
 
 ---
 
@@ -112,6 +113,32 @@ We are launching a brain-health-first lifestyle and telemedicine platform. The O
 - **Flavored variant:** natural citrus flavor + **monk fruit ONLY** as sweetener. NO maltodextrin, NO sucralose, NO caloric carriers. Target total caloric load <10 cal/scoop (fast-compatible).
 - **Note:** Magnesium intentionally excluded (lives in SleepRestore — sleep-architecture timing). Selenium added as a mitochondrial antioxidant cofactor (glutathione peroxidase) — directly on-thesis for the MitoVita mechanism.
 
+## Product 6 — **OmegaCN Prime**
+
+- **Brand expansion (for label fine print):** *CN = Cardio Neuro — the foundational fat-soluble support for cardiovascular function, cognitive longevity, and mitochondrial coenzyme synthesis.*
+- **Category:** Omega-3 + Ubiquinol CoQ10 — foundational fat-soluble heart/brain/mitochondrial stack
+- **Form:** Vegetarian softgel (fish-gelatin or pectin-based — NOT bovine gelatin)
+- **Serving:** 2 softgels · once daily with largest fat-containing meal (pairs with ArmorVita for the fat-soluble morning stack)
+- **Per serving (2 softgels):**
+  - EPA (eicosapentaenoic acid) — **1,200 mg**
+  - DHA (docosahexaenoic acid) — **800 mg**
+  - (Total EPA + DHA — **2,000 mg** at 1.5:1 EPA:DHA ratio)
+  - Ubiquinol (Kaneka QH® preferred — active reduced form of CoQ10) — **200 mg**
+  - Mixed tocopherols (natural antioxidant stabilizer — keeps fish oil from oxidizing in the bottle; NOT a Vitamin E supplementation dose) — **~5 IU**
+  - Rosemary extract (additional natural antioxidant — optional) — trace
+  - MCT oil — softgel fill / carrier
+- **Sourcing requirements (non-negotiable):**
+  - **IFOS 5-star certified** (International Fish Oil Standards) — third-party purity, potency, oxidation
+  - **TOTOX value <10** (Total Oxidation) — premium freshness benchmark
+  - **Triglyceride or re-esterified TG form ONLY** — NOT ethyl ester
+  - **Source:** small fatty fish (anchovy, sardine, mackerel) — naturally low mercury, sustainable
+  - **Heavy metals (Pb, As, Cd, Hg):** below detection limits per batch
+  - **PCBs and dioxins:** below detection limits
+  - **MSC-certified sustainable fishery** preferred
+  - **CoQ10:** Kaneka QH® ubiquinol (the patented active form) — not ubiquinone, which has 3–8x lower bioavailability in older adults
+- **Packaging:** amber glass OR opaque HDPE with desiccant. Omegas oxidize fast in clear bottles — no exceptions.
+- **Cross-stack note:** Member typically takes OmegaCN Prime + ArmorVita together with dinner (both fat-soluble softgels in MCT). No ingredient duplication; complementary mechanisms.
+
 ---
 
 ## Rx Add-Ons (NOT part of this quote — compounded pharmacy products)
@@ -127,7 +154,7 @@ For reference only, so the manufacturer understands the full product family arch
 
 ## What we need in the quote
 
-For each of the 5 products (with MitoVita Plus variant as 6th if you can quote it):
+For each of the 6 products (with MitoVita Plus variant as 7th if you can quote it):
 
 1. **Per-unit cost** at MOQ tiers of 1,000 / 5,000 / 25,000 units (30-serving container)
 2. **Lead time** from PO to delivery at each tier
