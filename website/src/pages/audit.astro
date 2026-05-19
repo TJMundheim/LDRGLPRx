@@ -10,7 +10,7 @@ const canonical = 'https://www.my4mlife.com/audit';
 const SKU_MAP: Record<string, string> = {
   gut: 'biome-ns-ultra-sub',
   sleep: 'sleeprestore-sub',
-  weight: 'mitovita-sub',
+  weight: 'comprehensive-consult',
   nutrition: 'comprehensive-consult',
   'erectile-dysfunction': 'mitovita-sub',
   environment: 'comprehensive-consult',
@@ -18,10 +18,25 @@ const SKU_MAP: Record<string, string> = {
   hormones: 'comprehensive-consult',
 };
 
+const FRAME_OVERRIDES: Record<string, { name?: string; tagline?: string }> = {
+  weight: {
+    name: 'Weight-loss consult — GLP-1 candidacy',
+    tagline: 'Telemedicine consult to evaluate GLP-1 candidacy (semaglutide/tirzepatide) plus your full metabolic protocol. The first move for weight is the clinical conversation, not a supplement.',
+  },
+  nutrition: { tagline: 'Telemedicine consult to map your nutrition protocol against your hormones, gut, and metabolic markers.' },
+  environment: { tagline: 'Telemedicine consult to assess light, air, water, and EMF exposures alongside your full panel.' },
+  hormones: { tagline: 'Telemedicine consult to evaluate TRT candidacy and order your full hormone panel.' },
+};
+
 const productCards = Object.fromEntries(
   Object.entries(SKU_MAP).map(([slug, skuId]) => {
     const sku = SKUS[skuId];
-    return [slug, { skuId, name: sku?.name ?? skuId, tagline: sku?.tagline ?? '' }];
+    const override = FRAME_OVERRIDES[slug] ?? {};
+    return [slug, {
+      skuId,
+      name: override.name ?? sku?.name ?? skuId,
+      tagline: override.tagline ?? sku?.tagline ?? '',
+    }];
   })
 );
 ---
@@ -107,6 +122,9 @@ const productCards = Object.fromEntries(
         <summary>See all 8 results</summary>
         <ol id="all-results-list" class="all-list"></ol>
       </details>
+      <p class="retake-line">
+        <button type="button" id="retake-audit" class="link-button">Retake the audit</button>
+      </p>
     </div>
 
   </div>
@@ -193,14 +211,9 @@ const productCards = Object.fromEntries(
     return entries;
   }
 
-  surveySubmit.addEventListener('click', () => {
-    const raw = {};
-    for (const q of questions) {
-      raw[q.solutionSlug] = (answers[q.solutionSlug] || 0) * 2;
-    }
+  function renderResults(raw, contactId) {
     const ranked = scoreToTop3(raw);
     const top3 = ranked.slice(0, 3).map((r) => r.id);
-    const contactId = sessionStorage.getItem('audit.contactId');
 
     const cards = document.getElementById('top3-cards');
     cards.innerHTML = '';
@@ -228,6 +241,20 @@ const productCards = Object.fromEntries(
       li.innerHTML = `<span class="al-label">${q.label}</span><span class="al-score">${r.total}/12</span>`;
       list.appendChild(li);
     }
+    return top3;
+  }
+
+  surveySubmit.addEventListener('click', () => {
+    const raw = {};
+    for (const q of questions) {
+      raw[q.solutionSlug] = (answers[q.solutionSlug] || 0) * 2;
+    }
+    const contactId = sessionStorage.getItem('audit.contactId');
+    const top3 = renderResults(raw, contactId);
+
+    sessionStorage.setItem('audit.answers', JSON.stringify(answers));
+    sessionStorage.setItem('audit.scores', JSON.stringify(raw));
+    sessionStorage.setItem('audit.top3', JSON.stringify(top3));
 
     fetch(COMPLETE_URL, {
       method: 'POST',
@@ -237,6 +264,50 @@ const productCards = Object.fromEntries(
 
     showStep(3);
   });
+
+  document.getElementById('retake-audit').addEventListener('click', () => {
+    sessionStorage.removeItem('audit.answers');
+    sessionStorage.removeItem('audit.scores');
+    sessionStorage.removeItem('audit.top3');
+    for (const k in answers) delete answers[k];
+    document.querySelectorAll('input[type=radio][data-slug]').forEach((i) => { i.checked = false; });
+    progressLabel.textContent = `0 of ${total} answered`;
+    progressFill.style.width = '0%';
+    surveySubmit.disabled = true;
+    showStep(2);
+  });
+
+  // Resume: if results already stored, jump straight to step 3.
+  // Otherwise, if partial answers exist, restore them so the user can continue.
+  (function resume() {
+    const storedScores = sessionStorage.getItem('audit.scores');
+    const storedContactId = sessionStorage.getItem('audit.contactId');
+    if (storedScores && storedContactId) {
+      try {
+        renderResults(JSON.parse(storedScores), storedContactId);
+        showStep(3);
+        return;
+      } catch (_) { /* fall through */ }
+    }
+    const storedAnswers = sessionStorage.getItem('audit.answers');
+    if (storedAnswers) {
+      try {
+        const a = JSON.parse(storedAnswers);
+        for (const slug in a) {
+          const input = document.querySelector(`input[type=radio][data-slug="${slug}"][value="${a[slug]}"]`);
+          if (input) {
+            input.checked = true;
+            answers[slug] = a[slug];
+          }
+        }
+        const n = Object.keys(answers).length;
+        progressLabel.textContent = `${n} of ${total} answered`;
+        progressFill.style.width = `${(n / total) * 100}%`;
+        surveySubmit.disabled = n < total;
+        if (storedContactId) showStep(2);
+      } catch (_) { /* ignore */ }
+    }
+  })();
 </script>
 
 <style>
@@ -404,6 +475,8 @@ const productCards = Object.fromEntries(
 
   .all-results { max-width: 640px; margin: 0 auto; }
   .all-results summary { cursor: pointer; color: var(--accent, #b8722e); font-weight: 500; }
+  .retake-line { text-align: center; margin-top: 2rem; }
+  .link-button { background: none; border: none; color: var(--accent, #b8722e); font: inherit; text-decoration: underline; cursor: pointer; padding: 0; }
   .all-list { list-style: none; padding: 0; margin: 1rem 0 0; }
   .all-list li {
     display: flex;
