@@ -32,10 +32,10 @@ export interface SKU {
 
 export const SKUS: Record<string, SKU> = {
   // ========== Proprietary supplement line ==========
-  'biome-af': {
-    id: 'biome-af',
-    name: 'Biome-AF',
-    tagline: 'BPC-157 + L-Glutamine + Aloe — gut-brain axis repair',
+  'biome-ns-ultra': {
+    id: 'biome-ns-ultra',
+    name: 'Biome NS Ultra',
+    tagline: 'L-Glutamine + DGL + Berberine + Aloe + Curcumin + Zinc Carnosine — gut-brain seal',
     memberPriceUSD: null,
     retailPriceUSD: null,
     cadence: 'monthly',
@@ -43,6 +43,18 @@ export const SKUS: Record<string, SKU> = {
     available: false,
     availableNote: 'Pricing announced at launch',
     solutionSlug: 'gut',
+  },
+  'omegacn-prime': {
+    id: 'omegacn-prime',
+    name: 'OmegaCN Prime',
+    tagline: 'Omega-3 (EPA + DHA 2g) + Ubiquinol CoQ10 200mg — Cardio Neuro foundation',
+    memberPriceUSD: null,
+    retailPriceUSD: null,
+    cadence: 'monthly',
+    stripePriceId: null,
+    available: false,
+    availableNote: 'Pricing announced at launch',
+    solutionSlug: 'cognitive',
   },
   'sleeprestore': {
     id: 'sleeprestore',

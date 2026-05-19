@@ -12,14 +12,14 @@ export const products: Product[] = [
   {
     id: 'biomeaxisforge',
     slug: 'biome-axis-forge',
-    name: 'Biome-AF',
+    name: 'Biome NS Ultra',
     shortName: 'BAF',
     category: 'rx',
     tagline: 'Gut-brain axis restoration in a single compound.',
     description:
       'Oral compounded formulation of BPC-157, L-Glutamine, and aloe vera designed to support gut lining integrity and reduce neuroinflammation across a 4-week cycle.',
     longDescription:
-      'Biome-AF combines BPC-157 (a pentadecapeptide with documented cytoprotective effects), L-Glutamine (primary fuel for enterocytes), and standardised aloe vera polysaccharides into a single daily oral capsule. The combination addresses the gut-brain axis from the mucosal layer upward, making it the foundational Rx intervention for all new members.',
+      'Biome NS Ultra combines BPC-157 (a pentadecapeptide with documented cytoprotective effects), L-Glutamine (primary fuel for enterocytes), and standardised aloe vera polysaccharides into a single daily oral capsule. The combination addresses the gut-brain axis from the mucosal layer upward, making it the foundational Rx intervention for all new members.',
     heroClaim: 'Repair the gut-brain axis in 28 days.',
     mechanismBullets: [
       'BPC-157 upregulates growth hormone receptor expression in gut tissue',

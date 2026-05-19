@@ -338,17 +338,17 @@
       if (score <= 2) {
         title = 'Your gut is in good shape.';
         body = "Stay consistent with Week 1's protocol — bone broth, fermented foods, and your foundational stack maintain what you've built.";
-        cta = 'Anchor with Biome-AF';
+        cta = 'Anchor with Biome NS Ultra';
         scoreColor = '#1D9E75';
       } else if (score <= 5) {
         title = 'Clear gut-axis signals.';
-        body = "Your gut is sending signals worth listening to. Week 1's gut-repair protocol plus Biome-AF daily will drive measurable change in 30 days. Retake this assessment then.";
-        cta = 'Start with Biome-AF';
+        body = "Your gut is sending signals worth listening to. Week 1's gut-repair protocol plus Biome NS Ultra daily will drive measurable change in 30 days. Retake this assessment then.";
+        cta = 'Start with Biome NS Ultra';
         scoreColor = '#D4920A';
       } else {
         title = 'Strong gut-repair indication.';
-        body = 'These are the patterns Biome-AF was built for. Anchor your entire Month 1 in gut repair: Biome-AF daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.';
-        cta = 'Begin with Biome-AF today';
+        body = 'These are the patterns Biome NS Ultra was built for. Anchor your entire Month 1 in gut repair: Biome NS Ultra daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.';
+        cta = 'Begin with Biome NS Ultra today';
         scoreColor = '#E05C2A';
       }
 
@@ -446,11 +446,11 @@
         scoreColor = '#1D9E75';
       } else if (score <= 5) {
         title = 'Notable allergy/sensitivity signals.';
-        body = 'Start with Biome-AF to support gut-immune barrier; consider a 30-day elimination protocol.';
+        body = 'Start with Biome NS Ultra to support gut-immune barrier; consider a 30-day elimination protocol.';
         scoreColor = '#D4920A';
       } else {
         title = 'Significant allergy/sensitivity load.';
-        body = 'Strong indication for elimination diet + Biome-AF; flag for telemedicine consult to discuss IgG/IgE testing.';
+        body = 'Strong indication for elimination diet + Biome NS Ultra; flag for telemedicine consult to discuss IgG/IgE testing.';
         scoreColor = '#E05C2A';
       }
 

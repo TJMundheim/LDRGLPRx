@@ -75,19 +75,19 @@
     if (score <= 2) return {
       title: 'Your gut is in good shape.',
       body: "Stay consistent with Week 1's protocol — bone broth, fermented foods, and your foundational stack maintain what you've built.",
-      cta: 'Anchor with Biome-AF',
+      cta: 'Anchor with Biome NS Ultra',
       color: '#1D9E75',
     };
     if (score <= 5) return {
       title: 'Clear gut-axis signals.',
-      body: "Your gut is sending signals worth listening to. The gut-repair protocol plus Biome-AF daily will drive measurable change in 30 days. Retake this assessment then.",
-      cta: 'Start with Biome-AF',
+      body: "Your gut is sending signals worth listening to. The gut-repair protocol plus Biome NS Ultra daily will drive measurable change in 30 days. Retake this assessment then.",
+      cta: 'Start with Biome NS Ultra',
       color: '#D4920A',
     };
     return {
       title: 'Strong gut-repair indication.',
-      body: 'These are the patterns Biome-AF was built for. Anchor your entire Month 1 in gut repair: Biome-AF daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.',
-      cta: 'Begin with Biome-AF today',
+      body: 'These are the patterns Biome NS Ultra was built for. Anchor your entire Month 1 in gut repair: Biome NS Ultra daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.',
+      cta: 'Begin with Biome NS Ultra today',
       color: '#E05C2A',
     };
   }
