@@ -1,5 +1,5 @@
 {
-  "name": "@ldrglprx/audit-complete",
+  "name": "@ldrglprx/nurture-worker",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.700.0",
     "@aws-sdk/lib-dynamodb": "^3.700.0",
-    "@aws-sdk/client-sqs": "^3.700.0"
+    "@aws-sdk/client-sns": "^3.700.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.149",

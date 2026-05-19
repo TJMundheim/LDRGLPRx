@@ -1,11 +1,13 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+const sqs = new SQSClient({ region: REGION });
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -47,8 +49,16 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     },
   }));
 
-  // TODO(P2): SendMessageCommand to SQS my4mlife-nurture-queue with DelaySeconds: 1800
-  // and body { contactId } so nurture-worker fires 30 min later for un-purchased leads.
+  const queueUrl = process.env.NURTURE_QUEUE_URL;
+  if (queueUrl) {
+    await sqs.send(new SendMessageCommand({
+      QueueUrl: queueUrl,
+      MessageBody: JSON.stringify({ contactId }),
+      DelaySeconds: 1800,
+    }));
+  } else {
+    console.warn('NURTURE_QUEUE_URL unset — skipping nurture enqueue');
+  }
 
   return reply(200, { ok: true });
 };
