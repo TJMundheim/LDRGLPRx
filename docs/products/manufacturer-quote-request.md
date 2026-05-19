@@ -5,7 +5,7 @@
 **Date:** 2026-05-18
 **Contact:** [your email] · [your phone]
 
-We are launching a brain-health-first lifestyle and telemedicine platform. The OTC nutraceutical line below is our proprietary product family. Please quote on custom formulation, encapsulation/powdering, and white-label bottling at the spec'd doses. Quote per-unit at three MOQ tiers: **1,000 / 5,000 / 25,000 units**.
+We are launching a brain-health-first lifestyle and telemedicine platform. The OTC nutraceutical line below is our proprietary product family. Please quote on custom formulation, encapsulation/powdering, and white-label bottling at the spec'd doses. Quote per-unit at three MOQ tiers: **1,000 / 5,000 / 25,000 units**, and at **two pack sizes** (30-serving monthly + 90-serving starter-bundle) — see "What we need in the quote" below.
 
 **Product family summary (6 OTC SKUs):**
 - **Biome NS Ultra** (Product 1) — powder, gut-brain repair (every member starts here)
@@ -156,7 +156,10 @@ For reference only, so the manufacturer understands the full product family arch
 
 For each of the 6 products (with MitoVita Plus variant as 7th if you can quote it):
 
-1. **Per-unit cost** at MOQ tiers of 1,000 / 5,000 / 25,000 units (30-serving container)
+1. **Per-unit cost** at MOQ tiers of 1,000 / 5,000 / 25,000 units, quoted at **two pack sizes**:
+   - **30-serving container** (monthly autoship SKU)
+   - **90-serving container** (first-time starter-bundle SKU — single bottle preferred over three 30-ct bottles for COGS and unboxing experience)
+   If a 90-ct fill is impractical for any product (e.g. softgel oxidation risk on Omega), please quote the alternative (e.g. 3-pack of 30-ct) and flag it.
 2. **Lead time** from PO to delivery at each tier
 3. **Minimum reorder quantity** for each SKU
 4. **Custom-formulation fee** (one-time R&D / setup, if any)
