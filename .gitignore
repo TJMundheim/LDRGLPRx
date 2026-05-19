@@ -59,3 +59,7 @@ logs/
 .idea/
 *.swp
 *.swo
+
+# esbuild scratch output
+.build/
+**/.build/

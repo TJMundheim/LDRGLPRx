@@ -55,12 +55,14 @@ export class AuthStack extends cdk.Stack {
       'post-authentication.ts',
     );
 
-    // SES: grant createAuthChallenge permission to send email via SES.
-    createAuthChallenge.addEnvironment('FROM_EMAIL', 'noreply@my4mlife.com');
+    // Email: createAuthChallenge invokes my4mlife-email-sender (Mailgun-backed).
+    createAuthChallenge.addEnvironment('EMAIL_SENDER_FN', 'my4mlife-email-sender');
     createAuthChallenge.addToRolePolicy(
       new iam.PolicyStatement({
-        actions: ['ses:SendEmail', 'sesv2:SendEmail'],
-        resources: ['*'],
+        actions: ['lambda:InvokeFunction'],
+        resources: [
+          `arn:aws:lambda:${cdk.Stack.of(this).region}:${cdk.Stack.of(this).account}:function:my4mlife-email-sender`,
+        ],
       }),
     );
 
