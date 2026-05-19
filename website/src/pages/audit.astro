@@ -148,8 +148,7 @@ for (const slug of Object.keys(SOLUTIONS)) {
 <script is:inline define:vars={{
   solutions: SOLUTIONS,
   questions: AUDIT_QUESTIONS,
-  LEAD_URL: import.meta.env.PUBLIC_LEAD_CAPTURE_URL || '/api/lead-capture',
-  COMPLETE_URL: import.meta.env.PUBLIC_AUDIT_COMPLETE_URL || '/api/audit-complete',
+  FORM_URL: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') + '/api/contact-form',
 }}>
 
   function uuid() {
@@ -179,20 +178,17 @@ for (const slug of Object.keys(SOLUTIONS)) {
     sessionStorage.setItem('audit.firstName', firstName);
     sessionStorage.setItem('audit.email', email);
     if (phone) sessionStorage.setItem('audit.phone', phone);
-    let contactId = null;
-    try {
-      const r = await fetch(LEAD_URL, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ firstName, email, phone: phone || undefined }),
-      });
-      if (r.ok) {
-        const data = await r.json();
-        contactId = data.contactId;
-      }
-    } catch (_) { /* fall through to local */ }
-    if (!contactId) contactId = uuid();
+    const contactId = uuid();
     sessionStorage.setItem('audit.contactId', contactId);
+    fetch(FORM_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        kind: 'form',
+        formId: 'audit-lead',
+        fields: { firstName, email, phone: phone || '', contactId },
+      }),
+    }).catch(() => {});
     showStep(2);
   });
 
@@ -276,10 +272,21 @@ for (const slug of Object.keys(SOLUTIONS)) {
     sessionStorage.setItem('audit.scores', JSON.stringify(raw));
     sessionStorage.setItem('audit.top3', JSON.stringify(top3));
 
-    fetch(COMPLETE_URL, {
+    const firstName = sessionStorage.getItem('audit.firstName') || '';
+    const email = sessionStorage.getItem('audit.email') || '';
+    const phone = sessionStorage.getItem('audit.phone') || '';
+    fetch(FORM_URL, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ contactId, scores: raw, top3 }),
+      body: JSON.stringify({
+        kind: 'form',
+        formId: 'audit-complete',
+        fields: {
+          firstName, email, phone, contactId,
+          top3: top3.join(', '),
+          'all-scores': Object.entries(raw).map(([k, v]) => `${k}: ${v}/10`).join(' · '),
+        },
+      }),
     }).catch(() => {});
 
     showStep(3);
