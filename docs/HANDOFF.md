@@ -1,6 +1,46 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-05-18 (overnight autonomous push).
+Last updated: 2026-05-19 AM (survey-first funnel build complete).
+
+---
+
+## ☀️ Mid-morning status report — survey-first funnel shipped (2026-05-19)
+
+You greenlit the plan at [docs/plan/survey-first-homepage-funnel.md](docs/plan/survey-first-homepage-funnel.md). Build dispatched in two parallel waves of subagents. All P1 + P2 tasks complete and pushed to `main`.
+
+**Commits, in order:**
+- `b6795071` — `website/src/lib/survey-scoring.ts` + 9 tests (gut+2, weight+1, hormones+1, top-3)
+- `46c11027` — `lambdas/lead-capture/` (3-field, UUIDv5 contactId, consent-protege-v1, 8 tests)
+- `5df1b939` — homepage survey-first hero + 3 reinjection CTAs + sticky mobile button; nothing deleted below
+- `85860a7e` — `website/src/pages/audit.astro` (3-field capture → 8-question Likert → top-3 SKU cards) + `lambdas/audit-complete/`
+- `ef5c9bc3` — `infra/provision-contact-tables.sh` (Contact/Touchpoints/Conversations/Orders, --plan dry-run)
+- `87d110c1` — stripe-webhook sends Mailgun email + SNS SMS booking-link on consult purchase; nurture-worker Lambda; audit-complete → SQS enqueue (DelaySeconds=1800)
+
+**Tests:** 9 (scoring) + 8 (lead-capture) + 8 (audit-complete) + 5 (nurture-worker) + 3 (stripe-webhook) = **33 green**. Website builds clean, 71 pages.
+
+**SEO retention check passed** — homepage still has all 8 categories, all 4M pillars, "Begin with the end in mind", and Dr. TJ founder content below the fold.
+
+### Things flagged by the build agents — your call
+
+1. **Two CTAs on homepage now point at /audit and /assessment.** The protocols section has an older "Take the Free Assessment" card pointing to `/assessment`; new hero + reinjections point to `/audit`. Reconcile: rename old card to "Free Audit" and repoint to `/audit`, or kill the old card. Cheap fix, just needs your call.
+2. **"QUICK-BUY CATEGORY BAND" sits ABOVE the new hero.** Agent didn't move it because you said don't delete. If you want the audit hero to be truly first thing above the fold, that band should move below. Your call.
+3. **stripe-webhook is 115 LOC, inbound-handler 110 LOC** — both over the 100-line global rule. Documented as accepted; would only split if either grows further.
+4. **coach-proxy Lambda still imports `@anthropic-ai/sdk` directly** — pre-existing, not touched in this build, but violates the no-direct-Anthropic memory rule. Schedule a migration to Bedrock when convenient.
+5. **Audit page client-side scoring duplicates the TS module** (Astro `is:inline` can't import .ts at runtime). Tests run against the module, client mirrors it. Risk: drift if BONUS_MAP changes. Low for now; revisit if it changes.
+
+### Blockers waiting on you
+
+- Stripe test keys → unblocks end-to-end checkout test
+- Mailgun domain + API key → unblocks Mailgun sends
+- Calendly/Cal.com link → `ONBOARDING_BOOKING_URL` env var (placeholder fine for now)
+- Prerecorded "intro Zoom" link → `INTRO_ZOOM_URL` env var (placeholder fine for now)
+
+### When you're ready to provision the AWS side
+
+```
+bash infra/provision-contact-tables.sh --plan   # see what it'll do
+bash infra/provision-contact-tables.sh           # actually create the 4 tables
+```
 
 ---
 
