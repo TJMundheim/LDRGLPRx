@@ -7,38 +7,57 @@ const title = 'The 4M Audit — My4MLife';
 const description = 'Take the 4M Audit. 8 questions, 3 minutes — see your top 3 priorities and the exact starting point.';
 const canonical = 'https://www.my4mlife.com/audit';
 
-const SKU_MAP: Record<string, string> = {
-  gut: 'biome-ns-ultra-sub',
-  sleep: 'sleeprestore-sub',
-  weight: 'comprehensive-consult',
-  nutrition: 'comprehensive-consult',
-  'erectile-dysfunction': 'mitovita-sub',
-  environment: 'comprehensive-consult',
-  cognitive: 'neurobridge-sub',
-  hormones: 'comprehensive-consult',
+type SolutionRow = {
+  otc: { skuId: string; name: string; tagline: string } | null;
+  rx: { name: string; tagline: string; skuId: string } | null;
 };
 
-const FRAME_OVERRIDES: Record<string, { name?: string; tagline?: string }> = {
-  weight: {
-    name: 'Weight-loss consult — GLP-1 candidacy',
-    tagline: 'Telemedicine consult to evaluate GLP-1 candidacy (semaglutide/tirzepatide) plus your full metabolic protocol. The first move for weight is the clinical conversation, not a supplement.',
+const SOLUTIONS: Record<string, SolutionRow> = {
+  gut: {
+    otc: { skuId: 'biome-ns-ultra-sub', name: 'Biome NS Ultra', tagline: 'Daily gut-brain seal powder — L-glutamine, DGL, berberine, aloe, curcumin, zinc carnosine. The foundational starting protocol.' },
+    rx: { skuId: 'comprehensive-consult', name: 'Biome NS Rx (oral BPC-157)', tagline: 'Single-active compounded oral BPC-157, prescribed via telemedicine consult. Stacks on top of Biome NS Ultra for deeper repair.' },
   },
-  nutrition: { tagline: 'Telemedicine consult to map your nutrition protocol against your hormones, gut, and metabolic markers.' },
-  environment: { tagline: 'Telemedicine consult to assess light, air, water, and EMF exposures alongside your full panel.' },
-  hormones: { tagline: 'Telemedicine consult to evaluate TRT candidacy and order your full hormone panel.' },
+  sleep: {
+    otc: { skuId: 'sleeprestore-sub', name: 'SleepRestore', tagline: 'Magnesium bisglycinate + glycine + apigenin + L-theanine + KSM-66 ashwagandha. Sleep architecture + cortisol + nocturnal CV protection.' },
+    rx: { skuId: 'comprehensive-consult', name: 'SleepRestore Rx (oral nattokinase)', tagline: 'Compounded oral nattokinase prescribed via telemedicine consult — nocturnal cardiovascular fibrinolytic for the highest-risk hours.' },
+  },
+  weight: {
+    otc: null,
+    rx: { skuId: 'comprehensive-consult', name: 'Weight-loss consult — GLP-1 candidacy', tagline: 'Telemedicine consult to evaluate GLP-1 candidacy (semaglutide/tirzepatide) plus the full metabolic protocol. The first move on weight is the clinical conversation.' },
+  },
+  nutrition: {
+    otc: null,
+    rx: { skuId: 'comprehensive-consult', name: 'Nutrition consult', tagline: 'Telemedicine consult to map your nutrition protocol against your hormones, gut, and metabolic markers.' },
+  },
+  'erectile-dysfunction': {
+    otc: { skuId: 'mitovita-sub', name: 'MitoVita', tagline: 'Creatine + L-citrulline + beetroot + electrolytes. Mitochondrial ATP + endothelial nitric oxide — the OTC foundation for ED and stamina.' },
+    rx: { skuId: 'comprehensive-consult', name: 'ED consult — PDE5i + hormonal review', tagline: 'ED is a canary. Telemedicine consult to evaluate hormones, vascular health, and PDE5-inhibitor or TRT candidacy.' },
+  },
+  environment: {
+    otc: null,
+    rx: null,
+  },
+  cognitive: {
+    otc: { skuId: 'neurobridge-sub', name: 'NeuroBridge', tagline: 'Methylated B-complex (P-5-P, methylcobalamin, 5-MTHF) — homocysteine + methylation foundation for cognitive longevity.' },
+    rx: { skuId: 'comprehensive-consult', name: 'Cognitive consult', tagline: 'Telemedicine consult for cognitive baseline, peptide candidacy, and hormone-cognition integration.' },
+  },
+  hormones: {
+    otc: null,
+    rx: { skuId: 'comprehensive-consult', name: 'Hormone consult — TRT candidacy', tagline: 'Telemedicine consult to evaluate TRT candidacy and order your full hormone panel.' },
+  },
 };
 
-const productCards = Object.fromEntries(
-  Object.entries(SKU_MAP).map(([slug, skuId]) => {
-    const sku = SKUS[skuId];
-    const override = FRAME_OVERRIDES[slug] ?? {};
-    return [slug, {
-      skuId,
-      name: override.name ?? sku?.name ?? skuId,
-      tagline: override.tagline ?? sku?.tagline ?? '',
-    }];
-  })
-);
+// Backfill OTC names/taglines from skus.ts if a SOLUTIONS entry didn't override them
+for (const slug of Object.keys(SOLUTIONS)) {
+  const otc = SOLUTIONS[slug].otc;
+  if (otc) {
+    const sku = SKUS[otc.skuId];
+    if (sku) {
+      if (!otc.tagline) otc.tagline = sku.tagline ?? '';
+      if (!otc.name) otc.name = sku.name;
+    }
+  }
+}
 ---
 <BaseLayout title={title} description={description} canonical={canonical}>
 
@@ -114,14 +133,10 @@ const productCards = Object.fromEntries(
     <!-- STEP 3 -->
     <div id="step-3" class="audit-step">
       <div class="results-head">
-        <h2>Your top 3 priorities</h2>
-        <p class="results-sub">Start here. Every category compounds — but these three move the needle most for you right now.</p>
+        <h2>Your ranked priorities</h2>
+        <p class="results-sub">Listed in order of where you'll get the biggest leverage right now. Each category has an over-the-counter path and a prescription path — start with whichever fits where you are today.</p>
       </div>
-      <div id="top3-cards" class="top3-grid"></div>
-      <details class="all-results">
-        <summary>See all 8 results</summary>
-        <ol id="all-results-list" class="all-list"></ol>
-      </details>
+      <ol id="ranked-list" class="ranked-list"></ol>
       <p class="retake-line">
         <button type="button" id="retake-audit" class="link-button">Retake the audit</button>
       </p>
@@ -131,7 +146,7 @@ const productCards = Object.fromEntries(
 </section>
 
 <script is:inline define:vars={{
-  productCards,
+  solutions: SOLUTIONS,
   questions: AUDIT_QUESTIONS,
   LEAD_URL: import.meta.env.PUBLIC_LEAD_CAPTURE_URL || '/api/lead-capture',
   COMPLETE_URL: import.meta.env.PUBLIC_AUDIT_COMPLETE_URL || '/api/audit-complete',
@@ -198,9 +213,9 @@ const productCards = Object.fromEntries(
     });
   });
 
-  // Inline scoring (mirrors ~/lib/survey-scoring.ts to avoid client import of TS module)
-  const BONUS_MAP = { gut: 2, weight: 1, hormones: 1 };
-  function scoreToTop3(raw) {
+  // Inline scoring (mirrors ~/lib/survey-scoring.ts)
+  const BONUS_MAP = { gut: 2 };
+  function rankAll(raw) {
     const entries = Object.entries(raw).map(([id, r]) => ({
       id,
       raw: r,
@@ -211,36 +226,41 @@ const productCards = Object.fromEntries(
     return entries;
   }
 
+  function solutionBlock(kind, sol, contactId) {
+    if (!sol) {
+      return `<div class="sol sol--placeholder"><span class="sol-kind">${kind}</span><div class="sol-body"><h4>Coming soon</h4><p class="sol-tag">No standalone ${kind === 'OTC' ? 'over-the-counter product' : 'prescription pathway'} for this category yet. We'll notify you when it launches.</p></div></div>`;
+    }
+    const href = `/cart?sku=${encodeURIComponent(sol.skuId)}&contactId=${encodeURIComponent(contactId)}`;
+    const ctaLabel = kind === 'Rx' ? 'Book the consult →' : `Order ${sol.name.split(' — ')[0].split(' (')[0]} →`;
+    return `<div class="sol sol--${kind.toLowerCase()}"><span class="sol-kind">${kind}</span><div class="sol-body"><h4>${sol.name}</h4><p class="sol-tag">${sol.tag || sol.tagline}</p><a class="btn-primary btn-primary--sm" href="${href}">${ctaLabel}</a></div></div>`;
+  }
+
   function renderResults(raw, contactId) {
-    const ranked = scoreToTop3(raw);
+    const ranked = rankAll(raw);
     const top3 = ranked.slice(0, 3).map((r) => r.id);
-
-    const cards = document.getElementById('top3-cards');
-    cards.innerHTML = '';
-    for (const slug of top3) {
-      const card = productCards[slug];
-      const q = questions.find((x) => x.solutionSlug === slug);
-      const href = `/cart?sku=${encodeURIComponent(card.skuId)}&contactId=${encodeURIComponent(contactId)}`;
-      const el = document.createElement('div');
-      el.className = 'top3-card';
-      el.innerHTML = `
-        <div class="top3-cat">${q.label}</div>
-        <h3>${card.name}</h3>
-        <p class="top3-tag">${card.tagline}</p>
-        <div class="top3-why"><strong>Why this is in your top 3:</strong> ${q.categoryNote}</div>
-        <a class="btn-primary" href="${href}">Order ${card.name.split(' — ')[0]} →</a>
-      `;
-      cards.appendChild(el);
-    }
-
-    const list = document.getElementById('all-results-list');
+    const list = document.getElementById('ranked-list');
     list.innerHTML = '';
-    for (const r of ranked) {
+    ranked.forEach((r, idx) => {
       const q = questions.find((x) => x.solutionSlug === r.id);
+      const sol = solutions[r.id] || { otc: null, rx: null };
       const li = document.createElement('li');
-      li.innerHTML = `<span class="al-label">${q.label}</span><span class="al-score">${r.total}/12</span>`;
+      li.className = 'ranked-row';
+      li.innerHTML = `
+        <div class="rank-head">
+          <div class="rank-num">#${idx + 1}</div>
+          <div class="rank-title">
+            <h3>${q.label}</h3>
+            <p class="rank-note">${q.categoryNote}</p>
+          </div>
+          <div class="rank-score">${r.total}/12</div>
+        </div>
+        <div class="rank-solutions">
+          ${solutionBlock('OTC', sol.otc, contactId)}
+          ${solutionBlock('Rx', sol.rx, contactId)}
+        </div>
+      `;
       list.appendChild(li);
-    }
+    });
     return top3;
   }
 
@@ -442,39 +462,27 @@ const productCards = Object.fromEntries(
 
   #survey-submit { display: block; margin: 2rem auto 0; min-width: 220px; }
 
-  .results-head { text-align: center; max-width: 640px; margin: 0 auto 2rem; }
+  .results-head { text-align: center; max-width: 720px; margin: 0 auto 2.5rem; }
   .results-head h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin: 0 0 0.5rem; }
   .results-sub { color: #555; }
-  .top3-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
-    max-width: 1100px;
-    margin: 0 auto 2rem;
-  }
-  .top3-card {
-    background: #fff;
-    border: 1px solid #e8e2d6;
-    border-radius: 12px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .top3-cat {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--accent, #b8722e);
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .top3-card h3 { font-family: 'Playfair Display', serif; margin: 0; font-size: 1.25rem; }
-  .top3-tag { color: #555; font-size: 0.9rem; margin: 0; }
-  .top3-why { font-size: 0.875rem; color: #444; background: #faf7f1; padding: 0.75rem; border-radius: 6px; }
-  .top3-card .btn-primary { margin-top: auto; }
-
-  .all-results { max-width: 640px; margin: 0 auto; }
-  .all-results summary { cursor: pointer; color: var(--accent, #b8722e); font-weight: 500; }
+  .ranked-list { list-style: none; padding: 0; margin: 0 auto; max-width: 960px; display: flex; flex-direction: column; gap: 1.5rem; }
+  .ranked-row { background: #fff; border: 1px solid #e8e2d6; border-radius: 14px; padding: 1.5rem; }
+  .rank-head { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: start; padding-bottom: 1rem; border-bottom: 1px solid #f0ebe0; margin-bottom: 1.25rem; }
+  .rank-num { font-family: 'Playfair Display', serif; font-size: 1.75rem; color: var(--accent, #b8722e); font-weight: 600; line-height: 1; }
+  .rank-title h3 { font-family: 'Playfair Display', serif; margin: 0 0 0.3rem; font-size: 1.35rem; }
+  .rank-note { color: #555; font-size: 0.9rem; margin: 0; }
+  .rank-score { font-size: 0.85rem; color: #777; font-weight: 600; align-self: center; }
+  .rank-solutions { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .rank-solutions { grid-template-columns: 1fr; } }
+  .sol { display: flex; gap: 0.75rem; padding: 1rem; border-radius: 10px; background: #faf7f1; }
+  .sol--rx { background: #f3f6f9; }
+  .sol--placeholder { background: #f5f5f5; opacity: 0.85; }
+  .sol-kind { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; color: var(--accent, #b8722e); flex-shrink: 0; padding-top: 2px; }
+  .sol--rx .sol-kind { color: #2a5980; }
+  .sol-body { flex: 1; }
+  .sol-body h4 { font-family: 'Playfair Display', serif; margin: 0 0 0.4rem; font-size: 1rem; }
+  .sol-tag { font-size: 0.85rem; color: #444; margin: 0 0 0.75rem; line-height: 1.45; }
+  .btn-primary--sm { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
   .retake-line { text-align: center; margin-top: 2rem; }
   .link-button { background: none; border: none; color: var(--accent, #b8722e); font: inherit; text-decoration: underline; cursor: pointer; padding: 0; }
   .all-list { list-style: none; padding: 0; margin: 1rem 0 0; }

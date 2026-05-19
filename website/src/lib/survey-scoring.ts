@@ -1,4 +1,4 @@
-export const BONUS_MAP: Record<string, number> = { gut: 2, weight: 1, hormones: 1 };
+export const BONUS_MAP: Record<string, number> = { gut: 2 };
 
 export function scoreToTop3(rawScores: Record<string, number>): string[] {
   return Object.keys(rawScores)

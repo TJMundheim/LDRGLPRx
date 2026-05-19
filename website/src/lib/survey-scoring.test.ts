@@ -7,8 +7,8 @@ const zeroes = (): Record<string, number> =>
   Object.fromEntries(CATS.map((c) => [c, 0]));
 
 describe('BONUS_MAP', () => {
-  it('exposes gut=2, weight=1, hormones=1 only', () => {
-    expect(BONUS_MAP).toEqual({ gut: 2, weight: 1, hormones: 1 });
+  it('exposes gut=2 only', () => {
+    expect(BONUS_MAP).toEqual({ gut: 2 });
   });
 });
 
@@ -39,31 +39,24 @@ describe('scoreToTop3', () => {
     expect(scoreToTop3(s)).toEqual(['gut', 'sleep', 'cognitive']);
   });
 
-  it('applies weight +1 bonus', () => {
+  it('weight and hormones get no bonus — pure raw score ranking', () => {
     const s = zeroes();
     s.weight = 6;
-    s.sleep = 6;
-    s.cognitive = 4;
-    expect(scoreToTop3(s)[0]).toBe('weight');
+    s.hormones = 6;
+    s.sleep = 7;
+    s.cognitive = 5;
+    expect(scoreToTop3(s)[0]).toBe('sleep');
   });
 
-  it('applies hormones +1 bonus', () => {
-    const s = zeroes();
-    s.hormones = 5;
-    s.sleep = 5;
-    s.cognitive = 3;
-    expect(scoreToTop3(s)[0]).toBe('hormones');
-  });
-
-  it('breaks ties by bonus desc (gut > weight > non-bonus)', () => {
+  it('gut still wins ties via its +2 bonus', () => {
     const s = zeroes();
     s.gut = 5;
     s.weight = 7;
-    s.sleep = 8;
-    expect(scoreToTop3(s)).toEqual(['weight', 'sleep', 'gut']);
+    s.sleep = 6;
+    expect(scoreToTop3(s)).toEqual(['gut', 'weight', 'sleep']);
   });
 
-  it('deterministic alphabetic tie-break when raw+bonus and bonus both equal', () => {
+  it('deterministic alphabetic tie-break when raw+bonus equal', () => {
     const s = zeroes();
     s.sleep = 5;
     s.cognitive = 5;
@@ -83,6 +76,6 @@ describe('scoreToTop3', () => {
       cognitive: 7,
       hormones: 8,
     };
-    expect(scoreToTop3(s)).toEqual(['hormones', 'sleep', 'weight']);
+    expect(scoreToTop3(s)).toEqual(['sleep', 'hormones', 'cognitive']);
   });
 });
