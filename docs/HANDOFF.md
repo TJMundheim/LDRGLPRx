@@ -1,6 +1,75 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-05-19 AM (survey-first funnel build complete).
+Last updated: 2026-05-19 PM (email-sender Lambda + Cognito Mailgun migration + form wiring).
+
+---
+
+## 🌙 Afternoon status report — email-sender Lambda live (2026-05-19 PM)
+
+### What shipped (all live in AWS, all on `main`)
+
+**1. New thin Lambda `my4mlife-email-sender` (us-east-2, runtime `nodejs24.x`, 84-line handler).**
+- Source: [lambdas/email-sender/src/handler.ts](lambdas/email-sender/src/handler.ts)
+- Deploy script: [lambdas/email-sender/infra/deploy.sh](lambdas/email-sender/infra/deploy.sh) — idempotent; safe to re-run anytime.
+- Handler detects three event shapes:
+  - **Cognito `CustomMessage_*`** → returns branded subject + HTML for Cognito to send (verification codes).
+  - **API Gateway HTTP** (`requestContext` + JSON body) → sends via Mailgun, returns `{id}` or `{error}`.
+  - **Direct invoke** (raw `SendPayload`) → sends via Mailgun.
+- Supports three `kind`s:
+  - `verification` — from `verification@my4mlife.com`, caller-supplied subject/HTML.
+  - `info` — from `info@my4mlife.com`, caller-supplied subject/HTML.
+  - `form` — **recipient resolved server-side from secret** (clients cannot direct mail anywhere). Renders submitted fields as an HTML table.
+
+**2. Cognito CustomMessage trigger wired** on User Pool `clientportal-users` (`us-east-2_kIpKnr17R`). Branded verification email/HTML. Existing 5 triggers (DefineAuth/CreateAuth/VerifyAuth/PostConfirmation/PostAuthentication) preserved.
+
+**3. SES → Mailgun migration for OTP flow.** The CDK-deployed `CreateAuthChallenge` lambda was sending OTP codes via SES, which is in **sandbox mode** (production access never requested) — every unverified recipient 500'd. Switched it to invoke `my4mlife-email-sender` (`kind: 'verification'`). Hot-patch script at [infra/clientportal/deploy-create-auth-challenge.sh](infra/clientportal/deploy-create-auth-challenge.sh) rebuilds + redeploys without needing `cdk deploy`. CDK source ([infra/clientportal/cdk/lib/auth-stack.ts:58](infra/clientportal/cdk/lib/auth-stack.ts:58)) updated to match so future `cdk deploy` does the right thing.
+
+**4. New AWS Secrets Manager secret `form-recipients`** = `{"default":"drtj@my4mlife.com"}`. Edit this secret to change where form submissions go — no code change needed.
+
+**5. New HTTP API route `POST /api/contact-form`** on existing API `My4MLifeLeadCapture` (`v9svm8ds74`) → `my4mlife-email-sender`. AuthorizationType: NONE (public). CORS restricted to my4mlife.com / app.my4mlife.com / localhost dev.
+
+**6. All 5 website forms wired to the new endpoint** (deployed to https://my4mlife.com):
+
+| Page / component | formId in subject | Notes |
+|---|---|---|
+| [website/src/pages/contact.astro](website/src/pages/contact.astro) | `contact` | Was fake-success — now actually submits |
+| [website/src/components/EmailCapture.astro](website/src/components/EmailCapture.astro) | `email-capture:<source>` | Was POSTing to non-existent `/api/lead-capture` |
+| [website/src/pages/assessment.astro](website/src/pages/assessment.astro) | `public-assessment` | Same — was silent failure |
+| [website/src/pages/referral.astro](website/src/pages/referral.astro) | `referral` | New notification on link generation |
+| [website/src/components/RequestApp.astro](website/src/components/RequestApp.astro) | `request-app-homepage` | Fire-and-forget notification *in addition to* the existing send-app-link flow |
+
+### Secrets in play
+
+| Secret name | Shape | Purpose |
+|---|---|---|
+| `mailgun-api-key` | `{"mailgun-send-key":"..."}` | Mailgun outbound auth |
+| `mailgun-email-addresses` | `{"email-verification":"verification@my4mlife.com","email-info":"info@my4mlife.com"}` | From addresses per kind |
+| `form-recipients` | `{"default":"drtj@my4mlife.com"}` | Form submission recipient(s) |
+
+### IAM
+
+- Role: `my4mlife-email-sender-role` (created by deploy.sh, idempotent) — basic execution + inline policy granting `secretsmanager:GetSecretValue` on the three secrets above.
+- `CreateAuthChallenge` lambda role got inline `invoke-email-sender` policy: `lambda:InvokeFunction` scoped to the sender ARN.
+
+### Live verification
+
+- Smoke test from CLI: `curl … /api/contact-form` returned `{"id":"<20260519173830...@my4mlife.com>"}` → drtj inbox received the form.
+- Direct invoke sent test `kind: 'info'` mail to drtj@essentialmanage.com (worked).
+- OTP flow: re-test against `request-otp` should now succeed (previously 500'd with SES sandbox error).
+
+### Commits
+
+- `7dbb4d1a` — email-sender Lambda + route Cognito OTP through Mailgun
+- `233c8231` — Forbid non-main branches and git worktrees (CLAUDE.md rule)
+- `75cf5657` — Wire 5 website forms to email-sender → drtj
+- Website deployed via [website/deploy.sh](website/deploy.sh) (CloudFront invalidations `IP6ESZ7HFYMVDZ34K05ZF2IRT`, `IAOI5Z7LBB5CNLQG3R90YWHK2J`).
+
+### Known open issues / flagged for next Claude
+
+1. **`POST /api/contact-form` is unauthenticated and unthrottled** beyond the API's global 10rps / 50 burst. Anyone with the URL can POST → email to drtj. Recommend WAF rate-based rule per-IP (e.g., 20 / 5min) + optionally reCAPTCHA on the website forms. Not yet implemented — user was made aware twice.
+2. **`/api/request-otp` is also unauthenticated and unthrottled per-IP.** Same risk surface — abuser triggers OTP emails. Same WAF fix applies.
+3. **CDK drift risk:** the Cognito CustomMessage trigger and the `CreateAuthChallenge` env+policy changes were applied directly via AWS CLI (per user's "no CDK" preference). CDK source at [infra/clientportal/cdk/lib/auth-stack.ts](infra/clientportal/cdk/lib/auth-stack.ts) was updated to match, so the next `cdk deploy` will be aligned — but until then, anyone running `cdk diff` will see drift.
+4. **New CLAUDE.md rule (committed `233c8231`):** `main` is the only branch; no worktrees. All work happens in the primary checkout `/Users/thomasmundheim/Desktop/Development/LDRGLPRx`. Future agents must refuse to spawn worktrees.
 
 ---
 
