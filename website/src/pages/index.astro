@@ -11,7 +11,54 @@ const robots = "index, follow";
 ---
 <BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} robots={robots}>
 
-<!-- ===== QUICK-BUY CATEGORY BAND — 8 categories above the hero ===== -->
+<!-- ===== HERO — Survey-first funnel (above all other content) ===== -->
+<section class="hp-hero hp-hero--survey" id="hp-hero-survey">
+  <div class="hp-hero-bg" aria-hidden="true">
+    <img
+      src="/images/hero/main.jpg"
+      alt=""
+      class="hp-hero-img"
+      loading="eager"
+      fetchpriority="high"
+      width="1920"
+      height="1280"
+    />
+    <div class="hp-hero-overlay"></div>
+  </div>
+
+  <div class="container hp-hero-content">
+    <p class="hp-hero-subhead-top">Begin with the end in mind. The next twenty years of your mind are decided by what you do now.</p>
+
+    <a href="/audit" class="btn-primary-xl">Take the 4M Audit &rarr;</a>
+
+    <p class="hp-hero-subhead-bottom">Four minutes. Eight questions. Your top three priorities — ranked, ordered, and ready to act on.</p>
+
+    <p class="hp-hero-scroll-hint">Want to learn more first? Scroll down &darr;</p>
+  </div>
+</section>
+
+<!-- Sticky mobile audit CTA (hidden until hero scrolls off) -->
+<a href="/audit" class="hp-sticky-audit" id="hp-sticky-audit" aria-label="Take the 4M Audit">Take the 4M Audit &rarr;</a>
+<script is:inline>
+  (function () {
+    var hero = document.getElementById('hp-hero-survey');
+    var sticky = document.getElementById('hp-sticky-audit');
+    if (!hero || !sticky || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) sticky.classList.remove('is-visible');
+        else sticky.classList.add('is-visible');
+      });
+    }, { rootMargin: '0px 0px -80% 0px' });
+    io.observe(hero);
+    window.addEventListener('scroll', function () {
+      var nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120);
+      sticky.classList.toggle('at-bottom', nearBottom);
+    }, { passive: true });
+  })();
+</script>
+
+<!-- ===== QUICK-BUY CATEGORY BAND — 8 categories below the hero ===== -->
 <section class="quick-buy-band">
   <div class="container">
     <p class="quick-buy-kicker">Start where you need it most</p>
@@ -79,54 +126,6 @@ const robots = "index, follow";
     <p class="hp-wakeup-tag"><em>Begin with the end in mind. Or arrive at the end by accident.</em></p>
   </div>
 </section>
-
-<!-- ===== HERO — Survey-first funnel ===== -->
-<section class="hp-hero hp-hero--survey" id="hp-hero-survey">
-  <div class="hp-hero-bg" aria-hidden="true">
-    <img
-      src="/images/hero/main.jpg"
-      alt=""
-      class="hp-hero-img"
-      loading="eager"
-      fetchpriority="high"
-      width="1920"
-      height="1280"
-    />
-    <div class="hp-hero-overlay"></div>
-  </div>
-
-  <div class="container hp-hero-content">
-    <p class="hp-hero-subhead-top">Begin with the end in mind. The next twenty years of your mind are decided by what you do now.</p>
-
-    <a href="/audit" class="btn-primary-xl">Take the 4M Audit &rarr;</a>
-
-    <p class="hp-hero-subhead-bottom">Four minutes. Eight questions. Your top three priorities — ranked, ordered, and ready to act on.</p>
-
-    <p class="hp-hero-scroll-hint">Want to learn more first? Scroll down &darr;</p>
-  </div>
-</section>
-
-<!-- Sticky mobile audit CTA (hidden until hero scrolls off) -->
-<a href="/audit" class="hp-sticky-audit" id="hp-sticky-audit" aria-label="Take the 4M Audit">Take the 4M Audit &rarr;</a>
-<script is:inline>
-  (function () {
-    var hero = document.getElementById('hp-hero-survey');
-    var sticky = document.getElementById('hp-sticky-audit');
-    if (!hero || !sticky || !('IntersectionObserver' in window)) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) sticky.classList.remove('is-visible');
-        else sticky.classList.add('is-visible');
-      });
-    }, { rootMargin: '0px 0px -80% 0px' });
-    io.observe(hero);
-    // Hide near page bottom so it doesn't cover footer
-    window.addEventListener('scroll', function () {
-      var nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120);
-      sticky.classList.toggle('at-bottom', nearBottom);
-    }, { passive: true });
-  })();
-</script>
 
 <!-- ===== SECTION 0.5: THE AWARENESS GAP ===== -->
 <section class="hp-section hp-gap-section">
