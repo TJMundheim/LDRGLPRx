@@ -909,9 +909,34 @@ function renderW1(ctx: RenderContext): string {
   ${renderWeekNutritionSection(1)}`;
 }
 
+// Audit category id → factor.name in factors.ts. Used to carry the audit
+// top 3 forward into Week 2's MITIGATE picker. Categories without a direct
+// factor in the catalog stay blank — user picks manually.
+const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
+  'gut-microbiome': 'Gut microbiome health',
+  'sleep': 'Sleep quality & duration',
+  'weight-body-fat': 'Excess body fat',
+  'nutrition': 'Poor nutrition quality',
+  'cognitive': 'Cognitive disengagement',
+};
+
+function auditTop3WithIds(): Array<{ id: string; rawScore: number }> {
+  const scores = loadAuditScores();
+  if (!scores) return [];
+  return AUDIT_CATEGORIES
+    .map(cat => ({ id: cat.id, raw: scores[cat.id] ?? 0, bonus: AUDIT_BONUS_BY_ID[cat.id] ?? 0 }))
+    .filter(x => x.raw > 0)
+    .map(x => ({ ...x, total: x.raw + x.bonus }))
+    .sort((a, b) => b.total - a.total || b.bonus - a.bonus || a.id.localeCompare(b.id))
+    .slice(0, 3)
+    .map(x => ({ id: x.id, rawScore: x.raw }));
+}
+
 function renderW2(W: Workbook): string {
   const wRef = W.weekReflections;
   const g = (k: string) => esc(wRef[k] ?? '');
+  const top3 = auditTop3WithIds();
+  const proteinTargetFallback = Number(W.protein) > 0 ? `${Math.round(Number(W.protein) * 0.9)}g/day` : '';
 
   const pillarActionBox = (color: string, content: string) =>
     `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
@@ -967,19 +992,27 @@ function renderW2(W: Workbook): string {
       This week: execute the first immediate action for each one. Track your progress at the end of the week.
     </div>
     ${[1, 2, 3].map(n => {
-      const selectedName = g(`w2_factor${n}_name`);
+      const userSetName = g(`w2_factor${n}_name`);
+      const userSetScore = g(`w2_factor${n}_score`);
+      const auditItem = top3[n - 1];
+      const fallbackName = auditItem ? (AUDIT_ID_TO_FACTOR_NAME[auditItem.id] ?? '') : '';
+      const fallbackScore = auditItem ? String(auditItem.rawScore) : '';
+      const selectedName = userSetName || fallbackName;
+      const displayScore = userSetScore || fallbackScore;
+      const prefilled = !userSetName && !!fallbackName;
+      const prefillTag = prefilled ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from audit)</span>` : '';
       return `
     <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
       <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">PRIORITY FACTOR ${n}</div>
       <div class="g2">
         <div>
-          <label for="w2-f${n}-name">Factor name (from your Week 1 audit)</label>
+          <label for="w2-f${n}-name">Factor name (from your Week 1 audit)${prefillTag}</label>
           ${factorNameSelect(selectedName, `weekReflections.w2_factor${n}_name`)}
         </div>
         <div>
           <label for="w2-f${n}-score">Week 1 score (0–10) you gave it</label>
           <input id="w2-f${n}-score" type="number" min="0" max="10" placeholder="0–10"
-            value="${g(`w2_factor${n}_score`)}"
+            value="${esc(displayScore)}"
             oninput="portalField('weekReflections.w2_factor${n}_score',this.value)">
         </div>
       </div>
@@ -1019,8 +1052,8 @@ function renderW2(W: Workbook): string {
       <div class="card-title" style="font-size:10px;margin-bottom:8px">PROTEIN & EATING WINDOW COMPLIANCE</div>
       <div class="g2">
         <div>
-          <label for="w2-protein-target">My protein target (from Week 1 calculator)</label>
-          <input id="w2-protein-target" placeholder="e.g. 165g/day" value="${g('w2_protein_target')}"
+          <label for="w2-protein-target">My protein target (from Week 1 calculator)${!wRef['w2_protein_target'] && proteinTargetFallback ? ` <span style="font-size:10px;color:#7A3A20;font-style:italic;font-weight:600">(from Week 1)</span>` : ''}</label>
+          <input id="w2-protein-target" placeholder="e.g. 165g/day" value="${esc(wRef['w2_protein_target'] ?? proteinTargetFallback)}"
             oninput="portalField('weekReflections.w2_protein_target',this.value)">
         </div>
         <div>
