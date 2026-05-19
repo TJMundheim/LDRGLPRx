@@ -85,10 +85,25 @@ const skuList = Object.values(SKUS);
     availEl.hidden = false;
   }
 
+  // Pricing display — locked 2026-05-18:
+  // - 90-day bundle first purchase: 20% off retail
+  // - Anything else first purchase OR active subscriber: 15% off retail
+  // For now (pre-Stripe) we show both the retail and the most-aggressive discount available
+  var retail = sku.retailPriceUSD;
   var memberEl = document.getElementById('cart-member-price');
   var retailEl = document.getElementById('cart-retail-price');
-  memberEl.textContent = sku.memberPriceUSD ? '$' + sku.memberPriceUSD : 'TBD';
-  retailEl.textContent = sku.retailPriceUSD ? '$' + sku.retailPriceUSD : 'TBD';
+  if (retail) {
+    var discountPct = sku.variant === 'ninety-day-bundle' ? 20 : 15;
+    var discounted = (retail * (100 - discountPct) / 100).toFixed(2);
+    memberEl.textContent = '$' + discounted;
+    retailEl.textContent = '$' + retail.toFixed(2);
+    // Update the "Member price" label to indicate the discount tier
+    var memberLabel = document.querySelector('.cart-price-stack:not(.cart-price-retail) .cart-price-label');
+    if (memberLabel) memberLabel.textContent = (discountPct === 20 ? '20% off (first-purchase bundle)' : '15% off (first purchase or subscriber)');
+  } else {
+    memberEl.textContent = 'TBD';
+    retailEl.textContent = 'TBD';
+  }
 
   // Checkout button — only enabled if product is available AND Stripe price ID is set
   var btn = document.getElementById('cart-checkout-btn');
