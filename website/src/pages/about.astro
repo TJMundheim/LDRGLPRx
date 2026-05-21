@@ -8,7 +8,7 @@ const ogImage = "https://www.my4mlife.com/og-image.svg";
 const robots = "index, follow";
 ---
 <BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage} robots={robots}>
-<script type="application/ld+json" is:inline set:html={`{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.my4mlife.com/#organization","name":"My4MLife","url":"https://www.my4mlife.com/","logo":"https://www.my4mlife.com/og-image.svg","description":"Brain-health-first coaching and education platform built on the 4M framework. Founded by Dr. TJ Mundheim, DC.","foundingDate":"2024","areaServed":"US","sameAs":["https://facebook.com/ldrglprx","https://instagram.com/ldrglprx","https://x.com/ldrglprx","https://linkedin.com/company/ldrglprx"],"knowsAbout":["Brain health","Cognitive longevity","Gut-brain axis","Longevity protocols","Health education","4M framework"]},{"@type":"AboutPage","@id":"https://www.my4mlife.com/about#webpage","url":"https://www.my4mlife.com/about","name":"About My4MLife","description":"My4MLife is a brain-health-first coaching and education platform built on the 4M framework by Dr. TJ Mundheim, DC.","inLanguage":"en-US"},{"@type":"FAQPage","@id":"https://www.my4mlife.com/about#faq","mainEntity":[{"@type":"Question","name":"Is My4MLife a medical practice?","acceptedAnswer":{"@type":"Answer","text":"No. My4MLife is a health-education and protocol coaching platform. Medical care — including diagnosis and prescriptions — is delivered by a contracted licensed telemedicine partner, not by My4MLife."}},{"@type":"Question","name":"Do I need to be a patient of Dr. Mundheim's to use My4MLife?","acceptedAnswer":{"@type":"Answer","text":"No. The Protégé tier is activated by any My4MLife purchase. Insider tiers include access to live group sessions with Dr. TJ."}},{"@type":"Question","name":"What does Protege include?","acceptedAnswer":{"@type":"Answer","text":"The full My4MLife App, weekly onboarding sessions, a 20-factor self-assessment, daily protocols, gut-brain repair framework, and a morning routine tracker. Activated by any My4MLife purchase."}},{"@type":"Question","name":"How is Insider different from Protege?","acceptedAnswer":{"@type":"Answer","text":"Insider tiers include live group sessions with Dr. TJ, member-only pricing on protocol products, group coaching, and deeper education content. Three sub-tiers available."}},{"@type":"Question","name":"What is a Graduate?","acceptedAnswer":{"@type":"Answer","text":"Graduate is a status earned after 12+ months of continuous Insider participation plus specific program milestones. It carries permanent member benefits and lifetime pricing on protocol products."}}]}]}`} slot="head" />
+<script type="application/ld+json" is:inline set:html={`{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.my4mlife.com/#organization","name":"My4MLife","url":"https://www.my4mlife.com/","logo":"https://www.my4mlife.com/og-image.svg","description":"Brain-health-first coaching and education platform built on the 4M framework. Founded by Dr. TJ Mundheim, DC.","foundingDate":"2024","areaServed":"US","sameAs":["https://facebook.com/ldrglprx","https://instagram.com/ldrglprx","https://x.com/ldrglprx","https://linkedin.com/company/ldrglprx"],"knowsAbout":["Brain health","Cognitive longevity","Gut-brain axis","Longevity protocols","Health education","4M framework"]},{"@type":"AboutPage","@id":"https://www.my4mlife.com/about#webpage","url":"https://www.my4mlife.com/about","name":"About My4MLife","description":"My4MLife is a brain-health-first coaching and education platform built on the 4M framework by Dr. TJ Mundheim, DC.","inLanguage":"en-US"},{"@type":"FAQPage","@id":"https://www.my4mlife.com/about#faq","mainEntity":[{"@type":"Question","name":"Is My4MLife a medical practice?","acceptedAnswer":{"@type":"Answer","text":"No. My4MLife is a health-education and protocol coaching platform. Medical care — including diagnosis and prescriptions — is delivered by a contracted licensed telemedicine partner, not by My4MLife."}},{"@type":"Question","name":"Do I need to be a patient of Dr. Mundheim's to use My4MLife?","acceptedAnswer":{"@type":"Answer","text":"No. The Protégé tier is activated by any My4MLife purchase and includes access to the weekly group Zoom with Dr. TJ."}},{"@type":"Question","name":"What does Protege include?","acceptedAnswer":{"@type":"Answer","text":"The full My4MLife App, weekly onboarding sessions, a 20-factor self-assessment, daily protocols, gut-brain repair framework, and a morning routine tracker. Activated by any My4MLife purchase."}},{"@type":"Question","name":"What does member pricing look like?","acceptedAnswer":{"@type":"Answer","text":"15% off your first purchase, 20% off a first-time 90-day starter bundle, and 15% off every order while your subscription stays active. Applies to My4MLife white-label OTC products and services."}},{"@type":"Question","name":"What is a Graduate?","acceptedAnswer":{"@type":"Answer","text":"Graduate is a status earned after 12+ continuous months of active My4MLife subscription. It carries permanent member benefits and permanent app access."}}]}]}`} slot="head" />
 
 
 <!-- ===== HERO ===== -->
@@ -176,18 +176,11 @@ const robots = "index, follow";
           <p>The starting point for everyone. Full My4MLife App access, 20-factor self-assessment, onboarding sessions, daily protocols, and the gut-brain repair framework. Free forever. Activated by any purchase.</p>
         </div>
       </div>
-      <div class="tier-row tier-paid">
-        <div class="tier-badge">Insider</div>
-        <div class="tier-info">
-          <h3>Insider / Insider Plus / Insider Concierge</h3>
-          <p>Live group sessions with Dr. TJ. Member pricing on protocol products and labs. Deeper education content. Three sub-tiers to match your level of engagement — from community-focused to full personal protocol design with Dr. TJ.</p>
-        </div>
-      </div>
       <div class="tier-row tier-earned">
         <div class="tier-badge">Earned</div>
         <div class="tier-info">
           <h3>Graduate</h3>
-          <p>Status earned after 12+ continuous months of Insider participation and completion of specific program milestones. Permanent member benefits. Lifetime pricing on protocol products.</p>
+          <p>Status earned after 12+ continuous months of active My4MLife subscription. Permanent member benefits and permanent app access — even if you later cancel. The only status in this program that cannot be purchased.</p>
         </div>
       </div>
     </div>
@@ -212,19 +205,19 @@ const robots = "index, follow";
       </details>
       <details style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.5rem; margin-bottom:0.8rem;">
         <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">Do I need to be a patient of Dr. TJ's to join?</summary>
-        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">No. The Protégé tier is free and open to anyone. Insider tiers include access to live group sessions with Dr. TJ — but those are coaching and education, not medical appointments.</p>
+        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">No. The Protégé tier is activated by any My4MLife purchase and includes access to the weekly group Zoom with Dr. TJ — coaching and education, not medical appointments.</p>
       </details>
       <details style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.5rem; margin-bottom:0.8rem;">
         <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">What does Protégé include?</summary>
         <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">The full My4MLife App, weekly onboarding sessions, the 20-factor self-assessment, daily protocols, gut-brain repair framework, and a morning routine tracker. Activated by any My4MLife purchase.</p>
       </details>
       <details style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.5rem; margin-bottom:0.8rem;">
-        <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">How is Insider different from Protégé?</summary>
-        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">Live group sessions with Dr. TJ, member-only pricing on supplements and labs, group coaching, and deeper education content. Three Insider sub-tiers let you choose the level of engagement that fits you.</p>
+        <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">What does member pricing look like?</summary>
+        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">15% off your first purchase, 20% off a first-time 90-day starter bundle, and 15% off every order for as long as your subscription stays active. Applies to My4MLife white-label OTC products and services.</p>
       </details>
       <details style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.5rem; margin-bottom:0.8rem;">
         <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">What is a Graduate?</summary>
-        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">Graduate is a status earned after 12+ months of continuous Insider participation plus specific program milestones. It carries permanent member benefits and lifetime pricing on protocol products. You don't buy it — you earn it.</p>
+        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">Graduate is a status earned after 12+ continuous months of active My4MLife subscription. It carries permanent member benefits and permanent app access. You don't buy it — you earn it.</p>
       </details>
       <details style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.5rem; margin-bottom:0.8rem;">
         <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">Who is the telemedicine partner?</summary>
@@ -240,7 +233,7 @@ const robots = "index, follow";
       </details>
       <details style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.5rem; margin-bottom:0.8rem;">
         <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">Can I cancel anytime?</summary>
-        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">Yes. Paid Insider tiers can be cancelled at any time. Protégé is free — no cancellation needed.</p>
+        <p style="margin-top:0.8rem; color:var(--text); font-size:0.95rem;">Yes. Subscriptions can be cancelled at any time from your account. Cancelling pauses member discounts and app access (unless you've earned Graduate or purchased a consult, which grant permanent access).</p>
       </details>
       <details style="background:white; border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.5rem; margin-bottom:0.8rem;">
         <summary style="font-weight:600; color:var(--dark); cursor:pointer; font-size:1.02rem;">How quickly can I get a telemedicine consult?</summary>
