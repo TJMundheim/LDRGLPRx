@@ -7,31 +7,42 @@ const title = 'The Personalized Assessment — My4MLife';
 const description = 'Take the Personalized Assessment. 8 questions, 3 minutes — see your top 3 priorities and the exact starting point.';
 const canonical = 'https://www.my4mlife.com/audit';
 
+type RxOption = {
+  name: string;
+  tagline: string;
+  /** Default (highlighted) consult SKU. $199 for non-T, $249 for T. */
+  skuId: string;
+  /** Optional "I have recent labs" downgrade. Omitted for testosterone — labs are mandatory there. */
+  basicSkuId?: string;
+};
 type SolutionRow = {
   otc: { skuId: string; name: string; tagline: string } | null;
-  rx: { name: string; tagline: string; skuId: string } | null;
+  rx: RxOption | null;
 };
 
+// All non-testosterone Rx categories default to consult-comprehensive ($199, includes
+// wellness lab + full hormone panel). The $99 consult-basic is available as a "recent labs
+// in hand" downgrade. Hormones is the only category with no $99 option — labs are mandatory.
 const SOLUTIONS: Record<string, SolutionRow> = {
   gut: {
     otc: { skuId: 'biome-ns-ultra-sub', name: 'Biome NS Ultra', tagline: 'Daily gut-brain seal powder — L-glutamine, DGL, berberine, aloe, curcumin, zinc carnosine. The foundational starting protocol.' },
-    rx: { skuId: 'comprehensive-consult', name: 'Biome NS Rx (BPC-157 + L-Glutamine + Aloe)', tagline: 'Proprietary compounded triple-action stack — barrier repair + epithelial fuel + mucosal soothing in one prescription. Stacks on top of Biome NS Ultra. Prescribed via our telemedicine partner.' },
+    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'Biome NS Rx (BPC-157 + L-Glutamine + Aloe)', tagline: 'Proprietary compounded triple-action stack — barrier repair + epithelial fuel + mucosal soothing in one prescription. Stacks on top of Biome NS Ultra. Prescribed via our telemedicine partner.' },
   },
   sleep: {
     otc: { skuId: 'sleeprestore-sub', name: 'SleepRestore', tagline: 'Magnesium bisglycinate + glycine + apigenin + L-theanine + KSM-66 ashwagandha. Sleep architecture + cortisol + nocturnal CV protection.' },
-    rx: { skuId: 'comprehensive-consult', name: 'SleepRestore Rx (oral nattokinase)', tagline: 'Compounded oral nattokinase prescribed via telemedicine consult — nocturnal cardiovascular fibrinolytic for the highest-risk hours.' },
+    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'SleepRestore Rx (oral nattokinase)', tagline: 'Compounded oral nattokinase prescribed via telemedicine consult — nocturnal cardiovascular fibrinolytic for the highest-risk hours.' },
   },
   weight: {
     otc: null,
-    rx: { skuId: 'comprehensive-consult', name: 'Weight-loss consult — GLP-1 candidacy', tagline: 'Telemedicine consult to evaluate GLP-1 candidacy (semaglutide/tirzepatide) plus the full metabolic protocol. The first move on weight is the clinical conversation.' },
+    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'Weight-loss consult — GLP-1 candidacy', tagline: 'Telemedicine consult to evaluate GLP-1 candidacy (semaglutide/tirzepatide) plus the full metabolic protocol. The first move on weight is the clinical conversation.' },
   },
   nutrition: {
     otc: null,
-    rx: { skuId: 'comprehensive-consult', name: 'Nutrition consult', tagline: 'Telemedicine consult to map your nutrition protocol against your hormones, gut, and metabolic markers.' },
+    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'Nutrition consult', tagline: 'Telemedicine consult to map your nutrition protocol against your hormones, gut, and metabolic markers.' },
   },
   'erectile-dysfunction': {
     otc: { skuId: 'mitovita-sub', name: 'MitoVita', tagline: 'Creatine + L-citrulline + beetroot + electrolytes. Mitochondrial ATP + endothelial nitric oxide — the OTC foundation for ED and stamina.' },
-    rx: { skuId: 'comprehensive-consult', name: 'ED consult — PDE5i + hormonal review', tagline: 'ED is a canary. Telemedicine consult to evaluate hormones, vascular health, and PDE5-inhibitor or TRT candidacy.' },
+    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'ED consult — PDE5i + hormonal review', tagline: 'ED is a canary. Telemedicine consult to evaluate hormones, vascular health, and PDE5-inhibitor or TRT candidacy.' },
   },
   environment: {
     otc: null,
@@ -39,11 +50,12 @@ const SOLUTIONS: Record<string, SolutionRow> = {
   },
   cognitive: {
     otc: { skuId: 'neurobridge-sub', name: 'NeuroBridge', tagline: 'Methylated B-complex (P-5-P, methylcobalamin, 5-MTHF) — homocysteine + methylation foundation for cognitive longevity.' },
-    rx: { skuId: 'comprehensive-consult', name: 'Cognitive consult', tagline: 'Telemedicine consult for cognitive baseline, peptide candidacy, and hormone-cognition integration.' },
+    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'Cognitive consult', tagline: 'Telemedicine consult for cognitive baseline, peptide candidacy, and hormone-cognition integration.' },
   },
   hormones: {
     otc: null,
-    rx: { skuId: 'comprehensive-consult', name: 'Hormone consult — TRT candidacy', tagline: 'Telemedicine consult to evaluate TRT candidacy and order your full hormone panel.' },
+    // Testosterone-specific consult; no basicSkuId — labs are mandatory for any TRT script.
+    rx: { skuId: 'consult-hormone', name: 'Testosterone consult — TRT candidacy', tagline: 'Telemedicine TRT consult + mandatory hormone panel labs. Required for any testosterone prescription. Includes lifetime app access.' },
   },
 };
 
@@ -232,8 +244,16 @@ for (const slug of Object.keys(SOLUTIONS)) {
       return `<div class="sol sol--placeholder"><span class="sol-kind">${kind}</span><div class="sol-body"><h4>Coming soon</h4><p class="sol-tag">No standalone ${kind === 'OTC' ? 'over-the-counter product' : 'prescription pathway'} for this category yet. We'll notify you when it launches.</p></div></div>`;
     }
     const href = `/cart?sku=${encodeURIComponent(sol.skuId)}&contactId=${encodeURIComponent(contactId)}`;
-    const ctaLabel = kind === 'Rx' ? 'Book the consult →' : `Order ${sol.name.split(' — ')[0].split(' (')[0]} →`;
-    return `<div class="sol sol--${kind.toLowerCase()}"><span class="sol-kind">${kind}</span><div class="sol-body"><h4>${sol.name}</h4><p class="sol-tag">${sol.tag || sol.tagline}</p><a class="btn-primary btn-primary--sm" href="${href}">${ctaLabel}</a></div></div>`;
+    if (kind === 'Rx') {
+      const isHormone = sol.skuId === 'consult-hormone';
+      const primaryLabel = isHormone ? 'Book TRT consult — $249 →' : 'Book consult + labs — $199 →';
+      const downgrade = sol.basicSkuId
+        ? `<a class="sol-downgrade" href="/cart?sku=${encodeURIComponent(sol.basicSkuId)}&contactId=${encodeURIComponent(contactId)}">I had labs in the last 6 months — $99</a>`
+        : `<p class="sol-mandatory">Labs are mandatory for any testosterone prescription.</p>`;
+      return `<div class="sol sol--rx"><span class="sol-kind">Rx</span><div class="sol-body"><h4>${sol.name}</h4><p class="sol-tag">${sol.tagline}</p><a class="btn-primary btn-primary--sm" href="${href}">${primaryLabel}</a>${downgrade}</div></div>`;
+    }
+    const ctaLabel = `Order ${sol.name.split(' — ')[0].split(' (')[0]} →`;
+    return `<div class="sol sol--otc"><span class="sol-kind">OTC</span><div class="sol-body"><h4>${sol.name}</h4><p class="sol-tag">${sol.tagline}</p><a class="btn-primary btn-primary--sm" href="${href}">${ctaLabel}</a></div></div>`;
   }
 
   function renderResults(raw, contactId) {
@@ -503,6 +523,9 @@ for (const slug of Object.keys(SOLUTIONS)) {
   .sol-body h4 { font-family: 'Playfair Display', serif; margin: 0 0 0.4rem; font-size: 1rem; }
   .sol-tag { font-size: 0.85rem; color: #444; margin: 0 0 0.75rem; line-height: 1.45; }
   .btn-primary--sm { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+  .sol-downgrade { display: block; margin-top: 0.55rem; font-size: 0.78rem; color: #5a6a7a; text-decoration: underline; }
+  .sol-downgrade:hover { color: #2a5980; }
+  .sol-mandatory { margin: 0.55rem 0 0; font-size: 0.78rem; font-style: italic; color: #7a4a2a; }
   .get-app-cta { max-width: 720px; margin: 2.5rem auto 0; padding: 1.75rem 1.5rem; text-align: center; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 100%); color: #fff; border-radius: 14px; }
   .get-app-cta h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin: 0 0 0.5rem; color: #fff; }
   .get-app-cta p { color: #cbdbe8; margin: 0 0 1.25rem; }

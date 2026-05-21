@@ -211,18 +211,65 @@ export const SKUS: Record<string, SKU> = {
   },
 
   // ========== Service SKUs ==========
-  'comprehensive-consult': {
-    id: 'comprehensive-consult',
-    name: 'Comprehensive 4M Consult',
-    tagline: 'Full lab review, hormone panel, personalized protocol via licensed telemedicine partner — includes lifetime app access',
-    retailPriceUSD: null,
+  // Pricing locked 2026-05-20 (placeholder — final pending telemed + lab quotes):
+  //   $199 = default for every non-testosterone Rx (consult + comprehensive wellness lab,
+  //          full hormone panel included so testosterone deficiency surfaces opportunistically)
+  //   $99  = "I have recent labs" downgrade — same consult, no lab order
+  //   $249 = testosterone-specific (telemed partner charges more for T review + script)
+  'consult-comprehensive': {
+    id: 'consult-comprehensive',
+    name: 'Comprehensive 4M Consult + Wellness Labs',
+    tagline: 'Telemedicine consult + comprehensive wellness lab including a full hormone panel. The default starting point for every Rx category except testosterone.',
+    retailPriceUSD: 199,
     cadence: 'one-time',
     stripePriceId: null,
     available: false,
     availableNote: 'Consult opening soon — get notified at /consult',
     solutionSlug: 'consult',
     variant: 'service',
-    servingDescription: 'Single comprehensive consult + lifetime app access',
+    servingDescription: 'Single consult + comprehensive wellness lab + lifetime app access',
+  },
+  'consult-basic': {
+    id: 'consult-basic',
+    name: '4M Consult (recent labs in hand)',
+    tagline: 'Telemedicine consult only — bring your recent lab results (within 6 months). Skips the new lab order and saves $100.',
+    retailPriceUSD: 99,
+    cadence: 'one-time',
+    stripePriceId: null,
+    available: false,
+    availableNote: 'Consult opening soon — get notified at /consult',
+    solutionSlug: 'consult',
+    variant: 'service',
+    servingDescription: 'Single consult + lifetime app access (lab order not included)',
+  },
+  'consult-hormone': {
+    id: 'consult-hormone',
+    name: 'Testosterone Consult + Hormone Panel',
+    tagline: 'Telemedicine TRT consult + mandatory hormone panel labs (required for any testosterone prescription). Includes lifetime app access.',
+    retailPriceUSD: 249,
+    cadence: 'one-time',
+    stripePriceId: null,
+    available: false,
+    availableNote: 'Consult opening soon — get notified at /consult',
+    solutionSlug: 'hormones',
+    variant: 'service',
+    servingDescription: 'TRT consult + hormone panel + lifetime app access',
+  },
+  // Legacy alias — keep so any old links to ?sku=comprehensive-consult still route
+  // to the new comprehensive SKU. Safe to remove after the next sweep verifies no
+  // references remain across website + app + emails.
+  'comprehensive-consult': {
+    id: 'comprehensive-consult',
+    name: 'Comprehensive 4M Consult + Wellness Labs',
+    tagline: 'Telemedicine consult + comprehensive wellness lab including a full hormone panel.',
+    retailPriceUSD: 199,
+    cadence: 'one-time',
+    stripePriceId: null,
+    available: false,
+    availableNote: 'Consult opening soon — get notified at /consult',
+    solutionSlug: 'consult',
+    variant: 'service',
+    servingDescription: 'Single consult + comprehensive wellness lab + lifetime app access',
   },
 };
 
