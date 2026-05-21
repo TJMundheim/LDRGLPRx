@@ -14,15 +14,64 @@ const robots = "index, follow";
 <!-- ===== HERO — Survey-first funnel (above all other content) ===== -->
 <section class="hp-hero hp-hero--survey" id="hp-hero-survey">
   <div class="hp-hero-bg" aria-hidden="true">
-    <img
-      src="/images/hero/main.jpg"
-      alt=""
-      class="hp-hero-img"
-      loading="eager"
-      fetchpriority="high"
-      width="1920"
-      height="1280"
-    />
+    <div class="hp-hero-gradient"></div>
+    <svg class="hp-hero-neural" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="neuronGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#5fb8d6" stop-opacity="0.95" />
+          <stop offset="60%" stop-color="#3a86a8" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#1a4a6a" stop-opacity="0" />
+        </radialGradient>
+        <filter id="brainBlur" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.2" />
+        </filter>
+      </defs>
+
+      {/* Two cerebral hemispheres — abstract brain silhouette, very subtle */}
+      <g class="hp-hero-brain" opacity="0.18" filter="url(#brainBlur)">
+        <path d="M 600 180 C 460 180 360 270 360 400 C 360 510 430 580 530 600 C 560 620 580 640 600 640 C 620 640 640 620 670 600 C 770 580 840 510 840 400 C 840 270 740 180 600 180 Z" fill="none" stroke="#7ec8e0" stroke-width="2.5" />
+        <path d="M 600 200 C 600 400 600 600 600 640" fill="none" stroke="#7ec8e0" stroke-width="1.2" stroke-dasharray="4,6" />
+      </g>
+
+      {/* Connections — drawn first so neurons sit on top */}
+      <g class="hp-hero-edges" stroke="#5fb8d6" stroke-width="1" stroke-opacity="0.35" fill="none">
+        <line x1="420" y1="280" x2="500" y2="320" class="edge e1" />
+        <line x1="500" y1="320" x2="540" y2="420" class="edge e2" />
+        <line x1="540" y1="420" x2="450" y2="480" class="edge e3" />
+        <line x1="450" y1="480" x2="380" y2="380" class="edge e4" />
+        <line x1="380" y1="380" x2="420" y2="280" class="edge e5" />
+        <line x1="500" y1="320" x2="600" y2="260" class="edge e6" />
+        <line x1="600" y1="260" x2="700" y2="320" class="edge e7" />
+        <line x1="700" y1="320" x2="780" y2="280" class="edge e8" />
+        <line x1="700" y1="320" x2="660" y2="420" class="edge e9" />
+        <line x1="660" y1="420" x2="540" y2="420" class="edge e10" />
+        <line x1="660" y1="420" x2="750" y2="480" class="edge e11" />
+        <line x1="750" y1="480" x2="820" y2="380" class="edge e12" />
+        <line x1="820" y1="380" x2="780" y2="280" class="edge e13" />
+        <line x1="540" y1="420" x2="500" y2="540" class="edge e14" />
+        <line x1="500" y1="540" x2="600" y2="580" class="edge e15" />
+        <line x1="600" y1="580" x2="700" y2="540" class="edge e16" />
+        <line x1="700" y1="540" x2="660" y2="420" class="edge e17" />
+        <line x1="450" y1="480" x2="500" y2="540" class="edge e18" />
+        <line x1="750" y1="480" x2="700" y2="540" class="edge e19" />
+        <line x1="600" y1="260" x2="540" y2="420" class="edge e20" />
+        <line x1="600" y1="260" x2="660" y2="420" class="edge e21" />
+      </g>
+
+      {/* Neurons */}
+      <g class="hp-hero-nodes">
+        {[
+          [420, 280], [500, 320], [540, 420], [450, 480], [380, 380],
+          [600, 260], [700, 320], [780, 280], [660, 420], [750, 480],
+          [820, 380], [500, 540], [600, 580], [700, 540],
+        ].map(([cx, cy], i) => (
+          <g class={`node n${i}`}>
+            <circle cx={cx} cy={cy} r="22" fill="url(#neuronGlow)" class="node-glow" />
+            <circle cx={cx} cy={cy} r="4" fill="#cfe9f4" class="node-core" />
+          </g>
+        ))}
+      </g>
+    </svg>
     <div class="hp-hero-overlay"></div>
   </div>
 
@@ -632,22 +681,96 @@ const robots = "index, follow";
   z-index: 0;
 }
 
-.hp-hero-img {
+.hp-hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, #102842 0%, #0a1628 55%, #050b16 100%);
+}
+
+.hp-hero-neural {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
   display: block;
+}
+
+.hp-hero-neural .node-core { transform-origin: center; transform-box: fill-box; }
+.hp-hero-neural .node-glow { transform-origin: center; transform-box: fill-box; }
+
+@keyframes hp-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+@keyframes hp-pulse-core {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+@keyframes hp-edge {
+  0%, 100% { stroke-opacity: 0.2; }
+  50% { stroke-opacity: 0.7; }
+}
+@keyframes hp-brain-drift {
+  0%, 100% { opacity: 0.14; }
+  50% { opacity: 0.24; }
+}
+
+.hp-hero-neural .node-glow { animation: hp-pulse 4.2s ease-in-out infinite; }
+.hp-hero-neural .node-core { animation: hp-pulse-core 4.2s ease-in-out infinite; }
+.hp-hero-neural .n1 .node-glow, .hp-hero-neural .n1 .node-core { animation-delay: -0.4s; }
+.hp-hero-neural .n2 .node-glow, .hp-hero-neural .n2 .node-core { animation-delay: -0.8s; }
+.hp-hero-neural .n3 .node-glow, .hp-hero-neural .n3 .node-core { animation-delay: -1.2s; }
+.hp-hero-neural .n4 .node-glow, .hp-hero-neural .n4 .node-core { animation-delay: -1.6s; }
+.hp-hero-neural .n5 .node-glow, .hp-hero-neural .n5 .node-core { animation-delay: -2.0s; }
+.hp-hero-neural .n6 .node-glow, .hp-hero-neural .n6 .node-core { animation-delay: -2.4s; }
+.hp-hero-neural .n7 .node-glow, .hp-hero-neural .n7 .node-core { animation-delay: -2.8s; }
+.hp-hero-neural .n8 .node-glow, .hp-hero-neural .n8 .node-core { animation-delay: -3.2s; }
+.hp-hero-neural .n9 .node-glow, .hp-hero-neural .n9 .node-core { animation-delay: -0.2s; }
+.hp-hero-neural .n10 .node-glow, .hp-hero-neural .n10 .node-core { animation-delay: -0.6s; }
+.hp-hero-neural .n11 .node-glow, .hp-hero-neural .n11 .node-core { animation-delay: -1.0s; }
+.hp-hero-neural .n12 .node-glow, .hp-hero-neural .n12 .node-core { animation-delay: -1.4s; }
+.hp-hero-neural .n13 .node-glow, .hp-hero-neural .n13 .node-core { animation-delay: -1.8s; }
+
+.hp-hero-neural .edge { animation: hp-edge 3.5s ease-in-out infinite; }
+.hp-hero-neural .e1 { animation-delay: -0.3s; }
+.hp-hero-neural .e2 { animation-delay: -0.6s; }
+.hp-hero-neural .e3 { animation-delay: -0.9s; }
+.hp-hero-neural .e4 { animation-delay: -1.2s; }
+.hp-hero-neural .e5 { animation-delay: -1.5s; }
+.hp-hero-neural .e6 { animation-delay: -1.8s; }
+.hp-hero-neural .e7 { animation-delay: -2.1s; }
+.hp-hero-neural .e8 { animation-delay: -2.4s; }
+.hp-hero-neural .e9 { animation-delay: -2.7s; }
+.hp-hero-neural .e10 { animation-delay: -3.0s; }
+.hp-hero-neural .e11 { animation-delay: -0.15s; }
+.hp-hero-neural .e12 { animation-delay: -0.45s; }
+.hp-hero-neural .e13 { animation-delay: -0.75s; }
+.hp-hero-neural .e14 { animation-delay: -1.05s; }
+.hp-hero-neural .e15 { animation-delay: -1.35s; }
+.hp-hero-neural .e16 { animation-delay: -1.65s; }
+.hp-hero-neural .e17 { animation-delay: -1.95s; }
+.hp-hero-neural .e18 { animation-delay: -2.25s; }
+.hp-hero-neural .e19 { animation-delay: -2.55s; }
+.hp-hero-neural .e20 { animation-delay: -2.85s; }
+.hp-hero-neural .e21 { animation-delay: -3.15s; }
+
+.hp-hero-brain { animation: hp-brain-drift 7s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hp-hero-neural .node-glow,
+  .hp-hero-neural .node-core,
+  .hp-hero-neural .edge,
+  .hp-hero-brain { animation: none; }
 }
 
 .hp-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 22, 40, 0.55) 0%,
-    rgba(10, 22, 40, 0.72) 60%,
-    rgba(10, 22, 40, 0.85) 100%
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(10, 22, 40, 0.2) 0%,
+    rgba(10, 22, 40, 0.55) 60%,
+    rgba(10, 22, 40, 0.82) 100%
   );
 }
 
