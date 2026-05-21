@@ -1,6 +1,87 @@
 # LDRGLPRx — Handoff
 
-Last updated: 2026-05-19 PM (email-sender Lambda + Cognito Mailgun migration + form wiring).
+Last updated: 2026-05-20 night (consult pricing tiers + AI concierge prompt + nurture templates + Stripe playbook + stale-ref sweep).
+
+---
+
+## 🌙 Late-night status report — pre-Stripe-activation polish (2026-05-20)
+
+You went to bed asking for autonomous work while the IRS 147C letter cleared. Eight items shipped. Everything below is on `main` and pushed.
+
+### Tonight's commits (newest first)
+
+- **`56631fd6`** — Stale-reference sweep + tier consolidation. App `tiers.ts` and `PricingPage.svelte` collapsed from 4 program tiers to 2 (Protégé + Graduate). consult.astro / weeks.ts / factors.ts copy aligned with the 8-category Personalized Assessment + SleepRestore SKU.
+- **`e349f530`** — Gut-brain canonical block spread. Compact "your cognition is downstream of your gut" panel added to `/solutions/cognitive`. TL;DR call-out added to the top of the gut blog deep-dive.
+- **`4108e2c3`** — [`docs/STRIPE-ACTIVATION.md`](./STRIPE-ACTIVATION.md). Step-by-step Stripe playbook for tomorrow morning. Products + prices to create in Stripe, where each price ID goes in `skus.ts`, webhook configuration, test-card walkthrough, common gotchas. Designed to take ~30-45 min from "Stripe verified" to "first test payment landed."
+- **`897f0f0b`** — AI concierge system prompt + 3-stage nurture templates + SQS delay fix. `lambdas/inbound-handler/src/system-prompt.ts` is the full brand-voice spec (identity, hard boundaries, product catalog, current pricing, gut-brain canonical, chargeback policy). `lambdas/nurture-worker/src/templates.ts` has stage-1 / stage-2 / stage-3 email + SMS content. SQS DelaySeconds bug fixed (was 1800, max is 900).
+
+### Earlier today
+
+- **`567c382e`** — Consult pricing locked into a 3-SKU structure: $199 default (consult + comprehensive wellness lab including full hormone panel — surfaces T deficiency opportunistically for the TRT pipeline) / $99 "recent labs in hand" downgrade / $249 testosterone-mandatory.
+- **`2641a6a9`** — Biome NS Rx reverted to the original triple-action formula (BPC-157 + L-Glutamine + Aloe) for differentiation from generic peptide pharmacies; gut-brain clinical-depth moved up to the "Why this matters" section on `/solutions/gut`.
+- **`b1d7ead4`** — Gut-brain canonical block locked in memory at `project_gut_brain_axis_canonical.md`.
+- **`ea132e32`** — Homepage hero now an animated neural-network SVG (14 neurons + 21 connections pulsing) on a deep radial gradient. Replaced the static jpg.
+- **`018f345b`** — Sitewide rename: every user-visible "audit" → "Personalized Assessment." 40 files touched (26 website + 14 app).
+- **`ffc5a706`** — Sitewide Insider/Plus/Concierge removal. 17 files.
+
+### Status of the 4 launch blockers
+
+| Blocker | Status |
+|---|---|
+| **Stripe activation** | Account verified-ready; waiting on IRS 147C letter to clear final validation. Playbook at [docs/STRIPE-ACTIVATION.md](./STRIPE-ACTIVATION.md). Action: TJ calls IRS 6am, gets 147C faxed, uploads to Stripe. |
+| **Mailgun domain** | Live and wired. 6 website forms post to `email-sender` Lambda → drtj@my4mlife.com. AI concierge inbound replies will use Mailgun once activated. |
+| **Calendly / Cal.com booking link** | Placeholder env var `ONBOARDING_BOOKING_URL` on stripe-webhook Lambda. TJ to create the link tomorrow and update via `aws lambda update-function-configuration`. |
+| **Pre-recorded intro Zoom** | Placeholder env var `INTRO_ZOOM_URL` on nurture-worker. Same update mechanism. |
+
+### Test + build status
+
+- Website: builds clean, 71 pages, 8/8 vitest tests pass
+- App: builds clean, 80/81 vitest tests pass (the 1 failure is `AdminDashboard.test.ts` cognito-group test — pre-existing, predates tonight's work)
+- All 5 lambdas with tests: 8 + 8 + 5 + 3 + (lead-capture 8) = green
+- Lambdas without tests (inbound-handler, email-sender) build clean via esbuild
+
+### What the AI concierge knows about you now
+
+The system prompt at `lambdas/inbound-handler/src/system-prompt.ts` includes:
+- Full product catalog (6 OTC SKUs + Biome NS Rx triple-action + SleepRestore Rx nattokinase)
+- Current consult pricing ($199/$99/$249) with the testosterone-mandatory rule
+- Active-member rules (15%/20%/15%)
+- Chargeback policy (refund willingly; ban for chargebacks)
+- The gut-brain canonical talking points (verbatim from the locked memory file)
+- Voice rules (warm, direct, "begin with the end in mind", never start with "I", short paragraphs)
+- Hard boundaries (no medical advice, no clinician naming, no PHI in SMS, never claim to be a treating clinician through Dr. TJ)
+- Escalation rules (when to route to human, when to acknowledge AI status)
+
+When Mailgun routes inbound to the Lambda + Bedrock kicks in, the AI replies in your voice with full context.
+
+### Nurture sequence — content ready, scheduling partial
+
+Three stages of email + SMS templates written in `lambdas/nurture-worker/src/templates.ts`:
+1. **Stage 1** (~15 min after assessment submit; SQS max) — "you took the assessment, here's what to do with it." Working today.
+2. **Stage 2** (3 days) — "still sitting on it? here's the gut-first reasoning + the comprehensive consult pitch."
+3. **Stage 3** (7 days) — "last note from us; your results stay saved."
+
+**Limitation:** SQS DelaySeconds caps at 900 seconds (15 min). Stages 2 + 3 need EventBridge Scheduler one-shots to fire at 3-day and 7-day intervals. Templates are ready; the scheduling integration is the remaining engineering work. TODO documented in `lambdas/nurture-worker/README.md`.
+
+### Memory files updated tonight
+
+- `project_consult_pricing_tiers.md` (new) — locks the 3-SKU structure + strategic reasoning
+- `project_gut_brain_axis_canonical.md` (new) — canonical copy block + placement plan
+- `project_biome_ns_restructure.md` — updated with the triple-action reversal + pricing-strategy rationale
+- `MEMORY.md` — index updated with both new entries
+
+### What's NOT done (intentionally out of scope tonight)
+
+- Stripe activation itself — needs the 147C letter
+- EventBridge Scheduler integration for nurture stages 2 + 3 — separate engineering task
+- Replacing the legacy `comprehensive-consult` SKU alias in `skus.ts` — kept temporarily so old links route correctly
+- Photography (40/25/15/10/10 demographic split per memory `feedback_photography_direction.md`) — not generable here
+- SES production-access request — pending real-volume threshold
+- 10DLC SMS registration — pending volume threshold
+
+---
+
+## 🌅 Earlier afternoon status — email-sender Lambda + Cognito Mailgun migration + form wiring
 
 ---
 
