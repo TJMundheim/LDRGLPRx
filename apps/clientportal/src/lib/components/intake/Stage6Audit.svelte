@@ -132,7 +132,7 @@
 <section class="stage6" aria-labelledby="s6-title">
   <div class="hero">
     <div class="badge">INTAKE — STAGE 6 OF 6</div>
-    <h1 id="s6-title">Risk Factor Audit</h1>
+    <h1 id="s6-title">Personal Risk Assessment</h1>
     <p class="sub">
       Score each of the {FACTOR_COUNT} factors honestly 1–5.
       High score = most opportunity for rapid improvement.

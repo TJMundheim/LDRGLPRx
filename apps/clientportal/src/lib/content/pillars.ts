@@ -38,7 +38,7 @@ export const pillars: Pillar[] = [
     description:
       'We feed the brain. Nutrition quality, methylation support, and the active-form B-complex that works — especially if you carry MTHFR. If you carry that variant, this is where your brain has been waiting.',
     focus: [
-      'Nutrition quality tiers — food audit and upgrade',
+      'Nutrition quality tiers — food assessment and upgrade',
       'Methylation and MTHFR support',
       'Fasting window progression',
       'Cognitive performance tracking',
@@ -74,9 +74,9 @@ export const pillars: Pillar[] = [
     name: 'MITIGATE',
     tagline: 'Remove the 15 factors stealing your brain & body.',
     description:
-      'We start by removing what is working against you. Your personal 15-factor audit scores every root cause — gut, sleep, stress, and more — so we know exactly where to begin.',
+      'We start by removing what is working against you. Your personal 15-factor assessment scores every root cause — gut, sleep, stress, and more — so we know exactly where to begin.',
     focus: [
-      '15-Factor personal audit and scoring',
+      '15-Factor Personal Risk Assessment and scoring',
       'Gut-brain axis repair',
       'Sleep architecture optimization',
       'Allergen and immune load reduction',
@@ -94,10 +94,10 @@ export const pillars: Pillar[] = [
     name: 'MOTIVATE',
     tagline: 'Lock in your identity and daily system.',
     description:
-      'By Week 4, you do not have a program — you have a system. We re-audit your 15 factors, write your identity statement, and build the maintenance protocol that carries your results forward.',
+      'By Week 4, you do not have a program — you have a system. We re-assess your 15 factors, write your identity statement, and build the maintenance protocol that carries your results forward.',
     focus: [
       'Identity statement — who you are becoming',
-      'Week 4 re-audit: re-score all 15 factors',
+      'Week 4 re-assessment: re-score all 15 factors',
       'Month 1 wins review and celebration',
       'Genesis RPA introduction (bonus module)',
       'Month 2 commitment and graduation criteria',

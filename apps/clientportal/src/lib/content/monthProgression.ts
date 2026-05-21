@@ -27,9 +27,9 @@ export const months: MonthDefinition[] = [
   {
     month: 1,
     title: 'Foundation & Repair',
-    tagline: 'Audit, repair, and build the base for everything that follows.',
+    tagline: 'Assess, repair, and build the base for everything that follows.',
     description:
-      'Month 1 runs all four pillars in sequence — Mind, Muscle, Mitigate, Motivate — with a deep focus on one each week. Labs precede Week 1. Formulas are introduced week by week. The month ends with a full re-audit and the Genesis RPA bonus module.',
+      'Month 1 runs all four pillars in sequence — Mind, Muscle, Mitigate, Motivate — with a deep focus on one each week. Labs precede Week 1. Formulas are introduced week by week. The month ends with a full re-assessment and the Genesis RPA bonus module.',
     pillarIds: ['mind', 'muscle', 'mitigate', 'motivate'],
     primaryFormulas: ['neurobridge', 'armorvita', 'biomeaxisforge', 'sleeprestore'],
     bonusModules: [
@@ -42,8 +42,8 @@ export const months: MonthDefinition[] = [
       },
     ],
     graduationCriteria: [
-      'All 15 factors scored in Week 1 audit',
-      'Week 4 re-audit completed with delta documented',
+      'All 15 factors scored in Week 1 assessment',
+      'Week 4 re-assessment completed with delta documented',
       'Identity statement written and submitted',
       'Month 1 wins documented (minimum 3)',
       'Month 2 commitment signed',

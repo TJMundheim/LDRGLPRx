@@ -171,7 +171,7 @@ export const tiers: MembershipTier[] = [
       'Weekly onboarding sessions — open to all Protégés',
       'Daily protocols and morning routine tracker',
       'Gut-brain repair protocol (Biome NS Ultra overview)',
-      'Mitigate Audit — personal 15-factor score',
+      'Mitigate Personalized Assessment — personal 15-factor score',
     ],
     description:
       'Protégé is Tier 0, completely free. Full access to the My4MLife App, weekly onboarding sessions, daily protocols, gut-brain repair, morning routine tracker. Yours forever — no card required.',

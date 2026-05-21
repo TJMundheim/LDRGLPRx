@@ -65,7 +65,7 @@
     <p class="tagline">Validated Cognitive Screen — Free for 4M Life patients</p>
     <p class="sub">
       A 15-minute neurocognitive assessment that produces a layperson-friendly report.
-      Bring your results back and we'll auto-fill your cognitive audit factor.
+      Bring your results back and we'll auto-fill your cognitive assessment factor.
     </p>
   </div>
 
@@ -112,7 +112,7 @@
 
   <p class="skip-note">
     Skipping flags your record so the AI concierge can remind you later.
-    You can always return and complete it before submitting your audit.
+    You can always return and complete it before submitting your assessment.
   </p>
 </section>
 

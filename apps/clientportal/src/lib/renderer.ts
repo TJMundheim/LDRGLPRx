@@ -569,7 +569,7 @@ function renderAuditSummaryCard(): string {
   return `<div class="card" style="background:${band.bg};border-color:${band.color}55">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
-        <div class="card-title" style="color:${band.color}">Your Risk Factor Audit</div>
+        <div class="card-title" style="color:${band.color}">Your Personal Risk Assessment</div>
         <div style="font-size:11px;color:#6A8A6E">8-category intake assessment</div>
       </div>
       <div style="text-align:right">
@@ -582,7 +582,7 @@ function renderAuditSummaryCard(): string {
     <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:8px;text-transform:uppercase">Top 3 Priorities</div>
     ${top3Html}` : ''}
     <button class="btn" style="margin-top:12px;width:100%;justify-content:center"
-      onclick="portalAction('goTo','audit-review')">Review Full Audit →</button>
+      onclick="portalAction('goTo','audit-review')">Review Full Assessment →</button>
   </div>`;
 }
 
@@ -660,7 +660,7 @@ function renderDash(W: Workbook): string {
   </div>
 
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">AUDIT SCORE /200</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">ASSESSMENT SCORE /200</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${auditBand ? auditBand.label : '—'}</div><div class="stat-lbl">RISK BAND</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#2E7FD9">${m}</div><div class="stat-lbl">MORNINGS DONE</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#2E7FD9">${c}</div><div class="stat-lbl">COLD SHOWERS</div></div>
@@ -794,16 +794,16 @@ function renderW1(ctx: RenderContext): string {
   </div>
 
   <div class="card">
-    ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Review your audit results. Gut first — what you remove matters more than what you add.')}
+    ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Review your assessment results. Gut first — what you remove matters more than what you add.')}
     <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
-      Your 8-category Risk Factor Audit was completed during intake. Review your scores on the dashboard.
+      Your 8-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
     </div>
-    <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Audit →</button>
+    <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Assessment →</button>
     <div>
       <div class="card-title">My Top 3 Priority Factors</div>
       ${(() => {
         const intakeOk = typeof localStorage !== 'undefined' && !!localStorage.getItem('intake-complete-v1');
-        if (!intakeOk) return `<div style="font-size:12px;color:#6A8A6E;font-style:italic;padding:8px 0">Complete your audit to see your top 3 priorities.</div>`;
+        if (!intakeOk) return `<div style="font-size:12px;color:#6A8A6E;font-style:italic;padding:8px 0">Complete your assessment to see your top 3 priorities.</div>`;
         const auditScores = loadAuditScores();
         const top3 = auditScores ? selectTop3(auditScores) : [];
         const PRIORITY_TIER_IDS = ['leaky-gut', 'gut-microbiome', 'weight-body-fat', 'hormone-balance'];
@@ -816,7 +816,7 @@ function renderW1(ctx: RenderContext): string {
           const displayVal = W.priorities[i] || auditPrefill;
           const label = ['Highest score — fastest results', 'Second priority', 'Third priority'][i];
           return `<div style="margin-bottom:9px">
-            <label for="w1-priority-${i}">${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from audit)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
+            <label for="w1-priority-${i}">${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from assessment)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
             <input id="w1-priority-${i}" value="${esc(displayVal)}" placeholder="${fromAudit ? '' : 'Factor name and score...'}"
               style="${fromAudit && !W.priorities[i] ? 'color:#1A2E1E;font-weight:600' : ''}"
               oninput="portalField('priorities.${i}',this.value)">
@@ -1001,13 +1001,13 @@ function renderW2(W: Workbook): string {
       const selectedName = userSetName || fallbackName;
       const displayScore = userSetScore || fallbackScore;
       const prefilled = !userSetName && !!fallbackName;
-      const prefillTag = prefilled ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from audit)</span>` : '';
+      const prefillTag = prefilled ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from assessment)</span>` : '';
       return `
     <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
       <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">PRIORITY FACTOR ${n}</div>
       <div class="g2">
         <div>
-          <label for="w2-f${n}-name">Factor name (from your Week 1 audit)${prefillTag}</label>
+          <label for="w2-f${n}-name">Factor name (from your Week 1 assessment)${prefillTag}</label>
           ${factorNameSelect(selectedName, `weekReflections.w2_factor${n}_name`)}
         </div>
         <div>
@@ -1352,7 +1352,7 @@ function renderW4(W: Workbook): string {
     </div>`;
 
   const metrics: [string, string][] = [
-    ['Mitigate audit score (/200)', 'audit'],
+    ['Mitigate assessment score (/200)', 'audit'],
     ['Body weight (lbs)', 'weight'],
     ['Waist at navel (in)', 'waist'],
     ['Morning energy (1–10)', 'energy'],
@@ -1373,7 +1373,7 @@ function renderW4(W: Workbook): string {
     <div style="font-size:12.5px;color:#3A3070;line-height:1.7">
       This is the final week of Month 1. Deep focus this week is <strong>Motivate</strong> —
       locking in your identity and committing to Month 2.
-      Every other pillar gets a final check-in, re-audit, and Month 2 plan.
+      Every other pillar gets a final check-in, re-assessment, and Month 2 plan.
     </div>
   </div>
 
@@ -1435,11 +1435,11 @@ function renderW4(W: Workbook): string {
 
   <!-- MITIGATE W4 RE-AUDIT -->
   <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Audit — 8-Category Risk Audit</div>
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Assessment — 8-Category Personal Risk Assessment</div>
     <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
       Score every category again using the 0–10 scale from your Week 1 intake.
-      Compare your final audit score to your baseline to see how far you moved in 30 days.
-      Week 1 scores are <strong>auto-populated from your original audit</strong> — no manual entry needed.
+      Compare your final assessment score to your baseline to see how far you moved in 30 days.
+      Week 1 scores are <strong>auto-populated from your original assessment</strong> — no manual entry needed.
     </div>
     ${(() => {
       const w1Scores = loadAuditScores() ?? {};
@@ -1448,7 +1448,7 @@ function renderW4(W: Workbook): string {
       return `
     <div style="background:#F5FAF6;border:1.5px solid #1D9E7533;border-radius:10px;padding:14px 16px;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-        <div style="font-size:13px;font-weight:700;color:#1A3A20">Side-by-Side Audit Comparison</div>
+        <div style="font-size:13px;font-weight:700;color:#1A3A20">Side-by-Side Assessment Comparison</div>
         <div style="display:flex;gap:12px;font-size:11px">
           <span style="color:#6A8A6E">Week 1 total: <strong style="color:#1D9E75">${w1Total} / 200</strong></span>
           ${w4Total > 0 ? `<span style="color:#6A8A6E">Week 4 total: <strong style="color:#6B5ED4">${w4Total} / 200</strong></span>` : ''}
@@ -1493,7 +1493,7 @@ function renderW4(W: Workbook): string {
         value="${g('w4_needs_work')}" oninput="portalField('weekReflections.w4_needs_work',this.value)">
     </div>
 
-    ${pillarActionBox('#1D9E75', 'Complete the full re-audit. Your score improvement is the concrete evidence that the work is real. Carry your lowest-scoring factors forward as Month 2 priorities.')}
+    ${pillarActionBox('#1D9E75', 'Complete the full re-assessment. Your score improvement is the concrete evidence that the work is real. Carry your lowest-scoring factors forward as Month 2 priorities.')}
   </div>
 
   <!-- MUSCLE W4 -->
@@ -1578,7 +1578,7 @@ function renderW4(W: Workbook): string {
   <div class="card" style="border:2px solid rgba(107,94,212,.2)">
     <div class="card-title">Month 1 Final Reflection — All 4 Pillars</div>
     ${[['w4_motivate_ref', 'MOTIVATE: In one sentence — who is the man who completed Month 1?'],
-       ['w4_mitigate_ref', 'MITIGATE: How many points did your audit score improve?'],
+       ['w4_mitigate_ref', 'MITIGATE: How many points did your assessment score improve?'],
        ['w4_muscle_ref', 'MUSCLE: What is the most significant physical change you feel or see?'],
        ['w4_mind_ref', 'MIND: What cognitive change are you most proud of from Month 1?']
     ].map(([k, l]) => `
@@ -1813,8 +1813,8 @@ function renderAuditReview(): string {
   const scores = loadAuditScores();
   const backBtn = `<button class="btn" onclick="portalAction('goTo','dash')" style="margin-bottom:18px">← Back to Dashboard</button>`;
   if (!scores) {
-    return `<div class="page-title">Risk Factor Audit</div>${backBtn}
-    <div class="card"><div style="color:#6A8A6E;font-size:13px">No audit data found. Complete the intake questionnaire to generate your audit scores.</div></div>`;
+    return `<div class="page-title">Personal Risk Assessment</div>${backBtn}
+    <div class="card"><div style="color:#6A8A6E;font-size:13px">No assessment data found. Complete the intake questionnaire to generate your assessment scores.</div></div>`;
   }
   const total = Object.values(scores).reduce((a, b) => a + b, 0);
   const band = auditBand200(total);
@@ -1834,7 +1834,7 @@ function renderAuditReview(): string {
     </div>`;
   }).join('');
 
-  return `<div class="page-title" style="color:${band.color}">Risk Factor Audit</div>
+  return `<div class="page-title" style="color:${band.color}">Personal Risk Assessment</div>
   <div class="page-sub">Your 8-category intake assessment</div>
   ${backBtn}
   <div class="card" style="background:${band.bg};border-color:${band.color}55;margin-bottom:20px">
@@ -1882,7 +1882,7 @@ export function sidebarStats(W: Workbook): {
   const auditScores = loadAuditScores();
   const auditTotal200 = auditScores ? Object.values(auditScores).reduce((a, b) => a + b, 0) : null;
   return {
-    audit: auditTotal200 !== null ? `Audit: ${auditTotal200} / 200` : 'Audit: not yet completed',
+    audit: auditTotal200 !== null ? `Assessment: ${auditTotal200} / 200` : 'Assessment: not yet completed',
     score: auditTotal200 !== null ? `Score: ${auditTotal200} / 200` : 'Score: —',
     morn: `Mornings: ${m} days`,
     cold: `Cold showers: ${c} days`

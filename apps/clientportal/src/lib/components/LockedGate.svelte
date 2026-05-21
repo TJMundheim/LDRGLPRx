@@ -26,7 +26,7 @@
   {#if recap && recap.top3 && recap.top3.length > 0}
     <section class="priorities">
       <h2>Your top priorities</h2>
-      <p class="sub">From your audit — these are the categories with the highest opportunity for you.</p>
+      <p class="sub">From your personalized assessment — these are the categories with the highest opportunity for you.</p>
       <div class="priority-grid">
         {#each recap.top3 as p (p.slug)}
           <a class="priority-card" href={`${MARKETING}/solutions/${p.slug}`} target="_blank" rel="noopener">
@@ -40,9 +40,9 @@
     </section>
   {:else}
     <section class="priorities no-recap">
-      <h2>Haven't taken the audit yet?</h2>
+      <h2>Haven't taken the personalized assessment yet?</h2>
       <p class="sub">
-        The 8-question audit pinpoints where to start. <a href={`${MARKETING}/assessment`} target="_blank" rel="noopener">Take the audit →</a>
+        The 8-question assessment pinpoints where to start. <a href={`${MARKETING}/assessment`} target="_blank" rel="noopener">Take the assessment →</a>
       </p>
     </section>
   {/if}

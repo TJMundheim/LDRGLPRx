@@ -143,7 +143,7 @@
     <div class="hero">
       <div class="badge">INTAKE — STAGE 2 OF 3</div>
       <h1 id="s2-title">How does this apply to you?</h1>
-      <p class="sub">Rate each area honestly. 0 = no problem at all · 5 = severe / highly problematic. Your answers auto-populate the audit in Stage 3 — you can adjust any score there.</p>
+      <p class="sub">Rate each area honestly. 0 = no problem at all · 5 = severe / highly problematic. Your answers auto-populate the assessment in Stage 3 — you can adjust any score there.</p>
     </div>
 
     <div class="questions-list">
@@ -201,7 +201,7 @@
         disabled={!allAnswered}
         onclick={onContinue}
       >
-        Continue — Review Audit →
+        Continue — Review Assessment →
       </button>
     </div>
     {#if !allAnswered}

@@ -3,8 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { AUDIT_QUESTIONS } from '../data/audit-questions';
 import { SKUS } from '../data/skus';
 
-const title = 'The 4M Audit — My4MLife';
-const description = 'Take the 4M Audit. 8 questions, 3 minutes — see your top 3 priorities and the exact starting point.';
+const title = 'The Personalized Assessment — My4MLife';
+const description = 'Take the Personalized Assessment. 8 questions, 3 minutes — see your top 3 priorities and the exact starting point.';
 const canonical = 'https://www.my4mlife.com/audit';
 
 type SolutionRow = {
@@ -64,7 +64,7 @@ for (const slug of Object.keys(SOLUTIONS)) {
 <section class="audit-hero">
   <div class="container audit-hero-inner">
     <div class="audit-badge">FREE · 3 MINUTES · NO ACCOUNT REQUIRED</div>
-    <h1>The <em>4M Audit</em></h1>
+    <h1>The <em>Personalized Assessment</em></h1>
     <p class="audit-sub">Begin with the end in mind. Tell us where you are — we'll show you the 3 most-leveraged places to start.</p>
   </div>
 </section>
@@ -92,7 +92,7 @@ for (const slug of Object.keys(SOLUTIONS)) {
             <span class="carrot">Optional — we'll text & email you a copy of your results.</span>
           </label>
           <div id="lead-error" class="lead-error" hidden></div>
-          <button type="submit" class="btn-primary" id="lead-submit">Start the Audit →</button>
+          <button type="submit" class="btn-primary" id="lead-submit">Start the Assessment →</button>
         </form>
       </div>
     </div>
@@ -143,7 +143,7 @@ for (const slug of Object.keys(SOLUTIONS)) {
         <a id="get-app-link" href="#" class="btn-primary btn-primary-xl">Get the App Now &rarr;</a>
       </div>
       <p class="retake-line">
-        <button type="button" id="retake-audit" class="link-button">Retake the audit</button>
+        <button type="button" id="retake-audit" class="link-button">Retake the assessment</button>
       </p>
     </div>
 

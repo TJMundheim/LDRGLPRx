@@ -132,7 +132,7 @@ function triggerIntakeCelebration(): void {
   push({
     id,
     title: "You're in. Here are your top 3 priorities.",
-    body: 'Your audit auto-populated. The dashboard now shows where to focus. Mind is the destination — every other M is in service of it.',
+    body: 'Your personalized assessment auto-populated. The dashboard now shows where to focus. Mind is the destination — every other M is in service of it.',
     action: { label: 'Review my top 3 →', href: '#top3' },
     tone: 'celebrate',
     autoDismissMs: 12_000,
@@ -158,7 +158,7 @@ const WEEK_COPY: Record<number, { title: string; actionLabel: string; actionHref
     actionHref: '#week4',
   },
   4: {
-    title: 'Month 1 complete. Take the audit re-take to see your before/after. Then — Insider opens here.',
+    title: 'Month 1 complete. Take the re-assessment to see your before/after. Then — Insider opens here.',
     actionLabel: 'See Insider tiers →',
     actionHref: '/membership',
   },
@@ -235,7 +235,7 @@ function triggerSubstanceUseLdn(): void {
 
   push({
     id,
-    title: 'Your audit flagged alcohol or substance use as a priority.',
+    title: 'Your assessment flagged alcohol or substance use as a priority.',
     body: "There's a prescription tool worth knowing about — Low-Dose Naltrexone (LDN) — available through our contracted licensed telemedicine practice and partner compounding pharmacy. Pairs with whatever free program you're running. Not for everyone, but worth a 60-second read.",
     action: { label: 'Learn about LDN →', href: 'https://my4mlife.com/solutions/substance-use#about-ldn' },
     tone: 'info',

@@ -86,7 +86,7 @@
   <div class="nav-row">
     <button class="btn-back" onclick={onBack}>← Back</button>
     <button class="btn-continue" disabled={!canContinue} onclick={onContinue}>
-      Continue — Risk Audit →
+      Continue — Personal Risk Assessment →
     </button>
   </div>
   {#if !canContinue}

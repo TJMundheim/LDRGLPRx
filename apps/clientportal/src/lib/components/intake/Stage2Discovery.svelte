@@ -152,9 +152,9 @@
   {#if showWelcomeBack && !showGoals}
     <div class="welcome-back-banner" role="status" aria-live="polite">
       <p class="wb-heading">Welcome back. We've expanded the assessment.</p>
-      <p class="wb-body">The audit has grown from 15 factors to 20 to give you a more complete picture. You can finish answering the new categories for the most accurate scores, OR skip ahead to the audit and adjust scores manually.</p>
+      <p class="wb-body">The assessment has grown from 15 factors to 20 to give you a more complete picture. You can finish answering the new categories for the most accurate scores, OR skip ahead to the assessment and adjust scores manually.</p>
       <div class="wb-actions">
-        <button class="btn-skip-audit" onclick={skipToAudit} type="button">Skip to Audit →</button>
+        <button class="btn-skip-audit" onclick={skipToAudit} type="button">Skip to Assessment →</button>
         <button class="btn-continue-q" onclick={() => {}} type="button">Continue Questionnaire</button>
       </div>
     </div>
@@ -212,7 +212,7 @@
     <div class="nav-row">
       <button class="btn-back" onclick={() => { showGoals = false; ds = { ...ds, currentCategoryIndex: DISCOVERY.length - 1 }; }}>← Back</button>
       <button class="btn-next" disabled={selectedGoals.length === 0} onclick={completeDiscovery}>
-        Continue — Risk Audit →
+        Continue — Personal Risk Assessment →
       </button>
     </div>
     {#if selectedGoals.length === 0}

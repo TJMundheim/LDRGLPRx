@@ -79,12 +79,12 @@
 <section class="stage4" aria-labelledby="s4-title">
   <div class="hero">
     <div class="badge">INTAKE — STAGE 3 OF 3</div>
-    <h1 id="s4-title">Risk Factor Audit</h1>
+    <h1 id="s4-title">Personal Risk Assessment</h1>
     <p class="sub">Review your 20-area health snapshot. Adjust any score, then unlock your program.</p>
   </div>
 
   <div class="prefill-banner" role="status">
-    <strong>Your audit was auto-populated from your self-assessment.</strong>
+    <strong>Your assessment was auto-populated from your self-assessment.</strong>
     Adjust any score before finalizing — you know your body best.
   </div>
 

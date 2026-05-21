@@ -75,7 +75,7 @@
   const stageLabels: Record<number, string> = {
     1: 'Basics & Consents',
     2: 'Self-Assessment',
-    3: 'Risk Factor Audit',
+    3: 'Personal Risk Assessment',
   };
 
   function goTo(n: number): void {
