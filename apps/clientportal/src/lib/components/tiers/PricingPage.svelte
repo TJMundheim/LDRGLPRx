@@ -18,10 +18,10 @@
   let showComparison = $state(false);
   let selectedTierId = $state('');
 
+  // Launch state: Protégé + Graduate only. Insider tiers retired 2026-05-18.
   const programMain = $derived(programTiers.filter(t =>
-    t.id === 'protege' || t.id === 'insider' || t.id === 'insider-concierge'
+    t.id === 'protege' || t.id === 'graduate'
   ));
-  const programPlus = $derived(programTiers.find(t => t.id === 'insider-plus'));
 
   const discovery = $derived(membershipTiers.find(t => t.id === 'discovery'));
   const mainMembership = $derived(membershipTiers.filter(t => t.id !== 'discovery'));
@@ -44,47 +44,32 @@
     <h1 class="hero-headline">Normal is not optimal.<br>And optimal is what you're after.</h1>
     <p class="hero-attr">— Dr. TJ Mundheim, DC, DABAAHP</p>
     <p class="hero-explainer">
-      <strong>Membership tiers</strong> — from Protégé through Graduate, Insider Plus, and Insider Concierge.
-      <strong>Ongoing membership</strong> provides platform access, clinician oversight, and your full protocol beyond Month 1.
-      Not sure where to start? Take the 3-minute quiz and we'll tell you.
+      <strong>Two tiers at launch.</strong> Protégé is the active-member state — activated by any My4MLife purchase. Graduate is earned after 12+ continuous months and unlocks lifetime app access and lifetime member pricing.
+      Not sure where to start? Take the 3-minute Personalized Assessment and we'll tell you.
     </p>
   </header>
 
   <div class="pricing-layout">
     <div class="pricing-main">
 
-      <!-- Section A: Membership Tiers (Protégé / Insider) -->
+      <!-- Section A: Membership Tiers (Protégé + Graduate) -->
       <section class="pricing-section" aria-labelledby="program-heading">
         <div class="section-header">
           <div class="section-badge">MEMBERSHIP TIERS</div>
-          <h2 id="program-heading" class="section-title">Protégé &amp; Insider</h2>
-          <p class="section-sub">Start free as a Protégé. Upgrade to Insider when you're ready for more.</p>
+          <h2 id="program-heading" class="section-title">Protégé &amp; Graduate</h2>
+          <p class="section-sub">Protégé activates with any purchase. Graduate is earned after 12+ months of continuous active membership — and is yours for life.</p>
         </div>
 
         <div class="tier-grid program-grid">
           {#each programMain as tier}
             <TierCard
               {tier}
-              mostPopular={tier.id === 'insider'}
+              mostPopular={tier.id === 'protege'}
               highlightId={effectiveHighlight}
               onSelect={handleSelect}
             />
           {/each}
         </div>
-
-        {#if programPlus}
-          <div class="ongoing-section">
-            <div class="ongoing-label">Also available — Insider Plus (mid-tier upgrade)</div>
-            <div class="ongoing-card-wrap">
-              <TierCard
-                tier={programPlus}
-                compact={true}
-                highlightId={effectiveHighlight}
-                onSelect={handleSelect}
-              />
-            </div>
-          </div>
-        {/if}
       </section>
 
       <!-- Section B: Long-term Membership -->

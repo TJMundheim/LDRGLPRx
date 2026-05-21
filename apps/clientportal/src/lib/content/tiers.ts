@@ -2,7 +2,7 @@
  * LDRGLPRx membership tiers — ongoing subscriptions + program entry tiers.
  * Content only — no logic.
  *
- * Program entry tiers (Protégé / Insider) use kind: 'program'.
+ * Program tiers (Protégé / Graduate at launch) use kind: 'program'.
  * Use programTiers / membershipTiers filtered exports for each context.
  */
 
@@ -157,24 +157,26 @@ export const tiers: MembershipTier[] = [
     ],
   },
 
-  // ─── Program entry tiers (Protégé / Insider) ──────────────────────────────
+  // ─── Program tiers — launch state (Protégé + Graduate only) ───────────────
+  // Insider / Plus / Concierge tiers removed 2026-05-18 per active-member spec.
 
   {
     id: 'protege',
     name: 'Protégé',
-    tagline: 'Your free entry to the My4MLife framework. Yours forever — no card required.',
+    tagline: 'Activated by any My4MLife purchase. Full app access while you stay an active member.',
     kind: 'program',
     oneTimePriceUSD: 0,
     includedProductSlugs: [],
     features: [
       'Full access to the My4MLife App',
-      'Weekly onboarding sessions — open to all Protégés',
+      'Weekly onboarding group sessions',
       'Daily protocols and morning routine tracker',
       'Gut-brain repair protocol (Biome NS Ultra overview)',
-      'Mitigate Personalized Assessment — personal 15-factor score',
+      '8-category Personalized Assessment',
+      '15% off first purchase / 20% on first-time 90-day bundles / 15% ongoing while subscribed',
     ],
     description:
-      'Protégé is Tier 0, completely free. Full access to the My4MLife App, weekly onboarding sessions, daily protocols, gut-brain repair, morning routine tracker. Yours forever — no card required.',
+      'Protégé is the active-member state. Activated by any My4MLife purchase. Full access to the app, weekly group onboarding, daily protocols, gut-brain repair, morning routine tracker. App access continues while subscribed; if you ever buy a consult, app access is permanent.',
     idealFor: [
       'The man starting his 4M journey and exploring the framework',
       'Anyone who wants the system in their hands before committing to more',
@@ -182,72 +184,23 @@ export const tiers: MembershipTier[] = [
   },
 
   {
-    id: 'insider',
-    name: 'Insider',
-    tagline: 'Inside the protocol. Live Insider sessions with Dr. TJ. Deeper education and member-only pricing.',
+    id: 'graduate',
+    name: 'Graduate',
+    tagline: 'Earned after 12+ months of continuous active membership. Lifetime access + lifetime pricing.',
     kind: 'program',
-    monthlyUSD: undefined, // TJ to confirm pricing
-    oneTimePriceUSD: undefined,
-    includedProductSlugs: ['lab-foundation'],
+    oneTimePriceUSD: 0,
+    includedProductSlugs: [],
     features: [
-      'Everything in Protégé',
-      'Live Insider sessions with Dr. TJ',
-      'Deeper clinical education modules',
-      'Member-only Rx & supplement pricing',
-      'Group coaching and community access',
-      'Three sub-tiers: Insider, Insider Plus, Insider Concierge',
+      'Everything in Protégé — for life',
+      'Lifetime app access (no subscription required)',
+      'Lifetime member pricing on all OTC products and consults',
+      'Recognition in the My4MLife graduate community',
     ],
     description:
-      'Inside the protocol. Live Insider sessions with Dr. TJ. Deeper education, member-only Rx & supplement pricing, group coaching. Three sub-tiers: Insider, Insider Plus, Insider Concierge.',
+      'Graduate is earned, not bought. After 12 continuous months of active membership, your benefits become permanent — lifetime app access and lifetime member pricing on every product and consult, with no ongoing subscription required.',
     idealFor: [
-      'Members ready to go deeper than the free onboarding',
-      'Those who want live access to Dr. TJ and clinical accountability',
-    ],
-  },
-
-  {
-    id: 'insider-plus',
-    name: 'Insider Plus',
-    tagline: 'More benefits, more contact — the next step inside the protocol.',
-    kind: 'program',
-    monthlyUSD: undefined, // TJ to confirm pricing
-    oneTimePriceUSD: undefined,
-    includedProductSlugs: ['lab-foundation', 'biome-axis-forge'],
-    features: [
-      'Everything in Insider',
-      'More frequent contact and check-ins',
-      'Priority session access',
-      'Enhanced supplement and Rx guidance',
-    ],
-    description:
-      'Insider Plus is the mid-tier inside the Insider track — more benefits, more contact, and priority access to Dr. TJ.',
-    idealFor: [
-      'Insiders who want more structure and contact',
-      'Members managing multiple protocol areas simultaneously',
-    ],
-  },
-
-  {
-    id: 'insider-concierge',
-    name: 'Insider Concierge',
-    tagline: '1:1 access tier. Personal protocol design with Dr. TJ.',
-    kind: 'program',
-    monthlyUSD: undefined, // TJ to confirm pricing
-    oneTimePriceUSD: undefined,
-    includedProductSlugs: ['lab-foundation', 'biome-axis-forge', 'sleeprestore', 'armorvita', 'neurobridge'],
-    features: [
-      'Everything in Insider Plus',
-      'Direct messaging access to Dr. TJ',
-      'Personal protocol design',
-      'Priority consult booking',
-      'Full lab review included',
-      'Limited founder slots',
-    ],
-    description:
-      'Insider Concierge is the top Insider sub-tier. Personal protocol design with Dr. TJ. Direct messaging, priority consult booking, full lab review. Limited founder slots.',
-    idealFor: [
-      'The man who wants maximum access and personal accountability',
-      'Those managing complex multi-system protocols requiring Dr. TJ\'s direct involvement',
+      'Long-term members who have made the 4M framework part of their life',
+      'Anyone playing the long game on cognitive longevity',
     ],
   },
 
@@ -306,7 +259,7 @@ export const tiers: MembershipTier[] = [
 ];
 
 // ─── Filtered views ────────────────────────────────────────────────────────────
-/** Program entry tiers: Protégé, Insider, Insider Plus, Insider Concierge */
+/** Program tiers (launch state): Protégé + Graduate */
 export const programTiers    = tiers.filter(t => t.kind === 'program');
 /** Ongoing membership tiers: Foundation, Optimization, Longevity, Concierge */
 export const membershipTiers = tiers.filter(t => t.kind !== 'program');

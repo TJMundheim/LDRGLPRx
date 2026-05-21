@@ -55,8 +55,8 @@ export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
     sub: 'Mind · Muscle · Mitigate · Motivate — full personalized assessment + gut-brain repair',
     focus: 'Mitigate (deep focus): 20-Category Personal Risk Assessment',
     pillarId: 'mitigate',
-    primaryHeadline: 'Remove the 20 risk factors stealing your brain & body.',
-    deckQuote: 'We start by removing what\'s working against you. Your personal 20-category risk assessment.',
+    primaryHeadline: 'Remove the risk factors stealing your brain & body.',
+    deckQuote: 'We start by removing what\'s working against you. Your 8-category Personalized Assessment.',
   },
   4: {
     bg: '#3C3489', ac: '#6B5ED4',

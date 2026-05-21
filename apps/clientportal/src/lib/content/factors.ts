@@ -133,7 +133,7 @@ export const factors: Factor[] = [
     sub:'Less than 7 hours most nights, poor quality, frequent waking, or no consistent schedule',
     imm:['Set a fixed wake time and hold it 7 days per week — including weekends without exception',
          'Get 10 minutes of outdoor light within 60 minutes of waking — this anchors your circadian clock',
-         'Take 400mg magnesium glycinate 30 minutes before bed starting tonight'],
+         'Take 1 capsule of SleepRestore (magnesium bisglycinate + glycine + apigenin + L-theanine + KSM-66) 30–60 minutes before bed starting tonight'],
     tools:['The glymphatic system flushes amyloid beta plaques during deep sleep — and only during deep sleep',
            'Less than 7 hours means your brain does not complete its full nightly cleaning cycle',
            'One night of poor sleep measurably elevates amyloid beta the following day',
