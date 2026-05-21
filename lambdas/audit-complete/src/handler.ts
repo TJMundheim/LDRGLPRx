@@ -51,10 +51,15 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   const queueUrl = process.env.NURTURE_QUEUE_URL;
   if (queueUrl) {
+    // SQS DelaySeconds caps at 900 (15 min). For "send the stage-1 nurture
+    // 30 min after assessment completion" we'd want 1800s — but that exceeds
+    // the SQS limit. We use the max 900 (~15 min) for stage 1 and rely on
+    // EventBridge Scheduler for stages 2 (3 days) and 3 (7 days) once that
+    // integration ships. See lambdas/nurture-worker/README.md TODO.
     await sqs.send(new SendMessageCommand({
       QueueUrl: queueUrl,
-      MessageBody: JSON.stringify({ contactId }),
-      DelaySeconds: 1800,
+      MessageBody: JSON.stringify({ contactId, stage: 1 }),
+      DelaySeconds: 900,
     }));
   } else {
     console.warn('NURTURE_QUEUE_URL unset — skipping nurture enqueue');

@@ -73,9 +73,9 @@ describe('nurture-worker handler', () => {
     expect(types).toEqual(['email-out', 'sms-out']);
   });
 
-  it('noops when nurtureSent already true (dedup)', async () => {
+  it('noops when this stage has already fired (dedup via nurtureStage1Sent)', async () => {
     ddbSend.mockResolvedValueOnce({
-      Item: { contactId: 'c3', lifecycleStage: 'lead', email: 'x@y.com', phone: '+15551234567', nurtureSent: true },
+      Item: { contactId: 'c3', lifecycleStage: 'lead', email: 'x@y.com', phone: '+15551234567', nurtureStage1Sent: true },
     });
     const res = await handler(sqsEvent('c3'));
     expect(res).toEqual({ ok: true });

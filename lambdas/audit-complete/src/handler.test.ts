@@ -82,15 +82,15 @@ describe('audit-complete handler', () => {
     expect(res.headers['Access-Control-Allow-Origin']).toBe('*');
   });
 
-  it('enqueues SQS nurture message with DelaySeconds 1800 when NURTURE_QUEUE_URL set', async () => {
+  it('enqueues SQS nurture stage-1 message with DelaySeconds 900 (SQS max) when NURTURE_QUEUE_URL set', async () => {
     process.env.NURTURE_QUEUE_URL = 'https://sqs.us-east-2.amazonaws.com/123/my4mlife-nurture-queue';
     const res: any = await handler(evt({ contactId: 'cid-1', scores: {}, top3: [] }));
     expect(res.statusCode).toBe(200);
     expect(sqsSendMock).toHaveBeenCalledTimes(1);
     const cmd = sqsSendMock.mock.calls[0][0];
     expect(cmd.input.QueueUrl).toBe(process.env.NURTURE_QUEUE_URL);
-    expect(cmd.input.DelaySeconds).toBe(1800);
-    expect(JSON.parse(cmd.input.MessageBody)).toEqual({ contactId: 'cid-1' });
+    expect(cmd.input.DelaySeconds).toBe(900);
+    expect(JSON.parse(cmd.input.MessageBody)).toEqual({ contactId: 'cid-1', stage: 1 });
   });
 
   it('skips SQS enqueue gracefully when NURTURE_QUEUE_URL unset', async () => {

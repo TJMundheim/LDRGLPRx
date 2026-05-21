@@ -4,6 +4,7 @@ import { DynamoDBDocumentClient, QueryCommand, PutCommand, GetCommand } from '@a
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 import { simpleParser } from 'mailparser';
+import { CONCIERGE_SYSTEM_PROMPT } from './system-prompt';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
@@ -100,8 +101,8 @@ async function draftReply(history: any[], inboundBody: string): Promise<string> 
     modelId: BEDROCK_MODEL,
     body: JSON.stringify({
       anthropic_version: 'bedrock-2023-05-31',
-      max_tokens: 800,
-      system: 'You are the My4MLife concierge. Warm, concise, direct. Help the member book their telemed consult or answer protocol questions. Never give medical advice. Never name a specific clinician.',
+      max_tokens: 1200,
+      system: CONCIERGE_SYSTEM_PROMPT,
       messages,
     }),
   }));
