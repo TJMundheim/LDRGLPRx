@@ -211,7 +211,23 @@ export const SKUS: Record<string, SKU> = {
   },
 
   // ========== Service SKUs ==========
-  // Pricing locked 2026-05-20 (placeholder — final pending telemed + lab quotes):
+  // Entry SKU added 2026-05-23 — $5 Fast Start Protocol. Activates Protégé app
+  // access + cohort + personalized assessment report, and locks in 25% off the
+  // buyer's first supplement order (supersedes the standard 15% first-purchase
+  // rate when applicable — see computeDiscountPercent).
+  'fast-start-protocol': {
+    id: 'fast-start-protocol',
+    name: 'Fast Start Protocol',
+    tagline: 'For the man who wants to understand the system before he puts a supplement in his body. Complete Fast Start Protocol + app access + 12-week cohort + your personalized assessment report. Locks in 25% off your first supplement order whenever you decide to add one.',
+    retailPriceUSD: 5,
+    cadence: 'one-time',
+    stripePriceId: 'price_1TaDrGBSbDAyoIVyBmFxpT9I',
+    available: true,
+    solutionSlug: 'fast-start',
+    variant: 'service',
+    servingDescription: 'Fast Start Protocol + app access + 12-week cohort + personalized assessment report',
+  },
+  // Consult pricing locked 2026-05-20 (placeholder — final pending telemed + lab quotes):
   //   $199 = default for every non-testosterone Rx (consult + comprehensive wellness lab,
   //          full hormone panel included so testosterone deficiency surfaces opportunistically)
   //   $99  = "I have recent labs" downgrade — same consult, no lab order
@@ -285,14 +301,24 @@ export function getSKU(id: string): SKU | null {
  *   - First-ever purchase OR active subscriber → 15% off
  *   - Otherwise → 0% (full retail)
  *
- * Never stacks. Always one of: 0%, 15%, 20%.
+ * 2026-05-23 addition: Fast Start Protocol entry path
+ *   If acquisitionSku === 'fast-start-protocol' AND it's the buyer's first
+ *   supplement order → 25% off (supersedes the standard rates). Only applies
+ *   to supplement variants (subscription / ninety-day-bundle), not to
+ *   service SKUs (consults) or to Fast Start itself.
+ *
+ * Never stacks. Always one of: 0%, 15%, 20%, 25%.
  */
 export function computeDiscountPercent(opts: {
   sku: SKU;
   isFirstPurchase: boolean;
   hasActiveSubscription: boolean;
+  /** SKU id the contact came in through, if any (e.g. 'fast-start-protocol'). */
+  acquisitionSku?: string;
 }): number {
-  const { sku, isFirstPurchase, hasActiveSubscription } = opts;
+  const { sku, isFirstPurchase, hasActiveSubscription, acquisitionSku } = opts;
+  const isSupplement = sku.variant === 'subscription' || sku.variant === 'ninety-day-bundle';
+  if (isSupplement && isFirstPurchase && acquisitionSku === 'fast-start-protocol') return 25;
   if (isFirstPurchase && sku.variant === 'ninety-day-bundle') return 20;
   if (isFirstPurchase || hasActiveSubscription) return 15;
   return 0;
