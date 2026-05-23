@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'The Fast Start Protocol — My4MLife';
+const description = 'Three ways to start the 4M system. The Fast Start Protocol at $5 to learn the system before you commit to a product. Or add your first foundation supplement on day one for $99. Or take the Stack — gut and sleep together — for $149.';
+const canonical = 'https://www.my4mlife.com/fast-start';
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="fs-hero">
+  <div class="container fs-hero-inner">
+    <span class="fs-eyebrow">FAST START</span>
+    <h1>Three ways to begin.</h1>
+    <p class="fs-hero-sub">Pick the path that fits where you are tonight. Every path activates your Protégé app access and the 12-week cohort, and gives you the personalized priority report from your assessment. The differences are which supplement (if any) ships with it.</p>
+  </div>
+</section>
+
+<section class="fs-paths">
+  <div class="container fs-paths-grid">
+
+    <div class="fs-card fs-card--one">
+      <div class="fs-tag">PATH ONE</div>
+      <h2>The Fast Start Protocol</h2>
+      <div class="fs-price"><span class="fs-price-amount">$5</span></div>
+      <p class="fs-pitch">If you're the kind of man who wants to understand the system before you put a supplement in your body, this is for you.</p>
+      <ul class="fs-includes">
+        <li>The complete Fast Start Protocol</li>
+        <li>Full access to the My4MLife App</li>
+        <li>12-week cohort access</li>
+        <li>Your personalized priority report from the assessment</li>
+        <li><strong>Locks in 25% off your first supplement order</strong> whenever you decide to add one</li>
+      </ul>
+      <a class="fs-cta" href="/cart?sku=fast-start-protocol">Start with the protocol →</a>
+    </div>
+
+    <div class="fs-card fs-card--two">
+      <div class="fs-tag fs-tag--popular">PATH TWO · MOST POPULAR FOR NEW MEMBERS</div>
+      <h2>The Fast Start + Foundation</h2>
+      <div class="fs-price"><span class="fs-price-amount">$99</span></div>
+      <p class="fs-pitch">If you'd rather start with the system and your first foundation supplement in hand from day one, this is for you. Pick the foundation you want first.</p>
+
+      <div class="fs-choice">
+        <div class="fs-choice-label">Pick your foundation:</div>
+        <div class="fs-choice-grid">
+          <a class="fs-choice-tile" href="/cart?sku=fast-start-foundation-gut">
+            <div class="fs-choice-name">Biome NS Ultra</div>
+            <div class="fs-choice-sub">The gut work</div>
+          </a>
+          <a class="fs-choice-tile" href="/cart?sku=fast-start-foundation-sleep">
+            <div class="fs-choice-name">SleepRestore</div>
+            <div class="fs-choice-sub">The sleep architecture</div>
+          </a>
+          <a class="fs-choice-tile" href="/cart?sku=fast-start-foundation-cognitive">
+            <div class="fs-choice-name">NeuroBridge</div>
+            <div class="fs-choice-sub">The cognitive build</div>
+          </a>
+        </div>
+      </div>
+
+      <ul class="fs-includes">
+        <li>Everything in Path One</li>
+        <li>Your chosen foundation supplement, shipped</li>
+        <li>Auto-ship optional at <strong>15% off</strong> when you're ready</li>
+      </ul>
+    </div>
+
+    <div class="fs-card fs-card--three">
+      <div class="fs-tag fs-tag--pick">PATH THREE · THE ONE I'D PICK</div>
+      <h2>The Stack</h2>
+      <div class="fs-price"><span class="fs-price-amount">$149</span></div>
+      <p class="fs-pitch">If you've been listening tonight and you already know you need the gut work and the sleep work — and most of you do — this is the one I'd pick. Two foundations together. Both in your hands by the end of the week.</p>
+      <ul class="fs-includes">
+        <li>Everything in Path One</li>
+        <li><strong>Biome NS Ultra</strong> — the gut-brain seal</li>
+        <li><strong>SleepRestore</strong> — sleep architecture + nocturnal cardiovascular protection</li>
+        <li>Auto-ship optional at 15% off when you're ready</li>
+      </ul>
+      <p class="fs-social-proof"><em>About 70% of clinic patients start here — the gut and the sleep are the two pillars that change everything else fastest.</em></p>
+      <a class="fs-cta fs-cta--pick" href="/cart?sku=fast-start-stack">Take the Stack →</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="fs-trust">
+  <div class="container fs-trust-inner">
+    <h3>What you get on every path</h3>
+    <div class="fs-trust-grid">
+      <div class="fs-trust-item">
+        <strong>The full app.</strong> Daily protocols, the morning routine tracker, the 4M weekly workbook. Yours immediately on purchase.
+      </div>
+      <div class="fs-trust-item">
+        <strong>The 12-week cohort.</strong> Structured programming with group cadence. You go through the work alongside other men, not in isolation.
+      </div>
+      <div class="fs-trust-item">
+        <strong>Your priority report.</strong> Your top three ranked categories from the Personalized Assessment, with the exact protocols matched to them.
+      </div>
+      <div class="fs-trust-item">
+        <strong>App access continues.</strong> Stay subscribed and the app stays open. Buy a consult anytime and app access is permanent.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fs-still-deciding">
+  <div class="container fs-still-deciding-inner">
+    <h3>Still deciding?</h3>
+    <p>Take the 3-minute <a href="/audit">Personalized Assessment</a> first — your ranked top categories will tell you which foundation to pick on Path Two or whether the Stack is the right move.</p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.fs-hero {
+  background: linear-gradient(180deg, #0a1628 0%, #0f4c75 100%);
+  color: white;
+  padding: 4.5rem 0 3rem;
+  text-align: center;
+}
+.fs-hero-inner { max-width: 760px; margin: 0 auto; }
+.fs-eyebrow {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent, #00b894);
+  background: rgba(0,184,148,0.15);
+  border: 1px solid rgba(0,184,148,0.35);
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+.fs-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin: 0 0 0.75rem;
+  color: white;
+}
+.fs-hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #cbdbe8;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.fs-paths { padding: 3.5rem 0 2rem; background: var(--bg-soft, #f7f5f0); }
+.fs-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.5rem;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.fs-card {
+  background: white;
+  border: 1px solid #e2dccd;
+  border-radius: 14px;
+  padding: 1.75rem 1.6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.fs-card--two { border-color: var(--accent, #00b894); box-shadow: 0 0 0 2px rgba(0,184,148,0.25); }
+.fs-card--three { background: linear-gradient(180deg, #fff 0%, #faf7f1 100%); border-color: #b8722e; }
+
+.fs-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-light, #666);
+  margin-bottom: 0.4rem;
+}
+.fs-tag--popular { color: var(--accent, #00b894); }
+.fs-tag--pick { color: #b8722e; }
+
+.fs-card h2 { font-family: 'Playfair Display', serif; font-size: 1.55rem; color: var(--primary, #0a1628); margin: 0 0 0.6rem; }
+.fs-price { margin: 0 0 0.85rem; }
+.fs-price-amount { font-family: 'Playfair Display', serif; font-size: 2.6rem; color: var(--primary, #0a1628); font-weight: 600; }
+.fs-pitch { font-size: 0.97rem; line-height: 1.65; color: var(--text, #333); margin: 0 0 1rem; }
+
+.fs-includes { list-style: none; padding: 0; margin: 0 0 1.25rem; }
+.fs-includes li {
+  padding: 0.45rem 0 0.45rem 1.5rem;
+  position: relative;
+  font-size: 0.92rem;
+  color: var(--text, #333);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  line-height: 1.5;
+}
+.fs-includes li:last-child { border-bottom: none; }
+.fs-includes li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  color: var(--accent, #00b894);
+  font-weight: 700;
+}
+.fs-includes strong { color: var(--primary, #0a1628); }
+
+.fs-choice { margin: 0 0 1rem; }
+.fs-choice-label { font-size: 0.85rem; font-weight: 600; color: var(--primary, #0a1628); margin-bottom: 0.5rem; }
+.fs-choice-grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+.fs-choice-tile {
+  display: block;
+  padding: 0.7rem 0.9rem;
+  background: rgba(0,184,148,0.06);
+  border: 1px solid rgba(0,184,148,0.3);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.fs-choice-tile:hover { background: rgba(0,184,148,0.12); border-color: var(--accent, #00b894); }
+.fs-choice-name { font-weight: 700; color: var(--primary, #0a1628); font-size: 0.95rem; }
+.fs-choice-sub { font-size: 0.82rem; color: var(--text-light, #666); margin-top: 2px; }
+
+.fs-social-proof { font-size: 0.88rem; color: var(--text, #333); font-style: italic; line-height: 1.6; padding: 0.75rem 1rem; background: rgba(184,114,46,0.06); border-left: 3px solid #b8722e; border-radius: 6px; margin: 0 0 1rem; }
+
+.fs-cta {
+  margin-top: auto;
+  display: inline-block;
+  text-align: center;
+  padding: 0.85rem 1.2rem;
+  background: var(--accent, #00b894);
+  color: white;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.fs-cta:hover { background: #00d4a4; }
+.fs-cta--pick { background: #b8722e; }
+.fs-cta--pick:hover { background: #d4853a; }
+
+.fs-trust { padding: 3rem 0; }
+.fs-trust-inner { max-width: 1100px; margin: 0 auto; }
+.fs-trust-inner h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; text-align: center; margin: 0 0 1.5rem; color: var(--primary, #0a1628); }
+.fs-trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+.fs-trust-item { font-size: 0.93rem; line-height: 1.65; color: var(--text, #333); padding: 1.1rem 1.25rem; background: var(--bg-soft, #f7f5f0); border-radius: 10px; }
+.fs-trust-item strong { color: var(--primary, #0a1628); }
+
+.fs-still-deciding { padding: 2.5rem 0 4rem; background: var(--bg-soft, #f7f5f0); }
+.fs-still-deciding-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.fs-still-deciding h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; margin: 0 0 0.6rem; color: var(--primary, #0a1628); }
+.fs-still-deciding p { font-size: 0.97rem; line-height: 1.7; color: var(--text, #333); }
+.fs-still-deciding a { color: var(--primary, #0a1628); font-weight: 600; text-decoration: underline; }
+</style>
