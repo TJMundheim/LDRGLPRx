@@ -152,11 +152,22 @@ When the next session begins the refactor, **do the cleanup pass first** so the 
 
 This is the second debt I created today. The `create-checkout-session` Lambda has its Stripe secret key directly in `process.env` — same anti-pattern your friend's `email-sender` deliberately avoids (it reads from `mailgun-api-key` in Secrets Manager at runtime). Fix on cleanup:
 
-- [ ] Create secret `stripe-keys-test` in AWS Secrets Manager (us-east-2). Shape:
+- [ ] Create a single secret `stripe-keys` in AWS Secrets Manager (us-east-2) with **both** test and live keypairs side-by-side, so the same Lambda code can route demo clients through test mode and real customers through live mode without re-deploying:
   ```json
-  { "secret_key": "sk_test_...", "webhook_secret": "whsec_..." }
+  {
+    "live": {
+      "secret_key": "sk_live_...",
+      "webhook_secret": "whsec_..."
+    },
+    "test": {
+      "secret_key": "sk_test_...",
+      "webhook_secret": "whsec_..."
+    }
+  }
   ```
-- [ ] (Later, when going live) Create `stripe-keys-live` with the live equivalents.
+- [ ] **Mode selection at runtime.** Every Stripe-aware Lambda reads a `STRIPE_MODE` env var (`live` or `test`) and selects the appropriate keypair from the secret. Default to `test` so accidents fail safe.
+- [ ] **Per-contact override.** For demo-client testing flows, the cart and checkout-session creation accept an explicit `mode` parameter in the request body. When a demo contact is created (e.g., via a `?mode=test` URL param or a dedicated `/admin/demo-cart` route TJ controls), all downstream Lambdas operating on that contact use test mode for that transaction regardless of `STRIPE_MODE`. This lets TJ walk demo customers through the real production funnel without ever charging their card.
+- [ ] **Contact-level flag.** Add an `isDemo: boolean` field to the Contact schema. The `create-checkout-session` Lambda sets it based on the incoming `mode` parameter. The EventBridge handlers read it and route writes accordingly — demo contacts get marked in Touchpoints with `mode: 'test'` and never trigger live billing automation.
 - [ ] Update **every Stripe-aware Lambda** (`create-checkout-session` + the new EventBridge handlers + customer-portal-session) to read from Secrets Manager at runtime, with the same in-memory caching pattern as `lambdas/email-sender/src/handler.ts`.
 - [ ] Update each Lambda's IAM role to grant `secretsmanager:GetSecretValue` on the secret ARN.
 - [ ] After the Lambdas are reading from Secrets Manager, **scrub the Stripe keys from existing Lambda env-var configs** via `aws lambda update-function-configuration --environment ...` (the only acceptable use of an ad-hoc CLI call here — actually clearing the value).
