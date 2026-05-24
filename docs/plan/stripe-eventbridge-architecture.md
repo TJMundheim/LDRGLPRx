@@ -121,6 +121,66 @@ Skip step 8 until the rest is solid. Then a single $5 Fast Start purchase exerci
 
 ---
 
+## Cleanup pass — artifacts to remove before the new build
+
+When the next session begins the refactor, **do the cleanup pass first** so the new architecture isn't built on top of half-removed legacy. Nothing on this list is in use yet (no real customer has hit any of it), so deletion is safe.
+
+### AWS resources to delete
+
+- [ ] **Lambda function:** `my4mlife-stripe-webhook` (created 2026-05-24)
+- [ ] **IAM role:** `my4mlife-stripe-webhook-role` (and its inline policies: `ddb-rw`, `sns-publish`, `secrets-read`)
+- [ ] **HTTP API route:** `POST /api/stripe-webhook` on `v9svm8ds74`
+- [ ] **HTTP API integration:** the AWS_PROXY integration that targets the above Lambda
+- [ ] **Lambda permission:** `apigw-stripe-webhook` statement on the webhook Lambda (auto-cleaned with the Lambda)
+- [ ] **CloudWatch log group:** `/aws/lambda/my4mlife-stripe-webhook` (optional — keep for forensics if desired)
+
+### Stripe Dashboard items to delete
+
+- [ ] **Event destination** named `my4mlife stripe webhook (test)` in Stripe Dashboard → Developers → Event destinations. URL: `https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/stripe-webhook`.
+- [ ] **Rotate the test secret keys** that were exposed during today's session:
+  - Stripe Dashboard → Developers → API keys → "Roll" the test secret key (`sk_test_51TYqk4...`)
+  - The signing secret `whsec_H9sIS9...` is auto-invalidated when the destination is deleted, so it's covered by the previous bullet
+- These were typed into chat in plain text earlier today; rotating closes that exposure cleanly.
+
+### Code + repo artifacts to remove
+
+- [ ] **Lambda code:** `lambdas/stripe-webhook/` directory in the repo (handler, package.json, tsconfig, deploy.sh, dist, node_modules)
+- [ ] **Tests:** `lambdas/stripe-webhook/src/handler.test.ts` (the 3 vitest tests for the retired webhook handler)
+- [ ] **Doc reference:** the webhook setup section in `docs/STRIPE-ACTIVATION.md` is now stale. Either delete that whole doc (replaced by this spec for the post-Stripe-activation pipeline) or rewrite it to point at this spec.
+
+### Secrets — move from Lambda env vars to AWS Secrets Manager
+
+This is the second debt I created today. The `create-checkout-session` Lambda has its Stripe secret key directly in `process.env` — same anti-pattern your friend's `email-sender` deliberately avoids (it reads from `mailgun-api-key` in Secrets Manager at runtime). Fix on cleanup:
+
+- [ ] Create secret `stripe-keys-test` in AWS Secrets Manager (us-east-2). Shape:
+  ```json
+  { "secret_key": "sk_test_...", "webhook_secret": "whsec_..." }
+  ```
+- [ ] (Later, when going live) Create `stripe-keys-live` with the live equivalents.
+- [ ] Update **every Stripe-aware Lambda** (`create-checkout-session` + the new EventBridge handlers + customer-portal-session) to read from Secrets Manager at runtime, with the same in-memory caching pattern as `lambdas/email-sender/src/handler.ts`.
+- [ ] Update each Lambda's IAM role to grant `secretsmanager:GetSecretValue` on the secret ARN.
+- [ ] After the Lambdas are reading from Secrets Manager, **scrub the Stripe keys from existing Lambda env-var configs** via `aws lambda update-function-configuration --environment ...` (the only acceptable use of an ad-hoc CLI call here — actually clearing the value).
+- [ ] Going forward: **every deploy script reads secrets from Secrets Manager, never from chat input.** If a Lambda needs a new secret, the deploy script's IAM section grants the read and the Lambda code does the runtime fetch.
+
+### IAM cleanup
+
+- [ ] After removing the webhook Lambda, also delete its inline policies on the role before deleting the role (AWS requires this order).
+- [ ] Audit the `create-checkout-session-role` to confirm it has only the minimum IAM needed (it shouldn't have DynamoDB write — that Lambda just calls Stripe and returns a URL).
+
+### Verification checklist after cleanup
+
+- [ ] `aws lambda list-functions --region us-east-2` shows no `stripe-webhook` function
+- [ ] `aws iam list-roles | grep stripe-webhook` returns nothing
+- [ ] `aws apigatewayv2 get-routes --api-id v9svm8ds74 | jq '.Items[].RouteKey'` does not include `POST /api/stripe-webhook`
+- [ ] Stripe Dashboard → Event destinations shows zero destinations (will be re-created via EventBridge integration instead)
+- [ ] `grep -r 'stripe-webhook' lambdas/ docs/` returns no live references (only mentions in archive/historical notes are OK)
+- [ ] `aws lambda get-function-configuration --function-name my4mlife-create-checkout-session | jq '.Environment.Variables | keys'` shows NO `STRIPE_SECRET_KEY` key
+- [ ] `aws secretsmanager describe-secret --secret-id stripe-keys-test` returns a valid secret
+
+Only when every box is checked should the new EventBridge build begin.
+
+---
+
 ## What this doc is not
 
 Not a code spec. Not Lambda-level pseudocode. Not a Lambda boundary contract. Those get written when the implementer (Claude or human) is actually ready to cut code, ideally checked back with TJ's friend if any boundary feels uncertain. This document is the **set of constraints any implementation must honor.**
