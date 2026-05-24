@@ -1,0 +1,5 @@
+packages:
+  - 'lambdas/*'
+  - 'lambdas/_shared/*'
+  - 'apps/*'
+  - 'website'
