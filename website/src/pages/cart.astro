@@ -112,20 +112,34 @@ const skuList = Object.values(SKUS);
     btn.disabled = false;
     note.hidden = true;
     btn.addEventListener('click', function() {
-      // TODO(launch): POST to /api/create-checkout-session with { skuId } and redirect to Stripe Checkout URL
-      // Placeholder: log and redirect to a placeholder
-      fetch('/api/create-checkout-session', {
+      var apiBase = 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+      btn.disabled = true;
+      btn.textContent = 'Opening secure checkout…';
+      fetch(apiBase + '/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ skuId: sku.id }),
+        body: JSON.stringify({
+          skuId: sku.id,
+          priceId: sku.stripePriceId,
+          contactId: params.get('contactId') || '',
+          email: params.get('email') || '',
+          firstName: params.get('firstName') || '',
+          phone: params.get('phone') || '',
+        }),
       })
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (data && data.url) window.location.href = data.url;
-          else alert('Checkout is not yet available. Stripe integration pending.');
+          else {
+            btn.disabled = false;
+            btn.textContent = 'Continue to Checkout →';
+            alert('Checkout error: ' + (data && data.error ? data.error : 'unknown'));
+          }
         })
-        .catch(function() {
-          alert('Checkout is not yet available. Stripe integration pending.');
+        .catch(function(e) {
+          btn.disabled = false;
+          btn.textContent = 'Continue to Checkout →';
+          alert('Checkout error — please try again.');
         });
     });
   }
