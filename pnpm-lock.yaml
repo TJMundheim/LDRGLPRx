@@ -113,10 +113,16 @@ importers:
 
   lambdas/create-checkout-session:
     dependencies:
+      '@my4mlife/stripe-client':
+        specifier: workspace:*
+        version: link:../_shared/stripe-client
       stripe:
         specifier: ^17.0.0
         version: 17.7.0
     devDependencies:
+      '@aws-sdk/client-secrets-manager':
+        specifier: ^3.700.0
+        version: 3.1053.0
       '@types/aws-lambda':
         specifier: ^8.10.149
         version: 8.10.161
@@ -126,6 +132,9 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@24.12.4)(jsdom@29.1.1)(terser@5.48.0)
 
   lambdas/email-sender:
     dependencies:

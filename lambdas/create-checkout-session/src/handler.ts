@@ -1,5 +1,10 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
-import Stripe from 'stripe';
+import { getStripeClient } from '@my4mlife/stripe-client';
+import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
+import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+
+const REGION = 'us-east-2';
+const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
 
 const ORIGIN_ALLOWLIST = new Set([
   'https://my4mlife.com',
@@ -10,7 +15,7 @@ const ORIGIN_ALLOWLIST = new Set([
 
 const CORS_BASE = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Max-Age': '86400',
 } as const;
 
@@ -23,13 +28,54 @@ function reply(statusCode: number, body: unknown, cors: Record<string, string>):
   return { statusCode, headers: { 'Content-Type': 'application/json', ...cors }, body: JSON.stringify(body) };
 }
 
+// Admin demo auth — reads from admin-demo-auth secret
+let cachedAdminPassword: string | null = null;
+async function getAdminPassword(): Promise<string> {
+  if (cachedAdminPassword) return cachedAdminPassword;
+  const sm = new SecretsManagerClient({ region: REGION });
+  const res = await sm.send(new GetSecretValueCommand({ SecretId: 'admin-demo-auth' }));
+  const parsed = JSON.parse(res.SecretString!);
+  cachedAdminPassword = parsed.password as string;
+  return cachedAdminPassword;
+}
+
+async function writeContactIsDemo(contactId: string, isDemo: boolean): Promise<void> {
+  const ddb = new DynamoDBClient({ region: REGION });
+  await ddb.send(new UpdateItemCommand({
+    TableName: CONTACT_TABLE,
+    Key: { contactId: { S: contactId } },
+    UpdateExpression: 'SET isDemo = :v, updatedAt = :t',
+    ExpressionAttributeValues: {
+      ':v': { BOOL: isDemo },
+      ':t': { S: new Date().toISOString() },
+    },
+  }));
+}
+
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
   const origin = event.headers?.origin ?? event.headers?.Origin;
   const cors = corsFor(origin);
   if (event.requestContext.http.method === 'OPTIONS') return { statusCode: 204, headers: cors, body: '' };
 
-  const apiKey = process.env.STRIPE_SECRET_KEY;
-  if (!apiKey || apiKey.startsWith('PLACEHOLDER')) return reply(500, { error: 'stripe not configured' }, cors);
+  const routePath = event.requestContext.http.path;
+  const isAdminRoute = routePath === '/api/admin/demo-checkout-session';
+
+  // Auth gate for admin route
+  if (isAdminRoute) {
+    const authHeader = event.headers?.authorization ?? event.headers?.Authorization ?? '';
+    const match = authHeader.match(/^Basic (.+)$/);
+    if (!match) return reply(401, { error: 'unauthorized' }, cors);
+    const decoded = Buffer.from(match[1], 'base64').toString('utf-8');
+    const password = decoded.includes(':') ? decoded.split(':').slice(1).join(':') : decoded;
+    const adminPassword = await getAdminPassword();
+    if (password !== adminPassword) return reply(401, { error: 'unauthorized' }, cors);
+  }
+
+  // mode from request body is NEVER used — admin route forces test, default route uses STRIPE_MODE env
+  const modeOverride: 'test' | undefined = isAdminRoute ? 'test' : undefined;
+  const resolvedMode = isAdminRoute ? 'test' : (process.env['STRIPE_MODE'] as 'live' | 'test' ?? 'test');
+
+  const stripe = await getStripeClient({ modeOverride });
 
   let body: { skuId?: string; priceId?: string; contactId?: string; firstName?: string; email?: string; phone?: string };
   try { body = JSON.parse(event.body ?? '{}'); }
@@ -39,8 +85,6 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const skuId = body.skuId;
   const contactId = body.contactId;
   if (!priceId) return reply(400, { error: 'priceId required' }, cors);
-
-  const stripe = new Stripe(apiKey, { apiVersion: '2025-09-30.acacia' as any });
 
   const successBase = process.env.SUCCESS_URL ?? 'https://my4mlife.com/thank-you';
   const cancelBase = process.env.CANCEL_URL ?? 'https://my4mlife.com/cart';
@@ -57,9 +101,15 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
         ...(skuId ? { skuIds: skuId } : {}),
         ...(body.firstName ? { firstName: body.firstName } : {}),
         ...(body.phone ? { phone: body.phone } : {}),
+        isDemo: String(resolvedMode === 'test'),
       },
       phone_number_collection: body.phone ? undefined : { enabled: true },
     });
+
+    if (contactId) {
+      await writeContactIsDemo(contactId, resolvedMode === 'test').catch(() => {/* best-effort */});
+    }
+
     return reply(200, { url: session.url, id: session.id }, cors);
   } catch (e: any) {
     return reply(500, { error: e.message ?? 'stripe error' }, cors);
