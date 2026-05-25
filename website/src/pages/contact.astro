@@ -145,12 +145,10 @@ const robots = "index, follow";
   <strong>Medical Disclaimer:</strong> My4MLife provides access to telehealth services and prescription medications through licensed healthcare providers and pharmacies. Compounded medications are not FDA-approved. Individual results may vary. This website does not provide medical advice.
 </div>
 
-<script is:inline>
+<script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
   window.addEventListener('scroll', function() {
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
   });
-
-  const API_BASE = (import.meta && import.meta.env && import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL) || 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
 
   async function handleContact(e) {
     e.preventDefault();

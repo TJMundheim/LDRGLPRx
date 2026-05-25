@@ -199,7 +199,7 @@ const robots = "index, follow";
   </div>
 </section>
 
-<script is:inline define:vars={{ SOLUTIONS_DATA: SOLUTIONS }}>
+<script is:inline define:vars={{ SOLUTIONS_DATA: SOLUTIONS, API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
 (function () {
   'use strict';
 
@@ -432,7 +432,7 @@ const robots = "index, follow";
       submitBtn.disabled = true;
       submitBtn.textContent = 'Loading…';
 
-      var apiBase = (import.meta && import.meta.env && import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL) || 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+      var apiBase = API_BASE;
       fetch(apiBase + '/api/contact-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

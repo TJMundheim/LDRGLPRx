@@ -228,7 +228,7 @@ const robots = "index, follow";
 
 
 
-<script is:inline>
+<script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
   // Navbar scroll effect
   window.addEventListener('scroll', function() {
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
@@ -273,7 +273,7 @@ const robots = "index, follow";
     var link = 'my4mlife.com/ref/' + code;
     document.getElementById('referral-link').value = link;
 
-    var apiBase = (import.meta && import.meta.env && import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL) || 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+    var apiBase = API_BASE;
     fetch(apiBase + '/api/contact-form', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
