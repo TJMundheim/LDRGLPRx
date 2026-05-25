@@ -19,12 +19,14 @@
     "@testing-library/svelte": "^5.3.1",
     "@tsconfig/svelte": "^5.0.4",
     "jsdom": "^29.1.0",
+    "sharp": "^0.34.5",
     "svelte": "^5.20.0",
     "svelte-check": "^4.1.4",
     "typescript": "^5.7.3",
     "vite": "^6.4.2",
     "vite-plugin-pwa": "^1.2.0",
-    "vitest": "^3.1.2"
+    "vitest": "^3.1.2",
+    "workbox-window": "^7.4.1"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.1038.0"

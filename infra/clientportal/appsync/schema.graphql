@@ -110,6 +110,8 @@ type UserProfile {
   currentMonth: ProgramMonth
   currentPillar: PillarId
   prefs: UserPrefs
+  workbookJson: AWSJSON
+  workbookUpdatedAt: AWSDateTime
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -125,6 +127,8 @@ input UpsertMyProfileInput {
   currentMonth: ProgramMonth
   currentPillar: PillarId
   prefs: UserPrefsInput
+  workbookJson: AWSJSON
+  workbookUpdatedAt: AWSDateTime
 }
 
 # ─── Program / curriculum (global config) ─────────────────────────────────

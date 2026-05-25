@@ -456,6 +456,8 @@ export type UpsertMyProfileInput = {
   phone?: InputMaybe<Scalars['AWSPhone']['input']>;
   prefs?: InputMaybe<UserPrefsInput>;
   tier?: InputMaybe<TierId>;
+  workbookJson?: InputMaybe<Scalars['AWSJSON']['input']>;
+  workbookUpdatedAt?: InputMaybe<Scalars['AWSDateTime']['input']>;
 };
 
 export type UpsertProgramInput = {
@@ -513,6 +515,8 @@ export type UserProfile = {
   secondaryEmail?: Maybe<Scalars['AWSEmail']['output']>;
   tier?: Maybe<TierId>;
   updatedAt: Scalars['AWSDateTime']['output'];
+  workbookJson?: Maybe<Scalars['AWSJSON']['output']>;
+  workbookUpdatedAt?: Maybe<Scalars['AWSDateTime']['output']>;
 };
 
 export type UserProfileConnection = {

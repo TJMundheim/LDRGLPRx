@@ -10,6 +10,7 @@
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
   import IntakeModule from './lib/components/intake/IntakeModule.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
+  import { getMyProfile } from './lib/api/operations';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
   import LockedGate from './lib/components/LockedGate.svelte';
   import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
@@ -525,10 +526,35 @@
     if (USER_ID && WORKBOOK_ID) {
       const uid = USER_ID;
       const wid = WORKBOOK_ID;
-      const existing = await storage.getWorkbook(wid);
-      if (existing) {
-        // Merge to tolerate old snapshots missing newer fields.
-        workbook = { ...createEmptyWorkbook(wid, uid), ...existing };
+      const local = await storage.getWorkbook(wid);
+
+      // Try to load remote workbook for conflict resolution / new-device hydration.
+      let remoteWorkbook: Workbook | null = null;
+      try {
+        const profileResult = await getMyProfile();
+        const profile = profileResult?.data?.getMyProfile;
+        if (profile?.workbookJson) {
+          remoteWorkbook = JSON.parse(profile.workbookJson) as Workbook;
+          // Stamp the profile's workbookUpdatedAt onto the parsed object for comparison.
+          if (profile.workbookUpdatedAt) {
+            remoteWorkbook.updatedAt = profile.workbookUpdatedAt;
+          }
+        }
+      } catch (err) {
+        console.warn('[workbook] remote load failed:', err);
+      }
+
+      const localTs = local?.updatedAt ? new Date(local.updatedAt).getTime() : 0;
+      const remoteTs = remoteWorkbook?.updatedAt ? new Date(remoteWorkbook.updatedAt).getTime() : 0;
+
+      if (local && localTs >= remoteTs) {
+        // Local is current or there's no remote — use local.
+        workbook = { ...createEmptyWorkbook(wid, uid), ...local };
+      } else if (remoteWorkbook && remoteTs > localTs) {
+        // Remote is newer (e.g. different device) — hydrate from it.
+        workbook = { ...createEmptyWorkbook(wid, uid), ...remoteWorkbook, id: wid, userId: uid };
+        // Persist remote copy to local so subsequent saves go through normal path.
+        void storage.saveWorkbook(workbook);
       } else {
         workbook = createEmptyWorkbook(wid, uid);
       }

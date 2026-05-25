@@ -2,6 +2,9 @@ import { mount } from 'svelte';
 import App from './App.svelte';
 import './app.css';
 import { ingestAuditHandoff } from './lib/auth/audit-handoff';
+import { registerSW } from 'virtual:pwa-register';
+
+registerSW({ immediate: true });
 
 ingestAuditHandoff();
 

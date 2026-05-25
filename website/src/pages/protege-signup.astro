@@ -1,0 +1,500 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Become a Protégé — Free | My4MLife";
+const description = "Sign up as a Protégé for free. Get the My4MLife app, weekly live Zooms, and 15–25% off every order. No purchase required, no commitment.";
+const canonical = "https://www.my4mlife.com/protege-signup";
+const keywords = "My4MLife Protégé, free membership, health app signup, 4M program";
+const robots = "index, follow";
+
+const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') + '/api/protege-signup';
+---
+<BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} robots={robots}>
+
+<!-- ===== HERO ===== -->
+<section class="ps-hero">
+  <div class="container ps-hero-inner">
+    <div class="ps-badge">FREE &middot; NO COMMITMENT &middot; CANCEL ANYTIME</div>
+    <h1>Become a Prot&eacute;g&eacute; &mdash; <em>Free</em></h1>
+    <p class="ps-sub">One signup unlocks everything below. No purchase, no credit card, no strings.</p>
+
+    <ul class="ps-benefits">
+      <li>
+        <span class="ps-benefit-icon" aria-hidden="true">&#128241;</span>
+        <div>
+          <strong>The My4MLife app</strong> &mdash; your personalized 4M workbook, results from your assessment, and your full protocol library.
+        </div>
+      </li>
+      <li>
+        <span class="ps-benefit-icon" aria-hidden="true">&#128249;</span>
+        <div>
+          <strong>Weekly live Zooms</strong> &mdash; Dr. TJ and the team walk through protocols, Q&amp;A, and accountability every week.
+        </div>
+      </li>
+      <li>
+        <span class="ps-benefit-icon" aria-hidden="true">&#127991;</span>
+        <div>
+          <strong>15% off every order</strong> &mdash; first purchase, reorders, always. Or go 25% with a 90-day bundle of 2+ products or any subscription.
+        </div>
+      </li>
+      <li>
+        <span class="ps-benefit-icon" aria-hidden="true">&#128683;</span>
+        <div>
+          <strong>Non-members pay full retail.</strong> Prot&eacute;g&eacute;s never do.
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== SIGNUP FORM ===== -->
+<section class="ps-form-section">
+  <div class="container ps-form-inner">
+
+    <!-- Success state (hidden until submit) -->
+    <div id="ps-success" class="ps-success" hidden>
+      <div class="ps-success-icon" aria-hidden="true">&#10003;</div>
+      <h2>You&apos;re in. Welcome, Prot&eacute;g&eacute;.</h2>
+      <p class="ps-success-sub">Check your email &mdash; we&apos;ve sent you a link to set your password and enter the app.</p>
+      <a href="https://app.my4mlife.com" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+        Open the My4MLife App &rarr;
+      </a>
+      <p class="ps-success-note">Didn&apos;t get the email? Check your spam folder or email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+    </div>
+
+    <!-- Form (shown by default) -->
+    <div id="ps-form-wrap">
+      <div class="ps-form-header">
+        <h2>Create your free Prot&eacute;g&eacute; account</h2>
+        <p class="ps-form-sub">Three fields. Thirty seconds.</p>
+      </div>
+
+      <form id="ps-form" class="ps-form" novalidate>
+
+        <div class="ps-field">
+          <label for="ps-name">First name <span aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="ps-name"
+            name="firstName"
+            autocomplete="given-name"
+            required
+            placeholder="Your first name"
+          />
+        </div>
+
+        <div class="ps-field">
+          <label for="ps-email">Email <span aria-hidden="true">*</span></label>
+          <input
+            type="email"
+            id="ps-email"
+            name="email"
+            autocomplete="email"
+            required
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div class="ps-field">
+          <label for="ps-phone">Phone <span aria-hidden="true">*</span></label>
+          <input
+            type="tel"
+            id="ps-phone"
+            name="phone"
+            autocomplete="tel"
+            required
+            placeholder="+1 (555) 000-0000"
+          />
+          <span class="ps-field-hint">We&apos;ll text you a one-time verification code. Format: +1XXXXXXXXXX</span>
+        </div>
+
+        <div class="ps-check">
+          <label class="ps-check-label">
+            <input type="checkbox" id="ps-consent-protege" name="consentProtege" required />
+            <span>I agree to the <a href="/terms" target="_blank">Prot&eacute;g&eacute; terms</a> and understand this creates a free My4MLife account. <span class="ps-required">Required.</span></span>
+          </label>
+        </div>
+
+        <div class="ps-check">
+          <label class="ps-check-label">
+            <input type="checkbox" id="ps-consent-ai" name="consentAi" required />
+            <span>I consent to receive AI-assisted health communications from My4MLife. I may opt out at any time. <span class="ps-required">Required.</span></span>
+          </label>
+        </div>
+
+        <p class="ps-error" id="ps-error" hidden></p>
+
+        <button type="submit" class="btn btn-primary btn-large" id="ps-submit">
+          Create My Free Account &rarr;
+        </button>
+
+        <p class="ps-legal">
+          By signing up you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>. We never sell your data.
+          This signup does not require a purchase and creates no financial obligation.
+        </p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<script is:inline define:vars={{ SIGNUP_API_URL: SIGNUP_API }}>
+(function () {
+  'use strict';
+
+  // Pre-fill from query params (passed from assessment)
+  (function prefill() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var nameVal = params.get('name');
+      var emailVal = params.get('email');
+      var phoneVal = params.get('phone');
+      if (nameVal) {
+        var n = document.getElementById('ps-name');
+        if (n) n.value = decodeURIComponent(nameVal);
+      }
+      if (emailVal) {
+        var e = document.getElementById('ps-email');
+        if (e) e.value = decodeURIComponent(emailVal);
+      }
+      if (phoneVal) {
+        var p = document.getElementById('ps-phone');
+        if (p) p.value = decodeURIComponent(phoneVal);
+      }
+    } catch (_) {}
+  })();
+
+  function showError(msg) {
+    var el = document.getElementById('ps-error');
+    if (!el) return;
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function clearError() {
+    var el = document.getElementById('ps-error');
+    if (el) el.hidden = true;
+  }
+
+  document.getElementById('ps-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearError();
+
+    var nameEl = document.getElementById('ps-name');
+    var emailEl = document.getElementById('ps-email');
+    var phoneEl = document.getElementById('ps-phone');
+    var consentProtegeEl = document.getElementById('ps-consent-protege');
+    var consentAiEl = document.getElementById('ps-consent-ai');
+    var submitBtn = document.getElementById('ps-submit');
+
+    var firstName = nameEl.value.trim();
+    var email = emailEl.value.trim();
+    var phone = phoneEl.value.trim();
+
+    if (!firstName) {
+      showError('Please enter your first name.');
+      nameEl.focus();
+      return;
+    }
+    if (!email || !emailEl.validity.valid) {
+      showError('Please enter a valid email address.');
+      emailEl.focus();
+      return;
+    }
+    if (!phone) {
+      showError('Please enter your phone number.');
+      phoneEl.focus();
+      return;
+    }
+    if (!consentProtegeEl.checked) {
+      showError('Please agree to the Protégé terms to continue.');
+      consentProtegeEl.focus();
+      return;
+    }
+    if (!consentAiEl.checked) {
+      showError('Please accept the AI communications consent to continue.');
+      consentAiEl.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating your account…';
+
+    fetch(SIGNUP_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: firstName,
+        email: email,
+        phone: phone,
+        consent: {
+          protege: true,
+          ai: true,
+        },
+      }),
+    })
+      .then(function (res) {
+        if (!res.ok) {
+          return res.json().catch(function () { return {}; }).then(function (body) {
+            throw new Error(body.message || 'Server error (' + res.status + ')');
+          });
+        }
+        return res.json();
+      })
+      .then(function () {
+        document.getElementById('ps-form-wrap').hidden = true;
+        document.getElementById('ps-success').hidden = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      })
+      .catch(function (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create My Free Account →';
+        var msg = (err && err.message) ? err.message : '';
+        if (msg && msg.toLowerCase().indexOf('already') !== -1) {
+          showError('That email is already registered. Try signing in at app.my4mlife.com.');
+        } else {
+          showError('Something went wrong — please try again or email support@my4mlife.com.');
+        }
+      });
+  });
+})();
+</script>
+
+<style>
+/* ── Tokens (shared with assessment palette) ── */
+:root {
+  --ps-accent: #00b894;
+  --ps-accent-dark: #00a381;
+  --ps-border: #e2e8f0;
+  --ps-muted: #718096;
+  --ps-parchment: #faf8f4;
+  --ps-dark: #0a1628;
+}
+
+/* ── Hero ── */
+.ps-hero {
+  background: linear-gradient(135deg, #0a1628 0%, #112240 100%);
+  padding: 72px 0 56px;
+  text-align: center;
+  color: #fff;
+}
+.ps-hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.ps-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ps-accent);
+}
+.ps-hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0;
+  color: #fff;
+  line-height: 1.15;
+}
+.ps-hero h1 em {
+  font-style: italic;
+  color: var(--ps-accent);
+}
+.ps-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.75);
+  max-width: 500px;
+  line-height: 1.6;
+  margin: 0;
+}
+.ps-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  width: 100%;
+}
+.ps-benefits li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.5;
+}
+.ps-benefits li strong {
+  color: #fff;
+}
+.ps-benefit-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Form section ── */
+.ps-form-section {
+  background: var(--ps-parchment);
+  padding: 56px 0 80px;
+  border-top: 1px solid var(--ps-border);
+}
+.ps-form-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.ps-form-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.ps-form-header h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--ps-dark);
+  margin: 0 0 8px;
+}
+.ps-form-sub {
+  font-size: 0.95rem;
+  color: var(--ps-muted);
+  margin: 0;
+}
+.ps-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.ps-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ps-field label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ps-dark);
+}
+.ps-field input[type="text"],
+.ps-field input[type="email"],
+.ps-field input[type="tel"] {
+  padding: 11px 14px;
+  border: 1.5px solid var(--ps-border);
+  border-radius: 8px;
+  font-size: 0.97rem;
+  font-family: inherit;
+  color: var(--ps-dark);
+  background: #fff;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.ps-field input:focus {
+  outline: none;
+  border-color: var(--ps-accent);
+}
+.ps-field-hint {
+  font-size: 0.76rem;
+  color: var(--ps-muted);
+}
+.ps-check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.ps-check-label {
+  display: flex;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--ps-muted);
+  cursor: pointer;
+  line-height: 1.5;
+}
+.ps-check-label input[type="checkbox"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--ps-accent);
+  width: 16px;
+  height: 16px;
+}
+.ps-check-label a {
+  color: var(--ps-accent-dark);
+  text-decoration: underline;
+}
+.ps-required {
+  font-weight: 700;
+  color: var(--ps-dark);
+}
+.ps-error {
+  color: #c53030;
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 10px 14px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 6px;
+}
+.ps-legal {
+  font-size: 0.73rem;
+  color: var(--ps-muted);
+  text-align: center;
+  line-height: 1.6;
+  margin: 0;
+}
+.ps-legal a { color: var(--ps-muted); text-decoration: underline; }
+
+/* ── Success state ── */
+.ps-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  padding: 20px 0;
+}
+.ps-success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--ps-accent);
+  color: #fff;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+.ps-success h2 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  margin: 0;
+  color: var(--ps-dark);
+}
+.ps-success-sub {
+  font-size: 1rem;
+  color: var(--ps-muted);
+  max-width: 440px;
+  line-height: 1.6;
+  margin: 0;
+}
+.ps-success-note {
+  font-size: 0.82rem;
+  color: var(--ps-muted);
+  margin: 0;
+}
+.ps-success-note a { color: var(--ps-accent-dark); }
+
+/* ── Buttons ── */
+.btn { display: inline-block; border-radius: 8px; font-weight: 700; text-align: center; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; font-family: inherit; text-decoration: none; border: 2px solid transparent; }
+.btn-primary { background: var(--ps-accent); color: #fff; border-color: var(--ps-accent); }
+.btn-primary:hover:not(:disabled) { background: var(--ps-accent-dark); border-color: var(--ps-accent-dark); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-large { padding: 14px 32px; font-size: 1rem; width: 100%; }
+
+@media (max-width: 600px) {
+  .ps-benefits li { font-size: 0.88rem; }
+}
+</style>
+
+</BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { AUDIT_QUESTIONS } from '../data/audit-questions';
+import { SOLUTIONS } from '../data/audit-solutions';
 
 const title = "Free 4M Health Assessment — My4MLife";
 const description = "Take the free 4M Assessment. 8 quick questions, about 3 minutes. We'll show you your top 3 mitigating factors so you know exactly where to start.";
@@ -167,14 +168,28 @@ const robots = "index, follow";
       <!-- Populated by JS -->
     </div>
 
+    <!-- ===== PROTEGE CTA ===== -->
+    <div class="protege-cta-block" id="protege-cta-block">
+      <div class="protege-cta-badge">NEXT STEP — FREE</div>
+      <h3 class="protege-cta-heading">Ready for the full experience? Become a Prot&eacute;g&eacute;.</h3>
+      <ul class="protege-cta-benefits">
+        <li>Free access to the My4MLife app with your personalized 4M workbook</li>
+        <li>Weekly live Zooms with Dr. TJ and the team</li>
+        <li>15% off your first order &mdash; 25% on a 90-day bundle of 2+ products or any subscription</li>
+        <li>No purchase required. No commitment. Free forever.</li>
+      </ul>
+      <a id="protege-cta-link" href="/protege-signup" class="btn btn-primary btn-large">
+        Become a Prot&eacute;g&eacute; &mdash; It&apos;s Free &rarr;
+      </a>
+      <p class="protege-cta-note">Non-members pay full retail. Prot&eacute;g&eacute;s never do.</p>
+    </div>
+
+    <!-- ===== PRODUCT TILES (per top-3 category) ===== -->
+    <div class="results-products" id="results-products">
+      <!-- Populated by JS from SOLUTIONS data -->
+    </div>
+
     <div class="results-ctas">
-      <a
-        id="app-cta"
-        href="https://app.my4mlife.com/?source=public-assessment"
-        class="btn btn-primary btn-large"
-        target="_blank"
-        rel="noopener"
-      >Continue in the My4MLife App</a>
       <a href="/consult" class="btn btn-outline btn-large">Schedule Your Comprehensive 4M Consult</a>
     </div>
 
@@ -184,7 +199,7 @@ const robots = "index, follow";
   </div>
 </section>
 
-<script is:inline>
+<script is:inline define:vars={{ SOLUTIONS_DATA: SOLUTIONS }}>
 (function () {
   'use strict';
 
@@ -211,8 +226,22 @@ const robots = "index, follow";
   // ── ?reset=1 wipe ──
   (function maybeReset() {
     try {
-      if (new URLSearchParams(window.location.search).get('reset') === '1') {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('reset') === '1') {
         localStorage.removeItem(LS_KEY);
+      }
+      // Pre-fill from query params (passed from assessment results CTA)
+      if (params.get('name')) {
+        var n = document.getElementById('field-name');
+        if (n) n.value = decodeURIComponent(params.get('name'));
+      }
+      if (params.get('email')) {
+        var em = document.getElementById('field-email');
+        if (em) em.value = decodeURIComponent(params.get('email'));
+      }
+      if (params.get('phone')) {
+        var ph = document.getElementById('field-phone');
+        if (ph) ph.value = decodeURIComponent(params.get('phone'));
       }
     } catch (e) {}
   })();
@@ -501,22 +530,70 @@ const robots = "index, follow";
       container.appendChild(card);
     });
 
-    // Append ?audit=base64(JSON) to the app CTA so the app can carry the recap across subdomain
+    // Update Protege CTA link with pre-fill query params
     try {
-      var payload = {
-        top3: top3.map(function (q) {
-          var raw = scores[q.id] !== undefined ? scores[q.id] : 0;
-          return { slug: q.solutionSlug, label: q.label, score: raw * 2 };
-        }),
-        name: userName || '',
-        capturedAt: new Date().toISOString(),
-      };
-      var enc = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-      var appCta = document.getElementById('app-cta');
-      if (appCta) {
-        appCta.href = 'https://app.my4mlife.com/?source=public-assessment&audit=' + enc;
+      var protegeLink = document.getElementById('protege-cta-link');
+      if (protegeLink) {
+        var qs = '?name=' + encodeURIComponent(userName || '') +
+                 '&email=' + encodeURIComponent(userEmail || '') +
+                 (userPhone ? '&phone=' + encodeURIComponent(userPhone) : '');
+        protegeLink.href = '/protege-signup' + qs;
       }
-    } catch (e) { /* graceful no-op if btoa fails */ }
+    } catch (e) { /* no-op */ }
+
+    // Render product tiles for each top-3 category
+    try {
+      var prodContainer = document.getElementById('results-products');
+      if (prodContainer && SOLUTIONS_DATA) {
+        prodContainer.innerHTML = '';
+        var productsHeading = document.createElement('div');
+        productsHeading.className = 'results-products-heading';
+        productsHeading.innerHTML = '<h3>Your starting protocols</h3><p class="results-products-sub">Each of your top 3 priorities has an over-the-counter path and a prescription path. Prot&eacute;g&eacute;s get 15&ndash;25% off.</p>';
+        prodContainer.appendChild(productsHeading);
+        top3.forEach(function (q) {
+          var sol = SOLUTIONS_DATA[q.solutionSlug] || { otc: null, rx: null };
+          if (!sol.otc && !sol.rx) return;
+          var section = document.createElement('div');
+          section.className = 'prod-category';
+          var catHead = document.createElement('h4');
+          catHead.className = 'prod-category-label';
+          catHead.textContent = q.label;
+          section.appendChild(catHead);
+          var tiles = document.createElement('div');
+          tiles.className = 'prod-tiles';
+          if (sol.otc) {
+            var otcTile = document.createElement('div');
+            otcTile.className = 'prod-tile prod-tile--otc';
+            otcTile.innerHTML =
+              '<span class="prod-kind">OTC</span>' +
+              '<div class="prod-body">' +
+                '<h5>' + escHtml(sol.otc.name) + '</h5>' +
+                '<p class="prod-tagline">' + escHtml(sol.otc.tagline) + '</p>' +
+                '<a class="prod-cta" href="/cart?sku=' + encodeURIComponent(sol.otc.skuId) + '">Order ' + escHtml(sol.otc.name.split(' —')[0].split(' (')[0]) + ' &rarr;</a>' +
+              '</div>';
+            tiles.appendChild(otcTile);
+          }
+          if (sol.rx) {
+            var isHormone = sol.rx.skuId === 'consult-hormone';
+            var rxTile = document.createElement('div');
+            rxTile.className = 'prod-tile prod-tile--rx';
+            rxTile.innerHTML =
+              '<span class="prod-kind prod-kind--rx">Rx</span>' +
+              '<div class="prod-body">' +
+                '<h5>' + escHtml(sol.rx.name) + '</h5>' +
+                '<p class="prod-tagline">' + escHtml(sol.rx.tagline) + '</p>' +
+                '<a class="prod-cta prod-cta--rx" href="/cart?sku=' + encodeURIComponent(sol.rx.skuId) + '">' +
+                  (isHormone ? 'Book TRT consult &mdash; $249 &rarr;' : 'Book consult + labs &mdash; $199 &rarr;') +
+                '</a>' +
+                (sol.rx.basicSkuId ? '<a class="prod-downgrade" href="/cart?sku=' + encodeURIComponent(sol.rx.basicSkuId) + '">I have recent labs &mdash; $99</a>' : '') +
+              '</div>';
+            tiles.appendChild(rxTile);
+          }
+          section.appendChild(tiles);
+          prodContainer.appendChild(section);
+        });
+      }
+    } catch (e) { /* no-op */ }
   }
 
   function escHtml(str) {
@@ -1007,6 +1084,171 @@ const robots = "index, follow";
   line-height: 1.6;
   max-width: 560px;
   margin: 0 auto;
+}
+
+/* ── Protege CTA block ── */
+.protege-cta-block {
+  background: linear-gradient(135deg, #0a1628 0%, #112240 100%);
+  border-radius: var(--radius, 12px);
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+  align-items: center;
+  color: #fff;
+}
+.protege-cta-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--assess-accent);
+}
+.protege-cta-heading {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 800;
+  margin: 0;
+  color: #fff;
+  line-height: 1.25;
+}
+.protege-cta-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.protege-cta-benefits li {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.5;
+  padding-left: 20px;
+  position: relative;
+  text-align: left;
+}
+.protege-cta-benefits li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--assess-accent);
+  font-weight: 800;
+}
+.protege-cta-note {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
+
+/* ── Product tiles ── */
+.results-products {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.results-products-heading {
+  text-align: center;
+}
+.results-products-heading h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--dark, #0a1628);
+}
+.results-products-sub {
+  font-size: 0.88rem;
+  color: var(--assess-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+.prod-category {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.prod-category-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--assess-muted);
+  border-bottom: 1px solid var(--assess-border);
+  padding-bottom: 6px;
+  margin: 0;
+}
+.prod-tiles {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.prod-tile {
+  flex: 1;
+  min-width: 240px;
+  background: #fff;
+  border: 1.5px solid var(--assess-border);
+  border-radius: var(--radius, 12px);
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+}
+.prod-tile--rx {
+  border-color: rgba(0,184,148,0.25);
+}
+.prod-kind {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #edf2f7;
+  color: var(--assess-muted);
+  border-radius: 5px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.prod-kind--rx {
+  background: rgba(0,184,148,0.12);
+  color: var(--assess-accent-dark);
+}
+.prod-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.prod-body h5 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--dark, #0a1628);
+  line-height: 1.3;
+}
+.prod-tagline {
+  font-size: 0.8rem;
+  color: var(--assess-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+.prod-cta {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--assess-accent-dark);
+  text-decoration: none;
+  display: inline-block;
+}
+.prod-cta:hover { text-decoration: underline; }
+.prod-cta--rx {
+  color: var(--assess-accent-dark);
+}
+.prod-downgrade {
+  font-size: 0.75rem;
+  color: var(--assess-muted);
+  text-decoration: underline;
+  display: inline-block;
 }
 
 /* ── Shared button overrides ── */

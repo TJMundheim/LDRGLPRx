@@ -1,0 +1,2 @@
+DLQ_ARN=arn:aws:sqs:us-east-2:879696522760:my4mlife-stripe-events-dlq
+PF_ARN=arn:aws:sqs:us-east-2:879696522760:my4mlife-stripe-events-permanent-failures

@@ -16,7 +16,7 @@
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["svelte", "vite/client"],
+    "types": ["svelte", "vite/client", "vite-plugin-pwa/client"],
     "paths": {
       "$lib/*": ["./src/lib/*"]
     }

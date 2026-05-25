@@ -63,3 +63,4 @@ logs/
 # esbuild scratch output
 .build/
 **/.build/
+.secrets-local/

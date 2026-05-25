@@ -107,6 +107,7 @@ export async function listWeeklyContent(
 const PROFILE_FIELDS = `
   id primaryEmail secondaryEmail firstName lastName displayName
   dob phone tier currentMonth currentPillar createdAt updatedAt
+  workbookJson workbookUpdatedAt
   address { line1 line2 city region postalCode country }
   prefs { marketingOptIn smsOptIn timezone units }
 `;

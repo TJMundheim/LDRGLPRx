@@ -1,0 +1,1 @@
+arn:aws:sns:us-east-2:879696522760:my4mlife-stripe-alerts

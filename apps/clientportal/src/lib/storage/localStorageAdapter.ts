@@ -1,5 +1,6 @@
 import type { Workbook } from '../data/schema';
 import type { Storage, Unsubscribe } from './types';
+import { upsertMyProfile } from '../api/operations.js';
 
 /**
  * LocalStorage-backed implementation. Keys:
@@ -30,14 +31,22 @@ export class LocalStorageAdapter implements Storage {
     if (existing) clearTimeout(existing);
     return new Promise((resolve) => {
       const t = setTimeout(() => {
+        let snapshot: Workbook = w;
         try {
-          const snapshot: Workbook = { ...w, updatedAt: new Date().toISOString() };
+          snapshot = { ...w, updatedAt: new Date().toISOString() };
           localStorage.setItem(this.keyFor(w.id), JSON.stringify(snapshot));
           this.addToIndex(w.userId, w.id);
           this.notify(w.id, snapshot);
         } catch {
           // swallow quota / serialization errors silently
         }
+        // Fire-and-forget remote sync; network errors MUST NOT block local save.
+        upsertMyProfile({
+          workbookJson: JSON.stringify(snapshot),
+          workbookUpdatedAt: snapshot.updatedAt ?? new Date().toISOString(),
+        }).catch((err: unknown) => {
+          console.warn('[workbook] remote sync failed:', err);
+        });
         this.timers.delete(w.id);
         resolve();
       }, 300);
