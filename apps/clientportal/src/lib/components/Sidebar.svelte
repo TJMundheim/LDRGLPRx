@@ -1,6 +1,7 @@
 <script lang="ts">
   import { signOut } from '../auth/cognito.js';
   import { clearUser } from '../auth/store.svelte.js';
+  import ManageSubscriptionButton from './ManageSubscriptionButton.svelte';
 
   interface Props {
     navHtml: string;
@@ -10,8 +11,10 @@
     userRole?: 'patient' | 'clinician' | 'admin';
     adminActive?: boolean;
     intakeComplete?: boolean;
+    hasActiveSubscription?: boolean;
+    stripeCustomerId?: string | null;
   }
-  let { navHtml, name, stats, pricingActive = false, userRole, adminActive = false, intakeComplete = true }: Props = $props();
+  let { navHtml, name, stats, pricingActive = false, userRole, adminActive = false, intakeComplete = true, hasActiveSubscription = false, stripeCustomerId = null }: Props = $props();
 
   function handleSignOut() {
     signOut();
@@ -72,6 +75,7 @@
     <div class="sb-stat">{stats.morn}</div>
     <div class="sb-stat">{stats.cold}</div>
   </div>
+  <ManageSubscriptionButton {hasActiveSubscription} {stripeCustomerId} />
 </div>
 
 <style>

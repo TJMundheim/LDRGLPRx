@@ -1,0 +1,18 @@
+{
+  "name": "@my4mlife/subscription-handler",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/*"
+  },
+  "dependencies": {
+    "@my4mlife/subscription-handler-core": "workspace:*",
+    "@my4mlife/stripe-client": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.7.3"
+  }
+}

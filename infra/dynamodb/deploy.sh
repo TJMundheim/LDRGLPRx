@@ -57,8 +57,12 @@ if [[ $PLAN -eq 1 ]]; then
     "PK stripeEventId(S)" \
     "none" \
     "none"
+  plan_table "Subscriptions" \
+    "PK stripeSubscriptionId(S)" \
+    "byContact(PK contactId, SK currentPeriodEnd)" \
+    "none"
   echo "----------------------------------------"
-  echo "Plan complete. 5 tables would be created."
+  echo "Plan complete. 6 tables would be created."
   exit 0
 fi
 
@@ -217,5 +221,33 @@ RETRYSTATE_JSON=$(cat <<'EOF'
 EOF
 )
 create_table "RetryState" "$RETRYSTATE_JSON"
+
+# ── Subscriptions ────────────────────────────────────────────────────────────
+SUBSCRIPTIONS_JSON=$(cat <<'EOF'
+{
+  "TableName": "Subscriptions",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {"AttributeName": "stripeSubscriptionId", "AttributeType": "S"},
+    {"AttributeName": "contactId",            "AttributeType": "S"},
+    {"AttributeName": "currentPeriodEnd",     "AttributeType": "S"}
+  ],
+  "KeySchema": [
+    {"AttributeName": "stripeSubscriptionId", "KeyType": "HASH"}
+  ],
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "byContact",
+      "KeySchema": [
+        {"AttributeName": "contactId",        "KeyType": "HASH"},
+        {"AttributeName": "currentPeriodEnd", "KeyType": "RANGE"}
+      ],
+      "Projection": {"ProjectionType": "ALL"}
+    }
+  ]
+}
+EOF
+)
+create_table "Subscriptions" "$SUBSCRIPTIONS_JSON"
 
 log "All tables provisioned in $REGION."

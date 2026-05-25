@@ -134,6 +134,8 @@
     } catch { return false; }
   }
   let intakeComplete = $state(isIntakeComplete());
+  let hasActiveSubscription = $state(false);
+  let stripeCustomerId = $state<string | null>(null);
 
   function onIntakeComplete(): void {
     intakeComplete = true;
@@ -540,6 +542,11 @@
             remoteWorkbook.updatedAt = profile.workbookUpdatedAt;
           }
         }
+        // Populate subscription state for ManageSubscriptionButton
+        if (profile) {
+          hasActiveSubscription = !!(profile as any).hasActiveSubscription;
+          stripeCustomerId = (profile as any).stripeCustomerId ?? null;
+        }
       } catch (err) {
         console.warn('[workbook] remote load failed:', err);
       }
@@ -579,7 +586,7 @@
   <LockedGate />
 {:else}
 <div class="shell">
-  <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} />
+  <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
   <div class="main" id="main-content">
     {#if !intakeComplete && currentView !== 'admin'}
       <!-- Gated: show intake module until complete -->

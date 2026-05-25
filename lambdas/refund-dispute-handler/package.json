@@ -1,0 +1,17 @@
+{
+  "name": "@my4mlife/refund-dispute-handler",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/*"
+  },
+  "dependencies": {
+    "@my4mlife/refund-dispute-handler-core": "workspace:*",
+    "@my4mlife/stripe-client": "workspace:*"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.3"
+  }
+}
