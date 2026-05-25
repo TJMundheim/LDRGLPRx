@@ -1,3 +1,6 @@
+> ARCHIVED 2026-05-25 — superseded by stripe-eventbridge-architecture.md.
+> Retained for historical context only; do not implement from this doc.
+
 # Contact / Touchpoints / Orders Schema Spec
 
 Locked 2026-05-18 night. This is the wire spec for the lead-capture → Stripe → AI-concierge pipeline. All AppSync resolvers and Lambdas read/write through these tables.

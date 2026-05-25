@@ -112,6 +112,8 @@ type UserProfile {
   prefs: UserPrefs
   workbookJson: AWSJSON
   workbookUpdatedAt: AWSDateTime
+  hasActiveSubscription: Boolean
+  stripeCustomerId: String
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -129,6 +131,8 @@ input UpsertMyProfileInput {
   prefs: UserPrefsInput
   workbookJson: AWSJSON
   workbookUpdatedAt: AWSDateTime
+  hasActiveSubscription: Boolean
+  stripeCustomerId: String
 }
 
 # ─── Program / curriculum (global config) ─────────────────────────────────

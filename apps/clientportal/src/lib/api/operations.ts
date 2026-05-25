@@ -108,6 +108,7 @@ const PROFILE_FIELDS = `
   id primaryEmail secondaryEmail firstName lastName displayName
   dob phone tier currentMonth currentPillar createdAt updatedAt
   workbookJson workbookUpdatedAt
+  hasActiveSubscription stripeCustomerId
   address { line1 line2 city region postalCode country }
   prefs { marketingOptIn smsOptIn timezone units }
 `;

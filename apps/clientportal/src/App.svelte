@@ -544,8 +544,8 @@
         }
         // Populate subscription state for ManageSubscriptionButton
         if (profile) {
-          hasActiveSubscription = !!(profile as any).hasActiveSubscription;
-          stripeCustomerId = (profile as any).stripeCustomerId ?? null;
+          hasActiveSubscription = !!profile.hasActiveSubscription;
+          stripeCustomerId = profile.stripeCustomerId ?? null;
         }
       } catch (err) {
         console.warn('[workbook] remote load failed:', err);

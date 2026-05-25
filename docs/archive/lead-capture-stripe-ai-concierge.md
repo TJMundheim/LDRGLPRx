@@ -1,3 +1,6 @@
+> ARCHIVED 2026-05-25 — superseded by stripe-eventbridge-architecture.md.
+> Retained for historical context only; do not implement from this doc.
+
 # Plan: Public Lead Capture → Stripe Cart → AI Concierge
 
 ## Context
