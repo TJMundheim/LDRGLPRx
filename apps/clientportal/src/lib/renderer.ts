@@ -653,9 +653,6 @@ function renderDash(W: Workbook): string {
       <div><label for="dash-startdate">Start date</label>
         <input id="dash-startdate" value="${esc(W.startDate)}" placeholder="e.g. April 14, 2026"
           oninput="portalField('startDate',this.value)"></div>
-      <div><label for="dash-cohortid">Program Group</label>
-        <input id="dash-cohortid" value="${esc(W.cohortId ?? '')}" placeholder="Group ID"
-          oninput="portalField('cohortId',this.value)"></div><!-- cohortId field retained for data compatibility -->
     </div>
   </div>
 

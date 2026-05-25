@@ -82,6 +82,8 @@ export interface CognitoUser {
   sub: string;
   email: string;
   groups: string[];
+  firstName?: string;
+  lastName?: string;
 }
 
 /** Decodes idToken JWT claims. Returns null if no token is present. */
@@ -95,6 +97,8 @@ export function getCurrentUser(): CognitoUser | null {
       sub: decoded.sub ?? '',
       email: decoded.email ?? '',
       groups: (decoded['cognito:groups'] as string[]) ?? [],
+      firstName: (decoded.given_name as string) || undefined,
+      lastName: (decoded.family_name as string) || undefined,
     };
   } catch {
     return null;

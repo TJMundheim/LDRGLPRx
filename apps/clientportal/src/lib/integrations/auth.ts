@@ -17,11 +17,13 @@ export interface User {
   id: string;
   email: string;
   groups: string[];
+  firstName?: string;
+  lastName?: string;
   /** Derived from Cognito groups: first matching group is used, falls back to 'patient'. */
   role: 'patient' | 'clinician' | 'admin';
 }
 
-function toUser(raw: { sub: string; email: string; groups: string[] }): User {
+function toUser(raw: { sub: string; email: string; groups: string[]; firstName?: string; lastName?: string }): User {
   const roleMap: Record<string, User['role']> = {
     admin: 'admin',
     clinician: 'clinician',
@@ -29,7 +31,7 @@ function toUser(raw: { sub: string; email: string; groups: string[] }): User {
   };
   const role: User['role'] =
     raw.groups.map((g) => roleMap[g]).find(Boolean) ?? 'patient';
-  return { id: raw.sub, email: raw.email, groups: raw.groups, role };
+  return { id: raw.sub, email: raw.email, groups: raw.groups, role, firstName: raw.firstName, lastName: raw.lastName };
 }
 
 /** Signs out the current user. */

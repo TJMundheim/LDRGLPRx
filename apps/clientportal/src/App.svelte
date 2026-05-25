@@ -565,6 +565,15 @@
       } else {
         workbook = createEmptyWorkbook(wid, uid);
       }
+
+      // Prefill name + start date from Cognito profile if workbook fields are blank.
+      // (Group ID / cohortId field intentionally not prefilled — legacy field, no longer customer-facing.)
+      const displayName = [user?.firstName, user?.lastName].filter(Boolean).join(' ').trim();
+      if (!workbook.name && displayName) workbook.name = displayName;
+      if (!workbook.startDate) {
+        workbook.startDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+      void storage.saveWorkbook(workbook);
     }
     // If no user sub (signed out), workbook stays as placeholder and the
     // AuthGate / LockedGate below will prevent the workbook UI from mounting.
