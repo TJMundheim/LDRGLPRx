@@ -103,11 +103,13 @@
   }
 
   // ── State ───────────────────────────────────────────────
-  // Single-workbook mode during beta; auth wiring will supply real ids.
-  const WORKBOOK_ID = 'local-workbook';
-  const USER_ID = 'local-user';
+  // USER_ID and WORKBOOK_ID are set in onMount once we have a Cognito sub.
+  // Initialise with null so we can detect "not yet resolved".
+  let USER_ID = $state<string | null>(null);
+  let WORKBOOK_ID = $state<string | null>(null);
 
-  let workbook = $state<Workbook>(createEmptyWorkbook(WORKBOOK_ID, USER_ID));
+  // workbook is initialised to a placeholder; replaced in onMount once we know the user sub.
+  let workbook = $state<Workbook>(createEmptyWorkbook('pending', 'pending'));
   let curTab = $state('dash');
   let userRole = $state<'patient' | 'clinician' | 'admin' | undefined>(undefined);
   let currentView = $state<'workbook' | 'admin'>('workbook');
@@ -514,13 +516,25 @@
     if (user) {
       const g = user.groups ?? [];
       userRole = g.includes('Admins') ? 'admin' : g.includes('Clinicians') ? 'clinician' : 'patient';
+
+      // Derive per-user IDs from Cognito sub so testers never share state.
+      USER_ID = user.id;
+      WORKBOOK_ID = user.id; // workbook key = sub; simple, collision-free
     }
 
-    const existing = await storage.getWorkbook(WORKBOOK_ID);
-    if (existing) {
-      // Merge to tolerate old snapshots missing newer fields.
-      workbook = { ...createEmptyWorkbook(WORKBOOK_ID, USER_ID), ...existing };
+    if (USER_ID && WORKBOOK_ID) {
+      const uid = USER_ID;
+      const wid = WORKBOOK_ID;
+      const existing = await storage.getWorkbook(wid);
+      if (existing) {
+        // Merge to tolerate old snapshots missing newer fields.
+        workbook = { ...createEmptyWorkbook(wid, uid), ...existing };
+      } else {
+        workbook = createEmptyWorkbook(wid, uid);
+      }
     }
+    // If no user sub (signed out), workbook stays as placeholder and the
+    // AuthGate / LockedGate below will prevent the workbook UI from mounting.
     renderTick++;
     await tick();
 
