@@ -579,12 +579,8 @@
 
 <NudgeStack />
 <AuthGate>
-{#if purchaseState.loaded && !purchaseState.hasActivePurchase}
-  <!-- Hard paywall: signed-in users with no purchase see only the locked gate.
-       Bypass via ?unlocked=1 for dev/test. Stripe webhook will flip
-       hasActivePurchase=true in DDB once wired. -->
-  <LockedGate />
-{:else}
+<!-- Per 2026-05-25 spec: any signed-in user is a Protégé and gets full app access.
+     Purchase no longer gates the app (purchase only affects discount tier). -->
 <div class="shell">
   <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
   <div class="main" id="main-content">
@@ -602,7 +598,6 @@
     {/if}
   </div>
 </div>
-{/if}
 </AuthGate>
 <div id="toast" class:show={toastShow}>{toastMsg}</div>
 
