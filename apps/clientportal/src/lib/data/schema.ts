@@ -88,6 +88,8 @@ export interface Workbook {
   startDate: string;
   motivation: MotivationChoice;
   personalWhy: string;
+  /** Who they're doing this for — wife, kids, parents, themselves. The face on the other side of accountability. */
+  accountabilityTarget: string;
   name: string;
 
   /** Factor scores keyed by factor string id ("00", "01", ..., "08b", "12"). */
@@ -182,6 +184,7 @@ export function createEmptyWorkbook(id: string, userId: string): Workbook {
     startDate: '',
     motivation: '',
     personalWhy: '',
+    accountabilityTarget: '',
     name: '',
     factorScores: {},
     factorPlans: {},

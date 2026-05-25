@@ -780,6 +780,10 @@ function renderW1(ctx: RenderContext): string {
         <span style="font-size:12.5px;color:#1A2E1E">${esc(opt)}</span>
       </div>`).join('')}
     </div>
+    <label for="w1-accountability">Who are you doing this for? (you'll read your "why" aloud to them on graduation day)</label>
+    <input id="w1-accountability" placeholder="e.g. my wife, my kids, my parents, myself — pick one face" value="${esc(W.accountabilityTarget)}"
+      oninput="portalField('accountabilityTarget',this.value)">
+    <div style="font-size:11.5px;color:#4A7A54;margin:6px 0 12px">If no one is on the other end of this, you won't do it. Pick a person — see their face.</div>
     <label for="w1-personal-why">My "why" — the man I want to be at age 70</label>
     <textarea id="w1-personal-why" style="min-height:70px" placeholder="Write it here — you will read this aloud on graduation day..."
       oninput="portalField('personalWhy',this.value)">${esc(W.personalWhy)}</textarea>
