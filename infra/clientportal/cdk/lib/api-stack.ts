@@ -16,6 +16,9 @@ export interface ApiStackProps extends cdk.StackProps {
   adminQueueTable?: dynamodb.ITable;
   appConfigTable?: dynamodb.ITable;
   tierCatalogTable?: dynamodb.ITable;
+  contactTable?: dynamodb.ITable;
+  eventsTable?: dynamodb.ITable;
+  eventRsvpsTable?: dynamodb.ITable;
 }
 
 const RESOLVERS_DIR = path.join(__dirname, '..', 'resolvers');
@@ -73,6 +76,16 @@ export class ApiStack extends cdk.Stack {
       props.appConfigTable ?? simple('AppConfig', 'AppConfig', 'key');
     const tierCatalogTable =
       props.tierCatalogTable ?? simple('TierCatalog', 'TierCatalog');
+    const eventsTable =
+      props.eventsTable ?? simple('Events', 'Events', 'eventId');
+    const eventRsvpsTable =
+      props.eventRsvpsTable ?? new dynamodb.Table(this, 'StubEventRsvps', {
+        tableName: `${id}-EventRSVPs`,
+        billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+        partitionKey: { name: 'eventId', type: dynamodb.AttributeType.STRING },
+        sortKey: { name: 'contactId', type: dynamodb.AttributeType.STRING },
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      });
 
     this.api = new appsync.GraphqlApi(this, 'Api', {
       name: 'clientportal-api',
@@ -98,6 +111,17 @@ export class ApiStack extends cdk.Stack {
     this.api.addDynamoDbDataSource('DiscoveryDS', discoveryTable);
     this.api.addDynamoDbDataSource('IntakeDS', intakeTable);
     this.api.addDynamoDbDataSource('AdminQueueDS', adminQueueTable);
+    const contactTable =
+      props.contactTable ??
+      new dynamodb.Table(this, 'StubContact', {
+        tableName: `${id}-Contact`,
+        billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+        partitionKey: { name: 'contactId', type: dynamodb.AttributeType.STRING },
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      });
+    const dsContact = this.api.addDynamoDbDataSource('ContactDS', contactTable);
+    const dsEvents = this.api.addDynamoDbDataSource('EventsDS', eventsTable);
+    const dsEventRsvps = this.api.addDynamoDbDataSource('EventRsvpsDS', eventRsvpsTable);
 
     const code = (file: string) =>
       appsync.Code.fromAsset(path.join(RESOLVERS_DIR, file));
@@ -153,6 +177,9 @@ export class ApiStack extends cdk.Stack {
     unitResolver('UpsertWeeklyContentResolver', 'Mutation', 'upsertWeeklyContent', dsWeekly, 'upsertWeeklyContent.js');
     unitResolver('UpsertTierCatalogResolver', 'Mutation', 'upsertTierCatalog', dsTierCatalog, 'upsertTierCatalog.js');
     unitResolver('UpsertAppConfigResolver', 'Mutation', 'upsertAppConfig', dsAppConfig, 'upsertAppConfig.js');
+    unitResolver('UpcomingEventsResolver', 'Query', 'upcomingEvents', dsEvents, 'upcomingEvents.js');
+    unitResolver('RsvpEventResolver', 'Mutation', 'rsvpEvent', dsEventRsvps, 'rsvpEvent.js');
+    unitResolver('ListProtegesResolver', 'Query', 'listProteges', dsContact, 'listProteges.js');
 
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });

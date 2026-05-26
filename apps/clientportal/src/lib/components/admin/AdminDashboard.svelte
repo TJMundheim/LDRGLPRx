@@ -5,10 +5,12 @@
   import type { UserProfile, Outcome } from '../../api/operations.js';
   import QueueList from './QueueList.svelte';
   import Forbidden403 from './Forbidden403.svelte';
+  import ProtegesPanel from './ProtegesPanel.svelte';
   import { SEED_QUEUE } from '../../data/adminQueue';
 
   const isAdmin = $derived(currentUser.value?.groups.includes('Admins') ?? false);
 
+  let activeTab = $state<'queue' | 'proteges'>('queue');
   let users = $state<UserProfile[]>([]);
   let outcomes = $state<Outcome[]>([]);
   let queue = $state<AdminQueueItem[]>([]);
@@ -46,40 +48,55 @@
   <Forbidden403 />
 {:else}
 <div class="admin-dashboard">
-  <h2 class="dash-title">Admin Queue</h2>
-
-  {#if loading}
-    <p class="loading">Loading…</p>
-  {:else if error}
-    <p class="error">{error}</p>
-  {:else}
-  <div class="stat-cards">
-    <div class="stat-card urgent">
-      <div class="stat-num">{urgentCount}</div>
-      <div class="stat-label">Urgent</div>
-    </div>
-    <div class="stat-card soon">
-      <div class="stat-num">{soonCount}</div>
-      <div class="stat-label">Soon</div>
-    </div>
-    <div class="stat-card routine">
-      <div class="stat-num">{routineCount}</div>
-      <div class="stat-label">Routine</div>
-    </div>
-    <div class="stat-card neutral">
-      <div class="stat-num">{users.length}</div>
-      <div class="stat-label">Active Patients</div>
-    </div>
-    <div class="stat-card neutral">
-      <div class="stat-num">{outcomes.length}</div>
-      <div class="stat-label">Outcomes</div>
-    </div>
+  <div class="tabs">
+    <button
+      class="tab"
+      class:active={activeTab === 'queue'}
+      onclick={() => (activeTab = 'queue')}
+    >Admin Queue</button>
+    <button
+      class="tab"
+      class:active={activeTab === 'proteges'}
+      onclick={() => (activeTab = 'proteges')}
+    >Protégés</button>
   </div>
 
-  <div class="queue-section">
-    <h3 class="section-title">Pending Items</h3>
-    <QueueList items={queue} />
-  </div>
+  {#if activeTab === 'queue'}
+    {#if loading}
+      <p class="loading">Loading…</p>
+    {:else if error}
+      <p class="error">{error}</p>
+    {:else}
+    <div class="stat-cards">
+      <div class="stat-card urgent">
+        <div class="stat-num">{urgentCount}</div>
+        <div class="stat-label">Urgent</div>
+      </div>
+      <div class="stat-card soon">
+        <div class="stat-num">{soonCount}</div>
+        <div class="stat-label">Soon</div>
+      </div>
+      <div class="stat-card routine">
+        <div class="stat-num">{routineCount}</div>
+        <div class="stat-label">Routine</div>
+      </div>
+      <div class="stat-card neutral">
+        <div class="stat-num">{users.length}</div>
+        <div class="stat-label">Active Patients</div>
+      </div>
+      <div class="stat-card neutral">
+        <div class="stat-num">{outcomes.length}</div>
+        <div class="stat-label">Outcomes</div>
+      </div>
+    </div>
+
+    <div class="queue-section">
+      <h3 class="section-title">Pending Items</h3>
+      <QueueList items={queue} />
+    </div>
+    {/if}
+  {:else if activeTab === 'proteges'}
+    <ProtegesPanel />
   {/if}
 </div>
 {/if}
@@ -87,15 +104,37 @@
 <style>
   .admin-dashboard {
     padding: 28px 32px;
-    max-width: 860px;
+    max-width: 960px;
   }
 
-  .dash-title {
-    font-size: 1.25rem;
-    font-weight: 700;
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding-bottom: 0;
+  }
+
+  .tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 18px;
+    color: #7a8390;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: -1px;
+    transition: color 0.15s;
+  }
+
+  .tab:hover {
     color: #cdd4e0;
-    margin: 0 0 20px;
-    letter-spacing: 0.03em;
+  }
+
+  .tab.active {
+    color: #4a9eff;
+    border-bottom-color: #4a9eff;
   }
 
   .loading, .error {

@@ -1,0 +1,5 @@
+Events=arn:aws:dynamodb:us-east-2:879696522760:table/Events
+EventRSVPs=arn:aws:dynamodb:us-east-2:879696522760:table/EventRSVPs
+EventReminders=arn:aws:dynamodb:us-east-2:879696522760:table/EventReminders
+AgentRuns=arn:aws:dynamodb:us-east-2:879696522760:table/AgentRuns
+ApprovalRequests=arn:aws:dynamodb:us-east-2:879696522760:table/ApprovalRequests

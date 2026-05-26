@@ -1,0 +1,247 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import { listProteges, type Protege } from '../../api/operations.js';
+
+  let items = $state<Protege[]>([]);
+  let nextToken = $state<string | null | undefined>(null);
+  let loading = $state(false);
+  let error = $state('');
+  let search = $state('');
+  let sortCol = $state<keyof Protege>('createdAt');
+  let sortAsc = $state(false);
+
+  const filtered = $derived(
+    items.filter((p) => {
+      const q = search.toLowerCase();
+      return (
+        !q ||
+        (p.firstName ?? '').toLowerCase().includes(q) ||
+        p.email.toLowerCase().includes(q)
+      );
+    }),
+  );
+
+  const sorted = $derived(
+    [...filtered].sort((a, b) => {
+      const av = a[sortCol] ?? '';
+      const bv = b[sortCol] ?? '';
+      const cmp = String(av).localeCompare(String(bv), undefined, { numeric: true });
+      return sortAsc ? cmp : -cmp;
+    }),
+  );
+
+  async function load(token?: string) {
+    loading = true;
+    error = '';
+    try {
+      const res = await listProteges(50, token);
+      const page = res.listProteges;
+      if (token) {
+        items = [...items, ...(page.items ?? [])];
+      } else {
+        items = page.items ?? [];
+      }
+      nextToken = page.nextToken;
+    } catch (e: unknown) {
+      error = e instanceof Error ? e.message : 'Failed to load Protégés';
+    } finally {
+      loading = false;
+    }
+  }
+
+  function toggleSort(col: keyof Protege) {
+    if (sortCol === col) {
+      sortAsc = !sortAsc;
+    } else {
+      sortCol = col;
+      sortAsc = true;
+    }
+  }
+
+  function sortIndicator(col: keyof Protege) {
+    if (sortCol !== col) return '';
+    return sortAsc ? ' ▲' : ' ▼';
+  }
+
+  function fmtDate(iso: string) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'short', day: 'numeric',
+    });
+  }
+
+  onMount(() => load());
+</script>
+
+<div class="proteges-panel">
+  <div class="panel-header">
+    <h3 class="panel-title">
+      Protégés
+      <span class="badge">{items.length}{nextToken ? '+' : ''}</span>
+    </h3>
+    <input
+      class="search"
+      type="search"
+      placeholder="Search by name or email…"
+      bind:value={search}
+    />
+  </div>
+
+  {#if loading && items.length === 0}
+    <p class="loading">Loading…</p>
+  {:else if error}
+    <p class="err">{error}</p>
+  {:else}
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick={() => toggleSort('firstName')}>Name{sortIndicator('firstName')}</th>
+            <th onclick={() => toggleSort('email')}>Email{sortIndicator('email')}</th>
+            <th onclick={() => toggleSort('phone')}>Phone{sortIndicator('phone')}</th>
+            <th onclick={() => toggleSort('createdAt')}>Signed up{sortIndicator('createdAt')}</th>
+            <th onclick={() => toggleSort('daysAsProtege')}>Days{sortIndicator('daysAsProtege')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each sorted as p (p.contactId)}
+            <tr>
+              <td>{p.firstName ?? '—'}</td>
+              <td class="mono">{p.email}</td>
+              <td>{p.phone ?? '—'}</td>
+              <td>{fmtDate(p.createdAt)}</td>
+              <td class="num">{p.daysAsProtege}</td>
+            </tr>
+          {:else}
+            <tr><td colspan="5" class="empty">No Protégés found.</td></tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+
+    {#if nextToken}
+      <button class="load-more" disabled={loading} onclick={() => load(nextToken ?? undefined)}>
+        {loading ? 'Loading…' : 'Load more'}
+      </button>
+    {/if}
+  {/if}
+</div>
+
+<style>
+  .proteges-panel {
+    padding: 0;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .panel-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #7a8390;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .badge {
+    background: #1a1f2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    color: #4a9eff;
+  }
+
+  .search {
+    margin-left: auto;
+    background: #1a1f2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #cdd4e0;
+    font-size: 0.85rem;
+    outline: none;
+    min-width: 220px;
+  }
+
+  .search:focus {
+    border-color: #4a9eff;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 8px 12px;
+    color: #7a8390;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  thead th:hover {
+    color: #cdd4e0;
+  }
+
+  tbody td {
+    padding: 10px 12px;
+    color: #cdd4e0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  tr:hover td {
+    background: rgba(255,255,255,0.03);
+  }
+
+  .mono { font-family: monospace; font-size: 0.82rem; }
+  .num { text-align: right; }
+  .empty { text-align: center; color: #7a8390; padding: 24px; }
+
+  .loading, .err {
+    color: #7a8390;
+    padding: 20px 0;
+  }
+  .err { color: #ff6060; }
+
+  .load-more {
+    margin-top: 12px;
+    background: #1a1f2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    color: #4a9eff;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .load-more:hover:not(:disabled) {
+    background: #222a38;
+  }
+
+  .load-more:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+</style>

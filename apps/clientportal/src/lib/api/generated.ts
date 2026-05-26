@@ -69,6 +69,27 @@ export type AppConfig = {
   valueJson: Scalars['AWSJSON']['output'];
 };
 
+export type Event = {
+  __typename?: 'Event';
+  eventId: Scalars['ID']['output'];
+  type: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  startsAt: Scalars['AWSDateTime']['output'];
+  durationMin: Scalars['Int']['output'];
+  joinUrl: Scalars['AWSURL']['output'];
+  status: Scalars['String']['output'];
+};
+
+export type EventRSVP = {
+  __typename?: 'EventRSVP';
+  eventId: Scalars['ID']['output'];
+  contactId: Scalars['ID']['output'];
+  rsvpedAt: Scalars['AWSDateTime']['output'];
+  status: RSVPStatus;
+};
+
+export type RSVPStatus = 'YES' | 'NO' | 'MAYBE';
+
 export type CreateOutcomeInput = {
   freeText?: InputMaybe<Scalars['String']['input']>;
   month: ProgramMonth;
@@ -165,6 +186,7 @@ export type MonthPillarInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createOutcome: Outcome;
+  rsvpEvent: EventRSVP;
   submitDiscovery: DiscoveryResponse;
   updateAdminQueueItem: AdminQueueItem;
   updateSecondaryEmail: UserProfile;
@@ -294,6 +316,7 @@ export type Query = {
   listMyOutcomes: OutcomeConnection;
   listTiers: Array<Tier>;
   listWeeklyContent: Array<WeeklyContent>;
+  upcomingEvents: Array<Event>;
 };
 
 

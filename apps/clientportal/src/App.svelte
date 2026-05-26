@@ -17,6 +17,7 @@
   import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
   import { runNudgeTriggers, updateLastSeen, trackScreenVisit, triggerWeekMilestone } from './lib/nudge/triggers';
+  import UpcomingZooms from './lib/components/UpcomingZooms.svelte';
 
   // ── Schema sentinel + clean-slate wipe ──────────────────────────────────────
   // MUST run before any gating logic reads localStorage.
@@ -603,6 +604,9 @@
         highlightTierId={pricingHighlightTier}
       />
     {:else}
+      {#if curTab === 'dash'}
+        <UpcomingZooms />
+      {/if}
       {@html pageHtml}
     {/if}
   </div>

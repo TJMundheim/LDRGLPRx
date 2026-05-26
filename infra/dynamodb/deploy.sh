@@ -4,7 +4,9 @@ set -euo pipefail
 # Provisions DynamoDB tables for My4MLife:
 #   Contact, Touchpoints, Conversations, Orders (from contact pipeline)
 #   RetryState (for Stripe event retry orchestration)
-# Per docs/plan/contact-schema-spec.md and Stripe event architecture. Idempotent.
+#   Events, EventRSVPs, EventReminders (for Zoom + future event management)
+#   AgentRuns, ApprovalRequests (for autonomous agent orchestration)
+# Per docs/plan/contact-schema-spec.md, event architecture, and agent spec. Idempotent.
 #
 # Usage:
 #   ./infra/dynamodb/deploy.sh           # execute
@@ -61,8 +63,28 @@ if [[ $PLAN -eq 1 ]]; then
     "PK stripeSubscriptionId(S)" \
     "byContact(PK contactId, SK currentPeriodEnd)" \
     "none"
+  plan_table "Events" \
+    "PK eventId(S)" \
+    "none" \
+    "none"
+  plan_table "EventRSVPs" \
+    "PK eventId(S), SK contactId(S)" \
+    "byContact(PK contactId, SK eventId)" \
+    "none"
+  plan_table "EventReminders" \
+    "PK reminderId(S)" \
+    "none" \
+    "none"
+  plan_table "AgentRuns" \
+    "PK runId(S)" \
+    "byAgent(PK agentName, SK startedAt)" \
+    "none"
+  plan_table "ApprovalRequests" \
+    "PK approvalId(S)" \
+    "byStatus(PK status, SK requestedAt)" \
+    "none"
   echo "----------------------------------------"
-  echo "Plan complete. 6 tables would be created."
+  echo "Plan complete. 11 tables would be created."
   exit 0
 fi
 
@@ -249,5 +271,141 @@ SUBSCRIPTIONS_JSON=$(cat <<'EOF'
 EOF
 )
 create_table "Subscriptions" "$SUBSCRIPTIONS_JSON"
+
+# ── Events ───────────────────────────────────────────────────────────────────
+# Schemaless event records: type (zoom-weekly, etc), title, startsAt (ISO),
+# durationMin, zoomMeetingId, joinUrl, hostId, cohort,
+# status (scheduled|live|completed|cancelled), createdAt, updatedAt.
+EVENTS_JSON=$(cat <<'EOF'
+{
+  "TableName": "Events",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {"AttributeName": "eventId", "AttributeType": "S"}
+  ],
+  "KeySchema": [
+    {"AttributeName": "eventId", "KeyType": "HASH"}
+  ]
+}
+EOF
+)
+create_table "Events" "$EVENTS_JSON"
+
+# ── EventRSVPs ───────────────────────────────────────────────────────────────
+# PK eventId, SK contactId. GSI byContact for lookups by member.
+# Attributes: rsvpedAt (ISO), status (yes|no|maybe), reminderEmailSentAt (ISO),
+# reminderSmsSentAt (ISO), attended (boolean), joinTimeUtc (ISO), leaveTimeUtc (ISO),
+# attendanceMinutes (number).
+EVENTRSVPS_JSON=$(cat <<'EOF'
+{
+  "TableName": "EventRSVPs",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {"AttributeName": "eventId",   "AttributeType": "S"},
+    {"AttributeName": "contactId", "AttributeType": "S"}
+  ],
+  "KeySchema": [
+    {"AttributeName": "eventId",   "KeyType": "HASH"},
+    {"AttributeName": "contactId", "KeyType": "RANGE"}
+  ],
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "byContact",
+      "KeySchema": [
+        {"AttributeName": "contactId", "KeyType": "HASH"},
+        {"AttributeName": "eventId",   "KeyType": "RANGE"}
+      ],
+      "Projection": {"ProjectionType": "ALL"}
+    }
+  ]
+}
+EOF
+)
+create_table "EventRSVPs" "$EVENTRSVPS_JSON"
+
+# ── EventReminders ───────────────────────────────────────────────────────────
+# PK reminderId (format: ${eventId}#${contactId}#${kind}, kind in t24h|t1h|starting).
+# Attributes: eventId, contactId, scheduledFor (ISO), kind (t24h|t1h|starting),
+# channel (email|sms), sentAt (ISO), status (scheduled|sent|failed), error (string).
+EVENTREMINDERS_JSON=$(cat <<'EOF'
+{
+  "TableName": "EventReminders",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {"AttributeName": "reminderId", "AttributeType": "S"}
+  ],
+  "KeySchema": [
+    {"AttributeName": "reminderId", "KeyType": "HASH"}
+  ]
+}
+EOF
+)
+create_table "EventReminders" "$EVENTREMINDERS_JSON"
+
+# ── AgentRuns ────────────────────────────────────────────────────────────────
+# PK runId (UUID). GSI byAgent (PK agentName, SK startedAt) for agent workload tracking.
+# Attributes: agentName (ops|eng|marketing|support|sales), trigger (schedule|intent|webhook),
+# intent (string, the input), startedAt (ISO), completedAt (ISO), status (running|succeeded|failed|awaiting-approval),
+# summary (markdown), toolCalls (list of {tool, input, output, durationMs}), approvalIds (list),
+# error (string).
+AGENTRUNS_JSON=$(cat <<'EOF'
+{
+  "TableName": "AgentRuns",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {"AttributeName": "runId",      "AttributeType": "S"},
+    {"AttributeName": "agentName",  "AttributeType": "S"},
+    {"AttributeName": "startedAt",  "AttributeType": "S"}
+  ],
+  "KeySchema": [
+    {"AttributeName": "runId", "KeyType": "HASH"}
+  ],
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "byAgent",
+      "KeySchema": [
+        {"AttributeName": "agentName", "KeyType": "HASH"},
+        {"AttributeName": "startedAt", "KeyType": "RANGE"}
+      ],
+      "Projection": {"ProjectionType": "ALL"}
+    }
+  ]
+}
+EOF
+)
+create_table "AgentRuns" "$AGENTRUNS_JSON"
+
+# ── ApprovalRequests ──────────────────────────────────────────────────────────
+# PK approvalId (UUID). GSI byStatus (PK status, SK requestedAt) for lifecycle queries.
+# Attributes: agentName, runId, requestedAt (ISO), expiresAt (ISO),
+# summary (markdown shown to TJ), preview (actual content being approved, e.g. email body),
+# channel (email|sms), sentTo (TJ contact), status (pending|approved|denied|expired),
+# respondedAt (ISO), respondedVia (email|sms|web).
+APPROVALREQUESTS_JSON=$(cat <<'EOF'
+{
+  "TableName": "ApprovalRequests",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {"AttributeName": "approvalId",  "AttributeType": "S"},
+    {"AttributeName": "status",      "AttributeType": "S"},
+    {"AttributeName": "requestedAt", "AttributeType": "S"}
+  ],
+  "KeySchema": [
+    {"AttributeName": "approvalId", "KeyType": "HASH"}
+  ],
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "byStatus",
+      "KeySchema": [
+        {"AttributeName": "status",      "KeyType": "HASH"},
+        {"AttributeName": "requestedAt", "KeyType": "RANGE"}
+      ],
+      "Projection": {"ProjectionType": "ALL"}
+    }
+  ]
+}
+EOF
+)
+create_table "ApprovalRequests" "$APPROVALREQUESTS_JSON"
 
 log "All tables provisioned in $REGION."

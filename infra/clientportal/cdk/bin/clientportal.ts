@@ -29,4 +29,7 @@ new ApiStack(app, 'ApiStack', {
   adminQueueTable: dataStack.adminQueueTable,
   appConfigTable: dataStack.appConfigTable,
   tierCatalogTable: dataStack.tierCatalogTable,
+  contactTable: dataStack.contactTable,
+  eventsTable: dataStack.eventsTable,
+  eventRsvpsTable: dataStack.eventRsvpsTable,
 });

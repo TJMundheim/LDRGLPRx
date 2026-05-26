@@ -388,6 +388,27 @@ input UpdateAdminQueueItemInput {
   urgency: QueueUrgency
 }
 
+# ─── Events / Zooms ───────────────────────────────────────────────────────
+
+enum RSVPStatus { YES NO MAYBE }
+
+type Event {
+  eventId: ID!
+  type: String!
+  title: String!
+  startsAt: AWSDateTime!
+  durationMin: Int!
+  joinUrl: AWSURL!
+  status: String!
+}
+
+type EventRSVP {
+  eventId: ID!
+  contactId: ID!
+  rsvpedAt: AWSDateTime!
+  status: RSVPStatus!
+}
+
 # ─── Pagination ───────────────────────────────────────────────────────────
 
 type UserProfileConnection {
@@ -402,6 +423,22 @@ type OutcomeConnection {
 
 type AdminQueueItemConnection {
   items: [AdminQueueItem!]!
+  nextToken: String
+}
+
+# ─── Protege (admin-only; read from Contact table) ────────────────────────────
+
+type Protege {
+  contactId: ID!
+  email: String!
+  firstName: String
+  phone: String
+  createdAt: String!
+  daysAsProtege: Int!
+}
+
+type ProtegesPage {
+  items: [Protege!]!
   nextToken: String
 }
 
@@ -424,6 +461,9 @@ type Query {
   getTierCatalog(id: ID!): TierCatalog
   listTiers: [Tier!]!
 
+  # Events (any authenticated member can read).
+  upcomingEvents(limit: Int): [Event!]!
+
   # Admin-only.
   adminGetProfile(userId: ID!): UserProfile
     @aws_auth(cognito_groups: ["Admins"])
@@ -441,6 +481,8 @@ type Query {
     nextToken: String
   ): AdminQueueItemConnection!
     @aws_auth(cognito_groups: ["Admins"])
+  listProteges(limit: Int, nextToken: String): ProtegesPage!
+    @aws_auth(cognito_groups: ["Admins"])
 }
 
 type Mutation {
@@ -453,6 +495,7 @@ type Mutation {
   submitDiscovery(input: SubmitDiscoveryInput!): DiscoveryResponse!
   upsertMyIntakeForm(input: UpsertIntakeFormInput!): IntakeForm!
   createOutcome(input: CreateOutcomeInput!): Outcome!
+  rsvpEvent(eventId: ID!, status: RSVPStatus!): EventRSVP!
 
   # Admin-only writes (curriculum + catalog + global config + queue).
   upsertProgram(input: UpsertProgramInput!): Program!

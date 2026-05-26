@@ -12,6 +12,9 @@ export class DataStack extends cdk.Stack {
   public readonly adminQueueTable: dynamodb.Table;
   public readonly appConfigTable: dynamodb.Table;
   public readonly tierCatalogTable: dynamodb.Table;
+  public readonly contactTable: dynamodb.ITable;
+  public readonly eventsTable: dynamodb.ITable;
+  public readonly eventRsvpsTable: dynamodb.ITable;
 
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -27,6 +30,12 @@ export class DataStack extends cdk.Stack {
     this.weeklyContentTable = this.simpleTable("WeeklyContent");
     this.adminQueueTable = this.simpleTable("AdminQueue");
     this.tierCatalogTable = this.simpleTable("TierCatalog");
+
+    // Contact / Events / EventRSVPs already exist in AWS (created outside CDK).
+    // Import by name to avoid recreation errors.
+    this.contactTable = dynamodb.Table.fromTableName(this, "Contact", "Contact");
+    this.eventsTable = dynamodb.Table.fromTableName(this, "Events", "Events");
+    this.eventRsvpsTable = dynamodb.Table.fromTableName(this, "EventRSVPs", "EventRSVPs");
 
     // AppConfig: PK key
     this.appConfigTable = new dynamodb.Table(this, "AppConfig", {

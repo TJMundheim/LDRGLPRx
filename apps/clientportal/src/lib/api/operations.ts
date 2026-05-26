@@ -28,6 +28,9 @@ export type {
   AdminQueueItemConnection,
   UpdateAdminQueueItemInput,
   QueueStatus,
+  Event,
+  EventRSVP,
+  RSVPStatus,
 } from './generated.js';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -279,6 +282,40 @@ export async function updateAdminQueueItem(
   });
 }
 
+// ─── Proteges ─────────────────────────────────────────────────────────────────
+
+export interface Protege {
+  contactId: string;
+  email: string;
+  firstName: string | null;
+  phone: string | null;
+  createdAt: string;
+  daysAsProtege: number;
+}
+
+export interface ProtegesPage {
+  items: Protege[];
+  nextToken?: string | null;
+}
+
+export async function listProteges(
+  limit?: number,
+  nextToken?: string,
+  opts?: ClientOptions,
+) {
+  return client(opts)<{ listProteges: ProtegesPage }>({
+    query: `
+      query ListProteges($limit: Int, $nextToken: String) {
+        listProteges(limit: $limit, nextToken: $nextToken) {
+          nextToken
+          items { contactId email firstName phone createdAt daysAsProtege }
+        }
+      }
+    `,
+    variables: { limit, nextToken },
+  });
+}
+
 export async function adminListOutcomes(
   userId?: string,
   limit?: number,
@@ -295,5 +332,37 @@ export async function adminListOutcomes(
       }
     `,
     variables: { userId, limit, nextToken },
+  });
+}
+
+// ─── Events ───────────────────────────────────────────────────────────────────
+
+export async function upcomingEvents(limit?: number, opts?: ClientOptions) {
+  return client(opts)<{ upcomingEvents: import('./generated.js').Event[] }>({
+    query: `
+      query UpcomingEvents($limit: Int) {
+        upcomingEvents(limit: $limit) {
+          eventId type title startsAt durationMin joinUrl status
+        }
+      }
+    `,
+    variables: { limit },
+  });
+}
+
+export async function rsvpEvent(
+  eventId: string,
+  status: import('./generated.js').RSVPStatus,
+  opts?: ClientOptions,
+) {
+  return client(opts)<{ rsvpEvent: import('./generated.js').EventRSVP }>({
+    query: `
+      mutation RsvpEvent($eventId: ID!, $status: RSVPStatus!) {
+        rsvpEvent(eventId: $eventId, status: $status) {
+          eventId contactId rsvpedAt status
+        }
+      }
+    `,
+    variables: { eventId, status },
   });
 }
