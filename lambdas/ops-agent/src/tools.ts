@@ -1,4 +1,4 @@
-import { DynamoDBClient, GetItemCommand, PutItemCommand, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, GetItemCommand, PutItemCommand, QueryCommand, ScanCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { randomUUID } from 'crypto';
@@ -53,6 +53,16 @@ export const toolSchemas = [
     inputSchema: { json: { type: 'object', properties: { tableName: { type: 'string' }, keyConditionExpression: { type: 'string' }, expressionAttributeValues: { type: 'object' } }, required: ['tableName', 'keyConditionExpression'] } },
   },
   {
+    name: 'ddb_update_item',
+    description: 'Update a DynamoDB item in allowed tables using UpdateExpression',
+    inputSchema: { json: { type: 'object', properties: { tableName: { type: 'string' }, key: { type: 'object' }, updateExpression: { type: 'string' }, expressionAttributeValues: { type: 'object' }, expressionAttributeNames: { type: 'object' } }, required: ['tableName', 'key', 'updateExpression'] } },
+  },
+  {
+    name: 'ddb_scan',
+    description: 'Scan a DynamoDB table from allowed tables (max 200 items)',
+    inputSchema: { json: { type: 'object', properties: { tableName: { type: 'string' }, filterExpression: { type: 'string' }, expressionAttributeValues: { type: 'object' }, expressionAttributeNames: { type: 'object' } }, required: ['tableName'] } },
+  },
+  {
     name: 'request_approval',
     description: 'Request TJ approval before member-facing mass actions (mass email, mass SMS, etc.)',
     inputSchema: { json: { type: 'object', properties: { action: { type: 'string' }, reason: { type: 'string' }, context: { type: 'object' } }, required: ['action', 'reason'] } },
@@ -94,6 +104,28 @@ export async function dispatchTool(name: string, input: Record<string, unknown>)
         TableName: input.tableName as string,
         KeyConditionExpression: input.keyConditionExpression as string,
         ExpressionAttributeValues: input.expressionAttributeValues ? marshall(input.expressionAttributeValues as Record<string, unknown>) : undefined,
+      }));
+      return (res.Items ?? []).map(i => unmarshall(i));
+    }
+    case 'ddb_update_item': {
+      assertAllowedTable(input.tableName as string);
+      await ddb.send(new UpdateItemCommand({
+        TableName: input.tableName as string,
+        Key: marshall(input.key as Record<string, unknown>),
+        UpdateExpression: input.updateExpression as string,
+        ExpressionAttributeValues: input.expressionAttributeValues ? marshall(input.expressionAttributeValues as Record<string, unknown>) : undefined,
+        ExpressionAttributeNames: input.expressionAttributeNames as Record<string, string> | undefined,
+      }));
+      return { ok: true };
+    }
+    case 'ddb_scan': {
+      assertAllowedTable(input.tableName as string);
+      const res = await ddb.send(new ScanCommand({
+        TableName: input.tableName as string,
+        FilterExpression: input.filterExpression as string | undefined,
+        ExpressionAttributeValues: input.expressionAttributeValues ? marshall(input.expressionAttributeValues as Record<string, unknown>) : undefined,
+        ExpressionAttributeNames: input.expressionAttributeNames as Record<string, string> | undefined,
+        Limit: 200,
       }));
       return (res.Items ?? []).map(i => unmarshall(i));
     }

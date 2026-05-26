@@ -38,6 +38,31 @@ Tools are registered in the dispatch table in `src/tools.ts`. To add a new tool:
 3. Grant the Lambda role any additional IAM permissions in `infra/deploy.sh`.
 4. Re-run `bash infra/deploy.sh` to deploy.
 
-## Scheduled trigger
+## Scheduled triggers
 
-`ops-agent-weekly-schedule` fires every Monday at 13:00 UTC (~9 AM ET EDT) to schedule the week's Protégé Zoom. Defined and deployed via `infra/deploy.sh`.
+Two EventBridge rules drive the weekly Zoom lifecycle. Both are defined and deployed idempotently in `infra/deploy.sh`.
+
+### `ops-agent-weekly-schedule` — Monday 13:00 UTC (~9 AM ET)
+
+Creates the week's Protégé Zoom meeting in Zoom, writes an `Events` row (`status='scheduled'`), reads each Protégé's `personalWhy` + `accountabilityTarget`, drafts personalized invite emails, and calls `request_approval` with a preview. Email dispatch happens in the follow-up run after TJ approves.
+
+### `ops-agent-post-event-cron` — every 30 minutes
+
+Scans `Events` for rows where `status='scheduled'` and the calculated end time (`startsAt + durationMin * 60s`) is in the past. For each such event:
+
+1. Calls `zoom_get_attendance` to fetch participant records.
+2. Matches participants to Contacts by email; updates `EventRSVPs` with `attended`, `joinTimeUtc`, `leaveTimeUtc`, `attendanceMinutes`. Walk-ins (no prior RSVP) get a new row with `status='walkin'`.
+3. Marks the `Events` row `status='completed'`.
+4. Finds RSVPed-yes Protégés who did not attend; drafts a personalized "we missed you" email referencing `personalWhy` and `accountabilityTarget`.
+5. Calls `request_approval` once covering all missed-you drafts. Dispatch fires on the follow-up run after TJ approves.
+
+Runs are idempotent: if no Events need processing the run writes a single "no post-event work" summary to `AgentRuns` and exits.
+
+### Event lifecycle
+
+```
+scheduled  →  (post-event-cron detects meeting ended)
+completed  →  (re-engagement approval queued)
+re-engagement queued  →  (TJ approves)
+re-engagement sent
+```

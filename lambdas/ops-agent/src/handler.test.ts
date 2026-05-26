@@ -18,6 +18,7 @@ vi.mock('@aws-sdk/client-dynamodb', () => {
     UpdateItemCommand: vi.fn(x => x),
     GetItemCommand: vi.fn(x => x),
     QueryCommand: vi.fn(x => x),
+    ScanCommand: vi.fn(x => x),
     __send: send,
   };
 });
@@ -38,6 +39,7 @@ vi.mock('@aws-sdk/client-lambda', () => {
 
 import { runAgentLoop } from './agent-loop.js';
 import { BedrockRuntimeClient, ConverseCommand } from '@aws-sdk/client-bedrock-runtime';
+import { dispatchTool } from './tools.js';
 
 function makeConverseResponse(toolUses: { name: string; input: Record<string, unknown> }[], stopReason = 'tool_use') {
   return {
@@ -116,6 +118,32 @@ describe('runAgentLoop', () => {
     const result = await runAgentLoop({ client, modelId: 'test-model', systemPrompt: 'sys', intent: 'send mass email to members' });
 
     expect(result.status).toBe('awaiting-approval');
+  });
+
+  it('ddb_update_item dispatches UpdateItemCommand', async () => {
+    bedrockSend
+      .mockResolvedValueOnce(makeConverseResponse([{ name: 'ddb_update_item', input: { tableName: 'Events', key: { eventId: 'e1' }, updateExpression: 'SET #s = :s', expressionAttributeNames: { '#s': 'status' }, expressionAttributeValues: { ':s': 'completed' } } }]))
+      .mockResolvedValueOnce(makeFinalResponse('Updated.'));
+
+    const { dispatchTool: dt } = await import('./tools.js');
+    (dt as ReturnType<typeof vi.fn>).mockResolvedValue({ ok: true });
+
+    const client = new BedrockRuntimeClient({});
+    const result = await runAgentLoop({ client, modelId: 'test-model', systemPrompt: 'sys', intent: 'mark event completed' });
+    expect(result.status).toBe('succeeded');
+  });
+
+  it('ddb_scan dispatches ScanCommand', async () => {
+    bedrockSend
+      .mockResolvedValueOnce(makeConverseResponse([{ name: 'ddb_scan', input: { tableName: 'Contact', filterExpression: 'lifecycleStage = :ls', expressionAttributeValues: { ':ls': 'protege' } } }]))
+      .mockResolvedValueOnce(makeFinalResponse('Scanned.'));
+
+    const { dispatchTool: dt } = await import('./tools.js');
+    (dt as ReturnType<typeof vi.fn>).mockResolvedValue([]);
+
+    const client = new BedrockRuntimeClient({});
+    const result = await runAgentLoop({ client, modelId: 'test-model', systemPrompt: 'sys', intent: 'scan protege contacts' });
+    expect(result.status).toBe('succeeded');
   });
 
   it('captures tool error and marks isError', async () => {

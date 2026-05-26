@@ -135,4 +135,23 @@ aws lambda add-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
 aws events put-targets --rule "$WEEKLY_RULE" --region "$REGION" \
   --targets "[{\"Id\":\"ops-agent-weekly-target\",\"Arn\":\"${FN_ARN}\",\"Input\":$(echo "$WEEKLY_INPUT" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')}]" >/dev/null
 
-echo "==> Done: $FUNCTION_NAME deployed to $REGION + weekly EventBridge rule $WEEKLY_RULE"
+echo "==> Wire EventBridge post-event rule: ops-agent-post-event-cron"
+POST_EVENT_RULE="ops-agent-post-event-cron"
+POST_EVENT_INPUT='{"intent":"Process completed Zoom events. Steps: (1) ddb_scan Events where status='\''scheduled'\'' AND startsAt+durationMin*60*1000 < now (the meeting ended in the past). If none, write a one-line summary '\''no post-event work'\'' and stop. (2) For each completed-but-unprocessed Event: (a) call zoom_get_attendance with meetingId=event.zoomMeetingId. (b) For each participant returned: ddb_query EventRSVPs by eventId — match Contacts by email (Contact.email == participant.user_email, case-insensitive). For matched Contacts that have an RSVP row, ddb_update_item EventRSVPs to set attended=true, joinTimeUtc, leaveTimeUtc, attendanceMinutes. For attended participants WITHOUT an RSVP, write a new EventRSVPs row with status='\''walkin'\'', attended=true. (c) ddb_update_item Events: status='\''completed'\'', updatedAt=now. (3) After all completed events are processed in this run, scan EventRSVPs for rows where status='\''yes'\'' AND attended=false AND the parent event'\''s status just became '\''completed'\''. For each: ddb_get_item Contact to read personalWhy + accountabilityTarget. Draft a 5-sentence personal '\''we missed you'\'' email referencing their accountability target by name (if present) and tying back to their personalWhy (if present). If both are absent, use generic copy. (4) If there are ANY missed-you drafts, call request_approval ONCE with summary '\''Send N we-missed-you emails to Protégés who skipped this week'\''s Zoom'\'' and preview containing the list of names + sample email. Stop after request_approval. (5) If a follow-up run sees this approval status='\''approved'\'', dispatch the emails via send_email_via_email_sender and write Touchpoints rows.","trigger":"schedule","context":{"cron":"post-event-cron"}}'
+
+aws events put-rule --name "$POST_EVENT_RULE" --region "$REGION" \
+  --schedule-expression "rate(30 minutes)" \
+  --state ENABLED >/dev/null
+
+aws lambda remove-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
+  --statement-id eventbridge-post-event-cron >/dev/null 2>&1 || true
+aws lambda add-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
+  --statement-id eventbridge-post-event-cron \
+  --action lambda:InvokeFunction \
+  --principal events.amazonaws.com \
+  --source-arn "arn:aws:events:${REGION}:${ACCOUNT_ID}:rule/${POST_EVENT_RULE}" >/dev/null
+
+aws events put-targets --rule "$POST_EVENT_RULE" --region "$REGION" \
+  --targets "[{\"Id\":\"ops-agent-post-event-target\",\"Arn\":\"${FN_ARN}\",\"Input\":$(echo "$POST_EVENT_INPUT" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')}]" >/dev/null
+
+echo "==> Done: $FUNCTION_NAME deployed to $REGION + weekly EventBridge rule $WEEKLY_RULE + post-event rule $POST_EVENT_RULE"
