@@ -111,4 +111,28 @@ else
 fi
 aws lambda wait function-updated --function-name "$FUNCTION_NAME" --region "$REGION"
 
-echo "==> Done: $FUNCTION_NAME deployed to $REGION"
+echo "==> Wire EventBridge weekly rule: ops-agent-weekly-schedule"
+# cron(0 13 ? * MON *) = every Monday 13:00 UTC = 9:00 AM ET (EDT, UTC-4).
+# During EST (UTC-5, Nov–Mar) this fires at 8:00 AM ET.
+# Approximation: 9 AM ET in summer, 8 AM ET in winter. Adjust if needed.
+WEEKLY_RULE="ops-agent-weekly-schedule"
+WEEKLY_INPUT='{"intent":"Schedule this week'\''s Protégé weekly Zoom. Target: Wednesday 7:00 PM Eastern Time, 60 minutes, recurring weekly cohort. Steps: (1) Check Events table for any '\''zoom-weekly'\'' event with startsAt in the next 7 days. If one exists, stop and report. (2) Otherwise, call zoom_create_meeting with topic '\''My4MLife Protégé Weekly — gut, brain, accountability'\'', start_time set to the next Wednesday 7 PM ET, duration 60, type 8 (recurring weekly), settings auto_recording=cloud join_before_host=false mute_upon_entry=true. (3) Write the Events row (eventId=uuid, type='\''zoom-weekly'\'', title=topic, startsAt, durationMin=60, joinUrl from Zoom response, status='\''scheduled'\''). (4) Scan Contact for lifecycleStage='\''protege'\'' (up to 200 for v1). (5) For each Protégé, draft a 5-sentence personal invite email referencing their personalWhy (if present) and accountabilityTarget (if present). Read these via ddb_get_item on Contact then look in workbookJson if needed; if absent, use the generic invite copy. (6) Call request_approval ONCE with summary='\''Send invites for this week'\''s Zoom to N Protégés'\'' and preview containing the full list of names + sample of one invite. Stop after request_approval — the dispatch will happen in a follow-up agent run after TJ approves.","trigger":"schedule","context":{"weeklyJob":"schedule-protege-zoom"}}'
+
+aws events put-rule --name "$WEEKLY_RULE" --region "$REGION" \
+  --schedule-expression "cron(0 13 ? * MON *)" \
+  --state ENABLED >/dev/null
+
+FN_ARN="arn:aws:lambda:${REGION}:${ACCOUNT_ID}:function:${FUNCTION_NAME}"
+
+aws lambda remove-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
+  --statement-id eventbridge-weekly-schedule >/dev/null 2>&1 || true
+aws lambda add-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
+  --statement-id eventbridge-weekly-schedule \
+  --action lambda:InvokeFunction \
+  --principal events.amazonaws.com \
+  --source-arn "arn:aws:events:${REGION}:${ACCOUNT_ID}:rule/${WEEKLY_RULE}" >/dev/null
+
+aws events put-targets --rule "$WEEKLY_RULE" --region "$REGION" \
+  --targets "[{\"Id\":\"ops-agent-weekly-target\",\"Arn\":\"${FN_ARN}\",\"Input\":$(echo "$WEEKLY_INPUT" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')}]" >/dev/null
+
+echo "==> Done: $FUNCTION_NAME deployed to $REGION + weekly EventBridge rule $WEEKLY_RULE"
