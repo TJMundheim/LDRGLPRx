@@ -124,6 +124,13 @@ const skuList = Object.values(SKUS);
       if (isDemo && demoAuth) {
         headers['Authorization'] = 'Basic ' + btoa('demo:' + demoAuth);
       }
+      var priceId = isDemo ? sku.stripePriceTestId : sku.stripePriceId;
+      if (!priceId) {
+        alert(isDemo
+          ? "This product isn't available in demo mode yet — set stripePriceTestId in skus.ts"
+          : "This product isn't available for live checkout yet — set stripePriceId in skus.ts");
+        return;
+      }
       btn.disabled = true;
       btn.textContent = isDemo ? 'Opening TEST checkout…' : 'Opening secure checkout…';
       fetch(apiBase + endpoint, {
@@ -131,7 +138,7 @@ const skuList = Object.values(SKUS);
         headers: headers,
         body: JSON.stringify({
           skuId: sku.id,
-          priceId: sku.stripePriceId,
+          priceId: priceId,
           contactId: params.get('contactId') || '',
           email: params.get('email') || '',
           firstName: params.get('firstName') || '',
