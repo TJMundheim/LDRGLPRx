@@ -12,7 +12,7 @@ TIMEOUT=15
 MEMORY=256
 ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
-STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:stripe-keys"
+STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:all-stripe-keys"
 ADMIN_DEMO_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:admin-demo-auth"
 CONTACT_TABLE_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/Contact"
 
@@ -32,7 +32,7 @@ else
 fi
 # Resolve true ARN (suffix varies)
 ADMIN_DEMO_ARN="$(aws secretsmanager describe-secret --secret-id admin-demo-auth --region "$REGION" --query 'ARN' --output text)"
-STRIPE_KEYS_ARN="$(aws secretsmanager describe-secret --secret-id stripe-keys --region "$REGION" --query 'ARN' --output text 2>/dev/null || echo "arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:stripe-keys")"
+STRIPE_KEYS_ARN="$(aws secretsmanager describe-secret --secret-id all-stripe-keys --region "$REGION" --query 'ARN' --output text)"
 
 echo "==> Build"
 pnpm install --frozen-lockfile

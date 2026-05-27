@@ -4,9 +4,16 @@ const API_VERSION = '2025-02-24.acacia' as const;
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import Stripe from 'stripe';
 
-interface StripeKeys {
-  live: { secret_key: string; webhook_secret: string | null };
-  test: { secret_key: string; webhook_secret: string | null };
+// Secret `all-stripe-keys` shape (flat — set by TJ 2026-05-27):
+//   { "stripe-live-key": pk_live_..., "stripe-live-secret": sk_live_...,
+//     "stripe-test-key": pk_test_..., "stripe-test-secret": sk_test_... }
+// We only use the secret_key for server-side Stripe API calls; the publishable
+// keys are stored alongside for completeness (frontend may read them later).
+interface RawSecret {
+  'stripe-live-key'?: string;
+  'stripe-live-secret': string;
+  'stripe-test-key'?: string;
+  'stripe-test-secret': string;
 }
 
 export interface GetStripeClientOptions {
@@ -15,14 +22,14 @@ export interface GetStripeClientOptions {
 }
 
 // Module-level secret cache (survives warm Lambda container reuse)
-let cachedKeys: StripeKeys | null = null;
+let cachedKeys: RawSecret | null = null;
 
-async function fetchKeys(): Promise<StripeKeys> {
+async function fetchKeys(): Promise<RawSecret> {
   if (cachedKeys) return cachedKeys;
   const client = new SecretsManagerClient({ region: 'us-east-2' });
-  const cmd = new GetSecretValueCommand({ SecretId: 'stripe-keys' });
+  const cmd = new GetSecretValueCommand({ SecretId: 'all-stripe-keys' });
   const res = await client.send(cmd);
-  cachedKeys = JSON.parse(res.SecretString!) as StripeKeys;
+  cachedKeys = JSON.parse(res.SecretString!) as RawSecret;
   return cachedKeys;
 }
 
@@ -46,7 +53,7 @@ export async function getStripeClient(opts: GetStripeClientOptions = {}): Promis
   }
 
   const keys = await fetchKeys();
-  const secretKey = keys[mode].secret_key;
+  const secretKey = mode === 'live' ? keys['stripe-live-secret'] : keys['stripe-test-secret'];
 
   return new Stripe(secretKey, { apiVersion: API_VERSION });
 }

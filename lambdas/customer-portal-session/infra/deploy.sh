@@ -13,7 +13,7 @@ MEMORY=256
 ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
 CONTACT_TABLE_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/Contact"
-STRIPE_KEYS_ARN="$(aws secretsmanager describe-secret --secret-id stripe-keys --region "$REGION" --query 'ARN' --output text)"
+STRIPE_KEYS_ARN="$(aws secretsmanager describe-secret --secret-id all-stripe-keys --region "$REGION" --query 'ARN' --output text)"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

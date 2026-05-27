@@ -27,13 +27,19 @@ vi.mock('stripe', () => {
 
 // ---------------------------------------------------------------------------
 // The single secret payload the lib must parse
+// Flat shape per TJ's 2026-05-27 secret rename to `all-stripe-keys`.
 // ---------------------------------------------------------------------------
-const SECRET_NAME = 'stripe-keys';
+const SECRET_NAME = 'all-stripe-keys';
 
 const stripeKeysPayload = {
-  live: { secret_key: 'sk_live_abc123', webhook_secret: null },
-  test: { secret_key: 'sk_test_xyz789', webhook_secret: null },
+  'stripe-live-key': 'pk_live_pub_abc',
+  'stripe-live-secret': 'sk_live_abc123',
+  'stripe-test-key': 'pk_test_pub_xyz',
+  'stripe-test-secret': 'sk_test_xyz789',
 };
+// Back-compat shim so existing assertions read the same way
+const liveSecret = stripeKeysPayload['stripe-live-secret'];
+const testSecret = stripeKeysPayload['stripe-test-secret'];
 
 function makeSecretResponse() {
   return { SecretString: JSON.stringify(stripeKeysPayload) };
@@ -67,7 +73,7 @@ describe('getStripeClient — mode resolution + caching', () => {
 
     // Stripe must have been constructed with the TEST key
     expect(stripeConstructorCalls.length).toBeGreaterThan(0);
-    expect(stripeConstructorCalls[0][0]).toBe(stripeKeysPayload.test.secret_key);
+    expect(stripeConstructorCalls[0][0]).toBe(testSecret);
     expect(client).toBeDefined();
   });
 
@@ -76,7 +82,7 @@ describe('getStripeClient — mode resolution + caching', () => {
     await getStripeClient({ livemode: true });
 
     expect(stripeConstructorCalls.length).toBeGreaterThan(0);
-    expect(stripeConstructorCalls[0][0]).toBe(stripeKeysPayload.live.secret_key);
+    expect(stripeConstructorCalls[0][0]).toBe(liveSecret);
   });
 
   // (c) livemode=false → test key
@@ -84,7 +90,7 @@ describe('getStripeClient — mode resolution + caching', () => {
     await getStripeClient({ livemode: false });
 
     expect(stripeConstructorCalls.length).toBeGreaterThan(0);
-    expect(stripeConstructorCalls[0][0]).toBe(stripeKeysPayload.test.secret_key);
+    expect(stripeConstructorCalls[0][0]).toBe(testSecret);
   });
 
   // (d) STRIPE_MODE env used when livemode unset and no modeOverride
@@ -94,7 +100,7 @@ describe('getStripeClient — mode resolution + caching', () => {
     await getStripeClient({});
 
     expect(stripeConstructorCalls.length).toBeGreaterThan(0);
-    expect(stripeConstructorCalls[0][0]).toBe(stripeKeysPayload.live.secret_key);
+    expect(stripeConstructorCalls[0][0]).toBe(liveSecret);
   });
 
   // (e) default to 'test' when nothing is set
@@ -102,7 +108,7 @@ describe('getStripeClient — mode resolution + caching', () => {
     await getStripeClient({});
 
     expect(stripeConstructorCalls.length).toBeGreaterThan(0);
-    expect(stripeConstructorCalls[0][0]).toBe(stripeKeysPayload.test.secret_key);
+    expect(stripeConstructorCalls[0][0]).toBe(testSecret);
   });
 
   // (f) module-level cache: second call within warm container does NOT re-fetch secret

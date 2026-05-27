@@ -8,7 +8,7 @@ ROLE_NAME="${FUNCTION_NAME}-role"
 RUNTIME="nodejs20.x"
 HANDLER="handler.handler"
 
-STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT}:secret:stripe-keys"
+STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT}:secret:all-stripe-keys"
 CONTACT_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Contact"
 ORDERS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Orders"
 TOUCHPOINTS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Touchpoints"
