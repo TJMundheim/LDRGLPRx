@@ -113,11 +113,22 @@ const skuList = Object.values(SKUS);
     note.hidden = true;
     btn.addEventListener('click', function() {
       var apiBase = 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+      var isDemo = false;
+      var demoAuth = null;
+      try {
+        isDemo = sessionStorage.getItem('my4m-demo-mode') === '1';
+        demoAuth = sessionStorage.getItem('my4m-demo-auth');
+      } catch (e) {}
+      var endpoint = isDemo ? '/api/admin/demo-checkout-session' : '/api/create-checkout-session';
+      var headers = { 'Content-Type': 'application/json' };
+      if (isDemo && demoAuth) {
+        headers['Authorization'] = 'Basic ' + btoa('demo:' + demoAuth);
+      }
       btn.disabled = true;
-      btn.textContent = 'Opening secure checkout…';
-      fetch(apiBase + '/api/create-checkout-session', {
+      btn.textContent = isDemo ? 'Opening TEST checkout…' : 'Opening secure checkout…';
+      fetch(apiBase + endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify({
           skuId: sku.id,
           priceId: sku.stripePriceId,

@@ -63,6 +63,47 @@ const {
   </script>
 </head>
 <body>
+  <!-- Demo-mode init + banner. Inline so it runs immediately on every page. -->
+  <script is:inline>
+    (function() {
+      try {
+        var SS_FLAG = 'my4m-demo-mode';
+        var SS_AUTH = 'my4m-demo-auth';
+        var url = new URL(window.location.href);
+        var demoParam = url.searchParams.get('demo');
+        var authParam = url.searchParams.get('auth');
+        var mutated = false;
+        if (demoParam === 'true') {
+          sessionStorage.setItem(SS_FLAG, '1');
+          if (authParam) sessionStorage.setItem(SS_AUTH, authParam);
+          url.searchParams.delete('demo'); url.searchParams.delete('auth');
+          mutated = true;
+        } else if (demoParam === 'false') {
+          sessionStorage.removeItem(SS_FLAG); sessionStorage.removeItem(SS_AUTH);
+          url.searchParams.delete('demo'); url.searchParams.delete('auth');
+          mutated = true;
+        } else if (authParam && sessionStorage.getItem(SS_FLAG) === '1') {
+          sessionStorage.setItem(SS_AUTH, authParam);
+          url.searchParams.delete('auth');
+          mutated = true;
+        }
+        if (mutated) {
+          var qs = url.searchParams.toString();
+          history.replaceState({}, '', url.pathname + (qs ? '?' + qs : '') + url.hash);
+        }
+        if (sessionStorage.getItem(SS_FLAG) === '1') {
+          document.addEventListener('DOMContentLoaded', function() {
+            var b = document.createElement('div');
+            b.setAttribute('role', 'status');
+            b.style.cssText = 'position:sticky;top:0;left:0;right:0;z-index:99999;background:#ffb300;color:#1a1a1a;font-family:Inter,system-ui,sans-serif;font-size:0.85rem;font-weight:700;text-align:center;padding:0.55rem 1rem;border-bottom:2px solid #b37800;letter-spacing:0.02em;';
+            b.textContent = '🧪 DEMO MODE — Stripe test cards only. Append ?demo=false to any URL to disable.';
+            document.body.insertBefore(b, document.body.firstChild);
+          });
+        }
+      } catch (e) { /* noop */ }
+    })();
+  </script>
+
   {!hideChrome && <Navbar />}
   <slot />
   {!hideChrome && <Footer />}
