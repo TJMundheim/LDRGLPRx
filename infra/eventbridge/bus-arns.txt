@@ -1,0 +1,2 @@
+STRIPE_LIVE_BUS=arn:aws:events:us-east-2:879696522760:event-bus/aws.partner/stripe.com/ed_61UlDYUbuzFxSo14816UiEhJ4YSQtFOqpjj7xSOFM1sm
+STRIPE_TEST_BUS=arn:aws:events:us-east-2:879696522760:event-bus/aws.partner/stripe.com/ed_test_61UlDVeF8h2kljecs16UiEhJ4YSQQn8vyXT2GnXBwGc4
