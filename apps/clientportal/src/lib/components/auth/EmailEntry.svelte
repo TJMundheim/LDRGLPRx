@@ -7,8 +7,19 @@
 
   const { onsuccess }: Props = $props();
 
+  // Pre-fill from URL params (e.g. when arriving from /welcome-protege).
+  // ?email=foo@bar.com pre-fills the email input.
+  // ?new=1 indicates a fresh signup — hide the firstName field entirely
+  // (the name was already captured during Protégé signup; asking again is confusing).
+  function readUrlParam(key: string): string {
+    if (typeof window === 'undefined') return '';
+    try { return new URLSearchParams(window.location.search).get(key) ?? ''; } catch { return ''; }
+  }
+  const initialEmail = readUrlParam('email');
+  const isFreshSignup = readUrlParam('new') === '1';
+
   let firstName = $state('');
-  let email = $state('');
+  let email = $state(initialEmail);
   let loading = $state(false);
   let error = $state('');
 
@@ -28,18 +39,20 @@
 </script>
 
 <div class="auth-card">
-  <h2>Sign In / Sign Up — Free Protégé</h2>
-  <p class="subtitle">Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in.</p>
+  <h2>{isFreshSignup ? "You're in. Let's sign you in." : 'Sign In / Sign Up — Free Protégé'}</h2>
+  <p class="subtitle">{isFreshSignup ? "We'll email you a 6-digit code. Use it to enter the app." : "Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in."}</p>
   <form onsubmit={handleSubmit}>
-    <label for="firstname-input">First name <span class="optional">(optional — new accounts only)</span></label>
-    <input
-      id="firstname-input"
-      type="text"
-      autocomplete="given-name"
-      placeholder="e.g. Alex"
-      bind:value={firstName}
-      disabled={loading}
-    />
+    {#if !isFreshSignup}
+      <label for="firstname-input">First name <span class="optional">(optional — new accounts only)</span></label>
+      <input
+        id="firstname-input"
+        type="text"
+        autocomplete="given-name"
+        placeholder="e.g. Alex"
+        bind:value={firstName}
+        disabled={loading}
+      />
+    {/if}
     <label for="email-input">Email address</label>
     <input
       id="email-input"

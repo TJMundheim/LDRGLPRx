@@ -14,9 +14,24 @@ const robots = "noindex, nofollow";
     <h1>You&apos;re in. Welcome, Prot&eacute;g&eacute;.</h1>
     <p class="wp-sub">Your free account is ready. Check your email for your sign-in code.</p>
 
-    <a href="https://app.my4mlife.com" class="btn btn-primary btn-large" rel="noopener">
+    <a href="https://app.my4mlife.com" id="open-app-link" class="btn btn-primary btn-large" rel="noopener">
       Open the My4MLife App &rarr;
     </a>
+    <script is:inline>
+      // Carry the user's email from sessionStorage (set by protege-signup form) to the app
+      // so the sign-in screen pre-fills it and hides the firstName field.
+      (function () {
+        try {
+          var em = sessionStorage.getItem('my4m-signup-email') || '';
+          var link = document.getElementById('open-app-link');
+          if (em && link) {
+            link.href = 'https://app.my4mlife.com/?new=1&email=' + encodeURIComponent(em);
+          } else if (link) {
+            link.href = 'https://app.my4mlife.com/?new=1';
+          }
+        } catch (e) { /* no-op */ }
+      })();
+    </script>
 
     <p class="wp-note">
       Didn&apos;t get the email? Check spam, or email

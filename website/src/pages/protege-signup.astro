@@ -252,6 +252,7 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
         return res.json();
       })
       .then(function () {
+        try { sessionStorage.setItem('my4m-signup-email', email); } catch (e) { /* no-op */ }
         window.location.replace('/welcome-protege');
       })
       .catch(function (err) {
