@@ -164,6 +164,20 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
     } catch (_) {}
   })();
 
+  function toE164(input) {
+    if (!input) return null;
+    var raw = String(input).trim();
+    var hasPlus = raw.charAt(0) === '+';
+    var digits = raw.replace(/[^0-9]/g, '');
+    if (hasPlus) {
+      if (digits.length >= 8 && digits.length <= 15) return '+' + digits;
+      return null;
+    }
+    if (digits.length === 10) return '+1' + digits;
+    if (digits.length === 11 && digits.charAt(0) === '1') return '+' + digits;
+    return null;
+  }
+
   function showError(msg) {
     var el = document.getElementById('ps-error');
     if (!el) return;
@@ -206,6 +220,13 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
       phoneEl.focus();
       return;
     }
+    var phoneE164 = toE164(phone);
+    if (!phoneE164) {
+      showError('Please enter a valid phone number.');
+      phoneEl.focus();
+      return;
+    }
+    phone = phoneE164;
     if (!consentProtegeEl.checked) {
       showError('Please agree to the Protégé terms to continue.');
       consentProtegeEl.focus();
@@ -236,7 +257,7 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
       .then(function (res) {
         if (!res.ok) {
           return res.json().catch(function () { return {}; }).then(function (body) {
-            throw new Error(body.message || 'Server error (' + res.status + ')');
+            throw new Error(body.error || body.message || 'Server error (' + res.status + ')');
           });
         }
         return res.json();
@@ -252,6 +273,8 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
         var msg = (err && err.message) ? err.message : '';
         if (msg && msg.toLowerCase().indexOf('already') !== -1) {
           showError('That email is already registered. Try signing in at app.my4mlife.com.');
+        } else if (msg) {
+          showError(msg);
         } else {
           showError('Something went wrong — please try again or email support@my4mlife.com.');
         }

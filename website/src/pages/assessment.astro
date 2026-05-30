@@ -276,6 +276,21 @@ const robots = "index, follow";
     } catch (e) { /* ignore */ }
   }
 
+  function toE164(input) {
+    if (!input) return null;
+    var raw = String(input).trim();
+    if (!raw) return null;
+    var hasPlus = raw.charAt(0) === '+';
+    var digits = raw.replace(/[^0-9]/g, '');
+    if (hasPlus) {
+      if (digits.length >= 8 && digits.length <= 15) return '+' + digits;
+      return null;
+    }
+    if (digits.length === 10) return '+1' + digits;
+    if (digits.length === 11 && digits.charAt(0) === '1') return '+' + digits;
+    return null;
+  }
+
   // ── selectTop3 ──
   function selectTop3(scores, categories) {
     var sorted = categories.slice().sort(function (a, b) {
@@ -426,7 +441,8 @@ const robots = "index, follow";
 
       userName = nameEl.value.trim();
       userEmail = emailEl.value.trim();
-      userPhone = phoneEl.value.trim();
+      var rawPhone = phoneEl.value.trim();
+      userPhone = rawPhone ? (toE164(rawPhone) || '') : '';
       persist();
 
       submitBtn.disabled = true;
@@ -446,6 +462,22 @@ const robots = "index, follow";
             scores: JSON.stringify(scores),
             savedAt: new Date().toISOString(),
           },
+        }),
+      }).catch(function () { /* silent */ });
+
+      // Also notify audit-complete (writes auditTop3 + sends results email).
+      var top3Payload = selectTop3(scores, QUESTIONS).map(function (q) {
+        return { id: q.id, label: q.label, slug: q.solutionSlug, score: scores[q.id] || 0 };
+      });
+      fetch(apiBase + '/api/audit-complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: userEmail,
+          firstName: userName,
+          phone: userPhone,
+          scores: scores,
+          top3: top3Payload,
         }),
       }).catch(function () { /* silent */ });
 

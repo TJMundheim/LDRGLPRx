@@ -2,12 +2,17 @@ import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+import { v5 as uuidv5 } from 'uuid';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
+const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
+export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const sqs = new SQSClient({ region: REGION });
+const lambda = new LambdaClient({ region: REGION });
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -16,25 +21,64 @@ const CORS = {
   'Content-Type': 'application/json',
 };
 
-function reply(statusCode: number, body: unknown): APIGatewayProxyResultV2 {
-  return { statusCode, headers: CORS, body: JSON.stringify(body) };
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function reply(s: number, b: unknown): APIGatewayProxyResultV2 {
+  return { statusCode: s, headers: CORS, body: JSON.stringify(b) };
+}
+
+function buildResultsHtml(firstName: string, email: string, phone: string, top3: any[]): string {
+  const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
+  const items = top3.map((t: any, i: number) => {
+    const label = safe(t?.label || t?.id || 'Priority ' + (i + 1));
+    return `<li style="margin:8px 0"><strong>#${i + 1}.</strong> ${label}</li>`;
+  }).join('');
+  const qs = `?name=${encodeURIComponent(firstName)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
+  const protegeUrl = 'https://my4mlife.com/protege-signup' + qs;
+  const consultUrl = 'https://my4mlife.com/cart?sku=consult-comprehensive';
+  return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">
+<h1 style="font-size:22px;margin:0 0 12px">Hi ${safe(firstName)}, here are your top 3 priorities from your 4M Assessment:</h1>
+<ul style="padding-left:18px;margin:12px 0 24px">${items}</ul>
+<h2 style="font-size:17px;margin:24px 0 8px">Two paths to act on these:</h2>
+<p style="margin:12px 0"><strong>Become a Protégé (free)</strong> — app + weekly Zooms + 15% off your first order.</p>
+<p style="margin:8px 0 24px"><a href="${protegeUrl}" style="background:#00b894;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Become a Protégé →</a></p>
+<p style="margin:12px 0"><strong>Or talk to us first</strong> — book a comprehensive consult with labs.</p>
+<p style="margin:8px 0 24px"><a href="${consultUrl}" style="background:#0a1628;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Book a Consult →</a></p>
+<p style="font-size:13px;color:#718096;margin-top:32px">Your results are saved — you can revisit them anytime at <a href="https://my4mlife.com/assessment" style="color:#00a381">my4mlife.com/assessment</a>.</p>
+<p style="font-size:13px;color:#718096;margin-top:8px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+</div>`;
+}
+
+async function sendResultsEmail(email: string, firstName: string, phone: string, top3: any[]): Promise<void> {
+  const subject = `Your 4M Assessment Results — ${firstName || 'top 3 priorities'}`;
+  const html = buildResultsHtml(firstName, email, phone, top3);
+  const payload = { kind: 'info', to: email, subject, html };
+  await lambda.send(new InvokeCommand({
+    FunctionName: EMAIL_SENDER_FN,
+    InvocationType: 'Event',
+    Payload: Buffer.from(JSON.stringify(payload)),
+  }));
 }
 
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
   if (event.requestContext?.http?.method === 'OPTIONS') return reply(204, {});
   if (!event.body) return reply(400, { error: 'missing body' });
 
-  let parsed: { contactId?: unknown; scores?: unknown; top3?: unknown };
-  try {
-    parsed = JSON.parse(event.body);
-  } catch {
-    return reply(400, { error: 'invalid json' });
-  }
+  let parsed: any;
+  try { parsed = JSON.parse(event.body); } catch { return reply(400, { error: 'invalid json' }); }
 
-  const { contactId, scores, top3 } = parsed;
-  if (typeof contactId !== 'string' || contactId.trim() === '') {
-    return reply(400, { error: 'contactId required' });
+  const { scores, top3 } = parsed;
+  const rawEmail: string | undefined = parsed.email;
+  const firstName: string = (parsed.firstName && typeof parsed.firstName === 'string') ? parsed.firstName.trim() : '';
+  const phone: string = (parsed.phone && typeof parsed.phone === 'string') ? parsed.phone.trim() : '';
+
+  let contactId: string | undefined = typeof parsed.contactId === 'string' && parsed.contactId.trim() ? parsed.contactId.trim() : undefined;
+  let email = '';
+  if (rawEmail && typeof rawEmail === 'string' && EMAIL_RE.test(rawEmail.trim().toLowerCase())) {
+    email = rawEmail.trim().toLowerCase();
+    if (!contactId) contactId = uuidv5(email, NAMESPACE);
   }
+  if (!contactId) return reply(400, { error: 'contactId or email required' });
 
   const ts = new Date().toISOString();
 
@@ -49,21 +93,26 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     },
   }));
 
-  const queueUrl = process.env.NURTURE_QUEUE_URL;
-  if (queueUrl) {
-    // SQS DelaySeconds caps at 900 (15 min). For "send the stage-1 nurture
-    // 30 min after assessment completion" we'd want 1800s — but that exceeds
-    // the SQS limit. We use the max 900 (~15 min) for stage 1 and rely on
-    // EventBridge Scheduler for stages 2 (3 days) and 3 (7 days) once that
-    // integration ships. See lambdas/nurture-worker/README.md TODO.
-    await sqs.send(new SendMessageCommand({
-      QueueUrl: queueUrl,
-      MessageBody: JSON.stringify({ contactId, stage: 1 }),
-      DelaySeconds: 900,
-    }));
-  } else {
-    console.warn('NURTURE_QUEUE_URL unset — skipping nurture enqueue');
+  if (email) {
+    try {
+      await sendResultsEmail(email, firstName, phone, Array.isArray(top3) ? top3 : []);
+    } catch (e) {
+      console.warn('results email invoke failed', e);
+    }
   }
 
-  return reply(200, { ok: true });
+  const queueUrl = process.env.NURTURE_QUEUE_URL;
+  if (queueUrl) {
+    try {
+      await sqs.send(new SendMessageCommand({
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify({ contactId, stage: 1 }),
+        DelaySeconds: 900,
+      }));
+    } catch (e) {
+      console.warn('nurture enqueue failed', e);
+    }
+  }
+
+  return reply(200, { ok: true, contactId });
 };

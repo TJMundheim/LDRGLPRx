@@ -150,12 +150,29 @@ const robots = "index, follow";
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
   });
 
+  function toE164(input) {
+    if (!input) return null;
+    var raw = String(input).trim();
+    if (!raw) return null;
+    var hasPlus = raw.charAt(0) === '+';
+    var digits = raw.replace(/[^0-9]/g, '');
+    if (hasPlus) {
+      if (digits.length >= 8 && digits.length <= 15) return '+' + digits;
+      return null;
+    }
+    if (digits.length === 10) return '+1' + digits;
+    if (digits.length === 11 && digits.charAt(0) === '1') return '+' + digits;
+    return null;
+  }
+
   async function handleContact(e) {
     e.preventDefault();
+    var rawPhone = document.getElementById('phone').value;
+    var normPhone = rawPhone ? (toE164(rawPhone) || '') : '';
     const fields = {
       name: document.getElementById('name').value,
       email: document.getElementById('email').value,
-      phone: document.getElementById('phone').value,
+      phone: normPhone,
       subject: document.getElementById('subject').value,
       message: document.getElementById('message').value,
     };

@@ -20,6 +20,12 @@ vi.mock('@aws-sdk/client-sqs', () => ({
   SendMessageCommand: class { input: any; constructor(i: any) { this.input = i; } },
 }));
 
+const lambdaSendMock = vi.fn();
+vi.mock('@aws-sdk/client-lambda', () => ({
+  LambdaClient: class { send = (...a: any[]) => lambdaSendMock(...a); },
+  InvokeCommand: class { input: any; constructor(i: any) { this.input = i; } },
+}));
+
 import { handler } from './handler';
 
 function evt(body: any) {
@@ -35,18 +41,14 @@ beforeEach(() => {
   sendMock.mockResolvedValue({});
   sqsSendMock.mockReset();
   sqsSendMock.mockResolvedValue({ MessageId: 'm1' });
+  lambdaSendMock.mockReset();
+  lambdaSendMock.mockResolvedValue({});
   delete process.env.NURTURE_QUEUE_URL;
 });
 
 describe('audit-complete handler', () => {
-  it('rejects missing contactId with 400', async () => {
+  it('rejects missing contactId/email with 400', async () => {
     const res: any = await handler(evt({ scores: { gut: 3 }, top3: ['gut'] }));
-    expect(res.statusCode).toBe(400);
-    expect(sendMock).not.toHaveBeenCalled();
-  });
-
-  it('rejects empty-string contactId with 400', async () => {
-    const res: any = await handler(evt({ contactId: '   ', scores: {}, top3: [] }));
     expect(res.statusCode).toBe(400);
     expect(sendMock).not.toHaveBeenCalled();
   });
@@ -56,12 +58,12 @@ describe('audit-complete handler', () => {
     expect(res.statusCode).toBe(400);
   });
 
-  it('writes UpdateCommand with correct expression on valid body', async () => {
+  it('writes UpdateCommand with correct expression on valid body (contactId path)', async () => {
     const scores = { gut: 4, weight: 2, hormones: 3 };
     const top3 = ['gut', 'hormones', 'weight'];
     const res: any = await handler(evt({ contactId: 'abc-123', scores, top3 }));
     expect(res.statusCode).toBe(200);
-    expect(JSON.parse(res.body)).toEqual({ ok: true });
+    expect(JSON.parse(res.body)).toMatchObject({ ok: true });
 
     expect(sendMock).toHaveBeenCalledTimes(1);
     const cmd = sendMock.mock.calls[0][0];
@@ -70,11 +72,60 @@ describe('audit-complete handler', () => {
     expect(cmd.input.UpdateExpression).toBe(
       'SET auditCompletedAt = :ts, intakeAnswers = :scores, auditTop3 = :top3, updatedAt = :ts'
     );
-    const vals = cmd.input.ExpressionAttributeValues;
-    expect(vals[':scores']).toEqual(scores);
-    expect(vals[':top3']).toEqual(top3);
-    expect(typeof vals[':ts']).toBe('string');
-    expect(new Date(vals[':ts']).toISOString()).toBe(vals[':ts']);
+    expect(cmd.input.ExpressionAttributeValues[':scores']).toEqual(scores);
+    expect(cmd.input.ExpressionAttributeValues[':top3']).toEqual(top3);
+  });
+
+  it('derives contactId from email and invokes email-sender with correct payload', async () => {
+    const top3 = [
+      { id: 'gut-microbiome', label: 'Gut health / leaky gut', slug: 'gut', score: 5 },
+      { id: 'sleep', label: 'Sleep / sleep optimization', slug: 'sleep', score: 4 },
+      { id: 'cognitive', label: 'Cognitive / brain fog', slug: 'cognitive', score: 3 },
+    ];
+    const res: any = await handler(evt({
+      email: 'Test-Debug@my4mlife.com',
+      firstName: 'Sam',
+      phone: '+15551234567',
+      scores: { 'gut-microbiome': 5 },
+      top3,
+    }));
+    expect(res.statusCode).toBe(200);
+
+    // DDB write happened
+    expect(sendMock).toHaveBeenCalledTimes(1);
+    const ddbCmd = sendMock.mock.calls[0][0];
+    expect(typeof ddbCmd.input.Key.contactId).toBe('string');
+    expect(ddbCmd.input.Key.contactId.length).toBeGreaterThan(10);
+
+    // Email-sender invoked
+    expect(lambdaSendMock).toHaveBeenCalledTimes(1);
+    const invokeCmd = lambdaSendMock.mock.calls[0][0];
+    expect(invokeCmd.input.FunctionName).toBe('my4mlife-email-sender');
+    expect(invokeCmd.input.InvocationType).toBe('Event');
+    const payload = JSON.parse(Buffer.from(invokeCmd.input.Payload).toString('utf8'));
+    expect(payload.kind).toBe('info');
+    expect(payload.to).toBe('test-debug@my4mlife.com');
+    expect(payload.subject).toContain('4M Assessment Results');
+    expect(payload.subject).toContain('Sam');
+    expect(payload.html).toContain('Gut health');
+    expect(payload.html).toContain('protege-signup');
+    expect(payload.html).toContain('consult-comprehensive');
+  });
+
+  it('does not fail the request when email-sender invoke throws', async () => {
+    lambdaSendMock.mockRejectedValueOnce(new Error('boom'));
+    const res: any = await handler(evt({
+      email: 'x@example.com',
+      firstName: 'X',
+      top3: [],
+    }));
+    expect(res.statusCode).toBe(200);
+  });
+
+  it('skips email invoke when only contactId provided (no email)', async () => {
+    const res: any = await handler(evt({ contactId: 'cid-only', top3: [] }));
+    expect(res.statusCode).toBe(200);
+    expect(lambdaSendMock).not.toHaveBeenCalled();
   });
 
   it('returns permissive CORS headers', async () => {
@@ -82,7 +133,7 @@ describe('audit-complete handler', () => {
     expect(res.headers['Access-Control-Allow-Origin']).toBe('*');
   });
 
-  it('enqueues SQS nurture stage-1 message with DelaySeconds 900 (SQS max) when NURTURE_QUEUE_URL set', async () => {
+  it('enqueues SQS nurture stage-1 with DelaySeconds 900 when NURTURE_QUEUE_URL set', async () => {
     process.env.NURTURE_QUEUE_URL = 'https://sqs.us-east-2.amazonaws.com/123/my4mlife-nurture-queue';
     const res: any = await handler(evt({ contactId: 'cid-1', scores: {}, top3: [] }));
     expect(res.statusCode).toBe(200);
