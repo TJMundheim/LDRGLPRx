@@ -483,6 +483,9 @@ export type UpsertMyProfileInput = {
   workbookUpdatedAt?: InputMaybe<Scalars['AWSDateTime']['input']>;
   hasActiveSubscription?: InputMaybe<Scalars['Boolean']['input']>;
   stripeCustomerId?: InputMaybe<Scalars['String']['input']>;
+  auditTop3?: InputMaybe<Scalars['AWSJSON']['input']>;
+  auditCompletedAt?: InputMaybe<Scalars['AWSDateTime']['input']>;
+  intakeAnswers?: InputMaybe<Scalars['AWSJSON']['input']>;
 };
 
 export type UpsertProgramInput = {
@@ -544,6 +547,9 @@ export type UserProfile = {
   workbookUpdatedAt?: Maybe<Scalars['AWSDateTime']['output']>;
   hasActiveSubscription?: Maybe<Scalars['Boolean']['output']>;
   stripeCustomerId?: Maybe<Scalars['String']['output']>;
+  auditTop3?: Maybe<Scalars['AWSJSON']['output']>;
+  auditCompletedAt?: Maybe<Scalars['AWSDateTime']['output']>;
+  intakeAnswers?: Maybe<Scalars['AWSJSON']['output']>;
 };
 
 export type UserProfileConnection = {

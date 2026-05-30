@@ -41,11 +41,15 @@ export class LocalStorageAdapter implements Storage {
           // swallow quota / serialization errors silently
         }
         // Fire-and-forget remote sync; network errors MUST NOT block local save.
+        const syncTs = snapshot.updatedAt ?? new Date().toISOString();
         upsertMyProfile({
           workbookJson: JSON.stringify(snapshot),
-          workbookUpdatedAt: snapshot.updatedAt ?? new Date().toISOString(),
+          workbookUpdatedAt: syncTs,
+        }).then(() => {
+          console.info('[workbook] remote sync ok', { id: w.id, updatedAt: syncTs });
         }).catch((err: unknown) => {
-          console.warn('[workbook] remote sync failed:', err);
+          const msg = err instanceof Error ? err.message : String(err);
+          console.warn('[workbook] remote sync FAILED:', msg, err);
         });
         this.timers.delete(w.id);
         resolve();

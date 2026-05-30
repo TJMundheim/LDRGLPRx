@@ -16,6 +16,7 @@ vi.mock('@aws-sdk/client-cognito-identity-provider', () => ({
 vi.mock('@aws-sdk/lib-dynamodb', () => ({
   DynamoDBDocumentClient: { from: () => ({ send: ddbSend }) },
   UpdateCommand: class { constructor(public input: any) {} },
+  GetCommand: class { constructor(public input: any) {} },
 }));
 
 vi.mock('@aws-sdk/client-dynamodb', () => ({
@@ -44,9 +45,9 @@ beforeEach(() => {
   cognitoSend.mockReset();
   ddbSend.mockReset();
   lambdaSend.mockReset();
-  // Default: user not found → create
+  // Default: user not found → create. AdminCreateUser returns User with sub attribute.
   cognitoSend.mockRejectedValueOnce(Object.assign(new Error('not found'), { name: 'UserNotFoundException' }));
-  cognitoSend.mockResolvedValue({});
+  cognitoSend.mockResolvedValue({ User: { Attributes: [{ Name: 'sub', Value: 'sub-abc-123' }] } });
   ddbSend.mockResolvedValue({});
   lambdaSend.mockResolvedValue({});
 });
@@ -92,7 +93,7 @@ describe('protege-signup handler', () => {
 
   it('returns 200 with alreadyExists=true when cognito user exists', async () => {
     cognitoSend.mockReset();
-    cognitoSend.mockResolvedValue({ Username: 'tj@example.com' }); // AdminGetUser succeeds
+    cognitoSend.mockResolvedValue({ Username: 'tj@example.com', UserAttributes: [{ Name: 'sub', Value: 'sub-existing' }] });
     ddbSend.mockResolvedValue({});
     const res: any = await handler(evt(validBody));
     expect(res.statusCode).toBe(200);
@@ -127,7 +128,7 @@ describe('protege-signup handler', () => {
 
   it('does NOT fire welcome email when user already existed', async () => {
     cognitoSend.mockReset();
-    cognitoSend.mockResolvedValue({ Username: 'tj@example.com' });
+    cognitoSend.mockResolvedValue({ Username: 'tj@example.com', UserAttributes: [{ Name: 'sub', Value: 'sub-existing' }] });
     ddbSend.mockResolvedValue({});
     await handler(evt(validBody));
     expect(lambdaSend).not.toHaveBeenCalled();

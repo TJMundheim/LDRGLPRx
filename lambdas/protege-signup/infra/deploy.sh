@@ -9,6 +9,7 @@ REGION="us-east-2"
 AWS_ACCOUNT_ID="879696522760"
 USER_POOL_ID="us-east-2_kIpKnr17R"
 CONTACT_TABLE="Contact"
+USER_PROFILE_TABLE="Users"
 API_ID="v9svm8ds74"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 
@@ -55,8 +56,13 @@ INLINE_POLICY=$(cat <<EOF
     },
     {
       "Effect": "Allow",
-      "Action": ["dynamodb:PutItem","dynamodb:UpdateItem"],
+      "Action": ["dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:GetItem"],
       "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$CONTACT_TABLE"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:GetItem"],
+      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$USER_PROFILE_TABLE"
     },
     {
       "Effect": "Allow",
@@ -78,7 +84,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
-ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,COGNITO_USER_POOL_ID=$USER_POOL_ID,EMAIL_SENDER_FN=$EMAIL_SENDER_FN}"
+ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=$USER_PROFILE_TABLE,COGNITO_USER_POOL_ID=$USER_POOL_ID,EMAIL_SENDER_FN=$EMAIL_SENDER_FN}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \

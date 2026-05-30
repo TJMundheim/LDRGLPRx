@@ -114,6 +114,9 @@ type UserProfile {
   workbookUpdatedAt: AWSDateTime
   hasActiveSubscription: Boolean
   stripeCustomerId: String
+  auditTop3: AWSJSON
+  auditCompletedAt: AWSDateTime
+  intakeAnswers: AWSJSON
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -133,6 +136,9 @@ input UpsertMyProfileInput {
   workbookUpdatedAt: AWSDateTime
   hasActiveSubscription: Boolean
   stripeCustomerId: String
+  auditTop3: AWSJSON
+  auditCompletedAt: AWSDateTime
+  intakeAnswers: AWSJSON
 }
 
 # ─── Program / curriculum (global config) ─────────────────────────────────

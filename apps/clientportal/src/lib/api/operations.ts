@@ -112,6 +112,7 @@ const PROFILE_FIELDS = `
   dob phone tier currentMonth currentPillar createdAt updatedAt
   workbookJson workbookUpdatedAt
   hasActiveSubscription stripeCustomerId
+  auditTop3 auditCompletedAt intakeAnswers
   address { line1 line2 city region postalCode country }
   prefs { marketingOptIn smsOptIn timezone units }
 `;

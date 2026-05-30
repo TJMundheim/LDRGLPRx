@@ -533,9 +533,16 @@
 
       // Try to load remote workbook for conflict resolution / new-device hydration.
       let remoteWorkbook: Workbook | null = null;
+      let remoteAuditHydrated = false;
       try {
         const profileResult = await getMyProfile();
         const profile = profileResult?.data?.getMyProfile;
+        console.info('[profile] loaded', {
+          hasWorkbook: !!profile?.workbookJson,
+          workbookUpdatedAt: profile?.workbookUpdatedAt,
+          hasAuditTop3: !!profile?.auditTop3,
+          auditCompletedAt: profile?.auditCompletedAt,
+        });
         if (profile?.workbookJson) {
           remoteWorkbook = JSON.parse(profile.workbookJson) as Workbook;
           // Stamp the profile's workbookUpdatedAt onto the parsed object for comparison.
@@ -548,12 +555,33 @@
           hasActiveSubscription = !!profile.hasActiveSubscription;
           stripeCustomerId = profile.stripeCustomerId ?? null;
         }
+        // ── BUG 4 fix: hydrate intake completion from remote audit data ────
+        if (profile?.auditTop3) {
+          try {
+            const parsed = JSON.parse(profile.auditTop3);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              remoteAuditHydrated = true;
+              localStorage.setItem('intake-audit-scores-v1', profile.auditTop3);
+              if (profile.auditCompletedAt) {
+                localStorage.setItem('intake-date-v1', profile.auditCompletedAt);
+              }
+              if (profile.intakeAnswers) {
+                localStorage.setItem('intake-answers-v1', profile.intakeAnswers);
+              }
+              localStorage.setItem(INTAKE_COMPLETE_KEY, '1');
+              intakeComplete = true;
+            }
+          } catch (e) {
+            console.warn('[profile] failed to parse auditTop3:', e);
+          }
+        }
       } catch (err) {
         console.warn('[workbook] remote load failed:', err);
       }
 
       const localTs = local?.updatedAt ? new Date(local.updatedAt).getTime() : 0;
       const remoteTs = remoteWorkbook?.updatedAt ? new Date(remoteWorkbook.updatedAt).getTime() : 0;
+      console.info('[workbook] hydration', { localTs, remoteTs, hasLocal: !!local, hasRemote: !!remoteWorkbook, remoteAuditHydrated });
 
       if (local && localTs >= remoteTs) {
         // Local is current or there's no remote — use local.

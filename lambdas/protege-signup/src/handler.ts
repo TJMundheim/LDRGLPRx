@@ -1,12 +1,13 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminGetUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { v5 as uuidv5 } from 'uuid';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
+const USER_PROFILE_TABLE = process.env.USER_PROFILE_TABLE ?? 'Users';
 const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 
@@ -36,14 +37,15 @@ function randomPassword(len = 20): string {
   return out;
 }
 
-async function ensureCognitoUser(email: string, firstName: string): Promise<{ alreadyExists: boolean }> {
+async function ensureCognitoUser(email: string, firstName: string): Promise<{ alreadyExists: boolean; sub: string | null }> {
   try {
-    await cognito.send(new AdminGetUserCommand({ UserPoolId: USER_POOL_ID, Username: email }));
-    return { alreadyExists: true };
+    const got = await cognito.send(new AdminGetUserCommand({ UserPoolId: USER_POOL_ID, Username: email }));
+    const sub = got.UserAttributes?.find((a) => a.Name === 'sub')?.Value ?? null;
+    return { alreadyExists: true, sub };
   } catch (e: any) {
     if (e?.name !== 'UserNotFoundException') throw e;
   }
-  await cognito.send(new AdminCreateUserCommand({
+  const created = await cognito.send(new AdminCreateUserCommand({
     UserPoolId: USER_POOL_ID,
     Username: email,
     MessageAction: 'SUPPRESS',
@@ -54,7 +56,67 @@ async function ensureCognitoUser(email: string, firstName: string): Promise<{ al
       { Name: 'given_name', Value: firstName },
     ],
   }));
-  return { alreadyExists: false };
+  const sub = created.User?.Attributes?.find((a) => a.Name === 'sub')?.Value ?? null;
+  return { alreadyExists: false, sub };
+}
+
+async function seedUserProfile(args: {
+  sub: string; email: string; firstName: string; phone: string;
+  auditTop3: unknown; auditCompletedAt: string | null; intakeAnswers: unknown;
+}): Promise<void> {
+  const now = new Date().toISOString();
+  const sets: string[] = [
+    '#owner = if_not_exists(#owner, :owner)',
+    '#primaryEmail = if_not_exists(#primaryEmail, :primaryEmail)',
+    '#firstName = if_not_exists(#firstName, :firstName)',
+    '#phone = if_not_exists(#phone, :phone)',
+    '#createdAt = if_not_exists(#createdAt, :createdAt)',
+    '#updatedAt = :updatedAt',
+  ];
+  const names: Record<string, string> = {
+    '#owner': 'owner', '#primaryEmail': 'primaryEmail', '#firstName': 'firstName',
+    '#phone': 'phone', '#createdAt': 'createdAt', '#updatedAt': 'updatedAt',
+  };
+  const values: Record<string, unknown> = {
+    ':owner': args.sub, ':primaryEmail': args.email, ':firstName': args.firstName,
+    ':phone': args.phone, ':createdAt': now, ':updatedAt': now,
+  };
+  if (args.auditTop3 !== undefined && args.auditTop3 !== null) {
+    sets.push('#auditTop3 = if_not_exists(#auditTop3, :auditTop3)');
+    names['#auditTop3'] = 'auditTop3';
+    values[':auditTop3'] = JSON.stringify(args.auditTop3);
+  }
+  if (args.auditCompletedAt) {
+    sets.push('#auditCompletedAt = if_not_exists(#auditCompletedAt, :auditCompletedAt)');
+    names['#auditCompletedAt'] = 'auditCompletedAt';
+    values[':auditCompletedAt'] = args.auditCompletedAt;
+  }
+  if (args.intakeAnswers !== undefined && args.intakeAnswers !== null) {
+    sets.push('#intakeAnswers = if_not_exists(#intakeAnswers, :intakeAnswers)');
+    names['#intakeAnswers'] = 'intakeAnswers';
+    values[':intakeAnswers'] = JSON.stringify(args.intakeAnswers);
+  }
+  await ddb.send(new UpdateCommand({
+    TableName: USER_PROFILE_TABLE,
+    Key: { id: args.sub },
+    UpdateExpression: 'SET ' + sets.join(', '),
+    ExpressionAttributeNames: names,
+    ExpressionAttributeValues: values,
+  }));
+}
+
+async function readContactAudit(contactId: string): Promise<{ auditTop3: unknown; auditCompletedAt: string | null; intakeAnswers: unknown }> {
+  try {
+    const r = await ddb.send(new GetCommand({ TableName: CONTACT_TABLE, Key: { contactId } }));
+    const item = r.Item ?? {};
+    return {
+      auditTop3: item.auditTop3 ?? null,
+      auditCompletedAt: item.auditCompletedAt ?? null,
+      intakeAnswers: item.intakeAnswers ?? null,
+    };
+  } catch {
+    return { auditTop3: null, auditCompletedAt: null, intakeAnswers: null };
+  }
 }
 
 async function sendWelcomeEmail(email: string, firstName: string): Promise<void> {
@@ -97,8 +159,9 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   }
 
   let alreadyExists = false;
+  let sub: string | null = null;
   try {
-    ({ alreadyExists } = await ensureCognitoUser(email, firstName));
+    ({ alreadyExists, sub } = await ensureCognitoUser(email, firstName));
   } catch {
     return reply(500, { error: 'cognito error' });
   }
@@ -119,7 +182,6 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
         '#lifecycleStage = if_not_exists(#lifecycleStage, :protege)',
         '#createdAt = if_not_exists(#createdAt, :createdAt)',
       ].join(', '),
-      // Only upgrade lifecycleStage to protege if it's currently lead or absent
       ConditionExpression: 'attribute_not_exists(#lifecycleStage) OR #lifecycleStage = :lead OR #lifecycleStage = :protege',
       ExpressionAttributeNames: {
         '#email': 'email', '#firstName': 'firstName', '#phone': 'phone',
@@ -135,7 +197,17 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     }));
   } catch (e: any) {
     if (e?.name !== 'ConditionalCheckFailedException') return reply(500, { error: 'write failed' });
-    // Paying customer — still treat as success, just don't downgrade
+  }
+
+  // Seed UserProfile (Users table) with audit data so the app skips the intake gate.
+  // Failures here MUST NOT fail the signup.
+  if (sub) {
+    try {
+      const audit = await readContactAudit(contactId);
+      await seedUserProfile({ sub, email, firstName, phone, ...audit });
+    } catch (err) {
+      console.warn('[protege-signup] UserProfile seed failed:', err);
+    }
   }
 
   if (!alreadyExists) {
