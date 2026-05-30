@@ -120,14 +120,14 @@ async function readContactAudit(contactId: string): Promise<{ auditTop3: unknown
 }
 
 async function sendWelcomeEmail(email: string, firstName: string): Promise<void> {
-  const encoded = encodeURIComponent(email);
-  const link = `https://app.my4mlife.com/set-password?email=${encoded}`;
+  const appUrl = 'https://app.my4mlife.com';
   const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px">
-<h1 style="font-size:22px;color:#111">Welcome to My4MLife, ${firstName}.</h1>
-<p>You're now a Protégé — free app access, weekly Zooms, and 15% off your first order are all yours.</p>
-<p style="margin:24px 0"><a href="${link}" style="background:#111;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">Set your password &amp; enter the app</a></p>
-<p style="color:#666;font-size:13px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p></div>`;
-  const payload = { kind: 'info', to: email, subject: 'Welcome to My4MLife — set your password', html };
+<h1 style="font-size:22px;color:#111">Welcome, ${firstName}.</h1>
+<p>You're a Protégé — free app access, weekly Zooms, and 15% off your first order are all yours.</p>
+<p style="margin:24px 0"><a href="${appUrl}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">Open the My4MLife App &rarr;</a></p>
+<p style="color:#444;font-size:14px;line-height:1.55">When you open the app, we'll email you a one-time sign-in code. Use that code to enter — there's no password to remember.</p>
+<p style="color:#666;font-size:13px;margin-top:24px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p></div>`;
+  const payload = { kind: 'info', to: email, subject: 'Welcome to My4MLife — your account is ready', html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
     InvocationType: 'Event',

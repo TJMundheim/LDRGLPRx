@@ -109,7 +109,7 @@ describe('audit-complete handler', () => {
     expect(payload.subject).toContain('Sam');
     expect(payload.html).toContain('Gut health');
     expect(payload.html).toContain('protege-signup');
-    expect(payload.html).toContain('consult-comprehensive');
+    expect(payload.html).not.toContain('consult-comprehensive');
   });
 
   it('does not fail the request when email-sender invoke throws', async () => {

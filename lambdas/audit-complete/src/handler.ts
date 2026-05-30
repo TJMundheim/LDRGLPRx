@@ -35,15 +35,13 @@ function buildResultsHtml(firstName: string, email: string, phone: string, top3:
   }).join('');
   const qs = `?name=${encodeURIComponent(firstName)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
   const protegeUrl = 'https://my4mlife.com/protege-signup' + qs;
-  const consultUrl = 'https://my4mlife.com/cart?sku=consult-comprehensive';
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">
 <h1 style="font-size:22px;margin:0 0 12px">Hi ${safe(firstName)}, here are your top 3 priorities from your 4M Assessment:</h1>
 <ul style="padding-left:18px;margin:12px 0 24px">${items}</ul>
-<h2 style="font-size:17px;margin:24px 0 8px">Two paths to act on these:</h2>
-<p style="margin:12px 0"><strong>Become a Protégé (free)</strong> — app + weekly Zooms + 15% off your first order.</p>
-<p style="margin:8px 0 24px"><a href="${protegeUrl}" style="background:#00b894;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Become a Protégé →</a></p>
-<p style="margin:12px 0"><strong>Or talk to us first</strong> — book a comprehensive consult with labs.</p>
-<p style="margin:8px 0 24px"><a href="${consultUrl}" style="background:#0a1628;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Book a Consult →</a></p>
+<h2 style="font-size:17px;margin:24px 0 8px">Your next step:</h2>
+<p style="margin:12px 0"><strong>Become a Protégé (free)</strong> — the My4MLife app, weekly live Zooms, and 15% off your first order. No purchase required.</p>
+<p style="margin:8px 0 16px"><a href="${protegeUrl}" style="background:#00b894;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Become a Protégé (free) →</a></p>
+<p style="font-size:13px;color:#718096;margin:8px 0 24px">Have questions first? Email <a href="mailto:support@my4mlife.com" style="color:#00a381">support@my4mlife.com</a>.</p>
 <p style="font-size:13px;color:#718096;margin-top:32px">Your results are saved — you can revisit them anytime at <a href="https://my4mlife.com/assessment" style="color:#00a381">my4mlife.com/assessment</a>.</p>
 <p style="font-size:13px;color:#718096;margin-top:8px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;

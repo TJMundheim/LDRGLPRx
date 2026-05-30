@@ -4,7 +4,20 @@ import './app.css';
 import { ingestAuditHandoff } from './lib/auth/audit-handoff';
 import { registerSW } from 'virtual:pwa-register';
 
-registerSW({ immediate: true });
+// Aggressive update strategy: when a new SW takes control, reload immediately so
+// users see latest code without manually hard-refreshing. Pre-launch — no multi-tab concerns.
+registerSW({
+  immediate: true,
+  onNeedRefresh() {
+    window.location.reload();
+  },
+});
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
+  });
+}
 
 ingestAuditHandoff();
 

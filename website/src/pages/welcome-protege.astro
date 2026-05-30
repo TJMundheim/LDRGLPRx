@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "You're in — Welcome, Protégé | My4MLife";
+const description = "Your free My4MLife Protégé account is ready. Open the app to begin.";
+const canonical = "https://www.my4mlife.com/welcome-protege";
+const robots = "noindex, nofollow";
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots={robots}>
+
+<section class="wp-section">
+  <div class="container wp-inner">
+    <div class="wp-icon" aria-hidden="true">&#10003;</div>
+    <h1>You&apos;re in. Welcome, Prot&eacute;g&eacute;.</h1>
+    <p class="wp-sub">Your free account is ready. Check your email for your sign-in code.</p>
+
+    <a href="https://app.my4mlife.com" class="btn btn-primary btn-large" rel="noopener">
+      Open the My4MLife App &rarr;
+    </a>
+
+    <p class="wp-note">
+      Didn&apos;t get the email? Check spam, or email
+      <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.
+    </p>
+  </div>
+</section>
+
+<style>
+:root {
+  --wp-accent: #00b894;
+  --wp-accent-dark: #00a381;
+  --wp-muted: #718096;
+  --wp-parchment: #faf8f4;
+  --wp-dark: #0a1628;
+}
+.wp-section {
+  background: var(--wp-parchment);
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+.wp-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+.wp-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--wp-accent);
+  color: #fff;
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+.wp-inner h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin: 0;
+  color: var(--wp-dark);
+  line-height: 1.2;
+}
+.wp-sub {
+  font-size: 1.05rem;
+  color: var(--wp-muted);
+  margin: 0;
+  max-width: 440px;
+  line-height: 1.55;
+}
+.wp-note {
+  font-size: 0.85rem;
+  color: var(--wp-muted);
+  margin: 0;
+}
+.wp-note a { color: var(--wp-accent-dark); }
+.btn { display: inline-block; border-radius: 8px; font-weight: 700; text-align: center; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; font-family: inherit; text-decoration: none; border: 2px solid transparent; }
+.btn-primary { background: var(--wp-accent); color: #fff; border-color: var(--wp-accent); }
+.btn-primary:hover { background: var(--wp-accent-dark); border-color: var(--wp-accent-dark); }
+.btn-large { padding: 14px 32px; font-size: 1rem; min-width: 260px; }
+</style>
+</BaseLayout>

@@ -51,18 +51,7 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
 <section class="ps-form-section">
   <div class="container ps-form-inner">
 
-    <!-- Success state (hidden until submit) -->
-    <div id="ps-success" class="ps-success" hidden>
-      <div class="ps-success-icon" aria-hidden="true">&#10003;</div>
-      <h2>You&apos;re in. Welcome, Prot&eacute;g&eacute;.</h2>
-      <p class="ps-success-sub">Check your email &mdash; we&apos;ve sent you a link to set your password and enter the app.</p>
-      <a href="https://app.my4mlife.com" class="btn btn-primary btn-large" target="_blank" rel="noopener">
-        Open the My4MLife App &rarr;
-      </a>
-      <p class="ps-success-note">Didn&apos;t get the email? Check your spam folder or email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
-    </div>
-
-    <!-- Form (shown by default) -->
+    <!-- Form (shown by default; on success we redirect to /welcome-protege) -->
     <div id="ps-form-wrap">
       <div class="ps-form-header">
         <h2>Create your free Prot&eacute;g&eacute; account</h2>
@@ -263,9 +252,7 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
         return res.json();
       })
       .then(function () {
-        document.getElementById('ps-form-wrap').hidden = true;
-        document.getElementById('ps-success').hidden = false;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.location.replace('/welcome-protege');
       })
       .catch(function (err) {
         submitBtn.disabled = false;
