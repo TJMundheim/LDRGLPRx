@@ -137,9 +137,15 @@ const robots = "index, follow";
       </div>
       <div class="form-row">
         <div class="form-field">
-          <label for="field-phone">Phone <span class="optional">(optional)</span></label>
-          <input type="tel" id="field-phone" name="phone" autocomplete="tel" placeholder="(555) 000-0000" />
+          <label for="field-phone">Phone <span aria-hidden="true">*</span></label>
+          <input type="tel" id="field-phone" name="phone" autocomplete="tel" required placeholder="(555) 000-0000" />
         </div>
+      </div>
+      <div class="form-check">
+        <label class="check-label">
+          <input type="checkbox" id="field-protege-consent" name="protegeConsent" required />
+          <span>I agree to the Prot&eacute;g&eacute; terms (free account; no purchase required).</span>
+        </label>
       </div>
       <div class="form-check">
         <label class="check-label">
@@ -415,6 +421,7 @@ const robots = "index, follow";
       var emailEl = document.getElementById('field-email');
       var phoneEl = document.getElementById('field-phone');
       var consentEl = document.getElementById('field-consent');
+      var protegeConsentEl = document.getElementById('field-protege-consent');
       var errorEl = document.getElementById('form-error');
       var submitBtn = document.getElementById('submit-btn');
 
@@ -432,6 +439,20 @@ const robots = "index, follow";
         emailEl.focus();
         return;
       }
+      var rawPhone = phoneEl.value.trim();
+      var phoneE164 = rawPhone ? toE164(rawPhone) : null;
+      if (!rawPhone || !phoneE164) {
+        errorEl.textContent = 'Please enter a valid phone number (US 10-digit or international +country format).';
+        errorEl.hidden = false;
+        phoneEl.focus();
+        return;
+      }
+      if (!protegeConsentEl.checked) {
+        errorEl.textContent = 'Please agree to the Protégé terms to continue.';
+        errorEl.hidden = false;
+        protegeConsentEl.focus();
+        return;
+      }
       if (!consentEl.checked) {
         errorEl.textContent = 'Please accept the AI communications consent to continue.';
         errorEl.hidden = false;
@@ -441,8 +462,7 @@ const robots = "index, follow";
 
       userName = nameEl.value.trim();
       userEmail = emailEl.value.trim();
-      var rawPhone = phoneEl.value.trim();
-      userPhone = rawPhone ? (toE164(rawPhone) || '') : '';
+      userPhone = phoneE164;
       persist();
 
       submitBtn.disabled = true;
@@ -562,15 +582,49 @@ const robots = "index, follow";
       container.appendChild(card);
     });
 
-    // Update Protege CTA link with pre-fill query params
+    // Build encoded params for /become-protege
+    var becomeUrl = '';
+    try {
+      function b64utf8(obj) {
+        return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+      }
+      var top3B64 = b64utf8(top3);
+      var answersB64 = b64utf8(scores);
+      becomeUrl = '/become-protege' +
+        '?name=' + encodeURIComponent(userName || '') +
+        '&email=' + encodeURIComponent(userEmail || '') +
+        '&phone=' + encodeURIComponent(userPhone || '') +
+        '&top3=' + encodeURIComponent(top3B64) +
+        '&answers=' + encodeURIComponent(answersB64);
+    } catch (e) { becomeUrl = '/become-protege'; }
+
+    // Update existing Protege CTA link
     try {
       var protegeLink = document.getElementById('protege-cta-link');
       if (protegeLink) {
-        var qs = '?name=' + encodeURIComponent(userName || '') +
-                 '&email=' + encodeURIComponent(userEmail || '') +
-                 (userPhone ? '&phone=' + encodeURIComponent(userPhone) : '');
-        protegeLink.href = '/protege-signup' + qs;
+        protegeLink.href = becomeUrl;
+        protegeLink.textContent = 'Become a Protégé & Open the App →';
       }
+    } catch (e) { /* no-op */ }
+
+    // Inject prominent CTA at the TOP of results
+    try {
+      var topCta = document.getElementById('top-protege-cta');
+      if (!topCta) {
+        topCta = document.createElement('div');
+        topCta.id = 'top-protege-cta';
+        topCta.className = 'top-protege-cta';
+        var resultsInner = document.querySelector('.assess-results-inner');
+        var header = document.querySelector('.results-header');
+        if (resultsInner && header && header.nextSibling) {
+          resultsInner.insertBefore(topCta, header.nextSibling);
+        } else if (resultsInner) {
+          resultsInner.insertBefore(topCta, resultsInner.firstChild);
+        }
+      }
+      topCta.innerHTML =
+        '<a href="' + becomeUrl + '" class="btn btn-primary btn-large top-protege-cta-btn">Become a Protégé &amp; Open the App &rarr;</a>' +
+        '<p class="top-protege-cta-sub">Free. We&rsquo;ll carry your assessment straight to your app dashboard &mdash; no retake.</p>';
     } catch (e) { /* no-op */ }
 
     // Render product tiles for each top-3 category
@@ -1116,6 +1170,27 @@ const robots = "index, follow";
   line-height: 1.6;
   max-width: 560px;
   margin: 0 auto;
+}
+
+/* ── Top Protege CTA (injected at top of results) ── */
+.top-protege-cta {
+  background: #fff;
+  border: 2px solid var(--assess-accent);
+  border-radius: var(--radius, 12px);
+  padding: 24px 28px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,184,148,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.top-protege-cta-btn { font-size: 1.05rem; }
+.top-protege-cta-sub {
+  font-size: 0.9rem;
+  color: var(--assess-muted);
+  margin: 0;
+  line-height: 1.5;
 }
 
 /* ── Protege CTA block ── */

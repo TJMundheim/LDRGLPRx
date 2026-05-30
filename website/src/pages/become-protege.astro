@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Setting up your Protégé account…';
+const description = 'Activating your free My4MLife Protégé account.';
+const robots = 'noindex, nofollow';
+---
+<BaseLayout title={title} description={description} robots={robots}>
+
+<section class="bp-section">
+  <div class="container bp-inner">
+    <div class="bp-spinner" id="bp-spinner" aria-hidden="true"></div>
+    <h1 id="bp-heading">Setting up your Protégé account…</h1>
+    <p id="bp-msg">One sec — we're carrying your assessment straight to your app dashboard.</p>
+    <div id="bp-error" hidden>
+      <p class="bp-err-text">Something went wrong.</p>
+      <p class="bp-err-help"><a href="/assessment">Take the assessment again</a> or email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+.bp-section {
+  padding: 96px 16px;
+  background: #faf8f4;
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+}
+.bp-inner {
+  max-width: 480px;
+  text-align: center;
+}
+.bp-spinner {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 28px;
+  border: 3px solid #d8e8dc;
+  border-top-color: #00b894;
+  border-radius: 50%;
+  animation: bp-spin 0.9s linear infinite;
+}
+@keyframes bp-spin { to { transform: rotate(360deg); } }
+h1 {
+  font-size: 1.5rem;
+  color: #0a1628;
+  margin: 0 0 10px;
+}
+#bp-msg {
+  color: #4A5568;
+  font-size: 0.98rem;
+  margin: 0;
+}
+.bp-err-text {
+  color: #c53030;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.bp-err-help {
+  color: #718096;
+  font-size: 0.92rem;
+  margin: 0;
+}
+.bp-err-help a { color: #00a381; }
+</style>
+
+<script is:inline define:vars={{ SIGNUP_API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+(function () {
+  function getParam(k) {
+    try {
+      var p = new URLSearchParams(window.location.search).get(k);
+      return p == null ? '' : p;
+    } catch (e) { return ''; }
+  }
+  function showError(msg) {
+    var sp = document.getElementById('bp-spinner');
+    if (sp) sp.style.display = 'none';
+    var h = document.getElementById('bp-heading');
+    if (h) h.textContent = 'We hit a snag.';
+    var m = document.getElementById('bp-msg');
+    if (m) m.hidden = true;
+    var err = document.getElementById('bp-error');
+    if (err) {
+      err.hidden = false;
+      if (msg) {
+        var t = err.querySelector('.bp-err-text');
+        if (t) t.textContent = msg;
+      }
+    }
+  }
+
+  var name = getParam('name').trim();
+  var email = getParam('email').trim().toLowerCase();
+  var phone = getParam('phone').trim();
+
+  if (!name || !email || !phone) {
+    showError('Missing your info from the assessment.');
+    return;
+  }
+
+  var body = {
+    firstName: name,
+    email: email,
+    phone: phone,
+    consent: { ai: true, protege: true },
+  };
+
+  fetch(SIGNUP_API + '/api/protege-signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+    .then(function (res) {
+      if (!res.ok) {
+        return res.json().catch(function () { return {}; }).then(function (b) {
+          throw new Error(b.error || ('Server ' + res.status));
+        });
+      }
+      return res.json();
+    })
+    .then(function () {
+      try { sessionStorage.setItem('my4m-signup-email', email); } catch (e) { /* no-op */ }
+      // Pre-trigger the email sign-in code so it's already in the user's inbox when the app loads.
+      return fetch(SIGNUP_API + '/api/request-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, firstName: name }),
+      }).catch(function () { /* non-fatal — app will retry on the auth screen */ });
+    })
+    .then(function () {
+      window.location.replace('https://app.my4mlife.com/?new=1&email=' + encodeURIComponent(email));
+    })
+    .catch(function (err) {
+      var msg = (err && err.message) ? err.message : '';
+      if (msg && msg.toLowerCase().indexOf('already') !== -1) {
+        // Already a Protégé — proceed to app sign-in anyway.
+        try { sessionStorage.setItem('my4m-signup-email', email); } catch (e) {}
+        window.location.replace('https://app.my4mlife.com/?new=1&email=' + encodeURIComponent(email));
+        return;
+      }
+      showError(msg ? ('Something went wrong: ' + msg) : 'Something went wrong.');
+    });
+})();
+</script>
+
+</BaseLayout>
+</content>

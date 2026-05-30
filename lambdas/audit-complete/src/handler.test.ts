@@ -108,7 +108,10 @@ describe('audit-complete handler', () => {
     expect(payload.subject).toContain('4M Assessment Results');
     expect(payload.subject).toContain('Sam');
     expect(payload.html).toContain('Gut health');
-    expect(payload.html).toContain('protege-signup');
+    expect(payload.html).toContain('become-protege');
+    expect(payload.html).toContain('top3=');
+    expect(payload.html).toContain('answers=');
+    expect(payload.html).not.toContain('protege-signup?');
     expect(payload.html).not.toContain('consult-comprehensive');
   });
 

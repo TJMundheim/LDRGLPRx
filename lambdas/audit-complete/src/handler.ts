@@ -27,29 +27,31 @@ function reply(s: number, b: unknown): APIGatewayProxyResultV2 {
   return { statusCode: s, headers: CORS, body: JSON.stringify(b) };
 }
 
-function buildResultsHtml(firstName: string, email: string, phone: string, top3: any[]): string {
+function buildResultsHtml(firstName: string, email: string, phone: string, top3: any[], intakeAnswers: Record<string, number>): string {
   const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
   const items = top3.map((t: any, i: number) => {
     const label = safe(t?.label || t?.id || 'Priority ' + (i + 1));
     return `<li style="margin:8px 0"><strong>#${i + 1}.</strong> ${label}</li>`;
   }).join('');
-  const qs = `?name=${encodeURIComponent(firstName)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}`;
-  const protegeUrl = 'https://my4mlife.com/protege-signup' + qs;
+  const top3B64 = Buffer.from(JSON.stringify(top3)).toString('base64');
+  const answersB64 = Buffer.from(JSON.stringify(intakeAnswers ?? {})).toString('base64');
+  const qs = `?name=${encodeURIComponent(firstName)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&top3=${encodeURIComponent(top3B64)}&answers=${encodeURIComponent(answersB64)}`;
+  const protegeUrl = 'https://my4mlife.com/become-protege' + qs;
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">
 <h1 style="font-size:22px;margin:0 0 12px">Hi ${safe(firstName)}, here are your top 3 priorities from your 4M Assessment:</h1>
 <ul style="padding-left:18px;margin:12px 0 24px">${items}</ul>
 <h2 style="font-size:17px;margin:24px 0 8px">Your next step:</h2>
 <p style="margin:12px 0"><strong>Become a Protégé (free)</strong> — the My4MLife app, weekly live Zooms, and 15% off your first order. No purchase required.</p>
-<p style="margin:8px 0 16px"><a href="${protegeUrl}" style="background:#00b894;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Become a Protégé (free) →</a></p>
+<p style="margin:8px 0 16px"><a href="${protegeUrl}" style="background:#00b894;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Become a Protégé &amp; Open the App →</a></p>
 <p style="font-size:13px;color:#718096;margin:8px 0 24px">Have questions first? Email <a href="mailto:support@my4mlife.com" style="color:#00a381">support@my4mlife.com</a>.</p>
 <p style="font-size:13px;color:#718096;margin-top:32px">Your results are saved — you can revisit them anytime at <a href="https://my4mlife.com/assessment" style="color:#00a381">my4mlife.com/assessment</a>.</p>
 <p style="font-size:13px;color:#718096;margin-top:8px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;
 }
 
-async function sendResultsEmail(email: string, firstName: string, phone: string, top3: any[]): Promise<void> {
+async function sendResultsEmail(email: string, firstName: string, phone: string, top3: any[], intakeAnswers: Record<string, number>): Promise<void> {
   const subject = `Your 4M Assessment Results — ${firstName || 'top 3 priorities'}`;
-  const html = buildResultsHtml(firstName, email, phone, top3);
+  const html = buildResultsHtml(firstName, email, phone, top3, intakeAnswers);
   const payload = { kind: 'info', to: email, subject, html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
@@ -93,7 +95,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   if (email) {
     try {
-      await sendResultsEmail(email, firstName, phone, Array.isArray(top3) ? top3 : []);
+      await sendResultsEmail(email, firstName, phone, Array.isArray(top3) ? top3 : [], (scores && typeof scores === 'object') ? scores : {});
     } catch (e) {
       console.warn('results email invoke failed', e);
     }
