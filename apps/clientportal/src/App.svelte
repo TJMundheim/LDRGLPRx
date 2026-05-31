@@ -541,8 +541,11 @@
       // Seed bucket: audit hydration writes into this; merged into the workbook below.
       const audit_remote_workbook_seed: { factorScores?: Record<string, number>; priorities?: string[] } = {};
       try {
-        const profileResult = await getMyProfile();
-        const profile = profileResult?.data?.getMyProfile;
+        // appsyncClient (lib/api/client.ts) returns json.data directly —
+        // NOT the full { data, errors } envelope. So profileResult is already
+        // the data object, and the profile lives at .getMyProfile (not .data.getMyProfile).
+        const profileResult = await getMyProfile() as any;
+        const profile = profileResult?.getMyProfile ?? profileResult?.data?.getMyProfile;
         const diag = {
           hasProfile: !!profile,
           hasWorkbook: !!profile?.workbookJson,
@@ -553,6 +556,7 @@
           auditCompletedAt: profile?.auditCompletedAt,
           hasIntakeAnswers: !!profile?.intakeAnswers,
           graphqlErrors: profileResult?.errors ? JSON.stringify(profileResult.errors).slice(0, 200) : null,
+          profileResultShape: profileResult ? Object.keys(profileResult).slice(0, 8).join(',') : 'null',
         };
         console.info('[profile] loaded', diag);
         try { (window as any).__myDiag = diag; } catch {}
