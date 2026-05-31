@@ -586,9 +586,22 @@
           stripeCustomerId = profile.stripeCustomerId ?? null;
         }
         // ── BUG 4 fix: hydrate intake completion + workbook from remote audit data ────
+        // AWSJSON is sometimes returned double-encoded over the wire (string of a JSON
+        // string). Parse defensively: first parse → if still a string, parse again.
+        function parseAwsJson(v: unknown): unknown {
+          if (v == null) return null;
+          if (typeof v !== 'string') return v;
+          try {
+            const once = JSON.parse(v);
+            if (typeof once === 'string') {
+              try { return JSON.parse(once); } catch { return once; }
+            }
+            return once;
+          } catch { return null; }
+        }
         if (profile?.auditTop3) {
           try {
-            const parsedTop3 = JSON.parse(profile.auditTop3);
+            const parsedTop3 = parseAwsJson(profile.auditTop3);
             if (Array.isArray(parsedTop3) && parsedTop3.length > 0) {
               remoteAuditHydrated = true;
               localStorage.setItem('intake-audit-scores-v1', profile.auditTop3);
@@ -598,8 +611,10 @@
               // even though the audit data is present in the cloud.
               if (profile.intakeAnswers) {
                 try {
-                  const answersObj = JSON.parse(profile.intakeAnswers);
-                  localStorage.setItem('audit-v1', JSON.stringify({ scores: answersObj }));
+                  const answersObj = parseAwsJson(profile.intakeAnswers);
+                  if (answersObj && typeof answersObj === 'object') {
+                    localStorage.setItem('audit-v1', JSON.stringify({ scores: answersObj }));
+                  }
                 } catch (e) { console.warn('[profile] failed to write audit-v1:', e); }
               }
               if (profile.auditCompletedAt) {
@@ -612,8 +627,8 @@
               intakeComplete = true;
               // Hydrate the WORKBOOK so the dashboard renders the user's data immediately.
               try {
-                const answersObj = profile.intakeAnswers ? JSON.parse(profile.intakeAnswers) : {};
-                const priorityLabels = parsedTop3.map((t: any) => t?.label || t?.id || '');
+                const answersObj = (profile.intakeAnswers ? parseAwsJson(profile.intakeAnswers) : {}) as Record<string, number>;
+                const priorityLabels = (parsedTop3 as any[]).map((t: any) => t?.label || t?.id || '');
                 (audit_remote_workbook_seed as any).factorScores = answersObj;
                 (audit_remote_workbook_seed as any).priorities = [
                   priorityLabels[0] || '', priorityLabels[1] || '', priorityLabels[2] || ''
