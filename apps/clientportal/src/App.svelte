@@ -543,12 +543,32 @@
       try {
         const profileResult = await getMyProfile();
         const profile = profileResult?.data?.getMyProfile;
-        console.info('[profile] loaded', {
+        const diag = {
+          hasProfile: !!profile,
           hasWorkbook: !!profile?.workbookJson,
           workbookUpdatedAt: profile?.workbookUpdatedAt,
           hasAuditTop3: !!profile?.auditTop3,
+          auditTop3Len: profile?.auditTop3 ? profile.auditTop3.length : 0,
+          auditTop3Sample: profile?.auditTop3 ? profile.auditTop3.slice(0, 60) : null,
           auditCompletedAt: profile?.auditCompletedAt,
-        });
+          hasIntakeAnswers: !!profile?.intakeAnswers,
+          graphqlErrors: profileResult?.errors ? JSON.stringify(profileResult.errors).slice(0, 200) : null,
+        };
+        console.info('[profile] loaded', diag);
+        try { (window as any).__myDiag = diag; } catch {}
+        // Show a small on-screen diagnostic when ?diag=1 is in the URL.
+        try {
+          if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('diag') === '1') {
+            let d = document.getElementById('my4m-diag');
+            if (!d) {
+              d = document.createElement('div');
+              d.id = 'my4m-diag';
+              d.style.cssText = 'position:fixed;bottom:8px;left:8px;z-index:99999;background:#0a1628;color:#9af0c4;padding:10px 12px;font:12px ui-monospace,monospace;max-width:380px;border-radius:6px;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:pre-wrap;';
+              document.body.appendChild(d);
+            }
+            d.textContent = 'profile diagnostic:\n' + JSON.stringify(diag, null, 2);
+          }
+        } catch {}
         if (profile?.workbookJson) {
           remoteWorkbook = JSON.parse(profile.workbookJson) as Workbook;
           // Stamp the profile's workbookUpdatedAt onto the parsed object for comparison.
