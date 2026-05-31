@@ -534,6 +534,8 @@
       // Try to load remote workbook for conflict resolution / new-device hydration.
       let remoteWorkbook: Workbook | null = null;
       let remoteAuditHydrated = false;
+      // Seed bucket: audit hydration writes into this; merged into the workbook below.
+      const audit_remote_workbook_seed: { factorScores?: Record<string, number>; priorities?: string[] } = {};
       try {
         const profileResult = await getMyProfile();
         const profile = profileResult?.data?.getMyProfile;
@@ -555,11 +557,11 @@
           hasActiveSubscription = !!profile.hasActiveSubscription;
           stripeCustomerId = profile.stripeCustomerId ?? null;
         }
-        // ── BUG 4 fix: hydrate intake completion from remote audit data ────
+        // ── BUG 4 fix: hydrate intake completion + workbook from remote audit data ────
         if (profile?.auditTop3) {
           try {
-            const parsed = JSON.parse(profile.auditTop3);
-            if (Array.isArray(parsed) && parsed.length > 0) {
+            const parsedTop3 = JSON.parse(profile.auditTop3);
+            if (Array.isArray(parsedTop3) && parsedTop3.length > 0) {
               remoteAuditHydrated = true;
               localStorage.setItem('intake-audit-scores-v1', profile.auditTop3);
               if (profile.auditCompletedAt) {
@@ -570,6 +572,18 @@
               }
               localStorage.setItem(INTAKE_COMPLETE_KEY, '1');
               intakeComplete = true;
+              // Hydrate the WORKBOOK so the dashboard renders the user's data immediately.
+              try {
+                const answersObj = profile.intakeAnswers ? JSON.parse(profile.intakeAnswers) : {};
+                const priorityLabels = parsedTop3.map((t: any) => t?.label || t?.id || '');
+                (audit_remote_workbook_seed as any).factorScores = answersObj;
+                (audit_remote_workbook_seed as any).priorities = [
+                  priorityLabels[0] || '', priorityLabels[1] || '', priorityLabels[2] || ''
+                ];
+                console.info('[profile] seeded workbook from audit', { factors: Object.keys(answersObj).length, priorityLabels });
+              } catch (e) {
+                console.warn('[profile] failed to seed workbook from audit:', e);
+              }
             }
           } catch (e) {
             console.warn('[profile] failed to parse auditTop3:', e);
@@ -602,6 +616,18 @@
       if (!workbook.startDate) {
         workbook.startDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
       }
+      // Merge audit hydration into the workbook so dashboard shows top-3 + factor scores
+      // without requiring the user to retake intake. Only fill if not already present.
+      if (audit_remote_workbook_seed.factorScores && Object.keys(audit_remote_workbook_seed.factorScores).length > 0) {
+        if (!workbook.factorScores || Object.keys(workbook.factorScores).length === 0) {
+          workbook.factorScores = audit_remote_workbook_seed.factorScores;
+        }
+      }
+      if (audit_remote_workbook_seed.priorities && audit_remote_workbook_seed.priorities.length > 0) {
+        if (!workbook.priorities || workbook.priorities.every((p: string) => !p)) {
+          workbook.priorities = audit_remote_workbook_seed.priorities;
+        }
+      }
       void storage.saveWorkbook(workbook);
     }
     // If no user sub (signed out), workbook stays as placeholder and the
@@ -622,10 +648,7 @@
 <div class="shell">
   <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
   <div class="main" id="main-content">
-    {#if !intakeComplete && currentView !== 'admin'}
-      <!-- Gated: show intake module until complete -->
-      <IntakeModule onComplete={onIntakeComplete} />
-    {:else if currentView === 'admin'}
+    {#if currentView === 'admin'}
       <AdminDashboard />
     {:else if showPricing}
       <PricingPage
