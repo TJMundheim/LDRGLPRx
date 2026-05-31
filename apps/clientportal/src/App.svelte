@@ -588,6 +588,16 @@
             if (Array.isArray(parsedTop3) && parsedTop3.length > 0) {
               remoteAuditHydrated = true;
               localStorage.setItem('intake-audit-scores-v1', profile.auditTop3);
+              // Also write the legacy 'audit-v1' key that the dashboard renderer
+              // (renderer.ts/loadAuditScores) reads from. Without this, the
+              // dashboard shows "Complete your assessment to see your top 3 priorities"
+              // even though the audit data is present in the cloud.
+              if (profile.intakeAnswers) {
+                try {
+                  const answersObj = JSON.parse(profile.intakeAnswers);
+                  localStorage.setItem('audit-v1', JSON.stringify({ scores: answersObj }));
+                } catch (e) { console.warn('[profile] failed to write audit-v1:', e); }
+              }
               if (profile.auditCompletedAt) {
                 localStorage.setItem('intake-date-v1', profile.auditCompletedAt);
               }
