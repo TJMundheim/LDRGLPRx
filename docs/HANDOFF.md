@@ -1,62 +1,33 @@
-# LDRGLPRx — Handoff
+# 2026-05-31 — One-path Protégé flow is fully working
 
-Last updated: 2026-05-25 (Stripe pipeline live, Protégé signup, EventBridge native integration).
+End-to-end signup → app dashboard with carried-forward assessment data is live and tested.
 
----
+## The journey (debugging chain that landed us here)
 
-## Current State
+1. **Phone E.164 normalization** — Protégé signups weren't landing in Contact because the form sent unformatted phone numbers; Lambda rejected with 400.
+2. **Assessment results email missing** — added audit-complete → email-sender path.
+3. **Assessment retake in app** — `Contact` and `Users` (UserProfile) are separate DDB tables; app couldn't see audit data. Extended UserProfile schema with `auditTop3` / `auditCompletedAt` / `intakeAnswers` and made protege-signup seed those from Contact.
+4. **Duplicate signup form on /protege-signup** — replaced with `window.location.replace('/welcome-protege')` to make back-button safe.
+5. **PWA service worker stale** — added `skipWaiting`/`clientsClaim` + controllerchange auto-reload.
+6. **Welcome email pointed to non-existent /set-password** — rewrote to link to app root with honest email-OTP copy.
+7. **One-path refactor** — removed Sign In from homepage, added phone-required + Protégé consent to assessment, built `/become-protege` page that POSTs signup behind the scenes + redirects to app with `?new=1&email=…`.
+8. **Double sign-in code** — /become-protege pre-triggered OTP causing two codes; moved auto-trigger to EmailEntry onMount with `?new=1`.
+9. **Intake gate stuck** — disabled the gate entirely per locked 2026-05-25 spec (signed-in = Protégé = full access).
+10. **Renderer reading wrong localStorage key** — `audit-v1` vs `intake-audit-scores-v1`; hydration now writes both.
+11. **AppSync client envelope confusion** — App.svelte was reading `profileResult.data.getMyProfile`; client already strips the `data` wrapper. Fixed to read `profileResult.getMyProfile`.
+12. **AWSJSON double-encoded over the wire** — added `parseAwsJson()` that parses once and re-parses if the result is still a string.
 
-**Stripe Pipeline (EventBridge Native)**
-- Contract: `docs/plan/stripe-eventbridge-architecture.md`
-- Build plan: `docs/plan/stripe-eventbridge-implementation.md`
-- All 5 handler Lambdas deployed: `order-handler`, `subscription-handler`, `refund-dispute-handler`, `stripe-events-retry`, `customer-portal-session`
-- Infrastructure live: `stripe-keys` secret (placeholder values), SQS DLQ + permanent-failures queue, RetryState DDB table, SNS `my4mlife-stripe-alerts`, CloudWatch alarms
-- No custom webhook Lambda; all events flow via AWS EventBridge Partner Event Source (native Stripe integration)
+## Working today
 
-**Protégé Signup (New — 2026-05-25)**
-- Lambda: `protege-signup` (Cognito user auto-create + DDB contact record + Mailgun welcome email)
-- Frontend: `/protege-signup` page live, `/assessment` shows Protégé CTA + product tiles
-- Home CTA points to `/assessment`; PWA installable
-- Membership spec locked: Protégé (free app, sign-up only) → Graduate (earned after 12mo member activity); Insider tier removed
+- Assessment carries name/email/phone/consent + answers + top3 to /become-protege.
+- /become-protege auto-creates Protégé in Cognito + Contact + Users, redirects to app.
+- App auth screen auto-sends OTP, skips firstName field for fresh signups.
+- App dashboard hydrates `audit-v1` + workbook.factorScores + workbook.priorities from UserProfile on sign-in.
+- Top-3 priorities show on dashboard + Week 1; sidebar fully unlocked.
 
-**Email & AI Concierge**
-- Lambda: `email-sender` (Cognito CustomMessage + Mailgun send + direct invoke) — live
-- Lambda: `inbound-handler` (Bedrock Claude inference on Mailgun replies) — wired, awaiting Mailgun activation
-- System prompt: `lambdas/inbound-handler/src/system-prompt.ts` (full product catalog, consult pricing, gut-brain canonical, brand voice)
-- Nurture stages 1–3 templates ready at `lambdas/nurture-worker/src/templates.ts`; Stage 1 works (15min via SQS); Stages 2–3 blocked on EventBridge Scheduler integration
+## TJ blockers still pending (carryover; pre-existing)
 
-**Build & Test Status**
-- Website: 71 pages, clean build, 8/8 tests pass
-- App: clean build, 80/81 tests pass (AdminDashboard.test.ts pre-existing failure)
-- All 5 Lambda pairs (with tests): green
-- Lambdas without tests: `inbound-handler`, `email-sender` (esbuild clean)
-
----
-
-## Blocked on TJ
-
-1. **Stripe Keys**: Live + test key values into `stripe-keys` secret via `aws secretsmanager put-secret-value`
-2. **EventBridge Acceptance**: Stripe Dashboard → AWS EventBridge partner source acceptance (Partner Event Source setup)
-3. **SNS Subscription**: Confirm email subscription to `my4mlife-stripe-alerts` topic
-4. **E2E Walkthroughs**: 3 full-stack test payments once keys + EventBridge wired (including retry, chargeback, refund flows)
-
----
-
-## Next Up
-
-1. EventBridge Scheduler integration for nurture stages 2 + 3 (3-day, 7-day delays)
-2. SES production-access request (volume threshold pending)
-3. 10DLC SMS registration (volume threshold pending)
-4. Photography: 40% leadership / 25% active / 15% family / 10% contemplative / 10% protocol
-
----
-
-## Hot Files
-
-- `docs/plan/stripe-eventbridge-architecture.md` — contract, event flow, schema
-- `docs/plan/stripe-eventbridge-implementation.md` — Lambda specs, deploy scripts
-- `lambdas/inbound-handler/src/system-prompt.ts` — AI brand voice & product catalog
-- `apps/my4mlife/src/routes/protege-signup.astro` — signup page
-- `apps/my4mlife/src/routes/assessment.astro` — Personalized Assessment (8-category audit)
-- `apps/my4mlife/src/lib/stores/tiers.ts` — membership tier definitions
-- `apps/my4mlife/src/lib/stores/skus.ts` — product SKU pricing + bundle config
+- Stripe E2E #1/#2/#3 walkthroughs
+- Bedrock daily token quota increase (optional)
+- Zoom S2S credentials into `zoom-ops-creds` secret
+- Phone number for SMS approval queue v2 (email approvals already working)
