@@ -120,14 +120,9 @@ h1 {
     })
     .then(function () {
       try { sessionStorage.setItem('my4m-signup-email', email); } catch (e) { /* no-op */ }
-      // Pre-trigger the email sign-in code so it's already in the user's inbox when the app loads.
-      return fetch(SIGNUP_API + '/api/request-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, firstName: name }),
-      }).catch(function () { /* non-fatal — app will retry on the auth screen */ });
-    })
-    .then(function () {
+      // Do NOT pre-trigger the OTP here — the app's auth screen handles it
+      // (with auto-trigger when ?new=1 is present). Pre-triggering caused
+      // two codes to land in the inbox and one to be invalidated.
       window.location.replace('https://app.my4mlife.com/?new=1&email=' + encodeURIComponent(email));
     })
     .catch(function (err) {

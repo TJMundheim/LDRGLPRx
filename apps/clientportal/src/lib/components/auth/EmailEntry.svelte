@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { requestEmailCode } from '../../auth/cognito.js';
 
   interface Props {
@@ -7,10 +8,10 @@
 
   const { onsuccess }: Props = $props();
 
-  // Pre-fill from URL params (e.g. when arriving from /welcome-protege).
+  // Pre-fill from URL params (e.g. when arriving from /become-protege).
   // ?email=foo@bar.com pre-fills the email input.
-  // ?new=1 indicates a fresh signup — hide the firstName field entirely
-  // (the name was already captured during Protégé signup; asking again is confusing).
+  // ?new=1 indicates a fresh signup — hide the firstName field AND auto-send
+  // the code (so the user skips straight to the "enter code" screen).
   function readUrlParam(key: string): string {
     if (typeof window === 'undefined') return '';
     try { return new URLSearchParams(window.location.search).get(key) ?? ''; } catch { return ''; }
@@ -23,8 +24,7 @@
   let loading = $state(false);
   let error = $state('');
 
-  async function handleSubmit(e: SubmitEvent) {
-    e.preventDefault();
+  async function requestCode(): Promise<void> {
     error = '';
     loading = true;
     try {
@@ -36,11 +36,24 @@
       loading = false;
     }
   }
+
+  async function handleSubmit(e: SubmitEvent) {
+    e.preventDefault();
+    await requestCode();
+  }
+
+  // Fresh signup arriving from /become-protege → auto-send the code
+  // and skip straight to the code-entry step. No second click required.
+  onMount(() => {
+    if (isFreshSignup && initialEmail) {
+      void requestCode();
+    }
+  });
 </script>
 
 <div class="auth-card">
-  <h2>{isFreshSignup ? "You're in. Let's sign you in." : 'Sign In / Sign Up — Free Protégé'}</h2>
-  <p class="subtitle">{isFreshSignup ? "We'll email you a 6-digit code. Use it to enter the app." : "Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in."}</p>
+  <h2>{isFreshSignup ? "You're in. Sending your code…" : 'Sign In / Sign Up — Free Protégé'}</h2>
+  <p class="subtitle">{isFreshSignup ? "We're emailing you a 6-digit code. The next screen will ask for it." : "Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in."}</p>
   <form onsubmit={handleSubmit}>
     {#if !isFreshSignup}
       <label for="firstname-input">First name <span class="optional">(optional — new accounts only)</span></label>
