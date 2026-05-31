@@ -134,7 +134,11 @@
       return !!localStorage.getItem(INTAKE_COMPLETE_KEY);
     } catch { return false; }
   }
-  let intakeComplete = $state(isIntakeComplete());
+  // Per 2026-05-25 spec: signed-in user is a Protégé and gets full access.
+  // The legacy intake gate is intentionally disabled — kept as a stub so any
+  // residual reads return true.
+  let intakeComplete = $state(true);
+  void isIntakeComplete; // (suppress unused warning if helper survives)
   let hasActiveSubscription = $state(false);
   let stripeCustomerId = $state<string | null>(null);
 

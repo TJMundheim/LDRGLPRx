@@ -59,14 +59,9 @@
     </div>
   {/if}
 
-  <div id="nav-items" class:nav-locked={!intakeComplete}>
+  <!-- Per 2026-05-25 spec: signed-in = Protégé = full access. No intake lock. -->
+  <div id="nav-items">
     {@html navHtml}
-    {#if !intakeComplete}
-      <div class="lock-overlay" role="note">
-        <span class="lock-icon" aria-hidden="true">🔒</span>
-        <span class="lock-text">Complete intake to unlock Weeks 1–4</span>
-      </div>
-    {/if}
   </div>
   <div class="sb-stats" style="margin-top:8px">
     <div class="sb-stats-title">WORKBOOK PROGRESS</div>
