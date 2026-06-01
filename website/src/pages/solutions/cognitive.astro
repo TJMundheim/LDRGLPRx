@@ -1,6 +1,7 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
 import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
+import FoundationStackPair from '../../components/FoundationStackPair.astro';
 ---
 
 <SolutionPage
@@ -11,40 +12,14 @@ import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
   slug="cognitive"
   description="Brain optimization through methylated B-complex nutraceuticals and nootropic peptide protocols. My4MLife addresses cognitive performance, mental sharpness, focus and memory through the Mind pillar — OTC NeuroBridge or full Rx peptide consult."
 >
-  <!-- ── Two Paths to Act (conversion-first, top of page) ── -->
-  <section id="solution" class="two-paths-section">
-    <h2 class="section-eliminate">Two Paths to Act</h2>
-    <div class="two-paths-grid">
-      <div class="path-card path-otc">
-        <div class="path-badge">OTC Nutraceutical</div>
-        <h3>NeuroBridge</h3>
-        <p class="path-price">Available at member pricing</p>
-        <p>Foundational cognitive support OTC — methylated B-complex stack (B6 P-5-P, B12 methylcobalamin, 5-MTHF, B5, B1, B2 active forms). Supports neurotransmitter production and methylation without a prescription.</p>
-        <a href="/assessment" class="btn-sol primary">Join to unlock member pricing →</a>
-      </div>
-      <div class="path-card path-rx">
-        <div class="path-badge path-badge-rx">Rx Protocol</div>
-        <h3>Comprehensive 4M Consult</h3>
-        <p class="path-price">Peptide protocols included</p>
-        <p>For persistent cognitive issues — memory lapses, focus, word-finding — want the full peptide and lab review. Covers nootropic peptides (Semax, Selank, Cerebrolysin, BPC-157), hormone optimization, and your personalized 4M protocol.</p>
-        <a href="/consult" class="btn-sol secondary">Schedule Rx Consult →</a>
-      </div>
-    </div>
-
-    <div class="when-strip">
-      <div class="when-col">
-        <div class="when-label">Choose OTC when:</div>
-        <p>Occasional brain fog — want a foundational methylated B-complex stack to support neurotransmitter production without committing to a full protocol.</p>
-      </div>
-      <div class="when-divider"></div>
-      <div class="when-col">
-        <div class="when-label">Choose Rx when:</div>
-        <p>Persistent cognitive issues — memory lapses, focus problems, word-finding gaps — want full peptide candidacy review and lab-guided protocol.</p>
-      </div>
-    </div>
-
-    <p class="why-matters-link"><a href="#why-matters">Read about why this matters &darr;</a></p>
-  </section>
+  <FoundationStackPair
+    otcName="NeuroBridge"
+    otcPositionLine="Methylated B-complex — the cognitive foundation"
+    otcBody="NeuroBridge is the methylated B-complex stack — B6 (P-5-P), B12 (methylcobalamin), 5-MTHF, plus active forms of B5, B1, B2. Up to 60% of people carry MTHFR variants that block standard B-vitamin conversion; methylated forms bypass that bottleneck. Supports neurotransmitter synthesis (serotonin, dopamine, GABA) and clears homocysteine — a top independent risk factor for dementia. Pairs with the cognitive consult for the full peptide review."
+    rxName="Cognitive consult"
+    rxPositionLine="Nootropic peptide candidacy + cognitive lab review"
+    rxBody="The cognitive consult covers nootropic peptide candidacy (Semax, Selank, Cerebrolysin, BPC-157), cognitive baseline assessment, hormone-cognition integration, and your full personalized 4M protocol. For persistent memory lapses, focus problems, or word-finding gaps — the consult is where lab-guided protocols replace guesswork."
+  />
 
   <figure class="scene-figure">
     <img src="/images/scenes/cognitive-boat.jpg" alt="Active man on a boat with family — still trusted physically and mentally to do this" loading="lazy" />

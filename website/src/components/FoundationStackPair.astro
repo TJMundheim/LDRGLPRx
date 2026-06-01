@@ -1,0 +1,134 @@
+---
+/**
+ * FoundationStackPair.astro
+ *
+ * The OTC Foundation Stack + Rx Protocol two-card block.
+ * Visual template lifted verbatim from /solutions/peptides.astro.
+ * Placed as the FIRST content after the hero on each of the 10
+ * homepage-band solution pages. Locked 2026-05-24.
+ */
+interface Props {
+  otcName: string;
+  otcPositionLine: string;
+  otcBody: string;
+  rxName: string;
+  rxPositionLine: string;
+  rxBody: string;
+  /** Default Rx CTA target. Hormones uses consult-hormone; everything else consult-comprehensive. */
+  rxCtaHref?: string;
+}
+
+const {
+  otcName,
+  otcPositionLine,
+  otcBody,
+  rxName,
+  rxPositionLine,
+  rxBody,
+  rxCtaHref = '/cart?sku=consult-comprehensive',
+} = Astro.props;
+---
+
+<div class="solution-pair-grid">
+  <div class="solution-pair solution-pair-otc">
+    <div class="solution-pair-badge">OTC Foundation Stack</div>
+    <h3>{otcName}</h3>
+    <p class="solution-pair-position">{otcPositionLine}</p>
+    <p class="solution-pair-body">{otcBody}</p>
+    <p class="solution-pair-footer-line">Pharmaceutical-grade OTC.</p>
+    <a href="/become-protege" class="solution-pair-btn solution-pair-btn-primary">Join to unlock member pricing →</a>
+    <p class="solution-pair-secondary">{otcName} is available at member pricing — <a href="/assessment">take the free assessment</a>.</p>
+  </div>
+  <div class="solution-pair solution-pair-rx">
+    <div class="solution-pair-badge solution-pair-badge-rx">Rx Protocol</div>
+    <h3>{rxName}</h3>
+    <p class="solution-pair-position">{rxPositionLine}</p>
+    <p class="solution-pair-body">{rxBody}</p>
+    <a href={rxCtaHref} class="solution-pair-btn solution-pair-btn-secondary">Schedule Rx Consult →</a>
+  </div>
+</div>
+
+<style>
+.solution-pair-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin: 1.25rem 0 2rem;
+}
+.solution-pair {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.solution-pair.solution-pair-rx {
+  border-color: var(--primary);
+  border-width: 2px;
+}
+.solution-pair-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(0,184,148,0.12);
+  border: 1px solid rgba(0,184,148,0.35);
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  align-self: flex-start;
+  text-transform: uppercase;
+}
+.solution-pair-badge.solution-pair-badge-rx {
+  color: var(--primary);
+  background: rgba(26,54,93,0.08);
+  border-color: rgba(26,54,93,0.3);
+}
+.solution-pair h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: var(--primary);
+  margin: 0;
+}
+.solution-pair-position {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0;
+}
+.solution-pair-body {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin: 0;
+}
+.solution-pair-footer-line {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin: 0;
+}
+.solution-pair-btn {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+.solution-pair-btn-primary { background: var(--accent); color: #fff; }
+.solution-pair-btn-primary:hover { opacity: 0.9; }
+.solution-pair-btn-secondary { background: var(--primary); color: #fff; }
+.solution-pair-btn-secondary:hover { opacity: 0.9; }
+.solution-pair-secondary {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  margin: 0.5rem 0 0;
+}
+.solution-pair-secondary a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.solution-pair-secondary a:hover { text-decoration: underline; }
+</style>
