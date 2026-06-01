@@ -24,6 +24,20 @@
       const user = getCurrentUser();
       if (user) setUser(user);
       onsuccess();
+      // Force a full page reload after sign-in. App.svelte's first-mount
+      // hydration races with Svelte 5's reactive render so the dashboard
+      // sometimes shows an empty workbook until a reload. Forcing it here
+      // guarantees the post-auth render has the workbook + audit data ready.
+      // Cheap (tokens are already in localStorage; reload is instant).
+      try {
+        // Drop any post-auth query params the URL still carries (?new=1&email=).
+        const u = new URL(window.location.href);
+        u.searchParams.delete('new');
+        u.searchParams.delete('email');
+        window.location.replace(u.toString());
+      } catch {
+        window.location.reload();
+      }
     } catch (err) {
       error = err instanceof Error ? err.message : 'Invalid code. Please try again.';
     } finally {
