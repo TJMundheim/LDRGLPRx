@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = "Become a Protégé — Free | My4MLife";
-const description = "Sign up as a Protégé for free. Get the My4MLife app, weekly live Zooms, and 15–25% off every order. No purchase required, no commitment.";
+const description = "Sign up as a Protégé for free. Get 25% off your first purchase, the My4MLife app, weekly live Zooms with Dr. TJ, and ongoing member pricing. No purchase required.";
 const canonical = "https://www.my4mlife.com/protege-signup";
 const keywords = "My4MLife Protégé, free membership, health app signup, 4M program";
 const robots = "index, follow";
@@ -20,27 +20,39 @@ const SIGNUP_API = (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9sv
 
     <ul class="ps-benefits">
       <li>
+        <span class="ps-benefit-icon" aria-hidden="true">&#127991;</span>
+        <div>
+          <strong>25% off your first purchase</strong> &mdash; the moment you become a Prot&eacute;g&eacute;.
+        </div>
+      </li>
+      <li>
+        <span class="ps-benefit-icon" aria-hidden="true">&#128260;</span>
+        <div>
+          <strong>25% off forever on autoship; 15% off one-time reorders</strong> &mdash; your Prot&eacute;g&eacute; pricing, always on.
+        </div>
+      </li>
+      <li>
         <span class="ps-benefit-icon" aria-hidden="true">&#128241;</span>
         <div>
-          <strong>The My4MLife app</strong> &mdash; your personalized 4M workbook, results from your assessment, and your full protocol library.
+          <strong>Free access to the My4MLife app</strong> &mdash; your personalized 4M workbook, assessment results, and full protocol library.
         </div>
       </li>
       <li>
         <span class="ps-benefit-icon" aria-hidden="true">&#128249;</span>
         <div>
-          <strong>Weekly live Zooms</strong> &mdash; Dr. TJ and the team walk through protocols, Q&amp;A, and accountability every week.
+          <strong>Weekly support Zooms with Dr. TJ</strong> &mdash; protocol walkthroughs, Q&amp;A, and accountability every week.
         </div>
       </li>
       <li>
-        <span class="ps-benefit-icon" aria-hidden="true">&#127991;</span>
+        <span class="ps-benefit-icon" aria-hidden="true">&#127914;</span>
         <div>
-          <strong>15% off every order</strong> &mdash; first purchase, reorders, always. Or go 25% with a 90-day bundle of 2+ products or any subscription.
+          <strong>Discounts on all live events.</strong>
         </div>
       </li>
       <li>
         <span class="ps-benefit-icon" aria-hidden="true">&#128683;</span>
         <div>
-          <strong>Non-members pay full retail.</strong> Prot&eacute;g&eacute;s never do.
+          <strong>Non-Prot&eacute;g&eacute;s pay full retail.</strong> No discount, ever.
         </div>
       </li>
     </ul>

@@ -7,11 +7,12 @@
  *   - <product>-sub  — monthly autoship subscription (recurring)
  *   - <product>-90d  — 90-day one-time bundle (3-bottle pack)
  *
- * Pricing model (locked 2026-05-18 — see project_membership_active_member_spec.md):
- *   - First-ever purchase 90-day bundle: 20% off retail
- *   - First-ever purchase anything else: 15% off retail
- *   - Active subscriber, any future purchase: 15% off retail
- *   - Repeat one-time buyer, no active subscription: full retail
+ * Pricing model (locked 2026-06-01 — see project_membership_active_member_spec.md):
+ *   - Protégé first purchase: 25% off retail
+ *   - Protégé on active autoship: 25% off retail (every order, forever)
+ *   - Protégé repeat one-time buyer (no autoship): 15% off retail
+ *   - Non-Protégé: full retail, no discount, ever
+ *   - Discounts never stack
  *
  * Stripe wiring: `stripePriceId` will be filled when Stripe products are created.
  */
@@ -247,7 +248,7 @@ export const SKUS: Record<string, SKU> = {
   'fast-start-foundation-gut': {
     id: 'fast-start-foundation-gut',
     name: 'Fast Start + Foundation (Biome NS Ultra)',
-    tagline: 'The Fast Start Protocol plus your first foundation supplement, Biome NS Ultra — the gut-brain seal that protects cognitive longevity. Auto-ship optional at 15% off once you stay subscribed.',
+    tagline: 'The Fast Start Protocol plus your first foundation supplement, Biome NS Ultra — the gut-brain seal that protects cognitive longevity. Auto-ship optional at 25% off once you stay subscribed.',
     retailPriceUSD: 99,
     cadence: 'one-time',
     stripePriceId: null,
@@ -261,7 +262,7 @@ export const SKUS: Record<string, SKU> = {
   'fast-start-foundation-sleep': {
     id: 'fast-start-foundation-sleep',
     name: 'Fast Start + Foundation (SleepRestore)',
-    tagline: 'The Fast Start Protocol plus your first foundation supplement, SleepRestore — sleep architecture + cortisol regulation + nocturnal cardiovascular protection. Auto-ship optional at 15% off once you stay subscribed.',
+    tagline: 'The Fast Start Protocol plus your first foundation supplement, SleepRestore — sleep architecture + cortisol regulation + nocturnal cardiovascular protection. Auto-ship optional at 25% off once you stay subscribed.',
     retailPriceUSD: 99,
     cadence: 'one-time',
     stripePriceId: null,
@@ -275,7 +276,7 @@ export const SKUS: Record<string, SKU> = {
   'fast-start-foundation-cognitive': {
     id: 'fast-start-foundation-cognitive',
     name: 'Fast Start + Foundation (NeuroBridge)',
-    tagline: 'The Fast Start Protocol plus your first foundation supplement, NeuroBridge — methylated B-complex for the cognitive build. Auto-ship optional at 15% off once you stay subscribed.',
+    tagline: 'The Fast Start Protocol plus your first foundation supplement, NeuroBridge — methylated B-complex for the cognitive build. Auto-ship optional at 25% off once you stay subscribed.',
     retailPriceUSD: 99,
     cadence: 'one-time',
     stripePriceId: null,

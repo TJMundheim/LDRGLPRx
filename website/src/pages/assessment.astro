@@ -179,15 +179,16 @@ const robots = "index, follow";
       <div class="protege-cta-badge">NEXT STEP — FREE</div>
       <h3 class="protege-cta-heading">Ready for the full experience? Become a Prot&eacute;g&eacute;.</h3>
       <ul class="protege-cta-benefits">
-        <li>Free access to the My4MLife app with your personalized 4M workbook</li>
-        <li>Weekly live Zooms with Dr. TJ and the team</li>
-        <li>15% off your first order &mdash; 25% on a 90-day bundle of 2+ products or any subscription</li>
-        <li>No purchase required. No commitment. Free forever.</li>
+        <li>25% off your first purchase</li>
+        <li>25% off forever on autoship; 15% off one-time reorders</li>
+        <li>Free access to the My4MLife app</li>
+        <li>Weekly support Zooms with Dr. TJ</li>
+        <li>Discounts on all live events</li>
       </ul>
       <a id="protege-cta-link" href="/protege-signup" class="btn btn-primary btn-large">
         Become a Prot&eacute;g&eacute; &mdash; It&apos;s Free &rarr;
       </a>
-      <p class="protege-cta-note">Non-members pay full retail. Prot&eacute;g&eacute;s never do.</p>
+      <p class="protege-cta-note">Non-Prot&eacute;g&eacute;s pay full retail. No discount, ever.</p>
     </div>
 
     <!-- ===== PRODUCT TILES (per top-3 category) ===== -->
@@ -647,7 +648,7 @@ const robots = "index, follow";
         prodContainer.innerHTML = '';
         var productsHeading = document.createElement('div');
         productsHeading.className = 'results-products-heading';
-        productsHeading.innerHTML = '<h3>Your starting protocols</h3><p class="results-products-sub">Each of your top 3 priorities has an over-the-counter path and a prescription path. Prot&eacute;g&eacute;s get 15&ndash;25% off.</p>';
+        productsHeading.innerHTML = '<h3>Your starting protocols</h3><p class="results-products-sub">Each of your top 3 priorities has an over-the-counter path and a prescription path. Prot&eacute;g&eacute;s get 25% off the first purchase, 25% on autoship, 15% on one-time reorders.</p>';
         prodContainer.appendChild(productsHeading);
         top3.forEach(function (q) {
           var sol = SOLUTIONS_DATA[q.solutionSlug] || { otc: null, rx: null };
