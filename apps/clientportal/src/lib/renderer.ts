@@ -842,14 +842,6 @@ function renderW1(ctx: RenderContext): string {
     </div>
   </div>
 
-  <div style="background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:11px;padding:16px 20px;margin-bottom:20px">
-    <div style="font-size:13px;font-weight:700;color:#1A5A34;margin-bottom:6px">Week 1 — All 4 Pillars Begin Today</div>
-    <div style="font-size:12px;color:#3A7A4E;line-height:1.75">
-      Week 1 introduces the foundation of every pillar. You will go deep on Mind — nutrition, methylation, and cognitive baseline —
-      and establish your baselines for Muscle, Mitigate, and Motivate. Each pillar gets its own dedicated deep-dive in weeks 2–4.
-      But everything starts <strong>today</strong>.
-    </div>
-  </div>
 
   <div class="card">
     ${pillarHeader('M4', 'MOTIVATE — Foundation', '#6B5ED4', 'Why are you here? Lock in your reason before anything else.')}

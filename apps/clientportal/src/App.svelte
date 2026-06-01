@@ -291,7 +291,7 @@
       date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
     const cacheKey = `adherence-cache-${date}-${actionId}`;
-    // Toggle: if already logged for that date, clear cache (DDB record can stay; truth is server)
+    // Toggle: if already logged for that date, clear locally AND on the server.
     let nowDone = true;
     try {
       if (localStorage.getItem(cacheKey)) {
@@ -301,15 +301,17 @@
         localStorage.setItem(cacheKey, '1');
       }
     } catch { /* ignore */ }
-    if (nowDone) {
+    try {
+      await recordAdherence({ date, actionId, completed: nowDone });
+      showToast(nowDone ? 'Logged' : 'Cleared');
+    } catch (e) {
+      // On server failure, revert the local cache so the UI and server stay in sync.
       try {
-        await recordAdherence({ date, actionId, completed: true });
-        showToast('Logged');
-      } catch (e) {
-        console.error('[adherence] recordAdherence failed', e);
-      }
-    } else {
-      showToast('Cleared');
+        if (nowDone) localStorage.removeItem(cacheKey);
+        else localStorage.setItem(cacheKey, '1');
+      } catch { /* ignore */ }
+      console.error('[adherence] recordAdherence failed', e);
+      showToast('Sync error — retry');
     }
     renderTick++;
   }
