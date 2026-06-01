@@ -762,6 +762,41 @@ function w1DimWrap(unlockWeek: number, inner: string): string {
   return `<div class="w1-dim"><span class="w1-dim-badge" title="Available after Week 1 — keep the basics consistent first.">Unlocks Week ${unlockWeek}</span>${inner}</div>`;
 }
 
+// Compute Mon..Sun YYYY-MM-DD strings for the current ISO week (Mon-anchored).
+function weekdayDates(): { mon: string; tue: string; wed: string; thu: string; fri: string; sat: string; sun: string } {
+  const all = weekDates();
+  return { mon: all[0], tue: all[1], wed: all[2], thu: all[3], fri: all[4], sat: all[5], sun: all[6] };
+}
+
+// Renders a row of weekday checkboxes for a given adherence actionId.
+// days: 'mf' = Mon-Fri (5 boxes), 'all' = Mon-Sun (7 boxes).
+function w1WeekdayRow(actionId: string, label: string, days: 'mf' | 'all', minimum: number): string {
+  const wd = weekdayDates();
+  const labels: Array<[string, string]> = days === 'mf'
+    ? [['M', wd.mon], ['T', wd.tue], ['W', wd.wed], ['T', wd.thu], ['F', wd.fri]]
+    : [['M', wd.mon], ['T', wd.tue], ['W', wd.wed], ['T', wd.thu], ['F', wd.fri], ['S', wd.sat], ['S', wd.sun]];
+  const today = todayYMD();
+  const boxes = labels.map(([dl, date]) => {
+    const done = typeof localStorage !== 'undefined' && !!localStorage.getItem(`adherence-cache-${date}-${actionId}`);
+    const isFuture = date > today;
+    const bg = done ? '#1D9E75' : isFuture ? '#F4F4F4' : '#FFFFFF';
+    const fg = done ? '#FFFFFF' : isFuture ? '#B8B8B8' : '#1A3A20';
+    const border = done ? '#1D9E75' : '#D8E8DC';
+    const cursor = isFuture ? 'not-allowed' : 'pointer';
+    const onclick = isFuture ? '' : `onclick="portalAction('logAdherence','${actionId}','${date}')"`;
+    return `<div ${onclick} style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:${cursor};flex:1;min-width:0">
+      <div style="width:34px;height:34px;border-radius:8px;border:1.5px solid ${border};background:${bg};color:${fg};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">${done ? '✓' : ''}</div>
+      <div style="font-size:10px;font-weight:600;color:#5A8A64">${dl}</div>
+    </div>`;
+  }).join('');
+  const done = labels.filter(([, date]) => typeof localStorage !== 'undefined' && !!localStorage.getItem(`adherence-cache-${date}-${actionId}`)).length;
+  return `<div style="background:#FFFFFF;border:1.5px solid #D8E8DC;border-radius:9px;padding:11px 12px;margin-bottom:9px">
+    <div style="font-size:12.5px;font-weight:700;color:#1A2E1E;margin-bottom:8px">${label}</div>
+    <div style="display:flex;gap:6px;justify-content:space-between;margin-bottom:6px">${boxes}</div>
+    <div style="font-size:10.5px;color:#5A8A64;text-align:center">Recommended minimum: ${minimum} per week · Logged: ${done}</div>
+  </div>`;
+}
+
 function renderW1(ctx: RenderContext): string {
   const { W } = ctx;
 
@@ -822,44 +857,40 @@ function renderW1(ctx: RenderContext): string {
       <div class="w1-active-label">This week</div>
       ${w1ActiveWeekly('motivate-zoom', "Attend (or watch the recording of) this week's Protégé Zoom", 1)}
     </div>
-    ${w1DimWrap(2, `<div style="margin-bottom:14px">
-    ${motivationOptions.map((opt, i) => `
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;
-        background:${W.motivation === String(i) ? 'rgba(107,94,212,.07)' : '#FFFFFF'};
-        border:1.5px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
-        border-radius:8px;cursor:pointer;margin-bottom:7px"
-        onclick="portalFieldRender('motivation','${i}')">
-        <div style="width:16px;height:16px;border-radius:50%;
-          border:2px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
-          background:${W.motivation === String(i) ? '#6B5ED4' : 'transparent'};flex-shrink:0"></div>
-        <span style="font-size:12.5px;color:#1A2E1E">${esc(opt)}</span>
-      </div>`).join('')}
+    <div style="margin-top:6px;margin-bottom:14px">
+      <div style="font-size:12.5px;font-weight:700;color:#1A2E1E;margin-bottom:8px">What is driving you?</div>
+      ${motivationOptions.map((opt, i) => `
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;
+          background:${W.motivation === String(i) ? 'rgba(107,94,212,.10)' : '#FFFFFF'};
+          border:1.5px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
+          border-radius:8px;cursor:pointer;margin-bottom:7px"
+          onclick="portalFieldRender('motivation','${i}')">
+          <div style="width:16px;height:16px;border-radius:50%;
+            border:2px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
+            background:${W.motivation === String(i) ? '#6B5ED4' : 'transparent'};flex-shrink:0"></div>
+          <span style="font-size:12.5px;color:#1A2E1E;font-weight:500">${esc(opt)}</span>
+        </div>`).join('')}
     </div>
-    <label for="w1-accountability">Who are you doing this for? (you'll read your "why" aloud to them on graduation day)</label>
+    ${w1DimWrap(2, `<label for="w1-personal-why">My "why" — the man I want to be at age 70</label>
+    <textarea id="w1-personal-why" style="min-height:70px" placeholder="Write it here — you will read this aloud on graduation day..."
+      oninput="portalField('personalWhy',this.value)">${esc(W.personalWhy)}</textarea>`)}
+    ${w1DimWrap(3, `<label for="w1-accountability">Who are you doing this for? (you'll read your "why" aloud to them on graduation day)</label>
     <input id="w1-accountability" placeholder="e.g. my wife, my kids, my parents, myself — pick one face" value="${esc(W.accountabilityTarget)}"
       oninput="portalField('accountabilityTarget',this.value)">
-    <div style="font-size:11.5px;color:#4A7A54;margin:6px 0 12px">If no one is on the other end of this, you won't do it. Pick a person — see their face.</div>
-    <label for="w1-personal-why">My "why" — the man I want to be at age 70</label>
-    <textarea id="w1-personal-why" style="min-height:70px" placeholder="Write it here — you will read this aloud on graduation day..."
-      oninput="portalField('personalWhy',this.value)">${esc(W.personalWhy)}</textarea>
-    <label for="w1-identity-stmt" style="margin-top:12px">My identity statement (draft) — "I am a man who..."</label>
+    <div style="font-size:11.5px;color:#4A7A54;margin:6px 0 0">If no one is on the other end of this, you won't do it. Pick a person — see their face.</div>`)}
+    ${w1DimWrap(4, `<label for="w1-identity-stmt">My identity statement (draft) — "I am a man who..."</label>
     <input id="w1-identity-stmt" placeholder="I am a man who..." value="${esc(W.identityStatement)}"
-      oninput="portalField('identityStatement',this.value)">
-    ${thisWeekBox([
-      'Write your "why" above — be specific about the man you want to be at 70',
-      'Complete the Morning Protocol Level 1 every morning starting tomorrow — fasted, outdoors',
-      'Cold shower closes every morning from Day 1 — 1 minute minimum, non-negotiable'
-    ], '#6B5ED4')}`)}
+      oninput="portalField('identityStatement',this.value)">`)}
   </div>
 
   <div class="card">
     ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Review your assessment results. Gut first — what you remove matters more than what you add.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      ${w1ActiveDaily('mitigate-biome-ns', 'Take Biome NS Ultra (with breakfast)')}
-      ${w1ActiveDaily('mitigate-eating-window', 'Stayed in eating window today')}
+      ${w1WeekdayRow('mitigate-biome-ns', 'Take Biome NS Ultra (with breakfast)', 'mf', 5)}
+      ${w1WeekdayRow('mitigate-eating-window', 'Stayed in eating window today', 'mf', 5)}
     </div>
-    ${w1DimWrap(2, `<div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
+    <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
       Your 8-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
     </div>
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Assessment →</button>
@@ -877,33 +908,31 @@ function renderW1(ctx: RenderContext): string {
             AUDIT_CATEGORIES.find(c => c.label === fromAudit.label)?.id ?? ''
           ) : false;
           const auditPrefill = fromAudit ? `${fromAudit.label} (${fromAudit.score}/10)` : '';
-          const displayVal = W.priorities[i] || auditPrefill;
+          const displayVal = W.priorities[i] || auditPrefill || '—';
           const label = ['Highest score — fastest results', 'Second priority', 'Third priority'][i];
-          return `<div style="margin-bottom:9px">
-            <label for="w1-priority-${i}">${i + 1}. ${label}${fromAudit && !W.priorities[i] ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from assessment)</span>` : ''}${isPriority && !W.priorities[i] ? ` <span style="font-size:10px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</label>
-            <input id="w1-priority-${i}" value="${esc(displayVal)}" placeholder="${fromAudit ? '' : 'Factor name and score...'}"
-              style="${fromAudit && !W.priorities[i] ? 'color:#1A2E1E;font-weight:600' : ''}"
-              oninput="portalField('priorities.${i}',this.value)">
+          return `<div style="margin-bottom:10px;padding:10px 12px;background:#F4FBF6;border:1.5px solid #B8E8D0;border-radius:8px">
+            <div style="font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1A5A34;margin-bottom:3px">${i + 1}. ${label}${isPriority ? ` <span style="font-size:9.5px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</div>
+            <div style="font-size:14px;font-weight:700;color:#0E2E1A">${esc(displayVal)}</div>
           </div>`;
         }).join('');
       })()}
-      <div class="card-title" style="margin-top:12px">My Specific Commitments</div>
-      ${[0, 1, 2].map(i => `
-        <div style="margin-bottom:9px">
-          <label for="w1-commitment-${i}">Priority ${i + 1} — this week I will</label>
-          <input id="w1-commitment-${i}" value="${esc(W.commitments[i] ?? '')}" placeholder="Be specific — what, when, how..."
-            oninput="portalField('commitments.${i}',this.value)">
-        </div>`).join('')}
-    </div>`)}
+    </div>
+    ${w1DimWrap(2, `<div class="card-title" style="margin-top:12px">My Specific Commitments</div>
+    ${[0, 1, 2].map(i => `
+      <div style="margin-bottom:9px">
+        <label for="w1-commitment-${i}">Priority ${i + 1} — this week I will</label>
+        <input id="w1-commitment-${i}" value="${esc(W.commitments[i] ?? '')}" placeholder="Be specific — what, when, how..."
+          oninput="portalField('commitments.${i}',this.value)">
+      </div>`).join('')}`)}
   </div>
 
   <div class="card">
     ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', '#E05C2A', 'Record where you are starting.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      ${w1ActiveWeekly('muscle-strength', 'Strength session — countertop push-ups 3×10 + supported air squats 3×10', 2)}
+      ${w1WeekdayRow('muscle-strength', 'Strength session — countertop push-ups 3×10 + supported air squats 3×10', 'all', 2)}
     </div>
-    ${w1DimWrap(2, `<div class="card-title">Body Composition — Week 1 Baseline</div>
+    <div class="card-title">Body Composition — Week 1 Baseline</div>
     ${(() => {
       // Pre-fill weight from basics-v1 (captured in Stage 1 intake)
       let basicsWeight = '';
@@ -942,10 +971,10 @@ function renderW1(ctx: RenderContext): string {
     ${Number(W.protein) > 0 ? `<div style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px">
       <div style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein) * 0.9)}g</div>
       <div style="font-size:10px;color:#5A8A64">protein per day target</div>
-    </div>` : ''}`)}
+    </div>` : ''}
   </div>
 
-  ${w1DimWrap(2, `<div class="card" style="border-left:4px solid #E05C2A">
+  <div class="card" style="border-left:4px solid #E05C2A">
     <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
     <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:#E05C2A;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK</div>
@@ -955,17 +984,23 @@ function renderW1(ctx: RenderContext): string {
     </div>
 
     ${workoutLog(W, 1)}
-  </div>`)}
+
+    <div style="margin-top:14px">
+      <label for="w1-other-workout">Any other workout activity completed this week you'd like to document?</label>
+      <textarea id="w1-other-workout" style="min-height:60px" placeholder="Walks, yard work, bike rides, sports — anything that got you moving..."
+        oninput="portalField('weekReflections.w1_other_workout',this.value)">${esc(W.weekReflections['w1_other_workout'] ?? '')}</textarea>
+    </div>
+  </div>
 
   <div class="card">
     ${pillarHeader('M3', 'MIND — Circadian Anchor', '#2E7FD9', 'Anchor your day with light. The brain runs on signal, not effort.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      ${w1ActiveWeekly('mind-sunlight-walk', 'Fasted morning sunlight walk (10 min, no food yet, eyes toward sun, sunglasses off)', 2)}
+      ${w1WeekdayRow('mind-sunlight-walk', 'Fasted morning sunlight walk (10 min, no food yet, eyes toward sun, sunglasses off)', 'all', 2)}
     </div>
   </div>
 
-  ${w1DimWrap(2, `<div class="card" style="border-color:#2E7FD955;background:rgba(46,127,217,.04)">
+  <div class="card" style="border-color:#2E7FD955;background:rgba(46,127,217,.04)">
     <div class="card-title" style="color:#2E7FD9">How to Box Breathe (~2 minutes daily)</div>
     <ol style="margin:10px 0 12px;padding-left:20px;display:flex;flex-direction:column;gap:7px">
       <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
@@ -983,7 +1018,7 @@ function renderW1(ctx: RenderContext): string {
 
   ${renderWeekCogTraining(1)}
 
-  ${renderWeekNutritionSection(1)}`)}`;
+  ${renderWeekNutritionSection(1)}`;
 }
 
 // Audit category id → factor.name in factors.ts. Used to carry the audit

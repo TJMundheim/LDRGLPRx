@@ -274,7 +274,7 @@
       case 'toggleDay':    toggleDay(args[0] as 'morn' | 'cold', Number(args[1]), String(args[2])); break;
       case 'setSupp':      setSupp(String(args[0]), args[1] as 'Yes' | 'No'); break;
       case 'recalc':       showToast('Recalculated'); break;
-      case 'logAdherence': void logAdherence(String(args[0])); break;
+      case 'logAdherence': void logAdherence(String(args[0]), args[1] != null ? String(args[1]) : undefined); break;
     }
     // Structural change — trigger re-render.
     renderTick++;
@@ -284,17 +284,32 @@
   // localStorage cache key pattern: `adherence-cache-<YYYY-MM-DD>-<actionId>` = '1'
   // The cache lets renderer.ts show counters without an API round-trip.
   // DDB (via recordAdherence mutation) is the source of truth.
-  async function logAdherence(actionId: string): Promise<void> {
-    const d = new Date();
-    const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  async function logAdherence(actionId: string, dateArg?: string): Promise<void> {
+    let date = dateArg;
+    if (!date) {
+      const d = new Date();
+      date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+    const cacheKey = `adherence-cache-${date}-${actionId}`;
+    // Toggle: if already logged for that date, clear cache (DDB record can stay; truth is server)
+    let nowDone = true;
     try {
-      localStorage.setItem(`adherence-cache-${date}-${actionId}`, '1');
+      if (localStorage.getItem(cacheKey)) {
+        localStorage.removeItem(cacheKey);
+        nowDone = false;
+      } else {
+        localStorage.setItem(cacheKey, '1');
+      }
     } catch { /* ignore */ }
-    try {
-      await recordAdherence({ date, actionId, completed: true });
-      showToast('Logged');
-    } catch (e) {
-      console.error('[adherence] recordAdherence failed', e);
+    if (nowDone) {
+      try {
+        await recordAdherence({ date, actionId, completed: true });
+        showToast('Logged');
+      } catch (e) {
+        console.error('[adherence] recordAdherence failed', e);
+      }
+    } else {
+      showToast('Cleared');
     }
     renderTick++;
   }
