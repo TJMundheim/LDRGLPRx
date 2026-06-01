@@ -134,15 +134,17 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
 
 /**
  * Bonus map — additive weight applied to raw score in selectTop3.
- * 'already-diagnosed' gets +3 so a Yes (≥4) dominates the top-3 surface.
- * 'alcohol' gets +1 — moderate weight so it ranks only when severe.
+ *
+ * Rules locked 2026-06-01:
+ *   - already-diagnosed > 0 → automatic #1 in top-3 (override; NOT bonus-driven)
+ *   - already-diagnosed = 0 → excluded from top-3 entirely
+ *   - gut-microbiome and weight-body-fat get +2 bonus
+ *   - everything else uses raw score (no bonus)
+ *
+ * NOTE: already-diagnosed is NOT in this bonus map because the override
+ * happens in selectTop3 logic, not in the score math.
  */
 export const AUDIT_BONUS_BY_ID: Record<string, number> = {
   'gut-microbiome': 2,
-  sleep: 2,
   'weight-body-fat': 2,
-  'erectile-dysfunction': 1,
-  'hormone-balance': 1,
-  'already-diagnosed': 3,
-  alcohol: 1,
 };
