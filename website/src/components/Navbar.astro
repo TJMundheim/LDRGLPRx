@@ -348,6 +348,10 @@ const programItems = [
     top: calc(100% + 8px);
     left: 0;
     width: 1140px;
+    /* Defensive on mobile: even though .nav-links is display:none < 961px,
+       some browsers still measure absolute children for the document scroll
+       width. Clamp here so the panel can never exceed the viewport width. */
+    max-width: calc(100vw - 16px);
     background: var(--bg-parchment, #fdf8f2);
     border: 1px solid var(--border);
     border-radius: 14px;
