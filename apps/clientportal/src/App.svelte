@@ -761,12 +761,6 @@
         {bonusTargetsEnabled}
         onUpdated={applySettingsUpdate}
       />
-    {:else if curTab === 'dash' || curTab === 'w1'}
-      <!-- Week 1 / dashboard render the TodayView per docs/plan/week-1-spec.md.
-           Legacy renderer.ts dash + w1 paths are unreachable but kept in place
-           until the rest of the workbook (w2-w4, regen, audit-review) is replaced. -->
-      <UpcomingZooms />
-      <TodayView firstName={workbook.name?.split(' ')[0] ?? ''} />
     {:else if curTab === 'w2' || curTab === 'w3' || curTab === 'w4'}
       <div style="max-width:640px;padding:32px 8px;color:#A8D8C0;font-size:14px;line-height:1.7">
         Week {curTab.slice(1)} unlocks when you attest you watched this week's Zoom.
