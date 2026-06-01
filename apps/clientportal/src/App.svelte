@@ -574,10 +574,26 @@
           }
         } catch {}
         if (profile?.workbookJson) {
-          remoteWorkbook = JSON.parse(profile.workbookJson) as Workbook;
-          // Stamp the profile's workbookUpdatedAt onto the parsed object for comparison.
-          if (profile.workbookUpdatedAt) {
-            remoteWorkbook.updatedAt = profile.workbookUpdatedAt;
+          // AWSJSON may arrive double-encoded — use the same defensive parser
+          // (declared below for auditTop3 but applied here too).
+          const parsedWb = (function parseAwsJsonLocal(v: unknown): unknown {
+            if (v == null) return null;
+            if (typeof v !== 'string') return v;
+            try {
+              const once = JSON.parse(v);
+              if (typeof once === 'string') {
+                try { return JSON.parse(once); } catch { return once; }
+              }
+              return once;
+            } catch { return null; }
+          })(profile.workbookJson);
+          if (parsedWb && typeof parsedWb === 'object' && !Array.isArray(parsedWb)) {
+            remoteWorkbook = parsedWb as Workbook;
+            if (profile.workbookUpdatedAt) {
+              remoteWorkbook.updatedAt = profile.workbookUpdatedAt;
+            }
+          } else {
+            console.warn('[workbook] remote workbookJson did not parse to an object', { type: typeof parsedWb });
           }
         }
         // Populate subscription state for ManageSubscriptionButton
