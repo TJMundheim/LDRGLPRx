@@ -117,6 +117,13 @@ type UserProfile {
   auditTop3: AWSJSON
   auditCompletedAt: AWSDateTime
   intakeAnswers: AWSJSON
+  eatingWindowStart: String
+  eatingWindowEnd: String
+  weeklyZoomAttestedAt: AWSDateTime
+  weeklyZoomAttestedEventId: ID
+  bonusTargetsEnabled: Boolean
+  glpStatus: String
+  weekUnlocked: Int
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -139,6 +146,13 @@ input UpsertMyProfileInput {
   auditTop3: AWSJSON
   auditCompletedAt: AWSDateTime
   intakeAnswers: AWSJSON
+  eatingWindowStart: String
+  eatingWindowEnd: String
+  weeklyZoomAttestedAt: AWSDateTime
+  weeklyZoomAttestedEventId: ID
+  bonusTargetsEnabled: Boolean
+  glpStatus: String
+  weekUnlocked: Int
 }
 
 # ─── Program / curriculum (global config) ─────────────────────────────────
@@ -408,6 +422,22 @@ type Event {
   status: String!
 }
 
+type AdherenceEntry @aws_cognito_user_pools {
+  userId: ID!
+  dateActionId: String!
+  completedAt: AWSDateTime!
+  value: Float
+  notes: String
+}
+
+input RecordAdherenceInput {
+  date: AWSDate!
+  actionId: String!
+  completed: Boolean!
+  value: Float
+  notes: String
+}
+
 type EventRSVP {
   eventId: ID!
   contactId: ID!
@@ -470,6 +500,9 @@ type Query {
   # Events (any authenticated member can read).
   upcomingEvents(limit: Int): [Event!]!
 
+  # Adherence (owner-scoped).
+  listMyAdherence(dateFrom: AWSDate!, dateTo: AWSDate!): [AdherenceEntry!]! @aws_cognito_user_pools
+
   # Admin-only.
   adminGetProfile(userId: ID!): UserProfile
     @aws_auth(cognito_groups: ["Admins"])
@@ -502,6 +535,7 @@ type Mutation {
   upsertMyIntakeForm(input: UpsertIntakeFormInput!): IntakeForm!
   createOutcome(input: CreateOutcomeInput!): Outcome!
   rsvpEvent(eventId: ID!, status: RSVPStatus!): EventRSVP!
+  recordAdherence(input: RecordAdherenceInput!): AdherenceEntry @aws_cognito_user_pools
 
   # Admin-only writes (curriculum + catalog + global config + queue).
   upsertProgram(input: UpsertProgramInput!): Program!

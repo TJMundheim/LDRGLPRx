@@ -31,6 +31,8 @@ export type {
   Event,
   EventRSVP,
   RSVPStatus,
+  AdherenceEntry,
+  RecordAdherenceInput,
 } from './generated.js';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -113,6 +115,8 @@ const PROFILE_FIELDS = `
   workbookJson workbookUpdatedAt
   hasActiveSubscription stripeCustomerId
   auditTop3 auditCompletedAt intakeAnswers
+  eatingWindowStart eatingWindowEnd weeklyZoomAttestedAt weeklyZoomAttestedEventId
+  bonusTargetsEnabled glpStatus weekUnlocked
   address { line1 line2 city region postalCode country }
   prefs { marketingOptIn smsOptIn timezone units }
 `;
@@ -348,6 +352,39 @@ export async function upcomingEvents(limit?: number, opts?: ClientOptions) {
       }
     `,
     variables: { limit },
+  });
+}
+
+// ─── Adherence ────────────────────────────────────────────────────────────────
+
+const ADHERENCE_FIELDS = `userId dateActionId completedAt value notes`;
+
+export async function recordAdherence(
+  input: import('./generated.js').RecordAdherenceInput,
+  opts?: ClientOptions,
+) {
+  return client(opts)<{ recordAdherence: import('./generated.js').AdherenceEntry | null }>({
+    query: `
+      mutation RecordAdherence($input: RecordAdherenceInput!) {
+        recordAdherence(input: $input) { ${ADHERENCE_FIELDS} }
+      }
+    `,
+    variables: { input },
+  });
+}
+
+export async function listMyAdherence(
+  dateFrom: string,
+  dateTo: string,
+  opts?: ClientOptions,
+) {
+  return client(opts)<{ listMyAdherence: import('./generated.js').AdherenceEntry[] }>({
+    query: `
+      query ListMyAdherence($dateFrom: AWSDate!, $dateTo: AWSDate!) {
+        listMyAdherence(dateFrom: $dateFrom, dateTo: $dateTo) { ${ADHERENCE_FIELDS} }
+      }
+    `,
+    variables: { dateFrom, dateTo },
   });
 }
 

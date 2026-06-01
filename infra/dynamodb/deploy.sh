@@ -83,8 +83,12 @@ if [[ $PLAN -eq 1 ]]; then
     "PK approvalId(S)" \
     "byStatus(PK status, SK requestedAt)" \
     "none"
+  plan_table "Adherence" \
+    "PK userId(S), SK dateActionId(S)" \
+    "none" \
+    "none"
   echo "----------------------------------------"
-  echo "Plan complete. 11 tables would be created."
+  echo "Plan complete. 12 tables would be created."
   exit 0
 fi
 
@@ -407,5 +411,26 @@ APPROVALREQUESTS_JSON=$(cat <<'EOF'
 EOF
 )
 create_table "ApprovalRequests" "$APPROVALREQUESTS_JSON"
+
+# ── Adherence ────────────────────────────────────────────────────────────────
+# PK userId (Cognito sub), SK dateActionId (format: YYYY-MM-DD#actionId).
+# Attributes: completedAt (ISO), value (number, optional), notes (string, optional).
+# No GSIs in v1; add byActionDate later if reporting requires it.
+ADHERENCE_JSON=$(cat <<'EOF'
+{
+  "TableName": "Adherence",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {"AttributeName": "userId",       "AttributeType": "S"},
+    {"AttributeName": "dateActionId", "AttributeType": "S"}
+  ],
+  "KeySchema": [
+    {"AttributeName": "userId",       "KeyType": "HASH"},
+    {"AttributeName": "dateActionId", "KeyType": "RANGE"}
+  ]
+}
+EOF
+)
+create_table "Adherence" "$ADHERENCE_JSON"
 
 log "All tables provisioned in $REGION."

@@ -69,6 +69,23 @@ export type AppConfig = {
   valueJson: Scalars['AWSJSON']['output'];
 };
 
+export type AdherenceEntry = {
+  __typename?: 'AdherenceEntry';
+  userId: Scalars['ID']['output'];
+  dateActionId: Scalars['String']['output'];
+  completedAt: Scalars['AWSDateTime']['output'];
+  value?: Maybe<Scalars['Float']['output']>;
+  notes?: Maybe<Scalars['String']['output']>;
+};
+
+export type RecordAdherenceInput = {
+  date: Scalars['AWSDate']['input'];
+  actionId: Scalars['String']['input'];
+  completed: Scalars['Boolean']['input'];
+  value?: InputMaybe<Scalars['Float']['input']>;
+  notes?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Event = {
   __typename?: 'Event';
   eventId: Scalars['ID']['output'];
@@ -486,6 +503,13 @@ export type UpsertMyProfileInput = {
   auditTop3?: InputMaybe<Scalars['AWSJSON']['input']>;
   auditCompletedAt?: InputMaybe<Scalars['AWSDateTime']['input']>;
   intakeAnswers?: InputMaybe<Scalars['AWSJSON']['input']>;
+  eatingWindowStart?: InputMaybe<Scalars['String']['input']>;
+  eatingWindowEnd?: InputMaybe<Scalars['String']['input']>;
+  weeklyZoomAttestedAt?: InputMaybe<Scalars['AWSDateTime']['input']>;
+  weeklyZoomAttestedEventId?: InputMaybe<Scalars['ID']['input']>;
+  bonusTargetsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  glpStatus?: InputMaybe<Scalars['String']['input']>;
+  weekUnlocked?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UpsertProgramInput = {
@@ -550,6 +574,13 @@ export type UserProfile = {
   auditTop3?: Maybe<Scalars['AWSJSON']['output']>;
   auditCompletedAt?: Maybe<Scalars['AWSDateTime']['output']>;
   intakeAnswers?: Maybe<Scalars['AWSJSON']['output']>;
+  eatingWindowStart?: Maybe<Scalars['String']['output']>;
+  eatingWindowEnd?: Maybe<Scalars['String']['output']>;
+  weeklyZoomAttestedAt?: Maybe<Scalars['AWSDateTime']['output']>;
+  weeklyZoomAttestedEventId?: Maybe<Scalars['ID']['output']>;
+  bonusTargetsEnabled?: Maybe<Scalars['Boolean']['output']>;
+  glpStatus?: Maybe<Scalars['String']['output']>;
+  weekUnlocked?: Maybe<Scalars['Int']['output']>;
 };
 
 export type UserProfileConnection = {

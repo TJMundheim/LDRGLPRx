@@ -19,6 +19,7 @@ export interface ApiStackProps extends cdk.StackProps {
   contactTable?: dynamodb.ITable;
   eventsTable?: dynamodb.ITable;
   eventRsvpsTable?: dynamodb.ITable;
+  adherenceTable?: dynamodb.ITable;
 }
 
 const RESOLVERS_DIR = path.join(__dirname, '..', 'resolvers');
@@ -86,6 +87,14 @@ export class ApiStack extends cdk.Stack {
         sortKey: { name: 'contactId', type: dynamodb.AttributeType.STRING },
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       });
+    const adherenceTable =
+      props.adherenceTable ?? new dynamodb.Table(this, 'StubAdherence', {
+        tableName: `${id}-Adherence`,
+        billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+        partitionKey: { name: 'userId', type: dynamodb.AttributeType.STRING },
+        sortKey: { name: 'dateActionId', type: dynamodb.AttributeType.STRING },
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      });
 
     this.api = new appsync.GraphqlApi(this, 'Api', {
       name: 'clientportal-api',
@@ -122,6 +131,7 @@ export class ApiStack extends cdk.Stack {
     const dsContact = this.api.addDynamoDbDataSource('ContactDS', contactTable);
     const dsEvents = this.api.addDynamoDbDataSource('EventsDS', eventsTable);
     const dsEventRsvps = this.api.addDynamoDbDataSource('EventRsvpsDS', eventRsvpsTable);
+    const dsAdherence = this.api.addDynamoDbDataSource('AdherenceDS', adherenceTable);
 
     const code = (file: string) =>
       appsync.Code.fromAsset(path.join(RESOLVERS_DIR, file));
@@ -180,6 +190,8 @@ export class ApiStack extends cdk.Stack {
     unitResolver('UpcomingEventsResolver', 'Query', 'upcomingEvents', dsEvents, 'upcomingEvents.js');
     unitResolver('RsvpEventResolver', 'Mutation', 'rsvpEvent', dsEventRsvps, 'rsvpEvent.js');
     unitResolver('ListProtegesResolver', 'Query', 'listProteges', dsContact, 'listProteges.js');
+    unitResolver('RecordAdherenceResolver', 'Mutation', 'recordAdherence', dsAdherence, 'recordAdherence.js');
+    unitResolver('ListMyAdherenceResolver', 'Query', 'listMyAdherence', dsAdherence, 'listMyAdherence.js');
 
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });
