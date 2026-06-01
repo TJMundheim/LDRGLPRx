@@ -56,4 +56,22 @@ export const SOLUTIONS: Record<string, SolutionRow> = {
     // Testosterone-specific consult; no basicSkuId — labs are mandatory for any TRT script.
     rx: { skuId: 'consult-hormone', name: 'Testosterone consult — TRT candidacy', tagline: 'Telemedicine TRT consult + mandatory hormone panel labs. Required for any testosterone prescription.' },
   },
+  'regenerative-medicine': {
+    otc: null,
+    rx: {
+      skuId: 'consult-comprehensive',
+      basicSkuId: 'consult-basic',
+      name: 'Regenerative-medicine consult',
+      tagline: 'Telemedicine consult to evaluate regenerative-medicine candidacy (stem cell, exosome, peptide protocols). Most treatments require an in-office visit with one of our network physicians.',
+    },
+  },
+  'substance-use': {
+    otc: null,
+    rx: {
+      skuId: 'consult-comprehensive',
+      basicSkuId: 'consult-basic',
+      name: 'Substance-use consult',
+      tagline: 'Telemedicine consult to evaluate alcohol or substance-related risk and plan a reduction or cessation protocol with medical support.',
+    },
+  },
 };

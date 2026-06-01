@@ -76,91 +76,55 @@ const robots = "index, follow";
   </div>
 
   <div class="container hp-hero-content">
-    <p class="hp-hero-subhead-top">Begin with the end in mind. The next twenty years of your mind are decided by what you do now.</p>
+    <h1 class="hp-hero-headline-new">Don't let cognitive decline rob you of your identity and your dignity!</h1>
+
+    <p class="hp-hero-punch">Take action now. Don't roll the dice.</p>
+
+    <p class="hp-hero-leadin">If you're concerned about which factors — or combination of factors — are driving your risk of Alzheimer's, dementia, or cognitive decline, find out what to focus on first.</p>
+
+    <p class="hp-hero-subhead-bottom">Ten questions. Five minutes. A small commitment to protect your future self.</p>
 
     <a href="/assessment" class="btn-primary-xl">Take the Personalized Assessment &rarr;</a>
-
-    <p class="hp-hero-subhead-bottom">Four minutes. Eight questions. Your top three priorities — ranked, ordered, and ready to act on.</p>
-
-    <p class="hp-hero-scroll-hint">Want to learn more first? Scroll down &darr;</p>
   </div>
 </section>
-
-<!-- Sticky mobile audit CTA (hidden until hero scrolls off) -->
-<a href="/assessment" class="hp-sticky-audit" id="hp-sticky-audit" aria-label="Take the Personalized Assessment">Take the Personalized Assessment &rarr;</a>
-<script is:inline>
-  (function () {
-    var hero = document.getElementById('hp-hero-survey');
-    var sticky = document.getElementById('hp-sticky-audit');
-    if (!hero || !sticky || !('IntersectionObserver' in window)) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) sticky.classList.remove('is-visible');
-        else sticky.classList.add('is-visible');
-      });
-    }, { rootMargin: '0px 0px -80% 0px' });
-    io.observe(hero);
-    window.addEventListener('scroll', function () {
-      var nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 120);
-      sticky.classList.toggle('at-bottom', nearBottom);
-    }, { passive: true });
-  })();
-</script>
 
 <!-- ===== QUICK-BUY CATEGORY BAND — 8 categories below the hero ===== -->
 <section class="quick-buy-band">
   <div class="container">
     <p class="quick-buy-kicker">Start where you need it most</p>
     <p class="quick-buy-headline">Tired of how you feel — and how the people who love you have stopped looking at you the way they used to?</p>
-    <p class="quick-buy-subhead">These 8 categories aren't separate problems. They compound. Together they decide whether the next 20 years are sharp, present, and worth living — or a slow disappearance from your own life and your family's.</p>
+    <p class="quick-buy-subhead">These aren't separate problems. They compound — and ignoring them is a decision.</p>
     <div class="quick-buy-grid">
-      <a href="/solutions/gut#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Gut</span>
-        <span class="quick-buy-sub">Leaky gut · microbiome</span>
-        <span class="quick-buy-hook">Your patience and presence are downstream of your gut. Fix the source.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/solutions/gut" class="quick-buy-tile">
+        <span class="quick-buy-label">Leaky, inflamed gut</span>
       </a>
-      <a href="/solutions/sleep#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Sleep</span>
-        <span class="quick-buy-sub">Deep sleep · recovery</span>
-        <span class="quick-buy-hook">The man who sleeps 5 hours at 50 isn't the man at 65. Choose.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/solutions/hormones" class="quick-buy-tile">
+        <span class="quick-buy-label">Running on low testosterone</span>
       </a>
-      <a href="/solutions/weight#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Weight</span>
-        <span class="quick-buy-sub">GLP-1 · body composition</span>
-        <span class="quick-buy-hook">The scale is feedback. The brain fog, the libido, how you carry yourself — all downstream.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/solutions/erectile-dysfunction" class="quick-buy-tile">
+        <span class="quick-buy-label">Can't perform in the bedroom</span>
       </a>
-      <a href="/solutions/nutrition#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Nutrition</span>
-        <span class="quick-buy-sub">Real food · sourcing</span>
-        <span class="quick-buy-hook">Your kitchen is the most consequential room in your house.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/solutions/weight" class="quick-buy-tile">
+        <span class="quick-buy-label">Overweight or obese</span>
       </a>
-      <a href="/solutions/erectile-dysfunction#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Sexual</span>
-        <span class="quick-buy-sub">ED · libido · performance</span>
-        <span class="quick-buy-hook">When she stops looking at you, it's almost never about the relationship. It's the canary.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/solutions/cognitive" class="quick-buy-tile">
+        <span class="quick-buy-label">Brain fog & forgetting names</span>
       </a>
-      <a href="/solutions/environment#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Environment</span>
-        <span class="quick-buy-sub">Light · air · water · EMF</span>
-        <span class="quick-buy-hook">Light, air, water, EMF — quietly compounding for 30 years before the bill comes due.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/solutions/peptides" class="quick-buy-tile">
+        <span class="quick-buy-label">Aging faster than you should</span>
       </a>
-      <a href="/solutions/cognitive#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Cognitive</span>
-        <span class="quick-buy-sub">Brain fog · memory · focus</span>
-        <span class="quick-buy-hook">Forgetting names. Watching your family notice. Begin with the end in mind — or arrive at it by accident.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/regenerative-medicine" class="quick-buy-tile">
+        <span class="quick-buy-label">Already diagnosed</span>
+        <span class="quick-buy-sub">Cutting-edge scientific breakthroughs may still help — before it's too late.</span>
       </a>
-      <a href="/solutions/hormones#solution" class="quick-buy-tile">
-        <span class="quick-buy-label">Hormones</span>
-        <span class="quick-buy-sub">TRT · testosterone · energy</span>
-        <span class="quick-buy-hook">Low T is the upstream driver of everything you're tired of. One panel changes the conversation.</span>
-      <span class="quick-buy-cta">Solution &rarr;</span>
+      <a href="/solutions/chronic-conditions" class="quick-buy-tile">
+        <span class="quick-buy-label">Chronic conditions stacking up</span>
+      </a>
+      <a href="/solutions/substance-use" class="quick-buy-tile">
+        <span class="quick-buy-label">Excessive alcohol</span>
+      </a>
+      <a href="/solutions/environment/light" class="quick-buy-tile">
+        <span class="quick-buy-label">Light wrecking your sleep</span>
       </a>
     </div>
   </div>
@@ -169,9 +133,9 @@ const robots = "index, follow";
 <!-- ===== LAYER C — Long-form wake-up paragraph between CTA band and hero ===== -->
 <section class="hp-wakeup">
   <div class="container hp-wakeup-inner">
-    <p class="hp-wakeup-lead">Most men accept the slow disappearance.</p>
-    <p>The brain fog gets labeled <em>"I'm just tired."</em> The libido drop becomes <em>"we're just at that stage."</em> The patience that used to be there for the kids gets blamed on work. The way your wife stopped reaching for you gets quietly filed away as something neither of you talks about.</p>
-    <p>All of it is feedback. Hormones, sleep, gut, vascular, cognitive — every system is whispering to you. The next 20 years are decided by whether you listen.</p>
+    <p class="hp-wakeup-lead">Most men accept the slow disappearance. Don't be one of them.</p>
+    <p>The brain fog gets labeled <em>"I'm just tired."</em> The libido drop becomes <em>"we're just at that stage."</em> The patience you used to have for your kids gets blamed on work. The way your wife stopped reaching for you gets quietly filed away.</p>
+    <p>All of it is feedback. Every system is whispering to you. Ignoring it is a choice — and it has a price.</p>
     <p class="hp-wakeup-tag"><em>Begin with the end in mind. Or arrive at the end by accident.</em></p>
   </div>
 </section>
@@ -181,6 +145,7 @@ const robots = "index, follow";
   <div class="container hp-gap-inner">
     <p class="hp-gap-stat"><span class="hp-gap-pct">99%</span> of Americans value brain health equally to physical health.</p>
     <p class="hp-gap-stat hp-gap-stat--punch"><span class="hp-gap-pct">9%</span> know how to maintain it.</p>
+    <p class="hp-gap-blindspot">That 90-point gap is your blind spot.</p>
     <p class="hp-gap-footnote">Source: Alzheimer's Association, <a href="https://www.alz.org/alzheimers-dementia/facts-figures" target="_blank" rel="noopener">2026 Alzheimer's Disease Facts and Figures</a>. The 90-point gap is the reason My4MLife exists.</p>
   </div>
 </section>
@@ -189,9 +154,10 @@ const robots = "index, follow";
 <section class="hp-section hp-4m-section">
   <div class="container">
     <div class="hp-section-header">
+      <p class="hp-4m-tagline">Begin with the end in mind.</p>
       <h2 class="hp-4m-header">The 4M System</h2>
       <p class="hp-4m-explainer">
-        The 4M system is the path: <strong>Mind</strong> is the destination — work the <strong>Muscle</strong>, <strong>Mitigate</strong> the harm, <strong>Motivate</strong> the change, return to a sharper Mind. Recursive, by design.
+        <strong>Mind</strong> (the destination) · <strong>Muscle</strong> (the engine) · <strong>Mitigate</strong> (remove the harm) · <strong>Motivate</strong> (make it stick).
       </p>
     </div>
 
@@ -238,7 +204,7 @@ const robots = "index, follow";
 <!-- ===== AUDIT REINJECTION STRIP 1 ===== -->
 <section class="hp-audit-strip">
   <div class="container hp-audit-strip-inner">
-    <p class="hp-audit-strip-copy">Ready? Take the Personalized Assessment and find your top three in four minutes.</p>
+    <p class="hp-audit-strip-copy">Ten questions. Five minutes. Find out which factors are driving your risk — and what to fix first.</p>
     <a href="/assessment" class="btn-primary-xl btn-primary-xl--compact">Take the Personalized Assessment &rarr;</a>
   </div>
 </section>
@@ -255,9 +221,9 @@ const robots = "index, follow";
 
       <a href="/assessment" class="proto-card">
         <div class="proto-body proto-body-tall">
-          <span class="proto-step">Step 1 — 3 minutes</span>
+          <span class="proto-step">Step 1 — 5 minutes</span>
           <h3>Take the Survey</h3>
-          <p>You can't <em>begin with the end in mind</em> until you know where you're starting. An 8-question personalized assessment ranks your priorities and shows you the path from where you are to where you want to be. No purchase required, no card.</p>
+          <p>You can't <em>begin with the end in mind</em> until you know where you're starting. A 10-question personalized assessment ranks your priorities and shows you the path from where you are to where you want to be. No purchase required, no card.</p>
           <span class="proto-link">Start the assessment &rarr;</span>
         </div>
       </a>
@@ -358,7 +324,7 @@ const robots = "index, follow";
 <!-- ===== AUDIT REINJECTION STRIP 2 ===== -->
 <section class="hp-audit-strip hp-audit-strip--alt">
   <div class="container hp-audit-strip-inner">
-    <p class="hp-audit-strip-copy">Still here? Stop guessing. The Personalized Assessment ranks your 4M priorities so you know what to fix first.</p>
+    <p class="hp-audit-strip-copy">Still here? Every day you wait, the gap widens. Ten questions. Five minutes.</p>
     <a href="/assessment" class="btn-primary-xl btn-primary-xl--compact">Take the Personalized Assessment &rarr;</a>
   </div>
 </section>
@@ -421,7 +387,7 @@ const robots = "index, follow";
 <!-- ===== AUDIT REINJECTION STRIP 3 ===== -->
 <section class="hp-audit-strip">
   <div class="container hp-audit-strip-inner">
-    <p class="hp-audit-strip-copy">Last chance &mdash; take the Personalized Assessment and see what your body is actually telling you.</p>
+    <p class="hp-audit-strip-copy">Stop guessing. The assessment ranks your 4M priorities so you know what to fix first.</p>
     <a href="/assessment" class="btn-primary-xl btn-primary-xl--compact">Take the Personalized Assessment &rarr;</a>
   </div>
 </section>
@@ -611,7 +577,7 @@ const robots = "index, follow";
 }
 .quick-buy-grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.8rem;
 }
 .quick-buy-tile {
@@ -1274,6 +1240,48 @@ const robots = "index, follow";
   margin: 0 auto 2rem;
   max-width: 680px;
   text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.hp-hero-headline-new {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: white;
+  margin: 0 auto 1.4rem;
+  max-width: 880px;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.55);
+}
+.hp-hero-punch {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.1rem, 1.9vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+  margin: 0 auto 1.8rem;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+}
+.hp-hero-leadin {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.98rem, 1.4vw, 1.08rem);
+  line-height: 1.65;
+  color: rgba(255,255,255,0.92);
+  margin: 0 auto 1.6rem;
+  max-width: 680px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+}
+.hp-gap-blindspot {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--primary);
+  margin: 1.2rem 0 0;
+}
+.hp-4m-tagline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: #e2b84a;
+  margin: 0 0 0.8rem;
 }
 .hp-hero-subhead-bottom {
   font-family: 'Inter', sans-serif;

@@ -110,4 +110,39 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     priorityTier: true,
     solutionSlug: 'hormones',
   },
+  {
+    id: 'already-diagnosed',
+    n: '09',
+    label: 'Already diagnosed',
+    prompt: "Have you already been diagnosed with mild cognitive decline, early dementia, Alzheimer's, or Parkinson's?",
+    scoreGuide: "0 = No concerns, no family history · 1 = Family history of cognitive decline or related diagnosis · 2 = Occasional concerning symptoms (brain fog, memory lapses) · 3 = Regular symptoms I'm noticing but undiagnosed · 4 = Mild cognitive decline diagnosis or formal evaluation underway · 5 = Diagnosed with Alzheimer's, dementia, Parkinson's, or related condition",
+    categoryNote: "If you're already in this category, regenerative medicine becomes time-sensitive.",
+    priorityTier: true,
+    solutionSlug: 'regenerative-medicine',
+  },
+  {
+    id: 'alcohol',
+    n: '10',
+    label: 'Excessive alcohol',
+    prompt: 'How much alcohol do you consume?',
+    scoreGuide: "0 = I don't drink · 1 = Up to 2 drinks per week · 2 = 3-7 drinks per week, never more than 2 per sitting · 3 = More than 7 drinks per week, OR more than 2 per sitting regularly · 4 = Daily drinker (1-2 drinks per day) · 5 = Daily heavy drinker (3+ drinks per day)",
+    categoryNote: 'Alcohol disrupts gut, sleep, hormones, and cognition simultaneously. Cutting back affects every other pillar.',
+    priorityTier: true,
+    solutionSlug: 'substance-use',
+  },
 ];
+
+/**
+ * Bonus map — additive weight applied to raw score in selectTop3.
+ * 'already-diagnosed' gets +3 so a Yes (≥4) dominates the top-3 surface.
+ * 'alcohol' gets +1 — moderate weight so it ranks only when severe.
+ */
+export const AUDIT_BONUS_BY_ID: Record<string, number> = {
+  'gut-microbiome': 2,
+  sleep: 2,
+  'weight-body-fat': 2,
+  'erectile-dysfunction': 1,
+  'hormone-balance': 1,
+  'already-diagnosed': 3,
+  alcohol: 1,
+};
