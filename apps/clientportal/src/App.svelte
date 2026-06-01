@@ -9,7 +9,7 @@
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
   import IntakeModule from './lib/components/intake/IntakeModule.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
-  import { getMyProfile, upsertMyProfile } from './lib/api/operations';
+  import { getMyProfile, upsertMyProfile, recordAdherence } from './lib/api/operations';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
   import EatingWindowModal from './lib/components/EatingWindowModal.svelte';
   import SettingsView from './lib/components/SettingsView.svelte';
@@ -263,7 +263,8 @@
   // This is the documented seam the renderer uses — components that call
   // setField/setScore/etc. directly should go through these functions too.
   type PortalAction =
-    | 'goTo' | 'setScore' | 'toggleFactor' | 'setFactorTab' | 'toggleDay' | 'setSupp' | 'recalc';
+    | 'goTo' | 'setScore' | 'toggleFactor' | 'setFactorTab' | 'toggleDay' | 'setSupp' | 'recalc'
+    | 'logAdherence';
   function portalAction(action: PortalAction, ...args: unknown[]): void {
     switch (action) {
       case 'goTo':         goTo(String(args[0]), args[1] as Record<string, string> | undefined); break;
@@ -273,8 +274,28 @@
       case 'toggleDay':    toggleDay(args[0] as 'morn' | 'cold', Number(args[1]), String(args[2])); break;
       case 'setSupp':      setSupp(String(args[0]), args[1] as 'Yes' | 'No'); break;
       case 'recalc':       showToast('Recalculated'); break;
+      case 'logAdherence': void logAdherence(String(args[0])); break;
     }
     // Structural change — trigger re-render.
+    renderTick++;
+  }
+
+  // Week 1 adherence single-tap logger.
+  // localStorage cache key pattern: `adherence-cache-<YYYY-MM-DD>-<actionId>` = '1'
+  // The cache lets renderer.ts show counters without an API round-trip.
+  // DDB (via recordAdherence mutation) is the source of truth.
+  async function logAdherence(actionId: string): Promise<void> {
+    const d = new Date();
+    const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    try {
+      localStorage.setItem(`adherence-cache-${date}-${actionId}`, '1');
+    } catch { /* ignore */ }
+    try {
+      await recordAdherence({ date, actionId, completed: true });
+      showToast('Logged');
+    } catch (e) {
+      console.error('[adherence] recordAdherence failed', e);
+    }
     renderTick++;
   }
 

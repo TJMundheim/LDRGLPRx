@@ -708,6 +708,60 @@ function renderDash(W: Workbook): string {
   </div>`;
 }
 
+// ── Week 1 adherence helpers ────────────────────────────────────────────────
+// localStorage cache key pattern: `adherence-cache-<YYYY-MM-DD>-<actionId>` = '1'
+// For weekly counters we read all 7 dates of the current ISO week and count
+// entries for that actionId. App.svelte writes the same keys when logAdherence
+// succeeds; the source of truth is DDB, this is purely a render-time cache.
+function todayYMD(): string {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+function weekDates(): string[] {
+  const out: string[] = [];
+  const today = new Date();
+  const dow = today.getDay(); // 0 = Sun
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - ((dow + 6) % 7));
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    out.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
+  }
+  return out;
+}
+function adhDoneToday(actionId: string): boolean {
+  if (typeof localStorage === 'undefined') return false;
+  return !!localStorage.getItem(`adherence-cache-${todayYMD()}-${actionId}`);
+}
+function adhCountThisWeek(actionId: string): number {
+  if (typeof localStorage === 'undefined') return 0;
+  return weekDates().filter(d => !!localStorage.getItem(`adherence-cache-${d}-${actionId}`)).length;
+}
+
+function w1ActiveDaily(actionId: string, label: string): string {
+  const done = adhDoneToday(actionId);
+  return `<div class="w1-action-row${done ? ' done' : ''}" onclick="portalAction('logAdherence','${actionId}')">
+    <div class="w1-action-text">${label}</div>
+    <div class="w1-action-state ${done ? '' : 'pending'}">${done ? '✓ Done today' : 'Tap to log'}</div>
+  </div>`;
+}
+function w1ActiveWeekly(actionId: string, label: string, target: number): string {
+  const count = adhCountThisWeek(actionId);
+  const doneToday = adhDoneToday(actionId);
+  const reached = count >= target;
+  return `<div class="w1-action-row${reached ? ' done' : ''}" onclick="portalAction('logAdherence','${actionId}')">
+    <div class="w1-action-text">${label}</div>
+    <div class="w1-action-state ${reached ? '' : 'pending'}">${count}/${target}${doneToday && !reached ? ' · logged today' : ''}</div>
+  </div>`;
+}
+function w1DimWrap(unlockWeek: number, inner: string): string {
+  return `<div class="w1-dim"><span class="w1-dim-badge" title="Available after Week 1 — keep the basics consistent first.">Unlocks Week ${unlockWeek}</span>${inner}</div>`;
+}
+
 function renderW1(ctx: RenderContext): string {
   const { W } = ctx;
 
@@ -764,7 +818,11 @@ function renderW1(ctx: RenderContext): string {
 
   <div class="card">
     ${pillarHeader('M4', 'MOTIVATE — Foundation', '#6B5ED4', 'Why are you here? Lock in your reason before anything else.')}
-    <div style="margin-bottom:14px">
+    <div class="w1-active">
+      <div class="w1-active-label">This week</div>
+      ${w1ActiveWeekly('motivate-zoom', "Attend (or watch the recording of) this week's Protégé Zoom", 1)}
+    </div>
+    ${w1DimWrap(2, `<div style="margin-bottom:14px">
     ${motivationOptions.map((opt, i) => `
       <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;
         background:${W.motivation === String(i) ? 'rgba(107,94,212,.07)' : '#FFFFFF'};
@@ -791,12 +849,17 @@ function renderW1(ctx: RenderContext): string {
       'Write your "why" above — be specific about the man you want to be at 70',
       'Complete the Morning Protocol Level 1 every morning starting tomorrow — fasted, outdoors',
       'Cold shower closes every morning from Day 1 — 1 minute minimum, non-negotiable'
-    ], '#6B5ED4')}
+    ], '#6B5ED4')}`)}
   </div>
 
   <div class="card">
     ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Review your assessment results. Gut first — what you remove matters more than what you add.')}
-    <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
+    <div class="w1-active">
+      <div class="w1-active-label">This week</div>
+      ${w1ActiveDaily('mitigate-biome-ns', 'Take Biome NS Ultra (with breakfast)')}
+      ${w1ActiveDaily('mitigate-eating-window', 'Stayed in eating window today')}
+    </div>
+    ${w1DimWrap(2, `<div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
       Your 8-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
     </div>
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Assessment →</button>
@@ -831,12 +894,16 @@ function renderW1(ctx: RenderContext): string {
           <input id="w1-commitment-${i}" value="${esc(W.commitments[i] ?? '')}" placeholder="Be specific — what, when, how..."
             oninput="portalField('commitments.${i}',this.value)">
         </div>`).join('')}
-    </div>
+    </div>`)}
   </div>
 
   <div class="card">
     ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', '#E05C2A', 'Record where you are starting.')}
-    <div class="card-title">Body Composition — Week 1 Baseline</div>
+    <div class="w1-active">
+      <div class="w1-active-label">This week</div>
+      ${w1ActiveWeekly('muscle-strength', 'Strength session — countertop push-ups 3×10 + supported air squats 3×10', 2)}
+    </div>
+    ${w1DimWrap(2, `<div class="card-title">Body Composition — Week 1 Baseline</div>
     ${(() => {
       // Pre-fill weight from basics-v1 (captured in Stage 1 intake)
       let basicsWeight = '';
@@ -875,10 +942,10 @@ function renderW1(ctx: RenderContext): string {
     ${Number(W.protein) > 0 ? `<div style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px">
       <div style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein) * 0.9)}g</div>
       <div style="font-size:10px;color:#5A8A64">protein per day target</div>
-    </div>` : ''}
+    </div>` : ''}`)}
   </div>
 
-  <div class="card" style="border-left:4px solid #E05C2A">
+  ${w1DimWrap(2, `<div class="card" style="border-left:4px solid #E05C2A">
     <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
     <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:#E05C2A;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK</div>
@@ -888,9 +955,17 @@ function renderW1(ctx: RenderContext): string {
     </div>
 
     ${workoutLog(W, 1)}
+  </div>`)}
+
+  <div class="card">
+    ${pillarHeader('M3', 'MIND — Circadian Anchor', '#2E7FD9', 'Anchor your day with light. The brain runs on signal, not effort.')}
+    <div class="w1-active">
+      <div class="w1-active-label">This week</div>
+      ${w1ActiveWeekly('mind-sunlight-walk', 'Fasted morning sunlight walk (10 min, no food yet, eyes toward sun, sunglasses off)', 2)}
+    </div>
   </div>
 
-  <div class="card" style="border-color:#2E7FD955;background:rgba(46,127,217,.04)">
+  ${w1DimWrap(2, `<div class="card" style="border-color:#2E7FD955;background:rgba(46,127,217,.04)">
     <div class="card-title" style="color:#2E7FD9">How to Box Breathe (~2 minutes daily)</div>
     <ol style="margin:10px 0 12px;padding-left:20px;display:flex;flex-direction:column;gap:7px">
       <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
@@ -908,7 +983,7 @@ function renderW1(ctx: RenderContext): string {
 
   ${renderWeekCogTraining(1)}
 
-  ${renderWeekNutritionSection(1)}`;
+  ${renderWeekNutritionSection(1)}`)}`;
 }
 
 // Audit category id → factor.name in factors.ts. Used to carry the audit
