@@ -43,3 +43,40 @@ production-ready for inner-circle UX testing.
 The double-encoding pattern (parseAwsJson) now wraps all three AWSJSON
 fields: auditTop3, intakeAnswers, workbookJson. Any future AWSJSON
 field added to UserProfile should use the same defensive parse.
+
+## 2026-06-01 — Pricing/tier scrub + Week 1 spec locked
+
+### Done today
+- **Pricing/tier UI removed** from website + app (31 files, 2173 lines deleted). Protégé is the only tier visible; /membership /tiers /4m-cohort redirect to /assessment; AdminDashboard, Sidebar, nudges all scrubbed. Backend `TierId` field on UserProfile retained (operational only). See commit `7a312ad4`.
+- **OTP reload-after-success** fix shipped (`8c6fa960`) — dashboard now populates on first paint instead of needing a manual reload.
+- **App installable on iPhone via Add to Home Screen** — TJ confirmed working.
+- **Week 1 spec written and locked** at `docs/plan/week-1-spec.md` (commits `66b3f6e8` + `19f97311`).
+  - Single track, baby steps, clinical-compliance tone.
+  - 6 actions across 4 pillars (mix of daily + 2×/week).
+  - Anchored on Biome NS Ultra (universal) + 9-to-6 eating window + protein-first breakfast + strength + fasted sunlight walks + weekly Zoom.
+  - BPC-157 included in Week 1 as Rx framed via the consult bundle alongside GLP-1.
+  - Affiliates: ButcherBox + Thrive Market + Amazon links on protein-breakfast tile.
+  - Bonus toggle in profile for self-selecting high achievers.
+  - End-of-week scoreboard (Sun → next Wed Zoom) with adherence stats.
+  - Behavior-triggered Week 2 unlock via honor-system Zoom-attest tap (no Zoom S2S dependency for unlock loop).
+  - Week 1 Zoom opens with ~10-12 min on what late-stage cognitive loss actually looks like — fear from truth, not framing.
+
+### Approved to build (TJ confirmed 2026-06-01 evening)
+Build queue:
+1. Adherence DDB table + recordAdherence AppSync mutation
+2. UserProfile schema additions: `eatingWindowStart`, `eatingWindowEnd`, `weeklyZoomAttestedAt`, `bonusTargetsEnabled`, `glpStatus`
+3. Today view component (replaces current Week 1 page) — daily tiles + this-week tiles + affiliate-placeholder links
+4. End-of-week scoreboard mode (Sun → next Wed)
+5. Eating window picker at signup
+6. Profile / Settings with bonus toggle
+7. AdminDashboard recording-URL paste page (Option a — manual for v1)
+8. Week 1 fear-emphasis footer copy on dashboard
+9. Replace legacy Week 1 renderer.ts content with Today view
+10. End-to-end testing on Mac + iPhone
+
+### Carryover TJ blockers (unchanged)
+- Stripe E2E #1/#2/#3 walkthroughs
+- Bedrock daily token quota increase (optional)
+- Zoom S2S credentials into `zoom-ops-creds` secret (no longer blocking the Week 2 unlock; still needed for future Zoom auto-scheduling + recording webhook)
+- 3 affiliate program signups: ButcherBox, Thrive Market, Amazon Associates (~45 min total, drops codes into `website/src/lib/affiliates.ts`)
+- Phone number for SMS approval v2 (email approvals already working)
