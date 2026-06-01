@@ -21,7 +21,12 @@
 
   let firstName = $state('');
   let email = $state(initialEmail);
-  let loading = $state(false);
+  // When isFreshSignup is true we want loading=true from the FIRST paint so
+  // the form is hidden and the user can't double-fire by clicking 'Send Code'
+  // before the auto-fire's request hits the server. The onMount handler kicks
+  // off the real send. If the auto-fire is skipped (guard hit), we flip
+  // loading back to false so the manual form re-appears.
+  let loading = $state(isFreshSignup && !!initialEmail);
   let error = $state('');
 
   async function requestCode(): Promise<void> {
@@ -51,10 +56,18 @@
   // so different users on the same browser get their own slot. Cleared
   // automatically on Cognito sign-in (full page reload via CodeEntry).
   onMount(() => {
-    if (!isFreshSignup || !initialEmail) return;
+    if (!isFreshSignup || !initialEmail) {
+      loading = false; // ensure manual form is interactive
+      return;
+    }
     const guardKey = `my4m-otp-autosent-${initialEmail.toLowerCase()}`;
     try {
-      if (sessionStorage.getItem(guardKey)) return; // already auto-sent in this session
+      if (sessionStorage.getItem(guardKey)) {
+        // Already auto-sent in this session — show manual form so they can
+        // request again if they need to.
+        loading = false;
+        return;
+      }
       sessionStorage.setItem(guardKey, '1');
     } catch { /* sessionStorage unavailable — fall through */ }
     void requestCode();
@@ -62,37 +75,42 @@
 </script>
 
 <div class="auth-card">
-  <h2>{isFreshSignup ? "You're in. Sending your code…" : 'Sign In / Sign Up — Free Protégé'}</h2>
-  <p class="subtitle">{isFreshSignup ? "We're emailing you a 6-digit code. The next screen will ask for it." : "Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in."}</p>
-  <form onsubmit={handleSubmit}>
-    {#if !isFreshSignup}
-      <label for="firstname-input">First name <span class="optional">(optional — new accounts only)</span></label>
+  <h2>{isFreshSignup && loading ? "You're in. Sending your code…" : isFreshSignup ? "You're in. Let's sign you in." : 'Sign In / Sign Up — Free Protégé'}</h2>
+  <p class="subtitle">{isFreshSignup && loading ? "We're emailing you a 6-digit code. The next screen will ask for it — no need to click anything." : isFreshSignup ? "Tap below to send your 6-digit sign-in code." : "Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in."}</p>
+  {#if isFreshSignup && loading}
+    <!-- Auto-send in flight: no form. The next screen appears on success. -->
+    <div class="autosend-spinner" aria-hidden="true"></div>
+  {:else}
+    <form onsubmit={handleSubmit}>
+      {#if !isFreshSignup}
+        <label for="firstname-input">First name <span class="optional">(optional — new accounts only)</span></label>
+        <input
+          id="firstname-input"
+          type="text"
+          autocomplete="given-name"
+          placeholder="e.g. Alex"
+          bind:value={firstName}
+          disabled={loading}
+        />
+      {/if}
+      <label for="email-input">Email address</label>
       <input
-        id="firstname-input"
-        type="text"
-        autocomplete="given-name"
-        placeholder="e.g. Alex"
-        bind:value={firstName}
+        id="email-input"
+        type="email"
+        autocomplete="email"
+        placeholder="you@example.com"
+        bind:value={email}
+        required
         disabled={loading}
       />
-    {/if}
-    <label for="email-input">Email address</label>
-    <input
-      id="email-input"
-      type="email"
-      autocomplete="email"
-      placeholder="you@example.com"
-      bind:value={email}
-      required
-      disabled={loading}
-    />
-    {#if error}
-      <p class="error" role="alert">{error}</p>
-    {/if}
-    <button type="submit" disabled={loading || !email.trim()}>
-      {loading ? 'Sending…' : 'Send Code'}
-    </button>
-  </form>
+      {#if error}
+        <p class="error" role="alert">{error}</p>
+      {/if}
+      <button type="submit" disabled={loading || !email.trim()}>
+        {loading ? 'Sending…' : 'Send Code'}
+      </button>
+    </form>
+  {/if}
 </div>
 
 <style>
@@ -136,4 +154,14 @@
   }
   button:disabled { background: #a0c8b8; cursor: not-allowed; }
   button:not(:disabled):hover { background: #17875f; }
+  .autosend-spinner {
+    width: 36px;
+    height: 36px;
+    margin: 8px auto 0;
+    border: 3px solid #d8e8dc;
+    border-top-color: #1D9E75;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>

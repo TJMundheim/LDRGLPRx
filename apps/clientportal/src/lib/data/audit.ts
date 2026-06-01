@@ -128,4 +128,24 @@ export const AUDIT_CATEGORIES: AuditCategory[] = [
       return genericScore(answers['hormone-balance'] ?? {});
     },
   },
+  // 2026-06-01: Added the 2 new website categories so the app's full-assessment
+  // view + total score include all 10 questions, matching the website.
+  {
+    id: 'already-diagnosed',
+    label: 'Already diagnosed',
+    priorityTier: true,
+    score(a) {
+      const answers = a as Record<string, Record<string, unknown>>;
+      return genericScore(answers['already-diagnosed'] ?? {});
+    },
+  },
+  {
+    id: 'alcohol',
+    label: 'Excessive alcohol',
+    priorityTier: true,
+    score(a) {
+      const answers = a as Record<string, Record<string, unknown>>;
+      return genericScore(answers['alcohol'] ?? {});
+    },
+  },
 ];

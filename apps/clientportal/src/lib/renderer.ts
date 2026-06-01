@@ -1948,10 +1948,10 @@ function renderAuditReview(): string {
       </div>
       <div style="font-size:52px;font-weight:800;color:${band.color};line-height:1">${total}</div>
     </div>
-    <div style="font-size:11px;color:#6A8A6E;margin-top:6px">Range: 0 (best) – 200 (most room for improvement). Score each area is 0–10.</div>
+    <div style="font-size:11px;color:#6A8A6E;margin-top:6px">Lower is better. Each category scores 0–10.</div>
   </div>
   <div class="card">
-    <div class="card-title">All 20 Categories</div>
+    <div class="card-title">All ${AUDIT_CATEGORIES.length} Categories</div>
     ${rows}
   </div>`;
 }
