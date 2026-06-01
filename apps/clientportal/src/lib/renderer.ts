@@ -192,7 +192,7 @@ export function renderGutAssessment(): string {
         </div>
       </div>
       <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${esc(band.body)}</div>
-      <a href="https://my4mlife.com/membership" style="display:inline-block;background:${ac};color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
+      <a href="https://my4mlife.com/assessment" style="display:inline-block;background:${ac};color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
       <div style="margin-top:16px">
         <button onclick="gutAssessmentAction('retake')"
           style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>

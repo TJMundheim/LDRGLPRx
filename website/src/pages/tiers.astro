@@ -1,17 +1,4 @@
 ---
-const canonical = "https://www.my4mlife.com/membership";
+// Deprecated 2026-06-01: tier-based membership UI removed.
+return Astro.redirect('/assessment', 301);
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<title>Membership — My4MLife</title>
-<meta name="robots" content="noindex" />
-<link rel="canonical" href={canonical} />
-<meta http-equiv="refresh" content="0; url=/membership" />
-<script>window.location.replace('/membership');</script>
-</head>
-<body>
-<p>Membership tiers have moved. <a href="/membership">Continue to /membership</a>.</p>
-</body>
-</html>

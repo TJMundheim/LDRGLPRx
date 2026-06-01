@@ -158,9 +158,9 @@ const WEEK_COPY: Record<number, { title: string; actionLabel: string; actionHref
     actionHref: '#week4',
   },
   4: {
-    title: 'Month 1 complete. Take the re-assessment to see your before/after. Then — Insider opens here.',
-    actionLabel: 'See Insider tiers →',
-    actionHref: '/membership',
+    title: 'Month 1 complete. Take the re-assessment to see your before/after.',
+    actionLabel: 'Back to dashboard →',
+    actionHref: '#dash',
   },
 };
 
@@ -243,36 +243,13 @@ function triggerSubstanceUseLdn(): void {
 }
 
 // ── Trigger D — Free-tier upgrade nudge ──────────────────────────────────────
+// Removed 2026-06-01: no tier-upgrade UX. Protégé is the only tier and it's free.
 function triggerUpgradeNudge(): void {
-  const intakeComplete = !!ls(INTAKE_COMPLETE_KEY);
-  if (!intakeComplete) return;
-
-  const intakeDateRaw = ls(INTAKE_DATE_KEY);
-  if (!intakeDateRaw || daysSince(intakeDateRaw) < 14) return;
-
-  const lastUpgrade = ls(LAST_UPGRADE_NUDGE_KEY);
-  if (daysSince(lastUpgrade) < 7) return;
-
-  // Check visited screens count
-  try {
-    const raw = ls(SCREENS_VISITED_KEY);
-    const visited: string[] = raw ? JSON.parse(raw) : [];
-    if (visited.length < 5) return;
-  } catch { return; }
-
-  const id = 'upgrade-nudge';
-  if (isDismissed(id)) return;
-
-  lsSet(LAST_UPGRADE_NUDGE_KEY, new Date().toISOString());
-
-  push({
-    id,
-    title: "Ready for what's next?",
-    body: "You've put in real work. Insider unlocks live coaching with Dr. TJ, member-only Rx + supplement pricing, and the deeper monthly protocols.",
-    action: { label: 'See Insider tiers →', href: '/membership' },
-    tone: 'info',
-    autoDismissMs: 10_000,
-  });
+  // Touch unused storage-key refs to keep the export surface stable.
+  void LAST_UPGRADE_NUDGE_KEY;
+  void INTAKE_DATE_KEY;
+  void SCREENS_VISITED_KEY;
+  void INTAKE_COMPLETE_KEY;
 }
 
 // ── Screen tracking ───────────────────────────────────────────────────────────

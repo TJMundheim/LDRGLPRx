@@ -1,17 +1,4 @@
 ---
-// Legacy URL — redirects to /membership (canonical IA as of 2026-04-28).
-// Kept as a stub for SEO / external link continuity.
+// Deprecated 2026-06-01: legacy cohort URL; redirected to /assessment.
+return Astro.redirect('/assessment', 301);
 ---
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Redirecting to Membership — My4MLife</title>
-    <link rel="canonical" href="https://www.my4mlife.com/membership" />
-    <meta http-equiv="refresh" content="0; url=/membership" />
-    <meta name="robots" content="noindex" />
-  </head>
-  <body>
-    <p>Redirecting to <a href="/membership">Membership</a>…</p>
-    <script>window.location.replace('/membership');</script>
-  </body>
-</html>

@@ -6,7 +6,6 @@
     renderPage, renderSidebar, sidebarStats, type RenderContext
   } from './lib/renderer';
   import Sidebar from './lib/components/Sidebar.svelte';
-  import PricingPage from './lib/components/tiers/PricingPage.svelte';
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
   import IntakeModule from './lib/components/intake/IntakeModule.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
@@ -115,12 +114,6 @@
   let curTab = $state('dash');
   let userRole = $state<'patient' | 'clinician' | 'admin' | undefined>(undefined);
   let currentView = $state<'workbook' | 'admin'>('workbook');
-  let showPricing = $state(
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('view') === 'pricing'
-  );
-  let pricingHighlightTier = $state(
-    typeof window !== 'undefined' ? (new URLSearchParams(window.location.search).get('tier') ?? '') : ''
-  );
   let openFactor = $state<string | null>(null);
   let factorTab = $state<'imm' | 'tools' | 'adv' | 'res'>('imm');
   let toastMsg = $state('');
@@ -228,19 +221,17 @@
     if (id === 'admin') {
       if (userRole === 'admin' || userRole === 'clinician') {
         currentView = 'admin';
-        showPricing = false;
       }
       window.scrollTo(0, 0);
       return;
     }
     currentView = 'workbook';
+    // Pricing view removed 2026-06-01 — Protégé is free; no in-app upgrade UI.
     if (id === 'pricing') {
-      showPricing = true;
-      pricingHighlightTier = params?.tier ?? '';
+      void params;
       window.scrollTo(0, 0);
       return;
     }
-    showPricing = false;
     curTab = id;
     window.scrollTo(0, 0);
     // Track screen visit for upgrade-nudge eligibility
@@ -377,7 +368,7 @@
             </div>
           </div>
           <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${body}</div>
-          <a href="https://my4mlife.com/membership" style="display:inline-block;background:#1D9E75;color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${cta} →</a>
+          <a href="https://my4mlife.com/assessment" style="display:inline-block;background:#1D9E75;color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${cta} →</a>
           <div style="margin-top:16px">
             <button onclick="gutAssessmentAction('retake')"
               style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
@@ -715,14 +706,10 @@
 <!-- Per 2026-05-25 spec: any signed-in user is a Protégé and gets full app access.
      Purchase no longer gates the app (purchase only affects discount tier). -->
 <div class="shell">
-  <Sidebar {navHtml} name={workbook.name} {stats} pricingActive={showPricing} {userRole} adminActive={currentView === 'admin'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
+  <Sidebar {navHtml} name={workbook.name} {stats} {userRole} adminActive={currentView === 'admin'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
   <div class="main" id="main-content">
     {#if currentView === 'admin'}
       <AdminDashboard />
-    {:else if showPricing}
-      <PricingPage
-        highlightTierId={pricingHighlightTier}
-      />
     {:else}
       {#if curTab === 'dash'}
         <UpcomingZooms />

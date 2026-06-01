@@ -7,14 +7,13 @@
     navHtml: string;
     name: string;
     stats: { audit: string; score: string; morn: string; cold: string };
-    pricingActive?: boolean;
     userRole?: 'patient' | 'clinician' | 'admin';
     adminActive?: boolean;
     intakeComplete?: boolean;
     hasActiveSubscription?: boolean;
     stripeCustomerId?: string | null;
   }
-  let { navHtml, name, stats, pricingActive = false, userRole, adminActive = false, intakeComplete = true, hasActiveSubscription = false, stripeCustomerId = null }: Props = $props();
+  let { navHtml, name, stats, userRole, adminActive = false, intakeComplete = true, hasActiveSubscription = false, stripeCustomerId = null }: Props = $props();
 
   function handleSignOut() {
     signOut();
@@ -32,18 +31,6 @@
     <div class="logo-title">4M PROGRAM</div>
     <div class="logo-sub">MONTH 1 WORKBOOK</div>
     <div class="logo-name">{name}</div>
-  </div>
-
-  <!-- Pricing nav entry -->
-  <div class="discovery-nav">
-    <button
-      class="discovery-btn pricing-btn"
-      class:discovery-active={pricingActive}
-      onclick={() => { (window as Window & { portalAction?: (a: string, ...args: unknown[]) => void }).portalAction?.('goTo', 'pricing'); }}
-      aria-current={pricingActive ? 'page' : undefined}
-    >
-      ◈ Pricing & Tiers
-    </button>
   </div>
 
   {#if isStaff}
