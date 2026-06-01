@@ -44,10 +44,20 @@
 
   // Fresh signup arriving from /become-protege → auto-send the code
   // and skip straight to the code-entry step. No second click required.
+  //
+  // Guard against double-send: sessionStorage flag prevents a second
+  // requestCode() if the component remounts (Svelte re-mount race,
+  // back/forward navigation, etc.). The flag is scoped to the email
+  // so different users on the same browser get their own slot. Cleared
+  // automatically on Cognito sign-in (full page reload via CodeEntry).
   onMount(() => {
-    if (isFreshSignup && initialEmail) {
-      void requestCode();
-    }
+    if (!isFreshSignup || !initialEmail) return;
+    const guardKey = `my4m-otp-autosent-${initialEmail.toLowerCase()}`;
+    try {
+      if (sessionStorage.getItem(guardKey)) return; // already auto-sent in this session
+      sessionStorage.setItem(guardKey, '1');
+    } catch { /* sessionStorage unavailable — fall through */ }
+    void requestCode();
   });
 </script>
 

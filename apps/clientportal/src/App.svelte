@@ -758,9 +758,7 @@
     runNudgeTriggers();
   });
 
-  // Eating-window modal: persist via upsertMyProfile, then close the modal by
-  // updating local state. Settings page reuses the same picker and runs its
-  // own upsertMyProfile call.
+  // Eating-window modal handler kept for direct invocations from Settings.
   async function saveEatingWindowFromModal(start: string, end: string): Promise<void> {
     try {
       await upsertMyProfile({ eatingWindowStart: start, eatingWindowEnd: end });
@@ -770,6 +768,7 @@
     eatingWindowStart = start;
     eatingWindowEnd = end;
   }
+  void saveEatingWindowFromModal; // (suppress unused warning until Settings wires it)
 
   function applySettingsUpdate(patch: {
     eatingWindowStart?: string;
@@ -808,9 +807,10 @@
     {/if}
   </div>
 </div>
-{#if profileLoaded && eatingWindowStart == null}
-  <EatingWindowModal onSaved={saveEatingWindowFromModal} />
-{/if}
+<!-- Eating-window first-sign-in modal disabled per TJ direction 2026-06-01:
+     most new Protégés won't know what an eating window is until after the
+     Week 1 Zoom. Silently default to 9 AM – 6 PM and let them adjust in
+     Settings later. EatingWindowModal component stays for direct invocation. -->
 </AuthGate>
 <div id="toast" class:show={toastShow}>{toastMsg}</div>
 
