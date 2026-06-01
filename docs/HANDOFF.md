@@ -31,3 +31,15 @@ End-to-end signup → app dashboard with carried-forward assessment data is live
 - Bedrock daily token quota increase (optional)
 - Zoom S2S credentials into `zoom-ops-creds` secret
 - Phone number for SMS approval queue v2 (email approvals already working)
+
+## 2026-05-31 (late) — Cross-device sync confirmed working
+
+After fixing the workbookJson double-decode (commit dba622e7), TJ tested
+Mac → iPhone signed-in cross-device flow with drtj@essentialmanage.com.
+Phone dashboard populated with all Mac state: name, start date, top-3
+priorities, Week 1 motivation answer. End-to-end Protégé flow is
+production-ready for inner-circle UX testing.
+
+The double-encoding pattern (parseAwsJson) now wraps all three AWSJSON
+fields: auditTop3, intakeAnswers, workbookJson. Any future AWSJSON
+field added to UserProfile should use the same defensive parse.
