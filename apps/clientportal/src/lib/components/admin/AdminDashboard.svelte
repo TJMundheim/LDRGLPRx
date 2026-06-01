@@ -6,11 +6,12 @@
   import QueueList from './QueueList.svelte';
   import Forbidden403 from './Forbidden403.svelte';
   import ProtegesPanel from './ProtegesPanel.svelte';
+  import EventsAdmin from './EventsAdmin.svelte';
   import { SEED_QUEUE } from '../../data/adminQueue';
 
   const isAdmin = $derived(currentUser.value?.groups.includes('Admins') ?? false);
 
-  let activeTab = $state<'queue' | 'proteges'>('queue');
+  let activeTab = $state<'queue' | 'proteges' | 'events'>('queue');
   let users = $state<UserProfile[]>([]);
   let outcomes = $state<Outcome[]>([]);
   let queue = $state<AdminQueueItem[]>([]);
@@ -59,6 +60,11 @@
       class:active={activeTab === 'proteges'}
       onclick={() => (activeTab = 'proteges')}
     >Protégés</button>
+    <button
+      class="tab"
+      class:active={activeTab === 'events'}
+      onclick={() => (activeTab = 'events')}
+    >Events</button>
   </div>
 
   {#if activeTab === 'queue'}
@@ -97,6 +103,8 @@
     {/if}
   {:else if activeTab === 'proteges'}
     <ProtegesPanel />
+  {:else if activeTab === 'events'}
+    <EventsAdmin />
   {/if}
 </div>
 {/if}

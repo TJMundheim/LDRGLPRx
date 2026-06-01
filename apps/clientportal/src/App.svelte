@@ -9,14 +9,17 @@
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
   import IntakeModule from './lib/components/intake/IntakeModule.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
-  import { getMyProfile } from './lib/api/operations';
+  import { getMyProfile, upsertMyProfile } from './lib/api/operations';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
+  import EatingWindowModal from './lib/components/EatingWindowModal.svelte';
+  import SettingsView from './lib/components/SettingsView.svelte';
   import LockedGate from './lib/components/LockedGate.svelte';
   import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
   import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
   import { runNudgeTriggers, updateLastSeen, trackScreenVisit, triggerWeekMilestone } from './lib/nudge/triggers';
   import UpcomingZooms from './lib/components/UpcomingZooms.svelte';
+  import TodayView from './lib/components/TodayView.svelte';
 
   // ── Schema sentinel + clean-slate wipe ──────────────────────────────────────
   // MUST run before any gating logic reads localStorage.
@@ -113,8 +116,14 @@
   let workbook = $state<Workbook>(createEmptyWorkbook('pending', 'pending'));
   let curTab = $state('dash');
   let userRole = $state<'patient' | 'clinician' | 'admin' | undefined>(undefined);
-  let currentView = $state<'workbook' | 'admin'>('workbook');
+  let currentView = $state<'workbook' | 'admin' | 'settings'>('workbook');
   let openFactor = $state<string | null>(null);
+  // Profile fields surfaced to the eating-window modal + settings page.
+  let userEmail = $state<string | null>(null);
+  let eatingWindowStart = $state<string | null>(null);
+  let eatingWindowEnd = $state<string | null>(null);
+  let bonusTargetsEnabled = $state(false);
+  let profileLoaded = $state(false);
   let factorTab = $state<'imm' | 'tools' | 'adv' | 'res'>('imm');
   let toastMsg = $state('');
   let toastShow = $state(false);
@@ -222,6 +231,11 @@
       if (userRole === 'admin' || userRole === 'clinician') {
         currentView = 'admin';
       }
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (id === 'settings') {
+      currentView = 'settings';
       window.scrollTo(0, 0);
       return;
     }
@@ -591,6 +605,12 @@
         if (profile) {
           hasActiveSubscription = !!profile.hasActiveSubscription;
           stripeCustomerId = profile.stripeCustomerId ?? null;
+          // Surface eating-window + bonus toggle for modal + settings.
+          userEmail = (profile as any).primaryEmail ?? user?.email ?? null;
+          eatingWindowStart = (profile as any).eatingWindowStart ?? null;
+          eatingWindowEnd = (profile as any).eatingWindowEnd ?? null;
+          bonusTargetsEnabled = !!(profile as any).bonusTargetsEnabled;
+          profileLoaded = true;
         }
         // ── BUG 4 fix: hydrate intake completion + workbook from remote audit data ────
         // AWSJSON is sometimes returned double-encoded over the wire (string of a JSON
@@ -699,6 +719,29 @@
     updateLastSeen();
     runNudgeTriggers();
   });
+
+  // Eating-window modal: persist via upsertMyProfile, then close the modal by
+  // updating local state. Settings page reuses the same picker and runs its
+  // own upsertMyProfile call.
+  async function saveEatingWindowFromModal(start: string, end: string): Promise<void> {
+    try {
+      await upsertMyProfile({ eatingWindowStart: start, eatingWindowEnd: end });
+    } catch (e) {
+      console.warn('[eating-window] upsert failed', e);
+    }
+    eatingWindowStart = start;
+    eatingWindowEnd = end;
+  }
+
+  function applySettingsUpdate(patch: {
+    eatingWindowStart?: string;
+    eatingWindowEnd?: string;
+    bonusTargetsEnabled?: boolean;
+  }): void {
+    if (patch.eatingWindowStart !== undefined) eatingWindowStart = patch.eatingWindowStart;
+    if (patch.eatingWindowEnd !== undefined) eatingWindowEnd = patch.eatingWindowEnd;
+    if (patch.bonusTargetsEnabled !== undefined) bonusTargetsEnabled = patch.bonusTargetsEnabled;
+  }
 </script>
 
 <NudgeStack />
@@ -706,18 +749,36 @@
 <!-- Per 2026-05-25 spec: any signed-in user is a Protégé and gets full app access.
      Purchase no longer gates the app (purchase only affects discount tier). -->
 <div class="shell">
-  <Sidebar {navHtml} name={workbook.name} {stats} {userRole} adminActive={currentView === 'admin'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
+  <Sidebar {navHtml} name={workbook.name} {stats} {userRole} adminActive={currentView === 'admin'} settingsActive={currentView === 'settings'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
   <div class="main" id="main-content">
     {#if currentView === 'admin'}
       <AdminDashboard />
+    {:else if currentView === 'settings'}
+      <SettingsView
+        email={userEmail}
+        {eatingWindowStart}
+        {eatingWindowEnd}
+        {bonusTargetsEnabled}
+        onUpdated={applySettingsUpdate}
+      />
+    {:else if curTab === 'dash' || curTab === 'w1'}
+      <!-- Week 1 / dashboard render the TodayView per docs/plan/week-1-spec.md.
+           Legacy renderer.ts dash + w1 paths are unreachable but kept in place
+           until the rest of the workbook (w2-w4, regen, audit-review) is replaced. -->
+      <UpcomingZooms />
+      <TodayView firstName={workbook.name?.split(' ')[0] ?? ''} />
+    {:else if curTab === 'w2' || curTab === 'w3' || curTab === 'w4'}
+      <div style="max-width:640px;padding:32px 8px;color:#A8D8C0;font-size:14px;line-height:1.7">
+        Week {curTab.slice(1)} unlocks when you attest you watched this week's Zoom.
+      </div>
     {:else}
-      {#if curTab === 'dash'}
-        <UpcomingZooms />
-      {/if}
       {@html pageHtml}
     {/if}
   </div>
 </div>
+{#if profileLoaded && eatingWindowStart == null}
+  <EatingWindowModal onSaved={saveEatingWindowFromModal} />
+{/if}
 </AuthGate>
 <div id="toast" class:show={toastShow}>{toastMsg}</div>
 

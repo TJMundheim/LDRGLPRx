@@ -420,6 +420,7 @@ type Event {
   durationMin: Int!
   joinUrl: AWSURL!
   status: String!
+  recordingUrl: String
 }
 
 type AdherenceEntry @aws_cognito_user_pools {
@@ -522,6 +523,8 @@ type Query {
     @aws_auth(cognito_groups: ["Admins"])
   listProteges(limit: Int, nextToken: String): ProtegesPage!
     @aws_auth(cognito_groups: ["Admins"])
+  listEventsAdmin(limit: Int): [Event!]!
+    @aws_auth(cognito_groups: ["Admins"])
 }
 
 type Mutation {
@@ -553,4 +556,6 @@ type Mutation {
   updateAdminQueueItem(input: UpdateAdminQueueItemInput!): AdminQueueItem!
     @aws_auth(cognito_groups: ["Admins"])
     @aws_iam
+  updateEventRecordingUrl(eventId: ID!, recordingUrl: String!): Event
+    @aws_auth(cognito_groups: ["Admins"])
 }

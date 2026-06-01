@@ -355,6 +355,46 @@ export async function upcomingEvents(limit?: number, opts?: ClientOptions) {
   });
 }
 
+export interface AdminEvent {
+  eventId: string;
+  type: string;
+  title: string;
+  startsAt: string;
+  durationMin: number;
+  joinUrl: string;
+  status: string;
+  recordingUrl?: string | null;
+}
+
+export async function listEventsAdmin(limit?: number, opts?: ClientOptions) {
+  return client(opts)<{ listEventsAdmin: AdminEvent[] }>({
+    query: `
+      query ListEventsAdmin($limit: Int) {
+        listEventsAdmin(limit: $limit) {
+          eventId type title startsAt durationMin joinUrl status recordingUrl
+        }
+      }
+    `,
+    variables: { limit },
+  });
+}
+
+export async function updateEventRecordingUrl(
+  args: { eventId: string; recordingUrl: string },
+  opts?: ClientOptions,
+) {
+  return client(opts)<{ updateEventRecordingUrl: AdminEvent | null }>({
+    query: `
+      mutation UpdateEventRecordingUrl($eventId: ID!, $recordingUrl: String!) {
+        updateEventRecordingUrl(eventId: $eventId, recordingUrl: $recordingUrl) {
+          eventId type title startsAt durationMin joinUrl status recordingUrl
+        }
+      }
+    `,
+    variables: args,
+  });
+}
+
 // ─── Adherence ────────────────────────────────────────────────────────────────
 
 const ADHERENCE_FIELDS = `userId dateActionId completedAt value notes`;

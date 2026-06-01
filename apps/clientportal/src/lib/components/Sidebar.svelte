@@ -9,11 +9,12 @@
     stats: { audit: string; score: string; morn: string; cold: string };
     userRole?: 'patient' | 'clinician' | 'admin';
     adminActive?: boolean;
+    settingsActive?: boolean;
     intakeComplete?: boolean;
     hasActiveSubscription?: boolean;
     stripeCustomerId?: string | null;
   }
-  let { navHtml, name, stats, userRole, adminActive = false, intakeComplete = true, hasActiveSubscription = false, stripeCustomerId = null }: Props = $props();
+  let { navHtml, name, stats, userRole, adminActive = false, settingsActive = false, intakeComplete = true, hasActiveSubscription = false, stripeCustomerId = null }: Props = $props();
 
   function handleSignOut() {
     signOut();
@@ -58,6 +59,16 @@
     <div class="sb-stat">{stats.cold}</div>
   </div>
   <ManageSubscriptionButton {hasActiveSubscription} {stripeCustomerId} />
+  <div class="discovery-nav settings-nav">
+    <button
+      class="discovery-btn settings-btn"
+      class:discovery-active={settingsActive}
+      onclick={() => { (window as Window & { portalAction?: (a: string, ...args: unknown[]) => void }).portalAction?.('goTo', 'settings'); }}
+      aria-current={settingsActive ? 'page' : undefined}
+    >
+      ⚙ Settings
+    </button>
+  </div>
 </div>
 
 <style>
@@ -109,6 +120,16 @@
   .admin-btn { color: #c8a8ff; }
   .admin-btn:hover { background: rgba(200,168,255,0.1); color: #c8a8ff; }
   .admin-btn.discovery-active { background: rgba(200,168,255,0.15); color: #c8a8ff; }
+
+  .settings-nav {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 10px;
+    margin-top: 8px;
+    border-bottom: none;
+  }
+  .settings-btn { color: #9ba3b2; }
+  .settings-btn:hover { background: rgba(255,255,255,0.06); color: #e8eaf0; }
+  .settings-btn.discovery-active { background: rgba(255,255,255,0.08); color: #e8eaf0; }
 
   /* Locked state when intake is incomplete */
   .nav-locked {
