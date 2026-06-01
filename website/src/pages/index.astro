@@ -1234,6 +1234,18 @@ const robots = "index, follow";
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
   cursor: pointer;
   white-space: nowrap;
+  max-width: 100%;
+}
+/* Mobile: let the giant button text wrap and shrink so it never overflows viewport. */
+@media (max-width: 640px) {
+  .btn-primary-xl {
+    white-space: normal;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    border-radius: 32px;
+  }
 }
 .btn-primary-xl:hover {
   background: var(--accent-dark);
