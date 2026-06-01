@@ -260,7 +260,75 @@ None of these block code starting; build can proceed with placeholders for #1–
 
 ---
 
-## 14. What we are explicitly NOT building yet
+## 14. Refinements locked 2026-06-01 (second pass with TJ)
+
+These supersede or extend earlier sections.
+
+### 14.1 End-of-week scoreboard
+
+Sunday evening (per user timezone) the Today view flips into a **scoreboard** that stays visible until the next Zoom completes. Shows:
+- Daily streak count (longest + current)
+- Weekly action completion (e.g., "Fasted walk: 2/2", "Strength: 1/2", "Protein breakfast: 2/2", "Zoom: 1/1")
+- Overall Week 1 adherence percentage
+- One line of orientation: *"Week 2 unlocks when you attest you watched (live or recording)."*
+- A prominent **"I attended (live or recording)"** checkbox — see §14.2
+
+Implementation note: scoreboard is a Today-view variant. Same data source as the daily tiles. No new mutation needed; renderer just changes mode based on `dayOfWeek` and `currentWeekZoomCompleted`.
+
+### 14.2 Zoom attendance = honor system
+
+We are NOT integrating with Zoom's attendance API for the unlock mechanism. Single self-attest checkbox on the scoreboard: **"I attended live or watched the recording."** One tap. Honor system. Unlocks next week.
+
+**Why this works**: the friction of self-attesting (going to the app, finding the button, tapping it) is itself a re-engagement act. If a user is willing to tap that button without actually watching, they're still showing up to the program — which keeps them in the funnel. We'd rather have a self-attested non-watcher than a lost user.
+
+**Implication**: the Zoom S2S creds are no longer blocking for the unlock loop. They're still useful for ops-agent to auto-create the Wednesday recurring meeting, but the attendance ingest path is no longer needed for app gating.
+
+**App displays the recording link** on the Today view scoreboard once recordings are uploaded (TJ posts the link to the Event row via admin UI or directly to DDB). If no recording URL is present, the button just shows the attest checkbox without a "watch recording" link.
+
+### 14.3 Eating window = user-picked at signup
+
+Drop the strict 9–6 default. During the assessment → Protégé signup flow (or first dashboard load), the user picks their window from a short list:
+- 9 AM – 6 PM (default suggestion)
+- 10 AM – 7 PM
+- 11 AM – 8 PM
+- 12 PM – 8 PM
+- Custom (text inputs, both required)
+
+Stored on `UserProfile.eatingWindowStart` + `eatingWindowEnd`. The Today view tile shows their picked window. Adjustable later in Settings.
+
+### 14.4 BPC-157 in Week 1 — Rx via consult
+
+BPC-157 IS a Week 1 supplement, but framed via the consult path:
+- The Biome NS Ultra tile (Mitigate pillar) gets a small expander: *"BPC-157 oral is added to your protocol at your consult — it ships with your GLP-1 prescription."*
+- Reinforces that **the consult unlocks two prescriptions, not one** (GLP-1 + BPC-157).
+- Increases the perceived value of the consult and increases conversion pressure on Week 1.
+
+### 14.5 Week 1 Zoom — fear-based "why" emphasis
+
+The Zoom opens with **the why, hard**. Spending real minutes (~10–12) on what cognitive loss actually looks like.
+
+Connection to the assessment: the first survey question segments users into *"scared of cognitive loss / want to optimize / both"*. The Zoom acknowledges that answer directly and meets them there. For users who selected "scared" (likely the majority — these are middle-aged men watching a parent decline), the opening visualization needs to be **honest enough to motivate action without being clinical or detached**.
+
+**Revised Week 1 Zoom outline (~50 min):**
+
+1. **Welcome (3 min).** "Read your why aloud — or picture it. Who are you doing this for? See their face."
+2. **What cognitive loss actually looks like (10–12 min).** Stage-by-stage visualization. Stage 4 — couldn't recognize own kids. Stage 5 — couldn't drive. Stage 6 — couldn't button a shirt. Walk through the timeline. Acknowledge that everyone in the room either knows someone or fears becoming someone. *This is not abstract. This is your dad in 8 years if nothing changes.*
+3. **Why gut first (12 min).** Gut-brain axis canonical talking points. 90% of serotonin made in gut. 50% of dopamine. Vagal highway. Why probiotics fail without the seal. Biome NS Ultra mechanism.
+4. **Why GLP-1 is coming + what comes with it (12 min).** Metabolic dysfunction as upstream of cognitive decline. What the consult covers. **And** — at the consult you get BPC-157 oral prescribed at the same time. Two scripts, one visit.
+5. **Weeks 2–4 preview (5 min).** Just the shape. No detail.
+6. **Q&A (8 min).**
+
+**Conversion mechanic**: post-Zoom email next morning has ONE primary CTA — *"Book your consult"*. Both the GLP-1 and the BPC-157 come from that one click.
+
+### 14.6 Tone for the fear emphasis
+
+This is where the "calm, prescriptive" tone earns its credibility. We don't shout, we don't dramatize, we don't manipulate. We state the facts of what late-stage cognitive decline looks like, in the same tone as the rest of the program. The fear is in the truth, not the framing. Dr. TJ describing in clinical detail what stage 6 looks like — that's the motivator. No music swell, no emotional voiceover. Quiet, serious, mission-driven.
+
+This carries through to the app: a small footer line on Week 1 — *"You're here because you don't want to become the person you're afraid of. We start with your gut because the brain runs on what the gut makes."*
+
+---
+
+## 15. What we are explicitly NOT building yet
 
 - Multi-track / commitment-level fork (rejected 2026-06-01 — single track only).
 - Tier upgrades or pricing surfaces in the app (already stripped 2026-06-01).
@@ -271,8 +339,19 @@ None of these block code starting; build can proceed with placeholders for #1–
 
 ---
 
-## Open questions for TJ before I implement
+## 16. Open questions resolved 2026-06-01
 
-1. **Eating window default**: 9 AM – 6 PM is what TJ said. Some users may prefer 11 AM – 8 PM. Should this be configurable in profile, or strictly enforced as 9–6 in Week 1 and adjustable from Week 2?
-2. **What happens if a user misses Week 1 Zoom AND doesn't watch the recording?** Do they get held back from Week 2 indefinitely, or does showing up to Week 2's Zoom count as catching up?
-3. **BPC-157 OTC**: include in Week 1 universal supplements when sourced, or always position as a Week 2+ add-on?
+All three open questions are now resolved (see §14):
+1. ~~Eating window~~ → user-picked at signup. (§14.3)
+2. ~~Held-back if no Zoom~~ → honor-system tap; user attests live OR recording, no hard hold. (§14.2)
+3. ~~BPC-157~~ → Week 1 universal, framed as Rx via the consult bundled with GLP-1. (§14.4)
+
+---
+
+## 17. One remaining question before I build
+
+**Where does the Zoom recording link live?** Two options:
+- **(a)** Manual: after each Zoom, you (or whoever hosts) drops the recording URL into the Event row via a small admin page in the AdminDashboard. Then the Today view scoreboard shows a "Watch recording" link next to the attest checkbox.
+- **(b)** Automated (later): when Zoom S2S creds are live, ops-agent watches for `recording.completed` webhook and writes the URL automatically.
+
+Recommend **(a) for v1** (5-min admin page), with (b) as a follow-up when Zoom creds land. Confirm and I'll include the admin page in the build.
