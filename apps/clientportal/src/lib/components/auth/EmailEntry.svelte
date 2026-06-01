@@ -29,16 +29,33 @@
   let loading = $state(isFreshSignup && !!initialEmail);
   let error = $state('');
 
+  // Module-level in-flight guard. Prevents two requestCode() calls in the
+  // same browser tab from racing (e.g. user double-clicks Send Code, or
+  // auto-fire runs while a manual click is also queued).
+  let requestInFlight = false;
+
   async function requestCode(): Promise<void> {
+    if (requestInFlight) {
+      console.info('[auth] requestCode blocked — already in flight');
+      return;
+    }
+    requestInFlight = true;
     error = '';
     loading = true;
+    console.info('[auth] requestCode firing for', email.trim());
     try {
       const session = await requestEmailCode(email.trim(), firstName.trim() || undefined);
+      console.info('[auth] requestCode succeeded — calling onsuccess');
       onsuccess({ email: email.trim(), session });
+      // Intentionally DO NOT flip loading to false on success — the parent
+      // will unmount us via step='code'. Leaving loading=true keeps the
+      // spinner up so the manual form never flashes during the transition.
+      return;
     } catch (err) {
       error = err instanceof Error ? err.message : 'Failed to send code. Please try again.';
-    } finally {
+      console.warn('[auth] requestCode failed:', err);
       loading = false;
+      requestInFlight = false;
     }
   }
 

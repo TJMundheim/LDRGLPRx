@@ -515,6 +515,11 @@ const AUDIT_BONUS_BY_ID: Record<string, number> = {
   'weight-body-fat': 2,
   'erectile-dysfunction': 1,
   'hormone-balance': 1,
+  // 2026-06-01: added Q9/Q10 weights so app top-3 matches the website's
+  // weighted result. 'already-diagnosed' gets +3 so a Yes (≥4) dominates;
+  // 'alcohol' gets +1 to compete with gut/sleep/weight.
+  'already-diagnosed': 3,
+  'alcohol': 1,
 };
 
 function selectTop3(scores: AuditScores): Array<{ label: string; score: number }> {

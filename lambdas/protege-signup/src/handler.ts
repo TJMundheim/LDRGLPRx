@@ -123,7 +123,14 @@ async function sendWelcomeEmail(email: string, firstName: string): Promise<void>
   const appUrl = 'https://app.my4mlife.com';
   const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px">
 <h1 style="font-size:22px;color:#111">Welcome, ${firstName}.</h1>
-<p>You're a Protégé — free app access, weekly Zooms, and 15% off your first order are all yours.</p>
+<p style="margin:8px 0 16px">You're a Protégé. Here's what's yours now:</p>
+<ul style="margin:0 0 20px 18px;padding:0;line-height:1.7;color:#222;font-size:15px">
+  <li>25% off your first purchase</li>
+  <li>25% off forever on autoship; 15% off one-time reorders</li>
+  <li>Free access to the My4MLife app</li>
+  <li>Weekly support Zooms with Dr. TJ</li>
+  <li>Discounts on all live events</li>
+</ul>
 <p style="margin:24px 0"><a href="${appUrl}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">Open the My4MLife App &rarr;</a></p>
 <p style="color:#444;font-size:14px;line-height:1.55">When you open the app, we'll email you a one-time sign-in code. Use that code to enter — there's no password to remember.</p>
 <p style="color:#666;font-size:13px;margin-top:24px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p></div>`;
