@@ -98,12 +98,29 @@ h1 {
     return;
   }
 
+  // Decode the freshly-computed top3 + scores from the assessment so we can
+  // hand them to protege-signup directly. Without this the Lambda has to
+  // read them from Contact, which races with audit-complete's write and
+  // sometimes seeds UserProfile with the prior assessment.
+  function decodeB64Json(key) {
+    var raw = getParam(key);
+    if (!raw) return null;
+    try { return JSON.parse(decodeURIComponent(escape(atob(raw)))); } catch (e) {
+      try { return JSON.parse(atob(raw)); } catch (e2) { return null; }
+    }
+  }
+  var auditTop3 = decodeB64Json('top3');
+  var intakeAnswers = decodeB64Json('answers');
+
   var body = {
     firstName: name,
     email: email,
     phone: phone,
     consent: { ai: true, protege: true },
   };
+  if (auditTop3) body.auditTop3 = auditTop3;
+  if (intakeAnswers) body.intakeAnswers = intakeAnswers;
+  if (auditTop3 || intakeAnswers) body.auditCompletedAt = new Date().toISOString();
 
   fetch(SIGNUP_API + '/api/protege-signup', {
     method: 'POST',

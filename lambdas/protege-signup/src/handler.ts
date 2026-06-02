@@ -17,17 +17,29 @@ const cognito = new CognitoIdentityProviderClient({ region: REGION });
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const lambda = new LambdaClient({ region: REGION });
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST,OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json',
-};
+const ALLOWED_ORIGINS = new Set([
+  'https://my4mlife.com',
+  'https://www.my4mlife.com',
+  'https://app.my4mlife.com',
+  'http://localhost:4321',
+  'http://localhost:5173',
+]);
+
+function corsHeaders(origin: string | undefined): Record<string, string> {
+  const allowed = origin && ALLOWED_ORIGINS.has(origin) ? origin : 'https://my4mlife.com';
+  return {
+    'Access-Control-Allow-Origin': allowed,
+    'Access-Control-Allow-Methods': 'POST,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Vary': 'Origin',
+    'Content-Type': 'application/json',
+  };
+}
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const E164_RE = /^\+[1-9]\d{6,14}$/;
 
-function reply(statusCode: number, body: unknown): APIGatewayProxyResultV2 {
-  return { statusCode, headers: CORS, body: JSON.stringify(body) };
+function reply(statusCode: number, body: unknown, origin?: string): APIGatewayProxyResultV2 {
+  return { statusCode, headers: corsHeaders(origin), body: JSON.stringify(body) };
 }
 
 function randomPassword(len = 20): string {
@@ -63,6 +75,9 @@ async function ensureCognitoUser(email: string, firstName: string): Promise<{ al
 async function seedUserProfile(args: {
   sub: string; email: string; firstName: string; phone: string;
   auditTop3: unknown; auditCompletedAt: string | null; intakeAnswers: unknown;
+  // When true (retake path), audit fields overwrite existing values rather
+  // than preserving the prior assessment via if_not_exists.
+  overwriteAudit?: boolean;
 }): Promise<void> {
   const now = new Date().toISOString();
   const sets: string[] = [
@@ -81,18 +96,19 @@ async function seedUserProfile(args: {
     ':owner': args.sub, ':primaryEmail': args.email, ':firstName': args.firstName,
     ':phone': args.phone, ':createdAt': now, ':updatedAt': now,
   };
+  const auditExpr = (col: string) => args.overwriteAudit ? `#${col} = :${col}` : `#${col} = if_not_exists(#${col}, :${col})`;
   if (args.auditTop3 !== undefined && args.auditTop3 !== null) {
-    sets.push('#auditTop3 = if_not_exists(#auditTop3, :auditTop3)');
+    sets.push(auditExpr('auditTop3'));
     names['#auditTop3'] = 'auditTop3';
     values[':auditTop3'] = JSON.stringify(args.auditTop3);
   }
   if (args.auditCompletedAt) {
-    sets.push('#auditCompletedAt = if_not_exists(#auditCompletedAt, :auditCompletedAt)');
+    sets.push(auditExpr('auditCompletedAt'));
     names['#auditCompletedAt'] = 'auditCompletedAt';
     values[':auditCompletedAt'] = args.auditCompletedAt;
   }
   if (args.intakeAnswers !== undefined && args.intakeAnswers !== null) {
-    sets.push('#intakeAnswers = if_not_exists(#intakeAnswers, :intakeAnswers)');
+    sets.push(auditExpr('intakeAnswers'));
     names['#intakeAnswers'] = 'intakeAnswers';
     values[':intakeAnswers'] = JSON.stringify(args.intakeAnswers);
   }
@@ -143,26 +159,27 @@ async function sendWelcomeEmail(email: string, firstName: string): Promise<void>
 }
 
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
-  if ((event as any).requestContext?.http?.method === 'OPTIONS') return reply(204, {});
+  const origin = (event.headers?.['origin'] ?? event.headers?.['Origin']) as string | undefined;
+  if ((event as any).requestContext?.http?.method === 'OPTIONS') return reply(204, {}, origin);
 
   let body: any;
-  try { body = event.body ? JSON.parse(event.body) : {}; } catch { return reply(400, { error: 'invalid JSON' }); }
+  try { body = event.body ? JSON.parse(event.body) : {}; } catch { return reply(400, { error: 'invalid JSON' }, origin); }
 
   const emailRaw: string | undefined = body.email;
-  if (!emailRaw || typeof emailRaw !== 'string') return reply(400, { error: 'email required' });
+  if (!emailRaw || typeof emailRaw !== 'string') return reply(400, { error: 'email required' }, origin);
   const email = emailRaw.trim().toLowerCase();
-  if (!EMAIL_RE.test(email)) return reply(400, { error: 'malformed email' });
+  if (!EMAIL_RE.test(email)) return reply(400, { error: 'malformed email' }, origin);
 
   const firstName: string | undefined = body.firstName && typeof body.firstName === 'string' ? body.firstName.trim() : undefined;
-  if (!firstName) return reply(400, { error: 'firstName required' });
+  if (!firstName) return reply(400, { error: 'firstName required' }, origin);
 
   const phone: string | undefined = body.phone ? String(body.phone).trim() : undefined;
-  if (!phone) return reply(400, { error: 'phone required' });
-  if (!E164_RE.test(phone)) return reply(400, { error: 'phone must be E.164 (e.g. +15551234567)' });
+  if (!phone) return reply(400, { error: 'phone required' }, origin);
+  if (!E164_RE.test(phone)) return reply(400, { error: 'phone must be E.164 (e.g. +15551234567)' }, origin);
 
   const consent = body.consent;
   if (!consent || consent.ai !== true || consent.protege !== true) {
-    return reply(400, { error: 'consent.ai and consent.protege must both be true' });
+    return reply(400, { error: 'consent.ai and consent.protege must both be true' }, origin);
   }
 
   let alreadyExists = false;
@@ -170,7 +187,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   try {
     ({ alreadyExists, sub } = await ensureCognitoUser(email, firstName));
   } catch {
-    return reply(500, { error: 'cognito error' });
+    return reply(500, { error: 'cognito error' }, origin);
   }
 
   const contactId = uuidv5(email, NAMESPACE);
@@ -203,15 +220,32 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       },
     }));
   } catch (e: any) {
-    if (e?.name !== 'ConditionalCheckFailedException') return reply(500, { error: 'write failed' });
+    if (e?.name !== 'ConditionalCheckFailedException') return reply(500, { error: 'write failed' }, origin);
   }
 
   // Seed UserProfile (Users table) with audit data so the app skips the intake gate.
-  // Failures here MUST NOT fail the signup.
+  // Prefer audit data sent in the request body (freshly computed by the
+  // assessment that just submitted); fall back to Contact only when none was
+  // passed. This avoids the audit-complete↔protege-signup race that
+  // previously seeded UserProfile with the prior assessment's results.
   if (sub) {
     try {
-      const audit = await readContactAudit(contactId);
-      await seedUserProfile({ sub, email, firstName, phone, ...audit });
+      const bodyAuditTop3 = body.auditTop3 ?? null;
+      const bodyIntakeAnswers = body.intakeAnswers ?? null;
+      const bodyAuditCompletedAt = typeof body.auditCompletedAt === 'string' ? body.auditCompletedAt : null;
+      let audit: { auditTop3: unknown; auditCompletedAt: string | null; intakeAnswers: unknown };
+      let overwriteAudit = false;
+      if (bodyAuditTop3 || bodyIntakeAnswers) {
+        audit = {
+          auditTop3: bodyAuditTop3,
+          auditCompletedAt: bodyAuditCompletedAt ?? ts,
+          intakeAnswers: bodyIntakeAnswers,
+        };
+        overwriteAudit = true;
+      } else {
+        audit = await readContactAudit(contactId);
+      }
+      await seedUserProfile({ sub, email, firstName, phone, ...audit, overwriteAudit });
     } catch (err) {
       console.warn('[protege-signup] UserProfile seed failed:', err);
     }
@@ -221,5 +255,5 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     try { await sendWelcomeEmail(email, firstName); } catch { /* non-fatal */ }
   }
 
-  return reply(200, { ok: true, ...(alreadyExists ? { alreadyExists: true } : {}) });
+  return reply(200, { ok: true, ...(alreadyExists ? { alreadyExists: true } : {}) }, origin);
 };

@@ -68,7 +68,7 @@ wire_rule "subscription-handler-live" "$LIVE_BUS" "$SUB_PATTERN" "$SUB_ARN"
 wire_rule "subscription-handler-test" "$TEST_BUS" "$SUB_PATTERN" "$SUB_ARN"
 
 # refund-dispute-handler
-REFUND_PATTERN='{"detail-type":["charge.refunded","charge.dispute.created","charge.dispute.updated","charge.dispute.closed"]}'
+REFUND_PATTERN='{"detail-type":["charge.refunded","charge.dispute.created","charge.dispute.updated","charge.dispute.funds_withdrawn","charge.dispute.funds_reinstated"]}'
 wire_rule "refund-dispute-handler-live" "$LIVE_BUS" "$REFUND_PATTERN" "$REFUND_ARN"
 wire_rule "refund-dispute-handler-test" "$TEST_BUS" "$REFUND_PATTERN" "$REFUND_ARN"
 

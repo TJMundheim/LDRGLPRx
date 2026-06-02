@@ -222,6 +222,35 @@ Next-session work:
 - ✅ #3 — SQS DLQ resource policy applied via `infra/sqs/deploy.sh`. Allows `events.amazonaws.com sqs:SendMessage` scoped to `arn:aws:events:us-east-2:879696522760:rule/aws.partner/stripe.com/*`. Verified via `aws sqs get-queue-attributes`.
 - ✅ #4 — `lambdas/stripe-events-retry/src/handler.ts` switched from `rate(N seconds)` to `at(<UTC>)` one-shot with `ActionAfterCompletion: 'DELETE'`. Dropped the 60s EndDate window. 7 tests green. Deployed.
 
+## 2026-06-02 — HIGH batch + cache-bug fixes shipped while TJ in meetings
+
+All low-risk, all tests green where applicable, all deployed.
+
+### CRITICAL closeout
+- ✅ **#7 `auditTop3WithIds` diagnosis override** — `apps/clientportal/src/lib/renderer.ts:1056`. Now honors the locked override rule (already-diagnosed ≥3 → forced #1, slots 2-3 picked from others). Week 2 MITIGATE picker now consistent with the rest of the system.
+
+### HIGH batch
+- ✅ **#9 Discount sweep** — `lambdas/audit-complete/src/handler.ts:44` updated from "15% off your first order" to the full canonical block: "25% off your first purchase + autoship, and 15% off ongoing reorders".
+- ✅ **#11 Scoring formula unify** — `website/src/pages/audit.astro:167` BONUS_MAP replaced with the canonical `{gut:2, gut-microbiome:2, weight:2, weight-body-fat:2}` (was `{gut:2, sleep:2, weight:2, ed:1, hormones:1}`). /audit and /assessment now produce identical top-3 from the same scores.
+- ✅ **#13 `given_name` on Cognito create** — `infra/clientportal/cdk/lambdas/auth/request-otp.ts:60-65` adds `{Name:'given_name', Value:firstName}` when present. Kills "Welcome, undefined".
+- ✅ **#14 CORS allowlist** — `lambdas/audit-complete/src/handler.ts` and `lambdas/protege-signup/src/handler.ts` both replaced `Access-Control-Allow-Origin: *` with a typed `corsHeaders(origin)` helper that allowlists `my4mlife.com`, `www.my4mlife.com`, `app.my4mlife.com`, `localhost:4321`, `localhost:5173`, with `Vary: Origin` for cache safety. Falls back to `https://my4mlife.com` for unknown/missing origin. Audit-complete test updated. 13 + 10 tests green.
+- ✅ **#16 Stale $197/$497/$697 on `/solutions/financial-stress`** — replaced "Tiered Access Model" copy with current free-Protégé + 25/25/15 block.
+- ✅ **#17 CloudWatch missing-data treatment** — both alarms now `--treat-missing-data notBreaching` so a fully-stopped pipeline (no metrics published) doesn't masquerade as healthy. Redeployed.
+- ✅ **#19 `charge.dispute.closed` (non-existent event)** — replaced in EventBridge rule with the actual lifecycle events `charge.dispute.funds_withdrawn` and `charge.dispute.funds_reinstated`. Redeployed (6 rules wired).
+- ✅ **#21 UTF-safe btoa in `audit.astro`** — `btoa(unescape(encodeURIComponent(...)))` for non-ASCII names. Matches the assessment.astro pattern.
+- 📝 **#22 SNS alarm email** — `infra/sns/deploy.sh` updated from `drtj@my4mlife.com` to `drtj@essentialmanage.com`. **NOT re-run** (would require email-confirm of a new subscription); existing live subscription still works. Will re-run on next infra refresh.
+
+### Test 2 cache bug — FIXED end-to-end
+Two converging causes addressed:
+1. **`signOut()` now clears per-user localStorage** — `apps/clientportal/src/lib/auth/cognito.ts` `signOut()` removes `audit-v1`, `intake-audit-scores-v1`, `intake-complete-v1`, `basics-v1`, `workbook-v1`, plus a forward-compat sweep of any `workbook-*` keys.
+2. **audit-complete ↔ protege-signup race eliminated** — `website/src/pages/become-protege.astro` now decodes the `top3` + `answers` URL params (b64-encoded by assessment.astro) and passes them directly into the protege-signup body as `auditTop3` / `intakeAnswers` / `auditCompletedAt`. `lambdas/protege-signup/src/handler.ts` prefers body-supplied audit data over Contact lookup, and `seedUserProfile` accepts an `overwriteAudit` flag — on body-supplied data the if_not_exists guard is removed so a retake actually overwrites the prior assessment in UserProfile. 13 tests green.
+
+### Still on the list
+- **#10 25%-bundle copy on membership/tiers pages** — defer to TJ (those pages may have been deleted in pricing scrub; need confirmation before re-adding).
+- **#18 EmailEntry "Sign In only"** — UX call, defer to TJ.
+- **CRITICAL Stripe sandbox E2E** — TJ to drive.
+- **Test 3 rate-limit verification** — shelved before public launch.
+
 ### Verified live (post-deploy of #8)
 - ✅ **Test 1 (golden-path OTP):** TJ wiped + signed up fresh as drtj@essentialmanage.com. Exactly one OTP delivered. Sign-in succeeded.
 - ✅ **Test 2 (refresh mid-flow):** Refreshed on the OTP entry screen pre-code. Cached session was reused (no second InitiateAuth), no second code arrived. Months-long duplicate-OTP bug is dead on both paths.

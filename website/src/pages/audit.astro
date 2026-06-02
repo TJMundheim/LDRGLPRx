@@ -163,8 +163,11 @@ const canonical = 'https://www.my4mlife.com/audit';
     });
   });
 
-  // Inline scoring (mirrors ~/lib/survey-scoring.ts)
-  const BONUS_MAP = { gut: 2, sleep: 2, weight: 2, 'erectile-dysfunction': 1, hormones: 1 };
+  // Inline scoring — canonical map matches assessment.astro + survey-scoring.ts.
+  // Locked 2026-06-01: only gut and weight carry a +2 bonus. Removing the
+  // legacy sleep/ED/hormones values here brings /audit in line with /assessment
+  // so the same answer set produces the same top-3 from either entry point.
+  const BONUS_MAP = { gut: 2, 'gut-microbiome': 2, weight: 2, 'weight-body-fat': 2 };
   function rankAll(raw) {
     const entries = Object.entries(raw).map(([id, r]) => ({
       id,
@@ -222,7 +225,8 @@ const canonical = 'https://www.my4mlife.com/audit';
     const firstName = sessionStorage.getItem('audit.firstName') || '';
     const email = sessionStorage.getItem('audit.email') || '';
     const phone = sessionStorage.getItem('audit.phone') || '';
-    const payload = btoa(JSON.stringify({ firstName, email, phone, scores: raw }));
+    // UTF-safe base64 so non-ASCII names (e.g. José, André) don't throw.
+    const payload = btoa(unescape(encodeURIComponent(JSON.stringify({ firstName, email, phone, scores: raw }))));
     const getAppLink = document.getElementById('get-app-link');
     if (getAppLink) {
       getAppLink.setAttribute('href', `https://app.my4mlife.com/?unlocked=1#audit=${encodeURIComponent(payload)}`);

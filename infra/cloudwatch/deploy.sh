@@ -21,6 +21,7 @@ aws cloudwatch put-metric-alarm \
   --comparison-operator GreaterThanThreshold \
   --alarm-actions "$SNS_TOPIC_ARN" \
   --dimensions Name=QueueName,Value=my4mlife-stripe-events-permanent-failures \
+  --treat-missing-data notBreaching \
   --region "$REGION"
 
 echo "✓ P8.2 alarm created: my4mlife-stripe-permanent-failures-depth"
@@ -39,6 +40,7 @@ aws cloudwatch put-metric-alarm \
   --comparison-operator GreaterThanThreshold \
   --alarm-actions "$SNS_TOPIC_ARN" \
   --dimensions Name=QueueName,Value=my4mlife-stripe-events-dlq \
+  --treat-missing-data notBreaching \
   --region "$REGION"
 
 echo "✓ P8.3 alarm created: my4mlife-stripe-dlq-depth-warning"

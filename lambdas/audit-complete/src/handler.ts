@@ -14,17 +14,29 @@ const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const sqs = new SQSClient({ region: REGION });
 const lambda = new LambdaClient({ region: REGION });
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': '*',
-  'Access-Control-Allow-Methods': 'POST,OPTIONS',
-  'Content-Type': 'application/json',
-};
+const ALLOWED_ORIGINS = new Set([
+  'https://my4mlife.com',
+  'https://www.my4mlife.com',
+  'https://app.my4mlife.com',
+  'http://localhost:4321',
+  'http://localhost:5173',
+]);
+
+function corsHeaders(origin: string | undefined): Record<string, string> {
+  const allowed = origin && ALLOWED_ORIGINS.has(origin) ? origin : 'https://my4mlife.com';
+  return {
+    'Access-Control-Allow-Origin': allowed,
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST,OPTIONS',
+    'Vary': 'Origin',
+    'Content-Type': 'application/json',
+  };
+}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function reply(s: number, b: unknown): APIGatewayProxyResultV2 {
-  return { statusCode: s, headers: CORS, body: JSON.stringify(b) };
+function reply(s: number, b: unknown, origin?: string): APIGatewayProxyResultV2 {
+  return { statusCode: s, headers: corsHeaders(origin), body: JSON.stringify(b) };
 }
 
 function buildResultsHtml(firstName: string, email: string, phone: string, top3: any[], intakeAnswers: Record<string, number>): string {
@@ -41,7 +53,7 @@ function buildResultsHtml(firstName: string, email: string, phone: string, top3:
 <h1 style="font-size:22px;margin:0 0 12px">Hi ${safe(firstName)}, here are your top 3 priorities from your 4M Assessment:</h1>
 <ul style="padding-left:18px;margin:12px 0 24px">${items}</ul>
 <h2 style="font-size:17px;margin:24px 0 8px">Your next step:</h2>
-<p style="margin:12px 0"><strong>Become a Protégé (free)</strong> — the My4MLife app, weekly live Zooms, and 15% off your first order. No purchase required.</p>
+<p style="margin:12px 0"><strong>Become a Protégé (free)</strong> — the My4MLife app, weekly live Zooms, 25% off your first purchase + autoship, and 15% off ongoing reorders. No purchase required.</p>
 <p style="margin:8px 0 16px"><a href="${protegeUrl}" style="background:#00b894;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Become a Protégé &amp; Open the App →</a></p>
 <p style="font-size:13px;color:#718096;margin:8px 0 24px">Have questions first? Email <a href="mailto:support@my4mlife.com" style="color:#00a381">support@my4mlife.com</a>.</p>
 <p style="font-size:13px;color:#718096;margin-top:32px">Your results are saved — you can revisit them anytime at <a href="https://my4mlife.com/assessment" style="color:#00a381">my4mlife.com/assessment</a>.</p>
@@ -61,11 +73,12 @@ async function sendResultsEmail(email: string, firstName: string, phone: string,
 }
 
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
-  if (event.requestContext?.http?.method === 'OPTIONS') return reply(204, {});
-  if (!event.body) return reply(400, { error: 'missing body' });
+  const origin = (event.headers?.['origin'] ?? event.headers?.['Origin']) as string | undefined;
+  if (event.requestContext?.http?.method === 'OPTIONS') return reply(204, {}, origin);
+  if (!event.body) return reply(400, { error: 'missing body' }, origin);
 
   let parsed: any;
-  try { parsed = JSON.parse(event.body); } catch { return reply(400, { error: 'invalid json' }); }
+  try { parsed = JSON.parse(event.body); } catch { return reply(400, { error: 'invalid json' }, origin); }
 
   const { scores, top3 } = parsed;
   const rawEmail: string | undefined = parsed.email;
@@ -78,7 +91,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     email = rawEmail.trim().toLowerCase();
     if (!contactId) contactId = uuidv5(email, NAMESPACE);
   }
-  if (!contactId) return reply(400, { error: 'contactId or email required' });
+  if (!contactId) return reply(400, { error: 'contactId or email required' }, origin);
 
   const ts = new Date().toISOString();
 
@@ -114,5 +127,5 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     }
   }
 
-  return reply(200, { ok: true, contactId });
+  return reply(200, { ok: true, contactId }, origin);
 };

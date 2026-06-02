@@ -50,13 +50,15 @@ export const handler = async (event: { body?: string; email?: string; firstName?
     }
     // User does not exist — create them
     try {
+      const userAttributes: Array<{ Name: string; Value: string }> = [
+        { Name: 'email', Value: email },
+        { Name: 'email_verified', Value: 'true' },
+      ];
+      if (firstName) userAttributes.push({ Name: 'given_name', Value: firstName });
       const created = await cognito.send(new AdminCreateUserCommand({
         UserPoolId: USER_POOL_ID,
         Username: email,
-        UserAttributes: [
-          { Name: 'email', Value: email },
-          { Name: 'email_verified', Value: 'true' },
-        ],
+        UserAttributes: userAttributes,
         MessageAction: 'SUPPRESS',
       }));
       userSub = created.User?.Attributes?.find((a) => a.Name === 'sub')?.Value;

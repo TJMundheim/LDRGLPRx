@@ -3,7 +3,7 @@ set -euo pipefail
 
 REGION="us-east-2"
 TOPIC_NAME="my4mlife-stripe-alerts"
-EMAIL="drtj@my4mlife.com"
+EMAIL="drtj@essentialmanage.com"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Creating SNS topic: $TOPIC_NAME"

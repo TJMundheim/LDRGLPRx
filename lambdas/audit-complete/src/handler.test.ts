@@ -131,9 +131,10 @@ describe('audit-complete handler', () => {
     expect(lambdaSendMock).not.toHaveBeenCalled();
   });
 
-  it('returns permissive CORS headers', async () => {
+  it('returns CORS headers with allowlisted origin (default fallback)', async () => {
     const res: any = await handler(evt({ contactId: 'x', scores: {}, top3: [] }));
-    expect(res.headers['Access-Control-Allow-Origin']).toBe('*');
+    expect(res.headers['Access-Control-Allow-Origin']).toBe('https://my4mlife.com');
+    expect(res.headers['Vary']).toBe('Origin');
   });
 
   it('enqueues SQS nurture stage-1 with DelaySeconds 900 when NURTURE_QUEUE_URL set', async () => {

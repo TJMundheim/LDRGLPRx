@@ -1056,10 +1056,28 @@ const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
 function auditTop3WithIds(): Array<{ id: string; rawScore: number }> {
   const scores = loadAuditScores();
   if (!scores) return [];
-  return AUDIT_CATEGORIES
+
+  // Honor the same override rule as selectTop3 (locked 2026-06-01):
+  // already-diagnosed >= 3 → forced #1, remaining 2 picked from others.
+  const diagId = 'already-diagnosed';
+  const diagScore = scores[diagId] ?? 0;
+  const ranked = AUDIT_CATEGORIES
     .map(cat => ({ id: cat.id, raw: scores[cat.id] ?? 0, bonus: AUDIT_BONUS_BY_ID[cat.id] ?? 0 }))
+    .map(x => ({ ...x, total: x.raw + x.bonus }));
+
+  if (diagScore >= 3) {
+    const diag = ranked.find(x => x.id === diagId);
+    if (diag) {
+      const others = ranked
+        .filter(x => x.id !== diagId && x.raw > 0)
+        .sort((a, b) => b.total - a.total || b.bonus - a.bonus || a.id.localeCompare(b.id))
+        .slice(0, 2);
+      return [diag, ...others].map(x => ({ id: x.id, rawScore: x.raw }));
+    }
+  }
+
+  return ranked
     .filter(x => x.raw > 0)
-    .map(x => ({ ...x, total: x.raw + x.bonus }))
     .sort((a, b) => b.total - a.total || b.bonus - a.bonus || a.id.localeCompare(b.id))
     .slice(0, 3)
     .map(x => ({ id: x.id, rawScore: x.raw }));

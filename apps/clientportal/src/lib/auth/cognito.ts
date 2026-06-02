@@ -110,12 +110,32 @@ export function getCurrentUser(): CognitoUser | null {
   }
 }
 
-/** Clears all stored tokens. */
+// Storage keys that hold per-user assessment / workbook / intake state.
+// Cleared on sign-out so the next user's hydrated data isn't shadowed by
+// the previous session's cache (Test 2 cache bug, 2026-06-02).
+const PER_USER_LOCAL_KEYS = [
+  'audit-v1',
+  'intake-audit-scores-v1',
+  'intake-complete-v1',
+  'basics-v1',
+  'workbook-v1',
+  'workbook-factor-scores-v1',
+  'workbook-priorities-v1',
+];
+
+/** Clears stored tokens AND per-user app caches. */
 export function signOut(): void {
   try {
     localStorage.removeItem(STORAGE_KEYS.idToken);
     localStorage.removeItem(STORAGE_KEYS.accessToken);
     localStorage.removeItem(STORAGE_KEYS.refreshToken);
+    for (const k of PER_USER_LOCAL_KEYS) localStorage.removeItem(k);
+    // Also clear any workbook-* keys not in the explicit list (forward-compat
+    // for future workbook week storage).
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('workbook-')) localStorage.removeItem(key);
+    }
   } catch {
     // ignore in non-browser envs
   }
