@@ -637,25 +637,8 @@ const robots = "index, follow";
       }
     } catch (e) { /* no-op */ }
 
-    // Inject prominent CTA at the TOP of results
-    try {
-      var topCta = document.getElementById('top-protege-cta');
-      if (!topCta) {
-        topCta = document.createElement('div');
-        topCta.id = 'top-protege-cta';
-        topCta.className = 'top-protege-cta';
-        var resultsInner = document.querySelector('.assess-results-inner');
-        var header = document.querySelector('.results-header');
-        if (resultsInner && header && header.nextSibling) {
-          resultsInner.insertBefore(topCta, header.nextSibling);
-        } else if (resultsInner) {
-          resultsInner.insertBefore(topCta, resultsInner.firstChild);
-        }
-      }
-      topCta.innerHTML =
-        '<a href="' + becomeUrl + '" class="btn btn-primary btn-large top-protege-cta-btn">Become a Protégé &amp; Open the App &rarr;</a>' +
-        '<p class="top-protege-cta-sub">Free. We&rsquo;ll carry your assessment straight to your app dashboard &mdash; no retake.</p>';
-    } catch (e) { /* no-op */ }
+    // Per TJ direction 2026-06-01: removed the duplicate top-of-results CTA.
+    // The 'Next Step — Free' block below already has the single primary CTA.
 
     // Render product tiles for each top-3 category
     try {
