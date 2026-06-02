@@ -29,6 +29,13 @@ const STORAGE_KEYS = {
  * Calls the /api/request-otp endpoint which auto-creates the Cognito user if needed.
  * Returns the session string.
  */
+export class RateLimitError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'RateLimitError';
+  }
+}
+
 export async function requestEmailCode(email: string, firstName?: string): Promise<string> {
   const url = `${LEAD_API_URL}/api/request-otp`;
   const res = await fetch(url, {
@@ -37,15 +44,13 @@ export async function requestEmailCode(email: string, firstName?: string): Promi
     body: JSON.stringify({ email: email.trim().toLowerCase(), firstName }),
   });
   const data = await res.json() as { status: string; session?: string; message?: string };
+  if (res.status === 429 || data.status === 'rate_limited') {
+    throw new RateLimitError(data.message ?? 'A code was recently sent. Check your inbox before requesting another.');
+  }
   if (!res.ok) {
     throw new Error(data.message ?? `Request failed (${res.status})`);
   }
-  if (data.status === 'queued') {
-    // SES sandbox — code not delivered but session may still be present
-    if (data.session) return data.session;
-    throw new Error('Code queued but no session returned. Check SES sandbox.');
-  }
-  if (!data.session) throw new Error('No session returned from server');
+  if (!data.session) throw new Error(data.message ?? 'No session returned from server');
   return data.session;
 }
 

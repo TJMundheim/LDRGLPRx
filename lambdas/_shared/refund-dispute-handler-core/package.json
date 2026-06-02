@@ -11,7 +11,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@my4mlife/stripe-client": "workspace:*"
+    "@my4mlife/stripe-client": "workspace:*",
+    "@my4mlife/contact-id": "workspace:*"
   },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.700.0",

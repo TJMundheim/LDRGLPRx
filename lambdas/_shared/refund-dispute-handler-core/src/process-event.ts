@@ -1,4 +1,5 @@
 import { getStripeClient } from '@my4mlife/stripe-client';
+import { resolveContactId } from '@my4mlife/contact-id';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
@@ -9,7 +10,6 @@ const TOUCHPOINTS_TABLE = process.env['TOUCHPOINTS_TABLE'] ?? 'Touchpoints';
 
 type DisputeStatus = 'needs_response' | 'under_review' | 'charge_refunded' | 'won' | 'lost' | 'warning_needs_response' | 'warning_under_review' | 'warning_closed';
 
-// Ban guard: ONLY lost disputes trigger a ban. Never on created/under_review/won.
 function shouldBan(status: string): status is 'lost' {
   return status === 'lost';
 }
@@ -23,7 +23,6 @@ async function cancelSubscriptions(stripe: Awaited<ReturnType<typeof getStripeCl
       await stripe.subscriptions.cancel(sub.id);
     } catch (err) {
       console.error(`Failed to cancel subscription ${sub.id}:`, err);
-      // Do not re-throw — ban write must still proceed
     }
   }
 }
@@ -40,38 +39,52 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   const stripe = await getStripeClient({ livemode: e.livemode });
   const mode = e.livemode ? 'live' : 'test';
 
-  await writeTouchpoint(e.id, e.type, mode);
+  // e.id is the EVENT id. We must resolve the actual charge/dispute id from
+  // the event payload — calling stripe.charges.retrieve(evt_...) returns 404.
+  const evt = await stripe.events.retrieve(e.id);
+  const objectId = (evt.data.object as { id?: string }).id;
+  if (!objectId) throw new Error(`refund-dispute: event ${e.id} has no data.object.id`);
 
   if (e.type === 'charge.refunded') {
-    const charge = await stripe.charges.retrieve(e.id);
+    const charge = await stripe.charges.retrieve(objectId);
     if (charge.refunded) {
       await ddb.send(new UpdateCommand({
         TableName: ORDERS_TABLE,
-        Key: { orderId: e.id },
+        Key: { orderId: charge.id },
         UpdateExpression: 'SET #status = :refunded, updatedAt = :now',
         ConditionExpression: 'attribute_exists(orderId)',
         ExpressionAttributeNames: { '#status': 'status' },
         ExpressionAttributeValues: { ':refunded': 'refunded', ':now': new Date().toISOString() },
       })).catch(e => { if (e.name !== 'ConditionalCheckFailedException') throw e; });
     }
+    // Touchpoint LAST so it only marks success after the refund write completes.
+    await writeTouchpoint(e.id, e.type, mode);
     return;
   }
 
-  // Dispute events: charge.dispute.created | charge.dispute.updated | charge.dispute.closed
-  const dispute = await stripe.disputes.retrieve(e.id);
+  // Dispute events: charge.dispute.created | charge.dispute.updated
+  const dispute = await stripe.disputes.retrieve(objectId);
   const charge = await stripe.charges.retrieve(dispute.charge as string);
   const customerId = typeof charge.customer === 'string' ? charge.customer : (charge.customer as { id: string } | null)?.id;
 
   if (shouldBan(dispute.status as DisputeStatus)) {
-    // Cancel all active subscriptions first (failures logged, never block ban)
     if (customerId) {
       await cancelSubscriptions(stripe, customerId);
     }
 
-    // Write ban — idempotent via condition on current value
+    const metadataContactId = (charge.metadata as Record<string, string> | null)?.['contactId'] ?? null;
+    const email = (charge.metadata as Record<string, string> | null)?.['contactEmail']
+      ?? charge.billing_details?.email
+      ?? charge.receipt_email
+      ?? null;
+    const contactId = resolveContactId({ metadataContactId, email });
+    if (!contactId) {
+      throw new Error(`refund-dispute: cannot resolve contactId for charge ${charge.id} (no metadata.contactId, no email)`);
+    }
+
     await ddb.send(new UpdateCommand({
       TableName: CONTACT_TABLE,
-      Key: { email: charge.metadata?.contactEmail ?? customerId },
+      Key: { contactId },
       UpdateExpression: 'SET lifecycleStage = :banned, isBanned = :true, updatedAt = :now',
       ConditionExpression: 'attribute_not_exists(lifecycleStage) OR lifecycleStage <> :banned',
       ExpressionAttributeValues: {
@@ -81,5 +94,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       },
     })).catch(e => { if (e.name !== 'ConditionalCheckFailedException') throw e; });
   }
-  // Won/needs_response/under_review: no-op — ban is NEVER reversed by this handler
+
+  // Touchpoint LAST so an upstream failure leaves no false "processed" marker.
+  await writeTouchpoint(e.id, e.type, mode);
 }

@@ -1,6 +1,33 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { requestEmailCode } from '../../auth/cognito.js';
+  import { requestEmailCode, RateLimitError } from '../../auth/cognito.js';
+
+  // Cooldown window during which we will NOT re-call InitiateAuth for the same
+  // email. The cached session is reused — the user proceeds directly to code
+  // entry instead of triggering Cognito to send a second OTP.
+  const OTP_COOLDOWN_MS = 90_000;
+
+  type CachedSend = { session: string; sentAt: number };
+
+  function readCachedSend(email: string): CachedSend | null {
+    try {
+      const raw = sessionStorage.getItem(`my4m-otp-sent-${email.toLowerCase()}`);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw) as CachedSend;
+      if (!parsed.session || typeof parsed.sentAt !== 'number') return null;
+      if (Date.now() - parsed.sentAt > OTP_COOLDOWN_MS) return null;
+      return parsed;
+    } catch { return null; }
+  }
+
+  function writeCachedSend(email: string, session: string): void {
+    try {
+      sessionStorage.setItem(
+        `my4m-otp-sent-${email.toLowerCase()}`,
+        JSON.stringify({ session, sentAt: Date.now() }),
+      );
+    } catch { /* ignore */ }
+  }
 
   interface Props {
     onsuccess: (detail: { email: string; session: string }) => void;
@@ -39,22 +66,41 @@
       console.info('[auth] requestCode blocked — already in flight');
       return;
     }
+    const cleanEmail = email.trim();
+
+    // If we sent a code to this email recently, reuse the cached session
+    // instead of calling Cognito again. This is the primary defense against
+    // duplicate OTPs from SW reloads, remounts, or accidental double-fires.
+    const cached = readCachedSend(cleanEmail);
+    if (cached) {
+      console.info('[auth] requestCode reusing cached session within cooldown');
+      onsuccess({ email: cleanEmail, session: cached.session });
+      return;
+    }
+
     requestInFlight = true;
     error = '';
     loading = true;
-    console.info('[auth] requestCode firing for', email.trim());
+    console.info('[auth] requestCode firing for', cleanEmail);
     try {
-      const session = await requestEmailCode(email.trim(), firstName.trim() || undefined);
+      const session = await requestEmailCode(cleanEmail, firstName.trim() || undefined);
+      writeCachedSend(cleanEmail, session);
       console.info('[auth] requestCode succeeded — calling onsuccess');
-      onsuccess({ email: email.trim(), session });
-      // Intentionally DO NOT flip loading to false on success — the parent
-      // will unmount us via step='code'. Leaving loading=true keeps the
-      // spinner up so the manual form never flashes during the transition.
+      onsuccess({ email: cleanEmail, session });
+      // Parent unmounts us via step='code'. Leave loading=true so manual form
+      // doesn't flash during transition.
       return;
     } catch (err) {
-      error = err instanceof Error ? err.message : 'Failed to send code. Please try again.';
+      if (err instanceof RateLimitError) {
+        error = err.message;
+      } else {
+        error = err instanceof Error ? err.message : 'Failed to send code. Please try again.';
+      }
       console.warn('[auth] requestCode failed:', err);
       loading = false;
+    } finally {
+      // Always reset in-flight so a deliberate retry (e.g. after a rate-limit
+      // notice clears) can re-arm. Success path has already navigated away.
       requestInFlight = false;
     }
   }
@@ -64,29 +110,16 @@
     await requestCode();
   }
 
-  // Fresh signup arriving from /become-protege → auto-send the code
-  // and skip straight to the code-entry step. No second click required.
-  //
-  // Guard against double-send: sessionStorage flag prevents a second
-  // requestCode() if the component remounts (Svelte re-mount race,
-  // back/forward navigation, etc.). The flag is scoped to the email
-  // so different users on the same browser get their own slot. Cleared
-  // automatically on Cognito sign-in (full page reload via CodeEntry).
+  // Fresh signup arriving from /become-protege → auto-send the code (or reuse
+  // the cached session if one was recently issued within the cooldown window)
+  // and skip straight to the code-entry step. The requestCode() short-circuit
+  // on cached session is what prevents a second Cognito InitiateAuth call when
+  // the component remounts (SW reload, back/forward, hydration race, etc.).
   onMount(() => {
     if (!isFreshSignup || !initialEmail) {
-      loading = false; // ensure manual form is interactive
+      loading = false;
       return;
     }
-    const guardKey = `my4m-otp-autosent-${initialEmail.toLowerCase()}`;
-    try {
-      if (sessionStorage.getItem(guardKey)) {
-        // Already auto-sent in this session — show manual form so they can
-        // request again if they need to.
-        loading = false;
-        return;
-      }
-      sessionStorage.setItem(guardKey, '1');
-    } catch { /* sessionStorage unavailable — fall through */ }
     void requestCode();
   });
 </script>

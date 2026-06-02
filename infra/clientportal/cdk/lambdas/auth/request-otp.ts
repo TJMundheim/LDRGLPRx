@@ -93,16 +93,24 @@ export const handler = async (event: { body?: string; email?: string; firstName?
       ClientId: APP_CLIENT_ID,
       AuthParameters: { USERNAME: email },
     }));
-    if (!auth.Session) throw new Error('No session returned');
+    if (!auth.Session) {
+      console.error(JSON.stringify({ event: 'initiate_auth_no_session', email }));
+      return { statusCode: 502, headers: CORS, body: JSON.stringify({ status: 'error', message: 'Auth service did not return a session. Please try again in a moment.' }) };
+    }
     console.log(JSON.stringify({ event: 'otp_initiated', email }));
     return { statusCode: 200, headers: CORS, body: JSON.stringify({ status: 'sent', session: auth.Session }) };
   } catch (authErr: unknown) {
+    const name = (authErr as { name?: string }).name ?? '';
     const msg = authErr instanceof Error ? authErr.message : String(authErr);
-    console.error(JSON.stringify({ event: 'initiate_auth_error', email, error: msg }));
-    // SES sandbox / unverified recipient — Cognito still creates the challenge but OTP may not deliver
-    if (msg.includes('LimitExceededException') || msg.includes('NotAuthorized')) {
-      return { statusCode: 200, headers: CORS, body: JSON.stringify({ status: 'queued' }) };
+    console.error(JSON.stringify({ event: 'initiate_auth_error', email, name, error: msg }));
+    // Cognito rate-limit (too many in-flight challenges for this user). NEVER auto-retry:
+    // a retry triggers a second InitiateAuth → second code → duplicate OTPs in user's inbox.
+    if (name === 'LimitExceededException' || msg.includes('LimitExceededException')) {
+      return { statusCode: 429, headers: CORS, body: JSON.stringify({ status: 'rate_limited', message: 'A code was recently sent. Please check your inbox (and spam folder) before requesting another.' }) };
     }
-    return { statusCode: 500, headers: CORS, body: JSON.stringify({ status: 'error', message: 'Failed to send code' }) };
+    if (name === 'NotAuthorizedException' || msg.includes('NotAuthorizedException')) {
+      return { statusCode: 401, headers: CORS, body: JSON.stringify({ status: 'error', message: 'Account not allowed to sign in. Contact support.' }) };
+    }
+    return { statusCode: 502, headers: CORS, body: JSON.stringify({ status: 'error', message: 'Failed to send code. Please try again in a moment.' }) };
   }
 };

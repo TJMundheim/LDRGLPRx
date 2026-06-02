@@ -1,19 +1,22 @@
 import { getStripeClient } from '@my4mlife/stripe-client';
+import { resolveContactId } from '@my4mlife/contact-id';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
-const REGION = 'us-east-2';
-const ACCOUNT = '879696522760';
-const tableArn = (name: string) =>
-  `arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/${name}`;
-
 function makeDdb() {
-  return DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+  return DynamoDBDocumentClient.from(new DynamoDBClient({ region: 'us-east-2' }));
 }
 
 export async function processEvent(e: { id: string; type: string; livemode: boolean }): Promise<void> {
   const stripe = await getStripeClient({ livemode: e.livemode });
-  const session = await stripe.checkout.sessions.retrieve(e.id, {
+
+  // e.id is the Stripe EVENT id (evt_...). Retrieve the event to get the
+  // canonical object id (cs_... checkout session).
+  const evt = await stripe.events.retrieve(e.id);
+  const sessionId = (evt.data.object as { id?: string }).id;
+  if (!sessionId) throw new Error(`order-handler: event ${e.id} has no data.object.id`);
+
+  const session = await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ['line_items', 'customer'],
   });
 
@@ -28,35 +31,28 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     session.customer_details?.email ??
     '';
 
+  const metadataContactId = (session.metadata as Record<string, string> | null)?.['contactId'] ?? null;
+  const contactId = resolveContactId({ metadataContactId, email });
+  if (!contactId) {
+    // Anonymous purchase with no contact context — refuse rather than
+    // collapse into a corrupt {email:''} Contact row. DLQ will surface
+    // upstream data issues.
+    throw new Error(`order-handler: cannot resolve contactId for session ${session.id} (no metadata.contactId, no email)`);
+  }
+
   const amountUSD = (session.amount_total ?? 0) / 100;
 
-  // 1. Contact upsert — last-writer-wins on updatedAt, never overwrites isDemo
-  await ddb.send(
-    new UpdateCommand({
-      TableName: 'Contact',
-      Key: { email },
-      UpdateExpression: [
-        'SET lastPurchaseAt = :now',
-        'updatedAt = :now',
-        'hasUsedFirstPurchaseDiscount = :true',
-        'lifetimeValueUSD = if_not_exists(lifetimeValueUSD, :zero) + :amount',
-      ].join(', '),
-      ExpressionAttributeValues: {
-        ':now': now,
-        ':true': true,
-        ':zero': 0,
-        ':amount': amountUSD,
-      },
-    })
-  );
-
-  // 2. Orders insert — keyed by session ID, idempotent
+  // 1. Orders insert FIRST — keyed by session ID, idempotent via condition.
+  // We use the success of this insert as the "this is a new order" signal so
+  // that LTV is only incremented once even if the event is retried.
+  let isNewOrder = true;
   try {
     await ddb.send(
       new PutCommand({
         TableName: 'Orders',
         Item: {
           orderId: session.id,
+          contactId,
           email,
           amountUSD,
           currency: session.currency,
@@ -68,8 +64,33 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       })
     );
   } catch (err: unknown) {
-    if ((err as { name?: string }).name !== 'ConditionalCheckFailedException') throw err;
+    if ((err as { name?: string }).name === 'ConditionalCheckFailedException') {
+      isNewOrder = false;
+    } else {
+      throw err;
+    }
   }
+
+  // 2. Contact upsert — only increment LTV if this is a new order.
+  const updateExpr = [
+    'SET lastPurchaseAt = :now',
+    'updatedAt = :now',
+    'hasUsedFirstPurchaseDiscount = :true',
+  ];
+  const values: Record<string, unknown> = { ':now': now, ':true': true };
+  if (isNewOrder) {
+    updateExpr.push('lifetimeValueUSD = if_not_exists(lifetimeValueUSD, :zero) + :amount');
+    values[':zero'] = 0;
+    values[':amount'] = amountUSD;
+  }
+  await ddb.send(
+    new UpdateCommand({
+      TableName: 'Contact',
+      Key: { contactId },
+      UpdateExpression: updateExpr.join(', '),
+      ExpressionAttributeValues: values,
+    })
+  );
 
   // 3. Touchpoints insert — keyed by Stripe event ID, idempotent
   try {
@@ -80,6 +101,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
           stripeEventId: e.id,
           type: e.type,
           sessionId: session.id,
+          contactId,
           email,
           mode,
           createdAt: now,
