@@ -4,20 +4,16 @@ import './app.css';
 import { ingestAuditHandoff } from './lib/auth/audit-handoff';
 import { registerSW } from 'virtual:pwa-register';
 
-// Aggressive update strategy: when a new SW takes control, reload immediately so
-// users see latest code without manually hard-refreshing. Pre-launch — no multi-tab concerns.
+// SW registration: install the new SW in the background but DO NOT force a
+// reload when it takes control. Auto-reloads during the auth handoff
+// (especially the ?new=1 → EmailEntry auto-send → CodeEntry transition)
+// were interrupting the flow and dropping users back on EmailEntry with the
+// 'Send Code' button after the code had already been sent. Users now pick
+// up the new code on their next natural navigation/refresh.
 registerSW({
   immediate: true,
-  onNeedRefresh() {
-    window.location.reload();
-  },
+  // No onNeedRefresh handler — new SW activates silently in the background.
 });
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    window.location.reload();
-  });
-}
 
 ingestAuditHandoff();
 
