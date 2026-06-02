@@ -135,9 +135,9 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
 /**
  * Bonus map — additive weight applied to raw score in selectTop3.
  *
- * Rules locked 2026-06-01:
- *   - already-diagnosed > 0 → automatic #1 in top-3 (override; NOT bonus-driven)
- *   - already-diagnosed = 0 → excluded from top-3 entirely
+ * Rules locked 2026-06-01 (revised mid-assessment):
+ *   - already-diagnosed >= 3 → automatic #1 in top-3 (override; NOT bonus-driven)
+ *   - already-diagnosed 0/1/2 → ranked normally with raw score, no bonus
  *   - gut-microbiome and weight-body-fat get +2 bonus
  *   - everything else uses raw score (no bonus)
  *

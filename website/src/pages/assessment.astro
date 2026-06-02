@@ -311,24 +311,31 @@ const robots = "index, follow";
   }
 
   // ── selectTop3 ──
-  // Rules locked 2026-06-01:
-  //   - already-diagnosed > 0 → automatic #1; remaining 2 picked from others
-  //   - already-diagnosed = 0 → excluded entirely; top 3 picked from others
+  // Rules locked 2026-06-01 (revised mid-assessment):
+  //   - already-diagnosed >= 3 → automatic #1; remaining 2 picked from others
+  //   - already-diagnosed 0/1/2 → ranked normally with raw score, no bonus
   //   - others: raw score + BONUS_BY_ID[id], higher wins, priorityTier breaks ties
   function selectTop3(scores, categories) {
     var diagScore = scores['already-diagnosed'] !== undefined ? scores['already-diagnosed'] : 0;
-    var others = categories.filter(function (c) { return c.id !== 'already-diagnosed'; });
-    others.sort(function (a, b) {
+    if (diagScore >= 3) {
+      var others = categories.filter(function (c) { return c.id !== 'already-diagnosed'; });
+      others.sort(function (a, b) {
+        var sa = (scores[a.id] !== undefined ? scores[a.id] : 0) + (BONUS_BY_ID[a.id] || 0);
+        var sb = (scores[b.id] !== undefined ? scores[b.id] : 0) + (BONUS_BY_ID[b.id] || 0);
+        if (sb !== sa) return sb - sa;
+        return (b.priorityTier ? 1 : 0) - (a.priorityTier ? 1 : 0);
+      });
+      var diagCat = categories.find(function (c) { return c.id === 'already-diagnosed'; });
+      return [diagCat].concat(others.slice(0, 2));
+    }
+    // Diagnosis 0/1/2: ranked alongside everything else with raw score, no bonus.
+    var sorted = categories.slice().sort(function (a, b) {
       var sa = (scores[a.id] !== undefined ? scores[a.id] : 0) + (BONUS_BY_ID[a.id] || 0);
       var sb = (scores[b.id] !== undefined ? scores[b.id] : 0) + (BONUS_BY_ID[b.id] || 0);
       if (sb !== sa) return sb - sa;
       return (b.priorityTier ? 1 : 0) - (a.priorityTier ? 1 : 0);
     });
-    if (diagScore > 0) {
-      var diagCat = categories.find(function (c) { return c.id === 'already-diagnosed'; });
-      return [diagCat].concat(others.slice(0, 2));
-    }
-    return others.slice(0, 3);
+    return sorted.slice(0, 3);
   }
 
   // ── Progress ──

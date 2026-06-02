@@ -507,10 +507,11 @@ function loadAuditScores(): AuditScores | null {
   } catch (e) { if (DEBUG) console.debug('[4M] loadAuditScores error:', e); return null; }
 }
 
-// Scoring rules locked 2026-06-01 (mirror in website assessment.astro +
-// website/src/data/audit-questions.ts + website/src/lib/survey-scoring.ts):
-//   - already-diagnosed > 0 → automatic #1 in top-3 (override)
-//   - already-diagnosed = 0 → excluded from top-3 entirely
+// Scoring rules locked 2026-06-01 (revised mid-assessment — mirror in
+// website assessment.astro + website/src/data/audit-questions.ts +
+// website/src/lib/survey-scoring.ts):
+//   - already-diagnosed >= 3 → automatic #1 in top-3 (override)
+//   - already-diagnosed 0/1/2 → ranked normally with raw score, no bonus
 //   - gut-microbiome and weight-body-fat get +2 bonus
 //   - everything else uses raw score only (no bonus)
 const AUDIT_BONUS_BY_ID: Record<string, number> = {
@@ -521,12 +522,36 @@ const AUDIT_BONUS_BY_ID: Record<string, number> = {
 function selectTop3(scores: AuditScores): Array<{ label: string; score: number }> {
   const diagId = 'already-diagnosed';
   const diagScore = scores[diagId] ?? 0;
-  const diagCat = AUDIT_CATEGORIES.find(c => c.id === diagId);
 
-  // Rank all NON-diagnosis categories (any raw > 0) by raw+bonus, with
-  // priorityTier and id tie-breakers preserved from the prior rule.
-  const others = AUDIT_CATEGORIES
-    .filter(cat => cat.id !== diagId)
+  // Override: diag >= 3 → forced #1, remaining 2 from others.
+  if (diagScore >= 3) {
+    const diagCat = AUDIT_CATEGORIES.find(c => c.id === diagId);
+    const others = AUDIT_CATEGORIES
+      .filter(cat => cat.id !== diagId)
+      .map(cat => ({
+        label: cat.label,
+        id: cat.id,
+        raw: scores[cat.id] ?? 0,
+        bonus: AUDIT_BONUS_BY_ID[cat.id] ?? 0,
+        priorityTier: cat.priorityTier,
+      }))
+      .filter(x => x.raw > 0)
+      .map(x => ({ ...x, total: x.raw + x.bonus }))
+      .sort((a, b) => {
+        if (b.total !== a.total) return b.total - a.total;
+        if (b.bonus !== a.bonus) return b.bonus - a.bonus;
+        if (a.priorityTier && !b.priorityTier) return -1;
+        if (!a.priorityTier && b.priorityTier) return 1;
+        return a.id.localeCompare(b.id);
+      });
+    return [
+      ...(diagCat ? [{ label: diagCat.label, score: diagScore }] : []),
+      ...others.slice(0, 2).map(({ label, total }) => ({ label, score: total })),
+    ];
+  }
+
+  // Diagnosis 0/1/2: rank all categories normally with raw + bonus.
+  const sorted = AUDIT_CATEGORIES
     .map(cat => ({
       label: cat.label,
       id: cat.id,
@@ -543,17 +568,7 @@ function selectTop3(scores: AuditScores): Array<{ label: string; score: number }
       if (!a.priorityTier && b.priorityTier) return 1;
       return a.id.localeCompare(b.id);
     });
-
-  // Diagnosis override: any non-zero score → automatic #1.
-  if (diagScore > 0 && diagCat) {
-    return [
-      { label: diagCat.label, score: diagScore },
-      ...others.slice(0, 2).map(({ label, total }) => ({ label, score: total })),
-    ];
-  }
-
-  // Diagnosis = 0 → excluded entirely; top 3 from others.
-  return others.slice(0, 3).map(({ label, total }) => ({ label, score: total }));
+  return sorted.slice(0, 3).map(({ label, total }) => ({ label, score: total }));
 }
 
 function auditBand200(total: number): { label: string; color: string; bg: string } {
