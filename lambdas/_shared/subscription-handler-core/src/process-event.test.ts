@@ -17,9 +17,13 @@ vi.mock('@aws-sdk/lib-dynamodb', () => ({
 }));
 
 const mockStripeRetrieve = vi.fn();
+const mockEventRetrieve = vi.fn(async (id: string) => ({ data: { object: { id: id.replace(/^evt_/, 'sub_') } } }));
+const mockCustomerRetrieve = vi.fn(async () => ({ email: 'fallback@example.com', deleted: false }));
 vi.mock('@my4mlife/stripe-client', () => ({
   getStripeClient: vi.fn(async () => ({
     subscriptions: { retrieve: mockStripeRetrieve },
+    events: { retrieve: mockEventRetrieve },
+    customers: { retrieve: mockCustomerRetrieve },
   })),
 }));
 

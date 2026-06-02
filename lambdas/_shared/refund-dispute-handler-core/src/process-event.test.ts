@@ -6,12 +6,16 @@ const {
   mockStripeDisputeRetrieve,
   mockStripeSubscriptionsList,
   mockStripeSubscriptionsCancel,
+  mockStripeEventRetrieve,
   mockDdbSend,
 } = vi.hoisted(() => ({
   mockStripeChargRetrieve: vi.fn(),
   mockStripeDisputeRetrieve: vi.fn(),
   mockStripeSubscriptionsList: vi.fn(),
   mockStripeSubscriptionsCancel: vi.fn(),
+  // events.retrieve echoes the passed id back as the canonical object id,
+  // matching how the existing tests already pass object-ids as event-ids.
+  mockStripeEventRetrieve: vi.fn(async (id: string) => ({ data: { object: { id } } })),
   mockDdbSend: vi.fn(),
 }));
 
@@ -19,6 +23,7 @@ vi.mock('@my4mlife/stripe-client', () => ({
   getStripeClient: vi.fn().mockResolvedValue({
     charges: { retrieve: mockStripeChargRetrieve },
     disputes: { retrieve: mockStripeDisputeRetrieve },
+    events: { retrieve: mockStripeEventRetrieve },
     subscriptions: {
       list: mockStripeSubscriptionsList,
       cancel: mockStripeSubscriptionsCancel,

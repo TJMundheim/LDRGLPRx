@@ -1,15 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// Shared mock send function
 const mockSend = vi.fn();
 
-// Mock stripe-client
 vi.mock('@my4mlife/stripe-client', () => ({
   getStripeClient: vi.fn(),
   __resetCacheForTests: vi.fn(),
 }));
 
-// Mock DynamoDB DocumentClient so all instances use the same mockSend
 vi.mock('@aws-sdk/lib-dynamodb', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@aws-sdk/lib-dynamodb')>();
   return {
@@ -27,8 +24,12 @@ vi.mock('@aws-sdk/client-dynamodb', () => ({
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { processEvent } from './process-event.js';
 
-const mockRetrieve = vi.fn();
-const mockStripe = { checkout: { sessions: { retrieve: mockRetrieve } } };
+const mockSessionRetrieve = vi.fn();
+const mockEventRetrieve = vi.fn();
+const mockStripe = {
+  checkout: { sessions: { retrieve: mockSessionRetrieve } },
+  events: { retrieve: mockEventRetrieve },
+};
 
 const baseSession = {
   id: 'cs_test_abc',
@@ -41,69 +42,106 @@ const baseSession = {
   line_items: { data: [] },
 };
 
+const baseEvent = { data: { object: { id: 'cs_test_abc' } } };
+
 beforeEach(() => {
   vi.clearAllMocks();
   vi.mocked(getStripeClient).mockResolvedValue(mockStripe as never);
   mockSend.mockResolvedValue({});
-  mockRetrieve.mockResolvedValue(baseSession);
+  mockSessionRetrieve.mockResolvedValue(baseSession);
+  mockEventRetrieve.mockResolvedValue(baseEvent);
 });
 
 describe('processEvent', () => {
-  // (a) only extracts {id, type, livemode} from input
   it('(a) calls getStripeClient with livemode from event, not body', async () => {
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
     expect(getStripeClient).toHaveBeenCalledWith({ livemode: false });
   });
 
-  // (b) calls stripe.checkout.sessions.retrieve with expand
-  it('(b) retrieves checkout session with expanded line_items and customer', async () => {
+  it('(b) retrieves event then session by canonical object id', async () => {
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
-    expect(mockRetrieve).toHaveBeenCalledWith(
-      expect.any(String),
-      { expand: ['line_items', 'customer'] }
-    );
+    expect(mockEventRetrieve).toHaveBeenCalledWith('evt_1');
+    expect(mockSessionRetrieve).toHaveBeenCalledWith('cs_test_abc', { expand: ['line_items', 'customer'] });
   });
 
-  // (c) writes 3 rows: Contact upsert, Orders insert, Touchpoints insert
-  it('(c) writes Contact, Orders, and Touchpoints rows', async () => {
+  it('(c) writes Orders, Contact, and Touchpoints rows', async () => {
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
     expect(mockSend).toHaveBeenCalledTimes(3);
   });
 
-  // (d) processing same event twice → idempotent (Touchpoints swallows ConditionalCheckFailedException)
-  it('(d) processing same event twice is idempotent', async () => {
-    let totalCalls = 0;
-    mockSend.mockImplementation(async (cmd) => {
-      totalCalls++;
-      // On second run, simulate ConditionalCheckFailedException on Touchpoints (3rd call overall = 6th)
-      if (totalCalls === 6) {
-        const err = new Error('ConditionalCheckFailedException');
-        err.name = 'ConditionalCheckFailedException';
-        throw err;
+  it('(d) idempotent: second processEvent does not double-count LTV', async () => {
+    // Track Orders insert + Touchpoints insert state across two runs
+    let ordersInserted = false;
+    let touchpointsInserted = false;
+    mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
+      const table = cmd.input?.TableName;
+      if (table === 'Orders' && cmd.input?.Item?.['orderId']) {
+        if (ordersInserted) {
+          const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err;
+        }
+        ordersInserted = true;
+        return {};
+      }
+      if (table === 'Touchpoints' && cmd.input?.Item?.['stripeEventId']) {
+        if (touchpointsInserted) {
+          const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err;
+        }
+        touchpointsInserted = true;
+        return {};
       }
       return {};
     });
 
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
-    expect(totalCalls).toBe(6);
+
+    // On second run, Contact update must NOT include the LTV increment.
+    const contactUpdates = mockSend.mock.calls
+      .map(([cmd]) => cmd?.input)
+      .filter((inp) => inp?.TableName === 'Contact' && inp?.UpdateExpression);
+    expect(contactUpdates.length).toBe(2);
+    expect(contactUpdates[0].UpdateExpression).toContain('lifetimeValueUSD');
+    expect(contactUpdates[1].UpdateExpression).not.toContain('lifetimeValueUSD');
   });
 
-  // (e) livemode=false → Touchpoints mode:'test'
-  it('(e) demo session sets mode test on Touchpoints', async () => {
+  it('(e) livemode=false → Touchpoints mode:test', async () => {
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
-    const allArgs = mockSend.mock.calls.map(([cmd]) => cmd?.input);
-    const touchpointsItem = allArgs.find((inp) => inp?.Item?.stripeEventId !== undefined);
-    expect(touchpointsItem).toBeDefined();
-    expect(touchpointsItem?.Item?.mode).toBe('test');
+    const tpItem = mockSend.mock.calls
+      .map(([cmd]) => cmd?.input)
+      .find((inp) => inp?.TableName === 'Touchpoints');
+    expect(tpItem?.Item?.mode).toBe('test');
   });
 
-  // (f) Contact write does NOT overwrite existing isDemo
-  it('(f) Contact UpdateCommand does not overwrite isDemo', async () => {
+  it('(f) Contact PK is contactId (not email)', async () => {
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
-    const allArgs = mockSend.mock.calls.map(([cmd]) => cmd?.input);
-    const contactUpdate = allArgs.find((inp) => inp?.UpdateExpression !== undefined);
-    expect(contactUpdate).toBeDefined();
-    expect(contactUpdate?.UpdateExpression).not.toContain('isDemo');
+    const contactUpdate = mockSend.mock.calls
+      .map(([cmd]) => cmd?.input)
+      .find((inp) => inp?.TableName === 'Contact');
+    expect(contactUpdate?.Key).toHaveProperty('contactId');
+    expect(contactUpdate?.Key).not.toHaveProperty('email');
+  });
+
+  it('(g) metadata.contactId wins over email-derived', async () => {
+    mockSessionRetrieve.mockResolvedValue({
+      ...baseSession,
+      metadata: { contactId: 'meta-contact-xyz' },
+    });
+    await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
+    const contactUpdate = mockSend.mock.calls
+      .map(([cmd]) => cmd?.input)
+      .find((inp) => inp?.TableName === 'Contact');
+    expect(contactUpdate?.Key.contactId).toBe('meta-contact-xyz');
+  });
+
+  it('(h) throws when no contactId and no email available', async () => {
+    mockSessionRetrieve.mockResolvedValue({
+      ...baseSession,
+      customer: null,
+      customer_details: null,
+      metadata: {},
+    });
+    await expect(
+      processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false })
+    ).rejects.toThrow(/cannot resolve contactId/);
   });
 });

@@ -64,6 +64,29 @@ log "Retrieving ARNs..."
 DLQ_ARN=$(get_queue_arn "$DLQ_URL")
 PF_ARN=$(get_queue_arn "$PF_URL")
 
+# ── DLQ resource policy ─────────────────────────────────────────────────────
+# EventBridge requires an explicit SQS resource policy granting
+# events.amazonaws.com sqs:SendMessage. Without this, EventBridge silently
+# drops failed events instead of writing them to the DLQ, and the
+# CloudWatch DLQ-depth alarm never fires.
+# Scoped via SourceArn condition to rules on the Stripe partner buses only.
+log "Applying DLQ resource policy (EventBridge → DLQ SendMessage)..."
+ACCOUNT_ID=$($AWS sts get-caller-identity --query Account --output text)
+DLQ_POLICY=$(cat <<EOF
+{"Version":"2012-10-17","Statement":[{"Sid":"AllowEventBridgeStripeRulesToSendToDLQ","Effect":"Allow","Principal":{"Service":"events.amazonaws.com"},"Action":"sqs:SendMessage","Resource":"${DLQ_ARN}","Condition":{"ArnLike":{"aws:SourceArn":"arn:aws:events:${REGION}:${ACCOUNT_ID}:rule/aws.partner/stripe.com/*"}}}]}
+EOF
+)
+# Write the SetQueueAttributes payload to disk so AWS CLI handles quoting.
+cat > /tmp/dlq-attrs.json <<EOF
+{"Policy": $(echo "$DLQ_POLICY" | python3 -c 'import json,sys;print(json.dumps(sys.stdin.read().strip()))')}
+EOF
+$AWS sqs set-queue-attributes \
+  --queue-url "$DLQ_URL" \
+  --attributes file:///tmp/dlq-attrs.json \
+  >/dev/null
+rm -f /tmp/dlq-attrs.json
+log "DLQ policy applied."
+
 # Save ARNs to file for downstream scripts to source
 mkdir -p "$(dirname "$0")"
 cat > "$(dirname "$0")/arns.txt" <<EOF

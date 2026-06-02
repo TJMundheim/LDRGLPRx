@@ -55,13 +55,17 @@ export const handler: SQSHandler = async (event) => {
       const fireAt = new Date(Date.now() + delaySec * 1000).toISOString();
       const scheduleName = `stripe-retry-${id}-${attemptCount + 1}`;
 
+      // One-shot schedule via at(<UTC>). rate() is recurring and was firing
+      // duplicate retries inside the EndDate window — drop EndDate entirely
+      // and let AWS Scheduler auto-delete the schedule after it fires once
+      // (ActionAfterCompletion=DELETE).
+      const fireAtUtc = fireAt.replace(/\.\d{3}Z$/, ''); // at() requires no millis, no Z
       await scheduler.send(new CreateScheduleCommand({
         Name: scheduleName,
-        ScheduleExpression: `rate(${delaySec} seconds)`,
+        ScheduleExpression: `at(${fireAtUtc})`,
         ScheduleExpressionTimezone: 'UTC',
         FlexibleTimeWindow: { Mode: 'OFF' },
-        StartDate: new Date(fireAt),
-        EndDate: new Date(Date.now() + (delaySec + 60) * 1000),
+        ActionAfterCompletion: 'DELETE',
         Target: {
           Arn: LAMBDA_ARN,
           RoleArn: SCHEDULER_ROLE,
