@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Thank you — your order is confirmed | My4MLife";
+const description = "Your My4MLife order is confirmed. Watch your inbox for shipping and account details.";
+const canonical = "https://www.my4mlife.com/thank-you";
+const robots = "noindex, nofollow";
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots={robots}>
+
+<section class="ty-section">
+  <div class="container ty-inner">
+    <div class="ty-icon" aria-hidden="true">&#10003;</div>
+    <h1>Thank you. Your order is confirmed.</h1>
+    <p class="ty-sub">
+      A receipt is on its way to your inbox. For digital products, your download link arrives in a separate email within a minute or two — check your inbox (and spam folder, just in case).
+    </p>
+
+    <div class="ty-explore">
+      <p class="ty-explore-prompt">Curious what else My4MLife offers?</p>
+      <p class="ty-explore-body">Take our free 5-minute 4M assessment — it's how we build a personalized brain-health plan around the four pillars: Mind, Muscle, Mitigate, Motivate.</p>
+      <a href="/assessment" class="btn btn-secondary">Take the free assessment &rarr;</a>
+    </div>
+
+    <p class="ty-support">
+      Questions? Email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.
+    </p>
+    <p class="ty-tagline">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.ty-section {
+  padding: 4rem 1rem 5rem;
+  min-height: 60vh;
+}
+.ty-inner {
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.ty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+.ty-inner h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1.2;
+}
+.ty-sub {
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.55;
+}
+.ty-explore {
+  margin: 1.5rem 0 0.5rem;
+  padding: 1.25rem 1.25rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+}
+.ty-explore-prompt {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 0.4rem;
+}
+.ty-explore-body {
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 0 0 0.9rem;
+  line-height: 1.5;
+}
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.btn-secondary { background: var(--accent); color: #fff; }
+.btn-secondary:hover { opacity: 0.9; }
+.ty-support {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin: 1.5rem 0 0;
+}
+.ty-support a { color: var(--accent); }
+.ty-tagline {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: italic;
+  margin: 0.5rem 0 0;
+}
+</style>

@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = "Cohort Workbook (PDF) | My4MLife";
+const description = "The downloadable workbook used inside the My4MLife cohort program. Print it, mark it up, work it in real life.";
+const canonical = "https://www.my4mlife.com/products/cohort-workbook";
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="cw-section">
+  <div class="container cw-inner">
+    <p class="cw-eyebrow">Digital download</p>
+    <h1>The Cohort Workbook</h1>
+    <p class="cw-sub">
+      The same printable workbook used inside the My4MLife cohort program — the one Dr. TJ walks members through on the weekly Zooms.
+      Daily check-ins, weekly reflections, and the 4M scoring sheets all in one place.
+    </p>
+
+    <ul class="cw-bullets">
+      <li>Month-1 workbook — daily protein-first check-ins, eating-window log, sleep timing, sun &amp; walk tracker</li>
+      <li>Weekly 4M reflection pages (Mind / Muscle / Mitigate / Motivate)</li>
+      <li>Adherence scorecard you can paste on the fridge</li>
+      <li>Notes pages designed to be handwritten on (or annotated digitally)</li>
+    </ul>
+
+    <p class="cw-note">
+      <strong>Note:</strong> this is the early version we use internally with the cohort.
+      It is honest, useful, and being refined as we go. Buying now also helps us road-test the full purchase flow.
+    </p>
+
+    <div class="buy-now-test">
+      <div class="buy-now-label">Cohort Workbook (PDF)</div>
+      <div class="buy-now-price">$2.50 <span class="buy-now-note">one-time download — link emailed instantly</span></div>
+      <button id="buy-cohort-workbook" class="buy-now-btn" type="button" data-price-id="price_1Te3ggBSbDAyoIVykVOLJtCX" data-sku="cohort-workbook">
+        Order Now →
+      </button>
+      <p id="buy-now-err" class="buy-now-err" hidden></p>
+    </div>
+
+    <p class="cw-tagline">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<script is:inline define:vars={{ API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+(function () {
+  var btn = document.getElementById('buy-cohort-workbook');
+  if (!btn) return;
+  var err = document.getElementById('buy-now-err');
+  btn.addEventListener('click', async function () {
+    btn.disabled = true;
+    btn.textContent = 'Loading…';
+    if (err) { err.hidden = true; err.textContent = ''; }
+    try {
+      var res = await fetch(API + '/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId: btn.dataset.priceId,
+          skuId: btn.dataset.sku,
+        }),
+      });
+      var data = await res.json();
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || ('Checkout failed (' + res.status + ')'));
+      }
+      window.location.href = data.url;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Order Now →';
+      if (err) {
+        err.hidden = false;
+        err.textContent = e && e.message ? e.message : 'Something went wrong. Please try again.';
+      }
+    }
+  });
+})();
+</script>
+
+<style>
+.cw-section { padding: 3rem 1rem 5rem; }
+.cw-inner { max-width: 640px; margin: 0 auto; }
+.cw-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+.cw-inner h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--primary);
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+}
+.cw-sub {
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0 0 1.25rem;
+  line-height: 1.55;
+}
+.cw-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.cw-bullets li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.cw-bullets li:last-child { border-bottom: none; }
+.cw-bullets li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.cw-note {
+  background: rgba(0,184,148,0.06);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 0 0 1.75rem;
+  line-height: 1.55;
+}
+.buy-now-test {
+  margin: 1.5rem 0 2.5rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: rgba(0,184,148,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+.buy-now-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.buy-now-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.buy-now-note {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-light);
+  font-style: italic;
+}
+.buy-now-btn {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.buy-now-btn:hover:not(:disabled) { opacity: 0.9; }
+.buy-now-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.buy-now-err {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
+.cw-tagline {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-light);
+}
+</style>

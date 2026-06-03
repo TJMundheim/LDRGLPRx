@@ -2,9 +2,55 @@ import { getStripeClient } from '@my4mlife/stripe-client';
 import { resolveContactId } from '@my4mlife/contact-id';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+
+const REGION = 'us-east-2';
+const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
+const EMAIL_SENDER_FN = process.env['EMAIL_SENDER_FN'] ?? 'my4mlife-email-sender';
+const DIGITAL_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
+
+// SKU → digital asset map. Adding a new digital product is one entry:
+// upload PDF to S3 under `s3Key`, add a row here, create Stripe price.
+type DigitalAsset = { name: string; s3Key: string; subjectLine: string; bodyIntro: string };
+const DIGITAL_PRODUCTS: Record<string, DigitalAsset> = {
+  'cohort-workbook': {
+    name: 'Cohort Workbook',
+    s3Key: 'cohort-workbook-v1.pdf',
+    subjectLine: 'Your My4MLife Cohort Workbook is ready to download',
+    bodyIntro: 'Thanks for purchasing the My4MLife Cohort Workbook. Your download link is below — valid for 7 days. If you need a fresh link after that, just reply to this email and we will send one.',
+  },
+};
 
 function makeDdb() {
-  return DynamoDBDocumentClient.from(new DynamoDBClient({ region: 'us-east-2' }));
+  return DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+}
+
+const s3 = new S3Client({ region: REGION });
+const lambda = new LambdaClient({ region: REGION });
+
+async function deliverDigitalAsset(args: { skuId: string; asset: DigitalAsset; email: string; firstName: string | undefined; orderId: string }): Promise<void> {
+  const url = await getSignedUrl(s3, new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: args.asset.s3Key }), { expiresIn: DIGITAL_URL_TTL_SEC });
+  const greeting = args.firstName ? `Hi ${esc(args.firstName)},` : 'Hi,';
+  const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">
+<h1 style="font-size:22px;margin:0 0 12px">${greeting}</h1>
+<p style="margin:8px 0 16px">${esc(args.asset.bodyIntro)}</p>
+<p style="margin:24px 0"><a href="${url}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Download ${esc(args.asset.name)} (PDF) &rarr;</a></p>
+<p style="color:#555;font-size:13px;margin:24px 0 0">If the button doesn't work, paste this link into your browser:<br/><a href="${url}" style="color:#00a381;word-break:break-all">${esc(url)}</a></p>
+<p style="color:#666;font-size:13px;margin-top:24px">Order reference: ${esc(args.orderId)}</p>
+<p style="color:#666;font-size:13px;margin-top:24px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+</div>`;
+  const payload = { kind: 'info', to: args.email, subject: args.asset.subjectLine, html };
+  await lambda.send(new InvokeCommand({
+    FunctionName: EMAIL_SENDER_FN,
+    InvocationType: 'Event',
+    Payload: Buffer.from(JSON.stringify(payload)),
+  }));
+}
+
+function esc(s: string): string {
+  return s.replace(/[<>&"']/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c] as string));
 }
 
 export async function processEvent(e: { id: string; type: string; livemode: boolean }): Promise<void> {
@@ -94,6 +140,10 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
 
   // 3. Touchpoints insert — composite PK contactId + sk. Idempotent via
   // attribute_not_exists(sk) so a retry of the same event is a no-op.
+  // We use first-time touchpoint creation as the signal that this is the
+  // initial run of this event (vs an EventBridge retry), gating any
+  // side-effecting follow-ups like digital fulfillment emails.
+  let firstRun = true;
   try {
     await ddb.send(
       new PutCommand({
@@ -112,6 +162,32 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       })
     );
   } catch (err: unknown) {
-    if ((err as { name?: string }).name !== 'ConditionalCheckFailedException') throw err;
+    if ((err as { name?: string }).name === 'ConditionalCheckFailedException') {
+      firstRun = false;
+    } else {
+      throw err;
+    }
+  }
+
+  // 4. Digital fulfillment — only fires on the first run AND only if the SKU
+  // is mapped in DIGITAL_PRODUCTS. We invoke email-sender asynchronously
+  // (InvocationType: Event) so a transient SES/Mailgun failure doesn't fail
+  // the whole event. A delivery failure visible to the customer would be
+  // recovered manually via support@ for now; future work is a Fulfillment
+  // tracking table.
+  if (firstRun) {
+    const skuId = ((session.metadata as Record<string, string> | null)?.['skuIds'] ?? '').trim();
+    const asset = skuId ? DIGITAL_PRODUCTS[skuId] : undefined;
+    if (asset && email) {
+      const firstName = ((session.metadata as Record<string, string> | null)?.['firstName'] ?? '').trim() || undefined;
+      try {
+        await deliverDigitalAsset({ skuId, asset, email, firstName, orderId: session.id });
+      } catch (err) {
+        console.error('[order-handler] digital fulfillment failed', { orderId: session.id, skuId, error: String(err) });
+        // Re-throw to fail the event and let EB retry. Idempotency above
+        // guarantees Contact/Orders/Touchpoints won't double-write.
+        throw err;
+      }
+    }
   }
 }

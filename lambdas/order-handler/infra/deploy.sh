@@ -12,6 +12,8 @@ STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT}:secret:all-stripe-k
 CONTACT_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Contact"
 ORDERS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Orders"
 TOUCHPOINTS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Touchpoints"
+DIGITAL_BUCKET_ARN="arn:aws:s3:::my4mlife-digital-fulfillment/*"
+EMAIL_SENDER_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-email-sender"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LAMBDA_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
@@ -44,6 +46,16 @@ POLICY=$(cat <<EOF
       "Effect": "Allow",
       "Action": "secretsmanager:GetSecretValue",
       "Resource": "${STRIPE_KEYS_ARN}"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "${DIGITAL_BUCKET_ARN}"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "lambda:InvokeFunction",
+      "Resource": "${EMAIL_SENDER_ARN}"
     },
     {
       "Effect": "Allow",

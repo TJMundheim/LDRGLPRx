@@ -22,6 +22,15 @@ import FoundationStackPair from '../../components/FoundationStackPair.astro';
     rxBody="Biome NS Rx is the proprietary compounded triple-action stack — oral BPC-157 + L-glutamine + aloe in a single prescription. Barrier repair, epithelial fuel, and mucosal soothing delivered concurrently. Prescribed via our telemedicine partner after the comprehensive consult — which also covers hormone, metabolic, GLP-1, and food-sensitivity review. Stacks on top of Biome NS Ultra."
   />
 
+  <div class="buy-now-test">
+    <div class="buy-now-label">Order Biome NS Ultra</div>
+    <div class="buy-now-price">$0.50 <span class="buy-now-note">(sandbox pricing — placeholder until launch)</span></div>
+    <button id="buy-biome-ns-ultra" class="buy-now-btn" type="button" data-price-id="price_1Te3ghBSbDAyoIVyD9FYngyp" data-sku="biome-ns-ultra">
+      Order Now →
+    </button>
+    <p id="buy-now-err" class="buy-now-err" hidden></p>
+  </div>
+
   <TwoPathsCTA
     otcProductName="Biome NS Ultra (powder)"
     otcDescription="L-Glutamine 5g + DGL + Berberine + Aloe + Curcumin + Zinc Carnosine + A + D3. The foundational gut-brain seal — taken on empty stomach on waking, 30 min before first meal. NS = NeuroSeal: the gut-brain seal that protects cognitive longevity."
@@ -103,6 +112,41 @@ import FoundationStackPair from '../../components/FoundationStackPair.astro';
   <MiniTwoPaths otcLabel="Order Biome NS Ultra" otcHref="/assessment" prompt="Make the call:" />
 </SolutionPage>
 
+<script is:inline define:vars={{ API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+(function () {
+  var btn = document.getElementById('buy-biome-ns-ultra');
+  if (!btn) return;
+  var err = document.getElementById('buy-now-err');
+  btn.addEventListener('click', async function () {
+    btn.disabled = true;
+    btn.textContent = 'Loading…';
+    if (err) { err.hidden = true; err.textContent = ''; }
+    try {
+      var res = await fetch(API + '/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId: btn.dataset.priceId,
+          skuId: btn.dataset.sku,
+        }),
+      });
+      var data = await res.json();
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || ('Checkout failed (' + res.status + ')'));
+      }
+      window.location.href = data.url;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Order Now →';
+      if (err) {
+        err.hidden = false;
+        err.textContent = e && e.message ? e.message : 'Something went wrong. Please try again.';
+      }
+    }
+  });
+})();
+</script>
+
 <style>
 .why-lede {
   font-size: 1.05rem;
@@ -159,4 +203,52 @@ import FoundationStackPair from '../../components/FoundationStackPair.astro';
   text-decoration: none;
 }
 .read-more-link:hover { text-decoration: underline; }
+
+.buy-now-test {
+  margin: 1.25rem 0 2.5rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: rgba(0,184,148,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+.buy-now-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.buy-now-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.buy-now-note {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-light);
+  font-style: italic;
+}
+.buy-now-btn {
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.buy-now-btn:hover:not(:disabled) { opacity: 0.9; }
+.buy-now-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.buy-now-err {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
 </style>

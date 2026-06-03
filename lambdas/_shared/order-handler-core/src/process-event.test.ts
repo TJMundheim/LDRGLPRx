@@ -21,6 +21,21 @@ vi.mock('@aws-sdk/client-dynamodb', () => ({
   DynamoDBClient: vi.fn(() => ({})),
 }));
 
+const { mockLambdaSend } = vi.hoisted(() => ({ mockLambdaSend: vi.fn().mockResolvedValue({}) }));
+vi.mock('@aws-sdk/client-lambda', () => ({
+  LambdaClient: vi.fn(() => ({ send: mockLambdaSend })),
+  InvokeCommand: class { constructor(public input: unknown) {} },
+}));
+
+vi.mock('@aws-sdk/client-s3', () => ({
+  S3Client: vi.fn(() => ({})),
+  GetObjectCommand: class { constructor(public input: unknown) {} },
+}));
+
+vi.mock('@aws-sdk/s3-request-presigner', () => ({
+  getSignedUrl: vi.fn().mockResolvedValue('https://signed.example/cohort-workbook-v1.pdf?sig=test'),
+}));
+
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { processEvent } from './process-event.js';
 
@@ -143,5 +158,55 @@ describe('processEvent', () => {
     await expect(
       processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false })
     ).rejects.toThrow(/cannot resolve contactId/);
+  });
+
+  it('(i) digital fulfillment: cohort-workbook SKU invokes email-sender with signed URL', async () => {
+    mockSessionRetrieve.mockResolvedValue({
+      ...baseSession,
+      metadata: { skuIds: 'cohort-workbook', firstName: 'TJ' },
+    });
+    await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
+    expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+    const invokeInput = (mockLambdaSend.mock.calls[0][0] as { input: { FunctionName: string; Payload: Buffer } }).input;
+    expect(invokeInput.FunctionName).toBe('my4mlife-email-sender');
+    const payload = JSON.parse(invokeInput.Payload.toString());
+    expect(payload.to).toBe('test@example.com');
+    expect(payload.kind).toBe('info');
+    expect(payload.subject).toMatch(/Cohort Workbook/i);
+    expect(payload.html).toContain('https://signed.example/cohort-workbook-v1.pdf');
+    expect(payload.html).toContain('Hi TJ');
+  });
+
+  it('(j) digital fulfillment: SKU not in map does NOT invoke email-sender', async () => {
+    mockSessionRetrieve.mockResolvedValue({
+      ...baseSession,
+      metadata: { skuIds: 'biome-ns-ultra' },
+    });
+    await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
+    expect(mockLambdaSend).not.toHaveBeenCalled();
+  });
+
+  it('(k) digital fulfillment: idempotent retry does NOT re-send email', async () => {
+    mockSessionRetrieve.mockResolvedValue({
+      ...baseSession,
+      metadata: { skuIds: 'cohort-workbook', firstName: 'TJ' },
+    });
+    // First call: all writes succeed normally
+    let firstCall = true;
+    mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
+      const table = cmd.input?.TableName;
+      // On second processEvent, Orders + Touchpoints both throw CCF
+      if (!firstCall) {
+        if (table === 'Orders' || table === 'Touchpoints') {
+          const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err;
+        }
+      }
+      return {};
+    });
+    await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
+    firstCall = false;
+    await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
+    // email-sender invoked exactly once (first run), not on retry
+    expect(mockLambdaSend).toHaveBeenCalledTimes(1);
   });
 });

@@ -251,6 +251,108 @@ Two converging causes addressed:
 - **CRITICAL Stripe sandbox E2E** — TJ to drive.
 - **Test 3 rate-limit verification** — shelved before public launch.
 
+---
+
+## 2026-06-02/03 — Stripe E2E #1+#2 + LIVE digital-product launch
+
+### E2E #1 (cold-visitor test-mode checkout) — PASS, two real bugs caught
+
+Via direct-Lambda invocation of `create-checkout-session` (website buttons not yet wired). TJ paid $9.99 test, then $0.50 test against a brand-new test product. Caught two production-critical bugs:
+
+1. **`order-handler` IAM missing `secretsmanager:GetSecretValue` on the real ARN.** Policy was `arn:...:secret:all-stripe-keys` (no random suffix) but actual ARN is `:all-stripe-keys-9gfQHV`. Every Stripe event crashed at `getStripeClient` with AccessDenied. Patched live policy + updated `lambdas/order-handler/infra/deploy.sh` to use `:all-stripe-keys-*` wildcard.
+
+2. **`order-handler-core` + `refund-dispute-handler-core` wrote Touchpoints with wrong PK schema.** Both used `stripeEventId` as primary key, but Touchpoints table has composite `contactId + sk`. ValidationException ("Missing the key sk in the item") on every write — Contact + Orders writes succeeded first, Touchpoints failed silently, audit trail was empty. Rewrote both to use the same `{contactId, sk: 'stripe#<evt>'}` pattern as `subscription-handler-core`. refund-dispute now resolves contactId at the top of each branch so both refund + dispute touchpoints get written. 8 + 16 tests green.
+
+After fixes: Contact / Orders / Touchpoints all clean, idempotency verified — LTV stayed at $0.50, no duplicate writes on EventBridge retry.
+
+### E2E #2 (full website-flow test-mode purchase) — PASS
+
+Built the website-side wiring:
+- Added `/products/cohort-workbook.astro` and a green-box "Order Now" button on `/solutions/gut.astro` that POSTs to `/api/create-checkout-session` and redirects to Stripe.
+- Created `/thank-you` Astro page so post-checkout doesn't 404.
+- Verified $0.50 cold-visitor flow end-to-end: gut page button → Stripe Checkout → webhook → order-handler → DDB all clean.
+
+Note: Stripe Link auto-populated TJ's email + card during checkout despite incognito + cache clear. **Not us** — OS keychain autofill plus cross-merchant Stripe Link recognition. Documented but no code change. TJ's standing instruction: leave Stripe Link enabled.
+
+### E2E #3 (LIVE $2.50 digital-product purchase + email delivery) — PASS
+
+Built the digital fulfillment infrastructure. **Reusable for every future digital product** (workbooks, recorded Zooms, lab interpretations, etc.); adding a new product is one SKU map entry + one S3 upload + one Stripe price (~15-30 min).
+
+**Infrastructure shipped:**
+- **Stripe LIVE products** (created via API):
+  - "Cohort Workbook (Digital PDF)" — `prod_UdKLrLQSxcWjHr` / `price_1Te3ggBSbDAyoIVykVOLJtCX` — $2.50 one-time
+  - "Biome NS Ultra (sandbox placeholder)" — `prod_UdKLu3CFl5vIzO` / `price_1Te3ghBSbDAyoIVyD9FYngyp` — $0.50 one-time (gut page button)
+- **S3 bucket** `my4mlife-digital-fulfillment` — private (full public-access block), versioned, in us-east-2. Contains `cohort-workbook-v1.pdf` (placeholder = `~/Downloads/4M_Month1_Workbook_COMPLETE.pdf`, 240KB, locked in by TJ as the early-stage stand-in until the real workbook is finalized).
+- **`order-handler-core` extension** — new `DIGITAL_PRODUCTS` SKU→asset map. After Touchpoints write, if SKU matches a digital product AND it's the first run of this event (touchpoint create succeeded, not blocked by idempotency guard), signs a 7-day S3 URL via `s3-request-presigner` and invokes `email-sender` (async, `InvocationType: Event`) with the download link in the body. On failure, throws so EventBridge retries — idempotency above guarantees no duplicate Contact/Orders/Touchpoints writes, and the touchpoint-first-run gate prevents duplicate emails on retry.
+- **IAM perms added to `my4mlife-order-handler-role`:** `s3:GetObject` on `arn:aws:s3:::my4mlife-digital-fulfillment/*`, `lambda:InvokeFunction` on the email-sender ARN. Deploy script updated so future deploys preserve these.
+- **`/products/cohort-workbook.astro`** — product landing page with the green-box buy button, hits live Stripe.
+- **`create-checkout-session` flipped to `STRIPE_MODE=live`.** Both the gut button ($0.50 Biome NS placeholder) and the cohort-workbook page ($2.50) now create LIVE Stripe Checkout Sessions. Any visitor clicking will incur a real charge.
+- **3 new vitest cases** for digital fulfillment (cohort SKU invokes email-sender; non-digital SKU does not invoke; retry idempotency = no duplicate email). 11/11 core tests green.
+
+**TJ verified end-to-end live:** went to /products/cohort-workbook on real my4mlife.com, paid $2.50 with a real card, received the workbook PDF download link by email, opened it. **Pipeline is live and working.**
+
+### /thank-you cleanup (post-purchase UX)
+
+TJ caught a UX issue during the live test: after paying, the thank-you page offered "Open the My4MLife App →" which led him to the app's sign-in. He used a different email there, the app auto-created an empty Protégé account with no assessment data — confusing dead-end.
+
+Fix (Option B per TJ): removed "Open the My4MLife App" entirely. Removed misleading copy about "Protégé welcome email" (no such email goes to non-Protégé buyers). Replaced with a soft assessment CTA framed as discovery, not onboarding: "Curious what else My4MLife offers? Take our free 5-minute 4M assessment →". Deployed.
+
+### What's locked & live going into Stripe production
+
+- Live Stripe charges enabled on two visible buttons:
+  - `/solutions/gut` — Biome NS Ultra sandbox $0.50
+  - `/products/cohort-workbook` — Cohort Workbook PDF $2.50
+- Stripe partner-bus EventBridge rules wired for both live + test buses (6 rules).
+- order-handler, subscription-handler, refund-dispute-handler all on the corrected contactId pipeline.
+- DLQ has correct EventBridge resource policy.
+- Retry Lambda is one-shot `at()` with `ActionAfterCompletion: DELETE`.
+- CloudWatch alarms: permanent-failures depth (PRIMARY, treat-missing notBreaching) + DLQ depth (SECONDARY, 30-min sustain). Pages SNS topic `my4mlife-stripe-alerts`.
+
+### Active member spec — locked terms (2026-05-25, unchanged)
+
+Protégé = free signup (name + email + phone + AI/Protégé consent). Discounts: **25% off first purchase, 25% off autoship, 15% off ongoing one-time reorders.** Non-Protégés pay full retail. Chargeback = lifetime ban. App + weekly Zooms free for all Protégés.
+
+### TJ blockers carryover (none of these block more dev work; mostly account creation)
+
+1. `drtj@essentialmanage.com` → Cognito `Admins` group (one CLI call): `aws cognito-idp admin-add-user-to-group --user-pool-id us-east-2_kIpKnr17R --username drtj@essentialmanage.com --group-name Admins`.
+2. Affiliate signups for ButcherBox / Thrive Market / Amazon Associates. Drop codes into `website/src/lib/affiliates.ts` and `apps/clientportal/src/lib/affiliates.ts`.
+3. Bedrock daily token quota increase (optional).
+4. Zoom S2S credentials → `zoom-ops-creds` secret (no longer blocking Week 2 unlock; needed for future Zoom auto-scheduling).
+5. Phone number for SMS approval queue v2 (email approvals already working).
+
+### Friends-and-family testing plan TJ described
+
+TJ plans to test live $2.50 cohort-workbook purchases with friends and family. **Pipeline is ready for this — no more work required from him to enable it.** Just send them the URL: `https://my4mlife.com/products/cohort-workbook`.
+
+### Physical fulfillment (Biome NS Ultra direct-ship from manufacturer) — NOT YET BUILT
+
+Discussed at length 2026-06-02. We have ZERO physical-fulfillment infrastructure today:
+- Shipping address not captured at checkout (Stripe's `shipping_address_collection` not enabled)
+- No SKU-based fulfillment routing for physical
+- No manufacturer push (email / portal / API)
+- No tracking inbound endpoint
+- No customer shipping-notification email
+- No Fulfillment table
+
+**Before this can be scoped**, TJ needs to ask the Biome NS manufacturer:
+1. How do they want to receive orders? (email / portal / API / ShipStation / ShipHero?)
+2. How do they push tracking back? (email / web form / webhook?)
+3. Carriers + typical ship time?
+4. Returns/replacements policy?
+5. GMP/cGMP compliance documentation + insurance?
+6. Pick + pack fee structure?
+
+Three integration patterns from lightest to heaviest:
+1. **Email-based** (~2-3 hours to build) — fine for <10 orders/day, brittle if missed
+2. **Shared portal/spreadsheet** (~4-6 hours) — Google Sheet / Airtable, polled daily
+3. **Real API integration** (~1-2 days) — requires their tech maturity; most small manufacturers don't have an API but use ShipStation etc. which is integrable
+
+Recommendation: start with #1 once their answers are in, upgrade to #2 or #3 when volume justifies.
+
+### Active session todo state at handoff
+
+All in-progress items are completed. Remaining items are TJ-action / awaiting-input only (affiliate signups, Cognito group add, friends-and-family $2.50 testing, manufacturer integration scoping). Bedrock/Zoom/SMS still pending TJ.
+
 ### Verified live (post-deploy of #8)
 - ✅ **Test 1 (golden-path OTP):** TJ wiped + signed up fresh as drtj@essentialmanage.com. Exactly one OTP delivered. Sign-in succeeded.
 - ✅ **Test 2 (refresh mid-flow):** Refreshed on the OTP entry screen pre-code. Cached session was reused (no second InitiateAuth), no second code arrived. Months-long duplicate-OTP bug is dead on both paths.
