@@ -2,6 +2,7 @@ import { getStripeClient } from '@my4mlife/stripe-client';
 import { resolveContactId } from '@my4mlife/contact-id';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import type { Stripe } from 'stripe';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: 'us-east-2' }));
 const CONTACT_TABLE = process.env['CONTACT_TABLE'] ?? 'Contact';
@@ -27,11 +28,27 @@ async function cancelSubscriptions(stripe: Awaited<ReturnType<typeof getStripeCl
   }
 }
 
-async function writeTouchpoint(stripeEventId: string, type: string, mode: 'live' | 'test'): Promise<void> {
+function contactIdFromCharge(charge: Pick<Stripe.Charge, 'metadata' | 'billing_details' | 'receipt_email'>): string | null {
+  const metadataContactId = (charge.metadata as Record<string, string> | null)?.['contactId'] ?? null;
+  const email = (charge.metadata as Record<string, string> | null)?.['contactEmail']
+    ?? charge.billing_details?.email
+    ?? charge.receipt_email
+    ?? null;
+  return resolveContactId({ metadataContactId, email });
+}
+
+async function writeTouchpoint(contactId: string, stripeEventId: string, eventType: string, mode: 'live' | 'test'): Promise<void> {
   await ddb.send(new PutCommand({
     TableName: TOUCHPOINTS_TABLE,
-    Item: { stripeEventId, type, mode, createdAt: new Date().toISOString() },
-    ConditionExpression: 'attribute_not_exists(stripeEventId)',
+    Item: {
+      contactId,
+      sk: `stripe#${stripeEventId}`,
+      stripeEventId,
+      eventType,
+      mode,
+      ts: new Date().toISOString(),
+    },
+    ConditionExpression: 'attribute_not_exists(sk)',
   })).catch(e => { if (e.name !== 'ConditionalCheckFailedException') throw e; });
 }
 
@@ -39,14 +56,15 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   const stripe = await getStripeClient({ livemode: e.livemode });
   const mode = e.livemode ? 'live' : 'test';
 
-  // e.id is the EVENT id. We must resolve the actual charge/dispute id from
-  // the event payload — calling stripe.charges.retrieve(evt_...) returns 404.
   const evt = await stripe.events.retrieve(e.id);
   const objectId = (evt.data.object as { id?: string }).id;
   if (!objectId) throw new Error(`refund-dispute: event ${e.id} has no data.object.id`);
 
   if (e.type === 'charge.refunded') {
     const charge = await stripe.charges.retrieve(objectId);
+    const contactId = contactIdFromCharge(charge);
+    if (!contactId) throw new Error(`refund-dispute: cannot resolve contactId for charge ${charge.id}`);
+
     if (charge.refunded) {
       await ddb.send(new UpdateCommand({
         TableName: ORDERS_TABLE,
@@ -57,8 +75,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
         ExpressionAttributeValues: { ':refunded': 'refunded', ':now': new Date().toISOString() },
       })).catch(e => { if (e.name !== 'ConditionalCheckFailedException') throw e; });
     }
-    // Touchpoint LAST so it only marks success after the refund write completes.
-    await writeTouchpoint(e.id, e.type, mode);
+    await writeTouchpoint(contactId, e.id, e.type, mode);
     return;
   }
 
@@ -66,22 +83,13 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   const dispute = await stripe.disputes.retrieve(objectId);
   const charge = await stripe.charges.retrieve(dispute.charge as string);
   const customerId = typeof charge.customer === 'string' ? charge.customer : (charge.customer as { id: string } | null)?.id;
+  const contactId = contactIdFromCharge(charge);
+  if (!contactId) throw new Error(`refund-dispute: cannot resolve contactId for dispute ${dispute.id}`);
 
   if (shouldBan(dispute.status as DisputeStatus)) {
     if (customerId) {
       await cancelSubscriptions(stripe, customerId);
     }
-
-    const metadataContactId = (charge.metadata as Record<string, string> | null)?.['contactId'] ?? null;
-    const email = (charge.metadata as Record<string, string> | null)?.['contactEmail']
-      ?? charge.billing_details?.email
-      ?? charge.receipt_email
-      ?? null;
-    const contactId = resolveContactId({ metadataContactId, email });
-    if (!contactId) {
-      throw new Error(`refund-dispute: cannot resolve contactId for charge ${charge.id} (no metadata.contactId, no email)`);
-    }
-
     await ddb.send(new UpdateCommand({
       TableName: CONTACT_TABLE,
       Key: { contactId },
@@ -95,6 +103,5 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     })).catch(e => { if (e.name !== 'ConditionalCheckFailedException') throw e; });
   }
 
-  // Touchpoint LAST so an upstream failure leaves no false "processed" marker.
-  await writeTouchpoint(e.id, e.type, mode);
+  await writeTouchpoint(contactId, e.id, e.type, mode);
 }

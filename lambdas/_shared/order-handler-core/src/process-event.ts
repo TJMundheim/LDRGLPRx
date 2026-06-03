@@ -92,21 +92,23 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     })
   );
 
-  // 3. Touchpoints insert — keyed by Stripe event ID, idempotent
+  // 3. Touchpoints insert — composite PK contactId + sk. Idempotent via
+  // attribute_not_exists(sk) so a retry of the same event is a no-op.
   try {
     await ddb.send(
       new PutCommand({
         TableName: 'Touchpoints',
         Item: {
-          stripeEventId: e.id,
-          type: e.type,
-          sessionId: session.id,
           contactId,
+          sk: `stripe#${e.id}`,
+          stripeEventId: e.id,
+          eventType: e.type,
+          sessionId: session.id,
           email,
           mode,
-          createdAt: now,
+          ts: now,
         },
-        ConditionExpression: 'attribute_not_exists(stripeEventId)',
+        ConditionExpression: 'attribute_not_exists(sk)',
       })
     );
   } catch (err: unknown) {
