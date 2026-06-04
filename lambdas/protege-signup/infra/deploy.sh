@@ -68,6 +68,11 @@ INLINE_POLICY=$(cat <<EOF
       "Effect": "Allow",
       "Action": ["lambda:InvokeFunction"],
       "Resource": "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$EMAIL_SENDER_FN"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::my4mlife-digital-fulfillment/*"
     }
   ]
 }

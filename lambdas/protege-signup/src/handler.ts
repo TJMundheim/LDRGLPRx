@@ -3,6 +3,8 @@ import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminGetUserComm
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { v5 as uuidv5 } from 'uuid';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
@@ -10,12 +12,24 @@ const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
 const USER_PROFILE_TABLE = process.env.USER_PROFILE_TABLE ?? 'Users';
 const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
+const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
+const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind-v1.pdf';
+const BOOK_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
 
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
 const cognito = new CognitoIdentityProviderClient({ region: REGION });
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const lambda = new LambdaClient({ region: REGION });
+const s3 = new S3Client({ region: REGION });
+
+async function getBookDownloadUrl(): Promise<string> {
+  return getSignedUrl(
+    s3,
+    new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: BOOK_S3_KEY }),
+    { expiresIn: BOOK_URL_TTL_SEC },
+  );
+}
 
 const ALLOWED_ORIGINS = new Set([
   'https://my4mlife.com',
@@ -137,20 +151,38 @@ async function readContactAudit(contactId: string): Promise<{ auditTop3: unknown
 
 async function sendWelcomeEmail(email: string, firstName: string): Promise<void> {
   const appUrl = 'https://app.my4mlife.com';
+  let bookUrl = '';
+  try {
+    bookUrl = await getBookDownloadUrl();
+  } catch (err) {
+    console.warn('[protege-signup] book signed URL failed (welcome email will omit book link):', err);
+  }
+  const bookBlock = bookUrl
+    ? `<div style="margin:24px 0;padding:20px;border:2px solid #d4af5a;border-radius:10px;background:#fbf7ec">
+<p style="font-size:13px;font-weight:700;letter-spacing:0.14em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Gift</p>
+<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px">Begin with the End in Mind</h2>
+<p style="font-style:italic;color:#666;margin:0 0 12px">Don't lose your identity. You still have a choice.</p>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 14px">Dr. TJ's 270-page field guide to brain healthspan, organized around the 4M framework. Includes the full Action Guide and adherence scorecard.</p>
+<p style="margin:0"><a href="${bookUrl}" style="background:#d4af5a;color:#0a1628;padding:11px 22px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block">Download the Book (PDF) &rarr;</a></p>
+<p style="color:#777;font-size:12px;margin:10px 0 0">Link valid for 7 days. If you need a fresh link after that, just reply to this email.</p>
+</div>`
+    : '';
   const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px">
 <h1 style="font-size:22px;color:#111">Welcome, ${firstName}.</h1>
 <p style="margin:8px 0 16px">You're a Protégé. Here's what's yours now:</p>
 <ul style="margin:0 0 20px 18px;padding:0;line-height:1.7;color:#222;font-size:15px">
+  <li><strong>Begin with the End in Mind</strong> — Dr. TJ's 270-page brain-healthspan book (download link below)</li>
   <li>25% off your first purchase</li>
   <li>25% off forever on autoship; 15% off one-time reorders</li>
   <li>Free access to the My4MLife app</li>
   <li>Weekly support Zooms with Dr. TJ</li>
   <li>Discounts on all live events</li>
 </ul>
+${bookBlock}
 <p style="margin:24px 0"><a href="${appUrl}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">Open the My4MLife App &rarr;</a></p>
 <p style="color:#444;font-size:14px;line-height:1.55">When you open the app, we'll email you a one-time sign-in code. Use that code to enter — there's no password to remember.</p>
 <p style="color:#666;font-size:13px;margin-top:24px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p></div>`;
-  const payload = { kind: 'info', to: email, subject: 'Welcome to My4MLife — your account is ready', html };
+  const payload = { kind: 'info', to: email, subject: 'Welcome to My4MLife — your free book is inside', html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
     InvocationType: 'Event',
