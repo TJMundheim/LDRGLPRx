@@ -599,7 +599,7 @@ function renderAuditSummaryCard(): string {
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
         <div class="card-title" style="color:${band.color}">Your Personal Risk Assessment</div>
-        <div style="font-size:11px;color:#6A8A6E">8-category intake assessment</div>
+        <div style="font-size:11px;color:#6A8A6E">10-category intake assessment</div>
       </div>
       <div style="text-align:right">
         <div style="font-size:42px;font-weight:800;color:${band.color};line-height:1">${total}</div>
@@ -912,7 +912,7 @@ function renderW1(ctx: RenderContext): string {
       ${w1WeekdayRow('mitigate-eating-window', 'Stayed in eating window today', 'mf', 5)}
     </div>
     <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
-      Your 8-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
+      Your 10-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
     </div>
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Assessment →</button>
     <div>
@@ -1985,7 +1985,7 @@ function renderAuditReview(): string {
   }).join('');
 
   return `<div class="page-title" style="color:${band.color}">Personal Risk Assessment</div>
-  <div class="page-sub">Your 8-category intake assessment</div>
+  <div class="page-sub">Your 10-category intake assessment</div>
   ${backBtn}
   <div class="card" style="background:${band.bg};border-color:${band.color}55;margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center">

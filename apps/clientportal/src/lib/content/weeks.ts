@@ -56,7 +56,7 @@ export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
     focus: 'Mitigate (deep focus): 20-Category Personal Risk Assessment',
     pillarId: 'mitigate',
     primaryHeadline: 'Remove the risk factors stealing your brain & body.',
-    deckQuote: 'We start by removing what\'s working against you. Your 8-category Personalized Assessment.',
+    deckQuote: 'We start by removing what\'s working against you. Your 10-category Personalized Assessment.',
   },
   4: {
     bg: '#3C3489', ac: '#6B5ED4',

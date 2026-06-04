@@ -283,8 +283,12 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     }
   }
 
-  if (!alreadyExists) {
-    try { await sendWelcomeEmail(email, firstName); } catch { /* non-fatal */ }
+  // Always send the welcome email — including the book download link —
+  // even for returning Protégés. A returning user re-claiming the book is
+  // a feature, not a bug, and silently skipping the email left book buyers
+  // wondering where the file was.
+  try { await sendWelcomeEmail(email, firstName); } catch (err) {
+    console.warn('[protege-signup] welcome email failed (non-fatal):', err);
   }
 
   return reply(200, { ok: true, ...(alreadyExists ? { alreadyExists: true } : {}) }, origin);

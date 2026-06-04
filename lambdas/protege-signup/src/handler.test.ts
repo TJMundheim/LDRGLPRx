@@ -126,12 +126,13 @@ describe('protege-signup handler', () => {
     expect(cmd.input.InvocationType).toBe('Event');
   });
 
-  it('does NOT fire welcome email when user already existed', async () => {
+  it('DOES fire welcome email even when user already existed (returning Protégé re-claims the book)', async () => {
     cognitoSend.mockReset();
     cognitoSend.mockResolvedValue({ Username: 'tj@example.com', UserAttributes: [{ Name: 'sub', Value: 'sub-existing' }] });
     ddbSend.mockResolvedValue({});
+    lambdaSend.mockReset();
     await handler(evt(validBody));
-    expect(lambdaSend).not.toHaveBeenCalled();
+    expect(lambdaSend).toHaveBeenCalled();
   });
 
   it('handles OPTIONS preflight', async () => {
