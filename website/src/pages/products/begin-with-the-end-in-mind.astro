@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = "Begin with the End in Mind — Dr. TJ Mundheim | My4MLife";
+const description = "The My4MLife field guide to brain healthspan. 17 chapters and a workbook organized around the 4M framework: Mind, Muscle, Mitigate, Motivate. Don't lose your identity. You still have a choice.";
+const canonical = "https://www.my4mlife.com/products/begin-with-the-end-in-mind";
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="bk-section">
+  <div class="container bk-inner">
+    <p class="bk-eyebrow">Digital ebook · ~270 pages</p>
+    <h1>Begin with the End in Mind</h1>
+    <p class="bk-tagline">Don't lose your identity. You still have a choice.</p>
+
+    <p class="bk-author"><strong>Dr. TJ Mundheim</strong> · Founder, My4MLife</p>
+
+    <div class="bk-body">
+      <p>
+        The mind is what you're protecting. Every other intervention serves this destination.
+        This book is the operating manual.
+      </p>
+      <p>
+        Seventeen chapters organized around the 4M framework — <strong>Mind</strong>, <strong>Muscle</strong>, <strong>Mitigate</strong>, <strong>Motivate</strong> — plus the full
+        <strong>Action Guide</strong> (Part V) you can print or screenshot as a daily scorecard.
+        Front of the book sells you the why. Back of the book runs the how.
+      </p>
+
+      <h3>Inside</h3>
+      <ul class="bk-list">
+        <li><strong>Opening (Ch 1–3):</strong> The fear. The framework. The reader. (You.)</li>
+        <li><strong>Mind (Ch 4):</strong> Cognitive healthspan — what we're protecting.</li>
+        <li><strong>Mitigate (Ch 5–10):</strong> Gut, sleep, environment, hormones + ED canary, substance use, and the regenerative arm (Genesis RPA · Muse cells intrathecally) for those already diagnosed.</li>
+        <li><strong>Muscle (Ch 11–13):</strong> Nutrition + protein-first rule, weight + GLP-1, strength + pain.</li>
+        <li><strong>Motivate (Ch 14–15):</strong> Purpose, identity, accountability, structural enablers.</li>
+        <li><strong>Return to Mind (Ch 16–17):</strong> One real week running the system. Your next step.</li>
+        <li><strong>Part V — The Action Guide:</strong> Daily check-ins, the stack, the weekly 4M reflection, the adherence scorecard (the tear-out / lock-screen page), and the 30-day recommit procedure.</li>
+        <li><strong>Appendices A–D:</strong> The 10-question assessment, the stack reference, the eliminate-the-insulting-behavior checklist, the glossary.</li>
+      </ul>
+
+      <p class="bk-note">
+        Free for Protégés as a welcome gift — included with the free Protégé signup.
+        Non-Protégés can purchase below.
+      </p>
+    </div>
+
+    <div class="buy-now-test">
+      <div class="buy-now-label">Begin with the End in Mind (PDF)</div>
+      <div class="buy-now-price">$9.99 <span class="buy-now-note">one-time download — link emailed instantly</span></div>
+      <button id="buy-bweim" class="buy-now-btn" type="button" data-price-id="price_1TeOttBSbDAyoIVyskiWIQdB" data-sku="begin-with-the-end-in-mind">
+        Order Now →
+      </button>
+      <p id="buy-now-err" class="buy-now-err" hidden></p>
+    </div>
+
+    <p class="bk-secondary">
+      Already a Protégé? <a href="https://app.my4mlife.com">Open the app</a> — your free copy is in the library.
+    </p>
+
+    <p class="bk-tagline-closer">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<script is:inline define:vars={{ API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+(function () {
+  var btn = document.getElementById('buy-bweim');
+  if (!btn) return;
+  var err = document.getElementById('buy-now-err');
+  btn.addEventListener('click', async function () {
+    btn.disabled = true;
+    btn.textContent = 'Loading…';
+    if (err) { err.hidden = true; err.textContent = ''; }
+    try {
+      var res = await fetch(API + '/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId: btn.dataset.priceId, skuId: btn.dataset.sku }),
+      });
+      var data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || ('Checkout failed (' + res.status + ')'));
+      window.location.href = data.url;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Order Now →';
+      if (err) {
+        err.hidden = false;
+        err.textContent = e && e.message ? e.message : 'Something went wrong. Please try again.';
+      }
+    }
+  });
+})();
+</script>
+
+<style>
+.bk-section { padding: 3rem 1rem 5rem; }
+.bk-inner { max-width: 680px; margin: 0 auto; }
+.bk-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+.bk-inner h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  color: var(--primary);
+  margin: 0 0 0.4rem;
+  line-height: 1.1;
+}
+.bk-tagline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+.bk-author {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin: 0 0 1.5rem;
+}
+.bk-body p { font-size: 1rem; color: var(--text); line-height: 1.6; margin: 0 0 1em; }
+.bk-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin: 1.5rem 0 0.6rem;
+}
+.bk-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.bk-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.bk-list li:last-child { border-bottom: none; }
+.bk-list li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.bk-note {
+  background: rgba(0,184,148,0.06);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 1.5rem 0;
+  line-height: 1.5;
+}
+.buy-now-test {
+  margin: 1.5rem 0 1.5rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: rgba(0,184,148,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+.buy-now-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.buy-now-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.buy-now-note {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-light);
+  font-style: italic;
+}
+.buy-now-btn {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.buy-now-btn:hover:not(:disabled) { opacity: 0.9; }
+.buy-now-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.buy-now-err {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
+.bk-secondary {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin: 1rem 0 0;
+}
+.bk-secondary a { color: var(--accent); }
+.bk-tagline-closer {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-light);
+}
+</style>

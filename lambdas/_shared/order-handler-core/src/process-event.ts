@@ -21,6 +21,12 @@ const DIGITAL_PRODUCTS: Record<string, DigitalAsset> = {
     subjectLine: 'Your My4MLife Cohort Workbook is ready to download',
     bodyIntro: 'Thanks for purchasing the My4MLife Cohort Workbook. Your download link is below — valid for 7 days. If you need a fresh link after that, just reply to this email and we will send one.',
   },
+  'begin-with-the-end-in-mind': {
+    name: 'Begin with the End in Mind',
+    s3Key: 'begin-with-the-end-in-mind-v1.pdf',
+    subjectLine: 'Your copy of Begin with the End in Mind is ready to download',
+    bodyIntro: 'Thanks for purchasing Begin with the End in Mind. Your download link is below — valid for 7 days. The book has 17 chapters plus an Action Guide (Part V) you can print or screenshot as a daily scorecard. If you need a fresh link after the 7 days, just reply to this email and we will send one.',
+  },
 };
 
 function makeDdb() {
