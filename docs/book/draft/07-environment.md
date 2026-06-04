@@ -1,4 +1,4 @@
-# Chapter 7 — Environment: Light, Air, Water, EMF
+# Chapter 6 — Environment: Light, Air, Water, EMF
 
 > Stop hurting yourself first. Then add what works.
 

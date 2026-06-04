@@ -1,4 +1,4 @@
-# Chapter 16 — The 4M Loop in Real Life
+# Chapter 17 — The 4M Loop in Real Life
 
 For fifteen chapters I have been telling you how the system works. Mind is the destination. Muscle builds the infrastructure. Mitigate removes the insults. Motivate closes the loop. You have the framework. You have the audit. You have the product names and the mechanisms and the reasons.
 

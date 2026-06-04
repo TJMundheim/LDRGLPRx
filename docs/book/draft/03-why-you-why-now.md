@@ -108,9 +108,11 @@ Second, you are not crazy for noticing. The small things you have noticed — th
 
 That man — the one in his fifties or early sixties, still chosen, still leading, still trusted, privately worried that something is slipping that he doesn't yet have the words for — that man is who this book is for. That man, the one you have worked thirty years to become, is what we are protecting.
 
-Let's name what protecting him actually means.
+Now we do the work.
 
-The next chapter opens with Mind, because Mind is the destination, and the whole 4M system is built backward from there. We begin with the end in mind. We always have. That is what the title of this book means.
+Mind is the destination. We begin with the end in mind. But you do not get to the destination by sitting in it. You get there by walking — by removing what is hurting you first, then building the substrate that supports the mind, then engineering the why that sustains the work, and *then* arriving at Mind, with its own dedicated toolkit, at the end of the journey. That is the architecture of the next thirteen chapters.
+
+The largest section is the first one. **Mitigate.** Stop hurting yourself first, then add what works. We start there because almost every man over fifty is actively running a half-dozen inputs that are degrading his brain in real time, and the single most leveraged thing you can do this week is to stop running them. The first chapter of Mitigate is the gut — the single most underestimated driver of every cognitive mechanism we have named, and the one I run every cognitive protocol through first.
 
 Don't lose your identity. You still have a choice.
 

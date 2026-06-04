@@ -1,4 +1,4 @@
-# Chapter 12 — Weight, Visceral Fat, and the GLP-1 Decision
+# Chapter 11 — Weight, Visceral Fat, and the GLP-1 Decision
 
 > "We are not chasing an aesthetic number. We are removing a source of neurological insult that compounds year over year if left unaddressed."
 

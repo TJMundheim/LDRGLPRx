@@ -1,4 +1,4 @@
-# Chapter 17 — Your Next Step
+# Chapter 18 — Your Next Step
 
 You've read the book. The case is made. What's left is a decision, and a single physical action to anchor it.
 
@@ -102,7 +102,7 @@ Take the assessment. Answer question nine honestly. Let the system route you. Do
 
 I started this book by telling you that the man your wife married, the father your kids recognize, the operator who walks into a room and reads it — that man is the asset. Everything else is the delivery system.
 
-I'm closing the book the same way I opened it, because nothing in between has changed the thesis. It has only sharpened it. You now know which insults to stop, which substrates to build, which engines to maintain, and what to lean on when willpower runs out. You know that Mind is the destination, and that the road to Mind runs through Mitigate, Muscle, and Motivate, in that order, on repeat, for the rest of your life.
+I'm closing the book the same way I opened it, because nothing in between has changed the thesis. It has only sharpened it. You now know which insults to stop, which substrates to build, which engines to maintain, and what to lean on when willpower runs out. You know that Mind is the destination, and that the road to Mind runs through Muscle, Mitigate, and Motivate, in that order, on repeat, for the rest of your life.
 
 You also know — and this is the part the wellness industry will not say out loud — that the difference between the man who finishes his eighties as himself and the man who does not is almost never one heroic intervention. It is the small, correct, repeated act, started early enough that compounding has time to do its work, run alongside other men doing the same thing, anchored to a why that does not move.
 

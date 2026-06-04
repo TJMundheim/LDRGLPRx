@@ -1,4 +1,4 @@
-# Chapter 5 — Gut: The Gut-Brain Seal
+# Chapter 4 — Gut: The Gut-Brain Seal
 
 If you read no other chapter in the Mitigate section — if you skim the rest of this book and only act on one thing — make it this one.
 

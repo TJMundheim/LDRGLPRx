@@ -1,4 +1,4 @@
-# Chapter 11 — Nutrition & the Protein-First Rule
+# Chapter 10 — Nutrition & the Protein-First Rule
 
 > *Strong body, sharp mind. Resistance training is neuroprotection.*
 

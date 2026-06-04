@@ -28,7 +28,7 @@ Read the phrase again. *Begin with the end in Mind* — capital M. The end is Mi
 
 ### Layer three — the loop closes.
 
-Now read it a third time. *Begin with the end in mind.* If Mind is both where you start and where you finish, then this is not a straight line. It is a circle. You begin with Mind — you clarify what you are protecting. You walk through Mitigate, Muscle, and Motivate. And at the end of the loop you arrive back at Mind, sharper than you started, because the work itself was neuroprotective. Each pass through the cycle strengthens what you came to protect. There is no graduation date on this. There is no "I did the protocol, I am done." The loop runs as long as you are alive, and the man who runs it longest wins.
+Now read it a third time. *Begin with the end in mind.* If Mind is both where you start and where you finish, then this is not a straight line. It is a circle. You begin with Mind — you clarify what you are protecting. You walk through Muscle, Mitigate, and Motivate. And at the end of the loop you arrive back at Mind, sharper than you started, because the work itself was neuroprotective. Each pass through the cycle strengthens what you came to protect. There is no graduation date on this. There is no "I did the protocol, I am done." The loop runs as long as you are alive, and the man who runs it longest wins.
 
 Three meanings. One sentence. That is why it sits at the top of every page of the website, on the cover of this book, and in the first sentence of every cohort call I run. It is the entire program compressed into six words.
 
@@ -88,7 +88,7 @@ And Motivate without Mind is just discipline in service of no clearly named endp
 
 The pillars are interlocked. Muscle builds the physical infrastructure the brain requires. Mitigate removes the chronic insults driving neuroinflammation. Motivate sustains the compliance that makes the other three work. All roads lead back to Mind, and Mind is what gives the other three their reason to exist. Pull any one of them out and the structure sags.
 
-This is also why the loop is circular, not linear. You do not "finish" Mitigate and move on to Muscle. You do not "graduate" from Motivate. The loop runs continuously. In any given week, you are simultaneously eliminating an insult, building tissue, sustaining identity, and protecting cognition. The cohort runs the four pillars in sequence the first month because you have to start somewhere, but the system itself is a circle that keeps spinning for the rest of your life. The man who runs the loop longest wins.
+This is also why the loop is circular, not linear. You do not "finish" Muscle and move on to Mitigate. You do not "graduate" from Motivate. The loop runs continuously. In any given week, you are simultaneously eliminating an insult, building tissue, sustaining identity, and protecting cognition. The cohort runs the four pillars in sequence the first month because you have to start somewhere, but the system itself is a circle that keeps spinning for the rest of your life. The man who runs the loop longest wins.
 
 That is what I mean when I say My4MLife is a lifestyle company, not a clinic. I am not selling you a six-week reset. I am selling you the system you will run from now until your last day of life, with the goal of having the best mind possible on that day. The body is the delivery system. The mind is what we're protecting. The loop is how you keep both running.
 

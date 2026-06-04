@@ -1,4 +1,4 @@
-# Chapter 8 — Hormones & the ED Canary
+# Chapter 7 — Hormones & the ED Canary
 
 There is a specific moment that brings a successful man into my practice for the first time. It is rarely a heart attack. It is rarely a stroke. It is rarely a memory lapse in a board meeting, though those happen too. The moment that finally makes him pick up the phone, almost without fail, is private. It happens in the bedroom. It happens twice, or three times, or a dozen times, with a wife or partner he has been with for decades. And then, when he can no longer pretend it was the bourbon or the long week or the bad mattress, he sits in his car in a parking lot and starts looking for answers.
 

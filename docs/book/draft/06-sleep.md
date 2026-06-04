@@ -1,4 +1,4 @@
-# Chapter 6 — Sleep: The Memory Consolidator
+# Chapter 5 — Sleep: The Memory Consolidator
 
 If gut is the first lever of Mitigate, sleep is the second — and the gap between them is smaller than most men think. I tell my patients that if I could only fix two things in their lives and walk away, I would fix the gut and I would fix the sleep. Everything else — the testosterone, the weight, the mood, the cognitive sharpness, the libido, the recovery from training — bends to those two inputs.
 

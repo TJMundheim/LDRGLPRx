@@ -1,4 +1,4 @@
-# Chapter 10 — When You're Already Diagnosed: Regenerative Medicine
+# Chapter 9 — When You're Already Diagnosed: Regenerative Medicine
 
 ## You Or Someone You Love
 
@@ -70,7 +70,7 @@ Delivery is nationwide and mobile. The protocol does not require the patient to 
 
 I want to be careful about a misunderstanding I see often, especially from family members who are paying for the protocol and want to believe they have just bought the answer.
 
-Regenerative medicine is not a replacement for the other three pillars. It is the most aggressive intervention on the menu, and it works best — meaningfully best — on a patient who is simultaneously running the Mitigate work, the Muscle work, and the Motivate work.
+Regenerative medicine is not a replacement for the other three pillars. It is the most aggressive intervention on the menu, and it works best — meaningfully best — on a patient who is simultaneously running the Muscle work, the Mitigate work, and the Motivate work.
 
 Think about it mechanically. The Muse cells arrive at damaged tissue and start reading the local environment. What does that environment look like in a patient who is still drinking nightly, still sleeping four hours, still carrying eighty pounds of visceral fat, still leaking a compromised gut barrier, still running on suboptimal hormones? It looks like a hostile inflammatory bath. The cells will do what they can. But you have asked them to repair a building that is still on fire.
 

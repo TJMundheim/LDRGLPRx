@@ -1,4 +1,4 @@
-# Chapter 9 — Substance Use: Alcohol and the Other Quiet Saboteurs
+# Chapter 8 — Substance Use: Alcohol and the Other Quiet Saboteurs
 
 I want to start this chapter with a small confession on behalf of half the men who will read it: when we say "moderate drinker," we are almost always rounding down. The two glasses of wine at dinner becomes "a glass of wine." The three fingers of bourbon becomes "a drink." The Saturday that went sideways gets quietly subtracted from the weekly count. Nobody is lying. The accounting is just generous, because the alternative — looking at the real number — is uncomfortable.
 

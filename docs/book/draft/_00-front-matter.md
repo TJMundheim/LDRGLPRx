@@ -29,12 +29,12 @@ If you are already diagnosed with mild cognitive impairment, dementia, Alzheimer
 
 ### How this book is built
 
-The book has five parts:
+The book is organized around the locked 4M order — **Mind, Muscle, Mitigate, Motivate** — in five parts:
 
 - **Opening (Chapters 1–3):** The fear, the framework, the reader.
 - **Part I — Mind (Chapter 4):** What you're protecting. The destination.
-- **Part II — Mitigate (Chapters 5–10):** Stop hurting yourself. Six chapters on the chronic insults driving neuroinflammation: gut, sleep, environment, hormones + ED canary, substance use, and the regenerative arm for those already diagnosed.
-- **Part III — Muscle (Chapters 11–13):** Build the substrate. Nutrition, weight + GLP-1, strength + pain.
+- **Part II — Muscle (Chapters 5–7):** Build the substrate. Nutrition + the protein-first rule, weight + GLP-1, strength + sarcopenia + pain.
+- **Part III — Mitigate (Chapters 8–13):** Stop hurting yourself. Six chapters on the chronic insults driving neuroinflammation: gut, sleep, environment, hormones + ED canary, substance use, and the regenerative arm for those already diagnosed.
 - **Part IV — Motivate (Chapters 14–15):** Why you keep showing up. Purpose, identity, accountability — and the structural enablers.
 - **Return to Mind (Chapters 16–17):** The loop closes. One real week running the system, then your next step.
 - **Part V — The Action Guide:** The protocol on paper. Daily check-ins, the stack, the weekly reflection, the adherence scorecard, and the procedure for when you fall off (because you will).

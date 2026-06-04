@@ -1,4 +1,4 @@
-# Chapter 15 — Knowledge, Access, and the Structural Enablers
+# Chapter 14 — Knowledge, Access, and the Structural Enablers
 
 For two decades I watched men fail at protocols they actually wanted to run. Not because they were weak. Not because they didn't care. They failed because no one had ever told them the truth about compliance, which is this: compliance is not a character trait. It is an infrastructure problem.
 
@@ -92,12 +92,14 @@ Begin with the end in mind. The end is a man at 80 who still has his identity in
 
 That is how this is sustained.
 
-## Closing the Loop
+## Arriving at the Destination
 
-We have walked through the four pillars. Mind as the destination. Muscle as the engine. Mitigate as the elimination of the insulting behavior. Motivate as the recursive system that sustains the work and closes the loop back to Mind.
+We have walked the three sections of work. Mitigate removed the insults. Muscle built the substrate. Motivate engineered the why and built the infrastructure that sustains it. Three pillars stacked, each one doing what the others cannot do alone.
 
-But pillars on a page are still abstractions. The reader who finishes this chapter still hasn't seen the four pillars operate as a single recursive engine in real time — across a single, ordinary week of an ordinary man's life.
+There is one more section.
 
-That is the next chapter. We are going to walk through one week — Monday morning to Sunday night — of a 55-year-old running the full 4M system. The sunrise walk on Monday. The Biome NS Ultra at breakfast. The resistance training on Tuesday and Thursday. The cohort Zoom on Wednesday night. The protein-first windows. The 9 p.m. shutdown. The Sunday reflection. The way each pillar hands off to the next, so that by Sunday night the system has run itself and the man has, almost without noticing, fed his mind for another week.
+We have arrived at the destination. Mind. The man you have spent the last fifteen chapters protecting is standing in front of you. Part IV of this book is not another diagnostic walk through cognitive mechanism — you've already learned that, sideways, in every prior chapter. Part IV is the *arrival* and then the *destination's own toolkit* — the specific cognitive-tier interventions that operate on the mind itself.
 
-This is what living the protocol actually looks like. Don't roll the dice. Take action now. The next chapter is the week that begins the rest of your life.
+There is a brain-targeted supplement layer. There is a nootropic peptide layer prescribed through our licensed telemedicine partners. There are cognitive training tools that have actually been validated, and there are biofeedback methods worth running for the men who are ready to take it further. Most readers have never been told what this stack actually looks like, because most wellness systems stop at "do the foundational work and hope." We don't stop there. Mind has its own tier of intervention, and you have earned the right to read it by doing the work that came before.
+
+Begin with the end in mind. The end is Mind. Turn the page.

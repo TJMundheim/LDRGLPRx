@@ -1,4 +1,4 @@
-# Chapter 13 — Strength, Sarcopenia, and Pain Management
+# Chapter 12 — Strength, Sarcopenia, and Pain Management
 
 ## Resistance Training Is Neuroprotection
 

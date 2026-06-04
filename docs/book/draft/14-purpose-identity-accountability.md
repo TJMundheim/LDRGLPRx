@@ -1,4 +1,4 @@
-# Chapter 14 — Purpose, Identity, and the Accountability Target
+# Chapter 13 — Purpose, Identity, and the Accountability Target
 
 There is a Tuesday in February that decides everything.
 
