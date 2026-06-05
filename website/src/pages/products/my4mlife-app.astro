@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = "My4MLife Protégé App Access — Dr. TJ Mundheim";
+const description = "Full Protégé membership: app dashboard, weekly Zooms with Dr. TJ, the cohort, daily action guide, plus 25% off first purchase / 25% off autoship / 15% off ongoing reorders. Same membership you get with the assessment funnel — this is the direct-purchase path.";
+const canonical = "https://www.my4mlife.com/products/my4mlife-app";
+const robots = "noindex, nofollow";
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots={robots}>
+
+<section class="app-section">
+  <div class="container app-inner">
+    <p class="app-eyebrow">Protégé Membership · Direct Purchase</p>
+    <h1>The My4MLife App</h1>
+    <p class="app-tagline">Full Protégé membership. Same benefits as the assessment funnel — without the assessment.</p>
+
+    <p class="app-author"><strong>Dr. TJ Mundheim</strong> · Founder, My4MLife</p>
+
+    <div class="app-body">
+      <p>
+        Most members come in through the free 5-minute assessment. If you'd rather skip the
+        assessment and buy in directly, this is the path. You get exactly the same Protégé membership
+        the assessment funnel delivers — minus the personalized top-3 report and minus the free
+        copy of <em>Begin with the End in Mind</em>. Both are available separately if you want them.
+      </p>
+
+      <h3>What's included</h3>
+      <ul class="app-list">
+        <li><strong>The My4MLife app</strong> — daily dashboard, action guide, adherence scorecard, your weekly check-ins</li>
+        <li><strong>Weekly Zooms with Dr. TJ</strong> — live cohort calls, recordings available after</li>
+        <li><strong>Cohort membership</strong> — the men running the protocol alongside you</li>
+        <li><strong>25% off your first purchase</strong> on the My4MLife product stack (Biome NS, ArmorVita, SleepRestore, OmegaCN Prime, etc.)</li>
+        <li><strong>25% off autoship subscriptions</strong> — forever, while the subscription remains active</li>
+        <li><strong>15% off ongoing one-time reorders</strong></li>
+        <li><strong>Discounts on all live events</strong> — workshops, intensives, retreats as they come on the calendar</li>
+      </ul>
+
+      <p class="app-note">
+        <strong>What's not included:</strong> Your personalized top-3 priorities report (free with the assessment),
+        and your free copy of <em>Begin with the End in Mind</em> (available separately for $79.99).
+        If you want either, the <a href="/assessment">free 5-minute assessment</a> delivers both at no charge.
+      </p>
+    </div>
+
+    <div class="buy-now-test">
+      <div class="buy-now-label">My4MLife App Access (Protégé Membership)</div>
+      <div class="buy-now-price">$69.99 <span class="buy-now-note">one-time payment — sign-in details emailed instantly</span></div>
+      <button id="buy-app" class="buy-now-btn" type="button" data-price-id="price_1Tf4UABSbDAyoIVyCoS9cbTT" data-sku="app-access">
+        Buy My4MLife App Access →
+      </button>
+      <p id="buy-now-err" class="buy-now-err" hidden></p>
+    </div>
+
+    <p class="app-secondary">
+      Or take the free 5-minute assessment instead and get the same membership free, plus the book and your personalized top-3 priorities — <a href="/assessment">my4mlife.com/assessment</a>.
+    </p>
+
+    <p class="app-tagline-closer">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<script is:inline define:vars={{ API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+(function () {
+  var btn = document.getElementById('buy-app');
+  if (!btn) return;
+  var err = document.getElementById('buy-now-err');
+  btn.addEventListener('click', async function () {
+    btn.disabled = true;
+    btn.textContent = 'Loading…';
+    if (err) { err.hidden = true; err.textContent = ''; }
+    try {
+      var res = await fetch(API + '/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId: btn.dataset.priceId, skuId: btn.dataset.sku }),
+      });
+      var data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || ('Checkout failed (' + res.status + ')'));
+      window.location.href = data.url;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Buy My4MLife App Access →';
+      if (err) {
+        err.hidden = false;
+        err.textContent = e && e.message ? e.message : 'Something went wrong. Please try again.';
+      }
+    }
+  });
+})();
+</script>
+
+<style>
+.app-section { padding: 3rem 1rem 5rem; }
+.app-inner { max-width: 680px; margin: 0 auto; }
+.app-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+.app-inner h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  color: var(--primary);
+  margin: 0 0 0.4rem;
+  line-height: 1.1;
+}
+.app-tagline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin: 0 0 1rem;
+}
+.app-author {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin: 0 0 1.5rem;
+}
+.app-body p { font-size: 1rem; color: var(--text); line-height: 1.6; margin: 0 0 1em; }
+.app-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin: 1.5rem 0 0.6rem;
+}
+.app-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.app-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.app-list li:last-child { border-bottom: none; }
+.app-list li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.app-note {
+  background: rgba(0,184,148,0.06);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin: 1.5rem 0;
+  line-height: 1.5;
+}
+.app-note a { color: var(--accent); font-weight: 600; }
+.buy-now-test {
+  margin: 1.5rem 0 1.5rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: rgba(0,184,148,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+.buy-now-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.buy-now-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.buy-now-note {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-light);
+  font-style: italic;
+}
+.buy-now-btn {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.buy-now-btn:hover:not(:disabled) { opacity: 0.9; }
+.buy-now-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.buy-now-err {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0;
+}
+.app-secondary {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin: 1rem 0 0;
+}
+.app-secondary a { color: var(--accent); }
+.app-tagline-closer {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-light);
+}
+</style>

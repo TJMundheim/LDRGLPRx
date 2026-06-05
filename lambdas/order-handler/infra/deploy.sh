@@ -14,6 +14,7 @@ ORDERS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Orders"
 TOUCHPOINTS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Touchpoints"
 DIGITAL_BUCKET_ARN="arn:aws:s3:::my4mlife-digital-fulfillment/*"
 EMAIL_SENDER_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-email-sender"
+PROTEGE_SIGNUP_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-protege-signup"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LAMBDA_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
@@ -55,7 +56,7 @@ POLICY=$(cat <<EOF
     {
       "Effect": "Allow",
       "Action": "lambda:InvokeFunction",
-      "Resource": "${EMAIL_SENDER_ARN}"
+      "Resource": ["${EMAIL_SENDER_ARN}", "${PROTEGE_SIGNUP_ARN}"]
     },
     {
       "Effect": "Allow",

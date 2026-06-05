@@ -149,17 +149,21 @@ async function readContactAudit(contactId: string): Promise<{ auditTop3: unknown
   }
 }
 
-async function sendWelcomeEmail(email: string, firstName: string): Promise<void> {
+type WelcomeEmailVariant = 'standard' | 'app-only';
+
+async function sendWelcomeEmail(email: string, firstName: string, variant: WelcomeEmailVariant = 'standard'): Promise<void> {
   const appUrl = 'https://app.my4mlife.com';
+  const includeBookCard = variant === 'standard';
   let bookUrl = '';
-  try {
-    bookUrl = await getBookDownloadUrl();
-  } catch (err) {
-    console.warn('[protege-signup] book signed URL failed (welcome email will omit book link):', err);
+  if (includeBookCard) {
+    try {
+      bookUrl = await getBookDownloadUrl();
+    } catch (err) {
+      console.warn('[protege-signup] book signed URL failed (welcome email will omit book link):', err);
+    }
   }
 
-  // Two-card layout: book (gold) + app access (green) presented as
-  // equal next-steps. Reader picks which to do first.
+  // Gold book card — only when included (standard variant).
   const bookCard = bookUrl
     ? `<div style="margin:20px 0;padding:22px;border:2px solid #d4af5a;border-radius:10px;background:#fbf7ec">
 <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Gift</p>
@@ -171,6 +175,7 @@ async function sendWelcomeEmail(email: string, firstName: string): Promise<void>
 </div>`
     : '';
 
+  // Green app card — always included.
   const appCard = `<div style="margin:20px 0;padding:22px;border:2px solid #00b894;border-radius:10px;background:#f0fbf6">
 <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#007a5e;text-transform:uppercase;margin:0 0 8px">Your App Access</p>
 <h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">Open the My4MLife App</h2>
@@ -179,16 +184,24 @@ async function sendWelcomeEmail(email: string, firstName: string): Promise<void>
 <p style="color:#777;font-size:11px;margin:12px 0 0">Save the app to your home screen for one-tap access.</p>
 </div>`;
 
+  const lead = variant === 'app-only'
+    ? `Thanks for purchasing My4MLife Protégé app access. You're officially a Protégé and your access is ready. Tap below to open the app — we'll email you a one-time sign-in code.`
+    : `You're officially a My4MLife Protégé. Two things are yours right now — your free copy of the book, and your access to the app. Pick whichever you want to do first.`;
+
+  const subject = variant === 'app-only'
+    ? 'Welcome to My4MLife — your Protégé app access is ready'
+    : 'Welcome to My4MLife — your book and app are ready';
+
   const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${firstName}.</h1>
-<p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Two things are yours right now — your free copy of the book, and your access to the app. Pick whichever you want to do first.</p>
+<p style="margin:0 0 20px;font-size:15px;line-height:1.55">${lead}</p>
 ${bookCard}
 ${appCard}
 <p style="margin:24px 0 12px;font-size:14px;line-height:1.6;color:#333">Your Protégé benefits include 25% off your first purchase, 25% off forever on autoship, 15% off one-time reorders, weekly Zooms with Dr. TJ, and discounts on all live events.</p>
 <p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;
 
-  const payload = { kind: 'info', to: email, subject: 'Welcome to My4MLife — your book and app are ready', html };
+  const payload = { kind: 'info', to: email, subject, html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
     InvocationType: 'Event',
@@ -293,7 +306,11 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   // even for returning Protégés. A returning user re-claiming the book is
   // a feature, not a bug, and silently skipping the email left book buyers
   // wondering where the file was.
-  try { await sendWelcomeEmail(email, firstName); } catch (err) {
+  // Pick welcome email variant: 'app-only' when the caller is order-handler
+  // post-purchase (app-access SKU buyer); 'standard' otherwise.
+  const welcomeVariant: WelcomeEmailVariant =
+    body.welcomeEmailVariant === 'app-only' ? 'app-only' : 'standard';
+  try { await sendWelcomeEmail(email, firstName, welcomeVariant); } catch (err) {
     console.warn('[protege-signup] welcome email failed (non-fatal):', err);
   }
 

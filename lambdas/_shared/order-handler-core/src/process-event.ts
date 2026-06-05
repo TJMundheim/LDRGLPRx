@@ -9,7 +9,17 @@ import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 const REGION = 'us-east-2';
 const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
 const EMAIL_SENDER_FN = process.env['EMAIL_SENDER_FN'] ?? 'my4mlife-email-sender';
+const PROTEGE_SIGNUP_FN = process.env['PROTEGE_SIGNUP_FN'] ?? 'my4mlife-protege-signup';
 const DIGITAL_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
+
+// SKUs that grant Protégé membership on purchase. The buyer is signed up
+// as a Protégé via the standard protege-signup flow using the customer
+// info Stripe collected at checkout (name, email, phone). When set, the
+// welcome email omits the book card so the buyer of the app-only SKU
+// doesn't think the book was included in their $69.99 purchase.
+const PROTEGE_MEMBERSHIP_SKUS: Record<string, { welcomeVariant: 'standard' | 'app-only' }> = {
+  'app-access': { welcomeVariant: 'app-only' },
+};
 
 // SKU → digital asset map. Adding a new digital product is one entry:
 // upload PDF to S3 under `s3Key`, add a row here, create Stripe price.
@@ -192,6 +202,40 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
         console.error('[order-handler] digital fulfillment failed', { orderId: session.id, skuId, error: String(err) });
         // Re-throw to fail the event and let EB retry. Idempotency above
         // guarantees Contact/Orders/Touchpoints won't double-write.
+        throw err;
+      }
+    }
+
+    // 5. Protégé membership grant — for SKUs in PROTEGE_MEMBERSHIP_SKUS
+    // (e.g. app-access $69.99), invoke protege-signup with the Stripe
+    // customer info to create the Cognito account + Contact + Users row
+    // and send the appropriate welcome email variant.
+    const membership = skuId ? PROTEGE_MEMBERSHIP_SKUS[skuId] : undefined;
+    if (membership && email) {
+      const customerName = session.customer_details?.name ?? (session.metadata as Record<string, string> | null)?.['firstName'] ?? '';
+      const firstName = customerName.trim().split(/\s+/)[0] || 'Friend';
+      const phone = session.customer_details?.phone
+        ?? (session.metadata as Record<string, string> | null)?.['phone']
+        ?? '';
+      try {
+        const signupBody = {
+          firstName,
+          email,
+          phone: phone || '+10000000000', // protege-signup requires E.164; fallback if Stripe didn't collect
+          consent: { ai: true, protege: true },
+          welcomeEmailVariant: membership.welcomeVariant,
+        };
+        await lambda.send(new InvokeCommand({
+          FunctionName: PROTEGE_SIGNUP_FN,
+          InvocationType: 'Event',
+          Payload: Buffer.from(JSON.stringify({
+            body: JSON.stringify(signupBody),
+            requestContext: { http: { method: 'POST' } },
+            headers: { 'content-type': 'application/json' },
+          })),
+        }));
+      } catch (err) {
+        console.error('[order-handler] Protégé membership grant failed', { orderId: session.id, skuId, error: String(err) });
         throw err;
       }
     }
