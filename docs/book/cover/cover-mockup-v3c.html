@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Begin with the End in Mind — Cover v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; }
+
+  .cover {
+    width: 1600px;
+    height: 2560px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #07111f;
+  }
+
+  /* Top band — taller to accommodate continuous title (~32% of cover) */
+  .title-band {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 820px;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(212, 175, 90, 0.10) 0%, rgba(212, 175, 90, 0) 60%),
+      linear-gradient(180deg, #0a1628 0%, #0d1b35 60%, #0a1628 100%);
+    padding: 100px 110px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #f5ecd1;
+  }
+
+  .brand {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    color: #d4af5a;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .brand-rule {
+    width: 180px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d4af5a, transparent);
+    margin-bottom: 64px;
+  }
+
+  /* Continuous title — same weight, three lines reading as one phrase */
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 116px;
+    line-height: 1.02;
+    letter-spacing: -0.005em;
+    color: #f5ecd1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    margin-bottom: 40px;
+  }
+
+  /* Subtle thematic accent: only "Mind" picks up the gold —
+     keeps the visual tie back to v2 without breaking the title hierarchy */
+  .title .mind {
+    color: #d4af5a;
+  }
+
+  .tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.3;
+    color: rgba(243, 232, 200, 0.88);
+    max-width: 1100px;
+  }
+
+  /* Photo region — bottom ~68% */
+  .photo-region {
+    position: absolute;
+    top: 820px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #07111f;
+    overflow: hidden;
+  }
+
+  .photo-region::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(180deg, #0a1628 0%, rgba(10, 22, 40, 0) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .photo-region::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 320px;
+    background: linear-gradient(180deg, rgba(7, 17, 31, 0) 0%, rgba(7, 17, 31, 0.92) 75%, rgba(7, 17, 31, 0.98) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .photo-region img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    filter: contrast(1.06) saturate(0.92) brightness(1.0);
+  }
+
+  .byline {
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 3;
+    color: #f5ecd1;
+  }
+
+  .byline-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 62px;
+    letter-spacing: 0.005em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
+
+  .byline-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 25px;
+    letter-spacing: 0.22em;
+    color: rgba(243, 232, 200, 0.78);
+    text-transform: uppercase;
+    margin-top: 16px;
+  }
+
+  .byline-accent {
+    width: 70px;
+    height: 2px;
+    background: #d4af5a;
+    margin: 24px auto 0;
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="title-band">
+    <div class="brand">A My4MLife Field Guide</div>
+    <div class="brand-rule"></div>
+    <div class="title">Begin with the<br>End in <span class="mind">Mind</span></div>
+    <div class="tagline">Don't lose your identity and your dignity<br>while you still have a choice.</div>
+  </div>
+
+  <div class="photo-region">
+    <img src="../../../website/public/images/founder/founder-tj.jpg" alt="Dr. TJ Mundheim">
+    <div class="byline">
+      <div class="byline-name">Dr. TJ Mundheim</div>
+      <div class="byline-sub">Founder &middot; My4MLife</div>
+      <div class="byline-accent"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

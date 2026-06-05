@@ -112,7 +112,7 @@ Read that paragraph twice. It is the single thesis of this book, and it tells yo
 
 And then the cycle closes back to Mind. The whole point. The destination.
 
-Don't lose your identity. You still have a choice. The window is open right now, while the architecture is still plastic, while the trajectory is still yours to set. The decade in front of you can be the sharpest decade of your life, or it can be the runway. Which one happens is decided by what you do this year. Begin with the end in mind.
+Don't lose your identity and your dignity while you still have a choice. The window is open right now, while the architecture is still plastic, while the trajectory is still yours to set. The decade in front of you can be the sharpest decade of your life, or it can be the runway. Which one happens is decided by what you do this year. Begin with the end in mind.
 
 ---
 

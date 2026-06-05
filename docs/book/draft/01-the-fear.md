@@ -116,6 +116,6 @@ You picked this book up because you were scared. Good. The fear is doing its job
 
 So act.
 
-Don't lose your identity. You still have a choice.
+Don't lose your identity and your dignity while you still have a choice.
 
 There is a choice. It's called 4M. We start there.

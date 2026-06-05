@@ -1,6 +1,6 @@
 # Begin with the End in Mind
 
-## Don't lose your identity. You still have a choice.
+## Don't lose your identity and your dignity while you still have a choice.
 
 **Dr. TJ Mundheim**
 *Founder · My4MLife*
@@ -168,7 +168,7 @@ You picked this book up because you were scared. Good. The fear is doing its job
 
 So act.
 
-Don't lose your identity. You still have a choice.
+Don't lose your identity and your dignity while you still have a choice.
 
 There is a choice. It's called 4M. We start there.
 
@@ -284,7 +284,7 @@ But before any of that — before you read about the gut-brain axis or testoster
 
 Is this book even for you?
 
-Not everyone reading these pages should keep going. Some of you should put this down and hand it to a brother or a friend who actually fits the description. The next chapter is where I draw that line, name the man this book is for, and give you permission to either step in or step out. *Don't lose your identity. You still have a choice.* But first, you have to make sure I am actually talking to you.
+Not everyone reading these pages should keep going. Some of you should put this down and hand it to a brother or a friend who actually fits the description. The next chapter is where I draw that line, name the man this book is for, and give you permission to either step in or step out. *Don't lose your identity and your dignity while you still have a choice.* But first, you have to make sure I am actually talking to you.
 
 Turn the page.
 
@@ -406,7 +406,7 @@ Mind is the destination. We begin with the end in mind. But you do not get to th
 
 The largest section is the first one. **Mitigate.** Stop hurting yourself first, then add what works. We start there because almost every man over fifty is actively running a half-dozen inputs that are degrading his brain in real time, and the single most leveraged thing you can do this week is to stop running them. The first chapter of Mitigate is the gut — the single most underestimated driver of every cognitive mechanism we have named, and the one I run every cognitive protocol through first.
 
-Don't lose your identity. You still have a choice.
+Don't lose your identity and your dignity while you still have a choice.
 
 Turn the page.
 
@@ -878,7 +878,7 @@ Mild depression sets in. Motivation to train collapses, so you train less. Motiv
 
 You should not accept it. The downstream emotional damage accelerates the upstream physiological damage. It is a closed loop. Every year it is ignored, the loop tightens. And the men who treat the alarm with a pill alone — sildenafil tonight, sildenafil next week, sildenafil for the next decade — are responding to the smoke while the fire keeps burning underneath.
 
-Don't lose your identity. You still have a choice. That sentence is the whole point of this book, and there is no chapter where it lands harder than this one. The ED is not your identity. The ED is the alarm telling you that the man you have been is at risk of slipping away unless you respond to the system that set off the alarm.
+Don't lose your identity and your dignity while you still have a choice. That sentence is the whole point of this book, and there is no chapter where it lands harder than this one. The ED is not your identity. The ED is the alarm telling you that the man you have been is at risk of slipping away unless you respond to the system that set off the alarm.
 
 ## What Actually to Do
 
@@ -1152,7 +1152,7 @@ First, take the free 4M Assessment at **my4mlife.com/assessment**. Ten questions
 
 Second, engage Genesis RPA directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
 
-> Don't lose your identity. You still have a choice. Begin with the end in mind.
+> Don't lose your identity and your dignity while you still have a choice. Begin with the end in mind.
 
 If you are the wife reading this for your husband, or the son reading this for your father, you are allowed to make the call. You are allowed to put this book in his hands open to this page. You are allowed to be the one who refused to let the timer run out.
 
@@ -1720,7 +1720,7 @@ You read it on Sunday night when you plan the week. You read it on the third Tue
 
 This is also why we do not let our Protégés define themselves by the disease they are afraid of. *Pre-diabetic. Low T. Brain fog.* Those are diagnoses. They are not identities. The identity we are building is on the other side of that. *I used to be soft. I am the man who is rebuilding.* That sentence has motion in it. The diagnosis does not.
 
-Don't lose your identity. You still have a choice. That is the sub-promise of this whole book. This is where you exercise that choice — at the level of the sentence you use to describe yourself.
+Don't lose your identity and your dignity while you still have a choice. That is the sub-promise of this whole book. This is where you exercise that choice — at the level of the sentence you use to describe yourself.
 
 ## The "Why" That Survives February
 
@@ -1864,7 +1864,7 @@ The My4MLife system is engineered explicitly around this insight. The app is not
 
 When you understand this, the value of the system reframes itself. You are not paying for supplements and you are not paying for content. You are paying — when and if you eventually pay anything — for the removal of friction between yourself and the protocol that protects your mind for the rest of your life.
 
-Begin with the end in mind. The end is a man at 80 who still has his identity intact. Don't lose your identity. You still have a choice. The choice is not whether you have the willpower; the choice is whether you build the infrastructure. Knowledge. Access. Financial calm. The morning. Stacked, repeated, made automatic.
+Begin with the end in mind. The end is a man at 80 who still has his identity intact. Don't lose your identity and your dignity while you still have a choice. The choice is not whether you have the willpower; the choice is whether you build the infrastructure. Knowledge. Access. Financial calm. The morning. Stacked, repeated, made automatic.
 
 That is how this is sustained.
 
@@ -2330,7 +2330,7 @@ You also know — and this is the part the wellness industry will not say out lo
 
 You are still in your peak-power decade. You still have the cognition to make this decision well. You still have the runway for the math to work in your favor. That window does not stay open forever, but it is open right now, tonight, while you are holding this book.
 
-Don't lose your identity. You still have a choice.
+Don't lose your identity and your dignity while you still have a choice.
 
 Best mind possible until your last day of life.
 
@@ -2591,7 +2591,7 @@ The point is not the paper. The point is you see it twice a day, when you brush 
 # The 4M Daily Scorecard
 
 > *Begin with the end in mind.*
-> *Don't lose your identity. You still have a choice.*
+> *Don't lose your identity and your dignity while you still have a choice.*
 
 ---
 

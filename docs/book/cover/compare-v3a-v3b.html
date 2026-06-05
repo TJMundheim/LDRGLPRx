@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tagline A/B — v3a vs v3b</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a1a;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #f5ecd1;
+    padding: 60px;
+  }
+  .frame {
+    width: 2600px;
+    display: flex;
+    gap: 80px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .col {
+    width: 1180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+  .label-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .label {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #d4af5a;
+    text-transform: uppercase;
+  }
+  .label-sub {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(243, 232, 200, 0.7);
+    font-style: italic;
+  }
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.65);
+    border: 1px solid rgba(212, 175, 90, 0.25);
+  }
+  .desc {
+    font-size: 22px;
+    line-height: 1.55;
+    color: rgba(243, 232, 200, 0.85);
+    max-width: 1100px;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .desc strong { color: #d4af5a; }
+  .desc em { color: #f5ecd1; font-style: italic; }
+  h1 {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0 auto 50px;
+    color: #f5ecd1;
+  }
+  h1 span { color: #d4af5a; font-style: italic; }
+  .pill {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(212, 175, 90, 0.15);
+    border: 1px solid rgba(212, 175, 90, 0.4);
+    border-radius: 999px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #d4af5a;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<h1>Tagline A/B — same v3 cover, two tagline options</h1>
+<div class="frame">
+  <div class="col">
+    <div class="label-row">
+      <div class="label">v3a — original tagline</div>
+      <div class="label-sub">two beats</div>
+    </div>
+    <img src="cover-v3.png" alt="Cover v3a">
+    <div class="desc">
+      <em>"Don't lose your identity. You still have a choice."</em><br><br>
+      Two declarations separated by a period. The pause earns the second beat —
+      <strong>warning</strong>, then <strong>agency</strong> as a stand-alone empowering statement.
+    </div>
+  </div>
+  <div class="col">
+    <div class="label-row">
+      <div class="label">v3b — new tagline</div>
+      <div class="label-sub">one sentence, time-pressure</div>
+    </div>
+    <img src="cover-v3b.png" alt="Cover v3b">
+    <div class="desc">
+      <em>"Don't lose your identity while you still have a choice."</em><br><br>
+      One continuous sentence. <strong>"While"</strong> makes the window explicit —
+      act now, before it closes. Tighter, more urgent, single thought.
+    </div>
+  </div>
+</div>
+</body>
+</html>

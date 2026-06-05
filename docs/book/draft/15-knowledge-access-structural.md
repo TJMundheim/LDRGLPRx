@@ -88,7 +88,7 @@ The My4MLife system is engineered explicitly around this insight. The app is not
 
 When you understand this, the value of the system reframes itself. You are not paying for supplements and you are not paying for content. You are paying — when and if you eventually pay anything — for the removal of friction between yourself and the protocol that protects your mind for the rest of your life.
 
-Begin with the end in mind. The end is a man at 80 who still has his identity intact. Don't lose your identity. You still have a choice. The choice is not whether you have the willpower; the choice is whether you build the infrastructure. Knowledge. Access. Financial calm. The morning. Stacked, repeated, made automatic.
+Begin with the end in mind. The end is a man at 80 who still has his identity intact. Don't lose your identity and your dignity while you still have a choice. The choice is not whether you have the willpower; the choice is whether you build the infrastructure. Knowledge. Access. Financial calm. The morning. Stacked, repeated, made automatic.
 
 That is how this is sustained.
 

@@ -114,6 +114,6 @@ Mind is the destination. We begin with the end in mind. But you do not get to th
 
 The largest section is the first one. **Mitigate.** Stop hurting yourself first, then add what works. We start there because almost every man over fifty is actively running a half-dozen inputs that are degrading his brain in real time, and the single most leveraged thing you can do this week is to stop running them. The first chapter of Mitigate is the gut — the single most underestimated driver of every cognitive mechanism we have named, and the one I run every cognitive protocol through first.
 
-Don't lose your identity. You still have a choice.
+Don't lose your identity and your dignity while you still have a choice.
 
 Turn the page.

@@ -70,7 +70,7 @@ Mild depression sets in. Motivation to train collapses, so you train less. Motiv
 
 You should not accept it. The downstream emotional damage accelerates the upstream physiological damage. It is a closed loop. Every year it is ignored, the loop tightens. And the men who treat the alarm with a pill alone — sildenafil tonight, sildenafil next week, sildenafil for the next decade — are responding to the smoke while the fire keeps burning underneath.
 
-Don't lose your identity. You still have a choice. That sentence is the whole point of this book, and there is no chapter where it lands harder than this one. The ED is not your identity. The ED is the alarm telling you that the man you have been is at risk of slipping away unless you respond to the system that set off the alarm.
+Don't lose your identity and your dignity while you still have a choice. That sentence is the whole point of this book, and there is no chapter where it lands harder than this one. The ED is not your identity. The ED is the alarm telling you that the man you have been is at risk of slipping away unless you respond to the system that set off the alarm.
 
 ## What Actually to Do
 

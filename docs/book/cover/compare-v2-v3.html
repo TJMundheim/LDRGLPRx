@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cover comparison — v2 vs v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a1a;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #f5ecd1;
+    padding: 60px;
+  }
+  .frame {
+    width: 2600px;
+    display: flex;
+    gap: 80px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .col {
+    width: 1180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+  .label-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .label {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #d4af5a;
+    text-transform: uppercase;
+  }
+  .label-sub {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(243, 232, 200, 0.7);
+    font-style: italic;
+  }
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.65);
+    border: 1px solid rgba(212, 175, 90, 0.25);
+  }
+  .desc {
+    font-size: 22px;
+    line-height: 1.5;
+    color: rgba(243, 232, 200, 0.85);
+    max-width: 1100px;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .desc strong { color: #d4af5a; }
+  h1 {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0 auto 50px;
+    color: #f5ecd1;
+  }
+  h1 span { color: #d4af5a; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>Cover comparison: <span>v2</span> vs <span>v3</span></h1>
+<div class="frame">
+  <div class="col">
+    <div class="label-row">
+      <div class="label">v2 — current</div>
+      <div class="label-sub">live now</div>
+    </div>
+    <img src="cover-v2.png" alt="Cover v2">
+    <div class="desc">
+      <strong>"Begin with the"</strong> small at the top, <strong>"End in Mind"</strong>
+      huge with <em>"in"</em> in gold italic. First-glance eye lands on
+      <em>"End in Mind"</em> as if it were the whole title.
+    </div>
+  </div>
+  <div class="col">
+    <div class="label-row">
+      <div class="label">v3 — rebalanced</div>
+      <div class="label-sub">proposed</div>
+    </div>
+    <img src="cover-v3.png" alt="Cover v3">
+    <div class="desc">
+      Full title reads as <strong>one continuous statement</strong> at consistent
+      weight. Only <em>"Mind"</em> picks up the gold — subtle thematic tie back to
+      the book's destination, without breaking the title hierarchy.
+    </div>
+  </div>
+</div>
+</body>
+</html>

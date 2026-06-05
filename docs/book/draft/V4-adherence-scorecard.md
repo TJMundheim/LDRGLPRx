@@ -15,7 +15,7 @@ The point is not the paper. The point is you see it twice a day, when you brush 
 # The 4M Daily Scorecard
 
 > *Begin with the end in mind.*
-> *Don't lose your identity. You still have a choice.*
+> *Don't lose your identity and your dignity while you still have a choice.*
 
 ---
 

@@ -1,6 +1,6 @@
 # Begin with the End in Mind
 
-## Don't lose your identity. You still have a choice.
+## Don't lose your identity and your dignity while you still have a choice.
 
 **Dr. TJ Mundheim**
 *Founder · My4MLife*

@@ -108,6 +108,6 @@ But before any of that — before you read about the gut-brain axis or testoster
 
 Is this book even for you?
 
-Not everyone reading these pages should keep going. Some of you should put this down and hand it to a brother or a friend who actually fits the description. The next chapter is where I draw that line, name the man this book is for, and give you permission to either step in or step out. *Don't lose your identity. You still have a choice.* But first, you have to make sure I am actually talking to you.
+Not everyone reading these pages should keep going. Some of you should put this down and hand it to a brother or a friend who actually fits the description. The next chapter is where I draw that line, name the man this book is for, and give you permission to either step in or step out. *Don't lose your identity and your dignity while you still have a choice.* But first, you have to make sure I am actually talking to you.
 
 Turn the page.

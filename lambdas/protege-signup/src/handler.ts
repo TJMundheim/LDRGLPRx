@@ -157,32 +157,38 @@ async function sendWelcomeEmail(email: string, firstName: string): Promise<void>
   } catch (err) {
     console.warn('[protege-signup] book signed URL failed (welcome email will omit book link):', err);
   }
-  const bookBlock = bookUrl
-    ? `<div style="margin:24px 0;padding:20px;border:2px solid #d4af5a;border-radius:10px;background:#fbf7ec">
-<p style="font-size:13px;font-weight:700;letter-spacing:0.14em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Gift</p>
-<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px">Begin with the End in Mind</h2>
-<p style="font-style:italic;color:#666;margin:0 0 12px">Don't lose your identity. You still have a choice.</p>
-<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 14px">Dr. TJ's 270-page field guide to brain healthspan, organized around the 4M framework. Includes the full Action Guide and adherence scorecard.</p>
-<p style="margin:0"><a href="${bookUrl}" style="background:#d4af5a;color:#0a1628;padding:11px 22px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block">Download the Book (PDF) &rarr;</a></p>
-<p style="color:#777;font-size:12px;margin:10px 0 0">Link valid for 7 days. If you need a fresh link after that, just reply to this email.</p>
+
+  // Two-card layout: book (gold) + app access (green) presented as
+  // equal next-steps. Reader picks which to do first.
+  const bookCard = bookUrl
+    ? `<div style="margin:20px 0;padding:22px;border:2px solid #d4af5a;border-radius:10px;background:#fbf7ec">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Gift</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">Begin with the End in Mind</h2>
+<p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Don't lose your identity and your dignity while you still have a choice.</p>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Dr. TJ's 280-page field guide to brain healthspan, organized around the 4M framework. Includes the full Action Guide and adherence scorecard.</p>
+<p style="margin:0"><a href="${bookUrl}" style="background:#d4af5a;color:#0a1628;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Book (PDF) &rarr;</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
 </div>`
     : '';
-  const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px">
-<h1 style="font-size:22px;color:#111">Welcome, ${firstName}.</h1>
-<p style="margin:8px 0 16px">You're a Protégé. Here's what's yours now:</p>
-<ul style="margin:0 0 20px 18px;padding:0;line-height:1.7;color:#222;font-size:15px">
-  <li><strong>Begin with the End in Mind</strong> — Dr. TJ's 270-page brain-healthspan book (download link below)</li>
-  <li>25% off your first purchase</li>
-  <li>25% off forever on autoship; 15% off one-time reorders</li>
-  <li>Free access to the My4MLife app</li>
-  <li>Weekly support Zooms with Dr. TJ</li>
-  <li>Discounts on all live events</li>
-</ul>
-${bookBlock}
-<p style="margin:24px 0"><a href="${appUrl}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">Open the My4MLife App &rarr;</a></p>
-<p style="color:#444;font-size:14px;line-height:1.55">When you open the app, we'll email you a one-time sign-in code. Use that code to enter — there's no password to remember.</p>
-<p style="color:#666;font-size:13px;margin-top:24px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p></div>`;
-  const payload = { kind: 'info', to: email, subject: 'Welcome to My4MLife — your free book is inside', html };
+
+  const appCard = `<div style="margin:20px 0;padding:22px;border:2px solid #00b894;border-radius:10px;background:#f0fbf6">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#007a5e;text-transform:uppercase;margin:0 0 8px">Your App Access</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">Open the My4MLife App</h2>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Your dashboard, weekly Zooms with Dr. TJ, the cohort, and the daily action guide — all in one place. We'll email a 6-digit code when you tap below. No password to remember.</p>
+<p style="margin:0"><a href="${appUrl}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Open the My4MLife App &rarr;</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Save the app to your home screen for one-tap access.</p>
+</div>`;
+
+  const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
+<h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${firstName}.</h1>
+<p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Two things are yours right now — your free copy of the book, and your access to the app. Pick whichever you want to do first.</p>
+${bookCard}
+${appCard}
+<p style="margin:24px 0 12px;font-size:14px;line-height:1.6;color:#333">Your Protégé benefits include 25% off your first purchase, 25% off forever on autoship, 15% off one-time reorders, weekly Zooms with Dr. TJ, and discounts on all live events.</p>
+<p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+</div>`;
+
+  const payload = { kind: 'info', to: email, subject: 'Welcome to My4MLife — your book and app are ready', html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
     InvocationType: 'Event',

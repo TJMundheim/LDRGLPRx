@@ -87,19 +87,12 @@ const robots = "index, follow";
     <div class="hp-hero-twocol">
       <div class="hp-hero-cta-block">
         <a href="/assessment" class="btn-primary-xl">Take the Personalized Assessment &rarr;</a>
-        <p class="hp-hero-or">— or —</p>
-        <p class="hp-hero-or-sub">read the whole system in one place</p>
+        <p class="hp-hero-cta-fine">Five minutes. Ten questions. Free.<br>You'll be emailed your top-3 priorities, a copy of <em>Begin with the End in Mind</em>, and access to the Protégé app.</p>
       </div>
-      <a href="/get-the-book" class="hp-hero-book-offer" aria-label="Get the book free if you act now">
+      <div class="hp-hero-book-visual" aria-hidden="true">
         <img src="/images/book/cover.png" alt="Begin with the End in Mind — Dr. TJ Mundheim" class="hp-hero-book-cover" />
-        <div class="hp-hero-book-body">
-          <p class="hp-hero-book-badge">Limited launch · free for Protégés</p>
-          <h2 class="hp-hero-book-title">Get the Book Free <span class="hp-hero-book-emphasis">If You Act Now</span></h2>
-          <p class="hp-hero-book-desc"><strong>Begin with the End in Mind</strong> — Dr. TJ's 270-page field guide to brain healthspan, organized around the 4M framework. Includes the Action Guide and daily scorecard.</p>
-          <span class="hp-hero-book-cta">Claim Your Free Copy &rarr;</span>
-          <p class="hp-hero-book-fine">Free with your Protégé signup. No purchase required.</p>
-        </div>
-      </a>
+        <p class="hp-hero-book-caption"><em>Begin with the End in Mind</em> — Dr. TJ's 280-page field guide to brain healthspan. Yours free when you complete the assessment.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1344,111 +1337,50 @@ const robots = "index, follow";
   white-space: normal;
   text-align: center;
 }
-.hp-hero-or {
+.hp-hero-cta-fine {
   font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 0.12em;
-  margin: 0.4rem 0 0.1rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: rgba(245, 236, 209, 0.85);
+  margin: 0.8rem 0 0;
+  max-width: 360px;
 }
-.hp-hero-or-sub {
-  font-family: 'Playfair Display', serif;
+.hp-hero-cta-fine em {
+  color: #f5ecd1;
   font-style: italic;
-  font-size: 1rem;
-  color: rgba(255,255,255,0.78);
-  margin: 0;
+  font-weight: 600;
 }
 
-.hp-hero-book-offer {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 1.4rem;
-  align-items: center;
-  padding: 1.4rem 1.4rem;
-  background: linear-gradient(180deg, rgba(212, 175, 90, 0.14) 0%, rgba(212, 175, 90, 0.06) 100%);
-  border: 2px solid rgba(212, 175, 90, 0.55);
-  border-radius: 14px;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-}
-.hp-hero-book-offer:hover {
-  transform: translateY(-2px);
-  border-color: rgba(212, 175, 90, 0.85);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
-}
-@media (max-width: 580px) {
-  .hp-hero-book-offer {
-    grid-template-columns: 140px 1fr;
-    gap: 1rem;
-    padding: 1.1rem;
-  }
-}
-.hp-hero-book-cover {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-}
-.hp-hero-book-body {
+.hp-hero-book-visual {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0;
 }
-.hp-hero-book-badge {
+.hp-hero-book-cover {
+  width: 240px;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(212, 175, 90, 0.3);
+}
+@media (max-width: 860px) {
+  .hp-hero-book-cover { width: 180px; }
+}
+.hp-hero-book-caption {
   font-family: 'Inter', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #d4af5a;
-  margin: 0;
-}
-.hp-hero-book-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
-  font-weight: 800;
-  line-height: 1.12;
-  color: #f5ecd1;
-  margin: 0;
-}
-.hp-hero-book-title .hp-hero-book-emphasis {
-  display: block;
-  font-style: italic;
-  font-weight: 700;
-  color: #d4af5a;
-  font-size: 0.92em;
-  margin-top: 2px;
-}
-.hp-hero-book-desc {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   line-height: 1.5;
-  color: rgba(245, 236, 209, 0.88);
+  color: rgba(245, 236, 209, 0.78);
+  text-align: center;
+  max-width: 320px;
   margin: 0;
-}
-.hp-hero-book-desc strong { color: #f5ecd1; }
-.hp-hero-book-cta {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.55rem 1.1rem;
-  background: #d4af5a;
-  color: #0a1628;
-  border-radius: 999px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  align-self: flex-start;
-}
-.hp-hero-book-fine {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.72rem;
-  color: rgba(245, 236, 209, 0.62);
-  margin: 0.3rem 0 0;
   font-style: italic;
+}
+.hp-hero-book-caption em {
+  font-style: italic;
+  font-weight: 600;
+  color: #f5ecd1;
 }
 
 /* ===== AUDIT REINJECTION STRIP ===== */

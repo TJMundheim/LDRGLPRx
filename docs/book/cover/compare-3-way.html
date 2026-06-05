@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tagline 3-way — v3a / v3b / v3c</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a1a;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #f5ecd1;
+    padding: 60px 40px;
+  }
+  .frame {
+    width: 3600px;
+    display: flex;
+    gap: 56px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .col {
+    width: 1140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .label-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .label {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #d4af5a;
+    text-transform: uppercase;
+  }
+  .label-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(243, 232, 200, 0.7);
+    font-style: italic;
+  }
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.65);
+    border: 1px solid rgba(212, 175, 90, 0.25);
+  }
+  .desc {
+    font-size: 19px;
+    line-height: 1.55;
+    color: rgba(243, 232, 200, 0.85);
+    text-align: center;
+    padding: 0 14px;
+  }
+  .desc strong { color: #d4af5a; }
+  .desc em { color: #f5ecd1; font-style: italic; }
+  h1 {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0 auto 50px;
+    color: #f5ecd1;
+  }
+  h1 span { color: #d4af5a; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>Tagline 3-way — <span>v3a</span> · <span>v3b</span> · <span>v3c</span></h1>
+<div class="frame">
+  <div class="col">
+    <div class="label-row">
+      <div class="label">v3a — original</div>
+      <div class="label-sub">7 words · two beats</div>
+    </div>
+    <img src="cover-v3.png" alt="Cover v3a">
+    <div class="desc">
+      <em>"Don't lose your identity. You still have a choice."</em><br><br>
+      Hard period mid-tagline creates a visual stop.
+      Warning + agency as two equal-weight declarations.
+    </div>
+  </div>
+  <div class="col">
+    <div class="label-row">
+      <div class="label">v3b — single sentence</div>
+      <div class="label-sub">8 words · time-pressure</div>
+    </div>
+    <img src="cover-v3b.png" alt="Cover v3b">
+    <div class="desc">
+      <em>"Don't lose your identity while you still have a choice."</em><br><br>
+      One continuous thought. <strong>"While"</strong> makes the window
+      explicit. Tighter. Reads aloud cleaner.
+    </div>
+  </div>
+  <div class="col">
+    <div class="label-row">
+      <div class="label">v3c — identity + dignity</div>
+      <div class="label-sub">11 words · brand continuity</div>
+    </div>
+    <img src="cover-v3c.png" alt="Cover v3c">
+    <div class="desc">
+      <em>"Don't lose your identity and your dignity while you still have a choice."</em><br><br>
+      Adds <strong>"dignity"</strong> from the homepage hero. Strongest
+      emotional payload. Longest text, slightly denser cover.
+    </div>
+  </div>
+</div>
+</body>
+</html>

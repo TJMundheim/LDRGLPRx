@@ -120,7 +120,7 @@ First, take the free 4M Assessment at **my4mlife.com/assessment**. Ten questions
 
 Second, engage Genesis RPA directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
 
-> Don't lose your identity. You still have a choice. Begin with the end in mind.
+> Don't lose your identity and your dignity while you still have a choice. Begin with the end in mind.
 
 If you are the wife reading this for your husband, or the son reading this for your father, you are allowed to make the call. You are allowed to put this book in his hands open to this page. You are allowed to be the one who refused to let the timer run out.
 

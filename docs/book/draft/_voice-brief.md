@@ -5,7 +5,7 @@
 ## The book
 
 - **Title:** *Begin with the End in Mind*
-- **Tagline:** *Don't lose your identity. You still have a choice.*
+- **Tagline:** *Don't lose your identity and your dignity while you still have a choice.*
 - **Author:** Dr. TJ Mundheim, DC — for My4MLife
 - **Audience:** Men aged ~50-65 in their peak-power decade — business owners, executives, fathers, husbands. Successful. Privately afraid of cognitive decline. NOT framed as "active grandpa" — framed as men still leading, still building, still chosen.
 - **Length target overall:** 150-180 pages. **Per chapter target: 2,500-3,200 words (~8-10 book pages).** Shorter for Part V sections (1,000-1,500 words each).
@@ -38,7 +38,7 @@ The framework one-liner to anchor (from `website/src/pages/pillars/mind.astro:37
 ## Required recurring phrases (use freely; do not paraphrase)
 
 - *"Begin with the end in mind"* — the tagline, the title. Use as recurring anchor.
-- *"Don't lose your identity. You still have a choice."* — the book's sub-promise.
+- *"Don't lose your identity and your dignity while you still have a choice."* — the book's sub-promise.
 - *"Eliminate the insulting behavior"* — the Mitigate frame. Use whenever talking about what to STOP doing.
 - *"Mind is the destination"* / *"what we're protecting"* — used wherever 4M is referenced.
 - *"The gut-brain seal"* / *"NS = NeuroSeal"* — the Biome NS product line's required positioning.

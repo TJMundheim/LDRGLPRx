@@ -86,7 +86,7 @@ You read it on Sunday night when you plan the week. You read it on the third Tue
 
 This is also why we do not let our Protégés define themselves by the disease they are afraid of. *Pre-diabetic. Low T. Brain fog.* Those are diagnoses. They are not identities. The identity we are building is on the other side of that. *I used to be soft. I am the man who is rebuilding.* That sentence has motion in it. The diagnosis does not.
 
-Don't lose your identity. You still have a choice. That is the sub-promise of this whole book. This is where you exercise that choice — at the level of the sentence you use to describe yourself.
+Don't lose your identity and your dignity while you still have a choice. That is the sub-promise of this whole book. This is where you exercise that choice — at the level of the sentence you use to describe yourself.
 
 ## The "Why" That Survives February
 

@@ -108,7 +108,7 @@ You also know — and this is the part the wellness industry will not say out lo
 
 You are still in your peak-power decade. You still have the cognition to make this decision well. You still have the runway for the math to work in your favor. That window does not stay open forever, but it is open right now, tonight, while you are holding this book.
 
-Don't lose your identity. You still have a choice.
+Don't lose your identity and your dignity while you still have a choice.
 
 Best mind possible until your last day of life.
 
