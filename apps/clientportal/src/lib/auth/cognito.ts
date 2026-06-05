@@ -5,6 +5,7 @@
 
 import {
   CognitoIdentityProviderClient,
+  InitiateAuthCommand,
   RespondToAuthChallengeCommand,
   UpdateUserAttributesCommand,
   VerifyUserAttributeCommand,
@@ -81,6 +82,59 @@ export function getIdToken(): string | null {
   } catch {
     return null;
   }
+}
+
+/**
+ * Refreshes the ID token using the stored refresh token.
+ *
+ * Cognito's REFRESH_TOKEN_AUTH flow returns a new IdToken + AccessToken but
+ * does NOT rotate the refresh token (the existing one keeps working until its
+ * own 30-day expiry). Persists the new tokens to localStorage and returns the
+ * new IdToken.
+ *
+ * Throws if the refresh token is missing, expired, or revoked — the caller is
+ * expected to treat that as a real sign-out (clear local state, route the
+ * user back to the sign-in screen).
+ *
+ * Concurrent callers share the same in-flight refresh promise so we don't
+ * fire N parallel refreshes when an expired token causes multiple AppSync
+ * requests to 401 simultaneously.
+ */
+let inflightRefresh: Promise<string> | null = null;
+
+export async function refreshIdToken(): Promise<string> {
+  if (inflightRefresh) return inflightRefresh;
+
+  const refreshToken = (() => {
+    try { return localStorage.getItem(STORAGE_KEYS.refreshToken); } catch { return null; }
+  })();
+  if (!refreshToken) throw new Error('No refresh token available');
+
+  inflightRefresh = (async () => {
+    try {
+      const cmd = new InitiateAuthCommand({
+        AuthFlow: 'REFRESH_TOKEN_AUTH',
+        ClientId: CLIENT_ID,
+        AuthParameters: { REFRESH_TOKEN: refreshToken },
+      });
+      const result = await makeClient().send(cmd);
+      const auth = result.AuthenticationResult;
+      if (!auth?.IdToken || !auth?.AccessToken) {
+        throw new Error('Refresh did not return new tokens');
+      }
+      try {
+        localStorage.setItem(STORAGE_KEYS.idToken, auth.IdToken);
+        localStorage.setItem(STORAGE_KEYS.accessToken, auth.AccessToken);
+        // Cognito does NOT rotate the refresh token on REFRESH_TOKEN_AUTH —
+        // the existing one keeps working until its own expiry.
+      } catch { /* ignore non-browser envs */ }
+      return auth.IdToken;
+    } finally {
+      inflightRefresh = null;
+    }
+  })();
+
+  return inflightRefresh;
 }
 
 export interface CognitoUser {
