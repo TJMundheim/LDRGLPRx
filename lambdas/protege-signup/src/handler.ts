@@ -14,7 +14,8 @@ const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
 const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind-v1.pdf';
-const BOOK_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
+const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-v1.pdf';
+const SIGNED_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
 
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
@@ -27,7 +28,15 @@ async function getBookDownloadUrl(): Promise<string> {
   return getSignedUrl(
     s3,
     new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: BOOK_S3_KEY }),
-    { expiresIn: BOOK_URL_TTL_SEC },
+    { expiresIn: SIGNED_URL_TTL_SEC },
+  );
+}
+
+async function getWorkbookDownloadUrl(): Promise<string> {
+  return getSignedUrl(
+    s3,
+    new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: WORKBOOK_S3_KEY }),
+    { expiresIn: SIGNED_URL_TTL_SEC },
   );
 }
 
@@ -153,24 +162,42 @@ type WelcomeEmailVariant = 'standard' | 'app-only';
 
 async function sendWelcomeEmail(email: string, firstName: string, variant: WelcomeEmailVariant = 'standard'): Promise<void> {
   const appUrl = 'https://app.my4mlife.com';
-  const includeBookCard = variant === 'standard';
+  const includeBookAndWorkbook = variant === 'standard';
   let bookUrl = '';
-  if (includeBookCard) {
+  let workbookUrl = '';
+  if (includeBookAndWorkbook) {
     try {
       bookUrl = await getBookDownloadUrl();
     } catch (err) {
-      console.warn('[protege-signup] book signed URL failed (welcome email will omit book link):', err);
+      console.warn('[protege-signup] book signed URL failed:', err);
+    }
+    try {
+      workbookUrl = await getWorkbookDownloadUrl();
+    } catch (err) {
+      console.warn('[protege-signup] workbook signed URL failed:', err);
     }
   }
 
-  // Gold book card — only when included (standard variant).
+  // Gold book card.
   const bookCard = bookUrl
     ? `<div style="margin:20px 0;padding:22px;border:2px solid #d4af5a;border-radius:10px;background:#fbf7ec">
-<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Gift</p>
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Book</p>
 <h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">Begin with the End in Mind</h2>
 <p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Don't lose your identity and your dignity while you still have a choice.</p>
-<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Dr. TJ's 280-page field guide to brain healthspan, organized around the 4M framework. Includes the full Action Guide and adherence scorecard.</p>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Dr. TJ's 280-page field guide to brain healthspan, organized around the 4M framework. The why behind the system.</p>
 <p style="margin:0"><a href="${bookUrl}" style="background:#d4af5a;color:#0a1628;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Book (PDF) &rarr;</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
+</div>`
+    : '';
+
+  // Bronze/copper workbook card.
+  const workbookCard = workbookUrl
+    ? `<div style="margin:20px 0;padding:22px;border:2px solid #b87333;border-radius:10px;background:#fdf5ed">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#7a4c1f;text-transform:uppercase;margin:0 0 8px">Your Action Workbook</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">The Cohort Workbook — Month 1</h2>
+<p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Print it. Mark it up. Run it daily.</p>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">135 pages of daily check-ins, weekly reflections, tear-out scorecards, the stack reference, and the optional advanced layer. The how that pairs with the book's why.</p>
+<p style="margin:0"><a href="${workbookUrl}" style="background:#b87333;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Workbook (PDF) &rarr;</a></p>
 <p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
 </div>`
     : '';
@@ -186,16 +213,17 @@ async function sendWelcomeEmail(email: string, firstName: string, variant: Welco
 
   const lead = variant === 'app-only'
     ? `Thanks for purchasing My4MLife Protégé app access. You're officially a Protégé and your access is ready. Tap below to open the app — we'll email you a one-time sign-in code.`
-    : `You're officially a My4MLife Protégé. Two things are yours right now — your free copy of the book, and your access to the app. Pick whichever you want to do first.`;
+    : `You're officially a My4MLife Protégé. Three things are yours right now — the book, the workbook, and the app. Take them in any order; they're designed to work together.`;
 
   const subject = variant === 'app-only'
     ? 'Welcome to My4MLife — your Protégé app access is ready'
-    : 'Welcome to My4MLife — your book and app are ready';
+    : 'Welcome to My4MLife — your book, workbook, and app are ready';
 
   const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${firstName}.</h1>
 <p style="margin:0 0 20px;font-size:15px;line-height:1.55">${lead}</p>
 ${bookCard}
+${workbookCard}
 ${appCard}
 <p style="margin:24px 0 12px;font-size:14px;line-height:1.6;color:#333">Your Protégé benefits include 25% off your first purchase, 25% off forever on autoship, 15% off one-time reorders, weekly Zooms with Dr. TJ, and discounts on all live events.</p>
 <p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
