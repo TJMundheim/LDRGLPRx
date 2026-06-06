@@ -1,0 +1,4762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The My4MLife Cohort Workbook — Month 1</title>
+<style>
+@page {
+  size: 7.5in 9.25in;
+  margin: 0.7in 0.65in 0.85in 0.65in;
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', sans-serif;
+    font-size: 9pt;
+    color: #888;
+  }
+}
+
+@page :first {
+  margin: 0;
+}
+
+body {
+  font-family: 'Georgia', 'Source Serif Pro', 'Times New Roman', serif;
+  font-size: 11pt;
+  line-height: 1.55;
+  color: #1a1a1a;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Georgia', 'Playfair Display', serif;
+  color: #0a1628;
+  line-height: 1.15;
+  page-break-after: avoid;
+}
+
+h1 {
+  font-size: 30pt;
+  font-weight: 700;
+  margin: 2em 0 0.6em;
+  page-break-before: always;
+  letter-spacing: -0.01em;
+}
+
+body > h1:first-of-type {
+  page-break-before: avoid;
+  font-size: 46pt;
+  margin-top: 2.5in;
+  text-align: center;
+  letter-spacing: -0.015em;
+}
+
+body > h1:first-of-type + h2 {
+  font-size: 18pt;
+  font-weight: 500;
+  text-align: center;
+  border: none;
+  color: #d4af5a;
+  font-style: italic;
+  margin: 0 0 2em;
+}
+
+h2 {
+  font-size: 17pt;
+  font-weight: 700;
+  margin: 1.6em 0 0.5em;
+  border-bottom: 2px solid #d4af5a;
+  padding-bottom: 0.2em;
+}
+
+h3 {
+  font-size: 13.5pt;
+  font-weight: 600;
+  margin: 1.4em 0 0.4em;
+  color: #1a3656;
+}
+
+h4 {
+  font-size: 11.5pt;
+  font-weight: 700;
+  margin: 1em 0 0.3em;
+  color: #1a3656;
+}
+
+p {
+  margin: 0 0 0.85em;
+  text-align: left;
+}
+
+blockquote {
+  margin: 1.2em 1em;
+  padding: 0.6em 1em;
+  border-left: 3px solid #d4af5a;
+  font-style: italic;
+  color: #333;
+  background: #fbf7ec;
+  page-break-inside: avoid;
+  border-radius: 0 4px 4px 0;
+}
+
+blockquote em, blockquote i { font-style: normal; }
+
+ul, ol {
+  margin: 0.6em 0 1em 1.4em;
+  padding: 0;
+}
+
+li {
+  margin: 0.3em 0;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2em 0;
+}
+
+/* Workbook tables — trackers, scorecards */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  page-break-inside: avoid;
+  font-size: 10pt;
+}
+
+th, td {
+  border: 1px solid #aaa;
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f3e8c8;
+  font-family: 'Georgia', serif;
+  font-weight: 700;
+  color: #0a1628;
+}
+
+/* Centered short cells (day labels, M T W) */
+table th:nth-child(n+2),
+table td:nth-child(n+2) {
+  text-align: center;
+}
+
+/* Checkbox styling — render the empty-box unicode large + bold so it pops
+   on print, and the filled-box for completed items */
+strong { color: #0a1628; }
+
+/* Fill-in blank lines — emphasize underscores */
+p:has(+ p) { /* keep adjacent paragraphs tight when one is a blank-line answer */ }
+
+a {
+  color: #1a3656;
+  text-decoration: none;
+}
+
+code {
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: 10pt;
+  background: #f5f3ec;
+  padding: 0 0.2em;
+}
+
+/* Pull-quote / locked-phrase emphasis */
+blockquote p {
+  margin: 0.2em 0;
+  font-size: 12pt;
+}
+
+/* The chapter / part dividers stand out */
+h1 + p em { color: #d4af5a; }
+
+/* Section subtitle (italic Playfair) */
+h2 + p em:only-child { color: #555; font-style: italic; }
+</style>
+</head>
+<body>
+<h1 id="the-my4mlife-cohort-workbook">The My4MLife Cohort Workbook</h1>
+<h2 id="month-1">Month 1</h2>
+<blockquote>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+</blockquote>
+<hr>
+<p><strong>Dr. TJ Mundheim</strong>
+<em>Founder · My4MLife</em></p>
+<hr>
+<p>© 2026 My4MLife. All rights reserved.</p>
+<p><a href="https://my4mlife.com">my4mlife.com</a> · <a href="https://my4mlife.com/assessment">my4mlife.com/assessment</a></p>
+<hr>
+<h2 id="how-to-use-this-workbook">How to use this workbook</h2>
+<p>This is not a book to read. It is a <strong>workbook</strong> to run.</p>
+<p>You will write in it. You will mark up the trackers. You will tear out the scorecards and tape them to your bathroom mirror — or screenshot them for your phone lock-screen. The whole point is to convert the protocol from something you read about into something you actually run, day after day, with a pen in your hand and a face in your head.</p>
+<p>The workbook covers <strong>Month 1</strong> — the first four weeks of the My4MLife cohort protocol. Each week builds on the prior one. You do not skip ahead. You do not start with Week 3 because hormones sound interesting. The order is the order on purpose.</p>
+<h3 id="the-shape-of-the-month">The shape of the month</h3>
+<ul>
+<li><strong>Part 1 — Your Why.</strong> Before any protocol, you name the face you&rsquo;re doing this for and write your why. This page comes first because the protocol that you actually run beats the protocol that was theoretically better — and the protocol that you actually run is the one you run for a specific named person.</li>
+<li><strong>Part 2 — The 4M Framework.</strong> A two-page anchor on Mind, Muscle, Mitigate, Motivate. Refer back to this any time the work starts to feel like a pile of tasks instead of a system.</li>
+<li><strong>Parts 3–6 — The Four Weeks.</strong> Each week has the same shape: an opening frame, daily check-ins (one page per day), a Wednesday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the ED canary. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.</li>
+<li><strong>Part 7 — The Stack Reference.</strong> One page per product. The full My4MLife stack — every OTC, every Rx tier, every dose, every pairing — in one place. Return here any time you forget why you&rsquo;re taking something.</li>
+<li><strong>Part 8 — The Advanced Layer (Optional).</strong> The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. <strong>Do not deploy any of it until the foundation has been locked for 90 days.</strong> The man who layers this on a broken foundation gets the bill, not the benefit.</li>
+<li><strong>Part 9 — Resources &amp; Next Steps.</strong> The 10-question assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.</li>
+</ul>
+<h3 id="before-you-start">Before you start</h3>
+<p>Read Part 1 with a pen in your hand. Do not skim. Do not &ldquo;fill it in later.&rdquo; The exercises in Part 1 are short on purpose so that the only excuse for not doing them is that you are choosing not to. Write the face. Write the why. Write the baseline. Then turn the page.</p>
+<p>The next time you open this workbook, you should already be a man who has named what he&rsquo;s protecting.</p>
+<hr>
+<p><em>Begin with the end in mind.</em></p>
+<hr>
+<hr>
+<h1 id="part-1-your-why">Part 1 — Your Why</h1>
+<blockquote>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+</blockquote>
+<hr>
+<h2 id="before-the-protocol-a-note-from-dr-tj">Before the protocol — a note from Dr. TJ</h2>
+<p>I&rsquo;m going to ask you to do something counter-intuitive before I hand you a single supplement, a single lift, a single feeding window, a single piece of the 4M system.</p>
+<p>I&rsquo;m going to ask you to put the workbook down for ten minutes and look at a face.</p>
+<p>Not your own face in the mirror. Somebody else&rsquo;s face. Your wife. One of your kids — by name. Your aging father in the chair he doesn&rsquo;t get out of anymore. The grandchild who isn&rsquo;t born yet. Your own younger self at twenty-two. One specific human being whose life is materially worse if your mind goes before your body does.</p>
+<p>I&rsquo;ve been doing this work long enough to tell you what separates the men who finish a four-month cohort from the men who quit in week three. It isn&rsquo;t IQ. It isn&rsquo;t income. It isn&rsquo;t how clean the protocol is or how expensive the stack is. It&rsquo;s whether they could name, on day one, who they were doing this for.</p>
+<p>Here is the lock-in phrase for this entire workbook. Write it down. Read it back:</p>
+<blockquote>
+<p><em>The protocol that you run beats the protocol that was theoretically better. And the protocol that you run is the one you run for a specific named person.</em></p>
+</blockquote>
+<p>The men who run it have a face. The men who don&rsquo;t, drift.</p>
+<p>That&rsquo;s why Part 1 is not about gut repair, or testosterone, or sleep architecture, or resistance training, or any of the things you came here to fix. Part 1 is about you naming — in your own handwriting, on this page, today — the human being whose presence in your life makes the next four months non-negotiable.</p>
+<p>If you skip this section and jump to the protocol, the protocol will not hold. I have watched this happen for years. A man buys the stack, reads the chapters, runs week one beautifully, hits a bad Tuesday in week two, and quits. He quits because there was no face on the other side of the quitting. The quitting cost him nothing.</p>
+<p>We are going to make the quitting cost something. We are going to give it a face and a name and a six-month outcome you wrote down with your own hand.</p>
+<p>Do the four exercises in order. Don&rsquo;t optimize. Don&rsquo;t pretty it up. Use a pen, not a keyboard. Mistakes are fine — cross them out and keep going. This is the only section of the workbook that has no right answer and no wrong answer. There is only your answer.</p>
+<hr>
+<h2 id="exercise-1-name-the-accountability-target">Exercise 1 — Name the accountability target</h2>
+<p>This is the locked My4MLife rule and it is the foundation of everything that follows: <strong>you must name a specific face before you write your why.</strong> Not &ldquo;my family.&rdquo; Not &ldquo;the people I love.&rdquo; Not &ldquo;myself.&rdquo; A specific human being I could pick out of a photograph if you showed me one.</p>
+<p>Most men want to skip this step. Most men want to write &ldquo;my family&rdquo; because it feels generous and complete. It isn&rsquo;t. &ldquo;My family&rdquo; is an abstraction and abstractions don&rsquo;t get you out of bed at 5:45 in the morning when your knees hurt and the coffee isn&rsquo;t on yet. A face does.</p>
+<p>Pick one. You can add more later. Right now, name the single person whose deterioration in your absence — or whose loss of you to cognitive decline — is the thing you cannot accept. Write the name. Write what they call you. Write one sentence about what they need from you that nobody else on earth can give.</p>
+<p><strong>1. The face I&rsquo;m doing this for is (name + relationship):</strong></p>
+<hr>
+<hr>
+<p><strong>2. What this person calls me:</strong></p>
+<hr>
+<p><strong>3. What this person needs from me that nobody else can give:</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>4. The thing I am most afraid this person will witness if I do nothing:</strong></p>
+<hr>
+<hr>
+<hr>
+<hr>
+<h2 id="exercise-2-write-the-why">Exercise 2 — Write the Why</h2>
+<p>Now that you have the face, write the why. In your own handwriting. 150 to 300 words. No keyboard, no dictation, no AI assist for this one — your hand on the page is part of the imprint.</p>
+<p>Use the prompts below as scaffolding. You don&rsquo;t have to answer every one in order. You don&rsquo;t have to use them at all if your why comes out cleanly without them. But if you stall, walk down the list.</p>
+<p>When you are done, sign it and date it. Re-read it once a week for the next four months. Photograph it. Tape a copy to your bathroom mirror. This is the contract between today&rsquo;s version of you and the version of you who is going to want to quit in week six.</p>
+<p><strong>Prompts to draw from:</strong></p>
+<ul>
+<li>If I do nothing for the next ten years, the most likely outcome is&hellip;</li>
+<li>The version of me my [named person] deserves looks like&hellip;</li>
+<li>What I want them to be able to say about me at my funeral is&hellip;</li>
+<li>The legacy I am building — not the money, the imprint — is&hellip;</li>
+<li>The reason I am unwilling to lose my mind before my body is&hellip;</li>
+<li>I am doing this so that on the day I die, my last clear thought is&hellip;</li>
+</ul>
+<p><strong>My Why</strong> (150-300 words, in my own handwriting):</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<p>Signed: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__   Date: <strong><em>_</em></strong>_____</p>
+<hr>
+<h2 id="exercise-3-six-month-outcome-targets">Exercise 3 — Six-month outcome targets</h2>
+<p>A why without a target is a wish. We are going to give your why three measurable outcomes, dated six months out from today.</p>
+<p>The rules: each outcome must be (a) specific, (b) measurable with a number or a 1-10 score, and (c) something you can verify on the date without anybody else&rsquo;s permission. Not &ldquo;feel better.&rdquo; Not &ldquo;be healthier.&rdquo; A number. A score. A waist size. A weight. A lift. A morning erection frequency. A sleep score. A cognitive clarity rating you write down today and re-rate in 180 days.</p>
+<p>Pick from the menu below or write your own. Three is the cap. Men who write ten targets hit zero. Men who write three hit two.</p>
+<p><strong>Sample target categories (pick any three or write your own):</strong></p>
+<ul>
+<li>Body weight (lb): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Waist circumference at navel (in): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Morning erection frequency (per week, honest): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Libido (1-10, honest): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Sleep score (1-10, or wearable score): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Cognitive clarity (1-10, honest): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Resting heart rate (bpm): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Heaviest compound lift (squat / hinge / press, lb): <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Alcoholic drinks per week: <strong><em>_ today → </em></strong>_ in 6 months</li>
+<li>Mood / drive (1-10, honest): <strong><em>_ today → </em></strong>_ in 6 months</li>
+</ul>
+<p><strong>My three locked targets — six months from today:</strong></p>
+<p>Today&rsquo;s date: <strong><em>_</em></strong><strong><em>_</em>   Target date: </strong><strong><em>_</em></strong>___</p>
+<p><strong>Target 1 (metric + today&rsquo;s number + 6-month number):</strong></p>
+<hr>
+<hr>
+<p><strong>Target 2 (metric + today&rsquo;s number + 6-month number):</strong></p>
+<hr>
+<hr>
+<p><strong>Target 3 (metric + today&rsquo;s number + 6-month number):</strong></p>
+<hr>
+<hr>
+<hr>
+<h2 id="exercise-4-starting-baseline-self-assessment">Exercise 4 — Starting baseline self-assessment</h2>
+<p>The last piece of Part 1 is the honest snapshot. We need a baseline. Without a baseline you cannot tell, four months from now, whether the work worked.</p>
+<p>This is the same 10-category structure as the My4MLife Assessment. Rate each category 0 to 5 — where 0 means <em>no issue at all in this area</em> and 5 means <em>daily problem affecting my life</em>. Then in one line, name the most current, most specific symptom in that category. Not the textbook description. Yours.</p>
+<p>Be honest. Nobody is grading this. The single biggest predictor of cohort outcome is the accuracy of the day-one baseline. Overscoring &ldquo;0&rdquo; because you don&rsquo;t want to face it just delays the work. Score it the way it actually is today.</p>
+<blockquote>
+<p><strong>Rating scale</strong>: <code>0 — 1 — 2 — 3 — 4 — 5</code>
+0 = no issue · 1 = rare · 2 = occasional · 3 = a few times a month · 4 = several times a week · 5 = daily and affecting my life</p>
+</blockquote>
+<hr>
+<h3 id="01-gut-health-leaky-gut">01. Gut health / leaky gut</h3>
+<p><em>The gut-brain axis sits underneath nearly everything else — fix this first and other categories often improve on their own.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (bloating, food reactions, brain fog after meals, irregular stools — be specific):</p>
+<hr>
+<h3 id="02-sleep">02. Sleep</h3>
+<p><em>Poor sleep silently degrades hormones, weight, mood, and memory. The most-leveraged lever after gut.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (trouble falling asleep, 3 AM waking, unrefreshed mornings — be specific):</p>
+<hr>
+<h3 id="03-weight-body-composition">03. Weight / body composition</h3>
+<p><em>Use a BMI calculator to sanity-check, but trust the mirror and the belt notch.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (clothes fitting, belly fat, recent trend on the scale — be specific):</p>
+<hr>
+<h3 id="04-diet-nutrition">04. Diet / nutrition</h3>
+<p><em>Food quality is the daily input that drives microbiome diversity, blood sugar, and energy.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (fast food default, snacking patterns, what a typical day looks like — be specific):</p>
+<hr>
+<h3 id="05-erectile-sexual-function">05. Erectile + sexual function</h3>
+<p><em>ED and libido decline are early-warning signals for hormones, cardiovascular health, and cognitive trajectory — not a verdict.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (morning erection frequency, hardness, drive, performance — be specific):</p>
+<hr>
+<h3 id="06-environment">06. Environment</h3>
+<p><em>Light, air, water, EMF. Lack of morning sunlight is the most overlooked driver of poor sleep and mood.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (no morning sun, indoor under fluorescents, tap water, screen exposure — be specific):</p>
+<hr>
+<h3 id="07-cognitive-brain-fog">07. Cognitive / brain fog</h3>
+<p><em>Mind is the destination of the 4M system — cognitive performance is the end-state we are optimizing for.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (word-finding, focus, recall, mental fatigue — be specific):</p>
+<hr>
+<h3 id="08-hormones">08. Hormones</h3>
+<p><em>Testosterone and cortisol balance underlie resilience — proper labs and a coach-led plan beat guessing.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current symptom (fatigue, drive, recovery, muscle loss despite training — be specific):</p>
+<hr>
+<h3 id="09-already-diagnosed-mci-dementia-alzheimers-parkinsons-family-history">09. Already diagnosed (MCI / dementia / Alzheimer&rsquo;s / Parkinson&rsquo;s / family history)</h3>
+<p><em>If you&rsquo;re already in this category, regenerative medicine becomes time-sensitive — flag this for the cohort coach.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Current status (no concerns / family history / undiagnosed symptoms / formal evaluation / diagnosis):</p>
+<hr>
+<h3 id="10-alcohol">10. Alcohol</h3>
+<p><em>Alcohol disrupts gut, sleep, hormones, and cognition simultaneously. Cutting back affects every other pillar.</em></p>
+<p>Rate today: <code>0 — 1 — 2 — 3 — 4 — 5</code>   →   My score: ____</p>
+<p>Honest current intake (drinks per week, drinks per sitting — be specific):</p>
+<hr>
+<hr>
+<h3 id="personal-physiology-baselines">Personal physiology baselines</h3>
+<p>Five numbers. Take them today. Re-take them at the end of Month 1, Month 2, Month 3, and Month 4.</p>
+<table>
+<thead>
+<tr>
+<th>Baseline</th>
+<th>Today</th>
+<th>Month 1</th>
+<th>Month 2</th>
+<th>Month 3</th>
+<th>Month 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Body weight (lb)</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Waist at navel (in)</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Resting heart rate (bpm, AM)</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Average sleep (hr/night, last 7 nights)</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Alcoholic drinks per week (honest)</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+<td>____</td>
+</tr>
+</tbody>
+</table>
+<p>Date of today&rsquo;s baseline: <strong><em>_</em></strong>_____</p>
+<hr>
+<blockquote>
+<p><strong>Tear-out page — tape this to your bathroom mirror or screenshot for your phone lock-screen.</strong></p>
+<p>The face I&rsquo;m doing this for: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<p>My three six-month targets:</p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+<p><em>The protocol that you run beats the protocol that was theoretically better. And the protocol that you run is the one you run for a specific named person.</em></p>
+<p>Signed: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_   Date: <strong><em>_</em></strong>_____</p>
+</blockquote>
+<hr>
+<p>Part 1 is complete when all four exercises are filled in by hand. Don&rsquo;t move on to Part 2 until the face has a name, the why has a signature, the three targets have numbers, and the baseline has a date. We&rsquo;ll build the protocol on top of that foundation in Part 2.</p>
+<hr>
+<h1 id="part-2-the-4m-framework">Part 2 — The 4M Framework</h1>
+<p>You have one operating system and four pillars that run on it.</p>
+<p>This page is your anchor. Any time the protocol starts to feel like a pile of tasks instead of a coherent system, turn back here. Read it again. Find the task you&rsquo;re doing under one of the four Ms. Remember what it&rsquo;s serving.</p>
+<hr>
+<h2 id="mind-the-destination">Mind — The Destination</h2>
+<p>Mind is what we&rsquo;re protecting.</p>
+<p>Not &ldquo;longevity.&rdquo; Not &ldquo;anti-aging.&rdquo; Not the body in the mirror. The man your wife married. The father your kids recognize. The operator who walks into a room and reads it. That man lives in roughly three pounds of tissue between your ears, and that tissue is what every other intervention in this workbook is serving.</p>
+<p>When you forget what the point of any single behavior is, the answer is always the same: <strong>the point is Mind.</strong></p>
+<blockquote>
+<p><em>Begin with the end in mind. The end is your mind.</em></p>
+</blockquote>
+<hr>
+<h2 id="muscle-the-engine">Muscle — The Engine</h2>
+<blockquote>
+<p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
+</blockquote>
+<p>Muscle is the substrate. The body is the delivery system. You do not get to keep the mind if you let the chassis rust.</p>
+<p>Under Muscle: nutrition (the 30g protein-first rule), the eating window (9 AM – 6 PM), weight and visceral fat (the GLP-1 conversation if it applies), resistance training (2-3 sessions per week, compound lifts), strength preservation (sarcopenia reverses with deliberate work), and pain management (because pain is what stops training, and stopping training is what stops neuroprotection).</p>
+<p>If you only ever ran one pillar, this is the one with the most measurable physical return.</p>
+<hr>
+<h2 id="mitigate-stop-hurting-yourself">Mitigate — Stop Hurting Yourself</h2>
+<blockquote>
+<p><em>Stop hurting yourself first. Then add what works.</em></p>
+</blockquote>
+<p>Mitigate is the pillar that removes the chronic insults silently degrading the system. Your gut. Your sleep. Your environment (light, air, water, EMF). Your hormones (and the ED canary that signals when they&rsquo;ve started to drift). The alcohol you&rsquo;ve normalized. The substances you&rsquo;ve made part of the routine.</p>
+<p>Mitigate works in one direction at a time. You cannot meaningfully <em>add</em> a protocol while still actively running the input that broke you. The order is: stop the bleed, then start the rebuild.</p>
+<p>This is the largest pillar in the cohort by surface area. Most of the audit categories live here. Most of the long-term cognitive return lives here too.</p>
+<hr>
+<h2 id="motivate-what-sustains-the-work">Motivate — What Sustains the Work</h2>
+<blockquote>
+<p><em>What sustains the work — and what closes the loop.</em></p>
+</blockquote>
+<p>Motivate is why you keep showing up on the third Tuesday in February when your shoulder is sore and the deal at work is falling apart and your daughter is going through something and nothing about the protocol sounds appealing.</p>
+<p>Under Motivate: purpose (your written why from Part 1), identity (the man you&rsquo;re becoming, not the protocol you&rsquo;re trying), accountability (the face from Part 1 + the cohort), the structural enablers (a morning routine that runs without willpower, the friction-removal layer the My4MLife system is built around), and compliance (the architecture that makes running the protocol the path of least resistance).</p>
+<p>The most rigorous protocol in the world fails if compliance fails. Motivate is the pillar that makes the other three sustainable.</p>
+<hr>
+<h2 id="the-loop">The Loop</h2>
+<p>The four pillars are not a linear sequence. They are a recursive engine.</p>
+<p>Each pass through the cycle strengthens what you came to protect. Mitigate removes the insults so Muscle has a clean substrate to work on. Muscle builds the body Mind depends on. Motivate sustains the compliance that makes Mitigate and Muscle keep running. And then you arrive back at Mind, sharper than you started, because the work itself was neuroprotective.</p>
+<p>Then you do it again. And again. The man who runs the loop longest wins.</p>
+<hr>
+<h2 id="quick-reference">Quick reference</h2>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>One-line job</th>
+<th>Where it lives in your week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mind</strong></td>
+<td>The destination — cognitive healthspan</td>
+<td>Every reflection · Sunday review</td>
+</tr>
+<tr>
+<td><strong>Muscle</strong></td>
+<td>The engine — strength, nutrition, fuel</td>
+<td>Lift days · protein-first meals</td>
+</tr>
+<tr>
+<td><strong>Mitigate</strong></td>
+<td>Eliminate the insulting behavior</td>
+<td>Daily stack · sleep window · gut · hormones audit</td>
+</tr>
+<tr>
+<td><strong>Motivate</strong></td>
+<td>Sustain the work · close the loop</td>
+<td>Wednesday Zoom · accountability target · the why</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p><em>Begin with the end in mind. Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+</blockquote>
+<hr>
+<hr>
+<h1 id="part-3-week-1-foundation">Part 3 — Week 1: Foundation</h1>
+<h2 id="31-how-week-1-works">3.1 — How Week 1 Works</h2>
+<p>This is the anchor week. Every week that follows sits on top of what you build here. If you skim it, you will pay for it in Week 3.</p>
+<p>Week 1 is not about heroics. It is about laying down the architecture — the same six actions, repeated, across all four pillars — so that the deeper work in Weeks 2 through 4 has something to stand on. You are not trying to optimize. You are trying to make the floor non-negotiable.</p>
+<p>Here is the entire week, in plain language:</p>
+<ul>
+<li><strong>Morning sun + walk.</strong> Eight to fifteen minutes within the first hour of waking. Eyes toward the sun, sunglasses off, no food yet. Two times this week, minimum.</li>
+<li><strong>Protein-first breakfast.</strong> Thirty grams of lean protein, thirty minutes before any other macro enters your mouth. Two times this week, minimum. Aim for more.</li>
+<li><strong>Eating window 9 AM to 6 PM.</strong> Daily. First bite at nine or after. Last bite by six. Water, black coffee, and tea outside the window are fine.</li>
+<li><strong>Lights out by 10:30 PM.</strong> Daily. Backwards-plan your evening from this. Screens down by 9:45. Mag L-threonate at 9.</li>
+<li><strong>The daily stack.</strong> Six products. See the card in §3.2. Anchored on Biome NS Ultra in the morning. Non-negotiable.</li>
+<li><strong>Two strength sessions.</strong> Compound lifts. Squat, hinge, push, pull, carry. Recovery-prioritized. Leave one rep in the tank.</li>
+</ul>
+<p>Plus two touchpoints that hold the week together:</p>
+<ul>
+<li><strong>The Wednesday Zoom.</strong> Show up live or watch the recording. Attendance is the single mechanism that unlocks Week 2.</li>
+<li><strong>The Sunday reflection.</strong> Four pages, one per pillar, at the back of this part. Do it Sunday evening with a cup of tea, not Monday morning in a panic.</li>
+</ul>
+<p>There is no optional advanced layer this week. No cold plunges, no breathwork stacks, no zone-2 protocols. If you are tempted to add something, don&rsquo;t. The temptation to add is the same temptation that has made every previous attempt fail. <em>Stop hurting yourself first. Then add what works.</em></p>
+<p>Your job for the next seven days is to prove to yourself that you can do six simple things, repeatedly, while a stopwatch is running. That&rsquo;s it.</p>
+<hr>
+<h2 id="32-the-week-1-daily-stack-card">3.2 — The Week 1 Daily Stack Card</h2>
+<blockquote>
+<p><strong>Tear-out page — tape this inside your medicine cabinet, at eye level.</strong></p>
+</blockquote>
+<h3 id="my4mlife-daily-stack-week-1">My4MLife Daily Stack — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>When</th>
+<th>Product</th>
+<th>Dose</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AM — empty stomach, 30 min before food</strong></td>
+<td>Biome NS Ultra</td>
+<td>1 scoop in 8 oz water</td>
+<td>Gut-brain seal. The foundation of every other pillar.</td>
+</tr>
+<tr>
+<td><strong>With breakfast (~9 AM)</strong></td>
+<td>ArmorVita</td>
+<td>1 serving</td>
+<td>D3 + K2 + boron + astaxanthin. Daily floor nutrients.</td>
+</tr>
+<tr>
+<td><strong>With breakfast</strong></td>
+<td>Creatine monohydrate</td>
+<td>5 g</td>
+<td>Muscle + cognitive. Cheapest high-leverage molecule in the stack.</td>
+</tr>
+<tr>
+<td><strong>With your highest-fat meal of the day</strong></td>
+<td>OmegaCN Prime</td>
+<td>2 softgels</td>
+<td>EPA/DHA + ubiquinol CoQ10. Cardio-neuro. Take with fat for absorption.</td>
+</tr>
+<tr>
+<td><strong>30–60 min before lights out</strong></td>
+<td>SleepRestore</td>
+<td>1 serving</td>
+<td>Sleep onset + architecture.</td>
+</tr>
+<tr>
+<td><strong>Evening (around 9 PM)</strong></td>
+<td>Magnesium L-threonate</td>
+<td>1.5–2 g</td>
+<td>The only magnesium form that crosses into the hippocampus.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Same time, same place, every day. Stack lives where you can see it. If you have to hunt for it, you&rsquo;ll skip it.</em></p>
+</blockquote>
+<hr>
+<h2 id="33-daily-check-in-tracker">3.3 — Daily Check-In Tracker</h2>
+<blockquote>
+<p><strong>One page per day. Fill it in at the end of the day, not the start.</strong></p>
+</blockquote>
+<h3 id="monday-week-1">Monday — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>Floor behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8–15 min)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Supplement</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Creatine 5g (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (fat meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning energy</strong> (0–10): <strong><em>_</em></strong>
+<strong>Sleep quality last night</strong> (0–10): <strong><em>_</em></strong>
+<strong>Mood</strong> (0–10): <strong><em>_</em></strong></p>
+<p><strong>Today&rsquo;s biggest win or biggest slip:</strong></p>
+<hr>
+<hr>
+<hr>
+<h3 id="tuesday-week-1">Tuesday — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>Floor behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8–15 min)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Supplement</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Creatine 5g (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (fat meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning energy</strong> (0–10): <strong><em>_</em></strong>
+<strong>Sleep quality last night</strong> (0–10): <strong><em>_</em></strong>
+<strong>Mood</strong> (0–10): <strong><em>_</em></strong></p>
+<p><strong>Today&rsquo;s biggest win or biggest slip:</strong></p>
+<hr>
+<hr>
+<hr>
+<h3 id="wednesday-week-1">Wednesday — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>Floor behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8–15 min)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Supplement</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Creatine 5g (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (fat meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning energy</strong> (0–10): <strong><em>_</em></strong>
+<strong>Sleep quality last night</strong> (0–10): <strong><em>_</em></strong>
+<strong>Mood</strong> (0–10): <strong><em>_</em></strong></p>
+<p><strong>Today&rsquo;s biggest win or biggest slip:</strong></p>
+<hr>
+<hr>
+<hr>
+<h3 id="thursday-week-1">Thursday — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>Floor behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8–15 min)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Supplement</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Creatine 5g (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (fat meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning energy</strong> (0–10): <strong><em>_</em></strong>
+<strong>Sleep quality last night</strong> (0–10): <strong><em>_</em></strong>
+<strong>Mood</strong> (0–10): <strong><em>_</em></strong></p>
+<p><strong>Today&rsquo;s biggest win or biggest slip:</strong></p>
+<hr>
+<hr>
+<hr>
+<h3 id="friday-week-1">Friday — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>Floor behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8–15 min)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Supplement</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Creatine 5g (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (fat meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning energy</strong> (0–10): <strong><em>_</em></strong>
+<strong>Sleep quality last night</strong> (0–10): <strong><em>_</em></strong>
+<strong>Mood</strong> (0–10): <strong><em>_</em></strong></p>
+<p><strong>Today&rsquo;s biggest win or biggest slip:</strong></p>
+<hr>
+<hr>
+<hr>
+<h3 id="saturday-week-1">Saturday — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>Floor behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8–15 min)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Supplement</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Creatine 5g (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (fat meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning energy</strong> (0–10): <strong><em>_</em></strong>
+<strong>Sleep quality last night</strong> (0–10): <strong><em>_</em></strong>
+<strong>Mood</strong> (0–10): <strong><em>_</em></strong></p>
+<p><strong>Today&rsquo;s biggest win or biggest slip:</strong></p>
+<hr>
+<hr>
+<hr>
+<h3 id="sunday-week-1">Sunday — Week 1</h3>
+<table>
+<thead>
+<tr>
+<th>Floor behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8–15 min)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Supplement</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Creatine 5g (breakfast)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (fat meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Morning energy</strong> (0–10): <strong><em>_</em></strong>
+<strong>Sleep quality last night</strong> (0–10): <strong><em>_</em></strong>
+<strong>Mood</strong> (0–10): <strong><em>_</em></strong></p>
+<p><strong>Today&rsquo;s biggest win or biggest slip:</strong></p>
+<hr>
+<hr>
+<hr>
+<h2 id="34-strength-session-log">3.4 — Strength Session Log</h2>
+<blockquote>
+<p><em>Squat / hinge / push / pull / carry. Two to three sessions per week. Compound lifts, recovery-prioritized, leave one rep in the tank.</em></p>
+</blockquote>
+<h3 id="session-1">Session 1</h3>
+<p><strong>Date:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>_   <strong>Start time:</strong> <strong><em>_</em></strong>   <strong>End time:</strong> <strong><em>_</em></strong></p>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Sets × Reps × Weight</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>How I felt going in (0–10):</strong> <strong><em>_</em>   <strong>How I felt walking out (0–10):</strong> </strong>___</p>
+<p><strong>One thing to change next session:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<hr>
+<h3 id="session-2">Session 2</h3>
+<p><strong>Date:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>_   <strong>Start time:</strong> <strong><em>_</em></strong>   <strong>End time:</strong> <strong><em>_</em></strong></p>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Sets × Reps × Weight</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>How I felt going in (0–10):</strong> <strong><em>_</em>   <strong>How I felt walking out (0–10):</strong> </strong>___</p>
+<p><strong>One thing to change next session:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<hr>
+<h2 id="35-wednesday-zoom-prep-page">3.5 — Wednesday Zoom Prep Page</h2>
+<blockquote>
+<p><em>Show up to the Zoom even on the weeks you fell off. Especially those weeks.</em></p>
+</blockquote>
+<p>Fill this in before the call. Bring it with you.</p>
+<p><strong>1. What went well this week:</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>2. What slipped — and what I think caused it:</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>3. One question I want to ask Dr. TJ:</strong></p>
+<hr>
+<hr>
+<p><strong>4. One thing the cohort should know about my week:</strong></p>
+<hr>
+<hr>
+<hr>
+<h2 id="36-end-of-week-4m-reflection">3.6 — End-of-Week 4M Reflection</h2>
+<p>Do this Sunday evening. Pen, not phone. Slowly.</p>
+<h3 id="mind">Mind</h3>
+<p>Mind is the destination. This week&rsquo;s Mind work was about anchoring your circadian rhythm — morning sun, lights out by 10:30, magnesium L-threonate at night — and giving your brain the substrates it needs to do its job. The 4M program protects cognitive healthspan. Mind is what you&rsquo;re trying to keep.</p>
+<p><strong>1. What did my mornings feel like this week compared to a typical week?</strong></p>
+<hr>
+<hr>
+<p><strong>2. When during the day did I feel sharpest? When did I feel foggiest?</strong></p>
+<hr>
+<hr>
+<p><strong>3. Did I notice any difference in sleep onset or sleep depth on the nights I followed the protocol vs. the nights I slipped?</strong></p>
+<hr>
+<hr>
+<p><strong>How did Mind go this week?</strong>   0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</p>
+<p><strong>One adjustment I&rsquo;m committing to for next week:</strong></p>
+<hr>
+<hr>
+<h3 id="muscle">Muscle</h3>
+<p>Strong body, sharp mind. Resistance training is neuroprotection. This week you ran two strength sessions, opened every feeding window with thirty grams of lean protein, and added creatine to your morning. Muscle is the engine — it pulls glucose out of your blood, releases the myokines that talk to your brain, and is the single most modifiable predictor of how you&rsquo;ll age.</p>
+<p><strong>1. How did my two strength sessions actually go — honestly?</strong></p>
+<hr>
+<hr>
+<p><strong>2. Did I hit 30g of protein at first bite, or did I drift into carbs first?</strong></p>
+<hr>
+<hr>
+<p><strong>3. Where in the day did my energy hold up best? Where did it crash?</strong></p>
+<hr>
+<hr>
+<p><strong>How did Muscle go this week?</strong>   0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</p>
+<p><strong>One adjustment I&rsquo;m committing to for next week:</strong></p>
+<hr>
+<hr>
+<h3 id="mitigate">Mitigate</h3>
+<p>Stop hurting yourself first. Then add what works. This week&rsquo;s Mitigate work centered on the gut — Biome NS Ultra every morning on an empty stomach — and on closing your eating window by 6 PM so your gut, liver, and pancreas got real rest. Mitigate is the pillar where you remove the chronic insults driving neuroinflammation. You can&rsquo;t out-supplement a leaking gut or a 10 PM snack.</p>
+<p><strong>1. What insulting behavior did I notice myself doing this week — and did I stop it?</strong></p>
+<hr>
+<hr>
+<p><strong>2. How did my gut actually feel by Friday compared to Monday?</strong></p>
+<hr>
+<hr>
+<p><strong>3. What&rsquo;s the single insult I&rsquo;m not yet ready to give up — and why?</strong></p>
+<hr>
+<hr>
+<p><strong>How did Mitigate go this week?</strong>   0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</p>
+<p><strong>One adjustment I&rsquo;m committing to for next week:</strong></p>
+<hr>
+<hr>
+<h3 id="motivate">Motivate</h3>
+<p>What sustains the work — and what closes the loop. Motivate is the pillar nobody pays enough attention to until they fall off. This week, Motivate looked like showing up on Wednesday&rsquo;s Zoom and naming the face you&rsquo;re doing this for. Identity and accountability are not soft skills. They are the structural enablers that determine whether you do this for seven days or fifty-two weeks.</p>
+<p><strong>1. Whose face did I picture this week when I didn&rsquo;t want to do the work?</strong></p>
+<hr>
+<hr>
+<p><strong>2. Did I show up to the Wednesday Zoom — live or recording? If not, why?</strong></p>
+<hr>
+<hr>
+<p><strong>3. Who in my life this week did I tell — out loud — that I&rsquo;m doing this?</strong></p>
+<hr>
+<hr>
+<p><strong>How did Motivate go this week?</strong>   0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</p>
+<p><strong>One adjustment I&rsquo;m committing to for next week:</strong></p>
+<hr>
+<hr>
+<h2 id="37-the-week-1-adherence-scorecard">3.7 — The Week 1 Adherence Scorecard</h2>
+<blockquote>
+<p><strong>Tear-out page — tape this to your bathroom mirror or screenshot for your phone lock-screen.</strong></p>
+</blockquote>
+<h3 id="my4mlife-week-1-adherence">My4MLife — Week 1 Adherence</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>M</th>
+<th>T</th>
+<th>W</th>
+<th>T</th>
+<th>F</th>
+<th>S</th>
+<th>S</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first breakfast (30g)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window closed by 6 PM</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra (AM)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + creatine (breakfast)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime (with fat meal)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore (pre-bed)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift session (2–3/wk)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift session (2–3/wk)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Wednesday Zoom attended</td>
+<td></td>
+<td></td>
+<td>☐</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sunday reflection done</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Weekly target:  <strong><em>_</em></strong> / 79</strong></p>
+<hr>
+<blockquote>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+</blockquote>
+<hr>
+<h1 id="part-4-week-2-add-the-lift">Part 4 — Week 2: Add the Lift</h1>
+<blockquote>
+<p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
+</blockquote>
+<hr>
+<h2 id="41-how-week-2-works">4.1 — How Week 2 works</h2>
+<p>Week 1 built the architecture. Week 2 starts the engine.</p>
+<p>You kept everything from Week 1 — morning sun and walk, 30g protein-first, 9 AM to 6 PM eating window, the Biome NS Ultra / ArmorVita / OmegaCN Prime / SleepRestore / Mag L-threonate stack, lights out by 10:30. None of that goes away. It&rsquo;s the foundation. We don&rsquo;t trade Week 1 for Week 2 — we stack Week 2 on top.</p>
+<p>What we add this week is the lift.</p>
+<p>Here&rsquo;s what most men in your decade don&rsquo;t understand: by 50, you are almost certainly sarcopenic. You&rsquo;ve been losing 1-2% of lean muscle per year since your mid-30s, and it accelerates after 50. You don&rsquo;t see it because the scale doesn&rsquo;t move much — fat fills in where muscle leaves. The mirror lies politely. The bloodwork doesn&rsquo;t.</p>
+<p>Sarcopenia is not a falls-and-fractures problem. It&rsquo;s a cognitive risk factor. Compound resistance training releases myokines — irisin, BDNF-adjacent signaling molecules, cathepsin B — that cross the blood-brain barrier and stimulate neurogenesis in the hippocampus. The same hippocampus that shrinks first in Alzheimer&rsquo;s. When I say <em>resistance training is neuroprotection</em>, I mean it literally. The squat is a memory drug. The deadlift is a mood drug. The carry is a cognition drug.</p>
+<p>Three sessions this week. A / B / A pattern. Compound lifts only. Leave one rep in the tank — recovery is where adaptation happens, not in the gym.</p>
+<p>We&rsquo;re also tightening sleep architecture. The 60 minutes before bed are the single highest-leverage window most men waste. You&rsquo;re going to install a real wind-down this week.</p>
+<p>Same daily check-in. Same Wednesday Zoom. Same end-of-week 4M reflection. New trackers for the lift and the wind-down.</p>
+<hr>
+<h2 id="42-the-week-2-strength-protocol">4.2 — The Week 2 Strength Protocol</h2>
+<p><strong>Pattern:</strong> Mon — Session A · Wed — Session B · Fri — Session A
+(Or Tue / Thu / Sat if your week runs that way. Keep at least one full rest day between sessions.)</p>
+<p><strong>Rule:</strong> Leave one rep in the tank on every set. If 8 reps was hard but you could have done 9, that&rsquo;s the right weight. If you grind the last rep, drop the weight 10% next set.</p>
+<p><strong>Progression:</strong> Add weight or one rep per movement, week to week. Slow is fine. Consistent beats heroic.</p>
+<h3 id="warmup-every-session-5-to-8-minutes">Warmup (every session — 5 to 8 minutes)</h3>
+<p>No static stretching cold. Move first, stretch later (or not at all).</p>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Duration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thoracic rotations (open-book, each side)</td>
+<td>60 sec</td>
+</tr>
+<tr>
+<td>Hip circles + 90/90 transitions</td>
+<td>60 sec</td>
+</tr>
+<tr>
+<td>Bodyweight squat to stand (slow)</td>
+<td>10 reps</td>
+</tr>
+<tr>
+<td>Light row + light press (band or empty bar)</td>
+<td>8 reps each</td>
+</tr>
+<tr>
+<td>Loaded carry — light, just to wake up the grip</td>
+<td>30 sec</td>
+</tr>
+</tbody>
+</table>
+<h3 id="session-a-squat-push-carry">Session A — Squat + Push + Carry</h3>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Sets × Reps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Squat variation (back, front, goblet, or safety bar)</td>
+<td>3 × 6-8</td>
+<td>Pick the one your knees and back tolerate</td>
+</tr>
+<tr>
+<td>Push (bench, DB press, or strict overhead)</td>
+<td>3 × 8-10</td>
+<td>Pause at chest, control the down</td>
+</tr>
+<tr>
+<td>Loaded carry (farmer or suitcase)</td>
+<td>3 × 30 sec</td>
+<td>Heavy enough that the last 5 sec is honest work</td>
+</tr>
+</tbody>
+</table>
+<h3 id="session-b-hinge-pull-carry">Session B — Hinge + Pull + Carry</h3>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Sets × Reps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hinge (trap-bar deadlift, RDL, or kettlebell swing)</td>
+<td>3 × 6-8</td>
+<td>Spine neutral. No ego.</td>
+</tr>
+<tr>
+<td>Pull (chest-supported row, one-arm DB row, or lat pulldown)</td>
+<td>3 × 8-10</td>
+<td>Squeeze the shoulder blade</td>
+</tr>
+<tr>
+<td>Loaded carry (farmer or front-rack)</td>
+<td>3 × 30 sec</td>
+<td>Switch hand position from Session A</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cooldown-every-session-3-to-5-minutes">Cooldown (every session — 3 to 5 minutes)</h3>
+<p>Walk. Outside if you can. Don&rsquo;t sit down sweaty. Let the heart rate come down on its feet.</p>
+<p><strong>Pre-workout (optional):</strong> MitoVita 20-30 min before training, with water.
+<strong>Post-workout:</strong> 30g+ protein within 60 minutes. This counts as your protein-first feeding window opener if it lands inside 9 AM – 6 PM.</p>
+<blockquote>
+<p><em>Recovery is where adaptation happens. Leave one rep in the tank.</em></p>
+</blockquote>
+<hr>
+<h2 id="43-strength-session-log">4.3 — Strength Session Log</h2>
+<p>Print one of these for each session. Three per week.</p>
+<h3 id="session-___-date-____-a-b-circle-one">Session ___  ·  Date: <strong><em>_</em></strong>___  ·  A / B (circle one)</h3>
+<p><strong>Warmup completed:</strong> ☐ Yes  ☐ Partial  ☐ Skipped</p>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Set 1 (reps × wt)</th>
+<th>Set 2 (reps × wt)</th>
+<th>Set 3 (reps × wt)</th>
+<th>RPE (0-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td>_____</td>
+</tr>
+<tr>
+<td><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Carry: <strong><em>_</em></strong><strong><em>_</em></strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td>_____</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RPE key:</strong> 5 = easy · 7 = challenging, 3 reps left · 8 = hard, 2 reps left · 9 = grinding, 1 rep left · 10 = failure</p>
+<p><strong>Cooldown walk completed:</strong> ☐ Yes  ☐ Skipped</p>
+<p><strong>Post-session energy (0-10):</strong> <strong><em>_</em>
+<strong>Pain or red flags?</strong> ☐ None  ☐ Minor — describe: </strong><strong><em>_</em></strong><strong><em>_</em></strong>____  ☐ Stop and assess</p>
+<p><strong>Next session adjustment (one line):</strong></p>
+<hr>
+<hr>
+<h3 id="session-___-date-____-a-b-circle-one_1">Session ___  ·  Date: <strong><em>_</em></strong>___  ·  A / B (circle one)</h3>
+<p><strong>Warmup completed:</strong> ☐ Yes  ☐ Partial  ☐ Skipped</p>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Set 1 (reps × wt)</th>
+<th>Set 2 (reps × wt)</th>
+<th>Set 3 (reps × wt)</th>
+<th>RPE (0-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td>_____</td>
+</tr>
+<tr>
+<td><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Carry: <strong><em>_</em></strong><strong><em>_</em></strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td>_____</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cooldown walk completed:</strong> ☐ Yes  ☐ Skipped</p>
+<p><strong>Post-session energy (0-10):</strong> <strong><em>_</em>
+<strong>Pain or red flags?</strong> ☐ None  ☐ Minor — describe: </strong><strong><em>_</em></strong><strong><em>_</em></strong>____  ☐ Stop and assess</p>
+<p><strong>Next session adjustment (one line):</strong></p>
+<hr>
+<hr>
+<h3 id="session-___-date-____-a-b-circle-one_2">Session ___  ·  Date: <strong><em>_</em></strong>___  ·  A / B (circle one)</h3>
+<p><strong>Warmup completed:</strong> ☐ Yes  ☐ Partial  ☐ Skipped</p>
+<table>
+<thead>
+<tr>
+<th>Movement</th>
+<th>Set 1 (reps × wt)</th>
+<th>Set 2 (reps × wt)</th>
+<th>Set 3 (reps × wt)</th>
+<th>RPE (0-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td>_____</td>
+</tr>
+<tr>
+<td><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td><strong><em>_</em>_ × </strong>____</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Carry: <strong><em>_</em></strong><strong><em>_</em></strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td><strong><em>_</em>_ sec × </strong>____</td>
+<td>_____</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cooldown walk completed:</strong> ☐ Yes  ☐ Skipped</p>
+<p><strong>Post-session energy (0-10):</strong> <strong><em>_</em>
+<strong>Pain or red flags?</strong> ☐ None  ☐ Minor — describe: </strong><strong><em>_</em></strong><strong><em>_</em></strong>____  ☐ Stop and assess</p>
+<p><strong>Next session adjustment (one line):</strong></p>
+<hr>
+<hr>
+<h2 id="44-sleep-architecture-tighten-up">4.4 — Sleep Architecture Tighten-Up</h2>
+<p>Lights out is still 10:30. What changes this week is the 60 minutes before it.</p>
+<p>Most men sabotage sleep in the last hour of the day and then blame the supplement. Fix the hour first. The supplement does the rest.</p>
+<h3 id="the-930-pm-wind-down-six-rules">The 9:30 PM wind-down — six rules</h3>
+<ol>
+<li><strong>No screens.</strong> Phone down, TV off, laptop closed. If something is unavoidable, TrueDark or red-spectrum glasses only. Blue light past 9 PM suppresses melatonin for hours.</li>
+<li><strong>No food.</strong> Eating window closed at 6 PM. Late calories spike insulin and core temperature — both wreck deep sleep.</li>
+<li><strong>No work, no email, no news.</strong> The cortisol spike from one unread message lasts longer than the message takes to read.</li>
+<li><strong>Dim ambient light.</strong> One warm lamp. Overheads off. Your brain reads bright overhead light as noon.</li>
+<li><strong>Cool the room.</strong> 65-68°F. Core temperature drop is the signal that initiates sleep.</li>
+<li><strong>Take the stack.</strong> Mag L-threonate (1.5-2g) + SleepRestore, 30-60 min before lights out. Water, not a full glass — you don&rsquo;t want a 3 AM bathroom trip.</li>
+</ol>
+<h3 id="wind-down-tracker-week-2">Wind-Down Tracker — Week 2</h3>
+<p>Each night, check what you actually hit. Rate &ldquo;felt rested&rdquo; the next morning.</p>
+<table>
+<thead>
+<tr>
+<th>Night</th>
+<th>No screens</th>
+<th>No food</th>
+<th>No work</th>
+<th>Dim light</th>
+<th>Cool room</th>
+<th>Stack taken</th>
+<th>Felt rested 0-10 (next AM)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Tue</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Wed</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Thu</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Fri</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Sat</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>_____</td>
+</tr>
+<tr>
+<td>Sun</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>_____</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pattern I notice (one line):</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<hr>
+<h2 id="45-daily-check-in-tracker">4.5 — Daily Check-In Tracker</h2>
+<p>One page per day. Print seven. Lift boxes only activate on lift days.</p>
+<h3 id="day-mon-tue-wed-thu-fri-sat-sun-date-____">Day: ☐ Mon  ☐ Tue  ☐ Wed  ☐ Thu  ☐ Fri  ☐ Sat  ☐ Sun  ·  Date: <strong><em>_</em></strong>___</h3>
+<p><strong>Morning</strong>
+- ☐ Out of bed by 6:30
+- ☐ Sun + walk (8-15 min, no sunglasses)
+- ☐ Biome NS Ultra on empty stomach, 8oz water
+- ☐ 30g protein-first to open the eating window
+- ☐ ArmorVita with breakfast
+- ☐ OmegaCN Prime with largest fat-containing meal</p>
+<p><strong>Strength (if lift day)</strong>
+- ☐ Session A / B (circle) completed
+- ☐ Log filled in (§4.3)
+- ☐ Post-workout 30g+ protein</p>
+<p><strong>Evening</strong>
+- ☐ Eating window closed by 6 PM
+- ☐ 9:30 PM wind-down started
+- ☐ Mag L-threonate + SleepRestore
+- ☐ Lights out by 10:30</p>
+<p><strong>Daily ratings (0-10)</strong>
+- Energy: <strong><em>_</em>   Mood: </strong><strong><em>   Focus: </em></strong>__   Hunger control: _____</p>
+<p><strong>One sentence on today:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<hr>
+<h2 id="46-wednesday-zoom-prep-page">4.6 — Wednesday Zoom Prep Page</h2>
+<p>Bring this filled in. Five minutes before the call.</p>
+<p><strong>Wins from this week so far:</strong></p>
+<hr>
+<hr>
+<p><strong>Where I fell off:</strong></p>
+<hr>
+<p><strong>1. One thing about lifting that surprised me this week:</strong></p>
+<hr>
+<hr>
+<p><strong>2. One thing about sleep that surprised me:</strong></p>
+<hr>
+<hr>
+<p><strong>3. One question for Dr. TJ about progression:</strong></p>
+<hr>
+<hr>
+<p><strong>The face I&rsquo;m doing this for, restated in one sentence:</strong></p>
+<hr>
+<hr>
+<h2 id="47-end-of-week-4m-reflection">4.7 — End-of-Week 4M Reflection</h2>
+<p>Sit down Sunday evening. One page per pillar. Muscle gets the heaviest weight this week.</p>
+<h3 id="mind_1">Mind</h3>
+<p><strong>This week, my best cognitive hour was:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<p><strong>My worst:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<p><strong>One mental-performance pattern I noticed:</strong></p>
+<hr>
+<hr>
+<p><strong>On a 0-10 scale, how present was I with the people who matter?</strong> _____</p>
+<hr>
+<h3 id="muscle-heaviest-section-this-week">Muscle  <em>(heaviest section this week)</em></h3>
+<p><strong>1. What did 3 sessions feel like — physically and mentally?</strong></p>
+<hr>
+<hr>
+<hr>
+<p><strong>2. What&rsquo;s the biggest tension between &ldquo;feel like lifting&rdquo; and &ldquo;show up to lift&rdquo;?</strong></p>
+<hr>
+<hr>
+<p><strong>3. What&rsquo;s one piece of friction I can remove from the lift architecture next week?</strong>
+(Examples: gym bag pre-packed, clothes laid out, calendar block, training partner, shorter drive.)</p>
+<hr>
+<hr>
+<p><strong>Protein-first hits this week:</strong> _____ / 21 feeding-window opens</p>
+<p><strong>Soreness pattern (where, how long):</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><strong>Energy after lifts vs. before (0-10 shift):</strong> Before <strong><em>_</em>  →  After </strong>___</p>
+<hr>
+<h3 id="mitigate_1">Mitigate</h3>
+<p><strong>Eating window closed by 6 PM:</strong> _____ / 7 nights</p>
+<p><strong>9:30 PM wind-down ran clean:</strong> _____ / 7 nights</p>
+<p><strong>Best &ldquo;felt rested&rdquo; score this week:</strong> <strong><em>_</em>   <strong>Worst:</strong> </strong>___</p>
+<p><strong>One insulting behavior I caught myself doing — and stopped:</strong></p>
+<hr>
+<hr>
+<hr>
+<h3 id="motivate_1">Motivate</h3>
+<p><strong>Did I stay connected to the face I&rsquo;m doing this for?</strong> ☐ Yes  ☐ Drifted  ☐ Lost it</p>
+<p><strong>One person who noticed something different about me this week:</strong></p>
+<hr>
+<p><strong>One identity statement that&rsquo;s getting truer:</strong></p>
+<blockquote>
+<p><em>I am a man who <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____.</em></p>
+</blockquote>
+<p><strong>What I want Week 3 to look like, in one sentence:</strong></p>
+<hr>
+<hr>
+<hr>
+<h2 id="48-week-2-adherence-scorecard">4.8 — Week 2 Adherence Scorecard</h2>
+<p><strong>Tear-out page — tape this to your bathroom mirror or screenshot for your phone lock-screen.</strong></p>
+<h3 id="week-2-the-lift-goes-in">Week 2 — The Lift Goes In</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>M</th>
+<th>T</th>
+<th>W</th>
+<th>T</th>
+<th>F</th>
+<th>S</th>
+<th>S</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sun + walk</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Protein-first (30g)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9-6 eating window</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>AM stack (Biome NS Ultra + ArmorVita + OmegaCN Prime)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9:30 wind-down</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Mag L-threonate + SleepRestore</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Strength sessions this week:</strong></p>
+<p>☐ Session 1 (A)     ☐ Session 2 (B)     ☐ Session 3 (A)</p>
+<p><strong>Week 2 score:</strong> _____ / 52 boxes</p>
+<hr>
+<blockquote>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+<p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
+</blockquote>
+<hr>
+<h1 id="part-5-week-3-hormones-and-the-ed-canary">Part 5 — Week 3: Hormones and the ED Canary</h1>
+<hr>
+<h2 id="51-how-week-3-works">5.1 — How Week 3 works</h2>
+<p>Most men I see in their peak-power decade have never had an honest conversation about what&rsquo;s happening below the belt — and they&rsquo;ve certainly never connected it to what&rsquo;s happening above the neck. That ends this week.</p>
+<p>Erectile dysfunction is not a separate problem. It is the first visible warning across four systems at once: hormones, cardiovascular, cognitive, and quality of life. It shows up early for a mechanical reason most men have never been told. Penile arteries are 1-2 millimeters wide. Coronary arteries are 3-4 millimeters. Endothelial dysfunction — the same arterial dysfunction that becomes a heart attack — shows up in the small arteries first, often three to five years before any cardiologist will see it on a stress test. By the time the cardiologist catches it, you&rsquo;ve had three to five years of warning you ignored.</p>
+<p>That&rsquo;s the canary. ED is the warning. The mine is your whole vascular and hormonal system, and your brain runs on the same plumbing.</p>
+<p>This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window, morning sun, Biome NS Ultra, ArmorVita, OmegaCN Prime, SleepRestore, Magtein, the lifts, the lights-out at 10:30. None of that changes.</p>
+<p>What changes is that you are going to audit yourself honestly across ten markers most men have never rated in writing, walk through a four-domain ED canary worksheet, and make one decision: do you engage the Rx consult layer this month, or do you stay OTC and reassess in 90 days?</p>
+<p>This is a decision-week, not a new-protocol week. Show up to the page honest. Nobody else reads this.</p>
+<blockquote>
+<p><em>Eliminate the insulting behavior. Then add what works.</em></p>
+</blockquote>
+<hr>
+<h2 id="52-the-hormone-sexual-function-self-audit">5.2 — The Hormone + Sexual Function Self-Audit</h2>
+<p>Rate each item 0 to 10. Then write one or two lines describing the current symptom in plain language — how it actually shows up in your week.</p>
+<p>If the honest number embarrasses you, that is the number to write. The whole point of this page is that nobody is grading it but you.</p>
+<hr>
+<p><strong>1. Morning erections.</strong>
+<em>(0 = absent always, 10 = present most mornings, full quality)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Current reality, in plain language:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>2. Libido — desire for intimacy compared to 5 years ago.</strong>
+<em>(0 = gone, 5 = same as 5 years ago, 10 = stronger than 5 years ago)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Current reality:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>3. Erection quality during intimacy.</strong>
+<em>(0 = cannot achieve or maintain, 10 = reliable, full)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Current reality:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>4. Recovery after exertion.</strong>
+How many days do you need to feel normal after a hard workout, a long travel day, or a physical weekend?</p>
+<p>Days needed: ______</p>
+<p>Five years ago this number was: ______</p>
+<p>What&rsquo;s different now:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>5. Energy at 3 PM.</strong>
+<em>(0 = crashed, need caffeine or a nap, 10 = sustained, sharp)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Current reality:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>6. Mood stability.</strong>
+<em>(0 = flat or reactive, 10 = grounded, even)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Where it shows up most — work, marriage, kids, driving:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>7. Muscle gain response to lifting.</strong>
+<em>(0 = absent — I lift and nothing changes, 10 = visible response within weeks)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Current reality:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>8. Fat distribution — visceral creep around the midsection.</strong>
+<em>(0 = significant new midsection fat in last 5 years, 10 = unchanged or leaner)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Waist size 5 years ago: <strong><em>_</em>_   Waist size today: </strong>____</p>
+<hr>
+<p><strong>9. Sleep quality.</strong>
+<em>(0 = restless, fragmented, non-restorative, 10 = wake refreshed)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Current reality:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>10. Cognitive sharpness compared to 5 years ago.</strong>
+<em>(0 = noticeably duller, 5 = same, 10 = sharper)</em></p>
+<p><code>0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10</code></p>
+<p>Where the dulling shows up — names, words, calendar, decision fatigue:</p>
+<hr>
+<hr>
+<hr>
+<p><strong>Total honest score (sum of all 10): ______ / 100</strong></p>
+<p>A score below 60 is not a verdict. It is information. It means several of these systems are talking to you and you have not been listening.</p>
+<hr>
+<h2 id="53-the-4-domain-ed-canary-worksheet">5.3 — The 4-Domain ED Canary Worksheet</h2>
+<p>Walk each domain. Answer in writing. End each domain with a single decision check.</p>
+<hr>
+<h3 id="domain-1-hormones">Domain 1 — Hormones</h3>
+<p>Have you had a full hormone panel in the last 12 months?
+☐ Yes    ☐ No    ☐ Never</p>
+<p>Last total testosterone: <strong><em>_</em>_ ng/dL    Date: </strong><strong><em>_</em></strong>___</p>
+<p>Last free testosterone: <strong><em>_</em>_           SHBG: </strong>____</p>
+<p>Last estradiol (E2): <strong><em>_</em>_              Last DHEA-S: </strong>____</p>
+<p>If you wrote &ldquo;never&rdquo; or &ldquo;I don&rsquo;t know&rdquo; on any line above, circle it. That is the gap.</p>
+<p><strong>Is this domain a current concern?</strong>  ☐ Yes   ☐ Mild   ☐ No</p>
+<hr>
+<h3 id="domain-2-cardiovascular">Domain 2 — Cardiovascular</h3>
+<p>Resting blood pressure (last reading): <strong><em>_</em>_ / </strong>____</p>
+<p>Last lipid panel — Total chol: <strong><em>_</em>_  LDL: </strong><strong><em>_  HDL: </em></strong><strong><em>  Triglycerides: </em></strong>___</p>
+<p>Last fasting insulin: <strong><em>_</em>_    Last HbA1c: </strong>____</p>
+<p>Do you snore? ☐ Yes ☐ No    Witnessed apnea? ☐ Yes ☐ No    Daytime sleepiness? ☐ Yes ☐ No</p>
+<p>ED canary cross-check: the small arteries down there are 1-2mm. The coronaries are 3-4mm. If the small ones are struggling, the big ones are next.</p>
+<p><strong>Is this domain a current concern?</strong>  ☐ Yes   ☐ Mild   ☐ No</p>
+<hr>
+<h3 id="domain-3-cognitive">Domain 3 — Cognitive</h3>
+<p>Brain fog frequency:
+☐ Rare    ☐ Weekly    ☐ Most days    ☐ Constant</p>
+<p>Word recall delay (the word is on the tip of your tongue):
+☐ Rare    ☐ Weekly    ☐ Daily    ☐ Multiple times daily</p>
+<p>Mood lability — irritability, flat affect, short fuse with people you love:
+☐ Rare    ☐ Weekly    ☐ Most days</p>
+<p>What your spouse or closest person has commented on in the last year:</p>
+<hr>
+<hr>
+<p><strong>Is this domain a current concern?</strong>  ☐ Yes   ☐ Mild   ☐ No</p>
+<hr>
+<h3 id="domain-4-quality-of-life">Domain 4 — Quality of Life</h3>
+<p>Intimacy frequency now: <strong><em>_</em>_ / month   Five years ago: </strong>____ / month</p>
+<p>Confidence in your own body (0-10): ______</p>
+<p>Avoidance behaviors — name them honestly. Skipping intimacy. Avoiding the mirror. Avoiding the scale. Avoiding the doctor. Avoiding the photo.</p>
+<hr>
+<hr>
+<hr>
+<p><strong>Is this domain a current concern?</strong>  ☐ Yes   ☐ Mild   ☐ No</p>
+<hr>
+<p><strong>Domain tally:</strong></p>
+<p>Yes: <strong><em>_</em>_    Mild: </strong><strong><em>_    No: </em></strong>___</p>
+<hr>
+<h2 id="54-the-rx-consult-decision-tree">5.4 — The Rx Consult Decision Tree</h2>
+<blockquote>
+<p><em>Two Paths to Act — OTC vs Rx.</em></p>
+</blockquote>
+<p>Use your domain tally from §5.3 to find your path.</p>
+<hr>
+<p><strong>If 3 or 4 domains flagged &ldquo;Yes&rdquo; →</strong>
+Schedule a <strong>full hormone consult</strong>. Total + free T, SHBG, estradiol, DHEA-S, full cardio markers (lipid, fasting insulin, HbA1c, hs-CRP, homocysteine), GLP-1 candidacy review. This is the TRT + cardio + metabolic consult lane.</p>
+<p>My decision: ☐ Scheduling this week. Date booked: <strong><em>_</em></strong>_____</p>
+<hr>
+<p><strong>If 1 or 2 domains flagged &ldquo;Yes&rdquo; →</strong>
+Schedule a <strong>targeted consult</strong> for the most-flagged domain.
+- Hormones-only? TRT-track consult with full panel.
+- Cardiovascular-only? Metabolic + cardio consult, possible GLP-1.
+- Cognitive-only? Cognitive workup + Biome NS Rx evaluation.</p>
+<p>My most-flagged domain: <strong><em>_</em></strong>_____</p>
+<p>My decision: ☐ Scheduling this week. Date booked: <strong><em>_</em></strong>_____</p>
+<hr>
+<p><strong>If all domains are &ldquo;Mild&rdquo; or &ldquo;No&rdquo; →</strong>
+Continue the <strong>OTC foundation stack</strong> — Biome NS Ultra, ArmorVita, OmegaCN Prime, SleepRestore, Magtein, MitoVita when available. Hold the line on protein-first, the eating window, lifts, sleep, sun. Reassess in 90 days using this same worksheet.</p>
+<p>My decision: ☐ Staying OTC. Reassessment date (90 days out): <strong><em>_</em></strong>_____</p>
+<hr>
+<p><strong>If you or your physician have already diagnosed MCI, early dementia, Alzheimer&rsquo;s, or Parkinson&rsquo;s →</strong>
+Engage <strong>Genesis RPA</strong> regenerative consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back.</p>
+<p>My decision: ☐ Booking Genesis RPA consult this week. Date: <strong><em>_</em></strong>_____</p>
+<hr>
+<h2 id="55-daily-check-in-tracker">5.5 — Daily Check-In Tracker</h2>
+<p>Keep every Week 1 and Week 2 behavior in place. Check the box at the end of each day.</p>
+<h3 id="monday">Monday</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk, 8-15 min, no sunglasses</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra — AM, empty stomach, 8oz water</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first at first meal</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window 9 AM – 6 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita with breakfast</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime with largest fat meal</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Resistance training (if scheduled today)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein 1.5-2g evening</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore 30-60 min before lights out</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p>Audit work today (5 min on §5.2 or §5.3): ☐</p>
+<hr>
+<h3 id="tuesday">Tuesday</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window held</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift / move</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out 10:30</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p>Audit work today: ☐</p>
+<hr>
+<h3 id="wednesday">Wednesday</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window held</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift / move</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out 10:30</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Cohort Zoom attended</strong></td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="thursday">Thursday</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window held</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift / move</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out 10:30</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p>Consult booked or OTC reassessment date set: ☐</p>
+<hr>
+<h3 id="friday">Friday</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window held</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift / move</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out 10:30</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="saturday">Saturday</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window held</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift / move</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out 10:30</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="sunday">Sunday</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window held</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lift / move</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out 10:30</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>End-of-Week 4M Reflection completed</strong> (§5.7)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Adherence Scorecard filled in</strong> (§5.8)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="56-wednesday-zoom-prep-page">5.6 — Wednesday Zoom Prep Page</h2>
+<p>Bring this page to the Wednesday cohort Zoom. Write the answers before you log on. You do not have to read them aloud — you have to write them.</p>
+<hr>
+<p><strong>1. Which domain surprised me the most when I rated it honestly?</strong></p>
+<hr>
+<hr>
+<hr>
+<hr>
+<p><strong>2. Which domain am I most reluctant to bring up — even in a room of men doing the same work?</strong></p>
+<hr>
+<hr>
+<hr>
+<hr>
+<p><strong>3. What is my decision on the Rx consult path?</strong></p>
+<p>☐ Full hormone consult — booking this week
+☐ Targeted consult — domain: <strong><em>_</em></strong><strong><em>_</em>
+☐ Staying OTC — 90-day reassessment date: </strong><strong><em>_</em></strong>___
+☐ Genesis RPA regenerative consult — booking this week</p>
+<p>The accountability target I named in Week 1 — who I am doing this for — would say this about my decision:</p>
+<hr>
+<hr>
+<hr>
+<h2 id="57-end-of-week-4m-reflection">5.7 — End-of-Week 4M Reflection</h2>
+<p>Hormones live mostly under <strong>Mitigate</strong> (the insults driving the decline) and <strong>Muscle</strong> (the substrate you are trying to rebuild). Weight those two heavier this week.</p>
+<hr>
+<h3 id="mind_2">Mind</h3>
+<p>The point of every other M is to protect this one. What did this week&rsquo;s audit tell you about your Mind — directly or indirectly?</p>
+<p>Cognitive markers from §5.2 #10 and §5.3 Domain 3:</p>
+<hr>
+<hr>
+<p>The honest sentence I do not want to write here:</p>
+<hr>
+<hr>
+<blockquote>
+<p><em>Mind is the destination.</em></p>
+</blockquote>
+<hr>
+<h3 id="muscle_1">Muscle</h3>
+<p>Testosterone, growth hormone, IGF-1 — these are the substrate of every muscle fiber, every recovery cycle, every rep that actually adds tissue. The §5.2 ratings on recovery, muscle gain response, and visceral fat are direct readouts on this substrate.</p>
+<p>My recovery rating (§5.2 #4): <strong><em>_</em>_    Five years ago: </strong>____</p>
+<p>My muscle gain response rating (§5.2 #7): ______</p>
+<p>My waist trend (§5.2 #8): <strong><em>_</em></strong>_____</p>
+<p>If these numbers are not where I want them, the upstream lever this month is:</p>
+<p>☐ Lift harder and more often (compound lifts, 2-3x/week)
+☐ Get the protein in (30g first, every feeding window)
+☐ Sleep — most testosterone is made between 11 PM and 3 AM
+☐ Engage the Rx consult — TRT panel</p>
+<p>The one I commit to this week:</p>
+<hr>
+<blockquote>
+<p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
+</blockquote>
+<hr>
+<h3 id="mitigate_2">Mitigate</h3>
+<p>This is the week&rsquo;s center of gravity. The insulting behaviors driving hormonal and vascular decline are mostly choices, not fate.</p>
+<p>Insult inventory — check every one that&rsquo;s true this week:</p>
+<p>☐ Alcohol on more than 2 nights
+☐ Sleep under 7 hours on more than 2 nights
+☐ Visceral fat creeping (waist up vs 5 years ago)
+☐ Untreated snoring / suspected apnea
+☐ Refined seed oils still in the kitchen
+☐ Late eating past 6 PM more than twice this week
+☐ Skipped lifts this week
+☐ Chronic stress with no decompression valve
+☐ Avoided the medical workup I know I need</p>
+<p>The ONE I am eliminating first this month (pick one — pick the one that scares you most to write down):</p>
+<hr>
+<hr>
+<blockquote>
+<p><em>Stop hurting yourself first. Then add what works.</em></p>
+</blockquote>
+<hr>
+<h3 id="motivate_2">Motivate</h3>
+<p>Most men do not book the hormone consult because of pride, not because of money or time.</p>
+<p>The face I named as my accountability target in Week 1:</p>
+<hr>
+<p>What I owe that person — in plain language — by making the decision in §5.4:</p>
+<hr>
+<hr>
+<hr>
+<p>The sentence I would say to them if I were brave this week:</p>
+<hr>
+<hr>
+<hr>
+<h2 id="58-week-3-adherence-scorecard">5.8 — Week 3 Adherence Scorecard</h2>
+<p><strong>Tear-out page — tape this to your bathroom mirror or screenshot for your phone lock-screen.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>M</th>
+<th>T</th>
+<th>W</th>
+<th>T</th>
+<th>F</th>
+<th>S</th>
+<th>S</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Eating window 9-6</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>OmegaCN Prime</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Resistance training (2-3x)</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magtein PM</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Lights out 10:30 PM</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Cohort Zoom attended</td>
+<td></td>
+<td></td>
+<td>☐</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Week 3 once-only items:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Y / N</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hormone + Sexual Function Self-Audit completed (§5.2)</td>
+<td>☐ Y  ☐ N</td>
+</tr>
+<tr>
+<td>4-Domain ED Canary Worksheet completed (§5.3)</td>
+<td>☐ Y  ☐ N</td>
+</tr>
+<tr>
+<td>Rx Consult Decision made and recorded (§5.4)</td>
+<td>☐ Y  ☐ N</td>
+</tr>
+<tr>
+<td>Consult booked OR 90-day reassessment date set</td>
+<td>☐ Y  ☐ N</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>Days hit 8+ behaviors:</strong> ______ / 7</p>
+<p><strong>My one-line note to next week&rsquo;s me:</strong></p>
+<hr>
+<hr>
+<hr>
+<blockquote>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+</blockquote>
+<hr>
+<h1 id="part-6-week-4-mitigate-synthesize-recommit">Part 6 — Week 4: Mitigate, Synthesize, Recommit</h1>
+<hr>
+<h2 id="61-how-week-4-works">6.1 — How Week 4 works</h2>
+<p>The first three weeks were about building. You added a morning, you added protein, you added lifts, you added sleep structure, you added a face on the fridge. Most of it stuck. Some of it didn&rsquo;t. That&rsquo;s the data.</p>
+<p>Week 4 is different. Week 4 strips.</p>
+<p>The Mitigate pillar carries one job: <em>Stop hurting yourself first. Then add what works.</em> We&rsquo;ve been adding for three weeks. Now we audit honestly what you are still doing that is degrading the system underneath everything you&rsquo;ve added. The four drinks on Thursday that you called &ldquo;social.&rdquo; The bedroom router blinking three feet from your head. The 6 AM scroll under the bathroom fluorescents. The nightly edible you told yourself helps you sleep. The third antibiotic course in two years that nobody followed with gut recovery.</p>
+<p>These are the insults. Most of them are invisible to you because they&rsquo;re normal in your peer group. They&rsquo;re not normal for a brain you want at 85.</p>
+<p>This week does two things.</p>
+<p><strong>One:</strong> the full Eliminate-the-Insulting-Behavior audit. You will walk every Mitigate category — gut, sleep, environment, hormones, substance use, cognitive — and mark honestly what you&rsquo;re still doing. Then you pick the three insults you&rsquo;re cutting in the next 30 days. Three. Not all of them. Three.</p>
+<p><strong>Two:</strong> the month-end synthesis. What changed from your Part 1 baseline. What worked and earned its place. What slipped and why. The 90-day plan forward. The locked recommit procedure for when you fall off — because you will, and the men who win are the ones who restart fastest.</p>
+<blockquote>
+<p><em>Stop hurting yourself first. Then add what works.</em></p>
+<p><em>The man who runs the loop longest wins.</em></p>
+</blockquote>
+<p>Print this section. Sit with it on Sunday morning with coffee and a pen. Don&rsquo;t speed through it. This is the deepest week of Month 1.</p>
+<hr>
+<h2 id="62-the-full-eliminate-the-insulting-behavior-audit">6.2 — The Full Eliminate-the-Insulting-Behavior Audit</h2>
+<p>For each insult: <strong>☐ Yes / ☐ Some / ☐ No.</strong> Be honest. Nobody sees this but you and the man you&rsquo;re becoming.</p>
+<h3 id="gut">Gut</h3>
+<ul>
+<li>☐ Yes  ☐ Some  ☐ No — Processed foods and seed oils are part of my daily baseline (chips, fried restaurant food, packaged snacks, &ldquo;vegetable&rdquo; oils at home).</li>
+<li>☐ Yes  ☐ Some  ☐ No — I&rsquo;ve had multiple antibiotic courses in the last five years without a targeted gut recovery protocol after.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I average more than 7 alcoholic drinks per week.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I have ongoing bloating, food sensitivities, or post-meal brain fog that I&rsquo;ve been ignoring or normalizing.</li>
+</ul>
+<p><strong>Top gut insult I&rsquo;m cutting:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="sleep">Sleep</h3>
+<ul>
+<li>☐ Yes  ☐ Some  ☐ No — I drink alcohol within 3 hours of bed.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I&rsquo;m on screens past 9 PM (phone, TV, laptop) most nights.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I eat after 7 PM at least 3 nights a week.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I run a sleep debt Monday-Friday and try to repay it on the weekend.</li>
+</ul>
+<p><strong>Top sleep insult I&rsquo;m cutting:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="environment">Environment</h3>
+<ul>
+<li>☐ Yes  ☐ Some  ☐ No — I get no direct morning sunlight before screens.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I spend my workday under fluorescent lights and in front of screens with no breaks outside.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I drink unfiltered tap water (or only filter at the fridge, not at the tap).</li>
+<li>☐ Yes  ☐ Some  ☐ No — I have no air filtration in my bedroom or primary workspace.</li>
+<li>☐ Yes  ☐ Some  ☐ No — My router, phone, and electronics are powered on within 6 feet of my head at night.</li>
+</ul>
+<p><strong>Top environmental insult I&rsquo;m cutting:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="hormones">Hormones</h3>
+<ul>
+<li>☐ Yes  ☐ Some  ☐ No — I average less than 7 hours of sleep on weeknights.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I drink alcohol daily or near-daily.</li>
+<li>☐ Yes  ☐ Some  ☐ No — My stress is chronic and unaddressed (not just busy — <em>chronic</em>).</li>
+<li>☐ Yes  ☐ Some  ☐ No — I sit more than 8 hours a day and do not train resistance 2-3x/week.</li>
+<li>☐ Yes  ☐ Some  ☐ No — I carry visceral fat around my midsection that I haven&rsquo;t seriously addressed.</li>
+</ul>
+<p><strong>Top hormonal insult I&rsquo;m cutting:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="substance-use">Substance Use</h3>
+<ul>
+<li>☐ Yes  ☐ Some  ☐ No — Alcohol more than 7 drinks/week.</li>
+<li>☐ Yes  ☐ Some  ☐ No — Nightly cannabis (any route — flower, edible, vape).</li>
+<li>☐ Yes  ☐ Some  ☐ No — Prescription sleep aids (Ambien, trazodone, benzos) long-term.</li>
+<li>☐ Yes  ☐ Some  ☐ No — Smoking or vaping nicotine.</li>
+</ul>
+<p><strong>Top substance insult I&rsquo;m cutting:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="cognitive">Cognitive</h3>
+<ul>
+<li>☐ Yes  ☐ Some  ☐ No — Chronic stress I have not put a structural tool against (no walk, no breath protocol, no boundary).</li>
+<li>☐ Yes  ☐ Some  ☐ No — Zero novel cognitive demand in my week (no new skill, language, instrument, book, course).</li>
+<li>☐ Yes  ☐ Some  ☐ No — No resistance training (yes — this is a cognitive insult, not just a muscle one).</li>
+</ul>
+<p><strong>Top cognitive insult I&rsquo;m cutting:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<hr>
+<h3 id="the-3-insults-i-am-eliminating-in-the-next-30-days">The 3 insults I am eliminating in the next 30 days</h3>
+<p>Not the six. Not the ten. Three. The ones you will actually win.</p>
+<blockquote>
+<p><strong>1.</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<hr>
+<p><strong>2.</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<hr>
+<p><strong>3.</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<hr>
+<p><em>Eliminate the insulting behavior.</em></p>
+</blockquote>
+<hr>
+<h2 id="63-daily-check-in-tracker">6.3 — Daily Check-In Tracker</h2>
+<p>One page per day. Same format as prior weeks. Print and fill by hand.</p>
+<h3 id="monday_1">Monday</h3>
+<table>
+<thead>
+<tr>
+<th>Daily Floor</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk (8-15 min, no sunglasses)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first at first meal</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM eating window held</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra (AM, empty stomach)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime (with meal)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate (evening)</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore + lights out by 10:30 PM</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Resistance training OR Zone 2 walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>One insult avoided today: <strong><em>_</em></strong><strong><em>_</em></strong>_____</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>One line — what hurt the system today?</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><strong>One line — what helped?</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<h3 id="tuesday_1">Tuesday</h3>
+<table>
+<thead>
+<tr>
+<th>Daily Floor</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 PM lights out</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Training OR Zone 2</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Insult avoided: <strong><em>_</em></strong><strong><em>_</em></strong>_____</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hurt:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_  <strong>Helped:</strong> </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="wednesday_1">Wednesday</h3>
+<table>
+<thead>
+<tr>
+<th>Daily Floor</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 PM lights out</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Training OR Zone 2</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Insult avoided: <strong><em>_</em></strong><strong><em>_</em></strong>_____</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Cohort Zoom attended</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hurt:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_  <strong>Helped:</strong> </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="thursday_1">Thursday</h3>
+<table>
+<thead>
+<tr>
+<th>Daily Floor</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 PM lights out</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Training OR Zone 2</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Insult avoided: <strong><em>_</em></strong><strong><em>_</em></strong>_____</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hurt:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_  <strong>Helped:</strong> </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="friday_1">Friday</h3>
+<table>
+<thead>
+<tr>
+<th>Daily Floor</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 PM lights out</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Training OR Zone 2</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Insult avoided: <strong><em>_</em></strong><strong><em>_</em></strong>_____</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hurt:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_  <strong>Helped:</strong> </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="saturday_1">Saturday</h3>
+<table>
+<thead>
+<tr>
+<th>Daily Floor</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 PM lights out</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Training OR Zone 2</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Insult avoided: <strong><em>_</em></strong><strong><em>_</em></strong>_____</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hurt:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_  <strong>Helped:</strong> </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="sunday_1">Sunday</h3>
+<table>
+<thead>
+<tr>
+<th>Daily Floor</th>
+<th>Done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Biome NS Ultra</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 PM lights out</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Training OR Zone 2</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Insult avoided: <strong><em>_</em></strong><strong><em>_</em></strong>_____</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Sunday synthesis review (§6.5)</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hurt:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_  <strong>Helped:</strong> </em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<hr>
+<h2 id="64-wednesday-zoom-prep">6.4 — Wednesday Zoom Prep</h2>
+<p>Bring honest answers. Not polished ones.</p>
+<blockquote>
+<p><strong>1. One thing I now understand about myself that I did not understand four weeks ago:</strong></p>
+<hr>
+<hr>
+<p><strong>2. One product or protocol that meaningfully changed something this month (what changed, and how I know):</strong></p>
+<hr>
+<hr>
+<p><strong>3. One protocol I am dropping because it did not earn its place:</strong></p>
+<hr>
+<hr>
+<p><strong>4. The single biggest insult I am cutting starting this week:</strong></p>
+<hr>
+<hr>
+</blockquote>
+<hr>
+<h2 id="65-month-end-synthesis">6.5 — Month-End Synthesis</h2>
+<p>The deepest reflection in the workbook. Block 60 minutes. Pen, coffee, no phone.</p>
+<h3 id="page-1-what-changed">Page 1 — What changed</h3>
+<p>Pull your Part 1 baseline. Rate each again today on the same 0-5 scale. Write the delta.</p>
+<p><strong>Audit categories (0 = wrecked, 5 = excellent)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Day 1</th>
+<th>Day 30</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sleep quality</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Energy on waking</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Cognitive clarity</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Mood / emotional regulation</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Gut comfort</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Strength / training consistency</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Body composition</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Libido / sexual function</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Stress recovery</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Sense of purpose</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Physiology baselines</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Day 1</th>
+<th>Day 30</th>
+<th>Delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Weight</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Waist (at navel)</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Resting HR</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Avg sleep hours</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+<tr>
+<td>Avg drinks/week</td>
+<td>__</td>
+<td>__</td>
+<td>__</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The single biggest shift I felt this month:</strong></p>
+<hr>
+<hr>
+<h3 id="page-2-what-worked">Page 2 — What worked</h3>
+<p>Three things from this month that earned a permanent spot in the long-term protocol. Be specific. Not &ldquo;supplements.&rdquo; <em>Which one, and what did it do for you.</em></p>
+<blockquote>
+<p><strong>1.</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p><em>Why it earned its place:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><strong>2.</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p><em>Why it earned its place:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><strong>3.</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>___</p>
+<p><em>Why it earned its place:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+</blockquote>
+<h3 id="page-3-what-slipped-and-why">Page 3 — What slipped, and why</h3>
+<p>Three things you tried that didn&rsquo;t stick. The <em>why</em> matters more than the <em>what</em>. Was it knowledge (you didn&rsquo;t really understand the mechanism)? Willpower (you understood and didn&rsquo;t do it)? Structure (no calendar slot, no trigger, no cue)? Or wrong product / wrong protocol for you?</p>
+<blockquote>
+<p><strong>1. What slipped:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><em>Why (knowledge / willpower / structure / wrong fit):</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><em>What I&rsquo;ll change:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><strong>2. What slipped:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><em>Why:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><em>What I&rsquo;ll change:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><strong>3. What slipped:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><em>Why:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p><em>What I&rsquo;ll change:</em> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+</blockquote>
+<h3 id="page-4-the-90-day-plan">Page 4 — The 90-day plan</h3>
+<p><strong>Continue</strong> (the behaviors and products carrying me):</p>
+<hr>
+<hr>
+<p><strong>Add</strong> (the next layer — pick from Mitigate insults, Muscle progression, Mind training, Motivate structure):</p>
+<hr>
+<hr>
+<p><strong>Drop</strong> (didn&rsquo;t earn its place):</p>
+<hr>
+<p><strong>Three sentences — what I am optimizing for over the next 90 days:</strong></p>
+<hr>
+<hr>
+<hr>
+<hr>
+<h2 id="66-the-30-day-recommit-procedure">6.6 — The 30-Day Recommit Procedure</h2>
+<p>You will fall off. Every man on this protocol falls off. The wedding, the work trip, the flu, the funeral, the stretch where life punches you in the mouth and the daily floor goes to zero for nine days.</p>
+<p>This is the locked procedure. Tape it inside the workbook cover.</p>
+<ol>
+<li>
+<p><strong>Do not try to make it up.</strong> No double-stacking after a slip. You cannot earn back lost days by punishing the next ones. Trying to &ldquo;catch up&rdquo; is the second insult after the first.</p>
+</li>
+<li>
+<p><strong>Pick ONE behavior.</strong> Whichever has the lowest activation energy for <em>you</em> right now. For most men it&rsquo;s the morning sun walk. For some it&rsquo;s protein-first. For some it&rsquo;s lights out at 10:30. Pick the easiest re-entry, not the most important one.</p>
+</li>
+<li>
+<p><strong>Run that one for 3 days.</strong> Just that one. Don&rsquo;t add. Don&rsquo;t apologize. Don&rsquo;t track anything else. Three clean days of the easiest behavior.</p>
+</li>
+<li>
+<p><strong>Add the second one on day 4.</strong> Now two behaviors. Run both for three days.</p>
+</li>
+<li>
+<p><strong>Stack until full compliance by day 13-14.</strong> By the end of the second week you are back on the full daily floor. The men who get back here in two weeks beat the men who tried to come back at 100% on day one and broke again by day three.</p>
+</li>
+<li>
+<p><strong>Show up to the weekly Zoom even when you have run zero behaviors that week.</strong> Especially then. The face on screen matters more than the report card. The cohort sees you. You see the cohort. The loop stays closed.</p>
+</li>
+</ol>
+<blockquote>
+<p><em>The man who runs the loop longest wins.</em></p>
+</blockquote>
+<hr>
+<h3 id="recommit-pre-commitment">Recommit pre-commitment</h3>
+<p>Fill this in <em>now</em>, while you&rsquo;re on the protocol, not later when you&rsquo;re off it.</p>
+<blockquote>
+<p><strong>The next time I fall off, the ONE behavior I will restart with is:</strong></p>
+<hr>
+<p><strong>The reason it has the lowest activation energy for me is:</strong></p>
+<hr>
+<hr>
+<p><strong>The person I will text on the day I restart (accountability target):</strong></p>
+<hr>
+</blockquote>
+<hr>
+<h2 id="67-final-4m-reflection">6.7 — Final 4M Reflection</h2>
+<p>One page per pillar, in locked order. Longer than the weekly versions. Sit with each one.</p>
+<h3 id="mind-what-were-protecting">Mind — what we&rsquo;re protecting</h3>
+<p>Mind is the destination. Mind is also where the cycle starts. Four weeks ago you wrote about the man you want to be at 85 — sharp, present, knowing the names of grandchildren you may not have met yet.</p>
+<blockquote>
+<p><strong>What does my Mind feel like today versus 30 days ago?</strong></p>
+<hr>
+<hr>
+<p><strong>The cognitive behaviors I am keeping for the next 90 days (training, learning, stress structure, sleep architecture):</strong></p>
+<hr>
+<hr>
+<p><strong>The end I am beginning with:</strong></p>
+<hr>
+</blockquote>
+<h3 id="muscle-the-engine_1">Muscle — the engine</h3>
+<blockquote>
+<p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
+<p><strong>My training consistency this month (sessions completed / sessions planned):</strong>  <strong><em>_ / </em></strong>_</p>
+<p><strong>The lift, food, or stack that produced the biggest shift in how I feel:</strong></p>
+<hr>
+<p><strong>My 90-day strength goal (specific — a lift number, a body comp marker, a stair-climb test):</strong></p>
+<hr>
+</blockquote>
+<h3 id="mitigate-stop-hurting-yourself-first">Mitigate — stop hurting yourself first</h3>
+<blockquote>
+<p><strong>The three insults I named in §6.2 — restated here so I see them every page-flip:</strong></p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+<p><strong>The insult that scares me most to cut (and why):</strong></p>
+<hr>
+<hr>
+</blockquote>
+<h3 id="motivate-what-sustains-the-work_1">Motivate — what sustains the work</h3>
+<blockquote>
+<p><strong>The face I am doing this for (re-name them, even if they haven&rsquo;t changed):</strong></p>
+<hr>
+<p><strong>The structural enabler I am adding in Month 2 (calendar block, gym partner, automated re-order, kitchen overhaul, alcohol-free home, etc.):</strong></p>
+<hr>
+<p><strong>Why this matters beyond me:</strong></p>
+<hr>
+<hr>
+</blockquote>
+<hr>
+<h2 id="68-week-4-adherence-scorecard-monthly-summary">6.8 — Week 4 Adherence Scorecard + Monthly Summary</h2>
+<h3 id="page-1-week-4-adherence-scorecard">Page 1 — Week 4 Adherence Scorecard</h3>
+<p><strong>Tear-out page — tape this to your bathroom mirror or screenshot for your phone lock-screen.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Daily Floor Behavior</th>
+<th>M</th>
+<th>T</th>
+<th>W</th>
+<th>T</th>
+<th>F</th>
+<th>S</th>
+<th>S</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate PM</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 lights out</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>Resistance OR Zone 2</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+<tr>
+<td>One insult avoided</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>__ /7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Wednesday Zoom attended:</strong> ☐</p>
+<p><strong>Week 4 score: ____ / 63</strong></p>
+<h3 id="page-2-month-1-summary-scorecard">Page 2 — Month 1 Summary Scorecard</h3>
+<p><strong>Tear-out page — keep this in the front of your workbook.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Daily Floor Behavior</th>
+<th>Wk 1</th>
+<th>Wk 2</th>
+<th>Wk 3</th>
+<th>Wk 4</th>
+<th>Month Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sun + walk</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>30g protein-first</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>9 AM – 6 PM window</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>Biome NS Ultra AM</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>ArmorVita + OmegaCN Prime</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>Magnesium L-threonate PM</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>SleepRestore + 10:30 lights out</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>Resistance OR Zone 2</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td>Insult avoided</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /7</td>
+<td>__ /28</td>
+</tr>
+<tr>
+<td><strong>Weekly Zoom attended (1 pt)</strong></td>
+<td>__ /1</td>
+<td>__ /1</td>
+<td>__ /1</td>
+<td>__ /1</td>
+<td>__ /4</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Month 1 total score: ____ / 256</strong></p>
+<p>A score above 200 means you ran the loop. A score below 150 means the structure isn&rsquo;t holding yet — Month 2 starts with the recommit procedure in §6.6, not with new behaviors.</p>
+<hr>
+<blockquote>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+<p><em>Stop hurting yourself first. Then add what works.</em></p>
+<p><em>Eliminate the insulting behavior.</em></p>
+<p><em>The man who runs the loop longest wins.</em></p>
+</blockquote>
+<p>— Dr. TJ</p>
+<hr>
+<h1 id="part-7-the-stack-reference">Part 7 — The Stack Reference</h1>
+<p>This is the part you come back to. When you forget why a powder is sitting on your counter, when your wife asks what the capsule does, when you&rsquo;re deciding whether to add the Rx tier — open here.</p>
+<hr>
+<h2 id="how-to-read-this-section">How to read this section</h2>
+<p>Two ideas govern everything that follows.</p>
+<p><strong>No weak links.</strong> Every product in the My4MLife stack — ours and the affiliates we point you at — passes a full-ingredient audit. Not a marketing audit. An ingredient-by-ingredient audit. One off-message ingredient disqualifies the entire SKU. A &ldquo;premium&rdquo; protein bar with soybean oil is out. A &ldquo;clinical&rdquo; multivitamin with titanium dioxide is out. A &ldquo;clean&rdquo; sleep formula with proprietary blends hiding under-dosed actives is out. The reason is simple: you cannot eliminate the insulting behavior with one hand while feeding it with the other. The stack you&rsquo;re about to read has already been filtered. You don&rsquo;t have to do that work again.</p>
+<p><strong>Two Paths to Act.</strong> Almost every job in the stack has an OTC path and an Rx path. OTC is the daily foundation — what every Protégé runs. Rx is the single-active compounded add-on, prescribed through a licensed telemed partner when the indication is there. You don&rsquo;t start on the Rx tier. You earn it by running the foundation, surfacing what the foundation can&rsquo;t reach, and bringing labs or symptoms that justify the upgrade. Both paths are real. Neither is required to begin.</p>
+<p>What follows is one page per product, in the order you&rsquo;d actually add them. Then a one-page pairing matrix.</p>
+<hr>
+<h2 id="biome-ns-ultra">Biome NS Ultra</h2>
+<p><strong>Tier:</strong> OTC daily foundation
+<strong>When:</strong> Morning, empty stomach, 8oz water, 30 minutes before first food
+<strong>Dose:</strong> 1 scoop daily
+<strong>What it is:</strong> Gut-brain seal powder. L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + vitamin A + vitamin D3.
+<strong>Why it&rsquo;s in the stack:</strong> This is the anchor. The gut lining is where neuroinflammation starts for most men over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. Biome NS Ultra seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
+<strong>What it pairs with:</strong> Everything. Specifically amplifies ArmorVita (D3/K2 absorption), OmegaCN Prime (anti-inflammatory synergy), and any nootropic peptide (cleaner substrate to act on).
+<strong>What to watch for in the first 30 days:</strong> Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some men report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
+<strong>Two Paths note:</strong> Pairs with Biome NS Rx (oral BPC-157 single-active) on top — same anchor, deeper repair.</p>
+<blockquote>
+<p><em>NS = NeuroSeal. The gut-brain seal that protects cognitive longevity.</em></p>
+</blockquote>
+<hr>
+<h2 id="armorvita">ArmorVita</h2>
+<p><strong>Tier:</strong> OTC daily foundation
+<strong>When:</strong> With protein-first breakfast
+<strong>Dose:</strong> 1 capsule daily
+<strong>What it is:</strong> D3 (cholecalciferol) + K2 (MK-7) + boron + astaxanthin.
+<strong>Why it&rsquo;s in the stack:</strong> Four fat-soluble defenders that nearly every man over 50 is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
+<strong>What it pairs with:</strong> OmegaCN Prime (shared fat-soluble absorption window, mitochondrial synergy). Biome NS Ultra (sealed gut means D3/K2 actually get absorbed).
+<strong>What to watch for in the first 30 days:</strong> Subtle but real — mood floor lifts, recovery from training improves, skin tone shifts. If you&rsquo;re starting from a deficient D level, expect the biggest change at the 6-8 week mark when serum levels normalize.
+<strong>Two Paths note:</strong> No Rx upgrade. This is foundation only.</p>
+<hr>
+<h2 id="creatine-monohydrate">Creatine Monohydrate</h2>
+<p><strong>Tier:</strong> OTC daily foundation
+<strong>When:</strong> With breakfast, year-round, no cycling
+<strong>Dose:</strong> 5g daily (no loading phase needed at our age)
+<strong>What it is:</strong> Pure creatine monohydrate. Not HCL, not buffered, not &ldquo;advanced.&rdquo; Monohydrate. The form that has 700+ trials behind it.
+<strong>Why it&rsquo;s in the stack:</strong> This is the single most-evidenced cognitive supplement for men 50+. It&rsquo;s not a muscle supplement that happens to help the brain — it&rsquo;s a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
+<strong>What it pairs with:</strong> Resistance training (non-negotiable). MitoVita on training days (stacked NO + ATP support). OmegaCN Prime (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
+<strong>What to watch for in the first 30 days:</strong> 1-2 pounds of water weight in the first 10 days — that&rsquo;s intracellular hydration, not fat. Strength on compound lifts goes up within 2-3 weeks. Mental clarity under sleep deprivation is the tell that it&rsquo;s reached your brain.</p>
+<blockquote>
+<p><em>If you take exactly one supplement from this stack, take this one.</em></p>
+</blockquote>
+<p><strong>Two Paths note:</strong> No Rx upgrade. Foundation only.</p>
+<hr>
+<h2 id="omegacn-prime">OmegaCN Prime</h2>
+<p><strong>Tier:</strong> OTC daily foundation
+<strong>When:</strong> With the largest fat-containing meal of the day
+<strong>Dose:</strong> 2 softgels daily
+<strong>What it is:</strong> EPA 1200 mg + DHA 800 mg in triglyceride (TG) form, IFOS 5-star certified for purity and oxidation. Plus Kaneka QH® ubiquinol 200 mg — the reduced, bioavailable form of CoQ10.
+<strong>Why it&rsquo;s in the stack:</strong> Two jobs in one capsule. The omega side rebuilds neuronal membrane fluidity and damps systemic inflammation — DHA is literally a structural lipid in your brain. The ubiquinol side restores mitochondrial electron-transport-chain efficiency, which collapses with age and with any statin exposure. Together they cover the cardio-neuro axis at the membrane + energy level.
+<strong>What it pairs with:</strong> ArmorVita (fat-soluble absorption window). Creatine (full ATP-restoration trio). Any GLP-1 protocol (counters the lipid-quality drop common on aggressive fat-loss phases).
+<strong>What to watch for in the first 30 days:</strong> Joint stiffness eases by week 2. Blood pressure drifts down a few points in the responsive. If you&rsquo;ve been on a statin, expect the biggest energy/cognition lift to come from the ubiquinol side at the 4-6 week mark.</p>
+<blockquote>
+<p><em>CN = Cardio Neuro. The two systems share a membrane.</em></p>
+</blockquote>
+<p><strong>Two Paths note:</strong> No direct Rx upgrade. The Rx-tier circulation play is SleepRestore Rx (nattokinase).</p>
+<hr>
+<h2 id="sleeprestore">SleepRestore</h2>
+<p><strong>Tier:</strong> OTC daily foundation
+<strong>When:</strong> 30-60 minutes before lights out (lights out by 10:30 PM)
+<strong>Dose:</strong> 1 serving nightly
+<strong>What it is:</strong> Sleep-architecture support — non-melatonin-led formula designed to deepen slow-wave and REM without the next-morning hangover or the receptor-downregulation problem of chronic high-dose melatonin.
+<strong>Why it&rsquo;s in the stack:</strong> Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most men over 50 are not sleep-deprived in hours — they&rsquo;re sleep-deprived in architecture. SleepRestore exists to fix the architecture so the hours you do sleep actually count.
+<strong>What it pairs with:</strong> Magnesium L-threonate (Magtein) — taken together they form the sleep stack. Lights-out-by-10:30 protocol. Morning sun anchor (sleep is set in the morning, not the evening).
+<strong>What to watch for in the first 30 days:</strong> First week is the tell. Fewer 3 AM wake-ups. Dreams come back (a sign REM is recovering). Morning HRV trends up if you wear a tracker.
+<strong>Two Paths note:</strong> Pairs with SleepRestore Rx (nattokinase) for the circulation/clotting tier — different mechanism, same sleep-and-cardiovascular protective intent.</p>
+<hr>
+<h2 id="magnesium-l-threonate-magtein">Magnesium L-Threonate (Magtein)</h2>
+<p><strong>Tier:</strong> OTC daily foundation
+<strong>When:</strong> Evening, 1-2 hours before bed
+<strong>Dose:</strong> 1.5-2 g of Magtein (delivers ~144-192 mg elemental magnesium)
+<strong>What it is:</strong> The patented Magtein form of magnesium-L-threonate. This matters: it is the only magnesium form with demonstrated hippocampal bioavailability. Glycinate, citrate, and oxide do not cross into the brain the way threonate does.
+<strong>Why it&rsquo;s in the stack:</strong> Hippocampal magnesium drives synaptic density — the physical infrastructure of memory. Restoring it has been shown to improve working memory and executive function in older adults. This is the magnesium that targets the brain. Use other forms for bowels and muscle if you want; use threonate for the mind.
+<strong>What it pairs with:</strong> SleepRestore (the sleep stack). Lion&rsquo;s mane (synaptic-density synergy). Any nootropic peptide cycle.
+<strong>What to watch for in the first 30 days:</strong> Calmer evenings. Sharper word-finding. The &ldquo;where did I put my keys&rdquo; frequency drops. Real effect builds over 8-12 weeks — this is a remodeling supplement, not a stimulant.
+<strong>Two Paths note:</strong> No Rx upgrade. Foundation only.</p>
+<hr>
+<h2 id="mitovita">MitoVita</h2>
+<p><strong>Tier:</strong> OTC situational (pre-workout)
+<strong>When:</strong> 20-30 minutes before resistance training or a hard walk
+<strong>Dose:</strong> 1 scoop in 12-16 oz water
+<strong>What it is:</strong> Creatine + L-citrulline + beetroot + electrolytes. Monk-fruit sweetened. Fast-compatible (no insulinogenic load). In development — formulary locked, launch pending.
+<strong>Why it&rsquo;s in the stack:</strong> Mitochondrial ATP plus endothelial nitric oxide in one scoop. Citrulline and beetroot raise NO and blood flow to working muscle and brain. The added creatine layer stacks on top of your daily 5g for training days. Electrolytes prevent the cramps and dizziness that derail older lifters mid-set.
+<strong>What it pairs with:</strong> Daily creatine (additive on training days). Resistance training (the entire point). OmegaCN Prime (endothelial health amplifies citrulline&rsquo;s effect).
+<strong>What to watch for in the first 30 days:</strong> Better pumps and longer training tolerance in week 1. Lower perceived exertion on cardio. Pre-workout brain clarity — citrulline + beetroot reach the brain too.
+<strong>Two Paths note:</strong> No Rx upgrade. Situational foundation.</p>
+<hr>
+<h2 id="lions-mane">Lion&rsquo;s Mane</h2>
+<p><strong>Tier:</strong> OTC situational (cognitive add)
+<strong>When:</strong> Morning with breakfast
+<strong>Dose:</strong> 1000 mg/day of a verified fruiting-body extract (not mycelium-on-grain)
+<strong>What it is:</strong> Hericium erinaceus fruiting-body extract, standardized to hericenones and erinacines.
+<strong>Why it&rsquo;s in the stack:</strong> NGF and BDNF support — the growth factors that maintain neuronal arborization and synaptic plasticity in the aging brain. Best used cycle-based: 8 weeks on, 2 weeks off. Not a daily-forever requirement; a layered tool you bring in when you want a cognitive push.
+<strong>What it pairs with:</strong> Magnesium L-threonate (synaptic density). Cerebrolysin cycles (BDNF stacking). Biome NS Ultra (clean gut means cleaner mushroom-extract absorption — and lion&rsquo;s mane is gut-active too).
+<strong>What to watch for in the first 30 days:</strong> Word fluency improves around week 3. If you don&rsquo;t notice anything at 6 weeks, the SKU is probably mycelium-on-grain — switch brands.
+<strong>Two Paths note:</strong> No Rx upgrade. Cycle-based situational.</p>
+<hr>
+<h2 id="biome-ns-rx">Biome NS Rx</h2>
+<p><strong>Tier:</strong> Rx single-active add-on (compounded via licensed telemed partner)
+<strong>When:</strong> Morning, on top of Biome NS Ultra
+<strong>Dose:</strong> Per prescription
+<strong>What it is:</strong> Oral BPC-157 + L-glutamine + aloe. Single-active Rx tier that pairs on top of the OTC anchor.
+<strong>Why it&rsquo;s in the stack:</strong> When the OTC seal is doing its job but you have a longer history of insult — NSAID years, antibiotic courses, alcohol decades, prior ulcer, chronic reflux — BPC-157 adds a regenerative repair signal that the OTC tier can&rsquo;t reach. This is the deeper-tier gut repair lane.
+<strong>What it pairs with:</strong> Biome NS Ultra (the anchor pair — never run Rx without Ultra). ArmorVita (D3 amplifies barrier repair).
+<strong>What to watch for in the first 30 days:</strong> Reflux and post-meal discomfort drop sharply. Stool quality improves further. Energy and mood floor lifts as endotoxin load drops.
+<strong>Two Paths note:</strong> This <em>is</em> the Rx path for the gut anchor.</p>
+<hr>
+<h2 id="sleeprestore-rx">SleepRestore Rx</h2>
+<p><strong>Tier:</strong> Rx single-active add-on
+<strong>When:</strong> Evening, alongside SleepRestore
+<strong>Dose:</strong> Per prescription
+<strong>What it is:</strong> Nattokinase, compounded.
+<strong>Why it&rsquo;s in the stack:</strong> Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in men 50+ with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
+<strong>What it pairs with:</strong> SleepRestore (architecture). OmegaCN Prime (vascular health). ArmorVita (K2 calcification management).
+<strong>What to watch for in the first 30 days:</strong> Subtler than the gut Rx. Track HRV and morning resting heart rate. Look for steadier readings, not a single dramatic shift.
+<strong>Two Paths note:</strong> This is the Rx path for circulation. Not a sedative.</p>
+<hr>
+<h2 id="trt-testosterone-replacement">TRT (Testosterone Replacement)</h2>
+<p><strong>Tier:</strong> Rx single-active, lab-gated
+<strong>When:</strong> Per protocol (typically twice-weekly injection or daily cream)
+<strong>Dose:</strong> Titrated to free T, total T, estradiol, and hematocrit
+<strong>What it is:</strong> Bio-identical testosterone, prescribed and monitored through the consult pathway. Always paired with full lab work — including estradiol and CBC — and coach-led for the lifestyle work that determines whether TRT actually does its job.
+<strong>Why it&rsquo;s in the stack:</strong> Low testosterone is the silent multiplier under most of what we treat: visceral fat, sarcopenia, mood drift, brain fog, ED as canary. Restoring physiological T is not optional for many men over 50 — it&rsquo;s foundational. But it is never a shortcut. It works because the lifting, protein, and sleep work.
+<strong>What it pairs with:</strong> Resistance training (non-negotiable — without lifting, TRT becomes a liability). ArmorVita (boron + D3 free-T support). OmegaCN Prime (cardiovascular protection). Biome NS Ultra (clean gut, cleaner hormone metabolism).
+<strong>What to watch for in the first 30 days:</strong> Energy and libido often shift in week 2-3. Body composition takes 8-12 weeks. Mood floor lifts. Watch hematocrit at 90 days.
+<strong>Two Paths note:</strong> The OTC adjacent layer is ArmorVita + lifting + protein-first eating. Many men optimize free T enough on that alone to not need TRT. The lab tells.</p>
+<hr>
+<h2 id="glp-1-semaglutide-tirzepatide-retatrutide">GLP-1 (Semaglutide / Tirzepatide / Retatrutide)</h2>
+<p><strong>Tier:</strong> Rx single-active, BMI + comorbidity-gated
+<strong>When:</strong> Weekly injection, per protocol
+<strong>Dose:</strong> Titrated per molecule and tolerance
+<strong>What it is:</strong> GLP-1 (or GLP-1/GIP, or GLP-1/GIP/glucagon triple agonist) prescribed through the consult pathway with structured titration and stop-criteria.
+<strong>Why it&rsquo;s in the stack:</strong> Visceral fat is neuroinflammatory. Insulin resistance is upstream of cognitive decline. For the right candidate — BMI threshold met, comorbidities present, lifestyle effort already in motion — GLP-1 collapses years of struggle into months. It is not a vanity drug. It is a metabolic-and-neurological intervention.
+<strong>What it pairs with:</strong> Resistance training (mandatory — without lifting, you lose muscle, not fat). 30g protein-first rule (mandatory — appetite is suppressed; protein priority is how you keep lean mass). OmegaCN Prime (lipid quality protection). Biome NS Ultra (GLP-1 slows gut motility; the seal matters more, not less).
+<strong>What to watch for in the first 30 days:</strong> Appetite drops fast. Hydration discipline becomes critical. Watch for under-eating protein — the most common failure mode.
+<strong>Two Paths note:</strong> The OTC adjacent layer is the 9 AM – 6 PM eating window plus protein-first plus lifting. Many men get most of the metabolic benefit there.</p>
+<hr>
+<h2 id="nootropic-peptides">Nootropic Peptides</h2>
+<p><strong>Tier:</strong> Rx single-active, cycle-based
+<strong>When:</strong> Per protocol
+<strong>Dose:</strong> Per protocol
+<strong>What it is:</strong> The cognitive-tier Rx lane. Four primary tools:
+- <strong>Cerebrolysin</strong> — neurotrophic peptide complex, IM, cycle-based (typically 10-20 day cycles). The heaviest cognitive lift in the lineup.
+- <strong>Semax</strong> — nasal spray. Daily focus, BDNF support, attention.
+- <strong>Selank</strong> — nasal spray. Calm-focus, anxiolytic without sedation. Pairs well with Semax.
+- <strong>Ipamorelin</strong> — GH secretagogue. Recovery, sleep depth, body composition. Evening.</p>
+<p><strong>Why it&rsquo;s in the stack:</strong> When the foundation is running clean and you want the next cognitive lever — or when there&rsquo;s existing MCI, post-concussive history, or a hard need to protect a specific window — peptides are the tier. They are not first-line. They sit on top of a clean foundation.
+<strong>What it pairs with:</strong> Biome NS Ultra (clean substrate). Magnesium L-threonate (synaptic infrastructure). OmegaCN Prime (membrane substrate). Sleep stack (recovery substrate).
+<strong>What to watch for in the first 30 days:</strong> Cycle-dependent. Cerebrolysin: cognitive lift across the cycle, often a residual benefit lasting weeks. Semax/Selank: same-day effect, evaluate within 2 weeks. Ipamorelin: sleep depth and recovery within 2-3 weeks.
+<strong>Two Paths note:</strong> This is the Rx path. The OTC adjacent layer is lion&rsquo;s mane + magnesium L-threonate + creatine.</p>
+<hr>
+<h2 id="genesis-rpa">Genesis RPA</h2>
+<p><strong>Tier:</strong> Regenerative
+<strong>When:</strong> Per protocol — nationwide mobile delivery, scheduled
+<strong>Dose:</strong> Single intrathecal procedure per cycle
+<strong>What it is:</strong> Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. The flagship regenerative intervention. Nationwide mobile delivery — the team comes to you.
+<strong>Why it&rsquo;s in the stack:</strong> For the already-diagnosed — MCI, early dementia, Alzheimer&rsquo;s, Parkinson&rsquo;s — and for those with biomarker or imaging evidence of accelerated neurodegeneration. Genesis RPA is time-sensitive. The earlier in the disease curve, the more there is to preserve. This is not a maintenance product. It is the regenerative tier and it belongs to the people who need it now.
+<strong>What it pairs with:</strong> The entire foundation stack — Biome NS Ultra, ArmorVita, OmegaCN Prime, creatine, magnesium L-threonate, the sleep stack. The cleaner the substrate, the better the cells work. Nootropic peptide cycles are a natural follow-on.
+<strong>What to watch for:</strong> This is not evaluated in 30-day increments. Quarterly cognitive testing and imaging mark the timeline.
+<strong>Two Paths note:</strong> Stands alone at the top of the ladder. There is no OTC analogue.</p>
+<hr>
+<h2 id="the-pairing-matrix">The Pairing Matrix</h2>
+<p>One page. Tape it inside the cabinet where the bottles live.</p>
+<table>
+<thead>
+<tr>
+<th>Stack pair</th>
+<th>Why they amplify</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Biome NS Ultra ↔ Biome NS Rx</strong></td>
+<td>Anchor pair. OTC seals the barrier; Rx (BPC-157) drives regenerative repair on top. Never run Rx without Ultra.</td>
+</tr>
+<tr>
+<td><strong>ArmorVita + OmegaCN Prime</strong></td>
+<td>Mitochondrial + membrane support. Fat-soluble absorption window shared. D3/K2/astaxanthin + EPA/DHA/ubiquinol = the structural defense layer.</td>
+</tr>
+<tr>
+<td><strong>Creatine + Resistance Training + MitoVita</strong></td>
+<td>The muscle stack. Daily creatine builds the baseline ATP pool; lifting demands it; MitoVita stacks NO + ATP + electrolytes on training days.</td>
+</tr>
+<tr>
+<td><strong>Magnesium L-Threonate + SleepRestore</strong></td>
+<td>The sleep stack. Threonate drives hippocampal synaptic density; SleepRestore drives architecture. Lights out by 10:30.</td>
+</tr>
+<tr>
+<td><strong>Cerebrolysin + Biome NS Ultra + ArmorVita</strong></td>
+<td>The cognitive optimization stack. Clean gut + fat-soluble defense + neurotrophic Rx. Peptides work best on a clean substrate.</td>
+</tr>
+<tr>
+<td><strong>TRT + Lifting + Protein-First</strong></td>
+<td>Hormonal foundation. TRT without lifting is a liability; lifting without protein is futile; the three together are the muscle-mind axis.</td>
+</tr>
+<tr>
+<td><strong>GLP-1 + Protein-First + Lifting + OmegaCN Prime</strong></td>
+<td>Metabolic foundation. Appetite drops; protein and lifting preserve lean mass; omega+ubiquinol protect cardio during fast fat loss.</td>
+</tr>
+<tr>
+<td><strong>SleepRestore + SleepRestore Rx + OmegaCN Prime</strong></td>
+<td>Cerebrovascular nighttime stack. Architecture + fibrinolysis + membrane health. The glymphatic clearance trio.</td>
+</tr>
+<tr>
+<td><strong>Genesis RPA + full foundation</strong></td>
+<td>Substrate matters most here. Every foundation product makes the regenerative tier work better.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><em>Begin with the end in mind. The stack is not a shopping list. It is a system aimed at one outcome — the best mind possible until your last day of life.</em></p>
+</blockquote>
+<hr>
+<h1 id="part-8-the-advanced-layer-optional">Part 8 — The Advanced Layer (Optional)</h1>
+<p>This section is the menu, not the mandate.</p>
+<p>The men who get the most out of this protocol are the men who run Week 1–4 honestly, lock in the foundation across all four pillars, and then — somewhere around month three or four — start to ask what&rsquo;s possible if they go further. This section is for that man.</p>
+<p>You do not need any of it to win. The foundation does 80% of the work. The cognitive optimization tier, the peptide layer, the biofeedback, the cold plunge — these are levers you can pull <em>on top of</em> a clean foundation. They are not substitutes for it.</p>
+<blockquote>
+<p>Only after the foundation is locked. The man who layers this on a broken foundation gets the bill, not the benefit.</p>
+</blockquote>
+<p>Read this section now if you want. Commit to running the basics for 90 days before deploying anything from it.</p>
+<hr>
+<h2 id="81-the-nootropic-peptide-layer">8.1 — The Nootropic Peptide Layer</h2>
+<p>The Rx tier for cognitive optimization. Coach-led, lab-monitored, prescribed through our licensed telemedicine partners. Built on top of the foundation, not in place of it.</p>
+<h3 id="cerebrolysin">Cerebrolysin</h3>
+<p>Porcine brain-derived neuropeptide cocktail. IM injection cycles, typically 10–20 days, then rest periods. The most-evidenced regenerative neuropeptide in the clinical literature for post-stroke and early cognitive decline (Heiss, Muresanu, Lindenberg). Position: the most aggressive non-stem-cell intervention for cognitive decline in early to moderate stages. Run 2–3 cycles per year.</p>
+<h3 id="semax">Semax</h3>
+<p>Russian ACTH-derivative nasal peptide. Strong on focus, mood, executive function, neuroprotective in ischemia models. The daily &ldquo;stimulant alternative&rdquo; for executive-function days.</p>
+<h3 id="selank">Selank</h3>
+<p>The anxiolytic + pro-cognitive counterpart to Semax. Calm-focus without sedation. Nasal, daily as needed.</p>
+<h3 id="bpc-157">BPC-157</h3>
+<p>Gut + soft tissue + neuroinflammation modulation. Oral for gut-brain axis work; IM for soft-tissue recovery. The same molecule that anchors Biome NS Rx; here it&rsquo;s used for cognitive purpose.</p>
+<h3 id="ipamorelin">Ipamorelin</h3>
+<p>GH secretagogue. Indirectly cognitive via deeper sleep architecture and IGF-1 support. Evening dose, sub-Q.</p>
+<hr>
+<h3 id="am-i-a-peptide-candidate">Am I a peptide candidate?</h3>
+<p>Check honestly:</p>
+<p>☐ I have run the foundation cleanly for 90+ days</p>
+<p>☐ My hormone panel is optimized (or in active correction)</p>
+<p>☐ My sleep is consistently 7+ hours with deep architecture</p>
+<p>☐ I have a coach or telemed partner who will run labs and titrate</p>
+<p>☐ I&rsquo;m comfortable with injection or nasal administration</p>
+<p>☐ I understand cycle-based vs continuous protocols</p>
+<p><strong>If all six are checked, you&rsquo;re a candidate.</strong> If fewer than six, return to the foundation.</p>
+<hr>
+<h2 id="82-brain-training">8.2 — Brain Training</h2>
+<p>Be honest about evidence: most consumer &ldquo;brain training&rdquo; apps don&rsquo;t transfer to real cognitive function. Lumosity settled with the FTC over its claims. Most brain games make you better at the games and not much else.</p>
+<p>Three approaches have actual evidence:</p>
+<p><strong>Dual N-back.</strong> Free implementations exist (BrainScale and others). 20 minutes per day, 4–6 weeks, shows working-memory and fluid-intelligence improvements in many studies. Cheap, modest but real effect.</p>
+<p><strong>BrainHQ (Posit Science).</strong> Paid. The most-evidenced consumer brain-training product. If you&rsquo;re going to pay for a brain-training app, this is the one.</p>
+<p><strong>Novel skill acquisition.</strong> Learning a new language, learning an instrument, learning a new sport, learning to dance — the highest-evidence form of &ldquo;brain training&rdquo; in the literature. Real cognitive demand under conditions of slow mastery. Run one for the rest of your life.</p>
+<p>Pick <strong>one</strong> for the next 90 days. Just one.</p>
+<blockquote>
+<p><strong>My chosen training (next 90 days):</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong></p>
+<p><strong>Frequency target:</strong> <strong><em>_ sessions per week, </em></strong>_ minutes per session</p>
+</blockquote>
+<h3 id="30-day-brain-training-tracker">30-day brain training tracker</h3>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Done?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>☐</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="83-biofeedback">8.3 — Biofeedback</h2>
+<p><strong>HRV training.</strong> The single most-evidenced consumer biofeedback intervention. Slow-paced breathing (roughly 6 breaths per minute) trains vagal tone over weeks. Polar, Whoop, Oura, or any HRV tool with biofeedback mode works. <strong>Five minutes per day. Daily.</strong> Add it to the morning sun walk or wind-down routine.</p>
+<p><strong>Muse-style EEG meditation aid.</strong> Real-time feedback during meditation. Worth running for the man who has always struggled with meditation; the wearable gives feedback the cushion never did.</p>
+<p><strong>Clinical neurofeedback.</strong> qEEG-guided protocols available at neurofeedback clinics. Strongest evidence for ADHD and post-concussion; emerging for general cognitive optimization. The right move if you&rsquo;ve plateaued or you&rsquo;re recovering from a concussion or significant head trauma.</p>
+<h3 id="hrv-breathing-tracker-30-days">HRV breathing tracker — 30 days</h3>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>5-min session done?</th>
+<th>HRV reading (if tracking)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>☐</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>☐</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="84-sauna-cold-grounding">8.4 — Sauna, Cold, Grounding</h2>
+<p>The hormetic tier. Stress the system briefly and deliberately, recover, adapt.</p>
+<p><strong>Sauna.</strong> 15–20 minutes at 170–190°F, 3–4 times per week. Heat shock proteins, cardiovascular adaptation, mental clarity. Brand: HigherDose for home, any commercial sauna otherwise.</p>
+<p><strong>Cold plunge or shower.</strong> 2–5 minutes, post-workout or AM. Norepinephrine spike, mood lift, brown fat activation. Brand: Polar Recovery for home plunges, or just turn the shower to cold for the last two minutes.</p>
+<p><strong>Grounding.</strong> Barefoot earth contact, 10–20 minutes per day. Walk in the grass. Stand barefoot on dirt. The cheapest intervention in this entire workbook. Brand: Earthing for grounding mats if outdoor contact isn&rsquo;t accessible.</p>
+<blockquote>
+<p>One of these per day. Rotate. Don&rsquo;t try to do all three every day — you&rsquo;ll quit by week two.</p>
+</blockquote>
+<hr>
+<h2 id="85-the-environment-audit">8.5 — The Environment Audit</h2>
+<p>Quick yes / no checklist. Aim for all six.</p>
+<p>☐ Morning sunlight 8–15 minutes within 30–60 minutes of waking</p>
+<p>☐ Red-spectrum / dim lighting after sundown (or TrueDark glasses if exposed to screens)</p>
+<p>☐ Air filtration in bedroom (AirDoctor or equivalent — HEPA + VOC)</p>
+<p>☐ Reverse-osmosis water with remineralization (AquaTru or similar)</p>
+<p>☐ EMF hygiene in bedroom (router off at night, phone in airplane mode)</p>
+<p>☐ TrueDark glasses if you&rsquo;re at screens after 8 PM</p>
+<blockquote>
+<p>Most men optimize their gym before they optimize their bedroom. The bedroom delivers more cognitive return.</p>
+</blockquote>
+<hr>
+<h2 id="86-the-annual-lab-panel">8.6 — The Annual Lab Panel</h2>
+<p>The labs every Protégé should run every 6–12 months. Bring these to your Rx consult.</p>
+<p><strong>Hormones</strong>
+- Total testosterone
+- Free testosterone
+- SHBG
+- Estradiol (sensitive assay)
+- LH, FSH
+- DHEA-S</p>
+<p><strong>Thyroid</strong>
+- TSH
+- Free T4, free T3
+- Reverse T3
+- Thyroid antibodies (TPO, TgAb) if family history</p>
+<p><strong>Metabolic</strong>
+- Fasting insulin
+- Fasting glucose
+- HbA1c
+- Comprehensive metabolic panel</p>
+<p><strong>Cardiovascular</strong>
+- ApoB
+- Lp(a)
+- Full lipid panel
+- hs-CRP
+- Homocysteine</p>
+<p><strong>Other foundational</strong>
+- Vitamin D 25-OH
+- Ferritin (men over 50 — iron load matters)
+- CBC with differential</p>
+<p><strong>Optional / advanced</strong>
+- NMR LipoProfile
+- Boston Heart panel
+- Cleerly coronary CT (if vascular risk)
+- Galleri or comparable cancer screen (annual after 50)</p>
+<hr>
+<blockquote>
+<p><em>Two Paths to Act.</em> Labs feed the decisions. The OTC foundation works without them. The Rx tier does not.</p>
+</blockquote>
+<hr>
+<hr>
+<h1 id="part-9-resources-next-steps">Part 9 — Resources &amp; Next Steps</h1>
+<p>You made it to the back of the workbook. Before you close it, do three things: re-score the assessment with 30 days of lived data, decide which Rx paths (if any) you&rsquo;re opening, and write the 90-day plan that takes you out of Month 1 and into the rest of your life.</p>
+<p>This part is the reference shelf. Come back to it.</p>
+<hr>
+<h2 id="91-the-4m-assessment-reference">9.1 — The 4M Assessment Reference</h2>
+<p>You took this assessment 30 days ago — on the website, on the app, or on paper. Take it again now. Same prompts, same scoring. The delta is the point.</p>
+<p>For each question: circle the number that matches you <em>today</em>. Not last month. Not your average. Today.</p>
+<hr>
+<p><strong>Q1 — Gut health / leaky gut</strong>
+<em>I deal with bloating, gas, irregular stools, food reactions, or brain fog after meals — my gut clearly isn&rsquo;t happy.</em></p>
+<p>Score guide:
+0 = No gut issues at all
+3 = Occasional bloating or food reactions a few times a month
+5 = Daily bloating, irregular stools, multiple food sensitivities, foggy after most meals</p>
+<p>This category notes: The gut-brain axis sits underneath nearly everything else — fix this first and other categories often improve on their own.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q2 — Sleep / sleep optimization</strong>
+<em>I don&rsquo;t sleep well — I have trouble falling asleep, wake up during the night, or drag through mornings even after a full night in bed.</em></p>
+<p>Score guide:
+0 = Sleep is solid — I fall asleep fast, stay asleep, and wake rested
+3 = Some nights great, some rough
+5 = Most nights are bad, I wake up tired, and timing is all over the place</p>
+<p>This category notes: Poor sleep silently degrades hormones, weight, mood, and memory. It&rsquo;s the most-leveraged lever after gut.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q3 — Weight (BMI)</strong>
+<em>I&rsquo;m carrying more body fat than I should — clothes don&rsquo;t fit the way they used to and the scale has been creeping up.</em></p>
+<p>Score guide:
+0 = At my ideal weight, body composition feels right
+3 = About 10-20 lbs heavier than I should be
+5 = More than 30 lbs over target with visible belly fat</p>
+<p>This category notes: Use the BMI calculator on the app to sanity-check your answer — BMI is informational only and does not change your score.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q4 — Diet / nutrition</strong>
+<em>I rely on fast food, processed snacks, or convenience meals more often than I cook real whole-food meals at home.</em></p>
+<p>Score guide:
+0 = Almost everything I eat is whole foods, mostly home-cooked
+3 = Mixed — some good days, some takeout / processed days
+5 = Fast food, packaged snacks, or convenience meals are my default</p>
+<p>This category notes: Food quality is the daily input that drives microbiome diversity, blood sugar, and energy.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q5 — Erectile + sexual function</strong>
+<em>My sex drive has dropped and erections aren&rsquo;t what they used to be — frequency, hardness, or both have declined noticeably in the past year or two.</em></p>
+<p>Score guide:
+0 = Drive and function feel completely normal
+3 = Some noticeable off-weeks but not a steady pattern
+5 = Clear, sustained decline in drive, hardness, or morning erections</p>
+<p>This category notes: ED and libido decline are early-warning signals for hormones, cardiovascular health, and cognitive trajectory — not a verdict.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q6 — Environment</strong>
+<em>I don&rsquo;t get morning sunlight or any meaningful outdoor time during the day — I&rsquo;m under artificial lighting most of my waking hours, drinking tap water, and surrounded by screens and EMF.</em></p>
+<p>Score guide:
+0 = I get morning sun daily, filtered air and water, low artificial light
+3 = Some exposure issues, partially managing
+5 = No morning sun, indoors all day under fluorescents/screens, tap water, no air filtration, constant EMF</p>
+<p>This category notes: Light, air, water, and EMF compound over years. Lack of morning sunlight is the most overlooked driver of poor sleep and mood.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q7 — Cognitive / brain fog</strong>
+<em>My mind isn&rsquo;t as sharp as it used to be — I forget words mid-sentence, lose focus, or feel mentally foggy more days than not.</em></p>
+<p>Score guide:
+0 = Sharp, focused, fast recall every day
+3 = Occasional brain fog or forgetfulness
+5 = Daily noticeable cognitive issues that affect work or relationships</p>
+<p>This category notes: Mind is the destination of the 4M system — cognitive performance is the end-state we are optimizing for.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q8 — Hormone optimization / TRT</strong>
+<em>I feel like my hormones are off — persistent fatigue, low drive, mood swings, poor recovery from workouts, or loss of muscle mass despite trying.</em></p>
+<p>Score guide:
+0 = Energy, libido, mood, and recovery all feel optimal
+3 = Occasional symptoms, especially under stress
+5 = Multiple hormone-related symptoms most days affecting daily function</p>
+<p>This category notes: Testosterone and cortisol balance underlie resilience — proper labs and a coach-led plan beat guessing.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q9 — Already diagnosed</strong>
+<em>Have you already been diagnosed with mild cognitive decline, early dementia, Alzheimer&rsquo;s, or Parkinson&rsquo;s?</em></p>
+<p>Score guide:
+0 = No concerns, no family history
+1 = Family history of cognitive decline or related diagnosis
+2 = Occasional concerning symptoms (brain fog, memory lapses)
+3 = Regular symptoms I&rsquo;m noticing but undiagnosed
+4 = Mild cognitive decline diagnosis or formal evaluation underway
+5 = Diagnosed with Alzheimer&rsquo;s, dementia, Parkinson&rsquo;s, or related condition</p>
+<p>This category notes: If you&rsquo;re already in this category, regenerative medicine becomes time-sensitive.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<p><strong>Q10 — Excessive alcohol</strong>
+<em>How much alcohol do you consume?</em></p>
+<p>Score guide:
+0 = I don&rsquo;t drink
+1 = Up to 2 drinks per week
+2 = 3-7 drinks per week, never more than 2 per sitting
+3 = More than 7 drinks per week, OR more than 2 per sitting regularly
+4 = Daily drinker (1-2 drinks per day)
+5 = Daily heavy drinker (3+ drinks per day)</p>
+<p>This category notes: Alcohol disrupts gut, sleep, hormones, and cognition simultaneously. Cutting back affects every other pillar.</p>
+<p>Your score: 0 — 1 — 2 — 3 — 4 — 5</p>
+<hr>
+<h3 id="scoring-rules">Scoring rules</h3>
+<ol>
+<li><strong>Override.</strong> If Q9 (already diagnosed) is <strong>3 or higher</strong>, it is automatically your #1 priority. Skip the bonus math for the top slot.</li>
+<li><strong>Bonus.</strong> Add <strong>+2</strong> to your raw score on Q1 (gut) and Q3 (weight). These two categories carry leverage across every other pillar, so they get weighted up.</li>
+<li><strong>Top 3.</strong> Rank the ten scores (with bonuses applied). The top three are your starting priorities. If Q9 triggered the override, it takes slot #1 and the next two highest take slots #2 and #3.</li>
+</ol>
+<hr>
+<h3 id="your-top-3-priorities">Your top-3 priorities</h3>
+<blockquote>
+<p><strong>Priority #1 — category:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p><strong>Score (with bonus if applicable):</strong> <strong><em>_</em></strong></p>
+<p><strong>What I&rsquo;m doing about it in the next 30 days:</strong></p>
+<hr>
+<hr>
+<p><strong>Priority #2 — category:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p><strong>Score:</strong> <strong><em>_</em></strong></p>
+<p><strong>What I&rsquo;m doing about it in the next 30 days:</strong></p>
+<hr>
+<hr>
+<p><strong>Priority #3 — category:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p><strong>Score:</strong> <strong><em>_</em></strong></p>
+<p><strong>What I&rsquo;m doing about it in the next 30 days:</strong></p>
+<hr>
+<hr>
+</blockquote>
+<hr>
+<h2 id="92-the-rx-consult-path">9.2 — The Rx Consult Path</h2>
+<p>The OTC stack and the lifestyle protocols carry most men a long way. Some men need an Rx tier layered on top. Here&rsquo;s the map.</p>
+<table>
+<thead>
+<tr>
+<th>If your audit flagged…</th>
+<th>Engage…</th>
+<th>Expected workflow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hormones</strong> (low T symptoms, Q8 ≥ 3)</td>
+<td>Hormone consult — labs + coach-led titration</td>
+<td>Full hormone panel first — coach reviews — Rx if labs and symptoms align</td>
+</tr>
+<tr>
+<td><strong>Weight</strong> (Q3 ≥ 3, metabolic markers)</td>
+<td>GLP-1 telemed consult — semaglutide / tirzepatide / retatrutide candidacy</td>
+<td>Intake — labs reviewed — telemed visit — compounded pharmacy ships monthly</td>
+</tr>
+<tr>
+<td><strong>Gut</strong> (Q1 ≥ 3, chronic GI, food sensitivities)</td>
+<td>Biome NS Rx consult — oral BPC-157 + L-glutamine + aloe</td>
+<td>Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days</td>
+</tr>
+<tr>
+<td><strong>Sleep</strong> (Q2 ≥ 3, clotting/circulation factors)</td>
+<td>SleepRestore Rx consult — nattokinase tier</td>
+<td>Sleep intake — coag and lipid review — Rx if indicated</td>
+</tr>
+<tr>
+<td><strong>Cognitive optimization</strong> (Q7 ≥ 3, no diagnosis)</td>
+<td>Nootropic peptide consult — Cerebrolysin / Semax / Selank</td>
+<td>Cognitive intake — telemed visit — peptide protocol mailed</td>
+</tr>
+<tr>
+<td><strong>Already-diagnosed cognitive decline</strong> (Q9 ≥ 3)</td>
+<td><strong>Genesis RPA — Muse cells intrathecally (TIME-SENSITIVE)</strong></td>
+<td>Genesis intake — records reviewed — mobile delivery scheduled nationwide</td>
+</tr>
+<tr>
+<td><strong>Acute or chronic pain</strong></td>
+<td>BPC-157 + TB-500 peptide consult</td>
+<td>Pain intake — telemed visit — injectable peptide protocol mailed</td>
+</tr>
+</tbody>
+</table>
+<p>Every Rx path begins inside the app. Tap <em>Rx Consults</em> and pick the lane. Labs you&rsquo;ve had in the last 90 days carry forward.</p>
+<hr>
+<h2 id="93-the-weekly-zoom-schedule">9.3 — The Weekly Zoom Schedule</h2>
+<p>The cohort runs on a weekly rhythm. Three touchpoints. None of them optional if you want the work to stick.</p>
+<ul>
+<li><strong>Wednesday Zoom — 7:00 PM CT</strong> — Live with Dr. TJ. Cohort Q&amp;A, protocol updates, case discussions. Recording posted to the app within 24 hours. If you can&rsquo;t attend live, drop your question in the app thread and watch the replay.</li>
+<li><strong>Sunday Reflection — solo</strong> — On paper, in the app, or in the workbook. Twenty minutes. The reflection prompts are in Part 7.</li>
+<li><strong>Weekly Adherence Scorecard</strong> — The tear-out page from Part 6. Tape it to your bathroom mirror or screenshot it for your phone lock-screen. Score yourself at end of week.</li>
+</ul>
+<h3 id="12-week-zoom-log">12-Week Zoom Log</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Wk</th>
+<th>Date</th>
+<th>What I brought</th>
+<th>What I took away</th>
+<th>One adjustment for next week</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The men who fill this in are the men who finish the program.</p>
+<hr>
+<h2 id="94-where-to-find-everything">9.4 — Where to Find Everything</h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>The My4MLife app</strong></td>
+<td>https://app.my4mlife.com — sign in with your email, OTP code</td>
+</tr>
+<tr>
+<td><strong>The free 4M Assessment</strong></td>
+<td>https://my4mlife.com/assessment</td>
+</tr>
+<tr>
+<td><strong>The book — <em>Begin with the End in Mind</em></strong></td>
+<td>Protégé welcome gift in the app, or standalone purchase at https://my4mlife.com/book</td>
+</tr>
+<tr>
+<td><strong>Genesis RPA — regenerative medicine</strong></td>
+<td>https://genesisregenerative.com — nationwide mobile delivery</td>
+</tr>
+<tr>
+<td><strong>The blog — long-form articles</strong></td>
+<td>https://my4mlife.com/blog</td>
+</tr>
+<tr>
+<td><strong>Weekly Zoom links</strong></td>
+<td>Sent via the app + email each Tuesday</td>
+</tr>
+<tr>
+<td><strong>Product reorder &amp; subscription management</strong></td>
+<td>Inside the app — <em>Stack</em> → <em>Manage</em></td>
+</tr>
+<tr>
+<td><strong>Rx Consult booking</strong></td>
+<td>Inside the app — <em>Rx Consults</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="support">Support</h3>
+<ul>
+<li><strong>General questions</strong> — support@my4mlife.com</li>
+<li><strong>Billing / orders</strong> — billing@my4mlife.com</li>
+<li><strong>Rx / clinical</strong> — through the app messaging only (HIPAA)</li>
+<li><strong>Cohort + Zoom</strong> — posted weekly in the app community</li>
+</ul>
+<hr>
+<h2 id="95-the-90-day-plan-template">9.5 — The 90-Day Plan Template</h2>
+<p>Month 1 was the lived foundation. Months 2 and 3 tighten what&rsquo;s working. Month 4 and beyond is where the Advanced Layer from Part 8 gets evaluated.</p>
+<p>Write this plan now, while the 30 days are fresh.</p>
+<h3 id="months-2-3-continue-tighten">Months 2-3: Continue + Tighten</h3>
+<p><strong>What&rsquo;s staying from Month 1 — the behaviors I will not negotiate:</strong></p>
+<blockquote>
+<hr>
+<hr>
+<hr>
+<hr>
+</blockquote>
+<p><strong>What&rsquo;s getting tighter — the specific behaviors and metrics I&rsquo;m sharpening:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Behavior / metric</th>
+<th>Month 1 baseline</th>
+<th>Month 3 target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The one behavior I keep falling off — and the 30-day recommit move I&rsquo;ll use when I do:</strong></p>
+<blockquote>
+<p>Falling off: <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p>Recommit move (pick ONE behavior, run it 3 days, then add the next):</p>
+<hr>
+</blockquote>
+<p><strong>My accountability target for the next 90 days — the specific face I&rsquo;m doing this for:</strong></p>
+<blockquote>
+<hr>
+</blockquote>
+<hr>
+<h3 id="month-4-onwards-add-or-not">Month 4 onwards: Add (or not)</h3>
+<p>The Advanced Layer in Part 8 is optional. Don&rsquo;t add it until the foundation is locked. Use this page to write down what you&rsquo;re considering and what conditions you want met before you add it.</p>
+<p><strong>Item I&rsquo;m considering:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<blockquote>
+<p>Conditions I want met first (90-day adherence ≥ 80%, labs in range, sleep score, etc.):</p>
+<hr>
+<hr>
+<p><strong>Earliest review date:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
+</blockquote>
+<p><strong>Item I&rsquo;m considering:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<blockquote>
+<p>Conditions I want met first:</p>
+<hr>
+<hr>
+<p><strong>Earliest review date:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
+</blockquote>
+<p><strong>Item I&rsquo;m considering:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<blockquote>
+<p>Conditions I want met first:</p>
+<hr>
+<hr>
+<p><strong>Earliest review date:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
+</blockquote>
+<p><strong>What I am explicitly NOT adding in the next 90 days — and why:</strong></p>
+<blockquote>
+<hr>
+<hr>
+</blockquote>
+<hr>
+<h2 id="96-a-closing-letter-from-dr-tj">9.6 — A Closing Letter from Dr. TJ</h2>
+<p>You made it through Month 1.</p>
+<p>I don&rsquo;t say that as a participation trophy. I say it because most men who buy a program like this never get past the first two weeks. You did. You ran the protein-first rule. You closed the eating window. You walked into morning sun. You loaded the stack. You filled in the trackers. You took your scorecard seriously enough to keep coming back to it.</p>
+<p>The men who finish Month 1 are not the men who started it. The man who started had a vague sense that things were sliding. The man finishing has data, a stack, a face he&rsquo;s doing this for, and 30 days of evidence that he can run a protocol and stick to it. That&rsquo;s not nothing. That&rsquo;s the foundation everything else is built on.</p>
+<p>You are not doing this alone. The cohort runs alongside you. Wednesday nights I&rsquo;m on the Zoom. Sunday nights you reflect. The other men in your cohort are in the same fight on the same week. When you fall off — and you will, that&rsquo;s not failure, that&rsquo;s the work — the recommit procedure is right there. One behavior. Three days. Then the next.</p>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+<p><em>Mind is the destination.</em></p>
+<p>I&rsquo;ll see you on the Zoom Wednesday. Bring a question.</p>
+<p>— Dr. TJ</p>
+<hr>
+<h2 id="about-the-author">About the Author</h2>
+<p><strong>Dr. TJ Mundheim</strong> is the founder of My4MLife. He built the program because he is living it — every protocol in this workbook is one he runs himself. He is here to teach it, refine it, and run it alongside the men who choose to plug in.</p>
+<hr>
+<h2 id="connect">Connect</h2>
+<ul>
+<li><strong>Free 5-minute 4M Assessment:</strong> <a href="https://my4mlife.com/assessment">my4mlife.com/assessment</a></li>
+<li><strong>The My4MLife app:</strong> <a href="https://app.my4mlife.com">app.my4mlife.com</a></li>
+<li><strong>The book — <em>Begin with the End in Mind</em>:</strong> included free with every Protégé signup</li>
+<li><strong>Genesis RPA — regenerative medicine:</strong> nationwide mobile delivery for the already-diagnosed</li>
+<li><strong>Support:</strong> <a href="mailto:support@my4mlife.com">support@my4mlife.com</a></li>
+</ul>
+<hr>
+<p><em>Begin with the end in mind.</em></p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
+<p>— <em>Dr. TJ Mundheim</em>
+<em>My4MLife · 2026</em></p>
+</body>
+</html>
