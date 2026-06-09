@@ -1,7 +1,6 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
-import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
-import InterimPickCard from '../../components/InterimPickCard.astro';
+import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
 ---
 
 <SolutionPage
@@ -11,49 +10,17 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
   oneliner="Poor sleep is the most reliable accelerant of cognitive decline you can choose. Everything else is downstream."
   slug="sleep"
 >
-  <!-- ── Two Paths to Act (conversion-first, top of page) ── -->
-  <section id="solution" class="two-paths-section">
-    <h2 class="section-eliminate">Two Paths to Act</h2>
-    <div class="two-paths-grid">
-      <div class="path-card path-otc">
-        <div class="path-badge">OTC Nutraceutical</div>
-        <h3>SleepRestore</h3>
-        <p class="path-price">Available at your Protégé discount</p>
-        <p>Pharmaceutical-grade nightly sleep stack — Mg bisglycinate, glycine, L-theanine, apigenin, and zinc. Supports sleep onset and deep-sleep architecture as the final layer on top of a clean environment.</p>
-        <a href="/assessment" class="btn-sol primary">Become a Protégé to receive your discount →</a>
-      </div>
-      <div class="path-card path-rx">
-        <div class="path-badge path-badge-rx">Rx Protocol</div>
-        <h3>Comprehensive 4M Consult</h3>
-        <p class="path-price">Rx sleep support included</p>
-        <p>For chronic insomnia, hormonal sleep disruption, or when you want the pharmacy-formulated protocol. Covers low-dose hormones, peptides for sleep architecture, and your full personalized 4M plan.</p>
-        <a href="/consult" class="btn-sol secondary">Schedule Rx Consult →</a>
-      </div>
-    </div>
-
-    <!-- ── When to choose which ── -->
-    <div class="when-strip">
-      <div class="when-col">
-        <div class="when-label">Choose OTC when:</div>
-        <p>Trouble falling asleep, mild sleep disruption — want pharmaceutical-grade nightly support without a prescription.</p>
-      </div>
-      <div class="when-divider"></div>
-      <div class="when-col">
-        <div class="when-label">Choose Rx when:</div>
-        <p>Chronic insomnia, hormonal sleep disruption, or you want the pharmacy-formulated protocol with full lab review.</p>
-      </div>
-    </div>
-
-    <p class="why-matters-link"><a href="#why-matters">Read about why this matters &darr;</a></p>
-  </section>
-
-  <InterimPickCard
-    brand="Pure Encapsulations"
-    productName="Best-Rest Formula"
-    bridgesTo="SleepRestore"
-    oneLiner="Magnesium glycinate + valerian + GABA + melatonin + 5-HTP in one bottle — the closest OTC analog to our SleepRestore formula. Practitioner-grade, nightly sleep architecture support while we finalize SleepRestore manufacturing."
-    amazonQuery="Pure Encapsulations Best-Rest Formula"
-    authorizedSeller="Pattern"
+  <OtcRxTopOptions
+    category="Sleep"
+    otcBrand="Pure Encapsulations"
+    otcProductName="Best-Rest Formula"
+    otcBridgesTo="SleepRestore"
+    otcOneLiner="Magnesium glycinate + valerian + GABA + melatonin + 5-HTP in one bottle — the closest practitioner-grade analog to our SleepRestore formula. Nightly sleep architecture support."
+    otcAmazonQuery="Pure Encapsulations Best-Rest Formula"
+    otcAuthorizedSeller="Pattern"
+    rxName="Sleep consult — Rx sleep architecture support"
+    rxPositionLine="For chronic insomnia, hormonal sleep disruption, or sleep apnea workup"
+    rxBody="Care coordinator connects you with a network physician for full sleep review — low-dose hormonal support, peptides for sleep architecture, sleep-apnea screening referral if indicated. Indicated when OTC alone hasn't moved the needle or when you want the pharmacy-formulated protocol."
   />
 
   <!-- ── Why this matters ── -->
@@ -108,7 +75,6 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
     </div>
   </section>
 
-  <MiniTwoPaths otcLabel="Order SleepRestore" otcHref="/assessment" prompt="Still here?" />
 
   <aside class="four-m-touchpoints">
     <h3>How SleepRestore touches all 4 Ms</h3>
@@ -124,7 +90,6 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
     </div>
   </aside>
 
-  <MiniTwoPaths otcLabel="Order SleepRestore" otcHref="/assessment" prompt="Pick your path:" />
 
   <!-- ── Protégé footer card ── -->
   <div class="protege-card">
@@ -142,7 +107,6 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
 
   <p><a href="/blog/eliminate-the-insulting-behavior-sleep" class="read-more-link">Read more: Eliminate the Insulting Behavior — Sleep →</a></p>
 
-  <MiniTwoPaths otcLabel="Order SleepRestore" otcHref="/assessment" prompt="The 4M decision:" />
 </SolutionPage>
 
 <style>

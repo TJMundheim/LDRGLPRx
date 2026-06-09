@@ -1,8 +1,6 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
-import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
-import FoundationStackPair from '../../components/FoundationStackPair.astro';
-import InterimPickCard from '../../components/InterimPickCard.astro';
+import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
 ---
 
 <SolutionPage
@@ -13,32 +11,22 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
   slug="cognitive"
   description="Brain optimization through methylated B-complex nutraceuticals and nootropic peptide protocols. My4MLife addresses cognitive performance, mental sharpness, focus and memory through the Mind pillar — OTC NeuroBridge or full Rx peptide consult."
 >
-  <FoundationStackPair
-    otcName="NeuroBridge"
-    otcPositionLine="Methylated B-complex — the cognitive foundation"
-    otcBody="NeuroBridge is the methylated B-complex stack — B6 (P-5-P), B12 (methylcobalamin), 5-MTHF, plus active forms of B5, B1, B2. Up to 60% of people carry MTHFR variants that block standard B-vitamin conversion; methylated forms bypass that bottleneck. Supports neurotransmitter synthesis (serotonin, dopamine, GABA) and clears homocysteine — a top independent risk factor for dementia. Pairs with the cognitive consult for the full peptide review."
-    rxName="Cognitive consult"
-    rxPositionLine="Nootropic peptide candidacy + cognitive lab review"
-    rxBody="The cognitive consult covers nootropic peptide candidacy (Semax, Selank, Cerebrolysin, BPC-157), cognitive baseline assessment, hormone-cognition integration, and your full personalized 4M protocol. For persistent memory lapses, focus problems, or word-finding gaps — the consult is where lab-guided protocols replace guesswork."
+  <OtcRxTopOptions
+    category="Brain Optimization"
+    otcBrand="Thorne"
+    otcProductName="Memoractiv"
+    otcBridgesTo="future 4M cognitive SKU"
+    otcOneLiner="Bacopa + ginkgo + magnesium-threonate + acetyl-L-tyrosine — practitioner-grade one-bottle multi-pathway cognitive stack. Stacks with Thorne Creatine at 5-10g/day for added cognitive benefit."
+    otcAmazonQuery="Thorne Memoractiv"
+    rxName="Cognitive consult — nootropic peptide candidacy"
+    rxPositionLine="Lab-guided protocol for persistent memory, focus, and word-finding issues"
+    rxBody="Care coordinator connects you with a network physician for cognitive baseline assessment, hormone-cognition integration, and nootropic peptide candidacy (Semax, Selank, Cerebrolysin, BPC-157). Indicated when OTC alone hasn't moved the needle or when symptoms warrant a deeper workup."
   />
-
-  <figure class="scene-figure">
-    <img src="/images/scenes/cognitive-boat.jpg" alt="Active man on a boat with family — still trusted physically and mentally to do this" loading="lazy" />
-    <figcaption>Still trusted — physically <em>and</em> mentally — to lead the day. Cognitive longevity is the protocol that keeps you here.</figcaption>
-  </figure>
 
   <aside class="aa-stat-callout">
     <p class="aa-stat-headline"><strong>Lifetime risk of Alzheimer's at age 45: 1 in 10 men.</strong></p>
     <p class="aa-stat-source">Source: Alzheimer's Association, <a href="https://www.alz.org/alzheimers-dementia/facts-figures" target="_blank" rel="noopener">2026 Facts and Figures</a>. The 4M framework operationalizes 9 of the 10 prevention habits the Alzheimer's Association publishes — independently aligned, no endorsement implied.</p>
   </aside>
-
-  <InterimPickCard
-    brand="Thorne"
-    productName="Memoractiv"
-    bridgesTo="future 4M cognitive SKU"
-    oneLiner="Bacopa + ginkgo + magnesium-threonate + acetyl-L-tyrosine — one-bottle multi-pathway cognitive stack. Stacks cleanly with Thorne Creatine at 5-10g/day for added cognitive benefit (same creatine SKU used on our Muscle Preservation page)."
-    amazonQuery="Thorne Memoractiv"
-  />
 
   <!-- ── Why this matters ── -->
   <h2 id="why-matters">Why This Matters</h2>
@@ -59,9 +47,7 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
     <p>This is why the 4M sequence is gut first, then sleep, then cognitive optimization. NeuroBridge gives the brain the methylated building blocks it needs — but if the gut isn't sealed, the upstream signal is still inflammatory. <a href="/solutions/gut">See the gut protocol →</a></p>
   </aside>
 
-  <MiniTwoPaths otcLabel="Order NeuroBridge" otcHref="/assessment" prompt="Ready to act?" />
-
-  <aside class="research-callout">
+<aside class="research-callout">
     <h3>What the research actually says — creatine for cognition</h3>
     <p class="research-callout-intro">Most "premium nootropic" stacks ($60–100/month) are built on Bacopa, Lion's Mane, and proprietary blends with weak RCT support. The most-evidenced cognitive ingredient in the published literature is one most men only think of for the gym.</p>
     <ul class="research-list">
@@ -77,8 +63,6 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
     </ul>
     <p class="research-callout-footnote"><em>This is the underrated cognitive longevity story: the most-published nootropic ingredient in the peer-reviewed literature also happens to be the most-published lean-mass preservation ingredient. One supplement. Same physiology.</em></p>
   </aside>
-
-  <MiniTwoPaths otcLabel="Order NeuroBridge" otcHref="/assessment" prompt="Pick your path:" />
 
   <!-- ── In development: MitoVita ── -->
   <aside class="product-in-dev">
@@ -103,8 +87,6 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
       <p>Up to 60% of people carry genetic variants (MTHFR) that block standard B-vitamin conversion — a permanent feature of your biology. PPIs, metformin, and alcohol all deplete B-vitamins faster than diet replaces them. Cerebral blood flow declines about 0.4–0.5% per year in adulthood. Your body's ability to make creatine drops as you age, and dietary intake alone doesn't replace what your brain needs. The men who stop supporting these systems past 50 are accepting a decline trajectory they didn't have to accept.</p>
     </div>
   </aside>
-
-  <MiniTwoPaths otcLabel="Order NeuroBridge" otcHref="/assessment" prompt="The 4M decision:" />
 
   <!-- ── Protégé footer card ── -->
   <div class="protege-card">

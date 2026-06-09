@@ -1,8 +1,5 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
-import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
-import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
-import FoundationStackPair from '../../components/FoundationStackPair.astro';
 import RxConsultCTA from '../../components/RxConsultCTA.astro';
 ---
 
@@ -14,27 +11,6 @@ import RxConsultCTA from '../../components/RxConsultCTA.astro';
   slug="hormones"
   description="Low testosterone affects most men over 40 but goes untested and untreated. My4MLife connects men to testosterone therapy, TRT evaluation, and complete men's hormone replacement through our contracted licensed telemedicine practice."
 >
-  <FoundationStackPair
-    otcName="HormoneBalance Foundation"
-    otcPositionLine="Supports free testosterone at the foundation"
-    otcBody="HormoneBalance Foundation pairs saw palmetto, zinc bisglycinate, and vitamin D3 to protect free testosterone. Zinc is a direct cofactor in testosterone synthesis. Saw palmetto modulates 5-alpha-reductase, helping keep more T bioavailable rather than shunted to DHT excess. Vitamin D supports endocrine signaling top to bottom. This is the OTC substrate before any TRT conversation."
-    rxName="Testosterone consult — TRT candidacy"
-    rxPositionLine="Mandatory lab panel + telemedicine TRT evaluation"
-    rxBody="The testosterone consult includes a mandatory hormone panel — Total T, Free T, estradiol, SHBG, TSH, cortisol AM, DHEA-S — plus a full telemedicine TRT-candidacy review. If indicated, prescription TRT and adjunct protocols (HCG, anastrozole, peptide support) follow. Required for any testosterone prescription."
-    rxCtaHref="/cart?sku=consult-hormone"
-  />
-
-  <TwoPathsCTA
-    otcProductName="ArmorVita Nutraceutical"
-    otcDescription="D3 + K2 + Boron + Astaxanthin — pharmaceutical-grade foundational hormonal support. Supports testosterone-adjacent pathways without a prescription."
-    otcCtaLabel="Order ArmorVita →"
-    otcCtaHref="/cart?sku=armorvita-sub"
-    rxDescription="Full hormone panel review (Total T, Free T, estradiol, TSH, cortisol AM, DHEA-S, SHBG), TRT evaluation, peptide hormone support, GLP-1 candidacy, and your complete personalized 4M protocol — through our licensed telemedicine partner."
-    whenOtc="Fatigue and energy issues are present but you have no clinical low-T diagnosis and want a foundational starting point."
-    whenRx="Persistent low-T symptoms — fatigue, low libido, brain fog, loss of muscle mass — and you want a full lab panel with TRT or peptide protocol if indicated."
-    protegeFooter="Become a Protégé — daily protocol guidance, weekly coaching, hormone tracker →"
-  />
-
   <RxConsultCTA
     category="Testosterone Therapy"
     whyConsult="TRT requires a baseline hormone panel (Total T, Free T, estradiol, SHBG, TSH, cortisol, DHEA-S), licensed prescriber review, and ongoing monitoring. No OTC 'testosterone booster' substitutes for that workup. We will not point our members to grey-market T or under-supervised prescribing."
@@ -47,7 +23,6 @@ import RxConsultCTA from '../../components/RxConsultCTA.astro';
     <li>No training or nutrition protocol reaches its ceiling inside a hormonally depleted system</li>
   </ul>
 
-  <MiniTwoPaths otcLabel="Order ArmorVita" otcHref="/assessment" prompt="Ready to act?" />
 
   <h2>The Problem</h2>
   <p>
@@ -62,7 +37,6 @@ import RxConsultCTA from '../../components/RxConsultCTA.astro';
     <figcaption>Guessing is the insulting behavior. Measuring is the beginning of optimization.</figcaption>
   </figure>
 
-  <MiniTwoPaths otcLabel="Order ArmorVita" otcHref="/assessment" prompt="Don't accept the slow drift:" />
 
   <aside class="four-m-touchpoints">
     <h3>How ArmorVita touches all 4 Ms</h3>
@@ -93,7 +67,6 @@ import RxConsultCTA from '../../components/RxConsultCTA.astro';
     </a>
   </p>
 
-  <MiniTwoPaths otcLabel="Order ArmorVita" otcHref="/assessment" prompt="OTC or Rx — pick now:" />
 </SolutionPage>
 
 <style>

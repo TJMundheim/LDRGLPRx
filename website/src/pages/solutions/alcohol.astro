@@ -1,0 +1,105 @@
+---
+import SolutionPage from '../../layouts/SolutionPage.astro';
+import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
+---
+
+<SolutionPage
+  compact={true}
+  title="Alcohol — craving control and the upstream reset."
+  parent="Mitigate"
+  oneliner="Daily alcohol is one of the most reliably overlooked accelerants of weight gain, ED, sleep collapse, and cognitive drift in men over 40. The cleanest reset is structural — and the medication is real."
+  slug="alcohol"
+  description="Alcohol craving support and reduction protocol from My4MLife. Practitioner-grade OTC craving support (NAC) plus consult-based Rx pathway for low-dose naltrexone (LDN) — the evidence-based prescription option for reducing alcohol intake."
+>
+
+  <OtcRxTopOptions
+    category="Alcohol — Craving Support / Reduction"
+    otcBrand="Thorne"
+    otcProductName="NAC (N-Acetyl Cysteine)"
+    otcBridgesTo="future 4M craving-control SKU"
+    otcOneLiner="Practitioner-grade N-Acetyl Cysteine — supports glutathione synthesis (liver detox burden) and has emerging evidence for reducing cravings and impulsive intake patterns including alcohol. Single ingredient, daily use. Authorized Thorne Amazon storefront."
+    otcAmazonQuery="Thorne NAC N-Acetyl Cysteine"
+    rxName="Low-Dose Naltrexone (LDN) — by consult"
+    rxPositionLine="Evidence-based prescription for reducing alcohol intake"
+    rxBody="LDN is an off-label, well-tolerated prescription used by physicians to reduce alcohol cravings and intake without requiring abstinence-first commitment. Indicated for men who recognize daily drinking is interfering with sleep, hormones, weight, or cognition and want a real medical lever — not just willpower. Includes full intake, lab review, and ongoing dose titration."
+  />
+
+  <h2 id="why-matters">Why this matters</h2>
+  <p>
+    For men over 40, daily alcohol — even at "social" levels of 2-3 drinks per night —
+    is one of the single largest accelerants of every other health concern on this site.
+    Sleep architecture collapses in the second half of the night. Testosterone synthesis
+    drops. Visceral fat accumulates. Gut barrier integrity degrades. Cognitive recovery
+    slows. The damage compounds quietly across years until it shows up everywhere at once.
+  </p>
+
+  <h2>The Problem</h2>
+  <p>
+    Alcohol is the only widely-accepted social drug whose downstream effects touch every
+    other system in the 4M framework. "I just have a few drinks at night" is the single
+    most common pattern we see in men presenting with multiple unexplained symptoms —
+    weight that won't move, mornings that don't recover, sex drive that's drifted, brain
+    fog that wasn't there five years ago. The drinks aren't the only cause. They are the
+    multiplier on everything else.
+  </p>
+  <p>
+    The conventional binary — "you have a problem or you don't" — fails most of the men
+    who would benefit from cutting back. They're not in crisis. They're not ready to
+    quit. They are, however, ready to use the medical tools available to reduce intake
+    when those tools are presented without judgment.
+  </p>
+
+  <h2>The Insulting Behaviors</h2>
+  <ul class="insult-list">
+    <li><strong>Daily alcohol at any volume above zero on weeknights.</strong> The body never gets a full sleep-architecture recovery window. Even "one or two" prevents the deepest restorative phase.</li>
+    <li><strong>Drinking within 3 hours of bed.</strong> Alcohol metabolism dumps cortisol and disrupts REM in the second half of the night — the part of sleep that matters most for memory consolidation.</li>
+    <li><strong>Using alcohol as the wind-down mechanism.</strong> Replacing every stress-relief cue with the same depressant is how a habit becomes a dependency. Magnesium, breathwork, and an actual evening protocol do the same job without the cost.</li>
+    <li><strong>Ignoring the symptoms downstream and treating them in isolation.</strong> Treating ED, low T, poor sleep, weight gain, and brain fog one at a time while continuing daily alcohol is treating five fires while leaving the fuel line open.</li>
+    <li><strong>Believing willpower is the only intervention.</strong> LDN exists. NAC exists. Structured cohort accountability exists. Pretending these aren't tools because "real men just stop" leaves men stuck for years.</li>
+  </ul>
+
+  <h2>Where this connects across the 4M system</h2>
+  <ul class="why-list">
+    <li><a href="/solutions/sleep">Sleep</a> — alcohol is the most reliable accelerant of fragmented sleep and reduced deep-sleep recovery.</li>
+    <li><a href="/solutions/hormones">Testosterone Therapy &amp; Hormone Optimization</a> — alcohol suppresses testosterone production and raises estradiol via aromatization of visceral fat.</li>
+    <li><a href="/solutions/weight">GLP-1 Weight Loss</a> — empty alcohol calories plus appetite dysregulation; reducing intake makes every metabolic protocol work better.</li>
+    <li><a href="/solutions/erectile-dysfunction">Erectile Dysfunction</a> — alcohol degrades endothelial function and sleep, the two pillars behind erectile capacity.</li>
+    <li><a href="/solutions/cognitive">Brain Optimization</a> — chronic alcohol is one of the most preventable contributors to cognitive aging.</li>
+    <li><a href="/solutions/gut">Gut Health</a> — alcohol disrupts the gut barrier and microbiome; gut repair is part of the alcohol-reduction protocol.</li>
+  </ul>
+
+  <p class="read-more-line">
+    The honest framing: most men don't need to quit. They need to reduce intake to a level where their biology can catch up — and there are medical tools that make that easier.
+  </p>
+
+</SolutionPage>
+
+<style>
+.why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.75rem;
+}
+.why-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.97rem;
+}
+.why-list li:last-child { border-bottom: none; }
+.why-list li::before {
+  content: "→";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.read-more-line {
+  margin-top: 1.5rem;
+  font-style: italic;
+  color: var(--text-light);
+}
+</style>

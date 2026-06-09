@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import FoundationStackPair from '../../components/FoundationStackPair.astro';
-import InterimPickCard from '../../components/InterimPickCard.astro';
+import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
 
 const title = "Chronic Conditions — Regenerative Solutions | My4MLife";
 const description = "COPD, congestive heart failure, autoimmune disease, neurodegeneration — where conventional care plateaus and regenerative medicine becomes the frontier. Conditions we have helped — coordinated through our partner regenerative medicine practice.";
@@ -23,20 +22,16 @@ const ogImage = "https://www.my4mlife.com/og-image.svg";
 <!-- ===== OTC FOUNDATION STACK + RX PROTOCOL — first content after hero ===== -->
 <section class="cc-section" style="padding-top:2.5rem; padding-bottom:1rem;">
   <div class="container cc-prose" style="max-width:820px;">
-    <FoundationStackPair
-      otcName="ChronicSupport Foundation"
-      otcPositionLine="Inflammation baseline for chronic-condition support"
-      otcBody="ChronicSupport Foundation pairs high-EPA omega-3 (IFOS-tested), bioavailable curcumin (BCM-95 or equivalent), and vitamin D3 with K2. EPA shifts the eicosanoid pathway away from inflammatory prostaglandins. Curcumin modulates NF-κB — the master switch driving chronic inflammatory signaling. D3+K2 supports immune regulation and vascular calcium handling. Baseline anti-inflammatory substrate for any chronic-condition protocol."
-      rxName="Comprehensive 4M Consult — full systems review"
-      rxPositionLine="Full systems review + regenerative pathway evaluation"
-      rxBody="The Comprehensive 4M Consult is the full systems review — hormone panel, metabolic markers, inflammatory profile, and an evaluation of regenerative-medicine candidacy where chronic conditions have plateaued under conventional care. Bridges to in-office network-physician evaluation for any regenerative protocol that requires it."
-    />
-    <InterimPickCard
-      brand="Thorne"
-      productName="Curcumin Phytosome (Meriva)"
-      bridgesTo="ChronicSupport Foundation"
-      oneLiner="Most bioavailable curcumin form on the market — addresses the inflammatory floor underlying most chronic-condition presentations. Practitioner-grade, single bottle, daily anti-inflammatory baseline while we finalize the full ChronicSupport stack."
-      amazonQuery="Thorne Curcumin Phytosome Meriva"
+    <OtcRxTopOptions
+      category="Chronic Conditions"
+      otcBrand="Thorne"
+      otcProductName="Curcumin Phytosome (Meriva)"
+      otcBridgesTo="ChronicSupport Foundation"
+      otcOneLiner="Most bioavailable curcumin form on the market — addresses the inflammatory floor underlying most chronic-condition presentations. Daily anti-inflammatory baseline."
+      otcAmazonQuery="Thorne Curcumin Phytosome Meriva"
+      rxName="Comprehensive consult — full systems review + regenerative pathway"
+      rxPositionLine="For COPD, CHF, autoimmune, neurodegeneration — where conventional care has plateaued"
+      rxBody="Care coordinator connects you with a network physician for full systems review — hormone panel, metabolic markers, inflammatory profile, and regenerative-medicine candidacy evaluation. Bridges to in-office regenerative-medicine partner where indicated."
     />
   </div>
 </section>

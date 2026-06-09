@@ -8,16 +8,24 @@ const frameworkItems = [
   { label: 'Motivate', href: '/pillars/motivate' },
 ];
 
+// Top Categories — assessment hierarchy first (matches /assessment question order),
+// then non-assessment categories below. Locked 2026-06-08.
 const categoryItems = [
-  { label: 'Gut Health / Leaky Gut',     href: '/solutions/gut' },
-  { label: 'Testosterone Therapy',       href: '/solutions/hormones' },
-  { label: 'Erectile Dysfunction',       href: '/solutions/erectile-dysfunction' },
-  { label: 'GLP-1 Weight Loss',          href: '/solutions/weight' },
-  { label: 'Brain Optimization',         href: '/solutions/cognitive' },
+  // Assessment-hierarchy categories (match the 10 audit questions in order)
+  { label: 'Gut Health / Leaky Gut',     href: '/solutions/gut' },                  // assessment #1
+  { label: 'Sleep',                      href: '/solutions/sleep' },                // assessment #2
+  { label: 'GLP-1 Weight Loss',          href: '/solutions/weight' },               // assessment #3 Weight
+  { label: 'Nutrition',                  href: '/solutions/nutrition' },            // assessment #4
+  { label: 'Erectile Dysfunction',       href: '/solutions/erectile-dysfunction' }, // assessment #5
+  // (Environment = assessment #6 — lives in its own dropdown below)
+  { label: 'Brain Optimization',         href: '/solutions/cognitive' },            // assessment #7 Cognitive
+  { label: 'Testosterone Therapy',       href: '/solutions/hormones' },             // assessment #8 Hormones
+  { label: 'Regenerative Medicine',      href: '/regenerative-medicine' },          // assessment #9 Already diagnosed
+  { label: 'Alcohol',                    href: '/solutions/alcohol' },              // assessment #10 Excessive alcohol
+
+  // Non-assessment categories below
   { label: 'Peptides',                   href: '/solutions/peptides' },
-  { label: 'Regenerative Medicine',      href: '/regenerative-medicine' },
   { label: 'Chronic Conditions',         href: '/solutions/chronic-conditions' },
-  { label: 'Sleep',                      href: '/solutions/sleep' },
   { label: 'Acute Pain',                 href: '/solutions/pain-acute' },
   { label: 'Chronic Pain',               href: '/solutions/pain-chronic' },
   { label: 'Allergies & Immune',         href: '/solutions/allergies' },
