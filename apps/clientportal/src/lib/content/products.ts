@@ -42,7 +42,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 249,
-      memberUSD: 179,
+      memberUSD: 249, // no member discount pre-launch
       cogsNote: 'Fulfilled by MD Specialty Group; exact COGS TBD', // TBD
     },
     requiresRx: true,
@@ -93,7 +93,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 149,
-      memberUSD: 109,
+      memberUSD: 149, // no member discount pre-launch
       cogsNote: 'Fulfilled by MD Specialty Group; exact COGS TBD', // TBD
     },
     requiresRx: true,
@@ -144,7 +144,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 89,
-      memberUSD: 69,
+      memberUSD: 89, // no member discount pre-launch
       cogsNote: 'Fulfilled by MD Specialty Group; exact COGS TBD', // TBD
     },
     requiresRx: true,
@@ -194,7 +194,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 99,
-      memberUSD: 79,
+      memberUSD: 99, // no member discount pre-launch
       cogsNote: 'Fulfilled by MD Specialty Group; exact COGS TBD', // TBD
     },
     requiresRx: true,
@@ -251,7 +251,7 @@ export const products: Product[] = [
     pricing: {
       type: 'per-administration',
       retailUSD: 9500, // Single administration — range $9,500–$12,500; TBD final pricing
-      memberUSD: 9500, // TBD member discount
+      memberUSD: 9500, // no member discount pre-launch
       bundlePricing: [
         { quantity: 3, totalUSD: 27500, label: '3-pack protocol' },
       ],
@@ -299,16 +299,16 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 349, // TBD — range $249–$449/mo depending on dose
-      memberUSD: 299, // TBD
+      memberUSD: 349, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
     fulfilledBy: 'MD Specialty Group',
     tierAvailability: {
       foundation: 'addon',
-      optimization: 'discounted',
-      longevity: 'discounted',
-      concierge: 'discounted',
+      optimization: 'addon',
+      longevity: 'addon',
+      concierge: 'addon',
     },
     triggersFromIntake: ['weight_loss_goal', 'metabolic_syndrome', 'high_bmi', 'insulin_resistance'],
     tags: ['glp-1', 'weight-management', 'metabolic', 'rx'],
@@ -341,16 +341,16 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 449, // TBD — range $349–$449/mo depending on dose
-      memberUSD: 379, // TBD
+      memberUSD: 449, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
     fulfilledBy: 'MD Specialty Group',
     tierAvailability: {
       foundation: 'addon',
-      optimization: 'discounted',
-      longevity: 'discounted',
-      concierge: 'discounted',
+      optimization: 'addon',
+      longevity: 'addon',
+      concierge: 'addon',
     },
     triggersFromIntake: ['weight_loss_goal', 'metabolic_syndrome', 'high_bmi', 'glp1_inadequate_response'],
     tags: ['glp-1', 'gip', 'dual-agonist', 'weight-management', 'metabolic', 'rx'],
@@ -386,16 +386,16 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 79, // TBD — range $39–$99/mo
-      memberUSD: 59, // TBD
+      memberUSD: 79, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
     fulfilledBy: 'MD Specialty Group',
     tierAvailability: {
       foundation: 'addon',
-      optimization: 'discounted',
-      longevity: 'discounted',
-      concierge: 'discounted',
+      optimization: 'addon',
+      longevity: 'addon',
+      concierge: 'addon',
     },
     triggersFromIntake: ['erectile_dysfunction', 'male_sexual_health'],
     tags: ['ed', 'pde5-inhibitor', 'mens-health', 'rx'],
@@ -431,7 +431,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 149, // Medication only; labs billed separately
-      memberUSD: 129, // TBD
+      memberUSD: 149, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD; labs separate line item', // TBD
     },
     requiresRx: true,
@@ -477,7 +477,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 199, // TBD — exact pricing depends on formulation
-      memberUSD: 169, // TBD
+      memberUSD: 199, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD; DUTCH panel separate line item', // TBD
     },
     requiresRx: true,
@@ -521,7 +521,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 129, // TBD
-      memberUSD: 99, // TBD
+      memberUSD: 129, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
@@ -567,7 +567,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 299,
-      memberUSD: 249, // TBD
+      memberUSD: 299, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
@@ -612,7 +612,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 89, // TBD — per vial/cycle
-      memberUSD: 69, // TBD
+      memberUSD: 89, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
@@ -655,7 +655,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 89, // TBD — per vial/cycle
-      memberUSD: 69, // TBD
+      memberUSD: 89, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
@@ -698,7 +698,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 599, // TBD — per course depending on route and duration
-      memberUSD: 499, // TBD
+      memberUSD: 599, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD; route affects total cost', // TBD
     },
     requiresRx: true,
@@ -742,7 +742,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 129, // TBD — per cycle
-      memberUSD: 99, // TBD
+      memberUSD: 129, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
@@ -785,7 +785,7 @@ export const products: Product[] = [
     pricing: {
       type: 'cycle',
       retailUSD: 199, // TBD — per course
-      memberUSD: 159, // TBD
+      memberUSD: 199, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD', // TBD
     },
     requiresRx: true,
@@ -827,7 +827,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 79, // TBD — per month at low dose
-      memberUSD: 59, // TBD
+      memberUSD: 79, // no member discount pre-launch
       cogsNote: 'Pharmacy partner COGS TBD; pharmaceutical grade required', // TBD
     },
     requiresRx: true,
@@ -869,15 +869,15 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 49, // TBD
-      memberUSD: 39, // TBD
+      memberUSD: 49, // no member discount pre-launch
       cogsNote: 'Generic; pharmacy COGS TBD', // TBD
     },
     requiresRx: true,
     fulfilledBy: 'MD Specialty Group',
     tierAvailability: {
       foundation: 'addon',
-      optimization: 'discounted',
-      longevity: 'discounted',
+      optimization: 'addon',
+      longevity: 'addon',
       concierge: 'included',
     },
     triggersFromIntake: ['insomnia', 'sleep_onset', 'sleep_maintenance'],
@@ -909,15 +909,15 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 49, // TBD
-      memberUSD: 39, // TBD
+      memberUSD: 49, // no member discount pre-launch
       cogsNote: 'Pharmacy COGS TBD', // TBD
     },
     requiresRx: true,
     fulfilledBy: 'MD Specialty Group',
     tierAvailability: {
       foundation: 'addon',
-      optimization: 'discounted',
-      longevity: 'discounted',
+      optimization: 'addon',
+      longevity: 'addon',
       concierge: 'included',
     },
     triggersFromIntake: ['insomnia', 'circadian_disruption', 'shift_work', 'sleep_onset'],
@@ -949,15 +949,15 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 49, // TBD
-      memberUSD: 39, // TBD
+      memberUSD: 49, // no member discount pre-launch
       cogsNote: 'Pharmacy COGS TBD', // TBD
     },
     requiresRx: true,
     fulfilledBy: 'MD Specialty Group',
     tierAvailability: {
       foundation: 'addon',
-      optimization: 'discounted',
-      longevity: 'discounted',
+      optimization: 'addon',
+      longevity: 'addon',
       concierge: 'included',
     },
     triggersFromIntake: ['sleep_maintenance', 'early_awakening', 'insomnia'],
@@ -988,7 +988,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 79,
-      memberUSD: 59,
+      memberUSD: 79, // no member discount pre-launch
     },
     requiresRx: false,
     tierAvailability: {
@@ -1023,7 +1023,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 89,
-      memberUSD: 69,
+      memberUSD: 89, // no member discount pre-launch
     },
     requiresRx: false,
     tierAvailability: {
@@ -1058,7 +1058,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 69,
-      memberUSD: 49,
+      memberUSD: 69, // no member discount pre-launch
     },
     requiresRx: false,
     tierAvailability: {
@@ -1094,7 +1094,7 @@ export const products: Product[] = [
     pricing: {
       type: 'subscription',
       retailUSD: 129,
-      memberUSD: 99,
+      memberUSD: 129, // no member discount pre-launch
     },
     requiresRx: false,
     tierAvailability: {

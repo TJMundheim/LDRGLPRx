@@ -4,15 +4,12 @@
  * Locked 2026-05-12, restructured 2026-05-18.
  *
  * Each subscription-default supplement now has TWO purchase variants:
- *   - <product>-sub  — monthly autoship subscription (recurring)
+ *   - <product>-sub  — monthly subscription (recurring)
  *   - <product>-90d  — 90-day one-time bundle (3-bottle pack)
  *
- * Pricing model (locked 2026-06-01 — see project_membership_active_member_spec.md):
- *   - Protégé first purchase: 25% off retail
- *   - Protégé on active autoship: 25% off retail (every order, forever)
- *   - Protégé repeat one-time buyer (no autoship): 15% off retail
- *   - Non-Protégé: full retail, no discount, ever
- *   - Discounts never stack
+ * Pricing model (updated 2026-06-09): all products priced at retail.
+ * No member discount tiers pre-launch — OTC via Amazon (no discount possible),
+ * Rx via pharmacy partner. See project_membership_active_member_spec.md.
  *
  * Stripe wiring: `stripePriceId` will be filled when Stripe products are created.
  */
@@ -24,7 +21,7 @@ export interface SKU {
   name: string;
   /** Short marketing tagline */
   tagline: string;
-  /** Retail price in USD (full retail — what someone pays with no discounts). null if pricing not finalized. */
+  /** Retail price in USD. null if pricing not finalized. */
   retailPriceUSD: number | null;
   /** Subscription cadence — 'one-time', 'monthly', 'annual', or null */
   cadence: 'one-time' | 'monthly' | 'annual' | null;
@@ -38,7 +35,7 @@ export interface SKU {
   availableNote?: string;
   /** Solution-page slug this SKU primarily belongs to */
   solutionSlug: string;
-  /** SKU variant kind — drives discount logic + cart UX */
+  /** SKU variant kind — drives cart UX */
   variant: 'subscription' | 'ninety-day-bundle' | 'one-time' | 'service' | 'membership-tier';
   /** Quantity served by this SKU (e.g., '30-day supply', '90-day supply', 'single consult') */
   servingDescription?: string;
@@ -227,13 +224,11 @@ export const SKUS: Record<string, SKU> = {
 
   // ========== Service SKUs ==========
   // Entry SKU added 2026-05-23 — $5 Fast Start Protocol. Activates Protégé app
-  // access + cohort + personalized assessment report, and locks in 25% off the
-  // buyer's first supplement order (supersedes the standard 15% first-purchase
-  // rate when applicable — see computeDiscountPercent).
+  // access + cohort + personalized assessment report.
   'fast-start-protocol': {
     id: 'fast-start-protocol',
     name: 'Fast Start Protocol',
-    tagline: 'For the man who wants to understand the system before he puts a supplement in his body. Complete Fast Start Protocol + app access + 12-week cohort + your personalized assessment report. Locks in 25% off your first supplement order whenever you decide to add one.',
+    tagline: 'For the man who wants to understand the system before he puts a supplement in his body. Complete Fast Start Protocol + app access + 12-week cohort + your personalized assessment report.',
     retailPriceUSD: 5,
     cadence: 'one-time',
     stripePriceId: 'price_1TbpnQBSbDAyoIVy0AyOTNlq',
@@ -248,7 +243,7 @@ export const SKUS: Record<string, SKU> = {
   'fast-start-foundation-gut': {
     id: 'fast-start-foundation-gut',
     name: 'Fast Start + Foundation (Biome NS Ultra)',
-    tagline: 'The Fast Start Protocol plus your first foundation supplement, Biome NS Ultra — the gut-brain seal that protects cognitive longevity. Auto-ship optional at 25% off once you stay subscribed.',
+    tagline: 'The Fast Start Protocol plus your first foundation supplement, Biome NS Ultra — the gut-brain seal that protects cognitive longevity.',
     retailPriceUSD: 99,
     cadence: 'one-time',
     stripePriceId: null,
@@ -262,7 +257,7 @@ export const SKUS: Record<string, SKU> = {
   'fast-start-foundation-sleep': {
     id: 'fast-start-foundation-sleep',
     name: 'Fast Start + Foundation (SleepRestore)',
-    tagline: 'The Fast Start Protocol plus your first foundation supplement, SleepRestore — sleep architecture + cortisol regulation + nocturnal cardiovascular protection. Auto-ship optional at 25% off once you stay subscribed.',
+    tagline: 'The Fast Start Protocol plus your first foundation supplement, SleepRestore — sleep architecture + cortisol regulation + nocturnal cardiovascular protection.',
     retailPriceUSD: 99,
     cadence: 'one-time',
     stripePriceId: null,
@@ -276,7 +271,7 @@ export const SKUS: Record<string, SKU> = {
   'fast-start-foundation-cognitive': {
     id: 'fast-start-foundation-cognitive',
     name: 'Fast Start + Foundation (NeuroBridge)',
-    tagline: 'The Fast Start Protocol plus your first foundation supplement, NeuroBridge — methylated B-complex for the cognitive build. Auto-ship optional at 25% off once you stay subscribed.',
+    tagline: 'The Fast Start Protocol plus your first foundation supplement, NeuroBridge — methylated B-complex for the cognitive build.',
     retailPriceUSD: 99,
     cadence: 'one-time',
     stripePriceId: null,
@@ -370,32 +365,14 @@ export function getSKU(id: string): SKU | null {
 }
 
 /**
- * Discount calculation — single source of truth.
- *
- * Locked 2026-05-18:
- *   - First-ever purchase + 90-day bundle  → 20% off
- *   - First-ever purchase OR active subscriber → 15% off
- *   - Otherwise → 0% (full retail)
- *
- * 2026-05-23 addition: Fast Start Protocol entry path
- *   If acquisitionSku === 'fast-start-protocol' AND it's the buyer's first
- *   supplement order → 25% off (supersedes the standard rates). Only applies
- *   to supplement variants (subscription / ninety-day-bundle), not to
- *   service SKUs (consults) or to Fast Start itself.
- *
- * Never stacks. Always one of: 0%, 15%, 20%, 25%.
+ * Discount calculation — retained for API compatibility.
+ * Updated 2026-06-09: all discounts removed pre-launch. Always returns 0.
  */
 export function computeDiscountPercent(opts: {
   sku: SKU;
   isFirstPurchase: boolean;
   hasActiveSubscription: boolean;
-  /** SKU id the contact came in through, if any (e.g. 'fast-start-protocol'). */
   acquisitionSku?: string;
 }): number {
-  const { sku, isFirstPurchase, hasActiveSubscription, acquisitionSku } = opts;
-  const isSupplement = sku.variant === 'subscription' || sku.variant === 'ninety-day-bundle';
-  if (isSupplement && isFirstPurchase && acquisitionSku === 'fast-start-protocol') return 25;
-  if (isFirstPurchase && sku.variant === 'ninety-day-bundle') return 20;
-  if (isFirstPurchase || hasActiveSubscription) return 15;
   return 0;
 }

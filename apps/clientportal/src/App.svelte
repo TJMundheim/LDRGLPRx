@@ -783,8 +783,7 @@
 
 <NudgeStack />
 <AuthGate>
-<!-- Per 2026-05-25 spec: any signed-in user is a Protégé and gets full app access.
-     Purchase no longer gates the app (purchase only affects discount tier). -->
+<!-- Per 2026-05-25 spec: any signed-in user is a Protégé and gets full app access. -->
 <div class="shell">
   <Sidebar {navHtml} name={workbook.name} {stats} {userRole} adminActive={currentView === 'admin'} settingsActive={currentView === 'settings'} {intakeComplete} {hasActiveSubscription} {stripeCustomerId} />
   <div class="main" id="main-content">

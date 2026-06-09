@@ -32,10 +32,10 @@ const skuList = Object.values(SKUS);
       <div class="cart-item-aside">
         <div class="cart-price-row">
           <div class="cart-price-stack">
-            <span class="cart-price-label">Member price</span>
+            <span class="cart-price-label">Price</span>
             <span class="cart-price" id="cart-member-price">—</span>
           </div>
-          <div class="cart-price-stack cart-price-retail">
+          <div class="cart-price-stack cart-price-retail" style="display:none;">
             <span class="cart-price-label">Retail</span>
             <span class="cart-price" id="cart-retail-price">—</span>
           </div>
@@ -85,21 +85,15 @@ const skuList = Object.values(SKUS);
     availEl.hidden = false;
   }
 
-  // Pricing display — locked 2026-06-01:
-  // - First purchase OR active autoship subscriber: 25% off retail
-  // - Protégé one-time reorder (not on autoship): 15% off retail
-  // - Non-Protégés pay full retail
-  // For now (pre-Stripe) we show the best-available Protégé price (25% off).
+  // Pricing display — retail price only (no member discount tiers pre-launch).
   var retail = sku.retailPriceUSD;
   var memberEl = document.getElementById('cart-member-price');
   var retailEl = document.getElementById('cart-retail-price');
   if (retail) {
-    var discountPct = 25;
-    var discounted = (retail * (100 - discountPct) / 100).toFixed(2);
-    memberEl.textContent = '$' + discounted;
+    memberEl.textContent = '$' + retail.toFixed(2);
     retailEl.textContent = '$' + retail.toFixed(2);
     var memberLabel = document.querySelector('.cart-price-stack:not(.cart-price-retail) .cart-price-label');
-    if (memberLabel) memberLabel.textContent = '25% off (first purchase or autoship)';
+    if (memberLabel) memberLabel.textContent = 'Price';
   } else {
     memberEl.textContent = 'TBD';
     retailEl.textContent = 'TBD';

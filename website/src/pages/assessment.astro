@@ -165,39 +165,26 @@ const robots = "index, follow";
 <section class="assess-results" id="results-section" hidden>
   <div class="container assess-results-inner">
     <div class="results-header">
-      <div class="results-badge">YOUR ASSESSMENT RESULTS</div>
-      <h2 id="results-greeting">Here are your top 3 mitigating factors.</h2>
-      <p class="results-sub">These are the areas where addressing the root cause will create the biggest ripple effect across your health.</p>
+      <div class="results-badge">CHECK YOUR EMAIL</div>
+      <h2 id="results-greeting">Thank you. Your results are on the way.</h2>
+      <p class="results-sub">We just sent everything to your inbox in a single email.</p>
     </div>
 
-    <div class="results-cards" id="results-cards">
-      <!-- Populated by JS -->
-    </div>
-
-    <!-- ===== PROTEGE CTA ===== -->
-    <div class="protege-cta-block" id="protege-cta-block">
-      <div class="protege-cta-badge">NEXT STEP — FREE</div>
-      <h3 class="protege-cta-heading">Ready for the full experience? Become a Prot&eacute;g&eacute;.</h3>
-      <ul class="protege-cta-benefits">
-        <li>25% off your first purchase</li>
-        <li>25% off forever on autoship; 15% off one-time reorders</li>
-        <li>Free access to the My4MLife app</li>
-        <li>Weekly support Zooms with Dr. TJ</li>
-        <li>Discounts on all live events</li>
+    <div class="results-email-block">
+      <h3>What&rsquo;s in your email</h3>
+      <ul class="results-email-list">
+        <li><strong>Your top 3 mitigating factors</strong> &mdash; the areas where addressing the root cause will create the biggest ripple effect across your health.</li>
+        <li><strong>Your free copy of <em>Begin with the End in Mind</em></strong> &mdash; the field guide that walks you through the 4M framework.</li>
+        <li><strong>Your free <em>Cohort Workbook</em></strong> &mdash; the printable companion you&rsquo;ll use day-to-day inside the program.</li>
+        <li><strong>Access to the Prot&eacute;g&eacute; app</strong> &mdash; daily check-ins, weekly Zooms with Dr. TJ, and your cohort.</li>
       </ul>
-      <a id="protege-cta-link" href="/protege-signup" class="btn btn-primary btn-large">
-        Become a Prot&eacute;g&eacute; &mdash; It&apos;s Free &rarr;
-      </a>
-      <p class="protege-cta-note">Non-Prot&eacute;g&eacute;s pay full retail. No discount, ever.</p>
+      <p class="results-email-help">Don&rsquo;t see it within a few minutes? Check spam, then email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a> and we&rsquo;ll resend.</p>
     </div>
 
-    <!-- ===== PRODUCT TILES (per top-3 category) ===== -->
-    <div class="results-products" id="results-products">
-      <!-- Populated by JS from SOLUTIONS data -->
-    </div>
-
-    <div class="results-ctas">
-      <a href="/consult" class="btn btn-outline btn-large">Schedule Your Comprehensive 4M Consult</a>
+    <div class="results-coordinator-block">
+      <h3>Want to talk to a person?</h3>
+      <p>Schedule a call with one of our care coordinators. They&rsquo;ll listen to your situation and connect you with the appropriate medical provider in our network for your chief complaint.</p>
+      <a href="/consult" class="btn btn-primary btn-large">Schedule with a Care Coordinator &rarr;</a>
     </div>
 
     <p class="results-disclaimer">
@@ -583,120 +570,10 @@ const robots = "index, follow";
     document.getElementById('results-section').hidden = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Greeting
     var greeting = document.getElementById('results-greeting');
-    if (greeting) {
-      greeting.textContent = 'Hello ' + userName + '. Here are your top 3 mitigating factors.';
+    if (greeting && userName) {
+      greeting.textContent = 'Thank you, ' + userName + '. Your results are on the way.';
     }
-
-    // Build top 3
-    var top3 = selectTop3(scores, QUESTIONS);
-    var container = document.getElementById('results-cards');
-    container.innerHTML = '';
-
-    top3.forEach(function (q, idx) {
-      var rawScore = scores[q.id] !== undefined ? scores[q.id] : 0;
-      var displayScore = rawScore * 2; // 0-10
-
-      var scoreClass = displayScore <= 3 ? 'score-low' : displayScore <= 6 ? 'score-mid' : 'score-high';
-      var rank = idx + 1;
-
-      var card = document.createElement('div');
-      card.className = 'result-card';
-      card.innerHTML =
-        '<div class="result-rank">#' + rank + '</div>' +
-        '<div class="result-body">' +
-          '<h3 class="result-label">' + escHtml(q.label) + '</h3>' +
-          '<div class="result-score-row">' +
-            '<span class="result-score ' + scoreClass + '">' + displayScore + ' / 10</span>' +
-            '<div class="result-bar-wrap" aria-hidden="true"><div class="result-bar-fill ' + scoreClass + '" style="width:' + (displayScore * 10) + '%"></div></div>' +
-          '</div>' +
-          '<a href="/solutions/' + escHtml(q.solutionSlug) + '" class="result-link">See ' + escHtml(q.label) + ' solution &rarr;</a>' +
-        '</div>';
-      container.appendChild(card);
-    });
-
-    // Build encoded params for /become-protege
-    var becomeUrl = '';
-    try {
-      function b64utf8(obj) {
-        return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
-      }
-      var top3B64 = b64utf8(top3);
-      var answersB64 = b64utf8(scores);
-      becomeUrl = '/become-protege' +
-        '?name=' + encodeURIComponent(userName || '') +
-        '&email=' + encodeURIComponent(userEmail || '') +
-        '&phone=' + encodeURIComponent(userPhone || '') +
-        '&top3=' + encodeURIComponent(top3B64) +
-        '&answers=' + encodeURIComponent(answersB64);
-    } catch (e) { becomeUrl = '/become-protege'; }
-
-    // Update existing Protege CTA link
-    try {
-      var protegeLink = document.getElementById('protege-cta-link');
-      if (protegeLink) {
-        protegeLink.href = becomeUrl;
-        protegeLink.textContent = 'Become a Protégé & Open the App →';
-      }
-    } catch (e) { /* no-op */ }
-
-    // Per TJ direction 2026-06-01: removed the duplicate top-of-results CTA.
-    // The 'Next Step — Free' block below already has the single primary CTA.
-
-    // Render product tiles for each top-3 category
-    try {
-      var prodContainer = document.getElementById('results-products');
-      if (prodContainer && SOLUTIONS_DATA) {
-        prodContainer.innerHTML = '';
-        var productsHeading = document.createElement('div');
-        productsHeading.className = 'results-products-heading';
-        productsHeading.innerHTML = '<h3>Your starting protocols</h3><p class="results-products-sub">Each of your top 3 priorities has an over-the-counter path and a prescription path. Prot&eacute;g&eacute;s get 25% off the first purchase, 25% on autoship, 15% on one-time reorders.</p>';
-        prodContainer.appendChild(productsHeading);
-        top3.forEach(function (q) {
-          var sol = SOLUTIONS_DATA[q.solutionSlug] || { otc: null, rx: null };
-          if (!sol.otc && !sol.rx) return;
-          var section = document.createElement('div');
-          section.className = 'prod-category';
-          var catHead = document.createElement('h4');
-          catHead.className = 'prod-category-label';
-          catHead.textContent = q.label;
-          section.appendChild(catHead);
-          var tiles = document.createElement('div');
-          tiles.className = 'prod-tiles';
-          if (sol.otc) {
-            var otcTile = document.createElement('div');
-            otcTile.className = 'prod-tile prod-tile--otc';
-            otcTile.innerHTML =
-              '<span class="prod-kind">OTC</span>' +
-              '<div class="prod-body">' +
-                '<h5>' + escHtml(sol.otc.name) + '</h5>' +
-                '<p class="prod-tagline">' + escHtml(sol.otc.tagline) + '</p>' +
-                '<a class="prod-cta" href="/cart?sku=' + encodeURIComponent(sol.otc.skuId) + '">Order ' + escHtml(sol.otc.name.split(' —')[0].split(' (')[0]) + ' &rarr;</a>' +
-              '</div>';
-            tiles.appendChild(otcTile);
-          }
-          if (sol.rx) {
-            var isHormone = sol.rx.skuId === 'consult-hormone';
-            var rxTile = document.createElement('div');
-            rxTile.className = 'prod-tile prod-tile--rx';
-            rxTile.innerHTML =
-              '<span class="prod-kind prod-kind--rx">Rx</span>' +
-              '<div class="prod-body">' +
-                '<h5>' + escHtml(sol.rx.name) + '</h5>' +
-                '<p class="prod-tagline">' + escHtml(sol.rx.tagline) + '</p>' +
-                '<a class="prod-cta prod-cta--rx" href="/cart?sku=' + encodeURIComponent(sol.rx.skuId) + '">' +
-                  (isHormone ? 'Book TRT consult &mdash; $249 &rarr;' : 'Book consult + labs &mdash; $199 &rarr;') +
-                '</a>' +
-                (sol.rx.basicSkuId ? '<a class="prod-downgrade" href="/cart?sku=' + encodeURIComponent(sol.rx.basicSkuId) + '">I have recent labs &mdash; $99</a>' : '') +
-              '</div>';
-            tiles.appendChild(rxTile);
-          }
-          section.appendChild(tiles);
-          prodContainer.appendChild(section);
-        });
-      }
-    } catch (e) { /* no-op */ }
   }
 
   function escHtml(str) {
