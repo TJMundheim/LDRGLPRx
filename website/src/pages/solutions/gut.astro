@@ -1,9 +1,7 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
-import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
 import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
-import FoundationStackPair from '../../components/FoundationStackPair.astro';
-import InterimPickCard from '../../components/InterimPickCard.astro';
+import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
 ---
 
 <SolutionPage
@@ -14,41 +12,15 @@ import InterimPickCard from '../../components/InterimPickCard.astro';
   slug="gut"
   description="Leaky gut, gut microbiome dysregulation, and a disrupted gut-brain axis silently accelerate cognitive aging. Biome NS Ultra — L-Glutamine, DGL, Berberine, Aloe, Curcumin, Zinc Carnosine, A + D3 — is our foundational gut-brain seal formula. Members on the Rx tier add a standalone oral BPC-157 (Biome NS Rx) taken concurrently."
 >
-  <FoundationStackPair
-    otcName="Biome NS Ultra"
-    otcPositionLine="Daily gut-brain seal — the foundational starting protocol"
-    otcBody="Biome NS Ultra is the daily gut-brain seal powder — L-glutamine, DGL, berberine, aloe, curcumin, and zinc carnosine in one stack. L-glutamine fuels the epithelial cells lining the gut. DGL and aloe soothe the mucosa. Berberine and curcumin tame microbial dysbiosis and inflammation. Pairs cleanly with Biome NS Rx for the deeper compounded repair tier."
+  <OtcRxTopOptions
+    otcBrand="Thorne"
+    otcProductName="GI-Relief"
+    otcBridgesTo="Biome NS Ultra"
+    otcOneLiner="L-glutamine + DGL licorice + aloe + slippery elm + marshmallow root. Practitioner-grade gut-lining repair in a single bottle — the closest available analog to our Biome NS Ultra formulary while manufacturing is being finalized."
+    otcAmazonQuery="Thorne GI-Relief"
     rxName="Biome NS Rx (BPC-157 + L-Glutamine + Aloe)"
-    rxPositionLine="Proprietary compounded triple-action stack"
-    rxBody="Biome NS Rx is the proprietary compounded triple-action stack — oral BPC-157 + L-glutamine + aloe in a single prescription. Barrier repair, epithelial fuel, and mucosal soothing delivered concurrently. Prescribed via our telemedicine partner after the comprehensive consult — which also covers hormone, metabolic, GLP-1, and food-sensitivity review. Stacks on top of Biome NS Ultra."
-  />
-
-  <div class="buy-now-test">
-    <div class="buy-now-label">Order Biome NS Ultra</div>
-    <div class="buy-now-price">$0.50 <span class="buy-now-note">(sandbox pricing — placeholder until launch)</span></div>
-    <button id="buy-biome-ns-ultra" class="buy-now-btn" type="button" data-price-id="price_1Te3ghBSbDAyoIVyD9FYngyp" data-sku="biome-ns-ultra">
-      Order Now →
-    </button>
-    <p id="buy-now-err" class="buy-now-err" hidden></p>
-  </div>
-
-  <TwoPathsCTA
-    otcProductName="Biome NS Ultra (powder)"
-    otcDescription="L-Glutamine 5g + DGL + Berberine + Aloe + Curcumin + Zinc Carnosine + A + D3. The foundational gut-brain seal — taken on empty stomach on waking, 30 min before first meal. NS = NeuroSeal: the gut-brain seal that protects cognitive longevity."
-    otcCtaLabel="Order Biome NS Ultra →"
-    otcCtaHref="/cart?sku=biome-ns-ultra-sub"
-    rxDescription="Adds Biome NS Rx — a proprietary compounded triple-action formula combining oral BPC-157 + L-Glutamine + Aloe in one prescription. Unlike standalone BPC-157 sold by generic peptide pharmacies, this is the original synergistic stack: barrier repair (BPC-157) + epithelial fuel (L-Glutamine) + mucosal soothing (Aloe). Prescribed via our licensed telemedicine partner. Comprehensive consult also covers full hormone and metabolic panel, IgG/IgE food-sensitivity review, GLP-1 candidacy, and the integrated 4M plan."
-    whenOtc="Mild symptoms or maintenance — start the powder today, no prescription needed."
-    whenRx="Persistent gut symptoms (bloating, brain fog, food sensitivities, autoimmune presentation) — add Biome NS Rx (the triple-action BPC-157 + L-Glutamine + Aloe stack) on top of your powder for the deeper repair tier."
-    protegeFooter="Become a Protégé — daily protocol guidance, weekly coaching, gut-repair tracker →"
-  />
-
-  <InterimPickCard
-    brand="Thorne"
-    productName="GI-Relief"
-    bridgesTo="Biome NS Ultra"
-    oneLiner="L-glutamine + DGL licorice + aloe + slippery elm + marshmallow root — the closest practitioner-grade analog to our Biome NS Ultra formulary, minus the BPC-157 component. Practitioner-grade, single bottle, while we finalize manufacturing on Biome NS."
-    amazonQuery="Thorne GI-Relief"
+    rxPositionLine="Proprietary compounded triple-action prescription"
+    rxBody="Oral BPC-157 + L-glutamine + aloe in a single compounded prescription — barrier repair, epithelial fuel, and mucosal soothing delivered concurrently. Indicated for persistent gut symptoms (bloating, brain fog, food sensitivities, autoimmune presentation) where the OTC layer alone is not enough."
   />
 
   <h2 id="why-matters">Why this matters</h2>

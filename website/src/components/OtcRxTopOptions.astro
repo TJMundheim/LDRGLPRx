@@ -1,0 +1,178 @@
+---
+// Top-of-category-page two-option block. Simple, conversion-first.
+// Left card  = OTC interim pick (Amazon affiliate, my4lifeamz-20 tag)
+// Right card = Rx description + single "Schedule a Consult" CTA
+//
+// Used at the very top of any category solution page where an OTC bridge
+// product exists. Replaces the prior crowded FoundationStackPair +
+// TwoPathsCTA + InterimPickCard layering.
+
+interface Props {
+  // OTC (left card) — Amazon interim pick
+  otcBrand: string;
+  otcProductName: string;
+  otcBridgesTo: string;          // e.g. "Biome NS Ultra"
+  otcOneLiner: string;
+  otcAmazonQuery: string;        // search-URL query, NOT a specific ASIN
+  otcAuthorizedSeller?: string;  // e.g. "Pattern" — for Pure Encapsulations
+
+  // Rx (right card)
+  rxName: string;            // e.g. "Biome NS Rx"
+  rxPositionLine: string;    // one-line position
+  rxBody: string;            // 1-3 sentence description
+}
+
+const {
+  otcBrand,
+  otcProductName,
+  otcBridgesTo,
+  otcOneLiner,
+  otcAmazonQuery,
+  otcAuthorizedSeller,
+  rxName,
+  rxPositionLine,
+  rxBody,
+} = Astro.props as Props;
+
+const amazonTag = 'my4lifeamz-20';
+const amazonUrl = `https://www.amazon.com/s?k=${encodeURIComponent(otcAmazonQuery)}&tag=${amazonTag}`;
+---
+
+<section class="otcrx-top">
+  <div class="otcrx-grid">
+
+    <!-- OTC card (Amazon interim) -->
+    <article class="otcrx-card otcrx-card--otc">
+      <span class="otcrx-badge otcrx-badge--otc">OTC · Available Now</span>
+      <h3 class="otcrx-name">{otcBrand} {otcProductName}</h3>
+      <p class="otcrx-position">Interim bridge to {otcBridgesTo}</p>
+      <p class="otcrx-body">{otcOneLiner}</p>
+      {otcAuthorizedSeller && (
+        <p class="otcrx-verify">
+          <strong>Verify "Sold by: {otcAuthorizedSeller}"</strong> — the only authorized Amazon reseller for {otcBrand}.
+        </p>
+      )}
+      <a class="otcrx-cta otcrx-cta--otc"
+         href={amazonUrl}
+         target="_blank"
+         rel="nofollow sponsored noopener">
+        Order via Amazon →
+      </a>
+    </article>
+
+    <!-- Rx card (Consult) -->
+    <article class="otcrx-card otcrx-card--rx">
+      <span class="otcrx-badge otcrx-badge--rx">Rx Protocol · By Consult</span>
+      <h3 class="otcrx-name">{rxName}</h3>
+      <p class="otcrx-position">{rxPositionLine}</p>
+      <p class="otcrx-body">{rxBody}</p>
+      <a class="otcrx-cta otcrx-cta--rx" href="/consult">
+        Schedule a Consult →
+      </a>
+    </article>
+
+  </div>
+
+  <p class="otcrx-disclosure">
+    <em>As an Amazon Associate, My4MLife earns from qualifying purchases. We list practitioner-grade SKUs from authorized brand storefronts only.</em>
+  </p>
+</section>
+
+<style>
+.otcrx-top {
+  margin: 0.5rem 0 2.5rem;
+}
+.otcrx-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 720px) {
+  .otcrx-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+}
+.otcrx-card {
+  border-radius: var(--radius, 12px);
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.otcrx-card--otc {
+  background: linear-gradient(135deg, rgba(0,180,100,0.04) 0%, rgba(0,184,148,0.08) 100%);
+  border: 1px solid rgba(0,180,100,0.3);
+  border-left: 4px solid #0a7c4d;
+}
+.otcrx-card--rx {
+  background: linear-gradient(135deg, rgba(26,54,93,0.06) 0%, rgba(0,184,148,0.05) 100%);
+  border: 1px solid var(--border, #e5e7eb);
+  border-left: 4px solid var(--primary, #1a365d);
+}
+.otcrx-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  color: #fff;
+}
+.otcrx-badge--otc { background: #0a7c4d; }
+.otcrx-badge--rx  { background: var(--primary, #1a365d); }
+.otcrx-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary, #1a365d);
+  margin: 0.15rem 0 0;
+  line-height: 1.25;
+}
+.otcrx-position {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent, #00b894);
+  font-style: italic;
+  margin: 0;
+}
+.otcrx-body {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.55;
+  margin: 0.3rem 0 0.2rem;
+  flex: 1;
+}
+.otcrx-verify {
+  font-size: 0.78rem;
+  color: var(--text);
+  background: rgba(0,180,100,0.08);
+  border-radius: 6px;
+  padding: 0.45rem 0.65rem;
+  margin: 0;
+}
+.otcrx-cta {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 0.6rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  transition: background 0.15s, transform 0.15s;
+}
+.otcrx-cta--otc { background: #0a7c4d; }
+.otcrx-cta--otc:hover { background: #075c3a; transform: translateY(-1px); }
+.otcrx-cta--rx { background: var(--accent, #00b894); }
+.otcrx-cta--rx:hover { background: var(--accent-dark, #00a381); transform: translateY(-1px); }
+.otcrx-disclosure {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  margin: 0.9rem 0 0;
+  text-align: center;
+}
+</style>
