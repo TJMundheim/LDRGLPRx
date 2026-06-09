@@ -51,7 +51,10 @@ const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug
     </div>
   </section>
 
-  <!-- Solution Path — three-step CTA chain (hidden when showSolutionPath={false}) -->
+  <!-- Solution Path — two-step CTA chain (hidden when showSolutionPath={false}).
+       Locked 2026-06-09: every path to Protégé must run through the assessment first.
+       Step 3 (direct app/product access) was removed — Protégé benefits content with
+       a CTA back to /assessment now sits in its place. -->
   {showSolutionPath && (
   <section class="sol-path">
     <div class="container">
@@ -60,27 +63,34 @@ const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug
         <div class="sol-path-step">
           <div class="sol-path-num">1</div>
           <h3>Free Assessment</h3>
-          <p>Find out exactly where you stand across all 4M pillars — takes 4 minutes.</p>
+          <p>Find out exactly where you stand across all 4M pillars — 5 minutes, 10 questions, no card. The only door into the Protégé program and the My4MLife app.</p>
           <a href="/assessment" class="btn-sol primary">Take the Free Assessment</a>
         </div>
         <div class="sol-path-step">
           <div class="sol-path-num">2</div>
           <h3>Comprehensive 4M Consult</h3>
-          <p>One consult, full review — see if you're a candidate for weight loss medication (GLP-1s), peptides, hormone optimization, prescription protocols, practitioner-grade supplements, and the rest of your personalized 4M plan.</p>
+          <p>One consult, full review — see if you're a candidate for weight loss medication (GLP-1s), peptides, testosterone optimization, prescription protocols, practitioner-grade supplements, and the rest of your personalized 4M plan.</p>
           <ul class="sol-path-bullets">
             <li>Weight loss medication candidacy (GLP-1s)</li>
-            <li>Hormone optimization (TRT, thyroid, peptides)</li>
+            <li>Testosterone &amp; full hormone optimization (TRT, thyroid, peptides)</li>
             <li>Nootropic peptides &amp; cognitive support</li>
             <li>Practitioner-grade supplement protocol</li>
             <li>Prescription protocols &amp; lab review</li>
           </ul>
           <a href="/consult" class="btn-sol secondary">Schedule Your Comprehensive 4M Consult</a>
         </div>
-        <div class="sol-path-step">
-          <div class="sol-path-num">3</div>
-          <h3>App + Products</h3>
-          <p>Access the My4MLife app, workbook trackers, and protocol-matched products.</p>
-          <a href="https://app.my4mlife.com" class="btn-sol accent">Get the My4MLife App + Products</a>
+        <div class="sol-path-step sol-path-step-protege">
+          <div class="sol-path-num">★</div>
+          <h3>Become a Protégé — Free</h3>
+          <p>Everything inside the program — included free once you take the assessment.</p>
+          <ul class="sol-path-bullets">
+            <li>My4MLife app — daily 4M dashboard, action guide, adherence scorecard</li>
+            <li>Weekly Zooms with Dr. TJ and the cohort</li>
+            <li>The Cohort Workbook (PDF) and <em>Begin with the End in Mind</em> ebook</li>
+            <li>15% off first order, 25% off 90-day bundles, 25% off subscriptions</li>
+            <li>Member pricing on every My4MLife-branded product</li>
+          </ul>
+          <a href="/assessment" class="btn-sol accent">Start the Free Assessment to Join →</a>
         </div>
       </div>
     </div>
