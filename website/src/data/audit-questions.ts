@@ -76,7 +76,7 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     label: 'Erectile + sexual function',
     prompt: "My sex drive has dropped and erections aren't what they used to be — frequency, hardness, or both have declined noticeably in the past year or two.",
     scoreGuide: '0 = Drive and function feel completely normal · 3 = Some noticeable off-weeks but not a steady pattern · 5 = Clear, sustained decline in drive, hardness, or morning erections',
-    categoryNote: 'ED and libido decline are early-warning signals for hormones, cardiovascular health, and cognitive trajectory — not a verdict.',
+    categoryNote: 'ED and libido decline are early-warning signals — like the canary in the coal mine — for hormones, cardiovascular health, and cognitive trajectory. Not a verdict.',
     priorityTier: true,
     solutionSlug: 'erectile-dysfunction',
   },
