@@ -373,3 +373,69 @@ Fixes to consider:
 Add to HIGH batch as item #11b "Assessment retake re-seeds app correctly" — TJ to confirm priority based on how often real users will retake.
 
 
+# 2026-06-08 — Amazon affiliate launch + OTC bridge + gut template propagation + assessment-only Protégé + canary consistency
+
+Nine days of shipped work since the 2026-05-31 entry. Organized thematically rather than commit-by-commit. Key commit hashes inline.
+
+## (a) Cohort Workbook v2 + 3 live-purchase paths
+- `486ddd95` — Programs dropdown went live with 3 real Stripe-backed purchase paths: **Book $79.99 / App $69.99 / Workbook $2.50**.
+- `da1b64e7` — Cohort Workbook v2 — full Month-1 rebuild reflecting the locked brand voice + current 4M protocol.
+- `4cf5db29` — Cohort workbook bundled into the free Protégé welcome package (no longer a separate purchase for Protégés).
+
+## (b) Amazon Associates go-live + environmental coverage expansion
+- `b52498ea` — Amazon Associates tag `my4lifeamz-20` live across the site.
+- `4092ea92` — First 6 affiliate buttons across 4 environmental pages.
+- `88b76823` — +21 more environmental products wired.
+- `d0c34463` — Expanded to all 8 environmental categories (light/air/water/EMF/grounding/sauna/cold-plunge/mineral-bath). 27+ affiliate buttons live.
+
+## (c) 16-category OTC supplement bridge
+- `e7109951` — Interim Amazon affiliate OTC bridge launched across 16 categories while 4M-branded products are in-formula. Practitioner-grade only: Thorne, Pure Encapsulations (Pattern-verified), RiseWell, Momentous.
+- New components: `InterimPickCard.astro` (single affiliate card with optional "Verify Sold by: Pattern" callout), `RxConsultCTA.astro` (single-banner Rx consult block), `OtcRxTopOptions.astro` (clean two-card OTC + Rx top section).
+- New solution pages: `/solutions/muscle`, `/solutions/nervous-system`, `/solutions/alcohol`.
+- Rx-only pathways (Testosterone, ED, GLP-1, Peptides, Regenerative) route directly to consult — no OTC card.
+
+## (d) /consult rebuilt as real care-coordinator intake
+- `6a2e5e59` — Old /consult was a dead-end ("Get Notified When Open"). Rebuilt as a real intake form (name/email/phone/category/best-time/note) submitting to the existing `/api/contact-form` Lambda with `formId: 'consult-intake'`. Category prefills from `?category=` query param.
+- RxConsultCTA voice locked: **"Schedule a consult with one of our care coordinators and they'll connect you with a physician in our network."** (Removed "Dr. TJ personally places" and "while we onboard full telemedicine" wording — both made us look small / not-ready.)
+
+## (e) Gut template → propagated to 15 categories
+- `d585de77` — Gut page simplified to clean 2-card top + new RxConsultCTA brand voice. TJ approved as template.
+- `6e8f5fac` — Template propagated to 15 categories; **Alcohol** added as #10 in Top Categories. Lower-page CTAs (MiniTwoPaths, survey-retake prompts) stripped sitewide — rule: no decision-load in mid-funnel pages, no survey-retake nudges on Rx pathways.
+- Navbar Top Categories reordered to match assessment hierarchy first (Gut, Sleep, Weight, Nutrition, ED, Brain, Testosterone, Regenerative, Alcohol), then non-assessment categories below.
+
+## (f) Hormones page → testosterone-led SEO
+- `ae0c1988` — Renamed page positioning: title now **"Low Testosterone — TRT & Testosterone Therapy for Men"**. Male targeting + SEO. FoundationStackPair / TwoPathsCTA stripped — RxConsultCTA only.
+
+## (g) Assessment-only path to Protégé — sitewide sweep
+- `ae0c1988` — All direct `/become-protege` routes removed. The **only** path to Protégé is now through the assessment.
+- `SolutionPage.astro` Step 3 of "Take the Solution Path" replaced — direct app-access link gone, replaced with Protégé-benefits card routing to `/assessment`.
+- `FoundationStackPair.astro` — `/become-protege` swapped for `/assessment`.
+- 8 environment pages — footer CTAs repointed from `app.my4mlife.com` to `/assessment`.
+
+## (h) ED canary metaphor — consistency pass
+- `a1671539` — Body copy fixed: was using "ED is the smoke / four fires" mid-page. Replaced with extended canary + coal-miner analogy consistent with the book and hero copy.
+- `bbfb5469` — Assessment Q5 categoryNote tweaked: added **"like the canary in the coal mine"** explicit aside, since the assessment is many readers' first exposure and not everyone will recognize the bare metaphor.
+
+## Book — file locations (for next session)
+- **Latest PDF: [docs/book/Begin-with-the-End-in-Mind-v3.pdf](book/Begin-with-the-End-in-Mind-v3.pdf)** (Jun 5). v1 + v2 archived in same dir.
+- Source markdown chapters: [docs/book/draft/](book/draft/)
+- Renderer: [docs/book/render.py](book/render.py)
+- Covers: [docs/book/cover/](book/cover/)
+- Cohort Workbook v2: [docs/cohort-workbook/Cohort-Workbook-Month-1-v2.pdf](../docs/cohort-workbook/Cohort-Workbook-Month-1-v2.pdf)
+
+## Memory persisted this cycle
+- `project_meal_plan_email_workflow.md` — Wed email → Sat delivery → Sun Zoom → cook → repeat. Email/SMS first, app secondary.
+- `project_otc_supplement_bridge.md` — 16-category locked shortlist + authorized-seller rules.
+- `project_solution_page_template.md` — locked template: OtcRxTopOptions or RxConsultCTA at top, no lower-page CTAs.
+- `project_alcohol_category.md` — `/solutions/alcohol`; OTC = Thorne NAC; Rx = LDN via care coordinator.
+
+## Still pending / carry-over
+- Stripe E2E walkthroughs #1 / #2 / #3.
+- Bedrock daily token quota raise.
+- Zoom S2S credentials.
+- SMS phone-number approval.
+- ButcherBox + Thrive affiliate codes — wire same pattern into `affiliates.ts` when codes drop.
+- Assessment Q10 (Excessive alcohol) `solutionSlug` to be repointed from `substance-use` → `alcohol` next time assessment data is touched.
+- Pre-launch blockers: TJ book read-through, Biome NS fulfillment decision, privacy/HIPAA disclosure pages, friends-and-family E2E test cycle.
+- Item #11b — assessment retake re-seeds app correctly (from previous section).
+
