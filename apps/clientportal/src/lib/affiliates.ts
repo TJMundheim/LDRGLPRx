@@ -30,7 +30,7 @@ export const AFFILIATES = {
   amazon: {
     name: 'Amazon',
     baseUrl: 'https://www.amazon.com',
-    code: 'PLACEHOLDER_AMAZON',
+    code: 'my4lifeamz-20',
     link(path = '/'): string {
       const sep = path.includes('?') ? '&' : '?';
       return `${this.baseUrl}${path}${sep}tag=${this.code}`;
