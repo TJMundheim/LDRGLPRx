@@ -1,6 +1,5 @@
 ---
 import SolutionPage from '../../../layouts/SolutionPage.astro';
-import EmailCapture from '../../../components/EmailCapture.astro';
 ---
 
 <SolutionPage
@@ -20,190 +19,45 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <li>Most men indoors all morning never get the full-spectrum sunlight that anchors the circadian clock — the result is a system running with no strong signal at either end</li>
   </ul>
 
-  <!-- ══════════════════════════════════════════
-       HERITAGE INCANDESCENT FLAGSHIP SECTION
-  ══════════════════════════════════════════ -->
-  <section class="heritage-section" aria-label="Heritage Incandescent Bulb Flagship">
-    <div class="heritage-badge">FLAGSHIP · HERITAGE LINE</div>
-
-    <h2 class="heritage-title">The Heritage Bulb — Full-Spectrum, Zero-Flicker, Engineered for Biology</h2>
-
-    <div class="heritage-science">
-      <p>
-        Edison's incandescent bulb is — by physics — still the most biologically aligned artificial light source ever invented.
-        Unlike modern LEDs, which emit a narrow spike of blue-dominant wavelengths, an incandescent filament glows with
-        <strong>continuous blackbody radiation</strong> across the entire visible and near-infrared spectrum.
-        That means a color rendering index of 100, zero flicker (no 60 Hz to 4 kHz strobe effect on your retina),
-        rich red and near-infrared content that feeds mitochondrial function, and smooth analog dimming — the light dims
-        warmer and richer, the way firelight does, not the way a switching power supply does.
-        Modern efficiency legislation pushed lumens-per-watt as the sole optimization target, trading biology for a kilowatt-hour metric.
-      </p>
-      <p>
-        The good news: specialty incandescents are still legal. The 2023 DOE efficiency rule (45 lumens/watt minimum) ended
-        general-service incandescents — but explicitly exempts <strong>rough-service</strong> and vibration-service bulbs,
-        heat lamps, appliance bulbs, and certain industrial categories. Rough-service incandescents are rated at 130V and
-        run on your household 120V supply. The voltage headroom means the filament runs cooler, lasts far longer, and is
-        physically more robust. The result: <strong>10,000–20,000 hours of life</strong> — 10 to 20 times the standard
-        incandescent — sourced from verified specialty manufacturers, curated for circadian biology. We call this the
-        My4MLife Heritage Bulb line.
-      </p>
-    </div>
-
-    <!-- ── Why Edison's Bulb Still Wins — Comparison Block ── -->
-    <div class="heritage-compare-wrap">
-      <h3 class="heritage-compare-title">Why Edison's bulb still wins</h3>
-      <div class="heritage-compare-grid" role="table" aria-label="Light source comparison">
-        <div class="hc-header" role="row">
-          <div class="hc-label" role="columnheader"></div>
-          <div class="hc-col hc-led" role="columnheader">Standard LED</div>
-          <div class="hc-col hc-heritage" role="columnheader">Heritage Incandescent ✦</div>
-          <div class="hc-col hc-sun" role="columnheader">Sun (gold standard)</div>
-        </div>
-        <div class="hc-row" role="row">
-          <div class="hc-label" role="rowheader">Spectrum</div>
-          <div class="hc-col hc-led" role="cell">Discrete blue spike</div>
-          <div class="hc-col hc-heritage" role="cell">Continuous blackbody ✓</div>
-          <div class="hc-col hc-sun" role="cell">Continuous blackbody ✓</div>
-        </div>
-        <div class="hc-row" role="row">
-          <div class="hc-label" role="rowheader">Flicker</div>
-          <div class="hc-col hc-led" role="cell">60 Hz – 4 kHz</div>
-          <div class="hc-col hc-heritage" role="cell">Zero ✓</div>
-          <div class="hc-col hc-sun" role="cell">Zero ✓</div>
-        </div>
-        <div class="hc-row" role="row">
-          <div class="hc-label" role="rowheader">CRI</div>
-          <div class="hc-col hc-led" role="cell">70 – 95</div>
-          <div class="hc-col hc-heritage" role="cell">100 ✓</div>
-          <div class="hc-col hc-sun" role="cell">100 ✓</div>
-        </div>
-        <div class="hc-row" role="row">
-          <div class="hc-label" role="rowheader">Red + near-infrared</div>
-          <div class="hc-col hc-led" role="cell">Low</div>
-          <div class="hc-col hc-heritage" role="cell">High ✓</div>
-          <div class="hc-col hc-sun" role="cell">Very high ✓</div>
-        </div>
-        <div class="hc-row" role="row">
-          <div class="hc-label" role="rowheader">Dimming behavior</div>
-          <div class="hc-col hc-led" role="cell">Color shift + flicker</div>
-          <div class="hc-col hc-heritage" role="cell">Smooth, no shift ✓</div>
-          <div class="hc-col hc-sun" role="cell">N/A</div>
-        </div>
-        <div class="hc-row" role="row">
-          <div class="hc-label" role="rowheader">Rated lifespan</div>
-          <div class="hc-col hc-led" role="cell">15,000 – 25,000 hr</div>
-          <div class="hc-col hc-heritage" role="cell">10,000 – 20,000 hr</div>
-          <div class="hc-col hc-sun" role="cell">N/A</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Legal Loophole Callout ── -->
-    <blockquote class="heritage-legal">
-      These are 'rough-service' or 'vibration-service' incandescents — explicitly exempt from the 2023 DOE efficiency rule.
-      They're legally manufactured for industrial use; we source the longest-lasting versions and curate them for circadian biology.
-    </blockquote>
-
-    <!-- ── Heritage Product Cards ── -->
-    <div class="product-grid heritage-product-grid">
-      <div class="product-card heritage-card">
-        <h3>4M Heritage Bulb 4-Pack</h3>
-        <p class="product-why">Full-spectrum, zero-flicker drop-in replacement for bedroom and dining fixtures.</p>
-        <p>60W or 75W rough-service incandescent. 130V rated / runs on 120V. 10,000+ hour lifespan. Available in warm white (~2700K equivalent).</p>
-        <div class="heritage-specs">
-          <span>CRI 100</span><span>Zero flicker</span><span>10,000+ hr</span><span>$39 – $59</span>
-        </div>
-        <span class="notify-pill">Notify Me When Available</span>
-        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Bulb 4-Pack" class="btn-cart">Notify Me →</a>
-      </div>
-
-      <div class="product-card heritage-card">
-        <h3>4M Heritage Heat Lamp</h3>
-        <p class="product-why">Budget red-light alternative — naturally rich in 660nm and near-infrared.</p>
-        <p>250W red infrared heat lamp. Warm, full-spectrum output. Entry-level red-light therapy for face and body — no panel required.</p>
-        <div class="heritage-specs">
-          <span>250W</span><span>660nm + NIR</span><span>Plug-in simple</span><span>$19 – $29</span>
-        </div>
-        <span class="notify-pill">Notify Me When Available</span>
-        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Heat Lamp" class="btn-cart">Notify Me →</a>
-      </div>
-
-      <div class="product-card heritage-card">
-        <h3>4M Heritage Dimmer Kit</h3>
-        <p class="product-why">Smooth analog dim-to-candle, no color shift, no flicker at any brightness level.</p>
-        <p>Paired analog dimmer switch + matched Heritage incandescent set. Dims to near-candle level for the final hour before sleep.</p>
-        <div class="heritage-specs">
-          <span>Analog dim</span><span>No flicker</span><span>Complete kit</span><span>$89</span>
-        </div>
-        <span class="notify-pill">Notify Me When Available</span>
-        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Dimmer Kit" class="btn-cart">Notify Me →</a>
-      </div>
-
-      <div class="product-card heritage-card">
-        <h3>4M Heritage Edison-Style Decorative</h3>
-        <p class="product-why">Vintage filament aesthetic — combines visual warmth with genuine biological benefit.</p>
-        <p>Classic exposed-filament Edison bulb for living spaces, dining rooms, and accent fixtures. No trade-off between beauty and biology.</p>
-        <div class="heritage-specs">
-          <span>Vintage filament</span><span>CRI 100</span><span>Zero flicker</span><span>$14 each</span>
-        </div>
-        <span class="notify-pill">Notify Me When Available</span>
-        <a href="mailto:hello@my4mlife.com?subject=Pre-order: 4M Heritage Edison Decorative" class="btn-cart">Notify Me →</a>
-      </div>
-    </div>
-
-    <!-- ── Source Disclosure ── -->
-    <p class="heritage-disclosure">
-      Sourced through verified specialty incandescent manufacturers including Aero-Tech and partners.
-      Sample-tested for quoted life, color temperature, and CRI before any pack ships.
-    </p>
-  </section>
-
   <!-- ── Featured Products — E-Commerce Hero ── -->
   <h2 class="section-eliminate">Featured Products</h2>
   <p class="section-sub">Protocol-matched products for your light environment. Affiliate relationships disclosed below.</p>
   <div class="product-grid product-grid-2col">
 
-    <!-- 1. 4M Night-Light Pack -->
+    <!-- 1. Red Night-Light Bulbs -->
     <article class="product-card" id="night-light-pack">
       <div class="product-badge">Gateway Pick</div>
-      <span class="avail-badge avail-badge--wl">Ships soon — white-label</span>
-      <h3 class="product-name">4M Night-Light Pack</h3>
-      <p class="product-price-range">~$24 <span class="price-note">launch pricing finalizing</span></p>
+      <h3 class="product-name">Red Night-Light Bulbs (660nm)</h3>
       <p class="product-tagline">Red-spectrum bedside and hallway bulbs that won't torpedo your melatonin on a 3am bathroom run.</p>
       <ul class="product-specs">
-        <li>4-pack of 660nm red 1W bulbs</li>
-        <li>Standard E26 base — drops into any existing fixture</li>
+        <li>660nm red E26 bulbs</li>
+        <li>Standard base — drops into any existing fixture</li>
         <li>No flicker, no blue spike — safe for kids' rooms too</li>
-        <li>4M-branded packaging</li>
       </ul>
       <p class="product-why">A single brief white-light exposure at 2am suppresses melatonin for 90+ minutes. Red light below 660nm does not activate the intrinsically photosensitive retinal ganglion cells that signal the SCN. This is the simplest swap in the entire protocol.</p>
       <a href="https://www.amazon.com/s?k=red+night+light+bulb+660nm+E26&tag=my4lifeamz-20" class="affiliate-btn" target="_blank" rel="nofollow sponsored noopener">Order via Partner →</a>
     </article>
 
-    <!-- 2. 4M Blackout Dots -->
+    <!-- 2. Light-Blocking Stickers -->
     <article class="product-card" id="blackout-dots">
       <div class="product-badge">Gateway Pick</div>
-      <span class="avail-badge avail-badge--wl">Ships soon — white-label</span>
-      <h3 class="product-name">4M Blackout Dots</h3>
-      <p class="product-price-range">~$12 <span class="price-note">launch pricing finalizing</span></p>
-      <p class="product-tagline">200 light-blocking stickers that eliminate the ambient LEDs polluting your bedroom at night.</p>
+      <h3 class="product-name">LED Light-Blocking Stickers</h3>
+      <p class="product-tagline">Light-blocking stickers that eliminate the ambient LEDs polluting your bedroom at night.</p>
       <ul class="product-specs">
-        <li>200 stickers in varied sizes — fits alarm clocks, smoke detectors, TV standby LEDs, charger bricks, smart speakers</li>
+        <li>Varied sizes — fits alarm clocks, smoke detectors, TV standby LEDs, charger bricks</li>
         <li>Repositionable adhesive — no residue on removal</li>
         <li>Opaque matte black finish; works on curved surfaces</li>
       </ul>
-      <p class="product-why">The average bedroom has 10–20 ambient LEDs. Even dim blue-green indicator lights suppress melatonin and reduce sleep depth. This $12 fix addresses a light-pollution source most people never notice until it's gone.</p>
+      <p class="product-why">The average bedroom has 10–20 ambient LEDs. Even dim blue-green indicator lights suppress melatonin and reduce sleep depth. This fix addresses a light-pollution source most people never notice until it's gone.</p>
       <a href="https://www.amazon.com/s?k=LED+light+blocking+stickers+blackout&tag=my4lifeamz-20" class="affiliate-btn" target="_blank" rel="nofollow sponsored noopener">Order via Partner →</a>
     </article>
 
     <!-- 3. Circadian Bedroom Bulb 4-Pack -->
     <article class="product-card" id="circadian-bedroom-bulb">
-      <h3 class="product-name">Circadian Bedroom Bulb 4-Pack</h3>
-      <p class="product-price-range">$40–$60 <span class="price-note">launch pricing finalizing</span></p>
+      <h3 class="product-name">Circadian Bedroom Bulbs (2200K)</h3>
       <p class="product-tagline">Warm 2200K LEDs purpose-built for bedrooms and the last hour of the day.</p>
       <ul class="product-specs">
         <li>2200K color temperature — minimal blue-light output</li>
-        <li>4-pack for full bedroom replacement (overhead + two nightstands + closet)</li>
         <li>Dimmable — pairs with standard dimmer switches</li>
         <li>Standard E26 base, 800+ lumen output</li>
       </ul>
@@ -211,15 +65,13 @@ import EmailCapture from '../../../components/EmailCapture.astro';
       <a href="https://www.amazon.com/s?k=2200K+warm+amber+LED+bulb+E26+dimmable&tag=my4lifeamz-20" class="affiliate-btn" target="_blank" rel="nofollow sponsored noopener">Order via Partner →</a>
     </article>
 
-    <!-- 4. 4M Blue-Light Blocking Glasses -->
+    <!-- 4. Blue-Light Blocking Glasses -->
     <article class="product-card" id="blue-blockers">
-      <h3 class="product-name">4M Blue-Light Blocking Glasses</h3>
-      <p class="product-price-range">$39 amber / $59 red <span class="price-note">launch pricing finalizing</span></p>
+      <h3 class="product-name">Blue-Light Blocking Glasses</h3>
       <p class="product-tagline">Amber for evening screen use. Red for full pre-sleep protection. Both block what matters.</p>
       <ul class="product-specs">
         <li>Amber lens: blocks 90%+ blue spectrum (430–490nm)</li>
         <li>Red lens: blocks blue + green spectrum — maximum melatonin protection 1–2 hrs before bed</li>
-        <li>Lightweight 4M-branded acetate frames; over-glass compatible</li>
         <li>Most members start amber, upgrade to red</li>
       </ul>
       <p class="product-why">Screen-induced melatonin suppression persists for hours after exposure. Blue-blockers extend your effective chronobiological night without requiring device shutoff. The red-lens version eliminates virtually all light-induced melatonin suppression.</p>
@@ -229,13 +81,11 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <!-- 5. Red Light Therapy Panel -->
     <article class="product-card" id="red-light-panel">
       <div class="product-badge">Member Pick</div>
-      <h3 class="product-name">Red Light Therapy Panel — 4M Edition</h3>
-      <p class="product-price-range">$399–$899 <span class="price-note">mid / large panel — launch pricing finalizing</span></p>
+      <h3 class="product-name">Red Light Therapy Panel (660nm + 850nm)</h3>
       <p class="product-tagline">660nm + 850nm dual-wavelength therapy for mitochondrial support, tissue recovery, and cognition — 10–20 min/day.</p>
       <ul class="product-specs">
         <li>660nm red + 850nm near-infrared dual-wavelength output</li>
         <li>Mid panel: face + upper body; Large panel: full-body coverage</li>
-        <li>Medical-grade LED array, 100mW/cm² at 6 inches</li>
         <li>No UV, no heat — safe for daily protocol use</li>
         <li>Mounting hardware + timer included</li>
       </ul>
@@ -243,10 +93,9 @@ import EmailCapture from '../../../components/EmailCapture.astro';
       <a href="https://www.amazon.com/s?k=red+light+therapy+panel+660nm+850nm&tag=my4lifeamz-20" class="affiliate-btn" target="_blank" rel="nofollow sponsored noopener">Order via Partner →</a>
     </article>
 
-    <!-- 6. 4M Morning Sun Lamp -->
+    <!-- 6. Morning Sun Lamp -->
     <article class="product-card" id="morning-sun-lamp">
-      <h3 class="product-name">4M Morning Sun Lamp</h3>
-      <p class="product-price-range">$99–$149 <span class="price-note">launch pricing finalizing</span></p>
+      <h3 class="product-name">Morning Sun Lamp (10,000 Lux)</h3>
       <p class="product-tagline">10,000 lux full-spectrum for indoor workers, winter mornings, and anyone without reliable morning sun access.</p>
       <ul class="product-specs">
         <li>10,000 lux certified output at 12-inch distance</li>
@@ -258,55 +107,20 @@ import EmailCapture from '../../../components/EmailCapture.astro';
       <a href="https://www.amazon.com/s?k=10000+lux+light+therapy+lamp&tag=my4lifeamz-20" class="affiliate-btn" target="_blank" rel="nofollow sponsored noopener">Order via Partner →</a>
     </article>
 
-    <!-- 7. 4M Smart Light Controller -->
+    <!-- 7. Smart Light Controller -->
     <article class="product-card" id="smart-light-controller">
-      <h3 class="product-name">4M Smart Light Controller</h3>
-      <p class="product-price-range">$39 <span class="price-note">launch pricing finalizing</span></p>
+      <h3 class="product-name">Smart Light Controller (Circadian Timer)</h3>
       <p class="product-tagline">Wi-Fi circadian schedule — auto-dims and warms your bedroom lights at sunset. Set it once, done.</p>
       <ul class="product-specs">
         <li>Wi-Fi enabled outlet switch — no hub required</li>
         <li>Circadian scheduling: full brightness by day, auto-dim + warm-shift at sunset</li>
-        <li>Works with any dimmable warm-spectrum bulb (pairs with Circadian Bulb 4-Pack)</li>
+        <li>Works with any dimmable warm-spectrum bulb</li>
         <li>App-based schedule tied to local sunrise/sunset; Alexa + Google Assistant compatible</li>
       </ul>
       <p class="product-why">Behavior-based light management works until it doesn't — life interrupts. Automation removes the failure mode. The controller transitions your light environment on schedule across 100% of nights, not most of them.</p>
       <a href="https://www.amazon.com/s?k=Philips+Hue+circadian+smart+bulb&tag=my4lifeamz-20" class="affiliate-btn" target="_blank" rel="nofollow sponsored noopener">Order via Partner →</a>
     </article>
 
-    <!-- 8. 4M Sleep Sanctuary — Light Bundle -->
-    <article class="product-card product-card--bundle" id="sleep-sanctuary-light">
-      <div class="product-badge product-badge--bundle">Bundle · Best Value</div>
-      <h3 class="product-name">4M Sleep Sanctuary — Light Bundle</h3>
-      <p class="product-price-range">$89 <span class="price-note">vs ~$108 individually — launch pricing finalizing</span></p>
-      <p class="product-tagline">The complete light-environment starter kit in one shipment: red bulbs + blackout dots + circadian bulbs + blue-blockers.</p>
-      <ul class="product-specs">
-        <li>4M Night-Light Pack (4 red bulbs)</li>
-        <li>4M Blackout Dots (200 stickers)</li>
-        <li>2x Circadian Bedroom Bulbs (2200K)</li>
-        <li>1x Amber Blue-Light Blocking Glasses</li>
-        <li>4M Light Protocol quickstart card</li>
-      </ul>
-      <p class="product-why">The four highest-leverage light interventions arriving simultaneously. Members who start with the bundle report noticeable sleep improvement within the first week — eliminating bad signals and adding the right ones at the same time is faster than any single product alone.</p>
-      <a href="#notify-light" class="notify-btn" target="_blank" rel="nofollow sponsored noopener">Notify Me When Available →</a>
-    </article>
-
-  </div>
-
-  <!-- ── Notify Me Capture ── -->
-  <div class="notify-capture-block" id="notify-light">
-    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
-    <p class="notify-capture-sub">Enter your email — we'll notify you when any product on this page becomes available.</p>
-    <div class="notify-checkboxes">
-      <label><input type="checkbox" name="product" value="night-light-pack" checked> 4M Night-Light Pack</label>
-      <label><input type="checkbox" name="product" value="blackout-dots" checked> 4M Blackout Dots</label>
-      <label><input type="checkbox" name="product" value="circadian-bulb"> Circadian Bedroom Bulb 4-Pack</label>
-      <label><input type="checkbox" name="product" value="blue-blockers"> Blue-Light Blocking Glasses</label>
-      <label><input type="checkbox" name="product" value="red-light-panel"> Red Light Therapy Panel</label>
-      <label><input type="checkbox" name="product" value="morning-sun-lamp"> Morning Sun Lamp</label>
-      <label><input type="checkbox" name="product" value="smart-controller"> Smart Light Controller</label>
-      <label><input type="checkbox" name="product" value="sleep-sanctuary-light"> Sleep Sanctuary Bundle</label>
-    </div>
-    <EmailCapture source="env-light-page" buttonLabel="Notify Me →" placeholder="your@email.com" />
   </div>
 
   <!-- ── Deeper Protocol ── -->

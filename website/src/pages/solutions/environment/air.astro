@@ -1,6 +1,5 @@
 ---
 import SolutionPage from '../../../layouts/SolutionPage.astro';
-import EmailCapture from '../../../components/EmailCapture.astro';
 ---
 
 <SolutionPage
@@ -30,7 +29,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <article class="product-card" id="hvac-filter-set">
       <div class="product-badge">Recurring · High ROI</div>
       <h3 class="product-name">4M HVAC HEPA+Carbon Filter Set</h3>
-      <p class="product-price-range">$29–$59 <span class="price-note">per quarterly delivery — launch pricing finalizing</span></p>
+      <p class="product-price-range">$29–$59</p>
       <p class="product-tagline">Quarterly auto-ship of upgraded HVAC filters — MERV-13 + activated carbon vs. the cardboard box the builder installed.</p>
       <ul class="product-specs">
         <li>MERV-13 rated — captures particulates, pollen, smoke, and fine dust</li>
@@ -48,7 +47,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
       <div class="product-badge">Top Priority</div>
       <span class="avail-badge avail-badge--affiliate">Available — Affiliate</span>
       <h3 class="product-name">4M Bedroom Air Purifier</h3>
-      <p class="product-price-range">~$249 <span class="price-note">partner pricing — launch pricing finalizing</span></p>
+      <p class="product-price-range">~$249</p>
       <p class="product-tagline">Whisper-quiet HEPA + activated carbon for your 7–8 hour recovery window — the single highest-ROI air intervention.</p>
       <ul class="product-specs">
         <li>True HEPA filtration — captures 99.97% of particles 0.3 microns and larger</li>
@@ -65,7 +64,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <article class="product-card" id="whole-home-air-purifier">
       <div class="product-badge">Member Pick</div>
       <h3 class="product-name">4M Whole-Home Air Purifier</h3>
-      <p class="product-price-range">$449–$799 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-price-range">$449–$799</p>
       <p class="product-tagline">Multi-room or whole-floor coverage — True HEPA + carbon for the spaces where you live and work during the day.</p>
       <ul class="product-specs">
         <li>Coverage: 600–1,000+ sq ft depending on configuration</li>
@@ -82,7 +81,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <article class="product-card" id="air-quality-monitor">
       <div class="product-badge">Gateway: See Your Numbers</div>
       <h3 class="product-name">4M Air Quality Monitor</h3>
-      <p class="product-price-range">$99–$149 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-price-range">$99–$149</p>
       <p class="product-tagline">VOC + PM2.5 + CO2 + humidity — live data on exactly what you're breathing. Most people are shocked by their baseline.</p>
       <ul class="product-specs">
         <li>Sensors: VOCs, PM2.5 fine particulates, CO2, temperature, humidity</li>
@@ -98,7 +97,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <!-- 5. 4M Mold Test Kit -->
     <article class="product-card" id="mold-test-kit">
       <h3 class="product-name">4M Mold Test Kit</h3>
-      <p class="product-price-range">$39 <span class="price-note">launch pricing finalizing</span></p>
+      <p class="product-price-range">$39</p>
       <p class="product-tagline">DIY home mold assessment — petri-dish and air-sample test for pathogenic species. Know before you treat.</p>
       <ul class="product-specs">
         <li>Includes air samples + surface swabs for multiple rooms</li>
@@ -115,7 +114,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
     <article class="product-card" id="hvac-uvc-sterilizer">
       <div class="product-badge">Pro Install</div>
       <h3 class="product-name">4M HVAC UV-C Sterilizer Add-On</h3>
-      <p class="product-price-range">$279–$449 <span class="price-note">+ professional installation — launch pricing finalizing</span></p>
+      <p class="product-price-range">$279–$449 (+ professional installation)</p>
       <p class="product-tagline">In-duct UV-C germicidal lamp — continuously sterilizes airborne pathogens as air passes through your HVAC system.</p>
       <ul class="product-specs">
         <li>254nm germicidal UV-C lamp installed inside the HVAC duct</li>
@@ -133,7 +132,7 @@ import EmailCapture from '../../../components/EmailCapture.astro';
       <div class="product-badge product-badge--bundle">Recurring · Consumable</div>
       <span class="avail-badge avail-badge--affiliate">Available — Affiliate</span>
       <h3 class="product-name">Filter Replacement Subscription</h3>
-      <p class="product-price-range">Recurring pricing <span class="price-note">partner pricing — launch pricing finalizing</span></p>
+      <p class="product-price-range">Recurring pricing</p>
       <p class="product-tagline">Auto-ship replacement filters for your bedroom purifier, whole-home unit, and HVAC system — on the schedule that keeps them performing.</p>
       <ul class="product-specs">
         <li>Bedroom purifier: HEPA + carbon replacement filters every 6–8 months</li>
@@ -145,22 +144,6 @@ import EmailCapture from '../../../components/EmailCapture.astro';
       <a href="https://www.amazon.com/s?k=AirDoctor+replacement+filter&tag=my4lifeamz-20" class="affiliate-btn" target="_blank" rel="nofollow sponsored noopener">Order via Partner →</a>
     </article>
 
-  </div>
-
-  <!-- ── Notify Me Capture ── -->
-  <div class="notify-capture-block" id="notify-air">
-    <h3 class="notify-capture-heading">Get Notified When These Launch</h3>
-    <p class="notify-capture-sub">Enter your email — we'll notify you when any product on this page becomes available.</p>
-    <div class="notify-checkboxes">
-      <label><input type="checkbox" name="product" value="hvac-filter-set" checked> HVAC HEPA+Carbon Filter Set</label>
-      <label><input type="checkbox" name="product" value="bedroom-air-purifier" checked> Bedroom Air Purifier</label>
-      <label><input type="checkbox" name="product" value="whole-home-purifier"> Whole-Home Air Purifier</label>
-      <label><input type="checkbox" name="product" value="air-quality-monitor"> Air Quality Monitor</label>
-      <label><input type="checkbox" name="product" value="mold-test-kit"> Mold Test Kit</label>
-      <label><input type="checkbox" name="product" value="hvac-uvc-sterilizer"> HVAC UV-C Sterilizer Add-On</label>
-      <label><input type="checkbox" name="product" value="filter-subscription"> Filter Replacement Subscription</label>
-    </div>
-    <EmailCapture source="env-air-page" buttonLabel="Notify Me →" placeholder="your@email.com" />
   </div>
 
   <!-- ── Deeper Protocol ── -->
