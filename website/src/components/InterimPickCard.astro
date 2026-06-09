@@ -1,0 +1,132 @@
+---
+// Interim Pick card — practitioner-grade Amazon affiliate SKU shown alongside
+// the coming-soon 4M-branded product on a solution page. Used as a bridge
+// until the 4M white-label SKU ships.
+//
+// All links use the My4MLife Amazon Associates tag (my4lifeamz-20).
+// Per FTC + Google: target="_blank" rel="nofollow sponsored noopener" required.
+
+interface Props {
+  brand: string;            // e.g. "Thorne"
+  productName: string;      // e.g. "GI-Relief"
+  bridgesTo: string;        // e.g. "Biome NS Ultra"
+  oneLiner: string;         // short why-this-product hook
+  amazonQuery: string;      // search-URL query string, NOT a specific ASIN
+  authorizedSeller?: string; // e.g. "Pattern" — shown as "Verify Sold by: Pattern"
+}
+
+const {
+  brand,
+  productName,
+  bridgesTo,
+  oneLiner,
+  amazonQuery,
+  authorizedSeller,
+} = Astro.props as Props;
+
+const amazonTag = 'my4lifeamz-20';
+const amazonUrl = `https://www.amazon.com/s?k=${encodeURIComponent(amazonQuery)}&tag=${amazonTag}`;
+---
+
+<aside class="interim-pick">
+  <div class="interim-pick-header">
+    <span class="interim-pick-badge">Interim Pick — Available Now</span>
+    <span class="interim-pick-bridge">Bridges to {bridgesTo}</span>
+  </div>
+  <h3 class="interim-pick-name">{brand} {productName}</h3>
+  <p class="interim-pick-oneliner">{oneLiner}</p>
+  {authorizedSeller && (
+    <p class="interim-pick-verify">
+      <strong>Verify "Sold by: {authorizedSeller}"</strong> on the listing —
+      it's the only authorized Amazon reseller for {brand}.
+    </p>
+  )}
+  <a
+    class="interim-pick-cta"
+    href={amazonUrl}
+    target="_blank"
+    rel="nofollow sponsored noopener"
+  >
+    Order via Amazon →
+  </a>
+  <p class="interim-pick-note">
+    <em>While we finalize our 4M-branded {bridgesTo}, this is the practitioner-grade SKU we use as an interim bridge. As an Amazon Associate, My4MLife earns from qualifying purchases.</em>
+  </p>
+</aside>
+
+<style>
+.interim-pick {
+  background: linear-gradient(135deg, rgba(0,180,100,0.04) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid rgba(0,180,100,0.35);
+  border-left: 4px solid #0a7c4d;
+  border-radius: var(--radius, 12px);
+  padding: 1.25rem 1.4rem;
+  margin: 1.5rem 0 2rem;
+}
+.interim-pick-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.8rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.interim-pick-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #0a7c4d;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+}
+.interim-pick-bridge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-light);
+  font-style: italic;
+}
+.interim-pick-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.4rem;
+  line-height: 1.25;
+}
+.interim-pick-oneliner {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.55;
+  margin: 0 0 0.7rem;
+}
+.interim-pick-verify {
+  font-size: 0.82rem;
+  color: var(--text);
+  background: rgba(0,180,100,0.08);
+  border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  margin: 0 0 0.7rem;
+}
+.interim-pick-cta {
+  display: inline-block;
+  padding: 0.55rem 1.4rem;
+  background: #0a7c4d;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+.interim-pick-cta:hover {
+  background: #075c3a;
+  transform: translateY(-1px);
+}
+.interim-pick-note {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin: 0.8rem 0 0;
+  line-height: 1.5;
+}
+</style>

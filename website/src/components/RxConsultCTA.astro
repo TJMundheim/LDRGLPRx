@@ -1,0 +1,111 @@
+---
+// Rx-pathway consult CTA — used on solution pages where the category is Rx-only
+// (GLP-1, Testosterone, ED, Peptides, Regenerative). Routes directly to Dr. TJ
+// for manual physician placement until full-time telemedicine onboards.
+
+interface Props {
+  category: string;       // e.g. "Testosterone Therapy"
+  whyConsult: string;     // one-sentence reason this is consult-only
+}
+
+const { category, whyConsult } = Astro.props as Props;
+const subject = encodeURIComponent(`Consult Request — ${category}`);
+const body = encodeURIComponent(
+  `Name:\nEmail:\nPhone:\nReason for consult (${category}):\nBest times to talk:\n`
+);
+const mailto = `mailto:drtj@my4mlife.com?subject=${subject}&body=${body}`;
+---
+
+<aside class="rx-consult-cta">
+  <p class="rx-consult-eyebrow">Rx Pathway — Direct Consult with Dr. TJ</p>
+  <h3 class="rx-consult-title">{category} requires a physician.</h3>
+  <p class="rx-consult-body">
+    {whyConsult} Until our full-time telemedicine team is onboarded,
+    <strong>Dr. TJ personally places each {category.toLowerCase()} candidate</strong>
+    with one of our contracted physicians. No app, no waitlist, no middleman.
+  </p>
+  <div class="rx-consult-actions">
+    <a href={mailto} class="rx-consult-primary">Email Dr. TJ Directly →</a>
+    <a href="/consult" class="rx-consult-secondary">Or Book via Consult Page →</a>
+  </div>
+  <p class="rx-consult-note">
+    <em>Telemedicine consult includes full intake, lab review, candidacy assessment,
+    and protocol design. Prescription only when clinically indicated.</em>
+  </p>
+</aside>
+
+<style>
+.rx-consult-cta {
+  background: linear-gradient(135deg, rgba(26,54,93,0.06) 0%, rgba(0,184,148,0.07) 100%);
+  border: 1px solid var(--border, #e5e7eb);
+  border-left: 4px solid var(--primary, #1a365d);
+  border-radius: var(--radius, 12px);
+  padding: 1.5rem 1.6rem;
+  margin: 1.75rem 0 2rem;
+}
+.rx-consult-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary, #1a365d);
+  margin: 0 0 0.4rem;
+}
+.rx-consult-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--primary, #1a365d);
+  margin: 0 0 0.6rem;
+  line-height: 1.25;
+}
+.rx-consult-body {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+.rx-consult-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+.rx-consult-primary {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  background: var(--accent, #00b894);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.15s;
+}
+.rx-consult-primary:hover {
+  background: var(--accent-dark, #00a381);
+  transform: translateY(-1px);
+}
+.rx-consult-secondary {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  background: transparent;
+  color: var(--primary, #1a365d);
+  border: 1.5px solid var(--primary, #1a365d);
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.rx-consult-secondary:hover {
+  background: var(--primary, #1a365d);
+  color: #fff;
+}
+.rx-consult-note {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin: 0;
+  line-height: 1.55;
+  font-style: italic;
+}
+</style>

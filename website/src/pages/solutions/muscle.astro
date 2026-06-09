@@ -1,0 +1,86 @@
+---
+import SolutionPage from '../../layouts/SolutionPage.astro';
+import InterimPickCard from '../../components/InterimPickCard.astro';
+---
+
+<SolutionPage
+  compact={true}
+  title="Muscle preservation is brain preservation."
+  parent="Muscle"
+  oneliner="Lean mass is the single most under-discussed lever in cognitive longevity. The men who keep their muscle through their 60s and 70s keep their independence — and their minds."
+  slug="muscle"
+  description="Muscle preservation and building protocol from My4MLife — creatine, protein-first nutrition, and the upstream rule set that protects lean mass through the decades when most men silently lose it."
+>
+
+  <h2>Why this matters</h2>
+  <p>
+    Sarcopenia — the age-related loss of muscle — starts in the 30s and accelerates after 60. By age 80, the average sedentary man has lost 30–40% of his peak muscle mass. That isn't a cosmetic problem. Muscle is the body's largest endocrine organ, the largest reservoir for glucose disposal, the primary defense against falls, and one of the strongest predictors of all-cause mortality and cognitive resilience in the back half of life.
+  </p>
+  <p>
+    The protocol is direct: <strong>creatine monohydrate daily, 30g+ protein every meal, resistance training 2–4× per week, and the foundational nutrient stack (vitamin D, magnesium, omega-3) that the muscle-building machinery requires to function.</strong> This page covers the daily creatine pillar.
+  </p>
+
+  <h2>The daily creatine pillar</h2>
+  <p>
+    Creatine monohydrate is the most-studied supplement in sports science. 5 grams daily is the standard dose; 10 grams supports both the muscle pillar and the cognitive pillar (creatine crosses the blood-brain barrier and supports brain ATP capacity — the same molecule, dual role). It is safe, inexpensive, vegetarian-friendly, and works in essentially every adult who takes it consistently.
+  </p>
+
+  <InterimPickCard
+    brand="Thorne"
+    productName="Creatine (micronized monohydrate)"
+    bridgesTo="MitoVita"
+    oneLiner="NSF Certified for Sport. Banned-substance tested. Pure creatine monohydrate, no proprietary blends, no fillers. 5g daily for muscle; 10g daily if you also want the cognitive benefit (this same SKU dual-purposes on our Brain Optimization page)."
+    amazonQuery="Thorne Creatine"
+  />
+
+  <h2>The four-rule protocol</h2>
+  <ul class="why-list">
+    <li><strong>30g protein per meal, breakfast-first.</strong> Lean meat, eggs, fish, or whey. The 30g threshold is the leucine signal that triggers muscle protein synthesis. Most men over 40 are not hitting this — particularly at breakfast.</li>
+    <li><strong>Resistance training 2–4× per week.</strong> Compound movements. Progressive overload. Free weights, machines, or bands — what matters is challenging the muscle, not the equipment brand.</li>
+    <li><strong>Creatine 5–10g daily.</strong> Every day, with or without training. Consistency, not timing, is what matters.</li>
+    <li><strong>Sleep 7+ hours.</strong> Muscle protein synthesis happens during sleep. Sleep debt actively undoes the work of the gym.</li>
+  </ul>
+
+  <h2>Where this connects across the 4M system</h2>
+  <ul class="why-list">
+    <li><a href="/solutions/cognitive">Brain Optimization</a> — creatine crosses the blood-brain barrier; muscle and mind run on the same fuel.</li>
+    <li><a href="/solutions/hormones">Testosterone Therapy &amp; Hormone Optimization</a> — testosterone is the upstream signal behind muscle preservation; muscle is the downstream proof testosterone is working.</li>
+    <li><a href="/solutions/nutrition">Nutrition &amp; the 30g Protein-First Rule</a> — the meal-timing protocol that makes the muscle protocol work.</li>
+    <li><a href="/pillars/muscle">The Muscle pillar</a> — the umbrella over strength, sarcopenia prevention, and metabolic health.</li>
+  </ul>
+
+  <p class="read-more-line">
+    Muscle is the easiest thing to lose silently in your 40s and 50s — and the hardest thing to rebuild in your 70s. Start now while the cost is low.
+  </p>
+
+</SolutionPage>
+
+<style>
+.why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.75rem;
+}
+.why-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.97rem;
+}
+.why-list li:last-child { border-bottom: none; }
+.why-list li::before {
+  content: "→";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.read-more-line {
+  margin-top: 1.5rem;
+  font-style: italic;
+  color: var(--text-light);
+}
+</style>

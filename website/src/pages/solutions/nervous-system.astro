@@ -1,0 +1,92 @@
+---
+import SolutionPage from '../../layouts/SolutionPage.astro';
+import InterimPickCard from '../../components/InterimPickCard.astro';
+---
+
+<SolutionPage
+  compact={true}
+  title="Nervous system support — the layer underneath everything."
+  parent="Mitigate"
+  oneliner="Peripheral nerves, methylation cycles, and autonomic balance are the substrate every other system runs on. When this layer drifts, everything above it drifts."
+  slug="nervous-system"
+  description="Nervous system support protocol from My4MLife — methylation cofactors, peripheral nerve repair, and autonomic regulation. The layer underneath the cognitive, sleep, mood, and energy systems most men try to optimize first."
+>
+
+  <h2>Why this matters</h2>
+  <p>
+    The nervous system is not just the brain. It's the peripheral nerves running every reflex, every fine motor signal, every autonomic regulation of heart rate and digestion. It runs on methylation — the biochemical process that builds, repairs, and protects nerve tissue using methyl groups donated from B-vitamins and folate.
+  </p>
+  <p>
+    Subclinical methylation deficiency is one of the most under-diagnosed drivers of: peripheral neuropathy, anxiety with no clear trigger, tremor, restless legs, autonomic dysregulation, cold extremities, and a particular kind of cognitive fog that doesn't respond to "brain" supplements. Fix the substrate first — then the systems running on top of it tend to come back into alignment.
+  </p>
+
+  <h2>Why this is separate from Brain Optimization</h2>
+  <p>
+    There's mechanism overlap (omega-3 DHA, magnesium-threonate, and B-vitamins all touch both), but the presenting picture is different. <strong>Brain Optimization</strong> is for the man with focus, memory, and mental-performance complaints. <strong>Nervous System Support</strong> is for the man with anxiety, tremor, neuropathy, autonomic symptoms, or that "wired-but-tired" pattern that doesn't fit the cognitive bucket. Two doors. Same protocol-builder.
+  </p>
+
+  <h2>The methylation pillar</h2>
+  <p>
+    Methyl-B12, 5-MTHF (the active folate), P5P (the active B6), and riboflavin together cover the four cofactors the methylation cycle depends on. A meaningful percentage of the population — particularly anyone with a MTHFR variant — can't efficiently convert the synthetic forms of B12 and folate that show up in cheap multivitamins. The active forms work for everyone, including those with the variant.
+  </p>
+
+  <InterimPickCard
+    brand="Thorne"
+    productName="Methyl-Guard Plus"
+    bridgesTo="future 4M nerve/methylation SKU"
+    oneLiner="Methyl-B12 + 5-MTHF folate + P5P B6 + riboflavin in active forms. Practitioner-grade methylation support — covers peripheral nerve repair, autonomic regulation, and the substrate behind mood and cognition. Daily use."
+    amazonQuery="Thorne Methyl-Guard Plus"
+  />
+
+  <h2>Insulting behaviors that drain this system</h2>
+  <ul class="why-list">
+    <li><strong>Chronic alcohol.</strong> Direct neurotoxicity to peripheral nerves and depletes B-vitamins required for methylation and nerve repair.</li>
+    <li><strong>Metformin without B12 supplementation.</strong> Metformin reduces B12 absorption. The combination silently drives peripheral neuropathy in long-term users.</li>
+    <li><strong>Acid-blockers (PPIs) long-term.</strong> Reduce B12 absorption from food. Same downstream consequence as metformin without B12.</li>
+    <li><strong>Synthetic folic acid in cheap multivitamins.</strong> For men with MTHFR variants, synthetic folic acid can actually block the active folate pathway it should be supporting. Methylated forms only.</li>
+    <li><strong>Chronic stress with no parasympathetic reset.</strong> Sustained sympathetic dominance is a nervous-system condition. Breath work, cold exposure, and structured downtime are protocol-level interventions, not nice-to-haves.</li>
+  </ul>
+
+  <h2>Where this connects across the 4M system</h2>
+  <ul class="why-list">
+    <li><a href="/solutions/cognitive">Brain Optimization</a> — the cognitive layer running on top of the methylation substrate.</li>
+    <li><a href="/solutions/stress">Stress &amp; Cortisol Regulation</a> — the autonomic side of nervous system function.</li>
+    <li><a href="/solutions/sleep">Sleep</a> — parasympathetic recovery happens during sleep; degraded sleep degrades nervous system repair.</li>
+    <li><a href="/pillars/mitigate">The Mitigate pillar</a> — the umbrella over the systems that protect what you already have.</li>
+  </ul>
+
+  <p class="read-more-line">
+    Most men optimize for the brain and ignore the wiring underneath. Fix the substrate first.
+  </p>
+
+</SolutionPage>
+
+<style>
+.why-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1.75rem;
+}
+.why-list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.97rem;
+}
+.why-list li:last-child { border-bottom: none; }
+.why-list li::before {
+  content: "→";
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.read-more-line {
+  margin-top: 1.5rem;
+  font-style: italic;
+  color: var(--text-light);
+}
+</style>
