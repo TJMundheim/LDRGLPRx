@@ -1,334 +1,175 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EmailCapture from '../components/EmailCapture.astro';
 
-const title = "Schedule Your Comprehensive 4M Consult | My4MLife";
-const description = "One consult covers GLP-1 weight loss, testosterone optimization, peptides (nootropic + GH), prescriptions, supplements, and your personalized 4M protocol. Telemedicine consult with our contracted licensed medical practice.";
+const title = "Schedule a Consult | My4MLife";
+const description = "Schedule a consult with a My4MLife care coordinator. They'll connect you with a physician in our network for intake, lab review, candidacy assessment, and a personalized protocol.";
 const canonical = "https://www.my4mlife.com/consult";
-const keywords = "4M consult, GLP-1 candidacy, testosterone optimization, peptide protocols, hormone optimization, TJ Mundheim, My4MLife";
-const ogImage = "https://www.my4mlife.com/logos/concept-13/lockup-color.svg";
 ---
-<BaseLayout title={title} description={description} canonical={canonical} keywords={keywords} ogImage={ogImage}>
+<BaseLayout title={title} description={description} canonical={canonical}>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-content">
-      <img src="/logos/concept-13/lockup-color.svg" alt="My4MLife" class="hero-logo" />
-      <h1>Schedule Your Comprehensive 4M Consult</h1>
-      <p class="hero-tagline"><em>One consult. Full review. Personalized protocol.</em></p>
-      <p class="hero-body">Your comprehensive consult covers everything in one session: GLP-1 weight loss candidacy, testosterone and hormone optimization, peptide protocols (nootropic + growth hormone), prescription review, pharmaceutical-grade supplement protocol, and the personalized 4M roadmap that connects them all.</p>
-      <div class="hero-buttons">
-        <a href="/assessment" class="btn btn-primary btn-large">Take the Free Assessment First <i class="fas fa-arrow-right"></i></a>
-        <a href="#booking" class="btn btn-white btn-large">Get Notified When Open <i class="fas fa-chevron-down"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="consult-section">
+  <div class="container consult-inner">
 
-<!-- AA STAT — DOCTOR CONVERSATION GAP -->
-<section class="section consult-aa-stat" style="background: white;">
-  <div class="container" style="max-width: 760px; text-align: center;">
-    <p style="font-family: 'Playfair Display', serif; font-size: 1.7rem; line-height: 1.4; color: var(--dark); margin: 0 0 0.4rem;">
-      <span style="font-size: 2.6rem; font-weight: 700; color: var(--accent); margin-right: 0.35rem;">2 in 3</span>
-      Americans want brain-health guidance from a provider.
+    <p class="consult-eyebrow">Care Coordinator Intake</p>
+    <h1>Schedule a Consult</h1>
+    <p class="consult-sub">
+      Tell us what you're working on. A My4MLife care coordinator will reach out within
+      one business day to confirm next steps and connect you with a physician in our network.
     </p>
-    <p style="font-family: 'Playfair Display', serif; font-size: 1.7rem; line-height: 1.4; color: var(--primary); margin: 0;">
-      <span style="font-size: 2.6rem; font-weight: 700; color: var(--accent); margin-right: 0.35rem;">14%</span>
-      have actually had that conversation with their doctor.
-    </p>
-    <p style="margin-top: 1.4rem; font-size: 0.85rem; color: var(--text-light); font-style: italic;">
-      Source: Alzheimer's Association, <a href="https://www.alz.org/alzheimers-dementia/facts-figures" target="_blank" rel="noopener" style="color: var(--primary); text-decoration: underline;">2026 Facts and Figures</a>. The comprehensive consult is built to close that gap — one conversation at a time.
-    </p>
-  </div>
-</section>
 
-<!-- WHAT'S COVERED -->
-<section class="section" style="background:var(--bg-soft);">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-tag">What's Covered</span>
-      <h2>Everything in one session.</h2>
-      <p>No fragmented referrals. One comprehensive review across every pillar of the 4M system.</p>
-    </div>
-    <div class="cards-grid fade-in">
-      <div class="cover-card">
-        <div class="cover-icon"><i class="fas fa-syringe"></i></div>
-        <h3>Weight Loss Medication (GLP-1)</h3>
-        <p>Semaglutide and tirzepatide candidacy review — indications, contraindications, and expected outcomes based on your labs and history.</p>
+    <form id="consult-form" class="consult-form" novalidate>
+      <div class="form-row">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
       </div>
-      <div class="cover-card">
-        <div class="cover-icon"><i class="fas fa-dna"></i></div>
-        <h3>Testosterone &amp; Hormone Optimization</h3>
-        <p>TRT evaluation, thyroid panel review, and peptide hormone support — matched to your lab values and clinical picture.</p>
-      </div>
-      <div class="cover-card">
-        <div class="cover-icon"><i class="fas fa-brain"></i></div>
-        <h3>Nootropic Peptides</h3>
-        <p>Cognitive performance and neuroprotection protocols — Semax, Selank, and related stacks reviewed for your specific goals.</p>
-      </div>
-      <div class="cover-card">
-        <div class="cover-icon"><i class="fas fa-chart-line"></i></div>
-        <h3>Growth Hormone Peptides</h3>
-        <p>Body composition, recovery, and longevity — GH secretagogue protocols reviewed and matched to your metabolic status.</p>
-      </div>
-      <div class="cover-card">
-        <div class="cover-icon"><i class="fas fa-flask"></i></div>
-        <h3>Lab Review &amp; Personalized Protocol</h3>
-        <p>Full hormone panel, metabolic markers, and inflammatory markers reviewed. Labs ordered if you don't have recent results.</p>
-      </div>
-      <div class="cover-card">
-        <div class="cover-icon"><i class="fas fa-capsules"></i></div>
-        <h3>Pharmaceutical-Grade Supplements</h3>
-        <p>The 4M foundational pharmaceutical-grade supplement protocol matched directly to your 8-category Personalized Assessment results and clinical review.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="section">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-tag">How It Works</span>
-      <h2>Three steps to your protocol.</h2>
-    </div>
-    <div class="steps fade-in">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3>Take the Free Assessment</h3>
-          <p>5 minutes. No account required. Your results pre-populate your consult intake and route priority results to the booking queue when it goes live.</p>
-          <a href="/assessment" class="btn btn-outline" style="margin-top:1rem;">Take the Assessment <i class="fas fa-arrow-right"></i></a>
+      <div class="form-row form-row-2">
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 555-5555" required />
         </div>
       </div>
-      <div class="step-divider"><i class="fas fa-chevron-right"></i></div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3>Schedule + Pay for Your Consult</h3>
-          <p>Telemedicine session with our contracted licensed medical practice. Session covers your full clinical picture in a single sitting — no follow-up bouncing required.</p>
-        </div>
+      <div class="form-row">
+        <label for="category">What would you like to consult about?</label>
+        <input id="category" name="category" type="text" required />
       </div>
-      <div class="step-divider"><i class="fas fa-chevron-right"></i></div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3>Receive Your Personalized 4M Protocol</h3>
-          <p><strong>If you're a Protégé member:</strong> your personalized 4M Protocol is delivered to your My4MLife App, with daily protocol guidance, supplement coordination, and progress tracking.</p>
-          <p style="margin-top:0.75rem;"><strong>If you're not on the app:</strong> your personalized 4M Protocol is delivered to your email as a written plan, plus a 60-minute follow-up call to walk through implementation. (Most patients install the 4M App at this point — but you don't have to.)</p>
-          <p style="margin-top:0.75rem; font-style:italic; color:var(--accent);">Either way, the consult is the same.</p>
-          <p style="margin-top:0.75rem;">Supplement and prescription fulfillment routed through our pharmacy partners regardless of path.</p>
-        </div>
+      <div class="form-row">
+        <label for="bestTime">Best time to reach you</label>
+        <input id="bestTime" name="bestTime" type="text" placeholder="e.g. weekday mornings, ET" required />
       </div>
+      <div class="form-row">
+        <label for="note">Anything else we should know? <span class="opt">(optional)</span></label>
+        <textarea id="note" name="note" rows="4" placeholder="Brief context — recent labs, symptoms, prior treatments, questions…"></textarea>
+      </div>
+      <button id="consult-submit" type="submit" class="consult-submit">Submit Request →</button>
+      <p id="consult-error" class="consult-error" hidden></p>
+    </form>
+
+    <div id="consult-success" class="consult-success" hidden>
+      <h2>Got it — request received.</h2>
+      <p>
+        A care coordinator will reach out within one business day at the email
+        and phone number you provided. If your situation is time-sensitive,
+        you can also email <a href="mailto:care@my4mlife.com">care@my4mlife.com</a> directly.
+      </p>
+      <p class="consult-success-em">
+        <em>Medical emergency? Call 911. This intake form is not for emergencies and is not monitored 24/7.</em>
+      </p>
     </div>
+
   </div>
 </section>
-
-<!-- DECISION MOMENT -->
-<section class="section consult-decision-section">
-  <div class="container">
-    <figure class="scene-figure scene-figure-wide">
-      <img src="/images/scenes/consult-decision.jpg" alt="Man at the moment of decision — choosing to move forward with the program" loading="lazy" />
-      <figcaption><em>The moment most men keep deferring.</em> The next decade of cognitive function is decided here, not later.</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- BOOKING PLACEHOLDER -->
-<section class="section" id="booking" style="background:var(--bg-soft);">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-tag">Booking</span>
-      <h2>Consults opening soon.</h2>
-    </div>
-    <div class="booking-card fade-in">
-      <div class="booking-icon"><i class="fas fa-calendar-alt"></i></div>
-      <p class="booking-msg">Booking is coming soon. To be notified when consults open, take the free assessment first — we'll route your priority results to the consult booking when it's live.</p>
-      <div class="booking-ctas">
-        <a href="/assessment" class="btn btn-primary btn-large">Take the Free Assessment First <i class="fas fa-arrow-right"></i></a>
-        <div class="email-stub">
-          <EmailCapture source="consult-notify" buttonLabel="Notify Me" />
-        </div>
-      </div>
-      <p class="booking-signin">Already a Protégé? <a href="https://app.my4mlife.com" class="signin-link">Sign in to schedule directly →</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="section">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-tag">Pricing</span>
-      <h2>Three consult paths. Choose the one that fits.</h2>
-      <p>Most Rx categories don't require new labs to issue a script. Testosterone does. Pick the path that matches your situation.</p>
-    </div>
-    <div class="pricing-grid pricing-grid--three fade-in">
-      <div class="pricing-card pricing-card--featured">
-        <div class="pricing-label">Recommended</div>
-        <h3>Consult + Comprehensive Wellness Labs</h3>
-        <div class="pricing-price">$199 <span class="pricing-note">— consult + full lab panel including a complete hormone panel</span></div>
-        <p>The default path for every Rx category except testosterone. You'll know your testosterone, metabolic, inflammation, and lipid numbers before any decision gets made. Most men in our demographic find at least one finding worth acting on.</p>
-        <p class="pricing-avail">Available at telemedicine partner go-live.</p>
-      </div>
-      <div class="pricing-card">
-        <div class="pricing-label">Recent Labs in Hand</div>
-        <h3>Consult Only</h3>
-        <div class="pricing-price">$99 <span class="pricing-note">— bring lab results from the last 6 months</span></div>
-        <p>If you've had a comprehensive panel done in the last 6 months, bring those results to the consult and skip the new lab order. Same clinical conversation, $100 less. Not available for testosterone — labs are mandatory there.</p>
-        <p class="pricing-avail">Available at telemedicine partner go-live.</p>
-      </div>
-      <div class="pricing-card">
-        <div class="pricing-label">Testosterone Only</div>
-        <h3>TRT Consult + Hormone Panel</h3>
-        <div class="pricing-price">$249 <span class="pricing-note">— consult + mandatory hormone panel labs</span></div>
-        <p>The only path for any testosterone prescription. Federal and state controlled-substance rules require baseline labs before TRT is dispensed. Includes lifetime app access.</p>
-        <p class="pricing-avail">Available at telemedicine partner go-live.</p>
-      </div>
-    </div>
-    <p class="pricing-footnote fade-in">Pricing shown is launch-window pricing and may adjust as telemedicine and lab partner agreements finalize. Protégés on active autoship also receive 25% off the consult fee; Protégé one-time buyers receive 15% off.</p>
-  </div>
-</section>
-
-<!-- WHAT TO HAVE READY -->
-<section class="section" style="background:var(--bg-soft);">
-  <div class="container">
-    <div class="ready-wrap fade-in">
-      <div class="section-tag">Come Prepared</div>
-      <h2>What to have ready for your consult.</h2>
-      <ul class="ready-list">
-        <li>Your free assessment results (auto-populated if you took it on this site)</li>
-        <li>Recent labs if you have them — we'll order what's needed if not</li>
-        <li>Current medications and supplements list</li>
-        <li>Top 3 health goals</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- DISCLAIMER -->
-<section class="section disclaimer-section">
-  <div class="container">
-    <div class="disclaimer fade-in">
-      <p>My4MLife provides health education, protocol design, and AI-driven coaching. Medical care, diagnosis, and prescriptions are provided by a contracted licensed telemedicine practice. Dr. Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994, and does not provide medical care through this platform.</p>
-    </div>
-  </div>
-</section>
-
-<script is:inline>
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
-</script>
-
-<style is:global>
-  :root {
-    --primary: #0f4c75; --primary-light: #1b6fa8; --accent: #00b894; --accent-dark: #00a381;
-    --dark: #0a1628; --text: #2d3748; --text-light: #718096; --bg: #ffffff;
-    --bg-soft: #f7fafc; --bg-accent: #edf7f6; --border: #e2e8f0;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
-    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12); --radius: 12px; --radius-lg: 20px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); line-height: 1.7; overflow-x: hidden; }
-  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); line-height: 1.2; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-  .section { padding: 6rem 0; }
-  .section-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 1rem; }
-  .section-header { text-align: center; max-width: 640px; margin: 0 auto 4rem; }
-  .section-header h2 { font-size: 2.4rem; margin-bottom: 1rem; }
-  .section-header p { color: var(--text-light); font-size: 1.05rem; }
-  .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
-  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: all 0.25s; }
-  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
-  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,184,148,0.4); }
-  .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
-  .btn-outline:hover { background: var(--primary); color: white; }
-  .btn-white { background: white; color: var(--primary); border-color: white; }
-  .btn-white:hover { background: var(--bg-soft); }
-  .btn-large { padding: 1rem 2.2rem; font-size: 1rem; }
-
-  /* HERO */
-  .hero { padding: 8rem 0 5rem; background: linear-gradient(135deg, #0a1628 0%, #0f4c75 55%, #1b6fa8 100%); text-align: center; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -40%; right: -15%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(0,184,148,0.12) 0%, transparent 70%); border-radius: 50%; }
-  .hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
-  .hero-logo { height: 64px; margin-bottom: 2rem; }
-  .hero h1 { font-size: 2.6rem; color: white; margin-bottom: 1rem; }
-  .hero-tagline { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--accent); margin-bottom: 1.5rem; }
-  .hero-tagline em { font-style: italic; }
-  .hero-body { font-size: 1.05rem; color: rgba(255,255,255,0.82); margin-bottom: 2.5rem; line-height: 1.75; }
-  .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-
-  /* WHAT'S COVERED */
-  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
-  .cover-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; transition: box-shadow 0.2s; }
-  .cover-card:hover { box-shadow: var(--shadow-md); }
-  .cover-icon { font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem; }
-  .cover-card h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.6rem; }
-  .cover-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.65; }
-
-  /* HOW IT WORKS */
-  .steps { display: flex; align-items: flex-start; gap: 1rem; }
-  .step { flex: 1; background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; }
-  .step-num { width: 2.5rem; height: 2.5rem; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; }
-  .step-body h3 { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 0.6rem; }
-  .step-body p { font-size: 0.9rem; color: var(--text-light); line-height: 1.65; }
-  .step-divider { color: var(--accent); font-size: 1.4rem; padding-top: 3rem; flex-shrink: 0; }
-
-  /* BOOKING */
-  .booking-card { background: white; border: 2px solid var(--accent); border-radius: var(--radius-lg); padding: 3rem; text-align: center; max-width: 680px; margin: 0 auto; box-shadow: var(--shadow-md); }
-  .booking-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1.2rem; }
-  .booking-msg { font-size: 1.05rem; color: var(--text); margin-bottom: 2rem; line-height: 1.7; }
-  .booking-ctas { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-  .email-stub { display: flex; gap: 0.5rem; align-items: center; }
-  .email-input { padding: 0.7rem 1.2rem; border: 2px solid var(--border); border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text); width: 220px; outline: none; transition: border-color 0.2s; }
-  .email-input:focus { border-color: var(--accent); }
-  .booking-signin { margin-top: 1.5rem; font-size: 0.88rem; color: var(--text-light); }
-  .signin-link { color: var(--primary); font-weight: 600; text-decoration: none; }
-  .signin-link:hover { text-decoration: underline; }
-
-  /* PRICING */
-  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; margin-bottom: 2rem; }
-  .pricing-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
-  .pricing-card--featured { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,184,148,0.2); }
-  .pricing-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); }
-  .pricing-card h3 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; color: var(--dark); }
-  .pricing-price { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
-  .pricing-note { font-size: 0.8rem; font-weight: 400; color: var(--text-light); }
-  .pricing-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.65; }
-  .pricing-avail { font-size: 0.8rem !important; font-style: italic; color: var(--text-light); }
-  .pricing-footnote { text-align: center; font-size: 0.85rem; color: var(--text-light); font-style: italic; max-width: 640px; margin: 0 auto; }
-
-  /* READY */
-  .ready-wrap { max-width: 640px; margin: 0 auto; }
-  .ready-wrap h2 { font-size: 2rem; margin-bottom: 1.5rem; }
-  .ready-list { list-style: none; }
-  .ready-list li { padding: 0.75rem 0 0.75rem 1.8rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; color: var(--text); position: relative; }
-  .ready-list li:last-child { border-bottom: none; }
-  .ready-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
-
-  /* DISCLAIMER */
-  .disclaimer-section { padding: 3rem 0; }
-  .disclaimer { max-width: 720px; margin: 0 auto; background: var(--bg-soft); border-left: 4px solid var(--border); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.5rem 2rem; }
-  .disclaimer p { font-size: 0.85rem; color: var(--text-light); line-height: 1.7; }
-
-  @media (max-width: 900px) {
-    .cards-grid { grid-template-columns: 1fr 1fr; }
-    .steps { flex-direction: column; }
-    .step-divider { display: none; }
-    .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto 2rem; }
-  }
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 1.9rem; }
-    .cards-grid { grid-template-columns: 1fr; }
-    .email-stub { flex-direction: column; width: 100%; }
-    .email-input { width: 100%; }
-    .booking-ctas .btn-large { width: 100%; justify-content: center; }
-  }
-</style>
 
 </BaseLayout>
+
+<script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+(function () {
+  // Prefill category from ?category= query param if present
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var cat = params.get('category');
+    if (cat) {
+      var catEl = document.getElementById('category');
+      if (catEl) catEl.value = cat;
+    }
+  } catch (_) { /* no-op */ }
+
+  function toE164(input) {
+    var raw = String(input || '').trim();
+    if (!raw) return null;
+    var hasPlus = raw.charAt(0) === '+';
+    var digits = raw.replace(/[^0-9]/g, '');
+    if (hasPlus) {
+      if (digits.length >= 8 && digits.length <= 15) return '+' + digits;
+      return null;
+    }
+    if (digits.length === 10) return '+1' + digits;
+    if (digits.length === 11 && digits.charAt(0) === '1') return '+' + digits;
+    return null;
+  }
+
+  var form = document.getElementById('consult-form');
+  if (!form) return;
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var btn = document.getElementById('consult-submit');
+    var err = document.getElementById('consult-error');
+    if (err) { err.hidden = true; err.textContent = ''; }
+
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var rawPhone = document.getElementById('phone').value;
+    var phone = toE164(rawPhone) || '';
+    var category = document.getElementById('category').value.trim();
+    var bestTime = document.getElementById('bestTime').value.trim();
+    var note = document.getElementById('note').value.trim();
+
+    if (!name || !email || !phone || !category || !bestTime) {
+      if (err) {
+        err.hidden = false;
+        err.textContent = phone ? 'Please complete all required fields.' : 'Please provide a valid US phone number.';
+      }
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      var res = await fetch(API_BASE + '/api/contact-form', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          kind: 'form',
+          formId: 'consult-intake',
+          fields: { name: name, email: email, phone: phone, subject: 'Consult intake — ' + category, message: 'Best time: ' + bestTime + '\n\n' + (note || '(no additional notes)') }
+        }),
+      });
+      if (!res.ok) throw new Error('submit failed (' + res.status + ')');
+      form.style.display = 'none';
+      var success = document.getElementById('consult-success');
+      if (success) success.hidden = false;
+    } catch (e2) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Request →';
+      if (err) {
+        err.hidden = false;
+        err.textContent = 'Something went wrong submitting your request. Please try again or email care@my4mlife.com directly.';
+      }
+    }
+  });
+})();
+</script>
+
+<style>
+.consult-section { padding: 5rem 1.25rem 6rem; background: var(--bg-soft, #f7fafc); min-height: 60vh; }
+.consult-inner { max-width: 640px; margin: 0 auto; background: #fff; padding: 2.5rem 2.25rem; border-radius: var(--radius, 12px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+.consult-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent, #00b894); margin: 0 0 0.5rem; }
+.consult-inner h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary, #1a365d); margin: 0 0 0.75rem; line-height: 1.2; }
+.consult-sub { font-size: 1rem; color: var(--text); line-height: 1.6; margin: 0 0 2rem; }
+.consult-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: flex; flex-direction: column; gap: 0.35rem; }
+.form-row-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 560px) { .form-row-2 { grid-template-columns: 1fr 1fr; } }
+.form-row-2 > div { display: flex; flex-direction: column; gap: 0.35rem; }
+.consult-form label { font-size: 0.82rem; font-weight: 600; color: var(--primary, #1a365d); }
+.consult-form .opt { font-weight: 400; color: var(--text-light); }
+.consult-form input, .consult-form textarea {
+  font-family: inherit; font-size: 0.95rem; color: var(--text);
+  background: #fff; border: 1px solid var(--border, #e2e8f0); border-radius: 8px;
+  padding: 0.7rem 0.85rem; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.consult-form input:focus, .consult-form textarea:focus { outline: none; border-color: var(--accent, #00b894); box-shadow: 0 0 0 3px rgba(0,184,148,0.15); }
+.consult-submit { align-self: flex-start; margin-top: 0.5rem; padding: 0.85rem 1.6rem; background: var(--accent, #00b894); color: #fff; border: none; border-radius: 999px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.15s; }
+.consult-submit:hover:not(:disabled) { background: var(--accent-dark, #00a381); transform: translateY(-1px); }
+.consult-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.consult-error { color: #c0392b; font-size: 0.88rem; margin: 0.4rem 0 0; }
+.consult-success { padding: 0.5rem 0; }
+.consult-success h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary, #1a365d); margin: 0 0 0.75rem; }
+.consult-success p { font-size: 0.98rem; line-height: 1.6; color: var(--text); margin: 0 0 0.85rem; }
+.consult-success a { color: var(--accent, #00b894); font-weight: 600; }
+.consult-success-em { font-size: 0.85rem; color: var(--text-light); margin-top: 1rem !important; }
+</style>

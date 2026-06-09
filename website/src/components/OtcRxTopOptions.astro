@@ -8,6 +8,9 @@
 // TwoPathsCTA + InterimPickCard layering.
 
 interface Props {
+  // Category label — used to prefill the consult intake form
+  category: string;
+
   // OTC (left card) — Amazon interim pick
   otcBrand: string;
   otcProductName: string;
@@ -23,6 +26,7 @@ interface Props {
 }
 
 const {
+  category,
   otcBrand,
   otcProductName,
   otcBridgesTo,
@@ -36,6 +40,7 @@ const {
 
 const amazonTag = 'my4lifeamz-20';
 const amazonUrl = `https://www.amazon.com/s?k=${encodeURIComponent(otcAmazonQuery)}&tag=${amazonTag}`;
+const consultUrl = `/consult?category=${encodeURIComponent(category)}`;
 ---
 
 <section class="otcrx-top">
@@ -66,7 +71,7 @@ const amazonUrl = `https://www.amazon.com/s?k=${encodeURIComponent(otcAmazonQuer
       <h3 class="otcrx-name">{rxName}</h3>
       <p class="otcrx-position">{rxPositionLine}</p>
       <p class="otcrx-body">{rxBody}</p>
-      <a class="otcrx-cta otcrx-cta--rx" href="/consult">
+      <a class="otcrx-cta otcrx-cta--rx" href={consultUrl}>
         Schedule a Consult →
       </a>
     </article>

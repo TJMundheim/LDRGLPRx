@@ -1,6 +1,5 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
-import MiniTwoPaths from '../../components/MiniTwoPaths.astro';
 import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
 ---
 
@@ -13,6 +12,7 @@ import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
   description="Leaky gut, gut microbiome dysregulation, and a disrupted gut-brain axis silently accelerate cognitive aging. Biome NS Ultra — L-Glutamine, DGL, Berberine, Aloe, Curcumin, Zinc Carnosine, A + D3 — is our foundational gut-brain seal formula. Members on the Rx tier add a standalone oral BPC-157 (Biome NS Rx) taken concurrently."
 >
   <OtcRxTopOptions
+    category="Gut Health / Leaky Gut"
     otcBrand="Thorne"
     otcProductName="GI-Relief"
     otcBridgesTo="Biome NS Ultra"
@@ -36,8 +36,6 @@ import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
     <li>Gut-derived neuroinflammation is the most underestimated driver of early brain aging in men — and no hormone, peptide, or cognitive protocol reaches its ceiling on top of a broken gut</li>
   </ul>
   <p class="why-reveal">When we say <em>fix the gut</em>, we don't mean drink kombucha. We mean specific strains, specific delivery, specific protocol, run for a specific length of time — which is exactly what Biome NS Ultra (and Biome NS Rx for deeper cases) is built to do.</p>
-
-  <MiniTwoPaths otcLabel="Order Biome NS Ultra" otcHref="/assessment" prompt="Ready to act?" />
 
   <h2>The Problem</h2>
   <p>
@@ -73,8 +71,6 @@ import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
     </div>
   </aside>
 
-  <MiniTwoPaths otcLabel="Order Biome NS Ultra" otcHref="/assessment" prompt="Seen enough?" />
-
   <h2>The Insulting Behaviors</h2>
   <p>These habits are actively degrading your gut lining and your brain right now.</p>
   <ul class="insult-list">
@@ -90,43 +86,7 @@ import OtcRxTopOptions from '../../components/OtcRxTopOptions.astro';
     </a>
   </p>
 
-  <MiniTwoPaths otcLabel="Order Biome NS Ultra" otcHref="/assessment" prompt="Make the call:" />
 </SolutionPage>
-
-<script is:inline define:vars={{ API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
-(function () {
-  var btn = document.getElementById('buy-biome-ns-ultra');
-  if (!btn) return;
-  var err = document.getElementById('buy-now-err');
-  btn.addEventListener('click', async function () {
-    btn.disabled = true;
-    btn.textContent = 'Loading…';
-    if (err) { err.hidden = true; err.textContent = ''; }
-    try {
-      var res = await fetch(API + '/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priceId: btn.dataset.priceId,
-          skuId: btn.dataset.sku,
-        }),
-      });
-      var data = await res.json();
-      if (!res.ok || !data.url) {
-        throw new Error(data.error || ('Checkout failed (' + res.status + ')'));
-      }
-      window.location.href = data.url;
-    } catch (e) {
-      btn.disabled = false;
-      btn.textContent = 'Order Now →';
-      if (err) {
-        err.hidden = false;
-        err.textContent = e && e.message ? e.message : 'Something went wrong. Please try again.';
-      }
-    }
-  });
-})();
-</script>
 
 <style>
 .why-lede {

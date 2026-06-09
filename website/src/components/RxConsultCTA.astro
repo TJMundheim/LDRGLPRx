@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { category, whyConsult } = Astro.props as Props;
+const consultUrl = `/consult?category=${encodeURIComponent(category)}`;
 ---
 
 <aside class="rx-consult-cta">
@@ -19,7 +20,7 @@ const { category, whyConsult } = Astro.props as Props;
     and they'll connect you with a physician in our network for full intake,
     lab review, candidacy assessment, and protocol design.
   </p>
-  <a href="/consult" class="rx-consult-primary">Schedule a Consult →</a>
+  <a href={consultUrl} class="rx-consult-primary">Schedule a Consult →</a>
 </aside>
 
 <style>
