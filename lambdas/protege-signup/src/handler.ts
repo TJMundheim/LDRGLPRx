@@ -225,7 +225,7 @@ async function sendWelcomeEmail(email: string, firstName: string, variant: Welco
 ${bookCard}
 ${workbookCard}
 ${appCard}
-<p style="margin:24px 0 12px;font-size:14px;line-height:1.6;color:#333">Your Protégé benefits include 25% off your first purchase, 25% off forever on autoship, 15% off one-time reorders, weekly Zooms with Dr. TJ, and discounts on all live events.</p>
+<p style="margin:24px 0 12px;font-size:14px;line-height:1.6;color:#333">Your Protégé benefits include free access to the My4MLife app, your welcome book, the cohort workbook, weekly Zooms with Dr. TJ, and the cohort community.</p>
 <p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;
 

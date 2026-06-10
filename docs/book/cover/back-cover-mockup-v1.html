@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Begin with the End in Mind — Back Cover v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a1a; }
+
+  .cover {
+    width: 1600px;
+    height: 2560px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(212, 175, 90, 0.06) 0%, rgba(212, 175, 90, 0) 60%),
+      linear-gradient(180deg, #0a1628 0%, #0d1b35 60%, #07111f 100%);
+    padding: 130px 130px 110px;
+    display: flex;
+    flex-direction: column;
+    color: #f5ecd1;
+  }
+
+  .brand-mark {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .brand-mark .brand {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    color: #d4af5a;
+    text-transform: uppercase;
+  }
+  .brand-mark .rule {
+    width: 140px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d4af5a, transparent);
+    margin: 12px auto 0;
+  }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+    color: #f5ecd1;
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .subhead {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.5;
+    color: rgba(243, 232, 200, 0.85);
+    text-align: center;
+    margin-bottom: 64px;
+    padding: 0 30px;
+  }
+
+  .desc {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.62;
+    color: rgba(243, 232, 200, 0.88);
+    margin-bottom: 60px;
+  }
+  .desc strong {
+    color: #d4af5a;
+    font-weight: 600;
+  }
+  .desc em {
+    font-style: italic;
+    color: rgba(245, 236, 209, 0.96);
+  }
+
+  .pullquotes {
+    margin-bottom: 60px;
+    padding: 32px 36px;
+    border-top: 1px solid rgba(212, 175, 90, 0.35);
+    border-bottom: 1px solid rgba(212, 175, 90, 0.35);
+  }
+  .pullquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 1.45;
+    color: #d4af5a;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .pullquote:last-child { margin-bottom: 0; }
+  .pullquote-attr {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: rgba(243, 232, 200, 0.6);
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  .author-block {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin-bottom: 50px;
+  }
+  .author-photo {
+    flex-shrink: 0;
+    width: 200px;
+    height: 260px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid rgba(212, 175, 90, 0.45);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .author-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    filter: contrast(1.04) saturate(0.95);
+  }
+  .author-bio {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+    color: rgba(243, 232, 200, 0.86);
+  }
+  .author-bio .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: #f5ecd1;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .cta {
+    text-align: center;
+    padding: 26px 30px;
+    background: rgba(212, 175, 90, 0.08);
+    border: 1px solid rgba(212, 175, 90, 0.4);
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: #f5ecd1;
+    margin-bottom: 40px;
+  }
+  .cta strong {
+    color: #d4af5a;
+    display: block;
+    font-size: 19px;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+
+  .footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(212, 175, 90, 0.2);
+  }
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .footer-publisher {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #d4af5a;
+    text-transform: uppercase;
+  }
+  .footer-cat {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: rgba(243, 232, 200, 0.55);
+    text-transform: uppercase;
+  }
+  .barcode {
+    width: 220px;
+    height: 90px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+  }
+  .qrcode {
+    width: 96px;
+    height: 96px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.2;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="brand-mark">
+    <div class="brand">A My4MLife Field Guide</div>
+    <div class="rule"></div>
+  </div>
+
+  <div class="headline">Don't lose your identity<br>and your dignity<br>while you still have a choice.</div>
+
+  <div class="subhead">
+    The fear that haunts the modern conversation about aging<br>
+    isn't death. It's irrelevance — watching cognitive ability slip<br>
+    away and, with it, the sense of self that made you <em>you</em>.<br><br>
+    You have a window. It is closing while you read this.<br>
+    This book is the map.
+  </div>
+
+  <div class="desc">
+    <em>Begin with the End in Mind</em> is the field guide that emerged from a thirty-year arc — refined through thousands of clinical encounters, validated by regenerative medicine's most demanding practitioners, and pressure-tested by men and women who have lived the protocol and gotten their lives back. It is organized around a framework Dr. TJ Mundheim calls the <strong>4 Ms — Mind, Muscle, Mitigate, Motivate</strong> — built on a single, ruthless premise: your mind is the destination, and everything else is the substrate that protects it. Inside: a daily protocol, a 10-question self-assessment, the eliminate-the-insulting-behavior checklist, and the My4MLife cohort system that turns reading into running.
+  </div>
+
+  <div class="pullquotes">
+    <div class="pullquote">
+      "He did not write this book to build a business.<br>He wrote it to start a movement."
+      <span class="pullquote-attr">From the Foreword</span>
+    </div>
+    <div class="pullquote">
+      "The journey home begins here."
+      <span class="pullquote-attr">From the Foreword</span>
+    </div>
+  </div>
+
+  <div class="author-block">
+    <div class="author-photo">
+      <img src="../../../website/public/images/founder/founder-tj.jpg" alt="Dr. TJ Mundheim">
+    </div>
+    <div class="author-bio">
+      <span class="name">Dr. TJ Mundheim</span>
+      is the founder of My4MLife and the architect of the 4M framework. A former Texas Tech track-and-field record-holder turned chiropractor, he has spent thirty years assembling teams of varied specialists under one roof to deliver outcomes no single discipline can. In 2005 he pivoted his entire practice into anti-aging — now regenerative — medicine. His current focus is cognitive healthspan: helping you protect your mind for the people you love.
+    </div>
+  </div>
+
+  <div class="cta">
+    <strong>Take the free 5-minute 4M Assessment</strong>
+    Visit <span style="color:#d4af5a">my4mlife.com/assessment</span> — we'll send the protocol, the cohort workbook, and access to the My4MLife app.
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">
+      <div class="footer-publisher">My4MLife · 2026</div>
+      <div class="footer-cat">Health · Healthy Aging · Self-Help</div>
+    </div>
+    <div class="qrcode">QR<br>my4mlife.com<br>/assessment</div>
+    <div class="barcode">[ ISBN BARCODE ]</div>
+  </div>
+</div>
+</body>
+</html>

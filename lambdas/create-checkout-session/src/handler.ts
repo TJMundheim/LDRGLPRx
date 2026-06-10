@@ -96,6 +96,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       success_url: `${successBase}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: skuId ? `${cancelBase}?sku=${encodeURIComponent(skuId)}` : cancelBase,
       customer_email: body.email || undefined,
+      payment_intent_data: body.email ? { receipt_email: body.email } : undefined,
       metadata: {
         ...(contactId ? { contactId } : {}),
         ...(skuId ? { skuIds: skuId } : {}),

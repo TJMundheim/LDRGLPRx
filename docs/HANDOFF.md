@@ -439,3 +439,86 @@ Nine days of shipped work since the 2026-05-31 entry. Organized thematically rat
 - Pre-launch blockers: TJ book read-through, Biome NS fulfillment decision, privacy/HIPAA disclosure pages, friends-and-family E2E test cycle.
 - Item #11b — assessment retake re-seeds app correctly (from previous section).
 
+
+# 2026-06-09 / 2026-06-10 — Pre-launch lockdown: discounts killed, coming-soon killed, assessment-as-Protégé, book v4 print-ready
+
+Massive session. Locked the funnel, killed the noise, made the assessment do everything Protégé signup used to do. Marketing event in 2 weeks.
+
+## (a) Book v4 — print-ready
+- Added long-form first-person preface ("A Personal Note from the Author") — encyclopedia summers, Pearson-Shaw L-arginine, Texas Tech track injury → chiropractic, andropause at 40, 2005 A4M pivot.
+- Dedication to Tom and Julia Mundheim (last sentence tightened: "...influence at least a small portion of the lives the two of you have already touched along the way").
+- Foreword written by external consortium — Odysseus/journey-home framing. Replaces placeholder.
+- Expanded "About the Author" (~75-word bio) for inside back cover.
+- Stripped all placeholder/version/TBD/draft signals from manuscript.
+- Endorsement outreach letter + Tier 1-3 target shortlist in `docs/book/draft/_outreach-endorsement-letters.md`. Tony Robbins flagged as warm lead via MD partner.
+- **Back cover designed:** `docs/book/cover/back-cover-mockup-v1.html` + rendered PNG. Headline + foreword subhead + description + 2 pull-quotes + author block + assessment CTA + ISBN/QR placeholders. Matches front-cover navy+gold palette.
+- Latest PDF: `docs/book/Begin-with-the-End-in-Mind-v4.pdf` (rename to drop "-v4" before sending to KDP).
+
+## (b) Assessment IS the Protégé signup — single funnel locked
+- Assessment results page stripped to thank-you screen: "Check your email." No on-page top-3 cards, no Protégé CTA box, no product tiles, no $199/$99 lab pricing, no broken Stripe checkout.
+- `audit-complete` Lambda rewritten end-to-end:
+  - Ensures Cognito user (AdminGetUser → AdminCreateUser if not exists) on userpool `us-east-2_kIpKnr17R`
+  - Seeds `Users` table (UserProfile) keyed on sub with auditTop3 + auditCompletedAt + intakeAnswers (overwrites on retake — app always reflects latest)
+  - Generates signed S3 URLs (7-day TTL) for book v4 + workbook v2 from `my4mlife-digital-fulfillment` bucket
+  - Sends 4-card welcome email: navy top-3 card + gold book card + copper workbook card + green app card + care-coordinator footer
+- IAM: added `cognito-idp:AdminGetUser/AdminCreateUser`, `s3:GetObject` on fulfillment bucket, `dynamodb:UpdateItem` on Users table.
+- Env vars: `USER_PROFILE_TABLE=Users`, `COGNITO_USER_POOL_ID=us-east-2_kIpKnr17R`, `DIGITAL_FULFILLMENT_BUCKET`, `PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind-v4.pdf`, `PROTEGE_WORKBOOK_S3_KEY=cohort-workbook-v2.pdf`.
+- v4 book + v2 workbook PDFs uploaded to S3.
+- TJ E2E verified the flow end-to-end (email arrived, app dashboard hydrated top 3 on second pass).
+
+## (c) Sitewide discount kill (locked 2026-06-09)
+- Every 25%/15% off, autoship perk, first-purchase discount, 90-day bundle pricing reference removed across 13 files.
+- Cart shows retail-only ($199 not $149.25).
+- `clientportal/products.ts`: `memberUSD = retailUSD`; "discounted" tier → "addon".
+- `skus.ts` `computeDiscountPercent` neutralized to return 0.
+- `protege-signup` welcome email discount line cleaned.
+- `inbound-handler` system prompt cleaned — AI no longer promises member discounts (Lambda not yet deployed; takes effect on first deploy).
+- `cart.astro` "Every purchase activates Protégé tier" rewritten — Protégé activates by assessment now.
+
+## (d) Sitewide "coming soon" kill (locked 2026-06-09)
+- All "Notify Me When Available", "Coming Soon", "launch pricing finalizing", "Ships soon — white-label" surfaces removed.
+- 4M-branded unshipped products (Heritage Bulb line, SleepRestore, Biome NS Ultra, MitoVita, ArmorVita, OmegaCN Prime buy buttons) gone from user-facing surfaces.
+- 8 environment subpages now Amazon-affiliate-only with `tag=my4lifeamz-20`.
+- 3 other solution pages (self-image, healthcare-access, nutritional-supplements) had "Coming Soon" buttons replaced with `/consult` care-coordinator CTAs.
+- Light page bridge sentence added: "Until we ship our own line, these are the products we recommend on Amazon."
+
+## (e) Other red-team cleanup
+- `cart.astro`: "Checkout opens when Stripe is wired (coming soon)" → "Currently unavailable — schedule a consult with a care coordinator."
+- `nutrition.astro`: dead `MiniTwoPaths` import removed.
+- `assessment.astro`: dead `SOLUTIONS_DATA` passthrough removed.
+- `light.astro`: dropped FoundationStackPair (SleepRestore + Rx consult) — light is environmental, not Rx.
+- `about.astro`: FAQ Protégé-tier copy corrected (assessment, not purchase).
+- Legacy `/audit` page → 301 redirect to `/assessment`.
+- `fast-start.astro`: `/audit` link → `/assessment`.
+
+## (f) Stripe receipt fix
+- `create-checkout-session` now passes `payment_intent_data: { receipt_email: body.email }` to force receipts regardless of Stripe dashboard setting.
+- Deployed.
+
+## (g) Legal docs located + 3-stage gating plan
+- All legal-prepared docs live in `docs/legal/`:
+  - `My_4M_Life_Notice_of_Privacy_Practices.md`
+  - `My_4M_Life_AI_Communication_Consent.md` (already wired on assessment)
+  - `My_4M_Life_Business_Associate_Agreement.md`
+  - `My_4M_Life_Patient_Authorization.md`
+  - `attorney-brief.md`
+- `website/src/pages/privacy.astro` already exists (256 lines).
+- Locked gating: Stage 1 discovery = no friction (assessment/email/book/workbook/app/consult intake); Stage 2 consult-time = DocuSign envelope (NPP + Patient Auth) before booking confirmed; Stage 3 telemed handoff = partner's own paperwork.
+- MVP for launch = care coordinator manually sends DocuSign from their account. No code automation needed for 2-week event.
+
+## E2E verification (TJ confirmed working)
+- Assessment → email arrives with top 3 + book + workbook + app links ✅
+- App sign-in → name + top 3 hydrated on dashboard ✅
+- $2.50 cohort workbook Stripe purchase → workbook delivered ✅ (receipt missing pre-fix; fixed now)
+- `/consult` intake form → notification reached TJ ✅
+
+## Still pending before public marketing
+- **Book covers — full wrap for KDP.** Front cover (v3c) and back cover (v1) both designed. Spine + full wrap require KDP template (page count + paper choice) — upload manuscript PDF to KDP as draft to generate the template, then render the wrap PDF here.
+- **DocuSign envelope template** — write the consult-confirmation envelope content (combines NPP + Patient Authorization). Care coordinator sends manually for launch.
+- **Headshot for back cover** — current `founder-tj.jpg` is being used; TJ to confirm or supply preferred photo.
+- **Endorsement outreach** — work the Tony Robbins warm lead via MD partner this week. Tier 1 cold sends (Attia/Hyman/Huberman/Amen) in parallel.
+- Item #11b — assessment retake re-seeds app correctly (carry-over from prior section — now LIKELY resolved by the audit-complete UserProfile-seed work, but worth a final retake test with cache cleared).
+- Inbound-handler Lambda — not yet deployed; system prompt updated in source for first deploy.
+
+
+
