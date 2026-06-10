@@ -3,16 +3,31 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { v5 as uuidv5 } from 'uuid';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
+const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
+const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind-v4.pdf';
+const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-v2.pdf';
+const SIGNED_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const sqs = new SQSClient({ region: REGION });
 const lambda = new LambdaClient({ region: REGION });
+const s3 = new S3Client({ region: REGION });
+
+async function getBookDownloadUrl(): Promise<string> {
+  return getSignedUrl(s3, new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: BOOK_S3_KEY }), { expiresIn: SIGNED_URL_TTL_SEC });
+}
+
+async function getWorkbookDownloadUrl(): Promise<string> {
+  return getSignedUrl(s3, new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: WORKBOOK_S3_KEY }), { expiresIn: SIGNED_URL_TTL_SEC });
+}
 
 const ALLOWED_ORIGINS = new Set([
   'https://my4mlife.com',
@@ -39,31 +54,77 @@ function reply(s: number, b: unknown, origin?: string): APIGatewayProxyResultV2 
   return { statusCode: s, headers: corsHeaders(origin), body: JSON.stringify(b) };
 }
 
-function buildResultsHtml(firstName: string, email: string, phone: string, top3: any[], intakeAnswers: Record<string, number>): string {
+function buildResultsHtml(firstName: string, top3: any[], bookUrl: string, workbookUrl: string): string {
   const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
-  const items = top3.map((t: any, i: number) => {
+  const appUrl = 'https://app.my4mlife.com';
+
+  const top3Items = top3.map((t: any, i: number) => {
     const label = safe(t?.label || t?.id || 'Priority ' + (i + 1));
-    return `<li style="margin:8px 0"><strong>#${i + 1}.</strong> ${label}</li>`;
+    return `<li style="margin:8px 0;font-size:15px"><strong>#${i + 1}.</strong> ${label}</li>`;
   }).join('');
-  const top3B64 = Buffer.from(JSON.stringify(top3)).toString('base64');
-  const answersB64 = Buffer.from(JSON.stringify(intakeAnswers ?? {})).toString('base64');
-  const qs = `?name=${encodeURIComponent(firstName)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&top3=${encodeURIComponent(top3B64)}&answers=${encodeURIComponent(answersB64)}`;
-  const protegeUrl = 'https://my4mlife.com/become-protege' + qs;
-  return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">
-<h1 style="font-size:22px;margin:0 0 12px">Hi ${safe(firstName)}, here are your top 3 priorities from your 4M Assessment:</h1>
-<ul style="padding-left:18px;margin:12px 0 24px">${items}</ul>
-<h2 style="font-size:17px;margin:24px 0 8px">Your next step:</h2>
-<p style="margin:12px 0"><strong>Become a Protégé (free)</strong> — the My4MLife app, weekly live Zooms, 25% off your first purchase + autoship, and 15% off ongoing reorders. No purchase required.</p>
-<p style="margin:8px 0 16px"><a href="${protegeUrl}" style="background:#00b894;color:#fff;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Become a Protégé &amp; Open the App →</a></p>
-<p style="font-size:13px;color:#718096;margin:8px 0 24px">Have questions first? Email <a href="mailto:support@my4mlife.com" style="color:#00a381">support@my4mlife.com</a>.</p>
-<p style="font-size:13px;color:#718096;margin-top:32px">Your results are saved — you can revisit them anytime at <a href="https://my4mlife.com/assessment" style="color:#00a381">my4mlife.com/assessment</a>.</p>
-<p style="font-size:13px;color:#718096;margin-top:8px">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
+
+  const top3Card = `<div style="margin:20px 0;padding:22px;border:2px solid #1a3656;border-radius:10px;background:#f4f6fa">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#1a3656;text-transform:uppercase;margin:0 0 8px">Your Top 3 Priorities</p>
+<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">From Your 4M Assessment</h2>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 12px">These are the areas where addressing the root cause will create the biggest ripple effect across your health.</p>
+<ol style="padding-left:18px;margin:0;color:#0a1628">${top3Items}</ol>
+</div>`;
+
+  const bookCard = bookUrl
+    ? `<div style="margin:20px 0;padding:22px;border:2px solid #d4af5a;border-radius:10px;background:#fbf7ec">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Book</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">Begin with the End in Mind</h2>
+<p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Don't lose your identity and your dignity while you still have a choice.</p>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Dr. TJ's field guide to brain healthspan, organized around the 4M framework. The why behind the system.</p>
+<p style="margin:0"><a href="${bookUrl}" style="background:#d4af5a;color:#0a1628;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Book (PDF) &rarr;</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
+</div>`
+    : '';
+
+  const workbookCard = workbookUrl
+    ? `<div style="margin:20px 0;padding:22px;border:2px solid #b87333;border-radius:10px;background:#fdf5ed">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#7a4c1f;text-transform:uppercase;margin:0 0 8px">Your Action Workbook</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">The Cohort Workbook — Month 1</h2>
+<p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Print it. Mark it up. Run it daily.</p>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Daily check-ins, weekly reflections, tear-out scorecards, the stack reference, and the optional advanced layer. The how that pairs with the book's why.</p>
+<p style="margin:0"><a href="${workbookUrl}" style="background:#b87333;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Workbook (PDF) &rarr;</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
+</div>`
+    : '';
+
+  const appCard = `<div style="margin:20px 0;padding:22px;border:2px solid #00b894;border-radius:10px;background:#f0fbf6">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#007a5e;text-transform:uppercase;margin:0 0 8px">Your App Access</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">Open the My4MLife App</h2>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Your dashboard, weekly Zooms with Dr. TJ, the cohort, and the daily action guide — all in one place. Sign in with this email address. We'll send a 6-digit code when you tap below — no password to remember.</p>
+<p style="margin:0"><a href="${appUrl}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Open the My4MLife App &rarr;</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Save the app to your home screen for one-tap access.</p>
+</div>`;
+
+  const coordinatorCard = `<div style="margin:28px 0 12px;padding:18px;border-top:1px solid #e2e8f0;text-align:center">
+<p style="color:#333;font-size:14px;line-height:1.55;margin:0 0 12px"><strong>Want to talk to a person?</strong> Schedule a call with one of our care coordinators — they'll listen to your situation and connect you with the appropriate medical provider in our network.</p>
+<p style="margin:0"><a href="https://my4mlife.com/consult" style="color:#1a3656;font-weight:600;font-size:14px;text-decoration:underline">Schedule with a Care Coordinator &rarr;</a></p>
+</div>`;
+
+  return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
+<h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${safe(firstName)}.</h1>
+<p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your assessment results, the book, the workbook, and the app. Take them in any order; they're designed to work together.</p>
+${top3Card}
+${bookCard}
+${workbookCard}
+${appCard}
+${coordinatorCard}
+<p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0;text-align:center">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;
 }
 
-async function sendResultsEmail(email: string, firstName: string, phone: string, top3: any[], intakeAnswers: Record<string, number>): Promise<void> {
-  const subject = `Your 4M Assessment Results — ${firstName || 'top 3 priorities'}`;
-  const html = buildResultsHtml(firstName, email, phone, top3, intakeAnswers);
+async function sendResultsEmail(email: string, firstName: string, top3: any[]): Promise<void> {
+  let bookUrl = '';
+  let workbookUrl = '';
+  try { bookUrl = await getBookDownloadUrl(); } catch (e) { console.warn('book signed URL failed', e); }
+  try { workbookUrl = await getWorkbookDownloadUrl(); } catch (e) { console.warn('workbook signed URL failed', e); }
+
+  const subject = `Welcome to My4MLife — your results, book, workbook, and app are ready`;
+  const html = buildResultsHtml(firstName, top3, bookUrl, workbookUrl);
   const payload = { kind: 'info', to: email, subject, html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
@@ -108,7 +169,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   if (email) {
     try {
-      await sendResultsEmail(email, firstName, phone, Array.isArray(top3) ? top3 : [], (scores && typeof scores === 'object') ? scores : {});
+      await sendResultsEmail(email, firstName, Array.isArray(top3) ? top3 : []);
     } catch (e) {
       console.warn('results email invoke failed', e);
     }

@@ -63,6 +63,11 @@ INLINE_POLICY=$(cat <<EOF
       "Effect": "Allow",
       "Action": ["lambda:InvokeFunction"],
       "Resource": "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$EMAIL_SENDER_FN"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::my4mlife-digital-fulfillment/*"
     }
   ]
 }
@@ -80,7 +85,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
 NURTURE_QUEUE_URL="https://sqs.$REGION.amazonaws.com/$AWS_ACCOUNT_ID/$NURTURE_QUEUE_NAME"
-ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL}"
+ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind-v4.pdf,PROTEGE_WORKBOOK_S3_KEY=cohort-workbook-v2.pdf}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \
