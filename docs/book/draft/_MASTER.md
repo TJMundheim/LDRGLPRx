@@ -46,22 +46,6 @@ The front of the book sells you the why. The back of the book runs the how. They
 
 ---
 
-# Praise for *Begin with the End in Mind*
-
-> *"[Endorsement from a recognized voice in longevity, regenerative medicine, performance, or mainstream healthspan — sized for the inside front cover.]"*
->
-> **— [Name, Credential / Title]**
-
-> *"[Endorsement from a clinician peer in A4M, regenerative medicine, or functional medicine — speaks to protocol rigor.]"*
->
-> **— [Name, MD/DO, Institution]**
-
-> *"[Endorsement from a patient, member, or peer leader who has lived the 4M protocol — the "I was that man at forty and this brought me back" voice.]"*
->
-> **— [Name, brief identifier]**
-
----
-
 # Dedication
 
 For my parents — **Tom and Julia Mundheim**.
@@ -70,7 +54,7 @@ When it comes to setting the bar high as parents, they set it out of reach. The 
 
 They have been my support system, my inspiration, my cheerleaders, my moral compass, my financial backers when it mattered, and a safe haven to return to whenever things did not work out the way I had hoped. They have always had my back — even when what I needed was the tough love.
 
-Mom and Dad — I love you more than you will ever know. Thank you for everything you poured into me. Without you, I would not be standing in the place I am standing today, with the chance to share this work and — I hope — positively influence at least a portion of the friends, family, neighbors, and coworkers in the life of every reader who picks this up.
+Mom and Dad — I love you more than you will ever know. Thank you for everything you poured into me. Without you, I would not be standing here today, with the chance to share this work and — I hope — positively influence at least a small portion of the lives the two of you have already touched along the way.
 
 **— TJ**
 
@@ -78,7 +62,35 @@ Mom and Dad — I love you more than you will ever know. Thank you for everythin
 
 # Foreword
 
-> *[Foreword placeholder — to be written by an invited voice. See `_outreach-endorsement-letters.md` for target list and the master outreach letter. Tier 1 targets: Tony Robbins (warm lead via MD partner), Peter Attia, Mark Hyman, Andrew Huberman, Daniel Amen. Target length: 600–1,200 words.]*
+When a man returns from a long journey with something worth bringing home, you listen.
+
+Dr. TJ Mundheim has been on a journey. Not the kind you take once and return transformed — the kind you live. For over thirty years, he has been testing the question that matters most: *How do we stay ourselves?* Not just alive. Not just functioning. But ourselves — sharp, capable, dignified, *present*.
+
+Like Odysseus setting sail for Troy, TJ left the familiar shores of traditional medicine decades ago, armed with curiosity and driven by a simple belief: that the body and mind weren't mysteries locked behind pharmaceutical gates, but systems you could *learn*, influence, and optimize if you were willing to study them carefully enough. He found guides along the way — some brilliant, some mistaken. He faced his own reckoning at forty, when everything he thought he knew about resilience and drive simply stopped working. He tested approach after approach, always asking whether what he was learning actually *worked* for real people trying to live real lives.
+
+And like Odysseus, he is returning home. Not to reclaim a throne, but to reclaim something more precious: the clarity and dignity of mind that most of us assume is inevitable to lose.
+
+The fear that haunts the modern conversation about aging is not death — it is irrelevance. It is watching cognitive ability slip away and, with it, the sense of self that made you *you*. It is the nightmare of still being conscious while no longer being *yourself*. That is the curse TJ is addressing in these pages. And he is doing it not as an academic theorizing from a distance, but as a clinician who has spent two decades chasing the answer for real patients, and as a man who has spent the last three years stress-testing the answer on himself.
+
+What you are holding is not another wellness book. It is the operating system that emerged from that three-decade arc — refined through thousands of clinical encounters, validated through regenerative medicine's most demanding practitioners, and pressure-tested by men and women who have lived the protocol and gotten their lives back as a result.
+
+The Four M framework is deceptively simple: *Mind* (what you are protecting), *Muscle* (the biological substrate that houses and protects cognitive function), *Mitigate* (stopping the chronic insults that drive neuroinflammation), and *Motivate* (the identity and purpose that keeps you showing up). The execution is not simple. But the path is clear.
+
+What strikes those of us who know TJ is that he did not write this book to build a business. He wrote it to start a movement. The difference matters. A business extracts value from customers. A movement multiplies the work through people who are doing it themselves and teaching it to others. The My4MLife cohort structure — where a small group of committed people move through the protocol together, each accountable to the others, each becoming a voice in their own network — is not a marketing tactic. It is the only mechanism that actually works, because change at this level requires sustained visibility and social accountability.
+
+We are not thanking TJ because he wrote a book. We are thanking him because he spent thirty years learning to teach this, because he was willing to be wrong in public and course-correct, because he leveraged his position and privilege to democratize access to a protocol that most people in the modern world desperately need but have no map to find, and because he refused the comfortable narrative that cognitive decline is inevitable.
+
+You are about to read the result of that refusal.
+
+The question now is not whether the system works. The question is whether you have the commitment to use it. That is the only thing that stands between you and the outcome TJ has achieved: the reclamation of your mind, your body, your identity, and your dignity — while you still have a choice.
+
+Read this slowly. Don't skip to the protocols. The protocols are the *how*. The beginning is the *why*, and the why is what sustains you when the work gets hard.
+
+And it will get hard. You will fall off. The book tells you this upfront, and the appendix tells you what to do when it happens. That honesty — that unwillingness to pretend this is easy or quick — is itself a form of respect. TJ is not selling you a miracle. He is offering you a map, a protocol, and a community of people committed to the same outcome.
+
+The journey home begins here.
+
+*— On behalf of a consortium of friends, colleagues, and practitioners who have watched this work unfold, tested it, and seen it restore people we care about.*
 
 ---
 
