@@ -1,4 +1,5 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
+import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminGetUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
@@ -9,6 +10,8 @@ import { v5 as uuidv5 } from 'uuid';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
+const USER_PROFILE_TABLE = process.env.USER_PROFILE_TABLE ?? 'Users';
+const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
 const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind-v4.pdf';
@@ -16,10 +19,75 @@ const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-
 const SIGNED_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
+const cognito = new CognitoIdentityProviderClient({ region: REGION });
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const sqs = new SQSClient({ region: REGION });
 const lambda = new LambdaClient({ region: REGION });
 const s3 = new S3Client({ region: REGION });
+
+function randomPassword(len = 20): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+  let out = '';
+  for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random() * chars.length)];
+  return out;
+}
+
+async function ensureCognitoUser(email: string, firstName: string): Promise<string | null> {
+  try {
+    const got = await cognito.send(new AdminGetUserCommand({ UserPoolId: USER_POOL_ID, Username: email }));
+    return got.UserAttributes?.find((a) => a.Name === 'sub')?.Value ?? null;
+  } catch (e: any) {
+    if (e?.name !== 'UserNotFoundException') throw e;
+  }
+  const created = await cognito.send(new AdminCreateUserCommand({
+    UserPoolId: USER_POOL_ID,
+    Username: email,
+    MessageAction: 'SUPPRESS',
+    TemporaryPassword: randomPassword(),
+    UserAttributes: [
+      { Name: 'email', Value: email },
+      { Name: 'email_verified', Value: 'true' },
+      { Name: 'given_name', Value: firstName },
+    ],
+  }));
+  return created.User?.Attributes?.find((a) => a.Name === 'sub')?.Value ?? null;
+}
+
+async function seedUserProfile(args: {
+  sub: string; email: string; firstName: string; phone: string;
+  auditTop3: unknown; auditCompletedAt: string; intakeAnswers: unknown;
+}): Promise<void> {
+  const now = new Date().toISOString();
+  // Audit fields OVERWRITE on retake so the app always reflects the latest assessment.
+  const sets: string[] = [
+    '#owner = if_not_exists(#owner, :owner)',
+    '#primaryEmail = if_not_exists(#primaryEmail, :primaryEmail)',
+    '#firstName = if_not_exists(#firstName, :firstName)',
+    '#phone = if_not_exists(#phone, :phone)',
+    '#createdAt = if_not_exists(#createdAt, :createdAt)',
+    '#updatedAt = :updatedAt',
+    '#auditTop3 = :auditTop3',
+    '#auditCompletedAt = :auditCompletedAt',
+    '#intakeAnswers = :intakeAnswers',
+  ];
+  await ddb.send(new UpdateCommand({
+    TableName: USER_PROFILE_TABLE,
+    Key: { id: args.sub },
+    UpdateExpression: 'SET ' + sets.join(', '),
+    ExpressionAttributeNames: {
+      '#owner': 'owner', '#primaryEmail': 'primaryEmail', '#firstName': 'firstName',
+      '#phone': 'phone', '#createdAt': 'createdAt', '#updatedAt': 'updatedAt',
+      '#auditTop3': 'auditTop3', '#auditCompletedAt': 'auditCompletedAt', '#intakeAnswers': 'intakeAnswers',
+    },
+    ExpressionAttributeValues: {
+      ':owner': args.sub, ':primaryEmail': args.email, ':firstName': args.firstName,
+      ':phone': args.phone, ':createdAt': now, ':updatedAt': now,
+      ':auditTop3': JSON.stringify(args.auditTop3 ?? []),
+      ':auditCompletedAt': args.auditCompletedAt,
+      ':intakeAnswers': JSON.stringify(args.intakeAnswers ?? {}),
+    },
+  }));
+}
 
 async function getBookDownloadUrl(): Promise<string> {
   return getSignedUrl(s3, new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: BOOK_S3_KEY }), { expiresIn: SIGNED_URL_TTL_SEC });
@@ -168,6 +236,20 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   }));
 
   if (email) {
+    try {
+      const sub = await ensureCognitoUser(email, firstName || 'Friend');
+      if (sub) {
+        await seedUserProfile({
+          sub, email, firstName: firstName || 'Friend', phone,
+          auditTop3: Array.isArray(top3) ? top3 : [],
+          auditCompletedAt: ts,
+          intakeAnswers: (scores && typeof scores === 'object') ? scores : {},
+        });
+      }
+    } catch (e) {
+      console.warn('cognito/userprofile seed failed', e);
+    }
+
     try {
       await sendResultsEmail(email, firstName, Array.isArray(top3) ? top3 : []);
     } catch (e) {
