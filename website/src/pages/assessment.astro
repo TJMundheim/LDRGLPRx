@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { AUDIT_QUESTIONS } from '../data/audit-questions';
-import { SOLUTIONS } from '../data/audit-solutions';
 
 const title = "Free 5-minute 4M Assessment — My4MLife";
 const description = "Take the free 5-minute 4M Assessment. We'll email you your personalized results — along with a free copy of Begin with the End in Mind, the Cohort Workbook, and access to the Protégé app.";
@@ -193,7 +192,7 @@ const robots = "index, follow";
   </div>
 </section>
 
-<script is:inline define:vars={{ SOLUTIONS_DATA: SOLUTIONS, API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+<script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
 (function () {
   'use strict';
 
