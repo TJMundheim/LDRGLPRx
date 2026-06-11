@@ -1939,7 +1939,7 @@ I am not here to moralize about your money. I'm not going to tell you to budget 
 
 Two things matter here. First: the financial stress conversation belongs in the same room as the hormone panel and the gut protocol. It is that load-bearing. If you cannot sleep because of money, no amount of magnesium glycinate is going to give you back the deep sleep you need. The honest move is to address the source.
 
-Second: the My4MLife system is structured so that cost does not gate the foundational work. The Protégé membership is free. The app is free. The weekly Zoom with me is free. The 4M Assessment is free. The 25% off your first purchase and the 25% off autoship and the 15% off ongoing reorders exist specifically so a man at the beginning of his protocol is not making a choice between his Biome NS Ultra and his daughter's car payment. The discount architecture is not marketing. It is access architecture. Start where you are. Add only what your results justify. The protocol does not require a six-figure income to run.
+Second: the My4MLife system is structured so that cost does not gate the foundational work. The Protégé membership is free. The app is free. The weekly Zoom with me is free. The 4M Assessment is free. This book is free with the assessment. The cohort workbook is free with the assessment. The entire education layer — the framework, the daily protocol, the accountability — is yours without spending a dollar. That is not marketing. That is access architecture. Start where you are. Add only what your results justify. The protocol does not require a six-figure income to run.
 
 > Stop hurting yourself first. Then add what works. Chronic financial cortisol is one of the things you may be hurting yourself with — and it counts.
 
@@ -1973,7 +1973,7 @@ The men who run the 4M protocol for the rest of their lives are not the men with
 
 That is compliance as infrastructure. Not willpower. Not character. Infrastructure.
 
-The My4MLife system is engineered explicitly around this insight. The app is not a "feature." It is the daily anchor that holds the morning routine, the weekly education, and the protocol tracker in one place. The weekly group Zoom with me is not a marketing call. It is the social-reinforcement layer that turns a solo practice into a cohort practice — and cohort practice is one of the most powerful behavioral change mechanisms we know of. The Protégé membership is free precisely because we know the cost gate is a friction point, and a friction point in the wrong place will end the protocol before it begins. The 25/25/15 discount architecture exists because reorders are when men drift, and removing pennies of friction at the reorder point keeps the foundation stack on the shelf where it belongs. The cohort, the education library, the morning protocol PDF, the discovery resources — these are not features layered on top of a product. They are the friction-removal layer. They are the reason the protocol survives Year 2, Year 5, Year 10.
+The My4MLife system is engineered explicitly around this insight. The app is not a "feature." It is the daily anchor that holds the morning routine, the weekly education, and the protocol tracker in one place. The weekly group Zoom with me is not a marketing call. It is the social-reinforcement layer that turns a solo practice into a cohort practice — and cohort practice is one of the most powerful behavioral change mechanisms we know of. The Protégé membership is free precisely because we know the cost gate is a friction point, and a friction point in the wrong place will end the protocol before it begins. The audited affiliate sourcing exists for the same reason — to remove the "is this brand any good, am I getting ripped off" friction at the moment a man is trying to put the foundation stack on the shelf and keep it there. The cohort, the education library, the morning protocol PDF, the discovery resources — these are not features layered on top of a product. They are the friction-removal layer. They are the reason the protocol survives Year 2, Year 5, Year 10.
 
 When you understand this, the value of the system reframes itself. You are not paying for supplements and you are not paying for content. You are paying — when and if you eventually pay anything — for the removal of friction between yourself and the protocol that protects your mind for the rest of your life.
 
@@ -2415,9 +2415,9 @@ The **My4MLife app** in your pocket. The workbook every cohort runs — the same
 
 The **cohort**. Other men your age, in your decade, running the same protocol on the same week you are. The accountability that no supplement and no app can manufacture on its own. The face on the screen who's three weeks ahead of you, and the one who's three weeks behind, and the simple, unsentimental fact that you all signed up for the same thing.
 
-And when — not if, when — you decide to engage with the product side of the system: the **25/25/15 Protégé discount** on the entire stack. 25% off your first purchase. 25% off your autoship. 15% off your ongoing one-time reorders. The OTC foundation — Biome NS Ultra, ArmorVita, SleepRestore, OmegaCN Prime, MitoVita when it ships — at the member price. The Rx track — Biome NS Rx, SleepRestore Rx, the GLP-1 and TRT consults — at the member price.
+And when — not if, when — you decide to engage with the product side of the system: the **OTC foundation** at fair market price, ordered through the affiliate channels we've already audited for you so you know exactly what you're buying. The **Rx track** — the GLP-1 consult, the testosterone and ED consult, the gut-repair consult, the regenerative arm — telemedicine consults priced for access, not for margin. No upcharge. No gating. The product side is there when the protocol points you toward it, not before.
 
-You can run the Protégé tier for as long as you want without spending a dollar on a product. The app, the Zooms, the cohort, the workbook — yours. The protocol works either way. The products accelerate it; they don't replace it.
+You can run the Protégé tier for as long as you want without spending a dollar on a product. The app, the Zooms, the cohort, the workbook, the book — yours. The protocol works either way. The products accelerate it; they don't replace it.
 
 I want to be clear about why the Protégé tier is free, because if you have spent any time in the wellness market you are right to be suspicious. It is free because the men who run the protocol get results, and the men who get results stay, and the men who stay eventually engage with the product side because the protocol points them toward specific tools at specific moments. The economics work because the protocol works. I don't need to gate the workbook to make the model run. I need you on the protocol. The rest follows.
 
@@ -2553,7 +2553,7 @@ The four together take you about 25 minutes of intentional time on a normal day.
 
 This is a foundational starter stack designed for a 50-year-old man with no contraindications. Your assessment results, lab panel, and consult will determine whether you add the Rx single-active layer (Biome NS Rx, SleepRestore Rx, TRT, GLP-1, peptides) on top of this base.
 
-If you are a Protégé, you receive **25% off your first purchase**, **25% off autoship subscriptions**, and **15% off ongoing one-time reorders** across the My4MLife stack.
+As a Protégé, the education layer — this book, the cohort workbook, the My4MLife app, the weekly Zooms with me, and the cohort itself — is yours free. The OTC stack is sourced through audited affiliate channels at fair market price. The Rx track is priced for access through our telemedicine partners. Start with the foundation. Add the rest only when your results justify it.
 
 ### Morning — On Empty Stomach, with Sunlight
 
@@ -3258,7 +3258,7 @@ Every protocol in this book is one he runs himself. My4MLife is not a clinic; it
 ## Connect
 
 - **Take the free 5-minute 4M Assessment:** [my4mlife.com/assessment](https://my4mlife.com/assessment)
-- **Become a Protégé (free):** Includes the My4MLife app, weekly Zooms with Dr. TJ, the cohort, and 25% off your first purchase + autoship / 15% off ongoing reorders across the My4MLife stack.
+- **Become a Protégé (free):** Activated by completing the free 4M Assessment. Includes the My4MLife app, the digital book, the cohort workbook, weekly Zooms with Dr. TJ, and the cohort community.
 - **For the already-diagnosed:** RPA regenerative arm — Muse cells delivered intrathecally, nationwide mobile delivery. Time-sensitive. Begin via the assessment.
 - **Support:** [support@my4mlife.com](mailto:support@my4mlife.com)
 
