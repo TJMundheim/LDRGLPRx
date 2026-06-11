@@ -122,9 +122,29 @@ function reply(s: number, b: unknown, origin?: string): APIGatewayProxyResultV2 
   return { statusCode: s, headers: corsHeaders(origin), body: JSON.stringify(b) };
 }
 
+// Map a top-3 category id to a /rx/* direct-buy page when score >= 2 (4/10+).
+// Returns the highest-scoring match in top3, or null if none qualify.
+function getRecommendedRx(top3: any[]): { label: string; url: string; eyebrow: string; cta: string } | null {
+  const RX_MAP: Record<string, { label: string; url: string; eyebrow: string; cta: string }> = {
+    'hormone-balance':       { label: 'Low Testosterone / ED Consult', url: 'https://my4mlife.com/rx/testosterone-ed',       eyebrow: 'Based on Your Hormone Score', cta: 'Schedule a Testosterone Consult →' },
+    'erectile-dysfunction':  { label: 'Low Testosterone / ED Consult', url: 'https://my4mlife.com/rx/testosterone-ed',       eyebrow: 'Based on Your ED Score',      cta: 'Schedule a Testosterone / ED Consult →' },
+    'weight-body-fat':       { label: 'GLP-1 Weight Loss Consult',     url: 'https://my4mlife.com/rx/weight-loss',           eyebrow: 'Based on Your Weight Score',  cta: 'Schedule a GLP-1 Consult →' },
+    'gut-microbiome':        { label: 'Leaky Gut Repair Consult',      url: 'https://my4mlife.com/rx/leaky-gut',             eyebrow: 'Based on Your Gut Score',     cta: 'Schedule a Gut-Repair Consult →' },
+    'already-diagnosed':     { label: 'Regenerative Medicine Consult', url: 'https://my4mlife.com/rx/regenerative-medicine', eyebrow: 'Based on Your Assessment',    cta: 'Schedule a Regenerative Consult →' },
+  };
+  if (!Array.isArray(top3)) return null;
+  const candidates = top3
+    .map((t: any) => ({ id: String(t?.id ?? ''), score: Number(t?.score ?? 0) }))
+    .filter((t) => t.score >= 2 && RX_MAP[t.id])
+    .sort((a, b) => b.score - a.score);
+  if (candidates.length === 0) return null;
+  return RX_MAP[candidates[0].id];
+}
+
 function buildResultsHtml(firstName: string, top3: any[], bookUrl: string, workbookUrl: string): string {
   const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
   const appUrl = 'https://app.my4mlife.com';
+  const rxRec = getRecommendedRx(top3);
 
   const top3Items = top3.map((t: any, i: number) => {
     const label = safe(t?.label || t?.id || 'Priority ' + (i + 1));
@@ -168,6 +188,16 @@ function buildResultsHtml(firstName: string, top3: any[], bookUrl: string, workb
 <p style="color:#777;font-size:11px;margin:12px 0 0">Save the app to your home screen for one-tap access.</p>
 </div>`;
 
+  const rxCard = rxRec
+    ? `<div style="margin:20px 0;padding:22px;border:2px solid #1a3656;border-radius:10px;background:#f0f5fb">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#1a3656;text-transform:uppercase;margin:0 0 8px">${safe(rxRec.eyebrow)}</p>
+<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">${safe(rxRec.label)}</h2>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Your top-3 result points directly at this. If you want to address it now rather than wait, schedule a telemedicine consult with a physician in our network. No labs required for most consults; medication is billed separately after the script is written.</p>
+<p style="margin:0"><a href="${rxRec.url}" style="background:#1a3656;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">${safe(rxRec.cta)}</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">This is optional — your Protégé benefits above stand on their own. The consult is for when you want clinical intervention faster than diet and lifestyle alone.</p>
+</div>`
+    : '';
+
   const coordinatorCard = `<div style="margin:28px 0 12px;padding:18px;border-top:1px solid #e2e8f0;text-align:center">
 <p style="color:#333;font-size:14px;line-height:1.55;margin:0 0 12px"><strong>Want to talk to a person?</strong> Schedule a call with one of our care coordinators — they'll listen to your situation and connect you with the appropriate medical provider in our network.</p>
 <p style="margin:0"><a href="https://my4mlife.com/consult" style="color:#1a3656;font-weight:600;font-size:14px;text-decoration:underline">Schedule with a Care Coordinator &rarr;</a></p>
@@ -177,6 +207,7 @@ function buildResultsHtml(firstName: string, top3: any[], bookUrl: string, workb
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${safe(firstName)}.</h1>
 <p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your assessment results, the book, the workbook, and the app. Take them in any order; they're designed to work together.</p>
 ${top3Card}
+${rxCard}
 ${bookCard}
 ${workbookCard}
 ${appCard}
