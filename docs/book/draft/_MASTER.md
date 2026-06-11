@@ -1189,7 +1189,7 @@ Two things have changed. The cells got better. And the delivery route got smarte
 
 ## Muse Cells and the Intrathecal Route
 
-The named lead protocol inside Genesis RPA — the regenerative arm of My4MLife — is **Muse cells delivered intrathecally**. I want to take that phrase apart piece by piece because the specificity matters.
+The named lead protocol inside RPA — the regenerative arm of My4MLife — is **Muse cells delivered intrathecally**. I want to take that phrase apart piece by piece because the specificity matters.
 
 **Muse cells.** The acronym stands for Multilineage-differentiating Stress Enduring cells. They are a relatively recently characterized class of pluripotent stem cells — meaning a single Muse cell has the latent capacity to become any of the three primary tissue types from which all organs derive. That puts them in a different category from the generic mesenchymal stem cells (MSCs) that most regenerative clinics have been using for the last decade. Generic MSCs are multipotent — they can become several connective tissue types — but their range is narrower and their behavior in injured tissue is less reliable.
 
@@ -1221,9 +1221,9 @@ Think about it mechanically. The Muse cells arrive at damaged tissue and start r
 
 Now picture the same intervention in a patient who, three months before the protocol and continuing after it, has sealed the gut with Biome NS, restored sleep with SleepRestore, optimized hormones, eliminated the insulting behaviors, and started building strength and protein-first nutrition into the daily rhythm. The cells arrive into an environment that is *cooperating with them*. The inflammatory signal is down. The cerebral perfusion is up. The neurotrophic substrate the cells need to work with is being delivered, every day, by a body that is finally feeding the brain instead of starving it.
 
-> Genesis RPA is the most expensive intervention in the system, and it is the one that most rewards the patient who has done the unglamorous work alongside it.
+> RPA is the most expensive intervention in the system, and it is the one that most rewards the patient who has done the unglamorous work alongside it.
 
-Patients who treat Genesis RPA as a one-shot miracle waste the intervention. Patients who treat it as the highest-leverage piece of an integrated stack get compound benefit. The protocol works on the body you give it.
+Patients who treat RPA as a one-shot miracle waste the intervention. Patients who treat it as the highest-leverage piece of an integrated stack get compound benefit. The protocol works on the body you give it.
 
 This is also why I never recommend deferring the conservative work *until* the regenerative work. The gut, the sleep, the environment, the hormones — those interventions should be running concurrently from the day the diagnosis is made. They are not the appetizer before the main course. They are the conditions of soil.
 
@@ -1255,7 +1255,7 @@ When should you engage the regenerative arm? Four entry points.
 
 **Four. Personal preference for the most aggressive prevention layer.** Some patients, looking at a strong family history and a peak-power decade they have no intention of surrendering, simply elect the most aggressive available prevention before the symptoms arrive. That is a legitimate choice. The protocol is not less effective for being deployed earlier.
 
-In all four cases, the conservative interventions run alongside. Always. Genesis RPA is not a substitute for fixing the gut. Genesis RPA is what the gut work supports.
+In all four cases, the conservative interventions run alongside. Always. RPA is not a substitute for fixing the gut. RPA is what the gut work supports.
 
 ## The Next Step
 
@@ -1263,7 +1263,7 @@ If any of the above describes you — or describes someone you are reading this 
 
 First, take the free 4M Assessment at **my4mlife.com/assessment**. Ten questions, about five minutes. If your situation meets the threshold I described earlier in this chapter, the algorithm will automatically surface "already diagnosed" as your top priority and route you accordingly. You don't have to figure out the system. The system reads your situation and tells you where to start.
 
-Second, engage Genesis RPA directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
+Second, engage RPA directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
 
 > Don't lose your identity and your dignity while you still have a choice. Begin with the end in mind.
 
@@ -1691,7 +1691,7 @@ The Mitigate pillar is half the chronic-pain protocol. Gut inflammation amplifie
 
 The Muscle pillar is the other half. Fear-avoidance — refusing to load the painful joint because loading it hurts — is one of the most well-documented perpetuators of chronic pain. Graded movement exposure breaks the cycle. You load the joint a little. It tolerates it. You load it a little more. The nervous system relearns that the joint is safe. The pain pattern reorganizes. This is not woo. This is the standard of care in modern pain medicine, and it works.
 
-And when chronic pain has run past what lifestyle, NSAIDs, peptides, and graded exposure can reach — when the joint surface itself is degraded, when the cartilage is genuinely gone — there is a ceiling. The regenerative tier we call Genesis RPA, coordinated through our partner regenerative medicine practice, is what sits beyond that ceiling for the men who need it. Candidacy is determined at the comprehensive 4M consult, not by self-diagnosis. If you have run out of options on your current path, that consult is exactly what it is built for.
+And when chronic pain has run past what lifestyle, NSAIDs, peptides, and graded exposure can reach — when the joint surface itself is degraded, when the cartilage is genuinely gone — there is a ceiling. The regenerative tier we call RPA, coordinated through our partner regenerative medicine practice, is what sits beyond that ceiling for the men who need it. Candidacy is determined at the comprehensive 4M consult, not by self-diagnosis. If you have run out of options on your current path, that consult is exactly what it is built for.
 
 Address pain because it is a brain issue. The man who solves his chronic back pain at sixty-two gets twenty more years of lifting, twenty more years of BDNF signal, twenty more years of mind. The man who accepts it loses all of that, and does not realize what he traded away until the trade is final.
 
@@ -2427,7 +2427,7 @@ There is a second route, and I need to address it directly, because if you fit i
 
 If you are reading this and you have already been diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you are reading this on behalf of someone you love who has — the assessment knows that, and it will route you differently.
 
-Question nine on the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes **Genesis RPA** — our regenerative flagship, including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
+Question nine on the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes **RPA** — our regenerative flagship, including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
 
 I am not going to spend three paragraphs softening this part. If a diagnosis is already on the chart, the clock is real, and the clock is loud, and waiting another quarter for the slow protocol to compound is not a strategy the math supports. The foundation protocol still runs in the background — gut, sleep, hormones, muscle, all of it — but the regenerative arm is what changes the trajectory on a timeline the diagnosis demands.
 
@@ -2934,7 +2934,7 @@ The online version does a few things the page in front of you can't: it surfaces
 
 Three rules, in this order:
 
-**1. The already-diagnosed override.** If your answer to Question 9 is **3 or higher**, that category is automatically your #1 — no math required. Regenerative medicine (Genesis RPA, peptide protocols, the cognitive-rescue path) moves to the front of the line. The other nine still get ranked, but #2 and #3 fill in around it.
+**1. The already-diagnosed override.** If your answer to Question 9 is **3 or higher**, that category is automatically your #1 — no math required. Regenerative medicine (RPA, peptide protocols, the cognitive-rescue path) moves to the front of the line. The other nine still get ranked, but #2 and #3 fill in around it.
 
 **2. The bonus map.** Two categories get a **+2 bonus** added to their raw score before ranking, because in clinical practice they pull the most weight across every other category:
 
@@ -2995,7 +2995,7 @@ The Two Paths model: every OTC has — or can have — an Rx counterpart for dee
 
 The top of the ladder. When the conventional and peptide tiers aren't enough — or when the diagnostic clock is already ticking — this is the option.
 
-- **Genesis RPA** — Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. Nationwide mobile delivery — the team comes to you. Indications across cognitive decline, neurological injury, joint regeneration. The flagship of the regenerative pillar.
+- **RPA** — Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. Nationwide mobile delivery — the team comes to you. Indications across cognitive decline, neurological injury, joint regeneration. The flagship of the regenerative pillar.
 
 ---
 
@@ -3171,7 +3171,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **Free T (Free Testosterone)** — The unbound, bioavailable fraction of total testosterone. The number that actually matters for symptoms; total T can look "normal" while free T is in the basement.
 
-**Genesis RPA** — The regenerative-medicine flagship. Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally, with nationwide mobile delivery.
+**RPA** — The regenerative-medicine flagship. Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally, with nationwide mobile delivery.
 
 **GLP-1** — Glucagon-like peptide-1 receptor agonists: semaglutide, tirzepatide, retatrutide. Originally for diabetes, now broadly used for weight loss, with growing evidence for cardiovascular and neuroprotective benefit.
 
@@ -3201,7 +3201,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **Muscle** — The 4M pillar that builds the physical infrastructure the brain requires: nutrition, weight, GLP-1, strength, sarcopenia, pain management. *"Strong body, sharp mind. Resistance training is neuroprotection."*
 
-**Muse Cells** — Multilineage-differentiating stress-enduring cells. A specific class of pluripotent cells used in Genesis RPA, delivered intrathecally.
+**Muse Cells** — Multilineage-differentiating stress-enduring cells. A specific class of pluripotent cells used in RPA, delivered intrathecally.
 
 **Myokines** — Signaling molecules released by contracting muscle. Cross the blood-brain barrier and modulate cognition, mood, and inflammation. Why resistance training is neuroprotection.
 
@@ -3259,7 +3259,7 @@ Every protocol in this book is one he runs himself. My4MLife is not a clinic; it
 
 - **Take the free 5-minute 4M Assessment:** [my4mlife.com/assessment](https://my4mlife.com/assessment)
 - **Become a Protégé (free):** Includes the My4MLife app, weekly Zooms with Dr. TJ, the cohort, and 25% off your first purchase + autoship / 15% off ongoing reorders across the My4MLife stack.
-- **For the already-diagnosed:** Genesis RPA regenerative arm — Muse cells delivered intrathecally, nationwide mobile delivery. Time-sensitive. Begin via the assessment.
+- **For the already-diagnosed:** RPA regenerative arm — Muse cells delivered intrathecally, nationwide mobile delivery. Time-sensitive. Begin via the assessment.
 - **Support:** [support@my4mlife.com](mailto:support@my4mlife.com)
 
 ---

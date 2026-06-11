@@ -209,19 +209,19 @@ export const products: Product[] = [
     tags: ['methylation', 'b-vitamins', 'compounded', 'rx', 'mthfr', 'cognitive', '4m-formula'],
   },
 
-  // ─── Genesis RPA ──────────────────────────────────────────────────────────
+  // ─── RPA ──────────────────────────────────────────────────────────
 
   {
-    id: 'genesis-rpa',
-    slug: 'genesis-rpa',
-    name: 'Genesis RPA',
-    shortName: 'Genesis',
+    id: 'rpa',
+    slug: 'rpa',
+    name: 'RPA',
+    shortName: 'RPA',
     category: 'rx',
     tagline: 'Regenerative precision administration — delivered nationwide.',
     description:
       'Advanced regenerative protocol delivered via mobile clinical team; addresses joint injuries, post-concussion syndrome, long-COVID sequelae, cognitive decline, and chronic inflammation.',
     longDescription:
-      'Genesis RPA is a high-touch regenerative administration service providing clinician-supervised delivery across intra-articular, IV, nebulizer, intrathecal, and intranasal routes. A nationwide mobile delivery model eliminates the need for clinic visits. Each protocol is individually designed based on intake assessment and lab findings. Approximate COGS ~$5,000 per administration.',
+      'RPA is a high-touch regenerative administration service providing clinician-supervised delivery across intra-articular, IV, nebulizer, intrathecal, and intranasal routes. A nationwide mobile delivery model eliminates the need for clinic visits. Each protocol is individually designed based on intake assessment and lab findings. Approximate COGS ~$5,000 per administration.',
     heroClaim: 'Regenerative medicine, delivered to your door.',
     mechanismBullets: [
       'Multi-route administration targets tissue, systemic, CNS, and pulmonary compartments',

@@ -1973,7 +1973,7 @@ function renderRegen() {
   <div style="background:linear-gradient(135deg,#042C53,#0C2040);border-radius:12px;
     padding:20px;margin-bottom:20px;border:1px solid #2E7FD944">
     <div style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#2E7FD9;margin-bottom:6px">WEEK 4 BONUS LESSON</div>
-    <div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:6px">Regenerative Medicine & Genesis RPA</div>
+    <div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:6px">Regenerative Medicine & RPA</div>
     <div style="font-size:12.5px;color:#B5D4F4;line-height:1.7">Everything you have done this month has been activating your body's innate regenerative pathways. Now we look at what medicine is becoming — and why it matters for every man in this cohort.</div>
   </div>
 
@@ -1999,7 +1999,7 @@ function renderRegen() {
   </div>
 
   <div style="background:#1E5FA0;border-radius:12px;padding:18px 20px;margin-bottom:16px">
-    <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px">Genesis RPA — Regenerative Protein Array</div>
+    <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px">RPA — Regenerative Protein Array</div>
     <div style="font-size:12px;color:#B5D4F4;line-height:1.7;margin-bottom:14px">
       A concentrated array of proteins, growth factors, and cytokines derived from placental tissue.
       No live cells. No DNA transfer. Estimated up to 1,000× more potent than conventional PRP.

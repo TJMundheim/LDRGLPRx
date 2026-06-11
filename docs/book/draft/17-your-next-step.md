@@ -92,7 +92,7 @@ There is a second route, and I need to address it directly, because if you fit i
 
 If you are reading this and you have already been diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you are reading this on behalf of someone you love who has — the assessment knows that, and it will route you differently.
 
-Question nine on the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes **Genesis RPA** — our regenerative flagship, including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
+Question nine on the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes **RPA** — our regenerative flagship, including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
 
 I am not going to spend three paragraphs softening this part. If a diagnosis is already on the chart, the clock is real, and the clock is loud, and waiting another quarter for the slow protocol to compound is not a strategy the math supports. The foundation protocol still runs in the background — gut, sleep, hormones, muscle, all of it — but the regenerative arm is what changes the trajectory on a timeline the diagnosis demands.
 

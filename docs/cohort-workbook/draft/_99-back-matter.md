@@ -11,7 +11,7 @@
 - **Free 5-minute 4M Assessment:** [my4mlife.com/assessment](https://my4mlife.com/assessment)
 - **The My4MLife app:** [app.my4mlife.com](https://app.my4mlife.com)
 - **The book — *Begin with the End in Mind*:** included free with every Protégé signup
-- **Genesis RPA — regenerative medicine:** nationwide mobile delivery for the already-diagnosed
+- **RPA — regenerative medicine:** nationwide mobile delivery for the already-diagnosed
 - **Support:** [support@my4mlife.com](mailto:support@my4mlife.com)
 
 ---

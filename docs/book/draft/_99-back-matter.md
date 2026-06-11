@@ -11,8 +11,8 @@ Every protocol in this book is one he runs himself. My4MLife is not a clinic; it
 ## Connect
 
 - **Take the free 5-minute 4M Assessment:** [my4mlife.com/assessment](https://my4mlife.com/assessment)
-- **Become a Protégé (free):** Includes the My4MLife app, weekly Zooms with Dr. TJ, the cohort, and 25% off your first purchase + autoship / 15% off ongoing reorders across the My4MLife stack.
-- **For the already-diagnosed:** Genesis RPA regenerative arm — Muse cells delivered intrathecally, nationwide mobile delivery. Time-sensitive. Begin via the assessment.
+- **Become a Protégé (free):** Activated by completing the free 4M Assessment. Includes the My4MLife app, the digital book, the cohort workbook, weekly Zooms with Dr. TJ, and the cohort community.
+- **For the already-diagnosed:** RPA regenerative arm — Muse cells delivered intrathecally, nationwide mobile delivery. Time-sensitive. Begin via the assessment.
 - **Support:** [support@my4mlife.com](mailto:support@my4mlife.com)
 
 ---

@@ -281,9 +281,9 @@ My decision: ☐ Staying OTC. Reassessment date (90 days out): ____________
 ---
 
 **If you or your physician have already diagnosed MCI, early dementia, Alzheimer's, or Parkinson's →**
-Engage **Genesis RPA** regenerative consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back.
+Engage **RPA** regenerative consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back.
 
-My decision: ☐ Booking Genesis RPA consult this week. Date: ____________
+My decision: ☐ Booking RPA consult this week. Date: ____________
 
 ---
 
@@ -450,7 +450,7 @@ _______________________________________________
 ☐ Full hormone consult — booking this week
 ☐ Targeted consult — domain: ____________
 ☐ Staying OTC — 90-day reassessment date: ____________
-☐ Genesis RPA regenerative consult — booking this week
+☐ RPA regenerative consult — booking this week
 
 The accountability target I named in Week 1 — who I am doing this for — would say this about my decision:
 

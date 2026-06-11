@@ -198,13 +198,13 @@ What follows is one page per product, in the order you'd actually add them. Then
 
 ---
 
-## Genesis RPA
+## RPA
 
 **Tier:** Regenerative
 **When:** Per protocol — nationwide mobile delivery, scheduled
 **Dose:** Single intrathecal procedure per cycle
 **What it is:** Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. The flagship regenerative intervention. Nationwide mobile delivery — the team comes to you.
-**Why it's in the stack:** For the already-diagnosed — MCI, early dementia, Alzheimer's, Parkinson's — and for those with biomarker or imaging evidence of accelerated neurodegeneration. Genesis RPA is time-sensitive. The earlier in the disease curve, the more there is to preserve. This is not a maintenance product. It is the regenerative tier and it belongs to the people who need it now.
+**Why it's in the stack:** For the already-diagnosed — MCI, early dementia, Alzheimer's, Parkinson's — and for those with biomarker or imaging evidence of accelerated neurodegeneration. RPA is time-sensitive. The earlier in the disease curve, the more there is to preserve. This is not a maintenance product. It is the regenerative tier and it belongs to the people who need it now.
 **What it pairs with:** The entire foundation stack — Biome NS Ultra, ArmorVita, OmegaCN Prime, creatine, magnesium L-threonate, the sleep stack. The cleaner the substrate, the better the cells work. Nootropic peptide cycles are a natural follow-on.
 **What to watch for:** This is not evaluated in 30-day increments. Quarterly cognitive testing and imaging mark the timeline.
 **Two Paths note:** Stands alone at the top of the ladder. There is no OTC analogue.
@@ -225,6 +225,6 @@ One page. Tape it inside the cabinet where the bottles live.
 | **TRT + Lifting + Protein-First** | Hormonal foundation. TRT without lifting is a liability; lifting without protein is futile; the three together are the muscle-mind axis. |
 | **GLP-1 + Protein-First + Lifting + OmegaCN Prime** | Metabolic foundation. Appetite drops; protein and lifting preserve lean mass; omega+ubiquinol protect cardio during fast fat loss. |
 | **SleepRestore + SleepRestore Rx + OmegaCN Prime** | Cerebrovascular nighttime stack. Architecture + fibrinolysis + membrane health. The glymphatic clearance trio. |
-| **Genesis RPA + full foundation** | Substrate matters most here. Every foundation product makes the regenerative tier work better. |
+| **RPA + full foundation** | Substrate matters most here. Every foundation product makes the regenerative tier work better. |
 
 > *Begin with the end in mind. The stack is not a shopping list. It is a system aimed at one outcome — the best mind possible until your last day of life.*

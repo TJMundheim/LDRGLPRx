@@ -143,7 +143,7 @@ export interface Workbook {
   currentPillar?: PillarId;
   /** True once the member has completed Month 1 graduation criteria. */
   graduatedFromMonth1?: boolean;
-  /** True once the Genesis RPA intro bonus module at end of Month 1 has been seen. */
+  /** True once the RPA intro bonus module at end of Month 1 has been seen. */
   rpaIntroSeen?: boolean;
 
   /** Weekly symptom outcome check-ins. */

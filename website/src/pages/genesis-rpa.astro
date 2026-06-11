@@ -1,21 +1,5 @@
 ---
-// Legacy redirect stub — /genesis-rpa → /regenerative-medicine
-// This page is intentionally noindex; canonical points to the new URL.
-// Do not restore Genesis RPA product references here; this is a compliance-redirect only.
+// 301 redirect stub — /genesis-rpa → /rpa
+// External links to /genesis-rpa continue to work via this stub.
+return Astro.redirect('/rpa', 301);
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=/regenerative-medicine" />
-    <link rel="canonical" href="https://www.my4mlife.com/regenerative-medicine" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Redirecting…</title>
-    <script is:inline>
-      window.location.replace('/regenerative-medicine');
-    </script>
-  </head>
-  <body>
-    <p>Redirecting to <a href="/regenerative-medicine">Regenerative Medicine Solutions</a>…</p>
-  </body>
-</html>

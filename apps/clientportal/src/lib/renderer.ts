@@ -1940,7 +1940,7 @@ function renderRegen(W: Workbook): string {
   <div style="background:linear-gradient(135deg,#042C53,#0C2040);border-radius:12px;
     padding:20px;margin-bottom:20px;border:1px solid #2E7FD944">
     <div style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#2E7FD9;margin-bottom:6px">WEEK 4 BONUS LESSON</div>
-    <div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:6px">Regenerative Medicine & Genesis RPA</div>
+    <div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:6px">Regenerative Medicine & RPA</div>
     <div style="font-size:12.5px;color:#B5D4F4;line-height:1.7">Everything you have done this month has been activating your body's innate regenerative pathways.</div>
   </div>
 

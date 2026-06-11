@@ -59,7 +59,7 @@ The framework one-liner to anchor (from `website/src/pages/pillars/mind.astro:37
   - **ArmorVita** (vitamin D + K2 + boron + astaxanthin OTC stack)
   - **SleepRestore** (OTC) + **SleepRestore Rx** (nattokinase)
   - **MitoVita** (creatine + L-citrulline + beetroot + electrolytes — in development)
-  - **Genesis RPA** (regenerative medicine flagship)
+  - **RPA** (regenerative medicine flagship)
   - **OmegaCN Prime** (omega-3 + ubiquinol)
 - The 25/25/15 Protégé discount lock: 25% off first purchase, 25% off autoship, 15% off ongoing one-time reorders. Do not deviate.
 - **Compliance pre-cleared.** Do not insert hedging like "consult your doctor before" beyond a single book-level disclaimer.

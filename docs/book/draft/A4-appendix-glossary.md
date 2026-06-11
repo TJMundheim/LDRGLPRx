@@ -36,7 +36,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **Free T (Free Testosterone)** — The unbound, bioavailable fraction of total testosterone. The number that actually matters for symptoms; total T can look "normal" while free T is in the basement.
 
-**Genesis RPA** — The regenerative-medicine flagship. Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally, with nationwide mobile delivery.
+**RPA** — The regenerative-medicine flagship. Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally, with nationwide mobile delivery.
 
 **GLP-1** — Glucagon-like peptide-1 receptor agonists: semaglutide, tirzepatide, retatrutide. Originally for diabetes, now broadly used for weight loss, with growing evidence for cardiovascular and neuroprotective benefit.
 
@@ -66,7 +66,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **Muscle** — The 4M pillar that builds the physical infrastructure the brain requires: nutrition, weight, GLP-1, strength, sarcopenia, pain management. *"Strong body, sharp mind. Resistance training is neuroprotection."*
 
-**Muse Cells** — Multilineage-differentiating stress-enduring cells. A specific class of pluripotent cells used in Genesis RPA, delivered intrathecally.
+**Muse Cells** — Multilineage-differentiating stress-enduring cells. A specific class of pluripotent cells used in RPA, delivered intrathecally.
 
 **Myokines** — Signaling molecules released by contracting muscle. Cross the blood-brain barrier and modulate cognition, mood, and inflammation. Why resistance training is neuroprotection.
 

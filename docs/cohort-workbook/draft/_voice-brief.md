@@ -34,7 +34,7 @@ The workbook follows the LIVED cohort progression — Week 1 establishes the fou
 - **SleepRestore Rx** — Nattokinase. Deeper circulation/clotting tier.
 - **MitoVita** — Pre-workout: creatine + L-citrulline + beetroot + electrolytes. In development.
 - **Magnesium L-threonate** — 1.5-2g evening. The ONLY magnesium form with hippocampal bioavailability. Brand: Magtein.
-- **Genesis RPA** — Regenerative medicine. Muse cells delivered intrathecally. Nationwide mobile delivery. Time-sensitive for already-diagnosed MCI / dementia / Alzheimer's / Parkinson's.
+- **RPA** — Regenerative medicine. Muse cells delivered intrathecally. Nationwide mobile delivery. Time-sensitive for already-diagnosed MCI / dementia / Alzheimer's / Parkinson's.
 
 ## Locked protocols
 

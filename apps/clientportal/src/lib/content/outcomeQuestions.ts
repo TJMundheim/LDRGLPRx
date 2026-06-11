@@ -32,7 +32,7 @@ export const PROTOCOL_OUTCOME_DOMAINS: Record<string, OutcomeDomainKey[]> = {
   sleeprestore:       ['sleep_quality', 'energy', 'mood'],
   armorvita:          ['energy', 'mood', 'focus'],
   neurobridge:        ['brain_fog', 'mood', 'energy', 'focus'],
-  'genesis-rpa':      ['joint_pain', 'energy'],
+  'rpa':              ['joint_pain', 'energy'],
   semaglutide:        ['energy', 'mood'],
   tirzepatide:        ['energy', 'mood'],
   'trt-male':         ['energy', 'libido', 'mood', 'focus'],

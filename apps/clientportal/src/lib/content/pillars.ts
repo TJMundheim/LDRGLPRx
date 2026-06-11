@@ -99,7 +99,7 @@ export const pillars: Pillar[] = [
       'Identity statement — who you are becoming',
       'Week 4 re-assessment: re-score all 15 factors',
       'Month 1 wins review and celebration',
-      'Genesis RPA introduction (bonus module)',
+      'RPA introduction (bonus module)',
       'Month 2 commitment and graduation criteria',
     ],
     keyFactorIds: [11],

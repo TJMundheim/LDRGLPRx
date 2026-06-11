@@ -112,7 +112,7 @@ The online version does a few things the page in front of you can't: it surfaces
 
 Three rules, in this order:
 
-**1. The already-diagnosed override.** If your answer to Question 9 is **3 or higher**, that category is automatically your #1 — no math required. Regenerative medicine (Genesis RPA, peptide protocols, the cognitive-rescue path) moves to the front of the line. The other nine still get ranked, but #2 and #3 fill in around it.
+**1. The already-diagnosed override.** If your answer to Question 9 is **3 or higher**, that category is automatically your #1 — no math required. Regenerative medicine (RPA, peptide protocols, the cognitive-rescue path) moves to the front of the line. The other nine still get ranked, but #2 and #3 fill in around it.
 
 **2. The bonus map.** Two categories get a **+2 bonus** added to their raw score before ranking, because in clinical practice they pull the most weight across every other category:
 

@@ -1599,9 +1599,9 @@ My decision: ☐ Staying OTC. Reassessment date (90 days out): ____________
 ---
 
 **If you or your physician have already diagnosed MCI, early dementia, Alzheimer's, or Parkinson's →**
-Engage **Genesis RPA** regenerative consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back.
+Engage **RPA** regenerative consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back.
 
-My decision: ☐ Booking Genesis RPA consult this week. Date: ____________
+My decision: ☐ Booking RPA consult this week. Date: ____________
 
 ---
 
@@ -1768,7 +1768,7 @@ _______________________________________________
 ☐ Full hormone consult — booking this week
 ☐ Targeted consult — domain: ____________
 ☐ Staying OTC — 90-day reassessment date: ____________
-☐ Genesis RPA regenerative consult — booking this week
+☐ RPA regenerative consult — booking this week
 
 The accountability target I named in Week 1 — who I am doing this for — would say this about my decision:
 
@@ -2663,13 +2663,13 @@ What follows is one page per product, in the order you'd actually add them. Then
 
 ---
 
-## Genesis RPA
+## RPA
 
 **Tier:** Regenerative
 **When:** Per protocol — nationwide mobile delivery, scheduled
 **Dose:** Single intrathecal procedure per cycle
 **What it is:** Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. The flagship regenerative intervention. Nationwide mobile delivery — the team comes to you.
-**Why it's in the stack:** For the already-diagnosed — MCI, early dementia, Alzheimer's, Parkinson's — and for those with biomarker or imaging evidence of accelerated neurodegeneration. Genesis RPA is time-sensitive. The earlier in the disease curve, the more there is to preserve. This is not a maintenance product. It is the regenerative tier and it belongs to the people who need it now.
+**Why it's in the stack:** For the already-diagnosed — MCI, early dementia, Alzheimer's, Parkinson's — and for those with biomarker or imaging evidence of accelerated neurodegeneration. RPA is time-sensitive. The earlier in the disease curve, the more there is to preserve. This is not a maintenance product. It is the regenerative tier and it belongs to the people who need it now.
 **What it pairs with:** The entire foundation stack — Biome NS Ultra, ArmorVita, OmegaCN Prime, creatine, magnesium L-threonate, the sleep stack. The cleaner the substrate, the better the cells work. Nootropic peptide cycles are a natural follow-on.
 **What to watch for:** This is not evaluated in 30-day increments. Quarterly cognitive testing and imaging mark the timeline.
 **Two Paths note:** Stands alone at the top of the ladder. There is no OTC analogue.
@@ -2690,7 +2690,7 @@ One page. Tape it inside the cabinet where the bottles live.
 | **TRT + Lifting + Protein-First** | Hormonal foundation. TRT without lifting is a liability; lifting without protein is futile; the three together are the muscle-mind axis. |
 | **GLP-1 + Protein-First + Lifting + OmegaCN Prime** | Metabolic foundation. Appetite drops; protein and lifting preserve lean mass; omega+ubiquinol protect cardio during fast fat loss. |
 | **SleepRestore + SleepRestore Rx + OmegaCN Prime** | Cerebrovascular nighttime stack. Architecture + fibrinolysis + membrane health. The glymphatic clearance trio. |
-| **Genesis RPA + full foundation** | Substrate matters most here. Every foundation product makes the regenerative tier work better. |
+| **RPA + full foundation** | Substrate matters most here. Every foundation product makes the regenerative tier work better. |
 
 > *Begin with the end in mind. The stack is not a shopping list. It is a system aimed at one outcome — the best mind possible until your last day of life.*
 
@@ -3150,7 +3150,7 @@ The OTC stack and the lifestyle protocols carry most men a long way. Some men ne
 | **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Biome NS Rx consult — oral BPC-157 + L-glutamine + aloe | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
 | **Sleep** (Q2 ≥ 3, clotting/circulation factors) | SleepRestore Rx consult — nattokinase tier | Sleep intake — coag and lipid review — Rx if indicated |
 | **Cognitive optimization** (Q7 ≥ 3, no diagnosis) | Nootropic peptide consult — Cerebrolysin / Semax / Selank | Cognitive intake — telemed visit — peptide protocol mailed |
-| **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **Genesis RPA — Muse cells intrathecally (TIME-SENSITIVE)** | Genesis intake — records reviewed — mobile delivery scheduled nationwide |
+| **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **RPA — Muse cells intrathecally (TIME-SENSITIVE)** | Genesis intake — records reviewed — mobile delivery scheduled nationwide |
 | **Acute or chronic pain** | BPC-157 + TB-500 peptide consult | Pain intake — telemed visit — injectable peptide protocol mailed |
 
 Every Rx path begins inside the app. Tap *Rx Consults* and pick the lane. Labs you've had in the last 90 days carry forward.
@@ -3193,7 +3193,7 @@ The men who fill this in are the men who finish the program.
 | **The My4MLife app** | https://app.my4mlife.com — sign in with your email, OTP code |
 | **The free 4M Assessment** | https://my4mlife.com/assessment |
 | **The book — *Begin with the End in Mind*** | Protégé welcome gift in the app, or standalone purchase at https://my4mlife.com/book |
-| **Genesis RPA — regenerative medicine** | https://genesisregenerative.com — nationwide mobile delivery |
+| **RPA — regenerative medicine** | https://genesisregenerative.com — nationwide mobile delivery |
 | **The blog — long-form articles** | https://my4mlife.com/blog |
 | **Weekly Zoom links** | Sent via the app + email each Tuesday |
 | **Product reorder & subscription management** | Inside the app — *Stack* → *Manage* |
@@ -3324,7 +3324,7 @@ I'll see you on the Zoom Wednesday. Bring a question.
 - **Free 5-minute 4M Assessment:** [my4mlife.com/assessment](https://my4mlife.com/assessment)
 - **The My4MLife app:** [app.my4mlife.com](https://app.my4mlife.com)
 - **The book — *Begin with the End in Mind*:** included free with every Protégé signup
-- **Genesis RPA — regenerative medicine:** nationwide mobile delivery for the already-diagnosed
+- **RPA — regenerative medicine:** nationwide mobile delivery for the already-diagnosed
 - **Support:** [support@my4mlife.com](mailto:support@my4mlife.com)
 
 ---

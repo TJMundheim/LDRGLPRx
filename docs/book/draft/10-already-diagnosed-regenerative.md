@@ -44,7 +44,7 @@ Two things have changed. The cells got better. And the delivery route got smarte
 
 ## Muse Cells and the Intrathecal Route
 
-The named lead protocol inside Genesis RPA — the regenerative arm of My4MLife — is **Muse cells delivered intrathecally**. I want to take that phrase apart piece by piece because the specificity matters.
+The named lead protocol inside RPA — the regenerative arm of My4MLife — is **Muse cells delivered intrathecally**. I want to take that phrase apart piece by piece because the specificity matters.
 
 **Muse cells.** The acronym stands for Multilineage-differentiating Stress Enduring cells. They are a relatively recently characterized class of pluripotent stem cells — meaning a single Muse cell has the latent capacity to become any of the three primary tissue types from which all organs derive. That puts them in a different category from the generic mesenchymal stem cells (MSCs) that most regenerative clinics have been using for the last decade. Generic MSCs are multipotent — they can become several connective tissue types — but their range is narrower and their behavior in injured tissue is less reliable.
 
@@ -76,9 +76,9 @@ Think about it mechanically. The Muse cells arrive at damaged tissue and start r
 
 Now picture the same intervention in a patient who, three months before the protocol and continuing after it, has sealed the gut with Biome NS, restored sleep with SleepRestore, optimized hormones, eliminated the insulting behaviors, and started building strength and protein-first nutrition into the daily rhythm. The cells arrive into an environment that is *cooperating with them*. The inflammatory signal is down. The cerebral perfusion is up. The neurotrophic substrate the cells need to work with is being delivered, every day, by a body that is finally feeding the brain instead of starving it.
 
-> Genesis RPA is the most expensive intervention in the system, and it is the one that most rewards the patient who has done the unglamorous work alongside it.
+> RPA is the most expensive intervention in the system, and it is the one that most rewards the patient who has done the unglamorous work alongside it.
 
-Patients who treat Genesis RPA as a one-shot miracle waste the intervention. Patients who treat it as the highest-leverage piece of an integrated stack get compound benefit. The protocol works on the body you give it.
+Patients who treat RPA as a one-shot miracle waste the intervention. Patients who treat it as the highest-leverage piece of an integrated stack get compound benefit. The protocol works on the body you give it.
 
 This is also why I never recommend deferring the conservative work *until* the regenerative work. The gut, the sleep, the environment, the hormones — those interventions should be running concurrently from the day the diagnosis is made. They are not the appetizer before the main course. They are the conditions of soil.
 
@@ -110,7 +110,7 @@ When should you engage the regenerative arm? Four entry points.
 
 **Four. Personal preference for the most aggressive prevention layer.** Some patients, looking at a strong family history and a peak-power decade they have no intention of surrendering, simply elect the most aggressive available prevention before the symptoms arrive. That is a legitimate choice. The protocol is not less effective for being deployed earlier.
 
-In all four cases, the conservative interventions run alongside. Always. Genesis RPA is not a substitute for fixing the gut. Genesis RPA is what the gut work supports.
+In all four cases, the conservative interventions run alongside. Always. RPA is not a substitute for fixing the gut. RPA is what the gut work supports.
 
 ## The Next Step
 
@@ -118,7 +118,7 @@ If any of the above describes you — or describes someone you are reading this 
 
 First, take the free 4M Assessment at **my4mlife.com/assessment**. Ten questions, about five minutes. If your situation meets the threshold I described earlier in this chapter, the algorithm will automatically surface "already diagnosed" as your top priority and route you accordingly. You don't have to figure out the system. The system reads your situation and tells you where to start.
 
-Second, engage Genesis RPA directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
+Second, engage RPA directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
 
 > Don't lose your identity and your dignity while you still have a choice. Begin with the end in mind.
 

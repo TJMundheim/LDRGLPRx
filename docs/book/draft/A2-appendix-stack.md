@@ -44,7 +44,7 @@ The Two Paths model: every OTC has — or can have — an Rx counterpart for dee
 
 The top of the ladder. When the conventional and peptide tiers aren't enough — or when the diagnostic clock is already ticking — this is the option.
 
-- **Genesis RPA** — Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. Nationwide mobile delivery — the team comes to you. Indications across cognitive decline, neurological injury, joint regeneration. The flagship of the regenerative pillar.
+- **RPA** — Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. Nationwide mobile delivery — the team comes to you. Indications across cognitive decline, neurological injury, joint regeneration. The flagship of the regenerative pillar.
 
 ---
 
