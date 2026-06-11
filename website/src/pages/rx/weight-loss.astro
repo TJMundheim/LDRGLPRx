@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'GLP-1 Weight Loss Rx — My4MLife';
+const description = 'Telemedicine consult + comprehensive wellness lab to evaluate your candidacy for semaglutide or tirzepatide. $199.';
+const canonical = 'https://www.my4mlife.com/rx/weight-loss';
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="rx-section">
+  <div class="container rx-inner">
+    <p class="rx-eyebrow">GLP-1 / GLP-1 RA Weight Loss</p>
+    <h1>The shortcut isn't a pill. It's the right pill, prescribed correctly.</h1>
+
+    <p class="rx-lead">
+      Semaglutide (Wegovy, Ozempic) and tirzepatide (Mounjaro, Zepbound) are the two FDA-approved GLP-1 medications driving the weight-loss revolution. The right one for you depends on your starting weight, your metabolic markers, your tolerance profile, and your goals — not a one-size-fits-all algorithm.
+    </p>
+
+    <p class="rx-body">
+      Your telemedicine consult covers candidacy for both. The physician reviews your wellness panel — fasting glucose, HbA1c, lipid markers, and the full hormone picture — then writes for whichever GLP-1 fits your situation. Most members lose 15–22% of body weight on tirzepatide over a year; semaglutide trends slightly lower but with a smoother side-effect curve for some. We help you pick correctly the first time.
+    </p>
+
+    <p class="rx-price-line">
+      <strong>$199</strong> — telemedicine consult + comprehensive wellness lab (including full hormone panel).
+      <span class="rx-pay-note">Medication is billed separately after the physician writes your script.</span>
+    </p>
+
+    <button class="rx-cta-btn" id="rx-checkout-btn" data-sku="consult-comprehensive" data-price="price_1TaDtxBSbDAyoIVyQBNUVxOH">
+      Pay &amp; Schedule Your Consult &rarr;
+    </button>
+
+    <p class="rx-disclosure">
+      After payment, our care coordinator will email you within 24 hours to schedule your telemedicine consult with the appropriate physician in our network.
+    </p>
+  </div>
+</section>
+
+<script is:inline>
+(function(){
+  var btn = document.getElementById('rx-checkout-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var sku = btn.getAttribute('data-sku');
+    var priceId = btn.getAttribute('data-price');
+    btn.disabled = true;
+    btn.textContent = 'Opening secure checkout…';
+    fetch('https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ skuId: sku, priceId: priceId }),
+    })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if (d && d.url) window.location.href = d.url; else { btn.disabled=false; btn.textContent='Pay & Schedule Your Consult →'; alert('Checkout error: ' + (d && d.error ? d.error : 'unknown')); } })
+      .catch(function(){ btn.disabled=false; btn.textContent='Pay & Schedule Your Consult →'; alert('Checkout error — please try again.'); });
+  });
+})();
+</script>
+
+</BaseLayout>
+
+<style>
+.rx-section { padding: 4rem 1rem 5rem; min-height: 60vh; }
+.rx-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem; }
+.rx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 0; }
+.rx-inner h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.85rem, 4vw, 2.6rem); color: var(--primary); margin: 0; line-height: 1.18; max-width: 640px; }
+.rx-lead { font-size: 1.1rem; color: var(--text); line-height: 1.6; margin: 0.5rem 0 0; max-width: 640px; }
+.rx-body { font-size: 1rem; color: var(--text); line-height: 1.62; margin: 0; max-width: 640px; }
+.rx-price-line { font-size: 1.05rem; color: var(--primary); margin: 0.5rem 0 0; max-width: 640px; line-height: 1.55; }
+.rx-price-line strong { color: var(--accent); font-size: 1.35rem; }
+.rx-pay-note { display: block; font-size: 0.88rem; color: var(--text-light); font-style: italic; margin-top: 0.35rem; }
+.rx-cta-btn { background: var(--accent); color: #fff; padding: 1rem 2.2rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; border: none; cursor: pointer; margin-top: 1rem; box-shadow: 0 6px 20px rgba(0,184,148,0.25); transition: opacity .15s; }
+.rx-cta-btn:hover:not(:disabled) { opacity: 0.92; }
+.rx-cta-btn:disabled { opacity: 0.6; cursor: progress; }
+.rx-disclosure { font-size: 0.85rem; color: var(--text-light); margin: 0.5rem 0 0; max-width: 560px; line-height: 1.5; }
+</style>

@@ -11,15 +11,30 @@ const robots = "noindex, nofollow";
 <section class="ty-section">
   <div class="container ty-inner">
     <div class="ty-icon" aria-hidden="true">&#10003;</div>
-    <h1>Thank you. Your order is confirmed.</h1>
-    <p class="ty-sub">
-      A receipt is on its way to your inbox. For digital products, your download link arrives in a separate email within a minute or two — check your inbox (and spam folder, just in case).
-    </p>
 
-    <div class="ty-explore">
-      <p class="ty-explore-prompt">Curious what else My4MLife offers?</p>
-      <p class="ty-explore-body">Take our free 5-minute 4M assessment — it's how we build a personalized brain-health plan around the four pillars: Mind, Muscle, Mitigate, Motivate.</p>
-      <a href="/assessment" class="btn btn-secondary">Take the free assessment &rarr;</a>
+    <!-- Default thank-you (digital products) -->
+    <div id="ty-default">
+      <h1>Thank you. Your order is confirmed.</h1>
+      <p class="ty-sub">
+        A receipt is on its way to your inbox. For digital products, your download link arrives in a separate email within a minute or two — check your inbox (and spam folder, just in case).
+      </p>
+
+      <div class="ty-explore">
+        <p class="ty-explore-prompt">Curious what else My4MLife offers?</p>
+        <p class="ty-explore-body">Take our free 5-minute 4M assessment — it's how we build a personalized brain-health plan around the four pillars: Mind, Muscle, Mitigate, Motivate.</p>
+        <a href="/assessment" class="btn btn-secondary">Take the free assessment &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Rx consult confirmation (shown when sku=consult-comprehensive or sku=consult-hormone) -->
+    <div id="ty-consult" hidden>
+      <h1>Thank you. Your consult is reserved.</h1>
+      <p class="ty-sub">
+        A receipt is on its way to your inbox. Within the next 24 hours, our care coordinator will email you to schedule your telemedicine consult with the appropriate physician in our network.
+      </p>
+      <p class="ty-sub">
+        Watch your inbox (and spam folder) for the scheduling email. The physician will review your case during the consult and write any appropriate prescriptions at that visit. Medication is billed separately after the script is written.
+      </p>
     </div>
 
     <p class="ty-support">
@@ -28,6 +43,19 @@ const robots = "noindex, nofollow";
     <p class="ty-tagline">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
   </div>
 </section>
+
+<script is:inline>
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var sku = params.get('sku') || '';
+  if (sku === 'consult-comprehensive' || sku === 'consult-hormone') {
+    var def = document.getElementById('ty-default');
+    var con = document.getElementById('ty-consult');
+    if (def) def.hidden = true;
+    if (con) con.hidden = false;
+  }
+})();
+</script>
 
 </BaseLayout>
 

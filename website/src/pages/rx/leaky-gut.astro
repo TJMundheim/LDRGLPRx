@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Leaky Gut Repair Rx — My4MLife';
+const description = 'Telemedicine consult to evaluate you for the compounded BPC-157 + L-Glutamine + Aloe gut-repair protocol. $199.';
+const canonical = 'https://www.my4mlife.com/rx/leaky-gut';
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="rx-section">
+  <div class="container rx-inner">
+    <p class="rx-eyebrow">Leaky Gut · Gut-Brain Axis Repair</p>
+    <h1>If your gut is leaky, the rest of you is inflamed.</h1>
+
+    <p class="rx-lead">
+      Bloating after meals. Loose or irregular stools. New food sensitivities. Brain fog 30 minutes after eating. These are not separate problems — they are the gut wall failing at its barrier job, letting bacterial fragments cross into systemic circulation and driving low-grade inflammation everywhere it travels.
+    </p>
+
+    <p class="rx-body">
+      The gut produces roughly <strong>90% of your body's serotonin</strong> and <strong>50% of its dopamine</strong>. The vagus nerve carries about <strong>80% of its traffic from gut to brain</strong>, not the other direction. When the gut barrier is compromised, the neurotransmitter signaling and the inflammatory signaling both degrade — which is why brain fog, mood drift, and cognitive fatigue track so tightly with gut symptoms. Off-the-shelf probiotics do not repair a damaged barrier; they require an intact one to colonize. The barrier itself needs targeted repair first.
+    </p>
+
+    <p class="rx-body">
+      Your telemedicine consult evaluates you for our compounded triple-action protocol: <strong>BPC-157 + L-Glutamine + Aloe vera</strong> — barrier repair (BPC-157 stimulates epithelial healing), epithelial fuel (L-Glutamine is the preferred substrate of gut enterocytes), and mucosal soothing (aloe quiets the inflammatory layer). Prescribed via our telemedicine partner; not available over the counter.
+    </p>
+
+    <p class="rx-price-line">
+      <strong>$199</strong> — telemedicine consult + comprehensive wellness lab (including full hormone panel).
+      <span class="rx-pay-note">Medication is billed separately after the physician writes your script.</span>
+    </p>
+
+    <button class="rx-cta-btn" id="rx-checkout-btn" data-sku="consult-comprehensive" data-price="price_1TaDtxBSbDAyoIVyQBNUVxOH">
+      Pay &amp; Schedule Your Consult &rarr;
+    </button>
+
+    <p class="rx-disclosure">
+      After payment, our care coordinator will email you within 24 hours to schedule your telemedicine consult with the appropriate physician in our network.
+    </p>
+  </div>
+</section>
+
+<script is:inline>
+(function(){
+  var btn = document.getElementById('rx-checkout-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var sku = btn.getAttribute('data-sku');
+    var priceId = btn.getAttribute('data-price');
+    btn.disabled = true;
+    btn.textContent = 'Opening secure checkout…';
+    fetch('https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ skuId: sku, priceId: priceId }),
+    })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if (d && d.url) window.location.href = d.url; else { btn.disabled=false; btn.textContent='Pay & Schedule Your Consult →'; alert('Checkout error: ' + (d && d.error ? d.error : 'unknown')); } })
+      .catch(function(){ btn.disabled=false; btn.textContent='Pay & Schedule Your Consult →'; alert('Checkout error — please try again.'); });
+  });
+})();
+</script>
+
+</BaseLayout>
+
+<style>
+.rx-section { padding: 4rem 1rem 5rem; min-height: 60vh; }
+.rx-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem; }
+.rx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 0; }
+.rx-inner h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.85rem, 4vw, 2.6rem); color: var(--primary); margin: 0; line-height: 1.18; max-width: 640px; }
+.rx-lead { font-size: 1.1rem; color: var(--text); line-height: 1.6; margin: 0.5rem 0 0; max-width: 640px; }
+.rx-body { font-size: 1rem; color: var(--text); line-height: 1.62; margin: 0; max-width: 640px; }
+.rx-body strong { color: var(--primary); }
+.rx-price-line { font-size: 1.05rem; color: var(--primary); margin: 0.5rem 0 0; max-width: 640px; line-height: 1.55; }
+.rx-price-line strong { color: var(--accent); font-size: 1.35rem; }
+.rx-pay-note { display: block; font-size: 0.88rem; color: var(--text-light); font-style: italic; margin-top: 0.35rem; }
+.rx-cta-btn { background: var(--accent); color: #fff; padding: 1rem 2.2rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; border: none; cursor: pointer; margin-top: 1rem; box-shadow: 0 6px 20px rgba(0,184,148,0.25); transition: opacity .15s; }
+.rx-cta-btn:hover:not(:disabled) { opacity: 0.92; }
+.rx-cta-btn:disabled { opacity: 0.6; cursor: progress; }
+.rx-disclosure { font-size: 0.85rem; color: var(--text-light); margin: 0.5rem 0 0; max-width: 560px; line-height: 1.5; }
+</style>

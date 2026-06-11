@@ -81,6 +81,11 @@ const programItems = [
     <!-- Desktop nav: Home + Services dropdown + Sign In (8 categories moved to homepage CTA band) -->
     <ul class="nav-links" id="nav-links" role="menubar">
 
+      <!-- Direct-buy Rx lane — 3 top-level CTAs between Services and Sign In -->
+      <li class="nav-rx-item" role="none"><a href="/rx/weight-loss" class="nav-rx-link">GLP-1 Weight Loss Rx</a></li>
+      <li class="nav-rx-item" role="none"><a href="/rx/testosterone-ed" class="nav-rx-link">Testosterone / ED Rx for Men</a></li>
+      <li class="nav-rx-item" role="none"><a href="/rx/leaky-gut" class="nav-rx-link">Leaky Gut Repair Rx</a></li>
+
       <!-- Services mega-menu -->
       <li class="dd-trigger" role="none" id="dd-services">
         <button class="dd-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dd-panel-services">
@@ -152,6 +157,13 @@ const programItems = [
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+
+    <!-- Direct-buy Rx lane (mobile) -->
+    <div class="mobile-rx-block">
+      <a href="/rx/weight-loss" class="mobile-rx-link">GLP-1 Weight Loss Rx</a>
+      <a href="/rx/testosterone-ed" class="mobile-rx-link">Testosterone / ED Rx for Men</a>
+      <a href="/rx/leaky-gut" class="mobile-rx-link">Leaky Gut Repair Rx</a>
+    </div>
 
     <!-- Services accordion (8 categories live inside Services mega-menu, not at top of mobile menu) -->
     <div class="mobile-section">
@@ -293,6 +305,35 @@ const programItems = [
     flex: 1;
   }
   .nav-signin-item { margin-left: auto; }
+
+  /* ── Direct-buy Rx mobile block ── */
+  .mobile-rx-block { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.5rem 0 1rem; border-bottom: 1px solid var(--border); margin-bottom: 0.5rem; }
+  .mobile-rx-link { display: block; padding: 0.7rem 1rem; background: var(--accent); color: #fff; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; text-decoration: none; border-radius: 8px; text-align: center; }
+  .mobile-rx-link:hover { opacity: 0.9; }
+
+  /* ── Direct-buy Rx CTA nav items ── */
+  .nav-rx-item { list-style: none; }
+  .nav-rx-link {
+    display: inline-block;
+    padding: 0.42rem 0.78rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    text-decoration: none;
+    border-radius: 999px;
+    white-space: nowrap;
+    margin-left: 0.45rem;
+    transition: opacity 0.12s, transform 0.12s;
+  }
+  .nav-rx-link:hover { opacity: 0.9; transform: translateY(-1px); }
+  @media (min-width: 961px) and (max-width: 1280px) {
+    .nav-rx-link { font-size: 0.72rem; padding: 0.38rem 0.6rem; margin-left: 0.3rem; }
+  }
+  @media (max-width: 960px) {
+    .nav-rx-item { display: none; }
+  }
 
   /* ── 8-category top-level nav items ── */
   .nav-cat {

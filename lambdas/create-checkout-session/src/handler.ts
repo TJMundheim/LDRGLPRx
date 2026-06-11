@@ -93,7 +93,9 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${successBase}?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: skuId
+        ? `${successBase}?session_id={CHECKOUT_SESSION_ID}&sku=${encodeURIComponent(skuId)}`
+        : `${successBase}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: skuId ? `${cancelBase}?sku=${encodeURIComponent(skuId)}` : cancelBase,
       customer_email: body.email || undefined,
       payment_intent_data: body.email ? { receipt_email: body.email } : undefined,

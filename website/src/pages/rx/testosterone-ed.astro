@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Low Testosterone & ED Rx for Men — My4MLife';
+const description = 'Telemedicine TRT consult + hormone panel. One consult fee, potentially two scripts (testosterone + ED). For men. $249.';
+const canonical = 'https://www.my4mlife.com/rx/testosterone-ed';
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="rx-section">
+  <div class="container rx-inner">
+    <p class="rx-eyebrow">For Men · Low Testosterone &amp; Erectile Dysfunction</p>
+    <h1>Low Testosterone. Erectile Dysfunction. One consult. Two possible scripts.</h1>
+
+    <p class="rx-lead">
+      Low testosterone and erectile dysfunction travel together. They share the same upstream drivers — declining hormones, endothelial dysfunction, sleep debt, visceral fat. Treating one without evaluating the other leaves the bigger problem in place.
+    </p>
+
+    <p class="rx-body">
+      Your telemedicine TRT consult includes a comprehensive hormone panel (total + free testosterone, estradiol, SHBG, fasting glucose, HbA1c, lipids, hsCRP, TSH). Based on the panel, the physician can write for testosterone replacement, a PDE5 inhibitor (sildenafil or tadalafil), or both — at the same visit. <strong>One consult fee. Two potential scripts.</strong> ED is the canary in the coal mine for hormones, cardiovascular health, and cognitive trajectory — addressing both at once is how you treat the system, not just the symptom.
+    </p>
+
+    <p class="rx-price-line">
+      <strong>$249</strong> — telemedicine TRT consult + mandatory hormone panel (required for any testosterone prescription).
+      <span class="rx-pay-note">Medication is billed separately after the physician writes your script(s).</span>
+    </p>
+
+    <button class="rx-cta-btn" id="rx-checkout-btn" data-sku="consult-hormone" data-price="price_1TaEPtBSbDAyoIVyS4CnOFNZ">
+      Pay &amp; Schedule Your Consult &rarr;
+    </button>
+
+    <p class="rx-disclosure">
+      After payment, our care coordinator will email you within 24 hours to schedule your telemedicine consult with the appropriate physician in our network.
+    </p>
+  </div>
+</section>
+
+<script is:inline>
+(function(){
+  var btn = document.getElementById('rx-checkout-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var sku = btn.getAttribute('data-sku');
+    var priceId = btn.getAttribute('data-price');
+    btn.disabled = true;
+    btn.textContent = 'Opening secure checkout…';
+    fetch('https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ skuId: sku, priceId: priceId }),
+    })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if (d && d.url) window.location.href = d.url; else { btn.disabled=false; btn.textContent='Pay & Schedule Your Consult →'; alert('Checkout error: ' + (d && d.error ? d.error : 'unknown')); } })
+      .catch(function(){ btn.disabled=false; btn.textContent='Pay & Schedule Your Consult →'; alert('Checkout error — please try again.'); });
+  });
+})();
+</script>
+
+</BaseLayout>
+
+<style>
+.rx-section { padding: 4rem 1rem 5rem; min-height: 60vh; }
+.rx-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem; }
+.rx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 0; }
+.rx-inner h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 3.6vw, 2.4rem); color: var(--primary); margin: 0; line-height: 1.18; max-width: 640px; }
+.rx-lead { font-size: 1.1rem; color: var(--text); line-height: 1.6; margin: 0.5rem 0 0; max-width: 640px; }
+.rx-body { font-size: 1rem; color: var(--text); line-height: 1.62; margin: 0; max-width: 640px; }
+.rx-body strong { color: var(--accent); }
+.rx-price-line { font-size: 1.05rem; color: var(--primary); margin: 0.5rem 0 0; max-width: 640px; line-height: 1.55; }
+.rx-price-line strong { color: var(--accent); font-size: 1.35rem; }
+.rx-pay-note { display: block; font-size: 0.88rem; color: var(--text-light); font-style: italic; margin-top: 0.35rem; }
+.rx-cta-btn { background: var(--accent); color: #fff; padding: 1rem 2.2rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; border: none; cursor: pointer; margin-top: 1rem; box-shadow: 0 6px 20px rgba(0,184,148,0.25); transition: opacity .15s; }
+.rx-cta-btn:hover:not(:disabled) { opacity: 0.92; }
+.rx-cta-btn:disabled { opacity: 0.6; cursor: progress; }
+.rx-disclosure { font-size: 0.85rem; color: var(--text-light); margin: 0.5rem 0 0; max-width: 560px; line-height: 1.5; }
+</style>
