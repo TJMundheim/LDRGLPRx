@@ -304,9 +304,9 @@ export const SKUS: Record<string, SKU> = {
   //   $249 = testosterone-specific (telemed partner charges more for T review + script)
   'consult-comprehensive': {
     id: 'consult-comprehensive',
-    name: 'Comprehensive 4M Consult + Wellness Labs',
-    tagline: 'Telemedicine consult + comprehensive wellness lab including a full hormone panel. The default starting point for every Rx category except testosterone.',
-    retailPriceUSD: 199,
+    name: 'Telemedicine Consult — GLP-1 / Leaky Gut / General Rx',
+    tagline: 'Telemedicine consult where the physician evaluates your case and writes any appropriate prescriptions during the visit. No lab work required.',
+    retailPriceUSD: 99,
     cadence: 'one-time',
     stripePriceId: 'price_1Tgx1LBSbDAyoIVytUXa9tw1',
     stripePriceTestId: null,
