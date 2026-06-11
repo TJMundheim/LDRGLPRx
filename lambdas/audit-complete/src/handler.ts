@@ -227,11 +227,19 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   await ddb.send(new UpdateCommand({
     TableName: CONTACT_TABLE,
     Key: { contactId },
-    UpdateExpression: 'SET auditCompletedAt = :ts, intakeAnswers = :scores, auditTop3 = :top3, updatedAt = :ts',
+    UpdateExpression: 'SET auditCompletedAt = :ts, intakeAnswers = :scores, auditTop3 = :top3, updatedAt = :ts, #ls = if_not_exists(#ls, :protege), createdAt = if_not_exists(createdAt, :ts)' + (email ? ', #em = if_not_exists(#em, :em)' : '') + (firstName ? ', firstName = if_not_exists(firstName, :fn)' : '') + (phone ? ', phone = if_not_exists(phone, :ph)' : ''),
+    ExpressionAttributeNames: {
+      '#ls': 'lifecycleStage',
+      ...(email ? { '#em': 'email' } : {}),
+    },
     ExpressionAttributeValues: {
       ':ts': ts,
       ':scores': (scores && typeof scores === 'object') ? scores : {},
       ':top3': Array.isArray(top3) ? top3 : [],
+      ':protege': 'protege',
+      ...(email ? { ':em': email } : {}),
+      ...(firstName ? { ':fn': firstName } : {}),
+      ...(phone ? { ':ph': phone } : {}),
     },
   }));
 
