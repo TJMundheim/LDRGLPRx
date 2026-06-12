@@ -125,8 +125,11 @@
 </script>
 
 <div class="auth-card">
-  <h2>{isFreshSignup && loading ? "You're in. Sending your code…" : isFreshSignup ? "You're in. Let's sign you in." : 'Sign In / Sign Up — Free Protégé'}</h2>
-  <p class="subtitle">{isFreshSignup && loading ? "We're emailing you a 6-digit code. The next screen will ask for it — no need to click anything." : isFreshSignup ? "Tap below to send your 6-digit sign-in code." : "Enter your email. New here? We'll create your free Protégé account automatically. Returning? You'll get a 6-digit code to sign in."}</p>
+  <h2>{isFreshSignup && loading ? "You're in. Sending your code…" : isFreshSignup ? "You're in. Let's sign you in." : 'Protégé Sign In'}</h2>
+  <p class="subtitle">{isFreshSignup && loading ? "We're emailing you a 6-digit code. The next screen will ask for it — no need to click anything." : isFreshSignup ? "Tap below to send your 6-digit sign-in code." : "Existing Protégé? Enter the email you used for the assessment and we'll send you a 6-digit sign-in code. New here? Start with the free 4M Assessment — that's how Protégé access is created."}</p>
+  {#if !isFreshSignup}
+    <p class="subtitle-cta"><a href="https://my4mlife.com/assessment">Take the free 4M Assessment →</a></p>
+  {/if}
   {#if isFreshSignup && loading}
     <!-- Auto-send in flight: no form. The next screen appears on success. -->
     <div class="autosend-spinner" aria-hidden="true"></div>
@@ -173,7 +176,10 @@
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   }
   h2 { margin: 0 0 6px; font-size: 1.4rem; color: #1a1a1a; }
-  .subtitle { margin: 0 0 24px; color: #666; font-size: 0.9rem; }
+  .subtitle { margin: 0 0 16px; color: #666; font-size: 0.9rem; }
+  .subtitle-cta { margin: 0 0 24px; font-size: 0.9rem; }
+  .subtitle-cta a { color: #00b894; font-weight: 600; text-decoration: none; }
+  .subtitle-cta a:hover { text-decoration: underline; }
   label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #333; }
   .optional { font-weight: 400; color: #999; font-size: 0.8rem; }
   input {
