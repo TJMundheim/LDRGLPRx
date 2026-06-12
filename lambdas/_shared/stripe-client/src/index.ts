@@ -57,3 +57,10 @@ export async function getStripeClient(opts: GetStripeClientOptions = {}): Promis
 
   return new Stripe(secretKey, { apiVersion: API_VERSION });
 }
+
+export async function getStripePublishableKey(mode: 'live' | 'test' = 'live'): Promise<string> {
+  const keys = await fetchKeys();
+  const key = mode === 'live' ? keys['stripe-live-key'] : keys['stripe-test-key'];
+  if (!key) throw new Error('publishable key missing in all-stripe-keys secret');
+  return key;
+}
