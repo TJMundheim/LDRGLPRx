@@ -20,7 +20,7 @@
   .code {
     font-size: 5rem;
     font-weight: 800;
-    color: #ff6060;
+    color: #c81e1e;
     line-height: 1;
     margin-bottom: 12px;
   }
@@ -28,13 +28,13 @@
   .message {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #cdd4e0;
+    color: #0a0a0a;
     margin-bottom: 12px;
   }
 
   .detail {
     font-size: 0.9rem;
-    color: #7a8390;
+    color: #1A2E1E;
     margin: 0;
   }
 </style>

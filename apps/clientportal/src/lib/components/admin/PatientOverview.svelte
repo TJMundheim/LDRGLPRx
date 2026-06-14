@@ -98,13 +98,13 @@
   .po-label {
     font-size: 1rem;
     font-weight: 700;
-    color: #cdd4e0;
+    color: #0a0a0a;
     font-family: monospace;
   }
 
   .po-tier {
-    background: rgba(74,158,255,0.15);
-    color: #4a9eff;
+    background: #1D9E75;
+    color: #ffffff;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -120,8 +120,8 @@
   }
 
   .po-card {
-    background: #1a1f2a;
-    border: 1px solid rgba(255,255,255,0.07);
+    background: #ffffff;
+    border: 1px solid #d9e5d6;
     border-radius: 10px;
     padding: 14px 16px;
   }
@@ -132,7 +132,7 @@
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #7a8390;
+    color: #1A2E1E;
     text-transform: uppercase;
     margin-bottom: 8px;
   }
@@ -140,18 +140,19 @@
   .po-card-value {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #cdd4e0;
+    color: #0a0a0a;
   }
 
   .protocol-list { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .protocol-tag {
-    background: rgba(80,200,120,0.12);
-    color: #52c87e;
+    background: #F0F5F0;
+    color: #1D9E75;
     font-size: 0.76rem;
     padding: 3px 8px;
     border-radius: 4px;
     font-family: monospace;
+    font-weight: 600;
   }
 
   .score-row { display: flex; align-items: flex-end; gap: 10px; height: 60px; }
@@ -167,20 +168,20 @@
 
   .score-fill {
     width: 20px;
-    background: #4a9eff;
+    background: #1D9E75;
     border-radius: 3px 3px 0 0;
     min-height: 4px;
   }
 
   .score-label {
     font-size: 0.7rem;
-    color: #7a8390;
+    color: #1A2E1E;
     margin-top: 4px;
   }
 
   .po-intake {
     font-size: 0.86rem;
-    color: #aab4c2;
+    color: #0a0a0a;
     line-height: 1.6;
     margin: 0;
   }

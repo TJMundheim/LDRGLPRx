@@ -145,7 +145,7 @@
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: #7a8390;
+    color: #1A2E1E;
     margin: 0;
     display: flex;
     align-items: center;
@@ -153,28 +153,29 @@
   }
 
   .badge {
-    background: #1a1f2a;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #1D9E75;
+    border: 1px solid #1D9E75;
     border-radius: 12px;
     padding: 2px 10px;
     font-size: 0.75rem;
-    color: #4a9eff;
+    color: #ffffff;
+    font-weight: 600;
   }
 
   .search {
     margin-left: auto;
-    background: #1a1f2a;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #ffffff;
+    border: 1px solid #c5d0c2;
     border-radius: 6px;
     padding: 6px 12px;
-    color: #cdd4e0;
+    color: #0a1a0e;
     font-size: 0.85rem;
     outline: none;
     min-width: 220px;
   }
 
   .search:focus {
-    border-color: #4a9eff;
+    border-color: #1D9E75;
   }
 
   .table-wrap {
@@ -190,50 +191,54 @@
   thead th {
     text-align: left;
     padding: 8px 12px;
-    color: #7a8390;
+    color: #1A2E1E;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 2px solid #1D9E75;
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
+    background: #F0F5F0;
   }
 
   thead th:hover {
-    color: #cdd4e0;
+    color: #1D9E75;
   }
 
   tbody td {
     padding: 10px 12px;
-    color: #cdd4e0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #0a0a0a;
+    font-weight: 500;
+    border-bottom: 1px solid #d9e5d6;
+    background: #ffffff;
   }
 
   tr:hover td {
-    background: rgba(255,255,255,0.03);
+    background: #f5faf3;
   }
 
   .mono { font-family: monospace; font-size: 0.82rem; }
   .num { text-align: right; }
-  .empty { text-align: center; color: #7a8390; padding: 24px; }
+  .empty { text-align: center; color: #3A6A44; padding: 24px; }
 
   .loading, .err {
-    color: #7a8390;
+    color: #3A6A44;
     padding: 20px 0;
   }
-  .err { color: #ff6060; }
+  .err { color: #c81e1e; }
 
   .load-more {
     margin-top: 12px;
-    background: #1a1f2a;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #1D9E75;
+    border: 1px solid #1D9E75;
     border-radius: 6px;
-    color: #4a9eff;
+    color: #ffffff;
     padding: 8px 20px;
     cursor: pointer;
     font-size: 0.85rem;
+    font-weight: 600;
   }
 
   .load-more:hover:not(:disabled) {

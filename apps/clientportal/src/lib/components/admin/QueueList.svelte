@@ -84,16 +84,16 @@
   .empty-state {
     text-align: center;
     padding: 32px;
-    color: #7a8390;
+    color: #1A2E1E;
     font-size: 0.9rem;
   }
 
   .queue-card {
-    background: #1a1f2a;
-    border: 1px solid rgba(255,255,255,0.07);
+    background: #ffffff;
+    border: 1px solid #d9e5d6;
     border-radius: 10px;
     padding: 16px 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   }
 
   .card-header {
@@ -105,8 +105,8 @@
   }
 
   .kind-badge {
-    background: rgba(74,158,255,0.15);
-    color: #4a9eff;
+    background: #1D9E75;
+    color: #ffffff;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.07em;
@@ -123,20 +123,20 @@
     border-radius: 4px;
     text-transform: uppercase;
   }
-  .urgency-urgent  { background: rgba(255,80,80,0.2);  color: #ff6060; }
-  .urgency-soon    { background: rgba(255,190,50,0.2); color: #ffc840; }
-  .urgency-routine { background: rgba(80,200,120,0.2); color: #52c87e; }
+  .urgency-urgent  { background: rgba(200,30,30,0.1);  color: #c81e1e; }
+  .urgency-soon    { background: rgba(176,125,0,0.12); color: #b07d00; }
+  .urgency-routine { background: #F0F5F0; color: #1D9E75; }
 
   .patient-label {
     margin-left: auto;
     font-size: 0.8rem;
-    color: #9ba3b2;
+    color: #1A2E1E;
     font-family: monospace;
   }
 
   .summary {
     font-size: 0.88rem;
-    color: #cdd4e0;
+    color: #0a0a0a;
     line-height: 1.55;
     margin: 0 0 10px;
     display: -webkit-box;
@@ -148,7 +148,7 @@
   .expand-btn {
     background: none;
     border: none;
-    color: #4a9eff;
+    color: #1D9E75;
     font-size: 0.78rem;
     cursor: pointer;
     padding: 0;
@@ -156,12 +156,12 @@
   }
 
   .drafted-action {
-    background: rgba(255,255,255,0.04);
-    border-left: 3px solid #4a9eff;
+    background: #F0F5F0;
+    border-left: 3px solid #1D9E75;
     padding: 8px 12px;
     border-radius: 0 6px 6px 0;
     font-size: 0.84rem;
-    color: #aab4c2;
+    color: #0a0a0a;
     margin-bottom: 10px;
   }
 
@@ -178,8 +178,8 @@
   }
   .btn:hover { opacity: 0.8; }
 
-  .btn-approve  { background: rgba(80,200,120,0.2);  color: #52c87e; }
-  .btn-edit     { background: rgba(74,158,255,0.2);  color: #4a9eff; }
-  .btn-defer    { background: rgba(255,190,50,0.15); color: #ffc840; }
-  .btn-escalate { background: rgba(255,80,80,0.15);  color: #ff6060; }
+  .btn-approve  { background: #1D9E75; color: #ffffff; }
+  .btn-edit     { background: #F0F5F0; color: #1A2E1E; }
+  .btn-defer    { background: rgba(176,125,0,0.12); color: #b07d00; }
+  .btn-escalate { background: rgba(200,30,30,0.1);  color: #c81e1e; }
 </style>
