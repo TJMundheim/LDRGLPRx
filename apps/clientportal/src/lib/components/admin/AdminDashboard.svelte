@@ -1,46 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { currentUser } from '../../auth/store.svelte.js';
-  import { adminListUsers, adminListOutcomes, adminListQueue, type AdminQueueItem } from '../../api/operations.js';
-  import type { UserProfile, Outcome } from '../../api/operations.js';
-  import QueueList from './QueueList.svelte';
   import Forbidden403 from './Forbidden403.svelte';
   import ProtegesPanel from './ProtegesPanel.svelte';
   import EventsAdmin from './EventsAdmin.svelte';
 
   const isAdmin = $derived(currentUser.value?.groups.includes('Admins') ?? false);
 
-  let activeTab = $state<'queue' | 'proteges' | 'events'>('queue');
-  let users = $state<UserProfile[]>([]);
-  let outcomes = $state<Outcome[]>([]);
-  let queue = $state<AdminQueueItem[]>([]);
-  let loading = $state(false);
-  let error = $state('');
-
-  const urgentCount  = $derived(queue.filter((i) => i.urgency === 'urgent').length);
-  const soonCount    = $derived(queue.filter((i) => i.urgency === 'soon').length);
-  const routineCount = $derived(queue.filter((i) => i.urgency === 'routine').length);
-
-  onMount(async () => {
-    if (!isAdmin) return;
-    loading = true;
-    try {
-      const [usersResult, outcomesResult, queueResult] = await Promise.all([
-        adminListUsers(50),
-        adminListOutcomes(undefined, 50),
-        adminListQueue(50),
-      ]);
-      users = usersResult.adminListUsers?.items ?? [];
-      outcomes = outcomesResult.adminListOutcomes?.items ?? [];
-      const queueItems = queueResult.adminListQueue?.items ?? [];
-      queue = queueItems.filter((i) => i.status !== 'resolved');
-    } catch {
-      // API unavailable — show empty queue rather than fake seed data
-      queue = [];
-    } finally {
-      loading = false;
-    }
-  });
+  let activeTab = $state<'proteges' | 'events'>('proteges');
 </script>
 
 {#if !isAdmin}
@@ -48,11 +15,6 @@
 {:else}
 <div class="admin-dashboard">
   <div class="tabs">
-    <button
-      class="tab"
-      class:active={activeTab === 'queue'}
-      onclick={() => (activeTab = 'queue')}
-    >Admin Queue</button>
     <button
       class="tab"
       class:active={activeTab === 'proteges'}
@@ -65,41 +27,7 @@
     >Events</button>
   </div>
 
-  {#if activeTab === 'queue'}
-    {#if loading}
-      <p class="loading">Loading…</p>
-    {:else if error}
-      <p class="error">{error}</p>
-    {:else}
-    <div class="stat-cards">
-      <div class="stat-card urgent">
-        <div class="stat-num">{urgentCount}</div>
-        <div class="stat-label">Urgent</div>
-      </div>
-      <div class="stat-card soon">
-        <div class="stat-num">{soonCount}</div>
-        <div class="stat-label">Soon</div>
-      </div>
-      <div class="stat-card routine">
-        <div class="stat-num">{routineCount}</div>
-        <div class="stat-label">Routine</div>
-      </div>
-      <div class="stat-card neutral">
-        <div class="stat-num">{users.length}</div>
-        <div class="stat-label">Active Patients</div>
-      </div>
-      <div class="stat-card neutral">
-        <div class="stat-num">{outcomes.length}</div>
-        <div class="stat-label">Outcomes</div>
-      </div>
-    </div>
-
-    <div class="queue-section">
-      <h3 class="section-title">Pending Items</h3>
-      <QueueList items={queue} />
-    </div>
-    {/if}
-  {:else if activeTab === 'proteges'}
+  {#if activeTab === 'proteges'}
     <ProtegesPanel />
   {:else if activeTab === 'events'}
     <EventsAdmin />
