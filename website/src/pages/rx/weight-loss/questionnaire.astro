@@ -229,13 +229,27 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
     $$('.q-step').forEach(function(el) { el.hidden = true; });
     var target = document.querySelector('[data-step="' + n + '"]');
     if (target) target.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    var header = document.querySelector('.q-header');
+    var nav = document.getElementById('q-nav');
+
+    if (n === 'success') {
+      // Submitted — hide all step chrome. The success card carries its own heading + copy.
+      if (header) header.style.display = 'none';
+      if (nav) nav.style.display = 'none';
+      return;
+    }
+
+    if (header) header.style.display = '';
+    if (nav) nav.style.display = '';
+
     var pct = (n / totalSteps) * 100;
     $('#q-progress-bar').style.width = Math.min(pct, 100) + '%';
     $('#q-step-counter').textContent = 'Step ' + n + ' of ' + totalSteps;
     $('#q-back').hidden = (n === 1);
     $('#q-next').hidden = (n === totalSteps);
     $('#q-submit').hidden = (n !== totalSteps);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Friendly labels for error messages — keep in sync with data-q attributes
@@ -320,48 +334,60 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
   }
 
   function buildReviewSummary() {
-    var summary = '';
     function row(label, val) {
       if (val === undefined || val === null || val === '') return '';
       var esc = String(val).replace(/[<>&"]/g, function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]; });
       return '<div class="q-review-row"><span class="q-review-label">' + label + '</span><span class="q-review-value">' + esc + '</span></div>';
     }
-    summary += '<h3>Demographics</h3>';
-    summary += row('Name', (payload.firstName || '') + ' ' + (payload.lastName || ''));
-    summary += row('Email', payload.email);
-    summary += row('Phone', payload.phone);
-    summary += row('Date of birth', payload.dob);
-    summary += row('Sex', payload.sex);
-    summary += row('Address', [(payload.address1||''), (payload.address2||''), (payload.city||''), (payload.state||''), (payload.zip||'')].filter(function(p){return p;}).join(', '));
+    function section(title, body) {
+      if (!body) return '';
+      return '<div class="q-review-section"><h3 class="q-review-section-title">' + title + '</h3>' + body + '</div>';
+    }
 
-    summary += '<h3>Health</h3>';
-    summary += row('Height', (payload.heightFt || '') + "' " + (payload.heightIn || '') + '"');
-    summary += row('Current weight', (payload.weightLb || '') + ' lbs');
-    summary += row('Target weight', (payload.targetLb || '') + ' lbs');
-    summary += row('Current medications', payload.currentMeds);
-    summary += row('Allergies', payload.allergies);
-    summary += row('Conditions', payload.conditions);
+    var demographics = '';
+    demographics += row('Name', (payload.firstName || '') + ' ' + (payload.lastName || ''));
+    demographics += row('Email', payload.email);
+    demographics += row('Phone', payload.phone);
+    demographics += row('Date of birth', payload.dob);
+    demographics += row('Sex', payload.sex);
+    var addrLine1 = [(payload.address1||''), (payload.address2||'')].filter(function(p){return p;}).join(', ');
+    var addrLine2 = [(payload.city||''), (payload.state||''), (payload.zip||'')].filter(function(p){return p;}).join(', ').replace(/, (\w{2}), /, ', $1 ');
+    demographics += row('Address', [addrLine1, addrLine2].filter(function(p){return p;}).join(' • '));
 
-    summary += '<h3>GLP-1 screening</h3>';
-    summary += row('Prior GLP-1', payload.priorGlp1);
-    summary += row('Prior GLP-1 detail', payload.priorGlp1Detail);
-    summary += row('T2 diabetes', payload.t2d);
-    summary += row('MTC / MEN-2 history', payload.mtcHistory);
-    summary += row('Pancreatitis history', payload.pancreatitis);
-    summary += row('GI / gallbladder history', payload.gi);
-    summary += row('Pregnancy', payload.pregnancy);
-    summary += row('Other notes', payload.other);
+    var health = '';
+    health += row('Height', (payload.heightFt || '') + "' " + (payload.heightIn || '') + '"');
+    health += row('Current weight', (payload.weightLb || '') + ' lbs');
+    health += row('Target weight', (payload.targetLb || '') + ' lbs');
+    health += row('Current medications', payload.currentMeds);
+    health += row('Allergies', payload.allergies);
+    health += row('Conditions', payload.conditions);
 
-    summary += '<h3>Selected program</h3>';
+    var screening = '';
+    screening += row('Prior GLP-1', payload.priorGlp1);
+    screening += row('Prior GLP-1 detail', payload.priorGlp1Detail);
+    screening += row('T2 diabetes', payload.t2d);
+    screening += row('MTC / MEN-2 history', payload.mtcHistory);
+    screening += row('Pancreatitis history', payload.pancreatitis);
+    screening += row('GI / gallbladder history', payload.gi);
+    screening += row('Pregnancy', payload.pregnancy);
+    screening += row('Other notes', payload.other);
+
     var labels = {
       'glp1-semaglutide': 'GLP-1 Program — Semaglutide — $199/mo',
       'glp2-tirzepatide': 'GLP-2 Program — Tirzepatide — $249/mo',
       'glp3-retatrutide': 'GLP-3 Program — Retatrutide — $299/mo',
     };
-    summary += row('Program', labels[payload.medication] || payload.medication);
-    summary += row('Payment method', paymentMethodId ? 'Card saved (Stripe ' + paymentMethodId.slice(-6) + ')' : '— not yet saved');
+    var program = '';
+    program += row('Program', labels[payload.medication] || payload.medication);
+    program += row('Payment method', paymentMethodId ? 'Card saved (Stripe …' + paymentMethodId.slice(-6) + ')' : '— not yet saved');
 
-    $('#q-review-summary').innerHTML = summary;
+    var html = '';
+    html += section('Demographics', demographics);
+    html += section('Health', health);
+    html += section('GLP-1 Screening', screening);
+    html += section('Selected Program', program);
+
+    $('#q-review-summary').innerHTML = html;
   }
 
   async function initStripeCard() {
@@ -515,7 +541,7 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
 
 </BaseLayout>
 
-<style>
+<style is:global>
 .q-section { padding: 3rem 1rem 5rem; min-height: 70vh; background: var(--bg-soft); }
 .q-inner { max-width: 720px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 2rem 1.75rem; }
 .q-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
@@ -564,12 +590,13 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-stripe-error { color: #d4351c; font-size: 0.9rem; min-height: 1.2rem; margin: 0; }
 .q-disclaimer { font-size: 0.82rem; color: var(--text-light); margin: 1rem 0 0; line-height: 1.55; }
 
-.q-review-summary { background: #faf8f4; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
-.q-review-summary h3 { margin: 0.85rem 0 0.4rem; font-size: 0.95rem; color: var(--primary); border-bottom: 1px solid #e2e8f0; padding-bottom: 0.2rem; }
-.q-review-summary h3:first-of-type { margin-top: 0; }
-.q-review-row { display: grid; grid-template-columns: 200px 1fr; gap: 0.75rem; padding: 0.25rem 0; font-size: 0.88rem; }
-.q-review-label { color: var(--text-light); font-weight: 500; }
-.q-review-value { color: var(--text); }
+.q-review-summary { background: transparent; margin: 1rem 0; }
+.q-review-section { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem 1rem; margin: 0 0 1rem; }
+.q-review-section-title { font-family: 'Playfair Display', serif; margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--primary); font-weight: 700; letter-spacing: 0.01em; padding-bottom: 0.45rem; border-bottom: 2px solid var(--accent); }
+.q-review-row { display: grid; grid-template-columns: 180px 1fr; column-gap: 1.25rem; row-gap: 0.15rem; padding: 0.45rem 0; font-size: 0.92rem; border-bottom: 1px solid #f0eee8; }
+.q-review-row:last-child { border-bottom: none; }
+.q-review-label { color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.08em; padding-top: 0.15rem; }
+.q-review-value { color: var(--text); font-size: 0.95rem; line-height: 1.5; word-break: break-word; }
 
 .q-checkbox-row { display: flex; gap: 0.7rem; align-items: flex-start; margin-top: 1rem; font-size: 0.9rem; line-height: 1.5; color: var(--text); }
 .q-checkbox-row input { margin-top: 0.3rem; transform: scale(1.15); }
@@ -588,8 +615,7 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 
 @media (max-width: 600px) {
   .q-grid-2 { grid-template-columns: 1fr; }
-  .q-review-row { grid-template-columns: 1fr; gap: 0.1rem; }
-  .q-review-label { font-size: 0.78rem; }
+  .q-review-row { grid-template-columns: 1fr; row-gap: 0.25rem; padding: 0.55rem 0; }
   .q-inner { padding: 1.5rem 1rem; }
 }
 </style>
