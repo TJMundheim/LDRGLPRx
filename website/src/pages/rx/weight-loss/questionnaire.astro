@@ -238,33 +238,82 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // Friendly labels for error messages — keep in sync with data-q attributes
+  var FIELD_LABELS = {
+    firstName: 'First name', lastName: 'Last name', email: 'Email', phone: 'Phone',
+    dob: 'Date of birth', sex: 'Biological sex',
+    address1: 'Street address', city: 'City', state: 'State', zip: 'ZIP',
+    heightFt: 'Height (feet)', heightIn: 'Height (inches)',
+    weightLb: 'Current weight', targetLb: 'Target weight',
+    currentMeds: 'Current medications', allergies: 'Allergies', conditions: 'Medical conditions',
+    priorGlp1: 'Prior GLP-1 use', t2d: 'Type 2 diabetes status',
+    mtcHistory: 'MTC / MEN-2 history', pancreatitis: 'Pancreatitis history',
+    gi: 'GI / gallbladder history', pregnancy: 'Pregnancy status',
+    medication: 'Program selection',
+  };
+
   function collectStep(n) {
     var step = document.querySelector('[data-step="' + n + '"]');
     if (!step) return true;
-    var fields = step.querySelectorAll('[data-q]');
     var missing = [];
-    fields.forEach(function(field) {
+    var firstMissingEl = null;
+
+    // Clear previous error highlights on this step
+    step.querySelectorAll('.q-error').forEach(function(el) { el.classList.remove('q-error'); });
+
+    // Inputs / selects / textareas with data-q (skip radios — handled below)
+    step.querySelectorAll('[data-q]').forEach(function(field) {
+      if (field.type === 'radio') return; // handled separately
       var name = field.getAttribute('data-q');
-      if (field.type === 'radio') {
-        if (field.checked) payload[name] = field.value;
-      } else {
-        var val = (field.value || '').trim();
-        if (val) payload[name] = val;
-        if (field.hasAttribute('required') && !val) missing.push(name);
+      var val = (field.value || '').trim();
+      // Skip hidden fields (conditional UI like pregnancy block)
+      if (field.offsetParent === null && field.tagName !== 'SELECT') return;
+      if (val) payload[name] = val;
+      if (field.hasAttribute('required') && !val) {
+        missing.push(FIELD_LABELS[name] || name);
+        field.classList.add('q-error');
+        if (!firstMissingEl) firstMissingEl = field;
       }
     });
-    // Radio groups required check
+
+    // Radio groups (each group considered required if ANY radio in it is required)
     var radioGroups = {};
     step.querySelectorAll('input[type=radio]').forEach(function(r) {
       var name = r.name;
-      if (!radioGroups[name]) radioGroups[name] = { required: r.hasAttribute('required'), any: false };
-      if (r.checked) radioGroups[name].any = true;
+      // Skip radios in hidden blocks (conditional UI)
+      var parentFieldset = r.closest('fieldset');
+      if (parentFieldset && parentFieldset.offsetParent === null) return;
+      if (!radioGroups[name]) {
+        radioGroups[name] = {
+          dataQ: r.getAttribute('data-q') || name,
+          required: r.hasAttribute('required'),
+          any: false,
+          firstEl: r,
+        };
+      }
+      if (r.checked) {
+        radioGroups[name].any = true;
+        payload[radioGroups[name].dataQ] = r.value;
+      }
     });
     Object.keys(radioGroups).forEach(function(name) {
-      if (radioGroups[name].required && !radioGroups[name].any) missing.push(name);
+      var g = radioGroups[name];
+      if (g.required && !g.any) {
+        missing.push(FIELD_LABELS[g.dataQ] || g.dataQ);
+        if (g.firstEl) {
+          var fs = g.firstEl.closest('fieldset');
+          if (fs) fs.classList.add('q-error');
+          if (!firstMissingEl) firstMissingEl = g.firstEl;
+        }
+      }
     });
+
     if (missing.length) {
-      alert('Please complete required fields before continuing.');
+      alert('Please complete: ' + missing.join(', '));
+      if (firstMissingEl && firstMissingEl.scrollIntoView) {
+        firstMissingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (firstMissingEl.focus) firstMissingEl.focus();
+      }
       return false;
     }
     return true;
@@ -471,6 +520,8 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
 .q-field-block { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.85rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
 .q-field input, .q-field select, .q-field-block textarea, .q-field-block input, .q-field-block select { font-family: 'Inter', sans-serif; font-size: 1rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; font-weight: 400; color: var(--text); }
 .q-field input:focus, .q-field select:focus, .q-field-block textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.q-error { border-color: #d4351c !important; box-shadow: 0 0 0 2px rgba(212, 53, 28, 0.18); }
+fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 
 .q-radio-group { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
 .q-radio-group legend { font-weight: 600; color: var(--primary); padding: 0 0.4rem; font-size: 0.95rem; }
