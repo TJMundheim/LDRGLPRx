@@ -1,0 +1,617 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Peptides — Health Questionnaire | My4MLife';
+const description = 'Complete your health questionnaire for the My4MLife Peptides program. Physician review. Card on file but no charge until approved.';
+const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
+
+<section class="q-section">
+  <div class="container q-inner">
+    <header class="q-header">
+      <p class="q-eyebrow">Peptides Telemedicine Intake</p>
+      <h1 id="q-step-title">Let's get you matched with a physician</h1>
+      <div class="q-progress" aria-hidden="true">
+        <div class="q-progress-bar" id="q-progress-bar" style="width:14%"></div>
+      </div>
+      <p class="q-step-counter" id="q-step-counter">Step 1 of 6</p>
+    </header>
+
+    <!-- ── Step 1 — Demographics ── -->
+    <section class="q-step" data-step="1">
+      <h2>About you</h2>
+      <p class="q-step-sub">We need this to ship your medication and verify your identity.</p>
+      <div class="q-grid-2">
+        <label class="q-field">First name <input type="text" data-q="firstName" required></label>
+        <label class="q-field">Last name <input type="text" data-q="lastName" required></label>
+        <label class="q-field">Email <input type="email" data-q="email" required></label>
+        <label class="q-field">Phone <input type="tel" data-q="phone" placeholder="+1 555-555-5555" required></label>
+        <label class="q-field">Date of birth <input type="date" data-q="dob" required></label>
+        <label class="q-field">Biological sex
+          <select data-q="sex" required>
+            <option value="">Select…</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+      </div>
+      <h3>Shipping address</h3>
+      <div class="q-grid-2">
+        <label class="q-field q-field-wide">Street address <input type="text" data-q="address1" required></label>
+        <label class="q-field q-field-wide">Apt / Suite (optional) <input type="text" data-q="address2"></label>
+        <label class="q-field">City <input type="text" data-q="city" required></label>
+        <label class="q-field">State <select data-q="state" id="q-state" required><option value="">Select state…</option></select></label>
+        <label class="q-field">ZIP <input type="text" data-q="zip" required></label>
+      </div>
+    </section>
+
+    <!-- ── Step 2 — Health History ── -->
+    <section class="q-step" data-step="2" hidden>
+      <h2>General health history</h2>
+      <p class="q-step-sub">Basic background the physician needs to review.</p>
+      <div class="q-grid-2">
+        <label class="q-field">Height (feet) <input type="number" min="3" max="8" data-q="heightFt" required></label>
+        <label class="q-field">Height (inches) <input type="number" min="0" max="11" data-q="heightIn" required></label>
+        <label class="q-field">Current weight (lbs) <input type="number" min="80" max="700" data-q="weightLb" required></label>
+        <label class="q-field">Target weight (lbs) <input type="number" min="80" max="700" data-q="targetLb" required></label>
+      </div>
+      <label class="q-field q-field-block">Current medications (include dose if known — separate with commas)
+        <textarea data-q="currentMeds" rows="2" placeholder="e.g., metformin 1000mg, lisinopril 10mg, none"></textarea>
+      </label>
+      <label class="q-field q-field-block">Drug or food allergies
+        <textarea data-q="allergies" rows="2" placeholder="e.g., penicillin, sulfa, none"></textarea>
+      </label>
+      <label class="q-field q-field-block">Major medical conditions (current or past)
+        <textarea data-q="conditions" rows="2" placeholder="e.g., hypertension, type 2 diabetes, none"></textarea>
+      </label>
+    </section>
+
+    <!-- ── Step 3 — Peptides-Specific Screening ── -->
+    <section class="q-step" data-step="3" hidden>
+      <h2>Peptide candidacy screening</h2>
+      <p class="q-step-sub">A few targeted questions so the physician can match the right peptide or combination to your goals.</p>
+
+      <fieldset class="q-radio-group">
+        <legend>What is your primary goal with peptide therapy?</legend>
+        <label class="q-radio"><input type="radio" name="primaryGoal" data-q="primaryGoal" value="tissue-repair" required> Tissue repair / injury recovery</label>
+        <label class="q-radio"><input type="radio" name="primaryGoal" data-q="primaryGoal" value="cognitive-mood"> Cognitive / mood support</label>
+        <label class="q-radio"><input type="radio" name="primaryGoal" data-q="primaryGoal" value="gh-axis"> Growth-hormone-axis support, lean mass, anti-aging</label>
+        <label class="q-radio"><input type="radio" name="primaryGoal" data-q="primaryGoal" value="fat-loss"> Fat loss / metabolic</label>
+        <label class="q-radio"><input type="radio" name="primaryGoal" data-q="primaryGoal" value="sleep-longevity"> Sleep / longevity</label>
+        <label class="q-radio"><input type="radio" name="primaryGoal" data-q="primaryGoal" value="multiple"> Multiple goals</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group">
+        <legend>Have you used peptides before?</legend>
+        <label class="q-radio"><input type="radio" name="priorPeptide" data-q="priorPeptide" value="no" required> No, this would be my first peptide protocol</label>
+        <label class="q-radio"><input type="radio" name="priorPeptide" data-q="priorPeptide" value="yes-currently"> Yes, currently using</label>
+        <label class="q-radio"><input type="radio" name="priorPeptide" data-q="priorPeptide" value="yes-past"> Yes, previously used</label>
+      </fieldset>
+      <label class="q-field q-field-block" id="q-prior-detail" hidden>
+        Which peptide(s), dose, and your experience
+        <textarea data-q="priorPeptideDetail" rows="2"></textarea>
+      </label>
+
+      <fieldset class="q-radio-group">
+        <legend>Are you comfortable with self-injection?</legend>
+        <label class="q-radio"><input type="radio" name="injectableComfort" data-q="injectableComfort" value="yes" required> Yes, I'm comfortable with self-injection</label>
+        <label class="q-radio"><input type="radio" name="injectableComfort" data-q="injectableComfort" value="no"> No, prefer oral / nasal / topical forms only</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group q-warn" id="q-pregnancy-block" hidden>
+        <legend>Are you pregnant, breastfeeding, or actively trying to become pregnant?</legend>
+        <p class="q-warn-note">&#9888; Most peptides are contraindicated in pregnancy.</p>
+        <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="no"> No</label>
+        <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="yes"> Yes</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group q-warn">
+        <legend>Do you have an active cancer diagnosis or active autoimmune condition under treatment?</legend>
+        <p class="q-warn-note">&#9888; Some peptides are contraindicated with active cancer or immunosuppressive therapies — physician will review carefully.</p>
+        <label class="q-radio"><input type="radio" name="cancerImmune" data-q="cancerImmune" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="cancerImmune" data-q="cancerImmune" value="yes"> Yes</label>
+        <label class="q-radio"><input type="radio" name="cancerImmune" data-q="cancerImmune" value="unsure"> Unsure</label>
+      </fieldset>
+
+      <label class="q-field q-field-block">Anything else the physician should know? (optional)
+        <textarea data-q="other" rows="2"></textarea>
+      </label>
+    </section>
+
+    <!-- ── Step 4 — Medication Selection ── -->
+    <section class="q-step" data-step="4" hidden>
+      <h2>Pick your Peptide program</h2>
+      <p class="q-step-sub">Your physician makes the final call during review — but you can indicate your preference here. Each subscription bundles the consult, the peptide(s), and ongoing follow-ups as needed.</p>
+
+      <div class="q-med-grid">
+        <label class="q-med-card">
+          <input type="radio" name="medication" value="peptide-tier1-foundation" data-q="medication" data-price="PLACEHOLDER_PEPTIDES_TIER1_PRICE_ID">
+          <div class="q-med-body">
+            <p class="q-med-tier">Peptide Program — Tier 1 (Foundation)</p>
+            <h3>Foundation</h3>
+            <p class="q-med-tag">Single-peptide protocol — BPC-157 for tissue repair, Semax for cognition, DSIP for sleep — picked by physician based on your goal.</p>
+            <p class="q-med-price">$199<span>/month</span></p>
+          </div>
+        </label>
+
+        <label class="q-med-card q-med-card-mid">
+          <input type="radio" name="medication" value="peptide-tier2-stack" data-q="medication" data-price="PLACEHOLDER_PEPTIDES_TIER2_PRICE_ID">
+          <div class="q-med-body">
+            <p class="q-med-tier">Peptide Program — Tier 2 (Stack)</p>
+            <h3>Stack</h3>
+            <p class="q-med-tag">Two-peptide combination — CJC-1295/Ipamorelin growth-hormone stack, BPC-157 + KPV gut stack, Selank/Semax cognitive stack.</p>
+            <p class="q-med-price">$249<span>/month</span></p>
+          </div>
+        </label>
+
+        <label class="q-med-card q-med-card-top">
+          <input type="radio" name="medication" value="peptide-tier3-advanced" data-q="medication" data-price="PLACEHOLDER_PEPTIDES_TIER3_PRICE_ID">
+          <div class="q-med-body">
+            <p class="q-med-tier">Peptide Program — Tier 3 (Advanced)</p>
+            <h3>Advanced</h3>
+            <p class="q-med-tag">Premium peptides — Tesamorelin, Thymosin Alpha-1, MOTS-c, Epitalon — physician-selected for higher-touch protocols.</p>
+            <p class="q-med-price">$299<span>/month</span></p>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- ── Step 5 — Card Capture (Stripe SetupIntent) ── -->
+    <section class="q-step" data-step="5" hidden>
+      <h2>Save your payment method</h2>
+      <div class="q-noscope-box">
+        <strong>&#9889; Your card will not be charged today.</strong>
+        It is saved securely with Stripe and will only be charged once a physician reviews your case and approves your script. If you are not approved, no charge is made.
+      </div>
+
+      <div id="stripe-card-element" class="q-stripe-card"></div>
+      <p id="stripe-card-error" class="q-stripe-error" role="alert"></p>
+
+      <p class="q-disclaimer">By continuing you authorize My4MLife and our network physicians to use this saved payment method to charge your selected monthly subscription if and when a script is written for you. You can cancel anytime by emailing <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+    </section>
+
+    <!-- ── Step 6 — Review & Submit ── -->
+    <section class="q-step" data-step="6" hidden>
+      <h2>Review and submit</h2>
+      <p class="q-step-sub">Confirm everything looks right. After submission, our care coordinator will email you within 24 hours to confirm next steps with the network physician.</p>
+
+      <div id="q-review-summary" class="q-review-summary"></div>
+
+      <label class="q-checkbox-row">
+        <input type="checkbox" id="q-attestation" required>
+        <span>I attest the information above is accurate to the best of my knowledge. I understand a real physician will review my submission, and that no medication will ship without a written script. I authorize My4MLife and the network physician to contact me by email or phone.</span>
+      </label>
+    </section>
+
+    <!-- ── Submission state ── -->
+    <section class="q-step" data-step="success" hidden>
+      <div class="q-success">
+        <div class="q-success-icon">&#10003;</div>
+        <h2>Your submission is in.</h2>
+        <p>Our care coordinator will email you within 24 hours to confirm the next step with the network physician. Your card has been saved securely with Stripe — no charge has been made and none will be made until your script is approved.</p>
+        <p class="q-success-fine">Questions? Email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+      </div>
+    </section>
+
+    <div class="q-nav" id="q-nav">
+      <button type="button" class="q-btn q-btn-secondary" id="q-back" hidden>&larr; Back</button>
+      <button type="button" class="q-btn q-btn-primary" id="q-next">Continue &rarr;</button>
+      <button type="button" class="q-btn q-btn-primary" id="q-submit" hidden>Submit My Questionnaire &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<script is:inline src="https://js.stripe.com/v3/"></script>
+<script is:inline define:vars={{
+  API_BASE: 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com',
+}}>
+(function() {
+  // ── State ──
+  var totalSteps = 6;
+  var currentStep = 1;
+  var payload = {};
+  var stripe = null;
+  var elements = null;
+  var cardElement = null;
+  var setupIntentClientSecret = null;
+  var paymentMethodId = null;
+
+  // ── Helpers ──
+  function $(sel) { return document.querySelector(sel); }
+  function $$(sel) { return document.querySelectorAll(sel); }
+
+  function showStep(n) {
+    $$('.q-step').forEach(function(el) { el.hidden = true; });
+    var target = document.querySelector('[data-step="' + n + '"]');
+    if (target) target.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    var header = document.querySelector('.q-header');
+    var nav = document.getElementById('q-nav');
+
+    if (n === 'success') {
+      // Submitted — hide all step chrome. The success card carries its own heading + copy.
+      if (header) header.style.display = 'none';
+      if (nav) nav.style.display = 'none';
+      return;
+    }
+
+    if (header) header.style.display = '';
+    if (nav) nav.style.display = '';
+
+    var pct = (n / totalSteps) * 100;
+    $('#q-progress-bar').style.width = Math.min(pct, 100) + '%';
+    $('#q-step-counter').textContent = 'Step ' + n + ' of ' + totalSteps;
+    $('#q-back').hidden = (n === 1);
+    $('#q-next').hidden = (n === totalSteps);
+    $('#q-submit').hidden = (n !== totalSteps);
+  }
+
+  // Friendly labels for error messages — keep in sync with data-q attributes
+  var FIELD_LABELS = {
+    firstName: 'First name', lastName: 'Last name', email: 'Email', phone: 'Phone',
+    dob: 'Date of birth', sex: 'Biological sex',
+    address1: 'Street address', city: 'City', state: 'State', zip: 'ZIP',
+    heightFt: 'Height (feet)', heightIn: 'Height (inches)',
+    weightLb: 'Current weight', targetLb: 'Target weight',
+    currentMeds: 'Current medications', allergies: 'Allergies', conditions: 'Medical conditions',
+    primaryGoal: 'Primary goal', priorPeptide: 'Prior peptide use',
+    injectableComfort: 'Injectable comfort', pregnancy: 'Pregnancy status',
+    cancerImmune: 'Cancer / immune condition',
+    medication: 'Program selection',
+  };
+
+  function collectStep(n) {
+    var step = document.querySelector('[data-step="' + n + '"]');
+    if (!step) return true;
+    var missing = [];
+    var firstMissingEl = null;
+
+    // Clear previous error highlights on this step
+    step.querySelectorAll('.q-error').forEach(function(el) { el.classList.remove('q-error'); });
+
+    // Inputs / selects / textareas with data-q (skip radios — handled below)
+    step.querySelectorAll('[data-q]').forEach(function(field) {
+      if (field.type === 'radio') return; // handled separately
+      var name = field.getAttribute('data-q');
+      var val = (field.value || '').trim();
+      // Skip hidden fields (conditional UI like pregnancy block)
+      if (field.offsetParent === null && field.tagName !== 'SELECT') return;
+      if (val) payload[name] = val;
+      if (field.hasAttribute('required') && !val) {
+        missing.push(FIELD_LABELS[name] || name);
+        field.classList.add('q-error');
+        if (!firstMissingEl) firstMissingEl = field;
+      }
+    });
+
+    // Radio groups (each group considered required if ANY radio in it is required)
+    var radioGroups = {};
+    step.querySelectorAll('input[type=radio]').forEach(function(r) {
+      var name = r.name;
+      // Skip radios in hidden blocks (conditional UI)
+      var parentFieldset = r.closest('fieldset');
+      if (parentFieldset && parentFieldset.offsetParent === null) return;
+      if (!radioGroups[name]) {
+        radioGroups[name] = {
+          dataQ: r.getAttribute('data-q') || name,
+          required: r.hasAttribute('required'),
+          any: false,
+          firstEl: r,
+        };
+      }
+      if (r.checked) {
+        radioGroups[name].any = true;
+        payload[radioGroups[name].dataQ] = r.value;
+      }
+    });
+    Object.keys(radioGroups).forEach(function(name) {
+      var g = radioGroups[name];
+      if (g.required && !g.any) {
+        missing.push(FIELD_LABELS[g.dataQ] || g.dataQ);
+        if (g.firstEl) {
+          var fs = g.firstEl.closest('fieldset');
+          if (fs) fs.classList.add('q-error');
+          if (!firstMissingEl) firstMissingEl = g.firstEl;
+        }
+      }
+    });
+
+    if (missing.length) {
+      alert('Please complete: ' + missing.join(', '));
+      if (firstMissingEl && firstMissingEl.scrollIntoView) {
+        firstMissingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (firstMissingEl.focus) firstMissingEl.focus();
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function buildReviewSummary() {
+    function row(label, val) {
+      if (val === undefined || val === null || val === '') return '';
+      var esc = String(val).replace(/[<>&"]/g, function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]; });
+      return '<div class="q-review-row"><span class="q-review-label">' + label + '</span><span class="q-review-value">' + esc + '</span></div>';
+    }
+    function section(title, body) {
+      if (!body) return '';
+      return '<div class="q-review-section"><h3 class="q-review-section-title">' + title + '</h3>' + body + '</div>';
+    }
+
+    var demographics = '';
+    demographics += row('Name', (payload.firstName || '') + ' ' + (payload.lastName || ''));
+    demographics += row('Email', payload.email);
+    demographics += row('Phone', payload.phone);
+    demographics += row('Date of birth', payload.dob);
+    demographics += row('Sex', payload.sex);
+    var addrLine1 = [(payload.address1||''), (payload.address2||'')].filter(function(p){return p;}).join(', ');
+    var addrLine2 = [(payload.city||''), (payload.state||''), (payload.zip||'')].filter(function(p){return p;}).join(', ').replace(/, (\w{2}), /, ', $1 ');
+    demographics += row('Address', [addrLine1, addrLine2].filter(function(p){return p;}).join(' • '));
+
+    var health = '';
+    health += row('Height', (payload.heightFt || '') + "' " + (payload.heightIn || '') + '"');
+    health += row('Current weight', (payload.weightLb || '') + ' lbs');
+    health += row('Target weight', (payload.targetLb || '') + ' lbs');
+    health += row('Current medications', payload.currentMeds);
+    health += row('Allergies', payload.allergies);
+    health += row('Conditions', payload.conditions);
+
+    var screening = '';
+    screening += row('Primary goal', payload.primaryGoal);
+    screening += row('Prior peptide use', payload.priorPeptide);
+    screening += row('Prior peptide detail', payload.priorPeptideDetail);
+    screening += row('Injectable comfort', payload.injectableComfort);
+    screening += row('Pregnancy', payload.pregnancy);
+    screening += row('Cancer / immune condition', payload.cancerImmune);
+    screening += row('Other notes', payload.other);
+
+    var labels = {
+      'peptide-tier1-foundation': 'Peptide Program — Tier 1 (Foundation) — $199/mo',
+      'peptide-tier2-stack': 'Peptide Program — Tier 2 (Stack) — $249/mo',
+      'peptide-tier3-advanced': 'Peptide Program — Tier 3 (Advanced) — $299/mo',
+    };
+    var program = '';
+    program += row('Program', labels[payload.medication] || payload.medication);
+    program += row('Payment method', paymentMethodId ? 'Card saved (Stripe …' + paymentMethodId.slice(-6) + ')' : '— not yet saved');
+
+    var html = '';
+    html += section('Demographics', demographics);
+    html += section('Health', health);
+    html += section('Peptide Screening', screening);
+    html += section('Selected Program', program);
+
+    $('#q-review-summary').innerHTML = html;
+  }
+
+  async function initStripeCard() {
+    if (cardElement) return;
+    if (!window.Stripe) {
+      $('#stripe-card-error').textContent = 'Stripe failed to load. Refresh and try again.';
+      return;
+    }
+
+    // Create SetupIntent (Lambda returns clientSecret + publishableKey from Secrets Manager)
+    var resp = await fetch(API_BASE + '/api/create-setup-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: payload.email || '', firstName: payload.firstName || '', category: 'peptides' }),
+    });
+    var json = await resp.json();
+    if (!json.clientSecret || !json.publishableKey) {
+      $('#stripe-card-error').textContent = 'Unable to start secure card capture. Please try again.';
+      return;
+    }
+    stripe = Stripe(json.publishableKey);
+    setupIntentClientSecret = json.clientSecret;
+
+    elements = stripe.elements();
+    cardElement = elements.create('card', {
+      style: {
+        base: { fontSize: '16px', color: '#1a1a1a', '::placeholder': { color: '#999' } },
+        invalid: { color: '#d4351c' },
+      },
+    });
+    cardElement.mount('#stripe-card-element');
+    cardElement.addEventListener('change', function(e) {
+      $('#stripe-card-error').textContent = (e.error && e.error.message) || '';
+    });
+  }
+
+  async function confirmStripeCard() {
+    if (!stripe || !cardElement || !setupIntentClientSecret) {
+      $('#stripe-card-error').textContent = 'Stripe is not ready yet.';
+      return false;
+    }
+    var result = await stripe.confirmCardSetup(setupIntentClientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: (payload.firstName || '') + ' ' + (payload.lastName || ''),
+          email: payload.email,
+          phone: payload.phone,
+        },
+      },
+    });
+    if (result.error) {
+      $('#stripe-card-error').textContent = result.error.message || 'Card could not be saved.';
+      return false;
+    }
+    paymentMethodId = result.setupIntent.payment_method;
+    return true;
+  }
+
+  async function submitQuestionnaire() {
+    if (!$('#q-attestation').checked) {
+      alert('Please confirm the attestation to submit.');
+      return;
+    }
+    payload.paymentMethodId = paymentMethodId;
+    payload.savedAt = new Date().toISOString();
+    var fields = {};
+    Object.keys(payload).forEach(function(k){ fields[k] = String(payload[k]); });
+    fields.scores = JSON.stringify({});
+    var resp = await fetch(API_BASE + '/api/contact-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        kind: 'form',
+        formId: 'peptides-questionnaire',
+        fields: fields,
+      }),
+    });
+    if (resp.ok) {
+      showStep('success');
+    } else {
+      alert('Submission failed. Please try again or email support@my4mlife.com.');
+    }
+  }
+
+  // Populate US state dropdown — 50 states + DC, alphabetized by full name
+  function populateStateDropdown() {
+    var sel = document.getElementById('q-state');
+    if (!sel) return;
+    var us = 'Alabama:AL,Alaska:AK,Arizona:AZ,Arkansas:AR,California:CA,Colorado:CO,Connecticut:CT,Delaware:DE,District of Columbia:DC,Florida:FL,Georgia:GA,Hawaii:HI,Idaho:ID,Illinois:IL,Indiana:IN,Iowa:IA,Kansas:KS,Kentucky:KY,Louisiana:LA,Maine:ME,Maryland:MD,Massachusetts:MA,Michigan:MI,Minnesota:MN,Mississippi:MS,Missouri:MO,Montana:MT,Nebraska:NE,Nevada:NV,New Hampshire:NH,New Jersey:NJ,New Mexico:NM,New York:NY,North Carolina:NC,North Dakota:ND,Ohio:OH,Oklahoma:OK,Oregon:OR,Pennsylvania:PA,Rhode Island:RI,South Carolina:SC,South Dakota:SD,Tennessee:TN,Texas:TX,Utah:UT,Vermont:VT,Virginia:VA,Washington:WA,West Virginia:WV,Wisconsin:WI,Wyoming:WY';
+    us.split(',').forEach(function(pair) {
+      var parts = pair.split(':');
+      var opt = document.createElement('option');
+      opt.value = parts[1];
+      opt.textContent = parts[0];
+      sel.appendChild(opt);
+    });
+  }
+
+  // ── Wire up navigation ──
+  document.addEventListener('DOMContentLoaded', function() {
+    populateStateDropdown();
+    showStep(1);
+
+    // Conditional UI: prior peptide detail
+    document.querySelectorAll('[name="priorPeptide"]').forEach(function(r) {
+      r.addEventListener('change', function() {
+        $('#q-prior-detail').hidden = (r.value === 'no');
+      });
+    });
+
+    // Conditional UI: pregnancy block — only show for female
+    document.querySelectorAll('[data-q="sex"]').forEach(function(el) {
+      el.addEventListener('change', function() {
+        $('#q-pregnancy-block').hidden = (el.value !== 'female');
+      });
+    });
+
+    $('#q-next').addEventListener('click', async function() {
+      if (!collectStep(currentStep)) return;
+      if (currentStep === 4 && !payload.medication) {
+        alert('Please pick a program to continue.');
+        return;
+      }
+      currentStep++;
+      if (currentStep === 5) {
+        await initStripeCard();
+      }
+      if (currentStep === 6) {
+        // Need card saved before review step
+        var ok = await confirmStripeCard();
+        if (!ok) { currentStep--; return; }
+        buildReviewSummary();
+      }
+      showStep(currentStep);
+    });
+
+    $('#q-back').addEventListener('click', function() {
+      if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    });
+
+    $('#q-submit').addEventListener('click', async function() {
+      await submitQuestionnaire();
+    });
+  });
+})();
+</script>
+
+</BaseLayout>
+
+<style is:global>
+.q-section { padding: 3rem 1rem 5rem; min-height: 70vh; background: var(--bg-soft); }
+.q-inner { max-width: 720px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 2rem 1.75rem; }
+.q-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+.q-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; margin: 0 0 0.5rem; }
+.q-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--primary); margin: 0 0 1rem; line-height: 1.2; }
+.q-progress { background: #e2e8f0; height: 6px; border-radius: 999px; overflow: hidden; }
+.q-progress-bar { background: var(--accent); height: 100%; transition: width 0.3s; }
+.q-step-counter { font-size: 0.8rem; color: var(--text-light); margin: 0.5rem 0 0; }
+
+.q-step h2 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 0 0 0.5rem; font-size: 1.35rem; }
+.q-step h3 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+.q-step-sub { color: var(--text-light); margin: 0 0 1.25rem; font-size: 0.95rem; line-height: 1.5; }
+
+.q-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.q-field { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+.q-field-wide { grid-column: 1 / -1; }
+.q-field-block { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.85rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+.q-field input, .q-field select, .q-field-block textarea, .q-field-block input, .q-field-block select { font-family: 'Inter', sans-serif; font-size: 1rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; font-weight: 400; color: var(--text); }
+.q-field input:focus, .q-field select:focus, .q-field-block textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.q-error { border-color: #d4351c !important; box-shadow: 0 0 0 2px rgba(212, 53, 28, 0.18); }
+fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
+
+.q-radio-group { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
+.q-radio-group legend { font-weight: 600; color: var(--primary); padding: 0 0.4rem; font-size: 0.95rem; }
+.q-radio { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.4rem 0; cursor: pointer; font-size: 0.95rem; color: var(--text); }
+.q-radio input { margin-top: 0.2rem; }
+.q-warn { border-color: rgba(212, 147, 10, 0.4); background: #fff8ec; }
+.q-warn-note { color: #a37a14; font-size: 0.85rem; margin: 0.5rem 0 0.75rem; font-weight: 500; }
+
+.q-med-grid { display: grid; grid-template-columns: 1fr; gap: 0.85rem; margin-top: 1rem; }
+.q-med-card { display: block; border: 2px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; background: #fff; }
+.q-med-card:hover { border-color: var(--accent); }
+.q-med-card input { float: right; margin: 0.3rem 0 0 0; transform: scale(1.25); }
+.q-med-card:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,184,148,0.15); }
+.q-med-card-mid { background: #fbf7ec; border-color: rgba(212, 175, 90, 0.4); }
+.q-med-card-top { background: #f4f0fc; border-color: rgba(116, 80, 178, 0.35); }
+.q-med-tier { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin: 0; }
+.q-med-card h3 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 0.15rem 0 0.3rem; font-size: 1.2rem; }
+.q-med-tag { font-size: 0.9rem; color: var(--text); margin: 0 0 0.5rem; line-height: 1.5; }
+.q-med-price { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin: 0; }
+.q-med-price span { font-size: 0.9rem; font-weight: 400; color: var(--text-light); }
+
+.q-noscope-box { background: #f0fbf6; border: 2px solid var(--accent); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; font-size: 0.95rem; color: #07664c; line-height: 1.5; }
+.q-noscope-box strong { display: block; margin-bottom: 0.4rem; }
+.q-stripe-card { padding: 0.9rem 0.9rem; border: 1px solid var(--border); border-radius: 8px; background: #fff; margin: 1rem 0 0.5rem; }
+.q-stripe-error { color: #d4351c; font-size: 0.9rem; min-height: 1.2rem; margin: 0; }
+.q-disclaimer { font-size: 0.82rem; color: var(--text-light); margin: 1rem 0 0; line-height: 1.55; }
+
+.q-review-summary { background: transparent; margin: 1rem 0; }
+.q-review-section { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem 1rem; margin: 0 0 1rem; }
+.q-review-section-title { font-family: 'Playfair Display', serif; margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--primary); font-weight: 700; letter-spacing: 0.01em; padding-bottom: 0.45rem; border-bottom: 2px solid var(--accent); }
+.q-review-row { display: grid; grid-template-columns: 180px 1fr; column-gap: 1.25rem; row-gap: 0.15rem; padding: 0.45rem 0; font-size: 0.92rem; border-bottom: 1px solid #f0eee8; }
+.q-review-row:last-child { border-bottom: none; }
+.q-review-label { color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.08em; padding-top: 0.15rem; }
+.q-review-value { color: var(--text); font-size: 0.95rem; line-height: 1.5; word-break: break-word; }
+
+.q-checkbox-row { display: flex; gap: 0.7rem; align-items: flex-start; margin-top: 1rem; font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+.q-checkbox-row input { margin-top: 0.3rem; transform: scale(1.15); }
+
+.q-success { text-align: center; padding: 1.5rem 0; }
+.q-success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 2rem; display: inline-flex; align-items: center; justify-content: center; margin: 0 0 1rem; }
+.q-success h2 { font-size: 1.6rem; color: var(--primary); margin: 0 0 0.6rem; }
+.q-success p { color: var(--text); line-height: 1.6; margin: 0 0 0.85rem; }
+.q-success-fine { font-size: 0.9rem; color: var(--text-light); margin-top: 1.5rem; }
+
+.q-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.q-btn { padding: 0.85rem 1.6rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; border: none; cursor: pointer; transition: opacity 0.15s; }
+.q-btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(0,184,148,0.25); }
+.q-btn-secondary { background: #fff; color: var(--primary); border: 1px solid var(--border); }
+.q-btn:hover { opacity: 0.92; }
+
+@media (max-width: 600px) {
+  .q-grid-2 { grid-template-columns: 1fr; }
+  .q-review-row { grid-template-columns: 1fr; row-gap: 0.25rem; padding: 0.55rem 0; }
+  .q-inner { padding: 1.5rem 1rem; }
+}
+</style>
+</BaseLayout>

@@ -1,0 +1,462 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Regenerative Medicine — Care Coordinator Intake | My4MLife';
+const description = 'Brief intake form for our regenerative medicine portfolio. A care coordinator will reach out within 24 hours to quote and schedule.';
+const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnaire';
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
+
+<section class="q-section">
+  <div class="container q-inner">
+    <header class="q-header">
+      <p class="q-eyebrow">Regenerative Medicine — Care Coordinator Intake</p>
+      <h1 id="q-step-title">Let's get you matched with the right protocol</h1>
+      <div class="q-progress" aria-hidden="true">
+        <div class="q-progress-bar" id="q-progress-bar" style="width:25%"></div>
+      </div>
+      <p class="q-step-counter" id="q-step-counter">Step 1 of 4</p>
+    </header>
+
+    <!-- ── Step 1 — Demographics ── -->
+    <section class="q-step" data-step="1">
+      <h2>About you</h2>
+      <p class="q-step-sub">A care coordinator will use this to follow up within 24 hours.</p>
+      <div class="q-grid-2">
+        <label class="q-field">First name <input type="text" data-q="firstName" required></label>
+        <label class="q-field">Last name <input type="text" data-q="lastName" required></label>
+        <label class="q-field">Email <input type="email" data-q="email" required></label>
+        <label class="q-field">Phone <input type="tel" data-q="phone" placeholder="+1 555-555-5555" required></label>
+        <label class="q-field">Date of birth <input type="date" data-q="dob" required></label>
+        <label class="q-field">Biological sex
+          <select data-q="sex" required>
+            <option value="">Select…</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+      </div>
+      <h3>Mailing address (for follow-up materials)</h3>
+      <div class="q-grid-2">
+        <label class="q-field q-field-wide">Street address <input type="text" data-q="address1" required></label>
+        <label class="q-field q-field-wide">Apt / Suite (optional) <input type="text" data-q="address2"></label>
+        <label class="q-field">City <input type="text" data-q="city" required></label>
+        <label class="q-field">State <select data-q="state" id="q-state" required><option value="">Select state…</option></select></label>
+        <label class="q-field">ZIP <input type="text" data-q="zip" required></label>
+      </div>
+    </section>
+
+    <!-- ── Step 2 — Target Indication ── -->
+    <section class="q-step" data-step="2" hidden>
+      <h2>What are you trying to address?</h2>
+      <p class="q-step-sub">Pick the indication closest to your situation. The care coordinator will match you to the right protocol — peptide stack, RPA, or other regenerative arm.</p>
+
+      <fieldset class="q-radio-group">
+        <legend>Primary target indication</legend>
+        <label class="q-radio"><input type="radio" name="indication" data-q="indication" value="joint" required> Joint repair / chronic joint pain / post-injury recovery</label>
+        <label class="q-radio"><input type="radio" name="indication" data-q="indication" value="cognitive"> Cognitive resilience / mild cognitive concerns / brain healthspan</label>
+        <label class="q-radio"><input type="radio" name="indication" data-q="indication" value="diagnosed"> Already diagnosed (MCI, early dementia, Parkinson's, post-stroke)</label>
+        <label class="q-radio"><input type="radio" name="indication" data-q="indication" value="post-injury"> Acute post-injury repair (tendon, ligament, soft tissue)</label>
+        <label class="q-radio"><input type="radio" name="indication" data-q="indication" value="performance"> Athletic performance / recovery / longevity-driven</label>
+        <label class="q-radio"><input type="radio" name="indication" data-q="indication" value="anti-aging"> General anti-aging / healthspan optimization</label>
+        <label class="q-radio"><input type="radio" name="indication" data-q="indication" value="other"> Other / multiple</label>
+      </fieldset>
+
+      <label class="q-field q-field-block">Briefly describe what you're hoping to accomplish (target outcomes, timeline, what you've already tried)
+        <textarea data-q="goalDescription" rows="3" required placeholder="e.g., torn rotator cuff 6 months ago, PT didn't fully resolve, want to avoid surgery — looking for tissue-repair protocol"></textarea>
+      </label>
+
+      <label class="q-field q-field-block">If applicable, when was your diagnosis or injury? (optional)
+        <input type="text" data-q="diagnosisDate" placeholder="e.g., diagnosed MCI in March 2024, or 'injured 6 months ago'">
+      </label>
+    </section>
+
+    <!-- ── Step 3 — Regenerative-specific Screening ── -->
+    <section class="q-step" data-step="3" hidden>
+      <h2>Health background</h2>
+      <p class="q-step-sub">Quick screen so the care coordinator can route you correctly and the physician has the context they need.</p>
+
+      <div class="q-grid-2">
+        <label class="q-field">Height (feet) <input type="number" min="3" max="8" data-q="heightFt" required></label>
+        <label class="q-field">Height (inches) <input type="number" min="0" max="11" data-q="heightIn" required></label>
+        <label class="q-field">Current weight (lbs) <input type="number" min="80" max="700" data-q="weightLb" required></label>
+      </div>
+
+      <label class="q-field q-field-block">Prior regenerative therapy (peptides, PRP, stem cells, exosomes, RPA, etc.) — what have you tried?
+        <textarea data-q="priorRegenerative" rows="2" placeholder="e.g., BPC-157 cycle in 2024, PRP knee injection, or 'none'"></textarea>
+      </label>
+
+      <fieldset class="q-radio-group q-warn">
+        <legend>Active cancer diagnosis or treatment in the past 5 years?</legend>
+        <p class="q-warn-note">⚠ Most growth-factor-stimulating peptides are contraindicated with active or recent malignancy.</p>
+        <label class="q-radio"><input type="radio" name="activeCancer" data-q="activeCancer" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="activeCancer" data-q="activeCancer" value="yes"> Yes</label>
+        <label class="q-radio"><input type="radio" name="activeCancer" data-q="activeCancer" value="in-remission"> In remission &gt; 5 years</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group">
+        <legend>Diagnosed autoimmune condition?</legend>
+        <label class="q-radio"><input type="radio" name="autoimmune" data-q="autoimmune" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="autoimmune" data-q="autoimmune" value="yes"> Yes</label>
+        <label class="q-radio"><input type="radio" name="autoimmune" data-q="autoimmune" value="unsure"> Unsure</label>
+      </fieldset>
+      <label class="q-field q-field-block" id="q-autoimmune-detail" hidden>
+        Which autoimmune condition(s)?
+        <textarea data-q="autoimmuneDetail" rows="2"></textarea>
+      </label>
+
+      <fieldset class="q-radio-group" id="q-pregnancy-block" hidden>
+        <legend>Are you pregnant, breastfeeding, or actively trying to become pregnant?</legend>
+        <p class="q-warn-note">⚠ Most regenerative protocols require deferral until after pregnancy/breastfeeding.</p>
+        <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="no"> No</label>
+        <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="yes"> Yes</label>
+      </fieldset>
+
+      <label class="q-field q-field-block">Current medications (include dose if known)
+        <textarea data-q="currentMeds" rows="2" placeholder="e.g., metformin 1000mg, lisinopril 10mg, or 'none'"></textarea>
+      </label>
+
+      <label class="q-field q-field-block">Drug or food allergies
+        <textarea data-q="allergies" rows="2" placeholder="e.g., penicillin, sulfa, or 'none'"></textarea>
+      </label>
+
+      <label class="q-field q-field-block">Anything else the care coordinator should know? (optional)
+        <textarea data-q="other" rows="2"></textarea>
+      </label>
+    </section>
+
+    <!-- ── Step 4 — Review & Submit ── -->
+    <section class="q-step" data-step="4" hidden>
+      <h2>Review and submit</h2>
+      <p class="q-step-sub">Confirm everything looks right. After submission, our care coordinator will email you within 24 hours with a personalized quote, protocol recommendation, and scheduling options.</p>
+
+      <div class="q-noscope-box">
+        <strong>No payment today.</strong>
+        Regenerative protocols are per-treatment custom pricing. The care coordinator will provide a written quote after reviewing your intake, before any commitment.
+      </div>
+
+      <div id="q-review-summary" class="q-review-summary"></div>
+
+      <label class="q-checkbox-row">
+        <input type="checkbox" id="q-attestation" required>
+        <span>I attest the information above is accurate to the best of my knowledge. I authorize My4MLife and the care coordinator to contact me by email or phone to discuss protocol options and pricing.</span>
+      </label>
+    </section>
+
+    <!-- ── Submission state ── -->
+    <section class="q-step" data-step="success" hidden>
+      <div class="q-success">
+        <div class="q-success-icon">✓</div>
+        <h2>Your intake is in.</h2>
+        <p>Our care coordinator will email you within 24 hours with a personalized quote, protocol recommendation, and scheduling options. No payment is required to receive the quote.</p>
+        <p class="q-success-fine">Questions? Email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+      </div>
+    </section>
+
+    <div class="q-nav" id="q-nav">
+      <button type="button" class="q-btn q-btn-secondary" id="q-back" hidden>← Back</button>
+      <button type="button" class="q-btn q-btn-primary" id="q-next">Continue →</button>
+      <button type="button" class="q-btn q-btn-primary" id="q-submit" hidden>Submit My Intake →</button>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{
+  API_BASE: 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com',
+}}>
+(function() {
+  var totalSteps = 4;
+  var currentStep = 1;
+  var payload = {};
+
+  function $(sel) { return document.querySelector(sel); }
+  function $$(sel) { return document.querySelectorAll(sel); }
+
+  var FIELD_LABELS = {
+    firstName: 'First name', lastName: 'Last name', email: 'Email', phone: 'Phone',
+    dob: 'Date of birth', sex: 'Biological sex',
+    address1: 'Street address', city: 'City', state: 'State', zip: 'ZIP',
+    heightFt: 'Height (feet)', heightIn: 'Height (inches)', weightLb: 'Current weight',
+    indication: 'Target indication', goalDescription: 'Goal description',
+    activeCancer: 'Cancer history', autoimmune: 'Autoimmune status',
+  };
+
+  function populateStateDropdown() {
+    var sel = document.getElementById('q-state');
+    if (!sel) return;
+    var us = 'Alabama:AL,Alaska:AK,Arizona:AZ,Arkansas:AR,California:CA,Colorado:CO,Connecticut:CT,Delaware:DE,District of Columbia:DC,Florida:FL,Georgia:GA,Hawaii:HI,Idaho:ID,Illinois:IL,Indiana:IN,Iowa:IA,Kansas:KS,Kentucky:KY,Louisiana:LA,Maine:ME,Maryland:MD,Massachusetts:MA,Michigan:MI,Minnesota:MN,Mississippi:MS,Missouri:MO,Montana:MT,Nebraska:NE,Nevada:NV,New Hampshire:NH,New Jersey:NJ,New Mexico:NM,New York:NY,North Carolina:NC,North Dakota:ND,Ohio:OH,Oklahoma:OK,Oregon:OR,Pennsylvania:PA,Rhode Island:RI,South Carolina:SC,South Dakota:SD,Tennessee:TN,Texas:TX,Utah:UT,Vermont:VT,Virginia:VA,Washington:WA,West Virginia:WV,Wisconsin:WI,Wyoming:WY';
+    us.split(',').forEach(function(pair) {
+      var parts = pair.split(':');
+      var opt = document.createElement('option');
+      opt.value = parts[1];
+      opt.textContent = parts[0];
+      sel.appendChild(opt);
+    });
+  }
+
+  function showStep(n) {
+    $$('.q-step').forEach(function(el) { el.hidden = true; });
+    var target = document.querySelector('[data-step="' + n + '"]');
+    if (target) target.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    var header = document.querySelector('.q-header');
+    var nav = document.getElementById('q-nav');
+
+    if (n === 'success') {
+      if (header) header.style.display = 'none';
+      if (nav) nav.style.display = 'none';
+      return;
+    }
+
+    if (header) header.style.display = '';
+    if (nav) nav.style.display = '';
+
+    var pct = (n / totalSteps) * 100;
+    $('#q-progress-bar').style.width = Math.min(pct, 100) + '%';
+    $('#q-step-counter').textContent = 'Step ' + n + ' of ' + totalSteps;
+    $('#q-back').hidden = (n === 1);
+    $('#q-next').hidden = (n === totalSteps);
+    $('#q-submit').hidden = (n !== totalSteps);
+  }
+
+  function collectStep(n) {
+    var step = document.querySelector('[data-step="' + n + '"]');
+    if (!step) return true;
+    var missing = [];
+    var firstMissingEl = null;
+    step.querySelectorAll('.q-error').forEach(function(el) { el.classList.remove('q-error'); });
+
+    step.querySelectorAll('[data-q]').forEach(function(field) {
+      if (field.type === 'radio') return;
+      var name = field.getAttribute('data-q');
+      var val = (field.value || '').trim();
+      if (field.offsetParent === null && field.tagName !== 'SELECT') return;
+      if (val) payload[name] = val;
+      if (field.hasAttribute('required') && !val) {
+        missing.push(FIELD_LABELS[name] || name);
+        field.classList.add('q-error');
+        if (!firstMissingEl) firstMissingEl = field;
+      }
+    });
+
+    var radioGroups = {};
+    step.querySelectorAll('input[type=radio]').forEach(function(r) {
+      var name = r.name;
+      var parentFieldset = r.closest('fieldset');
+      if (parentFieldset && parentFieldset.offsetParent === null) return;
+      if (!radioGroups[name]) {
+        radioGroups[name] = {
+          dataQ: r.getAttribute('data-q') || name,
+          required: r.hasAttribute('required'),
+          any: false,
+          firstEl: r,
+        };
+      }
+      if (r.checked) {
+        radioGroups[name].any = true;
+        payload[radioGroups[name].dataQ] = r.value;
+      }
+    });
+    Object.keys(radioGroups).forEach(function(name) {
+      var g = radioGroups[name];
+      if (g.required && !g.any) {
+        missing.push(FIELD_LABELS[g.dataQ] || g.dataQ);
+        if (g.firstEl) {
+          var fs = g.firstEl.closest('fieldset');
+          if (fs) fs.classList.add('q-error');
+          if (!firstMissingEl) firstMissingEl = g.firstEl;
+        }
+      }
+    });
+
+    if (missing.length) {
+      alert('Please complete: ' + missing.join(', '));
+      if (firstMissingEl && firstMissingEl.scrollIntoView) {
+        firstMissingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (firstMissingEl.focus) firstMissingEl.focus();
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function buildReviewSummary() {
+    function row(label, val) {
+      if (val === undefined || val === null || val === '') return '';
+      var esc = String(val).replace(/[<>&"]/g, function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]; });
+      return '<div class="q-review-row"><span class="q-review-label">' + label + '</span><span class="q-review-value">' + esc + '</span></div>';
+    }
+    function section(title, body) {
+      if (!body) return '';
+      return '<div class="q-review-section"><h3 class="q-review-section-title">' + title + '</h3>' + body + '</div>';
+    }
+
+    var demographics = '';
+    demographics += row('Name', (payload.firstName || '') + ' ' + (payload.lastName || ''));
+    demographics += row('Email', payload.email);
+    demographics += row('Phone', payload.phone);
+    demographics += row('Date of birth', payload.dob);
+    demographics += row('Sex', payload.sex);
+    var addrLine1 = [(payload.address1||''), (payload.address2||'')].filter(function(p){return p;}).join(', ');
+    var addrLine2 = [(payload.city||''), (payload.state||''), (payload.zip||'')].filter(function(p){return p;}).join(', ').replace(/, (\w{2}), /, ', $1 ');
+    demographics += row('Address', [addrLine1, addrLine2].filter(function(p){return p;}).join(' • '));
+
+    var indicationLabels = {
+      'joint': 'Joint repair / chronic joint pain / post-injury',
+      'cognitive': 'Cognitive resilience / brain healthspan',
+      'diagnosed': 'Already diagnosed (MCI / dementia / Parkinson\'s / post-stroke)',
+      'post-injury': 'Acute post-injury repair',
+      'performance': 'Athletic performance / recovery',
+      'anti-aging': 'General anti-aging / healthspan',
+      'other': 'Other / multiple',
+    };
+
+    var goal = '';
+    goal += row('Target indication', indicationLabels[payload.indication] || payload.indication);
+    goal += row('Goal description', payload.goalDescription);
+    goal += row('When', payload.diagnosisDate);
+
+    var health = '';
+    health += row('Height', (payload.heightFt || '') + "' " + (payload.heightIn || '') + '"');
+    health += row('Current weight', (payload.weightLb || '') + ' lbs');
+    health += row('Prior regenerative therapy', payload.priorRegenerative);
+    health += row('Cancer history', payload.activeCancer);
+    health += row('Autoimmune', payload.autoimmune);
+    health += row('Autoimmune detail', payload.autoimmuneDetail);
+    health += row('Pregnancy', payload.pregnancy);
+    health += row('Current medications', payload.currentMeds);
+    health += row('Allergies', payload.allergies);
+    health += row('Other notes', payload.other);
+
+    var html = '';
+    html += section('Demographics', demographics);
+    html += section('Goal & Indication', goal);
+    html += section('Health Background', health);
+
+    $('#q-review-summary').innerHTML = html;
+  }
+
+  async function submitIntake() {
+    if (!$('#q-attestation').checked) {
+      alert('Please confirm the attestation to submit.');
+      return;
+    }
+    payload.savedAt = new Date().toISOString();
+    var fields = {};
+    Object.keys(payload).forEach(function(k){ fields[k] = String(payload[k]); });
+    fields.scores = JSON.stringify({});
+    var resp = await fetch(API_BASE + '/api/contact-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        kind: 'form',
+        formId: 'regenerative-questionnaire',
+        fields: fields,
+      }),
+    });
+    if (resp.ok) {
+      showStep('success');
+    } else {
+      alert('Submission failed. Please try again or email support@my4mlife.com.');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    populateStateDropdown();
+    showStep(1);
+
+    // Conditional UI: autoimmune detail
+    document.querySelectorAll('[name="autoimmune"]').forEach(function(r) {
+      r.addEventListener('change', function() {
+        $('#q-autoimmune-detail').hidden = (r.value !== 'yes');
+      });
+    });
+
+    // Conditional UI: pregnancy block only for female
+    document.querySelectorAll('[data-q="sex"]').forEach(function(el) {
+      el.addEventListener('change', function() {
+        $('#q-pregnancy-block').hidden = (el.value !== 'female');
+      });
+    });
+
+    $('#q-next').addEventListener('click', function() {
+      if (!collectStep(currentStep)) return;
+      currentStep++;
+      if (currentStep === 4) buildReviewSummary();
+      showStep(currentStep);
+    });
+
+    $('#q-back').addEventListener('click', function() {
+      if (currentStep > 1) { currentStep--; showStep(currentStep); }
+    });
+
+    $('#q-submit').addEventListener('click', submitIntake);
+  });
+})();
+</script>
+
+</BaseLayout>
+
+<style is:global>
+.q-section { padding: 3rem 1rem 5rem; min-height: 70vh; background: var(--bg-soft); }
+.q-inner { max-width: 720px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 2rem 1.75rem; }
+.q-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+.q-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; margin: 0 0 0.5rem; }
+.q-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--primary); margin: 0 0 1rem; line-height: 1.2; }
+.q-progress { background: #e2e8f0; height: 6px; border-radius: 999px; overflow: hidden; }
+.q-progress-bar { background: var(--accent); height: 100%; transition: width 0.3s; }
+.q-step-counter { font-size: 0.8rem; color: var(--text-light); margin: 0.5rem 0 0; }
+
+.q-step h2 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 0 0 0.5rem; font-size: 1.35rem; }
+.q-step h3 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+.q-step-sub { color: var(--text-light); margin: 0 0 1.25rem; font-size: 0.95rem; line-height: 1.5; }
+
+.q-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.q-field { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+.q-field-wide { grid-column: 1 / -1; }
+.q-field-block { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.85rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+.q-field input, .q-field select, .q-field-block textarea, .q-field-block input, .q-field-block select { font-family: 'Inter', sans-serif; font-size: 1rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; font-weight: 400; color: var(--text); }
+.q-field input:focus, .q-field select:focus, .q-field-block textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.q-error { border-color: #d4351c !important; box-shadow: 0 0 0 2px rgba(212, 53, 28, 0.18); }
+fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
+
+.q-radio-group { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
+.q-radio-group legend { font-weight: 600; color: var(--primary); padding: 0 0.4rem; font-size: 0.95rem; }
+.q-radio { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.4rem 0; cursor: pointer; font-size: 0.95rem; color: var(--text); }
+.q-radio input { margin-top: 0.2rem; }
+.q-warn { border-color: rgba(212, 147, 10, 0.4); background: #fff8ec; }
+.q-warn-note { color: #a37a14; font-size: 0.85rem; margin: 0.5rem 0 0.75rem; font-weight: 500; }
+
+.q-noscope-box { background: #f0fbf6; border: 2px solid var(--accent); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; font-size: 0.95rem; color: #07664c; line-height: 1.5; }
+.q-noscope-box strong { display: block; margin-bottom: 0.4rem; }
+
+.q-review-summary { background: transparent; margin: 1rem 0; }
+.q-review-section { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem 1rem; margin: 0 0 1rem; }
+.q-review-section-title { font-family: 'Playfair Display', serif; margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--primary); font-weight: 700; letter-spacing: 0.01em; padding-bottom: 0.45rem; border-bottom: 2px solid var(--accent); }
+.q-review-row { display: grid; grid-template-columns: 180px 1fr; column-gap: 1.25rem; row-gap: 0.15rem; padding: 0.45rem 0; font-size: 0.92rem; border-bottom: 1px solid #f0eee8; }
+.q-review-row:last-child { border-bottom: none; }
+.q-review-label { color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.08em; padding-top: 0.15rem; }
+.q-review-value { color: var(--text); font-size: 0.95rem; line-height: 1.5; word-break: break-word; }
+
+.q-checkbox-row { display: flex; gap: 0.7rem; align-items: flex-start; margin-top: 1rem; font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+.q-checkbox-row input { margin-top: 0.3rem; transform: scale(1.15); }
+
+.q-success { text-align: center; padding: 1.5rem 0; }
+.q-success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 2rem; display: inline-flex; align-items: center; justify-content: center; margin: 0 0 1rem; }
+.q-success h2 { font-size: 1.6rem; color: var(--primary); margin: 0 0 0.6rem; }
+.q-success p { color: var(--text); line-height: 1.6; margin: 0 0 0.85rem; }
+.q-success-fine { font-size: 0.9rem; color: var(--text-light); margin-top: 1.5rem; }
+
+.q-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.q-btn { padding: 0.85rem 1.6rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; border: none; cursor: pointer; transition: opacity 0.15s; }
+.q-btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(0,184,148,0.25); }
+.q-btn-secondary { background: #fff; color: var(--primary); border: 1px solid var(--border); }
+.q-btn:hover { opacity: 0.92; }
+
+@media (max-width: 600px) {
+  .q-grid-2 { grid-template-columns: 1fr; }
+  .q-review-row { grid-template-columns: 1fr; row-gap: 0.25rem; padding: 0.55rem 0; }
+  .q-inner { padding: 1.5rem 1rem; }
+}
+</style>
