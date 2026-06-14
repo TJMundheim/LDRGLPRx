@@ -93,7 +93,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
 NURTURE_QUEUE_URL="https://sqs.$REGION.amazonaws.com/$AWS_ACCOUNT_ID/$NURTURE_QUEUE_NAME"
-ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=Users,COGNITO_USER_POOL_ID=us-east-2_kIpKnr17R,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind-v5.pdf,PROTEGE_WORKBOOK_S3_KEY=cohort-workbook-v2.pdf}"
+ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=Users,COGNITO_USER_POOL_ID=us-east-2_kIpKnr17R,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind.pdf,PROTEGE_WORKBOOK_S3_KEY=cohort-workbook-month1.pdf}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \

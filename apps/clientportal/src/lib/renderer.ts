@@ -787,8 +787,11 @@ function w1ActiveWeekly(actionId: string, label: string, target: number): string
     <div class="w1-action-state ${reached ? '' : 'pending'}">${count}/${target}${doneToday && !reached ? ' · logged today' : ''}</div>
   </div>`;
 }
-function w1DimWrap(unlockWeek: number, inner: string): string {
-  return `<div class="w1-dim"><span class="w1-dim-badge" title="Available after Week 1 — keep the basics consistent first.">Unlocks Week ${unlockWeek}</span>${inner}</div>`;
+function w1DimWrap(_unlockWeek: number, inner: string): string {
+  // 2026-06-14: gating disabled for UX-testing access — full Month 1 (all 4 weeks) is open
+  // to every Protégé. The dim/lock pattern stays in source so we can re-enable later by
+  // reverting this one function. The unlockWeek arg is preserved for callers.
+  return inner;
 }
 
 // Compute Mon..Sun YYYY-MM-DD strings for the current ISO week (Mon-anchored).

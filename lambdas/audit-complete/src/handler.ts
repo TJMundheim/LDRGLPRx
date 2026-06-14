@@ -4,8 +4,6 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { v5 as uuidv5 } from 'uuid';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
@@ -14,16 +12,15 @@ const USER_PROFILE_TABLE = process.env.USER_PROFILE_TABLE ?? 'Users';
 const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
-const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind-v5.pdf';
-const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-v2.pdf';
-const SIGNED_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
+const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind.pdf';
+const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-month1.pdf';
+const BUCKET_REGION = process.env.BUCKET_REGION ?? 'us-east-2';
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
 const cognito = new CognitoIdentityProviderClient({ region: REGION });
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const sqs = new SQSClient({ region: REGION });
 const lambda = new LambdaClient({ region: REGION });
-const s3 = new S3Client({ region: REGION });
 
 function randomPassword(len = 20): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
@@ -89,12 +86,14 @@ async function seedUserProfile(args: {
   }));
 }
 
-async function getBookDownloadUrl(): Promise<string> {
-  return getSignedUrl(s3, new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: BOOK_S3_KEY }), { expiresIn: SIGNED_URL_TTL_SEC });
+// Direct public S3 URLs — bucket policy grants public read on these 2 specific keys.
+// No presigning, no expiration, no version info in the URL.
+function getBookDownloadUrl(): string {
+  return `https://${DIGITAL_BUCKET}.s3.${BUCKET_REGION}.amazonaws.com/${encodeURIComponent(BOOK_S3_KEY)}`;
 }
 
-async function getWorkbookDownloadUrl(): Promise<string> {
-  return getSignedUrl(s3, new GetObjectCommand({ Bucket: DIGITAL_BUCKET, Key: WORKBOOK_S3_KEY }), { expiresIn: SIGNED_URL_TTL_SEC });
+function getWorkbookDownloadUrl(): string {
+  return `https://${DIGITAL_BUCKET}.s3.${BUCKET_REGION}.amazonaws.com/${encodeURIComponent(WORKBOOK_S3_KEY)}`;
 }
 
 const ALLOWED_ORIGINS = new Set([
@@ -165,7 +164,7 @@ function buildResultsHtml(firstName: string, top3: any[], bookUrl: string, workb
 <p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Don't lose your identity and your dignity while you still have a choice.</p>
 <p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Dr. TJ's field guide to brain healthspan, organized around the 4M framework. The why behind the system.</p>
 <p style="margin:0"><a href="${bookUrl}" style="background:#d4af5a;color:#0a1628;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Book (PDF) &rarr;</a></p>
-<p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Save the PDF — this download link is yours to keep and share.</p>
 </div>`
     : '';
 
@@ -176,7 +175,7 @@ function buildResultsHtml(firstName: string, top3: any[], bookUrl: string, workb
 <p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Print it. Mark it up. Run it daily.</p>
 <p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Daily check-ins, weekly reflections, tear-out scorecards, the stack reference, and the optional advanced layer. The how that pairs with the book's why.</p>
 <p style="margin:0"><a href="${workbookUrl}" style="background:#b87333;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Workbook (PDF) &rarr;</a></p>
-<p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">Save the PDF — this download link is yours to keep and share.</p>
 </div>`
     : '';
 
@@ -219,8 +218,8 @@ ${coordinatorCard}
 async function sendResultsEmail(email: string, firstName: string, top3: any[]): Promise<void> {
   let bookUrl = '';
   let workbookUrl = '';
-  try { bookUrl = await getBookDownloadUrl(); } catch (e) { console.warn('book signed URL failed', e); }
-  try { workbookUrl = await getWorkbookDownloadUrl(); } catch (e) { console.warn('workbook signed URL failed', e); }
+  try { bookUrl = getBookDownloadUrl(); } catch (e) { console.warn('book URL build failed', e); }
+  try { workbookUrl = getWorkbookDownloadUrl(); } catch (e) { console.warn('workbook URL build failed', e); }
 
   const subject = `Welcome to My4MLife — your results, book, workbook, and app are ready`;
   const html = buildResultsHtml(firstName, top3, bookUrl, workbookUrl);
