@@ -7,7 +7,6 @@
   import Forbidden403 from './Forbidden403.svelte';
   import ProtegesPanel from './ProtegesPanel.svelte';
   import EventsAdmin from './EventsAdmin.svelte';
-  import { SEED_QUEUE } from '../../data/adminQueue';
 
   const isAdmin = $derived(currentUser.value?.groups.includes('Admins') ?? false);
 
@@ -34,11 +33,10 @@
       users = usersResult.adminListUsers?.items ?? [];
       outcomes = outcomesResult.adminListOutcomes?.items ?? [];
       const queueItems = queueResult.adminListQueue?.items ?? [];
-      const pending = queueItems.filter((i) => i.status !== 'resolved');
-      queue = pending.length > 0 ? pending : (SEED_QUEUE.filter((i) => i.status !== 'resolved') as unknown as AdminQueueItem[]);
+      queue = queueItems.filter((i) => i.status !== 'resolved');
     } catch {
-      // API unavailable — use seed data so the view remains useful in dev/offline
-      queue = SEED_QUEUE.filter((i) => i.status !== 'resolved') as unknown as AdminQueueItem[];
+      // API unavailable — show empty queue rather than fake seed data
+      queue = [];
     } finally {
       loading = false;
     }
