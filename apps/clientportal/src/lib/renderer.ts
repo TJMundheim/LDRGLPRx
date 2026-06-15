@@ -191,7 +191,7 @@ export function renderGutAssessment(): string {
           <div style="font-size:10px;color:#6A8A6E;margin-top:2px">Score: ${state.score}/10</div>
         </div>
       </div>
-      <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${esc(band.body)}</div>
+      <div style="font-size:12.5px;color:#3A6A44;line-height:1.7;margin-bottom:16px">${esc(band.body)}</div>
       <a href="https://my4mlife.com/assessment" style="display:inline-block;background:${ac};color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
       <div style="margin-top:16px">
         <button onclick="gutAssessmentAction('retake')"
@@ -263,11 +263,11 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">${dayBtns}</div>
     <div class="g2" style="margin-bottom:12px">
       <div>
-        <span style="font-size:0.85rem;font-weight:600;color:var(--text,#e8eaf0)">Days completed</span>
+        <span style="font-size:0.85rem;font-weight:600;color:#3A6A44">Days completed</span>
         <div style="font-size:26px;font-weight:700;color:${wc.ac};margin-top:4px">${doneCt} / 7</div>
       </div>
       <div>
-        <span style="font-size:0.85rem;font-weight:600;color:var(--text,#e8eaf0)">Cold showers</span>
+        <span style="font-size:0.85rem;font-weight:600;color:#3A6A44">Cold showers</span>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${coldBtns}</div>
       </div>
     </div>
@@ -467,8 +467,7 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
   return `<div class="factor-body">
     ${f.cm ? `<div style="background:#1E5FA0;border-radius:9px;padding:12px 14px;margin-bottom:12px">
       <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:4px">Connected Mind — Complete Before Scoring</div>
-      <div style="font-size:11px;color:#B5D4F4;margin-bottom:8px">Complete this assessment before finalizing your score for Factor 01.</div>
-      <a href="#" class="btn sm primary">Take the Assessment ↗</a>
+      <div style="font-size:11px;color:#B5D4F4">Complete this assessment before finalizing your score for Factor 01.</div>
     </div>` : ''}
     <div class="info-box" style="background:rgba(29,158,117,.06);border:1px solid rgba(29,158,117,.25);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
       <span style="font-size:11px;color:#3A6A44"><strong style="color:#1D9E75">Box breathing</strong> — 4 counts in · hold 4 · out 4 · hold 4 · repeat 4 times</span>
@@ -988,14 +987,11 @@ function renderW1(ctx: RenderContext): string {
     })()}
     <label for="w1-protein-target">Target bodyweight for protein calc (lbs)</label>
     <input id="w1-protein-target" type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
-      oninput="portalField('protein',this.value)"
-      onblur="portalFieldRender('protein',this.value)"
-      onchange="portalFieldRender('protein',this.value)"
-      onkeydown="if(event.key==='Enter'){portalFieldRender('protein',this.value);this.blur();}">
-    ${Number(W.protein) > 0 ? `<div style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px">
-      <div style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein) * 0.9)}g</div>
+      oninput="portalField('protein',this.value);(function(v){var n=Number(v);var r=document.getElementById('w1-protein-result');var g=document.getElementById('w1-protein-grams');if(r)r.style.display=n>0?'flex':'none';if(g)g.textContent=(n>0?Math.round(n*0.9):0)+'g';})(this.value)">
+    <div id="w1-protein-result" style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;align-items:center;justify-content:center;gap:10px;display:${Number(W.protein) > 0 ? 'flex' : 'none'}">
+      <div id="w1-protein-grams" style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein) * 0.9)}g</div>
       <div style="font-size:10px;color:#5A8A64">protein per day target</div>
-    </div>` : ''}
+    </div>
   </div>
 
   <div class="card" style="border-left:4px solid #E05C2A">
@@ -1814,7 +1810,7 @@ const weekNutrData: Record<1 | 2 | 3 | 4, { fastingCue: string; suppTagline: str
 
 function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
   const wc = weekMeta[w];
-  const { fastingCue, suppTagline, suppNames } = weekNutrData[w];
+  const { fastingCue } = weekNutrData[w];
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const supplierCards = affiliateSuppliers.map(s => `
@@ -1840,16 +1836,6 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
     </div>`;
   }).join('');
 
-  const suppCards = suppNames.map(name => `
-    <div style="display:flex;justify-content:space-between;align-items:center;
-      padding:10px 14px;background:#F8FAF8;border:1.5px solid #D8E8DC;border-radius:9px;margin-bottom:8px">
-      <div>
-        <div style="font-size:12px;font-weight:700;color:#1A3A20">${esc(name)}</div>
-        <div style="font-size:10px;color:#5A8A64;margin-top:2px">Practitioner-grade — recommended for this program</div>
-      </div>
-      <span style="font-size:10px;color:#888;background:#F0F0F0;border-radius:5px;padding:4px 9px;white-space:nowrap">Coming soon</span>
-    </div>`).join('');
-
   return `
   <div class="card" style="border-top:3px solid ${wc.ac};margin-top:8px">
     <div style="font-size:14px;font-weight:700;color:${wc.ac};margin-bottom:4px;letter-spacing:.01em">
@@ -1860,7 +1846,7 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
     <!-- MEAL PLAN PREVIEW -->
     <div style="position:relative;background:#F5FAF6;border:1.5px dashed #B8E8D0;border-radius:10px;padding:14px 16px;margin-bottom:16px">
       <span style="position:absolute;top:-10px;right:14px;background:#D4920A;color:#fff;
-        font-size:9px;font-weight:700;letter-spacing:.07em;padding:3px 9px;border-radius:4px">PREVIEW</span>
+        font-size:9px;font-weight:700;letter-spacing:.07em;padding:3px 9px;border-radius:4px">SAMPLE</span>
       <div style="font-size:11px;font-weight:700;color:#1D9E75;letter-spacing:.07em;margin-bottom:6px;text-transform:uppercase">
         Week ${w} Recommended Meal Plan
       </div>
@@ -1868,7 +1854,6 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
         <li style="font-size:11.5px;color:#3A6A44">Breakfast: 3–4 pasture-raised eggs + grass-fed beef or salmon + cooking fat</li>
         <li style="font-size:11.5px;color:#3A6A44">Lunch: Large grass-fed protein portion + leafy greens + avocado</li>
         <li style="font-size:11.5px;color:#3A6A44">Dinner: Ruminant protein or wild fish + cruciferous vegetable + bone broth</li>
-        <li style="font-size:11.5px;color:#3A6A44;font-style:italic;color:#6A8A6E">Full authored Week ${w} meal plan coming soon — TJ will provide exact recipes.</li>
       </ul>
     </div>
 
@@ -1878,14 +1863,6 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px">
       ${supplierCards}
-    </div>
-
-    <!-- MEAL PREP VIDEOS -->
-    <div style="background:#F8FAF8;border:1.5px dashed #D8E8DC;border-radius:9px;
-      padding:14px 16px;margin-bottom:16px;text-align:center">
-      <div style="font-size:22px;margin-bottom:6px">&#127909;</div>
-      <div style="font-size:11px;font-weight:700;color:#4A7A54;margin-bottom:3px">Keto/Paleo Meal-Prep Videos</div>
-      <div style="font-size:10.5px;color:#8A9A88">Step-by-step meal prep video guides coming soon.</div>
     </div>
 
     <!-- FASTING LOG -->
@@ -1902,15 +1879,6 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
         ).join('')}
       </div>
       ${fastingRows}
-    </div>
-
-    <!-- SUPPLEMENT STACK -->
-    <div>
-      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:4px;text-transform:uppercase">
-        Recommended Supplement Stack — Week ${w}
-      </div>
-      <div style="font-size:11px;color:#5A8A64;margin-bottom:10px;line-height:1.5">${esc(suppTagline)}</div>
-      ${suppCards}
     </div>
   </div>`;
 }

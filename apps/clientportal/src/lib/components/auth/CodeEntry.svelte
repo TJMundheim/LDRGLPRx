@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { submitEmailCode, getCurrentUser } from '../../auth/cognito.js';
+  import { onDestroy } from 'svelte';
+  import { submitEmailCode, getCurrentUser, requestEmailCode, RateLimitError } from '../../auth/cognito.js';
   import { setUser } from '../../auth/store.svelte.js';
 
   interface Props {
@@ -15,12 +16,59 @@
   let loading = $state(false);
   let error = $state('');
 
+  // The session can be refreshed by "Resend code", so track it locally rather
+  // than verifying against the (now-stale) prop.
+  let activeSession = $state(session);
+  let resending = $state(false);
+  let resendCooldown = $state(0); // seconds left before resend is allowed again
+  let notice = $state('');
+  let cooldownTimer: ReturnType<typeof setInterval> | undefined;
+
+  function startCooldown(seconds: number): void {
+    resendCooldown = seconds;
+    clearInterval(cooldownTimer);
+    cooldownTimer = setInterval(() => {
+      resendCooldown -= 1;
+      if (resendCooldown <= 0) { clearInterval(cooldownTimer); resendCooldown = 0; }
+    }, 1000);
+  }
+
+  onDestroy(() => clearInterval(cooldownTimer));
+
+  async function handleResend(): Promise<void> {
+    if (resending || resendCooldown > 0) return;
+    resending = true; error = ''; notice = '';
+    try {
+      const cleanEmail = email.trim();
+      const newSession = await requestEmailCode(cleanEmail);
+      activeSession = newSession;
+      // Keep EmailEntry's cooldown cache in sync so a back/forward round-trip
+      // reuses this fresh session instead of firing yet another OTP.
+      try {
+        sessionStorage.setItem(
+          `my4m-otp-sent-${cleanEmail.toLowerCase()}`,
+          JSON.stringify({ session: newSession, sentAt: Date.now() }),
+        );
+      } catch { /* ignore */ }
+      code = '';
+      notice = 'New code sent. Check your email (and spam folder).';
+      startCooldown(30);
+    } catch (err) {
+      error = err instanceof RateLimitError
+        ? err.message
+        : (err instanceof Error ? err.message : 'Could not resend the code. Try again in a moment.');
+    } finally {
+      resending = false;
+    }
+  }
+
   async function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
     error = '';
+    notice = '';
     loading = true;
     try {
-      await submitEmailCode(email, code.trim(), session);
+      await submitEmailCode(email, code.trim(), activeSession);
       const user = getCurrentUser();
       if (user) setUser(user);
       onsuccess();
@@ -65,10 +113,16 @@
     {#if error}
       <p class="error" role="alert">{error}</p>
     {/if}
+    {#if notice}
+      <p class="notice" role="status">{notice}</p>
+    {/if}
     <button type="submit" disabled={loading || code.trim().length < 6}>
       {loading ? 'Verifying…' : 'Verify'}
     </button>
   </form>
+  <button type="button" class="resend-btn" onclick={handleResend} disabled={resending || resendCooldown > 0}>
+    {resending ? 'Sending…' : resendCooldown > 0 ? `Resend code (${resendCooldown}s)` : "Didn't get the code? Resend it"}
+  </button>
   <button type="button" class="back-btn" onclick={onback}>← Use a different email</button>
 </div>
 
@@ -98,6 +152,23 @@
   }
   input:focus { border-color: #1D9E75; }
   .error { color: #c0392b; font-size: 0.85rem; margin: 8px 0 0; }
+  .notice { color: #17875f; font-size: 0.85rem; margin: 8px 0 0; }
+  .resend-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 9px;
+    background: none;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    color: #1D9E75;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .resend-btn:not(:disabled):hover { background: #f0faf5; border-color: #1D9E75; }
+  .resend-btn:disabled { color: #9aa5a0; cursor: not-allowed; }
   button[type="submit"] {
     width: 100%;
     margin-top: 20px;

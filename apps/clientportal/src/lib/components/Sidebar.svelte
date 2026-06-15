@@ -68,13 +68,16 @@
     >
       ⚙ Settings
     </button>
+    <button class="discovery-btn signout-btn" onclick={handleSignOut}>
+      ⎋ Sign Out
+    </button>
   </div>
 </div>
 
 <style>
   .discovery-nav {
     padding: 6px 0 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid #C8DCC8;
     margin-bottom: 6px;
   }
 
@@ -84,7 +87,7 @@
     text-align: left;
     background: transparent;
     border: none;
-    color: #9ba3b2;
+    color: #3A6A44;
     padding: 8px 12px;
     min-height: 44px;
     border-radius: 6px;
@@ -96,40 +99,67 @@
   }
 
   .discovery-btn:hover {
-    background: rgba(74, 158, 255, 0.1);
-    color: #4a9eff;
+    background: rgba(29,158,117,0.08);
+    color: #1A4A28;
   }
 
   .discovery-btn.discovery-active {
-    background: rgba(74, 158, 255, 0.15);
-    color: #4a9eff;
+    background: #1D9E75;
+    color: #FFFFFF;
   }
 
   .discovery-btn:focus-visible {
-    outline: 2px solid #4a9eff;
+    outline: 2px solid #1D9E75;
     outline-offset: 2px;
   }
 
   .admin-nav {
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid #C8DCC8;
     padding-top: 8px;
     margin-top: 6px;
     border-bottom: none;
   }
 
-  .admin-btn { color: #c8a8ff; }
-  .admin-btn:hover { background: rgba(200,168,255,0.1); color: #c8a8ff; }
-  .admin-btn.discovery-active { background: rgba(200,168,255,0.15); color: #c8a8ff; }
+  .admin-btn { color: #6B5ED4; }
+  .admin-btn:hover { background: rgba(107,94,212,0.1); color: #4A3EA8; }
+  .admin-btn.discovery-active { background: #6B5ED4; color: #FFFFFF; }
 
   .settings-nav {
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid #C8DCC8;
     padding-top: 10px;
     margin-top: 8px;
     border-bottom: none;
   }
-  .settings-btn { color: #9ba3b2; }
-  .settings-btn:hover { background: rgba(255,255,255,0.06); color: #e8eaf0; }
-  .settings-btn.discovery-active { background: rgba(255,255,255,0.08); color: #e8eaf0; }
+  .signout-btn { color: #9A5A4A; }
+  .signout-btn:hover { background: rgba(154,90,74,0.1); color: #7A3A2A; }
+
+  /* ── Mobile: sidebar collapses to a bottom bar; make the Settings / Admin /
+     Sign Out controls reachable inline as compact icon-buttons instead of
+     overflowing off-screen. ── */
+  @media (max-width: 820px) {
+    .discovery-nav {
+      border: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .discovery-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: auto;
+      min-width: 52px;
+      padding: 6px 6px;
+      font-size: 8.5px;
+      letter-spacing: 0.02em;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
 
   /* Locked state when intake is incomplete */
   .nav-locked {

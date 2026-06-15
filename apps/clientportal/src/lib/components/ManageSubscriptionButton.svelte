@@ -55,8 +55,8 @@
 
   .manage-sub-btn {
     background: transparent;
-    border: 1px solid rgba(74, 158, 255, 0.4);
-    color: #4a9eff;
+    border: 1px solid rgba(29, 158, 117, 0.4);
+    color: #1D9E75;
     padding: 8px 14px;
     border-radius: 6px;
     font-size: 0.82rem;
@@ -65,7 +65,7 @@
     transition: background 0.15s, border-color 0.15s;
     min-height: 36px;
   }
-  .manage-sub-btn:hover:not(:disabled) { background: rgba(74,158,255,0.1); border-color: #4a9eff; }
+  .manage-sub-btn:hover:not(:disabled) { background: rgba(29,158,117,0.1); border-color: #1D9E75; }
   .manage-sub-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .manage-sub-error {

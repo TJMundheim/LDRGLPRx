@@ -90,26 +90,26 @@
   .opt {
     display: flex; align-items: center; gap: 10px;
     padding: 12px 14px;
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid #C8DBC8;
     border-radius: 8px;
-    background: rgba(255,255,255,0.02);
+    background: #FAFBF9;
     cursor: pointer;
     font-size: 0.95rem;
-    color: #e8eaf0;
+    color: #1A2E1E;
     transition: background 0.12s, border-color 0.12s;
   }
-  .opt:hover { background: rgba(74,158,255,0.08); }
+  .opt:hover { background: rgba(29,158,117,0.08); }
   .opt.selected { background: rgba(29,158,117,0.12); border-color: #1D9E75; }
   .opt input { accent-color: #1D9E75; }
   .custom { display: flex; gap: 12px; flex-wrap: wrap; }
   .custom label {
     display: flex; flex-direction: column; gap: 4px;
-    font-size: 0.8rem; color: #9ba3b2; letter-spacing: 0.04em; text-transform: uppercase;
+    font-size: 0.8rem; color: #5A8A64; letter-spacing: 0.04em; text-transform: uppercase;
   }
   .custom input {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: #e8eaf0;
+    background: #FFFFFF;
+    border: 1px solid #C8DBC8;
+    color: #1A2E1E;
     border-radius: 6px;
     padding: 8px 10px;
     font-size: 0.95rem;

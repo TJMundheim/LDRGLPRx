@@ -6,6 +6,17 @@
 
 ---
 
+## ✅ IMPLEMENTATION STATUS (2026-06-14)
+
+All red-team P0/P1/P2 fixes below have been **implemented, build-verified, and committed**. The app builds clean; the 8 pre-existing unit-test failures (in `client.test.ts`, `triggers.test.ts`, `AdminDashboard.test.ts`, `AuthGate.test.ts`) were confirmed present on clean `HEAD` before these changes — i.e. not regressions from this work.
+
+- **P0 done:** R1 dead-end weeks now render content · R2 mobile Sign Out + Settings reachable (new Sign Out button, mobile bottom-bar layout) · R3 "Resend code" with 30s cooldown.
+- **P1 done:** R4 unreadable text recolored (light-on-white only — the dark-gradient cards were correct and left alone) · R5 all "coming soon" + the leaked "TJ will provide exact recipes" removed · R6 protein field updates in place (no more focus loss) · R7 misleading "/5" toast fixed · R8 admin queue now rolls back + shows an error on failure.
+- **P2 done:** off-brand blue → brand green (Sidebar + Manage Subscription) · dead "Take the Assessment" link removed · small fonts bumped · mobile nav labels always shown (not emoji-only) · 5 dead imports removed · on-screen `?diag=1` panel removed. (`?debug=1` console gate left intentionally — param-gated, harmless.)
+- **NOT done (deliberately deferred — larger feature work, needs live testing):** the Part 3 UX-friction redesign sprint (mount TodayView/OutcomePanel, workout-log steppers, fasting toggle, reflection chips, factor-plan cards, intake steppers). These change data flow and are not surgical — recommend doing them as a focused next pass with the app actually running.
+
+---
+
 ## TL;DR (read this if nothing else)
 
 1. **Three things will make a 59-year-old quit at the door. Fix before launch:**

@@ -18,7 +18,7 @@ body{font-family:Georgia,serif;background:#F4F6F2;color:#1A2E1E;line-height:1.6}
 .nav-item .icon{font-size:14px;flex-shrink:0}
 .sb-stats{padding:14px 18px;border-top:1px solid #C8DCC8;margin-top:auto}
 .sb-stats-title{font-size:8px;letter-spacing:.08em;color:#5A8A64;margin-bottom:6px;font-weight:700}
-.sb-stat{font-size:10px;color:#3A6A44;margin-bottom:3px}
+.sb-stat{font-size:11px;color:#3A6A44;margin-bottom:3px}
 
 /* ── CARDS ── */
 .card{background:#FFFFFF;border:1px solid #D8E8DC;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
@@ -56,7 +56,7 @@ body{font-family:Georgia,serif;background:#F4F6F2;color:#1A2E1E;line-height:1.6}
 input,textarea,select{background:#FAFBF9;border:1px solid #C8DBC8;border-radius:8px;padding:10px 12px;color:#1A2E1E;font-size:13px;font-family:Georgia,serif;width:100%;outline:none;transition:border-color .15s}
 input:focus,textarea:focus{border-color:#1D9E75;background:#FFFFFF}
 textarea{resize:vertical;min-height:58px;line-height:1.6}
-label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A8A64;margin-bottom:5px}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A8A64;margin-bottom:5px}
 
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 18px;border-radius:8px;border:1px solid #C8DBC8;cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.03em;font-family:Georgia,serif;background:#FFFFFF;color:#3A6A44;transition:all .14s}
@@ -81,7 +81,7 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-tra
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .stat-card{background:#FFFFFF;border:1px solid #D8E8DC;border-radius:10px;padding:15px 12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .stat-num{font-size:30px;font-weight:700;line-height:1;margin-bottom:3px}
-.stat-lbl{font-size:9px;color:#6A9A74;letter-spacing:.07em}
+.stat-lbl{font-size:10.5px;color:#6A9A74;letter-spacing:.07em}
 
 /* ── GRIDS ── */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -149,7 +149,7 @@ a.res-pill:hover{background:#D0E8FF}
     width:100%;height:auto;
     display:flex;flex-direction:row;align-items:stretch;
     border-right:none;border-top:1px solid #C8DCC8;
-    background:#F0F5F0;overflow:visible;
+    background:#F0F5F0;overflow-x:auto;overflow-y:visible;
     padding-bottom:env(safe-area-inset-bottom);
     box-shadow:0 -2px 12px rgba(0,0,0,.06);
   }
@@ -158,18 +158,17 @@ a.res-pill:hover{background:#D0E8FF}
     display:flex;flex-direction:row;flex:1;width:100%;
   }
   .nav-item{
-    flex:1 1 0;min-width:0;
+    flex:1 1 0;min-width:54px;
     flex-direction:column;gap:2px;
     padding:7px 2px;border-left:none;border-top:3px solid transparent;
     min-height:44px;
-    font-size:8.5px;text-align:center;
+    font-size:10px;text-align:center;
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
     justify-content:center;
   }
   .nav-item > :not(.icon){
-    max-width:100%;overflow:hidden;text-overflow:ellipsis;display:none;
+    max-width:100%;overflow:hidden;text-overflow:ellipsis;display:block;
   }
-  .nav-item.active > :not(.icon){display:block}
   .nav-item.active{border-left-color:transparent;border-top-color:#1D9E75;background:#1D9E75;color:#fff}
   .nav-item .icon{font-size:17px;line-height:1}
 }

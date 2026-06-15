@@ -14,6 +14,7 @@
   // Seed visible from the passed items prop (items is a snapshot; user actions filter locally).
   let visible = $state<QueueItem[]>(items.slice());
   let expanded = $state<Set<string>>(new Set());
+  let actionError = $state('');
 
   const KIND_LABELS: Record<string, string> = {
     'intake-review': 'Intake Review',
@@ -30,12 +31,24 @@
     routine: 'urgency-routine',
   };
 
-  function act(id: string, status: QueueStatus): void {
-    // Optimistically remove from view, fire-and-forget API mutation
+  async function act(id: string, status: QueueStatus): Promise<void> {
+    // Optimistically remove from view; roll back and surface an error if the
+    // server mutation fails so a clinician never believes an item was actioned
+    // when it wasn't.
+    const idx = visible.findIndex((i) => i.id === id);
+    const removed = idx >= 0 ? visible[idx] : undefined;
     visible = visible.filter((i) => i.id !== id);
-    void updateAdminQueueItem({ id, status }).catch(() => {
-      // Best-effort — no rollback needed for admin queue status updates
-    });
+    actionError = '';
+    try {
+      await updateAdminQueueItem({ id, status });
+    } catch {
+      if (removed) {
+        const restored = visible.slice();
+        restored.splice(Math.min(idx, restored.length), 0, removed);
+        visible = restored;
+      }
+      actionError = 'Update failed — the item was restored. Please retry.';
+    }
   }
 
   function toggleExpand(id: string): void {
@@ -46,6 +59,9 @@
 </script>
 
 <div class="queue-list">
+  {#if actionError}
+    <div class="action-error" role="alert">{actionError}</div>
+  {/if}
   {#if visible.length === 0}
     <div class="empty-state">No pending items — queue is clear.</div>
   {/if}
@@ -86,6 +102,16 @@
     padding: 32px;
     color: #1A2E1E;
     font-size: 0.9rem;
+  }
+
+  .action-error {
+    background: rgba(200,30,30,0.08);
+    border: 1px solid rgba(200,30,30,0.3);
+    color: #c81e1e;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
   }
 
   .queue-card {

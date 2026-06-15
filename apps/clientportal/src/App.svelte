@@ -7,19 +7,14 @@
   } from './lib/renderer';
   import Sidebar from './lib/components/Sidebar.svelte';
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
-  import IntakeModule from './lib/components/intake/IntakeModule.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
   import { getMyProfile, upsertMyProfile, recordAdherence } from './lib/api/operations';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
-  import EatingWindowModal from './lib/components/EatingWindowModal.svelte';
   import SettingsView from './lib/components/SettingsView.svelte';
-  import LockedGate from './lib/components/LockedGate.svelte';
   import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
   import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
   import { runNudgeTriggers, updateLastSeen, trackScreenVisit, triggerWeekMilestone } from './lib/nudge/triggers';
-  import UpcomingZooms from './lib/components/UpcomingZooms.svelte';
-  import TodayView from './lib/components/TodayView.svelte';
 
   // ── Schema sentinel + clean-slate wipe ──────────────────────────────────────
   // MUST run before any gating logic reads localStorage.
@@ -201,7 +196,7 @@
 
   function setScore(fId: string, n: number): void {
     workbook.factorScores[fId] = n;
-    showToast(`Factor ${fId} scored ${n} / 5`);
+    showToast(`Factor ${fId} updated`);
     persist();
   }
 
@@ -603,19 +598,6 @@
         };
         console.info('[profile] loaded', diag);
         try { (window as any).__myDiag = diag; } catch {}
-        // Show a small on-screen diagnostic when ?diag=1 is in the URL.
-        try {
-          if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('diag') === '1') {
-            let d = document.getElementById('my4m-diag');
-            if (!d) {
-              d = document.createElement('div');
-              d.id = 'my4m-diag';
-              d.style.cssText = 'position:fixed;bottom:8px;left:8px;z-index:99999;background:#0a1628;color:#9af0c4;padding:10px 12px;font:12px ui-monospace,monospace;max-width:380px;border-radius:6px;line-height:1.4;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:pre-wrap;';
-              document.body.appendChild(d);
-            }
-            d.textContent = 'profile diagnostic:\n' + JSON.stringify(diag, null, 2);
-          }
-        } catch {}
         if (profile?.workbookJson) {
           // AWSJSON may arrive double-encoded — use the same defensive parser
           // (declared below for auditTop3 but applied here too).
@@ -797,10 +779,6 @@
         {bonusTargetsEnabled}
         onUpdated={applySettingsUpdate}
       />
-    {:else if curTab === 'w2' || curTab === 'w3' || curTab === 'w4'}
-      <div style="max-width:640px;padding:32px 8px;color:#A8D8C0;font-size:14px;line-height:1.7">
-        Week {curTab.slice(1)} unlocks when you attest you watched this week's Zoom.
-      </div>
     {:else}
       {@html pageHtml}
     {/if}
