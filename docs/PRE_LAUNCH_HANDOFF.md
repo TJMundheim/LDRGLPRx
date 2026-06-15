@@ -3,7 +3,9 @@
 **Date:** 2026-06-14
 **Audience:** External reviewer evaluating launch-readiness
 **Owner:** Dr. TJ Mundheim (`drtj@my4mlife.com`)
-**Status:** Soft-launch ready except for the Stripe price wiring on 3 of 5 Rx pathways. ~5 hours of TJ-driven work + 2 hours of code-driven work remaining before public marketing trigger.
+**Status:** Soft-launch ready. Stripe price wiring is DONE and deployed (2026-06-15) — see Section 4 #1. Remaining P0 work is TJ-driven (KDP cover/print, E2E test, info@ forwarding). Last code-side blocker (inbound-handler deploy + Stripe wiring) cleared.
+
+**Last updated:** 2026-06-15.
 
 ---
 
@@ -58,11 +60,11 @@ My4MLife is a dual-funnel telehealth + cohort platform built around the **4M Fra
 | App sign-in via OTP (passwordless) | ✅ Live | TJ verified 2026-06-14 |
 | Admin tabs (Protégés + Events) — Queue tab removed | ✅ Live | TJ verified 2026-06-14 |
 | Full Month 1 access in app (no week-gating) | ✅ Live | For UX testing |
-| Direct-buy Rx — GLP-1 questionnaire | ✅ Live | TJ verified 2026-06-13 |
-| Direct-buy Rx — Peptides questionnaire | 🟡 Page live, Stripe price IDs PLACEHOLDER | Built 2026-06-14 |
-| Direct-buy Rx — Leaky Gut questionnaire | 🟡 Page live, Stripe price ID PLACEHOLDER | Built 2026-06-14 |
-| Direct-buy Rx — Testosterone/ED questionnaire | 🟡 Page live, Stripe subscription price PLACEHOLDER | Built 2026-06-14 |
-| Direct-buy Rx — Regenerative intake | ✅ Live | No Stripe needed |
+| Direct-buy Rx — GLP-1 questionnaire (card on file) | ✅ Live | TJ verified 2026-06-13 |
+| Direct-buy Rx — Peptides questionnaire (free consult, no card) | ✅ Live | Converted + deployed 2026-06-15 |
+| Direct-buy Rx — Leaky Gut questionnaire (card on file, $129/mo) | ✅ Live | Price wired + deployed 2026-06-15 |
+| Direct-buy Rx — Testosterone/ED questionnaire ($249 one-time → $129/mo) | ✅ Live | Price wired + deployed 2026-06-15 |
+| Direct-buy Rx — Regenerative intake (free consult, no card) | ✅ Live | No Stripe needed |
 | `/consult` care-coordinator notification | ✅ Live | TJ verified 2026-06-11 |
 | Stripe receipts on workbook purchase | ✅ Live | TJ verified 2026-06-10 |
 | Daily digest counts new Protégés | ✅ Live | Bug fixed + Randall backfilled 2026-06-11 |
@@ -76,15 +78,18 @@ My4MLife is a dual-funnel telehealth + cohort platform built around the **4M Fra
 
 ### 🔴 P0 — Cannot launch without
 
-#### 1. Create 5 Stripe products + wire their price IDs (TJ + Claude, ~30 min total)
-TJ creates in Stripe dashboard (live mode, recurring monthly):
-- Peptide Program — Tier 1 (Foundation) — **$199/month**
-- Peptide Program — Tier 2 (Stack) — **$249/month**
-- Peptide Program — Tier 3 (Advanced) — **$299/month**
-- Biome NS Rx (Leaky Gut) — **$199/month**
-- Testosterone Maintenance — **$129/month**
+#### 1. ✅ DONE 2026-06-15 — Rx pricing model finalized + Stripe prices wired + deployed
+The original 5-tier plan was superseded by a simpler pivot (TJ, 2026-06-15). Final model across the five Rx pathways:
 
-Then sends 5 `price_…` IDs. Claude runs search-replace on the 5 `PLACEHOLDER_*` strings in the questionnaire files (locations in Section 8), rebuilds, deploys. Without this, Peptides / Leaky Gut / Testosterone questionnaires error on step 5.
+| Pathway | Card captured at intake? | Pricing | Stripe price ID |
+|---|---|---|---|
+| GLP-1 (weight-loss) | ✅ Yes (charged only if script written) | per medication | (pre-existing) |
+| **Peptides** | ❌ No — **free consult**, cost unknowable pre-visit | quoted after visit | none (converted to Regenerative-style free-consult intake) |
+| **Leaky Gut (Biome NS Rx)** | ✅ Yes (GLP-style card on file, charged only if script written) | **$129/mo** | `price_1TiY0vBSbDAyoIVyvY1LmKfA` |
+| **Testosterone / ED** | ✅ Yes | **$249 one-time eval → $129/mo maintenance** | first-visit `price_1Tgx2CBSbDAyoIVyCtgT4f25` (one-time, TJ-verified) + maintenance `price_1TiY2tBSbDAyoIVy2shKwNWE` |
+| Regenerative | ❌ No — free consult, custom quote | quoted after visit | none |
+
+All `PLACEHOLDER_*` strings removed; build verified zero placeholders; deployed to production. This was the last code-side launch blocker.
 
 #### 2. KDP book cover wrap upload + first print order (TJ)
 - Upload **v6** PDF (`docs/book/Begin-with-the-End-in-Mind-v6.pdf`) to Amazon KDP as draft — v6 corrects the regenerative-delivery paragraph (intrathecal/cognitive is facility-based at credentialed Centers of Excellence, not in-home; joints + systemic IVs remain nationwide/mobile). 290 pages (v5 was 289). v5 retained for history but is superseded — do not upload v5.
@@ -182,17 +187,16 @@ Then sends 5 `price_…` IDs. Claude runs search-replace on the 5 `PLACEHOLDER_*
 
 ## 6. WHO does WHAT next (24-hour view)
 
-| Owner | Action | Estimate |
-|---|---|---|
-| TJ | Create 5 Stripe products, send 5 price IDs | 15 min |
-| TJ | Configure `info@my4mlife.com` → `drtj@my4mlife.com` forwarder in Google Workspace | 5 min |
-| TJ | Upload v5 PDF to KDP, get cover template | 30 min |
-| TJ | Run E2E test on 4 new Rx questionnaires | 20 min |
-| Claude | Search-replace placeholder price IDs once TJ sends them | 5 min |
-| Claude | Render full KDP wraparound cover once TJ sends template | 15 min |
-| Claude | Deploy `my4mlife-inbound-handler` Lambda | 10 min |
+| Owner | Action | Estimate | Status |
+|---|---|---|---|
+| ~~TJ + Claude~~ | ~~Create Stripe prices + wire price IDs~~ | — | ✅ Done 2026-06-15 |
+| ~~Claude~~ | ~~Deploy `my4mlife-inbound-handler` Lambda~~ | — | ✅ Done 2026-06-14 |
+| TJ | Configure `info@my4mlife.com` → `drtj@my4mlife.com` forwarder in Google Workspace | 5 min | ⏳ Open |
+| TJ | Upload **v6** PDF to KDP, get cover template | 30 min | ⏳ Open |
+| TJ | Run E2E test on the 4 Rx questionnaires (leaky-gut/testosterone card capture; peptides/regenerative free consult) | 20 min | ⏳ Open |
+| Claude | Render full KDP wraparound cover once TJ sends template | 15 min | ⏳ Waiting on TJ |
 
-**Sum:** ~100 min of human + ~30 min of code work to clear all P0 blockers.
+**Remaining to clear all P0:** ~55 min of TJ-driven work + ~15 min of code work (KDP cover render). The two code-side blockers (Stripe wiring, inbound-handler deploy) are done.
 
 ---
 
@@ -395,17 +399,14 @@ infra/
 
 ---
 
-## 9. PLACEHOLDER STRINGS — exact search-replace work for Claude once Stripe prices land
+## 9. PLACEHOLDER STRINGS — ✅ RESOLVED 2026-06-15
 
-| File | Placeholder | Will become |
-|---|---|---|
-| `website/src/pages/rx/peptides/questionnaire.astro` | `PLACEHOLDER_PEPTIDES_TIER1_PRICE_ID` | $199/mo recurring price ID |
-| `website/src/pages/rx/peptides/questionnaire.astro` | `PLACEHOLDER_PEPTIDES_TIER2_PRICE_ID` | $249/mo recurring price ID |
-| `website/src/pages/rx/peptides/questionnaire.astro` | `PLACEHOLDER_PEPTIDES_TIER3_PRICE_ID` | $299/mo recurring price ID |
-| `website/src/pages/rx/leaky-gut/questionnaire.astro` | `PLACEHOLDER_LEAKY_GUT_PRICE_ID` | $199/mo recurring price ID |
-| `website/src/pages/rx/testosterone-ed/questionnaire.astro` | `PLACEHOLDER_TESTOSTERONE_SUBSCRIPTION_PRICE_ID` | $129/mo recurring price ID |
+All Stripe price placeholders have been removed and the pages deployed. Final wiring (see Section 4 #1 for full model):
+- Peptides — 3 tier placeholders removed; converted to free-consult intake (no Stripe).
+- Leaky Gut — `PLACEHOLDER_LEAKY_GUT_PRICE_ID` → `price_1TiY0vBSbDAyoIVyvY1LmKfA` ($129/mo, GLP-style card on file).
+- Testosterone — `PLACEHOLDER_TESTOSTERONE_SUBSCRIPTION_PRICE_ID` → `price_1TiY2tBSbDAyoIVy2shKwNWE` ($129/mo maintenance); one-time eval `price_1Tgx2CBSbDAyoIVyCtgT4f25` (TJ-verified one-time, not recurring).
 
-After replace: `cd website && pnpm build && ./deploy.sh` → Cloudfront invalidation completes in ~2 min.
+Build verified zero placeholders remaining. Unrelated, still-open pre-launch placeholders elsewhere: `PLACEHOLDER_BUTCHERBOX` / `PLACEHOLDER_THRIVE` in `website/src/lib/affiliates.ts` (affiliate codes), and `phc_PLACEHOLDER_REPLACE_BEFORE_LAUNCH` in `website/src/layouts/BaseLayout.astro` (PostHog analytics key) — neither blocks the Rx funnels.
 
 ---
 
