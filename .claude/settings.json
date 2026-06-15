@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(aws logs tail *)",
+      "Bash(aws logs filter-log-events *)",
+      "Bash(aws logs describe-log-groups *)",
+      "Bash(aws lambda get-function *)",
+      "Bash(aws lambda get-function-configuration *)",
+      "Bash(aws lambda list-functions *)",
+      "Bash(aws iam get-role *)",
+      "Bash(aws iam get-role-policy *)",
+      "Bash(aws iam list-roles *)",
+      "Bash(aws iam list-role-policies *)",
+      "Bash(aws cloudfront list-invalidations *)",
+      "Bash(aws cloudfront get-invalidation *)",
+      "Bash(aws sts get-caller-identity *)"
+    ]
+  }
+}
