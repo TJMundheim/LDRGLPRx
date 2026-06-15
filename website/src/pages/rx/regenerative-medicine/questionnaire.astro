@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const title = 'Regenerative Medicine — Care Coordinator Intake | My4MLife';
-const description = 'Brief intake form for our regenerative medicine portfolio. A care coordinator will reach out within 24 hours to quote and schedule.';
+const description = 'Brief intake form for our regenerative medicine portfolio. Save a card on file — no charge today. A care coordinator reaches out within 24 hours with a custom quote; nothing is charged until you approve it.';
 const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnaire';
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
@@ -13,9 +13,9 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
       <p class="q-eyebrow">Regenerative Medicine — Care Coordinator Intake</p>
       <h1 id="q-step-title">Let's get you matched with the right protocol</h1>
       <div class="q-progress" aria-hidden="true">
-        <div class="q-progress-bar" id="q-progress-bar" style="width:25%"></div>
+        <div class="q-progress-bar" id="q-progress-bar" style="width:20%"></div>
       </div>
-      <p class="q-step-counter" id="q-step-counter">Step 1 of 4</p>
+      <p class="q-step-counter" id="q-step-counter">Step 1 of 5</p>
     </header>
 
     <!-- ── Step 1 — Demographics ── -->
@@ -125,14 +125,28 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
       </label>
     </section>
 
-    <!-- ── Step 4 — Review & Submit ── -->
+    <!-- ── Step 4 — Card Capture (Stripe SetupIntent, no price) ── -->
     <section class="q-step" data-step="4" hidden>
+      <h2>Save your payment method</h2>
+      <div class="q-noscope-box">
+        <strong>&#9889; No charge today.</strong>
+        Your card is saved securely with Stripe. Regenerative protocols are per-treatment custom pricing — we only charge after the care coordinator provides your written quote and you approve it. No approval, no charge. We ask up front because a physician consult and evaluation have real cost, and a card on file confirms you're a serious candidate.
+      </div>
+
+      <div id="stripe-card-element" class="q-stripe-card"></div>
+      <p id="stripe-card-error" class="q-stripe-error" role="alert"></p>
+
+      <p class="q-disclaimer">By continuing you authorize My4MLife and the care coordinator to charge this saved payment method for the regenerative protocol you approve after your consult. You can cancel anytime by emailing <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+    </section>
+
+    <!-- ── Step 5 — Review & Submit ── -->
+    <section class="q-step" data-step="5" hidden>
       <h2>Review and submit</h2>
       <p class="q-step-sub">Confirm everything looks right. After submission, our care coordinator will email you within 24 hours with a personalized quote, protocol recommendation, and scheduling options.</p>
 
       <div class="q-noscope-box">
-        <strong>No payment today.</strong>
-        Regenerative protocols are per-treatment custom pricing. The care coordinator will provide a written quote after reviewing your intake, before any commitment.
+        <strong>No charge today — your card is on file.</strong>
+        Regenerative protocols are per-treatment custom pricing. The care coordinator will provide a written quote after reviewing your intake; nothing is charged until you approve that quote.
       </div>
 
       <div id="q-review-summary" class="q-review-summary"></div>
@@ -148,7 +162,7 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
       <div class="q-success">
         <div class="q-success-icon">✓</div>
         <h2>Your intake is in.</h2>
-        <p>Our care coordinator will email you within 24 hours with a personalized quote, protocol recommendation, and scheduling options. No payment is required to receive the quote.</p>
+        <p>Your card is saved securely — no charge has been made. Our care coordinator will email you within 24 hours with a personalized quote, protocol recommendation, and scheduling options. Nothing is charged until you approve your quote.</p>
         <p class="q-success-fine">Questions? Email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
       </div>
     </section>
@@ -161,13 +175,19 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
   </div>
 </section>
 
+<script is:inline src="https://js.stripe.com/v3/"></script>
 <script is:inline define:vars={{
   API_BASE: 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com',
 }}>
 (function() {
-  var totalSteps = 4;
+  var totalSteps = 5;
   var currentStep = 1;
   var payload = {};
+  var stripe = null;
+  var elements = null;
+  var cardElement = null;
+  var setupIntentClientSecret = null;
+  var paymentMethodId = null;
 
   function $(sel) { return document.querySelector(sel); }
   function $$(sel) { return document.querySelectorAll(sel); }
@@ -329,12 +349,73 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
     health += row('Allergies', payload.allergies);
     health += row('Other notes', payload.other);
 
+    var payment = '';
+    payment += row('Payment method', paymentMethodId ? 'Card saved (Stripe …' + paymentMethodId.slice(-6) + ')' : '— not yet saved');
+
     var html = '';
     html += section('Demographics', demographics);
     html += section('Goal & Indication', goal);
     html += section('Health Background', health);
+    html += section('Payment', payment);
 
     $('#q-review-summary').innerHTML = html;
+  }
+
+  async function initStripeCard() {
+    if (cardElement) return;
+    if (!window.Stripe) {
+      $('#stripe-card-error').textContent = 'Stripe failed to load. Refresh and try again.';
+      return;
+    }
+
+    // Create SetupIntent (no price, no charge — just saves the card)
+    var resp = await fetch(API_BASE + '/api/create-setup-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: payload.email || '', firstName: payload.firstName || '', category: 'regenerative' }),
+    });
+    var json = await resp.json();
+    if (!json.clientSecret || !json.publishableKey) {
+      $('#stripe-card-error').textContent = 'Unable to start secure card capture. Please try again.';
+      return;
+    }
+    stripe = Stripe(json.publishableKey);
+    setupIntentClientSecret = json.clientSecret;
+
+    elements = stripe.elements();
+    cardElement = elements.create('card', {
+      style: {
+        base: { fontSize: '16px', color: '#1a1a1a', '::placeholder': { color: '#999' } },
+        invalid: { color: '#d4351c' },
+      },
+    });
+    cardElement.mount('#stripe-card-element');
+    cardElement.addEventListener('change', function(e) {
+      $('#stripe-card-error').textContent = (e.error && e.error.message) || '';
+    });
+  }
+
+  async function confirmStripeCard() {
+    if (!stripe || !cardElement || !setupIntentClientSecret) {
+      $('#stripe-card-error').textContent = 'Stripe is not ready yet.';
+      return false;
+    }
+    var result = await stripe.confirmCardSetup(setupIntentClientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: (payload.firstName || '') + ' ' + (payload.lastName || ''),
+          email: payload.email,
+          phone: payload.phone,
+        },
+      },
+    });
+    if (result.error) {
+      $('#stripe-card-error').textContent = result.error.message || 'Card could not be saved.';
+      return false;
+    }
+    paymentMethodId = result.setupIntent.payment_method;
+    return true;
   }
 
   async function submitIntake() {
@@ -342,6 +423,7 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
       alert('Please confirm the attestation to submit.');
       return;
     }
+    payload.paymentMethodId = paymentMethodId;
     payload.savedAt = new Date().toISOString();
     var fields = {};
     Object.keys(payload).forEach(function(k){ fields[k] = String(payload[k]); });
@@ -380,10 +462,17 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
       });
     });
 
-    $('#q-next').addEventListener('click', function() {
+    $('#q-next').addEventListener('click', async function() {
       if (!collectStep(currentStep)) return;
       currentStep++;
-      if (currentStep === 4) buildReviewSummary();
+      if (currentStep === 4) {
+        await initStripeCard();
+      }
+      if (currentStep === totalSteps) {
+        var ok = await confirmStripeCard();
+        if (!ok) { currentStep--; return; }
+        buildReviewSummary();
+      }
       showStep(currentStep);
     });
 
@@ -430,6 +519,9 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 
 .q-noscope-box { background: #f0fbf6; border: 2px solid var(--accent); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; font-size: 0.95rem; color: #07664c; line-height: 1.5; }
 .q-noscope-box strong { display: block; margin-bottom: 0.4rem; }
+.q-stripe-card { padding: 0.9rem 0.9rem; border: 1px solid var(--border); border-radius: 8px; background: #fff; margin: 1rem 0 0.5rem; }
+.q-stripe-error { color: #d4351c; font-size: 0.9rem; min-height: 1.2rem; margin: 0; }
+.q-disclaimer { font-size: 0.82rem; color: var(--text-light); margin: 1rem 0 0; line-height: 1.55; }
 
 .q-review-summary { background: transparent; margin: 1rem 0; }
 .q-review-section { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem 1rem; margin: 0 0 1rem; }

@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const title = 'Peptides — Care Coordinator Intake | My4MLife';
-const description = 'Brief intake for the My4MLife Peptides program. A care coordinator reaches out within 24 hours to schedule your no-charge consult and telemedicine visit. No payment today.';
+const description = 'Brief intake for the My4MLife Peptides program. Save a card on file — no charge today. You are only charged after your physician determines your protocol and you approve it.';
 const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
@@ -13,9 +13,9 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       <p class="q-eyebrow">Peptides — Care Coordinator Intake</p>
       <h1 id="q-step-title">Let's get you matched with a physician</h1>
       <div class="q-progress" aria-hidden="true">
-        <div class="q-progress-bar" id="q-progress-bar" style="width:25%"></div>
+        <div class="q-progress-bar" id="q-progress-bar" style="width:20%"></div>
       </div>
-      <p class="q-step-counter" id="q-step-counter">Step 1 of 4</p>
+      <p class="q-step-counter" id="q-step-counter">Step 1 of 5</p>
     </header>
 
     <!-- ── Step 1 — Demographics ── -->
@@ -119,14 +119,28 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       </label>
     </section>
 
-    <!-- ── Step 4 — Review & Submit ── -->
+    <!-- ── Step 4 — Card Capture (Stripe SetupIntent, no price) ── -->
     <section class="q-step" data-step="4" hidden>
+      <h2>Save your payment method</h2>
+      <div class="q-noscope-box">
+        <strong>&#9889; No charge today.</strong>
+        Your card is saved securely with Stripe. We only charge it after your physician determines your peptide protocol and you approve it — and only if a script is written. No approval, no charge. We ask up front because a physician consult and telemedicine visit have real cost, and a card on file confirms you're a serious candidate.
+      </div>
+
+      <div id="stripe-card-element" class="q-stripe-card"></div>
+      <p id="stripe-card-error" class="q-stripe-error" role="alert"></p>
+
+      <p class="q-disclaimer">By continuing you authorize My4MLife and our network physicians to charge this saved payment method for the peptide protocol you approve after your consult. You can cancel anytime by emailing <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+    </section>
+
+    <!-- ── Step 5 — Review & Submit ── -->
+    <section class="q-step" data-step="5" hidden>
       <h2>Review and submit</h2>
-      <p class="q-step-sub">Confirm everything looks right. After submission, our care coordinator will email you within 24 hours to schedule your no-charge consult and telemedicine visit.</p>
+      <p class="q-step-sub">Confirm everything looks right. After submission, our care coordinator will email you within 24 hours to schedule your consult and telemedicine visit.</p>
 
       <div class="q-noscope-box">
-        <strong>No payment today.</strong>
-        Your care-coordinator consult and telemedicine visit are at no charge. The right peptide protocol — and its cost — can only be determined after your physician visit, so the care coordinator will provide pricing then, before anything ships.
+        <strong>No charge today — your card is on file.</strong>
+        Your consult and telemedicine visit are at no charge. The right peptide protocol — and its cost — are determined at your physician visit; you approve the protocol and price before your saved card is ever charged.
       </div>
 
       <div id="q-review-summary" class="q-review-summary"></div>
@@ -142,7 +156,7 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       <div class="q-success">
         <div class="q-success-icon">&#10003;</div>
         <h2>Your intake is in.</h2>
-        <p>Our care coordinator will email you within 24 hours to schedule your no-charge consult and telemedicine visit. No payment is required, and your physician will determine the right peptide protocol and pricing during that visit.</p>
+        <p>Your card is saved securely — no charge has been made. Our care coordinator will email you within 24 hours to schedule your consult and telemedicine visit. Your physician determines the right peptide protocol during that visit, and you approve the protocol and price before your card is ever charged.</p>
         <p class="q-success-fine">Questions? Email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
       </div>
     </section>
@@ -155,14 +169,20 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
   </div>
 </section>
 
+<script is:inline src="https://js.stripe.com/v3/"></script>
 <script is:inline define:vars={{
   API_BASE: 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com',
 }}>
 (function() {
   // ── State ──
-  var totalSteps = 4;
+  var totalSteps = 5;
   var currentStep = 1;
   var payload = {};
+  var stripe = null;
+  var elements = null;
+  var cardElement = null;
+  var setupIntentClientSecret = null;
+  var paymentMethodId = null;
 
   // ── Helpers ──
   function $(sel) { return document.querySelector(sel); }
@@ -307,12 +327,73 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
     screening += row('Cancer / immune condition', payload.cancerImmune);
     screening += row('Other notes', payload.other);
 
+    var payment = '';
+    payment += row('Payment method', paymentMethodId ? 'Card saved (Stripe …' + paymentMethodId.slice(-6) + ')' : '— not yet saved');
+
     var html = '';
     html += section('Demographics', demographics);
     html += section('Health', health);
     html += section('Peptide Screening', screening);
+    html += section('Payment', payment);
 
     $('#q-review-summary').innerHTML = html;
+  }
+
+  async function initStripeCard() {
+    if (cardElement) return;
+    if (!window.Stripe) {
+      $('#stripe-card-error').textContent = 'Stripe failed to load. Refresh and try again.';
+      return;
+    }
+
+    // Create SetupIntent (no price, no charge — just saves the card)
+    var resp = await fetch(API_BASE + '/api/create-setup-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: payload.email || '', firstName: payload.firstName || '', category: 'peptides' }),
+    });
+    var json = await resp.json();
+    if (!json.clientSecret || !json.publishableKey) {
+      $('#stripe-card-error').textContent = 'Unable to start secure card capture. Please try again.';
+      return;
+    }
+    stripe = Stripe(json.publishableKey);
+    setupIntentClientSecret = json.clientSecret;
+
+    elements = stripe.elements();
+    cardElement = elements.create('card', {
+      style: {
+        base: { fontSize: '16px', color: '#1a1a1a', '::placeholder': { color: '#999' } },
+        invalid: { color: '#d4351c' },
+      },
+    });
+    cardElement.mount('#stripe-card-element');
+    cardElement.addEventListener('change', function(e) {
+      $('#stripe-card-error').textContent = (e.error && e.error.message) || '';
+    });
+  }
+
+  async function confirmStripeCard() {
+    if (!stripe || !cardElement || !setupIntentClientSecret) {
+      $('#stripe-card-error').textContent = 'Stripe is not ready yet.';
+      return false;
+    }
+    var result = await stripe.confirmCardSetup(setupIntentClientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: (payload.firstName || '') + ' ' + (payload.lastName || ''),
+          email: payload.email,
+          phone: payload.phone,
+        },
+      },
+    });
+    if (result.error) {
+      $('#stripe-card-error').textContent = result.error.message || 'Card could not be saved.';
+      return false;
+    }
+    paymentMethodId = result.setupIntent.payment_method;
+    return true;
   }
 
   async function submitIntake() {
@@ -320,6 +401,7 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       alert('Please confirm the attestation to submit.');
       return;
     }
+    payload.paymentMethodId = paymentMethodId;
     payload.savedAt = new Date().toISOString();
     var fields = {};
     Object.keys(payload).forEach(function(k){ fields[k] = String(payload[k]); });
@@ -373,10 +455,18 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       });
     });
 
-    $('#q-next').addEventListener('click', function() {
+    $('#q-next').addEventListener('click', async function() {
       if (!collectStep(currentStep)) return;
       currentStep++;
-      if (currentStep === totalSteps) buildReviewSummary();
+      if (currentStep === 4) {
+        await initStripeCard();
+      }
+      if (currentStep === totalSteps) {
+        // Need card saved before review step
+        var ok = await confirmStripeCard();
+        if (!ok) { currentStep--; return; }
+        buildReviewSummary();
+      }
       showStep(currentStep);
     });
 
@@ -426,6 +516,9 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 
 .q-noscope-box { background: #f0fbf6; border: 2px solid var(--accent); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; font-size: 0.95rem; color: #07664c; line-height: 1.5; }
 .q-noscope-box strong { display: block; margin-bottom: 0.4rem; }
+.q-stripe-card { padding: 0.9rem 0.9rem; border: 1px solid var(--border); border-radius: 8px; background: #fff; margin: 1rem 0 0.5rem; }
+.q-stripe-error { color: #d4351c; font-size: 0.9rem; min-height: 1.2rem; margin: 0; }
+.q-disclaimer { font-size: 0.82rem; color: var(--text-light); margin: 1rem 0 0; line-height: 1.55; }
 
 .q-review-summary { background: transparent; margin: 1rem 0; }
 .q-review-section { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem 1rem; margin: 0 0 1rem; }
