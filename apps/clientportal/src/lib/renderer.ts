@@ -278,12 +278,14 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
 }
 
 function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
-  const exercises: Array<[string, string]> = [
-    ['squat', 'Squat / goblet squat'],
-    ['hingeRDL', 'Hip hinge / RDL'],
-    ['pushPull', 'Push + pull superset'],
-    ['zone2', 'Zone 2 walk (minutes)'],
-    ['kotSession', 'KOT session (Y/N)']
+  // Per-exercise completion checkboxes — one tap, nothing to type.
+  // Zone 2 cardio + HIIT are optional (not done every session) but always available to check off.
+  const exercises: Array<[string, string, boolean]> = [
+    ['squat', 'Squat / goblet squat', false],
+    ['hingeRDL', 'Hip hinge / RDL', false],
+    ['pushPull', 'Push + pull superset', false],
+    ['zone2', 'Zone 2 cardio', true],
+    ['hiit', 'HIIT training', true]
   ];
   const days = ['Day 1', 'Day 2', 'Day 3'];
   const color = '#E05C2A';
@@ -336,38 +338,24 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
 
     <div class="card-title" style="font-size:10px;margin-bottom:6px">WORKOUT LOG — WEEK ${w}</div>
     <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px">
-      Log 3 sessions this week — recommend every other day (Mon/Wed/Fri or Tue/Thu/Sat). Pick the days that work for you.
-      Day 1 = baseline retest above; build Days 2 & 3 from those new numbers.
+      3 sessions this week — recommend every other day (Mon/Wed/Fri or Tue/Thu/Sat). Just tap to check off what you did; no numbers to log here. Day 1 is your retest day above.
     </div>`;
   return baselineHeader + `
     ${days.map((dLabel, di) => {
       const d = di + 1;
       return `
       <div style="border:1px solid rgba(224,92,42,.2);border-radius:9px;padding:12px;margin-bottom:10px;background:rgba(224,92,42,.03)">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px;flex-wrap:wrap">
-          <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em">${dLabel.toUpperCase()}</div>
-          <div style="display:flex;gap:6px;align-items:center;font-size:10px;color:#6A8A6E">
-            <label for="wlog-w${w}d${d}-date" style="font-size:10px;margin:0">Date</label>
-            <input id="wlog-w${w}d${d}-date" type="date" style="font-size:10px;max-width:140px"
-              value="${esc(W.trainLog[`w${w}d${d}_date`] ?? '')}"
-              oninput="portalField('trainLog.w${w}d${d}_date',this.value)">
-          </div>
-        </div>
-        <div style="overflow-x:auto">
-        <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:5px;min-width:340px">
-          ${['Exercise', 'Weight / Resistance', 'Reps / Duration', 'Notes'].map(h =>
-            `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
-          ).join('')}
-        </div>
-        ${exercises.map(([k, l]) => `
-          <div style="display:grid;grid-template-columns:1.6fr 1fr 0.8fr 1.2fr;gap:8px;margin-bottom:6px;align-items:center;min-width:340px">
-            <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.15);border-radius:7px;
-              padding:7px 9px;font-size:11px;color:#5A3020">${l}</div>
-            ${['weight', 'reps', 'notes'].map(f => `
-              <input placeholder="${f}" style="font-size:11px"
-                value="${esc(W.trainLog[`w${w}d${d}_${k}_${f}`] ?? '')}"
-                oninput="portalField('trainLog.w${w}d${d}_${k}_${f}',this.value)">`).join('')}
-          </div>`).join('')}
+        <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:10px">${dLabel.toUpperCase()}</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+        ${exercises.map(([k, l, opt]) => {
+          const done = W.trainLog[`w${w}d${d}_${k}_done`] === '1';
+          return `
+          <label style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1.5px solid ${done ? '#1D9E75' : '#D8E8DC'};border-radius:8px;background:${done ? '#EAF7EF' : '#FFFFFF'};cursor:pointer;font-size:12.5px;color:#1A2E1E">
+            <input type="checkbox" ${done ? 'checked' : ''} style="width:20px;height:20px;flex-shrink:0;accent-color:#1D9E75;cursor:pointer"
+              onchange="var l=this.closest('label');l.style.borderColor=this.checked?'#1D9E75':'#D8E8DC';l.style.background=this.checked?'#EAF7EF':'#FFFFFF';window.portalField&&window.portalField('trainLog.w${w}d${d}_${k}_done',this.checked?'1':'')">
+            <span style="flex:1">${l}${opt ? ` <span style="font-size:10px;color:#8AB89A">(optional)</span>` : ``}</span>
+          </label>`;
+        }).join('')}
         </div>
       </div>`;
     }).join('')}`;
@@ -645,6 +633,73 @@ function renderConsultCTA(): string {
   </div>`;
 }
 
+// Strength trend — the weekly Monday retest numbers laid out side by side, with the
+// month-over-month change. This is the "month in review" view, surfaced on the dashboard
+// so progress is always visible.
+//
+// FORWARD-COMPATIBLE FOR THE FULL PROGRAM ARC: today the columns read Month 1's weekly
+// baseline keys (`w1..w4_baseline_<metric>`). As Months 2-6 ship, append their columns here
+// using month-prefixed keys (e.g. `m2w1_baseline_<metric>`) and the same trend renders across
+// the entire time a Protégé stays engaged. The metric set never changes, so the line stays
+// continuous month over month.
+function strengthTrendCard(W: Workbook): string {
+  const metrics: Array<[string, string, string]> = [
+    ['pushups', 'Max push-ups', ''],
+    ['pullups', 'Max pull-ups', ''],
+    ['squats', 'Max air squats', ''],
+    ['plankSec', 'Plank hold', 's'],
+    ['deadhang', 'Dead hang', 's']
+  ];
+  // Month 1 week columns. (Cross-month: future months append their own [label, keyPrefix] pairs.)
+  const cols: Array<[string, string]> = [['W1', 'w1'], ['W2', 'w2'], ['W3', 'w3'], ['W4', 'w4']];
+
+  const val = (k: string, wk: string): string => W.trainLog[`${wk}_baseline_${k}`] ?? '';
+  const anyData = metrics.some(([k]) => cols.some(([, wk]) => val(k, wk) !== ''));
+
+  const head = `<div class="card"><div class="card-title">⭐ Strength Trend — Month 1</div>`;
+
+  if (!anyData) {
+    return head + `<div style="font-size:12px;color:#6A8A6E;line-height:1.6">
+      Every Monday you'll retest five basics — push-ups, pull-ups, air squats, plank hold, dead hang —
+      in your weekly workout. Your week-over-week progress shows up here, side by side, so you can watch the numbers climb.
+      This trend keeps following you across every month you stay in the program.
+    </div></div>`;
+  }
+
+  const cellCols = `1.5fr repeat(${cols.length}, 1fr) 0.7fr`;
+  const headRow = `<div style="display:grid;grid-template-columns:${cellCols};gap:6px;margin-bottom:6px;min-width:360px">
+    ${['Test', ...cols.map(([l]) => l), 'Δ'].map(h =>
+      `<div style="font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6A8A6E;text-align:center">${h}</div>`
+    ).join('')}
+  </div>`;
+
+  const rows = metrics.map(([k, label, unit]) => {
+    const vals = cols.map(([, wk]) => val(k, wk));
+    const present = vals.map((v, i) => [v, i] as [string, number]).filter(([v]) => v !== '');
+    let deltaCell = '—';
+    let dColor = '#6A8A6E';
+    if (present.length >= 2) {
+      const first = Number(present[0][0]);
+      const last = Number(present[present.length - 1][0]);
+      if (!isNaN(first) && !isNaN(last)) {
+        const delta = last - first;
+        dColor = delta > 0 ? '#1D9E75' : delta < 0 ? '#E05C2A' : '#6A8A6E';
+        deltaCell = (delta > 0 ? '+' : '') + delta;
+      }
+    }
+    return `<div style="display:grid;grid-template-columns:${cellCols};gap:6px;margin-bottom:6px;align-items:center;min-width:360px">
+      <div style="font-size:11px;color:#5A3020;font-weight:600">${label}</div>
+      ${vals.map(v => `<div style="font-size:12px;color:${v ? '#1A2E1E' : '#C8C8C8'};text-align:center">${v ? esc(v) + unit : '—'}</div>`).join('')}
+      <div style="font-size:12px;font-weight:700;color:${dColor};text-align:center">${deltaCell}</div>
+    </div>`;
+  }).join('');
+
+  return head + `
+    <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px;line-height:1.5">Your weekly Monday retest, side by side. Δ = change from your first logged week to your latest. This trend keeps tracking across every month you stay in the program.</div>
+    <div style="overflow-x:auto"><div style="min-width:360px">${headRow}${rows}</div></div>
+    </div>`;
+}
+
 function renderDash(W: Workbook): string {
   const m = mornings(W), c = colds(W);
   // Use intake audit data (localStorage audit-v1) for dashboard stats
@@ -721,6 +776,8 @@ function renderDash(W: Workbook): string {
         </div>
       </div>`).join('')}
   </div>
+
+  ${strengthTrendCard(W)}
 
   ${renderConsultCTA()}
 
