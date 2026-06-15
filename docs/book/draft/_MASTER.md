@@ -1209,7 +1209,11 @@ This is why intrathecal Muse cells, in my assessment, represent the current best
 
 I will not call it a cure. I will not call it a miracle. I will call it what it is: the most direct, most targeted, most mechanistically coherent regenerative intervention currently available for a brain that has already begun to decline. Best-available is the standard. Best-available is what we offer.
 
-Delivery is nationwide and mobile. The protocol does not require the patient to fly to a clinic in another state, stay in a hotel for a week, and convalesce far from home. We bring it to you. For a patient already showing cognitive symptoms, the disruption of travel is itself a clinical insult, and we are not in the business of layering insults on top of disease.
+A word on delivery, because it is not the same for every indication. Our joint and orthopedic regenerative work, and our systemic IV therapies, are genuinely nationwide and mobile — we bring those to you. No flight to a clinic in another state, no week in a hotel, no convalescing far from home.
+
+Intrathecal administration is different, and I want to be exact about it. Placing cells into the cerebrospinal fluid is a sterile, facility-dependent procedure — it cannot, and should not, be performed in a home setting. For that reason we have credentialed a network of Centers of Excellence across the country: facilities we have vetted for the equipment, the personnel, and the standard of care this procedure demands. We do not point you toward whoever happens to be closest. We match you to the right center for your condition. And because, for a patient already showing cognitive symptoms, the disruption of travel is itself a clinical insult, we carry the burden of coordination ourselves and keep that footprint as small as your situation allows — we are not in the business of layering insults on top of disease.
+
+To begin, go to www.my4mlife.com, open the Regenerative Medicine section, and schedule a consult with a care coordinator. They will review your case and coordinate you with the best facility in the country for your condition.
 
 ## Where It Fits With the Rest of 4M
 

@@ -87,7 +87,7 @@ TJ creates in Stripe dashboard (live mode, recurring monthly):
 Then sends 5 `price_…` IDs. Claude runs search-replace on the 5 `PLACEHOLDER_*` strings in the questionnaire files (locations in Section 8), rebuilds, deploys. Without this, Peptides / Leaky Gut / Testosterone questionnaires error on step 5.
 
 #### 2. KDP book cover wrap upload + first print order (TJ)
-- Upload v5 PDF (`docs/book/Begin-with-the-End-in-Mind-v5.pdf`) to Amazon KDP as draft
+- Upload **v6** PDF (`docs/book/Begin-with-the-End-in-Mind-v6.pdf`) to Amazon KDP as draft — v6 corrects the regenerative-delivery paragraph (intrathecal/cognitive is facility-based at credentialed Centers of Excellence, not in-home; joints + systemic IVs remain nationwide/mobile). 290 pages (v5 was 289). v5 retained for history but is superseded — do not upload v5.
 - Get KDP-generated cover trim template (depends on final page count + paper choice)
 - Send template to Claude → renders full wraparound PDF (front + spine + back)
 - Approve KDP print proof
@@ -324,7 +324,8 @@ lambdas/
 ### Book + workbook source
 ```
 docs/book/
-├── Begin-with-the-End-in-Mind-v5.pdf       ← LATEST PRINT-READY PDF
+├── Begin-with-the-End-in-Mind-v6.pdf       ← LATEST PRINT-READY PDF (regenerative-delivery fix, 290pp)
+├── Begin-with-the-End-in-Mind-v5.pdf       ← superseded by v6
 ├── render.py                               ← markdown → HTML → PDF
 ├── corpus-manifest.md
 ├── cover/
