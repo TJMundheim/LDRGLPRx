@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
-const title = 'Peptides — Health Questionnaire | My4MLife';
-const description = 'Complete your health questionnaire for the My4MLife Peptides program. Physician review. Card on file but no charge until approved.';
+const title = 'Peptides — Care Coordinator Intake | My4MLife';
+const description = 'Brief intake for the My4MLife Peptides program. A care coordinator reaches out within 24 hours to schedule your no-charge consult and telemedicine visit. No payment today.';
 const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
@@ -10,18 +10,18 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
 <section class="q-section">
   <div class="container q-inner">
     <header class="q-header">
-      <p class="q-eyebrow">Peptides Telemedicine Intake</p>
+      <p class="q-eyebrow">Peptides — Care Coordinator Intake</p>
       <h1 id="q-step-title">Let's get you matched with a physician</h1>
       <div class="q-progress" aria-hidden="true">
-        <div class="q-progress-bar" id="q-progress-bar" style="width:14%"></div>
+        <div class="q-progress-bar" id="q-progress-bar" style="width:25%"></div>
       </div>
-      <p class="q-step-counter" id="q-step-counter">Step 1 of 6</p>
+      <p class="q-step-counter" id="q-step-counter">Step 1 of 4</p>
     </header>
 
     <!-- ── Step 1 — Demographics ── -->
     <section class="q-step" data-step="1">
       <h2>About you</h2>
-      <p class="q-step-sub">We need this to ship your medication and verify your identity.</p>
+      <p class="q-step-sub">A care coordinator will use this to follow up within 24 hours.</p>
       <div class="q-grid-2">
         <label class="q-field">First name <input type="text" data-q="firstName" required></label>
         <label class="q-field">Last name <input type="text" data-q="lastName" required></label>
@@ -36,7 +36,7 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
           </select>
         </label>
       </div>
-      <h3>Shipping address</h3>
+      <h3>Mailing address (for follow-up materials)</h3>
       <div class="q-grid-2">
         <label class="q-field q-field-wide">Street address <input type="text" data-q="address1" required></label>
         <label class="q-field q-field-wide">Apt / Suite (optional) <input type="text" data-q="address2"></label>
@@ -119,68 +119,21 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       </label>
     </section>
 
-    <!-- ── Step 4 — Medication Selection ── -->
+    <!-- ── Step 4 — Review & Submit ── -->
     <section class="q-step" data-step="4" hidden>
-      <h2>Pick your Peptide program</h2>
-      <p class="q-step-sub">Your physician makes the final call during review — but you can indicate your preference here. Each subscription bundles the consult, the peptide(s), and ongoing follow-ups as needed.</p>
-
-      <div class="q-med-grid">
-        <label class="q-med-card">
-          <input type="radio" name="medication" value="peptide-tier1-foundation" data-q="medication" data-price="PLACEHOLDER_PEPTIDES_TIER1_PRICE_ID">
-          <div class="q-med-body">
-            <p class="q-med-tier">Peptide Program — Tier 1 (Foundation)</p>
-            <h3>Foundation</h3>
-            <p class="q-med-tag">Single-peptide protocol — BPC-157 for tissue repair, Semax for cognition, DSIP for sleep — picked by physician based on your goal.</p>
-            <p class="q-med-price">$199<span>/month</span></p>
-          </div>
-        </label>
-
-        <label class="q-med-card q-med-card-mid">
-          <input type="radio" name="medication" value="peptide-tier2-stack" data-q="medication" data-price="PLACEHOLDER_PEPTIDES_TIER2_PRICE_ID">
-          <div class="q-med-body">
-            <p class="q-med-tier">Peptide Program — Tier 2 (Stack)</p>
-            <h3>Stack</h3>
-            <p class="q-med-tag">Two-peptide combination — CJC-1295/Ipamorelin growth-hormone stack, BPC-157 + KPV gut stack, Selank/Semax cognitive stack.</p>
-            <p class="q-med-price">$249<span>/month</span></p>
-          </div>
-        </label>
-
-        <label class="q-med-card q-med-card-top">
-          <input type="radio" name="medication" value="peptide-tier3-advanced" data-q="medication" data-price="PLACEHOLDER_PEPTIDES_TIER3_PRICE_ID">
-          <div class="q-med-body">
-            <p class="q-med-tier">Peptide Program — Tier 3 (Advanced)</p>
-            <h3>Advanced</h3>
-            <p class="q-med-tag">Premium peptides — Tesamorelin, Thymosin Alpha-1, MOTS-c, Epitalon — physician-selected for higher-touch protocols.</p>
-            <p class="q-med-price">$299<span>/month</span></p>
-          </div>
-        </label>
-      </div>
-    </section>
-
-    <!-- ── Step 5 — Card Capture (Stripe SetupIntent) ── -->
-    <section class="q-step" data-step="5" hidden>
-      <h2>Save your payment method</h2>
-      <div class="q-noscope-box">
-        <strong>&#9889; Your card will not be charged today.</strong>
-        It is saved securely with Stripe and will only be charged once a physician reviews your case and approves your script. If you are not approved, no charge is made.
-      </div>
-
-      <div id="stripe-card-element" class="q-stripe-card"></div>
-      <p id="stripe-card-error" class="q-stripe-error" role="alert"></p>
-
-      <p class="q-disclaimer">By continuing you authorize My4MLife and our network physicians to use this saved payment method to charge your selected monthly subscription if and when a script is written for you. You can cancel anytime by emailing <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
-    </section>
-
-    <!-- ── Step 6 — Review & Submit ── -->
-    <section class="q-step" data-step="6" hidden>
       <h2>Review and submit</h2>
-      <p class="q-step-sub">Confirm everything looks right. After submission, our care coordinator will email you within 24 hours to confirm next steps with the network physician.</p>
+      <p class="q-step-sub">Confirm everything looks right. After submission, our care coordinator will email you within 24 hours to schedule your no-charge consult and telemedicine visit.</p>
+
+      <div class="q-noscope-box">
+        <strong>No payment today.</strong>
+        Your care-coordinator consult and telemedicine visit are at no charge. The right peptide protocol — and its cost — can only be determined after your physician visit, so the care coordinator will provide pricing then, before anything ships.
+      </div>
 
       <div id="q-review-summary" class="q-review-summary"></div>
 
       <label class="q-checkbox-row">
         <input type="checkbox" id="q-attestation" required>
-        <span>I attest the information above is accurate to the best of my knowledge. I understand a real physician will review my submission, and that no medication will ship without a written script. I authorize My4MLife and the network physician to contact me by email or phone.</span>
+        <span>I attest the information above is accurate to the best of my knowledge. I understand a real physician will review my submission, and that no medication will ship without a written script. I authorize My4MLife and the care coordinator to contact me by email or phone.</span>
       </label>
     </section>
 
@@ -188,8 +141,8 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
     <section class="q-step" data-step="success" hidden>
       <div class="q-success">
         <div class="q-success-icon">&#10003;</div>
-        <h2>Your submission is in.</h2>
-        <p>Our care coordinator will email you within 24 hours to confirm the next step with the network physician. Your card has been saved securely with Stripe — no charge has been made and none will be made until your script is approved.</p>
+        <h2>Your intake is in.</h2>
+        <p>Our care coordinator will email you within 24 hours to schedule your no-charge consult and telemedicine visit. No payment is required, and your physician will determine the right peptide protocol and pricing during that visit.</p>
         <p class="q-success-fine">Questions? Email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
       </div>
     </section>
@@ -197,25 +150,19 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
     <div class="q-nav" id="q-nav">
       <button type="button" class="q-btn q-btn-secondary" id="q-back" hidden>&larr; Back</button>
       <button type="button" class="q-btn q-btn-primary" id="q-next">Continue &rarr;</button>
-      <button type="button" class="q-btn q-btn-primary" id="q-submit" hidden>Submit My Questionnaire &rarr;</button>
+      <button type="button" class="q-btn q-btn-primary" id="q-submit" hidden>Submit My Intake &rarr;</button>
     </div>
   </div>
 </section>
 
-<script is:inline src="https://js.stripe.com/v3/"></script>
 <script is:inline define:vars={{
   API_BASE: 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com',
 }}>
 (function() {
   // ── State ──
-  var totalSteps = 6;
+  var totalSteps = 4;
   var currentStep = 1;
   var payload = {};
-  var stripe = null;
-  var elements = null;
-  var cardElement = null;
-  var setupIntentClientSecret = null;
-  var paymentMethodId = null;
 
   // ── Helpers ──
   function $(sel) { return document.querySelector(sel); }
@@ -231,7 +178,6 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
     var nav = document.getElementById('q-nav');
 
     if (n === 'success') {
-      // Submitted — hide all step chrome. The success card carries its own heading + copy.
       if (header) header.style.display = 'none';
       if (nav) nav.style.display = 'none';
       return;
@@ -259,7 +205,6 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
     primaryGoal: 'Primary goal', priorPeptide: 'Prior peptide use',
     injectableComfort: 'Injectable comfort', pregnancy: 'Pregnancy status',
     cancerImmune: 'Cancer / immune condition',
-    medication: 'Program selection',
   };
 
   function collectStep(n) {
@@ -268,15 +213,12 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
     var missing = [];
     var firstMissingEl = null;
 
-    // Clear previous error highlights on this step
     step.querySelectorAll('.q-error').forEach(function(el) { el.classList.remove('q-error'); });
 
-    // Inputs / selects / textareas with data-q (skip radios — handled below)
     step.querySelectorAll('[data-q]').forEach(function(field) {
-      if (field.type === 'radio') return; // handled separately
+      if (field.type === 'radio') return;
       var name = field.getAttribute('data-q');
       var val = (field.value || '').trim();
-      // Skip hidden fields (conditional UI like pregnancy block)
       if (field.offsetParent === null && field.tagName !== 'SELECT') return;
       if (val) payload[name] = val;
       if (field.hasAttribute('required') && !val) {
@@ -286,11 +228,9 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       }
     });
 
-    // Radio groups (each group considered required if ANY radio in it is required)
     var radioGroups = {};
     step.querySelectorAll('input[type=radio]').forEach(function(r) {
       var name = r.name;
-      // Skip radios in hidden blocks (conditional UI)
       var parentFieldset = r.closest('fieldset');
       if (parentFieldset && parentFieldset.offsetParent === null) return;
       if (!radioGroups[name]) {
@@ -367,87 +307,19 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
     screening += row('Cancer / immune condition', payload.cancerImmune);
     screening += row('Other notes', payload.other);
 
-    var labels = {
-      'peptide-tier1-foundation': 'Peptide Program — Tier 1 (Foundation) — $199/mo',
-      'peptide-tier2-stack': 'Peptide Program — Tier 2 (Stack) — $249/mo',
-      'peptide-tier3-advanced': 'Peptide Program — Tier 3 (Advanced) — $299/mo',
-    };
-    var program = '';
-    program += row('Program', labels[payload.medication] || payload.medication);
-    program += row('Payment method', paymentMethodId ? 'Card saved (Stripe …' + paymentMethodId.slice(-6) + ')' : '— not yet saved');
-
     var html = '';
     html += section('Demographics', demographics);
     html += section('Health', health);
     html += section('Peptide Screening', screening);
-    html += section('Selected Program', program);
 
     $('#q-review-summary').innerHTML = html;
   }
 
-  async function initStripeCard() {
-    if (cardElement) return;
-    if (!window.Stripe) {
-      $('#stripe-card-error').textContent = 'Stripe failed to load. Refresh and try again.';
-      return;
-    }
-
-    // Create SetupIntent (Lambda returns clientSecret + publishableKey from Secrets Manager)
-    var resp = await fetch(API_BASE + '/api/create-setup-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: payload.email || '', firstName: payload.firstName || '', category: 'peptides' }),
-    });
-    var json = await resp.json();
-    if (!json.clientSecret || !json.publishableKey) {
-      $('#stripe-card-error').textContent = 'Unable to start secure card capture. Please try again.';
-      return;
-    }
-    stripe = Stripe(json.publishableKey);
-    setupIntentClientSecret = json.clientSecret;
-
-    elements = stripe.elements();
-    cardElement = elements.create('card', {
-      style: {
-        base: { fontSize: '16px', color: '#1a1a1a', '::placeholder': { color: '#999' } },
-        invalid: { color: '#d4351c' },
-      },
-    });
-    cardElement.mount('#stripe-card-element');
-    cardElement.addEventListener('change', function(e) {
-      $('#stripe-card-error').textContent = (e.error && e.error.message) || '';
-    });
-  }
-
-  async function confirmStripeCard() {
-    if (!stripe || !cardElement || !setupIntentClientSecret) {
-      $('#stripe-card-error').textContent = 'Stripe is not ready yet.';
-      return false;
-    }
-    var result = await stripe.confirmCardSetup(setupIntentClientSecret, {
-      payment_method: {
-        card: cardElement,
-        billing_details: {
-          name: (payload.firstName || '') + ' ' + (payload.lastName || ''),
-          email: payload.email,
-          phone: payload.phone,
-        },
-      },
-    });
-    if (result.error) {
-      $('#stripe-card-error').textContent = result.error.message || 'Card could not be saved.';
-      return false;
-    }
-    paymentMethodId = result.setupIntent.payment_method;
-    return true;
-  }
-
-  async function submitQuestionnaire() {
+  async function submitIntake() {
     if (!$('#q-attestation').checked) {
       alert('Please confirm the attestation to submit.');
       return;
     }
-    payload.paymentMethodId = paymentMethodId;
     payload.savedAt = new Date().toISOString();
     var fields = {};
     Object.keys(payload).forEach(function(k){ fields[k] = String(payload[k]); });
@@ -501,22 +373,10 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       });
     });
 
-    $('#q-next').addEventListener('click', async function() {
+    $('#q-next').addEventListener('click', function() {
       if (!collectStep(currentStep)) return;
-      if (currentStep === 4 && !payload.medication) {
-        alert('Please pick a program to continue.');
-        return;
-      }
       currentStep++;
-      if (currentStep === 5) {
-        await initStripeCard();
-      }
-      if (currentStep === 6) {
-        // Need card saved before review step
-        var ok = await confirmStripeCard();
-        if (!ok) { currentStep--; return; }
-        buildReviewSummary();
-      }
+      if (currentStep === totalSteps) buildReviewSummary();
       showStep(currentStep);
     });
 
@@ -527,9 +387,7 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       }
     });
 
-    $('#q-submit').addEventListener('click', async function() {
-      await submitQuestionnaire();
-    });
+    $('#q-submit').addEventListener('click', submitIntake);
   });
 })();
 </script>
@@ -566,24 +424,8 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-warn { border-color: rgba(212, 147, 10, 0.4); background: #fff8ec; }
 .q-warn-note { color: #a37a14; font-size: 0.85rem; margin: 0.5rem 0 0.75rem; font-weight: 500; }
 
-.q-med-grid { display: grid; grid-template-columns: 1fr; gap: 0.85rem; margin-top: 1rem; }
-.q-med-card { display: block; border: 2px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; background: #fff; }
-.q-med-card:hover { border-color: var(--accent); }
-.q-med-card input { float: right; margin: 0.3rem 0 0 0; transform: scale(1.25); }
-.q-med-card:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,184,148,0.15); }
-.q-med-card-mid { background: #fbf7ec; border-color: rgba(212, 175, 90, 0.4); }
-.q-med-card-top { background: #f4f0fc; border-color: rgba(116, 80, 178, 0.35); }
-.q-med-tier { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin: 0; }
-.q-med-card h3 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 0.15rem 0 0.3rem; font-size: 1.2rem; }
-.q-med-tag { font-size: 0.9rem; color: var(--text); margin: 0 0 0.5rem; line-height: 1.5; }
-.q-med-price { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin: 0; }
-.q-med-price span { font-size: 0.9rem; font-weight: 400; color: var(--text-light); }
-
 .q-noscope-box { background: #f0fbf6; border: 2px solid var(--accent); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; font-size: 0.95rem; color: #07664c; line-height: 1.5; }
 .q-noscope-box strong { display: block; margin-bottom: 0.4rem; }
-.q-stripe-card { padding: 0.9rem 0.9rem; border: 1px solid var(--border); border-radius: 8px; background: #fff; margin: 1rem 0 0.5rem; }
-.q-stripe-error { color: #d4351c; font-size: 0.9rem; min-height: 1.2rem; margin: 0; }
-.q-disclaimer { font-size: 0.82rem; color: var(--text-light); margin: 1rem 0 0; line-height: 1.55; }
 
 .q-review-summary { background: transparent; margin: 1rem 0; }
 .q-review-section { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem 1rem; margin: 0 0 1rem; }
@@ -614,4 +456,3 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
   .q-inner { padding: 1.5rem 1rem; }
 }
 </style>
-</BaseLayout>
