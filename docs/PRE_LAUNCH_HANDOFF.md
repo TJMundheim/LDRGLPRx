@@ -68,6 +68,7 @@ My4MLife is a dual-funnel telehealth + cohort platform built around the **4M Fra
 | Daily digest counts new Protégés | ✅ Live | Bug fixed + Randall backfilled 2026-06-11 |
 | Cognito admin access for TJ | ✅ Live | Added 2026-06-14 |
 | Privacy: `drtj@my4mlife.com` not publicly exposed | ✅ Verified | Sweep complete 2026-06-14 |
+| Inbound-handler Lambda (AI concierge) deployed | 🟡 Deployed, dormant | Active 2026-06-14; SES trigger not yet wired |
 
 ---
 
@@ -99,10 +100,11 @@ Then sends 5 `price_…` IDs. Claude runs search-replace on the 5 `PLACEHOLDER_*
 - Verify formatting of the review-summary cards (step 6)
 - Estimated 20 minutes
 
-#### 4. Inbound-handler Lambda first deploy (Claude)
+#### 4. Inbound-handler Lambda first deploy (Claude) — ✅ DONE 2026-06-14
 - `lambdas/inbound-handler/src/system-prompt.ts` was updated to remove old discount-tier copy and reflect locked pricing
-- Lambda is not yet deployed to AWS — needs `aws lambda create-function` or first run of its deploy script
-- This is the AI concierge that handles inbound member conversations — silent without it
+- ✅ `infra/deploy.sh` upgraded from a zip-only stub to a full idempotent IaC deploy (IAM role + create/update function + env vars), matching the `audit-complete`/`create-setup-intent` pattern
+- ✅ Deployed: `my4mlife-inbound-handler` is **Active** (nodejs20.x, 512MB, 30s, role `my4mlife-inbound-handler-role`). Empty-event sanity invoke returns 200.
+- ⚠️ **Function is deployed but DORMANT — no trigger wired.** It's an SES receipt handler, but there's no active SES receipt rule set and the domain MX points to Google Workspace. Standing up SES inbound receiving (receipt rule set + S3 inbound bucket + MX decision) is a separate deliberate step — moved to P2 "automated routing." The concierge will not respond to inbound email until that pipeline exists.
 
 #### 5. `info@my4mlife.com` Google Workspace forwarding (TJ)
 - Currently MX-routed to Google, but it's unclear where `info@` lands inside Google Workspace
