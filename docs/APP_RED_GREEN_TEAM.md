@@ -8,7 +8,7 @@
 
 ## ✅ IMPLEMENTATION STATUS (2026-06-14)
 
-All red-team P0/P1/P2 fixes below have been **implemented, build-verified, and committed**. The app builds clean; the 8 pre-existing unit-test failures (in `client.test.ts`, `triggers.test.ts`, `AdminDashboard.test.ts`, `AuthGate.test.ts`) were confirmed present on clean `HEAD` before these changes — i.e. not regressions from this work.
+All red-team P0/P1/P2 fixes below have been **implemented, committed, deployed to production, and verified on a real phone (TJ, 2026-06-14)** — bottom-nav Settings/Sign Out reachable, Sign Out works, Weeks 2–4 open content, nav labels readable, gut-assessment result readable. The app builds clean; the 8 pre-existing unit-test failures (in `client.test.ts`, `triggers.test.ts`, `AdminDashboard.test.ts`, `AuthGate.test.ts`) were confirmed present on clean `HEAD` before these changes — i.e. not regressions from this work.
 
 - **P0 done:** R1 dead-end weeks now render content · R2 mobile Sign Out + Settings reachable (new Sign Out button, mobile bottom-bar layout) · R3 "Resend code" with 30s cooldown.
 - **P1 done:** R4 unreadable text recolored (light-on-white only — the dark-gradient cards were correct and left alone) · R5 all "coming soon" + the leaked "TJ will provide exact recipes" removed · R6 protein field updates in place (no more focus loss) · R7 misleading "/5" toast fixed · R8 admin queue now rolls back + shows an error on failure.
