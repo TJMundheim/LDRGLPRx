@@ -1232,7 +1232,7 @@ function renderW2(W: Workbook): string {
     <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Top 3 Factor Actions</div>
     <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
       You identified your top 3 highest-scoring risk factors in Week 1.
-      This week: execute the first immediate action for each one. Track your progress at the end of the week.
+      This week (Week 2): execute one immediate action for each factor, then assess it at the end of Week 2.
     </div>
     ${[1, 2, 3].map(n => {
       const userSetName = g(`w2_factor${n}_name`);
@@ -1261,12 +1261,12 @@ function renderW2(W: Workbook): string {
       </div>
       ${priorityActionReminder(W, selectedName)}
       <div style="margin-top:8px">
-        <label for="w2-f${n}-action">Immediate action I took this week</label>
+        <label for="w2-f${n}-action">Immediate action I took in Week 2 for this factor</label>
         <textarea id="w2-f${n}-action" style="min-height:48px" placeholder="What did you actually do?"
           oninput="portalField('weekReflections.w2_factor${n}_action',this.value)">${g(`w2_factor${n}_action`)}</textarea>
       </div>
       <div style="margin-top:8px">
-        <label for="w2-f${n}-result">End-of-week: did it move the needle? How?</label>
+        <label for="w2-f${n}-result">End of Week 2 — did this action move the needle? How?</label>
         <input id="w2-f${n}-result" placeholder="Honest assessment..."
           value="${g(`w2_factor${n}_result`)}"
           oninput="portalField('weekReflections.w2_factor${n}_result',this.value)">
