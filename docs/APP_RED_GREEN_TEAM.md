@@ -10,6 +10,17 @@
 
 All red-team P0/P1/P2 fixes below have been **implemented, committed, deployed to production, and verified on a real phone (TJ, 2026-06-14)** — bottom-nav Settings/Sign Out reachable, Sign Out works, Weeks 2–4 open content, nav labels readable, gut-assessment result readable. The app builds clean; the 8 pre-existing unit-test failures (in `client.test.ts`, `triggers.test.ts`, `AdminDashboard.test.ts`, `AuthGate.test.ts`) were confirmed present on clean `HEAD` before these changes — i.e. not regressions from this work.
 
+### UX "less-typing, more-tapping" sweep — SHIPPED 2026-06-15 (Part 3 items)
+Deployed to production:
+- **Workout log → one checkbox per exercise** (squat, hip-hinge, push+pull + Zone 2 cardio + HIIT optional). Dropped weight/reps/notes/date free-text. `renderer.ts workoutLog()`, keys `trainLog.wNdM_<ex>_done`.
+- **Weekly Monday retest kept** as the only number-entry surface; new **`strengthTrendCard`** on the dashboard (W1→W4 side-by-side + Δ), written to extend across Months 2-6 via month-prefixed keys.
+- **Fasting log → per-day "Stuck to my window" toggle**; exact meal times collapse behind an optional link. Key `fastingLog.wNdM_stuck`.
+- **Factor action-plans → tap-to-adopt commitment chips** (reusing each factor's "Immediate" actions), free text still editable.
+- **Morning reflection → mood chips (Strong/OK/Hard) + multi-select "what improved" chips**; free text now optional. New optional `WeekLog.reflectionMood` / `reflectionWins`.
+
+### HELD — needs a product decision, NOT a blind code change
+- **Mount `TodayView.svelte` (one-tap "Today" hub + scoreboard).** The component is launch-quality and self-contained, BUT it logs to the **Adherence API/DDB** with a **different action-ID scheme** (`biome-ns-ultra`, `eating-window`, `fasted-walk`, `strength`, `protein-breakfast`, `cold-shower`, `10k-steps`) than the live Week-1 rows in `renderer.ts` (`mitigate-biome-ns`, `mitigate-eating-window`, `muscle-strength`, `mind-sunlight-walk`, `motivate-zoom`). Mounting it as-is would create **two divergent daily-logging surfaces** (a tap in one would not reflect in the other). Mounting requires: (1) reconcile the two action-ID schemes (+ migrate existing data), and (2) a product decision on whether TodayView REPLACES the Week-1 adherence rows as the canonical daily hub or lives alongside them. This needs an authenticated verification pass — deliberately not done blind on the live app.
+
 - **P0 done:** R1 dead-end weeks now render content · R2 mobile Sign Out + Settings reachable (new Sign Out button, mobile bottom-bar layout) · R3 "Resend code" with 30s cooldown.
 - **P1 done:** R4 unreadable text recolored (light-on-white only — the dark-gradient cards were correct and left alone) · R5 all "coming soon" + the leaked "TJ will provide exact recipes" removed · R6 protein field updates in place (no more focus loss) · R7 misleading "/5" toast fixed · R8 admin queue now rolls back + shows an error on failure.
 - **P2 done:** off-brand blue → brand green (Sidebar + Manage Subscription) · dead "Take the Assessment" link removed · small fonts bumped · mobile nav labels always shown (not emoji-only) · 5 dead imports removed · on-screen `?diag=1` panel removed. (`?debug=1` console gate left intentionally — param-gated, harmless.)
