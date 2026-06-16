@@ -271,8 +271,31 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${coldBtns}</div>
       </div>
     </div>
-    <label for="morn-reflection-w${w}">Week ${w} morning reflection</label>
-    <textarea id="morn-reflection-w${w}" placeholder="How did the protocol feel? What improved? What was hard?"
+    ${(() => {
+      const mood = wl.reflectionMood ?? '';
+      const wins = (wl.reflectionWins ?? '').split(',').filter(Boolean);
+      const moods: Array<[string, string]> = [['strong', 'Strong'], ['ok', 'OK'], ['hard', 'Hard']];
+      const winOpts = ['Sleep', 'Energy', 'Mood', 'Focus', 'Digestion', 'Strength', 'Cravings'];
+      const moodChips = moods.map(([v, l]) => {
+        const sel = mood === v;
+        return `<button type="button"
+          onclick="var p=this.parentNode;Array.prototype.forEach.call(p.children,function(c){c.style.background='#fff';c.style.borderColor='#D8E8DC';c.style.color='#5A8A64'});this.style.background='#1D9E75';this.style.borderColor='#1D9E75';this.style.color='#fff';window.portalField&&window.portalField('weekLogs.${w}.reflectionMood','${v}')"
+          style="flex:1;font-size:12px;font-weight:600;padding:9px 6px;border-radius:8px;cursor:pointer;background:${sel ? '#1D9E75' : '#fff'};border:1.5px solid ${sel ? '#1D9E75' : '#D8E8DC'};color:${sel ? '#fff' : '#5A8A64'}">${l}</button>`;
+      }).join('');
+      const winChips = winOpts.map(o => {
+        const sel = wins.includes(o);
+        return `<button type="button" data-v="${o}" class="${sel ? 'sel' : ''}"
+          onclick="this.classList.toggle('sel');var s=this.classList.contains('sel');this.style.background=s?'#1D9E75':'#fff';this.style.color=s?'#fff':'#5A8A64';this.style.borderColor=s?'#1D9E75':'#D8E8DC';var box=this.parentNode;var vals=Array.prototype.slice.call(box.querySelectorAll('.sel')).map(function(e){return e.getAttribute('data-v')}).join(',');window.portalField&&window.portalField('weekLogs.${w}.reflectionWins',vals)"
+          style="font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:18px;cursor:pointer;background:${sel ? '#1D9E75' : '#fff'};border:1.5px solid ${sel ? '#1D9E75' : '#D8E8DC'};color:${sel ? '#fff' : '#5A8A64'}">${o}</button>`;
+      }).join('');
+      return `
+      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#5A8A64;margin-bottom:6px">HOW DID WEEK ${w} FEEL?</div>
+      <div style="display:flex;gap:6px;margin-bottom:12px">${moodChips}</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#5A8A64;margin-bottom:6px">WHAT IMPROVED? <span style="font-weight:400;text-transform:none;letter-spacing:0">(tap any)</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${winChips}</div>`;
+    })()}
+    <label for="morn-reflection-w${w}">Anything else worth noting? (optional)</label>
+    <textarea id="morn-reflection-w${w}" placeholder="Optional — a sentence on what was hard or what clicked."
       oninput="portalField('weekLogs.${w}.reflection',this.value)">${esc(wl.reflection)}</textarea>
   </div>`;
 }
@@ -366,19 +389,14 @@ function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
   return `
     <div class="card-title" style="font-size:10px;margin-bottom:6px">DAILY FASTING LOG — WEEK ${w} (target 14:10)</div>
     <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px">
-      Log the time of your first and last meal each day. Target: first meal after 9am, last before 7pm (14-hour fast, 10-hour eating window). Month 1 stays at 14:10 — we do not progress this window this month.
-    </div>
-    <div style="overflow-x:auto">
-    <div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px;min-width:300px">
-      ${['Day', 'First meal', 'Last meal', 'Window (hrs)'].map(h =>
-        `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
-      ).join('')}
+      Target: first meal after 9am, last before 7pm (14-hour fast, 10-hour eating window). Most days, just tap "Stuck to my window." Want to log exact meal times? Tap "exact times" on any day. Month 1 stays at 14:10.
     </div>
     ${days.map((d, i) => {
       const fKey = `w${w}d${i + 1}_firstMeal`;
       const lKey = `w${w}d${i + 1}_lastMeal`;
       const first = W.fastingLog?.[fKey] ?? '';
       const last = W.fastingLog?.[lKey] ?? '';
+      const stuck = (W.fastingLog?.[`w${w}d${i + 1}_stuck`] ?? '') === '1';
       let windowHrs = '';
       if (first && last) {
         const [fh, fm] = first.split(':').map(Number);
@@ -388,18 +406,24 @@ function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
           windowHrs = diff > 0 ? diff.toFixed(1) : '';
         }
       }
-      return `<div style="display:grid;grid-template-columns:0.6fr 1fr 1fr 0.8fr;gap:8px;margin-bottom:6px;align-items:center;min-width:300px">
-        <div style="font-size:11px;color:#5A3020;font-weight:600">${d}</div>
-        <input type="time" style="font-size:11px" value="${esc(first)}"
-          oninput="portalField('fastingLog.${fKey}',this.value)">
-        <input type="time" style="font-size:11px" value="${esc(last)}"
-          oninput="portalField('fastingLog.${lKey}',this.value)">
-        <div style="font-size:11px;color:${windowHrs ? (Number(windowHrs) <= 10 ? '#1D9E75' : '#E05C2A') : '#8AB89A'};font-weight:600">
-          ${windowHrs || '—'}
+      const hasTimes = !!(first || last);
+      return `<div style="border:1px solid #E0EBE0;border-radius:8px;padding:9px 11px;margin-bottom:7px;background:${stuck ? '#F4FBF6' : '#FFFFFF'}">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+          <input type="checkbox" ${stuck ? 'checked' : ''} style="width:22px;height:22px;flex-shrink:0;accent-color:#1D9E75;cursor:pointer"
+            onchange="this.closest('div').style.background=this.checked?'#F4FBF6':'#FFFFFF';window.portalField&&window.portalField('fastingLog.w${w}d${i + 1}_stuck',this.checked?'1':'')">
+          <span style="font-size:12.5px;font-weight:600;color:#1A2E1E;min-width:34px">${d}</span>
+          <span style="flex:1;font-size:12px;color:${stuck ? '#1D9E75' : '#6A8A6E'};font-weight:600">Stuck to my window</span>
+        </label>
+        <button type="button" onclick="var e=document.getElementById('ft-w${w}d${i + 1}');e.style.display=(e.style.display==='none')?'block':'none'" style="background:none;border:none;color:#5A8A64;font-size:10.5px;cursor:pointer;padding:5px 0 0;margin-left:32px;text-decoration:underline">exact times (optional)</button>
+        <div id="ft-w${w}d${i + 1}" style="display:${hasTimes ? 'block' : 'none'};margin:7px 0 0 32px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 0.6fr;gap:8px;align-items:center;max-width:320px">
+            <input type="time" style="font-size:11px" value="${esc(first)}" oninput="portalField('fastingLog.${fKey}',this.value)" aria-label="First meal ${d}">
+            <input type="time" style="font-size:11px" value="${esc(last)}" oninput="portalField('fastingLog.${lKey}',this.value)" aria-label="Last meal ${d}">
+            <div style="font-size:11px;color:${windowHrs ? (Number(windowHrs) <= 10 ? '#1D9E75' : '#E05C2A') : '#8AB89A'};font-weight:600;text-align:center">${windowHrs ? windowHrs + 'h' : '—'}</div>
+          </div>
         </div>
       </div>`;
-    }).join('')}
-    </div>`;
+    }).join('')}`;
 }
 
 function priorityActionReminder(W: Workbook, selectedName: string): string {
@@ -464,7 +488,19 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
     <div class="ftab-row">${tabBtns}</div>
     <div style="margin-bottom:14px">${content}</div>
     <label for="factor-plan-${f.n}">My personal action plan for this factor</label>
-    <textarea id="factor-plan-${f.n}" placeholder="What specifically will I do? When? How will I measure progress?"
+    ${(() => {
+      const sugg = (f.imm ?? f.act ?? []).slice(0, 5);
+      if (!sugg.length) return '';
+      return `<div style="margin-bottom:8px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#6A8A6E;text-transform:uppercase;margin-bottom:6px">Tap to add a commitment</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${sugg.map(s => `<button type="button" data-text="${esc(s)}"
+            onclick="var t=document.getElementById('factor-plan-${f.n}');var a=this.getAttribute('data-text');t.value=(t.value?t.value+'\\n':'')+a;window.portalField&&window.portalField('factorPlans.${f.n}',t.value);this.style.opacity='0.45';this.disabled=true"
+            style="text-align:left;font-size:11.5px;line-height:1.4;color:#1A3A20;background:#F0FAF5;border:1px solid #C8E8D4;border-radius:8px;padding:8px 11px;cursor:pointer">+ ${esc(s)}</button>`).join('')}
+        </div>
+      </div>` ;
+    })()}
+    <textarea id="factor-plan-${f.n}" placeholder="Tap a commitment above, or write your own: what specifically will I do? When? How will I measure progress?"
       oninput="portalField('factorPlans.${f.n}',this.value)">${esc(W.factorPlans[f.n] ?? '')}</textarea>
   </div>`;
 }

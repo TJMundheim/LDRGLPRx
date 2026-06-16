@@ -71,6 +71,10 @@ export interface WeekLog {
   cold: Record<string, boolean>;
   /** Morning reflection text keyed `wN`. */
   reflection: string;
+  /** Optional quick mood chip for the week: 'strong' | 'ok' | 'hard'. */
+  reflectionMood?: string;
+  /** Optional multi-select "what improved" chips, comma-joined. */
+  reflectionWins?: string;
 }
 
 export interface SupplementStatus {
