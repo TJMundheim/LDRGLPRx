@@ -1904,7 +1904,6 @@ const weekNutrData: Record<1 | 2 | 3 | 4, { fastingCue: string; suppTagline: str
 function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
   const wc = weekMeta[w];
   const { fastingCue } = weekNutrData[w];
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const supplierCards = affiliateSuppliers.map(s => `
     <div style="background:#F8FAF8;border:1.5px solid #D8E8DC;border-radius:9px;
@@ -1916,18 +1915,6 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
           background:${wc.ac}18;border:1px solid ${wc.ac}44;border-radius:6px;
           padding:5px 10px;text-align:center;display:block">Shop &rarr;</a>
     </div>`).join('');
-
-  const fastingRows = days.map((d, i) => {
-    const fKey = `w${w}d${i + 1}_firstMeal`;
-    const lKey = `w${w}d${i + 1}_lastMeal`;
-    return `<div style="display:grid;grid-template-columns:0.6fr 1fr 1fr;gap:8px;margin-bottom:6px;align-items:center">
-      <div style="font-size:11px;color:#1A3A20;font-weight:600">${d}</div>
-      <input type="time" style="font-size:11px" placeholder="First meal"
-        oninput="portalField('fastingLog.${fKey}',this.value)">
-      <input type="time" style="font-size:11px" placeholder="Last meal"
-        oninput="portalField('fastingLog.${lKey}',this.value)">
-    </div>`;
-  }).join('');
 
   return `
   <div class="card" style="border-top:3px solid ${wc.ac};margin-top:8px">
@@ -1958,21 +1945,6 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
       ${supplierCards}
     </div>
 
-    <!-- FASTING LOG -->
-    <div style="margin-bottom:16px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:4px;text-transform:uppercase">
-        Fasting Tracker — Week ${w}
-      </div>
-      <div style="font-size:11px;color:#5A8A64;margin-bottom:8px">
-        Log first and last meal each day. Month 1 target: 14:10 window (first meal after 9am, last by 7pm).
-      </div>
-      <div style="display:grid;grid-template-columns:0.6fr 1fr 1fr;gap:8px;margin-bottom:6px">
-        ${['Day', 'First meal', 'Last meal'].map(h =>
-          `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
-        ).join('')}
-      </div>
-      ${fastingRows}
-    </div>
   </div>`;
 }
 
