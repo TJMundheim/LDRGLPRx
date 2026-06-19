@@ -29,9 +29,10 @@ CSS = """
   }
 }
 
-@page :first {
-  margin: 0;
-}
+/* NOTE: a previous `@page :first { margin: 0 }` made the first printed page full-bleed,
+   so the title + front matter ran edge-to-edge while every later page used normal
+   margins — an inconsistent, wider-then-narrower text block. Removed so all pages share
+   the same margins. */
 
 body {
   font-family: 'Georgia', 'Source Serif Pro', 'Times New Roman', serif;
