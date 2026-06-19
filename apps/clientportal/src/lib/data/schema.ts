@@ -111,6 +111,8 @@ export interface Workbook {
   fastingLog: Record<string, string>;
   /** Daily habit checkboxes (book reading, recipe use, etc.), keyed `w{week}d{n}_{habit}`. */
   habitLog: Record<string, string>;
+  /** Vitals readings (BP, pulse, SpO2), keyed `{base|w1|w2|w3|w4}_{sys|dia|pulse|spo2}`. */
+  vitalsLog: Record<string, string>;
 
   weekLogs: Record<1 | 2 | 3 | 4, WeekLog>;
 
@@ -201,6 +203,7 @@ export function createEmptyWorkbook(id: string, userId: string): Workbook {
     trainLog: {},
     fastingLog: {},
     habitLog: {},
+    vitalsLog: {},
     weekLogs: {
       1: emptyWeek(1),
       2: emptyWeek(2),

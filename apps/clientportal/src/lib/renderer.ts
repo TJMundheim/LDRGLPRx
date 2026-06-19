@@ -736,6 +736,51 @@ function strengthTrendCard(W: Workbook): string {
     </div>`;
 }
 
+// Protein target reminder line — shows the gram goal carried from the Week 1 calc.
+function proteinTargetLine(W: Workbook): string {
+  const n = Math.round(Number(W.protein));
+  if (!(n > 0)) return '';
+  return `<div style="background:#FFF4EC;border:1px solid #F0C8A8;border-radius:9px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:#7A3A20;line-height:1.5">
+    <strong>Protein target: ${n} g/day</strong> — carried from your Week 1 calculation (1 g per pound of ideal body weight). Hit it at least 5 of 7 days.
+  </div>`;
+}
+
+// Vitals tracker — baseline + weekly BP / resting pulse / SpO2 on one cumulative chart so
+// the trend is visible across Month 1. Cells are editable everywhere it's shown (values
+// persist to W.vitalsLog). Not a medical device — for the member's own tracking.
+function vitalsTracker(W: Workbook): string {
+  const metrics: Array<[string, string]> = [
+    ['sys', 'Systolic (mmHg)'],
+    ['dia', 'Diastolic (mmHg)'],
+    ['pulse', 'Resting pulse (bpm)'],
+    ['spo2', 'SpO₂ (%)']
+  ];
+  const cols: Array<[string, string]> = [['Baseline', 'base'], ['Wk 1', 'w1'], ['Wk 2', 'w2'], ['Wk 3', 'w3'], ['Wk 4', 'w4']];
+  const headRow = `<div style="display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:6px;margin-bottom:6px;min-width:440px">
+    ${['Measure', ...cols.map(c => c[0])].map(h => `<div style="font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6A8A6E;text-align:center">${h}</div>`).join('')}
+  </div>`;
+  const rows = metrics.map(([m, label]) => {
+    const cells = cols.map(([, c]) => {
+      const k = `${c}_${m}`;
+      return `<input type="number" inputmode="numeric" value="${esc(W.vitalsLog?.[k] ?? '')}" placeholder="—"
+        oninput="portalField('vitalsLog.${k}',this.value)"
+        style="font-size:12px;text-align:center;padding:6px 3px;width:100%">`;
+    }).join('');
+    return `<div style="display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:6px;margin-bottom:6px;align-items:center;min-width:440px">
+      <div style="font-size:11px;color:#1A2E1E;font-weight:600">${label}</div>
+      ${cells}
+    </div>`;
+  }).join('');
+  return `<div class="card">
+    <div class="card-title">❤️ Vitals Tracker — Blood Pressure &amp; Pulse Ox</div>
+    <div style="font-size:11px;color:#6A8A6E;line-height:1.55;margin-bottom:12px">
+      Take a baseline blood-pressure and pulse-oximeter reading now, then retest at least once each week. Every reading stays on this chart so you can watch the trend across Month 1.
+    </div>
+    <div style="overflow-x:auto"><div style="min-width:440px">${headRow}${rows}</div></div>
+    <div style="font-size:10px;color:#8A9A88;font-style:italic;margin-top:8px">For your own tracking — not a medical device or diagnosis. Share these numbers with your physician.</div>
+  </div>`;
+}
+
 function renderDash(W: Workbook): string {
   const m = mornings(W), c = colds(W);
   // Use intake audit data (localStorage audit-v1) for dashboard stats
@@ -814,6 +859,8 @@ function renderDash(W: Workbook): string {
   </div>
 
   ${strengthTrendCard(W)}
+
+  ${vitalsTracker(W)}
 
   ${renderAuditSummaryCard()}
 
@@ -1422,6 +1469,8 @@ function renderW3(W: Workbook): string {
 
   return `${weekBanner(3)}
 
+  ${proteinTargetLine(W)}
+
   <div class="card" style="background:rgba(46,127,217,.04);border:1px solid rgba(46,127,217,.18)">
     <div style="font-size:14px;font-weight:700;color:#0C447C;margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
     <div style="font-size:12.5px;color:#1A3050;line-height:1.7">
@@ -1623,6 +1672,8 @@ function renderW4(W: Workbook): string {
   const factorList: Factor[] = factors;
 
   return `${weekBanner(4)}
+
+  ${proteinTargetLine(W)}
 
   <div class="card" style="background:rgba(107,94,212,.05);border:1px solid rgba(107,94,212,.2)">
     <div style="font-size:14px;font-weight:700;color:#3C3489;margin-bottom:6px">Month 1 Completion — All 4 Pillars</div>
