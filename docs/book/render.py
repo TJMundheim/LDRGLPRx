@@ -45,7 +45,7 @@ body {
 
 h1, h2, h3, h4 {
   font-family: 'Georgia', 'Playfair Display', serif;
-  color: #0a1628;
+  color: #0d1b35;
   line-height: 1.15;
   page-break-after: avoid;
 }
@@ -116,14 +116,14 @@ h3 {
   font-size: 14pt;
   font-weight: 600;
   margin: 1.4em 0 0.4em;
-  color: #9c7c1c;
+  color: #0d1b35;
 }
 
 h4 {
   font-size: 12pt;
   font-weight: 700;
   margin: 1em 0 0.3em;
-  color: #1a3656;
+  color: #0d1b35;
 }
 
 p {
