@@ -919,6 +919,19 @@ function w1WeekdayRow(actionId: string, label: string, days: 'mf' | 'all', minim
   </div>`;
 }
 
+// Standing carry-forward rule (TJ 2026-06-19): data entered once is recalled
+// automatically in later weeks. Returns the value to display — the user's per-week
+// override if they've typed one, otherwise the canonical earlier-week value — plus a
+// "(carried from Week 1)" hint shown only while the carried-over value is in use.
+function carryForward(override: string | undefined, source: string, fromLabel = 'carried from Week 1'): { value: string; hint: string } {
+  const hasOverride = (override ?? '').trim() !== '';
+  const value = hasOverride ? (override as string) : (source ?? '');
+  const hint = !hasOverride && (source ?? '').trim() !== ''
+    ? ` <span style="font-size:10px;color:#6B5ED4;font-style:italic;font-weight:600">(${fromLabel})</span>`
+    : '';
+  return { value, hint };
+}
+
 function renderW1(ctx: RenderContext): string {
   const { W } = ctx;
 
@@ -1076,11 +1089,12 @@ function renderW1(ctx: RenderContext): string {
       }).join('')}
     </div>`;
     })()}
-    <label for="w1-protein-target">Target bodyweight for protein calc (lbs)</label>
+    <label for="w1-protein-target">Ideal body weight (lbs)</label>
+    <div style="font-size:11px;color:#5A8A64;margin:0 0 6px;line-height:1.5">Your daily protein target = <strong>1 gram per pound of ideal body weight</strong> (e.g. 200 lb ideal = 200 g/day).</div>
     <input id="w1-protein-target" type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
-      oninput="portalField('protein',this.value);(function(v){var n=Number(v);var r=document.getElementById('w1-protein-result');var g=document.getElementById('w1-protein-grams');if(r)r.style.display=n>0?'flex':'none';if(g)g.textContent=(n>0?Math.round(n*0.9):0)+'g';})(this.value)">
+      oninput="portalField('protein',this.value);(function(v){var n=Number(v);var r=document.getElementById('w1-protein-result');var g=document.getElementById('w1-protein-grams');if(r)r.style.display=n>0?'flex':'none';if(g)g.textContent=(n>0?Math.round(n):0)+'g';})(this.value)">
     <div id="w1-protein-result" style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;align-items:center;justify-content:center;gap:10px;display:${Number(W.protein) > 0 ? 'flex' : 'none'}">
-      <div id="w1-protein-grams" style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein) * 0.9)}g</div>
+      <div id="w1-protein-grams" style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein))}g</div>
       <div style="font-size:10px;color:#5A8A64">protein per day target</div>
     </div>
   </div>
@@ -1177,7 +1191,7 @@ function renderW2(W: Workbook): string {
   const wRef = W.weekReflections;
   const g = (k: string) => esc(wRef[k] ?? '');
   const top3 = auditTop3WithIds();
-  const proteinTargetFallback = Number(W.protein) > 0 ? `${Math.round(Number(W.protein) * 0.9)}g/day` : '';
+  const proteinTargetFallback = Number(W.protein) > 0 ? `${Math.round(Number(W.protein))}g/day` : '';
 
   const pillarActionBox = (color: string, content: string) =>
     `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
@@ -1200,10 +1214,11 @@ function renderW2(W: Workbook): string {
   <div class="card" style="border-left:4px solid #6B5ED4">
     <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Week 2 Check-In</div>
     <div style="margin-bottom:12px">
-      <label for="w2-my-why">My WHY (from Week 1) — read it out loud right now</label>
+      ${(() => { const c = carryForward(wRef['w2_why'], W.personalWhy); return `
+      <label for="w2-my-why">My WHY (from Week 1) — read it out loud right now${c.hint}</label>
       <textarea id="w2-my-why" style="min-height:52px;background:#F9F7FF;border-color:#C8C0F0;font-size:13px;font-style:italic"
-        placeholder="Copy your Week 1 why statement here to keep it front of mind..."
-        oninput="portalField('weekReflections.w2_why',this.value)">${g('w2_why')}</textarea>
+        placeholder="Your Week 1 why carries over here automatically — edit it if it has evolved."
+        oninput="portalField('weekReflections.w2_why',this.value)">${esc(c.value)}</textarea>`; })()}
     </div>
     <div class="g2" style="margin-bottom:12px">
       <div>
@@ -1212,9 +1227,10 @@ function renderW2(W: Workbook): string {
           oninput="portalField('weekReflections.w2_identity_check',this.value)">${g('w2_identity_check')}</textarea>
       </div>
       <div>
-        <label for="w2-acct">Who is my accountability partner in this program?</label>
+        ${(() => { const c = carryForward(wRef['w2_acct'], W.accountabilityTarget); return `
+        <label for="w2-acct">Who is my accountability partner in this program?${c.hint}</label>
         <input id="w2-acct" placeholder="Name and check-in method..."
-          value="${g('w2_acct')}" oninput="portalField('weekReflections.w2_acct',this.value)">
+          value="${esc(c.value)}" oninput="portalField('weekReflections.w2_acct',this.value)">`; })()}
         <div style="margin-top:6px">
           <label for="w2-acct-freq">We agreed to check in every</label>
           <input id="w2-acct-freq" placeholder="e.g. Sunday evening by text..."
