@@ -47,6 +47,41 @@ const verifyHtml = (code: string) => `<div style="font-family:system-ui,-apple-s
 <p style="font-size:28px;font-weight:700;letter-spacing:4px;background:#f4f4f5;padding:16px;text-align:center;border-radius:8px">${code}</p>
 <p style="color:#666;font-size:13px">Begin with the end in mind. — The My4MLife concierge</p></div>`;
 
+// Customer-facing confirmation email, tailored by form type. Closes the loop so a
+// prospect who just submitted (and saved a card) gets an instant acknowledgment
+// instead of silence until a coordinator manually replies.
+const CONFIRM_FROM_KEY = 'email-info';
+const NO_CONFIRM = new Set(['public-assessment']); // already receives the audit-complete welcome email
+const CUST_EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+function confirmation(formId: string): { subject: string; html: string } {
+  const wrap = (heading: string, body: string) => `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:520px;margin:0 auto;padding:28px">
+    <h1 style="font-size:20px;color:#1A2E1E;margin:0 0 12px">${heading}</h1>
+    ${body}
+    <p style="color:#5A8A64;font-size:13px;margin-top:22px">Begin with the end in mind.<br>— The My4MLife care team</p>
+    <p style="color:#999;font-size:12px;margin-top:14px">Questions? Reply to this email or contact <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+  </div>`;
+  if (formId.endsWith('-questionnaire')) {
+    return {
+      subject: "We've got your intake — My4MLife",
+      html: wrap('Your intake is in.',
+        `<p style="color:#1A2E1E;font-size:15px;line-height:1.6"><strong>No charge has been made.</strong> A care coordinator will email you within 24 hours to confirm the next steps with our network physician.</p>
+         <p style="color:#3A6A44;font-size:14px;line-height:1.6">Your card is saved securely and is only ever charged after a physician reviews your case, writes your script, and you approve it. If you're not approved, you're never charged.</p>`),
+    };
+  }
+  if (formId === 'consult-intake') {
+    return {
+      subject: "We've got your request — My4MLife",
+      html: wrap('Request received.',
+        `<p style="color:#1A2E1E;font-size:15px;line-height:1.6">Thank you — we've received your request. A care coordinator will email you within 24 hours to confirm next steps and schedule your consult.</p>`),
+    };
+  }
+  return {
+    subject: "We've received your message — My4MLife",
+    html: wrap('Thanks for reaching out.',
+      `<p style="color:#1A2E1E;font-size:15px;line-height:1.6">We've received your message and a member of our team will be in touch shortly.</p>`),
+  };
+}
+
 type SendPayload =
   | { kind: 'verification' | 'info'; to: string; subject: string; html: string; text?: string }
   | { kind: 'form'; formId: string; fields: Record<string, unknown> };
@@ -56,9 +91,21 @@ async function send(p: SendPayload) {
   if (p.kind === 'form') {
     const to = recipients['default'];
     if (!to) throw new Error('no default form recipient');
-    const fromEmail = (p.fields as any)?.email ? ` from ${(p.fields as any).email}` : '';
+    const custEmail = typeof (p.fields as any)?.email === 'string' ? (p.fields as any).email.trim() : '';
+    const fromEmail = custEmail ? ` from ${custEmail}` : '';
+    // 1) Internal lead notification (critical path).
     const id = await mailgun(`My4MLife <${addrs['email-info']}>`, to, `[Form: ${p.formId}]${fromEmail}`, formHtml(p.formId, p.fields));
-    return { id };
+    // 2) Customer confirmation (best-effort — must never break the lead notification).
+    let confirmId: string | undefined;
+    if (custEmail && CUST_EMAIL_RE.test(custEmail) && !NO_CONFIRM.has(p.formId)) {
+      try {
+        const c = confirmation(p.formId);
+        confirmId = await mailgun(`My4MLife <${addrs[CONFIRM_FROM_KEY]}>`, custEmail, c.subject, c.html);
+      } catch (e) {
+        console.error('[email-sender] customer confirmation failed (lead notification already sent):', e);
+      }
+    }
+    return { id, confirmId };
   }
   const addr = p.kind === 'verification' ? addrs['email-verification'] : addrs['email-info'];
   if (!addr) throw new Error(`no from address for kind=${p.kind}`);
