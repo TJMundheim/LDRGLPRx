@@ -522,3 +522,48 @@ Massive session. Locked the funnel, killed the noise, made the assessment do eve
 
 
 
+
+---
+
+# 2026-06-19 — Soft-launch polish: Rx card-capture, app UX overhaul, vitals tracker, email confirmations
+
+Long working session. Everything below is committed + deployed (app + website) unless noted.
+
+## (a) Rx funnels — pricing model finalized + card-on-file (clears P0 #1 Stripe blocker)
+Final model across the 5 `/rx/*` funnels (see PRE_LAUNCH_HANDOFF.md §4 #1 for the table):
+- **Peptides** + **Regenerative** → free consult, **card captured at intake (Stripe SetupIntent, no price shown, no charge)**. Card only charged after physician determines protocol + patient approves.
+- **Leaky Gut (Biome NS Rx)** → GLP-style card-on-file, **$129/mo** (`price_1TiY0vBSbDAyoIVyvY1LmKfA`). Reverted an earlier free-consult conversion per TJ.
+- **Testosterone** → $249 one-time eval (`price_1Tgx2C…`, TJ-verified one-time) → **$129/mo maintenance** (`price_1TiY2tBSbDAyoIVy2shKwNWE`).
+- **GLP-1** unchanged.
+- All `PLACEHOLDER_*` Stripe strings removed; build-verified zero placeholders.
+- Hook pages deliberately stay "free consult" (card disclosed at intake step) — matches Hims buy-first/qualify-after. **Standing rule reinforced: default to the big-boys model; only surface divergences.** (see memory `feedback_conversion_first_alignment.md`)
+
+## (b) email-sender — customer confirmation on every form submit
+`/api/contact-form` now sends the customer an instant confirmation (was internal-notification-only). Tailored: `*-questionnaire` → "intake received, no charge made, coordinator in 24h"; `consult-intake` → consult ack; others → generic; `public-assessment` excluded (already gets the audit-complete welcome). Best-effort (never breaks the lead notification). Verified live. Leads route to `drtj@my4mlife.com` (confirmed `form-recipients` secret). NOTE: Rx form submits only EMAIL — they do NOT write a Contact record (leads live in the inbox, not DB).
+
+## (c) inbound-handler Lambda — first deploy (clears P0 #4)
+Deployed `my4mlife-inbound-handler` (Active, dormant — no SES trigger; MX points to Google Workspace). Upgraded its stub deploy.sh to a real idempotent IaC script.
+
+## (d) App (clientportal) — red/green-team fixes + big UX overhaul (all deployed, TJ phone-verified)
+- **P0 fixes:** dead-end Weeks 2-4 now render; mobile Settings/Sign-Out reachable; OTP resend. P1/P2: light-on-white text, coming-soon copy, off-brand blue, etc. (see `docs/APP_RED_GREEN_TEAM.md`).
+- **Less-typing sweep:** workout log → one checkbox per exercise (+ Zone 2, HIIT); fasting → per-day "Stuck to my window" toggle (exact times optional); factor action-plans → tap-to-adopt chips; morning reflection → mood + "what improved" chips; weekly retest is the only number entry → new dashboard **Strength Trend** card (W1→W4 side-by-side, built to extend across months).
+- **Cognitive training = reading the book.** Removed Dual-N-Back link everywhere (renderer + cognitive.ts + factors.ts); cohort practice is now a Mon-Sun "read 10+ pages of Begin with the End in Mind" checkbox. New `habitLog` store + `habitWeekRow()` helper. Nutrition: removed "Build Your Ancestral Pantry" affiliate links (shopping lists emailed pre-Sunday-Zoom) → Mon-Fri "used a recommended recipe" checkbox.
+- **Dashboard:** removed the dead "comprehensive consult" Next-Step CTA.
+- **Protein:** formula now **1 g per lb of IDEAL body weight** (200 lb → 200 g/day); target carries into W2/W3/W4.
+- **Carry-forward rule (NEW standing rule):** data entered once auto-prepopulates later weeks unless overridden, with a "(carried from Week 1)" hint. New `carryForward()` helper; applied to W2 "why" ← personalWhy and accountability ← accountabilityTarget. (memory `feedback_carry_forward_rule.md`)
+- **Vitals Tracker (NEW):** editable cumulative chart — Systolic/Diastolic/Resting pulse/SpO₂ across Baseline + Wk1-4 — on the dashboard AND top of every week. New `vitalsLog` store. "Not a medical device" disclaimer.
+- **Week 2 Motivate** labels clarified to reference Week 2 (not ambiguous "this week").
+
+## (e) Website / book / ops
+- Homepage: "Take the Survey" → "Take the Assessment"; hero "Don't roll the dice" → "while the choice is still yours."
+- New **4M emblem logo** rendered from PDF (SVG + PNG) and deployed (navbar, footer, favicon, OG).
+- **Book v6** PDF rendered: corrected the ch.10 regenerative-delivery paragraph (intrathecal/cognitive is facility-based at credentialed Centers of Excellence, NOT in-home; joints + systemic IVs remain nationwide/mobile). 290pp. Upload **v6** (not v5) to KDP.
+- **Ops:** deleted test Protégé **Randall Beasley** (randallbeasley@yahoo.com) from Cognito + Contact + Users (all verified gone) for a clean friends-and-family test.
+- Added a committed read-only AWS-inspection allowlist (`.claude/settings.json`).
+
+## (f) STILL OPEN / next steps
+- **Analytics:** PostHog fully wired in BaseLayout; BLOCKED on TJ's real `phc_…` project key (self-disabling stub until then). Optional: add funnel step-events for drop-off.
+- **TJ P0 tasks:** walk all 5 Rx funnels E2E with a real card (esp. peptides/leaky-gut/testosterone/regenerative — changed this session); upload book v6 to KDP + cover; `info@ → drtj@` Google Workspace forwarding.
+- **Equipment-to-purchase website section:** TJ wants a pre-program order list (BP cuff + pulse ox to pair with vitals tracker, door-jam pull-up bar, foam squat/slant wedges, more). Needs product research + approval before building (no-weak-links rule, live affiliate links).
+- **"Today" hub:** DEFERRED (option 2). The unmounted TodayView uses a different Adherence action-ID scheme than the live week rows AND predates all the new trackers — mounting needs ID reconciliation + a canonical-surface decision + is now stale. Treat as a post-launch project (likely a fresh build). Details in `docs/APP_RED_GREEN_TEAM.md`.
+- Hook-page card mention: intentionally NOT added (big-boys match).
