@@ -815,8 +815,6 @@ function renderDash(W: Workbook): string {
 
   ${strengthTrendCard(W)}
 
-  ${renderConsultCTA()}
-
   ${renderAuditSummaryCard()}
 
   <div class="card">
@@ -1129,9 +1127,9 @@ function renderW1(ctx: RenderContext): string {
 
   ${morningTracker(W, 1)}
 
-  ${renderWeekCogTraining(1)}
+  ${renderWeekCogTraining(W, 1)}
 
-  ${renderWeekNutritionSection(1)}`;
+  ${renderWeekNutritionSection(W, 1)}`;
 }
 
 // Audit category id → factor.name in factors.ts. Used to carry the audit
@@ -1375,7 +1373,7 @@ function renderW2(W: Workbook): string {
       Download the dual n-back app and complete your first session before Saturday.`)}
   </div>
 
-  ${renderWeekCogTraining(2)}
+  ${renderWeekCogTraining(W, 2)}
 
   ${morningTracker(W, 2)}
 
@@ -1392,7 +1390,7 @@ function renderW2(W: Workbook): string {
       </div>`).join('')}
   </div>
 
-  ${renderWeekNutritionSection(2)}`;
+  ${renderWeekNutritionSection(W, 2)}`;
 }
 
 function renderW3(W: Workbook): string {
@@ -1563,7 +1561,7 @@ function renderW3(W: Workbook): string {
     ${pillarActionBox('#2E7FD9', `Add your final two Month 1 supplements: <strong>NeuroBridge</strong> (with breakfast) and <strong>MitoVita</strong> (pre-workout or mid-day). Your Month 1 stack is now complete — 6 supplements total. Continue dual n-back 3–4× per week.`)}
   </div>
 
-  ${renderWeekCogTraining(3)}
+  ${renderWeekCogTraining(W, 3)}
 
   ${morningTracker(W, 3)}
 
@@ -1580,7 +1578,7 @@ function renderW3(W: Workbook): string {
       </div>`).join('')}
   </div>
 
-  ${renderWeekNutritionSection(3)}`;
+  ${renderWeekNutritionSection(W, 3)}`;
 }
 
 function renderW4(W: Workbook): string {
@@ -1813,7 +1811,7 @@ function renderW4(W: Workbook): string {
     ${pillarActionBox('#2E7FD9', 'Score all 4 weeks in the cognitive tracker. The trend line is your Month 1 story. Decide which supplements are locked in for Month 2 and write it down.')}
   </div>
 
-  ${renderWeekCogTraining(4)}
+  ${renderWeekCogTraining(W, 4)}
 
   ${morningTracker(W, 4)}
 
@@ -1830,7 +1828,7 @@ function renderW4(W: Workbook): string {
       </div>`).join('')}
   </div>
 
-  ${renderWeekNutritionSection(4)}`;
+  ${renderWeekNutritionSection(W, 4)}`;
 }
 
 /** Affiliate supplier data for the pantry sourcing grid. */
@@ -1845,14 +1843,34 @@ const affiliateSuppliers = [
 
 /** Per-week cognitive training cue. */
 const weekCogTrainData: Record<1 | 2 | 3 | 4, string> = {
-  1: "Install Dual N-Back (free on iOS). Start at 2-back. 5–10 minutes daily. Don't worry about score — focus on showing up.",
-  2: "Stay daily. If 2-back feels easy three days running, push to 3-back.",
-  3: "Mix difficulty — some days 2-back for warm-up, then 3-back challenge sets.",
-  4: "Aim for 4-back. Note your best level — that's your Month-1 baseline.",
+  1: "Your cognitive training this month is reading. Read at least 10 pages of Begin with the End in Mind every day and check off each day below — you'll finish the book that anchors your whole protocol by the end of Month 1.",
+  2: "Keep the daily 10-page reading habit. The framework compounds as the ideas connect across chapters.",
+  3: "Stay with your daily reading — you should be past the halfway mark of the book this week.",
+  4: "Finish the book this week. Jot down the ideas you want to carry into Month 2.",
 };
 
-function renderWeekCogTraining(w: 1 | 2 | 3 | 4): string {
-  const wc = weekMeta[w];
+// Weekday habit checkboxes (book reading, recipe use, etc.) persisted per program-week-day
+// in W.habitLog via portalField. Native checkbox = instant toggle, no full re-render.
+function habitWeekRow(W: Workbook, w: 1 | 2 | 3 | 4, key: string, heading: string, days: 'mf' | 'all', accent: string): string {
+  const dayDefs: Array<[string, number]> = days === 'mf'
+    ? [['M', 1], ['T', 2], ['W', 3], ['T', 4], ['F', 5]]
+    : [['M', 1], ['T', 2], ['W', 3], ['T', 4], ['F', 5], ['S', 6], ['S', 7]];
+  const boxes = dayDefs.map(([dl, dn]) => {
+    const k = `w${w}d${dn}_${key}`;
+    const done = (W.habitLog?.[k] ?? '') === '1';
+    return `<label style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex:1;min-width:0">
+      <input type="checkbox" ${done ? 'checked' : ''} style="width:30px;height:30px;accent-color:${accent};cursor:pointer"
+        onchange="window.portalField&&window.portalField('habitLog.${k}',this.checked?'1':'')">
+      <span style="font-size:10px;font-weight:600;color:#5A8A64">${dl}</span>
+    </label>`;
+  }).join('');
+  return `<div style="background:#FFFFFF;border:1.5px solid #D8E8DC;border-radius:9px;padding:12px 13px">
+    <div style="font-size:12px;font-weight:700;color:#1A2E1E;margin-bottom:10px;line-height:1.45">${heading}</div>
+    <div style="display:flex;gap:6px;justify-content:space-between">${boxes}</div>
+  </div>`;
+}
+
+function renderWeekCogTraining(W: Workbook, w: 1 | 2 | 3 | 4): string {
   const cue = weekCogTrainData[w];
   return `
   <div class="card" style="border-top:3px solid #2E7FD9;margin-top:8px">
@@ -1861,18 +1879,10 @@ function renderWeekCogTraining(w: 1 | 2 | 3 | 4): string {
     </div>
     <div style="font-size:11.5px;color:#3A5A7A;margin-bottom:16px;line-height:1.6;font-style:italic">${esc(cue)}</div>
 
-    <div style="background:#F8FAF8;border:1.5px solid #D8E8DC;border-radius:9px;
-      padding:12px 14px;display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
-      <div style="font-size:12px;font-weight:700;color:#1A3A20">Dual N-Back (iOS)</div>
-      <div style="font-size:11px;color:#5A8A64;line-height:1.5">Free · Peer-reviewed transfer to working memory &amp; fluid intelligence.</div>
-      <a href="https://apps.apple.com/us/app/dual-n-back/id507031600" target="_blank" rel="noopener noreferrer"
-        style="font-size:11px;font-weight:700;color:#2E7FD9;text-decoration:none;
-          background:#2E7FD918;border:1px solid #2E7FD944;border-radius:6px;
-          padding:5px 10px;text-align:center;display:block">Open App &rarr;</a>
-    </div>
+    ${habitWeekRow(W, w, 'readbook', 'I read at least 10 pages of <em>Begin with the End in Mind</em> today', 'all', '#2E7FD9')}
 
-    <div style="font-size:10px;color:#8A9A88;font-style:italic">
-      Lumosity, Duolingo, and other tools become available in Month 2+.
+    <div style="font-size:10px;color:#8A9A88;font-style:italic;margin-top:12px">
+      Other cognitive tools (Lumosity, Duolingo, dual n-back, and more) become available in Month 2+.
     </div>
   </div>`;
 }
@@ -1901,20 +1911,9 @@ const weekNutrData: Record<1 | 2 | 3 | 4, { fastingCue: string; suppTagline: str
   },
 };
 
-function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
+function renderWeekNutritionSection(W: Workbook, w: 1 | 2 | 3 | 4): string {
   const wc = weekMeta[w];
   const { fastingCue } = weekNutrData[w];
-
-  const supplierCards = affiliateSuppliers.map(s => `
-    <div style="background:#F8FAF8;border:1.5px solid #D8E8DC;border-radius:9px;
-      padding:12px 14px;display:flex;flex-direction:column;gap:6px">
-      <div style="font-size:12px;font-weight:700;color:#1A3A20">${esc(s.name)}</div>
-      <div style="font-size:11px;color:#5A8A64;line-height:1.5;flex:1">${esc(s.desc)}</div>
-      <a href="${s.url}" target="_blank" rel="sponsored noopener noreferrer"
-        style="font-size:11px;font-weight:700;color:${wc.ac};text-decoration:none;
-          background:${wc.ac}18;border:1px solid ${wc.ac}44;border-radius:6px;
-          padding:5px 10px;text-align:center;display:block">Shop &rarr;</a>
-    </div>`).join('');
 
   return `
   <div class="card" style="border-top:3px solid ${wc.ac};margin-top:8px">
@@ -1937,13 +1936,11 @@ function renderWeekNutritionSection(w: 1 | 2 | 3 | 4): string {
       </ul>
     </div>
 
-    <!-- AFFILIATE SOURCING GRID -->
-    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:8px;text-transform:uppercase">
-      Build Your Ancestral Pantry — Recommended Suppliers
+    <!-- RECOMMENDED RECIPE CHECK -->
+    <div style="font-size:11px;color:#5A8A64;line-height:1.55;margin-bottom:10px">
+      Your recommended recipes, shopping list, and a prep video arrive by email a few days before each Sunday Zoom.
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px">
-      ${supplierCards}
-    </div>
+    ${habitWeekRow(W, w, 'recipe', 'Did you use at least one recommended recipe (with the recommended ingredients) today?', 'mf', wc.ac)}
 
   </div>`;
 }

@@ -109,6 +109,8 @@ export interface Workbook {
   trainLog: TrainingSession;
   /** Daily first/last meal times, keyed as `w{week}d{n}_firstMeal|lastMeal`. */
   fastingLog: Record<string, string>;
+  /** Daily habit checkboxes (book reading, recipe use, etc.), keyed `w{week}d{n}_{habit}`. */
+  habitLog: Record<string, string>;
 
   weekLogs: Record<1 | 2 | 3 | 4, WeekLog>;
 
@@ -198,6 +200,7 @@ export function createEmptyWorkbook(id: string, userId: string): Workbook {
     bodyBaseline: { weight: '', waist: '', energy: '', focus: '', sleep: '', mood: '' },
     trainLog: {},
     fastingLog: {},
+    habitLog: {},
     weekLogs: {
       1: emptyWeek(1),
       2: emptyWeek(2),
