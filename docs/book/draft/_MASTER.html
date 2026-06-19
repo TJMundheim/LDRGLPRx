@@ -86,6 +86,24 @@ body > h1:first-of-type + p::first-letter {
   padding: 0;
 }
 
+/* Chapter emblem — the colorful SVG illustration above each chapter title.
+   Carries the page break so the chapter starts on a fresh page with the emblem
+   on top, and keeps the title attached right below it. */
+.chap-emblem {
+  page-break-before: always;
+  page-break-after: avoid;
+  text-align: center;
+  margin: 0.3em 0 0;
+}
+.chap-emblem svg {
+  width: 1.5in;
+  height: 1.5in;
+}
+.chap-emblem + h1 {
+  page-break-before: avoid;
+  margin-top: 0.15em;
+}
+
 h2 {
   font-size: 18pt;
   font-weight: 700;
@@ -289,7 +307,7 @@ code {
 <hr>
 <h1 id="opening">Opening</h1>
 <hr>
-<h1 id="chapter-1-the-fear">Chapter 1 — The Fear</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="10" width="36" height="4" rx="2" fill="#2B50C8"/><rect x="18" y="58" width="36" height="4" rx="2" fill="#2B50C8"/><path d="M23 14Q23 30 36 36Q49 30 49 14Z" fill="#cdd9ff" stroke="#2B50C8" stroke-width="2"/><path d="M23 58Q23 42 36 36Q49 42 49 58Z" fill="#cdd9ff" stroke="#2B50C8" stroke-width="2"/><path d="M27 52Q36 47 45 52L45 56L27 56Z" fill="#d4af5a"/><path d="M34 37h4l-2 7z" fill="#d4af5a"/></svg></div><h1 id="chapter-1-the-fear">Chapter 1 — The Fear</h1>
 <h2 id="the-word-you-forgot">The word you forgot</h2>
 <p>There is a moment that comes to almost every man in his fifties, and most of them never tell anyone about it.</p>
 <p>You are mid-sentence. You are talking about something you know — your business, a deal you&rsquo;ve run a hundred times, the name of the road you grew up on, the name of the actor in the movie you watched last weekend with your wife. And the word is not there. Not slow. Not on the tip of your tongue. Just — not there. A blank space where a word used to live.</p>
@@ -355,7 +373,7 @@ code {
 <p>Don&rsquo;t lose your identity and your dignity while you still have a choice.</p>
 <p>There is a choice. It&rsquo;s called 4M. We start there.</p>
 <hr>
-<h1 id="chapter-2-begin-with-the-end-in-mind">Chapter 2 — Begin with the End in Mind</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M6 56L26 24L38 42L46 30L66 56Z" fill="#2B50C8"/><path d="M26 24L33 36L19 36Z" fill="#ffffff" opacity=".6"/><line x1="26" y1="24" x2="26" y2="12" stroke="#7a5c12" stroke-width="2"/><path d="M26 12L38 15L26 18Z" fill="#d4af5a"/></svg></div><h1 id="chapter-2-begin-with-the-end-in-mind">Chapter 2 — Begin with the End in Mind</h1>
 <h2 id="where-the-title-comes-from">Where the Title Comes From</h2>
 <p>I stole the title. I won&rsquo;t pretend otherwise. Stephen Covey put <em>Begin with the End in Mind</em> on the page in 1989 as the second of his seven habits, and a generation of executives — me included — read it, underlined it, taped it to the inside of the briefcase, and used it to build companies, careers, marriages, retirement plans. It is one of the most useful sentences ever written about how to live a life on purpose.</p>
 <p>Covey&rsquo;s argument, stripped down, was this: most people drift. They react to what is in front of them. They optimize for the next quarter, the next promotion, the next quiet weekend, and one day they look up at fifty-five and realize they spent thirty years climbing a ladder leaned against the wrong wall. The fix, he said, is to start from the endpoint. Picture the funeral. Picture the eulogy. Picture what you want the people in the room to be able to honestly say about you. Then walk backwards from there into your calendar, into your weekly schedule, into Monday morning. Let the endpoint define the inputs.</p>
@@ -415,7 +433,7 @@ code {
 <p>Not everyone reading these pages should keep going. Some of you should put this down and hand it to a brother or a friend who actually fits the description. The next chapter is where I draw that line, name the man this book is for, and give you permission to either step in or step out. <em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em> But first, you have to make sure I am actually talking to you.</p>
 <p>Turn the page.</p>
 <hr>
-<h1 id="chapter-3-why-you-why-now">Chapter 3 — Why You, Why Now</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><circle cx="36" cy="40" r="20" fill="#dbe4ff" stroke="#2B50C8" stroke-width="2.5"/><line x1="22" y1="22" x2="16" y2="15" stroke="#2B50C8" stroke-width="3" stroke-linecap="round"/><line x1="50" y1="22" x2="56" y2="15" stroke="#2B50C8" stroke-width="3" stroke-linecap="round"/><line x1="36" y1="40" x2="36" y2="29" stroke="#d4af5a" stroke-width="2.5" stroke-linecap="round"/><line x1="36" y1="40" x2="45" y2="44" stroke="#d4af5a" stroke-width="2.5" stroke-linecap="round"/><circle cx="36" cy="40" r="2" fill="#2B50C8"/></svg></div><h1 id="chapter-3-why-you-why-now">Chapter 3 — Why You, Why Now</h1>
 <p>Let me say out loud who I wrote this book for, because if I don&rsquo;t, the wrong man will read the first three chapters, decide it isn&rsquo;t about him, and put it down. And he is exactly the one I need to keep reading.</p>
 <p>I wrote this for the man in his fifties or early sixties who is still chosen.</p>
 <p>Still running the company. Still the one the board calls when the quarter wobbles. Still the father whose grown kids text before they make the big decision. Still the husband his wife trusts to drive at night. Still the guy the younger partners route the hard conversation through, because he is the one who knows how to hold the room.</p>
@@ -481,7 +499,7 @@ code {
 <h1 id="part-i-mitigate">Part I — MITIGATE</h1>
 <p><em>Stop hurting yourself first. Then add what works.</em></p>
 <hr>
-<h1 id="chapter-4-gut-the-gut-brain-seal">Chapter 4 — Gut: The Gut-Brain Seal</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><circle cx="36" cy="15" r="9" fill="#3d63d6"/><path d="M30 15q6-4 12 0" stroke="#d4af5a" stroke-width="1.4" fill="none"/><line x1="36" y1="24" x2="36" y2="30" stroke="#caa84e" stroke-width="2"/><path d="M26 32q-8 0-8 9 0 9 9 9 7 0 7-6 0-6 7-6 8 0 8 8 0 8-8 8" fill="none" stroke="#E06A8A" stroke-width="5" stroke-linecap="round"/></svg></div><h1 id="chapter-4-gut-the-gut-brain-seal">Chapter 4 — Gut: The Gut-Brain Seal</h1>
 <p>If you read no other chapter in the Mitigate section — if you skim the rest of this book and only act on one thing — make it this one.</p>
 <p>The gut is the single most leveraged intervention in cognitive longevity. It sits underneath nearly everything else. Hormones do not optimize on top of a broken gut. Sleep does not deepen on top of a broken gut. Nutrition does not absorb on top of a broken gut. Peptides do not reach their ceiling on top of a broken gut. Every other pillar of the 4M framework — Mind, Muscle, Mitigate, Motivate — pays a tax to a compromised gut barrier until the gut is repaired. Fix this first, and the rest of the system starts pulling in the same direction.</p>
 <p>I have watched this play out hundreds of times in practice. A man comes in with brain fog, weight he can&rsquo;t shed, a libido that has quietly walked out the back door, and a sense that the version of himself he was at forty has slipped somewhere he cannot quite locate. We test. We talk. We map the picture. And in nearly every case, when we trace the threads back to their origin, they converge on the same place: the lining of the gut.</p>
@@ -573,7 +591,7 @@ code {
 <p>The gut is the most leveraged Mitigate move. The second most leveraged is the one that compounds with it — sleep. Eight hours a night is when your brain runs its overnight glymphatic clearance, when your gut barrier does its overnight repair cycle, and when most of the next day&rsquo;s resilience is decided. We turn to it next.</p>
 <p>Begin with the end in mind. The end is the mind. The road to the mind runs through the gut.</p>
 <hr>
-<h1 id="chapter-5-sleep-the-memory-consolidator">Chapter 5 — Sleep: The Memory Consolidator</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M46 12a22 22 0 1 0 14 38A18 18 0 0 1 46 12z" fill="#2B50C8"/><circle cx="24" cy="20" r="1.8" fill="#d4af5a"/><circle cx="18" cy="34" r="1.4" fill="#d4af5a"/><circle cx="30" cy="44" r="1.6" fill="#d4af5a"/></svg></div><h1 id="chapter-5-sleep-the-memory-consolidator">Chapter 5 — Sleep: The Memory Consolidator</h1>
 <p>If gut is the first lever of Mitigate, sleep is the second — and the gap between them is smaller than most men think. I tell my patients that if I could only fix two things in their lives and walk away, I would fix the gut and I would fix the sleep. Everything else — the testosterone, the weight, the mood, the cognitive sharpness, the libido, the recovery from training — bends to those two inputs.</p>
 <p>Sleep is not rest. That framing is what gets you into trouble. Sleep is the most metabolically and neurologically active maintenance window your brain has in any given twenty-four-hour cycle. It is when the brain takes itself apart, washes itself, files away what mattered, throws out what didn&rsquo;t, and rebuilds the hormonal substrate that will run the next day. Skip it, shorten it, fragment it, or push it into the wrong window of the circadian clock, and you are not just tired. You are unmaintained.</p>
 <p>The men I see in my practice who are sliding — the ones whose wives have started noticing the lost word, the missed appointment, the shorter fuse — almost always have something broken in their sleep. Often they don&rsquo;t know it. They report &ldquo;sleeping fine.&rdquo; They mean they fall asleep and they wake up and the hours roughly add up. They are not measuring what actually matters.</p>
@@ -626,7 +644,7 @@ code {
 <p>Sleep is the second-most-leveraged Mitigate move after gut, and it sits underneath every other intervention in this book. Fix the gut, fix the sleep, and you have done more than 60% of the available work to protect the Mind that we are protecting. Mind is the destination. Sleep is one of the two largest checks the body writes on its behalf, every twenty-four hours, for the rest of your life.</p>
 <p>But the night does not happen in a vacuum. The room you sleep in — the light leaking through the blinds, the EMF radiating from the router on the nightstand, the air quality your bedroom HVAC is or is not delivering, the temperature your thermostat is set to — shapes the architecture of every one of those hours. The next chapter is about what is around you while you sleep, and why men who fix everything inside the body but ignore the environment they live in never quite get the full return on the protocol. The bedroom is a clinical environment whether you have treated it as one or not. It is time to treat it as one.</p>
 <hr>
-<h1 id="chapter-6-environment-light-air-water-emf">Chapter 6 — Environment: Light, Air, Water, EMF</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><g stroke="#f0a500" stroke-width="3" stroke-linecap="round"><line x1="36" y1="6" x2="36" y2="14"/><line x1="36" y1="58" x2="36" y2="66"/><line x1="6" y1="36" x2="14" y2="36"/><line x1="58" y1="36" x2="66" y2="36"/><line x1="15" y1="15" x2="20" y2="20"/><line x1="52" y1="52" x2="57" y2="57"/><line x1="57" y1="15" x2="52" y2="20"/><line x1="20" y1="52" x2="15" y2="57"/></g><circle cx="36" cy="36" r="15" fill="#ffd21f" stroke="#f0a500" stroke-width="2"/></svg></div><h1 id="chapter-6-environment-light-air-water-emf">Chapter 6 — Environment: Light, Air, Water, EMF</h1>
 <blockquote>
 <p>Stop hurting yourself first. Then add what works.</p>
 </blockquote>
@@ -693,7 +711,7 @@ code {
 <p>Environment compounds with hormones. The polluted water you drink contains pharmaceutical estrogens that suppress testosterone. The blue light at midnight crashes the same growth hormone pulse that the gym session was supposed to provoke. The PM2.5 inflammation you breathe in your kitchen drives the same systemic inflammation that suppresses the HPA axis. You cannot separate your endocrine system from the environment it runs inside.</p>
 <p>Which is why the next chapter is about what is actually happening inside the endocrine system in a man over fifty — and the small, easy-to-ignore warning sign the body throws up first when that system starts to fail.</p>
 <hr>
-<h1 id="chapter-7-hormones-the-ed-canary">Chapter 7 — Hormones &amp; the ED Canary</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M36 6v5" stroke="#7a5c12" stroke-width="2" fill="none"/><circle cx="36" cy="5" r="2.6" fill="none" stroke="#7a5c12" stroke-width="2"/><path d="M13 27Q36 7 59 27" fill="#fffdf5" stroke="#7a5c12" stroke-width="2"/><rect x="13" y="27" width="46" height="32" rx="3" fill="#fffdf5" stroke="#7a5c12" stroke-width="2"/><g stroke="#caa84e" stroke-width="1.4"><line x1="22" y1="27" x2="22" y2="59"/><line x1="30" y1="27" x2="30" y2="59"/><line x1="42" y1="27" x2="42" y2="59"/><line x1="50" y1="27" x2="50" y2="59"/><line x1="36" y1="13" x2="36" y2="27"/></g><line x1="20" y1="50" x2="52" y2="50" stroke="#9b7d2e" stroke-width="2"/><ellipse cx="35" cy="43" rx="10" ry="8.5" fill="#ffd21f"/><circle cx="43" cy="38" r="5.6" fill="#ffd21f"/><path d="M28 42q7 5 13 1" fill="#f2b705" opacity=".85"/><path d="M48.5 38l5.5 1.6-5.5 1.6z" fill="#f08a00"/><circle cx="44.6" cy="37" r="1.2" fill="#222"/><path d="M25 43l-7 2 4-5z" fill="#f2b705"/><g stroke="#f08a00" stroke-width="1.3"><line x1="33" y1="50.5" x2="33" y2="54"/><line x1="39" y1="50.5" x2="39" y2="54"/></g><rect x="10" y="58" width="52" height="6" rx="2" fill="#7a5c12"/></svg></div><h1 id="chapter-7-hormones-the-ed-canary">Chapter 7 — Hormones &amp; the ED Canary</h1>
 <p>There is a specific moment that brings a successful man into my practice for the first time. It is rarely a heart attack. It is rarely a stroke. It is rarely a memory lapse in a board meeting, though those happen too. The moment that finally makes him pick up the phone, almost without fail, is private. It happens in the bedroom. It happens twice, or three times, or a dozen times, with a wife or partner he has been with for decades. And then, when he can no longer pretend it was the bourbon or the long week or the bad mattress, he sits in his car in a parking lot and starts looking for answers.</p>
 <p>I want to talk to that man directly, because if that is you, you are not broken. You are not failing. You are reading exactly the right book at exactly the right time. What is happening to you is not the disease. It is the alarm. And the alarm is doing its job.</p>
 <h2 id="the-canary">The Canary</h2>
@@ -755,7 +773,7 @@ code {
 <p>I want to say one last thing to the man who picked up this book because of what is — or isn&rsquo;t — happening in his bedroom. You are not weak. You are not failing as a husband or as a man. You are running a body that has been quietly drifting for a decade or more, in an environment engineered to accelerate that drift, with almost no one in the standard medical system willing to tell you the truth about what the signal means. The fact that you are still trying to figure it out — still reading, still looking — is itself the evidence that the man you have always been is still in there, still in command, still capable of making the call. Most men your age won&rsquo;t. Don&rsquo;t roll the dice. Take action now.</p>
 <p>There is one more upstream variable that cuts across everything in this chapter — across hormones, across sleep, across the gut, across cognition itself — and most men in my demographic have it sitting in the kitchen cabinet, the wine fridge, or the bar cart. We are about to talk about substance use, and the way alcohol in particular sabotages every protocol in this book at once. That is Chapter 9.</p>
 <hr>
-<h1 id="chapter-8-substance-use-alcohol-and-the-other-quiet-saboteurs">Chapter 8 — Substance Use: Alcohol and the Other Quiet Saboteurs</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M24 12h24l-3 16a9 9 0 0 1-18 0z" fill="#dbe4ff" stroke="#2B50C8" stroke-width="2"/><path d="M27 17h18l-1.6 8a7.4 7.4 0 0 1-14.8 0z" fill="#b3243b"/><line x1="36" y1="40" x2="36" y2="56" stroke="#2B50C8" stroke-width="2.5"/><rect x="26" y="56" width="20" height="4" rx="2" fill="#2B50C8"/></svg></div><h1 id="chapter-8-substance-use-alcohol-and-the-other-quiet-saboteurs">Chapter 8 — Substance Use: Alcohol and the Other Quiet Saboteurs</h1>
 <p>I want to start this chapter with a small confession on behalf of half the men who will read it: when we say &ldquo;moderate drinker,&rdquo; we are almost always rounding down. The two glasses of wine at dinner becomes &ldquo;a glass of wine.&rdquo; The three fingers of bourbon becomes &ldquo;a drink.&rdquo; The Saturday that went sideways gets quietly subtracted from the weekly count. Nobody is lying. The accounting is just generous, because the alternative — looking at the real number — is uncomfortable.</p>
 <p>This chapter is not going to scold you. There is no chapter in this book I have less interest in scolding you over. I am 59. I have had a drink. I have had several drinks. I grew up in the same culture you did, where the after-work pour was a reward and the dinner-party wine was a social contract. I am not going to pretend I sit outside any of that.</p>
 <p>But I am going to do the one thing the wellness industry will not do for grown men: I am going to be specific about what each drink is costing the brain you are trying to keep. Because in the 4M framework, alcohol is not just one more insulting behavior on a long list. It is the single most efficient pillar-cutting molecule a man over fifty puts into his body. One nightly drink touches all four pillars at once. There is nothing else you can do daily — except maybe skip sleep — that wrecks this much surface area with this little drama.</p>
@@ -813,7 +831,7 @@ code {
 <p>The next chapter is for those readers specifically. If that is not you yet, you will still want to read it — because it is the chapter you hand to a friend, or a brother, or a father. And because everything in it is also the strongest possible argument for starting the protocol <em>now</em>, before you need the harder version of it.</p>
 <p>Mind is the destination. We are not done protecting it yet.</p>
 <hr>
-<h1 id="chapter-9-when-youre-already-diagnosed-regenerative-medicine">Chapter 9 — When You&rsquo;re Already Diagnosed: Regenerative Medicine</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M36 58V34" stroke="#3a7d2c" stroke-width="3" stroke-linecap="round"/><path d="M36 40q-14-2-18-14 14 0 18 12z" fill="#5bbf4a"/><path d="M36 34q14-2 18-16-16 0-18 14z" fill="#7fd96a"/><path d="M26 58h20" stroke="#8a6d3b" stroke-width="3" stroke-linecap="round"/></svg></div><h1 id="chapter-9-when-youre-already-diagnosed-regenerative-medicine">Chapter 9 — When You&rsquo;re Already Diagnosed: Regenerative Medicine</h1>
 <h2 id="you-or-someone-you-love">You Or Someone You Love</h2>
 <p>If you&rsquo;re holding this book right now, there&rsquo;s a chance it isn&rsquo;t really for you. Or rather — it&rsquo;s for you, but you picked it up because of someone else. Your wife handed it to you because she&rsquo;s been watching her mother forget the names of her grandchildren and she can&rsquo;t sit through another holiday pretending she didn&rsquo;t notice. Your son ordered it on Amazon and quietly put it on the kitchen counter because he&rsquo;s seen you searching for the right word three times in the same conversation and he doesn&rsquo;t know how to bring it up. Or you bought it yourself, late one night, after your father failed to recognize you at the assisted-living facility, and you walked back to your car and put your hands on the steering wheel and thought: <em>I have his genes. I have his life. I have his timer.</em></p>
 <p>I&rsquo;m not going to soften this. The previous nine chapters of this book are about prevention. They are about the men who still have the runway to fix their gut, fix their sleep, fix their hormones, build muscle, eliminate the insulting behavior, and protect the mind that is still mostly intact.</p>
@@ -893,7 +911,7 @@ code {
 <h1 id="part-ii-muscle">Part II — MUSCLE</h1>
 <p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
 <hr>
-<h1 id="chapter-10-nutrition-the-protein-first-rule">Chapter 10 — Nutrition &amp; the Protein-First Rule</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M36 16q18-4 20 14 4 18-12 22-20 6-26-10-6-22 18-26z" fill="#fffdf3" stroke="#ece2c4" stroke-width="1.5"/><circle cx="38" cy="36" r="9" fill="#ffc21f"/></svg></div><h1 id="chapter-10-nutrition-the-protein-first-rule">Chapter 10 — Nutrition &amp; the Protein-First Rule</h1>
 <blockquote>
 <p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
 </blockquote>
@@ -985,7 +1003,7 @@ code {
 <p>Begin with the end in mind. The plate in front of you, three times a day, is one of the signals telling your brain what to do for the next twenty years. Send the right signal.</p>
 </blockquote>
 <hr>
-<h1 id="chapter-11-weight-visceral-fat-and-the-glp-1-decision">Chapter 11 — Weight, Visceral Fat, and the GLP-1 Decision</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="20" width="44" height="36" rx="5" fill="#dbe4ff" stroke="#2B50C8" stroke-width="2.5"/><path d="M28 46a8 8 0 0 1 16 0z" fill="#ffffff" stroke="#2B50C8" stroke-width="1.5"/><line x1="36" y1="46" x2="42" y2="39" stroke="#d4af5a" stroke-width="2.5" stroke-linecap="round"/><circle cx="36" cy="46" r="2" fill="#2B50C8"/></svg></div><h1 id="chapter-11-weight-visceral-fat-and-the-glp-1-decision">Chapter 11 — Weight, Visceral Fat, and the GLP-1 Decision</h1>
 <blockquote>
 <p>&ldquo;We are not chasing an aesthetic number. We are removing a source of neurological insult that compounds year over year if left unaddressed.&rdquo;</p>
 </blockquote>
@@ -1066,7 +1084,7 @@ code {
 <p>Strong body, sharp mind. Resistance training is neuroprotection. That is the Muscle pillar&rsquo;s hero line, and it is the subject of the next chapter — strength, sarcopenia, pain, and the reason that the barbell in your basement is, in a real and measurable sense, one of the most important pieces of cognitive-longevity equipment you own.</p>
 <p>Begin with the end in mind. The mind is what we&rsquo;re protecting. Lose the fat. Build the muscle. Don&rsquo;t roll the dice.</p>
 <hr>
-<h1 id="chapter-12-strength-sarcopenia-and-pain-management">Chapter 12 — Strength, Sarcopenia, and Pain Management</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="30" width="12" height="12" rx="2" fill="#E05C2A"/><rect x="14" y="24" width="8" height="24" rx="2" fill="#b34418"/><rect x="50" y="24" width="8" height="24" rx="2" fill="#b34418"/><rect x="8" y="28" width="7" height="16" rx="2" fill="#E05C2A"/><rect x="57" y="28" width="7" height="16" rx="2" fill="#E05C2A"/><rect x="20" y="34" width="12" height="4" fill="#b34418"/><rect x="40" y="34" width="12" height="4" fill="#b34418"/></svg></div><h1 id="chapter-12-strength-sarcopenia-and-pain-management">Chapter 12 — Strength, Sarcopenia, and Pain Management</h1>
 <h2 id="resistance-training-is-neuroprotection">Resistance Training Is Neuroprotection</h2>
 <p><em>Strong body, sharp mind. Resistance training is neuroprotection.</em></p>
 <p>I want you to read that line twice, because almost no one over fifty actually believes it. They believe lifting is for vanity, for the gym crowd, for the guy in the mirror who still cares what his arms look like in a polo. They believe walking is enough. They believe the treadmill is enough. They believe &ldquo;staying active&rdquo; — golf, the occasional hike, a bike ride on Saturday — is enough.</p>
@@ -1145,7 +1163,7 @@ code {
 <h1 id="part-iii-motivate">Part III — MOTIVATE</h1>
 <p><em>What sustains the work — and what closes the loop.</em></p>
 <hr>
-<h1 id="chapter-13-purpose-identity-and-the-accountability-target">Chapter 13 — Purpose, Identity, and the Accountability Target</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><circle cx="36" cy="36" r="24" fill="#2B50C8"/><circle cx="36" cy="36" r="17" fill="#ffffff"/><circle cx="36" cy="36" r="11" fill="#2B50C8"/><circle cx="36" cy="36" r="5" fill="#E05C2A"/></svg></div><h1 id="chapter-13-purpose-identity-and-the-accountability-target">Chapter 13 — Purpose, Identity, and the Accountability Target</h1>
 <p>There is a Tuesday in February that decides everything.</p>
 <p>It is the third Tuesday of the month. It is dark when you wake up and dark when you finish work. The weather is bad. You are tired in a way sleep does not seem to fix. The protein shake is in the fridge. The kettlebell is in the garage. The supplements are on the counter, in the same order you put them in three months ago when you started.</p>
 <p>And you don&rsquo;t want to do any of it.</p>
@@ -1218,7 +1236,7 @@ code {
 <p>Purpose does not operate in a vacuum. It operates inside a structure. The next chapter is about that structure — the morning routine, the knowledge access, the healthcare access, and the financial stress reality that together determine whether your &ldquo;why&rdquo; actually gets to be lived. These are the structural enablers of the Motivate pillar. They are not glamorous. They are load-bearing.</p>
 <p>Begin with the end in mind. You have named the face. You have written who you are becoming. Now we build the days that let you live it.</p>
 <hr>
-<h1 id="chapter-14-knowledge-access-and-the-structural-enablers">Chapter 14 — Knowledge, Access, and the Structural Enablers</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M36 20q-10-6-22-4v34q12-2 22 4z" fill="#2B50C8"/><path d="M36 20q10-6 22-4v34q-12-2-22 4z" fill="#3d63d6"/><g stroke="#d4af5a" stroke-width="1.2" opacity=".85"><line x1="18" y1="26" x2="31" y2="28"/><line x1="18" y1="32" x2="31" y2="34"/><line x1="41" y1="28" x2="54" y2="26"/><line x1="41" y1="34" x2="54" y2="32"/></g></svg></div><h1 id="chapter-14-knowledge-access-and-the-structural-enablers">Chapter 14 — Knowledge, Access, and the Structural Enablers</h1>
 <p>For two decades I watched men fail at protocols they actually wanted to run. Not because they were weak. Not because they didn&rsquo;t care. They failed because no one had ever told them the truth about compliance, which is this: compliance is not a character trait. It is an infrastructure problem.</p>
 <p>The men who run the protocol for twenty years don&rsquo;t have more willpower than the men who quit in week three. They have less friction. They removed the structural barriers — knowledge gaps, access bottlenecks, financial cortisol, chaotic mornings — that the quitters never even named. Once you see compliance as infrastructure, the question stops being &ldquo;how do I stay motivated?&rdquo; and becomes &ldquo;what do I need to remove so that staying on the protocol becomes the path of least resistance?&rdquo;</p>
 <p>That is the subject of this chapter. The four structural enablers that decide, more than any supplement on the shelf, whether you actually live this for the rest of your life: health knowledge, healthcare access, financial stress, and a morning routine. Each of them is a Motivate-pillar problem. Each of them, addressed correctly, makes the other three pillars work. Ignored, they will quietly dismantle everything you tried to build.</p>
@@ -1279,7 +1297,7 @@ code {
 <h1 id="part-iv-mind">Part IV — MIND</h1>
 <p><em>The destination. What you&rsquo;ve been protecting all along.</em></p>
 <hr>
-<h1 id="chapter-15-arriving-at-mind">Chapter 15 — Arriving at Mind</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M28 14c-8 0-13 6-12 13-5 2-7 8-3 13-3 5 0 12 7 12 2 4 8 5 11 2V16c-2-2-7-2-3-2z" fill="#2B50C8" opacity=".9"/><path d="M44 14c8 0 13 6 12 13 5 2 7 8 3 13 3 5 0 12-7 12-2 4-8 5-11 2V16c2-2 4-2 3-2z" fill="#3d63d6"/><g stroke="#d4af5a" stroke-width="1.6" fill="none" opacity=".9"><path d="M36 20v34"/><path d="M30 28q6 3 12 0"/><path d="M30 40q6 3 12 0"/></g></svg></div><h1 id="chapter-15-arriving-at-mind">Chapter 15 — Arriving at Mind</h1>
 <p>The book opened with a question. <em>What if the man your wife married, the father your kids recognize, the operator who walks into a room and reads it — what if that man is what you&rsquo;re actually trying to protect?</em> I told you, three chapters in, that the answer was yes. That man is the destination. Everything else — the labs, the lifts, the protocols, the supplements, the sleep window, the assessment — is the delivery system. Begin with the end in mind. Mind is the end.</p>
 <p>Then we did the work.</p>
 <p>Three sections, fourteen chapters. <strong>Mitigate</strong> removed the chronic insults — the leaky gut, the broken sleep, the ambient environmental load, the slow drift of hormones, the alcohol that wasn&rsquo;t actually moderate, the regenerative-medicine intervention for the men already on the cognitive-decline spectrum. <strong>Muscle</strong> built the substrate — the protein-first rule, the eating window, the GLP-1 conversation, the strength training that releases the myokines the brain needs to grow new connections, the pain management that keeps you walking back to the squat rack. <strong>Motivate</strong> sustained the work — the accountability target named by face, the identity reframe that makes the protocol part of who you are, the structural enablers that remove friction.</p>
@@ -1312,7 +1330,7 @@ code {
 <p>You still have a choice. The destination is still reachable. The window is open right now, while the tissue is still plastic, while the trajectory is still yours to set. The next chapter is the destination&rsquo;s own toolkit — what to actually run, daily and over the long arc, to maximize the mind you&rsquo;ve spent the last fifteen chapters protecting.</p>
 <p>Turn the page.</p>
 <hr>
-<h1 id="chapter-16-the-cognitive-optimization-stack">Chapter 16 — The Cognitive Optimization Stack</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-35 36 30)"><rect x="17" y="22" width="38" height="16" rx="8" fill="#3d63d6"/><rect x="17" y="22" width="19" height="16" rx="8" fill="#d4af5a"/></g><g transform="rotate(22 38 52)"><rect x="22" y="45" width="34" height="14" rx="7" fill="#E05C2A"/><rect x="22" y="45" width="17" height="14" rx="7" fill="#ffd21f"/></g></svg></div><h1 id="chapter-16-the-cognitive-optimization-stack">Chapter 16 — The Cognitive Optimization Stack</h1>
 <p>By now you know what we&rsquo;re protecting and why. You&rsquo;ve walked the outside-in path: you&rsquo;ve seen what the gut does to the brain, what sleep does to the brain, what vascular tone and visceral fat and declining hormones do to the brain. You arrived at Mind because Mind was always the destination.</p>
 <p>This chapter is about what to actually run for the destination itself. Not the upstream pillars. Not the mechanisms. The interventions that target cognition directly — the daily floor, the optimization tier, the prescription layer, the training, and the biofeedback. The toolkit you take with you the rest of your life.</p>
 <p>I&rsquo;ll be honest about evidence quality the entire way through. Some of what&rsquo;s in here is as strong as anything in over-the-counter medicine. Some of it is promising but small. Some of it is experimental enough that I&rsquo;ll name it, tell you the truth, and let you decide. You&rsquo;re 55, you run a company, you can handle nuance. I&rsquo;m not going to flatter you with certainty I don&rsquo;t have.</p>
@@ -1375,7 +1393,7 @@ code {
 <hr>
 <h1 id="the-loop-closes">The Loop Closes</h1>
 <hr>
-<h1 id="chapter-17-the-4m-loop-in-real-life">Chapter 17 — The 4M Loop in Real Life</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><path d="M54 26a22 22 0 1 0 3 16" fill="none" stroke="#2B50C8" stroke-width="5" stroke-linecap="round"/><path d="M54 14l3 13-13-3z" fill="#d4af5a"/></svg></div><h1 id="chapter-17-the-4m-loop-in-real-life">Chapter 17 — The 4M Loop in Real Life</h1>
 <p>For fifteen chapters I have been telling you how the system works. Mind is the destination. Muscle builds the infrastructure. Mitigate removes the insults. Motivate closes the loop. You have the framework. You have the audit. You have the product names and the mechanisms and the reasons.</p>
 <p>What you do not yet have is a picture of a real man, on a real Monday, running this thing in his real life.</p>
 <p>So let me give you one.</p>
@@ -1455,7 +1473,7 @@ code {
 <p>The only variable left is whether you start.</p>
 <p>The next chapter is what you do tomorrow.</p>
 <hr>
-<h1 id="chapter-18-your-next-step">Chapter 18 — Your Next Step</h1>
+<div class="chap-emblem"><svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg"><ellipse cx="34" cy="44" rx="11" ry="15" fill="#2B50C8"/><circle cx="25" cy="24" r="3.4" fill="#d4af5a"/><circle cx="32" cy="20" r="3.6" fill="#d4af5a"/><circle cx="40" cy="20" r="3.2" fill="#d4af5a"/><circle cx="46" cy="24" r="2.8" fill="#d4af5a"/></svg></div><h1 id="chapter-18-your-next-step">Chapter 18 — Your Next Step</h1>
 <p>You&rsquo;ve read the book. The case is made. What&rsquo;s left is a decision, and a single physical action to anchor it.</p>
 <h2 id="the-argument-is-made">The Argument is Made</h2>
 <p>Let me say it back to you one time, compressed, so we&rsquo;re standing in the same room before you close the cover.</p>
