@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AFFILIATE_DISCLOSURE } from '../lib/affiliates';
+
+const title = 'Equipment to Order Before You Start | My4MLife';
+const description = 'A short, vetted list of affordable equipment to order before your first week — blood pressure monitor, pulse oximeter, pull-up bar, and squat wedges.';
+const canonical = 'https://www.my4mlife.com/equipment';
+
+const TAG = 'my4lifeamz-20';
+const amazon = (q: string) => `https://www.amazon.com/s?k=${encodeURIComponent(q)}&tag=${TAG}`;
+
+type Opt = { tier: 'Good' | 'Better'; name: string; why: string; q: string };
+type Cat = { cat: string; pairs?: string; note?: string; options: Opt[] };
+
+const EQUIPMENT: Cat[] = [
+  {
+    cat: 'Blood pressure monitor — with AFib screening',
+    pairs: 'Feeds your in-app Vitals Tracker',
+    note: 'A home cuff screens for an irregular rhythm (possible AFib) — it does not diagnose one. If it flags an irregular rhythm, bring the reading to your physician.',
+    options: [
+      { tier: 'Good', name: 'Microlife BP B3 AFIB', why: 'The value leader built specifically for AFib screening — the same clinically validated AFIB algorithm used in screening studies. Upper-arm, automatic, easy to use.', q: 'Microlife BP B3 AFIB blood pressure monitor' },
+      { tier: 'Better', name: 'Omron AI-AFib upper-arm monitor', why: 'Omron’s newest monitors add FDA-cleared, AI-powered AFib detection plus a polished app. A step up in price for a stronger brand and ecosystem.', q: 'Omron blood pressure monitor AFib detection upper arm' },
+    ],
+  },
+  {
+    cat: 'Pulse oximeter (blood oxygen)',
+    pairs: 'Feeds your in-app Vitals Tracker',
+    note: 'For your own tracking, not diagnosis. Fingertip readings can read low with cold hands or darker skin tones — measure warm and still.',
+    options: [
+      { tier: 'Good', name: 'Zacurate Pro Series 500DL', why: 'The budget standard — independent testing found it as accurate as devices costing many times more for everyday SpO₂ tracking.', q: 'Zacurate Pro Series 500DL pulse oximeter' },
+      { tier: 'Better', name: 'Innovo Deluxe iP900AP', why: 'Adds a perfusion index and waveform, with the clearest, easiest-to-read display.', q: 'Innovo Deluxe iP900AP pulse oximeter' },
+    ],
+  },
+  {
+    cat: 'Door-jam pull-up bar (no screws)',
+    note: 'Leverage-mounted — no drilling and no damage to the frame. Check that your doorway has trim/molding and matches the listed frame width before ordering.',
+    options: [
+      { tier: 'Good', name: 'Iron Gym Total Upper Body Workout Bar', why: 'Heavy-duty steel, 300 lb capacity, three grip positions. The proven, no-frills classic.', q: 'Iron Gym total upper body workout bar doorway' },
+      { tier: 'Better', name: 'Perfect Fitness Multi-Gym Pro', why: 'A sturdier multi-use version that also handles dips and elevated push-ups.', q: 'Perfect Fitness Multi-Gym Pro doorway pull up bar' },
+    ],
+  },
+  {
+    cat: 'Squat wedges / slant board',
+    note: 'Heel-elevated squats for a deeper, safer range and better ankle mobility. The foam pair is the budget pick; an adjustable board is more durable and doubles as a calf stretcher.',
+    options: [
+      { tier: 'Good', name: 'High-density foam squat wedge pair', why: 'The inexpensive non-slip foam blocks — come as a pair for heel-elevated squats and split squats.', q: 'squat wedge non slip foam pair heel elevated' },
+      { tier: 'Better', name: 'Adjustable slant board (5 angles)', why: 'More durable, multiple angles to match your mobility, and doubles as a calf stretcher.', q: 'adjustable slant board squat wedge calf stretch' },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="eq-section">
+  <div class="container eq-inner">
+    <header class="eq-header">
+      <p class="eq-eyebrow">Before You Start</p>
+      <h1>Equipment to order before Week 1</h1>
+      <p class="eq-sub">
+        A short, vetted list of affordable tools for the program. Each has a <strong>Good</strong> and a <strong>Better</strong> option — pick whichever fits your budget. The blood-pressure monitor and pulse oximeter feed the <strong>Vitals Tracker</strong> in your app, so order those first.
+      </p>
+    </header>
+
+    {EQUIPMENT.map((c) => (
+      <div class="eq-cat">
+        <div class="eq-cat-head">
+          <h2>{c.cat}</h2>
+          {c.pairs && <span class="eq-pairs">{c.pairs}</span>}
+        </div>
+        {c.note && <p class="eq-note">{c.note}</p>}
+        <div class="eq-grid">
+          {c.options.map((o) => (
+            <div class={`eq-card eq-card-${o.tier.toLowerCase()}`}>
+              <span class="eq-tier">{o.tier}</span>
+              <h3>{o.name}</h3>
+              <p class="eq-why">{o.why}</p>
+              <a class="eq-btn" href={amazon(o.q)} target="_blank" rel="nofollow sponsored noopener">Order on Amazon &rarr;</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <p class="eq-disclosure">{AFFILIATE_DISCLOSURE}</p>
+    <p class="eq-disclaimer">These devices are for your own tracking and training. They are not medical devices and do not provide a diagnosis. Share any concerning readings with your physician.</p>
+  </div>
+</section>
+
+<style>
+.eq-section { padding: 3rem 1rem 5rem; background: var(--bg-soft, #f6f8f5); }
+.eq-inner { max-width: 860px; margin: 0 auto; }
+.eq-header { text-align: center; margin-bottom: 2.25rem; }
+.eq-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; color: var(--accent, #00b894); text-transform: uppercase; margin: 0 0 0.5rem; }
+.eq-header h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary, #0a2540); margin: 0 0 0.75rem; line-height: 1.15; }
+.eq-sub { color: var(--text, #2d3748); font-size: 1.02rem; line-height: 1.6; max-width: 680px; margin: 0 auto; }
+
+.eq-cat { margin-bottom: 2.25rem; }
+.eq-cat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-bottom: 2px solid var(--accent, #00b894); padding-bottom: 0.5rem; margin-bottom: 0.6rem; }
+.eq-cat-head h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--primary, #0a2540); margin: 0; }
+.eq-pairs { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent, #00b894); background: rgba(0,184,148,0.1); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.eq-note { font-size: 0.9rem; color: var(--text-light, #5a6b7b); line-height: 1.55; margin: 0 0 1rem; }
+
+.eq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.eq-card { border: 1px solid var(--border, #e2e8f0); border-radius: 12px; padding: 1.15rem 1.25rem; background: #fff; display: flex; flex-direction: column; }
+.eq-card-better { border-color: rgba(0,184,148,0.4); box-shadow: 0 2px 10px rgba(0,184,148,0.08); }
+.eq-tier { align-self: flex-start; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; margin-bottom: 0.5rem; }
+.eq-card-good .eq-tier { background: #eef2f6; color: #5a6b7b; }
+.eq-card-better .eq-tier { background: var(--accent, #00b894); color: #fff; }
+.eq-card h3 { font-size: 1.05rem; color: var(--primary, #0a2540); margin: 0 0 0.4rem; line-height: 1.25; }
+.eq-why { font-size: 0.9rem; color: var(--text, #2d3748); line-height: 1.5; margin: 0 0 1rem; flex: 1; }
+.eq-btn { align-self: flex-start; background: var(--accent, #00b894); color: #fff; font-weight: 700; font-size: 0.9rem; text-decoration: none; padding: 0.6rem 1.1rem; border-radius: 999px; transition: opacity 0.15s; }
+.eq-btn:hover { opacity: 0.9; }
+
+.eq-disclosure { font-size: 0.85rem; color: var(--text-light, #5a6b7b); font-style: italic; text-align: center; margin: 2rem auto 0.5rem; max-width: 620px; line-height: 1.5; }
+.eq-disclaimer { font-size: 0.8rem; color: #8a99a8; text-align: center; margin: 0 auto; max-width: 620px; line-height: 1.5; }
+
+@media (max-width: 600px) {
+  .eq-grid { grid-template-columns: 1fr; }
+  .eq-header h1 { font-size: 1.6rem; }
+}
+</style>
+</BaseLayout>
