@@ -87,7 +87,7 @@ h1 + p::first-letter {
 body > h1:first-of-type {
   page-break-before: avoid;
   font-size: 42pt;
-  margin-top: 2.5in;
+  margin-top: 1in;
 }
 
 /* Title page should not get a chapter drop cap */
