@@ -1370,7 +1370,7 @@ function renderW2(W: Workbook): string {
     ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Biome NS Ultra + SleepRestore).
       <strong>Week 2 — Add: OmegaCN Prime</strong> (2 softgels with dinner — EPA/DHA + Kaneka QH® ubiquinol CoQ10) and <strong>ArmorVita</strong> (1 softgel with a fatty meal — D3 + K2 + Boron + A + Astaxanthin).
       Score your cognitive triad (focus / memory / mood) on Sunday.
-      Download the dual n-back app and complete your first session before Saturday.`)}
+      Read at least 10 pages of <em>Begin with the End in Mind</em> each day — check off each day in the Cognitive Training section below.`)}
   </div>
 
   ${renderWeekCogTraining(W, 2)}
@@ -1558,7 +1558,7 @@ function renderW3(W: Workbook): string {
         oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', `Add your final two Month 1 supplements: <strong>NeuroBridge</strong> (with breakfast) and <strong>MitoVita</strong> (pre-workout or mid-day). Your Month 1 stack is now complete — 6 supplements total. Continue dual n-back 3–4× per week.`)}
+    ${pillarActionBox('#2E7FD9', `Add your final two Month 1 supplements: <strong>NeuroBridge</strong> (with breakfast) and <strong>MitoVita</strong> (pre-workout or mid-day). Your Month 1 stack is now complete — 6 supplements total. Keep your daily 10-page reading habit going.`)}
   </div>
 
   ${renderWeekCogTraining(W, 3)}
@@ -1651,7 +1651,7 @@ function renderW4(W: Workbook): string {
       ${[['training', 'Training plan — 3 days/week + Zone 2'],
          ['nutrition', 'Nutrition focus (holding 14:10 eating window through Month 1)'],
          ['supplements', 'Supplements to continue or add in Month 2'],
-         ['cognitive', 'Cognitive practice — dual n-back and reading schedule'],
+         ['cognitive', 'Cognitive practice — daily reading schedule (10+ pages/day)'],
          ['accountability', 'Accountability partner and weekly check-in plan']
       ].map(([k, l]) => `
         <div style="margin-bottom:11px">
@@ -1882,7 +1882,7 @@ function renderWeekCogTraining(W: Workbook, w: 1 | 2 | 3 | 4): string {
     ${habitWeekRow(W, w, 'readbook', 'I read at least 10 pages of <em>Begin with the End in Mind</em> today', 'all', '#2E7FD9')}
 
     <div style="font-size:10px;color:#8A9A88;font-style:italic;margin-top:12px">
-      Other cognitive tools (Lumosity, Duolingo, dual n-back, and more) become available in Month 2+.
+      Other cognitive tools (Lumosity, Duolingo, and more) become available in Month 2+.
     </div>
   </div>`;
 }
