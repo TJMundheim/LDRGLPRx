@@ -56,6 +56,30 @@ h1 {
   margin: 2em 0 0.5em;
   text-align: center;
   page-break-before: always;
+  color: #A6841C;
+  letter-spacing: 0.01em;
+}
+
+/* Gold ornamental rule beneath every chapter title */
+h1::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  background: #d4af5a;
+  margin: 0.5em auto 0;
+  border-radius: 2px;
+}
+
+/* Gold drop cap opening each chapter */
+h1 + p::first-letter {
+  float: left;
+  font-family: 'Georgia', 'Playfair Display', serif;
+  font-size: 3.4em;
+  line-height: 0.78;
+  font-weight: 700;
+  color: #A6841C;
+  padding: 0.02em 0.1em 0 0;
 }
 
 /* The first h1 (title page) shouldn't force a page break before */
@@ -63,6 +87,16 @@ body > h1:first-of-type {
   page-break-before: avoid;
   font-size: 42pt;
   margin-top: 2.5in;
+}
+
+/* Title page should not get a chapter drop cap */
+body > h1:first-of-type + p::first-letter {
+  float: none;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  color: inherit;
+  padding: 0;
 }
 
 h2 {
@@ -82,7 +116,7 @@ h3 {
   font-size: 14pt;
   font-weight: 600;
   margin: 1.4em 0 0.4em;
-  color: #1a3656;
+  color: #9c7c1c;
 }
 
 h4 {
@@ -118,8 +152,9 @@ li {
 
 hr {
   border: none;
-  border-top: 1px solid #ccc;
-  margin: 2em 0;
+  border-top: 2px solid #d4af5a;
+  width: 38%;
+  margin: 2.2em auto;
 }
 
 /* Tables (for the scorecard) */
