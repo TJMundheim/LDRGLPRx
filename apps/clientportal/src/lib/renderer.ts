@@ -1015,6 +1015,8 @@ function renderW1(ctx: RenderContext): string {
 
   return `${weekBanner(1)}
 
+  ${vitalsTracker(W)}
+
   <div style="background:linear-gradient(135deg,#064030,#085041);border:2px solid #1D9E75;border-radius:13px;padding:20px 22px;margin-bottom:20px">
     <div style="font-size:17px;font-weight:800;color:#1D9E75;margin-bottom:7px;letter-spacing:.01em;line-height:1.25">
       Week 1: Repair the Gut. Restore the Brain.
@@ -1190,6 +1192,10 @@ function renderW1(ctx: RenderContext): string {
 
   ${renderWeekCogTraining(W, 1)}
 
+  <div style="margin-top:16px">
+    ${fastingDailyTracker(W, 1)}
+  </div>
+
   ${renderWeekNutritionSection(W, 1)}`;
 }
 
@@ -1247,6 +1253,8 @@ function renderW2(W: Workbook): string {
     </div>`;
 
   return `${weekBanner(2)}
+
+  ${vitalsTracker(W)}
 
   <div class="card" style="background:rgba(224,92,42,.04);border:1px solid rgba(224,92,42,.18)">
     <div style="font-size:14px;font-weight:700;color:#7A2E14;margin-bottom:6px">All 4 Pillars Continue — Week 2</div>
@@ -1471,6 +1479,8 @@ function renderW3(W: Workbook): string {
 
   ${proteinTargetLine(W)}
 
+  ${vitalsTracker(W)}
+
   <div class="card" style="background:rgba(46,127,217,.04);border:1px solid rgba(46,127,217,.18)">
     <div style="font-size:14px;font-weight:700;color:#0C447C;margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
     <div style="font-size:12.5px;color:#1A3050;line-height:1.7">
@@ -1674,6 +1684,8 @@ function renderW4(W: Workbook): string {
   return `${weekBanner(4)}
 
   ${proteinTargetLine(W)}
+
+  ${vitalsTracker(W)}
 
   <div class="card" style="background:rgba(107,94,212,.05);border:1px solid rgba(107,94,212,.2)">
     <div style="font-size:14px;font-weight:700;color:#3C3489;margin-bottom:6px">Month 1 Completion — All 4 Pillars</div>
