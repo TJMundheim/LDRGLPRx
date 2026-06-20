@@ -328,6 +328,7 @@ const robots = "index, follow";
       if (!feet || !weightLbs) return;
 
       var totalInches = (feet * 12) + inches;
+      if (totalInches < 48 || totalInches > 96) return; // plausible adult height only
       bmi = (weightLbs / (totalInches * totalInches)) * 703;
     } else {
       var heightCm = parseFloat(document.getElementById('height-cm').value);
@@ -335,6 +336,7 @@ const robots = "index, follow";
 
       if (!heightCm || !weightKg) return;
 
+      if (heightCm < 120 || heightCm > 244) return; // plausible adult height only
       var heightM = heightCm / 100;
       bmi = weightKg / (heightM * heightM);
     }

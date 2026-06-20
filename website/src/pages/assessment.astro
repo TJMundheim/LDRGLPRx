@@ -538,7 +538,10 @@ const robots = "index, follow";
       var i = parseFloat(inn.value) || 0;
       var w = parseFloat(lb.value) || 0;
       var totalInches = (f * 12) + i;
-      if (totalInches <= 0 || w <= 0) {
+      // Require feet to be entered (min 3) and a plausible total height — guards against
+      // a partial entry (e.g. inches filled but feet left blank) computing an absurd BMI
+      // like 800, and against a tall-typo. Weight must be positive.
+      if (f < 3 || totalInches < 48 || totalInches > 96 || w <= 0) {
         valEl.textContent = '—';
         badge.hidden = true;
         return;
