@@ -55,7 +55,7 @@ My4MLife is a dual-funnel telehealth + cohort platform built around the **4M Fra
 | Capability | Status | Verification |
 |---|---|---|
 | Cohort funnel (assessment → email → book/workbook/app) | ✅ Live | TJ verified 2026-06-11 |
-| Book v5 download URL (clean, no version leak, never expires) | ✅ Live | Bucket policy + direct URL |
+| Book download = styled **v7** (color + chapter/section emblems) | ✅ Live | Uploaded to fulfillment bucket key `begin-with-the-end-in-mind.pdf` 2026-06-19; verified public (2030384 bytes). New Protégés get v7 automatically. |
 | Workbook download URL (same) | ✅ Live | Same |
 | App sign-in via OTP (passwordless) | ✅ Live | TJ verified 2026-06-14 |
 | Admin tabs (Protégés + Events) — Queue tab removed | ✅ Live | TJ verified 2026-06-14 |
@@ -92,7 +92,7 @@ The original 5-tier plan was superseded by a simpler pivot (TJ, 2026-06-15). Fin
 All `PLACEHOLDER_*` strings removed; build verified zero placeholders; deployed to production. This was the last code-side launch blocker.
 
 #### 2. KDP book cover wrap upload + first print order (TJ)
-- Upload **v6** PDF (`docs/book/Begin-with-the-End-in-Mind-v6.pdf`) to Amazon KDP as draft — v6 corrects the regenerative-delivery paragraph (intrathecal/cognitive is facility-based at credentialed Centers of Excellence, not in-home; joints + systemic IVs remain nationwide/mobile). 290 pages (v5 was 289). v5 retained for history but is superseded — do not upload v5.
+- Upload **v7** PDF (`docs/book/Begin-with-the-End-in-Mind-v7.pdf`) to Amazon KDP as draft. v7 = the final styled book: regenerative-delivery content fix (from v6) PLUS the visual pass — gold chapter titles + drop caps, royal-blue (#2B50C8) headings & bold, colorful SVG emblems above all 18 chapters AND all 16 sections, and the page-1 margin fix. **293 pages** (v5/v6 were ~290) — generate the KDP cover template at 293 pages so the spine fits. v7 is also already the live digital-fulfillment book. v5/v6 retained for history but superseded — upload v7.
 - Get KDP-generated cover trim template (depends on final page count + paper choice)
 - Send template to Claude → renders full wraparound PDF (front + spine + back)
 - Approve KDP print proof
@@ -192,7 +192,7 @@ All `PLACEHOLDER_*` strings removed; build verified zero placeholders; deployed 
 | ~~TJ + Claude~~ | ~~Create Stripe prices + wire price IDs~~ | — | ✅ Done 2026-06-15 |
 | ~~Claude~~ | ~~Deploy `my4mlife-inbound-handler` Lambda~~ | — | ✅ Done 2026-06-14 |
 | TJ | Configure `info@my4mlife.com` → `drtj@my4mlife.com` forwarder in Google Workspace | 5 min | ⏳ Open |
-| TJ | Upload **v6** PDF to KDP, get cover template | 30 min | ⏳ Open |
+| TJ | Upload **v7** PDF to KDP (cover template at 293 pages) | 30 min | ⏳ Open |
 | TJ | Run E2E test on the 4 Rx questionnaires (leaky-gut/testosterone card capture; peptides/regenerative free consult) | 20 min | ⏳ Open |
 | Claude | Render full KDP wraparound cover once TJ sends template | 15 min | ⏳ Waiting on TJ |
 
@@ -328,8 +328,9 @@ lambdas/
 ### Book + workbook source
 ```
 docs/book/
-├── Begin-with-the-End-in-Mind-v6.pdf       ← LATEST PRINT-READY PDF (regenerative-delivery fix, 290pp)
-├── Begin-with-the-End-in-Mind-v5.pdf       ← superseded by v6
+├── Begin-with-the-End-in-Mind-v7.pdf       ← LATEST: styled (color + emblems), 293pp; LIVE in fulfillment + KDP target
+├── Begin-with-the-End-in-Mind-v6.pdf       ← content fix only (no styling); superseded by v7
+├── Begin-with-the-End-in-Mind-v5.pdf       ← superseded
 ├── render.py                               ← markdown → HTML → PDF
 ├── corpus-manifest.md
 ├── cover/
