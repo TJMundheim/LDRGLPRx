@@ -94,6 +94,7 @@ All `PLACEHOLDER_*` strings removed; build verified zero placeholders; deployed 
 #### 2. KDP book cover wrap upload + first print order (TJ)
 - Upload **v7** PDF (`docs/book/Begin-with-the-End-in-Mind-v7.pdf`) to Amazon KDP as draft. v7 = the final styled book: regenerative-delivery content fix (from v6) PLUS the visual pass — gold chapter titles + drop caps, royal-blue (#2B50C8) headings & bold, colorful SVG emblems above all 18 chapters AND all 16 sections, and the page-1 margin fix. **293 pages** (v5/v6 were ~290) — generate the KDP cover template at 293 pages so the spine fits. v7 is also already the live digital-fulfillment book. v5/v6 retained for history but superseded — upload v7.
 - Get KDP-generated cover trim template (depends on final page count + paper choice)
+- **Cover art FINALIZED 2026-06-20** — deeper muted royal blue, matched to the interior's royal (#2B50C8): front = `docs/book/cover/cover-v3c-royal2.png` (source `cover-mockup-v3c-royal2.html`), back = `docs/book/cover/back-cover-v2.png` (source `back-cover-v2.html`). Top band pulled up off the founder's hair. Old navy `cover-v3c.png` superseded. Drop these into the KDP wrap at the 293-page spine.
 - Send template to Claude → renders full wraparound PDF (front + spine + back)
 - Approve KDP print proof
 - Order first marketing-event print run
