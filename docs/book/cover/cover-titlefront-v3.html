@@ -1,0 +1,54 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+.cover{width:1600px;height:2560px;position:relative;overflow:hidden;font-family:'Inter',sans-serif;
+  background:radial-gradient(ellipse at 50% 24%, rgba(212,175,90,.13) 0%, rgba(212,175,90,0) 52%),
+  linear-gradient(168deg,#243C7C 0%,#2B4894 50%,#1c3464 100%);color:#f5ecd1}
+.frame{position:absolute;inset:60px;border:2px solid rgba(212,175,90,.55)}
+.frame2{position:absolute;inset:73px;border:1px solid rgba(212,175,90,.30)}
+.corner{position:absolute;width:34px;height:34px;border:2px solid #d4af5a}
+.c-tl{top:50px;left:50px;border-right:none;border-bottom:none}
+.c-tr{top:50px;right:50px;border-left:none;border-bottom:none}
+.c-bl{bottom:50px;left:50px;border-right:none;border-top:none}
+.c-br{bottom:50px;right:50px;border-left:none;border-top:none}
+.content{position:absolute;inset:60px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:150px 130px 130px}
+.brand{font-size:27px;font-weight:600;letter-spacing:.38em;color:#d4af5a;text-transform:uppercase}
+.brand-rule{width:200px;height:1px;background:linear-gradient(90deg,transparent,#d4af5a,transparent);margin:24px 0 0}
+.title{font-family:'Playfair Display',serif;font-weight:700;font-size:154px;line-height:1.0;letter-spacing:-.012em;text-shadow:0 2px 14px rgba(0,0,0,.4);margin-top:96px}
+.title .mind{color:#d4af5a}
+.tagline{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:58px;line-height:1.32;color:rgba(245,236,209,.95);margin-top:66px;max-width:1230px}
+.mark{margin-top:150px}
+.hook{font-family:'Inter',sans-serif;font-weight:400;font-size:36px;line-height:1.55;letter-spacing:.005em;color:rgba(245,236,209,.84);max-width:1080px;margin-top:96px}
+.spacer{flex:1}
+.byline{font-family:'Playfair Display',serif;font-weight:700;font-size:62px;color:#f5ecd1}
+.byline-sub{font-family:'Inter',sans-serif;font-weight:500;font-size:27px;letter-spacing:.24em;color:rgba(245,236,209,.8);text-transform:uppercase;margin-top:16px}
+</style></head><body>
+<div class="cover">
+  <div class="frame"></div><div class="frame2"></div>
+  <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+  <div class="content">
+    <div class="brand">A My4MLife Field Guide</div>
+    <div class="brand-rule"></div>
+    <div class="title">Begin with the<br>End in <span class="mind">Mind</span></div>
+    <div class="tagline">Don't lose your identity and your dignity<br>while you still have a choice.</div>
+    <div class="mark">
+      <svg width="340" height="354" viewBox="0 0 120 124" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="44" r="31" fill="none" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="11" y1="44" x2="29" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="91" y1="44" x2="109" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <circle cx="60" cy="13" r="9.5" fill="#ecd092"/>
+        <circle cx="60" cy="75" r="7" fill="#d4af5a"/>
+        <circle cx="29" cy="44" r="7" fill="#d4af5a"/>
+        <circle cx="91" cy="44" r="7" fill="#d4af5a"/>
+        <line x1="60" y1="82" x2="60" y2="94" stroke="#d4af5a" stroke-width="2.5"/>
+        <text x="60" y="120" text-anchor="middle" font-family="Playfair Display, serif" font-weight="800" font-size="36" fill="#d4af5a">4M</text>
+      </svg>
+    </div>
+    <div class="hook">A field guide to cognitive longevity — protecting the mind, and the identity and dignity that depend on it, for a healthspan that matches your lifespan.</div>
+    <div class="spacer"></div>
+    <div class="byline">Dr. TJ Mundheim</div>
+    <div class="byline-sub">Founder &middot; My4MLife</div>
+  </div>
+</div>
+</body></html>

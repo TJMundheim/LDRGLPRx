@@ -90,7 +90,16 @@ const robots = "index, follow";
         <p class="hp-hero-cta-fine">Five minutes. Ten questions. Free.<br>You'll be emailed your top-3 priorities, a copy of <em>Begin with the End in Mind</em>, the <em>Cohort Workbook</em>, and access to the Protégé app.</p>
       </div>
       <div class="hp-hero-book-visual" aria-hidden="true">
-        <img src="/images/book/cover.png" alt="Begin with the End in Mind — Dr. TJ Mundheim" class="hp-hero-book-cover" />
+        <div class="hp-hero-book-pair">
+          <figure class="hp-hero-book-fig">
+            <img src="/images/book/cover-front.png" alt="Begin with the End in Mind — front cover" class="hp-hero-book-cover" />
+            <figcaption>Front</figcaption>
+          </figure>
+          <figure class="hp-hero-book-fig">
+            <img src="/images/book/cover-back.png" alt="Begin with the End in Mind — back cover with Dr. TJ Mundheim" class="hp-hero-book-cover" />
+            <figcaption>Back</figcaption>
+          </figure>
+        </div>
         <p class="hp-hero-book-caption"><em>Begin with the End in Mind</em> — Dr. TJ's 280-page field guide. Plus the <em>Cohort Workbook</em> and the <em>Protégé app</em>. All three yours free when you complete the assessment.</p>
       </div>
     </div>
@@ -1358,14 +1367,38 @@ const robots = "index, follow";
   gap: 1rem;
   padding: 0;
 }
+.hp-hero-book-pair {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.25rem;
+}
+.hp-hero-book-fig {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hp-hero-book-fig figcaption {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 90, 0.75);
+}
 .hp-hero-book-cover {
-  width: 240px;
+  width: 200px;
   height: auto;
   border-radius: 6px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(212, 175, 90, 0.3);
 }
 @media (max-width: 860px) {
-  .hp-hero-book-cover { width: 180px; }
+  .hp-hero-book-pair { gap: 0.9rem; }
+  .hp-hero-book-cover { width: 150px; }
+}
+@media (max-width: 420px) {
+  .hp-hero-book-cover { width: 132px; }
 }
 .hp-hero-book-caption {
   font-family: 'Inter', sans-serif;
