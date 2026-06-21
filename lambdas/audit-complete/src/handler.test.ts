@@ -26,7 +26,49 @@ vi.mock('@aws-sdk/client-lambda', () => ({
   InvokeCommand: class { input: any; constructor(i: any) { this.input = i; } },
 }));
 
-import { handler } from './handler';
+import { handler, getRecommendedRx } from './handler';
+
+describe('getRecommendedRx — email consult priority (locked 2026-06-21)', () => {
+  const t = (id: string, score: number) => ({ id, label: id, slug: id, score });
+
+  it('recommends regenerative whenever neurocognitive > 0, even if testosterone scores higher', () => {
+    const scores = { 'already-diagnosed': 1, 'hormone-balance': 5 };
+    const rec = getRecommendedRx(scores, [t('hormone-balance', 5), t('already-diagnosed', 1)]);
+    expect(rec?.url).toContain('/rx/regenerative-medicine');
+  });
+
+  it('recommends weight/gut over testosterone when their scores are lower', () => {
+    const scores = { 'hormone-balance': 5, 'weight-body-fat': 3, 'gut-microbiome': 2 };
+    const rec = getRecommendedRx(scores, [t('hormone-balance', 5), t('weight-body-fat', 3), t('gut-microbiome', 2)]);
+    expect(rec?.url).toContain('/rx/weight-loss');
+  });
+
+  it('picks the higher of weight vs gut', () => {
+    expect(getRecommendedRx({ 'weight-body-fat': 2, 'gut-microbiome': 4 }, [])?.url).toContain('/rx/leaky-gut');
+    expect(getRecommendedRx({ 'weight-body-fat': 4, 'gut-microbiome': 2 }, [])?.url).toContain('/rx/weight-loss');
+  });
+
+  it('recommends the non-zero one when the other is zero', () => {
+    expect(getRecommendedRx({ 'weight-body-fat': 3, 'gut-microbiome': 0 }, [])?.url).toContain('/rx/weight-loss');
+    expect(getRecommendedRx({ 'weight-body-fat': 0, 'gut-microbiome': 3 }, [])?.url).toContain('/rx/leaky-gut');
+  });
+
+  it('recommends the combined consult when weight and gut tie (both > 0)', () => {
+    const rec = getRecommendedRx({ 'weight-body-fat': 3, 'gut-microbiome': 3 }, []);
+    expect(rec?.label).toBe('Weight + Gut Repair Consult');
+    expect(rec?.note).toContain('both');
+  });
+
+  it('falls back to testosterone only when weight, gut, and regen are all zero', () => {
+    const scores = { 'weight-body-fat': 0, 'gut-microbiome': 0, 'already-diagnosed': 0, 'hormone-balance': 4 };
+    const rec = getRecommendedRx(scores, [t('hormone-balance', 4), t('sleep', 5)]);
+    expect(rec?.url).toContain('/rx/testosterone-ed');
+  });
+
+  it('returns null when nothing actionable scored', () => {
+    expect(getRecommendedRx({ 'weight-body-fat': 0, 'gut-microbiome': 0 }, [t('sleep', 5)])).toBeNull();
+  });
+});
 
 function evt(body: any) {
   return {
@@ -69,9 +111,9 @@ describe('audit-complete handler', () => {
     const cmd = sendMock.mock.calls[0][0];
     expect(cmd.input.TableName).toBe('Contact');
     expect(cmd.input.Key).toEqual({ contactId: 'abc-123' });
-    expect(cmd.input.UpdateExpression).toBe(
-      'SET auditCompletedAt = :ts, intakeAnswers = :scores, auditTop3 = :top3, updatedAt = :ts'
-    );
+    expect(cmd.input.UpdateExpression).toContain('auditCompletedAt = :ts');
+    expect(cmd.input.UpdateExpression).toContain('auditTop3 = :top3');
+    expect(cmd.input.UpdateExpression).toContain('intakeAnswers = :scores');
     expect(cmd.input.ExpressionAttributeValues[':scores']).toEqual(scores);
     expect(cmd.input.ExpressionAttributeValues[':top3']).toEqual(top3);
   });
@@ -105,14 +147,14 @@ describe('audit-complete handler', () => {
     const payload = JSON.parse(Buffer.from(invokeCmd.input.Payload).toString('utf8'));
     expect(payload.kind).toBe('info');
     expect(payload.to).toBe('test-debug@my4mlife.com');
-    expect(payload.subject).toContain('4M Assessment Results');
-    expect(payload.subject).toContain('Sam');
+    expect(payload.subject).toContain('Welcome to My4MLife');
     expect(payload.html).toContain('Gut health');
-    expect(payload.html).toContain('become-protege');
-    expect(payload.html).toContain('top3=');
-    expect(payload.html).toContain('answers=');
+    expect(payload.html).toContain('Your Top 3 Priorities');
+    expect(payload.html).toContain('Open the My4MLife App');
+    // gut=5, weight/diag=0 → recommend the Leaky Gut Repair consult, not testosterone
+    expect(payload.html).toContain('Leaky Gut Repair Consult');
+    expect(payload.html).not.toContain('Testosterone');
     expect(payload.html).not.toContain('protege-signup?');
-    expect(payload.html).not.toContain('consult-comprehensive');
   });
 
   it('does not fail the request when email-sender invoke throws', async () => {

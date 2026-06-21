@@ -69,30 +69,6 @@ const robots = "index, follow";
             <span>Severe</span>
           </div>
 
-          {q.id === 'weight-body-fat' && (
-            <div class="bmi-calc" aria-label="BMI calculator (informational, does not affect your score)">
-              <div class="bmi-calc-header">Optional: BMI calculator <span class="bmi-calc-note">(informational only — does not change your score)</span></div>
-              <div class="bmi-inputs">
-                <div class="bmi-field">
-                  <label for="bmi-ft">Height (ft)</label>
-                  <input type="number" id="bmi-ft" min="3" max="8" step="1" placeholder="5" inputmode="numeric" />
-                </div>
-                <div class="bmi-field">
-                  <label for="bmi-in">Height (in)</label>
-                  <input type="number" id="bmi-in" min="0" max="11" step="1" placeholder="10" inputmode="numeric" />
-                </div>
-                <div class="bmi-field">
-                  <label for="bmi-lb">Weight (lbs)</label>
-                  <input type="number" id="bmi-lb" min="50" max="700" step="1" placeholder="180" inputmode="numeric" />
-                </div>
-              </div>
-              <div class="bmi-result" id="bmi-result" aria-live="polite">
-                <span class="bmi-value" id="bmi-value">—</span>
-                <span class="bmi-badge" id="bmi-badge" hidden></span>
-              </div>
-            </div>
-          )}
-
           <!-- Expandable scoring guide -->
           <button
             class="guide-toggle"
@@ -297,35 +273,33 @@ const robots = "index, follow";
   }
 
   // ── selectTop3 ──
-  // Rules locked 2026-06-01 (revised mid-assessment):
-  //   - already-diagnosed >= 3 → automatic #1; remaining 2 picked from others
-  //   - already-diagnosed 0/1/2 → ranked normally with raw score, no bonus
-  //   - others: raw score + BONUS_BY_ID[id], higher wins, priorityTier breaks ties
+  // Rules locked 2026-06-01, revised 2026-06-21:
+  //   - already-diagnosed > 0 → automatic #1 (neurocognitive jumps the queue); remaining 2 from others
+  //   - already-diagnosed = 0 → it drops out; the other categories rank normally
+  //   - others: raw score + BONUS_BY_ID[id] (bonus only when the raw score is > 0), higher wins,
+  //     priorityTier breaks ties. A zero stays a zero — the bonus never lifts an unmarked category.
   function selectTop3(scores, categories) {
-    var diagScore = scores['already-diagnosed'] !== undefined ? scores['already-diagnosed'] : 0;
-    if (diagScore >= 3) {
-      var others = categories.filter(function (c) { return c.id !== 'already-diagnosed'; });
-      others.sort(function (a, b) {
-        var sa = (scores[a.id] !== undefined ? scores[a.id] : 0) + (BONUS_BY_ID[a.id] || 0);
-        var sb = (scores[b.id] !== undefined ? scores[b.id] : 0) + (BONUS_BY_ID[b.id] || 0);
-        if (sb !== sa) return sb - sa;
-        var pb = (b.priorityTier ? 1 : 0) - (a.priorityTier ? 1 : 0);
-        if (pb !== 0) return pb;
-        return a.id.localeCompare(b.id);
-      });
-      var diagCat = categories.find(function (c) { return c.id === 'already-diagnosed'; });
-      return [diagCat].concat(others.slice(0, 2));
+    // Adjusted score: raw + bonus, but the bonus is forfeited when the category was marked 0.
+    function adj(id) {
+      var raw = scores[id] !== undefined ? scores[id] : 0;
+      return raw > 0 ? raw + (BONUS_BY_ID[id] || 0) : raw;
     }
-    // Diagnosis 0/1/2: ranked alongside everything else with raw score, no bonus.
-    var sorted = categories.slice().sort(function (a, b) {
-      var sa = (scores[a.id] !== undefined ? scores[a.id] : 0) + (BONUS_BY_ID[a.id] || 0);
-      var sb = (scores[b.id] !== undefined ? scores[b.id] : 0) + (BONUS_BY_ID[b.id] || 0);
+    function cmp(a, b) {
+      var sb = adj(b.id), sa = adj(a.id);
       if (sb !== sa) return sb - sa;
       var pb = (b.priorityTier ? 1 : 0) - (a.priorityTier ? 1 : 0);
       if (pb !== 0) return pb;
       return a.id.localeCompare(b.id);
-    });
-    return sorted.slice(0, 3);
+    }
+    var diagScore = scores['already-diagnosed'] !== undefined ? scores['already-diagnosed'] : 0;
+    if (diagScore > 0) {
+      var others = categories.filter(function (c) { return c.id !== 'already-diagnosed'; });
+      others.sort(cmp);
+      var diagCat = categories.find(function (c) { return c.id === 'already-diagnosed'; });
+      return [diagCat].concat(others.slice(0, 2));
+    }
+    // No neurocognitive flag: every category ranked together (zeros keep no bonus).
+    return categories.slice().sort(cmp).slice(0, 3);
   }
 
   // ── Progress ──
@@ -399,7 +373,6 @@ const robots = "index, follow";
   // ── Event wiring ──
   document.addEventListener('DOMContentLoaded', function () {
     applyRestoredScores();
-    initBmiCalc();
 
     // Likert button clicks
     document.getElementById('q-list').addEventListener('click', function (e) {
@@ -524,48 +497,6 @@ const robots = "index, follow";
       showResults();
     });
   });
-
-  function initBmiCalc() {
-    var ft = document.getElementById('bmi-ft');
-    var inn = document.getElementById('bmi-in');
-    var lb = document.getElementById('bmi-lb');
-    var valEl = document.getElementById('bmi-value');
-    var badge = document.getElementById('bmi-badge');
-    if (!ft || !inn || !lb || !valEl || !badge) return;
-
-    function recompute() {
-      var f = parseFloat(ft.value) || 0;
-      var i = parseFloat(inn.value) || 0;
-      var w = parseFloat(lb.value) || 0;
-      var totalInches = (f * 12) + i;
-      // Require feet to be entered (min 3) and a plausible total height — guards against
-      // a partial entry (e.g. inches filled but feet left blank) computing an absurd BMI
-      // like 800, and against a tall-typo. Weight must be positive.
-      if (f < 3 || totalInches < 48 || totalInches > 96 || w <= 0) {
-        valEl.textContent = '—';
-        badge.hidden = true;
-        return;
-      }
-      // BMI = (lbs / in^2) * 703
-      var bmi = (w / (totalInches * totalInches)) * 703;
-      valEl.textContent = 'BMI ' + bmi.toFixed(1);
-      var label, cls;
-      if (bmi < 18.5)      { label = 'Underweight';        cls = 'bmi-low';  }
-      else if (bmi < 25)   { label = 'Healthy';            cls = 'bmi-ok';   }
-      else if (bmi < 30)   { label = 'Overweight';         cls = 'bmi-warn'; }
-      else if (bmi < 35)   { label = 'Obese Class I';      cls = 'bmi-bad';  }
-      else if (bmi < 40)   { label = 'Obese Class II';     cls = 'bmi-bad';  }
-      else                 { label = 'Obese Class III';    cls = 'bmi-bad';  }
-      badge.textContent = label;
-      badge.className = 'bmi-badge ' + cls;
-      badge.hidden = false;
-    }
-    ['input','change'].forEach(function(ev){
-      ft.addEventListener(ev, recompute);
-      inn.addEventListener(ev, recompute);
-      lb.addEventListener(ev, recompute);
-    });
-  }
 
   function showResults() {
     document.getElementById('capture-section').hidden = true;
@@ -1262,78 +1193,6 @@ const robots = "index, follow";
 .btn-outline { background: transparent; color: var(--assess-accent-dark); border-color: var(--assess-accent-dark); }
 .btn-outline:hover { background: var(--assess-accent-dark); color: #fff; }
 .btn-large { padding: 14px 32px; font-size: 1rem; }
-
-/* ── BMI calculator ── */
-.bmi-calc {
-  background: var(--assess-parchment);
-  border: 1px solid var(--assess-border);
-  border-radius: 8px;
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.bmi-calc-header {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--dark, #0a1628);
-}
-.bmi-calc-note {
-  font-weight: 400;
-  color: var(--assess-muted);
-  font-style: italic;
-}
-.bmi-inputs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.bmi-field {
-  flex: 1;
-  min-width: 80px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.bmi-field label {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--assess-muted);
-}
-.bmi-field input {
-  padding: 8px 10px;
-  border: 1.5px solid var(--assess-border);
-  border-radius: 6px;
-  font-size: 0.92rem;
-  font-family: inherit;
-  background: #fff;
-  width: 100%;
-}
-.bmi-field input:focus { outline: none; border-color: var(--assess-accent); }
-.bmi-result {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.bmi-value {
-  font-size: 0.95rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  color: var(--dark, #0a1628);
-}
-.bmi-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 999px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.bmi-badge.bmi-low  { background: #fef3c7; color: #92400e; }
-.bmi-badge.bmi-ok   { background: #d1fae5; color: #065f46; }
-.bmi-badge.bmi-warn { background: #fed7aa; color: #9a3412; }
-.bmi-badge.bmi-bad  { background: #fecaca; color: #991b1b; }
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
