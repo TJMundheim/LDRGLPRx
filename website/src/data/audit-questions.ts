@@ -53,10 +53,10 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
   {
     id: 'weight-body-fat',
     n: '03',
-    label: 'Weight (BMI)',
+    label: 'Weight',
     prompt: "I'm carrying more body fat than I should — clothes don't fit the way they used to and the scale has been creeping up.",
     scoreGuide: '0 = At my ideal weight, body composition feels right · 3 = About 10-20 lbs heavier than I should be · 5 = More than 30 lbs over target with visible belly fat',
-    categoryNote: 'Use the BMI calculator below to sanity-check your answer — BMI is informational only and does not change your score.',
+    categoryNote: 'Answer by how your clothes fit and how far you are from your ideal weight — no exact numbers needed. You can run a full BMI check in the app once you join as a Protégé.',
     priorityTier: true,
     solutionSlug: 'weight',
   },
