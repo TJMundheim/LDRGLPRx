@@ -595,7 +595,7 @@ function selectTop3(scores: AuditScores): Array<{ label: string; score: number }
 }
 
 function auditBand200(total: number): { label: string; color: string; bg: string } {
-  // 8 categories × 10 max = 80. Bands at 30% / 60% of max.
+  // Risk bands tuned to the 10-category Personal Risk Assessment (legacy thresholds).
   if (total <= 24) return { label: 'Low', color: '#1D9E75', bg: 'rgba(29,158,117,.08)' };
   if (total <= 48) return { label: 'Moderate', color: '#D4920A', bg: 'rgba(212,146,10,.08)' };
   return { label: 'Elevated', color: '#E05C2A', bg: 'rgba(224,92,42,.08)' };
@@ -836,7 +836,7 @@ function renderDash(W: Workbook): string {
             : auditTotal200 <= 120 ? 'Multiple factors working against you. Targeted action yields rapid results.'
               : 'This program was built for you. Major gains are available very quickly.'}
         </div>
-        <div style="font-size:11px;color:#6A8A6E;margin-top:4px">${auditCategoryCount} of 8 categories scored</div>
+        <div style="font-size:11px;color:#6A8A6E;margin-top:4px">${auditCategoryCount} of 10 categories scored</div>
       </div>
       <div style="font-size:52px;font-weight:700;color:${auditBand.color};line-height:1">${auditTotal200}</div>
     </div>
@@ -1754,7 +1754,7 @@ function renderW4(W: Workbook): string {
 
   <!-- MITIGATE W4 RE-AUDIT -->
   <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Assessment — 8-Category Personal Risk Assessment</div>
+    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Assessment — 10-Category Personal Risk Assessment</div>
     <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
       Score every category again using the 0–10 scale from your Week 1 intake.
       Compare your final assessment score to your baseline to see how far you moved in 30 days.

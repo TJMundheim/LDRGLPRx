@@ -42,7 +42,7 @@ export const months: MonthDefinition[] = [
       },
     ],
     graduationCriteria: [
-      'All 15 factors scored in Week 1 assessment',
+      'All 10 factors scored in Week 1 assessment',
       'Week 4 re-assessment completed with delta documented',
       'Identity statement written and submitted',
       'Month 1 wins documented (minimum 3)',

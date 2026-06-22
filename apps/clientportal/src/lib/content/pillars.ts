@@ -72,11 +72,11 @@ export const pillars: Pillar[] = [
     week: 3,
     numeral: '03',
     name: 'MITIGATE',
-    tagline: 'Remove the 15 factors stealing your brain & body.',
+    tagline: 'Remove the 10 factors stealing your brain & body.',
     description:
-      'We start by removing what is working against you. Your personal 15-factor assessment scores every root cause — gut, sleep, stress, and more — so we know exactly where to begin.',
+      'We start by removing what is working against you. Your personal 10-factor assessment scores every root cause — gut, sleep, stress, and more — so we know exactly where to begin.',
     focus: [
-      '15-Factor Personal Risk Assessment and scoring',
+      '10-Factor Personal Risk Assessment and scoring',
       'Gut-brain axis repair',
       'Sleep architecture optimization',
       'Allergen and immune load reduction',
@@ -94,10 +94,10 @@ export const pillars: Pillar[] = [
     name: 'MOTIVATE',
     tagline: 'Lock in your identity and daily system.',
     description:
-      'By Week 4, you do not have a program — you have a system. We re-assess your 15 factors, write your identity statement, and build the maintenance protocol that carries your results forward.',
+      'By Week 4, you do not have a program — you have a system. We re-assess your 10 factors, write your identity statement, and build the maintenance protocol that carries your results forward.',
     focus: [
       'Identity statement — who you are becoming',
-      'Week 4 re-assessment: re-score all 15 factors',
+      'Week 4 re-assessment: re-score all 10 factors',
       'Month 1 wins review and celebration',
       'RPA introduction (bonus module)',
       'Month 2 commitment and graduation criteria',

@@ -36,7 +36,7 @@ function likertScore(v: unknown): number {
 }
 
 /**
- * Generic Likert+follow-up scorer used by all 8 categories.
+ * Generic Likert+follow-up scorer used by all 10 categories.
  * If `anchor` is a 1-5 Likert → base from likertScore. Else if `anchor`
  * is yes/true → base 5. Add 1 pt per yes follow-up (f1..f3), cap 10.
  */

@@ -42,7 +42,7 @@
     <section class="priorities no-recap">
       <h2>Haven't taken the personalized assessment yet?</h2>
       <p class="sub">
-        The 8-question assessment pinpoints where to start. <a href={`${MARKETING}/assessment`} target="_blank" rel="noopener">Take the assessment →</a>
+        The 10-question assessment pinpoints where to start. <a href={`${MARKETING}/assessment`} target="_blank" rel="noopener">Take the assessment →</a>
       </p>
     </section>
   {/if}
