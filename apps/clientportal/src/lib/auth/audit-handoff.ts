@@ -38,7 +38,7 @@ export function ingestAuditHandoff(): void {
       localStorage.setItem('intake-complete-v1', '1');
     }
     // Seed basics-v1 with whatever we know so the dashboard greeting and any
-    // basics-aware UI can render immediately. Stage1Basics will fill the rest.
+    // basics-aware UI can render immediately from the assessment handoff.
     if (payload.firstName || payload.phone || payload.email) {
       const existingRaw = localStorage.getItem('basics-v1');
       const existing = existingRaw ? (() => { try { return JSON.parse(existingRaw); } catch { return {}; } })() : {};

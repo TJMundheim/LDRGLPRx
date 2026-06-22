@@ -51,7 +51,7 @@
     'discovery-v1',
     'intake-stage-v1',
     'intake-complete-v1',
-    'intake-audit-scores-v1',   // Stage6Audit scores (separate from audit-v1)
+    'intake-audit-scores-v1',   // audit top-3 scores seeded from the profile (separate from audit-v1)
     'intake-date-v1',           // set when intake completes; used by nudge upgrade trigger
     // ── Consent state ────────────────────────────────────────────────────────
     'consent-protege-v1',
