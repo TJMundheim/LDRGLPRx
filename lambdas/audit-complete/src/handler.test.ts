@@ -118,6 +118,33 @@ describe('audit-complete handler', () => {
     expect(cmd.input.ExpressionAttributeValues[':top3']).toEqual(top3);
   });
 
+  it('persists the consent record (text + version + timestamp + flags) to the Contact', async () => {
+    const consent = {
+      consentedAt: '2026-06-21T12:00:00.000Z',
+      protegeTerms: { agreed: true, version: 'consent-protege-v1', text: 'I agree to the Protégé terms (free account; no purchase required).' },
+      aiComms: { agreed: true, version: 'consent-ai-comms-v1', text: 'I consent to receive AI-assisted health communications from My4MLife. I understand I may opt out at any time.' },
+    };
+    const res: any = await handler(evt({ contactId: 'abc-123', scores: { gut: 3 }, top3: [], consent }));
+    expect(res.statusCode).toBe(200);
+    const cmd = sendMock.mock.calls[0][0];
+    expect(cmd.input.UpdateExpression).toContain('consent = :consent');
+    expect(cmd.input.UpdateExpression).toContain('consentedAt = :consentAt');
+    expect(cmd.input.UpdateExpression).toContain('aiCommsConsent = :aiC');
+    expect(cmd.input.UpdateExpression).toContain('protegeConsent = :protC');
+    expect(cmd.input.ExpressionAttributeValues[':consentAt']).toBe('2026-06-21T12:00:00.000Z');
+    expect(cmd.input.ExpressionAttributeValues[':aiC']).toBe(true);
+    expect(cmd.input.ExpressionAttributeValues[':protC']).toBe(true);
+    expect(JSON.parse(cmd.input.ExpressionAttributeValues[':consent']).aiComms.version).toBe('consent-ai-comms-v1');
+  });
+
+  it('omits consent fields from the write when no consent is provided', async () => {
+    const res: any = await handler(evt({ contactId: 'abc-123', scores: { gut: 3 }, top3: [] }));
+    expect(res.statusCode).toBe(200);
+    const cmd = sendMock.mock.calls[0][0];
+    expect(cmd.input.UpdateExpression).not.toContain('consent = :consent');
+    expect(cmd.input.ExpressionAttributeValues[':consent']).toBeUndefined();
+  });
+
   it('derives contactId from email and invokes email-sender with correct payload', async () => {
     const top3 = [
       { id: 'gut-microbiome', label: 'Gut health / leaky gut', slug: 'gut', score: 5 },

@@ -478,7 +478,23 @@ const robots = "index, follow";
         }),
       }).catch(function () { /* silent */ });
 
-      // Also notify audit-complete (writes auditTop3 + sends results email).
+      // Capture the consent agreements (exact text + version + timestamp) so we
+      // have a durable, retrievable record of what each person agreed to.
+      var consentPayload = {
+        consentedAt: new Date().toISOString(),
+        protegeTerms: {
+          agreed: !!protegeConsentEl.checked,
+          version: 'consent-protege-v1',
+          text: 'I agree to the Protégé terms (free account; no purchase required).',
+        },
+        aiComms: {
+          agreed: !!consentEl.checked,
+          version: 'consent-ai-comms-v1',
+          text: 'I consent to receive AI-assisted health communications from My4MLife. I understand I may opt out at any time.',
+        },
+      };
+
+      // Also notify audit-complete (writes auditTop3 + consent + sends results email).
       var top3Payload = selectTop3(scores, QUESTIONS).map(function (q) {
         return { id: q.id, label: q.label, slug: q.solutionSlug, score: scores[q.id] || 0 };
       });
@@ -491,6 +507,7 @@ const robots = "index, follow";
           phone: userPhone,
           scores: scores,
           top3: top3Payload,
+          consent: consentPayload,
         }),
       }).catch(function () { /* silent */ });
 

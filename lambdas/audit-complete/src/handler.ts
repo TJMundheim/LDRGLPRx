@@ -53,6 +53,7 @@ async function ensureCognitoUser(email: string, firstName: string): Promise<stri
 async function seedUserProfile(args: {
   sub: string; email: string; firstName: string; phone: string;
   auditTop3: unknown; auditCompletedAt: string; intakeAnswers: unknown;
+  consent?: unknown; consentedAt?: string | null;
 }): Promise<void> {
   const now = new Date().toISOString();
   // Audit fields OVERWRITE on retake so the app always reflects the latest assessment.
@@ -66,6 +67,7 @@ async function seedUserProfile(args: {
     '#auditTop3 = :auditTop3',
     '#auditCompletedAt = :auditCompletedAt',
     '#intakeAnswers = :intakeAnswers',
+    ...(args.consent ? ['#consent = :consent', '#consentedAt = :consentedAt'] : []),
   ];
   await ddb.send(new UpdateCommand({
     TableName: USER_PROFILE_TABLE,
@@ -75,6 +77,7 @@ async function seedUserProfile(args: {
       '#owner': 'owner', '#primaryEmail': 'primaryEmail', '#firstName': 'firstName',
       '#phone': 'phone', '#createdAt': 'createdAt', '#updatedAt': 'updatedAt',
       '#auditTop3': 'auditTop3', '#auditCompletedAt': 'auditCompletedAt', '#intakeAnswers': 'intakeAnswers',
+      ...(args.consent ? { '#consent': 'consent', '#consentedAt': 'consentedAt' } : {}),
     },
     ExpressionAttributeValues: {
       ':owner': args.sub, ':primaryEmail': args.email, ':firstName': args.firstName,
@@ -82,6 +85,7 @@ async function seedUserProfile(args: {
       ':auditTop3': JSON.stringify(args.auditTop3 ?? []),
       ':auditCompletedAt': args.auditCompletedAt,
       ':intakeAnswers': JSON.stringify(args.intakeAnswers ?? {}),
+      ...(args.consent ? { ':consent': JSON.stringify(args.consent), ':consentedAt': args.consentedAt ?? now } : {}),
     },
   }));
 }
@@ -284,6 +288,12 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const firstName: string = (parsed.firstName && typeof parsed.firstName === 'string') ? parsed.firstName.trim() : '';
   const phone: string = (parsed.phone && typeof parsed.phone === 'string') ? parsed.phone.trim() : '';
 
+  // Consent record: the exact agreements (text + version + timestamp) the user accepted.
+  const consent = (parsed.consent && typeof parsed.consent === 'object') ? parsed.consent : null;
+  const consentedAt: string | null = consent && typeof consent.consentedAt === 'string' ? consent.consentedAt : null;
+  const aiCommsConsent: boolean = !!(consent && consent.aiComms && consent.aiComms.agreed);
+  const protegeTermsConsent: boolean = !!(consent && consent.protegeTerms && consent.protegeTerms.agreed);
+
   let contactId: string | undefined = typeof parsed.contactId === 'string' && parsed.contactId.trim() ? parsed.contactId.trim() : undefined;
   let email = '';
   if (rawEmail && typeof rawEmail === 'string' && EMAIL_RE.test(rawEmail.trim().toLowerCase())) {
@@ -297,7 +307,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   await ddb.send(new UpdateCommand({
     TableName: CONTACT_TABLE,
     Key: { contactId },
-    UpdateExpression: 'SET auditCompletedAt = :ts, intakeAnswers = :scores, auditTop3 = :top3, updatedAt = :ts, #ls = if_not_exists(#ls, :protege), createdAt = if_not_exists(createdAt, :ts)' + (email ? ', #em = if_not_exists(#em, :em)' : '') + (firstName ? ', firstName = if_not_exists(firstName, :fn)' : '') + (phone ? ', phone = if_not_exists(phone, :ph)' : ''),
+    UpdateExpression: 'SET auditCompletedAt = :ts, intakeAnswers = :scores, auditTop3 = :top3, updatedAt = :ts, #ls = if_not_exists(#ls, :protege), createdAt = if_not_exists(createdAt, :ts)' + (email ? ', #em = if_not_exists(#em, :em)' : '') + (firstName ? ', firstName = if_not_exists(firstName, :fn)' : '') + (phone ? ', phone = if_not_exists(phone, :ph)' : '') + (consent ? ', consent = :consent, consentedAt = :consentAt, aiCommsConsent = :aiC, protegeConsent = :protC' : ''),
     ExpressionAttributeNames: {
       '#ls': 'lifecycleStage',
       ...(email ? { '#em': 'email' } : {}),
@@ -310,6 +320,12 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       ...(email ? { ':em': email } : {}),
       ...(firstName ? { ':fn': firstName } : {}),
       ...(phone ? { ':ph': phone } : {}),
+      ...(consent ? {
+        ':consent': JSON.stringify(consent),
+        ':consentAt': consentedAt ?? ts,
+        ':aiC': aiCommsConsent,
+        ':protC': protegeTermsConsent,
+      } : {}),
     },
   }));
 
@@ -322,6 +338,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
           auditTop3: Array.isArray(top3) ? top3 : [],
           auditCompletedAt: ts,
           intakeAnswers: (scores && typeof scores === 'object') ? scores : {},
+          consent, consentedAt: consentedAt ?? ts,
         });
       }
     } catch (e) {
