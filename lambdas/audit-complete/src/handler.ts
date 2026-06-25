@@ -201,11 +201,17 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
 <ol style="padding-left:18px;margin:0;color:#0a1628">${top3Items}</ol>
 </div>`;
 
+  const bookFrontUrl = 'https://my4mlife.com/images/book/cover-front-email.png';
+  const bookBackUrl = 'https://my4mlife.com/images/book/cover-back-email.png';
   const bookCard = bookUrl
     ? `<div style="margin:20px 0;padding:22px;border:2px solid #d4af5a;border-radius:10px;background:#fbf7ec">
 <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#a37a14;text-transform:uppercase;margin:0 0 8px">Your Welcome Book</p>
 <h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">Begin with the End in Mind</h2>
-<p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Don't lose your identity and your dignity while you still have a choice.</p>
+<p style="font-style:italic;color:#666;font-size:14px;margin:0 0 14px;line-height:1.4">Don't lose your identity and your dignity while you still have a choice.</p>
+<div style="text-align:center;margin:0 0 16px">
+<img src="${bookFrontUrl}" width="150" alt="Begin with the End in Mind — front cover" style="width:150px;max-width:46%;height:auto;border-radius:4px;border:1px solid #e0d3a8;display:inline-block;vertical-align:top;margin:0 5px;box-shadow:0 4px 12px rgba(0,0,0,0.18)" />
+<img src="${bookBackUrl}" width="150" alt="Begin with the End in Mind — back cover" style="width:150px;max-width:46%;height:auto;border-radius:4px;border:1px solid #e0d3a8;display:inline-block;vertical-align:top;margin:0 5px;box-shadow:0 4px 12px rgba(0,0,0,0.18)" />
+</div>
 <p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Dr. TJ's field guide to brain healthspan, organized around the 4M framework. The why behind the system.</p>
 <p style="margin:0"><a href="${bookUrl}" style="background:#d4af5a;color:#0a1628;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Book (PDF) &rarr;</a></p>
 <p style="color:#777;font-size:11px;margin:12px 0 0">Save the PDF — this download link is yours to keep and share.</p>
