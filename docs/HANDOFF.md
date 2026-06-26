@@ -16,7 +16,7 @@ Built the ultralight EMR end-to-end via `/plan` + delegated subagents. Commit `5
 Intake → 3 items written keyed by contactId; raw card stripped; glp1→async, testosterone-ed→audio-visual. Packet → 401 without key, 200 with key, BMI computed, summaryUrl returns HTTP 200 HTML, zero card-id leakage. Opus review caught + fixed 2 real runtime bugs pre-ship (wrong mutation arg shape; packet URL was PUT not GET). 75 unit tests green.
 
 ## TJ action items / open follow-ups
-1. **Become admin:** sign in once at app.my4mlife.com (creates the Cognito user — none exists for drtj@essentialmanage.com today), then run the one-time `admin-add-user-to-group` in EMR_MVP_VERIFICATION.md Step 3. Then the Patients tab renders.
+1. **Become admin:** sign in at app.my4mlife.com with **drtj@my4mlife.com** — that account already exists AND is already in the Cognito `Admins` group, so the Patients tab renders immediately (email-OTP login, no password). (The earlier note about drtj@essentialmanage.com was wrong — that address has no Cognito user.)
 2. **Chargeable card-on-file:** `create-setup-intent` does NOT create a Stripe customer yet, so the saved paymentMethodId isn't chargeable post-approval. Add customer creation when wiring the actual charge.
 3. **Provider delivery** is pull-by-key (shared secret); real partner-API push is later.
 4. **8 pre-existing clientportal unit-test failures** are environmental (Svelte5/happy-dom), unrelated — see memory `clientportal_pre_existing_flaky_tests`.

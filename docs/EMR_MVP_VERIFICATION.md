@@ -56,19 +56,17 @@ aws dynamodb query --table-name PatientRecords --region us-east-2 \
 
 ### Step 3: Open the Admin Patients Tab
 
-Sign in to the app at **https://app.my4mlife.com** with the account you want to use as admin (e.g. drtj@essentialmanage.com).
+Sign in to the app at **https://app.my4mlife.com** with **drtj@my4mlife.com** — this account already exists and is already in the Cognito `Admins` group, so no setup is needed. (The app uses email one-time codes; you'll get a code by email — there's no password to enter.)
 
-**One-time setup — grant yourself admin.** The account must exist in Cognito first, which happens automatically the first time you sign in. After that first sign-in, run this once to add yourself to the `Admins` group (it looks up your Cognito username by email, then adds it):
-
-```bash
-EMAIL="drtj@essentialmanage.com"
-UN=$(aws cognito-idp list-users --user-pool-id us-east-2_kIpKnr17R --region us-east-2 \
-  --filter "email = \"$EMAIL\"" --query 'Users[0].Username' --output text)
-aws cognito-idp admin-add-user-to-group --user-pool-id us-east-2_kIpKnr17R --region us-east-2 \
-  --username "$UN" --group-name Admins
-```
-
-Sign out and back in so the new group is in your token. Then:
+> If you ever need to make a *different* account an admin: have it sign in once (which creates the Cognito user), then run:
+> ```bash
+> EMAIL="<their-email>"
+> UN=$(aws cognito-idp list-users --user-pool-id us-east-2_kIpKnr17R --region us-east-2 \
+>   --filter "email = \"$EMAIL\"" --query 'Users[0].Username' --output text)
+> aws cognito-idp admin-add-user-to-group --user-pool-id us-east-2_kIpKnr17R --region us-east-2 \
+>   --username "$UN" --group-name Admins
+> ```
+> They sign out/in to pick up the group.
 
 1. Click **Admin** in the sidebar.
 2. Click the **"Patients"** tab.
