@@ -15,6 +15,18 @@ Built the ultralight EMR end-to-end via `/plan` + delegated subagents. Commit `5
 ## Verified live (real AWS, then cleaned up)
 Intake → 3 items written keyed by contactId; raw card stripped; glp1→async, testosterone-ed→audio-visual. Packet → 401 without key, 200 with key, BMI computed, summaryUrl returns HTTP 200 HTML, zero card-id leakage. Opus review caught + fixed 2 real runtime bugs pre-ship (wrong mutation arg shape; packet URL was PUT not GET). 75 unit tests green.
 
+## Post-build hardening (same session, after first live test)
+- **Fixed Patients-tab load error** (`GraphQLerrors … SubSelectionRequired … audit`): the client requested `audit` as a scalar but schema has `audit: [AuditEntryAdmin!]!`. Now requests `audit { at action detail actor }`. Redeployed. Commit `c0350db0`.
+- **Added a GraphQL schema-validation guard** (`apps/clientportal/src/lib/api/operations.schema-validation.test.ts`): captures the actual query string each EMR wrapper sends and validates it against the real schema SDL via graphql-js. Catches the "document vs schema" bug class (subselection, wrong arg shapes) that mocked-client tests miss — both EMR bugs we hit would have been caught. Added `graphql` devDep.
+- **Fixed `AdminDashboard.test.ts`** (was counted as "pre-existing flaky"): it mocked the wrong module path (`auth/store.js` vs real `auth/store.svelte.js`) + a loose matcher. Now 3/3 green and genuinely covers the admin gate in front of the Patients tab. Remaining pre-existing clientportal failures: now **7** (client.test.ts 4, triggers.test.ts 2, AuthGate.test.ts 1) — still environmental, see memory.
+- **Verified all admin resolver logic via `aws appsync evaluate-code`** (real APPSYNC_JS runtime, realistic data): getPatientRecordAdmin assembles record+encounters+audit; updateEncounterStateAdmin builds the atomic `#state IN(...)` condition for legal transitions, errors on unknown target state, blocks non-admins, and `declined` accepts all 4 non-terminal from-states.
+- **Seeded ONE demo record** so the Patients tab shows data immediately: `DEMO Patient (safe to delete)` / demo-patient@my4mlife.com, contactId `eb552865-a68f-5520-9b95-fe48d0d25612`, encounter state `new`, visitType `async`. **Delete when done:**
+  ```bash
+  CID=eb552865-a68f-5520-9b95-fe48d0d25612
+  for SK in $(aws dynamodb query --table-name PatientRecords --region us-east-2 --key-condition-expression "contactId = :c" --expression-attribute-values "{\":c\":{\"S\":\"$CID\"}}" --query 'Items[].sk.S' --output text); do
+    aws dynamodb delete-item --table-name PatientRecords --region us-east-2 --key "{\"contactId\":{\"S\":\"$CID\"},\"sk\":{\"S\":\"$SK\"}}"; done
+  ```
+
 ## TJ action items / open follow-ups
 1. **Become admin:** sign in at app.my4mlife.com with **drtj@my4mlife.com** — that account already exists AND is already in the Cognito `Admins` group, so the Patients tab renders immediately (email-OTP login, no password). (The earlier note about drtj@essentialmanage.com was wrong — that address has no Cognito user.)
 2. **Chargeable card-on-file:** `create-setup-intent` does NOT create a Stripe customer yet, so the saved paymentMethodId isn't chargeable post-approval. Add customer creation when wiring the actual charge.
