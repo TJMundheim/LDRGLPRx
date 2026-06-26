@@ -436,7 +436,9 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
     screeningAnswers: parseAwsJson(raw.screeningAnswers),
     consents: parseAwsJson(raw.consents),
     cardOnFile: parseAwsJson(raw.cardOnFile),
-    audit: Array.isArray(raw.audit) ? raw.audit.map(parseAwsJson) : raw.audit,
+    audit: Array.isArray(raw.audit)
+      ? raw.audit.map((e: any) => ({ ...e, detail: parseAwsJson(e?.detail) }))
+      : raw.audit,
   };
 }
 
@@ -445,7 +447,8 @@ const ENCOUNTER_FIELDS = `encounterId category state visitType createdAt updated
 const PATIENT_RECORD_FIELDS = `
   contactId demographics history screeningAnswers consents cardOnFile
   encounters { ${ENCOUNTER_FIELDS} }
-  audit createdAt updatedAt
+  audit { at action detail actor }
+  createdAt updatedAt
 `;
 
 export async function listPatientRecordsAdmin(

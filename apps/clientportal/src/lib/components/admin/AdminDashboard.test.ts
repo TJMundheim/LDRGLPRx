@@ -13,7 +13,7 @@ import { render, screen, waitFor } from '@testing-library/svelte';
 // currentUser has a `.value` getter — mirror that shape.
 let mockUserValue: null | { sub: string; email: string; groups: string[] } = null;
 
-vi.mock('../../auth/store.js', () => ({
+vi.mock('../../auth/store.svelte.js', () => ({
   get currentUser() {
     return {
       get value() { return mockUserValue; },
@@ -97,10 +97,11 @@ describe('AdminDashboard group gating', () => {
     render(AdminDashboard, {});
 
     await waitFor(() => {
-      // The dashboard renders tab buttons for each admin section
-      expect(screen.getByText(/prot/i)).toBeInTheDocument();
-      expect(screen.getByText(/events/i)).toBeInTheDocument();
-      expect(screen.getByText(/patients/i)).toBeInTheDocument();
+      // The dashboard renders a tab button for each admin section.
+      // Target buttons specifically — panel content can also contain these words.
+      expect(screen.getByRole('button', { name: /prot/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /events/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /patients/i })).toBeInTheDocument();
     });
   });
 });

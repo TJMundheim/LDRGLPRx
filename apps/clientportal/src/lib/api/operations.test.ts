@@ -45,7 +45,8 @@ const RAW_RECORD = {
   consents: JSON.stringify({ hipaa: true }),
   cardOnFile: JSON.stringify({ last4: '4242' }),
   encounters: [RAW_ENCOUNTER],
-  audit: [JSON.stringify({ action: 'created' })],
+  // audit entries are structured objects per schema (AuditEntryAdmin); detail is AWSJSON
+  audit: [{ at: '2026-06-01T00:00:00Z', action: 'record-created', detail: JSON.stringify({ note: 'intake' }), actor: 'patient' }],
   createdAt: '2026-06-01T00:00:00Z',
   updatedAt: '2026-06-02T00:00:00Z',
 };
@@ -80,7 +81,12 @@ describe('listPatientRecordsAdmin', () => {
     expect(record.consents).toEqual({ hipaa: true });
     expect(record.cardOnFile).toEqual({ last4: '4242' });
     expect(Array.isArray(record.audit)).toBe(true);
-    expect(record.audit![0]).toEqual({ action: 'created' });
+    expect(record.audit![0]).toEqual({
+      at: '2026-06-01T00:00:00Z',
+      action: 'record-created',
+      detail: { note: 'intake' },
+      actor: 'patient',
+    });
   });
 
   it('passes through encounters untouched', async () => {
