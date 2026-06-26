@@ -467,6 +467,37 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
       }),
     });
     if (resp.ok) {
+      // Best-effort persist to EMR — never blocks success UX
+      fetch(API_BASE + '/api/patient-record-intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: payload.email,
+          category: 'glp1',
+          demographics: {
+            firstName: payload.firstName, lastName: payload.lastName,
+            phone: payload.phone, state: payload.state,
+            dob: payload.dob, sex: payload.sex,
+          },
+          history: {
+            medications: payload.currentMeds ? [payload.currentMeds] : [],
+            allergies: payload.allergies ? [payload.allergies] : [],
+            conditions: payload.conditions ? [payload.conditions] : [],
+            heightIn: payload.heightFt && payload.heightIn
+              ? (parseInt(payload.heightFt, 10) * 12 + parseInt(payload.heightIn, 10))
+              : undefined,
+            weightLb: payload.weightLb ? Number(payload.weightLb) : undefined,
+          },
+          screeningAnswers: {
+            priorGlp1: payload.priorGlp1, priorGlp1Detail: payload.priorGlp1Detail,
+            t2d: payload.t2d, mtcHistory: payload.mtcHistory,
+            pancreatitis: payload.pancreatitis, gi: payload.gi,
+            pregnancy: payload.pregnancy, medication: payload.medication,
+            targetLb: payload.targetLb, other: payload.other,
+          },
+          cardOnFile: { paymentMethodId: paymentMethodId },
+        }),
+      }).catch(function() { /* best-effort — ignore errors */ });
       showStep('success');
     } else {
       alert('Submission failed. Please try again or email support@my4mlife.com.');

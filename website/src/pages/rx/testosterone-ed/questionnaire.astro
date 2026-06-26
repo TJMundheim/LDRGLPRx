@@ -507,6 +507,38 @@ const canonical = 'https://www.my4mlife.com/rx/testosterone-ed/questionnaire';
       }),
     });
     if (resp.ok) {
+      // Best-effort persist to EMR — never blocks success UX
+      fetch(API_BASE + '/api/patient-record-intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: payload.email,
+          category: 'testosterone-ed',
+          demographics: {
+            firstName: payload.firstName, lastName: payload.lastName,
+            phone: payload.phone, state: payload.state,
+            dob: payload.dob, sex: payload.sex,
+          },
+          history: {
+            medications: payload.currentMeds ? [payload.currentMeds] : [],
+            allergies: payload.allergies ? [payload.allergies] : [],
+            conditions: payload.conditions ? [payload.conditions] : [],
+            heightIn: payload.heightFt && payload.heightIn
+              ? (parseInt(payload.heightFt, 10) * 12 + parseInt(payload.heightIn, 10))
+              : undefined,
+            weightLb: payload.weightLb ? Number(payload.weightLb) : undefined,
+          },
+          screeningAnswers: {
+            symptoms: payload.symptoms, sleepApnea: payload.sleepApnea,
+            priorTrt: payload.priorTrt, priorTrtDetail: payload.priorTrtDetail,
+            hematocrit: payload.hematocrit, prostate: payload.prostate,
+            fertilityIntent: payload.fertilityIntent, erectionQuality: payload.erectionQuality,
+            pde5Prior: payload.pde5Prior, cardiacHistory: payload.cardiacHistory,
+            medication: payload.medication, targetLb: payload.targetLb, other: payload.other,
+          },
+          cardOnFile: { paymentMethodId: paymentMethodId },
+        }),
+      }).catch(function() { /* best-effort — ignore errors */ });
       showStep('success');
     } else {
       alert('Submission failed. Please try again or email support@my4mlife.com.');

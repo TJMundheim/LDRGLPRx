@@ -16,6 +16,7 @@ export class DataStack extends cdk.Stack {
   public readonly eventsTable: dynamodb.ITable;
   public readonly eventRsvpsTable: dynamodb.ITable;
   public readonly adherenceTable: dynamodb.ITable;
+  public readonly patientRecordsTable: dynamodb.ITable;
 
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -38,6 +39,7 @@ export class DataStack extends cdk.Stack {
     this.eventsTable = dynamodb.Table.fromTableName(this, "Events", "Events");
     this.eventRsvpsTable = dynamodb.Table.fromTableName(this, "EventRSVPs", "EventRSVPs");
     this.adherenceTable = dynamodb.Table.fromTableName(this, "Adherence", "Adherence");
+    this.patientRecordsTable = dynamodb.Table.fromTableName(this, "PatientRecords", "PatientRecords");
 
     // AppConfig: PK key
     this.appConfigTable = new dynamodb.Table(this, "AppConfig", {

@@ -463,6 +463,42 @@ type AdminQueueItemConnection {
   nextToken: String
 }
 
+# ─── PatientRecords (admin-only; PatientRecords table PK=contactId SK=sk) ────
+
+type PatientRecordAdmin {
+  contactId: ID!
+  demographics: AWSJSON
+  history: AWSJSON
+  screeningAnswers: AWSJSON
+  consents: AWSJSON
+  cardOnFile: AWSJSON
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  encounters: [EncounterAdmin!]!
+  audit: [AuditEntryAdmin!]!
+}
+
+type EncounterAdmin {
+  encounterId: ID!
+  category: String
+  state: String!
+  visitType: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type AuditEntryAdmin {
+  at: AWSDateTime!
+  action: String!
+  detail: AWSJSON
+  actor: String
+}
+
+type PatientRecordAdminConnection {
+  items: [PatientRecordAdmin!]!
+  nextToken: String
+}
+
 # ─── Protege (admin-only; read from Contact table) ────────────────────────────
 
 type Protege {
@@ -525,6 +561,10 @@ type Query {
     @aws_auth(cognito_groups: ["Admins"])
   listEventsAdmin(limit: Int): [Event!]!
     @aws_auth(cognito_groups: ["Admins"])
+  listPatientRecordsAdmin(limit: Int): [PatientRecordAdmin!]!
+    @aws_auth(cognito_groups: ["Admins"])
+  getPatientRecordAdmin(contactId: ID!): PatientRecordAdmin
+    @aws_auth(cognito_groups: ["Admins"])
 }
 
 type Mutation {
@@ -557,5 +597,7 @@ type Mutation {
     @aws_auth(cognito_groups: ["Admins"])
     @aws_iam
   updateEventRecordingUrl(eventId: ID!, recordingUrl: String!): Event
+    @aws_auth(cognito_groups: ["Admins"])
+  updateEncounterStateAdmin(contactId: ID!, encounterId: ID!, toState: String!): EncounterAdmin
     @aws_auth(cognito_groups: ["Admins"])
 }

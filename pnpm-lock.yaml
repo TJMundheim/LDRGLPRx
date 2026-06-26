@@ -105,6 +105,18 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@24.12.4)(jsdom@29.1.1)(terser@5.48.0)
 
+  lambdas/_shared/patient-record:
+    devDependencies:
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@24.12.4)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/_shared/refund-dispute-handler-core:
     dependencies:
       '@my4mlife/contact-id':
@@ -385,6 +397,40 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
 
+  lambdas/export-clinical-packet:
+    dependencies:
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-s3':
+        specifier: ^3.1053.0
+        version: 3.1053.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
+      '@aws-sdk/s3-request-presigner':
+        specifier: ^3.1059.0
+        version: 3.1059.0
+      '@my4mlife/patient-record':
+        specifier: workspace:*
+        version: link:../_shared/patient-record
+    devDependencies:
+      '@types/aws-lambda':
+        specifier: ^8.10.149
+        version: 8.10.161
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/inbound-handler:
     dependencies:
       '@aws-sdk/client-bedrock-runtime':
@@ -521,6 +567,40 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
+
+  lambdas/patient-record-intake:
+    dependencies:
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-lambda':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
+      '@my4mlife/contact-id':
+        specifier: workspace:*
+        version: link:../_shared/contact-id
+      '@my4mlife/patient-record':
+        specifier: workspace:*
+        version: link:../_shared/patient-record
+    devDependencies:
+      '@types/aws-lambda':
+        specifier: ^8.10.149
+        version: 8.10.161
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
 
   lambdas/protege-signup:
     dependencies:

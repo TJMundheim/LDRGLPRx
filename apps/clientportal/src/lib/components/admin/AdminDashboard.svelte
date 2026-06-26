@@ -4,10 +4,11 @@
   import Forbidden403 from './Forbidden403.svelte';
   import ProtegesPanel from './ProtegesPanel.svelte';
   import EventsAdmin from './EventsAdmin.svelte';
+  import PatientsAdmin from './PatientsAdmin.svelte';
 
   const isAdmin = $derived(currentUser.value?.groups.includes('Admins') ?? false);
 
-  let activeTab = $state<'proteges' | 'events'>('proteges');
+  let activeTab = $state<'proteges' | 'events' | 'patients'>('proteges');
 </script>
 
 {#if !isAdmin}
@@ -25,12 +26,19 @@
       class:active={activeTab === 'events'}
       onclick={() => (activeTab = 'events')}
     >Events</button>
+    <button
+      class="tab"
+      class:active={activeTab === 'patients'}
+      onclick={() => (activeTab = 'patients')}
+    >Patients</button>
   </div>
 
   {#if activeTab === 'proteges'}
     <ProtegesPanel />
   {:else if activeTab === 'events'}
     <EventsAdmin />
+  {:else if activeTab === 'patients'}
+    <PatientsAdmin />
   {/if}
 </div>
 {/if}

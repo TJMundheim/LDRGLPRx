@@ -33,4 +33,5 @@ new ApiStack(app, 'ApiStack', {
   eventsTable: dataStack.eventsTable,
   eventRsvpsTable: dataStack.eventRsvpsTable,
   adherenceTable: dataStack.adherenceTable,
+  patientRecordsTable: dataStack.patientRecordsTable,
 });

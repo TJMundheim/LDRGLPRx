@@ -14,6 +14,11 @@ export interface ApiStackProps extends cdk.StackProps {
     adminQueueTable?: dynamodb.ITable;
     appConfigTable?: dynamodb.ITable;
     tierCatalogTable?: dynamodb.ITable;
+    contactTable?: dynamodb.ITable;
+    patientRecordsTable?: dynamodb.ITable;
+    eventsTable?: dynamodb.ITable;
+    eventRsvpsTable?: dynamodb.ITable;
+    adherenceTable?: dynamodb.ITable;
 }
 export declare class ApiStack extends cdk.Stack {
     readonly api: appsync.GraphqlApi;

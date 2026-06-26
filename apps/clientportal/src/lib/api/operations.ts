@@ -395,6 +395,107 @@ export async function updateEventRecordingUrl(
   });
 }
 
+// ─── EMR — PatientRecord / Encounter ─────────────────────────────────────────
+
+/** Parse an AWSJSON scalar that AppSync returns as a JSON string (or leave objects untouched). */
+function parseAwsJson(value: unknown): unknown {
+  if (typeof value === 'string') {
+    try { return JSON.parse(value); } catch { return value; }
+  }
+  return value;
+}
+
+export interface EncounterAdmin {
+  encounterId: string;
+  category: string;
+  state: string;
+  visitType: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PatientRecordAdmin {
+  contactId: string;
+  demographics: unknown;
+  history?: unknown;
+  screeningAnswers?: unknown;
+  consents?: unknown;
+  cardOnFile?: unknown;
+  encounters?: EncounterAdmin[];
+  audit?: unknown[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Parse all AWSJSON blob fields on a raw PatientRecordAdmin response. */
+function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
+  return {
+    ...raw,
+    demographics: parseAwsJson(raw.demographics),
+    history: parseAwsJson(raw.history),
+    screeningAnswers: parseAwsJson(raw.screeningAnswers),
+    consents: parseAwsJson(raw.consents),
+    cardOnFile: parseAwsJson(raw.cardOnFile),
+    audit: Array.isArray(raw.audit) ? raw.audit.map(parseAwsJson) : raw.audit,
+  };
+}
+
+const ENCOUNTER_FIELDS = `encounterId category state visitType createdAt updatedAt`;
+
+const PATIENT_RECORD_FIELDS = `
+  contactId demographics history screeningAnswers consents cardOnFile
+  encounters { ${ENCOUNTER_FIELDS} }
+  audit createdAt updatedAt
+`;
+
+export async function listPatientRecordsAdmin(
+  limit?: number,
+  opts?: ClientOptions,
+): Promise<{ listPatientRecordsAdmin: PatientRecordAdmin[] }> {
+  const raw = await client(opts)<{ listPatientRecordsAdmin: PatientRecordAdmin[] }>({
+    query: `
+      query ListPatientRecordsAdmin($limit: Int) {
+        listPatientRecordsAdmin(limit: $limit) { ${PATIENT_RECORD_FIELDS} }
+      }
+    `,
+    variables: { limit },
+  });
+  return { listPatientRecordsAdmin: raw.listPatientRecordsAdmin.map(parsePatientRecord) };
+}
+
+export async function getPatientRecordAdmin(
+  contactId: string,
+  opts?: ClientOptions,
+): Promise<{ getPatientRecordAdmin: PatientRecordAdmin | null }> {
+  const raw = await client(opts)<{ getPatientRecordAdmin: PatientRecordAdmin | null }>({
+    query: `
+      query GetPatientRecordAdmin($contactId: ID!) {
+        getPatientRecordAdmin(contactId: $contactId) { ${PATIENT_RECORD_FIELDS} }
+      }
+    `,
+    variables: { contactId },
+  });
+  return {
+    getPatientRecordAdmin: raw.getPatientRecordAdmin
+      ? parsePatientRecord(raw.getPatientRecordAdmin)
+      : null,
+  };
+}
+
+export async function updateEncounterStateAdmin(
+  input: { contactId: string; encounterId: string; toState: string },
+  opts?: ClientOptions,
+): Promise<{ updateEncounterStateAdmin: EncounterAdmin | null }> {
+  return client(opts)<{ updateEncounterStateAdmin: EncounterAdmin | null }>({
+    query: `
+      mutation UpdateEncounterStateAdmin($contactId: ID!, $encounterId: ID!, $toState: String!) {
+        updateEncounterStateAdmin(contactId: $contactId, encounterId: $encounterId, toState: $toState) { ${ENCOUNTER_FIELDS} }
+      }
+    `,
+    variables: { contactId: input.contactId, encounterId: input.encounterId, toState: input.toState },
+  });
+}
+
 // ─── Adherence ────────────────────────────────────────────────────────────────
 
 const ADHERENCE_FIELDS = `userId dateActionId completedAt value notes`;

@@ -31,16 +31,16 @@ vi.mock('../../api/operations.js', () => ({
   adminListOutcomes: vi.fn().mockResolvedValue({
     adminListOutcomes: { items: [{ id: 'o1', owner: 'u1' }], nextToken: null },
   }),
+  listProteges: vi.fn().mockResolvedValue({
+    listProteges: { items: [], nextToken: null },
+  }),
+  listEventsAdmin: vi.fn().mockResolvedValue({
+    listEventsAdmin: [],
+  }),
+  listPatientRecordsAdmin: vi.fn().mockResolvedValue({
+    listPatientRecordsAdmin: [],
+  }),
 }));
-
-// ── Mock adminQueue (legacy) ────────────────────────────────────────────────
-vi.mock('../../data/adminQueue', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../data/adminQueue')>();
-  return {
-    ...actual,
-    getPendingQueue: vi.fn().mockReturnValue([]),
-  };
-});
 
 import AdminDashboard from './AdminDashboard.svelte';
 import * as ops from '../../api/operations.js';
@@ -54,6 +54,15 @@ beforeEach(() => {
   });
   (ops.adminListOutcomes as ReturnType<typeof vi.fn>).mockResolvedValue({
     adminListOutcomes: { items: [{ id: 'o1', owner: 'u1' }], nextToken: null },
+  });
+  (ops.listProteges as ReturnType<typeof vi.fn>).mockResolvedValue({
+    listProteges: { items: [], nextToken: null },
+  });
+  (ops.listEventsAdmin as ReturnType<typeof vi.fn>).mockResolvedValue({
+    listEventsAdmin: [],
+  });
+  (ops.listPatientRecordsAdmin as ReturnType<typeof vi.fn>).mockResolvedValue({
+    listPatientRecordsAdmin: [],
   });
 });
 
@@ -88,10 +97,10 @@ describe('AdminDashboard group gating', () => {
     render(AdminDashboard, {});
 
     await waitFor(() => {
-      expect(screen.getByText(/admin queue/i)).toBeInTheDocument();
+      // The dashboard renders tab buttons for each admin section
+      expect(screen.getByText(/prot/i)).toBeInTheDocument();
+      expect(screen.getByText(/events/i)).toBeInTheDocument();
+      expect(screen.getByText(/patients/i)).toBeInTheDocument();
     });
-
-    expect(ops.adminListUsers).toHaveBeenCalled();
-    expect(ops.adminListOutcomes).toHaveBeenCalled();
   });
 });

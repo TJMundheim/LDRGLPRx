@@ -17,6 +17,7 @@ export interface ApiStackProps extends cdk.StackProps {
   appConfigTable?: dynamodb.ITable;
   tierCatalogTable?: dynamodb.ITable;
   contactTable?: dynamodb.ITable;
+  patientRecordsTable?: dynamodb.ITable;
   eventsTable?: dynamodb.ITable;
   eventRsvpsTable?: dynamodb.ITable;
   adherenceTable?: dynamodb.ITable;
@@ -129,6 +130,18 @@ export class ApiStack extends cdk.Stack {
         removalPolicy: cdk.RemovalPolicy.DESTROY,
       });
     const dsContact = this.api.addDynamoDbDataSource('ContactDS', contactTable);
+
+    const patientRecordsTable =
+      props.patientRecordsTable ??
+      new dynamodb.Table(this, 'StubPatientRecords', {
+        tableName: `${id}-PatientRecords`,
+        billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+        partitionKey: { name: 'contactId', type: dynamodb.AttributeType.STRING },
+        sortKey: { name: 'sk', type: dynamodb.AttributeType.STRING },
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      });
+    const dsPatientRecords = this.api.addDynamoDbDataSource('PatientRecordsDS', patientRecordsTable);
+
     const dsEvents = this.api.addDynamoDbDataSource('EventsDS', eventsTable);
     const dsEventRsvps = this.api.addDynamoDbDataSource('EventRsvpsDS', eventRsvpsTable);
     const dsAdherence = this.api.addDynamoDbDataSource('AdherenceDS', adherenceTable);
@@ -194,6 +207,9 @@ export class ApiStack extends cdk.Stack {
     unitResolver('UpdateEventRecordingUrlResolver', 'Mutation', 'updateEventRecordingUrl', dsEvents, 'updateEventRecordingUrl.js');
     unitResolver('RecordAdherenceResolver', 'Mutation', 'recordAdherence', dsAdherence, 'recordAdherence.js');
     unitResolver('ListMyAdherenceResolver', 'Query', 'listMyAdherence', dsAdherence, 'listMyAdherence.js');
+    unitResolver('ListPatientRecordsAdminResolver', 'Query', 'listPatientRecordsAdmin', dsPatientRecords, 'listPatientRecordsAdmin.js');
+    unitResolver('GetPatientRecordAdminResolver', 'Query', 'getPatientRecordAdmin', dsPatientRecords, 'getPatientRecordAdmin.js');
+    unitResolver('UpdateEncounterStateAdminResolver', 'Mutation', 'updateEncounterStateAdmin', dsPatientRecords, 'updateEncounterStateAdmin.js');
 
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });

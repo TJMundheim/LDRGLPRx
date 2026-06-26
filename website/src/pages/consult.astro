@@ -129,6 +129,17 @@ const canonical = "https://www.my4mlife.com/consult";
         }),
       });
       if (!res.ok) throw new Error('submit failed (' + res.status + ')');
+      // Best-effort persist to EMR — never blocks success UX
+      fetch(API_BASE + '/api/patient-record-intake', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          category: category,
+          demographics: { firstName: name, phone: phone },
+          screeningAnswers: { bestTime: bestTime, note: note },
+        }),
+      }).catch(function() { /* best-effort — ignore errors */ });
       form.style.display = 'none';
       var success = document.getElementById('consult-success');
       if (success) success.hidden = false;
