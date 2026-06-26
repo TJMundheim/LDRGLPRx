@@ -1,4 +1,30 @@
-# 2026-06-26 — Marketing-ready; consent stored; first real lead; NEXT = ultralight EMR
+# 2026-06-26 (session 2) — Ultralight EMR MVP BUILT, deployed, live-verified
+
+Built the ultralight EMR end-to-end via `/plan` + delegated subagents. Commit `5a234417`, pushed to `main`. All deployed to AWS (us-east-2) and verified live.
+
+## Shipped
+- **`PatientRecords` DynamoDB table** (PK `contactId` + SK `sk`; KMS SSE; PITR; tag `phi=true`). SK scheme: `record` / `encounter#<id>` / `audit#<iso>#<seq>`. Deploy: `infra/dynamodb/patient-records/deploy.sh`.
+- **`@my4mlife/patient-record`** shared module (`lambdas/_shared/patient-record/`): types + encounter state machine `canTransition` (new→coordinator-reviewed→sent-to-provider→script-written→fulfilled; any non-terminal→declined; terminals locked) + `forcedVisitType` (testosterone-ed=audio-visual, else async) + consent constants.
+- **`patient-record-intake` Lambda** → `POST /api/patient-record-intake`. Persists demographics/history/screening/consents; keys every item by `contactId`; card-on-file = Stripe ids only (raw number/cvc/exp stripped). Best-effort coordinator email.
+- **AppSync admin API** (Admins-gated JS resolvers; APPSYNC_JS-valid — note: no `for`/`++`, use `.map/.forEach`): `listPatientRecordsAdmin`, `getPatientRecordAdmin`, `updateEncounterStateAdmin` (atomic transition enforcement via ConditionExpression). New `PatientRecordsDS` datasource wired in api-stack + data-stack `fromTableName`.
+- **clientportal admin "Patients" tab** (`PatientsAdmin.svelte`): list records, expand detail, advance encounter through legal next-states only.
+- **`export-clinical-packet` Lambda** → `POST /api/export-clinical-packet`. Packet (BMI/meds/allergies/consents/visitType) + 7-day signed HTML summary to `my4mlife-digital-fulfillment/clinical-packets/`. Auth = `x-packet-key` shared secret from Secrets Manager `export-clinical-packet-key` (fail-closed). cardOnFile = boolean only.
+- **6 frontend pages** (5 `/rx/*/questionnaire` + `/consult`) now also POST a structured record (best-effort; never blocks email/UX). website + clientportal redeployed.
+- **Runbook: `docs/EMR_MVP_VERIFICATION.md`** — 6-step live walkthrough for TJ.
+
+## Verified live (real AWS, then cleaned up)
+Intake → 3 items written keyed by contactId; raw card stripped; glp1→async, testosterone-ed→audio-visual. Packet → 401 without key, 200 with key, BMI computed, summaryUrl returns HTTP 200 HTML, zero card-id leakage. Opus review caught + fixed 2 real runtime bugs pre-ship (wrong mutation arg shape; packet URL was PUT not GET). 75 unit tests green.
+
+## TJ action items / open follow-ups
+1. **Become admin:** sign in once at app.my4mlife.com (creates the Cognito user — none exists for drtj@essentialmanage.com today), then run the one-time `admin-add-user-to-group` in EMR_MVP_VERIFICATION.md Step 3. Then the Patients tab renders.
+2. **Chargeable card-on-file:** `create-setup-intent` does NOT create a Stripe customer yet, so the saved paymentMethodId isn't chargeable post-approval. Add customer creation when wiring the actual charge.
+3. **Provider delivery** is pull-by-key (shared secret); real partner-API push is later.
+4. **8 pre-existing clientportal unit-test failures** are environmental (Svelte5/happy-dom), unrelated — see memory `clientportal_pre_existing_flaky_tests`.
+5. Carry-over from session 1 still open: PostHog `phc_` key; walk all 5 Rx funnels E2E with a real card; commit/clean the loose book-cover artifacts.
+
+---
+
+# 2026-06-26 (session 1) — Marketing-ready; consent stored; first real lead; NEXT = ultralight EMR
 
 ## Shipped this session (all committed to `main` + deployed)
 - **Email consult recommendation reprioritized** (audit-complete): neurocognitive (already-diagnosed > 0) → Regenerative; else weight/gut (higher of the two, or a combined consult if tied); testosterone only as a last resort when all three are zero. On-screen top-3 aligned (regen #1 at any score > 0; the +2 gut/weight bonus only applies when raw score > 0).
