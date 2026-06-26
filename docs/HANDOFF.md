@@ -1,3 +1,28 @@
+# 2026-06-26 — Marketing-ready; consent stored; first real lead; NEXT = ultralight EMR
+
+## Shipped this session (all committed to `main` + deployed)
+- **Email consult recommendation reprioritized** (audit-complete): neurocognitive (already-diagnosed > 0) → Regenerative; else weight/gut (higher of the two, or a combined consult if tied); testosterone only as a last resort when all three are zero. On-screen top-3 aligned (regen #1 at any score > 0; the +2 gut/weight bonus only applies when raw score > 0).
+- **BMI calculator removed** from the assessment weight question; label "Weight (BMI)" → "Weight".
+- **Assessment count settled on 10** sitewide + in the app; **deleted the dead multi-stage intake flow** (`apps/clientportal/src/lib/components/intake/*` + orphan data modules). The app gets its assessment from the public 10-question funnel via the profile.
+- **Consent now PERSISTED** (was browser-gate only): assessment captures both checkboxes (exact text + version + timestamp) → audit-complete writes Contact (`consent`/`consentedAt`/`aiCommsConsent`/`protegeConsent`) + UserProfile. Verified live end-to-end.
+- **Welcome email shows the book's front + back covers** (email-optimized ~70KB thumbnails at `/images/book/cover-{front,back}-email.png`).
+- **Book v8** live on S3 fulfillment (revised Stephen Covey opening); homepage shows the new title-forward front + back covers.
+- **Fixed `/solutions/peptides` 404** — a stray `peptides 2/` Finder-duplicate folder on S3 had shadowed the real page; redeploy uploaded the real page and `--delete` cleaned the dupes.
+
+## First real lead — 2026-06-25, Laurie Chamberlain · thebrewmeisters@msn.com · +1 972-816-4698
+- 3:08pm CT: completed the assessment (gut top priority) → welcome email **delivered**. 3:10pm CT: submitted the `/consult` care-coordinator form → "Consult intake — gut issues" lead email to TJ **+ auto-confirmation to her** ("a coordinator will email within 24h"). Both **delivered** (confirmed in Mailgun events).
+- She did **NOT** enter a card and there is **NO** health history — the `/consult` form collects neither (only the structured `/rx/leaky-gut/questionnaire` does, and it emails only *after* card capture). Her only stored record is the assessment Contact. A draft coordinator reply was written (in the session transcript).
+
+## NEXT SESSION — build the ultralight EMR (open with `/plan`)
+See memory: `project_emr_ultralight` + `project_async_telemedicine_model`. Gist:
+- **Persist intake/history to a queryable PatientRecord** (DynamoDB, encrypted, AWS BAA) instead of email-only. Admin review page in the clientportal admin dashboard + an "export clinical packet" (PDF/secure summary) for the telemedicine provider. Encounter **state machine**. This is **step 1 of `docs/AI_BACK_OFFICE_ACTION_PLAN.md`**.
+- **Async (store-and-forward) review is the default** for all conditions; **testosterone is the only audio-visual exception**. Add a `visitType` field.
+- **HIPAA gate**: capture NPP acknowledgment + Patient Authorization (docs in `docs/legal/`) before "send to provider", timestamped/versioned — reuse the consent-storage pattern just shipped.
+- **Card-on-file required before the encounter** (our cost, absorbed into the member's first-month purchase).
+- Care coordinator = TJ today; **design so AI takes it over** (inbound-handler / ops-agent, confidence-gated).
+
+---
+
 # 2026-05-31 — One-path Protégé flow is fully working
 
 End-to-end signup → app dashboard with carried-forward assessment data is live and tested.
