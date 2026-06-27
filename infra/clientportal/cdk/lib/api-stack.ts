@@ -4,6 +4,7 @@ import { Construct } from 'constructs';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 export interface ApiStackProps extends cdk.StackProps {
   userPool?: cognito.IUserPool;
@@ -210,6 +211,18 @@ export class ApiStack extends cdk.Stack {
     unitResolver('ListPatientRecordsAdminResolver', 'Query', 'listPatientRecordsAdmin', dsPatientRecords, 'listPatientRecordsAdmin.js');
     unitResolver('GetPatientRecordAdminResolver', 'Query', 'getPatientRecordAdmin', dsPatientRecords, 'getPatientRecordAdmin.js');
     unitResolver('UpdateEncounterStateAdminResolver', 'Mutation', 'updateEncounterStateAdmin', dsPatientRecords, 'updateEncounterStateAdmin.js');
+
+    // ─── ChargeEncounterAdmin — Lambda data source ────────────────────────────
+    const chargeFn = lambda.Function.fromFunctionName(this, 'ChargeOnApprovalFn', 'my4mlife-charge-on-approval');
+    const dsCharge = this.api.addLambdaDataSource('ChargeOnApprovalDS', chargeFn);
+    new appsync.Resolver(this, 'ChargeEncounterAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'chargeEncounterAdmin',
+      dataSource: dsCharge,
+      runtime: JS_RUNTIME,
+      code: code('chargeEncounterAdmin.js'),
+    });
 
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });

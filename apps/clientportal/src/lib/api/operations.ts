@@ -499,6 +499,41 @@ export async function updateEncounterStateAdmin(
   });
 }
 
+// ─── ChargeEncounterAdmin ─────────────────────────────────────────────────────
+
+export type ChargeResultAdmin = {
+  ok: boolean;
+  kind?: string;
+  id?: string;
+  status?: string;
+  amountCents?: number;
+  error?: string;
+  code?: string;
+};
+
+export async function chargeEncounterAdmin(
+  input: { contactId: string; encounterId: string; amountCents: number; billingType: string; interval?: string; label?: string },
+  opts?: ClientOptions,
+): Promise<{ chargeEncounterAdmin: ChargeResultAdmin }> {
+  return client(opts)<{ chargeEncounterAdmin: ChargeResultAdmin }>({
+    query: `
+      mutation ChargeEncounterAdmin($contactId: ID!, $encounterId: ID!, $amountCents: Int!, $billingType: String!, $interval: String, $label: String) {
+        chargeEncounterAdmin(contactId: $contactId, encounterId: $encounterId, amountCents: $amountCents, billingType: $billingType, interval: $interval, label: $label) {
+          ok kind id status amountCents error code
+        }
+      }
+    `,
+    variables: {
+      contactId: input.contactId,
+      encounterId: input.encounterId,
+      amountCents: input.amountCents,
+      billingType: input.billingType,
+      interval: input.interval,
+      label: input.label,
+    },
+  });
+}
+
 // ─── Adherence ────────────────────────────────────────────────────────────────
 
 const ADHERENCE_FIELDS = `userId dateActionId completedAt value notes`;
