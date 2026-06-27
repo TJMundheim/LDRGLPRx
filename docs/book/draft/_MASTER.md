@@ -161,6 +161,24 @@ That is the why. The how is the rest of the book.
 
 # Opening
 
+There is an old folk tale told in a hundred villages under a hundred names. It is worth one page before we begin, because it is the whole book in miniature.
+
+A traveler comes to a town at the end of a long road, hungry, carrying nothing but a single smooth stone. He knocks on doors. No one will feed him — times are hard, every pantry is "empty." So he does something strange. He fills a great iron pot with water, builds a fire in the village square, and gently lowers in his stone.
+
+A neighbor wanders over. *What are you making?* Stone soup, the traveler says. Famous stuff — nearly done. Though it's always better with a carrot or two, if anyone can spare one. The neighbor has a carrot. In it goes. Another man has an onion. A third has a handful of barley, a fourth a few scraps of meat, a fifth some salt and a bundle of herbs. Each person adds the one thing he swore he did not have. By nightfall the pot is thick and rich, and the whole village eats better than it has in months.
+
+Here is the part everyone misses. The stone made nothing. You could boil that stone for a week and starve. What fed the village was the *combination* — the carrot and the onion and the barley and the meat, in one pot, each ingredient making the others worth more than they were alone.
+
+That is this book.
+
+Cognitive longevity is not a stone. It is not one intervention you drop in the water and wait on. It is not testosterone by itself, or a clean diet by itself, or a single nootropic, or eight hours of sleep alone. Men spend years boiling one ingredient and wonder why they are still hungry. One carrot in an empty pot is not soup.
+
+The 4 Ms — **Mind, Muscle, Mitigate, Motivate** — are the ingredients, and the framework is the pot that finally brings them together. **Mitigate** clears the inflammation so everything else can absorb — stop hurting yourself first, then add what works. **Muscle** builds the infrastructure the brain runs on: the hormones, the lean mass, the BDNF. **Motivate** keeps you adding to the pot long after the novelty is gone. And **Mind** is the meal itself — the destination, the thing all the rest was always for. Pull any one out and the soup goes thin. Combine them, in order, and they potentiate each other: each M makes every other M work better, and the cognitive outcome you came for rises out of the whole — never out of any single piece.
+
+So do not read the chapters ahead as a menu to pick from. Read them as ingredients for one pot. The stone was never magic. The magic was getting everything into the water at the same time.
+
+Begin with the end in Mind. Then start adding.
+
 ---
 
 # Chapter 1 — The Fear
