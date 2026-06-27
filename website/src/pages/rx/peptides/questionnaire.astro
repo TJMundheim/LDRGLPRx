@@ -149,6 +149,14 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
         <input type="checkbox" id="q-attestation" required>
         <span>I attest the information above is accurate to the best of my knowledge. I understand a real physician will review my submission, and that no medication will ship without a written script. I authorize My4MLife and the care coordinator to contact me by email or phone.</span>
       </label>
+      <label class="q-checkbox-row">
+        <input type="checkbox" id="q-consent-npp" required>
+        <span>I acknowledge I have received and reviewed My4MLife's <a href="/privacy" target="_blank" rel="noopener">Notice of Privacy Practices</a>.</span>
+      </label>
+      <label class="q-checkbox-row">
+        <input type="checkbox" id="q-consent-phi" required>
+        <span>I authorize My4MLife and its network physicians to use and disclose my health information to provide, coordinate, and bill for my care, including forwarding my intake to the telemedicine provider, as described in the <a href="/consent" target="_blank" rel="noopener">Patient Authorization &amp; Telehealth Consent</a>.</span>
+      </label>
     </section>
 
     <!-- ── Submission state ── -->
@@ -401,6 +409,10 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       alert('Please confirm the attestation to submit.');
       return;
     }
+    if (!$('#q-consent-npp').checked || !$('#q-consent-phi').checked) {
+      alert('Please acknowledge the Notice of Privacy Practices and the Patient Authorization to submit.');
+      return;
+    }
     payload.paymentMethodId = paymentMethodId;
     payload.savedAt = new Date().toISOString();
     var fields = {};
@@ -442,6 +454,10 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
             priorPeptideDetail: payload.priorPeptideDetail,
             injectableComfort: payload.injectableComfort, pregnancy: payload.pregnancy,
             cancerImmune: payload.cancerImmune, targetLb: payload.targetLb, other: payload.other,
+          },
+          consents: {
+            npp: { agreed: true, version: 'consent-npp-v1', at: new Date().toISOString(), text: "I acknowledge I have received and reviewed My4MLife's Notice of Privacy Practices." },
+            phiAuth: { agreed: true, version: 'consent-phi-auth-v1', at: new Date().toISOString(), text: 'I authorize My4MLife and its network physicians to use and disclose my health information to provide, coordinate, and bill for my care, including forwarding my intake to the telemedicine provider.' },
           },
           cardOnFile: { paymentMethodId: paymentMethodId },
         }),
