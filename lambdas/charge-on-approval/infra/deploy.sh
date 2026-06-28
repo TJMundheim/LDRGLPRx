@@ -99,7 +99,8 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 # ---------------------------------------------------------------------------
 # 3. Lambda create or update
 # ---------------------------------------------------------------------------
-ENV_VARS="Variables={PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,TOUCHPOINTS_TABLE=$TOUCHPOINTS_TABLE,STRIPE_MODE=test}"
+# LIVE — charges real cards on approval. Matches create-setup-intent (live capture).
+ENV_VARS="Variables={PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,TOUCHPOINTS_TABLE=$TOUCHPOINTS_TABLE,STRIPE_MODE=live}"
 
 ZIP_PATH="$LAMBDA_DIR/dist/handler.zip"
 
