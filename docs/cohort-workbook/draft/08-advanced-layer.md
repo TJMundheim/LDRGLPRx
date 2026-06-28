@@ -26,7 +26,7 @@ Russian ACTH-derivative nasal peptide. Strong on focus, mood, executive function
 The anxiolytic + pro-cognitive counterpart to Semax. Calm-focus without sedation. Nasal, daily as needed.
 
 ### BPC-157
-Gut + soft tissue + neuroinflammation modulation. Oral for gut-brain axis work; IM for soft-tissue recovery. The same molecule that anchors Biome NS Rx; here it's used for cognitive purpose.
+Gut + soft tissue + neuroinflammation modulation. Oral for gut-brain axis work; IM for soft-tissue recovery. The same molecule that anchors the prescription gut-barrier peptide protocol; here it's used for cognitive purpose.
 
 ### Ipamorelin
 GH secretagogue. Indirectly cognitive via deeper sleep architecture and IGF-1 support. Evening dose, sub-Q.

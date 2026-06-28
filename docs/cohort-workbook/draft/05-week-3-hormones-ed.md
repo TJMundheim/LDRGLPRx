@@ -10,7 +10,7 @@ Erectile dysfunction is not a separate problem. It is the first visible warning 
 
 That's the canary. ED is the warning. The mine is your whole vascular and hormonal system, and your brain runs on the same plumbing.
 
-This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window, morning sun, Biome NS Ultra, ArmorVita, OmegaCN Prime, SleepRestore, Magtein, the lifts, the lights-out at 10:30. None of that changes.
+This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window (train fasted, break the fast with 30–40g protein after), morning sun, the gut-barrier probiotic, the D3+K2 stack, the omega-3+CoQ10 softgel, the sleep-support formula, Magtein, the lifts, the lights-out at 10:30. None of that changes.
 
 What changes is that you are going to audit yourself honestly across ten markers most men have never rated in writing, walk through a four-domain ED canary worksheet, and make one decision: do you engage the Rx consult layer this month, or do you stay OTC and reassess in 90 days?
 
@@ -265,7 +265,7 @@ My decision: ☐ Scheduling this week. Date booked: ____________
 Schedule a **targeted consult** for the most-flagged domain.
 - Hormones-only? TRT-track consult with full panel.
 - Cardiovascular-only? Metabolic + cardio consult, possible GLP-1.
-- Cognitive-only? Cognitive workup + Biome NS Rx evaluation.
+- Cognitive-only? Cognitive workup + prescription gut-barrier peptide protocol evaluation.
 
 My most-flagged domain: ____________
 
@@ -274,16 +274,16 @@ My decision: ☐ Scheduling this week. Date booked: ____________
 ---
 
 **If all domains are "Mild" or "No" →**
-Continue the **OTC foundation stack** — Biome NS Ultra, ArmorVita, OmegaCN Prime, SleepRestore, Magtein, MitoVita when available. Hold the line on protein-first, the eating window, lifts, sleep, sun. Reassess in 90 days using this same worksheet.
+Continue the **OTC foundation stack** — gut-barrier probiotic, D3+K2 stack, omega-3+CoQ10 softgel, sleep-support formula, Magtein, and the pre-workout creatine+citrulline+beetroot blend on training days. Hold the line on protein-first (30–40g, post-training to open the eating window), the eating window, lifts, sleep, sun. Reassess in 90 days using this same worksheet. See my4mlife.com for the specific products we currently recommend.
 
 My decision: ☐ Staying OTC. Reassessment date (90 days out): ____________
 
 ---
 
 **If you or your physician have already diagnosed MCI, early dementia, Alzheimer's, or Parkinson's →**
-Engage **RPA** regenerative consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back.
+Engage the **regenerative therapies** consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back. See my4mlife.com for the current regenerative protocol.
 
-My decision: ☐ Booking RPA consult this week. Date: ____________
+My decision: ☐ Booking regenerative therapies consult this week. Date: ____________
 
 ---
 
@@ -296,14 +296,14 @@ Keep every Week 1 and Week 2 behavior in place. Check the box at the end of each
 | Behavior | Done |
 |---|---|
 | Morning sun + walk, 8-15 min, no sunglasses | ☐ |
-| Biome NS Ultra — AM, empty stomach, 8oz water | ☐ |
-| 30g protein-first at first meal | ☐ |
+| Gut-barrier probiotic — AM, empty stomach, 8oz water | ☐ |
+| 30–40g protein-first at first meal (after training if trained fasted) | ☐ |
 | Eating window 9 AM – 6 PM | ☐ |
-| ArmorVita with breakfast | ☐ |
-| OmegaCN Prime with largest fat meal | ☐ |
+| D3 + K2 stack with breakfast | ☐ |
+| Omega-3 + CoQ10 softgel with largest fat meal | ☐ |
 | Resistance training (if scheduled today) | ☐ |
 | Magtein 1.5-2g evening | ☐ |
-| SleepRestore 30-60 min before lights out | ☐ |
+| Sleep-support formula 30-60 min before lights out | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 Audit work today (5 min on §5.2 or §5.3): ☐
@@ -315,14 +315,14 @@ Audit work today (5 min on §5.2 or §5.3): ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 Audit work today: ☐
@@ -334,14 +334,14 @@ Audit work today: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 | **Cohort Zoom attended** | ☐ |
 
@@ -352,14 +352,14 @@ Audit work today: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 Consult booked or OTC reassessment date set: ☐
@@ -371,14 +371,14 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 ---
@@ -388,14 +388,14 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 ---
@@ -405,14 +405,14 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 | **End-of-Week 4M Reflection completed** (§5.7) | ☐ |
 | **Adherence Scorecard filled in** (§5.8) | ☐ |
@@ -450,7 +450,7 @@ _______________________________________________
 ☐ Full hormone consult — booking this week
 ☐ Targeted consult — domain: ____________
 ☐ Staying OTC — 90-day reassessment date: ____________
-☐ RPA regenerative consult — booking this week
+☐ Regenerative therapies consult — booking this week
 
 The accountability target I named in Week 1 — who I am doing this for — would say this about my decision:
 
@@ -499,7 +499,7 @@ My waist trend (§5.2 #8): ____________
 If these numbers are not where I want them, the upstream lever this month is:
 
 ☐ Lift harder and more often (compound lifts, 2-3x/week)
-☐ Get the protein in (30g first, every feeding window)
+☐ Get the protein in (30–40g first, every feeding window opener)
 ☐ Sleep — most testosterone is made between 11 PM and 3 AM
 ☐ Engage the Rx consult — TRT panel
 
@@ -568,14 +568,14 @@ _______________________________________________
 | Behavior | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Biome NS Ultra AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| 30g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Gut-barrier probiotic AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 30–40g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Eating window 9-6 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| ArmorVita | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| OmegaCN Prime | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| D3 + K2 stack | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Resistance training (2-3x) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Magtein PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| SleepRestore | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Sleep-support formula | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Cohort Zoom attended | | | ☐ | | | | |
 

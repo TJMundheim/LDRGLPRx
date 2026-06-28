@@ -10,9 +10,9 @@ Here is the entire week, in plain language:
 
 - **Morning sun + walk.** Eight to fifteen minutes within the first hour of waking. Eyes toward the sun, sunglasses off, no food yet. Two times this week, minimum.
 - **Protein-first breakfast.** Thirty grams of lean protein, thirty minutes before any other macro enters your mouth. Two times this week, minimum. Aim for more.
-- **Eating window 9 AM to 6 PM.** Daily. First bite at nine or after. Last bite by six. Water, black coffee, and tea outside the window are fine.
+- **Eating window 9 AM to 6 PM.** Daily. First bite at nine or after. Last bite by six. Water, black coffee, and tea outside the window are fine. *Until you reach your ideal body weight, low body fat, and low visceral fat: train fasted in the morning — fasted morning walking in particular is a powerful accelerator. Break the fast after training with 30–40g of lean protein. If your workout ends around 10 AM, that's when the window opens. If you want to further regulate cortisol before sleep, experiment with moving your last bite earlier — around 4 or 5 PM — once the 9–6 window is consistent.*
 - **Lights out by 10:30 PM.** Daily. Backwards-plan your evening from this. Screens down by 9:45. Mag L-threonate at 9.
-- **The daily stack.** Six products. See the card in §3.2. Anchored on Biome NS Ultra in the morning. Non-negotiable.
+- **The daily stack.** Six products. See the card in §3.2. Anchored on the gut-barrier probiotic in the morning. Non-negotiable.
 - **Two strength sessions.** Compound lifts. Squat, hinge, push, pull, carry. Recovery-prioritized. Leave one rep in the tank.
 
 Plus two touchpoints that hold the week together:
@@ -32,13 +32,15 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 
 ### My4MLife Daily Stack — Week 1
 
+*See my4mlife.com for the specific products we currently recommend.*
+
 | When | Product | Dose | Why |
 |---|---|---|---|
-| **AM — empty stomach, 30 min before food** | Biome NS Ultra | 1 scoop in 8 oz water | Gut-brain seal. The foundation of every other pillar. |
-| **With breakfast (~9 AM)** | ArmorVita | 1 serving | D3 + K2 + boron + astaxanthin. Daily floor nutrients. |
+| **AM — empty stomach, 30 min before food** | Gut-barrier probiotic (the gut-brain seal) | 1 scoop in 8 oz water | Gut-brain seal. The foundation of every other pillar. |
+| **With breakfast (~9 AM)** | Vitamin D + K2 + boron + astaxanthin stack | 1 serving | D3 + K2 + boron + astaxanthin. Daily floor nutrients. |
 | **With breakfast** | Creatine monohydrate | 5 g | Muscle + cognitive. Cheapest high-leverage molecule in the stack. |
-| **With your highest-fat meal of the day** | OmegaCN Prime | 2 softgels | EPA/DHA + ubiquinol CoQ10. Cardio-neuro. Take with fat for absorption. |
-| **30–60 min before lights out** | SleepRestore | 1 serving | Sleep onset + architecture. |
+| **With your highest-fat meal of the day** | Omega-3 + ubiquinol CoQ10 softgel | 2 softgels | EPA/DHA + ubiquinol CoQ10. Cardio-neuro. Take with fat for absorption. |
+| **30–60 min before lights out** | Sleep-support formula | 1 serving | Sleep onset + architecture. |
 | **Evening (around 9 PM)** | Magnesium L-threonate | 1.5–2 g | The only magnesium form that crosses into the hippocampus. |
 
 > *Same time, same place, every day. Stack lives where you can see it. If you have to hunt for it, you'll skip it.*
@@ -54,17 +56,17 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -84,17 +86,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -114,17 +116,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -144,17 +146,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -174,17 +176,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -204,17 +206,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -234,17 +236,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -371,7 +373,7 @@ _________________________________________________________________
 
 ### Muscle
 
-Strong body, sharp mind. Resistance training is neuroprotection. This week you ran two strength sessions, opened every feeding window with thirty grams of lean protein, and added creatine to your morning. Muscle is the engine — it pulls glucose out of your blood, releases the myokines that talk to your brain, and is the single most modifiable predictor of how you'll age.
+Strong body, sharp mind. Resistance training is neuroprotection. This week you ran two strength sessions, opened every feeding window with thirty to forty grams of lean protein, and added creatine to your morning. Muscle is the engine — it pulls glucose out of your blood, releases the myokines that talk to your brain, and is the single most modifiable predictor of how you'll age.
 
 **1. How did my two strength sessions actually go — honestly?**
 
@@ -379,7 +381,7 @@ _________________________________________________________________
 
 _________________________________________________________________
 
-**2. Did I hit 30g of protein at first bite, or did I drift into carbs first?**
+**2. Did I hit 30–40g of protein at first bite, or did I drift into carbs first?**
 
 _________________________________________________________________
 
@@ -401,7 +403,7 @@ _________________________________________________________________
 
 ### Mitigate
 
-Stop hurting yourself first. Then add what works. This week's Mitigate work centered on the gut — Biome NS Ultra every morning on an empty stomach — and on closing your eating window by 6 PM so your gut, liver, and pancreas got real rest. Mitigate is the pillar where you remove the chronic insults driving neuroinflammation. You can't out-supplement a leaking gut or a 10 PM snack.
+Stop hurting yourself first. Then add what works. This week's Mitigate work centered on the gut — the gut-barrier probiotic (the gut-brain seal) every morning on an empty stomach — and on closing your eating window by 6 PM so your gut, liver, and pancreas got real rest. Mitigate is the pillar where you remove the chronic insults driving neuroinflammation. You can't out-supplement a leaking gut or a 10 PM snack.
 
 **1. What insulting behavior did I notice myself doing this week — and did I stop it?**
 
@@ -468,13 +470,13 @@ _________________________________________________________________
 | Action | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Protein-first breakfast (30g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Protein-first breakfast (30–40g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Eating window closed by 6 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out by 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Biome NS Ultra (AM) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| ArmorVita + creatine (breakfast) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| OmegaCN Prime (with fat meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| SleepRestore (pre-bed) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Gut-barrier probiotic (AM) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| D3 + K2 stack + creatine (breakfast) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Omega-3 + CoQ10 softgel (with fat meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Sleep-support formula (pre-bed) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Magnesium L-threonate (evening) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |

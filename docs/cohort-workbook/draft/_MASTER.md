@@ -50,6 +50,63 @@ The next time you open this workbook, you should already be a man who has named 
 
 ---
 
+
+
+---
+
+# The My4MLife Cohort Workbook
+
+## Month 1
+
+> *Begin with the end in mind.*
+>
+> *Don't lose your identity and your dignity while you still have a choice.*
+
+---
+
+**Dr. TJ Mundheim**
+*Founder · My4MLife*
+
+---
+
+© 2026 My4MLife. All rights reserved.
+
+[my4mlife.com](https://my4mlife.com) · [my4mlife.com/assessment](https://my4mlife.com/assessment)
+
+---
+
+## How to use this workbook
+
+This is not a book to read. It is a **workbook** to run.
+
+You will write in it. You will mark up the trackers. You will tear out the scorecards and tape them to your bathroom mirror — or screenshot them for your phone lock-screen. The whole point is to convert the protocol from something you read about into something you actually run, day after day, with a pen in your hand and a face in your head.
+
+The workbook covers **Month 1** — the first four weeks of the My4MLife cohort protocol. Each week builds on the prior one. You do not skip ahead. You do not start with Week 3 because hormones sound interesting. The order is the order on purpose.
+
+### The shape of the month
+
+- **Part 1 — Your Why.** Before any protocol, you name the face you're doing this for and write your why. This page comes first because the protocol that you actually run beats the protocol that was theoretically better — and the protocol that you actually run is the one you run for a specific named person.
+- **Part 2 — The 4M Framework.** A two-page anchor on Mind, Muscle, Mitigate, Motivate. Refer back to this any time the work starts to feel like a pile of tasks instead of a system.
+- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a Wednesday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the ED canary. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
+- **Part 7 — The Stack Reference.** One page per product. The full My4MLife stack — every OTC, every Rx tier, every dose, every pairing — in one place. Return here any time you forget why you're taking something.
+- **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The man who layers this on a broken foundation gets the bill, not the benefit.
+- **Part 9 — Resources & Next Steps.** The 10-question assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
+
+### Before you start
+
+Read Part 1 with a pen in your hand. Do not skim. Do not "fill it in later." The exercises in Part 1 are short on purpose so that the only excuse for not doing them is that you are choosing not to. Write the face. Write the why. Write the baseline. Then turn the page.
+
+The next time you open this workbook, you should already be a man who has named what he's protecting.
+
+---
+
+*Begin with the end in mind.*
+
+---
+
+
+---
+
 # Part 1 — Your Why
 
 > *Begin with the end in mind.*
@@ -373,6 +430,7 @@ Date of today's baseline: ____________
 
 Part 1 is complete when all four exercises are filled in by hand. Don't move on to Part 2 until the face has a name, the why has a signature, the three targets have numbers, and the baseline has a date. We'll build the protocol on top of that foundation in Part 2.
 
+
 ---
 
 # Part 2 — The 4M Framework
@@ -401,7 +459,7 @@ When you forget what the point of any single behavior is, the answer is always t
 
 Muscle is the substrate. The body is the delivery system. You do not get to keep the mind if you let the chassis rust.
 
-Under Muscle: nutrition (the 30g protein-first rule), the eating window (9 AM – 6 PM), weight and visceral fat (the GLP-1 conversation if it applies), resistance training (2-3 sessions per week, compound lifts), strength preservation (sarcopenia reverses with deliberate work), and pain management (because pain is what stops training, and stopping training is what stops neuroprotection).
+Under Muscle: nutrition (the 30–40g protein-first rule), the eating window (9 AM – 6 PM), weight and visceral fat (the GLP-1 conversation if it applies), resistance training (2-3 sessions per week, compound lifts), strength preservation (sarcopenia reverses with deliberate work), and pain management (because pain is what stops training, and stopping training is what stops neuroprotection).
 
 If you only ever ran one pillar, this is the one with the most measurable physical return.
 
@@ -456,6 +514,7 @@ Then you do it again. And again. The man who runs the loop longest wins.
 
 ---
 
+
 ---
 
 # Part 3 — Week 1: Foundation
@@ -470,9 +529,9 @@ Here is the entire week, in plain language:
 
 - **Morning sun + walk.** Eight to fifteen minutes within the first hour of waking. Eyes toward the sun, sunglasses off, no food yet. Two times this week, minimum.
 - **Protein-first breakfast.** Thirty grams of lean protein, thirty minutes before any other macro enters your mouth. Two times this week, minimum. Aim for more.
-- **Eating window 9 AM to 6 PM.** Daily. First bite at nine or after. Last bite by six. Water, black coffee, and tea outside the window are fine.
+- **Eating window 9 AM to 6 PM.** Daily. First bite at nine or after. Last bite by six. Water, black coffee, and tea outside the window are fine. *Until you reach your ideal body weight, low body fat, and low visceral fat: train fasted in the morning — fasted morning walking in particular is a powerful accelerator. Break the fast after training with 30–40g of lean protein. If your workout ends around 10 AM, that's when the window opens. If you want to further regulate cortisol before sleep, experiment with moving your last bite earlier — around 4 or 5 PM — once the 9–6 window is consistent.*
 - **Lights out by 10:30 PM.** Daily. Backwards-plan your evening from this. Screens down by 9:45. Mag L-threonate at 9.
-- **The daily stack.** Six products. See the card in §3.2. Anchored on Biome NS Ultra in the morning. Non-negotiable.
+- **The daily stack.** Six products. See the card in §3.2. Anchored on the gut-barrier probiotic in the morning. Non-negotiable.
 - **Two strength sessions.** Compound lifts. Squat, hinge, push, pull, carry. Recovery-prioritized. Leave one rep in the tank.
 
 Plus two touchpoints that hold the week together:
@@ -492,13 +551,15 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 
 ### My4MLife Daily Stack — Week 1
 
+*See my4mlife.com for the specific products we currently recommend.*
+
 | When | Product | Dose | Why |
 |---|---|---|---|
-| **AM — empty stomach, 30 min before food** | Biome NS Ultra | 1 scoop in 8 oz water | Gut-brain seal. The foundation of every other pillar. |
-| **With breakfast (~9 AM)** | ArmorVita | 1 serving | D3 + K2 + boron + astaxanthin. Daily floor nutrients. |
+| **AM — empty stomach, 30 min before food** | Gut-barrier probiotic (the gut-brain seal) | 1 scoop in 8 oz water | Gut-brain seal. The foundation of every other pillar. |
+| **With breakfast (~9 AM)** | Vitamin D + K2 + boron + astaxanthin stack | 1 serving | D3 + K2 + boron + astaxanthin. Daily floor nutrients. |
 | **With breakfast** | Creatine monohydrate | 5 g | Muscle + cognitive. Cheapest high-leverage molecule in the stack. |
-| **With your highest-fat meal of the day** | OmegaCN Prime | 2 softgels | EPA/DHA + ubiquinol CoQ10. Cardio-neuro. Take with fat for absorption. |
-| **30–60 min before lights out** | SleepRestore | 1 serving | Sleep onset + architecture. |
+| **With your highest-fat meal of the day** | Omega-3 + ubiquinol CoQ10 softgel | 2 softgels | EPA/DHA + ubiquinol CoQ10. Cardio-neuro. Take with fat for absorption. |
+| **30–60 min before lights out** | Sleep-support formula | 1 serving | Sleep onset + architecture. |
 | **Evening (around 9 PM)** | Magnesium L-threonate | 1.5–2 g | The only magnesium form that crosses into the hippocampus. |
 
 > *Same time, same place, every day. Stack lives where you can see it. If you have to hunt for it, you'll skip it.*
@@ -514,17 +575,17 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -544,17 +605,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -574,17 +635,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -604,17 +665,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -634,17 +695,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -664,17 +725,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -694,17 +755,17 @@ _________________________________________________________________
 | Floor behavior | Done |
 |---|---|
 | Morning sun + walk (8–15 min) | ☐ |
-| Protein-first breakfast (30g) | ☐ |
+| Protein-first breakfast (30–40g) | ☐ |
 | Eating window closed by 6 PM | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 | Supplement | Done |
 |---|---|
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita (breakfast) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5g (breakfast) | ☐ |
-| OmegaCN Prime (fat meal) | ☐ |
-| SleepRestore (pre-bed) | ☐ |
+| Omega-3 + CoQ10 softgel (fat meal) | ☐ |
+| Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 
 **Morning energy** (0–10): _______
@@ -831,7 +892,7 @@ _________________________________________________________________
 
 ### Muscle
 
-Strong body, sharp mind. Resistance training is neuroprotection. This week you ran two strength sessions, opened every feeding window with thirty grams of lean protein, and added creatine to your morning. Muscle is the engine — it pulls glucose out of your blood, releases the myokines that talk to your brain, and is the single most modifiable predictor of how you'll age.
+Strong body, sharp mind. Resistance training is neuroprotection. This week you ran two strength sessions, opened every feeding window with thirty to forty grams of lean protein, and added creatine to your morning. Muscle is the engine — it pulls glucose out of your blood, releases the myokines that talk to your brain, and is the single most modifiable predictor of how you'll age.
 
 **1. How did my two strength sessions actually go — honestly?**
 
@@ -839,7 +900,7 @@ _________________________________________________________________
 
 _________________________________________________________________
 
-**2. Did I hit 30g of protein at first bite, or did I drift into carbs first?**
+**2. Did I hit 30–40g of protein at first bite, or did I drift into carbs first?**
 
 _________________________________________________________________
 
@@ -861,7 +922,7 @@ _________________________________________________________________
 
 ### Mitigate
 
-Stop hurting yourself first. Then add what works. This week's Mitigate work centered on the gut — Biome NS Ultra every morning on an empty stomach — and on closing your eating window by 6 PM so your gut, liver, and pancreas got real rest. Mitigate is the pillar where you remove the chronic insults driving neuroinflammation. You can't out-supplement a leaking gut or a 10 PM snack.
+Stop hurting yourself first. Then add what works. This week's Mitigate work centered on the gut — the gut-barrier probiotic (the gut-brain seal) every morning on an empty stomach — and on closing your eating window by 6 PM so your gut, liver, and pancreas got real rest. Mitigate is the pillar where you remove the chronic insults driving neuroinflammation. You can't out-supplement a leaking gut or a 10 PM snack.
 
 **1. What insulting behavior did I notice myself doing this week — and did I stop it?**
 
@@ -928,13 +989,13 @@ _________________________________________________________________
 | Action | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Protein-first breakfast (30g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Protein-first breakfast (30–40g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Eating window closed by 6 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out by 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Biome NS Ultra (AM) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| ArmorVita + creatine (breakfast) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| OmegaCN Prime (with fat meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| SleepRestore (pre-bed) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Gut-barrier probiotic (AM) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| D3 + K2 stack + creatine (breakfast) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Omega-3 + CoQ10 softgel (with fat meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Sleep-support formula (pre-bed) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Magnesium L-threonate (evening) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
@@ -949,6 +1010,7 @@ _________________________________________________________________
 >
 > *Don't lose your identity and your dignity while you still have a choice.*
 
+
 ---
 
 # Part 4 — Week 2: Add the Lift
@@ -961,7 +1023,7 @@ _________________________________________________________________
 
 Week 1 built the architecture. Week 2 starts the engine.
 
-You kept everything from Week 1 — morning sun and walk, 30g protein-first, 9 AM to 6 PM eating window, the Biome NS Ultra / ArmorVita / OmegaCN Prime / SleepRestore / Mag L-threonate stack, lights out by 10:30. None of that goes away. It's the foundation. We don't trade Week 1 for Week 2 — we stack Week 2 on top.
+You kept everything from Week 1 — morning sun and walk, 30–40g protein-first, 9 AM to 6 PM eating window, the gut-barrier probiotic / D3+K2 stack / omega-3+CoQ10 softgel / sleep-support formula / Mag L-threonate stack, lights out by 10:30. None of that goes away. It's the foundation. We don't trade Week 1 for Week 2 — we stack Week 2 on top.
 
 What we add this week is the lift.
 
@@ -1018,8 +1080,8 @@ No static stretching cold. Move first, stretch later (or not at all).
 
 Walk. Outside if you can. Don't sit down sweaty. Let the heart rate come down on its feet.
 
-**Pre-workout (optional):** MitoVita 20-30 min before training, with water.
-**Post-workout:** 30g+ protein within 60 minutes. This counts as your protein-first feeding window opener if it lands inside 9 AM – 6 PM.
+**Pre-workout (optional):** Creatine + L-citrulline + beetroot + electrolyte blend (pre-workout), 20-30 min before training, with water. See my4mlife.com for the specific product we currently recommend.
+**Post-workout:** 30–40g protein within 60 minutes. This is your protein-first feeding window opener — train fasted, then break the fast with protein after. If your workout ends around 10 AM, that's when the window opens.
 
 > *Recovery is where adaptation happens. Leave one rep in the tank.*
 
@@ -1107,7 +1169,7 @@ Most men sabotage sleep in the last hour of the day and then blame the supplemen
 3. **No work, no email, no news.** The cortisol spike from one unread message lasts longer than the message takes to read.
 4. **Dim ambient light.** One warm lamp. Overheads off. Your brain reads bright overhead light as noon.
 5. **Cool the room.** 65-68°F. Core temperature drop is the signal that initiates sleep.
-6. **Take the stack.** Mag L-threonate (1.5-2g) + SleepRestore, 30-60 min before lights out. Water, not a full glass — you don't want a 3 AM bathroom trip.
+6. **Take the stack.** Mag L-threonate (1.5-2g) + sleep-support formula, 30-60 min before lights out. Water, not a full glass — you don't want a 3 AM bathroom trip.
 
 ### Wind-Down Tracker — Week 2
 
@@ -1136,20 +1198,20 @@ One page per day. Print seven. Lift boxes only activate on lift days.
 **Morning**
 - ☐ Out of bed by 6:30
 - ☐ Sun + walk (8-15 min, no sunglasses)
-- ☐ Biome NS Ultra on empty stomach, 8oz water
-- ☐ 30g protein-first to open the eating window
-- ☐ ArmorVita with breakfast
-- ☐ OmegaCN Prime with largest fat-containing meal
+- ☐ Gut-barrier probiotic on empty stomach, 8oz water
+- ☐ 30–40g protein-first to open the eating window (after training if you trained fasted)
+- ☐ D3 + K2 stack with breakfast
+- ☐ Omega-3 + CoQ10 softgel with largest fat-containing meal
 
 **Strength (if lift day)**
 - ☐ Session A / B (circle) completed
 - ☐ Log filled in (§4.3)
-- ☐ Post-workout 30g+ protein
+- ☐ Post-workout 30–40g protein (this is your feeding window opener)
 
 **Evening**
 - ☐ Eating window closed by 6 PM
 - ☐ 9:30 PM wind-down started
-- ☐ Mag L-threonate + SleepRestore
+- ☐ Mag L-threonate + sleep-support formula
 - ☐ Lights out by 10:30
 
 **Daily ratings (0-10)**
@@ -1293,11 +1355,11 @@ _______________________________________________
 | Behavior | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | Sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Protein-first (30g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Protein-first (30–40g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 9-6 eating window | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| AM stack (Biome NS Ultra + ArmorVita + OmegaCN Prime) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| AM stack (gut-barrier probiotic + D3+K2 stack + omega-3+CoQ10 softgel) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 9:30 wind-down | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Mag L-threonate + SleepRestore | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Mag L-threonate + sleep-support formula | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out by 10:30 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
 **Strength sessions this week:**
@@ -1314,6 +1376,7 @@ _______________________________________________
 
 > *Strong body, sharp mind. Resistance training is neuroprotection.*
 
+
 ---
 
 # Part 5 — Week 3: Hormones and the ED Canary
@@ -1328,7 +1391,7 @@ Erectile dysfunction is not a separate problem. It is the first visible warning 
 
 That's the canary. ED is the warning. The mine is your whole vascular and hormonal system, and your brain runs on the same plumbing.
 
-This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window, morning sun, Biome NS Ultra, ArmorVita, OmegaCN Prime, SleepRestore, Magtein, the lifts, the lights-out at 10:30. None of that changes.
+This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window (train fasted, break the fast with 30–40g protein after), morning sun, the gut-barrier probiotic, the D3+K2 stack, the omega-3+CoQ10 softgel, the sleep-support formula, Magtein, the lifts, the lights-out at 10:30. None of that changes.
 
 What changes is that you are going to audit yourself honestly across ten markers most men have never rated in writing, walk through a four-domain ED canary worksheet, and make one decision: do you engage the Rx consult layer this month, or do you stay OTC and reassess in 90 days?
 
@@ -1583,7 +1646,7 @@ My decision: ☐ Scheduling this week. Date booked: ____________
 Schedule a **targeted consult** for the most-flagged domain.
 - Hormones-only? TRT-track consult with full panel.
 - Cardiovascular-only? Metabolic + cardio consult, possible GLP-1.
-- Cognitive-only? Cognitive workup + Biome NS Rx evaluation.
+- Cognitive-only? Cognitive workup + prescription gut-barrier peptide protocol evaluation.
 
 My most-flagged domain: ____________
 
@@ -1592,16 +1655,16 @@ My decision: ☐ Scheduling this week. Date booked: ____________
 ---
 
 **If all domains are "Mild" or "No" →**
-Continue the **OTC foundation stack** — Biome NS Ultra, ArmorVita, OmegaCN Prime, SleepRestore, Magtein, MitoVita when available. Hold the line on protein-first, the eating window, lifts, sleep, sun. Reassess in 90 days using this same worksheet.
+Continue the **OTC foundation stack** — gut-barrier probiotic, D3+K2 stack, omega-3+CoQ10 softgel, sleep-support formula, Magtein, and the pre-workout creatine+citrulline+beetroot blend on training days. Hold the line on protein-first (30–40g, post-training to open the eating window), the eating window, lifts, sleep, sun. Reassess in 90 days using this same worksheet. See my4mlife.com for the specific products we currently recommend.
 
 My decision: ☐ Staying OTC. Reassessment date (90 days out): ____________
 
 ---
 
 **If you or your physician have already diagnosed MCI, early dementia, Alzheimer's, or Parkinson's →**
-Engage **RPA** regenerative consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back.
+Engage the **regenerative therapies** consult immediately. This arm is time-sensitive. Every month of delay is tissue you do not get back. See my4mlife.com for the current regenerative protocol.
 
-My decision: ☐ Booking RPA consult this week. Date: ____________
+My decision: ☐ Booking regenerative therapies consult this week. Date: ____________
 
 ---
 
@@ -1614,14 +1677,14 @@ Keep every Week 1 and Week 2 behavior in place. Check the box at the end of each
 | Behavior | Done |
 |---|---|
 | Morning sun + walk, 8-15 min, no sunglasses | ☐ |
-| Biome NS Ultra — AM, empty stomach, 8oz water | ☐ |
-| 30g protein-first at first meal | ☐ |
+| Gut-barrier probiotic — AM, empty stomach, 8oz water | ☐ |
+| 30–40g protein-first at first meal (after training if trained fasted) | ☐ |
 | Eating window 9 AM – 6 PM | ☐ |
-| ArmorVita with breakfast | ☐ |
-| OmegaCN Prime with largest fat meal | ☐ |
+| D3 + K2 stack with breakfast | ☐ |
+| Omega-3 + CoQ10 softgel with largest fat meal | ☐ |
 | Resistance training (if scheduled today) | ☐ |
 | Magtein 1.5-2g evening | ☐ |
-| SleepRestore 30-60 min before lights out | ☐ |
+| Sleep-support formula 30-60 min before lights out | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
 Audit work today (5 min on §5.2 or §5.3): ☐
@@ -1633,14 +1696,14 @@ Audit work today (5 min on §5.2 or §5.3): ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 Audit work today: ☐
@@ -1652,14 +1715,14 @@ Audit work today: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 | **Cohort Zoom attended** | ☐ |
 
@@ -1670,14 +1733,14 @@ Audit work today: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 Consult booked or OTC reassessment date set: ☐
@@ -1689,14 +1752,14 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 ---
@@ -1706,14 +1769,14 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
 ---
@@ -1723,14 +1786,14 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Biome NS Ultra AM | ☐ |
-| 30g protein-first | ☐ |
+| Gut-barrier probiotic AM | ☐ |
+| 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| ArmorVita | ☐ |
-| OmegaCN Prime | ☐ |
+| D3 + K2 stack | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
 | Magtein PM | ☐ |
-| SleepRestore | ☐ |
+| Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 | **End-of-Week 4M Reflection completed** (§5.7) | ☐ |
 | **Adherence Scorecard filled in** (§5.8) | ☐ |
@@ -1768,7 +1831,7 @@ _______________________________________________
 ☐ Full hormone consult — booking this week
 ☐ Targeted consult — domain: ____________
 ☐ Staying OTC — 90-day reassessment date: ____________
-☐ RPA regenerative consult — booking this week
+☐ Regenerative therapies consult — booking this week
 
 The accountability target I named in Week 1 — who I am doing this for — would say this about my decision:
 
@@ -1817,7 +1880,7 @@ My waist trend (§5.2 #8): ____________
 If these numbers are not where I want them, the upstream lever this month is:
 
 ☐ Lift harder and more often (compound lifts, 2-3x/week)
-☐ Get the protein in (30g first, every feeding window)
+☐ Get the protein in (30–40g first, every feeding window opener)
 ☐ Sleep — most testosterone is made between 11 PM and 3 AM
 ☐ Engage the Rx consult — TRT panel
 
@@ -1886,14 +1949,14 @@ _______________________________________________
 | Behavior | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Biome NS Ultra AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| 30g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Gut-barrier probiotic AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 30–40g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Eating window 9-6 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| ArmorVita | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| OmegaCN Prime | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| D3 + K2 stack | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Omega-3 + CoQ10 softgel | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Resistance training (2-3x) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Magtein PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| SleepRestore | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Sleep-support formula | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Cohort Zoom attended | | | ☐ | | | | |
 
@@ -1921,6 +1984,7 @@ _______________________________________________
 > *Begin with the end in mind.*
 
 > *Don't lose your identity and your dignity while you still have a choice.*
+
 
 ---
 
@@ -2042,12 +2106,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk (8-15 min, no sunglasses) | ☐ |
-| 30g protein-first at first meal | ☐ |
+| 30–40g protein-first at first meal | ☐ |
 | 9 AM – 6 PM eating window held | ☐ |
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita + OmegaCN Prime (with meal) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel (with meal) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
-| SleepRestore + lights out by 10:30 PM | ☐ |
+| Sleep-support formula + lights out by 10:30 PM | ☐ |
 | Resistance training OR Zone 2 walk | ☐ |
 | One insult avoided today: ___________________ | ☐ |
 
@@ -2060,12 +2124,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -2076,12 +2140,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 | Cohort Zoom attended | ☐ |
@@ -2093,12 +2157,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -2109,12 +2173,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -2125,12 +2189,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -2141,12 +2205,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 | Sunday synthesis review (§6.5) | ☐ |
@@ -2413,12 +2477,12 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Daily Floor Behavior | M | T | W | T | F | S | S | Total |
 |---|---|---|---|---|---|---|---|---|
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| 30g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| 30–40g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | 9 AM – 6 PM window | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| Biome NS Ultra AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| ArmorVita + OmegaCN Prime | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| Gut-barrier probiotic AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | Magnesium L-threonate PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| SleepRestore + 10:30 lights out | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| Sleep-support formula + 10:30 lights out | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | Resistance OR Zone 2 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | One insult avoided | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 
@@ -2433,12 +2497,12 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Daily Floor Behavior | Wk 1 | Wk 2 | Wk 3 | Wk 4 | Month Total |
 |---|---|---|---|---|---|
 | Morning sun + walk | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| 30g protein-first | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| 30–40g protein-first | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | 9 AM – 6 PM window | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| Biome NS Ultra AM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| ArmorVita + OmegaCN Prime | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| Gut-barrier probiotic AM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Magnesium L-threonate PM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| SleepRestore + 10:30 lights out | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| Sleep-support formula + 10:30 lights out | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Resistance OR Zone 2 | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Insult avoided | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | **Weekly Zoom attended (1 pt)** | __ /1 | __ /1 | __ /1 | __ /1 | __ /4 |
@@ -2461,6 +2525,7 @@ A score above 200 means you ran the loop. A score below 150 means the structure 
 
 — Dr. TJ
 
+
 ---
 
 # Part 7 — The Stack Reference
@@ -2481,29 +2546,29 @@ What follows is one page per product, in the order you'd actually add them. Then
 
 ---
 
-## Biome NS Ultra
+## Gut-Barrier Probiotic (the gut-brain seal)
 
 **Tier:** OTC daily foundation
 **When:** Morning, empty stomach, 8oz water, 30 minutes before first food
 **Dose:** 1 scoop daily
-**What it is:** Gut-brain seal powder. L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + vitamin A + vitamin D3.
-**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most men over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. Biome NS Ultra seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
-**What it pairs with:** Everything. Specifically amplifies ArmorVita (D3/K2 absorption), OmegaCN Prime (anti-inflammatory synergy), and any nootropic peptide (cleaner substrate to act on).
+**What it is:** Gut-brain seal powder. L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + vitamin A + vitamin D3. See my4mlife.com for the specific product we currently recommend.
+**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most men over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
+**What it pairs with:** Everything. Specifically amplifies the D3+K2 stack (fat-soluble absorption), the omega-3+CoQ10 softgel (anti-inflammatory synergy), and any nootropic peptide (cleaner substrate to act on).
 **What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some men report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
-**Two Paths note:** Pairs with Biome NS Rx (oral BPC-157 single-active) on top — same anchor, deeper repair.
+**Two Paths note:** Pairs with the prescription gut-barrier peptide protocol (BPC-157 + L-glutamine + aloe, oral compounded) on top — same anchor, deeper repair.
 
-> *NS = NeuroSeal. The gut-brain seal that protects cognitive longevity.*
+> *The gut-brain seal that protects cognitive longevity.*
 
 ---
 
-## ArmorVita
+## Vitamin D + K2 + Boron + Astaxanthin Stack
 
 **Tier:** OTC daily foundation
 **When:** With protein-first breakfast
 **Dose:** 1 capsule daily
-**What it is:** D3 (cholecalciferol) + K2 (MK-7) + boron + astaxanthin.
+**What it is:** D3 (cholecalciferol) + K2 (MK-7) + boron + astaxanthin. See my4mlife.com for the specific product we currently recommend.
 **Why it's in the stack:** Four fat-soluble defenders that nearly every man over 50 is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
-**What it pairs with:** OmegaCN Prime (shared fat-soluble absorption window, mitochondrial synergy). Biome NS Ultra (sealed gut means D3/K2 actually get absorbed).
+**What it pairs with:** Omega-3 + CoQ10 softgel (shared fat-soluble absorption window, mitochondrial synergy). Gut-barrier probiotic (sealed gut means D3/K2 actually get absorbed).
 **What to watch for in the first 30 days:** Subtle but real — mood floor lifts, recovery from training improves, skin tone shifts. If you're starting from a deficient D level, expect the biggest change at the 6-8 week mark when serum levels normalize.
 **Two Paths note:** No Rx upgrade. This is foundation only.
 
@@ -2516,7 +2581,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Dose:** 5g daily (no loading phase needed at our age)
 **What it is:** Pure creatine monohydrate. Not HCL, not buffered, not "advanced." Monohydrate. The form that has 700+ trials behind it.
 **Why it's in the stack:** This is the single most-evidenced cognitive supplement for men 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
-**What it pairs with:** Resistance training (non-negotiable). MitoVita on training days (stacked NO + ATP support). OmegaCN Prime (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
+**What it pairs with:** Resistance training (non-negotiable). Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
 **What to watch for in the first 30 days:** 1-2 pounds of water weight in the first 10 days — that's intracellular hydration, not fat. Strength on compound lifts goes up within 2-3 weeks. Mental clarity under sleep deprivation is the tell that it's reached your brain.
 
 > *If you take exactly one supplement from this stack, take this one.*
@@ -2525,32 +2590,29 @@ What follows is one page per product, in the order you'd actually add them. Then
 
 ---
 
-## OmegaCN Prime
+## Omega-3 + Ubiquinol CoQ10 Softgel
 
 **Tier:** OTC daily foundation
 **When:** With the largest fat-containing meal of the day
 **Dose:** 2 softgels daily
-**What it is:** EPA 1200 mg + DHA 800 mg in triglyceride (TG) form, IFOS 5-star certified for purity and oxidation. Plus Kaneka QH® ubiquinol 200 mg — the reduced, bioavailable form of CoQ10.
+**What it is:** EPA 1200 mg + DHA 800 mg in triglyceride (TG) form, IFOS 5-star certified for purity and oxidation. Plus Kaneka QH® ubiquinol 200 mg — the reduced, bioavailable form of CoQ10. (Cardio-neuro axis coverage — the two systems share a membrane.) See my4mlife.com for the specific product we currently recommend.
 **Why it's in the stack:** Two jobs in one capsule. The omega side rebuilds neuronal membrane fluidity and damps systemic inflammation — DHA is literally a structural lipid in your brain. The ubiquinol side restores mitochondrial electron-transport-chain efficiency, which collapses with age and with any statin exposure. Together they cover the cardio-neuro axis at the membrane + energy level.
-**What it pairs with:** ArmorVita (fat-soluble absorption window). Creatine (full ATP-restoration trio). Any GLP-1 protocol (counters the lipid-quality drop common on aggressive fat-loss phases).
+**What it pairs with:** D3+K2 stack (fat-soluble absorption window). Creatine (full ATP-restoration trio). Any GLP-1 protocol (counters the lipid-quality drop common on aggressive fat-loss phases).
 **What to watch for in the first 30 days:** Joint stiffness eases by week 2. Blood pressure drifts down a few points in the responsive. If you've been on a statin, expect the biggest energy/cognition lift to come from the ubiquinol side at the 4-6 week mark.
-
-> *CN = Cardio Neuro. The two systems share a membrane.*
-
-**Two Paths note:** No direct Rx upgrade. The Rx-tier circulation play is SleepRestore Rx (nattokinase).
+**Two Paths note:** No direct Rx upgrade. The Rx-tier circulation play is the nattokinase prescription (alongside the sleep-support formula).
 
 ---
 
-## SleepRestore
+## Sleep-Support Formula
 
 **Tier:** OTC daily foundation
 **When:** 30-60 minutes before lights out (lights out by 10:30 PM)
 **Dose:** 1 serving nightly
-**What it is:** Sleep-architecture support — non-melatonin-led formula designed to deepen slow-wave and REM without the next-morning hangover or the receptor-downregulation problem of chronic high-dose melatonin.
-**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most men over 50 are not sleep-deprived in hours — they're sleep-deprived in architecture. SleepRestore exists to fix the architecture so the hours you do sleep actually count.
+**What it is:** Sleep-architecture support — non-melatonin-led formula designed to deepen slow-wave and REM without the next-morning hangover or the receptor-downregulation problem of chronic high-dose melatonin. See my4mlife.com for the specific product we currently recommend.
+**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most men over 50 are not sleep-deprived in hours — they're sleep-deprived in architecture. This formula exists to fix the architecture so the hours you do sleep actually count.
 **What it pairs with:** Magnesium L-threonate (Magtein) — taken together they form the sleep stack. Lights-out-by-10:30 protocol. Morning sun anchor (sleep is set in the morning, not the evening).
 **What to watch for in the first 30 days:** First week is the tell. Fewer 3 AM wake-ups. Dreams come back (a sign REM is recovering). Morning HRV trends up if you wear a tracker.
-**Two Paths note:** Pairs with SleepRestore Rx (nattokinase) for the circulation/clotting tier — different mechanism, same sleep-and-cardiovascular protective intent.
+**Two Paths note:** Pairs with a nattokinase prescription for the circulation/clotting tier — different mechanism, same sleep-and-cardiovascular protective intent.
 
 ---
 
@@ -2561,20 +2623,20 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Dose:** 1.5-2 g of Magtein (delivers ~144-192 mg elemental magnesium)
 **What it is:** The patented Magtein form of magnesium-L-threonate. This matters: it is the only magnesium form with demonstrated hippocampal bioavailability. Glycinate, citrate, and oxide do not cross into the brain the way threonate does.
 **Why it's in the stack:** Hippocampal magnesium drives synaptic density — the physical infrastructure of memory. Restoring it has been shown to improve working memory and executive function in older adults. This is the magnesium that targets the brain. Use other forms for bowels and muscle if you want; use threonate for the mind.
-**What it pairs with:** SleepRestore (the sleep stack). Lion's mane (synaptic-density synergy). Any nootropic peptide cycle.
+**What it pairs with:** Sleep-support formula (the sleep stack). Lion's mane (synaptic-density synergy). Any nootropic peptide cycle.
 **What to watch for in the first 30 days:** Calmer evenings. Sharper word-finding. The "where did I put my keys" frequency drops. Real effect builds over 8-12 weeks — this is a remodeling supplement, not a stimulant.
 **Two Paths note:** No Rx upgrade. Foundation only.
 
 ---
 
-## MitoVita
+## Pre-Workout Creatine + Citrulline + Beetroot + Electrolyte Blend
 
 **Tier:** OTC situational (pre-workout)
 **When:** 20-30 minutes before resistance training or a hard walk
 **Dose:** 1 scoop in 12-16 oz water
-**What it is:** Creatine + L-citrulline + beetroot + electrolytes. Monk-fruit sweetened. Fast-compatible (no insulinogenic load). In development — formulary locked, launch pending.
+**What it is:** Creatine + L-citrulline + beetroot + electrolytes. Monk-fruit sweetened. Fast-compatible (no insulinogenic load). See my4mlife.com for the specific product we currently recommend.
 **Why it's in the stack:** Mitochondrial ATP plus endothelial nitric oxide in one scoop. Citrulline and beetroot raise NO and blood flow to working muscle and brain. The added creatine layer stacks on top of your daily 5g for training days. Electrolytes prevent the cramps and dizziness that derail older lifters mid-set.
-**What it pairs with:** Daily creatine (additive on training days). Resistance training (the entire point). OmegaCN Prime (endothelial health amplifies citrulline's effect).
+**What it pairs with:** Daily creatine (additive on training days). Resistance training (the entire point). Omega-3 + CoQ10 softgel (endothelial health amplifies citrulline's effect).
 **What to watch for in the first 30 days:** Better pumps and longer training tolerance in week 1. Lower perceived exertion on cardio. Pre-workout brain clarity — citrulline + beetroot reach the brain too.
 **Two Paths note:** No Rx upgrade. Situational foundation.
 
@@ -2587,33 +2649,33 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Dose:** 1000 mg/day of a verified fruiting-body extract (not mycelium-on-grain)
 **What it is:** Hericium erinaceus fruiting-body extract, standardized to hericenones and erinacines.
 **Why it's in the stack:** NGF and BDNF support — the growth factors that maintain neuronal arborization and synaptic plasticity in the aging brain. Best used cycle-based: 8 weeks on, 2 weeks off. Not a daily-forever requirement; a layered tool you bring in when you want a cognitive push.
-**What it pairs with:** Magnesium L-threonate (synaptic density). Cerebrolysin cycles (BDNF stacking). Biome NS Ultra (clean gut means cleaner mushroom-extract absorption — and lion's mane is gut-active too).
+**What it pairs with:** Magnesium L-threonate (synaptic density). Cerebrolysin cycles (BDNF stacking). Gut-barrier probiotic (clean gut means cleaner mushroom-extract absorption — and lion's mane is gut-active too).
 **What to watch for in the first 30 days:** Word fluency improves around week 3. If you don't notice anything at 6 weeks, the SKU is probably mycelium-on-grain — switch brands.
 **Two Paths note:** No Rx upgrade. Cycle-based situational.
 
 ---
 
-## Biome NS Rx
+## Prescription Gut-Barrier Peptide Protocol (BPC-157 + L-Glutamine + Aloe)
 
 **Tier:** Rx single-active add-on (compounded via licensed telemed partner)
-**When:** Morning, on top of Biome NS Ultra
+**When:** Morning, on top of the OTC gut-barrier probiotic
 **Dose:** Per prescription
-**What it is:** Oral BPC-157 + L-glutamine + aloe. Single-active Rx tier that pairs on top of the OTC anchor.
+**What it is:** Oral BPC-157 + L-glutamine + aloe. Single-active Rx tier that pairs on top of the OTC anchor. See my4mlife.com for the current Rx gut protocol.
 **Why it's in the stack:** When the OTC seal is doing its job but you have a longer history of insult — NSAID years, antibiotic courses, alcohol decades, prior ulcer, chronic reflux — BPC-157 adds a regenerative repair signal that the OTC tier can't reach. This is the deeper-tier gut repair lane.
-**What it pairs with:** Biome NS Ultra (the anchor pair — never run Rx without Ultra). ArmorVita (D3 amplifies barrier repair).
+**What it pairs with:** Gut-barrier probiotic (the anchor pair — never run Rx without the OTC base). D3+K2 stack (D3 amplifies barrier repair).
 **What to watch for in the first 30 days:** Reflux and post-meal discomfort drop sharply. Stool quality improves further. Energy and mood floor lifts as endotoxin load drops.
 **Two Paths note:** This *is* the Rx path for the gut anchor.
 
 ---
 
-## SleepRestore Rx
+## Nattokinase Prescription (Sleep + Circulation Rx Tier)
 
 **Tier:** Rx single-active add-on
-**When:** Evening, alongside SleepRestore
+**When:** Evening, alongside the sleep-support formula
 **Dose:** Per prescription
-**What it is:** Nattokinase, compounded.
+**What it is:** Nattokinase, compounded. See my4mlife.com for the current sleep Rx protocol.
 **Why it's in the stack:** Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in men 50+ with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
-**What it pairs with:** SleepRestore (architecture). OmegaCN Prime (vascular health). ArmorVita (K2 calcification management).
+**What it pairs with:** Sleep-support formula (architecture). Omega-3 + CoQ10 softgel (vascular health). D3+K2 stack (K2 calcification management).
 **What to watch for in the first 30 days:** Subtler than the gut Rx. Track HRV and morning resting heart rate. Look for steadier readings, not a single dramatic shift.
 **Two Paths note:** This is the Rx path for circulation. Not a sedative.
 
@@ -2626,9 +2688,9 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Dose:** Titrated to free T, total T, estradiol, and hematocrit
 **What it is:** Bio-identical testosterone, prescribed and monitored through the consult pathway. Always paired with full lab work — including estradiol and CBC — and coach-led for the lifestyle work that determines whether TRT actually does its job.
 **Why it's in the stack:** Low testosterone is the silent multiplier under most of what we treat: visceral fat, sarcopenia, mood drift, brain fog, ED as canary. Restoring physiological T is not optional for many men over 50 — it's foundational. But it is never a shortcut. It works because the lifting, protein, and sleep work.
-**What it pairs with:** Resistance training (non-negotiable — without lifting, TRT becomes a liability). ArmorVita (boron + D3 free-T support). OmegaCN Prime (cardiovascular protection). Biome NS Ultra (clean gut, cleaner hormone metabolism).
+**What it pairs with:** Resistance training (non-negotiable — without lifting, TRT becomes a liability). D3+K2+boron stack (boron + D3 free-T support). Omega-3 + CoQ10 softgel (cardiovascular protection). Gut-barrier probiotic (clean gut, cleaner hormone metabolism).
 **What to watch for in the first 30 days:** Energy and libido often shift in week 2-3. Body composition takes 8-12 weeks. Mood floor lifts. Watch hematocrit at 90 days.
-**Two Paths note:** The OTC adjacent layer is ArmorVita + lifting + protein-first eating. Many men optimize free T enough on that alone to not need TRT. The lab tells.
+**Two Paths note:** The OTC adjacent layer is the D3+K2+boron stack + lifting + protein-first eating. Many men optimize free T enough on that alone to not need TRT. The lab tells.
 
 ---
 
@@ -2639,9 +2701,9 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Dose:** Titrated per molecule and tolerance
 **What it is:** GLP-1 (or GLP-1/GIP, or GLP-1/GIP/glucagon triple agonist) prescribed through the consult pathway with structured titration and stop-criteria.
 **Why it's in the stack:** Visceral fat is neuroinflammatory. Insulin resistance is upstream of cognitive decline. For the right candidate — BMI threshold met, comorbidities present, lifestyle effort already in motion — GLP-1 collapses years of struggle into months. It is not a vanity drug. It is a metabolic-and-neurological intervention.
-**What it pairs with:** Resistance training (mandatory — without lifting, you lose muscle, not fat). 30g protein-first rule (mandatory — appetite is suppressed; protein priority is how you keep lean mass). OmegaCN Prime (lipid quality protection). Biome NS Ultra (GLP-1 slows gut motility; the seal matters more, not less).
+**What it pairs with:** Resistance training (mandatory — without lifting, you lose muscle, not fat). 30–40g protein-first rule (mandatory — appetite is suppressed; protein priority is how you keep lean mass). Omega-3 + CoQ10 softgel (lipid quality protection). Gut-barrier probiotic (GLP-1 slows gut motility; the seal matters more, not less).
 **What to watch for in the first 30 days:** Appetite drops fast. Hydration discipline becomes critical. Watch for under-eating protein — the most common failure mode.
-**Two Paths note:** The OTC adjacent layer is the 9 AM – 6 PM eating window plus protein-first plus lifting. Many men get most of the metabolic benefit there.
+**Two Paths note:** The OTC adjacent layer is the 9 AM – 6 PM eating window (train fasted, break the fast with 30–40g protein after) plus lifting. Many men get most of the metabolic benefit there.
 
 ---
 
@@ -2657,20 +2719,20 @@ What follows is one page per product, in the order you'd actually add them. Then
 - **Ipamorelin** — GH secretagogue. Recovery, sleep depth, body composition. Evening.
 
 **Why it's in the stack:** When the foundation is running clean and you want the next cognitive lever — or when there's existing MCI, post-concussive history, or a hard need to protect a specific window — peptides are the tier. They are not first-line. They sit on top of a clean foundation.
-**What it pairs with:** Biome NS Ultra (clean substrate). Magnesium L-threonate (synaptic infrastructure). OmegaCN Prime (membrane substrate). Sleep stack (recovery substrate).
+**What it pairs with:** Gut-barrier probiotic (clean substrate). Magnesium L-threonate (synaptic infrastructure). Omega-3 + CoQ10 softgel (membrane substrate). Sleep stack (recovery substrate).
 **What to watch for in the first 30 days:** Cycle-dependent. Cerebrolysin: cognitive lift across the cycle, often a residual benefit lasting weeks. Semax/Selank: same-day effect, evaluate within 2 weeks. Ipamorelin: sleep depth and recovery within 2-3 weeks.
 **Two Paths note:** This is the Rx path. The OTC adjacent layer is lion's mane + magnesium L-threonate + creatine.
 
 ---
 
-## RPA
+## Regenerative Therapies (the Regenerative Protocol)
 
 **Tier:** Regenerative
 **When:** Per protocol — nationwide mobile delivery, scheduled
-**Dose:** Single intrathecal procedure per cycle
-**What it is:** Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. The flagship regenerative intervention. Nationwide mobile delivery — the team comes to you.
-**Why it's in the stack:** For the already-diagnosed — MCI, early dementia, Alzheimer's, Parkinson's — and for those with biomarker or imaging evidence of accelerated neurodegeneration. RPA is time-sensitive. The earlier in the disease curve, the more there is to preserve. This is not a maintenance product. It is the regenerative tier and it belongs to the people who need it now.
-**What it pairs with:** The entire foundation stack — Biome NS Ultra, ArmorVita, OmegaCN Prime, creatine, magnesium L-threonate, the sleep stack. The cleaner the substrate, the better the cells work. Nootropic peptide cycles are a natural follow-on.
+**Dose:** Per the current regenerative protocol
+**What it is:** Advanced regenerative medicine, delivered with nationwide mobile service — the team comes to you. See my4mlife.com for the current protocol and delivery details.
+**Why it's in the stack:** For the already-diagnosed — MCI, early dementia, Alzheimer's, Parkinson's — and for those with biomarker or imaging evidence of accelerated neurodegeneration. The regenerative protocol is time-sensitive. The earlier in the disease curve, the more there is to preserve. This is not a maintenance product. It is the regenerative tier and it belongs to the people who need it now.
+**What it pairs with:** The entire foundation stack — gut-barrier probiotic, D3+K2+boron stack, omega-3+CoQ10 softgel, creatine, magnesium L-threonate, the sleep stack. The cleaner the substrate, the better the regenerative response. Nootropic peptide cycles are a natural follow-on.
 **What to watch for:** This is not evaluated in 30-day increments. Quarterly cognitive testing and imaging mark the timeline.
 **Two Paths note:** Stands alone at the top of the ladder. There is no OTC analogue.
 
@@ -2682,17 +2744,18 @@ One page. Tape it inside the cabinet where the bottles live.
 
 | Stack pair | Why they amplify |
 |---|---|
-| **Biome NS Ultra ↔ Biome NS Rx** | Anchor pair. OTC seals the barrier; Rx (BPC-157) drives regenerative repair on top. Never run Rx without Ultra. |
-| **ArmorVita + OmegaCN Prime** | Mitochondrial + membrane support. Fat-soluble absorption window shared. D3/K2/astaxanthin + EPA/DHA/ubiquinol = the structural defense layer. |
-| **Creatine + Resistance Training + MitoVita** | The muscle stack. Daily creatine builds the baseline ATP pool; lifting demands it; MitoVita stacks NO + ATP + electrolytes on training days. |
-| **Magnesium L-Threonate + SleepRestore** | The sleep stack. Threonate drives hippocampal synaptic density; SleepRestore drives architecture. Lights out by 10:30. |
-| **Cerebrolysin + Biome NS Ultra + ArmorVita** | The cognitive optimization stack. Clean gut + fat-soluble defense + neurotrophic Rx. Peptides work best on a clean substrate. |
+| **Gut-barrier probiotic ↔ Prescription gut-barrier peptide (BPC-157)** | Anchor pair. OTC seals the barrier; Rx drives regenerative repair on top. Never run Rx without the OTC base. |
+| **D3+K2+boron stack + Omega-3+CoQ10 softgel** | Mitochondrial + membrane support. Fat-soluble absorption window shared. D3/K2/astaxanthin + EPA/DHA/ubiquinol = the structural defense layer. |
+| **Creatine + Resistance Training + Pre-workout citrulline+beetroot blend** | The muscle stack. Daily creatine builds the baseline ATP pool; lifting demands it; the pre-workout blend stacks NO + ATP + electrolytes on training days. |
+| **Magnesium L-Threonate + Sleep-support formula** | The sleep stack. Threonate drives hippocampal synaptic density; the sleep formula drives architecture. Lights out by 10:30. |
+| **Cerebrolysin + Gut-barrier probiotic + D3+K2 stack** | The cognitive optimization stack. Clean gut + fat-soluble defense + neurotrophic Rx. Peptides work best on a clean substrate. |
 | **TRT + Lifting + Protein-First** | Hormonal foundation. TRT without lifting is a liability; lifting without protein is futile; the three together are the muscle-mind axis. |
-| **GLP-1 + Protein-First + Lifting + OmegaCN Prime** | Metabolic foundation. Appetite drops; protein and lifting preserve lean mass; omega+ubiquinol protect cardio during fast fat loss. |
-| **SleepRestore + SleepRestore Rx + OmegaCN Prime** | Cerebrovascular nighttime stack. Architecture + fibrinolysis + membrane health. The glymphatic clearance trio. |
-| **RPA + full foundation** | Substrate matters most here. Every foundation product makes the regenerative tier work better. |
+| **GLP-1 + Protein-First (30–40g) + Lifting + Omega-3+CoQ10 softgel** | Metabolic foundation. Appetite drops; protein and lifting preserve lean mass; omega+ubiquinol protect cardio during fast fat loss. |
+| **Sleep-support formula + Nattokinase Rx + Omega-3+CoQ10 softgel** | Cerebrovascular nighttime stack. Architecture + fibrinolysis + membrane health. The glymphatic clearance trio. |
+| **Regenerative protocol + full foundation** | Substrate matters most here. Every foundation product makes the regenerative tier work better. |
 
 > *Begin with the end in mind. The stack is not a shopping list. It is a system aimed at one outcome — the best mind possible until your last day of life.*
+
 
 ---
 
@@ -2724,7 +2787,7 @@ Russian ACTH-derivative nasal peptide. Strong on focus, mood, executive function
 The anxiolytic + pro-cognitive counterpart to Semax. Calm-focus without sedation. Nasal, daily as needed.
 
 ### BPC-157
-Gut + soft tissue + neuroinflammation modulation. Oral for gut-brain axis work; IM for soft-tissue recovery. The same molecule that anchors Biome NS Rx; here it's used for cognitive purpose.
+Gut + soft tissue + neuroinflammation modulation. Oral for gut-brain axis work; IM for soft-tissue recovery. The same molecule that anchors the prescription gut-barrier peptide protocol; here it's used for cognitive purpose.
 
 ### Ipamorelin
 GH secretagogue. Indirectly cognitive via deeper sleep architecture and IGF-1 support. Evening dose, sub-Q.
@@ -2932,6 +2995,7 @@ The labs every Protégé should run every 6–12 months. Bring these to your Rx 
 > *Two Paths to Act.* Labs feed the decisions. The OTC foundation works without them. The Rx tier does not.
 
 ---
+
 
 ---
 
@@ -3147,10 +3211,10 @@ The OTC stack and the lifestyle protocols carry most men a long way. Some men ne
 |---|---|---|
 | **Hormones** (low T symptoms, Q8 ≥ 3) | Hormone consult — labs + coach-led titration | Full hormone panel first — coach reviews — Rx if labs and symptoms align |
 | **Weight** (Q3 ≥ 3, metabolic markers) | GLP-1 telemed consult — semaglutide / tirzepatide / retatrutide candidacy | Intake — labs reviewed — telemed visit — compounded pharmacy ships monthly |
-| **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Biome NS Rx consult — oral BPC-157 + L-glutamine + aloe | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
-| **Sleep** (Q2 ≥ 3, clotting/circulation factors) | SleepRestore Rx consult — nattokinase tier | Sleep intake — coag and lipid review — Rx if indicated |
+| **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Prescription gut-barrier peptide consult — oral BPC-157 + L-glutamine + aloe | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
+| **Sleep** (Q2 ≥ 3, clotting/circulation factors) | Sleep Rx consult — nattokinase circulation tier | Sleep intake — coag and lipid review — Rx if indicated |
 | **Cognitive optimization** (Q7 ≥ 3, no diagnosis) | Nootropic peptide consult — Cerebrolysin / Semax / Selank | Cognitive intake — telemed visit — peptide protocol mailed |
-| **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **RPA — Muse cells intrathecally (TIME-SENSITIVE)** | Genesis intake — records reviewed — mobile delivery scheduled nationwide |
+| **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **Regenerative therapies consult (TIME-SENSITIVE)** | Regenerative protocol intake — records reviewed — nationwide mobile delivery scheduled |
 | **Acute or chronic pain** | BPC-157 + TB-500 peptide consult | Pain intake — telemed visit — injectable peptide protocol mailed |
 
 Every Rx path begins inside the app. Tap *Rx Consults* and pick the lane. Labs you've had in the last 90 days carry forward.
@@ -3193,7 +3257,7 @@ The men who fill this in are the men who finish the program.
 | **The My4MLife app** | https://app.my4mlife.com — sign in with your email, OTP code |
 | **The free 4M Assessment** | https://my4mlife.com/assessment |
 | **The book — *Begin with the End in Mind*** | Protégé welcome gift in the app, or standalone purchase at https://my4mlife.com/book |
-| **RPA — regenerative medicine** | https://genesisregenerative.com — nationwide mobile delivery |
+| **Regenerative therapies** | See my4mlife.com for the current regenerative protocol and nationwide mobile delivery details |
 | **The blog — long-form articles** | https://my4mlife.com/blog |
 | **Weekly Zoom links** | Sent via the app + email each Tuesday |
 | **Product reorder & subscription management** | Inside the app — *Stack* → *Manage* |
@@ -3311,6 +3375,9 @@ I'll see you on the Zoom Wednesday. Bring a question.
 
 — Dr. TJ
 
+
+---
+
 ---
 
 ## About the Author
@@ -3324,7 +3391,7 @@ I'll see you on the Zoom Wednesday. Bring a question.
 - **Free 5-minute 4M Assessment:** [my4mlife.com/assessment](https://my4mlife.com/assessment)
 - **The My4MLife app:** [app.my4mlife.com](https://app.my4mlife.com)
 - **The book — *Begin with the End in Mind*:** included free with every Protégé signup
-- **RPA — regenerative medicine:** nationwide mobile delivery for the already-diagnosed
+- **Regenerative therapies:** nationwide mobile delivery for the already-diagnosed — see my4mlife.com for the current protocol
 - **Support:** [support@my4mlife.com](mailto:support@my4mlife.com)
 
 ---

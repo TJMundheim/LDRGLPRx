@@ -24,22 +24,24 @@ The four Ms in this order: **Mind, Muscle, Mitigate, Motivate.**
 
 The workbook follows the LIVED cohort progression — Week 1 establishes the foundation across all 4 pillars (most leveraged daily behaviors), then each subsequent week layers in deeper work on specific pillars.
 
-## Locked products (use exact names)
+## Products — use generic mechanism names in the workbook
 
-- **Biome NS Ultra** — OTC gut-brain seal powder. L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + A + D3. Take AM on empty stomach with 8oz water, 30 min before food.
-- **Biome NS Rx** — Rx compounded triple-active: BPC-157 + L-glutamine + aloe. For the deeper repair tier. NS = NeuroSeal (the gut-brain seal that protects cognitive longevity).
-- **ArmorVita** — Daily OTC stack: D3 + K2 + boron + astaxanthin. With breakfast.
-- **OmegaCN Prime** — Omega-3 (EPA 1200 + DHA 800, TG form, IFOS-tested) + Kaneka QH® ubiquinol 200mg. With the largest fat-containing meal. CN = Cardio Neuro.
-- **SleepRestore** — Nightly OTC sleep support. 30-60 min before lights out.
-- **SleepRestore Rx** — Nattokinase. Deeper circulation/clotting tier.
-- **MitoVita** — Pre-workout: creatine + L-citrulline + beetroot + electrolytes. In development.
-- **Magnesium L-threonate** — 1.5-2g evening. The ONLY magnesium form with hippocampal bioavailability. Brand: Magtein.
-- **RPA** — Regenerative medicine. Muse cells delivered intrathecally. Nationwide mobile delivery. Time-sensitive for already-diagnosed MCI / dementia / Alzheimer's / Parkinson's.
+Do NOT use product brand names in workbook copy. Use the generic mechanism/category names below, and add "See my4mlife.com for the specific products we currently recommend" where first referenced.
+
+- **Gut-barrier probiotic** (the gut-brain seal) — OTC powder: L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + A + D3. AM empty stomach, 8oz water, 30 min before food.
+- **Prescription gut-barrier peptide protocol** (BPC-157 + L-glutamine + aloe) — Rx compounded oral triple-active. Deeper repair tier. The gut-brain seal concept persists in copy.
+- **Vitamin D + K2 + boron + astaxanthin stack** — Daily OTC. With breakfast.
+- **Omega-3 + ubiquinol CoQ10 softgel** — EPA 1200 + DHA 800 (TG form, IFOS-tested) + Kaneka QH® ubiquinol 200mg. With the largest fat-containing meal.
+- **Sleep-support formula** — Nightly OTC. 30-60 min before lights out.
+- **Nattokinase prescription** — Sleep + circulation Rx tier. Alongside the sleep-support formula.
+- **Creatine + L-citrulline + beetroot + electrolyte blend** (pre-workout) — OTC situational. 20-30 min before training.
+- **Magnesium L-threonate** — 1.5-2g evening. The ONLY magnesium form with hippocampal bioavailability. Brand: Magtein (acceptable to use brand here — Magtein is the standardized form name).
+- **Regenerative therapies** / **the regenerative protocol** — Nationwide mobile delivery. Time-sensitive for already-diagnosed MCI / dementia / Alzheimer's / Parkinson's.
 
 ## Locked protocols
 
-- **30g protein-first rule** — every feeding window opens with 30g+ lean protein, 30 min before other macros.
-- **9 AM – 6 PM eating window** — Week 1 default.
+- **30–40g protein-first rule** — every feeding window opens with 30–40g lean protein. Until ideal body weight + low body fat + low visceral fat: train FASTED in the morning (fasted morning walking is a key accelerator), then break the fast after training with 30–40g lean protein. If workout ends ~10am, that's when the window opens. Default eating window is 9 AM – 6 PM; optionally experiment with an earlier cutoff (~4–5pm) to regulate cortisol before sleep.
+- **9 AM – 6 PM eating window** — Week 1 default. See protein-first rule above for fasted training integration.
 - **Morning sun + walk** — 8-15 min, no sunglasses, within 30-60 min of waking.
 - **Lights out by 10:30 PM** — backwards-plan upstream from this.
 - **Resistance training** — 2-3x/week, compound lifts (squat / hinge / push / pull / carry).

@@ -24,7 +24,7 @@ When you forget what the point of any single behavior is, the answer is always t
 
 Muscle is the substrate. The body is the delivery system. You do not get to keep the mind if you let the chassis rust.
 
-Under Muscle: nutrition (the 30g protein-first rule), the eating window (9 AM – 6 PM), weight and visceral fat (the GLP-1 conversation if it applies), resistance training (2-3 sessions per week, compound lifts), strength preservation (sarcopenia reverses with deliberate work), and pain management (because pain is what stops training, and stopping training is what stops neuroprotection).
+Under Muscle: nutrition (the 30–40g protein-first rule), the eating window (9 AM – 6 PM), weight and visceral fat (the GLP-1 conversation if it applies), resistance training (2-3 sessions per week, compound lifts), strength preservation (sarcopenia reverses with deliberate work), and pain management (because pain is what stops training, and stopping training is what stops neuroprotection).
 
 If you only ever ran one pillar, this is the one with the most measurable physical return.
 

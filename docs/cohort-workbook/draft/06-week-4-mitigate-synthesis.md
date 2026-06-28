@@ -116,12 +116,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk (8-15 min, no sunglasses) | ☐ |
-| 30g protein-first at first meal | ☐ |
+| 30–40g protein-first at first meal | ☐ |
 | 9 AM – 6 PM eating window held | ☐ |
-| Biome NS Ultra (AM, empty stomach) | ☐ |
-| ArmorVita + OmegaCN Prime (with meal) | ☐ |
+| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel (with meal) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
-| SleepRestore + lights out by 10:30 PM | ☐ |
+| Sleep-support formula + lights out by 10:30 PM | ☐ |
 | Resistance training OR Zone 2 walk | ☐ |
 | One insult avoided today: ___________________ | ☐ |
 
@@ -134,12 +134,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -150,12 +150,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 | Cohort Zoom attended | ☐ |
@@ -167,12 +167,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -183,12 +183,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -199,12 +199,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
@@ -215,12 +215,12 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Daily Floor | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| 30g protein-first | ☐ |
+| 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
-| Biome NS Ultra | ☐ |
-| ArmorVita + OmegaCN Prime | ☐ |
+| Gut-barrier probiotic | ☐ |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
-| SleepRestore + 10:30 PM lights out | ☐ |
+| Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 | Sunday synthesis review (§6.5) | ☐ |
@@ -487,12 +487,12 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Daily Floor Behavior | M | T | W | T | F | S | S | Total |
 |---|---|---|---|---|---|---|---|---|
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| 30g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| 30–40g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | 9 AM – 6 PM window | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| Biome NS Ultra AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| ArmorVita + OmegaCN Prime | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| Gut-barrier probiotic AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | Magnesium L-threonate PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| SleepRestore + 10:30 lights out | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| Sleep-support formula + 10:30 lights out | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | Resistance OR Zone 2 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | One insult avoided | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 
@@ -507,12 +507,12 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Daily Floor Behavior | Wk 1 | Wk 2 | Wk 3 | Wk 4 | Month Total |
 |---|---|---|---|---|---|
 | Morning sun + walk | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| 30g protein-first | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| 30–40g protein-first | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | 9 AM – 6 PM window | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| Biome NS Ultra AM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| ArmorVita + OmegaCN Prime | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| Gut-barrier probiotic AM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| D3 + K2 stack + omega-3 + CoQ10 softgel | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Magnesium L-threonate PM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| SleepRestore + 10:30 lights out | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| Sleep-support formula + 10:30 lights out | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Resistance OR Zone 2 | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Insult avoided | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | **Weekly Zoom attended (1 pt)** | __ /1 | __ /1 | __ /1 | __ /1 | __ /4 |

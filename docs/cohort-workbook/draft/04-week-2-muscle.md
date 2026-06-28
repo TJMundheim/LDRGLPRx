@@ -8,7 +8,7 @@
 
 Week 1 built the architecture. Week 2 starts the engine.
 
-You kept everything from Week 1 — morning sun and walk, 30g protein-first, 9 AM to 6 PM eating window, the Biome NS Ultra / ArmorVita / OmegaCN Prime / SleepRestore / Mag L-threonate stack, lights out by 10:30. None of that goes away. It's the foundation. We don't trade Week 1 for Week 2 — we stack Week 2 on top.
+You kept everything from Week 1 — morning sun and walk, 30–40g protein-first, 9 AM to 6 PM eating window, the gut-barrier probiotic / D3+K2 stack / omega-3+CoQ10 softgel / sleep-support formula / Mag L-threonate stack, lights out by 10:30. None of that goes away. It's the foundation. We don't trade Week 1 for Week 2 — we stack Week 2 on top.
 
 What we add this week is the lift.
 
@@ -65,8 +65,8 @@ No static stretching cold. Move first, stretch later (or not at all).
 
 Walk. Outside if you can. Don't sit down sweaty. Let the heart rate come down on its feet.
 
-**Pre-workout (optional):** MitoVita 20-30 min before training, with water.
-**Post-workout:** 30g+ protein within 60 minutes. This counts as your protein-first feeding window opener if it lands inside 9 AM – 6 PM.
+**Pre-workout (optional):** Creatine + L-citrulline + beetroot + electrolyte blend (pre-workout), 20-30 min before training, with water. See my4mlife.com for the specific product we currently recommend.
+**Post-workout:** 30–40g protein within 60 minutes. This is your protein-first feeding window opener — train fasted, then break the fast with protein after. If your workout ends around 10 AM, that's when the window opens.
 
 > *Recovery is where adaptation happens. Leave one rep in the tank.*
 
@@ -154,7 +154,7 @@ Most men sabotage sleep in the last hour of the day and then blame the supplemen
 3. **No work, no email, no news.** The cortisol spike from one unread message lasts longer than the message takes to read.
 4. **Dim ambient light.** One warm lamp. Overheads off. Your brain reads bright overhead light as noon.
 5. **Cool the room.** 65-68°F. Core temperature drop is the signal that initiates sleep.
-6. **Take the stack.** Mag L-threonate (1.5-2g) + SleepRestore, 30-60 min before lights out. Water, not a full glass — you don't want a 3 AM bathroom trip.
+6. **Take the stack.** Mag L-threonate (1.5-2g) + sleep-support formula, 30-60 min before lights out. Water, not a full glass — you don't want a 3 AM bathroom trip.
 
 ### Wind-Down Tracker — Week 2
 
@@ -183,20 +183,20 @@ One page per day. Print seven. Lift boxes only activate on lift days.
 **Morning**
 - ☐ Out of bed by 6:30
 - ☐ Sun + walk (8-15 min, no sunglasses)
-- ☐ Biome NS Ultra on empty stomach, 8oz water
-- ☐ 30g protein-first to open the eating window
-- ☐ ArmorVita with breakfast
-- ☐ OmegaCN Prime with largest fat-containing meal
+- ☐ Gut-barrier probiotic on empty stomach, 8oz water
+- ☐ 30–40g protein-first to open the eating window (after training if you trained fasted)
+- ☐ D3 + K2 stack with breakfast
+- ☐ Omega-3 + CoQ10 softgel with largest fat-containing meal
 
 **Strength (if lift day)**
 - ☐ Session A / B (circle) completed
 - ☐ Log filled in (§4.3)
-- ☐ Post-workout 30g+ protein
+- ☐ Post-workout 30–40g protein (this is your feeding window opener)
 
 **Evening**
 - ☐ Eating window closed by 6 PM
 - ☐ 9:30 PM wind-down started
-- ☐ Mag L-threonate + SleepRestore
+- ☐ Mag L-threonate + sleep-support formula
 - ☐ Lights out by 10:30
 
 **Daily ratings (0-10)**
@@ -340,11 +340,11 @@ _______________________________________________
 | Behavior | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | Sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Protein-first (30g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Protein-first (30–40g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 9-6 eating window | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| AM stack (Biome NS Ultra + ArmorVita + OmegaCN Prime) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| AM stack (gut-barrier probiotic + D3+K2 stack + omega-3+CoQ10 softgel) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 9:30 wind-down | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Mag L-threonate + SleepRestore | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Mag L-threonate + sleep-support formula | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out by 10:30 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
 **Strength sessions this week:**

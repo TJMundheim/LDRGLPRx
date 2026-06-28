@@ -210,10 +210,10 @@ The OTC stack and the lifestyle protocols carry most men a long way. Some men ne
 |---|---|---|
 | **Hormones** (low T symptoms, Q8 ≥ 3) | Hormone consult — labs + coach-led titration | Full hormone panel first — coach reviews — Rx if labs and symptoms align |
 | **Weight** (Q3 ≥ 3, metabolic markers) | GLP-1 telemed consult — semaglutide / tirzepatide / retatrutide candidacy | Intake — labs reviewed — telemed visit — compounded pharmacy ships monthly |
-| **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Biome NS Rx consult — oral BPC-157 + L-glutamine + aloe | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
-| **Sleep** (Q2 ≥ 3, clotting/circulation factors) | SleepRestore Rx consult — nattokinase tier | Sleep intake — coag and lipid review — Rx if indicated |
+| **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Prescription gut-barrier peptide consult — oral BPC-157 + L-glutamine + aloe | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
+| **Sleep** (Q2 ≥ 3, clotting/circulation factors) | Sleep Rx consult — nattokinase circulation tier | Sleep intake — coag and lipid review — Rx if indicated |
 | **Cognitive optimization** (Q7 ≥ 3, no diagnosis) | Nootropic peptide consult — Cerebrolysin / Semax / Selank | Cognitive intake — telemed visit — peptide protocol mailed |
-| **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **RPA — Muse cells intrathecally (TIME-SENSITIVE)** | Genesis intake — records reviewed — mobile delivery scheduled nationwide |
+| **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **Regenerative therapies consult (TIME-SENSITIVE)** | Regenerative protocol intake — records reviewed — nationwide mobile delivery scheduled |
 | **Acute or chronic pain** | BPC-157 + TB-500 peptide consult | Pain intake — telemed visit — injectable peptide protocol mailed |
 
 Every Rx path begins inside the app. Tap *Rx Consults* and pick the lane. Labs you've had in the last 90 days carry forward.
@@ -256,7 +256,7 @@ The men who fill this in are the men who finish the program.
 | **The My4MLife app** | https://app.my4mlife.com — sign in with your email, OTP code |
 | **The free 4M Assessment** | https://my4mlife.com/assessment |
 | **The book — *Begin with the End in Mind*** | Protégé welcome gift in the app, or standalone purchase at https://my4mlife.com/book |
-| **RPA — regenerative medicine** | https://genesisregenerative.com — nationwide mobile delivery |
+| **Regenerative therapies** | See my4mlife.com for the current regenerative protocol and nationwide mobile delivery details |
 | **The blog — long-form articles** | https://my4mlife.com/blog |
 | **Weekly Zoom links** | Sent via the app + email each Tuesday |
 | **Product reorder & subscription management** | Inside the app — *Stack* → *Manage* |
