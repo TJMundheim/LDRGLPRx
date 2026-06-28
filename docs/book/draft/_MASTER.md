@@ -2639,5 +2639,13 @@ Questions: support@my4mlife.com
 
 *Begin with the end in mind.*
 
-— *Dr. TJ Mundheim*
-*My4MLife · 2026*
+<div style="display:flex; align-items:center; justify-content:center; gap:28px; margin-top:28px;">
+  <div style="text-align:right; line-height:1.6;">
+    — <em>Dr. TJ Mundheim</em><br>
+    <em>My4MLife · 2026</em>
+  </div>
+  <div style="text-align:center;">
+    <img src="qr-home.png" alt="my4mlife.com" style="width:1.2in; height:1.2in;" />
+    <div style="font-size:8.5pt; color:#555; margin-top:4px;">my4mlife.com</div>
+  </div>
+</div>
