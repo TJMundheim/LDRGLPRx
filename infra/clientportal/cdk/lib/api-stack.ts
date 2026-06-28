@@ -224,6 +224,18 @@ export class ApiStack extends cdk.Stack {
       code: code('chargeEncounterAdmin.js'),
     });
 
+    // ─── ExportClinicalPacketAdmin — Lambda data source ───────────────────────
+    const exportPacketFn = lambda.Function.fromFunctionName(this, 'ExportPacketFn', 'my4mlife-export-clinical-packet');
+    const dsExportPacket = this.api.addLambdaDataSource('ExportClinicalPacketDS', exportPacketFn);
+    new appsync.Resolver(this, 'ExportClinicalPacketAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'exportClinicalPacketAdmin',
+      dataSource: dsExportPacket,
+      runtime: JS_RUNTIME,
+      code: code('exportClinicalPacketAdmin.js'),
+    });
+
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });
   }

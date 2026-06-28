@@ -38,7 +38,7 @@ const SIGNED_URL_SENTINEL = 'https://s3.example.com/signed-url-sentinel';
 
 // Import getSignedUrl after mocking so we can spy on it
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { handler, computeBmi, assemblePacket, renderSummary } from './handler';
+import { handler, computeBmi, assemblePacket, renderSummary, buildAndUpload } from './handler';
 
 // ── Test fixtures ────────────────────────────────────────────────────────────
 
@@ -307,5 +307,76 @@ describe('handler — happy path', () => {
       headers: { 'x-packet-key': VALID_KEY, origin: 'https://app.my4mlife.com' } };
     const res: any = await handler(event as any);
     expect(res.headers['Access-Control-Allow-Origin']).toBe('https://app.my4mlife.com');
+  });
+});
+
+// ── AppSync path ─────────────────────────────────────────────────────────────
+
+function makeAppSyncEvent(
+  args: { contactId: string; encounterId: string },
+  groups: string[] = ['Admins'],
+): any {
+  return {
+    arguments: args,
+    identity: { groups },
+  };
+}
+
+describe('handler — AppSync path (admin button)', () => {
+  it('Admins group: returns { ok:true, summaryUrl } — no statusCode', async () => {
+    const res: any = await handler(makeAppSyncEvent({ contactId: 'contact-abc', encounterId: 'enc-xyz' }));
+    expect(res.statusCode).toBeUndefined();
+    expect(res.ok).toBe(true);
+    expect(res.summaryUrl).toBe(SIGNED_URL_SENTINEL);
+    expect(res.error).toBeUndefined();
+  });
+
+  it('Admins group: queries DDB and uploads to S3', async () => {
+    await handler(makeAppSyncEvent({ contactId: 'contact-abc', encounterId: 'enc-xyz' }));
+    expect(ddbSendMock).toHaveBeenCalledTimes(1);
+    expect(s3SendMock).toHaveBeenCalledTimes(1);
+    const uploadCall = s3SendMock.mock.calls[0][0];
+    expect(uploadCall.input.Key).toBe('clinical-packets/contact-abc/enc-xyz.html');
+  });
+
+  it('Admins group via claims fallback: returns ok:true', async () => {
+    const event = {
+      arguments: { contactId: 'contact-abc', encounterId: 'enc-xyz' },
+      identity: { claims: { 'cognito:groups': ['Admins'] } },
+    };
+    const res: any = await handler(event as any);
+    expect(res.ok).toBe(true);
+    expect(res.summaryUrl).toBe(SIGNED_URL_SENTINEL);
+  });
+
+  it('non-admin (empty groups): throws Unauthorized — no DDB/S3 writes', async () => {
+    await expect(
+      handler(makeAppSyncEvent({ contactId: 'contact-abc', encounterId: 'enc-xyz' }, [])),
+    ).rejects.toThrow('Unauthorized');
+    expect(ddbSendMock).not.toHaveBeenCalled();
+    expect(s3SendMock).not.toHaveBeenCalled();
+  });
+
+  it('non-admin (missing identity): throws Unauthorized', async () => {
+    const event = { arguments: { contactId: 'contact-abc', encounterId: 'enc-xyz' } };
+    await expect(handler(event as any)).rejects.toThrow('Unauthorized');
+  });
+
+  it('record not found: returns { ok:false, error } — does NOT throw', async () => {
+    ddbSendMock.mockResolvedValue({ Items: [ENCOUNTER_ITEM] }); // no record
+    const res: any = await handler(makeAppSyncEvent({ contactId: 'contact-abc', encounterId: 'enc-xyz' }));
+    expect(res.ok).toBe(false);
+    expect(typeof res.error).toBe('string');
+    expect(res.error).toContain('patient record');
+    expect(res.summaryUrl).toBeUndefined();
+    expect(s3SendMock).not.toHaveBeenCalled();
+  });
+
+  it('encounter not found: returns { ok:false, error } — does NOT throw', async () => {
+    ddbSendMock.mockResolvedValue({ Items: [RECORD_ITEM] }); // no encounter
+    const res: any = await handler(makeAppSyncEvent({ contactId: 'contact-abc', encounterId: 'enc-xyz' }));
+    expect(res.ok).toBe(false);
+    expect(res.error).toContain('encounter');
+    expect(s3SendMock).not.toHaveBeenCalled();
   });
 });

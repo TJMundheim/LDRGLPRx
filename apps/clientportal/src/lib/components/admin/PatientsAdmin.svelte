@@ -5,6 +5,7 @@
     getPatientRecordAdmin,
     updateEncounterStateAdmin,
     chargeEncounterAdmin,
+    exportClinicalPacketAdmin,
     type PatientRecordAdmin,
     type EncounterAdmin,
   } from '../../api/operations.js';
@@ -38,6 +39,48 @@
   };
 
   let chargeForms = $state<Record<string, ChargeForm>>({});
+
+  // ─── Export-packet state (keyed by encounterId) ───────────────────────────────
+
+  type ExportState = {
+    exporting: boolean;
+    exportError: string;
+    lastUrl: string;
+  };
+
+  let exportStates = $state<Record<string, ExportState>>({});
+
+  function getExportState(encounterId: string): ExportState {
+    if (!exportStates[encounterId]) {
+      exportStates = {
+        ...exportStates,
+        [encounterId]: { exporting: false, exportError: '', lastUrl: '' },
+      };
+    }
+    return exportStates[encounterId];
+  }
+
+  function setExportState(encounterId: string, patch: Partial<ExportState>) {
+    const existing = exportStates[encounterId] ?? { exporting: false, exportError: '', lastUrl: '' };
+    exportStates = { ...exportStates, [encounterId]: { ...existing, ...patch } };
+  }
+
+  async function exportPacket(contactId: string, encounterId: string) {
+    setExportState(encounterId, { exporting: true, exportError: '', lastUrl: '' });
+    try {
+      const res = await exportClinicalPacketAdmin({ contactId, encounterId });
+      const r = res.exportClinicalPacketAdmin;
+      if (r.ok && r.summaryUrl) {
+        window.open(r.summaryUrl, '_blank', 'noopener');
+        setExportState(encounterId, { exporting: false, lastUrl: r.summaryUrl });
+      } else {
+        setExportState(encounterId, { exporting: false, exportError: r.error ?? 'Export failed. Please retry.' });
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Network or server error. Please retry.';
+      setExportState(encounterId, { exporting: false, exportError: msg });
+    }
+  }
 
   /**
    * Convenience prefill by encounter category.
@@ -538,6 +581,29 @@
                                 </button>
                               </div>
                             {/if}
+                          {/if}
+
+                          <!-- Export clinical packet — available at any encounter state -->
+                          {#if true}
+                            {@const estate = getExportState(enc.encounterId)}
+                            <div class="export-row">
+                              <button
+                                class="export-btn"
+                                disabled={estate.exporting}
+                                onclick={() => exportPacket(p.contactId, enc.encounterId)}
+                              >
+                                {estate.exporting ? 'Generating…' : 'Export clinical packet'}
+                              </button>
+                              {#if estate.exportError}
+                                <p class="err small export-msg">{estate.exportError}</p>
+                              {/if}
+                              {#if estate.lastUrl}
+                                <p class="export-msg export-hint">
+                                  Opened in a new tab — use your browser's Print &rarr; Save as PDF to attach it to your email.
+                                  If the tab was blocked, <a class="export-fallback-link" href={estate.lastUrl} target="_blank" rel="noopener">click here to open it manually</a>.
+                                </p>
+                              {/if}
+                            </div>
                           {/if}
                         </li>
                       {/each}
@@ -1073,5 +1139,55 @@
     font-size: 0.85rem;
     font-weight: 600;
     color: #1D9E75;
+  }
+
+  /* ── Export clinical packet ─────────────────────────────────────────────────── */
+
+  .export-row {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .export-btn {
+    align-self: flex-start;
+    background: #ffffff;
+    border: 1px solid #3A6A44;
+    border-radius: 6px;
+    color: #3A6A44;
+    padding: 5px 14px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .export-btn:hover:not(:disabled) {
+    background: #f0faf6;
+    border-color: #1D9E75;
+    color: #1D9E75;
+  }
+
+  .export-btn:disabled { opacity: 0.5; cursor: default; }
+
+  .export-msg {
+    font-size: 0.78rem;
+    color: #3A6A44;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .export-hint {
+    font-style: italic;
+  }
+
+  .export-fallback-link {
+    color: #1677b5;
+    text-decoration: underline;
+  }
+
+  .export-fallback-link:hover {
+    color: #125d99;
   }
 </style>

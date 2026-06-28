@@ -463,6 +463,14 @@ type AdminQueueItemConnection {
   nextToken: String
 }
 
+# ─── PacketResultAdmin (admin-only; export-clinical-packet Lambda result) ────
+
+type PacketResultAdmin {
+  ok: Boolean!
+  summaryUrl: String
+  error: String
+}
+
 # ─── ChargeResultAdmin (admin-only; charge-on-approval Lambda result) ────────
 
 type ChargeResultAdmin {
@@ -613,5 +621,7 @@ type Mutation {
   updateEncounterStateAdmin(contactId: ID!, encounterId: ID!, toState: String!): EncounterAdmin
     @aws_auth(cognito_groups: ["Admins"])
   chargeEncounterAdmin(contactId: ID!, encounterId: ID!, amountCents: Int!, billingType: String!, interval: String, label: String): ChargeResultAdmin
+    @aws_auth(cognito_groups: ["Admins"])
+  exportClinicalPacketAdmin(contactId: ID!, encounterId: ID!): PacketResultAdmin
     @aws_auth(cognito_groups: ["Admins"])
 }

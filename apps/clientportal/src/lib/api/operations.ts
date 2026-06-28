@@ -534,6 +534,33 @@ export async function chargeEncounterAdmin(
   });
 }
 
+// ─── ExportClinicalPacketAdmin ────────────────────────────────────────────────
+
+export type PacketResultAdmin = {
+  ok: boolean;
+  summaryUrl?: string;
+  error?: string;
+};
+
+export async function exportClinicalPacketAdmin(
+  input: { contactId: string; encounterId: string },
+  opts?: ClientOptions,
+): Promise<{ exportClinicalPacketAdmin: PacketResultAdmin }> {
+  return client(opts)<{ exportClinicalPacketAdmin: PacketResultAdmin }>({
+    query: `
+      mutation ExportClinicalPacketAdmin($contactId: ID!, $encounterId: ID!) {
+        exportClinicalPacketAdmin(contactId: $contactId, encounterId: $encounterId) {
+          ok summaryUrl error
+        }
+      }
+    `,
+    variables: {
+      contactId: input.contactId,
+      encounterId: input.encounterId,
+    },
+  });
+}
+
 // ─── Adherence ────────────────────────────────────────────────────────────────
 
 const ADHERENCE_FIELDS = `userId dateActionId completedAt value notes`;

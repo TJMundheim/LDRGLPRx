@@ -1,12 +1,12 @@
 // export-clinical-packet — assembles a clinical packet from a stored PatientRecord
 // and returns structured JSON + a signed S3 URL to an HTML summary.
 //
-// AUTH: shared-secret header `x-packet-key` compared to env PACKET_API_KEY.
-// Rationale: no other Lambda in this repo uses JWT group claims on the HTTP API;
-// the existing admin pattern (create-checkout-session) uses a secret-based header.
-// The PACKET_API_KEY value is set in infra/deploy.sh and rotated as needed.
-// Future: swap for Cognito JWT authorizer with `cognito:groups` Admins claim when
-// the HTTP API gains a JWT authorizer — no code change needed beyond removing this check.
+// AUTH (two invocation paths):
+//   HTTP path  — shared-secret header `x-packet-key` == PACKET_API_KEY (partner API).
+//   AppSync path — Cognito group claim; `Admins` group required (admin UI button).
+//
+// Detection: if `event.arguments` is present AND `event.requestContext` is absent →
+// treat as AppSync direct-resolver; otherwise treat as HTTP (API Gateway v2).
 //
 // NOTE: any future AI summarization must use @aws-sdk/client-bedrock-runtime (Bedrock),
 // never @anthropic-ai/sdk directly. No AI in MVP.
@@ -103,23 +103,17 @@ export function assemblePacket(args: {
   };
 }
 
-export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
-  const origin = (event.headers?.['origin'] ?? event.headers?.['Origin']) as string | undefined;
-  if (event.requestContext?.http?.method === 'OPTIONS') return reply(204, {}, origin);
+// ---------------------------------------------------------------------------
+// Core logic — shared by both invocation paths
+// ---------------------------------------------------------------------------
 
-  // AUTH: require x-packet-key matching PACKET_API_KEY
-  const packetApiKey = getPacketApiKey();
-  const key = event.headers?.['x-packet-key'] ?? event.headers?.['X-Packet-Key'] ?? '';
-  if (!packetApiKey || key !== packetApiKey) return reply(401, { error: 'unauthorized' }, origin);
-
-  if (!event.body) return reply(400, { error: 'missing body' }, origin);
-  let parsed: { contactId?: string; encounterId?: string };
-  try { parsed = JSON.parse(event.body); } catch { return reply(400, { error: 'invalid json' }, origin); }
-
-  const { contactId, encounterId } = parsed;
-  if (!contactId || !encounterId) return reply(400, { error: 'contactId and encounterId required' }, origin);
-
-  // Query all items for this contact
+/** Query DDB, assemble the packet, upload HTML to S3, return presigned URL.
+ *  Throws with a descriptive message if the record or encounter is not found.
+ */
+export async function buildAndUpload(
+  contactId: string,
+  encounterId: string,
+): Promise<{ packet: ReturnType<typeof assemblePacket>; summaryUrl: string }> {
   const result = await ddb.send(new QueryCommand({
     TableName: TABLE,
     KeyConditionExpression: 'contactId = :cid',
@@ -130,8 +124,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const recordItem = items.find(i => i['sk'] === RECORD_SK);
   const encounterItem = items.find(i => i['sk'] === encounterSk(encounterId));
 
-  if (!recordItem) return reply(404, { error: 'patient record not found' }, origin);
-  if (!encounterItem) return reply(404, { error: 'encounter not found' }, origin);
+  if (!recordItem) throw new Error('patient record not found');
+  if (!encounterItem) throw new Error('encounter not found');
 
   const exportedAt = new Date().toISOString();
   const packet = assemblePacket({ contactId, encounterId, exportedAt, record: recordItem, encounter: encounterItem });
@@ -143,5 +137,85 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   // Presign a GET so the provider can read the uploaded HTML summary (not re-upload it).
   const summaryUrl = await getSignedUrl(s3, new GetObjectCommand({ Bucket: BUCKET, Key: s3Key }), { expiresIn: 604800 });
 
-  return reply(200, { ok: true, packet, summaryUrl }, origin);
+  return { packet, summaryUrl };
+}
+
+// ---------------------------------------------------------------------------
+// AppSync direct-resolver types
+// ---------------------------------------------------------------------------
+
+interface AppSyncEvent {
+  arguments: { contactId: string; encounterId: string };
+  identity?: {
+    groups?: string[];
+    claims?: { 'cognito:groups'?: string[] };
+    [key: string]: unknown;
+  };
+}
+
+interface AppSyncResult {
+  ok: boolean;
+  summaryUrl?: string;
+  error?: string;
+}
+
+// ---------------------------------------------------------------------------
+// Unified handler
+// ---------------------------------------------------------------------------
+
+export const handler = async (
+  event: APIGatewayProxyEventV2 | AppSyncEvent,
+): Promise<APIGatewayProxyResultV2 | AppSyncResult> => {
+  // ── Detection ──────────────────────────────────────────────────────────────
+  // AppSync direct-resolver events carry `arguments` but no `requestContext`.
+  const isAppSync = 'arguments' in event && !('requestContext' in event);
+
+  // ── AppSync path ───────────────────────────────────────────────────────────
+  if (isAppSync) {
+    const appsyncEvent = event as AppSyncEvent;
+    const groups: string[] =
+      appsyncEvent.identity?.groups ??
+      appsyncEvent.identity?.claims?.['cognito:groups'] ??
+      [];
+    if (!groups.includes('Admins')) {
+      throw new Error('Unauthorized');
+    }
+
+    const { contactId, encounterId } = appsyncEvent.arguments;
+    try {
+      const { summaryUrl } = await buildAndUpload(contactId, encounterId);
+      return { ok: true, summaryUrl };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      // Not-found and handled errors return ok:false (don't throw — UI shows it).
+      return { ok: false, error: msg };
+    }
+  }
+
+  // ── HTTP path (existing behavior — unchanged) ──────────────────────────────
+  const httpEvent = event as APIGatewayProxyEventV2;
+  const origin = (httpEvent.headers?.['origin'] ?? httpEvent.headers?.['Origin']) as string | undefined;
+  if (httpEvent.requestContext?.http?.method === 'OPTIONS') return reply(204, {}, origin);
+
+  // AUTH: require x-packet-key matching PACKET_API_KEY
+  const packetApiKey = getPacketApiKey();
+  const key = httpEvent.headers?.['x-packet-key'] ?? httpEvent.headers?.['X-Packet-Key'] ?? '';
+  if (!packetApiKey || key !== packetApiKey) return reply(401, { error: 'unauthorized' }, origin);
+
+  if (!httpEvent.body) return reply(400, { error: 'missing body' }, origin);
+  let parsed: { contactId?: string; encounterId?: string };
+  try { parsed = JSON.parse(httpEvent.body); } catch { return reply(400, { error: 'invalid json' }, origin); }
+
+  const { contactId, encounterId } = parsed;
+  if (!contactId || !encounterId) return reply(400, { error: 'contactId and encounterId required' }, origin);
+
+  try {
+    const { packet, summaryUrl } = await buildAndUpload(contactId, encounterId);
+    return reply(200, { ok: true, packet, summaryUrl }, origin);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes('patient record not found')) return reply(404, { error: 'patient record not found' }, origin);
+    if (msg.includes('encounter not found')) return reply(404, { error: 'encounter not found' }, origin);
+    throw err;
+  }
 };
