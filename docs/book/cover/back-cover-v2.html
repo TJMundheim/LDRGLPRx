@@ -211,9 +211,27 @@
     letter-spacing: 0.06em;
     border-radius: 2px;
   }
+  .qrcol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .qrlabel {
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    color: #d4af5a;
+    letter-spacing: 0.04em;
+  }
+  .qrcode img {
+    width: 196px;
+    height: 196px;
+    display: block;
+  }
   .qrcode {
-    width: 96px;
-    height: 96px;
+    width: 220px;
+    height: 220px;
     background: #fff;
     display: flex;
     align-items: center;
@@ -280,7 +298,10 @@
       <div class="footer-publisher">My4MLife · 2026</div>
       <div class="footer-cat">Health · Healthy Aging · Self-Help</div>
     </div>
-    <div class="qrcode">QR<br>my4mlife.com<br>/assessment</div>
+    <div class="qrcol">
+      <div class="qrcode"><img src="qr-home.png" alt="my4mlife.com"></div>
+      <div class="qrlabel">my4mlife.com</div>
+    </div>
     <div class="barcode">[ ISBN BARCODE ]</div>
   </div>
 </div>

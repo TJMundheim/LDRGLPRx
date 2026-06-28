@@ -2206,10 +2206,6 @@ In the next chapter — Chapter 17, "The 4M Loop in Real Life" — I'll show you
 
 ---
 
-# The Loop Closes
-
----
-
 # Chapter 17 — The 4M Loop in Real Life
 
 For fifteen chapters I have been telling you how the system works. Mind is the destination. Muscle builds the infrastructure. Mitigate removes the insults. Motivate closes the loop. You have the framework. You have the audit. You have the product names and the mechanisms and the reasons.
@@ -2423,6 +2419,11 @@ That is what is on the table. Not immortality. Not a guarantee. Compounding inte
 Here is what I want you to do tonight, before you put this book down.
 
 **Take the free 4M Assessment at my4mlife.com/assessment.**
+
+<div style="text-align:center; margin:20px 0;">
+<img src="qr-home.png" alt="Scan to visit my4mlife.com" style="width:1.4in; height:1.4in;" />
+<div style="font-size:9pt; color:#555; margin-top:5px;">Scan to begin — <strong>my4mlife.com</strong></div>
+</div>
 
 Ten questions. Five minutes. No payment, no credit card, no commitment beyond the five minutes.
 
