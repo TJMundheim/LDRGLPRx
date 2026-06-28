@@ -50,14 +50,10 @@
 
   let exportStates = $state<Record<string, ExportState>>({});
 
+  // Pure read — must NOT mutate $state during render (Svelte 5 forbids it; doing
+  // so causes an infinite re-render loop). Entries are seeded in expand().
   function getExportState(encounterId: string): ExportState {
-    if (!exportStates[encounterId]) {
-      exportStates = {
-        ...exportStates,
-        [encounterId]: { exporting: false, exportError: '', lastUrl: '' },
-      };
-    }
-    return exportStates[encounterId];
+    return exportStates[encounterId] ?? { exporting: false, exportError: '', lastUrl: '' };
   }
 
   function setExportState(encounterId: string, patch: Partial<ExportState>) {
@@ -94,22 +90,27 @@
     // glp1 / peptides / regenerative-medicine left blank — coordinator enters
   };
 
+  function blankChargeForm(category: string): ChargeForm {
+    const d = CATEGORY_DEFAULTS[category] ?? { dollars: '', billingType: 'one_time' as const };
+    return { dollars: d.dollars, billingType: d.billingType, label: '', charging: false, chargeError: '', chargeSuccess: '' };
+  }
+
+  // Pure read — must NOT mutate $state during render. Entries are seeded in expand().
   function getChargeForm(enc: EncounterAdmin): ChargeForm {
-    if (!chargeForms[enc.encounterId]) {
-      const defaults = CATEGORY_DEFAULTS[enc.category] ?? { dollars: '', billingType: 'one_time' as const };
-      chargeForms = {
-        ...chargeForms,
-        [enc.encounterId]: {
-          dollars: defaults.dollars,
-          billingType: defaults.billingType,
-          label: '',
-          charging: false,
-          chargeError: '',
-          chargeSuccess: '',
-        },
-      };
+    return chargeForms[enc.encounterId] ?? blankChargeForm(enc.category);
+  }
+
+  // Seed per-encounter form/export state once, off the render path, so the
+  // template getters above can stay pure.
+  function seedEncounterState(encounters: EncounterAdmin[]) {
+    const cf = { ...chargeForms };
+    const es = { ...exportStates };
+    for (const e of encounters) {
+      if (!cf[e.encounterId]) cf[e.encounterId] = blankChargeForm(e.category);
+      if (!es[e.encounterId]) es[e.encounterId] = { exporting: false, exportError: '', lastUrl: '' };
     }
-    return chargeForms[enc.encounterId];
+    chargeForms = cf;
+    exportStates = es;
   }
 
   function setChargeForm(encounterId: string, patch: Partial<ChargeForm>) {
@@ -215,6 +216,7 @@
     try {
       const res = await getPatientRecordAdmin(contactId);
       detail = res.getPatientRecordAdmin;
+      if (detail?.encounters?.length) seedEncounterState(detail.encounters);
     } catch (e: unknown) {
       detailError = e instanceof Error ? e.message : 'Failed to load patient detail';
     } finally {

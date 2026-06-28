@@ -111,6 +111,13 @@ export class ApiStack extends cdk.Stack {
         ],
       },
       xrayEnabled: false,
+      logConfig: {
+        // ERROR-only + no verbose content: capture failures without writing
+        // patient PHI (request/response payloads) into CloudWatch. Bump to ALL
+        // + excludeVerboseContent:false temporarily when actively debugging.
+        fieldLogLevel: appsync.FieldLogLevel.ERROR,
+        excludeVerboseContent: true,
+      },
     });
 
     const dsUsers = this.api.addDynamoDbDataSource('UsersDS', usersTable);
