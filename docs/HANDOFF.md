@@ -1,3 +1,22 @@
+# 2026-06-27 — EMR payment layer (charge-on-approval, TEST mode) + Rx HIPAA consent + decline-reopen + book v9
+
+Big session. All committed + pushed to `main`; all deployed.
+
+## Shipped + deployed
+- **Charge-on-approval (manual, coordinator-triggered) — verified live in Stripe TEST mode.** When a script is approved, the coordinator hits "Approve & charge" in the app's Patients tab (amount in $, one-time vs monthly subscription, per-category prefill). `charge-on-approval` Lambda (AppSync `chargeEncounterAdmin`, Admins-gated) ensures a Stripe Customer, charges off-session (PaymentIntent or Subscription), writes an idempotent Touchpoint, advances the encounter → `fulfilled`. Stripe error → `{ok:false}`, no state change. Only `script-written` encounters can be charged (no double-charge). Subscription ($129) + one-time ($399) both succeeded in test; guard refused a non-approved encounter. Commit 89f75dff.
+  - **TO GO LIVE:** after you watch a test charge in the app, edit `lambdas/charge-on-approval/infra/deploy.sh` `STRIPE_MODE=test`→`live` and re-run it. Nothing charges a real card until then.
+- **Stripe Customer created at intake** (`create-setup-intent` + the 5 `/rx` questionnaires store `stripeCustomerId`) so saved cards are reliably chargeable later.
+- **Decline-reopen:** an accidentally-declined encounter can now be reopened (`declined → new`) via a "Reopen" button. `fulfilled` stays terminal. (Fixed your stuck record earlier this session.)
+- **Rx HIPAA consent at intake:** all 5 `/rx` questionnaires now capture NPP + Patient Authorization (versioned, required, stored on the PatientRecord). Commit b343a3ad.
+- **Book v9:** the blank "Opening" page now carries the Stone Soup parable (4M-synergy framing). `docs/book/Begin-with-the-End-in-Mind-v9.pdf`. Commit 03e5fd39.
+
+## Still MANUAL / your action
+- **KDP publishing is not automatable by me.** v9 PDF is built + committed, but uploading to Amazon KDP (cover wrap + ISBN) is a manual step in your KDP account. The KDP cover wrap is still pending (front + back designed; spine/wrap needs the KDP template from a draft upload).
+- **Flip charge to live** when ready (one-line deploy edit above).
+- Admin sign-in: **drtj@my4mlife.com** (already in Cognito Admins).
+
+---
+
 # 2026-06-26 (session 2) — Ultralight EMR MVP BUILT, deployed, live-verified
 
 Built the ultralight EMR end-to-end via `/plan` + delegated subagents. Commit `5a234417`, pushed to `main`. All deployed to AWS (us-east-2) and verified live.
