@@ -1,3 +1,17 @@
+# 2026-06-28 — Book is print-ready (v14)
+
+`docs/book/Begin-with-the-End-in-Mind-v14.pdf` + `docs/book/cover/back-cover-v2.png` are KDP-ready (drop the "-v14" on upload). Source of truth = `docs/book/draft/_MASTER.md`, rendered via `render.py` → `_MASTER.html` → headless Chrome PDF. This session's book work (all committed + pushed):
+- De-branded the book + workbook (no product/affiliate/hardware brand names, no "RPA" — point to my4mlife.com; app keeps live names). See memory project_protocol_debrand_print_artifacts.
+- Protein 30g → 30–40g; fasted-morning-training + fasted-walking eating philosophy; optional 4–5pm cutoff. Parkinson's added to regenerative indications.
+- Ended the book on the CTA: cut Part V (workbook) + Appendices A–C (kept Glossary); Chapter 18 "Your Next Step" + a final CTA page are the close.
+- Front-matter accuracy pass: fixed the parts overview (Mitigate 4–9 / Muscle 10–12 / Motivate 13–14 / Mind 15–16) and 5 stale in-text chapter cross-refs. No printed TOC/page-number refs exist, so reflow is safe.
+- Removed the blank "Loop Closes" divider page.
+- QR codes (→ my4mlife.com, segno, navy) on: Ch 18 "The One Step," the final signature page, and the back cover (placeholder → real, ~0.8"). All three test-scanned OK by TJ.
+
+OPEN DECISION: all 3 QRs point to the homepage (TJ's spec). Could repoint to /assessment (one less click) — 2-min change. KDP upload (cover wrap + ISBN) remains a manual TJ step.
+
+---
+
 # 2026-06-27 — EMR payment layer (charge-on-approval, TEST mode) + Rx HIPAA consent + decline-reopen + book v9
 
 Big session. All committed + pushed to `main`; all deployed.
