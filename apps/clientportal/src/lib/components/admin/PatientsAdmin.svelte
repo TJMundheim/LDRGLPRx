@@ -4,6 +4,7 @@
     listPatientRecordsAdmin,
     getPatientRecordAdmin,
     updateEncounterStateAdmin,
+    chargeEncounterAdmin,
     type PatientRecordAdmin,
     type EncounterAdmin,
   } from '../../api/operations.js';
@@ -25,6 +26,106 @@
   let transitioningId = $state('');
   let transitionError = $state<Record<string, string>>({});
 
+  // ─── Charge-form state (keyed by encounterId) ─────────────────────────────────
+
+  type ChargeForm = {
+    dollars: string;
+    billingType: 'one_time' | 'subscription';
+    label: string;
+    charging: boolean;
+    chargeError: string;
+    chargeSuccess: string;
+  };
+
+  let chargeForms = $state<Record<string, ChargeForm>>({});
+
+  /**
+   * Convenience prefill by encounter category.
+   * These are coordinator-editable defaults, not authoritative prices.
+   */
+  const CATEGORY_DEFAULTS: Record<string, { dollars: string; billingType: 'one_time' | 'subscription' }> = {
+    'gut':              { dollars: '129.00', billingType: 'subscription' },
+    'testosterone-ed':  { dollars: '249.00', billingType: 'one_time' },
+    'sleep':            { dollars: '99.00',  billingType: 'subscription' },
+    'weight':           { dollars: '199.00', billingType: 'subscription' },
+    // glp1 / peptides / regenerative-medicine left blank — coordinator enters
+  };
+
+  function getChargeForm(enc: EncounterAdmin): ChargeForm {
+    if (!chargeForms[enc.encounterId]) {
+      const defaults = CATEGORY_DEFAULTS[enc.category] ?? { dollars: '', billingType: 'one_time' as const };
+      chargeForms = {
+        ...chargeForms,
+        [enc.encounterId]: {
+          dollars: defaults.dollars,
+          billingType: defaults.billingType,
+          label: '',
+          charging: false,
+          chargeError: '',
+          chargeSuccess: '',
+        },
+      };
+    }
+    return chargeForms[enc.encounterId];
+  }
+
+  function setChargeForm(encounterId: string, patch: Partial<ChargeForm>) {
+    const existing = chargeForms[encounterId];
+    if (!existing) return;
+    chargeForms = { ...chargeForms, [encounterId]: { ...existing, ...patch } };
+  }
+
+  async function charge(contactId: string, enc: EncounterAdmin) {
+    const form = chargeForms[enc.encounterId];
+    if (!form) return;
+    const dollars = parseFloat(form.dollars);
+    if (!form.dollars || isNaN(dollars) || dollars <= 0) {
+      setChargeForm(enc.encounterId, { chargeError: 'Enter a valid amount greater than zero.' });
+      return;
+    }
+    const amountCents = Math.round(dollars * 100);
+    setChargeForm(enc.encounterId, { charging: true, chargeError: '', chargeSuccess: '' });
+    try {
+      const res = await chargeEncounterAdmin({
+        contactId,
+        encounterId: enc.encounterId,
+        amountCents,
+        billingType: form.billingType,
+        interval: form.billingType === 'subscription' ? 'month' : undefined,
+        label: form.label || undefined,
+      });
+      const r = res.chargeEncounterAdmin;
+      if (r.ok) {
+        const typeLabel = form.billingType === 'subscription' ? 'subscription' : 'one-time';
+        const successMsg = `Charged $${dollars.toFixed(2)} (${typeLabel})`;
+        // Update encounter state to fulfilled in both detail and summary list
+        if (detail) {
+          detail = {
+            ...detail,
+            encounters: (detail.encounters ?? []).map((e) =>
+              e.encounterId === enc.encounterId ? { ...e, state: 'fulfilled' } : e,
+            ),
+          };
+        }
+        items = items.map((p) => {
+          if (p.contactId !== contactId) return p;
+          return {
+            ...p,
+            encounters: (p.encounters ?? []).map((e) =>
+              e.encounterId === enc.encounterId ? { ...e, state: 'fulfilled' } : e,
+            ),
+          };
+        });
+        setChargeForm(enc.encounterId, { charging: false, chargeSuccess: successMsg });
+      } else {
+        setChargeForm(enc.encounterId, { charging: false, chargeError: r.error ?? r.code ?? 'Charge failed.' });
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Network or server error. Please retry.';
+      setChargeForm(enc.encounterId, { charging: false, chargeError: msg });
+    }
+  }
+
   // ─── Legal state transitions ──────────────────────────────────────────────────
 
   const NEXT_STATES: Record<string, string[]> = {
@@ -33,7 +134,7 @@
     'sent-to-provider': ['script-written', 'declined'],
     'script-written': ['fulfilled', 'declined'],
     'fulfilled': [],
-    'declined': [],
+    'declined': ['new'],
   };
 
   function nextStates(current: string): string[] {
@@ -331,6 +432,7 @@
                     <ul class="encounter-list">
                       {#each detail.encounters ?? [] as enc (enc.encounterId)}
                         {@const nexts = nextStates(enc.state)}
+                        {@const cform = getChargeForm(enc)}
                         <li class="encounter-item">
                           <div class="enc-header">
                             <span class="enc-cat">{enc.category}</span>
@@ -345,19 +447,97 @@
 
                           {#if nexts.length > 0}
                             <div class="transition-row">
-                              <span class="transition-label">Advance to:</span>
+                              <span class="transition-label">
+                                {enc.state === 'declined' ? 'Actions:' : 'Advance to:'}
+                              </span>
                               {#each nexts as toState}
                                 <button
-                                  class="transition-btn {toState === 'declined' ? 'decline-btn' : ''}"
+                                  class="transition-btn {toState === 'declined' ? 'decline-btn' : ''} {enc.state === 'declined' && toState === 'new' ? 'reopen-btn' : ''}"
                                   disabled={transitioningId === enc.encounterId}
                                   onclick={() => transition(p.contactId, enc, toState)}
                                 >
-                                  {transitioningId === enc.encounterId ? 'Saving…' : toState}
+                                  {transitioningId === enc.encounterId
+                                    ? 'Saving…'
+                                    : (enc.state === 'declined' && toState === 'new' ? 'Reopen' : toState)}
                                 </button>
                               {/each}
                             </div>
                           {:else}
                             <p class="terminal-state">Terminal state — no further transitions.</p>
+                          {/if}
+
+                          <!-- Approve & charge panel — shown when script has been written -->
+                          {#if enc.state === 'script-written'}
+                            {#if cform.chargeSuccess}
+                              <p class="charge-success">{cform.chargeSuccess}</p>
+                            {:else}
+                              <div class="charge-panel">
+                                <p class="charge-panel-label">Approve &amp; charge</p>
+                                <div class="charge-fields">
+                                  <label class="charge-field">
+                                    <span class="charge-field-label">Amount ($)</span>
+                                    <input
+                                      type="number"
+                                      class="charge-input"
+                                      min="0.01"
+                                      step="0.01"
+                                      placeholder="e.g. 129.00"
+                                      value={cform.dollars}
+                                      oninput={(e) => setChargeForm(enc.encounterId, { dollars: (e.target as HTMLInputElement).value })}
+                                      disabled={cform.charging}
+                                    />
+                                  </label>
+
+                                  <fieldset class="billing-toggle" disabled={cform.charging}>
+                                    <legend class="charge-field-label">Billing</legend>
+                                    <label class="toggle-option">
+                                      <input
+                                        type="radio"
+                                        name="billing-{enc.encounterId}"
+                                        value="one_time"
+                                        checked={cform.billingType === 'one_time'}
+                                        onchange={() => setChargeForm(enc.encounterId, { billingType: 'one_time' })}
+                                      />
+                                      One-time
+                                    </label>
+                                    <label class="toggle-option">
+                                      <input
+                                        type="radio"
+                                        name="billing-{enc.encounterId}"
+                                        value="subscription"
+                                        checked={cform.billingType === 'subscription'}
+                                        onchange={() => setChargeForm(enc.encounterId, { billingType: 'subscription' })}
+                                      />
+                                      Monthly subscription
+                                    </label>
+                                  </fieldset>
+
+                                  <label class="charge-field charge-field-wide">
+                                    <span class="charge-field-label">Description (optional)</span>
+                                    <input
+                                      type="text"
+                                      class="charge-input"
+                                      placeholder="e.g. GLP-1 protocol — month 1"
+                                      value={cform.label}
+                                      oninput={(e) => setChargeForm(enc.encounterId, { label: (e.target as HTMLInputElement).value })}
+                                      disabled={cform.charging}
+                                    />
+                                  </label>
+                                </div>
+
+                                {#if cform.chargeError}
+                                  <p class="err small charge-err">{cform.chargeError}</p>
+                                {/if}
+
+                                <button
+                                  class="charge-btn"
+                                  disabled={cform.charging}
+                                  onclick={() => charge(p.contactId, enc)}
+                                >
+                                  {cform.charging ? 'Charging…' : 'Charge'}
+                                </button>
+                              </div>
+                            {/if}
                           {/if}
                         </li>
                       {/each}
@@ -758,4 +938,140 @@
   .loading, .err { color: #1A2E1E; padding: 14px 0; }
   .err { color: #c81e1e; }
   .err.small { font-size: 0.8rem; padding: 4px 0 0; }
+
+  /* ── Reopen button ─────────────────────────────────────────────────────────── */
+
+  .transition-btn.reopen-btn {
+    background: #ffffff;
+    border-color: #1D9E75;
+    color: #1D9E75;
+  }
+
+  .transition-btn.reopen-btn:hover:not(:disabled) {
+    background: #f0faf6;
+  }
+
+  /* ── Approve & charge panel ─────────────────────────────────────────────────── */
+
+  .charge-panel {
+    margin-top: 14px;
+    background: #f8fcf9;
+    border: 1px solid #b8d9c4;
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .charge-panel-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #1677b5;
+    margin: 0;
+  }
+
+  .charge-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .charge-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .charge-field-wide {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .charge-field-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #1A2E1E;
+  }
+
+  .charge-input {
+    background: #ffffff;
+    border: 1px solid #c5d0c2;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    color: #0a0a0a;
+    width: 120px;
+  }
+
+  .charge-field-wide .charge-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .charge-input:focus {
+    outline: none;
+    border-color: #1D9E75;
+  }
+
+  .billing-toggle {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .billing-toggle legend {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #1A2E1E;
+    margin-bottom: 4px;
+    float: left;
+    width: 100%;
+  }
+
+  .toggle-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #1A2E1E;
+    cursor: pointer;
+  }
+
+  .charge-btn {
+    align-self: flex-start;
+    background: #1677b5;
+    border: 1px solid #1677b5;
+    border-radius: 6px;
+    color: #ffffff;
+    padding: 6px 18px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .charge-btn:hover:not(:disabled) { background: #125d99; }
+  .charge-btn:disabled { opacity: 0.5; cursor: default; }
+
+  .charge-err {
+    margin: 0;
+  }
+
+  .charge-success {
+    margin: 10px 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1D9E75;
+  }
 </style>

@@ -9,6 +9,7 @@ function isAdmin(ctx) {
 
 // Legal state-machine transitions: toState -> [allowed fromStates]
 var TRANSITIONS = {
+  'new':                  ['declined'],
   'coordinator-reviewed': ['new'],
   'sent-to-provider':     ['coordinator-reviewed'],
   'script-written':       ['sent-to-provider'],

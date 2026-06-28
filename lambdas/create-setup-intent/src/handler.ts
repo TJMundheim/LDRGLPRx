@@ -38,16 +38,28 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   try {
     const stripe = await getStripeClient({ modeOverride: 'live' });
     const publishableKey = await getStripePublishableKey('live');
+
+    // Create a Stripe Customer when an email is provided so we can charge off-session later
+    let customerId: string | undefined;
+    if (email) {
+      const customer = await stripe.customers.create({
+        email,
+        ...(body.firstName ? { name: body.firstName } : {}),
+      });
+      customerId = customer.id;
+    }
+
     const setupIntent = await stripe.setupIntents.create({
       payment_method_types: ['card'],
       usage: 'off_session',
+      ...(customerId ? { customer: customerId } : {}),
       metadata: {
         category,
         ...(email ? { email } : {}),
         ...(body.firstName ? { firstName: body.firstName } : {}),
       },
     });
-    return reply(200, { clientSecret: setupIntent.client_secret, id: setupIntent.id, publishableKey }, cors);
+    return reply(200, { clientSecret: setupIntent.client_secret, id: setupIntent.id, customerId, publishableKey }, cors);
   } catch (e: any) {
     return reply(500, { error: e.message ?? 'stripe error' }, cors);
   }

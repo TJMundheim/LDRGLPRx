@@ -35,14 +35,22 @@ describe('canTransition', () => {
     }
   });
 
-  it('forbids any outgoing transition from terminal states', () => {
-    expect(canTransition('fulfilled', 'sent-to-provider')).toBe(false);
-    expect(canTransition('declined', 'new')).toBe(false);
-    // exhaustive: no terminal state may transition anywhere
-    for (const term of TERMINAL_STATES) {
-      for (const to of ENCOUNTER_STATES) {
-        expect(canTransition(term, to)).toBe(false);
-      }
+  it('allows reopening a declined encounter to new', () => {
+    expect(canTransition('declined', 'new')).toBe(true);
+  });
+
+  it('declined may not transition to anything other than new', () => {
+    expect(canTransition('declined', 'coordinator-reviewed')).toBe(false);
+    expect(canTransition('declined', 'sent-to-provider')).toBe(false);
+    expect(canTransition('declined', 'script-written')).toBe(false);
+    expect(canTransition('declined', 'fulfilled')).toBe(false);
+    expect(canTransition('declined', 'declined')).toBe(false);
+  });
+
+  it('fulfilled is fully terminal — no outgoing transitions', () => {
+    expect(canTransition('fulfilled', 'new')).toBe(false);
+    for (const to of ENCOUNTER_STATES) {
+      expect(canTransition('fulfilled', to)).toBe(false);
     }
   });
 

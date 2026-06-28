@@ -1,0 +1,23 @@
+{
+  "name": "@ldrglprx/charge-on-approval",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/*",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.700.0",
+    "@aws-sdk/client-secrets-manager": "^3.700.0",
+    "@aws-sdk/lib-dynamodb": "^3.700.0",
+    "@my4mlife/patient-record": "workspace:*",
+    "@my4mlife/stripe-client": "workspace:*",
+    "stripe": "^17.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

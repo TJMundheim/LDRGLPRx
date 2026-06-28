@@ -463,6 +463,18 @@ type AdminQueueItemConnection {
   nextToken: String
 }
 
+# ─── ChargeResultAdmin (admin-only; charge-on-approval Lambda result) ────────
+
+type ChargeResultAdmin {
+  ok: Boolean!
+  kind: String
+  id: String
+  status: String
+  amountCents: Int
+  error: String
+  code: String
+}
+
 # ─── PatientRecords (admin-only; PatientRecords table PK=contactId SK=sk) ────
 
 type PatientRecordAdmin {
@@ -599,5 +611,7 @@ type Mutation {
   updateEventRecordingUrl(eventId: ID!, recordingUrl: String!): Event
     @aws_auth(cognito_groups: ["Admins"])
   updateEncounterStateAdmin(contactId: ID!, encounterId: ID!, toState: String!): EncounterAdmin
+    @aws_auth(cognito_groups: ["Admins"])
+  chargeEncounterAdmin(contactId: ID!, encounterId: ID!, amountCents: Int!, billingType: String!, interval: String, label: String): ChargeResultAdmin
     @aws_auth(cognito_groups: ["Admins"])
 }

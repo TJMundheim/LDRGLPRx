@@ -91,7 +91,7 @@ export const ENCOUNTER_STATES: EncounterState[] = [
   'declined',
 ];
 
-// States with no outgoing transitions.
+// States with no outgoing transitions (except declined→new reopen).
 export const TERMINAL_STATES = ['fulfilled', 'declined'] as const;
 
 // The linear "happy path" — each state may advance only to its immediate
@@ -111,11 +111,17 @@ function isTerminal(state: EncounterState): boolean {
 // Whether an encounter may move `from` -> `to`.
 //   - linear forward path: each state only to its immediate successor
 //   - 'declined' reachable from ANY non-terminal state
-//   - terminal states (fulfilled, declined) have NO outgoing transitions
-//   - no self-transitions, no backward transitions
+//   - 'fulfilled' is fully terminal — no outgoing transitions at all
+//   - 'declined' has exactly one outgoing transition: declined → new (reopen)
+//   - no self-transitions, no backward transitions on the linear path
 export function canTransition(from: EncounterState, to: EncounterState): boolean {
   if (from === to) return false;
-  if (isTerminal(from)) return false;
+
+  // fulfilled is fully terminal.
+  if (from === 'fulfilled') return false;
+
+  // declined may only reopen to new.
+  if (from === 'declined') return to === 'new';
 
   // Any non-terminal state can be declined.
   if (to === 'declined') return true;

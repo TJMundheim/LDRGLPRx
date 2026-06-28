@@ -228,6 +228,7 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
   var cardElement = null;
   var setupIntentClientSecret = null;
   var paymentMethodId = null;
+  var stripeCustomerId = null;
 
   // ── Helpers ──
   function $(sel) { return document.querySelector(sel); }
@@ -418,6 +419,7 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
     }
     stripe = Stripe(json.publishableKey);
     setupIntentClientSecret = json.clientSecret;
+    stripeCustomerId = json.customerId || null;
 
     elements = stripe.elements();
     cardElement = elements.create('card', {
@@ -511,7 +513,7 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
             npp: { agreed: true, version: 'consent-npp-v1', at: new Date().toISOString(), text: "I acknowledge I have received and reviewed My4MLife's Notice of Privacy Practices." },
             phiAuth: { agreed: true, version: 'consent-phi-auth-v1', at: new Date().toISOString(), text: 'I authorize My4MLife and its network physicians to use and disclose my health information to provide, coordinate, and bill for my care, including forwarding my intake to the telemedicine provider.' },
           },
-          cardOnFile: { paymentMethodId: paymentMethodId },
+          cardOnFile: { paymentMethodId: paymentMethodId, stripeCustomerId: stripeCustomerId },
         }),
       }).catch(function() { /* best-effort — ignore errors */ });
       showStep('success');
