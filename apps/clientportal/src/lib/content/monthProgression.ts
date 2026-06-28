@@ -29,16 +29,16 @@ export const months: MonthDefinition[] = [
     title: 'Foundation & Repair',
     tagline: 'Assess, repair, and build the base for everything that follows.',
     description:
-      'Month 1 runs all four pillars in sequence — Mind, Muscle, Mitigate, Motivate — with a deep focus on one each week. Labs precede Week 1. Formulas are introduced week by week. The month ends with a full re-assessment and the RPA bonus module.',
+      'Month 1 runs all four pillars in sequence — Mind, Muscle, Mitigate, Motivate — with a deep focus on one each week. Labs precede Week 1. Formulas are introduced week by week. The month ends with a full re-assessment and the regenerative therapies introduction.',
     pillarIds: ['mind', 'muscle', 'mitigate', 'motivate'],
     primaryFormulas: ['neurobridge', 'armorvita', 'biomeaxisforge', 'sleeprestore'],
     bonusModules: [
       {
         atWeek: 4,
-        name: 'RPA Introduction',
+        name: 'Regenerative Therapies Introduction',
         slug: 'rpa',
         description:
-          'End-of-month introduction to the Regenerative Protocol Add-on. Candidacy review begins here for members who qualify based on their Month 1 labs and compliance score.',
+          'End-of-month introduction to the regenerative protocol. Candidacy review begins here for members who qualify based on their Month 1 labs and compliance score.',
       },
     ],
     graduationCriteria: [
@@ -54,15 +54,15 @@ export const months: MonthDefinition[] = [
     title: 'Build',
     tagline: 'Workout protocol + nutrition deepening.',
     description:
-      'Month 2 increases training intensity and extends the fasting window to 16:8. Nutrition deepens with liver introduction and protein precision. RPA candidacy review takes place mid-month for qualifying Tier 3 members.',
+      'Month 2 increases training intensity and extends the fasting window to 16:8. Nutrition deepens with liver introduction and protein precision. Regenerative therapies candidacy review takes place mid-month for qualifying Tier 3 members.',
     primaryFormulas: ['armorvita', 'neurobridge'],
     bonusModules: [
       {
         atWeek: 2,
-        name: 'RPA Candidacy Review',
+        name: 'Regenerative Therapies Candidacy Review',
         slug: 'rpa-candidacy',
         description:
-          'Mid-Month 2 review for members who completed the RPA introduction. Healthcare provider reviews Month 1 labs and compliance before approving candidacy.',
+          'Mid-Month 2 review for members who completed the regenerative therapies introduction. Healthcare provider reviews Month 1 labs and compliance before approving candidacy.',
       },
     ],
     graduationCriteria: [

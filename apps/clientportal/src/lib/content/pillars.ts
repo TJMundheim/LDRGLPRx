@@ -99,7 +99,7 @@ export const pillars: Pillar[] = [
       'Identity statement — who you are becoming',
       'Week 4 re-assessment: re-score all 10 factors',
       'Month 1 wins review and celebration',
-      'RPA introduction (bonus module)',
+      'Regenerative therapies introduction (bonus module)',
       'Month 2 commitment and graduation criteria',
     ],
     keyFactorIds: [11],

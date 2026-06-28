@@ -619,7 +619,7 @@ A "50 billion CFU" bottle that dies in the stomach is decoration, not medicine.
 
 This is why I do not recommend men just walk into a health food store and buy a random probiotic off the shelf. The economics of that decision are essentially: pay thirty dollars a month for a placebo with a few live organisms left over. If you are going to intervene at the microbiome layer, you intervene with strain-specific, delivery-protected, clinically supported protocols — and you stop expecting the bottle on the shelf to do work it was never designed to do.
 
-> When we say *fix the gut*, we don't mean drink kombucha. We mean specific strains, specific delivery, specific protocol, run for a specific length of time — which is exactly what Biome NS Ultra (and Biome NS Rx for deeper cases) is built to do.
+> When we say *fix the gut*, we don't mean drink kombucha. We mean specific strains, specific delivery, specific protocol, run for a specific length of time — which is exactly what our gut-barrier probiotic (and, for deeper cases, the prescription gut-barrier peptide protocol) is built to do.
 
 Kombucha is fine. Sauerkraut is fine. Kefir is great. Fermented foods belong in a healthy diet. But they are not a gut repair protocol. They are not designed to deliver therapeutic doses of specific repair agents to a damaged epithelial barrier on a clinical timeline. Stop confusing maintenance inputs with repair protocols. The two are different animals.
 
@@ -669,17 +669,17 @@ The man who develops seasonal allergies in his forties — when he never had the
 
 This is not fast. Rebuilding immune tolerance is a slower process than rebuilding the epithelial barrier itself. But it is the only durable strategy, and most men who repair their gut find their allergic symptoms attenuate over the following six to twelve months as a side effect of the protocol they thought they were running for brain fog.
 
-## The Stack: Biome NS Ultra and Biome NS Rx
+## The Stack: The Gut-Brain Seal, OTC and Rx
 
 There are two paths to act, and they pair.
 
-**Biome NS Ultra** is the daily over-the-counter gut-brain seal — a powder taken on an empty stomach on waking, thirty minutes before the first meal. The stack: **L-glutamine** (the primary fuel source for the epithelial cells lining the gut), **DGL** (deglycyrrhizinated licorice, which supports mucus production), **berberine** (which targets dysbiotic bacterial overgrowth and supports glucose regulation), **aloe** (mucosal soothing), **curcumin** (the active anti-inflammatory in turmeric), **zinc carnosine** (a clinically studied tight-junction repair agent), and **vitamins A and D3** (immune modulation and barrier integrity). One protocol, one daily dose, addressing dysbiosis, mucosal integrity, and barrier repair in a single move. This is the starting point for every Protégé in the 4M program, and it is the right starting point for any man whose symptoms have not progressed beyond mild-to-moderate gut compromise.
+**The over-the-counter gut-barrier probiotic** is the daily gut-brain seal — a powder taken on an empty stomach on waking, thirty minutes before the first meal. The stack: **L-glutamine** (the primary fuel source for the epithelial cells lining the gut), **DGL** (deglycyrrhizinated licorice, which supports mucus production), **berberine** (which targets dysbiotic bacterial overgrowth and supports glucose regulation), **aloe** (mucosal soothing), **curcumin** (the active anti-inflammatory in turmeric), **zinc carnosine** (a clinically studied tight-junction repair agent), and **vitamins A and D3** (immune modulation and barrier integrity). One protocol, one daily dose, addressing dysbiosis, mucosal integrity, and barrier repair in a single move. This is the starting point for every Protégé in the 4M program, and it is the right starting point for any man whose symptoms have not progressed beyond mild-to-moderate gut compromise.
 
-**Biome NS Rx** is the deeper-repair tier — a proprietary compounded triple-action prescription combining **oral BPC-157** (Body Protection Compound, one of the most well-studied gut-healing peptides in the literature, with documented effects on mucosal repair, angiogenesis in the gut wall, and tight-junction restoration), **L-glutamine** (epithelial fuel, stacked at higher concentration), and **aloe** (mucosal soothing), all in one prescription, taken concurrently with the daily Biome NS Ultra powder. Most peptide pharmacies dispense BPC-157 as a standalone. We do not, because BPC-157 reaches its ceiling faster when it is supported by the epithelial fuel and mucosal protection that the triple-action stack provides. Biome NS Rx is for men with persistent symptoms — bloating that has not resolved, brain fog that has not lifted, food sensitivities that have not attenuated, a history of multiple antibiotic courses, or an autoimmune presentation that hints at a more compromised barrier. Prescribed through our licensed telemedicine partner after the comprehensive consult, which also covers hormones, metabolic markers, food-sensitivity panels, GLP-1 candidacy, and the integrated 4M plan.
+**The prescription gut-barrier peptide protocol** is the deeper-repair tier — a compounded triple-action prescription combining **oral BPC-157** (Body Protection Compound, one of the most well-studied gut-healing peptides in the literature, with documented effects on mucosal repair, angiogenesis in the gut wall, and tight-junction restoration), **L-glutamine** (epithelial fuel, stacked at higher concentration), and **aloe** (mucosal soothing), all in one prescription, taken concurrently with the daily over-the-counter powder. Most peptide pharmacies dispense BPC-157 as a standalone. We do not, because BPC-157 reaches its ceiling faster when it is supported by the epithelial fuel and mucosal protection that the triple-action stack provides. The prescription protocol is for men with persistent symptoms — bloating that has not resolved, brain fog that has not lifted, food sensitivities that have not attenuated, a history of multiple antibiotic courses, or an autoimmune presentation that hints at a more compromised barrier. Prescribed through our licensed telemedicine partner after the comprehensive consult, which also covers hormones, metabolic markers, food-sensitivity panels, GLP-1 candidacy, and the integrated 4M plan.
 
-The two pair cleanly. Ultra is the daily seal you stay on for life. Rx is the deeper repair tier you run for a defined window — typically eight to twelve weeks — to accelerate barrier restoration in men whose gut has been under chronic insult for years. Ultra continues underneath. Rx layers on top.
+The two pair cleanly. The over-the-counter powder is the daily seal you stay on for life. The prescription peptide protocol is the deeper repair tier you run for a defined window — typically eight to twelve weeks — to accelerate barrier restoration in men whose gut has been under chronic insult for years. The daily powder continues underneath. The prescription layers on top. For the specific products we currently recommend here, see my4mlife.com.
 
-*NS = NeuroSeal: the gut-brain seal that protects cognitive longevity.* That is the entire thesis of the product line in seven words. The name is not marketing. It is the mechanism.
+This is, in the end, a gut-brain seal — the barrier that keeps the gut's inflammatory traffic out of the bloodstream and out of the brain, protecting cognitive longevity. That is the entire thesis in a single line. It is not marketing. It is the mechanism.
 
 ## Eliminate the Insulting Behaviors
 
@@ -695,7 +695,7 @@ These four habits are actively degrading your gut lining and your brain, right n
 
 **Ignoring symptoms — bloating, brain fog, food sensitivities, irregular stools.** The gut speaks. Most men have been culturally trained not to listen, or to suppress what they hear with antacids and shrug it off as "just how I am." Bloating after meals is information. Irregular bowel movements are information. Brain fog after specific foods is information. The cost of suppressing those signals for a decade is not the antacids. It is the underlying barrier degradation that the antacids let proceed unaddressed.
 
-Stop these four behaviors. Run Biome NS Ultra daily. Add Biome NS Rx if your case warrants it. Give the gut barrier eight to twelve weeks to demonstrate what it can do when you stop hitting it with a hammer. The men who get this right are stunned at how much of what they thought was "aging" was actually gut.
+Stop these four behaviors. Run the gut-barrier probiotic daily. Add the prescription gut-barrier peptide protocol if your case warrants it. Give the gut barrier eight to twelve weeks to demonstrate what it can do when you stop hitting it with a hammer. The men who get this right are stunned at how much of what they thought was "aging" was actually gut.
 
 ## The Hand-Off
 
@@ -713,7 +713,7 @@ Sleep is not rest. That framing is what gets you into trouble. Sleep is the most
 
 The men I see in my practice who are sliding — the ones whose wives have started noticing the lost word, the missed appointment, the shorter fuse — almost always have something broken in their sleep. Often they don't know it. They report "sleeping fine." They mean they fall asleep and they wake up and the hours roughly add up. They are not measuring what actually matters.
 
-This chapter is about what sleep is actually doing while you're unconscious, what "bad sleep" actually means at the level of architecture and hormones, the three circadian anchors men over fifty consistently underuse, and the supplement layer — SleepRestore and SleepRestore Rx — that sits on top of all of it. We will end where every Mitigate chapter ends: eliminate the insulting behavior first. Then add what works.
+This chapter is about what sleep is actually doing while you're unconscious, what "bad sleep" actually means at the level of architecture and hormones, the three circadian anchors men over fifty consistently underuse, and the supplement layer — an OTC sleep-support formula and its prescription option — that sits on top of all of it. We will end where every Mitigate chapter ends: eliminate the insulting behavior first. Then add what works.
 
 ## Why Sleep Is Memory
 
@@ -763,13 +763,13 @@ The circadian clock is set by three signals, and men over fifty consistently und
 
 **Eating window — the metabolic cue.** Every cell in the body runs a peripheral clock that takes its cue partly from light and partly from when food hits the system. Eating at midnight tells the liver, the gut, the pancreas, and the adipose tissue that it is the middle of the day. A consistent eating window — for most men I work with, somewhere between 9 AM and 6 or 7 PM — tightens the peripheral clocks and reinforces the central rhythm. Late-night eating is one of the most common silent sleep disruptors. The reflux, the insulin spike, the digestive thermogenesis — all of it conflicts with the temperature drop and metabolic quiet that sleep onset requires.
 
-**Temperature drop — the vagal cue.** Core body temperature must drop about one to two degrees Fahrenheit to initiate and maintain deep sleep. The body does this through peripheral vasodilation — pushing blood to the hands and feet to radiate heat. A bedroom at 72 degrees blocks this. A bedroom at 65 to 68 supports it. A warm shower or sauna ninety minutes before bed accelerates the drop by triggering compensatory cooling. Cooling mattress pads (ChiliSleep, BedJet, Eight Sleep) are not a luxury — for most men over fifty they are the single highest-ROI piece of sleep hardware available, often producing more measurable improvement than any supplement.
+**Temperature drop — the vagal cue.** Core body temperature must drop about one to two degrees Fahrenheit to initiate and maintain deep sleep. The body does this through peripheral vasodilation — pushing blood to the hands and feet to radiate heat. A bedroom at 72 degrees blocks this. A bedroom at 65 to 68 supports it. A warm shower or sauna ninety minutes before bed accelerates the drop by triggering compensatory cooling. A cooling mattress pad is not a luxury — for most men over fifty it is the single highest-ROI piece of sleep hardware available, often producing more measurable improvement than any supplement.
 
 Light. Food timing. Temperature. Three anchors. None of them require a prescription. All of them are free or close to it. Most men ignore all three and then ask whether they should try melatonin.
 
-## The Stack: SleepRestore and SleepRestore Rx
+## The Stack: A Sleep-Support Formula, OTC and Rx
 
-Once the anchors are in — and only once they are in — the supplement layer earns its place. Trying to supplement on top of broken anchors is like running a humidifier with the windows open. SleepRestore is the OTC nightly stack we built for the man whose anchors are clean and who needs the neurochemical conditions for deep sleep to actually hold.
+Once the anchors are in — and only once they are in — the supplement layer earns its place. Trying to supplement on top of broken anchors is like running a humidifier with the windows open. The OTC sleep-support formula is the nightly stack we built for the man whose anchors are clean and who needs the neurochemical conditions for deep sleep to actually hold.
 
 The formula is three layers, designed in that order because that is the order the nervous system uses to go to sleep.
 
@@ -779,7 +779,7 @@ Layer two is the architecture builders: glycine at 2,000 mg and apigenin at 50 m
 
 Layer three is the cortisol modulators: L-theanine and KSM-66 ashwagandha. Theanine promotes alpha-wave activity — the quiet-mind state that precedes sleep onset and quiets the 11 PM mental replay of the workday. KSM-66 modulates the HPA axis and lowers evening cortisol, which is the single biggest reason a man wakes at 3 AM with his pulse up and his head running through tomorrow's calendar. KSM-66 has the additional documented effect of raising free testosterone — in published research, roughly 17% over eight weeks.
 
-That is the OTC tier. For men whose sleep disruption sits in deeper territory — chronic insomnia that has not yielded to anchors and the OTC stack, men with elevated cardiovascular load showing up as platelet aggregation and circulation problems, men whose sleep architecture is being broken by something the OTC formula cannot reach — there is SleepRestore Rx, anchored on nattokinase. Nattokinase is a fibrinolytic enzyme that supports healthy clotting balance and circulation, which matters more than most men realize for sleep, because impaired nocturnal circulation drives nighttime awakenings, restless legs, and the kind of vague "I just can't get comfortable" complaint that wearable data eventually reveals as fragmented architecture. The Rx tier is the Two Paths to Act answer for the deeper case — accessed through a Comprehensive 4M Consult, where the labs get pulled and the protocol gets personalized.
+That is the OTC tier. For men whose sleep disruption sits in deeper territory — chronic insomnia that has not yielded to anchors and the OTC stack, men with elevated cardiovascular load showing up as platelet aggregation and circulation problems, men whose sleep architecture is being broken by something the OTC formula cannot reach — there is the prescription sleep-support option, anchored on nattokinase. Nattokinase is a fibrinolytic enzyme that supports healthy clotting balance and circulation, which matters more than most men realize for sleep, because impaired nocturnal circulation drives nighttime awakenings, restless legs, and the kind of vague "I just can't get comfortable" complaint that wearable data eventually reveals as fragmented architecture. The Rx tier is the Two Paths to Act answer for the deeper case — accessed through a Comprehensive 4M Consult, where the labs get pulled and the protocol gets personalized.
 
 Two Paths. OTC for the man who needs the nightly support layer. Rx for the man whose physiology has moved past what the OTC layer can address alone.
 
@@ -913,9 +913,9 @@ This is the cheapest, simplest, most-ignored intervention in the environment sta
 
 The first five environmental factors — light, air, water, EMF, grounding — are about eliminating ambient insults. The last category is the opposite. These are deliberately chosen, brief, intense environmental stressors that produce powerful hormetic adaptations. You stress the body acutely, the body responds by adapting, and the adaptation persists.
 
-**Sauna.** Twenty to thirty minutes in a dry sauna at 170 to 200 degrees, three to five times a week, has one of the most impressive cardiovascular and longevity datasets in the entire wellness literature. The Finnish cohort studies show roughly 40 percent reductions in all-cause mortality at the four-to-seven-sessions-per-week dose. Mechanistically, heat exposure induces heat shock proteins, which are intracellular chaperones that refold damaged proteins and clear the misfolded ones — including, plausibly, the misfolded proteins implicated in neurodegenerative disease. The infrared sauna unit I recommend for home use is from **HigherDose**. Get in the habit. The brain benefits accumulate quietly across years.
+**Sauna.** Twenty to thirty minutes in a dry sauna at 170 to 200 degrees, three to five times a week, has one of the most impressive cardiovascular and longevity datasets in the entire wellness literature. The Finnish cohort studies show roughly 40 percent reductions in all-cause mortality at the four-to-seven-sessions-per-week dose. Mechanistically, heat exposure induces heat shock proteins, which are intracellular chaperones that refold damaged proteins and clear the misfolded ones — including, plausibly, the misfolded proteins implicated in neurodegenerative disease. For home use I recommend an infrared sauna. Get in the habit. The brain benefits accumulate quietly across years.
 
-**Cold exposure.** Two to three minutes in cold water at 50 to 55 degrees Fahrenheit, three to five times a week, produces a 200 to 300 percent surge in norepinephrine that persists for hours, drives mitochondrial biogenesis through cold-shock protein activation, and trains the autonomic nervous system to handle stress more efficiently. **Polar Recovery** makes the home tub I recommend. Start with 30 seconds and build. The mood and cognitive lift afterward is immediate and obvious — anybody who does this consistently knows what I am talking about.
+**Cold exposure.** Two to three minutes in cold water at 50 to 55 degrees Fahrenheit, three to five times a week, produces a 200 to 300 percent surge in norepinephrine that persists for hours, drives mitochondrial biogenesis through cold-shock protein activation, and trains the autonomic nervous system to handle stress more efficiently. For home use I recommend a cold-plunge unit. Start with 30 seconds and build. The mood and cognitive lift afterward is immediate and obvious — anybody who does this consistently knows what I am talking about.
 
 **Mineral bath.** Magnesium chloride or Epsom salt soaks at 100 to 104 degrees for twenty to thirty minutes, two to three times a week, serve as the rest cycle that goes between sauna and cold. Transdermal magnesium absorption is real, parasympathetic activation is real, and the recovery effects on sleep quality the night of a soak are obvious to anybody who tries it. This is the cheapest of the three — a bag of magnesium chloride flakes and a bathtub.
 
@@ -1015,7 +1015,7 @@ Don't lose your identity and your dignity while you still have a choice. That se
 
 So what does the response look like? Two paths. Both legitimate. Most men will need pieces of both.
 
-**The OTC foundation.** Before any prescription conversation, there is a substrate every man over 50 should be on. **ArmorVita** is the hormonal substrate — vitamin D3, K2, boron, and astaxanthin. D3 is a steroid hormone in its own right, with receptors throughout the brain and a direct role in testosterone signaling. K2 routes calcium into bones and out of arteries, which is most of what arterial-calcium-driven heart disease actually is. Boron supports free testosterone. Astaxanthin is one of the few antioxidants that crosses the blood-brain barrier. **MitoVita** is the vascular and mitochondrial substrate — creatine monohydrate, L-citrulline, standardized beetroot extract, and electrolytes. Citrulline and beetroot drive endogenous nitric oxide production through the same downstream pathway PDE5 inhibitors exploit, but upstream. Creatine fuels the ATP demand of the corpus cavernosum and slows sarcopenia. Together, ArmorVita and MitoVita are the foundation most men have never been shown.
+**The OTC foundation.** Before any prescription conversation, there is a substrate every man over 50 should be on. The hormonal substrate is **a vitamin D + K2 + boron + astaxanthin stack**. D3 is a steroid hormone in its own right, with receptors throughout the brain and a direct role in testosterone signaling. K2 routes calcium into bones and out of arteries, which is most of what arterial-calcium-driven heart disease actually is. Boron supports free testosterone. Astaxanthin is one of the few antioxidants that crosses the blood-brain barrier. The vascular and mitochondrial substrate is **a creatine + L-citrulline + beetroot + electrolyte blend**. Citrulline and beetroot drive endogenous nitric oxide production through the same downstream pathway PDE5 inhibitors exploit, but upstream. Creatine fuels the ATP demand of the corpus cavernosum and slows sarcopenia. Together, these two stacks are the foundation most men have never been shown.
 
 **The Rx path.** If you have been drifting for years, if the symptoms have layered on each other, if fatigue and low libido and brain fog and weight gain are traveling together, you don't need to guess. You need the labs. The full hormone panel — Total T, Free T, estradiol, SHBG, TSH, AM cortisol, DHEA-S — paired with a cardiovascular panel — fasting glucose, HbA1c, hsCRP, lipids — and a sleep evaluation. Then a coach-led plan, not a guess. TRT done right is monitored, eased in, paired with whatever adjuncts your specific physiology requires — sometimes HCG, sometimes anastrozole, sometimes peptide support for vascular function. A PDE5 inhibitor can be part of the protocol for symptomatic relief, but only inside the protocol — never in place of it.
 
@@ -1071,7 +1071,7 @@ So let's do an honest accounting. Brother to brother. No meeting talk, no shame,
 
 Mitigate has a hero line in this book: *Stop hurting yourself first. Then add what works.* If you only stop one thing, the math says it should probably be this one. Here is why.
 
-**Gut.** Ethanol is directly toxic to the intestinal epithelium. Even moderate drinking — a few units a night — shifts the gut microbiome toward inflammatory species, suppresses the protective ones, and loosens the tight junctions between intestinal cells. That is the textbook definition of leaky gut. Endotoxins (lipopolysaccharide, LPS) leak from the gut lumen into the bloodstream, where they trigger systemic inflammation that crosses the blood-brain barrier and lights up microglia. The gut-brain seal — the very thing Biome NS is built to defend — is being pried open every night you pour one. You can take all the BPC-157 in the world; if alcohol is the bedtime ritual, you are running the kitchen faucet while you mop the floor.
+**Gut.** Ethanol is directly toxic to the intestinal epithelium. Even moderate drinking — a few units a night — shifts the gut microbiome toward inflammatory species, suppresses the protective ones, and loosens the tight junctions between intestinal cells. That is the textbook definition of leaky gut. Endotoxins (lipopolysaccharide, LPS) leak from the gut lumen into the bloodstream, where they trigger systemic inflammation that crosses the blood-brain barrier and lights up microglia. The gut-brain seal — the very thing the gut-barrier probiotic is built to defend — is being pried open every night you pour one. You can take all the BPC-157 in the world; if alcohol is the bedtime ritual, you are running the kitchen faucet while you mop the floor.
 
 **Sleep.** Alcohol is a sedative, which is why men drink it before bed and tell themselves it "helps them sleep." It does not. It sedates you, which is a different thing. Sedation collapses sleep architecture: REM is suppressed in the first half of the night, then rebounds chaotically as the alcohol clears, which is why you wake at 3 a.m. with your heart pounding and your mouth dry. Deep slow-wave sleep — the stage when the glymphatic system actually flushes metabolic waste out of the brain — is reduced. You lay in bed for eight hours and got maybe four hours of restorative sleep. The glymphatic plumbing did not run. The amyloid did not clear. Multiply that by a decade.
 
@@ -1165,7 +1165,7 @@ Mind is the destination. We are not done protecting it yet.
 
 ## You Or Someone You Love
 
-If you're holding this book right now, there's a chance it isn't really for you. Or rather — it's for you, but you picked it up because of someone else. Your wife handed it to you because she's been watching her mother forget the names of her grandchildren and she can't sit through another holiday pretending she didn't notice. Your son ordered it on Amazon and quietly put it on the kitchen counter because he's seen you searching for the right word three times in the same conversation and he doesn't know how to bring it up. Or you bought it yourself, late one night, after your father failed to recognize you at the assisted-living facility, and you walked back to your car and put your hands on the steering wheel and thought: *I have his genes. I have his life. I have his timer.*
+If you're holding this book right now, there's a chance it isn't really for you. Or rather — it's for you, but you picked it up because of someone else. Your wife handed it to you because she's been watching her mother forget the names of her grandchildren and she can't sit through another holiday pretending she didn't notice. Your son ordered it online and quietly put it on the kitchen counter because he's seen you searching for the right word three times in the same conversation and he doesn't know how to bring it up. Or you bought it yourself, late one night, after your father failed to recognize you at the assisted-living facility, and you walked back to your car and put your hands on the steering wheel and thought: *I have his genes. I have his life. I have his timer.*
 
 I'm not going to soften this. The previous nine chapters of this book are about prevention. They are about the men who still have the runway to fix their gut, fix their sleep, fix their hormones, build muscle, eliminate the insulting behavior, and protect the mind that is still mostly intact.
 
@@ -1207,7 +1207,7 @@ Two things have changed. The cells got better. And the delivery route got smarte
 
 ## Muse Cells and the Intrathecal Route
 
-The named lead protocol inside RPA — the regenerative arm of My4MLife — is **Muse cells delivered intrathecally**. I want to take that phrase apart piece by piece because the specificity matters.
+The named lead inside our regenerative medicine protocol — the regenerative arm of My4MLife — is **Muse cells delivered intrathecally**. I want to take that phrase apart piece by piece because the specificity matters.
 
 **Muse cells.** The acronym stands for Multilineage-differentiating Stress Enduring cells. They are a relatively recently characterized class of pluripotent stem cells — meaning a single Muse cell has the latent capacity to become any of the three primary tissue types from which all organs derive. That puts them in a different category from the generic mesenchymal stem cells (MSCs) that most regenerative clinics have been using for the last decade. Generic MSCs are multipotent — they can become several connective tissue types — but their range is narrower and their behavior in injured tissue is less reliable.
 
@@ -1225,7 +1225,7 @@ This bypasses the blood-brain barrier. Completely. The cells are not asked to ne
 
 This is why intrathecal Muse cells, in my assessment, represent the current best-available regenerative intervention for cognitive indications. The right cell type. The right route. The right access. Other clinics are still injecting stem cells intravenously and hoping enough of them cross the BBB to matter. We are placing the cells where they need to go.
 
-I will not call it a cure. I will not call it a miracle. I will call it what it is: the most direct, most targeted, most mechanistically coherent regenerative intervention currently available for a brain that has already begun to decline. Best-available is the standard. Best-available is what we offer.
+I will not call it a cure. I will not call it a miracle. I will call it what it is: the most direct, most targeted, most mechanistically coherent regenerative intervention currently available for a brain that has already begun to decline. The mechanisms above — cell replacement, paracrine signaling, neuroinflammation modulation, vascular support — are not specific to one diagnosis. Across the neurodegenerative spectrum — Alzheimer's, other dementias, broad cognitive decline, and Parkinson's — these are conditions regenerative therapies may benefit in some way, because they share the same underlying drivers of neuronal stress, chronic inflammation, and compromised perfusion that the protocol is designed to address. Best-available is the standard. Best-available is what we offer.
 
 A word on delivery, because it is not the same for every indication. Our joint and orthopedic regenerative work, and our systemic IV therapies, are genuinely nationwide and mobile — we bring those to you. No flight to a clinic in another state, no week in a hotel, no convalescing far from home.
 
@@ -1241,11 +1241,11 @@ Regenerative medicine is not a replacement for the other three pillars. It is th
 
 Think about it mechanically. The Muse cells arrive at damaged tissue and start reading the local environment. What does that environment look like in a patient who is still drinking nightly, still sleeping four hours, still carrying eighty pounds of visceral fat, still leaking a compromised gut barrier, still running on suboptimal hormones? It looks like a hostile inflammatory bath. The cells will do what they can. But you have asked them to repair a building that is still on fire.
 
-Now picture the same intervention in a patient who, three months before the protocol and continuing after it, has sealed the gut with Biome NS, restored sleep with SleepRestore, optimized hormones, eliminated the insulting behaviors, and started building strength and protein-first nutrition into the daily rhythm. The cells arrive into an environment that is *cooperating with them*. The inflammatory signal is down. The cerebral perfusion is up. The neurotrophic substrate the cells need to work with is being delivered, every day, by a body that is finally feeding the brain instead of starving it.
+Now picture the same intervention in a patient who, three months before the protocol and continuing after it, has sealed the gut with the gut-barrier probiotic, restored sleep with a sleep-support formula, optimized hormones, eliminated the insulting behaviors, and started building strength and protein-first nutrition into the daily rhythm. The cells arrive into an environment that is *cooperating with them*. The inflammatory signal is down. The cerebral perfusion is up. The neurotrophic substrate the cells need to work with is being delivered, every day, by a body that is finally feeding the brain instead of starving it.
 
-> RPA is the most expensive intervention in the system, and it is the one that most rewards the patient who has done the unglamorous work alongside it.
+> The regenerative protocol is the most expensive intervention in the system, and it is the one that most rewards the patient who has done the unglamorous work alongside it.
 
-Patients who treat RPA as a one-shot miracle waste the intervention. Patients who treat it as the highest-leverage piece of an integrated stack get compound benefit. The protocol works on the body you give it.
+Patients who treat the regenerative protocol as a one-shot miracle waste the intervention. Patients who treat it as the highest-leverage piece of an integrated stack get compound benefit. The protocol works on the body you give it.
 
 This is also why I never recommend deferring the conservative work *until* the regenerative work. The gut, the sleep, the environment, the hormones — those interventions should be running concurrently from the day the diagnosis is made. They are not the appetizer before the main course. They are the conditions of soil.
 
@@ -1277,7 +1277,7 @@ When should you engage the regenerative arm? Four entry points.
 
 **Four. Personal preference for the most aggressive prevention layer.** Some patients, looking at a strong family history and a peak-power decade they have no intention of surrendering, simply elect the most aggressive available prevention before the symptoms arrive. That is a legitimate choice. The protocol is not less effective for being deployed earlier.
 
-In all four cases, the conservative interventions run alongside. Always. RPA is not a substitute for fixing the gut. RPA is what the gut work supports.
+In all four cases, the conservative interventions run alongside. Always. The regenerative protocol is not a substitute for fixing the gut. The regenerative protocol is what the gut work supports.
 
 ## The Next Step
 
@@ -1285,7 +1285,7 @@ If any of the above describes you — or describes someone you are reading this 
 
 First, take the free 4M Assessment at **my4mlife.com/assessment**. Ten questions, about five minutes. If your situation meets the threshold I described earlier in this chapter, the algorithm will automatically surface "already diagnosed" as your top priority and route you accordingly. You don't have to figure out the system. The system reads your situation and tells you where to start.
 
-Second, engage RPA directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
+Second, engage the regenerative protocol directly through the regenerative medicine page on the site, or by booking the consult. Nationwide mobile delivery means that geography — being in a smaller city, being far from a major research center, being unwilling to leave a spouse who can no longer travel — is not a barrier. The protocol comes to you.
 
 > Don't lose your identity and your dignity while you still have a choice. Begin with the end in mind.
 
@@ -1321,7 +1321,7 @@ And the first lever inside Muscle is not the gym.
 
 It is the plate in front of you, three times a day, for the rest of your life.
 
-This chapter opens the Muscle pillar by going where the cohort actually starts: nutrition. The food you eat, the way you eat it, the window you eat it in, and the supplements you layer on top to backfill what modern food and modern living can no longer deliver. Then it closes on the single rule that runs in the My4MLife app every day for every Protégé — the 30g Protein-First Protocol.
+This chapter opens the Muscle pillar by going where the cohort actually starts: nutrition. The food you eat, the way you eat it, the window you eat it in, and the supplements you layer on top to backfill what modern food and modern living can no longer deliver. Then it closes on the single rule that runs in the My4MLife app every day for every Protégé — the 30–40g Protein-First Protocol.
 
 If you implement nothing else from this chapter, implement that rule. It is the highest-leverage daily habit I know for men over fifty.
 
@@ -1341,11 +1341,11 @@ Once you internalize this — that every bite is a message to the system you are
 
 Now to the rule.
 
-Every feeding window you open, for the rest of your life, opens with 30 grams or more of lean protein. Thirty minutes before any other macro arrives. Before the carbs, before the fats, before the coffee with cream, before the fruit, before the granola, before the toast. Protein first. Everything else second.
+Every feeding window you open, for the rest of your life, opens with thirty to forty grams of lean protein. Thirty minutes before any other macro arrives. Before the carbs, before the fats, before the coffee with cream, before the fruit, before the granola, before the toast. Protein first. Everything else second.
 
 This is the universal My4MLife protocol. It runs in the app for every member, at every tier, every day. There are only a handful of rules in our system that apply to every person regardless of category — and this is one of them. Let me explain why.
 
-The thirty-gram threshold is not arbitrary. It is the leucine-signal threshold — the dose at which the amino acid leucine, present in lean animal protein, rises high enough in the bloodstream to trigger maximal muscle protein synthesis through a pathway called mTOR. Below that threshold, the anabolic signal is weak. The body shrugs. Sarcopenia advances another quiet step. Above it, the signal fires cleanly, and the muscle tissue you have gets the message to maintain itself and grow. After forty, and especially after fifty, your body's sensitivity to that signal declines. The trigger threshold rises. Twenty grams used to be enough at thirty. Thirty grams is the floor at fifty, and the men who get this right hit thirty grams or more at every feeding window without exception.
+The threshold is not arbitrary. It is the leucine-signal threshold — the dose at which the amino acid leucine, present in lean animal protein, rises high enough in the bloodstream to trigger maximal muscle protein synthesis through a pathway called mTOR. Below that threshold, the anabolic signal is weak. The body shrugs. Sarcopenia advances another quiet step. Above it, the signal fires cleanly, and the muscle tissue you have gets the message to maintain itself and grow. After forty, and especially after fifty, your body's sensitivity to that signal declines. The trigger threshold rises. Twenty grams used to be enough at thirty. Thirty to forty grams is the floor at fifty, and the men who get this right hit thirty to forty grams at every feeding window without exception.
 
 The thirty-minute spacing matters too. When protein arrives alone, the leucine signal lands cleanly. When carbohydrate and fat arrive at the same moment, the insulin and digestive cascade muddies the picture, blunts the satiety hormones, and softens the anabolic message. Thirty minutes is long enough to let the protein land its signal before the rest of the meal joins. It is not a complicated rule. It is a sequence.
 
@@ -1353,7 +1353,7 @@ The downstream benefits go beyond the muscle signal. Protein triggers the satiet
 
 For men on GLP-1 therapy — and many of you will be, after the next chapter — this rule becomes non-negotiable. When total intake drops sharply on semaglutide or tirzepatide, the risk of losing lean mass alongside fat mass goes up. The protein-first rule is the firewall.
 
-What does 30 grams of lean protein actually look like? Five ounces of chicken or turkey breast. Four to five ounces of lean grass-finished beef. Five ounces of wild salmon. Five to six whole eggs. A cup and a half of high-protein Greek yogurt. A scoop of whey isolate with a side of cottage cheese. Five ounces of wild tuna. None of these are exotic. None of them are expensive when sourced well and bought in bulk. None of them require a chef.
+What does thirty to forty grams of lean protein actually look like? Five ounces of chicken or turkey breast. Four to five ounces of lean grass-finished beef. Five ounces of wild salmon. Five to six whole eggs. A cup and a half of high-protein Greek yogurt. A scoop of whey isolate with a side of cottage cheese. Five ounces of wild tuna. None of these are exotic. None of them are expensive when sourced well and bought in bulk. None of them require a chef.
 
 What they require is a decision. Every feeding window, the first thing on the plate is the protein. Period.
 
@@ -1363,9 +1363,13 @@ That is the rule. The rest of the chapter is about how to build the supply chain
 
 The next lever after *what* you eat is *when* you eat it.
 
-The default eating window in the My4MLife protocol is nine in the morning to six in the evening. Nine to six. About nine hours of feeding, fifteen hours of fasting overnight. Most of those fasting hours are spent sleeping.
+The default eating window in the My4MLife protocol is nine in the morning to six in the evening. Nine to six. About nine hours of feeding, fifteen hours of fasting overnight. Most of those fasting hours are spent sleeping. That is the livable default — the window the average man can hold for the rest of his life without rearranging his family or his calendar around it.
 
-This is not an extreme intervention. This is not a starvation protocol. This is not the gym-rat school of fasted training. We do not push men over fifty to skip breakfast and lift heavy in a glycogen-depleted state — that is the opposite of what serves cognitive longevity. We move breakfast to nine AM, where it lands after the cortisol-driven morning rise has cleared, after a short walk in early sunlight, and at the time of day when your digestive enzymes are actually at their peak. Then we close the window at six PM, three to four hours before sleep onset, so that digestion is not competing with the parasympathetic shift the body needs to fall into deep, restorative sleep.
+But there is a layer beneath the default that matters most for the man who has not yet arrived at his goal. Until you reach your ideal body weight — with low body fat and, more to the point, low visceral fat — the morning before you break your fast is the most valuable training real estate you own. Train fasted in the morning. The body, running on overnight-low insulin, reaches preferentially for stored fat as fuel, and the fasted state amplifies the fat-burning signal of whatever movement you give it. You do not need a barbell for this. The single most accessible, most effective tool the average man has to accelerate fat loss is a **fasted morning walk** — thirty to forty-five minutes, outdoors, in early sunlight, before a single calorie crosses your lips. It costs nothing, it requires no equipment, it doubles as your circadian light anchor, and it is the lever I see produce the most visceral-fat change in the most men, the most reliably.
+
+Then — and only after the morning training or walk — you break the fast. Break it with **thirty to forty grams of lean protein**, the protein-first rule you'll read about in full below. If your workout doesn't wrap until around ten, then break the fast sometime after that; the window's open time simply shifts to follow your training. The point is not a clock worship. The point is that the first food of the day lands after the fasted work is done, and that it lands as protein.
+
+This is not an extreme intervention. This is not a starvation protocol. The fasted *walk* is not the gym-rat school of fasted heavy lifting in a glycogen-depleted state — that is the opposite of what serves a man over fifty, and we do not push it. We move the first meal to nine AM, where it lands after the cortisol-driven morning rise has cleared, after that walk in early sunlight, and at the time of day when your digestive enzymes are actually at their peak. Then we close the window at six PM, three to four hours before sleep onset, so that digestion is not competing with the parasympathetic shift the body needs to fall into deep, restorative sleep.
 
 Why this window?
 
@@ -1373,7 +1377,9 @@ Your digestive system runs on a circadian schedule. Insulin sensitivity is highe
 
 There is also a coupling between when you stop eating and how well you sleep. Late food, even small late food, raises core body temperature and keeps the digestive nervous system active when the rest of the body is trying to shift into the parasympathetic state sleep requires. The men in my practice who shift their last meal from nine PM to six PM almost universally report deeper sleep within ten days. Sleep that, you'll remember from the Mitigate chapters, is when the glymphatic system clears neuroinflammatory debris from between your ears.
 
-Nine to six is not a religion. If your life requires a seven-PM family dinner three nights a week, take those three nights and run a tighter window the other four. The point is that an eating window exists, that it ends before sleep, and that breakfast does not arrive the instant your feet hit the floor at five-thirty AM. For most of human history, food was not available at every hour. Your body still expects that pattern. Give it back.
+Nine to six is not a religion. If your life requires a seven-PM family dinner three nights a week, take those three nights and run a tighter window the other four. The point is that an eating window exists, that it ends before sleep, and that the first meal does not arrive the instant your feet hit the floor at five-thirty AM. For most of human history, food was not available at every hour. Your body still expects that pattern. Give it back.
+
+One more dial, for the man who has the basics locked and wants to optimize further. Treat this as an experiment, not a default: try closing the eating window earlier — around four or five in the evening instead of six. The earlier you stop eating, the more runway your nervous system has to let cortisol fall before sleep, which tends to deepen the first half of the night and accelerate visceral-fat loss. The default stays nine-to-six for everyone. The four-or-five-PM close is simply the next dial to turn for the man who is already sleeping well and wants to push the sleep and the visceral fat further. Run it for two weeks, watch your sleep data and your waist, and keep it only if it earns its place.
 
 ## Whole Foods, Not Whole-Foods-Shopping
 
@@ -1386,14 +1392,14 @@ Whole food means food that arrived on the plate in a form your great-grandmother
 We don't prescribe a single dietary ideology in the 4M system. I won't tell you that you must eat carnivore, paleo, Mediterranean, or keto. I'll tell you what I personally do — and on the cooking side, you may catch me writing under the alias *Keto Cattle Baron* — but the program does not require any single dogma. What we prescribe is a sourcing standard:
 
 - Animals raised on their natural diet — grass-finished beef, pasture-raised pork and poultry, wild-caught seafood.
-- Organ meats integrated where possible. Liver, heart, and kidney are the most nutrient-dense foods on the planet. If you will not eat them whole, Ancestral Supplements offers encapsulated forms.
+- Organ meats integrated where possible. Liver, heart, and kidney are the most nutrient-dense foods on the planet. If you will not eat them whole, encapsulated organ forms cover the gap.
 - Real soil, real water, real exposure to sun and weather behind the food you eat. Plants from regenerative-farmed soil have measurably more minerals than the same plants from depleted commodity soil.
 - Minimal processing between the animal or plant and your plate.
 - Seed oils — canola, soybean, sunflower, safflower, corn — entirely removed from cooking.
 
 That last point is one of the highest-leverage single changes you can make in a kitchen. Switch every cooking oil in your house to grass-fed butter, ghee, beef tallow, extra-virgin olive oil, or avocado oil. Throw the rest in the trash. The linoleic acid load from industrial seed oils accumulates in cellular membranes over years and drives a low-grade inflammatory tone no supplement protocol can fully offset.
 
-Our affiliate sourcing network — ButcherBox, US Wellness Meats, Vital Choice, Force of Nature, Ancestral Supplements, Thrive Market — makes this easy without a daily trip to the boutique butcher. Six vetted partners, delivered to your door, that meet the sourcing standard above. Set the subscription, accept the deliveries, cook what shows up. Outsource the supply chain to people who already vetted it.
+We make this easy without a daily trip to the boutique butcher. As a member, you get a weekly meal-plan email — and, before long, a text — built around that week's plan, with a preloaded cart you order in one click. The cart is filled from vetted sourcing partners that meet the sourcing standard above, delivered to your door, and it changes each week to match what you'll actually be cooking. You don't research suppliers, you don't build the order, and you don't have to memorize a list of brands that may shift as we keep vetting the supply chain on your behalf. Open the email, click once, accept the deliveries, cook what shows up. Outsource the supply chain to people who already vetted it.
 
 The kitchen becomes the first act of Mitigate. Where the food enters the home determines what enters the brain.
 
@@ -1412,7 +1418,7 @@ The insulting behaviors in nutrition look like this:
 
 Eliminate the insulting behavior. That is the first half of nutrition. The second half is the protocol — the rule, the window, the sourcing — that fills the space the insults used to occupy.
 
-## Vitamin D and the ArmorVita Stack
+## Vitamin D and the Foundational Stack
 
 Even with the protein-first rule, the eating window, the sourcing standard, and the insulting behaviors removed, modern food cannot deliver everything your body needs. The soil is depleted. The water is stripped. Indoor work blocks the daily sun your endocrine system was built to expect. Most American adults run sixty to eighty percent of the cofactors needed for optimal cognitive aging, hormonal output, and immune resilience.
 
@@ -1424,16 +1430,16 @@ Vitamin D is mislabeled — it is not a vitamin. It is a steroid hormone synthes
 
 Vitamin D deficiency at that scale shows up as poor mood, poor immune response, poor sleep, slow cognitive processing, and accelerated bone and muscle loss. It is not subtle once you know what you're looking at.
 
-This is why ArmorVita is the foundational daily stack in the My4MLife system.
+This is why a vitamin D + K2 + boron + astaxanthin stack is the foundational daily stack in the My4MLife system.
 
-ArmorVita is the OTC stack of vitamin D3, vitamin K2, boron, and astaxanthin. D3 raises serum 25-OH vitamin D into the optimal range. K2 directs the calcium that D3 helps absorb into bones and teeth and away from arterial walls — without K2, high-dose D3 is incomplete and potentially counterproductive. Boron supports the hormonal pathways that D and the sex steroids share. Astaxanthin is the lipid-soluble antioxidant that crosses the blood-brain barrier and protects the same membranes the D3 supports. Four ingredients. One bottle. Once a day. Foundational.
+This foundational stack pairs vitamin D3, vitamin K2, boron, and astaxanthin. D3 raises serum 25-OH vitamin D into the optimal range. K2 directs the calcium that D3 helps absorb into bones and teeth and away from arterial walls — without K2, high-dose D3 is incomplete and potentially counterproductive. Boron supports the hormonal pathways that D and the sex steroids share. Astaxanthin is the lipid-soluble antioxidant that crosses the blood-brain barrier and protects the same membranes the D3 supports. Four ingredients. One bottle. Once a day. Foundational.
 
-Beyond ArmorVita, the optional add-on layer for the Muscle pillar includes:
+Beyond that foundation, the optional add-on layer for the Muscle pillar includes:
 
-- **OmegaCN Prime** — EPA 1200 + DHA 800 in triglyceride form (IFOS five-star) plus 200 mg of Kaneka QH ubiquinol CoQ10. "CN" stands for Cardio Neuro. Two softgels with dinner. Fills the omega-3 gap almost no whole-food diet hits cleanly and provides the ubiquinol form of CoQ10 your mitochondria need as endogenous production drops through your fifties.
-- **MitoVita** — creatine monohydrate, L-citrulline malate, beetroot extract, electrolyte matrix. The mitochondrial bridge connecting Mind, Muscle, and the vascular work behind sexual function. Creatine alone has the strongest published evidence base of any supplement against age-related muscle loss. In development for Q4 2026.
+- **An omega-3 + ubiquinol CoQ10 softgel** — EPA 1200 + DHA 800 in triglyceride form (IFOS five-star) plus 200 mg of ubiquinol CoQ10. Two softgels with dinner. Fills the omega-3 gap almost no whole-food diet hits cleanly and provides the ubiquinol form of CoQ10 your mitochondria need as endogenous production drops through your fifties.
+- **A creatine + L-citrulline + beetroot + electrolyte blend** — creatine monohydrate, L-citrulline malate, beetroot extract, electrolyte matrix. The mitochondrial bridge connecting Mind, Muscle, and the vascular work behind sexual function. Creatine alone has the strongest published evidence base of any supplement against age-related muscle loss.
 
-Build the foundation first. Add the layers as you commit further. Don't skip to creatine before you've fixed the eating window.
+Build the foundation first. Add the layers as you commit further. Don't skip to creatine before you've fixed the eating window. For the specific products we currently recommend here, see my4mlife.com.
 
 ## The No-Weak-Links Rule
 
@@ -1449,7 +1455,7 @@ The 4M list is curated. Every SKU passes the audit. Your job is not to do the au
 
 ## Where This Goes Next
 
-Nutrition is the daily input. The protein-first rule is the highest-leverage daily habit. The eating window is the daily structure. ArmorVita is the foundational daily backfill. The no-weak-links rule is how we keep all of it clean.
+Nutrition is the daily input. The protein-first rule is the highest-leverage daily habit. The eating window is the daily structure. The vitamin D + K2 + boron + astaxanthin stack is the foundational daily backfill. The no-weak-links rule is how we keep all of it clean.
 
 For most men reading this chapter, getting nutrition right at this depth — sourcing, rule, window, stack — will move the body and the brain further in ninety days than any single intervention they've tried since college.
 
@@ -1577,7 +1583,7 @@ Muscle is the body's largest glucose disposal organ — losing it worsens the in
 
 So the three legs of the stool are mandatory and they are non-negotiable:
 
-**Protein-first, thirty grams minimum, every feeding window, before any other food.** Lean protein — chicken, beef, fish, eggs, whey isolate if needed. Thirty minutes before anything else. This is the leucine signal that triggers maximal muscle protein synthesis. On GLP-1, with appetite suppressed, you will not feel like eating thirty grams of protein first. Eat it anyway. The whole protocol depends on this single discipline.
+**Protein-first, thirty to forty grams, every feeding window, before any other food.** Lean protein — chicken, beef, fish, eggs, whey isolate if needed. Thirty minutes before anything else. This is the leucine signal that triggers maximal muscle protein synthesis. On GLP-1, with appetite suppressed, you will not feel like eating thirty to forty grams of protein first. Eat it anyway. The whole protocol depends on this single discipline.
 
 **Resistance training, two to three sessions per week, compound movements.** Squat, hinge, press, pull. You do not need to train like a bodybuilder. You need to put the muscles under enough mechanical load, enough times per week, to signal the body that the muscle is needed and must be preserved. Without that signal, the body will break it down for fuel because the medication has told it there is plenty of energy available from stored fat.
 
@@ -1675,7 +1681,7 @@ What it is not: bodybuilding splits. You do not need a "chest day." You do not n
 
 What it is also not: CrossFit. The injury risk on high-rep, high-speed, technique-degrading-under-fatigue work is not worth it once you cannot recover from injuries the way you could at thirty. One torn rotator cuff at fifty-eight buys you twelve months out of the gym, and twelve months out of the gym is twelve months of sarcopenia and twelve months of cognitive cost. Train with intent, not with chaos.
 
-Recovery is half the program. Forty-eight hours between sessions targeting the same muscle group. Sleep prioritized as ruthlessly as the lifts themselves — see Chapter 8. Protein at thirty grams or more in the first feeding window post-training. The protein-first rule is not optional for the lifter over fifty; it is the substrate the muscle uses to rebuild.
+Recovery is half the program. Forty-eight hours between sessions targeting the same muscle group. Sleep prioritized as ruthlessly as the lifts themselves — see Chapter 8. Protein at thirty to forty grams in the first feeding window post-training. The protein-first rule is not optional for the lifter over fifty; it is the substrate the muscle uses to rebuild.
 
 This is what the My4MLife app delivers in Month 1 of the Protégé program — the resistance training framework, progressive overload programming, the daily movement tracker, the supplement guidance, the body composition tracking. None of it is mysterious. All of it is the work.
 
@@ -1697,7 +1703,7 @@ The right framework is triage, active recovery, load management, and structured 
 
 **Structured return.** Hit milestones — pain-free range, then pain-free unloaded movement, then pain-free loaded movement at fifty percent, then seventy-five, then one hundred — before going back to full intensity. Re-injury risk is highest in the first four weeks after return, and it almost always happens because someone went back to their old loads on Day One.
 
-For soft-tissue recovery in particular, there is a peptide layer worth knowing about, and I will get to it below. The headline: BPC-157, body protection compound, is the most discussed soft-tissue recovery peptide in clinical use, and it is one of the active ingredients in our Biome NS Rx — originally developed for the gut, where it earned its name, with downstream effects on connective tissue that have made it a quiet workhorse for men recovering from joint and tendon injury.
+For soft-tissue recovery in particular, there is a peptide layer worth knowing about, and I will get to it below. The headline: BPC-157, body protection compound, is the most discussed soft-tissue recovery peptide in clinical use, and it is one of the active ingredients in our prescription gut-barrier peptide protocol — originally developed for the gut, where it earned its name, with downstream effects on connective tissue that have made it a quiet workhorse for men recovering from joint and tendon injury.
 
 ## Chronic Pain: The Compliance Killer
 
@@ -1709,11 +1715,11 @@ I have watched this pattern more times than any other in thirty years of clinica
 
 That story is almost always wrong. Chronic pain at fifty-plus is rarely just structural. It has stopped being a tissue-damage signal and become a nervous-system pattern, layered on top of a system-wide problem — inflammation, sleep debt, gut dysfunction, declining hormones, sedentary atrophy. The pain is real. The structural defect framing is misleading.
 
-The Mitigate pillar is half the chronic-pain protocol. Gut inflammation amplifies central sensitization. Biome NS Ultra addresses the gut layer. Sleep degradation — see Chapter 8 — raises pain perception by twenty to thirty percent in controlled studies. Visceral fat is an inflammatory organ that pumps cytokines into circulation that drive joint and back pain. Lose the visceral fat, lose the inflammation, lose a meaningful fraction of the pain.
+The Mitigate pillar is half the chronic-pain protocol. Gut inflammation amplifies central sensitization. The gut-barrier probiotic addresses the gut layer. Sleep degradation — see Chapter 8 — raises pain perception by twenty to thirty percent in controlled studies. Visceral fat is an inflammatory organ that pumps cytokines into circulation that drive joint and back pain. Lose the visceral fat, lose the inflammation, lose a meaningful fraction of the pain.
 
 The Muscle pillar is the other half. Fear-avoidance — refusing to load the painful joint because loading it hurts — is one of the most well-documented perpetuators of chronic pain. Graded movement exposure breaks the cycle. You load the joint a little. It tolerates it. You load it a little more. The nervous system relearns that the joint is safe. The pain pattern reorganizes. This is not woo. This is the standard of care in modern pain medicine, and it works.
 
-And when chronic pain has run past what lifestyle, NSAIDs, peptides, and graded exposure can reach — when the joint surface itself is degraded, when the cartilage is genuinely gone — there is a ceiling. The regenerative tier we call RPA, coordinated through our partner regenerative medicine practice, is what sits beyond that ceiling for the men who need it. Candidacy is determined at the comprehensive 4M consult, not by self-diagnosis. If you have run out of options on your current path, that consult is exactly what it is built for.
+And when chronic pain has run past what lifestyle, NSAIDs, peptides, and graded exposure can reach — when the joint surface itself is degraded, when the cartilage is genuinely gone — there is a ceiling. Our regenerative medicine protocol, coordinated through our partner regenerative medicine practice, is what sits beyond that ceiling for the men who need it. Candidacy is determined at the comprehensive 4M consult, not by self-diagnosis. If you have run out of options on your current path, that consult is exactly what it is built for.
 
 Address pain because it is a brain issue. The man who solves his chronic back pain at sixty-two gets twenty more years of lifting, twenty more years of BDNF signal, twenty more years of mind. The man who accepts it loses all of that, and does not realize what he traded away until the trade is final.
 
@@ -1721,13 +1727,13 @@ Address pain because it is a brain issue. The man who solves his chronic back pa
 
 Three peptides are worth knowing by name, because they show up in the Muscle-pillar recovery conversation whether you are looking for them or not.
 
-**BPC-157 — Body Protection Compound.** A fifteen-amino-acid peptide originally isolated from human gastric juice. Its first and best-documented application is gut healing — which is why it is the active ingredient in Biome NS Rx, the gut-brain seal protocol, where NS stands for NeuroSeal. The downstream story is what makes it interesting for the Muscle pillar: BPC-157 appears to accelerate soft-tissue repair, particularly tendon and ligament, with a strong safety record in clinical use. Men recovering from rotator cuff strain, Achilles tendinopathy, or joint capsule injury frequently see meaningful recovery acceleration on a BPC-157 protocol. This is a clinician-prescribed Rx peptide. It is not a supplement. It runs through the telemed practice.
+**BPC-157 — Body Protection Compound.** A fifteen-amino-acid peptide originally isolated from human gastric juice. Its first and best-documented application is gut healing — which is why it is the active ingredient in our prescription gut-barrier peptide protocol, the gut-brain seal protocol. The downstream story is what makes it interesting for the Muscle pillar: BPC-157 appears to accelerate soft-tissue repair, particularly tendon and ligament, with a strong safety record in clinical use. Men recovering from rotator cuff strain, Achilles tendinopathy, or joint capsule injury frequently see meaningful recovery acceleration on a BPC-157 protocol. This is a clinician-prescribed Rx peptide. It is not a supplement. It runs through the telemed practice.
 
 **TB-500 — Thymosin Beta-4 fragment.** A systemic recovery peptide with broader tissue distribution than BPC-157, often stacked with it for soft-tissue work.
 
 **Ipamorelin.** A growth hormone secretagogue — it triggers your pituitary to release a pulse of your own growth hormone, without exogenous HGH. Used primarily for sleep architecture and recovery, often paired with CJC-1295. Dosed before bed, dovetailing with the sleep priority we set in the Mitigate pillar.
 
-Coach-led. Not self-prescribed. The peptide market online is a wasteland of unregulated compounds and bad protocols. Every peptide protocol in the My4MLife system runs through a licensed telemedicine practice with compounded-pharmacy fulfillment, under a clinician who has examined your labs. That is the Two Paths to Act principle on the Muscle pillar: foundational supplements like MitoVita on the OTC path, peptides on the Rx path, always with a clinician between you and the molecule.
+Coach-led. Not self-prescribed. The peptide market online is a wasteland of unregulated compounds and bad protocols. Every peptide protocol in the My4MLife system runs through a licensed telemedicine practice with compounded-pharmacy fulfillment, under a clinician who has examined your labs. That is the Two Paths to Act principle on the Muscle pillar: foundational supplements like the creatine + L-citrulline + beetroot + electrolyte blend on the OTC path, peptides on the Rx path, always with a clinician between you and the molecule.
 
 ## Eliminate the Insulting Behaviors
 
@@ -1843,7 +1849,7 @@ Once the face is named, the next move is identity, and this is where most men ge
 
 Most men attack health change at the behavior layer. *I am going to lift three times a week. I am going to stop drinking on weeknights.* Those are behaviors. Behaviors drift. Behaviors negotiate with you on bad days. Behaviors are what you are trying.
 
-The men who keep these protocols for decades do not relate to them as behaviors. They relate to them as identity. They are not *trying to lift*. They are *men who lift.* They are not *trying to eat protein in the morning.* They are *men whose mornings begin with thirty grams of protein.* They are not *trying to limit alcohol.* They are *men who don't drink on weeknights, because that's not who I am anymore.*
+The men who keep these protocols for decades do not relate to them as behaviors. They relate to them as identity. They are not *trying to lift*. They are *men who lift.* They are not *trying to eat protein in the morning.* They are *men whose mornings begin with thirty to forty grams of protein.* They are not *trying to limit alcohol.* They are *men who don't drink on weeknights, because that's not who I am anymore.*
 
 That is not semantics. That is the difference between a protocol you abandon and a life you live.
 
@@ -1925,7 +1931,7 @@ Most men I see in practice have no idea what their own lab work is telling them.
 
 This is not the man's fault. It is the inevitable output of a healthcare system that was built around acute illness and billing codes, not literacy. But here is what matters: a man who does not understand the why behind his own protocol will not run that protocol when life gets hard. Knowledge is not a nice-to-have. Knowledge is the single largest predictor of long-term compliance I have ever seen.
 
-When you understand *why* protein matters at 30 grams in the first feeding window, you stop debating whether to eat the croissant. When you understand *why* the gut-brain axis means a leaky intestinal lining produces inflammatory cytokines that cross the blood-brain barrier and degrade your hippocampus, you stop treating Biome NS Ultra as another bottle on the shelf and start treating it as a daily structural commitment. When you understand *why* resistance training is neuroprotection — that muscle is an endocrine organ secreting myokines that cross into the brain and stimulate neurogenesis — you stop arguing with yourself about the gym.
+When you understand *why* protein matters at thirty to forty grams in the first feeding window, you stop debating whether to eat the croissant. When you understand *why* the gut-brain axis means a leaky intestinal lining produces inflammatory cytokines that cross the blood-brain barrier and degrade your hippocampus, you stop treating the gut-barrier probiotic as another bottle on the shelf and start treating it as a daily structural commitment. When you understand *why* resistance training is neuroprotection — that muscle is an endocrine organ secreting myokines that cross into the brain and stimulate neurogenesis — you stop arguing with yourself about the gym.
 
 Understanding accelerates compliance. Forced compliance fails.
 
@@ -1943,7 +1949,7 @@ This is not a story about a bad doctor. It is a story about a system that cannot
 
 So men disengage. Not because they don't care about their health. Because the access friction is so high that disengagement is the rational response.
 
-This is the second structural enabler the 4M system is built to remove. Two Paths to Act applies here, just as it applies on the product side. The OTC path is the foundation stack — Biome NS Ultra, ArmorVita, SleepRestore, OmegaCN Prime — protocols you can begin on your own, today, without a single appointment. No insurance maze. No wait. No gatekeeper. The Rx path is our contracted, fully licensed telemedicine partnership — GLP-1, TRT, peptide protocols, Biome NS Rx — delivered without you sitting in a lobby flipping through a magazine from 2019. The direct primary care (DPC) layer, where membership replaces insurance friction, is the longer-term play; the telemedicine partnership is the today play.
+This is the second structural enabler the 4M system is built to remove. Two Paths to Act applies here, just as it applies on the product side. The OTC path is the foundation stack — the gut-barrier probiotic, the vitamin D + K2 + boron + astaxanthin stack, a sleep-support formula, an omega-3 + ubiquinol CoQ10 softgel — protocols you can begin on your own, today, without a single appointment. No insurance maze. No wait. No gatekeeper. The Rx path is our contracted, fully licensed telemedicine partnership — GLP-1, TRT, peptide protocols, the prescription gut-barrier peptide protocol — delivered without you sitting in a lobby flipping through a magazine from 2019. The direct primary care (DPC) layer, where membership replaces insurance friction, is the longer-term play; the telemedicine partnership is the today play.
 
 The point is not that conventional primary care is the enemy. The point is that for the specific job of running a longevity protocol — early detection, hormone optimization, gut repair, sleep restoration, the targeted use of compounded Rx where indicated — the conventional model was never designed for this work and cannot do it. We built around it. Not against it.
 
@@ -1955,7 +1961,7 @@ I am going to talk about money in physiological terms, because that is the only 
 
 Chronic financial stress is one of the most potent activators of the HPA axis — the hypothalamic-pituitary-adrenal cascade that ends in sustained cortisol elevation. We're not talking about acute stress, which is fine and healthy. We're talking about the low-grade, always-on, lying-awake-at-3 a.m. variety. The kind that comes from a payroll you have to make every two weeks, a tuition bill due in August, an aging parent's care that no one budgeted for. That kind of cortisol does specific damage. It disrupts sleep architecture, which means your glymphatic system — the brain's overnight waste-clearance pathway — runs at reduced capacity. Reduced clearance means accumulated beta-amyloid, accumulated inflammation, accumulated metabolic debris. It suppresses testosterone. It elevates visceral fat. It dampens prefrontal function, which is the part of the brain you use to make the long-horizon decisions that protect everything else.
 
-You cannot supplement your way out of chronic financial stress. No nootropic, no peptide, no Biome NS protocol fully offsets a brain marinating in cortisol night after night. I want to be precise about this, because I see men try, and I see them lose ground every time. The supplement stack is real. It is foundational. But financial cortisol is a 4M-relevant variable in its own right, and it has to be named.
+You cannot supplement your way out of chronic financial stress. No nootropic, no peptide, no gut-brain seal protocol fully offsets a brain marinating in cortisol night after night. I want to be precise about this, because I see men try, and I see them lose ground every time. The supplement stack is real. It is foundational. But financial cortisol is a 4M-relevant variable in its own right, and it has to be named.
 
 I am not here to moralize about your money. I'm not going to tell you to budget better, or to read another personal finance book. That is not my lane. What I am going to do is name it as biology and ask you to address it as biology — meaning, as a chronic insult to your cognitive longevity that has to be mitigated alongside the gut and the sleep and the visceral fat.
 
@@ -1979,7 +1985,7 @@ First, the sunrise walk. Outdoor light within thirty minutes of waking — direc
 
 Second, hydration before caffeine. Thirty-two ounces of water with a pinch of electrolytes — sodium, magnesium, potassium — before the coffee. Almost no one does this. Almost everyone needs to. You wake up volume-depleted; you wake up mineral-depleted; and dumping caffeine on top of a dehydrated, mineral-depleted body is a recipe for the cortisol spike and crash that wrecks the afternoon.
 
-Third, the protein-first breakfast. Thirty grams of lean protein within your first feeding window, before any other macros enter the picture. Eggs, a protein shake with collagen, leftover steak — whatever fits your life. The 30-gram protein-first rule anchors muscle protein synthesis, blunts the post-meal glucose curve, and reduces afternoon appetite drift. It is the meal that determines whether the rest of the day's eating is signal or noise.
+Third, the protein-first breakfast. Thirty to forty grams of lean protein within your first feeding window, before any other macros enter the picture. Eggs, a protein shake with collagen, leftover steak — whatever fits your life. The 30–40g protein-first rule anchors muscle protein synthesis, blunts the post-meal glucose curve, and reduces afternoon appetite drift. It is the meal that determines whether the rest of the day's eating is signal or noise.
 
 Fourth, a two-minute Mind practice. Box breathing, intention-setting, a short journal entry naming the single most important outcome of the day. This is not optional decoration. This is how the Mind pillar stays present in a 5 a.m. version of you that has not yet had time to remember what you are doing this for.
 
@@ -2113,13 +2119,13 @@ I have men in my practice who run only this and tell me they notice the differen
 
 **Omega-3, EPA 1200 and DHA 800, in triglyceride form, IFOS five-star tested.** This is the second non-negotiable. DHA is not a nutrient your brain uses; DHA is what your brain is built out of. Every neuronal membrane, every synaptic terminal, every blood-brain barrier endothelial junction has DHA woven into its lipid bilayer. When DHA runs low, membrane fluidity drops, signal transduction slows, and the BBB itself becomes leakier. EPA, the partner fatty acid, runs the anti-inflammatory side of the same coin — quieting the systemic inflammation that drives most of the neuroinflammation we've spent thirteen chapters discussing.
 
-The form matters more than men realize. Most omega-3 on the shelf is ethyl ester — cheaper to manufacture, lower bioavailability. You want triglyceride form. IFOS testing means the oil has been third-party verified for oxidation, heavy metals, and PCBs, because rancid fish oil is worse than no fish oil. In my practice we deliver this through OmegaCN Prime, which pairs the omega-3 with the next item on this list.
+The form matters more than men realize. Most omega-3 on the shelf is ethyl ester — cheaper to manufacture, lower bioavailability. You want triglyceride form. IFOS testing means the oil has been third-party verified for oxidation, heavy metals, and PCBs, because rancid fish oil is worse than no fish oil. In my practice we deliver this through an omega-3 + ubiquinol CoQ10 softgel, which pairs the omega-3 with the next item on this list.
 
-**Ubiquinol, Kaneka QH®, 200 milligrams.** The active form of CoQ10. Standard CoQ10 (ubiquinone) has to be reduced inside the body to ubiquinol before it's useful, and after fifty the conversion gets unreliable. Ubiquinol skips the conversion problem and goes straight to work in the mitochondrial electron transport chain.
+**Ubiquinol, 200 milligrams.** The active form of CoQ10. Standard CoQ10 (ubiquinone) has to be reduced inside the body to ubiquinol before it's useful, and after fifty the conversion gets unreliable. Ubiquinol skips the conversion problem and goes straight to work in the mitochondrial electron transport chain.
 
-Your brain is 2 percent of your body mass and uses roughly 20 percent of your energy. Mitochondrial decline is cognitive decline — slow, quiet, multi-decade cognitive decline. Ubiquinol is the most direct mitochondrial support a man your age can run. Kaneka QH® is the only ubiquinol raw material with the patent-protected stability data and the bioavailability studies behind it; everything else on the market is generic and inferior. We pair it with the omega-3 in OmegaCN Prime because the two travel together in lipid transport and clinically reinforce each other.
+Your brain is 2 percent of your body mass and uses roughly 20 percent of your energy. Mitochondrial decline is cognitive decline — slow, quiet, multi-decade cognitive decline. Ubiquinol is the most direct mitochondrial support a man your age can run. We pair it with the omega-3 in a single softgel because the two travel together in lipid transport and clinically reinforce each other.
 
-**Vitamin D3 with K2, boron, and astaxanthin — ArmorVita.** D3 receptors are present throughout the brain, on neurons and on glia, and adequate vitamin D status correlates with measurable cognitive performance in every population that's been studied. K2 makes the D3 work safely by directing absorbed calcium into bone and away from soft tissue. Boron amplifies the hormonal effects of both. And astaxanthin — the carotenoid that gives wild salmon and flamingos their color — is one of the only antioxidants that crosses the blood-brain barrier and stays there, making it the most potent neuroprotective antioxidant in the daily stack. ArmorVita stacks all four in one capsule because, in practice, men your age don't take eight separate bottles. They take one.
+**Vitamin D3 with K2, boron, and astaxanthin.** D3 receptors are present throughout the brain, on neurons and on glia, and adequate vitamin D status correlates with measurable cognitive performance in every population that's been studied. K2 makes the D3 work safely by directing absorbed calcium into bone and away from soft tissue. Boron amplifies the hormonal effects of both. And astaxanthin — the carotenoid that gives wild salmon and flamingos their color — is one of the only antioxidants that crosses the blood-brain barrier and stays there, making it the most potent neuroprotective antioxidant in the daily stack. The vitamin D + K2 + boron + astaxanthin stack puts all four in one capsule because, in practice, men your age don't take eight separate bottles. They take one.
 
 **Magnesium L-threonate, 1.5 to 2 grams in the evening.** This is the newer addition to my recommended cognitive floor and the most important one to explain carefully, because almost everything sold as "brain magnesium" is mislabeled.
 
@@ -2145,7 +2151,7 @@ I position it honestly with my patients: Cerebrolysin is the most aggressive non
 
 **Selank.** Selank is Semax's calmer cousin: a synthetic analog of tuftsin, anxiolytic without sedation, and pro-cognitive in its own right. Where Semax pushes focus, Selank steadies the floor underneath it. Many of my patients rotate the two — Semax on the days that demand executive sprint, Selank on the days that demand sustained calm under load. Some run both. Both are intranasal.
 
-**BPC-157.** You met BPC-157 in the Mitigate chapter on the gut. It belongs there primarily — BPC-157 was originally characterized for its astonishing effects on GI mucosal repair, and the gut-brain axis is the primary reason a cognitive chapter has to mention it. But it has its own direct cognitive footprint as well: modulation of neuroinflammation, dopaminergic and serotonergic balance, and emerging neuroprotective findings in preclinical models. For men whose gut is the cognitive bottleneck — and many men over fifty fall into this category whether they realize it or not — BPC-157, either oral via Biome NS Rx or as injection, is one of the highest-leverage peptides in the stack.
+**BPC-157.** You met BPC-157 in the Mitigate chapter on the gut. It belongs there primarily — BPC-157 was originally characterized for its astonishing effects on GI mucosal repair, and the gut-brain axis is the primary reason a cognitive chapter has to mention it. But it has its own direct cognitive footprint as well: modulation of neuroinflammation, dopaminergic and serotonergic balance, and emerging neuroprotective findings in preclinical models. For men whose gut is the cognitive bottleneck — and many men over fifty fall into this category whether they realize it or not — BPC-157, either oral via the prescription gut-barrier peptide protocol or as injection, is one of the highest-leverage peptides in the stack.
 
 **Ipamorelin.** A growth hormone secretagogue. Ipamorelin's cognitive benefit is indirect but real: it deepens slow-wave sleep and gently raises endogenous IGF-1, both of which contribute to overnight neural repair and consolidation. The men in my practice who run Ipamorelin sleep deeper and wake sharper. It is not a cognitive peptide in the strict sense, but it is a cognitive multiplier through the sleep and repair channel.
 
@@ -2181,7 +2187,7 @@ This is the newest tier of the cognitive stack, and the one most likely to be in
 
 Here is what to actually run. The rest of the chapter explained the why. This is the do.
 
-- **Daily floor (everyone over fifty):** Creatine monohydrate 5g. Omega-3 (EPA 1200 / DHA 800, TG form) via OmegaCN Prime. Ubiquinol 200mg via OmegaCN Prime. ArmorVita (D3, K2, boron, astaxanthin). Magnesium L-threonate 1.5–2g in the evening.
+- **Daily floor (everyone over fifty):** Creatine monohydrate 5g. Omega-3 (EPA 1200 / DHA 800, TG form) and ubiquinol 200mg via an omega-3 + ubiquinol CoQ10 softgel. A vitamin D + K2 + boron + astaxanthin stack. Magnesium L-threonate 1.5–2g in the evening.
 - **Cognitive-tier add-on (if specifically optimizing):** Lion's mane in cycles.
 - **Rx tier (coach-led, lab-monitored, via our telemedicine partner):** Semax / Selank rotation for daily executive function. Cerebrolysin cycles 2–3 times per year as the most aggressive cognitive intervention short of regenerative medicine. BPC-157 if the gut-brain axis is the bottleneck. Ipamorelin if sleep architecture is the limiting factor.
 - **Training:** Dual N-back 20 minutes a day for four weeks, then taper. A new language, instrument, or demanding sport as the long-game cognitive load. Skip the rest of the brain-game category.
@@ -2219,7 +2225,7 @@ He is the man this book is written for. He is not broken. He is, on paper, doing
 
 He started the protocol six weeks ago. He did not start because he hit a wall. He started because his father, who is eighty-three and who built the business James now runs, asked him at Easter what year it was, and James watched himself lie and say it didn't matter. That night he sat in the kitchen with the lights off and decided he was not going to be that man across the table from his own kids.
 
-He took the assessment the next morning. The top three flagged categories were gut, sleep, and weight. He signed up as a Protégé that afternoon. The Biome NS Ultra showed up on the porch four days later. He booked the consult in week two and started the GLP-1 and the BPC-157 oral in week three.
+He took the assessment the next morning. The top three flagged categories were gut, sleep, and weight. He signed up as a Protégé that afternoon. The gut-barrier probiotic showed up on the porch four days later. He booked the consult in week two and started the GLP-1 and the BPC-157 oral in week three.
 
 Today is Monday morning, Week 7.
 
@@ -2231,15 +2237,15 @@ He puts on shorts, a fleece, and the running shoes he bought at his daughter's i
 
 He walks out the back door at six-oh-two. The sun is just clearing the tree line. He walks to the end of his street and back — ten minutes, maybe twelve, sunglasses left on the hook by the door. Eyes toward the sun without staring at it. No food in his stomach yet. This is the fasted morning sunlight walk. The mechanism, which he could not have explained six weeks ago and can roughly explain now, is circadian: the suprachiasmatic nucleus reads early-spectrum light through the retina and resets the cortisol curve for the day. In practice, what he notices is that he sleeps better the night after he walks. The first time the connection landed he laughed out loud in his driveway.
 
-Back in the kitchen at six-eighteen. The supplement stack is already laid out on the counter from the night before, in a small white ceramic dish his wife found in a cabinet they had not opened in a decade. Biome NS Ultra in its scoop, a glass of water. ArmorVita capsules — vitamin D3, K2, boron, astaxanthin. OmegaCN Prime softgels, two of them, which he will take with food. The Biome NS Rx — BPC-157 oral, prescribed at his consult — sits in its amber bottle with the morning dose pre-poured into a small medicine cup.
+Back in the kitchen at six-eighteen. The supplement stack is already laid out on the counter from the night before, in a small white ceramic dish his wife found in a cabinet they had not opened in a decade. The gut-barrier probiotic in its scoop, a glass of water. The vitamin D + K2 + boron + astaxanthin capsules. The omega-3 + ubiquinol CoQ10 softgels, two of them, which he will take with food. The prescription gut-barrier peptide protocol — BPC-157 oral, prescribed at his consult — sits in its amber bottle with the morning dose pre-poured into a small medicine cup.
 
 He used to keep all of this in three cabinets and forget half of it three days a week. Now it sits on the counter the night before, like a doctor laid it out for him. Which, in effect, one did.
 
-He stirs the Biome NS Ultra into water and drinks it. He takes the BPC-157 dose. He sets the ArmorVita and the OmegaCN aside for breakfast.
+He stirs the gut-barrier probiotic into water and drinks it. He takes the BPC-157 dose. He sets the vitamin D stack and the omega-3 softgels aside for breakfast.
 
 > The architecture of the morning is that nothing requires a decision. Decisions are what fail at six a.m.
 
-Breakfast is three eggs, two breakfast sausages, a handful of spinach wilted in the pan. About thirty-two grams of protein. He eats it standing at the counter, reading the front page on his phone now — phone is allowed after the walk, after the supplements, after the first bite. He swallows the ArmorVita and the OmegaCN with the last of his coffee. He logs the protein breakfast in the app. One tap. The tile turns from a hollow square to a filled one. He logs the walk. He logs the Biome NS Ultra. He logs the eating window — the first bite, just now, six-thirty-two a.m. The eating window will close at three-thirty p.m., because James picked the 6:30-to-3:30 window instead of the 9-to-6 default. He is an early riser and his dinner is usually with clients, so he flipped the window forward. The app accommodated that without protest.
+Breakfast is three eggs, two breakfast sausages, a handful of spinach wilted in the pan. About thirty-two grams of protein. He eats it standing at the counter, reading the front page on his phone now — phone is allowed after the walk, after the supplements, after the first bite. He swallows the vitamin D stack and the omega-3 softgels with the last of his coffee. He logs the protein breakfast in the app. One tap. The tile turns from a hollow square to a filled one. He logs the walk. He logs the gut-barrier probiotic. He logs the eating window — the first bite, just now, six-thirty-two a.m. The eating window will close at three-thirty p.m., because James picked the 6:30-to-3:30 window instead of the 9-to-6 default. He is an early riser and his dinner is usually with clients, so he flipped the window forward. The app accommodated that without protest.
 
 He is in the office by seven-fifteen. By eight-thirty he has reviewed two leases, returned six emails, and had a hard conversation with a tenant about a rent escalation. The conversation goes better than it would have at this hour a year ago. He does not know whether to credit the walk or the gut or the sleep or the fact that his testosterone has likely come up a hundred points in six weeks. He suspects all of it. He no longer needs to know which lever did the work. He just keeps pulling them all.
 
@@ -2251,7 +2257,7 @@ Today is lower body. He squats — back squats, not deep, mid-range, controlled 
 
 The thing he did not expect — the thing nobody on the front end of the protocol believes when you tell them — is what happens between the gym and lunch. He walks out of the locker room and there is a clarity in his head that is not chemical, not caffeine, not anything he can name. It is the myokine release. Working muscle secretes signaling molecules — irisin, BDNF, cathepsin B — that cross the blood-brain barrier and act, functionally, as neurotrophic factors. Strong body, sharp mind. Resistance training is neuroprotection. He read that sentence on the website before he started. He felt it for the first time around week four.
 
-Lunch is at twelve-thirty at the deli near his office. Roast turkey, rare roast beef, no bread, a side of slaw, a sparkling water. Forty grams of protein, give or take. He eats the protein first, the slaw after. The protein-first rule — thirty grams minimum at the open of each feeding window, before any other macro — is the one rule he was most skeptical of and is now most evangelical about. The afternoon energy curve is different when you front-load protein. He used to crash at two-thirty every day of his adult life. He does not crash anymore.
+Lunch is at twelve-thirty at the deli near his office. Roast turkey, rare roast beef, no bread, a side of slaw, a sparkling water. Forty grams of protein, give or take. He eats the protein first, the slaw after. The protein-first rule — thirty to forty grams at the open of each feeding window, before any other macro — is the one rule he was most skeptical of and is now most evangelical about. The afternoon energy curve is different when you front-load protein. He used to crash at two-thirty every day of his adult life. He does not crash anymore.
 
 By four he is reviewing a term sheet his junior broker drafted. He marks it up, sends it back, calls his wife to tell her he will be home for dinner.
 
@@ -2277,7 +2283,7 @@ The eating window closes at three-thirty. He has a late lunch — grilled salmon
 
 The evening protocol is laid out like the morning. At eight-thirty he runs a bath, hot, with about two cups of magnesium chloride flakes — the mineral bath. He sits in it for twenty minutes with the lights off and a small candle on the counter. The lights down across the rest of the house went down at eight, when his wife switched the kitchen overhead off and turned on the warm-spectrum lamp by her chair. They put TrueDark glasses on at nine if either of them is still on a screen.
 
-At nine-forty he takes SleepRestore — the OTC formula, not the Rx variant. Magnesium glycinate, glycine, L-theanine, a calibrated dose of melatonin. He is in bed at ten with a paperback. He is out by ten-twenty.
+At nine-forty he takes the sleep-support formula — the OTC version, not the prescription variant. Magnesium glycinate, glycine, L-theanine, a calibrated dose of melatonin. He is in bed at ten with a paperback. He is out by ten-twenty.
 
 He did not used to sleep before midnight. He did not used to sleep through to morning. Now he does both, four to five nights a week, and the nights he does not are the nights he can name the reason — a late client dinner, a flight, a fight with his son about money.
 
@@ -2309,7 +2315,7 @@ He plays in the yard with the grandkids until the sun goes down. He carries the 
 
 ## Sunday — Reflect
 
-Sunday evening the app's Today view flips into a scoreboard. Daily streak: forty-one days on Biome NS Ultra. Weekly actions: walk 2 of 2, strength 2 of 2, protein breakfast 4 of 2 (he does it most days now), Zoom 1 of 1. Overall Week 7 adherence: ninety-three percent.
+Sunday evening the app's Today view flips into a scoreboard. Daily streak: forty-one days on the gut-barrier probiotic. Weekly actions: walk 2 of 2, strength 2 of 2, protein breakfast 4 of 2 (he does it most days now), Zoom 1 of 1. Overall Week 7 adherence: ninety-three percent.
 
 He does the weekly reflection. Three questions, brief, no graded answer.
 
@@ -2345,9 +2351,9 @@ There is only the loop. Mind protected by Muscle and Mitigate, sustained by Moti
 
 ## What Comes Next
 
-James is running this protocol because someone showed him the system. He took an assessment, became a Protégé, opened the app, ordered the Biome NS Ultra, sat through the first Zoom, booked the consult, started the prescriptions, and let the structure carry him through the first six weeks until the protocol was no longer something he was doing and became something he was.
+James is running this protocol because someone showed him the system. He took an assessment, became a Protégé, opened the app, ordered the gut-barrier probiotic, sat through the first Zoom, booked the consult, started the prescriptions, and let the structure carry him through the first six weeks until the protocol was no longer something he was doing and became something he was.
 
-You are holding that same system right now. The audit is the same audit. The app is the same app. The Wednesday Zoom is the same Zoom. The Biome NS Ultra is the same canister.
+You are holding that same system right now. The audit is the same audit. The app is the same app. The Wednesday Zoom is the same Zoom. The gut-barrier probiotic is the same canister.
 
 The only variable left is whether you start.
 
@@ -2431,7 +2437,7 @@ When you complete the assessment, you become a Protégé. The Protégé tier is 
 
 What comes with Protégé membership, at no cost:
 
-The **My4MLife app** in your pocket. The workbook every cohort runs — the same workbook the men paying for the full program use — lives on your phone. The daily view tells you what to eat, when to eat it, what to lift, when to sleep, when to walk. The thirty-gram protein rule. The 9 AM to 6 PM eating window. The Monday-morning starting line, laid out so you don't have to design it yourself.
+The **My4MLife app** in your pocket. The workbook every cohort runs — the same workbook the men paying for the full program use — lives on your phone. The daily view tells you what to eat, when to eat it, what to lift, when to sleep, when to walk. The thirty-to-forty-gram protein rule. The 9 AM to 6 PM eating window. The Monday-morning starting line, laid out so you don't have to design it yourself.
 
 **Weekly Zooms with me.** Live. Not a recording. You can ask the question. I run them because the men who run the protocol in a room with other men running the protocol finish the protocol. The ones who try to run it alone, in their head, mostly don't.
 
@@ -2449,7 +2455,7 @@ There is a second route, and I need to address it directly, because if you fit i
 
 If you are reading this and you have already been diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you are reading this on behalf of someone you love who has — the assessment knows that, and it will route you differently.
 
-Question nine on the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes **RPA** — our regenerative flagship, including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
+Question nine on the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes our **regenerative medicine protocol** — including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
 
 I am not going to spend three paragraphs softening this part. If a diagnosis is already on the chart, the clock is real, and the clock is loud, and waiting another quarter for the slow protocol to compound is not a strategy the math supports. The foundation protocol still runs in the background — gut, sleep, hormones, muscle, all of it — but the regenerative arm is what changes the trajectory on a timeline the diagnosis demands.
 
@@ -2525,15 +2531,15 @@ Four behaviors, every day. If you do nothing else from this book, do these four.
 
 ---
 
-### 2. Protein-First Breakfast (≥30g, opens the eating window at 9 AM)
+### 2. Protein-First Breakfast (30–40g, opens the eating window at 9 AM)
 
-**What:** When you break your overnight fast — default time is 9 AM — the first 30+ grams of food across your lips are lean protein. Not coffee with cream. Not toast and eggs. Protein first. Other macros wait 30 minutes.
+**What:** When you break your overnight fast — default time is 9 AM, and if you're training fasted in the morning, after that training — the first 30–40 grams of food across your lips are lean protein. Not coffee with cream. Not toast and eggs. Protein first. Other macros wait 30 minutes.
 
 **Why:** Amino acid availability primes muscle protein synthesis. Protein-first also produces a sharper satiety signal (PYY, GLP-1 endogenous) than fat-first or carb-first, which means less hunger across the day. And it stabilizes blood glucose at the moment your cortisol is naturally peaking, which means no morning crash.
 
-**How:** Three eggs and a piece of grilled chicken from yesterday. A scoop of protein powder in water. A small steak. A turkey patty. Whatever it takes to hit 30g of lean protein before anything else. Then wait 30 minutes. Then add fat and carbs.
+**How:** Three eggs and a piece of grilled chicken from yesterday. A scoop of protein powder in water. A small steak. A turkey patty. Whatever it takes to hit 30–40g of lean protein before anything else. Then wait 30 minutes. Then add fat and carbs.
 
-**Track:** ☐ ≥30g protein-first · ☐ <30g · ☐ Skipped breakfast · ☐ Ate other macros first
+**Track:** ☐ 30–40g protein-first · ☐ Under target · ☐ Skipped breakfast · ☐ Ate other macros first
 
 ---
 
@@ -2573,40 +2579,40 @@ The four together take you about 25 minutes of intentional time on a normal day.
 
 ## §5.2 — The Stack: Daily Supplement Dosing Card
 
-This is a foundational starter stack designed for a 50-year-old man with no contraindications. Your assessment results, lab panel, and consult will determine whether you add the Rx single-active layer (Biome NS Rx, SleepRestore Rx, TRT, GLP-1, peptides) on top of this base.
+This is a foundational starter stack designed for a 50-year-old man with no contraindications. It is described here by category and mechanism, not by brand. Your assessment results, lab panel, and consult will determine whether you add the prescription single-active layer (the prescription gut-barrier peptide protocol, the prescription sleep-support option, TRT, GLP-1, peptides) on top of this base. For the specific products we currently recommend in each category, see my4mlife.com — that way the formulas can be upgraded as the evidence moves without this page going stale.
 
-As a Protégé, the education layer — this book, the cohort workbook, the My4MLife app, the weekly Zooms with me, and the cohort itself — is yours free. The OTC stack is sourced through audited affiliate channels at fair market price. The Rx track is priced for access through our telemedicine partners. Start with the foundation. Add the rest only when your results justify it.
+As a Protégé, the education layer — this book, the cohort workbook, the My4MLife app, the weekly Zooms with me, and the cohort itself — is yours free. The OTC stack is sourced through audited channels at fair market price. The Rx track is priced for access through our telemedicine partners. Start with the foundation. Add the rest only when your results justify it.
 
 ### Morning — On Empty Stomach, with Sunlight
 
-| Product | Dose | Why |
+| Category | Dose | Why |
 |---|---|---|
-| **Biome NS Ultra** | 1 scoop in 8oz water | Daily gut-brain seal. L-glutamine fuels epithelial cells; DGL + aloe soothe mucosa; berberine + curcumin tame dysbiosis; zinc carnosine + A + D3 close the protocol. Take 30 minutes before first food. |
+| **Gut-barrier probiotic** | 1 scoop in 8oz water | Daily gut-brain seal. L-glutamine fuels epithelial cells; DGL + aloe soothe mucosa; berberine + curcumin tame dysbiosis; zinc carnosine + A + D3 close the protocol. Take 30 minutes before first food. |
 
 ### With Protein-First Breakfast (~9 AM)
 
-| Product | Dose | Why |
+| Category | Dose | Why |
 |---|---|---|
-| **ArmorVita** | 1 serving | D3 + K2 + boron + astaxanthin. D3 for hormone signaling and bone density. K2 directs calcium to bone, not arteries. Boron supports free testosterone. Astaxanthin is the most potent neuroprotective antioxidant in the daily stack. |
+| **Vitamin D + K2 + boron + astaxanthin stack** | 1 serving | D3 for hormone signaling and bone density. K2 directs calcium to bone, not arteries. Boron supports free testosterone. Astaxanthin is the most potent neuroprotective antioxidant in the daily stack. |
 | **Creatine monohydrate** | 5g | Cognitive, muscle, and cellular ATP regeneration. The single most-evidenced supplement for men over 50. Take daily, with food. |
 
 ### With Lunch or Mid-Day
 
-| Product | Dose | Why |
+| Category | Dose | Why |
 |---|---|---|
-| **OmegaCN Prime** | 2 softgels with food | EPA 1200mg + DHA 800mg (TG form, IFOS 5-star) plus Kaneka QH® ubiquinol 200mg. Omega-3 supports membrane integrity in every brain cell; ubiquinol is the active form of CoQ10 for mitochondrial ATP. Take with the largest fat-containing meal for absorption. |
+| **Omega-3 + ubiquinol CoQ10 softgel** | 2 softgels with food | EPA 1200mg + DHA 800mg (TG form) plus ubiquinol 200mg. Omega-3 supports membrane integrity in every brain cell; ubiquinol is the active form of CoQ10 for mitochondrial ATP. Take with the largest fat-containing meal for absorption. |
 
 ### Evening / Pre-Bed
 
-| Product | Dose | Why |
+| Category | Dose | Why |
 |---|---|---|
-| **SleepRestore** | 1 serving, 30-60 min before lights out | Magnesium glycinate + apigenin + theanine + low-dose melatonin. Supports sleep latency, deep sleep architecture, morning clarity. |
+| **Sleep-support formula** | 1 serving, 30-60 min before lights out | Magnesium glycinate + apigenin + theanine + low-dose melatonin. Supports sleep latency, deep sleep architecture, morning clarity. |
 
 ### Optional Add-Ons (situational, coach-led)
 
-| Product | When |
+| Category | When |
 |---|---|
-| **MitoVita** (in development) | Pre-workout — creatine + L-citrulline + beetroot + electrolytes. Combines pumps, cognitive performance, and electrolyte balance in one stack. |
+| **Creatine + L-citrulline + beetroot + electrolyte blend** | Pre-workout — combines pumps, cognitive performance, and electrolyte balance in one stack. |
 | **BPC-157** (Rx) | Soft-tissue recovery, gut barrier repair, post-injury. Coach-prescribed. |
 | **TRT** | Lab-confirmed low T with symptoms. Hormone consult required first. |
 | **GLP-1** (semaglutide / tirzepatide / retatrutide) | BMI threshold met or specific metabolic indications. Telemed consult required. |
@@ -2614,9 +2620,9 @@ As a Protégé, the education layer — this book, the cohort workbook, the My4M
 
 ### Notes
 
-- **No-weak-links rule.** Every product on this stack passes a full-ingredient audit. One off-message ingredient (seed oil, artificial sweetener, undisclosed fillers, micrograms of D in a "5,000 IU" label) disqualifies the entire SKU. This is why we list specific products by name and don't tell you to "find a good omega-3 brand."
-- **Sequencing matters.** Biome NS Ultra is morning, on empty stomach. ArmorVita + creatine with breakfast. OmegaCN Prime with the fattiest meal. SleepRestore pre-bed. Do not consolidate them into one pile and take them all at 7 AM — half the benefits depend on timing.
-- **Track your stack.** Mark off each product daily for the first 30 days. The compliance pattern reveals itself — the ones you forget are usually the ones you most need.
+- **No-weak-links rule.** Every product we recommend in these categories passes a full-ingredient audit. One off-message ingredient (seed oil, artificial sweetener, undisclosed fillers, micrograms of D in a "5,000 IU" label) disqualifies the entire SKU. This is why we vet specific products for you rather than telling you to "find a good omega-3 brand" — and why the current picks live at my4mlife.com.
+- **Sequencing matters.** The gut-barrier probiotic is morning, on empty stomach. The vitamin D stack + creatine with breakfast. The omega-3 softgel with the fattiest meal. The sleep-support formula pre-bed. Do not consolidate them into one pile and take them all at 7 AM — half the benefits depend on timing.
+- **Track your stack.** Mark off each item daily for the first 30 days. The compliance pattern reveals itself — the ones you forget are usually the ones you most need.
 
 ---
 
@@ -2656,7 +2662,7 @@ What you removed or reduced this week.
 > **The single insult I want to remove next week:**
 >
 > **Mitigate stack compliance (rate each: 0-3):**
-> ☐ Biome NS Ultra daily __ ☐ SleepRestore nightly __ ☐ Sleep window held __
+> ☐ Gut-barrier probiotic daily __ ☐ Sleep-support formula nightly __ ☐ Sleep window held __
 > ☐ Eating window closed at 6 PM __ ☐ Alcohol below 7 drinks __
 
 ---
@@ -2733,13 +2739,13 @@ The point is not the paper. The point is you see it twice a day, when you brush 
 | | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | **Morning sun + walk (8-15 min)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| **Protein-first breakfast (≥30g)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| **Protein-first breakfast (30–40g)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Eating window closed by 6 PM** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Lights out by 10:30 PM** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| **Biome NS Ultra (AM)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| **ArmorVita + creatine (breakfast)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| **OmegaCN Prime (with fat meal)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| **SleepRestore (pre-bed)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| **Gut-barrier probiotic (AM)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| **Vitamin D stack + creatine (breakfast)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| **Omega-3 + CoQ10 softgel (with fat meal)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| **Sleep-support formula (pre-bed)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Lift session (2-3/week)** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Weekly Zoom with Dr. TJ (Wed)** | | | ☐ | | | | |
 | **Sunday 4M reflection** | | | | | | | ☐ |
@@ -2956,7 +2962,7 @@ The online version does a few things the page in front of you can't: it surfaces
 
 Three rules, in this order:
 
-**1. The already-diagnosed override.** If your answer to Question 9 is **3 or higher**, that category is automatically your #1 — no math required. Regenerative medicine (RPA, peptide protocols, the cognitive-rescue path) moves to the front of the line. The other nine still get ranked, but #2 and #3 fill in around it.
+**1. The already-diagnosed override.** If your answer to Question 9 is **3 or higher**, that category is automatically your #1 — no math required. Regenerative medicine (the regenerative protocol, peptide protocols, the cognitive-rescue path) moves to the front of the line. The other nine still get ranked, but #2 and #3 fill in around it.
 
 **2. The bonus map.** Two categories get a **+2 bonus** added to their raw score before ranking, because in clinical practice they pull the most weight across every other category:
 
@@ -2973,25 +2979,25 @@ If you want the ranked result, the solution pages, and the protocol queued up in
 
 # Appendix B — The Stack
 
-Every product I recommend, in one place. Some I built and brand under My4MLife. Some are Rx single-active add-ons run through our compounded-pharmacy and telemed partners. One is the regenerative-medicine flagship. The environmental hardware is affiliate — I don't sell it, but I do use it, and I'll tell you which units make the cut.
+Every category I recommend, in one place — described by mechanism, not by brand. Some are over-the-counter formulas; some are Rx single-active add-ons run through our compounded-pharmacy and telemed partners. One is the regenerative-medicine lead. The environmental hardware is affiliate — I don't sell it, but I do use it, and I'll point you to the categories that make the cut.
 
-This is a reference, not a sales page. Read it as the menu.
+This is a reference, not a sales page. Read it as the menu. For the specific products we currently recommend in each category, see my4mlife.com — the formulas get upgraded as the evidence moves, and the page stays current so this list doesn't have to.
 
 ---
 
-## Daily foundation OTC stack (My4MLife branded)
+## Daily foundation OTC stack
 
-These are the four-to-five SKUs every Protégé runs as the daily floor. Built to pair, not to compete.
+These are the four-to-five categories every Protégé runs as the daily floor. Built to pair, not to compete.
 
-- **Biome NS Ultra** — The gut-brain seal powder. L-glutamine, DGL, berberine, aloe, curcumin, zinc carnosine, vitamins A + D3. Heals the intestinal barrier, calms the immune over-reaction that drives neuroinflammation, and re-establishes the vagal signal between gut and brain. The anchor of the stack. *NS = NeuroSeal: the gut-brain seal that protects cognitive longevity.*
+- **Gut-barrier probiotic** — The gut-brain seal powder. L-glutamine, DGL, berberine, aloe, curcumin, zinc carnosine, vitamins A + D3. Heals the intestinal barrier, calms the immune over-reaction that drives neuroinflammation, and re-establishes the vagal signal between gut and brain. The anchor of the stack — the gut-brain seal that protects cognitive longevity.
 
-- **ArmorVita** — The daily armor. Vitamin D3 + K2 (MK-7) + boron + astaxanthin. Bone, immune, hormone (boron supports free testosterone), and a mitochondrial-antioxidant punch from astaxanthin that crosses the blood-brain barrier. One dose, every morning, year-round.
+- **Vitamin D + K2 + boron + astaxanthin stack** — The daily armor. Vitamin D3 + K2 (MK-7) + boron + astaxanthin. Bone, immune, hormone (boron supports free testosterone), and a mitochondrial-antioxidant punch from astaxanthin that crosses the blood-brain barrier. One dose, every morning, year-round.
 
-- **OmegaCN Prime** — Omega-3 + ubiquinol CoQ10 in one softgel. EPA 1200 mg + DHA 800 mg in triglyceride form, IFOS 5-star certified, paired with Kaneka QH® ubiquinol 200 mg. Cardio-neuro coverage in one SKU. Two with dinner. *CN = Cardio Neuro.*
+- **Omega-3 + ubiquinol CoQ10 softgel** — Omega-3 + ubiquinol CoQ10 in one softgel. EPA 1200 mg + DHA 800 mg in triglyceride form, paired with ubiquinol 200 mg. Cardio-neuro coverage in one place. Two with dinner.
 
-- **SleepRestore** — Nightly sleep support. The OTC half of the sleep pair. Designed to be taken every night without tolerance or hangover.
+- **Sleep-support formula** — Nightly sleep support. The OTC half of the sleep pair. Designed to be taken every night without tolerance or hangover.
 
-- **MitoVita** *(in development)* — Creatine + L-citrulline + beetroot + electrolytes. The mitochondrial-ATP and endothelial-NO stack. Covers cognitive performance, sarcopenia prevention, visceral-fat metabolism, and sexual performance through a single mechanism pathway. Fast-window compatible, monk-fruit sweetened. Launch pending.
+- **Creatine + L-citrulline + beetroot + electrolyte blend** — The mitochondrial-ATP and endothelial-NO stack. Covers cognitive performance, sarcopenia prevention, visceral-fat metabolism, and sexual performance through a single mechanism pathway. Fast-window compatible.
 
 ---
 
@@ -2999,9 +3005,9 @@ These are the four-to-five SKUs every Protégé runs as the daily floor. Built t
 
 The Two Paths model: every OTC has — or can have — an Rx counterpart for deeper cases. Single-active, prescribed by a partner physician, compounded by a partner pharmacy. You don't get this at the corner drugstore.
 
-- **Biome NS Rx** — Oral BPC-157 + L-glutamine + aloe. The Rx counterpart to Biome NS Ultra. Soft-tissue repair and gut-lining regeneration when the OTC alone isn't moving the needle.
+- **Prescription gut-barrier peptide protocol** — Oral BPC-157 + L-glutamine + aloe. The Rx counterpart to the gut-barrier probiotic. Soft-tissue repair and gut-lining regeneration when the OTC alone isn't moving the needle.
 
-- **SleepRestore Rx** — Nattokinase. Deeper sleep architecture plus fibrinolytic / circulation support. The Rx tier of the sleep pair.
+- **Prescription sleep-support option** — Nattokinase. Deeper sleep architecture plus fibrinolytic / circulation support. The Rx tier of the sleep pair.
 
 - **TRT / hormone consult Rx** — Testosterone-replacement therapy and the supporting ancillaries (anastrozole, HCG, DHEA, thyroid where indicated). Labs first, plan second, monitoring quarterly.
 
@@ -3017,7 +3023,7 @@ The Two Paths model: every OTC has — or can have — an Rx counterpart for dee
 
 The top of the ladder. When the conventional and peptide tiers aren't enough — or when the diagnostic clock is already ticking — this is the option.
 
-- **RPA** — Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally. Nationwide mobile delivery — the team comes to you. Indications across cognitive decline, neurological injury, joint regeneration. The flagship of the regenerative pillar.
+- **Regenerative medicine protocol** — A system, not a single product: we name the lead, run the lead, and revise it as the evidence demands. The current lead is Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally, run alongside exosome and peptide modalities. Nationwide mobile delivery — the team comes to you. Indications across cognitive decline (Alzheimer's, dementia, Parkinson's, and broader cognitive decline may benefit in some way), neurological injury, and joint regeneration. The lead of the regenerative pillar.
 
 ---
 
@@ -3035,9 +3041,9 @@ I don't make hardware. I do use it, and these are the units that pass the audit.
 
 - **Earthing** — Grounding mats for desk and bed. Cheap, durable, and the easiest way to keep some skin-to-earth contact when you live indoors.
 
-- **HigherDose** — Infrared sauna. Heat-shock proteins, cardiovascular conditioning without joint load, detoxification through sweat.
+- **Infrared sauna** — Heat-shock proteins, cardiovascular conditioning without joint load, detoxification through sweat.
 
-- **Polar Recovery** — Cold plunge. The norepinephrine and dopamine response is real; the discipline benefit is bigger.
+- **Cold-plunge unit** — The norepinephrine and dopamine response is real; the discipline benefit is bigger.
 
 ---
 
@@ -3103,7 +3109,7 @@ Mitigate works in one direction at a time. Add a protocol AND keep doing the thi
 **Weight**
 
 - ☐ Grazing all day with no eating window (constant insulin, no fat oxidation)
-- ☐ Skipping protein at breakfast and crashing into carbs at lunch (no 30g lean-protein-first anchor)
+- ☐ Skipping protein at breakfast and crashing into carbs at lunch (no 30–40g lean-protein-first anchor)
 - ☐ Drinking your calories — juice, soda, sweetened coffee, beer (liquid sugar bypasses satiety)
 - ☐ Cardio-only with no resistance training (you can run a marathon and still be sarcopenic)
 - ☐ Weighing yourself daily and ignoring waist circumference (visceral fat is the metric that matters)
@@ -3163,15 +3169,15 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **4M** — The framework this book is built on: **Mind, Muscle, Mitigate, Motivate.** Mind is the destination; Muscle, Mitigate, and Motivate are the three pillars that protect it.
 
-**ArmorVita** — My4MLife's daily armor SKU: vitamin D3, K2 (MK-7), boron, and astaxanthin in one capsule. Bone, immune, hormone, and a mitochondrial-antioxidant punch that crosses the blood-brain barrier.
+**Vitamin D + K2 + boron + astaxanthin stack** — The daily armor category: vitamin D3, K2 (MK-7), boron, and astaxanthin in one capsule. Bone, immune, hormone, and a mitochondrial-antioxidant punch that crosses the blood-brain barrier. (For current product picks, see my4mlife.com.)
 
 **BBB (Blood-Brain Barrier)** — The selective filter of tight-junction cells that protects the brain from what's circulating in the blood. When inflammation breaks it down, neuroinflammation follows.
 
 **BDNF (Brain-Derived Neurotrophic Factor)** — A protein that promotes growth and survival of neurons. The closest thing biology has to "Miracle-Gro for the brain." Generated by resistance training, aerobic work, and quality sleep.
 
-**Biome NS** — The gut-brain seal product family. **NS = NeuroSeal.** **Biome NS Ultra** is the OTC powder (L-glutamine, DGL, berberine, aloe, curcumin, zinc carnosine, A + D3). **Biome NS Rx** is the compounded counterpart — oral BPC-157 + L-glutamine + aloe.
+**Gut-brain seal** — The gut-barrier category that keeps the gut's inflammatory traffic out of the bloodstream and brain. The OTC gut-barrier probiotic is a powder (L-glutamine, DGL, berberine, aloe, curcumin, zinc carnosine, A + D3); the prescription gut-barrier peptide protocol is the compounded counterpart — oral BPC-157 + L-glutamine + aloe.
 
-**BPC-157** — Body Protection Compound 157. A peptide fragment that accelerates soft-tissue and gut-lining repair. Available orally (Biome NS Rx) and injectable.
+**BPC-157** — Body Protection Compound 157. A peptide fragment that accelerates soft-tissue and gut-lining repair. Available orally (in the prescription gut-barrier peptide protocol) and injectable.
 
 **Cerebrolysin** — A neurotrophic peptide preparation derived from porcine brain tissue, used for cognitive support and post-injury recovery under coach-led protocols.
 
@@ -3181,7 +3187,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **CSF (Cerebrospinal Fluid)** — The clear fluid that bathes the brain and spinal cord. Cleared and recirculated nightly by the glymphatic system during deep sleep.
 
-**DGL (Deglycyrrhizinated Licorice)** — Licorice root with the blood-pressure-raising compound removed. Soothes and rebuilds the gastric mucosal lining. Component of Biome NS Ultra.
+**DGL (Deglycyrrhizinated Licorice)** — Licorice root with the blood-pressure-raising compound removed. Soothes and rebuilds the gastric mucosal lining. Component of the gut-barrier probiotic.
 
 **Dysbiosis** — An imbalanced gut microbiome — wrong species, wrong ratios. Drives leaky gut, food sensitivities, brain fog, and systemic inflammation.
 
@@ -3193,7 +3199,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **Free T (Free Testosterone)** — The unbound, bioavailable fraction of total testosterone. The number that actually matters for symptoms; total T can look "normal" while free T is in the basement.
 
-**RPA** — The regenerative-medicine flagship. Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally, with nationwide mobile delivery.
+**Regenerative medicine protocol** — Our regenerative-medicine system: a system, not a single product. The current lead is Muse cells (multilineage-differentiating stress-enduring cells) delivered intrathecally, run alongside exosome and peptide modalities, with nationwide mobile delivery.
 
 **GLP-1** — Glucagon-like peptide-1 receptor agonists: semaglutide, tirzepatide, retatrutide. Originally for diabetes, now broadly used for weight loss, with growing evidence for cardiovascular and neuroprotective benefit.
 
@@ -3217,13 +3223,13 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **Mitochondria** — The cellular power plants that make ATP. Densely packed in brain, heart, and muscle. Mitochondrial dysfunction underlies fatigue, cognitive decline, and accelerated aging.
 
-**MitoVita** — My4MLife's mitochondrial and endothelial stack (in development): creatine + L-citrulline + beetroot + electrolytes. Cognitive, sarcopenia, visceral fat, and sexual performance through one pathway.
+**Creatine + L-citrulline + beetroot + electrolyte blend** — The mitochondrial and endothelial stack category: creatine + L-citrulline + beetroot + electrolytes. Cognitive, sarcopenia, visceral fat, and sexual performance through one pathway.
 
 **Motivate** — The 4M pillar that sustains the work and closes the loop: purpose, identity, accountability, structural enablers. The recursive engine.
 
 **Muscle** — The 4M pillar that builds the physical infrastructure the brain requires: nutrition, weight, GLP-1, strength, sarcopenia, pain management. *"Strong body, sharp mind. Resistance training is neuroprotection."*
 
-**Muse Cells** — Multilineage-differentiating stress-enduring cells. A specific class of pluripotent cells used in RPA, delivered intrathecally.
+**Muse Cells** — Multilineage-differentiating stress-enduring cells. A specific class of pluripotent cells used as the lead in the regenerative medicine protocol, delivered intrathecally.
 
 **Myokines** — Signaling molecules released by contracting muscle. Cross the blood-brain barrier and modulate cognition, mood, and inflammation. Why resistance training is neuroprotection.
 
@@ -3231,7 +3237,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **NREM (Non-Rapid-Eye-Movement Sleep)** — The deeper stages of sleep, especially N3 (slow-wave / deep sleep), when the glymphatic system clears metabolic waste and growth hormone is released.
 
-**OmegaCN Prime** — My4MLife's omega-3 + ubiquinol SKU. EPA 1200 + DHA 800 in triglyceride form (IFOS 5-star) + Kaneka QH® ubiquinol 200 mg. **CN = Cardio Neuro.**
+**Omega-3 + ubiquinol CoQ10 softgel** — The cardio-neuro omega category. EPA 1200 + DHA 800 in triglyceride form + ubiquinol 200 mg. (For current product picks, see my4mlife.com.)
 
 **Protégé** — The free membership tier of My4MLife. Free app, free weekly Zoom, member-only pricing on products and services. The on-ramp.
 
@@ -3249,7 +3255,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **SHBG (Sex Hormone-Binding Globulin)** — The protein that binds testosterone and estradiol in circulation. High SHBG drops free T even when total T looks fine.
 
-**SleepRestore** — My4MLife's nightly sleep support. OTC powder/capsule plus an Rx counterpart (**SleepRestore Rx**, nattokinase) for deeper cases.
+**Sleep-support formula** — The nightly sleep-support category. An OTC powder/capsule plus a prescription sleep-support option (nattokinase) for deeper cases.
 
 **T (Testosterone)** — The primary male androgen. Declines roughly 1% per year after age 30 — typical, but not destiny.
 
@@ -3259,7 +3265,7 @@ Every technical term used in this book, in plain English. If a word in the body 
 
 **TRT (Testosterone Replacement Therapy)** — Medically supervised restoration of testosterone to optimal range, with monitoring of estradiol, hematocrit, and ancillary markers.
 
-**Ubiquinol** — The reduced, active form of CoQ10. The form the body uses; superior bioavailability over ubiquinone, especially after age 40. The Kaneka QH® form is the validated standard.
+**Ubiquinol** — The reduced, active form of CoQ10. The form the body uses; superior bioavailability over ubiquinone, especially after age 40.
 
 **Vagus Nerve** — The 10th cranial nerve and the primary highway of the gut-brain axis. Carries ~80% of signal from gut to brain (not the other direction, as often assumed).
 
@@ -3281,7 +3287,7 @@ Every protocol in this book is one he runs himself. My4MLife is not a clinic; it
 
 - **Take the free 5-minute 4M Assessment:** [my4mlife.com/assessment](https://my4mlife.com/assessment)
 - **Become a Protégé (free):** Activated by completing the free 4M Assessment. Includes the My4MLife app, the digital book, the cohort workbook, weekly Zooms with Dr. TJ, and the cohort community.
-- **For the already-diagnosed:** RPA regenerative arm — Muse cells delivered intrathecally, nationwide mobile delivery. Time-sensitive. Begin via the assessment.
+- **For the already-diagnosed:** the regenerative medicine protocol — Muse cells delivered intrathecally, nationwide mobile delivery. Time-sensitive. Begin via the assessment.
 - **Support:** [support@my4mlife.com](mailto:support@my4mlife.com)
 
 ---

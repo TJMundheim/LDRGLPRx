@@ -312,7 +312,7 @@
       <ul class="tally">
         <li>Fasted sunlight walk: {Math.min(walkCount, 2)} / 2</li>
         <li>Strength session: {Math.min(strengthCount, 2)} / 2</li>
-        <li>30g protein breakfast: {Math.min(proteinCount, 2)} / 2</li>
+        <li>30–40g protein breakfast: {Math.min(proteinCount, 2)} / 2</li>
         <li>Zoom: {zoomDone ? 1 : 0} / 1</li>
       </ul>
     </div>
@@ -364,7 +364,8 @@
       <button class="more" onclick={() => toggleExpand('window')}>{expanded['window'] ? 'Hide' : 'Why'}</button>
       {#if expanded['window']}
         <div class="exp">
-          A consistent overnight fast gives the gut lining time to repair and lowers insulin between meals.
+          Default window: 9am–6pm. Once you reach ideal body weight, low body fat, and low visceral fat you can experiment with an earlier cutoff (4–5pm) to further regulate cortisol before sleep.
+          Train fasted in the morning until those targets are met — break the fast after your workout with 30–40g of lean protein.
           Same calories, better metabolic outcome.
         </div>
       {/if}
@@ -382,7 +383,8 @@
       {#if expanded['walk']}
         <div class="exp">
           Morning sunlight on bare eyes (no sunglasses) anchors your circadian clock and regulates the cortisol-awakening response.
-          Done fasted, it sharpens the metabolic signal.
+          Done fasted, it sharpens the metabolic signal — fasted morning walking is a great accelerator while you are working toward ideal body weight and low visceral fat.
+          Break the fast after your workout with 30–40g of lean protein (if your workout ends around 10am, eat after that).
         </div>
       {/if}
     </div>
@@ -406,11 +408,12 @@
     <div class="card tile-card">
       <button class="tile" class:done={proteinCount >= 2} onclick={() => logAction(A_PROTEIN)} disabled={!!saving[A_PROTEIN]}>
         <span class="check">{proteinCount >= 2 ? '✓' : `${Math.min(proteinCount, 2)}/2`}</span>
-        <span>30g protein breakfast</span>
+        <span>30–40g protein breakfast</span>
       </button>
       <button class="more" onclick={() => toggleExpand('protein')}>{expanded['protein'] ? 'Hide' : 'Examples'}</button>
       {#if expanded['protein']}
         <div class="exp">
+          <p style="margin-bottom:8px;font-size:13px;">Break the fast after your workout with 30–40g of lean protein. First meal opens your eating window — aim for the 9am–6pm default.</p>
           <p class="ex-h">Eggs + breakfast sausage + spinach (~32g)</p>
           <p class="ex-l">
             <a class="lnk" href={AFFILIATES.butcherbox.link('/')} target="_blank" rel="noreferrer">ButcherBox</a> ·

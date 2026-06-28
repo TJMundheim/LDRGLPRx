@@ -44,13 +44,13 @@ function toISO(d: Date): string {
 
 /**
  * Returns true if the current context is at a milestone boundary
- * (end of a program month, expected post-lab or post-RPA window).
+ * (end of a program month, expected post-lab or post-regenerative-protocol window).
  */
 function isMilestone(ctx: CoachContext): boolean {
   if (MILESTONE_WEEKS.has(ctx.currentWeek) && MILESTONE_MONTHS.includes(ctx.currentMonth as ProgramMonth)) {
     return true;
   }
-  // Post-RPA administration window: Month 1, week 4 (RPA intro)
+  // Post-regenerative-protocol administration window: Month 1, week 4 (intro)
   if (ctx.currentMonth === 1 && ctx.currentWeek === 4) return true;
   // Post-lab-results window: Month 3, week 1 (cognitive re-test expected)
   if (ctx.currentMonth === 3 && ctx.currentWeek === 1) return true;
