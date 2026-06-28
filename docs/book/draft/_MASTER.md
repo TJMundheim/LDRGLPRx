@@ -23,20 +23,20 @@ Some of the protocols referenced (TRT, GLP-1 medications, peptides, regenerative
 
 The OTC supplement stack is exactly what the name says: over-the-counter. Available without a prescription. Curated to a specific standard — see my4mlife.com for the products we currently recommend.
 
-If you are already diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you have a strong family history and current symptoms — read Chapter 10 first. The time-sensitivity in that chapter is real.
+If you are already diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you have a strong family history and current symptoms — read Chapter 9 first. The time-sensitivity in that chapter is real.
 
 ---
 
 ### How this book is built
 
-The book is organized around the locked 4M order — **Mind, Muscle, Mitigate, Motivate** — in four parts:
+The 4 Ms are **Mind, Muscle, Mitigate, Motivate** — and Mind is the destination. So the book runs them in the order you actually do the work: Mitigate first, then Muscle, then Motivate, and finally arriving at Mind. Four parts:
 
 - **Opening (Chapters 1–3):** The fear, the framework, the reader.
-- **Part I — Mind (Chapter 4):** What you're protecting. The destination.
-- **Part II — Muscle (Chapters 5–7):** Build the substrate. Nutrition + the protein-first rule, weight + GLP-1, strength + sarcopenia + pain.
-- **Part III — Mitigate (Chapters 8–13):** Stop hurting yourself. Six chapters on the chronic insults driving neuroinflammation: gut, sleep, environment, hormones + ED canary, substance use, and the regenerative arm for those already diagnosed.
-- **Part IV — Motivate (Chapters 14–15):** Why you keep showing up. Purpose, identity, accountability — and the structural enablers.
-- **Return to Mind (Chapters 16–18):** The loop closes. One real week running the system, then your next step.
+- **Part I — Mitigate (Chapters 4–9):** Stop hurting yourself first. The chronic insults driving neuroinflammation — gut, sleep, environment, hormones + the ED canary, substance use — and the regenerative arm for those already diagnosed.
+- **Part II — Muscle (Chapters 10–12):** Build the substrate. Nutrition + the protein-first rule, weight + the GLP-1 decision, strength + sarcopenia + pain.
+- **Part III — Motivate (Chapters 13–14):** Why you keep showing up. Purpose, identity, accountability — and the structural enablers.
+- **Part IV — Mind (Chapters 15–16):** Arriving at the destination — and the cognitive optimization stack.
+- **The Loop Closes (Chapters 17–18):** One real week running the system, then your next step.
 - **Glossary:** Every technical term in the book, in plain English.
 
 The daily protocol on paper — check-ins, the stack, the weekly reflection, the adherence scorecard — lives in the cohort workbook, which every Protégé receives through the app and by email, so it always reflects the current protocol.
@@ -1054,7 +1054,7 @@ You still have a choice. The canary is still singing. Begin with the end in mind
 
 I want to say one last thing to the man who picked up this book because of what is — or isn't — happening in his bedroom. You are not weak. You are not failing as a husband or as a man. You are running a body that has been quietly drifting for a decade or more, in an environment engineered to accelerate that drift, with almost no one in the standard medical system willing to tell you the truth about what the signal means. The fact that you are still trying to figure it out — still reading, still looking — is itself the evidence that the man you have always been is still in there, still in command, still capable of making the call. Most men your age won't. Don't roll the dice. Take action now.
 
-There is one more upstream variable that cuts across everything in this chapter — across hormones, across sleep, across the gut, across cognition itself — and most men in my demographic have it sitting in the kitchen cabinet, the wine fridge, or the bar cart. We are about to talk about substance use, and the way alcohol in particular sabotages every protocol in this book at once. That is Chapter 9.
+There is one more upstream variable that cuts across everything in this chapter — across hormones, across sleep, across the gut, across cognition itself — and most men in my demographic have it sitting in the kitchen cabinet, the wine fridge, or the bar cart. We are about to talk about substance use, and the way alcohol in particular sabotages every protocol in this book at once. That is Chapter 8.
 
 ---
 
@@ -1464,7 +1464,7 @@ But not for everyone.
 
 A significant share of men in our demographic come into the system carrying twenty, thirty, fifty pounds of visceral fat that no amount of protein-first eating will resolve on the timeline their cognitive future requires. The inflammation cascade coming off chronic visceral adiposity — cytokines crossing the blood-brain barrier, insulin resistance dragging down hippocampal function, hormonal disruption shutting down endogenous testosterone — is too far along for nutrition alone to walk back inside the window we have.
 
-For those men, the next chapter is the pharmacological add-on layer. GLP-1 therapy — semaglutide and tirzepatide — is the most powerful tool against visceral adiposity ever developed, and the way to deploy it without losing lean mass alongside fat mass is to deploy it on top of the protein-first rule you just learned. Nutrition is the foundation. GLP-1 is the accelerator stacked on top. That is Chapter 12.
+For those men, the next chapter is the pharmacological add-on layer. GLP-1 therapy — semaglutide and tirzepatide — is the most powerful tool against visceral adiposity ever developed, and the way to deploy it without losing lean mass alongside fat mass is to deploy it on top of the protein-first rule you just learned. Nutrition is the foundation. GLP-1 is the accelerator stacked on top. That is Chapter 11.
 
 > Begin with the end in mind. The plate in front of you, three times a day, is one of the signals telling your brain what to do for the next twenty years. Send the right signal.
 
@@ -1682,7 +1682,7 @@ What it is not: bodybuilding splits. You do not need a "chest day." You do not n
 
 What it is also not: CrossFit. The injury risk on high-rep, high-speed, technique-degrading-under-fatigue work is not worth it once you cannot recover from injuries the way you could at thirty. One torn rotator cuff at fifty-eight buys you twelve months out of the gym, and twelve months out of the gym is twelve months of sarcopenia and twelve months of cognitive cost. Train with intent, not with chaos.
 
-Recovery is half the program. Forty-eight hours between sessions targeting the same muscle group. Sleep prioritized as ruthlessly as the lifts themselves — see Chapter 8. Protein at thirty to forty grams in the first feeding window post-training. The protein-first rule is not optional for the lifter over fifty; it is the substrate the muscle uses to rebuild.
+Recovery is half the program. Forty-eight hours between sessions targeting the same muscle group. Sleep prioritized as ruthlessly as the lifts themselves — see Chapter 5. Protein at thirty to forty grams in the first feeding window post-training. The protein-first rule is not optional for the lifter over fifty; it is the substrate the muscle uses to rebuild.
 
 This is what the My4MLife app delivers in Month 1 of the Protégé program — the resistance training framework, progressive overload programming, the daily movement tracker, the supplement guidance, the body composition tracking. None of it is mysterious. All of it is the work.
 
@@ -1716,7 +1716,7 @@ I have watched this pattern more times than any other in thirty years of clinica
 
 That story is almost always wrong. Chronic pain at fifty-plus is rarely just structural. It has stopped being a tissue-damage signal and become a nervous-system pattern, layered on top of a system-wide problem — inflammation, sleep debt, gut dysfunction, declining hormones, sedentary atrophy. The pain is real. The structural defect framing is misleading.
 
-The Mitigate pillar is half the chronic-pain protocol. Gut inflammation amplifies central sensitization. The gut-barrier probiotic addresses the gut layer. Sleep degradation — see Chapter 8 — raises pain perception by twenty to thirty percent in controlled studies. Visceral fat is an inflammatory organ that pumps cytokines into circulation that drive joint and back pain. Lose the visceral fat, lose the inflammation, lose a meaningful fraction of the pain.
+The Mitigate pillar is half the chronic-pain protocol. Gut inflammation amplifies central sensitization. The gut-barrier probiotic addresses the gut layer. Sleep degradation — see Chapter 5 — raises pain perception by twenty to thirty percent in controlled studies. Visceral fat is an inflammatory organ that pumps cytokines into circulation that drive joint and back pain. Lose the visceral fat, lose the inflammation, lose a meaningful fraction of the pain.
 
 The Muscle pillar is the other half. Fear-avoidance — refusing to load the painful joint because loading it hurts — is one of the most well-documented perpetuators of chronic pain. Graded movement exposure breaks the cycle. You load the joint a little. It tolerates it. You load it a little more. The nervous system relearns that the joint is safe. The pain pattern reorganizes. This is not woo. This is the standard of care in modern pain medicine, and it works.
 
@@ -2202,7 +2202,7 @@ The cognitive optimization stack is the destination's toolkit. It is not the des
 
 The destination is the man you have been protecting all along. The husband whose wife still recognizes the look in his eye at eighty. The father whose grown children still call him first when something hard happens, because his judgment is still the one in the family they trust most. The grandfather whose grandkids feel his full presence in the room, not the polite shell of a man who used to be there. Strong body, sharp mind. That man is the end you began with. Every supplement, every peptide, every breath of HRV-paced biofeedback in this chapter is in service of him.
 
-In the next chapter — Chapter 16, "The 4M Loop in Real Life" — I'll show you what a single ordinary week of his life actually looks like. Not the abstract pillars. The Monday morning, the Tuesday workout, the Wednesday afternoon when the executive function peptide earns its keep, the Saturday with the grandkids when all of this turns out to have been the point. The pillars stop being a framework and start being a life. Best mind possible until your last day of life. That's where we're going.
+In the next chapter — Chapter 17, "The 4M Loop in Real Life" — I'll show you what a single ordinary week of his life actually looks like. Not the abstract pillars. The Monday morning, the Tuesday workout, the Wednesday afternoon when the executive function peptide earns its keep, the Saturday with the grandkids when all of this turns out to have been the point. The pillars stop being a framework and start being a life. Best mind possible until your last day of life. That's where we're going.
 
 ---
 
