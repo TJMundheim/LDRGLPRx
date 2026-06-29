@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Begin with the End in Mind — Full-Wrap Paperback 6×9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /*
+   * PAPERBACK GEOMETRY — 6×9 trim, 258 pages, white paper
+   * Page:        12.831in × 9.25in  (landscape, one page)
+   * Left bleed:  0–0.125in
+   * Back cover:  0.125–6.125in  (6.000in wide)
+   * Spine:       6.125–6.706in  (0.581in wide)
+   * Front cover: 6.706–12.706in (6.000in wide)
+   * Right bleed: 12.706–12.831in
+   * Vert bleed:  0.125in top, 0.125in bottom  → trim height 9.000in
+   * Safety margin: ≥0.375in from outer trim edges (0.125 bleed + 0.25 safe)
+   */
+
+  @page {
+    size: 12.831in 9.25in;
+    margin: 0;
+  }
+
+  html, body {
+    width: 12.831in;
+    height: 9.25in;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #0a1f44;
+  }
+
+  /* ─── FULL-BLEED CANVAS ─── */
+  .canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 12.831in;
+    height: 9.25in;
+    background:
+      radial-gradient(ellipse at 25% 40%, rgba(212,175,90,.08) 0%, rgba(212,175,90,0) 55%),
+      radial-gradient(ellipse at 75% 30%, rgba(212,175,90,.06) 0%, rgba(212,175,90,0) 50%),
+      linear-gradient(168deg, #1a2f5e 0%, #243c7c 35%, #2b4894 60%, #1c3464 100%);
+  }
+
+  /* ─── BACK PANEL (0.125in → 6.125in = 6.000in wide) ─── */
+  /* Safe text zone: left ≥0.375in from left trim (0.125+0.25), right clear of spine */
+  .back {
+    position: absolute;
+    top: 0;
+    left: 0.125in;   /* start at trim edge (bleed is 0–0.125) */
+    width: 6.000in;
+    height: 9.25in;
+    overflow: hidden;
+  }
+
+  .back-content {
+    position: absolute;
+    top: 0.42in;
+    left: 0.38in;     /* 0.25in safety from trim */
+    right: 0.22in;    /* stay clear of spine */
+    bottom: 0.35in;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    color: #f5ecd1;
+  }
+
+  .back-brand {
+    font-size: 0.08in;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    color: #d4af5a;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0.08in;
+  }
+  .back-brand-rule {
+    width: 0.85in;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d4af5a, transparent);
+    margin: 0 auto 0.14in;
+  }
+
+  .back-headline {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.185in;
+    line-height: 1.14;
+    letter-spacing: -0.005em;
+    color: #f5ecd1;
+    text-align: center;
+    margin-bottom: 0.13in;
+  }
+
+  .back-subhead {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.095in;
+    line-height: 1.48;
+    color: rgba(243,232,200,.85);
+    text-align: center;
+    margin-bottom: 0.13in;
+    padding: 0 0.05in;
+  }
+
+  .back-desc {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.078in;
+    line-height: 1.58;
+    color: rgba(243,232,200,.88);
+    margin-bottom: 0.12in;
+  }
+  .back-desc strong { color: #d4af5a; font-weight: 600; }
+  .back-desc em { font-style: italic; color: rgba(245,236,209,.96); }
+
+  .back-pullquotes {
+    margin-bottom: 0.12in;
+    padding: 0.09in 0.1in;
+    border-top: 1px solid rgba(212,175,90,.35);
+    border-bottom: 1px solid rgba(212,175,90,.35);
+  }
+  .back-pullquote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.082in;
+    line-height: 1.42;
+    color: #d4af5a;
+    text-align: center;
+    margin-bottom: 0.07in;
+  }
+  .back-pullquote:last-child { margin-bottom: 0; }
+  .back-pullquote-attr {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 0.057in;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: rgba(243,232,200,.6);
+    text-transform: uppercase;
+    margin-top: 0.035in;
+  }
+
+  .back-author {
+    display: flex;
+    gap: 0.11in;
+    align-items: flex-start;
+    margin-bottom: 0.11in;
+  }
+  .back-author-photo {
+    flex-shrink: 0;
+    width: 0.6in;
+    height: 0.78in;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1.5px solid rgba(212,175,90,.45);
+    box-shadow: 0 4px 12px rgba(0,0,0,.5);
+  }
+  .back-author-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    filter: contrast(1.04) saturate(0.95);
+  }
+  .back-author-bio {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.073in;
+    line-height: 1.55;
+    color: rgba(243,232,200,.86);
+  }
+  .back-author-bio .name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.1in;
+    color: #f5ecd1;
+    display: block;
+    margin-bottom: 0.04in;
+  }
+
+  .back-cta {
+    text-align: center;
+    padding: 0.085in 0.1in;
+    background: rgba(212,175,90,.08);
+    border: 1px solid rgba(212,175,90,.4);
+    border-radius: 3px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.073in;
+    line-height: 1.48;
+    color: #f5ecd1;
+    margin-bottom: 0.1in;
+  }
+  .back-cta strong {
+    color: #d4af5a;
+    display: block;
+    font-size: 0.078in;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.03in;
+  }
+
+  .back-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.09in;
+    padding-top: 0.09in;
+    border-top: 1px solid rgba(212,175,90,.2);
+  }
+  .back-footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.03in;
+  }
+  .footer-publisher {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.065in;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: #d4af5a;
+    text-transform: uppercase;
+  }
+  .footer-cat {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.05in;
+    letter-spacing: 0.12em;
+    color: rgba(243,232,200,.55);
+    text-transform: uppercase;
+  }
+
+  .back-qrcol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.035in;
+    flex-shrink: 0;
+  }
+  .back-qrbox {
+    width: 0.6in;
+    height: 0.6in;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .back-qrbox img {
+    width: 0.55in;
+    height: 0.55in;
+    display: block;
+  }
+  .back-qrlabel {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.052in;
+    color: #d4af5a;
+    letter-spacing: 0.04em;
+  }
+
+  /*
+   * ISBN BARCODE CLEAR-ZONE
+   * White ~2in × 1.2in block (KDP will place the actual barcode here).
+   * Position: lower-right of the back panel footer row.
+   * ≥0.25in from outer trim (left=0.125in bleed + safety handled by .back-content right margin)
+   * ≥0.25in from surrounding content.
+   */
+  .back-barcode {
+    width: 1.4in;
+    height: 0.72in;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .back-barcode-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.057in;
+    color: #222;
+    letter-spacing: 0.04em;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ─── SPINE (6.125in → 6.706in = 0.581in wide) ─── */
+  /* Safe text width: ~0.45in (0.065in margin each side) */
+  .spine {
+    position: absolute;
+    top: 0;
+    left: 6.125in;
+    width: 0.581in;
+    height: 9.25in;
+    overflow: hidden;
+    /* Paperback: no hinge shading, just very subtle edge darkening */
+    background:
+      linear-gradient(90deg,
+        rgba(0,0,0,.14) 0%,
+        rgba(0,0,0,0) 12%,
+        rgba(0,0,0,0) 88%,
+        rgba(0,0,0,.14) 100%);
+  }
+
+  /* Gold hairline dividers at spine/cover boundary */
+  .spine::before, .spine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(212,175,90,.22);
+  }
+  .spine::before { left: 0; }
+  .spine::after { right: 0; }
+
+  /* Safe text area centered in spine */
+  .spine-safe {
+    position: absolute;
+    top: 0.5in;
+    bottom: 0.5in;
+    left: 0.065in;
+    right: 0.065in;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .spine-title-wrap {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.06in;
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Spine title: must fit within ~0.45in safe width */
+  .spine-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.13in;
+    letter-spacing: 0.03em;
+    color: #f5ecd1;
+    white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0,0,0,.4);
+  }
+  .spine-title .mind { color: #d4af5a; }
+
+  .spine-rule {
+    width: 1px;
+    height: 0.18in;
+    background: rgba(212,175,90,.5);
+    flex-shrink: 0;
+  }
+
+  .spine-author {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.07in;
+    letter-spacing: 0.09em;
+    color: rgba(245,236,209,.8);
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+  }
+
+  .spine-emblem {
+    margin-top: 0.08in;
+    flex-shrink: 0;
+  }
+
+  /* ─── FRONT PANEL (6.706in → 12.706in = 6.000in wide) ─── */
+  /* Safe zone: left clear of spine (≥0.25in gap), right ≥0.375in from trim */
+  .front {
+    position: absolute;
+    top: 0;
+    left: 6.706in;
+    width: 6.000in;
+    height: 9.25in;
+    overflow: hidden;
+  }
+
+  /* Decorative frame inset from safe zone */
+  .front-frame {
+    position: absolute;
+    top: 0.52in;
+    left: 0.22in;
+    right: 0.52in;
+    bottom: 0.52in;
+    border: 1.5px solid rgba(212,175,90,.55);
+  }
+  .front-frame2 {
+    position: absolute;
+    top: 0.60in;
+    left: 0.30in;
+    right: 0.60in;
+    bottom: 0.60in;
+    border: 1px solid rgba(212,175,90,.28);
+  }
+
+  /* Corner accents */
+  .corner {
+    position: absolute;
+    width: 0.155in;
+    height: 0.155in;
+    border: 1.5px solid #d4af5a;
+  }
+  .c-tl { top: 0.45in; left: 0.15in; border-right: none; border-bottom: none; }
+  .c-tr { top: 0.45in; right: 0.45in; border-left: none; border-bottom: none; }
+  .c-bl { bottom: 0.45in; left: 0.15in; border-right: none; border-top: none; }
+  .c-br { bottom: 0.45in; right: 0.45in; border-left: none; border-top: none; }
+
+  .front-content {
+    position: absolute;
+    top: 0.55in;
+    left: 0.25in;
+    right: 0.55in;
+    bottom: 0.55in;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    color: #f5ecd1;
+    padding: 0.2in 0.16in 0.18in;
+  }
+
+  .front-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .front-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .front-eyebrow {
+    font-size: 0.088in;
+    font-weight: 600;
+    letter-spacing: 0.36em;
+    color: #d4af5a;
+    text-transform: uppercase;
+  }
+  .front-eyebrow-rule {
+    width: 0.85in;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d4af5a, transparent);
+    margin: 0.07in 0 0;
+  }
+
+  .front-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.52in;
+    line-height: 1.04;
+    letter-spacing: -0.012em;
+    text-shadow: 0 2px 10px rgba(0,0,0,.4);
+    margin-top: 0.22in;
+  }
+  .front-title .mind { color: #d4af5a; }
+
+  .front-tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.14in;
+    line-height: 1.4;
+    color: rgba(245,236,209,.95);
+    margin-top: 0.18in;
+    max-width: 4.8in;
+  }
+
+  /* front-spacer removed — space-between handles distribution */
+
+  .front-emblem {
+    /* SVG is 175×181px — ~1.82in wide at 96dpi */
+  }
+
+  .front-hook {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.088in;
+    line-height: 1.58;
+    letter-spacing: 0.004em;
+    color: rgba(245,236,209,.85);
+    max-width: 4.6in;
+    margin-top: 0.2in;
+  }
+
+  .front-byline {
+    margin-top: 0.14in;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.168in;
+    color: #f5ecd1;
+  }
+  .front-byline-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.072in;
+    letter-spacing: 0.22em;
+    color: rgba(245,236,209,.8);
+    text-transform: uppercase;
+    margin-top: 0.045in;
+  }
+</style>
+</head>
+<body>
+
+<!-- FULL-BLEED BACKGROUND -->
+<div class="canvas"></div>
+
+<!-- ═══════════════════════════════════
+     BACK PANEL  (0.125in → 6.125in)
+════════════════════════════════════ -->
+<div class="back">
+  <div class="back-content">
+
+    <div class="back-brand">A My4MLife Field Guide</div>
+    <div class="back-brand-rule"></div>
+
+    <div class="back-headline">
+      Don't lose your identity<br>and your dignity<br>while you still have a choice.
+    </div>
+
+    <div class="back-subhead">
+      The fear that haunts the modern conversation about aging<br>
+      isn't death. It's irrelevance — watching cognitive ability slip<br>
+      away and, with it, the sense of self that made you <em>you</em>.<br><br>
+      You have a window. It is closing while you read this.<br>
+      This book is the map.
+    </div>
+
+    <div class="back-desc">
+      <em>Begin with the End in Mind</em> is the field guide that emerged from a thirty-year arc — refined through thousands of clinical encounters, validated by regenerative medicine's most demanding practitioners, and pressure-tested by men and women who have lived the protocol and gotten their lives back. It is organized around a framework Dr. TJ Mundheim calls the <strong>4 Ms — Mind, Muscle, Mitigate, Motivate</strong> — built on a single, ruthless premise: your mind is the destination, and everything else is the substrate that protects it. Inside: a daily protocol, a 10-question self-assessment, the eliminate-the-insulting-behavior checklist, and the My4MLife cohort system that turns reading into running.
+    </div>
+
+    <div class="back-pullquotes">
+      <div class="back-pullquote">
+        "He did not write this book to build a business.<br>He wrote it to start a movement."
+        <span class="back-pullquote-attr">From the Foreword</span>
+      </div>
+      <div class="back-pullquote">
+        "The journey home begins here."
+        <span class="back-pullquote-attr">From the Foreword</span>
+      </div>
+    </div>
+
+    <div class="back-author">
+      <div class="back-author-photo">
+        <img src="../../../website/public/images/founder/founder-tj.jpg" alt="Dr. TJ Mundheim">
+      </div>
+      <div class="back-author-bio">
+        <span class="name">Dr. TJ Mundheim</span>
+        is the founder of My4MLife and the architect of the 4M framework. A former Texas Tech track-and-field record-holder turned chiropractor, he has spent thirty years assembling teams of varied specialists under one roof to deliver outcomes no single discipline can. In 2005 he pivoted his entire practice into anti-aging — now regenerative — medicine. His current focus is cognitive healthspan: helping you protect your mind for the people you love.
+      </div>
+    </div>
+
+    <div class="back-cta">
+      <strong>Take the free 5-minute 4M Assessment</strong>
+      Visit <span style="color:#d4af5a">my4mlife.com/assessment</span> — we'll send the protocol, the cohort workbook, and access to the My4MLife app.
+    </div>
+
+    <div class="back-footer">
+      <div class="back-footer-left">
+        <div class="footer-publisher">My4MLife &middot; 2026</div>
+        <div class="footer-cat">Health &middot; Healthy Aging &middot; Self-Help</div>
+      </div>
+      <div class="back-qrcol">
+        <div class="back-qrbox">
+          <img src="qr-home.png" alt="my4mlife.com">
+        </div>
+        <div class="back-qrlabel">my4mlife.com</div>
+      </div>
+      <!-- KDP ISBN barcode clear-zone: white 1.4in × 0.72in, ≥0.25in clear on all sides -->
+      <div class="back-barcode">
+        <div class="back-barcode-label">[ ISBN BARCODE ]</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     SPINE  (6.125in → 6.706in = 0.581in wide)
+════════════════════════════════════ -->
+<div class="spine">
+  <div class="spine-safe">
+
+    <div class="spine-title-wrap">
+      <div class="spine-title">Begin with the End in <span class="mind">Mind</span></div>
+      <div class="spine-rule"></div>
+      <div class="spine-author">Dr. TJ Mundheim</div>
+    </div>
+
+    <div class="spine-emblem">
+      <!-- 4M emblem scaled to 20px wide — safe within 0.45in ~43px safe zone -->
+      <svg width="20" height="21" viewBox="0 0 120 124" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="44" r="31" fill="none" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="11" y1="44" x2="29" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="91" y1="44" x2="109" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <circle cx="60" cy="13" r="9.5" fill="#ecd092"/>
+        <circle cx="60" cy="75" r="7" fill="#d4af5a"/>
+        <circle cx="29" cy="44" r="7" fill="#d4af5a"/>
+        <circle cx="91" cy="44" r="7" fill="#d4af5a"/>
+        <line x1="60" y1="82" x2="60" y2="94" stroke="#d4af5a" stroke-width="2.5"/>
+        <text x="60" y="120" text-anchor="middle" font-family="Playfair Display, serif" font-weight="800" font-size="36" fill="#d4af5a">4M</text>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     FRONT PANEL  (6.706in → 12.706in = 6.000in wide)
+════════════════════════════════════ -->
+<div class="front">
+
+  <!-- Decorative frames -->
+  <div class="front-frame"></div>
+  <div class="front-frame2"></div>
+  <!-- Corner brackets -->
+  <div class="corner c-tl"></div>
+  <div class="corner c-tr"></div>
+  <div class="corner c-bl"></div>
+  <div class="corner c-br"></div>
+
+  <div class="front-content">
+    <!-- TOP GROUP: eyebrow + title + tagline -->
+    <div class="front-top">
+      <div class="front-eyebrow">A My4MLife Field Guide</div>
+      <div class="front-eyebrow-rule"></div>
+      <div class="front-title">
+        Begin with the<br>End in <span class="mind">Mind</span>
+      </div>
+      <div class="front-tagline">
+        Don't lose your identity and your dignity<br>while you still have a choice.
+      </div>
+    </div>
+
+    <!-- MID GROUP: emblem -->
+    <div class="front-emblem">
+      <svg width="175" height="181" viewBox="0 0 120 124" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="44" r="31" fill="none" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="11" y1="44" x2="29" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="91" y1="44" x2="109" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <circle cx="60" cy="13" r="9.5" fill="#ecd092"/>
+        <circle cx="60" cy="75" r="7" fill="#d4af5a"/>
+        <circle cx="29" cy="44" r="7" fill="#d4af5a"/>
+        <circle cx="91" cy="44" r="7" fill="#d4af5a"/>
+        <line x1="60" y1="82" x2="60" y2="94" stroke="#d4af5a" stroke-width="2.5"/>
+        <text x="60" y="120" text-anchor="middle" font-family="Playfair Display, serif" font-weight="800" font-size="36" fill="#d4af5a">4M</text>
+      </svg>
+    </div>
+
+    <!-- BOTTOM GROUP: hook + byline -->
+    <div class="front-bottom">
+      <div class="front-hook">
+        A field guide to cognitive longevity — protecting the mind, and the identity and dignity that depend on it, for a healthspan that matches your lifespan.
+      </div>
+      <div class="front-byline">Dr. TJ Mundheim</div>
+      <div class="front-byline-sub">Founder &middot; My4MLife</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
