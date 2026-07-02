@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cover-preview",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "7771", "/Users/thomasmundheim/Desktop/Development/LDRGLPRx/docs/book/cover"],
+      "port": 7771
+    }
+  ]
+}

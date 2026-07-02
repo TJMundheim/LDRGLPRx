@@ -136,3 +136,4 @@ The honest case for lifetime usage is also the honest case for subscription pric
 - The men who run "one cycle" and stop are accepting the regression that drove them to the protocol in the first place
 
 We don't have to manufacture urgency. The biology IS the urgency. Marketing copy says what's true about aging biology — clearly, without apology — and the subscription model follows.
+ 

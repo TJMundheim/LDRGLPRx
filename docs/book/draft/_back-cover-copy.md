@@ -70,3 +70,4 @@ Placeholder box, ~1.5" × 2", positioned beside or above the bio. Use the headsh
 - Pull-quote accent color: warm gold (#d4af5a) matching the foreword/book-card system used in the welcome email — keeps the brand cohesive across surfaces.
 - White space: the back cover should breathe. Resist the urge to fill it. The headline + the bio + the QR-code-to-assessment is enough on its own.
 - Optional: QR code in the bottom corner pointing to **my4mlife.com/assessment** — measurable, scannable, and the single most important action you want a bookstore browser to take.
+  

@@ -1,3 +1,100 @@
+# ===================================================================
+# COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
+# Last updated: 2026-06-30 · self-contained current-state snapshot
+# (Dated changelog of prior sessions follows this block.)
+# ===================================================================
+
+## 0. Orientation
+**My4MLife** is an AI-operated telehealth + commerce + lifestyle company. Mission (TJ verbatim): help men optimize for "the best mind possible until your last day of life" — cognitive longevity through the final years. Brand wordmark **My4MLife** (exact casing). Tagline **"Begin with the end in mind."** The framework is the **4 Ms — Mind, Muscle, Mitigate, Motivate** (Mind is the destination; you run the work Mitigate→Muscle→Motivate→arrive at Mind). Repo dir name `LDRGLPRx` is legacy; the brand is My4MLife.
+
+Business model = **freemium**: the assessment makes you a **Protégé** (free: app, book, workbook, weekly Zooms, cohort). Monetize via **member-priced products** (Amazon-affiliate OTC bridge now; white-label later) and **direct-buy Rx** (GLP-1, testosterone/ED, leaky-gut, peptides, regenerative). Operator = Dr. TJ Mundheim, solo, non-technical, AI-first ops.
+
+## 1. Repo, access, conventions
+- **Path:** `/Users/thomasmundheim/Desktop/Development/LDRGLPRx`
+- **Remote:** `git@github.com:TJMundheim/LDRGLPRx.git`
+- **Git rule:** single branch **`main`**, no feature branches, no worktrees. Commit + push directly to main.
+- **Package manager:** `pnpm` only. Apps = Vite; websites = Astro; lambdas = esbuild, thin (<100 lines, single responsibility).
+- **Deploys:** always via a `deploy.sh` script (IaC) — never manual console. Scripts live in `infra/` or alongside the resource.
+- **AWS:** region **us-east-2**, account **879696522760**.
+
+## 2. Layout
+```
+website/        Astro marketing site → my4mlife.com  (deploy: website/deploy.sh)
+apps/clientportal/  Svelte 5 (runes) + Vite PWA → app.my4mlife.com (deploy: apps/clientportal/deploy.sh)
+lambdas/        23 AWS Lambdas (esbuild) + lambdas/_shared/* packages, each with infra/deploy.sh
+infra/clientportal/cdk/   AppSync GraphQL API + DynamoDB data-stack + auth (CDK; `npx cdk deploy ApiStack`)
+infra/{dynamodb,sns,sqs,cloudwatch}/   other IaC deploy scripts
+docs/           book, cohort-workbook, products, legal, HANDOFF.md, planning
+```
+Run locally: `pnpm -C apps/clientportal dev` (app), `pnpm -C website dev` (site).
+
+## 3. Architecture / infrastructure
+- **Marketing site:** Astro static → S3 + CloudFront (my4mlife.com). Forms POST to HTTP API `/api/*`.
+- **App (clientportal):** Svelte 5 PWA → S3 + CloudFront (app.my4mlife.com). Talks to **AppSync GraphQL** (`clientportal-api`, id `v2cm3ggkafh7rhrujk4fkqe6gm`) via typed wrappers in `apps/clientportal/src/lib/api/operations.ts`.
+- **Auth:** Cognito user pool **us-east-2_kIpKnr17R**, passwordless **email-OTP** custom-auth. Admin gate = Cognito **Admins** group. Admin user: **drtj@my4mlife.com** (already in Admins). NOTE: drtj@essentialmanage.com is the CLI email, NOT an app account.
+- **HTTP API** (lambda REST routes `/api/*`): id **v9svm8ds74**.
+- **DynamoDB tables:** Users, Contact, Events, EventRSVPs, Adherence, PatientRecords, DiscoveryResponses, IntakeForms, Outcomes, Programs, WeeklyContent, AdminQueue, AppConfig, TierCatalog, Touchpoints.
+- **Payments:** Stripe. Keys in Secrets Manager `all-stripe-keys` (via `@my4mlife/stripe-client`). **All payment lambdas are in LIVE mode** (charge real cards). Modes: create-setup-intent (card capture) = live, create-checkout-session = live, charge-on-approval = live, order-handler resolves mode per-event.
+- **Email:** Mailgun via `email-sender` lambda; recipients in Secrets Manager `form-recipients`.
+- **HIPAA:** all PHI-bearing AI calls go through **AWS Bedrock** (never @anthropic-ai/sdk in prod lambdas — AWS BAA covers it). No PHI in SMS. Consent timestamps stored.
+- **Digital fulfillment:** S3 `my4mlife-digital-fulfillment`. Keys the welcome email links to: `begin-with-the-end-in-mind.pdf` (book) + `cohort-workbook-month1.pdf` (workbook). **STANDING RULE: re-upload these on every book/workbook change** — currently serve book v14 + workbook v3.
+
+## 4. The two funnels
+**A. Assessment → Protégé (free).** `/assessment` (website) → `audit-complete` lambda: derives contactId, ensures Cognito user + seeds UserProfile, stores consent, and emails a welcome (top-3 results + book PDF link + workbook PDF link + app link). Member then uses the app (TodayView daily protocol, weekly Zooms, cohort).
+
+**B. Direct-buy Rx.** `/rx/{weight-loss,testosterone-ed,leaky-gut,regenerative-medicine,peptides}` → multi-step `questionnaire.astro`: demographics/history/screening → **NPP + Patient Authorization consent** (required checkboxes, versioned) → **Stripe card capture** (SetupIntent, card SAVED not charged, Stripe customer created) → submit. Submit does two things: (1) emails TJ via `/api/contact-form`→email-sender; (2) persists a structured **PatientRecord** via `/api/patient-record-intake`. Coordinator then reviews in the app's **Patients** tab and, after the telemedicine doctor's OK, hits **Approve & charge** (charges the saved card, real money) and **Export clinical packet** to send to the provider.
+
+## 5. The EMR / AI back-office (built + LIVE this cycle)
+- **PatientRecords** DynamoDB table (PK contactId + SK: `record` / `encounter#<id>` / `audit#<iso>#<seq>`; KMS-encrypted; PITR). Shared logic: `@my4mlife/patient-record` (types + state machine + key helpers).
+- **Encounter state machine:** `new → coordinator-reviewed → sent-to-provider → script-written → fulfilled|declined`; `declined → new` reopen allowed; fulfilled terminal. `visitType` = async default, audio-visual forced for testosterone-ed.
+- **Lambdas:** `patient-record-intake` (persist), `charge-on-approval` (AppSync `chargeEncounterAdmin`, Admins-gated: ensures Stripe customer, charges one-time PaymentIntent or monthly Subscription off-session, writes Touchpoint, encounter→fulfilled), `export-clinical-packet` (AppSync `exportClinicalPacketAdmin` + partner shared-secret path; assembles packet w/ BMI, meds, consents; HTML summary to S3 + 7-day signed URL; card = boolean only).
+- **Admin UI:** `apps/clientportal/src/lib/components/admin/PatientsAdmin.svelte` — list, detail, advance state, **Approve & charge** (amount $, one-time vs subscription, per-category prefill), **Reopen**, **Export clinical packet**.
+- **Model:** async (store-and-forward) telemedicine is default; testosterone is the only audio-visual visit; care coordinator is live now, AI expected to take over triage later (confidence-gated).
+- **Consult pricing:** soft-launch = free consult on 4 of 5 /rx pages; testosterone/ED $249.
+
+## 6. Publishing (DONE this cycle)
+- **Book "Begin with the End in Mind" — v14**, 6×9, 258pp. Source of truth = `docs/book/draft/_MASTER.md` (render: `python3 docs/book/render.py` → `_MASTER.html` → headless Chrome `--print-to-pdf`). De-branded (no product/affiliate/hardware names, no "RPA" → "regenerative therapies"; points to my4mlife.com), ends on the CTA, front-matter accuracy-verified, 3 QR codes (→my4mlife.com, segno).
+- **KDP assets (all 6×9):** interior = v14 PDF (both bindings). Hardcover wrap `docs/book/cover/full-cover-hardcover-6x9.pdf` (14.369×10.417in, spine 0.795). Paperback wrap `full-cover-paperback-6x9.pdf` (12.831×9.25in, spine 0.581). Kindle: `docs/book/Begin-with-the-End-in-Mind-ebook.docx` (heading-styled for nav) + front cover `docs/book/cover/ebook-cover.jpg` (1600×2560). Upload files also copied to TJ's Desktop.
+- **Workbook v3** (`docs/cohort-workbook/`, same pipeline, de-branded).
+
+## 7. THIS-WEEK PRIORITIES (real non-friendly customer traffic is now flowing)
+Order = **see it → prove it → don't let anything fall through → then build.**
+1. **Turn on analytics.** PostHog is a placeholder key (`phc_PLACEHOLDER_REPLACE_BEFORE_LAUNCH` in `website/src/layouts/BaseLayout.astro`) → ZERO funnel data captured. Get the real project key, wire site + app, deploy. Gives page-URL funnels + session replay immediately. Optional next: ~8 custom events on the assessment + /rx questionnaires for precise in-form drop-off. (App is not instrumented at all yet.)
+2. **One real card end-to-end, then refund.** Payments are live but only tested in Stripe TEST mode. TJ runs one real /rx card: capture → record in Patients tab → Approve & charge → packet export → refund. De-risks real money + PHI.
+3. **Tighten the coordinator loop.** /rx submissions email TJ (works). Write a one-page coordinator runbook; optionally wire the EMR's own new-lead ping (the `coordinator-notify` invoke in patient-record-intake is currently a no-op — email-sender doesn't handle that kind).
+4. **Failure visibility.** Daily glance at Stripe + Patients tab for stuck encounters; confirm OTP/welcome emails land (Mailgun); surface off-session card declines.
+5. **Then** new features (AI-coordinator triage, dashboards, insurance/PEO vertical).
+
+## 8. Known gaps / loose threads
+- **PostHog placeholder** (see #7.1) — biggest live-ops gap.
+- **EMR `coordinator-notify`** invoke is a no-op (email-sender lacks that kind); /rx form-email covers lead notification for now.
+- **Hardcover 6×9 wrap** built to computed dims (14.369×10.417); verify against KDP's 6×9 hardcover calculator/previewer before final submit.
+- **Cover PDFs** render 0.008in over on width (Chrome rounding) — within KDP tolerance; snap exact if KDP flags.
+- **clientportal pre-existing test failures** (~7): client.test.ts, triggers.test.ts, AuthGate.test.ts — environmental Svelte5/happy-dom, not feature bugs. See memory.
+- **App is not instrumented** and (per TJ) needs an enterprise-level visual pass — see §10 Fable brief.
+
+## 9. Operational cheat-sheet
+- **Admin login:** app.my4mlife.com, email-OTP as **drtj@my4mlife.com** → Admin → Patients/Proteges/Events.
+- **Deploys:** site `bash website/deploy.sh`; app `bash apps/clientportal/deploy.sh`; AppSync `cd infra/clientportal/cdk && pnpm build && npx cdk deploy ApiStack --require-approval never`; a lambda `bash lambdas/<name>/infra/deploy.sh`.
+- **Stripe mode:** set in each payment lambda's deploy.sh `STRIPE_MODE`; all currently `live`.
+- **Fulfillment refresh:** `aws s3 cp <pdf> s3://my4mlife-digital-fulfillment/{begin-with-the-end-in-mind.pdf|cohort-workbook-month1.pdf} --region us-east-2 --content-type application/pdf`.
+- **Secrets Manager:** all-stripe-keys, form-recipients, export-clinical-packet-key.
+- **Memory system:** durable facts in `~/.claude/projects/-Users-thomasmundheim-Desktop-Development-LDRGLPRx/memory/` (index = MEMORY.md). Read it for locked brand/product/architecture decisions.
+
+## 10. FOR FABLE — app enterprise-level design review + mockups
+TJ's ask: **review the app and produce mockup demos of ways to make it look more enterprise-level / premium.**
+- **What/where:** `apps/clientportal` — Svelte 5 (runes) + Vite PWA, TypeScript. Live at **app.my4mlife.com** (log in with email-OTP to see it), or run `pnpm -C apps/clientportal dev`.
+- **Two surfaces to elevate:**
+  1. **Member (Protégé) app** — `TodayView.svelte` is the hub (eating-window, MorningTracker, SupplementCard, TrainingLog, ScoreButtons, WeekBanner, UpcomingZooms), plus Sidebar, SettingsView, tiers, discovery(assessment), outcomes, nudges.
+  2. **Admin / care-coordinator dashboard** — `src/lib/components/admin/` (AdminDashboard tabs: Protégés / Events / **Patients**; PatientsAdmin = the clinical back-office: review, state machine, Approve & charge, Export packet). This one especially should read like a real clinical/enterprise SaaS (data-dense, trustworthy — it moves real money + PHI).
+- **Deliverable:** exploratory **mockups/demos** (HTML/CSS comps or Artifacts are ideal — no need to touch the live Svelte first) showing 2–3 directions for a more premium, enterprise feel. Then a recommended direction + how it'd map onto the existing components.
+- **Brand constraints (keep):** wordmark **My4MLife**; palette navy **#0a1f44** + gold **#d4af5a**; type Playfair Display (display) + Inter (UI); tagline "Begin with the end in mind." Audience = successful men ~50–65; tone = premium, clinical-credible, not "wellness-cute."
+- **Good context to read first:** this handoff §5 (EMR) and the memory files on brand positioning, photography direction, and information architecture.
+
+# ===================================================================
+# CHANGELOG (prior sessions, newest first)
+# ===================================================================
+
 # 2026-06-28 — Book is print-ready (v14)
 
 `docs/book/Begin-with-the-End-in-Mind-v14.pdf` + `docs/book/cover/back-cover-v2.png` are KDP-ready (drop the "-v14" on upload). Source of truth = `docs/book/draft/_MASTER.md`, rendered via `render.py` → `_MASTER.html` → headless Chrome PDF. This session's book work (all committed + pushed):
