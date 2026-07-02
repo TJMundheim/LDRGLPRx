@@ -82,7 +82,9 @@ Order = **see it → prove it → don't let anything fall through → then build
 - **Memory system:** durable facts in `~/.claude/projects/-Users-thomasmundheim-Desktop-Development-LDRGLPRx/memory/` (index = MEMORY.md). Read it for locked brand/product/architecture decisions.
 
 ## 10. FOR FABLE — app enterprise-level design review + mockups
-TJ's ask: **review the app and produce mockup demos of ways to make it look more enterprise-level / premium.**
+**STATUS 2026-07-02 (Fable):** Review delivered + 3 mockup directions built and shown to TJ — `docs/design/enterprise-design-directions.html` (open in any browser; also published as a Claude artifact). Directions: A "Private Bank" (dark navy/gold statement), B "Clinical Atelier" (porcelain lab-report), C "Mission Control" (MindSpan-score data hero). Fable's recommendation: A's suit + C's MindSpan hero on the member home + B's restraint for clinical detail/packet. Introduces the **MindSpan Score** concept (composite brain-healthspan metric — adherence + assessment + labs — trending weekly) as the product spine. AWAITING TJ's direction approval; then: design-token layer → TodayView "Daily Brief" rebuild → PatientsAdmin "Care Console" rebuild (incl. charge-confirm dialog + visible audit trail) → instrumentation pass (PostHog in app, branded PWA assets, error surfacing).
+
+Original brief (kept for context): TJ's ask: **review the app and produce mockup demos of ways to make it look more enterprise-level / premium.**
 - **What/where:** `apps/clientportal` — Svelte 5 (runes) + Vite PWA, TypeScript. Live at **app.my4mlife.com** (log in with email-OTP to see it), or run `pnpm -C apps/clientportal dev`.
 - **Two surfaces to elevate:**
   1. **Member (Protégé) app** — `TodayView.svelte` is the hub (eating-window, MorningTracker, SupplementCard, TrainingLog, ScoreButtons, WeekBanner, UpcomingZooms), plus Sidebar, SettingsView, tiers, discovery(assessment), outcomes, nudges.
