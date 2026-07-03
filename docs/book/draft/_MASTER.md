@@ -2427,7 +2427,7 @@ Here is what I want you to do tonight, before you put this book down.
 
 Ten questions. Five minutes. No payment, no credit card, no commitment beyond the five minutes.
 
-The assessment will surface your top three mitigating factors — the three places where, based on your answers, the insulting behavior is doing the most damage to your specific physiology right now. It will route you to the path forward for each one. It will tell you where to start Monday morning.
+The assessment will surface your top three mitigating factors — the three places where, based on your answers, the insulting behavior is doing the most damage to your specific physiology right now. It will route you to the path forward for each one. It will tell you where to start Monday morning. It will also set your **MindSpan Score** — a 0-to-100 baseline read on your brain-healthspan trajectory. Once you're in the app, that number updates daily as you run the protocol, so you can watch it move instead of guessing.
 
 You don't have to be ready to buy anything. You don't have to be ready to overhaul your life. You have to be ready to find out where you actually stand, on the only set of questions that decide what your last twenty years look like.
 
@@ -2619,7 +2619,7 @@ Every protocol in this book is one he runs himself. My4MLife is not a clinic; it
 
 ### Take the free 5-minute 4M Assessment → my4mlife.com/assessment
 
-It surfaces your top three mitigating factors — the places the insulting behavior is doing the most damage to *your* physiology right now — and routes you to the path forward for each. It tells you where to start Monday morning.
+It surfaces your top three mitigating factors — the places the insulting behavior is doing the most damage to *your* physiology right now — and routes you to the path forward for each. It tells you where to start Monday morning. It also sets your **MindSpan Score**, your baseline brain-healthspan number, which then updates daily in the app as you run the protocol.
 
 Completing it makes you a **Protégé. Free. No card, no catch.** That includes:
 

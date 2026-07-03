@@ -1004,6 +1004,8 @@ _________________________________________________________________
 
 **Weekly target:  _______ / 79**
 
+**MindSpan Score this week:  ____**  (from your app home screen)
+
 ---
 
 > *Begin with the end in mind.*
@@ -1367,6 +1369,8 @@ _______________________________________________
 ☐ Session 1 (A)     ☐ Session 2 (B)     ☐ Session 3 (A)
 
 **Week 2 score:** _____ / 52 boxes
+
+**MindSpan Score this week:  ____**  (from your app home screen)
 
 ---
 
@@ -1973,6 +1977,8 @@ _______________________________________________
 
 **Days hit 8+ behaviors:** ______ / 7
 
+**MindSpan Score this week:  ____**  (from your app home screen)
+
 **My one-line note to next week's me:**
 
 _______________________________________________
@@ -2489,6 +2495,8 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 **Wednesday Zoom attended:** ☐
 
 **Week 4 score: ____ / 63**
+
+**MindSpan Score this week:  ____**  (from your app home screen)
 
 ### Page 2 — Month 1 Summary Scorecard
 
