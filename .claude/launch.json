@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "-l", "7771", "/Users/thomasmundheim/Desktop/Development/LDRGLPRx/docs/book/cover"],
       "port": 7771
+    },
+    {
+      "name": "clientportal",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["-C", "apps/clientportal", "run", "dev"],
+      "port": 5173
     }
   ]
 }

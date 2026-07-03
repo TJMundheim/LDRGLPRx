@@ -11,6 +11,7 @@
   import { getMyProfile, upsertMyProfile, recordAdherence } from './lib/api/operations';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
   import SettingsView from './lib/components/SettingsView.svelte';
+  import Toast from './lib/toast/Toast.svelte';
   import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
   import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
@@ -339,11 +340,11 @@
       localStorage.setItem(GUT_STORAGE_KEY, JSON.stringify(state));
 
       // Visually update the two buttons for this question
-      const ac = '#1D9E75';
-      const violet = '#6B5ED4';
-      const offBg = '#FFFFFF';
-      const offColor = '#5A8A64';
-      const offBorder = '#D8E8DC';
+      const ac = 'var(--mc-good-bright)';
+      const violet = 'var(--mc-info)';
+      const offBg = 'var(--mc-panel-2)';
+      const offColor = 'var(--mc-muted)';
+      const offBorder = 'var(--mc-line)';
       const card = document.getElementById('gut-questions-block');
       if (card) {
         const rows = card.querySelectorAll<HTMLElement>('[data-gut-row]');
@@ -352,10 +353,10 @@
           const [yesBtn, noBtn] = row.querySelectorAll<HTMLButtonElement>('button');
           if (yesBtn && noBtn) {
             yesBtn.style.background = value ? ac : offBg;
-            yesBtn.style.color = value ? '#fff' : offColor;
+            yesBtn.style.color = value ? 'var(--mc-ink)' : offColor;
             yesBtn.style.borderColor = value ? ac : offBorder;
             noBtn.style.background = !value ? violet : offBg;
-            noBtn.style.color = !value ? '#fff' : offColor;
+            noBtn.style.color = !value ? 'var(--mc-ink)' : offColor;
             noBtn.style.borderColor = !value ? violet : offBorder;
           }
         }
@@ -387,17 +388,17 @@
         title = 'Your gut is in good shape.';
         body = "Stay consistent with Week 1's protocol — bone broth, fermented foods, and your foundational stack maintain what you've built.";
         cta = 'Anchor with Biome NS Ultra';
-        scoreColor = '#1D9E75';
+        scoreColor = 'var(--mc-good-bright)';
       } else if (score <= 5) {
         title = 'Clear gut-axis signals.';
         body = "Your gut is sending signals worth listening to. Week 1's gut-repair protocol plus Biome NS Ultra daily will drive measurable change in 30 days. Retake this assessment then.";
         cta = 'Start with Biome NS Ultra';
-        scoreColor = '#D4920A';
+        scoreColor = 'var(--mc-warn-bright)';
       } else {
         title = 'Strong gut-repair indication.';
         body = 'These are the patterns Biome NS Ultra was built for. Anchor your entire Month 1 in gut repair: Biome NS Ultra daily, eliminate sugar/seed oils/alcohol immediately, prioritize bone broth and fermented foods. Retake in 30 days.';
         cta = 'Begin with Biome NS Ultra today';
-        scoreColor = '#E05C2A';
+        scoreColor = 'var(--mc-crit-bright)';
       }
 
       const resultBlock = document.getElementById('gut-result-block');
@@ -406,19 +407,19 @@
         questionsBlock.style.display = 'none';
         resultBlock.innerHTML = `
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
-            <div style="width:56px;height:56px;border-radius:50%;background:${scoreColor}20;border:2px solid ${scoreColor};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <div style="width:56px;height:56px;border-radius:50%;background:color-mix(in srgb, ${scoreColor} 20%, transparent);border:2px solid ${scoreColor};display:flex;align-items:center;justify-content:center;flex-shrink:0">
               <span style="font-size:22px;font-weight:800;color:${scoreColor}">${score}</span>
             </div>
             <div>
-              <div style="font-size:14px;font-weight:700;color:#e8eaf0;line-height:1.3">${title}</div>
-              <div style="font-size:10px;color:#6A8A6E;margin-top:2px">Score: ${score}/10</div>
+              <div style="font-size:14px;font-weight:700;color:var(--mc-ink);line-height:1.3">${title}</div>
+              <div style="font-size:10px;color:var(--mc-muted);margin-top:2px">Score: ${score}/10</div>
             </div>
           </div>
-          <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${body}</div>
-          <a href="https://my4mlife.com/assessment" style="display:inline-block;background:#1D9E75;color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${cta} →</a>
+          <div style="font-size:12.5px;color:var(--mc-muted);line-height:1.7;margin-bottom:16px">${body}</div>
+          <a href="https://my4mlife.com/assessment" style="display:inline-block;background:var(--mc-gold);color:var(--mc-on-gold);font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${cta} →</a>
           <div style="margin-top:16px">
             <button onclick="gutAssessmentAction('retake')"
-              style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
+              style="background:none;border:none;color:var(--mc-muted);font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
           </div>`;
         resultBlock.style.display = 'block';
       }
@@ -446,11 +447,11 @@
       state.answers[qIndex] = value;
       localStorage.setItem(ALLERGY_STORAGE_KEY, JSON.stringify(state));
 
-      const ac = '#9B4D8A';
-      const violet = '#6B5ED4';
-      const offBg = '#FFFFFF';
-      const offColor = '#5A8A64';
-      const offBorder = '#D8E8DC';
+      const ac = 'var(--mc-good-bright)';
+      const violet = 'var(--mc-info)';
+      const offBg = 'var(--mc-panel-2)';
+      const offColor = 'var(--mc-muted)';
+      const offBorder = 'var(--mc-line)';
       const card = document.getElementById('allergy-questions-block');
       if (card) {
         const rows = card.querySelectorAll<HTMLElement>('[data-allergy-row]');
@@ -459,10 +460,10 @@
           const [yesBtn, noBtn] = row.querySelectorAll<HTMLButtonElement>('button');
           if (yesBtn && noBtn) {
             yesBtn.style.background = value ? ac : offBg;
-            yesBtn.style.color = value ? '#fff' : offColor;
+            yesBtn.style.color = value ? 'var(--mc-ink)' : offColor;
             yesBtn.style.borderColor = value ? ac : offBorder;
             noBtn.style.background = !value ? violet : offBg;
-            noBtn.style.color = !value ? '#fff' : offColor;
+            noBtn.style.color = !value ? 'var(--mc-ink)' : offColor;
             noBtn.style.borderColor = !value ? violet : offBorder;
           }
         }
@@ -491,15 +492,15 @@
       if (score <= 2) {
         title = 'Low allergy/sensitivity load.';
         body = 'Minimal allergy/sensitivity burden. Maintain your current protocol.';
-        scoreColor = '#1D9E75';
+        scoreColor = 'var(--mc-good-bright)';
       } else if (score <= 5) {
         title = 'Notable allergy/sensitivity signals.';
         body = 'Start with Biome NS Ultra to support gut-immune barrier; consider a 30-day elimination protocol.';
-        scoreColor = '#D4920A';
+        scoreColor = 'var(--mc-warn-bright)';
       } else {
         title = 'Significant allergy/sensitivity load.';
         body = 'Strong indication for elimination diet + Biome NS Ultra; flag for telemedicine consult to discuss IgG/IgE testing.';
-        scoreColor = '#E05C2A';
+        scoreColor = 'var(--mc-crit-bright)';
       }
 
       const resultBlock = document.getElementById('allergy-result-block');
@@ -508,18 +509,18 @@
         questionsBlock.style.display = 'none';
         resultBlock.innerHTML = `
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
-            <div style="width:56px;height:56px;border-radius:50%;background:${scoreColor}20;border:2px solid ${scoreColor};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <div style="width:56px;height:56px;border-radius:50%;background:color-mix(in srgb, ${scoreColor} 20%, transparent);border:2px solid ${scoreColor};display:flex;align-items:center;justify-content:center;flex-shrink:0">
               <span style="font-size:22px;font-weight:800;color:${scoreColor}">${score}</span>
             </div>
             <div>
-              <div style="font-size:14px;font-weight:700;color:#e8eaf0;line-height:1.3">${title}</div>
-              <div style="font-size:10px;color:#6A8A6E;margin-top:2px">Score: ${score}/10</div>
+              <div style="font-size:14px;font-weight:700;color:var(--mc-ink);line-height:1.3">${title}</div>
+              <div style="font-size:10px;color:var(--mc-muted);margin-top:2px">Score: ${score}/10</div>
             </div>
           </div>
-          <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:16px">${body}</div>
+          <div style="font-size:12.5px;color:var(--mc-muted);line-height:1.7;margin-bottom:16px">${body}</div>
           <div style="margin-top:16px">
             <button onclick="allergyAssessmentAction('retake')"
-              style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
+              style="background:none;border:none;color:var(--mc-muted);font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
           </div>`;
         resultBlock.style.display = 'block';
       }
@@ -764,6 +765,7 @@
 </script>
 
 <NudgeStack />
+<Toast />
 <AuthGate>
 <!-- Per 2026-05-25 spec: any signed-in user is a Protégé and gets full app access. -->
 <div class="shell">

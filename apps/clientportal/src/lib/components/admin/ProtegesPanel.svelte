@@ -145,7 +145,7 @@
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: #1A2E1E;
+    color: var(--mc-ink);
     margin: 0;
     display: flex;
     align-items: center;
@@ -153,8 +153,8 @@
   }
 
   .badge {
-    background: #1D9E75;
-    border: 1px solid #1D9E75;
+    background: var(--mc-good-bright);
+    border: 1px solid var(--mc-good-bright);
     border-radius: 12px;
     padding: 2px 10px;
     font-size: 0.75rem;
@@ -164,7 +164,7 @@
 
   .search {
     margin-left: auto;
-    background: #ffffff;
+    background: var(--mc-panel-2);
     border: 1px solid #c5d0c2;
     border-radius: 6px;
     padding: 6px 12px;
@@ -175,7 +175,7 @@
   }
 
   .search:focus {
-    border-color: #1D9E75;
+    border-color: var(--mc-good-bright);
   }
 
   .table-wrap {
@@ -191,28 +191,28 @@
   thead th {
     text-align: left;
     padding: 8px 12px;
-    color: #1A2E1E;
+    color: var(--mc-ink);
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    border-bottom: 2px solid #1D9E75;
+    border-bottom: 2px solid var(--mc-good-bright);
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
-    background: #F0F5F0;
+    background: var(--mc-panel);
   }
 
   thead th:hover {
-    color: #1D9E75;
+    color: var(--mc-good-bright);
   }
 
   tbody td {
     padding: 10px 12px;
-    color: #0a0a0a;
+    color: var(--mc-ink);
     font-weight: 500;
     border-bottom: 1px solid #d9e5d6;
-    background: #ffffff;
+    background: var(--mc-panel-2);
   }
 
   tr:hover td {
@@ -221,18 +221,18 @@
 
   .mono { font-family: monospace; font-size: 0.82rem; }
   .num { text-align: right; }
-  .empty { text-align: center; color: #3A6A44; padding: 24px; }
+  .empty { text-align: center; color: var(--mc-muted); padding: 24px; }
 
   .loading, .err {
-    color: #3A6A44;
+    color: var(--mc-muted);
     padding: 20px 0;
   }
-  .err { color: #c81e1e; }
+  .err { color: var(--mc-crit-b); }
 
   .load-more {
     margin-top: 12px;
-    background: #1D9E75;
-    border: 1px solid #1D9E75;
+    background: var(--mc-good-bright);
+    border: 1px solid var(--mc-good-bright);
     border-radius: 6px;
     color: #ffffff;
     padding: 8px 20px;

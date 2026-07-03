@@ -100,14 +100,14 @@
   .empty-state {
     text-align: center;
     padding: 32px;
-    color: #1A2E1E;
+    color: var(--mc-ink);
     font-size: 0.9rem;
   }
 
   .action-error {
     background: rgba(200,30,30,0.08);
     border: 1px solid rgba(200,30,30,0.3);
-    color: #c81e1e;
+    color: var(--mc-crit-b);
     border-radius: 8px;
     padding: 10px 14px;
     font-size: 0.85rem;
@@ -115,7 +115,7 @@
   }
 
   .queue-card {
-    background: #ffffff;
+    background: var(--mc-panel-2);
     border: 1px solid #d9e5d6;
     border-radius: 10px;
     padding: 16px 18px;
@@ -131,7 +131,7 @@
   }
 
   .kind-badge {
-    background: #1D9E75;
+    background: var(--mc-good-bright);
     color: #ffffff;
     font-size: 0.72rem;
     font-weight: 700;
@@ -149,20 +149,20 @@
     border-radius: 4px;
     text-transform: uppercase;
   }
-  .urgency-urgent  { background: rgba(200,30,30,0.1);  color: #c81e1e; }
-  .urgency-soon    { background: rgba(176,125,0,0.12); color: #b07d00; }
-  .urgency-routine { background: #F0F5F0; color: #1D9E75; }
+  .urgency-urgent  { background: rgba(200,30,30,0.1);  color: var(--mc-crit-b); }
+  .urgency-soon    { background: rgba(176,125,0,0.12); color: var(--mc-warn-b); }
+  .urgency-routine { background: var(--mc-panel); color: var(--mc-good-bright); }
 
   .patient-label {
     margin-left: auto;
     font-size: 0.8rem;
-    color: #1A2E1E;
+    color: var(--mc-ink);
     font-family: monospace;
   }
 
   .summary {
     font-size: 0.88rem;
-    color: #0a0a0a;
+    color: var(--mc-ink);
     line-height: 1.55;
     margin: 0 0 10px;
     display: -webkit-box;
@@ -174,7 +174,7 @@
   .expand-btn {
     background: none;
     border: none;
-    color: #1D9E75;
+    color: var(--mc-good-bright);
     font-size: 0.78rem;
     cursor: pointer;
     padding: 0;
@@ -182,12 +182,12 @@
   }
 
   .drafted-action {
-    background: #F0F5F0;
-    border-left: 3px solid #1D9E75;
+    background: var(--mc-panel);
+    border-left: 3px solid var(--mc-good-bright);
     padding: 8px 12px;
     border-radius: 0 6px 6px 0;
     font-size: 0.84rem;
-    color: #0a0a0a;
+    color: var(--mc-ink);
     margin-bottom: 10px;
   }
 
@@ -204,8 +204,8 @@
   }
   .btn:hover { opacity: 0.8; }
 
-  .btn-approve  { background: #1D9E75; color: #ffffff; }
-  .btn-edit     { background: #F0F5F0; color: #1A2E1E; }
-  .btn-defer    { background: rgba(176,125,0,0.12); color: #b07d00; }
-  .btn-escalate { background: rgba(200,30,30,0.1);  color: #c81e1e; }
+  .btn-approve  { background: var(--mc-good-bright); color: #ffffff; }
+  .btn-edit     { background: var(--mc-panel); color: var(--mc-ink); }
+  .btn-defer    { background: rgba(176,125,0,0.12); color: var(--mc-warn-b); }
+  .btn-escalate { background: rgba(200,30,30,0.1);  color: var(--mc-crit-b); }
 </style>

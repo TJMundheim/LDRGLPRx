@@ -116,9 +116,9 @@
   h2 { font-size: 1.4rem; margin-bottom: 24px; }
   section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid #eee; }
   section:last-child { border-bottom: none; }
-  .field-label { font-size: 0.8rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 4px; }
-  .field-value { font-size: 1rem; color: #1a1a1a; margin: 0 0 12px; }
-  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #333; }
+  .field-label { font-size: 0.8rem; font-weight: 600; color: var(--mc-faint); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 4px; }
+  .field-value { font-size: 1rem; color: var(--mc-ink); margin: 0 0 12px; }
+  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--mc-ink); }
   input {
     width: 100%;
     box-sizing: border-box;
@@ -128,12 +128,12 @@
     font-size: 1rem;
     outline: none;
   }
-  input:focus { border-color: #1D9E75; }
+  input:focus { border-color: var(--mc-good-bright); }
   button {
     margin-top: 10px;
     margin-right: 8px;
     padding: 8px 16px;
-    background: #1D9E75;
+    background: var(--mc-good-bright);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -141,8 +141,8 @@
     font-weight: 600;
     cursor: pointer;
   }
-  button[type="button"]:not(.signout-btn) { background: #e8f5ef; color: #1D9E75; }
-  .signout-btn { background: #f5e8e8; color: #c0392b; }
-  .error { color: #c0392b; font-size: 0.85rem; margin: 6px 0 0; }
-  .success { color: #1D9E75; font-size: 0.85rem; margin: 6px 0 0; }
+  button[type="button"]:not(.signout-btn) { background: #e8f5ef; color: var(--mc-good-bright); }
+  .signout-btn { background: #f5e8e8; color: var(--mc-crit-bright); }
+  .error { color: var(--mc-crit-bright); font-size: 0.85rem; margin: 6px 0 0; }
+  .success { color: var(--mc-good-bright); font-size: 0.85rem; margin: 6px 0 0; }
 </style>

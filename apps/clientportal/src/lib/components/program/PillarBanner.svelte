@@ -8,7 +8,7 @@
   const { pillar }: Props = $props();
 </script>
 
-<div class="pillar-banner" style="--ac: #1D9E75;">
+<div class="pillar-banner" style="--ac: var(--mc-good-bright);">
   <div class="numeral">{pillar.numeral}</div>
   <div class="body">
     <div class="week-label">Week {pillar.week}</div>
@@ -54,7 +54,7 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #888;
+    color: var(--mc-faint);
   }
 
   .name {
@@ -75,7 +75,7 @@
 
   .description {
     font-size: 0.85rem;
-    color: #aaa;
+    color: var(--mc-faint);
     line-height: 1.55;
     margin: 0.4rem 0 0;
   }

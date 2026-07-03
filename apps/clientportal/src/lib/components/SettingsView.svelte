@@ -149,7 +149,7 @@
     align-self: flex-start;
     background: transparent;
     border: 1px solid rgba(224, 92, 42, 0.6);
-    color: #E05C2A;
+    color: var(--mc-crit-b);
     padding: 9px 16px;
     border-radius: 8px;
     font-size: 0.88rem;
@@ -158,7 +158,7 @@
     transition: background 0.12s;
   }
   .signout:hover { background: rgba(224, 92, 42, 0.1); }
-  .ok { color: #1D9E75; font-size: 0.85rem; }
+  .ok { color: var(--mc-good-bright); font-size: 0.85rem; }
 
   .toggle-row {
     display: flex; align-items: center; justify-content: space-between;
@@ -182,10 +182,10 @@
     top: 3px; left: 3px;
     width: 22px; height: 22px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--mc-panel-2);
     transition: transform 0.18s;
   }
-  .toggle.on { background: #1D9E75; }
+  .toggle.on { background: var(--mc-good-bright); }
   .toggle.on .knob { transform: translateX(20px); }
   .toggle:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>

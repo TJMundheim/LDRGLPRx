@@ -1,0 +1,51 @@
+/* ── My4MLife design tokens — "Mission Control" (Direction C, approved 2026-07-02)
+   Ground truth: docs/design/enterprise-design-directions.html (Direction C).
+   All app color/type/radius decisions derive from these variables. ── */
+:root {
+  /* ground */
+  --mc-bg: #070e1d;
+  --mc-panel: #0c1730;
+  --mc-panel-2: #0a142b;
+  --mc-panel-raised: #12224a;
+  --mc-line: #1b2a4a;
+  --mc-line-soft: #12203c;
+
+  /* ink */
+  --mc-ink: #e8ecf5;
+  --mc-muted: #7d8aa5;
+  --mc-faint: #55627e;
+
+  /* brand accent */
+  --mc-gold: #d4af5a;
+  --mc-gold-soft: #e3c98b;
+  --mc-gold-dim: #9d8248;
+  --mc-gold-tint: rgba(212, 175, 90, 0.12);
+  --mc-gold-line: rgba(212, 175, 90, 0.4);
+  --mc-on-gold: #0a1428;
+
+  /* semantic (never used as brand accent) */
+  --mc-good: #2e9e6b;
+  --mc-good-bright: #43c98a;
+  --mc-good-tint: rgba(46, 158, 107, 0.14);
+  --mc-warn: #c98a1e;
+  --mc-warn-bright: #e0a83c;
+  --mc-warn-tint: rgba(201, 138, 30, 0.14);
+  --mc-crit: #c0442e;
+  --mc-crit-bright: #e06a52;
+  --mc-crit-tint: rgba(192, 68, 46, 0.14);
+  --mc-info: #5aa9dd;
+  --mc-info-tint: rgba(90, 169, 221, 0.12);
+
+  /* type */
+  --mc-font-display: 'Playfair Display', Georgia, serif;
+  --mc-font-ui: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+
+  /* shape */
+  --mc-r-sm: 8px;
+  --mc-r-md: 12px;
+  --mc-r-lg: 16px;
+  --mc-r-pill: 999px;
+
+  /* elevation */
+  --mc-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}

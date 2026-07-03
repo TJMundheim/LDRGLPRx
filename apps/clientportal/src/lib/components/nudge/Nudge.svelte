@@ -74,8 +74,8 @@
   }
 
   /* Tone variants — left border accent */
-  .nudge-info    { border-left-color: #6B5ED4; }
-  .nudge-celebrate { border-left-color: #D4920A; }
+  .nudge-info    { border-left-color: var(--mc-info); }
+  .nudge-celebrate { border-left-color: var(--mc-warn-b); }
   .nudge-reminder  { border-left-color: #8B6914; }
 
   .nudge-close {
@@ -114,7 +114,7 @@
     display: inline-block;
     font-size: 11.5px;
     font-weight: 600;
-    color: #1D9E75;
+    color: var(--mc-good-bright);
     text-decoration: none;
     letter-spacing: 0.02em;
     transition: color 0.12s;
@@ -140,8 +140,8 @@
       border-bottom-width: 3px;
       border-bottom-style: solid;
     }
-    .nudge-info     { border-bottom-color: #6B5ED4; }
-    .nudge-celebrate { border-bottom-color: #D4920A; }
+    .nudge-info     { border-bottom-color: var(--mc-info); }
+    .nudge-celebrate { border-bottom-color: var(--mc-warn-b); }
     .nudge-reminder  { border-bottom-color: #8B6914; }
   }
 </style>

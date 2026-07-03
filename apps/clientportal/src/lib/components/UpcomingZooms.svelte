@@ -136,7 +136,7 @@
     font-size: 12.5px;
     color: #6A8A6E;
   }
-  .zooms-error { color: #E05C2A; }
+  .zooms-error { color: var(--mc-crit-b); }
   .zoom-btn {
     display: inline-block;
     font-size: 12px;
@@ -150,12 +150,12 @@
     letter-spacing: .02em;
   }
   .zoom-btn--live {
-    background: #1D9E75;
+    background: var(--mc-good-bright);
     color: #fff;
     animation: pulse 1.6s ease-in-out infinite;
   }
   .zoom-btn--rsvp {
-    background: #6B5ED4;
+    background: var(--mc-info);
     color: #fff;
   }
   .zoom-btn--rsvp:disabled {
@@ -164,12 +164,12 @@
   }
   .zoom-btn--confirmed {
     background: #1a2a1e;
-    border: 1.5px solid #1D9E75;
-    color: #1D9E75;
+    border: 1.5px solid var(--mc-good-bright);
+    color: var(--mc-good-bright);
     cursor: default;
   }
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 #1D9E7560; }
-    50% { box-shadow: 0 0 0 6px #1D9E7500; }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,90,.38); }
+    50% { box-shadow: 0 0 0 6px rgba(212,175,90,0); }
   }
 </style>

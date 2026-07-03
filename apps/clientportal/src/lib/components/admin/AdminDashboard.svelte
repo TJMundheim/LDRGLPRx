@@ -62,7 +62,7 @@
     border: none;
     border-bottom: 2px solid transparent;
     padding: 10px 18px;
-    color: #1A2E1E;
+    color: var(--mc-ink);
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
@@ -71,21 +71,21 @@
   }
 
   .tab:hover {
-    color: #1D9E75;
+    color: var(--mc-good-bright);
   }
 
   .tab.active {
-    color: #1D9E75;
-    border-bottom-color: #1D9E75;
+    color: var(--mc-good-bright);
+    border-bottom-color: var(--mc-good-bright);
   }
 
   .loading, .error {
-    color: #1A2E1E;
+    color: var(--mc-ink);
     padding: 20px 0;
   }
 
   .error {
-    color: #c81e1e;
+    color: var(--mc-crit-b);
   }
 
   .stat-cards {
@@ -96,7 +96,7 @@
   }
 
   .stat-card {
-    background: #ffffff;
+    background: var(--mc-panel-2);
     border: 1px solid #d9e5d6;
     border-radius: 10px;
     padding: 16px 22px;
@@ -117,20 +117,20 @@
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: #1A2E1E;
+    color: var(--mc-ink);
   }
 
-  .stat-card.urgent  .stat-num { color: #c81e1e; }
-  .stat-card.soon    .stat-num { color: #b07d00; }
-  .stat-card.routine .stat-num { color: #1D9E75; }
-  .stat-card.neutral .stat-num { color: #1D9E75; }
+  .stat-card.urgent  .stat-num { color: var(--mc-crit-b); }
+  .stat-card.soon    .stat-num { color: var(--mc-warn-b); }
+  .stat-card.routine .stat-num { color: var(--mc-good-bright); }
+  .stat-card.neutral .stat-num { color: var(--mc-good-bright); }
 
   .section-title {
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: #1A2E1E;
+    color: var(--mc-ink);
     margin: 0 0 14px;
   }
 </style>

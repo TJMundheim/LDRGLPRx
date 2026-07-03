@@ -89,7 +89,7 @@
   }
   .tag { font-style: italic; color: #7a6e5a; margin: 0; font-size: 16px; }
 
-  section { background: #fbf6ec; border: 1px solid #e6dcc4; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
+  section { background: var(--mc-panel); border: 1px solid #e6dcc4; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
   section h2 {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 24px; font-weight: 600; margin: 0 0 8px; color: #2e2a24;
@@ -99,29 +99,29 @@
     font-size: 20px; font-weight: 600; margin: 0 0 16px; color: #2e2a24;
   }
   .sub { color: #6b6253; margin: 0 0 18px; font-size: 14px; }
-  .sub a { color: #1D9E75; font-weight: 600; }
+  .sub a { color: var(--mc-good-bright); font-weight: 600; }
 
   .priority-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
   .priority-card {
-    background: #fffdf7; border: 1px solid #e6dcc4; border-radius: 10px; padding: 16px;
+    background: var(--mc-panel); border: 1px solid #e6dcc4; border-radius: 10px; padding: 16px;
     text-decoration: none; color: inherit; transition: transform .15s, border-color .15s;
   }
-  .priority-card:hover { transform: translateY(-2px); border-color: #1D9E75; }
+  .priority-card:hover { transform: translateY(-2px); border-color: var(--mc-good-bright); }
   .priority-label { font-weight: 700; font-size: 15px; color: #1f1b14; }
   .priority-score { font-size: 12px; color: #7a6e5a; margin-top: 2px; }
   .priority-desc { font-size: 13px; color: #4a4338; margin-top: 8px; line-height: 1.5; }
-  .priority-cta { font-size: 12px; color: #1D9E75; font-weight: 700; margin-top: 10px; }
+  .priority-cta { font-size: 12px; color: var(--mc-good-bright); font-weight: 700; margin-top: 10px; }
 
-  .locked { text-align: center; background: #f5ebd5; border-color: #d8c896; }
+  .locked { text-align: center; background: var(--mc-gold-tint); border-color: #d8c896; }
   .lock-icon { font-size: 32px; margin-bottom: 8px; }
   .locked p { color: #5a503e; font-size: 15px; line-height: 1.6; margin: 0 auto; max-width: 560px; }
 
   .tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
   .tile {
-    background: #fffdf7; border: 1px solid #e6dcc4; border-radius: 10px; padding: 14px;
+    background: var(--mc-panel); border: 1px solid #e6dcc4; border-radius: 10px; padding: 14px;
     text-decoration: none; color: inherit; transition: transform .15s, border-color .15s, background .15s;
   }
-  .tile:hover { transform: translateY(-2px); border-color: #1D9E75; background: #f7f1df; }
+  .tile:hover { transform: translateY(-2px); border-color: var(--mc-good-bright); background: #f7f1df; }
   .tile-label { font-weight: 700; font-size: 14px; color: #1f1b14; }
   .tile-blurb { font-size: 12px; color: #6b6253; margin-top: 4px; line-height: 1.4; }
 

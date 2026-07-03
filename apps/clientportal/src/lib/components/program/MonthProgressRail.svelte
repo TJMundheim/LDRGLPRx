@@ -73,20 +73,20 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #333;
-    border: 2px solid #555;
+    background: var(--mc-ink);
+    border: 2px solid var(--mc-muted);
     transition: background 0.2s, border-color 0.2s;
   }
 
   .stop.past .dot {
-    background: #1D9E75;
-    border-color: #1D9E75;
+    background: var(--mc-good-bright);
+    border-color: var(--mc-good-bright);
   }
 
   .stop.active .dot {
-    background: #fff;
-    border-color: #1D9E75;
-    box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.35);
+    background: var(--mc-panel-2);
+    border-color: var(--mc-good-bright);
+    box-shadow: 0 0 0 3px rgba(212,175,90, 0.35);
   }
 
   .stop-label {
@@ -94,12 +94,12 @@
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #555;
+    color: var(--mc-muted);
     white-space: nowrap;
   }
 
   .stop.past .stop-label {
-    color: #1D9E75;
+    color: var(--mc-good-bright);
   }
 
   .stop.active .stop-label {
@@ -110,12 +110,12 @@
     flex: 1;
     min-width: 2rem;
     height: 2px;
-    background: #333;
+    background: var(--mc-ink);
     margin-bottom: 1.2rem;
     transition: background 0.2s;
   }
 
   .connector.filled {
-    background: #1D9E75;
+    background: var(--mc-good-bright);
   }
 </style>

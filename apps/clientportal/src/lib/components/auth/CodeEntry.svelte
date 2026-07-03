@@ -131,13 +131,13 @@
     max-width: 380px;
     margin: 80px auto;
     padding: 36px 32px;
-    background: #fff;
+    background: var(--mc-panel-2);
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   }
-  h2 { margin: 0 0 6px; font-size: 1.4rem; color: #1a1a1a; }
-  .subtitle { margin: 0 0 24px; color: #666; font-size: 0.9rem; }
-  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #333; }
+  h2 { margin: 0 0 6px; font-size: 1.4rem; color: var(--mc-ink);; font-family: var(--mc-font-display); }
+  .subtitle { margin: 0 0 24px; color: var(--mc-muted); font-size: 0.9rem; }
+  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--mc-ink); }
   input {
     width: 100%;
     box-sizing: border-box;
@@ -150,8 +150,8 @@
     outline: none;
     transition: border-color 0.15s;
   }
-  input:focus { border-color: #1D9E75; }
-  .error { color: #c0392b; font-size: 0.85rem; margin: 8px 0 0; }
+  input:focus { border-color: var(--mc-good-bright); }
+  .error { color: var(--mc-crit-bright); font-size: 0.85rem; margin: 8px 0 0; }
   .notice { color: #17875f; font-size: 0.85rem; margin: 8px 0 0; }
   .resend-btn {
     display: block;
@@ -161,19 +161,19 @@
     background: none;
     border: 1px solid #d0d5dd;
     border-radius: 8px;
-    color: #1D9E75;
+    color: var(--mc-good-bright);
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
   }
-  .resend-btn:not(:disabled):hover { background: #f0faf5; border-color: #1D9E75; }
+  .resend-btn:not(:disabled):hover { background: #f0faf5; border-color: var(--mc-good-bright); }
   .resend-btn:disabled { color: #9aa5a0; cursor: not-allowed; }
   button[type="submit"] {
     width: 100%;
     margin-top: 20px;
     padding: 11px;
-    background: #1D9E75;
+    background: var(--mc-good-bright);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -182,7 +182,7 @@
     cursor: pointer;
     transition: background 0.15s;
   }
-  button[type="submit"]:disabled { background: #a0c8b8; cursor: not-allowed; }
+  button[type="submit"]:disabled { background: var(--mc-gold-dim); cursor: not-allowed; }
   button[type="submit"]:not(:disabled):hover { background: #17875f; }
   .back-btn {
     display: block;
@@ -191,10 +191,10 @@
     padding: 8px;
     background: none;
     border: none;
-    color: #555;
+    color: var(--mc-muted);
     font-size: 0.85rem;
     cursor: pointer;
     text-align: center;
   }
-  .back-btn:hover { color: #1D9E75; }
+  .back-btn:hover { color: var(--mc-good-bright); }
 </style>

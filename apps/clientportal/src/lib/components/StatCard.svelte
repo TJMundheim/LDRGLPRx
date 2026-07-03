@@ -1,6 +1,6 @@
 <script lang="ts">
   interface Props { num: string | number; label: string; color?: string }
-  let { num, label, color = '#1D9E75' }: Props = $props();
+  let { num, label, color = 'var(--mc-good-bright)' }: Props = $props();
 </script>
 
 <div class="stat-card">

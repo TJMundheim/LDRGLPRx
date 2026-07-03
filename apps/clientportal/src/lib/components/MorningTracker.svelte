@@ -45,8 +45,8 @@
       {@const done = !!log.morn[key]}
       <button class="day-btn"
         style:background={done ? wc.ac : '#FFFFFF'}
-        style:color={done ? '#fff' : '#5A8A64'}
-        style:border-color={done ? wc.ac : '#D8E8DC'}
+        style:color={done ? '#fff' : 'var(--mc-muted)'}
+        style:border-color={done ? wc.ac : 'var(--mc-line)'}
         onclick={() => onToggle('morn', week, key)}>
         <span style="font-size:10px;font-weight:700">{d.charAt(0)}</span>
         <span style="font-size:8px;opacity:.7">{i+1}</span>
@@ -65,9 +65,9 @@
           {@const key = `cw${week}d${i+1}`}
           {@const done = !!log.cold[key]}
           <button class="cold-btn"
-            style:background={done ? '#2E7FD9' : '#FFFFFF'}
-            style:color={done ? '#fff' : '#6A9A74'}
-            style:border-color={done ? '#2E7FD9' : '#D8E8DC'}
+            style:background={done ? 'var(--mc-info)' : '#FFFFFF'}
+            style:color={done ? '#fff' : 'var(--mc-muted)'}
+            style:border-color={done ? 'var(--mc-info)' : 'var(--mc-line)'}
             onclick={() => onToggle('cold', week, key)}>{d.charAt(0)}</button>
         {/each}
       </div>
@@ -90,7 +90,7 @@
     font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
-    color: #5A8A64;
+    color: var(--mc-muted);
     margin-bottom: 5px;
   }
 </style>

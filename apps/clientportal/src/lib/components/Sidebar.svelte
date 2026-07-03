@@ -29,8 +29,8 @@
 
 <div class="sidebar" id="sidebar">
   <div class="logo">
-    <div class="logo-title">4M PROGRAM</div>
-    <div class="logo-sub">MONTH 1 WORKBOOK</div>
+    <div class="logo-title">My<b class="logo-gold">4M</b>Life</div>
+    <div class="logo-sub">Begin with the end in mind</div>
     <div class="logo-name">{name}</div>
   </div>
 
@@ -77,7 +77,7 @@
 <style>
   .discovery-nav {
     padding: 6px 0 10px;
-    border-bottom: 1px solid #C8DCC8;
+    border-bottom: 1px solid var(--mc-line);
     margin-bottom: 6px;
   }
 
@@ -87,7 +87,7 @@
     text-align: left;
     background: transparent;
     border: none;
-    color: #3A6A44;
+    color: var(--mc-muted);
     padding: 8px 12px;
     min-height: 44px;
     border-radius: 6px;
@@ -99,38 +99,38 @@
   }
 
   .discovery-btn:hover {
-    background: rgba(29,158,117,0.08);
-    color: #1A4A28;
+    background: rgba(212,175,90,0.08);
+    color: var(--mc-ink);
   }
 
   .discovery-btn.discovery-active {
-    background: #1D9E75;
-    color: #FFFFFF;
+    background: var(--mc-gold);
+    color: var(--mc-on-gold);
   }
 
   .discovery-btn:focus-visible {
-    outline: 2px solid #1D9E75;
+    outline: 2px solid var(--mc-gold);
     outline-offset: 2px;
   }
 
   .admin-nav {
-    border-top: 1px solid #C8DCC8;
+    border-top: 1px solid var(--mc-line);
     padding-top: 8px;
     margin-top: 6px;
     border-bottom: none;
   }
 
-  .admin-btn { color: #6B5ED4; }
-  .admin-btn:hover { background: rgba(107,94,212,0.1); color: #4A3EA8; }
-  .admin-btn.discovery-active { background: #6B5ED4; color: #FFFFFF; }
+  .admin-btn { color: var(--mc-info); }
+  .admin-btn:hover { background: rgba(107,94,212,0.1); color: var(--mc-info); }
+  .admin-btn.discovery-active { background: var(--mc-info); color: #FFFFFF; }
 
   .settings-nav {
-    border-top: 1px solid #C8DCC8;
+    border-top: 1px solid var(--mc-line);
     padding-top: 10px;
     margin-top: 8px;
     border-bottom: none;
   }
-  .signout-btn { color: #9A5A4A; }
+  .signout-btn { color: var(--mc-crit-b); }
   .signout-btn:hover { background: rgba(154,90,74,0.1); color: #7A3A2A; }
 
   /* ── Mobile: sidebar collapses to a bottom bar; make the Settings / Admin /
@@ -179,7 +179,7 @@
     left: 0;
     right: 0;
     background: rgba(15, 17, 23, 0.88);
-    border: 1px solid rgba(29,158,117,0.3);
+    border: 1px solid rgba(212,175,90,0.3);
     border-radius: 8px;
     padding: 10px 12px;
     display: flex;
@@ -196,7 +196,7 @@
 
   .lock-text {
     font-size: 0.72rem;
-    color: #1D9E75;
+    color: var(--mc-gold);
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: 0.02em;

@@ -300,14 +300,78 @@
   }
 
   onMount(() => load());
+
+  // ─── Charge confirmation gate (Care Console) ────────────────────────────────
+  /** encounterId whose confirm panel is open, or '' */
+  let confirmingId = $state('');
+
+  // ─── Triage lanes + waiting age ─────────────────────────────────────────────
+  const HOURS_48 = 48 * 3600 * 1000;
+
+  function allEncounters(list: PatientRecordAdmin[]): { p: PatientRecordAdmin; e: EncounterAdmin }[] {
+    return list.flatMap((p) => (p.encounters ?? []).map((e) => ({ p, e })));
+  }
+  const laneNew = $derived(allEncounters(items).filter(({ e }) => e.state === 'new').length);
+  const laneProvider = $derived(allEncounters(items).filter(({ e }) => e.state === 'sent-to-provider').length);
+  const laneReady = $derived(allEncounters(items).filter(({ e }) => e.state === 'script-written').length);
+  const laneStuck = $derived(allEncounters(items).filter(({ e }) =>
+    (e.state === 'new' || e.state === 'coordinator-reviewed') &&
+    e.createdAt && (Date.now() - new Date(e.createdAt).getTime()) > HOURS_48
+  ).length);
+
+  const TERMINAL = ['fulfilled'];
+  function waitingAge(e: EncounterAdmin | undefined): { label: string; hot: boolean } {
+    if (!e || TERMINAL.includes(e.state) || !e.createdAt) return { label: '—', hot: false };
+    const ms = Date.now() - new Date(e.createdAt).getTime();
+    const hot = ms > HOURS_48 && (e.state === 'new' || e.state === 'coordinator-reviewed');
+    const d = Math.floor(ms / 86400000);
+    if (d >= 1) return { label: `${d} d`, hot };
+    return { label: `${Math.max(1, Math.floor(ms / 3600000))} h`, hot };
+  }
+
+  const STEP_STATES = ['new', 'coordinator-reviewed', 'sent-to-provider', 'script-written', 'fulfilled'];
+  const STEP_LABELS = ['New', 'Reviewed', 'Provider', 'Script', 'Fulfilled'];
+  function stepIndex(state: string): number {
+    return STEP_STATES.indexOf(state);
+  }
+
+  function consentSummary(consents: unknown): string {
+    if (Array.isArray(consents)) {
+      const agreed = consents.filter((c) => (c as Record<string, unknown>).agreed).length;
+      return `${agreed} of ${consents.length}`;
+    }
+    return '—';
+  }
+
+  function bmiOf(demo: Record<string, unknown> | null): string {
+    if (!demo) return '—';
+    const h = parseFloat(String(demo.heightIn ?? demo.height ?? ''));
+    const w = parseFloat(String(demo.weightLb ?? demo.weight ?? ''));
+    if (!h || !w || isNaN(h) || isNaN(w)) return '—';
+    return (703 * w / (h * h)).toFixed(1);
+  }
+
+  function chipClass(state: string): string {
+    if (state === 'script-written') return 'ready';
+    if (state === 'sent-to-provider') return 'provider';
+    if (state === 'fulfilled') return 'done';
+    if (state === 'declined') return 'declined';
+    if (state === 'coordinator-reviewed') return 'reviewed';
+    return 'new';
+  }
+  function chipLabel(state: string): string {
+    if (state === 'script-written') return 'Script written';
+    if (state === 'sent-to-provider') return 'With provider';
+    if (state === 'coordinator-reviewed') return 'Reviewed';
+    return state.charAt(0).toUpperCase() + state.slice(1);
+  }
+
 </script>
 
 <div class="patients-admin">
   <div class="panel-header">
-    <h3 class="panel-title">
-      Patients
-      <span class="badge">{items.length}</span>
-    </h3>
+    <h3 class="panel-title">Care Console <span class="badge">{items.length}</span></h3>
+    <p class="panel-sub">Async review · card charged only after provider approval</p>
   </div>
 
   {#if loading && items.length === 0}
@@ -315,881 +379,405 @@
   {:else if error}
     <p class="err">{error}</p>
   {:else if items.length === 0}
-    <p class="loading">No patient records found.</p>
+    <p class="loading">No patient records yet. New /rx intakes appear here automatically.</p>
   {:else}
-    <ul class="patient-list">
-      {#each items as p (p.contactId)}
-        {@const name = patientName(p)}
-        {@const email = patientEmail(p)}
-        {@const enc = (p.encounters ?? [])[0]}
 
-        <li class="patient-row" class:expanded={expandedId === p.contactId}>
-          <!-- Summary row (clickable) -->
-          <button class="row-summary" onclick={() => expand(p.contactId)}>
-            <div class="row-identity">
-              {#if name}
-                <span class="patient-name">{name}</span>
-                <span class="patient-email">{email}</span>
-              {:else}
-                <span class="patient-name">{email}</span>
-              {/if}
-            </div>
+    <div class="lanes">
+      <div class="lane a1"><div class="ln">New intakes</div><div class="lv">{laneNew}</div><div class="ls">{laneNew > 0 ? 'Review today' : 'Clear'}</div></div>
+      <div class="lane a2"><div class="ln">With provider</div><div class="lv">{laneProvider}</div><div class="ls">Awaiting review</div></div>
+      <div class="lane a3"><div class="ln">Ready to charge</div><div class="lv">{laneReady}</div><div class="ls">{laneReady > 0 ? 'Script approved' : 'None pending'}</div></div>
+      <div class="lane a4" class:alert={laneStuck > 0}><div class="ln">Stuck &gt; 48 h</div><div class="lv">{laneStuck}</div><div class="ls">{laneStuck > 0 ? 'Needs attention' : 'All clear'}</div></div>
+    </div>
 
-            <div class="row-meta">
-              {#if enc}
-                <span class="enc-cat">{enc.category}</span>
-                <span class="state-chip state-{enc.state}">{enc.state}</span>
-                {#if (p.encounters ?? []).length > 1}
-                  <span class="more-enc">+{(p.encounters ?? []).length - 1} more</span>
-                {/if}
-              {:else}
-                <span class="no-enc">No encounters</span>
-              {/if}
-              <span class="created-date">{fmtDate(p.createdAt)}</span>
-              <span class="chevron">{expandedId === p.contactId ? '▲' : '▼'}</span>
-            </div>
-          </button>
+    <table class="ptable">
+      <thead><tr><th>Patient</th><th>Category</th><th>Status</th><th>Waiting</th><th></th></tr></thead>
+      <tbody>
+        {#each items as p (p.contactId)}
+          {@const name = patientName(p)}
+          {@const email = patientEmail(p)}
+          {@const enc = (p.encounters ?? [])[0]}
+          {@const age = waitingAge(enc)}
+          <tr class="prow" class:sel={expandedId === p.contactId} onclick={() => expand(p.contactId)}>
+            <td>
+              <div class="pname">{name || email}</div>
+              {#if name}<div class="pmail">{email}</div>{/if}
+            </td>
+            <td class="pcat">{enc ? enc.category : '—'}
+              {#if (p.encounters ?? []).length > 1}<span class="more-enc">+{(p.encounters ?? []).length - 1}</span>{/if}
+            </td>
+            <td>{#if enc}<span class="chip {chipClass(enc.state)}">{chipLabel(enc.state)}</span>{:else}<span class="no-enc">No encounters</span>{/if}</td>
+            <td class="age" class:hot={age.hot}>{age.label}</td>
+            <td class="chev">{expandedId === p.contactId ? '▴' : '▾'}</td>
+          </tr>
 
-          <!-- Detail panel -->
           {#if expandedId === p.contactId}
-            <div class="detail-panel">
-              {#if detailLoading}
-                <p class="loading">Loading detail…</p>
-              {:else if detailError}
-                <p class="err">{detailError}</p>
-              {:else if detail}
+            <tr class="drawer-row"><td colspan="5">
+              <div class="drawer">
+                {#if detailLoading}
+                  <p class="loading">Loading detail…</p>
+                {:else if detailError}
+                  <p class="err">{detailError}</p>
+                {:else if detail}
+                  {@const demo = (detail.demographics && typeof detail.demographics === 'object') ? detail.demographics as Record<string, unknown> : null}
 
-                <!-- Demographics -->
-                <section class="detail-section">
-                  <h4 class="section-label">Demographics</h4>
-                  {#if detail.demographics && typeof detail.demographics === 'object'}
-                    {@const demo = detail.demographics as Record<string, unknown>}
-                    <dl class="dl-grid">
-                      {#each Object.entries(demo) as [k, v]}
-                        <dt>{k}</dt>
-                        <dd>{stringify(v)}</dd>
-                      {/each}
-                    </dl>
-                  {:else}
-                    <p class="empty-field">{stringify(detail.demographics)}</p>
-                  {/if}
-                </section>
+                  <div class="dhead">
+                    <div>
+                      <div class="dname">{patientName(detail) || patientEmail(detail)}</div>
+                      <div class="dmeta">Received {fmtDate(detail.createdAt)} · {patientEmail(detail)}</div>
+                    </div>
+                  </div>
 
-                <!-- History -->
-                {#if detail.history}
-                  <section class="detail-section">
-                    <h4 class="section-label">Medical History</h4>
-                    {#if typeof detail.history === 'object' && detail.history !== null}
-                      {@const hist = detail.history as Record<string, unknown>}
-                      <dl class="dl-grid">
-                        {#each Object.entries(hist) as [k, v]}
-                          <dt>{k}</dt>
-                          <dd>{stringify(v)}</dd>
-                        {/each}
-                      </dl>
-                    {:else}
-                      <p class="empty-field">{stringify(detail.history)}</p>
-                    {/if}
-                  </section>
-                {/if}
+                  <div class="row3">
+                    <div class="mini"><div class="fl2">BMI</div><div class="fv">{bmiOf(demo)}</div></div>
+                    <div class="mini"><div class="fl2">Consents</div><div class="fv ok-v">{consentSummary(detail.consents)}</div></div>
+                    <div class="mini"><div class="fl2">Card</div>
+                      {#if detail.cardOnFile && typeof detail.cardOnFile === 'object' && (detail.cardOnFile as Record<string, unknown>).paymentMethodId}
+                        <div class="fv ok-v">Saved</div>
+                      {:else}
+                        <div class="fv mut-v">None</div>
+                      {/if}
+                    </div>
+                  </div>
 
-                <!-- Screening answers -->
-                {#if detail.screeningAnswers}
-                  <section class="detail-section">
-                    <h4 class="section-label">Screening Answers</h4>
-                    {#if Array.isArray(detail.screeningAnswers)}
-                      <ul class="screening-list">
-                        {#each detail.screeningAnswers as ans}
-                          {@const a = ans as Record<string, unknown>}
-                          <li>
-                            <span class="q-id">{stringify(a.questionId ?? a.id ?? '')}</span>
-                            <span class="q-val">{stringify(a.valueJson ?? a.value ?? a)}</span>
-                          </li>
-                        {/each}
-                      </ul>
-                    {:else if typeof detail.screeningAnswers === 'object'}
-                      {@const sa = detail.screeningAnswers as Record<string, unknown>}
-                      <dl class="dl-grid">
-                        {#each Object.entries(sa) as [k, v]}
-                          <dt>{k}</dt>
-                          <dd>{stringify(v)}</dd>
-                        {/each}
-                      </dl>
-                    {:else}
-                      <p class="empty-field">{stringify(detail.screeningAnswers)}</p>
-                    {/if}
-                  </section>
-                {/if}
+                  <!-- Encounters -->
+                  {#each detail.encounters ?? [] as enc2 (enc2.encounterId)}
+                    {@const nexts = nextStates(enc2.state)}
+                    {@const cform = getChargeForm(enc2)}
+                    {@const estate = getExportState(enc2.encounterId)}
+                    {@const si = stepIndex(enc2.state)}
+                    <div class="encounter">
+                      <div class="enc-head">
+                        <span class="enc-cat">{enc2.category}</span>
+                        <span class="chip {chipClass(enc2.state)}">{chipLabel(enc2.state)}</span>
+                        <span class="enc-visit">{enc2.visitType}</span>
+                        <span class="enc-date">{fmtDate(enc2.createdAt)}</span>
+                      </div>
 
-                <!-- Consents -->
-                {#if detail.consents}
-                  <section class="detail-section">
-                    <h4 class="section-label">Consents</h4>
-                    {#if Array.isArray(detail.consents)}
-                      <ul class="consent-list">
-                        {#each detail.consents as c}
-                          {@const consent = c as Record<string, unknown>}
-                          <li class="consent-item">
-                            <span class="consent-key">{stringify(consent.type ?? consent.key ?? consent.id ?? '')}</span>
-                            <span class="consent-version">v{stringify(consent.version ?? '—')}</span>
-                            <span class="consent-agreed {consent.agreed ? 'yes' : 'no'}">
-                              {consent.agreed ? 'Agreed' : 'Not agreed'}
-                            </span>
-                            {#if consent.agreedAt ?? consent.timestamp}
-                              <span class="consent-ts">{fmtDateTime(String(consent.agreedAt ?? consent.timestamp))}</span>
+                      {#if enc2.state === 'declined'}
+                        <div class="declined-band">Declined — reopen available below.</div>
+                      {:else}
+                        <div class="path">
+                          {#each STEP_LABELS as _, i}
+                            {#if i > 0}<span class="edge" class:done={si >= i}></span>{/if}
+                            <span class="node" class:done={si > i || enc2.state === 'fulfilled'} class:on={si === i && enc2.state !== 'fulfilled'}></span>
+                          {/each}
+                        </div>
+                        <div class="pathlbl">{#each STEP_LABELS as l}<span>{l}</span>{/each}</div>
+                      {/if}
+
+                      {#if transitionError[enc2.encounterId]}
+                        <p class="err small">{transitionError[enc2.encounterId]}</p>
+                      {/if}
+
+                      {#if nexts.length > 0}
+                        <div class="transition-row">
+                          <span class="transition-label">{enc2.state === 'declined' ? 'Actions' : 'Advance'}</span>
+                          {#each nexts as toState}
+                            <button
+                              class="tbtn {toState === 'declined' ? 'decline' : ''} {enc2.state === 'declined' && toState === 'new' ? 'reopen' : ''}"
+                              disabled={transitioningId === enc2.encounterId}
+                              onclick={() => transition(p.contactId, enc2, toState)}
+                            >
+                              {transitioningId === enc2.encounterId ? 'Saving…' : (enc2.state === 'declined' && toState === 'new' ? 'Reopen' : chipLabel(toState))}
+                            </button>
+                          {/each}
+                        </div>
+                      {:else}
+                        <p class="terminal-state">Fulfilled — encounter closed.</p>
+                      {/if}
+
+                      <!-- Approve & charge with confirmation gate -->
+                      {#if enc2.state === 'script-written'}
+                        {#if cform.chargeSuccess}
+                          <p class="charge-success">{cform.chargeSuccess} — encounter fulfilled.</p>
+                        {:else}
+                          <div class="chargebox">
+                            <p class="cl">Approve &amp; charge</p>
+                            <div class="charge-fields">
+                              <label class="cfield">
+                                <span class="cfl">Amount ($)</span>
+                                <input type="number" class="cinput" min="0.01" step="0.01" placeholder="e.g. 129.00"
+                                  value={cform.dollars}
+                                  oninput={(e) => setChargeForm(enc2.encounterId, { dollars: (e.target as HTMLInputElement).value })}
+                                  disabled={cform.charging} />
+                              </label>
+                              <fieldset class="billing" disabled={cform.charging}>
+                                <legend class="cfl">Billing</legend>
+                                <label class="opt"><input type="radio" name="billing-{enc2.encounterId}" value="one_time"
+                                  checked={cform.billingType === 'one_time'}
+                                  onchange={() => setChargeForm(enc2.encounterId, { billingType: 'one_time' })} /> One-time</label>
+                                <label class="opt"><input type="radio" name="billing-{enc2.encounterId}" value="subscription"
+                                  checked={cform.billingType === 'subscription'}
+                                  onchange={() => setChargeForm(enc2.encounterId, { billingType: 'subscription' })} /> Monthly subscription</label>
+                              </fieldset>
+                              <label class="cfield wide">
+                                <span class="cfl">Description (optional)</span>
+                                <input type="text" class="cinput" placeholder="e.g. GLP-1 protocol — month 1"
+                                  value={cform.label}
+                                  oninput={(e) => setChargeForm(enc2.encounterId, { label: (e.target as HTMLInputElement).value })}
+                                  disabled={cform.charging} />
+                              </label>
+                            </div>
+                            {#if cform.chargeError}<p class="err small">{cform.chargeError}</p>{/if}
+                            {#if confirmingId !== enc2.encounterId}
+                              <button class="gbtn" disabled={cform.charging} onclick={() => confirmingId = enc2.encounterId}>
+                                Review &amp; charge
+                              </button>
                             {/if}
-                          </li>
-                        {/each}
-                      </ul>
-                    {:else if typeof detail.consents === 'object'}
-                      {@const cs = detail.consents as Record<string, unknown>}
-                      <dl class="dl-grid">
-                        {#each Object.entries(cs) as [k, v]}
-                          <dt>{k}</dt>
-                          <dd>{stringify(v)}</dd>
-                        {/each}
-                      </dl>
-                    {:else}
-                      <p class="empty-field">{stringify(detail.consents)}</p>
-                    {/if}
-                  </section>
-                {/if}
-
-                <!-- Card on file -->
-                <section class="detail-section">
-                  <h4 class="section-label">Payment</h4>
-                  {#if detail.cardOnFile && typeof detail.cardOnFile === 'object'}
-                    {@const cof = detail.cardOnFile as Record<string, unknown>}
-                    {#if cof.paymentMethodId}
-                      <p class="card-on-file present">Card on file</p>
-                    {:else}
-                      <p class="card-on-file absent">No card on file</p>
-                    {/if}
-                  {:else}
-                    <p class="card-on-file absent">No card on file</p>
-                  {/if}
-                </section>
-
-                <!-- Encounters + state machine -->
-                {#if (detail.encounters ?? []).length > 0}
-                  <section class="detail-section">
-                    <h4 class="section-label">Encounters</h4>
-                    <ul class="encounter-list">
-                      {#each detail.encounters ?? [] as enc (enc.encounterId)}
-                        {@const nexts = nextStates(enc.state)}
-                        {@const cform = getChargeForm(enc)}
-                        <li class="encounter-item">
-                          <div class="enc-header">
-                            <span class="enc-cat">{enc.category}</span>
-                            <span class="state-chip state-{enc.state}">{enc.state}</span>
-                            <span class="enc-visit">{enc.visitType}</span>
-                            <span class="enc-date">{fmtDate(enc.createdAt)}</span>
                           </div>
 
-                          {#if transitionError[enc.encounterId]}
-                            <p class="err small">{transitionError[enc.encounterId]}</p>
-                          {/if}
-
-                          {#if nexts.length > 0}
-                            <div class="transition-row">
-                              <span class="transition-label">
-                                {enc.state === 'declined' ? 'Actions:' : 'Advance to:'}
-                              </span>
-                              {#each nexts as toState}
-                                <button
-                                  class="transition-btn {toState === 'declined' ? 'decline-btn' : ''} {enc.state === 'declined' && toState === 'new' ? 'reopen-btn' : ''}"
-                                  disabled={transitioningId === enc.encounterId}
-                                  onclick={() => transition(p.contactId, enc, toState)}
-                                >
-                                  {transitioningId === enc.encounterId
-                                    ? 'Saving…'
-                                    : (enc.state === 'declined' && toState === 'new' ? 'Reopen' : toState)}
-                                </button>
-                              {/each}
-                            </div>
-                          {:else}
-                            <p class="terminal-state">Terminal state — no further transitions.</p>
-                          {/if}
-
-                          <!-- Approve & charge panel — shown when script has been written -->
-                          {#if enc.state === 'script-written'}
-                            {#if cform.chargeSuccess}
-                              <p class="charge-success">{cform.chargeSuccess}</p>
-                            {:else}
-                              <div class="charge-panel">
-                                <p class="charge-panel-label">Approve &amp; charge</p>
-                                <div class="charge-fields">
-                                  <label class="charge-field">
-                                    <span class="charge-field-label">Amount ($)</span>
-                                    <input
-                                      type="number"
-                                      class="charge-input"
-                                      min="0.01"
-                                      step="0.01"
-                                      placeholder="e.g. 129.00"
-                                      value={cform.dollars}
-                                      oninput={(e) => setChargeForm(enc.encounterId, { dollars: (e.target as HTMLInputElement).value })}
-                                      disabled={cform.charging}
-                                    />
-                                  </label>
-
-                                  <fieldset class="billing-toggle" disabled={cform.charging}>
-                                    <legend class="charge-field-label">Billing</legend>
-                                    <label class="toggle-option">
-                                      <input
-                                        type="radio"
-                                        name="billing-{enc.encounterId}"
-                                        value="one_time"
-                                        checked={cform.billingType === 'one_time'}
-                                        onchange={() => setChargeForm(enc.encounterId, { billingType: 'one_time' })}
-                                      />
-                                      One-time
-                                    </label>
-                                    <label class="toggle-option">
-                                      <input
-                                        type="radio"
-                                        name="billing-{enc.encounterId}"
-                                        value="subscription"
-                                        checked={cform.billingType === 'subscription'}
-                                        onchange={() => setChargeForm(enc.encounterId, { billingType: 'subscription' })}
-                                      />
-                                      Monthly subscription
-                                    </label>
-                                  </fieldset>
-
-                                  <label class="charge-field charge-field-wide">
-                                    <span class="charge-field-label">Description (optional)</span>
-                                    <input
-                                      type="text"
-                                      class="charge-input"
-                                      placeholder="e.g. GLP-1 protocol — month 1"
-                                      value={cform.label}
-                                      oninput={(e) => setChargeForm(enc.encounterId, { label: (e.target as HTMLInputElement).value })}
-                                      disabled={cform.charging}
-                                    />
-                                  </label>
-                                </div>
-
-                                {#if cform.chargeError}
-                                  <p class="err small charge-err">{cform.chargeError}</p>
+                          {#if confirmingId === enc2.encounterId}
+                            <div class="confirm">
+                              <p class="cl warn-cl">Confirm charge</p>
+                              <div class="cline"><span>Patient</span><b>{patientName(detail) || patientEmail(detail)}</b></div>
+                              <div class="cline"><span>Amount</span><b>${cform.dollars || '0.00'} · {cform.billingType === 'subscription' ? 'monthly subscription' : 'one-time'}</b></div>
+                              <div class="cline"><span>Card</span>
+                                {#if detail.cardOnFile && typeof detail.cardOnFile === 'object' && (detail.cardOnFile as Record<string, unknown>).paymentMethodId}
+                                  <b>Saved card on file</b>
+                                {:else}
+                                  <b class="crit-v">No card on file</b>
                                 {/if}
-
-                                <button
-                                  class="charge-btn"
-                                  disabled={cform.charging}
-                                  onclick={() => charge(p.contactId, enc)}
-                                >
-                                  {cform.charging ? 'Charging…' : 'Charge'}
-                                </button>
                               </div>
-                            {/if}
-                          {/if}
-
-                          <!-- Export clinical packet — available at any encounter state -->
-                          {#if true}
-                            {@const estate = getExportState(enc.encounterId)}
-                            <div class="export-row">
-                              <button
-                                class="export-btn"
-                                disabled={estate.exporting}
-                                onclick={() => exportPacket(p.contactId, enc.encounterId)}
-                              >
-                                {estate.exporting ? 'Generating…' : 'Export clinical packet'}
-                              </button>
-                              {#if estate.exportError}
-                                <p class="err small export-msg">{estate.exportError}</p>
-                              {/if}
-                              {#if estate.lastUrl}
-                                <p class="export-msg export-hint">
-                                  Opened in a new tab — use your browser's Print &rarr; Save as PDF to attach it to your email.
-                                  If the tab was blocked, <a class="export-fallback-link" href={estate.lastUrl} target="_blank" rel="noopener">click here to open it manually</a>.
-                                </p>
-                              {/if}
+                              <p class="warntxt">This charges the saved card immediately and marks the encounter fulfilled. It cannot be un-clicked — only refunded.</p>
+                              <div class="cacts">
+                                <button class="gbtn" disabled={cform.charging}
+                                  onclick={async () => { await charge(p.contactId, enc2); confirmingId = ''; }}>
+                                  {cform.charging ? 'Charging…' : `Charge $${cform.dollars || '0.00'}`}
+                                </button>
+                                <button class="obtn" disabled={cform.charging} onclick={() => confirmingId = ''}>Cancel</button>
+                              </div>
                             </div>
                           {/if}
-                        </li>
-                      {/each}
-                    </ul>
-                  </section>
-                {/if}
+                        {/if}
+                      {/if}
 
-              {/if}
-            </div>
+                      <!-- Export clinical packet -->
+                      <div class="export-row">
+                        <button class="obtn" disabled={estate.exporting} onclick={() => exportPacket(p.contactId, enc2.encounterId)}>
+                          {estate.exporting ? 'Generating…' : 'Export clinical packet'}
+                        </button>
+                        {#if estate.exportError}<p class="err small">{estate.exportError}</p>{/if}
+                        {#if estate.lastUrl}
+                          <p class="export-msg">Opened in a new tab — Print → Save as PDF to attach it.
+                            <a class="ilink" href={estate.lastUrl} target="_blank" rel="noopener">Open again</a></p>
+                        {/if}
+                      </div>
+                    </div>
+                  {/each}
+
+                  <!-- Clinical record sections -->
+                  {#if demo}
+                    <section class="dsection">
+                      <h4 class="dsec">Demographics</h4>
+                      <dl class="dl-grid">
+                        {#each Object.entries(demo) as [k, v]}<dt>{k}</dt><dd>{stringify(v)}</dd>{/each}
+                      </dl>
+                    </section>
+                  {/if}
+
+                  {#if detail.history && typeof detail.history === 'object'}
+                    <section class="dsection">
+                      <h4 class="dsec">Medical history</h4>
+                      <dl class="dl-grid">
+                        {#each Object.entries(detail.history as Record<string, unknown>) as [k, v]}<dt>{k}</dt><dd>{stringify(v)}</dd>{/each}
+                      </dl>
+                    </section>
+                  {/if}
+
+                  {#if detail.screeningAnswers}
+                    <section class="dsection">
+                      <h4 class="dsec">Screening answers</h4>
+                      {#if Array.isArray(detail.screeningAnswers)}
+                        <ul class="slist">
+                          {#each detail.screeningAnswers as ans}
+                            {@const a = ans as Record<string, unknown>}
+                            <li><span class="q-id">{stringify(a.questionId ?? a.id ?? '')}</span><span class="q-val">{stringify(a.valueJson ?? a.value ?? a)}</span></li>
+                          {/each}
+                        </ul>
+                      {:else if typeof detail.screeningAnswers === 'object'}
+                        <dl class="dl-grid">
+                          {#each Object.entries(detail.screeningAnswers as Record<string, unknown>) as [k, v]}<dt>{k}</dt><dd>{stringify(v)}</dd>{/each}
+                        </dl>
+                      {/if}
+                    </section>
+                  {/if}
+
+                  {#if Array.isArray(detail.consents)}
+                    <section class="dsection">
+                      <h4 class="dsec">Consents</h4>
+                      <ul class="clist">
+                        {#each detail.consents as c}
+                          {@const consent = c as Record<string, unknown>}
+                          <li>
+                            <span class="ckey">{stringify(consent.type ?? consent.key ?? consent.id ?? '')}</span>
+                            <span class="cver">v{stringify(consent.version ?? '—')}</span>
+                            <span class="cagreed" class:yes={!!consent.agreed}>{consent.agreed ? 'Agreed' : 'Not agreed'}</span>
+                            {#if consent.agreedAt ?? consent.timestamp}<span class="cts">{fmtDateTime(String(consent.agreedAt ?? consent.timestamp))}</span>{/if}
+                          </li>
+                        {/each}
+                      </ul>
+                    </section>
+                  {/if}
+
+                  {#if Array.isArray((detail as unknown as Record<string, unknown>).audit) && ((detail as unknown as Record<string, unknown>).audit as unknown[]).length > 0}
+                    <section class="dsection">
+                      <h4 class="dsec">Audit trail</h4>
+                      <div class="audit">
+                        {#each [...((detail as unknown as Record<string, unknown>).audit as Record<string, unknown>[])].reverse() as a}
+                          <div class="aline">{fmtDateTime(String(a.at ?? ''))} — <b>{stringify(a.action)}</b>{#if a.detail}&nbsp;· {stringify(a.detail)}{/if}{#if a.actor}&nbsp;· {stringify(a.actor)}{/if}</div>
+                        {/each}
+                      </div>
+                    </section>
+                  {/if}
+
+                {/if}
+              </div>
+            </td></tr>
           {/if}
-        </li>
-      {/each}
-    </ul>
+        {/each}
+      </tbody>
+    </table>
   {/if}
 </div>
 
 <style>
   .patients-admin { padding: 0; }
-
-  .panel-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-
-  .panel-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #1A2E1E;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .badge {
-    background: #1D9E75;
-    border: 1px solid #1D9E75;
-    border-radius: 12px;
-    padding: 2px 10px;
-    font-size: 0.75rem;
-    color: #ffffff;
-    font-weight: 600;
-  }
-
-  /* ── Patient list ─────────────────────────────────────────────────────────── */
-
-  .patient-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .patient-row {
-    background: #ffffff;
-    border: 1px solid #d9e5d6;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .patient-row.expanded {
-    border-color: #1D9E75;
-  }
-
-  /* ── Summary row button ────────────────────────────────────────────────────── */
-
-  .row-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 14px 18px;
-    cursor: pointer;
-    text-align: left;
-    flex-wrap: wrap;
-  }
-
-  .row-summary:hover {
-    background: #f5faf3;
-  }
-
-  .row-identity {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-  }
-
-  .patient-name {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #0a0a0a;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .patient-email {
-    font-size: 0.78rem;
-    color: #3A6A44;
-    font-family: monospace;
-  }
-
-  .row-meta {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    flex-shrink: 0;
-  }
-
-  .enc-cat {
-    font-size: 0.78rem;
-    color: #1A2E1E;
-    font-weight: 600;
-  }
-
-  .no-enc {
-    font-size: 0.78rem;
-    color: #7a9a7e;
-    font-style: italic;
-  }
-
-  .more-enc {
-    font-size: 0.72rem;
-    color: #3A6A44;
-  }
-
-  .created-date {
-    font-size: 0.78rem;
-    color: #3A6A44;
-  }
-
-  .chevron {
-    font-size: 0.7rem;
-    color: #1D9E75;
-    margin-left: 4px;
-  }
-
-  /* ── State chips ─────────────────────────────────────────────────────────── */
-
-  .state-chip {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 2px 9px;
-    border-radius: 10px;
-    border: 1px solid #c5d0c2;
-    color: #1A2E1E;
-    white-space: nowrap;
-  }
-
-  .state-chip.state-new { color: #1A2E1E; border-color: #c5d0c2; }
-  .state-chip.state-coordinator-reviewed { color: #b07d00; border-color: #e0c060; }
-  .state-chip.state-sent-to-provider { color: #1D9E75; border-color: #1D9E75; }
-  .state-chip.state-script-written { color: #1677b5; border-color: #88bbdd; }
-  .state-chip.state-fulfilled { color: #1D9E75; border-color: #1D9E75; font-weight: 800; }
-  .state-chip.state-declined { color: #c81e1e; border-color: #e08080; }
-
-  /* ── Detail panel ────────────────────────────────────────────────────────── */
-
-  .detail-panel {
-    border-top: 1px solid #d9e5d6;
-    padding: 18px 18px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .detail-section {}
-
-  .section-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #1A2E1E;
-    margin: 0 0 10px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #d9e5d6;
-  }
-
-  /* ── Definition list ────────────────────────────────────────────────────── */
-
-  .dl-grid {
-    display: grid;
-    grid-template-columns: minmax(120px, max-content) 1fr;
-    gap: 4px 16px;
-    margin: 0;
-    font-size: 0.83rem;
-  }
-
-  .dl-grid dt {
-    font-weight: 600;
-    color: #1A2E1E;
-    padding: 3px 0;
-  }
-
-  .dl-grid dd {
-    color: #0a0a0a;
-    margin: 0;
-    padding: 3px 0;
-    word-break: break-word;
-    font-family: monospace;
-    font-size: 0.8rem;
-  }
-
-  /* ── Screening answers ─────────────────────────────────────────────────── */
-
-  .screening-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .screening-list li {
-    display: flex;
-    gap: 10px;
-    font-size: 0.82rem;
-    padding: 4px 0;
-    border-bottom: 1px solid #eef3ee;
-  }
-
-  .q-id {
-    font-weight: 600;
-    color: #1A2E1E;
-    min-width: 120px;
-    flex-shrink: 0;
-  }
-
-  .q-val {
-    color: #0a0a0a;
-    font-family: monospace;
-    font-size: 0.78rem;
-    word-break: break-word;
-  }
-
-  /* ── Consents ───────────────────────────────────────────────────────────── */
-
-  .consent-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .consent-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    padding: 6px 0;
-    border-bottom: 1px solid #eef3ee;
-    font-size: 0.82rem;
-  }
-
-  .consent-key {
-    font-weight: 600;
-    color: #1A2E1E;
-    flex: 1;
-    min-width: 140px;
-  }
-
-  .consent-version {
-    font-size: 0.75rem;
-    color: #3A6A44;
-  }
-
-  .consent-agreed.yes { color: #1D9E75; font-weight: 700; }
-  .consent-agreed.no  { color: #c81e1e; font-weight: 700; }
-
-  .consent-ts {
-    font-size: 0.75rem;
-    color: #3A6A44;
-  }
-
-  /* ── Card on file ───────────────────────────────────────────────────────── */
-
-  .card-on-file {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .card-on-file.present { color: #1D9E75; }
-  .card-on-file.absent  { color: #7a9a7e; font-style: italic; font-weight: 400; }
-
-  /* ── Encounter list ──────────────────────────────────────────────────────── */
-
-  .encounter-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .encounter-item {
-    background: #F0F5F0;
-    border: 1px solid #d9e5d6;
-    border-radius: 8px;
-    padding: 12px 14px;
-  }
-
-  .enc-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-
-  .enc-visit {
-    font-size: 0.75rem;
-    color: #3A6A44;
-    font-style: italic;
-  }
-
-  .enc-date {
-    font-size: 0.75rem;
-    color: #3A6A44;
-    margin-left: auto;
-  }
-
-  /* ── Transition controls ──────────────────────────────────────────────────── */
-
-  .transition-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .transition-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: #1A2E1E;
-  }
-
-  .transition-btn {
-    background: #1D9E75;
-    border: 1px solid #1D9E75;
-    border-radius: 6px;
-    color: #ffffff;
-    padding: 5px 14px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  .transition-btn:hover:not(:disabled) { background: #178a63; }
-  .transition-btn:disabled { opacity: 0.5; cursor: default; }
-
-  .transition-btn.decline-btn {
-    background: #ffffff;
-    border-color: #c81e1e;
-    color: #c81e1e;
-  }
-
-  .transition-btn.decline-btn:hover:not(:disabled) {
-    background: #fff0f0;
-  }
-
-  .terminal-state {
-    font-size: 0.78rem;
-    color: #7a9a7e;
-    font-style: italic;
-    margin: 0;
-  }
-
-  /* ── Misc ─────────────────────────────────────────────────────────────────── */
-
-  .empty-field {
-    font-size: 0.82rem;
-    color: #7a9a7e;
-    margin: 0;
-  }
-
-  .loading, .err { color: #1A2E1E; padding: 14px 0; }
-  .err { color: #c81e1e; }
-  .err.small { font-size: 0.8rem; padding: 4px 0 0; }
-
-  /* ── Reopen button ─────────────────────────────────────────────────────────── */
-
-  .transition-btn.reopen-btn {
-    background: #ffffff;
-    border-color: #1D9E75;
-    color: #1D9E75;
-  }
-
-  .transition-btn.reopen-btn:hover:not(:disabled) {
-    background: #f0faf6;
-  }
-
-  /* ── Approve & charge panel ─────────────────────────────────────────────────── */
-
-  .charge-panel {
-    margin-top: 14px;
-    background: #f8fcf9;
-    border: 1px solid #b8d9c4;
-    border-radius: 8px;
-    padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .charge-panel-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #1677b5;
-    margin: 0;
-  }
-
-  .charge-fields {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .charge-field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .charge-field-wide {
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .charge-field-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #1A2E1E;
-  }
-
-  .charge-input {
-    background: #ffffff;
-    border: 1px solid #c5d0c2;
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 0.85rem;
-    color: #0a0a0a;
-    width: 120px;
-  }
-
-  .charge-field-wide .charge-input {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .charge-input:focus {
-    outline: none;
-    border-color: #1D9E75;
-  }
-
-  .billing-toggle {
-    border: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .billing-toggle legend {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #1A2E1E;
-    margin-bottom: 4px;
-    float: left;
-    width: 100%;
-  }
-
-  .toggle-option {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.82rem;
-    color: #1A2E1E;
-    cursor: pointer;
-  }
-
-  .charge-btn {
-    align-self: flex-start;
-    background: #1677b5;
-    border: 1px solid #1677b5;
-    border-radius: 6px;
-    color: #ffffff;
-    padding: 6px 18px;
-    cursor: pointer;
-    font-size: 0.82rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  .charge-btn:hover:not(:disabled) { background: #125d99; }
-  .charge-btn:disabled { opacity: 0.5; cursor: default; }
-
-  .charge-err {
-    margin: 0;
-  }
-
-  .charge-success {
-    margin: 10px 0 0;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #1D9E75;
-  }
-
-  /* ── Export clinical packet ─────────────────────────────────────────────────── */
-
-  .export-row {
-    margin-top: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .export-btn {
-    align-self: flex-start;
-    background: #ffffff;
-    border: 1px solid #3A6A44;
-    border-radius: 6px;
-    color: #3A6A44;
-    padding: 5px 14px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-
-  .export-btn:hover:not(:disabled) {
-    background: #f0faf6;
-    border-color: #1D9E75;
-    color: #1D9E75;
-  }
-
-  .export-btn:disabled { opacity: 0.5; cursor: default; }
-
-  .export-msg {
-    font-size: 0.78rem;
-    color: #3A6A44;
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  .export-hint {
-    font-style: italic;
-  }
-
-  .export-fallback-link {
-    color: #1677b5;
-    text-decoration: underline;
-  }
-
-  .export-fallback-link:hover {
-    color: #125d99;
-  }
+  .panel-header { margin-bottom: 16px; }
+  .panel-title { font-family: var(--mc-font-display); font-size: 1.25rem; font-weight: 700; color: var(--mc-ink); margin: 0; display: flex; align-items: center; gap: 10px; }
+  .panel-sub { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mc-muted); margin: 4px 0 0; }
+  .badge { background: var(--mc-gold); border-radius: var(--mc-r-pill); padding: 2px 10px; font-size: 0.72rem; color: var(--mc-on-gold); font-weight: 600; font-family: var(--mc-font-ui); }
+
+  /* lanes */
+  .lanes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+  .lane { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 12px 14px; }
+  .lane .ln { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mc-muted); }
+  .lane .lv { font-size: 1.6rem; font-weight: 600; margin-top: 3px; font-variant-numeric: tabular-nums; color: var(--mc-ink); }
+  .lane .ls { font-size: 0.66rem; margin-top: 2px; color: var(--mc-muted); }
+  .lane.a1 .lv, .lane.a1 .ls { color: var(--mc-gold); }
+  .lane.a2 .lv { color: var(--mc-info); }
+  .lane.a3 .lv, .lane.a3 .ls { color: var(--mc-good-bright); }
+  .lane.a4.alert .lv, .lane.a4.alert .ls { color: var(--mc-warn-bright); }
+  @media (max-width: 700px) { .lanes { grid-template-columns: 1fr 1fr; } }
+
+  /* table */
+  .ptable { width: 100%; border-collapse: collapse; background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); overflow: hidden; }
+  .ptable th { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mc-muted); text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--mc-line); background: var(--mc-panel-2); }
+  .ptable td { padding: 12px 13px; border-bottom: 1px solid var(--mc-line-soft); font-size: 0.82rem; font-variant-numeric: tabular-nums; color: var(--mc-ink); vertical-align: middle; }
+  .prow { cursor: pointer; }
+  .prow:hover td { background: rgba(212, 175, 90, 0.05); }
+  .prow.sel td { background: var(--mc-gold-tint); }
+  .pname { font-weight: 600; }
+  .pmail { font-size: 0.68rem; color: var(--mc-muted); }
+  .pcat { color: var(--mc-ink); }
+  .more-enc { font-size: 0.65rem; color: var(--mc-muted); margin-left: 6px; }
+  .no-enc { font-size: 0.72rem; color: var(--mc-faint); font-style: italic; }
+  .age { color: var(--mc-muted); }
+  .age.hot { color: var(--mc-warn-bright); font-weight: 600; }
+  .chev { color: var(--mc-gold); font-size: 0.7rem; text-align: right; }
+
+  .chip { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--mc-r-pill); white-space: nowrap; }
+  .chip.new { color: #a9b4cc; background: #182849; }
+  .chip.reviewed { color: var(--mc-gold-soft); background: var(--mc-gold-tint); }
+  .chip.provider { color: var(--mc-info); background: var(--mc-info-tint); }
+  .chip.ready { color: var(--mc-good-bright); background: var(--mc-good-tint); }
+  .chip.done { color: var(--mc-muted); background: #121e38; }
+  .chip.declined { color: var(--mc-crit-bright); background: var(--mc-crit-tint); }
+
+  /* drawer */
+  .drawer-row td { padding: 0; background: var(--mc-panel-2); }
+  .drawer { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 16px; }
+  .dname { font-family: var(--mc-font-display); font-size: 1.15rem; color: var(--mc-ink); }
+  .dmeta { font-size: 0.7rem; color: var(--mc-muted); margin-top: 3px; }
+  .row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 220px)); gap: 8px; }
+  .mini { background: var(--mc-bg); border: 1px solid var(--mc-line); border-radius: 9px; padding: 8px 11px; }
+  .mini .fl2 { font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mc-muted); }
+  .mini .fv { font-size: 0.85rem; font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; color: var(--mc-ink); }
+  .fv.ok-v { color: var(--mc-good-bright); }
+  .fv.mut-v { color: var(--mc-faint); font-weight: 400; }
+
+  /* encounter card */
+  .encounter { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 14px 16px; }
+  .enc-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .enc-cat { font-size: 0.78rem; font-weight: 600; color: var(--mc-ink); }
+  .enc-visit { font-size: 0.68rem; color: var(--mc-muted); font-style: italic; }
+  .enc-date { font-size: 0.68rem; color: var(--mc-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  .declined-band { background: var(--mc-crit-tint); border: 1px solid var(--mc-crit-bright); border-radius: 8px; color: var(--mc-crit-bright); font-size: 0.75rem; font-weight: 600; padding: 8px 12px; margin-bottom: 10px; }
+
+  .path { display: flex; align-items: center; margin: 4px 0 2px; }
+  .node { width: 10px; height: 10px; border-radius: 50%; background: #223458; flex-shrink: 0; }
+  .node.done { background: var(--mc-good); }
+  .node.on { background: var(--mc-gold); box-shadow: 0 0 0 4px rgba(212, 175, 90, 0.18); }
+  .edge { height: 2px; flex: 1; background: #223458; }
+  .edge.done { background: var(--mc-good); }
+  .pathlbl { display: flex; justify-content: space-between; font-size: 0.55rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mc-muted); margin: 6px 0 12px; }
+
+  .transition-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .transition-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mc-muted); }
+  .tbtn { background: var(--mc-gold); border: 1px solid var(--mc-gold); border-radius: 8px; color: var(--mc-on-gold); padding: 6px 14px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+  .tbtn:hover:not(:disabled) { background: var(--mc-gold-soft); }
+  .tbtn:disabled { opacity: 0.5; cursor: default; }
+  .tbtn.decline { background: transparent; border-color: var(--mc-crit-bright); color: var(--mc-crit-bright); }
+  .tbtn.decline:hover:not(:disabled) { background: var(--mc-crit-tint); }
+  .tbtn.reopen { background: transparent; border-color: var(--mc-gold); color: var(--mc-gold); }
+  .tbtn.reopen:hover:not(:disabled) { background: var(--mc-gold-tint); }
+  .terminal-state { font-size: 0.72rem; color: var(--mc-faint); font-style: italic; margin: 0; }
+
+  /* charge */
+  .chargebox { margin-top: 12px; background: var(--mc-panel-2); border: 1px solid var(--mc-gold-line); border-radius: 11px; padding: 13px 15px; display: flex; flex-direction: column; gap: 10px; }
+  .cl { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mc-gold); margin: 0; font-weight: 600; }
+  .warn-cl { color: var(--mc-warn-bright); }
+  .charge-fields { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+  .cfield { display: flex; flex-direction: column; gap: 4px; }
+  .cfield.wide { flex: 1; min-width: 200px; }
+  .cfl { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mc-muted); }
+  .cinput { background: var(--mc-bg); border: 1px solid var(--mc-line); border-radius: 7px; padding: 7px 10px; font-size: 0.82rem; color: var(--mc-ink); width: 130px; font-variant-numeric: tabular-nums; }
+  .cfield.wide .cinput { width: 100%; box-sizing: border-box; }
+  .cinput:focus { outline: none; border-color: var(--mc-gold); }
+  .billing { border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+  .billing legend { margin-bottom: 4px; float: left; width: 100%; }
+  .opt { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--mc-ink); cursor: pointer; }
+  .gbtn { align-self: flex-start; background: var(--mc-gold); border: none; border-radius: 8px; color: var(--mc-on-gold); padding: 8px 18px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; }
+  .gbtn:hover:not(:disabled) { background: var(--mc-gold-soft); }
+  .gbtn:disabled { opacity: 0.5; cursor: default; }
+  .obtn { align-self: flex-start; background: transparent; border: 1px solid var(--mc-line); border-radius: 8px; color: var(--mc-muted); padding: 7px 14px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+  .obtn:hover:not(:disabled) { border-color: var(--mc-gold-line); color: var(--mc-ink); }
+  .obtn:disabled { opacity: 0.5; cursor: default; }
+
+  .confirm { margin-top: 10px; background: var(--mc-bg); border: 1px solid var(--mc-warn-bright); border-radius: 11px; padding: 13px 15px; }
+  .cline { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 6px 0; border-bottom: 1px solid var(--mc-line-soft); font-variant-numeric: tabular-nums; color: var(--mc-muted); }
+  .cline b { color: var(--mc-ink); font-weight: 600; }
+  .crit-v { color: var(--mc-crit-bright); }
+  .warntxt { font-size: 0.7rem; color: var(--mc-warn-bright); margin: 10px 0 0; line-height: 1.5; }
+  .cacts { display: flex; gap: 8px; margin-top: 12px; }
+  .charge-success { margin: 10px 0 0; font-size: 0.82rem; font-weight: 600; color: var(--mc-good-bright); }
+
+  .export-row { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .export-msg { font-size: 0.72rem; color: var(--mc-muted); margin: 0; line-height: 1.5; font-style: italic; }
+  .ilink { color: var(--mc-info); text-decoration: underline; }
+
+  /* record sections */
+  .dsection {}
+  .dsec { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mc-gold); margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--mc-line); }
+  .dl-grid { display: grid; grid-template-columns: minmax(120px, max-content) 1fr; gap: 3px 16px; margin: 0; font-size: 0.78rem; }
+  .dl-grid dt { font-weight: 600; color: var(--mc-muted); padding: 3px 0; }
+  .dl-grid dd { color: var(--mc-ink); margin: 0; padding: 3px 0; word-break: break-word; font-family: ui-monospace, Menlo, monospace; font-size: 0.72rem; }
+  .slist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+  .slist li { display: flex; gap: 10px; font-size: 0.78rem; padding: 4px 0; border-bottom: 1px solid var(--mc-line-soft); }
+  .q-id { font-weight: 600; color: var(--mc-muted); min-width: 120px; flex-shrink: 0; }
+  .q-val { color: var(--mc-ink); font-family: ui-monospace, Menlo, monospace; font-size: 0.72rem; word-break: break-word; }
+  .clist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+  .clist li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 5px 0; border-bottom: 1px solid var(--mc-line-soft); font-size: 0.78rem; }
+  .ckey { font-weight: 600; color: var(--mc-ink); flex: 1; min-width: 140px; }
+  .cver { font-size: 0.68rem; color: var(--mc-muted); }
+  .cagreed { color: var(--mc-crit-bright); font-weight: 600; }
+  .cagreed.yes { color: var(--mc-good-bright); }
+  .cts { font-size: 0.68rem; color: var(--mc-muted); font-variant-numeric: tabular-nums; }
+
+  .audit { font-size: 0.7rem; color: var(--mc-muted); line-height: 1.9; font-variant-numeric: tabular-nums; }
+  .aline b { color: var(--mc-ink); font-weight: 600; }
+
+  .loading, .err { color: var(--mc-muted); padding: 14px 0; }
+  .err { color: var(--mc-crit-bright); }
+  .err.small { font-size: 0.75rem; padding: 4px 0 0; }
 </style>

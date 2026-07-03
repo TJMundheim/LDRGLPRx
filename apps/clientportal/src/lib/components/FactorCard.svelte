@@ -19,7 +19,7 @@
       <div class="factor-name">
         {factor.name}
         {#if factor.tag}
-          <span class="pill" style="background:{factor.tc || '#1D9E75'}20;color:{factor.tc || '#1D9E75'};margin-left:8px;font-size:9px">{factor.tag}</span>
+          <span class="pill" style="background:{factor.tc || 'var(--mc-good-bright)'}20;color:{factor.tc || 'var(--mc-good-bright)'};margin-left:8px;font-size:9px">{factor.tag}</span>
         {/if}
       </div>
       <div class="factor-sub">{factor.sub ?? ''}</div>

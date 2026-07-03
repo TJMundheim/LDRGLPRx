@@ -6,9 +6,9 @@
   }
   let { factorId, current, onScore }: Props = $props();
   function color(n: number): string {
-    if (n <= 2) return '#1D9E75';
-    if (n === 3) return '#D4920A';
-    return '#E05C2A';
+    if (n <= 2) return 'var(--mc-good-bright)';
+    if (n === 3) return 'var(--mc-warn-b)';
+    return 'var(--mc-crit-b)';
   }
 </script>
 
@@ -19,8 +19,8 @@
     <button
       class="score-btn"
       style:background={active ? c : '#FFFFFF'}
-      style:color={active ? '#fff' : '#6A9A74'}
-      style:border-color={active ? c : '#D8E8DC'}
+      style:color={active ? '#fff' : 'var(--mc-muted)'}
+      style:border-color={active ? c : 'var(--mc-line)'}
       onclick={(e) => { e.stopPropagation(); onScore(factorId, n); }}
     >{n}</button>
   {/each}

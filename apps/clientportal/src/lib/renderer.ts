@@ -27,6 +27,25 @@ export interface RenderContext {
   factorTab: 'imm' | 'tools' | 'adv' | 'res';
 }
 
+// Mission Control (Direction C) palette — used throughout inline styles below.
+// Pillar/week brand accents (from content/weeks.ts) are left untouched; this
+// const only replaces the light-theme literal hexes that used to hardcode
+// backgrounds, borders, and body/muted text colors.
+const C = {
+  ink: 'var(--mc-ink)',
+  muted: 'var(--mc-muted)',
+  panel: 'var(--mc-panel)',
+  panel2: 'var(--mc-panel-2)',
+  line: 'var(--mc-line)',
+  gold: 'var(--mc-gold)',
+  goldTint: 'rgba(212,175,90,.12)',
+  good: 'var(--mc-good)',
+  goodBright: 'var(--mc-good-bright)',
+  warn: 'var(--mc-warn-bright)',
+  crit: 'var(--mc-crit-bright)',
+  info: 'var(--mc-info)',
+};
+
 const esc = (s: unknown): string =>
   String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -54,15 +73,15 @@ export function colds(W: Workbook): number {
 }
 
 function riskBand(score: number): { label: string; color: string; bg: string } {
-  if (score <= 28) return { label: 'Low risk', color: '#1D9E75', bg: 'rgba(29,158,117,.1)' };
-  if (score <= 49) return { label: 'Moderate risk', color: '#D4920A', bg: 'rgba(212,146,10,.1)' };
-  return { label: 'High risk — fastest results', color: '#E05C2A', bg: 'rgba(224,92,42,.1)' };
+  if (score <= 28) return { label: 'Low risk', color: C.goodBright, bg: 'rgba(46,158,107,.14)' };
+  if (score <= 49) return { label: 'Moderate risk', color: C.warn, bg: 'rgba(212,146,10,.1)' };
+  return { label: 'High risk — fastest results', color: C.crit, bg: 'rgba(224,92,42,.1)' };
 }
 
 function scoreBtnColor(n: number): string {
-  if (n <= 2) return '#1D9E75';
-  if (n === 3) return '#D4920A';
-  return '#E05C2A';
+  if (n <= 2) return C.goodBright;
+  if (n === 3) return C.warn;
+  return C.crit;
 }
 
 function weekBanner(w: 1 | 2 | 3 | 4): string {
@@ -71,7 +90,7 @@ function weekBanner(w: 1 | 2 | 3 | 4): string {
     <div class="week-tag" style="color:${wc.ac};margin-bottom:4px">WEEK ${w} OF 4</div>
     <div class="week-name">${wc.label}</div>
     <div class="week-sub" style="margin-top:5px">${wc.sub}</div>
-    <div style="margin-top:8px;display:inline-block;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.06em;color:#fff">⭐ ${wc.focus}</div>
+    <div style="margin-top:8px;display:inline-block;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.06em;color:${C.panel2}">⭐ ${wc.focus}</div>
   </div>`;
 }
 
@@ -81,7 +100,7 @@ function scoreBtns(W: Workbook, fNum: string): string {
     const c = scoreBtnColor(n);
     const active = sc === n;
     return `<button class="score-btn"
-      style="background:${active ? c : '#FFFFFF'};color:${active ? '#fff' : '#6A9A74'};border-color:${active ? c : '#D8E8DC'}"
+      style="background:${active ? c : C.panel2};color:${active ? C.panel2 : C.muted};border-color:${active ? c : C.line}"
       onclick="portalAction('setScore','${fNum}',${n});event.stopPropagation()">${n}</button>`;
   }).join('');
 }
@@ -152,7 +171,7 @@ function gutBand(score: number): { title: string; body: string; cta: string } {
 export function renderGutAssessment(): string {
   const state = loadGutState();
   const showResult = state.score !== null && isGutResultRecent(state.completedAt);
-  const ac = '#1D9E75';
+  const ac = C.goodBright;
 
   // Build question rows
   const questionRows = GUT_QUESTIONS.map((q, i) => {
@@ -160,14 +179,14 @@ export function renderGutAssessment(): string {
     const ans = (state.answers as Record<string, boolean>)[String(i)];
     const yesActive = ans === true;
     const noActive = ans === false;
-    return `<div data-gut-row="${i}" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #1D9E7518">
-      <span style="font-size:12.5px;color:#1A2E1E;line-height:1.5;flex:1">${esc(q)}</span>
+    return `<div data-gut-row="${i}" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(46,158,107,.15)">
+      <span style="font-size:12.5px;color:${C.ink};line-height:1.5;flex:1">${esc(q)}</span>
       <div style="display:flex;gap:6px;flex-shrink:0">
         <button class="day-btn"
-          style="background:${yesActive ? ac : '#FFFFFF'};color:${yesActive ? '#fff' : '#5A8A64'};border-color:${yesActive ? ac : '#D8E8DC'};min-width:44px;font-size:12px;font-weight:700;padding:5px 10px"
+          style="background:${yesActive ? ac : C.panel2};color:${yesActive ? C.panel2 : C.muted};border-color:${yesActive ? ac : C.line};min-width:44px;font-size:12px;font-weight:700;padding:5px 10px"
           onclick="gutAssessmentAction('answer',${i},true)">Yes</button>
         <button class="day-btn"
-          style="background:${noActive ? '#6B5ED4' : '#FFFFFF'};color:${noActive ? '#fff' : '#5A8A64'};border-color:${noActive ? '#6B5ED4' : '#D8E8DC'};min-width:44px;font-size:12px;font-weight:700;padding:5px 10px"
+          style="background:${noActive ? C.info : C.panel2};color:${noActive ? C.panel2 : C.muted};border-color:${noActive ? C.info : C.line};min-width:44px;font-size:12px;font-weight:700;padding:5px 10px"
           onclick="gutAssessmentAction('answer',${i},false)">No</button>
       </div>
     </div>`;
@@ -180,29 +199,29 @@ export function renderGutAssessment(): string {
   let resultHtml = '';
   if (showResult && state.score !== null) {
     const band = gutBand(state.score);
-    const scoreColor = state.score <= 2 ? '#1D9E75' : state.score <= 5 ? '#D4920A' : '#E05C2A';
+    const scoreColor = state.score <= 2 ? C.goodBright : state.score <= 5 ? C.warn : C.crit;
     resultHtml = `<div id="gut-result-block" style="display:block">
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
         <div style="width:56px;height:56px;border-radius:50%;background:${scoreColor}20;border:2px solid ${scoreColor};display:flex;align-items:center;justify-content:center;flex-shrink:0">
           <span style="font-size:22px;font-weight:800;color:${scoreColor}">${state.score}</span>
         </div>
         <div>
-          <div style="font-size:14px;font-weight:700;color:#1A2E1E;line-height:1.3">${esc(band.title)}</div>
-          <div style="font-size:10px;color:#6A8A6E;margin-top:2px">Score: ${state.score}/10</div>
+          <div style="font-size:14px;font-weight:700;color:${C.ink};line-height:1.3">${esc(band.title)}</div>
+          <div style="font-size:10px;color:${C.muted};margin-top:2px">Score: ${state.score}/10</div>
         </div>
       </div>
-      <div style="font-size:12.5px;color:#3A6A44;line-height:1.7;margin-bottom:16px">${esc(band.body)}</div>
-      <a href="https://my4mlife.com/assessment" style="display:inline-block;background:${ac};color:#fff;font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
+      <div style="font-size:12.5px;color:${C.muted};line-height:1.7;margin-bottom:16px">${esc(band.body)}</div>
+      <a href="https://my4mlife.com/assessment" style="display:inline-block;background:${ac};color:${C.panel2};font-size:13px;font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;letter-spacing:.02em">${esc(band.cta)} →</a>
       <div style="margin-top:16px">
         <button onclick="gutAssessmentAction('retake')"
-          style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
+          style="background:none;border:none;color:${C.muted};font-size:12px;cursor:pointer;text-decoration:underline;padding:0">Retake assessment</button>
       </div>
     </div>
     <div id="gut-questions-block" style="display:none">
       ${questionRows}
       <div style="margin-top:16px;text-align:center">
         <button id="gut-submit-btn" onclick="gutAssessmentAction('submit')"
-          style="background:${ac};color:#fff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;opacity:${allAnswered ? '1' : '.45'};pointer-events:${allAnswered ? 'auto' : 'none'}"
+          style="background:${ac};color:${C.panel2};font-size:13px;font-weight:700;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;opacity:${allAnswered ? '1' : '.45'};pointer-events:${allAnswered ? 'auto' : 'none'}"
           ${allAnswered ? '' : 'disabled'}>See your result</button>
       </div>
     </div>`;
@@ -211,7 +230,7 @@ export function renderGutAssessment(): string {
       ${questionRows}
       <div style="margin-top:16px;text-align:center">
         <button id="gut-submit-btn" onclick="gutAssessmentAction('submit')"
-          style="background:${ac};color:#fff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;opacity:${allAnswered ? '1' : '.45'};pointer-events:${allAnswered ? 'auto' : 'none'}"
+          style="background:${ac};color:${C.panel2};font-size:13px;font-weight:700;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;opacity:${allAnswered ? '1' : '.45'};pointer-events:${allAnswered ? 'auto' : 'none'}"
           ${allAnswered ? '' : 'disabled'}>See your result</button>
       </div>
     </div>
@@ -220,7 +239,7 @@ export function renderGutAssessment(): string {
 
   return `<div class="card" style="border-color:${ac}55">
     <div class="card-title" style="color:${ac}">Gut Health Self-Assessment — 5 minutes</div>
-    <div style="font-size:12px;color:#5A6A6E;margin-bottom:16px;line-height:1.5">How much of what's happening in your brain starts in your gut? Find out.</div>
+    <div style="font-size:12px;color:${C.muted};margin-bottom:16px;line-height:1.5">How much of what's happening in your brain starts in your gut? Find out.</div>
     ${resultHtml}
   </div>`;
 }
@@ -233,7 +252,7 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
     const key = `w${w}d${i + 1}`;
     const done = wl.morn[key];
     return `<button class="day-btn"
-      style="background:${done ? wc.ac : '#FFFFFF'};color:${done ? '#fff' : '#5A8A64'};border-color:${done ? wc.ac : '#D8E8DC'}"
+      style="background:${done ? wc.ac : C.panel2};color:${done ? C.panel2 : C.muted};border-color:${done ? wc.ac : C.line}"
       onclick="portalAction('toggleDay','morn',${w},'${key}')">
       <span style="font-size:10px;font-weight:700">${d.charAt(0)}</span>
       <span style="font-size:8px;color:inherit;opacity:.7">${i + 1}</span>
@@ -243,7 +262,7 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
     const key = `cw${w}d${i + 1}`;
     const done = wl.cold[key];
     return `<button class="cold-btn"
-      style="background:${done ? '#2E7FD9' : '#FFFFFF'};color:${done ? '#fff' : '#6A9A74'};border-color:${done ? '#2E7FD9' : '#D8E8DC'}"
+      style="background:${done ? C.info : C.panel2};color:${done ? C.panel2 : C.muted};border-color:${done ? C.info : C.line}"
       onclick="portalAction('toggleDay','cold',${w},'${key}')">${d.charAt(0)}</button>`;
   }).join('');
   const doneCt = days.filter((_, i) => wl.morn[`w${w}d${i + 1}`]).length;
@@ -251,23 +270,23 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
   const week4Note = w === 4 ? ' — with more focus and passion' : '';
   const stepsHtml = steps.length > 0 ? `
     <div style="margin-bottom:12px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:6px;text-transform:uppercase">Today's morning practice${week4Note} — check off as you complete:</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:${C.muted};margin-bottom:6px;text-transform:uppercase">Today's morning practice${week4Note} — check off as you complete:</div>
       <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
-        ${steps.map(s => `<li style="font-size:12px;color:#1A2E1E;line-height:1.4"><strong>${esc(s.n)}</strong> — <span style="color:#5A6A6E">${esc(s.p)}</span>${s.u ? ` <a href="${s.u}" target="_blank" rel="noopener noreferrer" style="color:${wc.ac};font-size:10px;margin-left:4px">▶ video</a>` : ''}</li>`).join('')}
+        ${steps.map(s => `<li style="font-size:12px;color:${C.ink};line-height:1.4"><strong>${esc(s.n)}</strong> — <span style="color:${C.muted}">${esc(s.p)}</span>${s.u ? ` <a href="${s.u}" target="_blank" rel="noopener noreferrer" style="color:${wc.ac};font-size:10px;margin-left:4px">▶ video</a>` : ''}</li>`).join('')}
       </ol>
     </div>` : '';
   return `<div class="card" style="border-color:${wc.ac}55">
     <div class="card-title"><span style="color:${wc.ac}">Week ${w}</span> Morning Protocol Tracker</div>
     ${stepsHtml}
-    <div style="font-size:11px;color:#6A8A6E;margin-bottom:8px">Tap each day you completed all elements</div>
+    <div style="font-size:11px;color:${C.muted};margin-bottom:8px">Tap each day you completed all elements</div>
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">${dayBtns}</div>
     <div class="g2" style="margin-bottom:12px">
       <div>
-        <span style="font-size:0.85rem;font-weight:600;color:#3A6A44">Days completed</span>
+        <span style="font-size:0.85rem;font-weight:600;color:${C.muted}">Days completed</span>
         <div style="font-size:26px;font-weight:700;color:${wc.ac};margin-top:4px">${doneCt} / 7</div>
       </div>
       <div>
-        <span style="font-size:0.85rem;font-weight:600;color:#3A6A44">Cold showers</span>
+        <span style="font-size:0.85rem;font-weight:600;color:${C.muted}">Cold showers</span>
         <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${coldBtns}</div>
       </div>
     </div>
@@ -279,19 +298,19 @@ function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
       const moodChips = moods.map(([v, l]) => {
         const sel = mood === v;
         return `<button type="button"
-          onclick="var p=this.parentNode;Array.prototype.forEach.call(p.children,function(c){c.style.background='#fff';c.style.borderColor='#D8E8DC';c.style.color='#5A8A64'});this.style.background='#1D9E75';this.style.borderColor='#1D9E75';this.style.color='#fff';window.portalField&&window.portalField('weekLogs.${w}.reflectionMood','${v}')"
-          style="flex:1;font-size:12px;font-weight:600;padding:9px 6px;border-radius:8px;cursor:pointer;background:${sel ? '#1D9E75' : '#fff'};border:1.5px solid ${sel ? '#1D9E75' : '#D8E8DC'};color:${sel ? '#fff' : '#5A8A64'}">${l}</button>`;
+          onclick="var p=this.parentNode;Array.prototype.forEach.call(p.children,function(c){c.style.background='${C.panel2}';c.style.borderColor='${C.line}';c.style.color='${C.muted}'});this.style.background='${C.goodBright}';this.style.borderColor='${C.goodBright}';this.style.color='${C.panel2}';window.portalField&&window.portalField('weekLogs.${w}.reflectionMood','${v}')"
+          style="flex:1;font-size:12px;font-weight:600;padding:9px 6px;border-radius:8px;cursor:pointer;background:${sel ? C.goodBright : C.panel2};border:1.5px solid ${sel ? C.goodBright : C.line};color:${sel ? C.panel2 : C.muted}">${l}</button>`;
       }).join('');
       const winChips = winOpts.map(o => {
         const sel = wins.includes(o);
         return `<button type="button" data-v="${o}" class="${sel ? 'sel' : ''}"
-          onclick="this.classList.toggle('sel');var s=this.classList.contains('sel');this.style.background=s?'#1D9E75':'#fff';this.style.color=s?'#fff':'#5A8A64';this.style.borderColor=s?'#1D9E75':'#D8E8DC';var box=this.parentNode;var vals=Array.prototype.slice.call(box.querySelectorAll('.sel')).map(function(e){return e.getAttribute('data-v')}).join(',');window.portalField&&window.portalField('weekLogs.${w}.reflectionWins',vals)"
-          style="font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:18px;cursor:pointer;background:${sel ? '#1D9E75' : '#fff'};border:1.5px solid ${sel ? '#1D9E75' : '#D8E8DC'};color:${sel ? '#fff' : '#5A8A64'}">${o}</button>`;
+          onclick="this.classList.toggle('sel');var s=this.classList.contains('sel');this.style.background=s?'${C.goodBright}':'${C.panel2}';this.style.color=s?'${C.panel2}':'${C.muted}';this.style.borderColor=s?'${C.goodBright}':'${C.line}';var box=this.parentNode;var vals=Array.prototype.slice.call(box.querySelectorAll('.sel')).map(function(e){return e.getAttribute('data-v')}).join(',');window.portalField&&window.portalField('weekLogs.${w}.reflectionWins',vals)"
+          style="font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:18px;cursor:pointer;background:${sel ? C.goodBright : C.panel2};border:1.5px solid ${sel ? C.goodBright : C.line};color:${sel ? C.panel2 : C.muted}">${o}</button>`;
       }).join('');
       return `
-      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#5A8A64;margin-bottom:6px">HOW DID WEEK ${w} FEEL?</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:${C.muted};margin-bottom:6px">HOW DID WEEK ${w} FEEL?</div>
       <div style="display:flex;gap:6px;margin-bottom:12px">${moodChips}</div>
-      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#5A8A64;margin-bottom:6px">WHAT IMPROVED? <span style="font-weight:400;text-transform:none;letter-spacing:0">(tap any)</span></div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:${C.muted};margin-bottom:6px">WHAT IMPROVED? <span style="font-weight:400;text-transform:none;letter-spacing:0">(tap any)</span></div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${winChips}</div>`;
     })()}
     <label for="morn-reflection-w${w}">Anything else worth noting? (optional)</label>
@@ -311,7 +330,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
     ['hiit', 'HIIT training', true]
   ];
   const days = ['Day 1', 'Day 2', 'Day 3'];
-  const color = '#E05C2A';
+  const color = C.crit;
 
   // Strength baseline tests — Day 1 of each week is a retest. Show prior week's value for comparison.
   const baselineFields: Array<[string, string]> = [
@@ -324,7 +343,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
   const baselineHeader = `
     <div style="background:rgba(224,92,42,.08);border:1.5px solid rgba(224,92,42,.3);border-radius:9px;padding:14px;margin-bottom:14px">
       <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">⭐ STRENGTH BASELINE — RETEST DAY 1 OF WEEK ${w}</div>
-      <div style="font-size:11.5px;color:#7A3A20;line-height:1.55;margin-bottom:12px">
+      <div style="font-size:11.5px;color:${C.muted};line-height:1.55;margin-bottom:12px">
         Day 1 of every week starts with retesting your baselines. ${w === 1
           ? 'These numbers become your benchmark for the rest of the program.'
           : `Compare to last week — let your new numbers shape the rest of this week's work.`}
@@ -332,7 +351,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
       <div style="overflow-x:auto">
       <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:5px;min-width:320px">
         ${['Test', `Week ${w} retest`, w > 1 ? `Week ${w - 1}` : 'Notes', 'Δ'].map(h =>
-          `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+          `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:${C.muted}">${h}</div>`
         ).join('')}
       </div>
       ${baselineFields.map(([k, l]) => {
@@ -341,15 +360,15 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
         const prevKey = w > 1 ? `w${w - 1}_baseline_${k}` : '';
         const prev = prevKey ? (W.trainLog[prevKey] ?? '') : '';
         const delta = cur && prev ? (Number(cur) - Number(prev)).toFixed(0) : '';
-        const deltaColor = delta && Number(delta) > 0 ? '#1D9E75' : delta && Number(delta) < 0 ? '#E05C2A' : '#6A8A6E';
+        const deltaColor = delta && Number(delta) > 0 ? C.goodBright : delta && Number(delta) < 0 ? C.crit : C.muted;
         return `
         <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 0.7fr;gap:8px;margin-bottom:6px;align-items:center;min-width:320px">
-          <div style="font-size:11px;color:#5A3020">${l}</div>
+          <div style="font-size:11px;color:${C.muted}">${l}</div>
           <input placeholder="this week" style="font-size:11px"
             value="${esc(cur)}"
             oninput="portalField('trainLog.${curKey}',this.value)">
           ${w > 1
-            ? `<div style="font-size:11px;color:#8A6A50;padding:7px 9px;background:rgba(224,92,42,.04);border-radius:7px">${prev || '—'}</div>`
+            ? `<div style="font-size:11px;color:${C.muted};padding:7px 9px;background:rgba(224,92,42,.04);border-radius:7px">${prev || '—'}</div>`
             : `<input placeholder="form / notes" style="font-size:11px" value="${esc(W.trainLog[`w1_baseline_${k}_notes`] ?? '')}" oninput="portalField('trainLog.w1_baseline_${k}_notes',this.value)">`}
           <div style="font-size:12px;font-weight:700;color:${deltaColor};text-align:center">
             ${delta ? (Number(delta) > 0 ? '+' : '') + delta : '—'}
@@ -360,7 +379,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
     </div>
 
     <div class="card-title" style="font-size:10px;margin-bottom:6px">WORKOUT LOG — WEEK ${w}</div>
-    <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px">
+    <div style="font-size:11px;color:${C.muted};margin-bottom:10px">
       3 sessions this week — recommend every other day (Mon/Wed/Fri or Tue/Thu/Sat). Just tap to check off what you did; no numbers to log here. Day 1 is your retest day above.
     </div>`;
   return baselineHeader + `
@@ -373,10 +392,10 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
         ${exercises.map(([k, l, opt]) => {
           const done = W.trainLog[`w${w}d${d}_${k}_done`] === '1';
           return `
-          <label style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1.5px solid ${done ? '#1D9E75' : '#D8E8DC'};border-radius:8px;background:${done ? '#EAF7EF' : '#FFFFFF'};cursor:pointer;font-size:12.5px;color:#1A2E1E">
-            <input type="checkbox" ${done ? 'checked' : ''} style="width:20px;height:20px;flex-shrink:0;accent-color:#1D9E75;cursor:pointer"
-              onchange="var l=this.closest('label');l.style.borderColor=this.checked?'#1D9E75':'#D8E8DC';l.style.background=this.checked?'#EAF7EF':'#FFFFFF';window.portalField&&window.portalField('trainLog.w${w}d${d}_${k}_done',this.checked?'1':'')">
-            <span style="flex:1">${l}${opt ? ` <span style="font-size:10px;color:#8AB89A">(optional)</span>` : ``}</span>
+          <label style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1.5px solid ${done ? C.goodBright : C.line};border-radius:8px;background:${done ? C.goldTint : C.panel2};cursor:pointer;font-size:12.5px;color:${C.ink}">
+            <input type="checkbox" ${done ? 'checked' : ''} style="width:20px;height:20px;flex-shrink:0;accent-color:${C.goodBright};cursor:pointer"
+              onchange="var l=this.closest('label');l.style.borderColor=this.checked?'${C.goodBright}':'${C.line}';l.style.background=this.checked?'${C.goldTint}':'${C.panel2}';window.portalField&&window.portalField('trainLog.w${w}d${d}_${k}_done',this.checked?'1':'')">
+            <span style="flex:1">${l}${opt ? ` <span style="font-size:10px;color:${C.muted}">(optional)</span>` : ``}</span>
           </label>`;
         }).join('')}
         </div>
@@ -388,7 +407,7 @@ function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   return `
     <div class="card-title" style="font-size:10px;margin-bottom:6px">DAILY FASTING LOG — WEEK ${w} (target 14:10)</div>
-    <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px">
+    <div style="font-size:11px;color:${C.muted};margin-bottom:10px">
       Target: first meal after 9am, last before 7pm (14-hour fast, 10-hour eating window). Most days, just tap "Stuck to my window." Want to log exact meal times? Tap "exact times" on any day. Month 1 stays at 14:10.
     </div>
     ${days.map((d, i) => {
@@ -407,19 +426,19 @@ function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
         }
       }
       const hasTimes = !!(first || last);
-      return `<div style="border:1px solid #E0EBE0;border-radius:8px;padding:9px 11px;margin-bottom:7px;background:${stuck ? '#F4FBF6' : '#FFFFFF'}">
+      return `<div style="border:1px solid ${C.line};border-radius:8px;padding:9px 11px;margin-bottom:7px;background:${stuck ? C.goldTint : C.panel2}">
         <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
-          <input type="checkbox" ${stuck ? 'checked' : ''} style="width:22px;height:22px;flex-shrink:0;accent-color:#1D9E75;cursor:pointer"
-            onchange="this.closest('div').style.background=this.checked?'#F4FBF6':'#FFFFFF';window.portalField&&window.portalField('fastingLog.w${w}d${i + 1}_stuck',this.checked?'1':'')">
-          <span style="font-size:12.5px;font-weight:600;color:#1A2E1E;min-width:34px">${d}</span>
-          <span style="flex:1;font-size:12px;color:${stuck ? '#1D9E75' : '#6A8A6E'};font-weight:600">Stuck to my window</span>
+          <input type="checkbox" ${stuck ? 'checked' : ''} style="width:22px;height:22px;flex-shrink:0;accent-color:${C.goodBright};cursor:pointer"
+            onchange="this.closest('div').style.background=this.checked?'${C.goldTint}':'${C.panel2}';window.portalField&&window.portalField('fastingLog.w${w}d${i + 1}_stuck',this.checked?'1':'')">
+          <span style="font-size:12.5px;font-weight:600;color:${C.ink};min-width:34px">${d}</span>
+          <span style="flex:1;font-size:12px;color:${stuck ? C.goodBright : C.muted};font-weight:600">Stuck to my window</span>
         </label>
-        <button type="button" onclick="var e=document.getElementById('ft-w${w}d${i + 1}');e.style.display=(e.style.display==='none')?'block':'none'" style="background:none;border:none;color:#5A8A64;font-size:10.5px;cursor:pointer;padding:5px 0 0;margin-left:32px;text-decoration:underline">exact times (optional)</button>
+        <button type="button" onclick="var e=document.getElementById('ft-w${w}d${i + 1}');e.style.display=(e.style.display==='none')?'block':'none'" style="background:none;border:none;color:${C.muted};font-size:10.5px;cursor:pointer;padding:5px 0 0;margin-left:32px;text-decoration:underline">exact times (optional)</button>
         <div id="ft-w${w}d${i + 1}" style="display:${hasTimes ? 'block' : 'none'};margin:7px 0 0 32px">
           <div style="display:grid;grid-template-columns:1fr 1fr 0.6fr;gap:8px;align-items:center;max-width:320px">
             <input type="time" style="font-size:11px" value="${esc(first)}" oninput="portalField('fastingLog.${fKey}',this.value)" aria-label="First meal ${d}">
             <input type="time" style="font-size:11px" value="${esc(last)}" oninput="portalField('fastingLog.${lKey}',this.value)" aria-label="Last meal ${d}">
-            <div style="font-size:11px;color:${windowHrs ? (Number(windowHrs) <= 10 ? '#1D9E75' : '#E05C2A') : '#8AB89A'};font-weight:600;text-align:center">${windowHrs ? windowHrs + 'h' : '—'}</div>
+            <div style="font-size:11px;color:${windowHrs ? (Number(windowHrs) <= 10 ? C.goodBright : C.crit) : C.muted};font-weight:600;text-align:center">${windowHrs ? windowHrs + 'h' : '—'}</div>
           </div>
         </div>
       </div>`;
@@ -432,12 +451,12 @@ function priorityActionReminder(W: Workbook, selectedName: string): string {
   if (!f) return '';
   const actions = f.imm ?? f.act ?? [];
   if (!actions.length) return '';
-  return `<div style="margin-top:10px;background:rgba(29,158,117,.06);border:1px solid rgba(29,158,117,.22);border-radius:8px;padding:10px 12px">
-    <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:6px">
+  return `<div style="margin-top:10px;background:rgba(212,175,90,.08);border:1px solid rgba(212,175,90,.3);border-radius:8px;padding:10px 12px">
+    <div style="font-size:10px;font-weight:700;color:${C.gold};letter-spacing:.06em;margin-bottom:6px">
       ▸ IMMEDIATE ACTIONS FOR THIS FACTOR
     </div>
-    ${actions.map(a => `<div style="display:flex;gap:8px;padding:3px 0;font-size:11.5px;color:#1A3A20;line-height:1.5">
-      <span style="color:#1D9E75;flex-shrink:0;font-weight:700">✓</span>
+    ${actions.map(a => `<div style="display:flex;gap:8px;padding:3px 0;font-size:11.5px;color:${C.ink};line-height:1.5">
+      <span style="color:${C.gold};flex-shrink:0;font-weight:700">✓</span>
       <span>${esc(a)}</span>
     </div>`).join('')}
   </div>`;
@@ -465,24 +484,24 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
   ).join('');
 
   const bullet = (items: string[], color: string): string => items.map(item =>
-    `<div class="bitem"><span class="dot" style="color:${color}">▸</span><span style="color:#1A3A20">${esc(item)}</span></div>`
+    `<div class="bitem"><span class="dot" style="color:${color}">▸</span><span style="color:${C.ink}">${esc(item)}</span></div>`
   ).join('');
 
   let content = '';
-  if (factorTab === 'imm') content = bullet(f.imm ?? f.act ?? [], '#1D9E75');
-  else if (factorTab === 'tools') content = bullet(f.tools ?? [], '#2E7FD9');
-  else if (factorTab === 'adv') content = bullet(f.adv ?? [], '#D4920A');
+  if (factorTab === 'imm') content = bullet(f.imm ?? f.act ?? [], C.gold);
+  else if (factorTab === 'tools') content = bullet(f.tools ?? [], C.info);
+  else if (factorTab === 'adv') content = bullet(f.adv ?? [], C.warn);
   else content = `<div style="display:flex;flex-wrap:wrap;gap:7px">
     ${f.res.map(r => `<a class="res-pill" href="${r.u}" target="_blank">${esc(r.n)} ↗</a>`).join('')}
   </div>`;
 
   return `<div class="factor-body">
-    ${f.cm ? `<div style="background:#1E5FA0;border-radius:9px;padding:12px 14px;margin-bottom:12px">
-      <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:4px">Connected Mind — Complete Before Scoring</div>
-      <div style="font-size:11px;color:#B5D4F4">Complete this assessment before finalizing your score for Factor 01.</div>
+    ${f.cm ? `<div style="background:${C.info};border-radius:9px;padding:12px 14px;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:${C.panel2};margin-bottom:4px">Connected Mind — Complete Before Scoring</div>
+      <div style="font-size:11px;color:${C.info}">Complete this assessment before finalizing your score for Factor 01.</div>
     </div>` : ''}
-    <div class="info-box" style="background:rgba(29,158,117,.06);border:1px solid rgba(29,158,117,.25);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-      <span style="font-size:11px;color:#3A6A44"><strong style="color:#1D9E75">Box breathing</strong> — 4 counts in · hold 4 · out 4 · hold 4 · repeat 4 times</span>
+    <div class="info-box" style="background:rgba(212,175,90,.08);border:1px solid rgba(212,175,90,.3);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <span style="font-size:11px;color:${C.muted}"><strong style="color:${C.gold}">Box breathing</strong> — 4 counts in · hold 4 · out 4 · hold 4 · repeat 4 times</span>
       <a href="https://youtube.com/watch?v=tybOi4hjZFQ" target="_blank" class="btn xs primary">▶ Watch</a>
     </div>
     <div class="ftab-row">${tabBtns}</div>
@@ -492,11 +511,11 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
       const sugg = (f.imm ?? f.act ?? []).slice(0, 5);
       if (!sugg.length) return '';
       return `<div style="margin-bottom:8px">
-        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#6A8A6E;text-transform:uppercase;margin-bottom:6px">Tap to add a commitment</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:${C.muted};text-transform:uppercase;margin-bottom:6px">Tap to add a commitment</div>
         <div style="display:flex;flex-direction:column;gap:6px">
           ${sugg.map(s => `<button type="button" data-text="${esc(s)}"
             onclick="var t=document.getElementById('factor-plan-${f.n}');var a=this.getAttribute('data-text');t.value=(t.value?t.value+'\\n':'')+a;window.portalField&&window.portalField('factorPlans.${f.n}',t.value);this.style.opacity='0.45';this.disabled=true"
-            style="text-align:left;font-size:11.5px;line-height:1.4;color:#1A3A20;background:#F0FAF5;border:1px solid #C8E8D4;border-radius:8px;padding:8px 11px;cursor:pointer">+ ${esc(s)}</button>`).join('')}
+            style="text-align:left;font-size:11.5px;line-height:1.4;color:${C.ink};background:${C.goldTint};border:1px solid ${C.line};border-radius:8px;padding:8px 11px;cursor:pointer">+ ${esc(s)}</button>`).join('')}
         </div>
       </div>` ;
     })()}
@@ -596,9 +615,9 @@ function selectTop3(scores: AuditScores): Array<{ label: string; score: number }
 
 function auditBand200(total: number): { label: string; color: string; bg: string } {
   // Risk bands tuned to the 10-category Personal Risk Assessment (legacy thresholds).
-  if (total <= 24) return { label: 'Low', color: '#1D9E75', bg: 'rgba(29,158,117,.08)' };
-  if (total <= 48) return { label: 'Moderate', color: '#D4920A', bg: 'rgba(212,146,10,.08)' };
-  return { label: 'Elevated', color: '#E05C2A', bg: 'rgba(224,92,42,.08)' };
+  if (total <= 24) return { label: 'Low', color: C.goodBright, bg: 'rgba(46,158,107,.14)' };
+  if (total <= 48) return { label: 'Moderate', color: C.warn, bg: 'rgba(212,146,10,.08)' };
+  return { label: 'Elevated', color: C.crit, bg: 'rgba(224,92,42,.08)' };
 }
 
 function renderAuditSummaryCard(): string {
@@ -610,10 +629,10 @@ function renderAuditSummaryCard(): string {
 
   const top3Html = top3.map(item => `
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:8px 12px;background:#FFFFFF;border:1px solid #D8E8DC;border-radius:8px;margin-bottom:6px">
+      padding:8px 12px;background:${C.panel2};border:1px solid ${C.line};border-radius:8px;margin-bottom:6px">
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-size:13px">⭐</span>
-        <span style="font-size:12.5px;color:#1A2E1E;font-weight:600">${esc(item.label)}</span>
+        <span style="font-size:12.5px;color:${C.ink};font-weight:600">${esc(item.label)}</span>
       </div>
       <span style="font-size:13px;font-weight:700;color:${band.color}">${item.score}</span>
     </div>`).join('');
@@ -622,16 +641,16 @@ function renderAuditSummaryCard(): string {
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
         <div class="card-title" style="color:${band.color}">Your Personal Risk Assessment</div>
-        <div style="font-size:11px;color:#6A8A6E">10-category intake assessment</div>
+        <div style="font-size:11px;color:${C.muted}">10-category intake assessment</div>
       </div>
       <div style="text-align:right">
         <div style="font-size:42px;font-weight:800;color:${band.color};line-height:1">${total}</div>
-        <div style="font-size:9px;color:#6A8A6E">/ 200</div>
+        <div style="font-size:9px;color:${C.muted}">/ 200</div>
         <div style="font-size:10px;font-weight:700;color:${band.color};margin-top:2px">${band.label}</div>
       </div>
     </div>
     ${top3.length > 0 ? `
-    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#6A8A6E;margin-bottom:8px;text-transform:uppercase">Top 3 Priorities</div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:${C.muted};margin-bottom:8px;text-transform:uppercase">Top 3 Priorities</div>
     ${top3Html}` : ''}
     <button class="btn" style="margin-top:12px;width:100%;justify-content:center"
       onclick="portalAction('goTo','audit-review')">Review Full Assessment →</button>
@@ -641,28 +660,28 @@ function renderAuditSummaryCard(): string {
 function renderConsultCTA(): string {
   if (typeof localStorage === 'undefined') return '';
   if (!localStorage.getItem('intake-complete-v1')) return '';
-  return `<div class="card" style="background:linear-gradient(135deg,#064030,#085041);border:2px solid #1D9E75;margin-bottom:4px">
-    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#6A8A6E;text-transform:uppercase;margin-bottom:8px">Next Step</div>
-    <div style="font-size:17px;font-weight:800;color:#1D9E75;line-height:1.25;margin-bottom:8px">
+  return `<div class="card" style="background:linear-gradient(135deg,${C.panel},${C.panel});border:2px solid ${C.gold};margin-bottom:4px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:${C.muted};text-transform:uppercase;margin-bottom:8px">Next Step</div>
+    <div style="font-size:17px;font-weight:800;color:${C.gold};line-height:1.25;margin-bottom:8px">
       Schedule Your Comprehensive 4M Consult
     </div>
-    <div style="font-size:12.5px;color:#A8D8C0;line-height:1.7;margin-bottom:10px">
+    <div style="font-size:12.5px;color:${C.muted};line-height:1.7;margin-bottom:10px">
       One consult, full review — see if you're a candidate for weight loss medication (GLP-1s), peptides (nootropic + GH), hormone optimization, prescription protocols, practitioner-grade supplements, and the rest of your personalized 4M plan.
     </div>
     <ul style="margin:0 0 14px;padding:0 0 0 1rem;list-style:none">
-      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Weight loss medication candidacy (GLP-1s)</li>
-      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Hormone optimization (TRT, thyroid, peptides)</li>
-      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Nootropic peptides &amp; cognitive support</li>
-      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Practitioner-grade supplement protocol</li>
-      <li style="font-size:11.5px;color:#A8D8C0;padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:#1D9E75;font-weight:700">•</span>Prescription protocols &amp; lab review</li>
+      <li style="font-size:11.5px;color:${C.muted};padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:${C.gold};font-weight:700">•</span>Weight loss medication candidacy (GLP-1s)</li>
+      <li style="font-size:11.5px;color:${C.muted};padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:${C.gold};font-weight:700">•</span>Hormone optimization (TRT, thyroid, peptides)</li>
+      <li style="font-size:11.5px;color:${C.muted};padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:${C.gold};font-weight:700">•</span>Nootropic peptides &amp; cognitive support</li>
+      <li style="font-size:11.5px;color:${C.muted};padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:${C.gold};font-weight:700">•</span>Practitioner-grade supplement protocol</li>
+      <li style="font-size:11.5px;color:${C.muted};padding:2px 0;padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:${C.gold};font-weight:700">•</span>Prescription protocols &amp; lab review</li>
     </ul>
     <a href="https://calendly.com/my4mlife/consult" target="_blank" rel="noopener noreferrer"
-      style="display:block;text-align:center;background:#1D9E75;color:#fff;font-size:14px;font-weight:700;padding:14px 20px;border-radius:9px;text-decoration:none;letter-spacing:.02em;margin-bottom:12px">
+      style="display:block;text-align:center;background:${C.gold};color:${C.panel2};font-size:14px;font-weight:700;padding:14px 20px;border-radius:9px;text-decoration:none;letter-spacing:.02em;margin-bottom:12px">
       Book My Comprehensive 4M Consult →
     </a>
     <div style="text-align:center">
       <button onclick="portalAction('goTo','w1')"
-        style="background:none;border:none;color:#6A8A6E;font-size:12px;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit">
+        style="background:none;border:none;color:${C.muted};font-size:12px;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit">
         Skip for now — explore my Month 1 plan
       </button>
     </div>
@@ -695,7 +714,7 @@ function strengthTrendCard(W: Workbook): string {
   const head = `<div class="card"><div class="card-title">⭐ Strength Trend — Month 1</div>`;
 
   if (!anyData) {
-    return head + `<div style="font-size:12px;color:#6A8A6E;line-height:1.6">
+    return head + `<div style="font-size:12px;color:${C.muted};line-height:1.6">
       Every Monday you'll retest five basics — push-ups, pull-ups, air squats, plank hold, dead hang —
       in your weekly workout. Your week-over-week progress shows up here, side by side, so you can watch the numbers climb.
       This trend keeps following you across every month you stay in the program.
@@ -705,7 +724,7 @@ function strengthTrendCard(W: Workbook): string {
   const cellCols = `1.5fr repeat(${cols.length}, 1fr) 0.7fr`;
   const headRow = `<div style="display:grid;grid-template-columns:${cellCols};gap:6px;margin-bottom:6px;min-width:360px">
     ${['Test', ...cols.map(([l]) => l), 'Δ'].map(h =>
-      `<div style="font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6A8A6E;text-align:center">${h}</div>`
+      `<div style="font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:${C.muted};text-align:center">${h}</div>`
     ).join('')}
   </div>`;
 
@@ -713,25 +732,25 @@ function strengthTrendCard(W: Workbook): string {
     const vals = cols.map(([, wk]) => val(k, wk));
     const present = vals.map((v, i) => [v, i] as [string, number]).filter(([v]) => v !== '');
     let deltaCell = '—';
-    let dColor = '#6A8A6E';
+    let dColor = C.muted;
     if (present.length >= 2) {
       const first = Number(present[0][0]);
       const last = Number(present[present.length - 1][0]);
       if (!isNaN(first) && !isNaN(last)) {
         const delta = last - first;
-        dColor = delta > 0 ? '#1D9E75' : delta < 0 ? '#E05C2A' : '#6A8A6E';
+        dColor = delta > 0 ? C.goodBright : delta < 0 ? C.crit : C.muted;
         deltaCell = (delta > 0 ? '+' : '') + delta;
       }
     }
     return `<div style="display:grid;grid-template-columns:${cellCols};gap:6px;margin-bottom:6px;align-items:center;min-width:360px">
-      <div style="font-size:11px;color:#5A3020;font-weight:600">${label}</div>
-      ${vals.map(v => `<div style="font-size:12px;color:${v ? '#1A2E1E' : '#C8C8C8'};text-align:center">${v ? esc(v) + unit : '—'}</div>`).join('')}
+      <div style="font-size:11px;color:${C.muted};font-weight:600">${label}</div>
+      ${vals.map(v => `<div style="font-size:12px;color:${v ? C.ink : C.muted};text-align:center">${v ? esc(v) + unit : '—'}</div>`).join('')}
       <div style="font-size:12px;font-weight:700;color:${dColor};text-align:center">${deltaCell}</div>
     </div>`;
   }).join('');
 
   return head + `
-    <div style="font-size:11px;color:#6A8A6E;margin-bottom:10px;line-height:1.5">Your weekly Monday retest, side by side. Δ = change from your first logged week to your latest. This trend keeps tracking across every month you stay in the program.</div>
+    <div style="font-size:11px;color:${C.muted};margin-bottom:10px;line-height:1.5">Your weekly Monday retest, side by side. Δ = change from your first logged week to your latest. This trend keeps tracking across every month you stay in the program.</div>
     <div style="overflow-x:auto"><div style="min-width:360px">${headRow}${rows}</div></div>
     </div>`;
 }
@@ -740,7 +759,7 @@ function strengthTrendCard(W: Workbook): string {
 function proteinTargetLine(W: Workbook): string {
   const n = Math.round(Number(W.protein));
   if (!(n > 0)) return '';
-  return `<div style="background:#FFF4EC;border:1px solid #F0C8A8;border-radius:9px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:#7A3A20;line-height:1.5">
+  return `<div style="background:rgba(224,168,60,.12);border:1px solid rgba(224,168,60,.35);border-radius:9px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:${C.muted};line-height:1.5">
     <strong>Protein target: ${n} g/day</strong> — carried from your Week 1 calculation (1 g per pound of ideal body weight). Hit it at least 5 of 7 days.
   </div>`;
 }
@@ -757,7 +776,7 @@ function vitalsTracker(W: Workbook): string {
   ];
   const cols: Array<[string, string]> = [['Baseline', 'base'], ['Wk 1', 'w1'], ['Wk 2', 'w2'], ['Wk 3', 'w3'], ['Wk 4', 'w4']];
   const headRow = `<div style="display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:6px;margin-bottom:6px;min-width:440px">
-    ${['Measure', ...cols.map(c => c[0])].map(h => `<div style="font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6A8A6E;text-align:center">${h}</div>`).join('')}
+    ${['Measure', ...cols.map(c => c[0])].map(h => `<div style="font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:${C.muted};text-align:center">${h}</div>`).join('')}
   </div>`;
   const rows = metrics.map(([m, label]) => {
     const cells = cols.map(([, c]) => {
@@ -767,17 +786,17 @@ function vitalsTracker(W: Workbook): string {
         style="font-size:12px;text-align:center;padding:6px 3px;width:100%">`;
     }).join('');
     return `<div style="display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:6px;margin-bottom:6px;align-items:center;min-width:440px">
-      <div style="font-size:11px;color:#1A2E1E;font-weight:600">${label}</div>
+      <div style="font-size:11px;color:${C.ink};font-weight:600">${label}</div>
       ${cells}
     </div>`;
   }).join('');
   return `<div class="card">
     <div class="card-title">❤️ Vitals Tracker — Blood Pressure &amp; Pulse Ox</div>
-    <div style="font-size:11px;color:#6A8A6E;line-height:1.55;margin-bottom:12px">
+    <div style="font-size:11px;color:${C.muted};line-height:1.55;margin-bottom:12px">
       Take a baseline blood-pressure and pulse-oximeter reading now, then retest at least once each week. Every reading stays on this chart so you can watch the trend across Month 1.
     </div>
     <div style="overflow-x:auto"><div style="min-width:440px">${headRow}${rows}</div></div>
-    <div style="font-size:10px;color:#8A9A88;font-style:italic;margin-top:8px">For your own tracking — not a medical device or diagnosis. Share these numbers with your physician.</div>
+    <div style="font-size:10px;color:${C.muted};font-style:italic;margin-top:8px">For your own tracking — not a medical device or diagnosis. Share these numbers with your physician.</div>
   </div>`;
 }
 
@@ -805,7 +824,7 @@ function renderDash(W: Workbook): string {
     : 'Welcome to your 4M Dashboard';
 
   return `
-  <div class="page-title" style="color:#1D9E75">${greeting}</div>
+  <div class="page-title" style="color:${C.gold}">${greeting}</div>
   <div class="page-sub">Mind · Muscle · Mitigate · Motivate — Month 1 Brain Optimization</div>
 
   <div class="card">
@@ -821,22 +840,22 @@ function renderDash(W: Workbook): string {
   </div>
 
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">ASSESSMENT SCORE /200</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#1D9E75">${auditBand ? auditBand.label : '—'}</div><div class="stat-lbl">RISK BAND</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#2E7FD9">${m}</div><div class="stat-lbl">MORNINGS DONE</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#2E7FD9">${c}</div><div class="stat-lbl">COLD SHOWERS</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">ASSESSMENT SCORE /200</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditBand ? auditBand.label : '—'}</div><div class="stat-lbl">RISK BAND</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:${C.info}">${m}</div><div class="stat-lbl">MORNINGS DONE</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:${C.info}">${c}</div><div class="stat-lbl">COLD SHOWERS</div></div>
   </div>
 
   ${auditBand && auditTotal200 !== null ? `<div class="card" style="background:${auditBand.bg};border-color:${auditBand.color}55;margin-bottom:16px">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div>
         <div style="font-size:15px;font-weight:700;color:${auditBand.color};margin-bottom:3px">${auditBand.label} Risk</div>
-        <div style="font-size:12px;color:#4A7A54">
+        <div style="font-size:12px;color:${C.muted}">
           ${auditTotal200 <= 60 ? 'Strong foundations — focus on fine-tuning and optimization.'
             : auditTotal200 <= 120 ? 'Multiple factors working against you. Targeted action yields rapid results.'
               : 'This program was built for you. Major gains are available very quickly.'}
         </div>
-        <div style="font-size:11px;color:#6A8A6E;margin-top:4px">${auditCategoryCount} of 10 categories scored</div>
+        <div style="font-size:11px;color:${C.muted};margin-top:4px">${auditCategoryCount} of 10 categories scored</div>
       </div>
       <div style="font-size:52px;font-weight:700;color:${auditBand.color};line-height:1">${auditTotal200}</div>
     </div>
@@ -845,11 +864,11 @@ function renderDash(W: Workbook): string {
   <div class="card">
     <div class="card-title">Month 1 Progress</div>
     ${[
-      { l: 'Morning protocol (28 days)', v: m, mx: 28, c: '#2E7FD9' },
-      { l: 'Cold shower streak', v: c, mx: 28, c: '#2E7FD9' }
+      { l: 'Morning protocol (28 days)', v: m, mx: 28, c: C.info },
+      { l: 'Cold shower streak', v: c, mx: 28, c: C.info }
     ].map(p => `
       <div style="margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:#4A7A54;margin-bottom:5px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:${C.muted};margin-bottom:5px">
           <span>${p.l}</span><span style="color:${p.c}">${p.v} / ${p.mx}</span>
         </div>
         <div class="pbar-wrap">
@@ -948,21 +967,21 @@ function w1WeekdayRow(actionId: string, label: string, days: 'mf' | 'all', minim
   const boxes = labels.map(([dl, date]) => {
     const done = typeof localStorage !== 'undefined' && !!localStorage.getItem(`adherence-cache-${date}-${actionId}`);
     const isFuture = date > today;
-    const bg = done ? '#1D9E75' : isFuture ? '#F4F4F4' : '#FFFFFF';
-    const fg = done ? '#FFFFFF' : isFuture ? '#B8B8B8' : '#1A3A20';
-    const border = done ? '#1D9E75' : '#D8E8DC';
+    const bg = done ? C.goodBright : isFuture ? C.panel2 : C.panel2;
+    const fg = done ? C.panel2 : isFuture ? C.muted : C.ink;
+    const border = done ? C.goodBright : C.line;
     const cursor = isFuture ? 'not-allowed' : 'pointer';
     const onclick = isFuture ? '' : `onclick="portalAction('logAdherence','${actionId}','${date}')"`;
     return `<div ${onclick} style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:${cursor};flex:1;min-width:0">
       <div style="width:34px;height:34px;border-radius:8px;border:1.5px solid ${border};background:${bg};color:${fg};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">${done ? '✓' : ''}</div>
-      <div style="font-size:10px;font-weight:600;color:#5A8A64">${dl}</div>
+      <div style="font-size:10px;font-weight:600;color:${C.muted}">${dl}</div>
     </div>`;
   }).join('');
   const done = labels.filter(([, date]) => typeof localStorage !== 'undefined' && !!localStorage.getItem(`adherence-cache-${date}-${actionId}`)).length;
-  return `<div style="background:#FFFFFF;border:1.5px solid #D8E8DC;border-radius:9px;padding:11px 12px;margin-bottom:9px">
-    <div style="font-size:12.5px;font-weight:700;color:#1A2E1E;margin-bottom:8px">${label}</div>
+  return `<div style="background:${C.panel2};border:1.5px solid ${C.line};border-radius:9px;padding:11px 12px;margin-bottom:9px">
+    <div style="font-size:12.5px;font-weight:700;color:${C.ink};margin-bottom:8px">${label}</div>
     <div style="display:flex;gap:6px;justify-content:space-between;margin-bottom:6px">${boxes}</div>
-    <div style="font-size:10.5px;color:#5A8A64;text-align:center">Recommended minimum: ${minimum} per week · Logged: ${done}</div>
+    <div style="font-size:10.5px;color:${C.muted};text-align:center">Recommended minimum: ${minimum} per week · Logged: ${done}</div>
   </div>`;
 }
 
@@ -974,7 +993,7 @@ function carryForward(override: string | undefined, source: string, fromLabel = 
   const hasOverride = (override ?? '').trim() !== '';
   const value = hasOverride ? (override as string) : (source ?? '');
   const hint = !hasOverride && (source ?? '').trim() !== ''
-    ? ` <span style="font-size:10px;color:#6B5ED4;font-style:italic;font-weight:600">(${fromLabel})</span>`
+    ? ` <span style="font-size:10px;color:${C.info};font-style:italic;font-weight:600">(${fromLabel})</span>`
     : '';
   return { value, hint };
 }
@@ -987,9 +1006,9 @@ function renderW1(ctx: RenderContext): string {
       background:${color};border-radius:10px 10px 0 0;margin:-20px -20px 16px">
       <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);
         display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
-        color:#fff;flex-shrink:0">${num}</div>
+        color:${C.panel2};flex-shrink:0">${num}</div>
       <div>
-        <div style="font-size:15px;font-weight:700;color:#fff;letter-spacing:.02em">${title}</div>
+        <div style="font-size:15px;font-weight:700;color:${C.panel2};letter-spacing:.02em">${title}</div>
         <div style="font-size:10px;color:rgba(255,255,255,.8);letter-spacing:.04em">${tagline}</div>
       </div>
     </div>`;
@@ -1001,7 +1020,7 @@ function renderW1(ctx: RenderContext): string {
         ▶ START THIS WEEK
       </div>
       ${items.map(i => `<div style="display:flex;gap:9px;padding:5px 0;font-size:12px;
-        color:#1A2E1E;line-height:1.5;border-bottom:1px solid ${color}22">
+        color:${C.ink};line-height:1.5;border-bottom:1px solid ${color}22">
         <span style="color:${color};flex-shrink:0;font-weight:700">✓</span>
         <span>${i}</span>
       </div>`).join('')}
@@ -1017,34 +1036,34 @@ function renderW1(ctx: RenderContext): string {
 
   ${vitalsTracker(W)}
 
-  <div style="background:linear-gradient(135deg,#064030,#085041);border:2px solid #1D9E75;border-radius:13px;padding:20px 22px;margin-bottom:20px">
-    <div style="font-size:17px;font-weight:800;color:#1D9E75;margin-bottom:7px;letter-spacing:.01em;line-height:1.25">
+  <div style="background:linear-gradient(135deg,${C.panel},${C.panel});border:2px solid ${C.gold};border-radius:13px;padding:20px 22px;margin-bottom:20px">
+    <div style="font-size:17px;font-weight:800;color:${C.gold};margin-bottom:7px;letter-spacing:.01em;line-height:1.25">
       Week 1: Repair the Gut. Restore the Brain.
     </div>
-    <div style="font-size:12.5px;color:#A8D8C0;line-height:1.75">
+    <div style="font-size:12.5px;color:${C.muted};line-height:1.75">
       Most cognitive issues start in the gut. This week we calm inflammation, rebuild the lining, and restore the gut–brain axis so your neurotransmitters can do their job.
     </div>
   </div>
 
 
   <div class="card">
-    ${pillarHeader('M4', 'MOTIVATE — Foundation', '#6B5ED4', 'Why are you here? Lock in your reason before anything else.')}
+    ${pillarHeader('M4', 'MOTIVATE — Foundation', C.info, 'Why are you here? Lock in your reason before anything else.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
       ${w1ActiveWeekly('motivate-zoom', "Attend (or watch the recording of) this week's Protégé Zoom", 1)}
     </div>
     <div style="margin-top:6px;margin-bottom:14px">
-      <div style="font-size:12.5px;font-weight:700;color:#1A2E1E;margin-bottom:8px">What is driving you?</div>
+      <div style="font-size:12.5px;font-weight:700;color:${C.ink};margin-bottom:8px">What is driving you?</div>
       ${motivationOptions.map((opt, i) => `
         <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;
-          background:${W.motivation === String(i) ? 'rgba(107,94,212,.10)' : '#FFFFFF'};
-          border:1.5px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
+          background:${W.motivation === String(i) ? 'rgba(107,94,212,.10)' : C.panel2};
+          border:1.5px solid ${W.motivation === String(i) ? C.info : C.line};
           border-radius:8px;cursor:pointer;margin-bottom:7px"
           onclick="portalFieldRender('motivation','${i}')">
           <div style="width:16px;height:16px;border-radius:50%;
-            border:2px solid ${W.motivation === String(i) ? '#6B5ED4' : '#D8E8DC'};
-            background:${W.motivation === String(i) ? '#6B5ED4' : 'transparent'};flex-shrink:0"></div>
-          <span style="font-size:12.5px;color:#1A2E1E;font-weight:500">${esc(opt)}</span>
+            border:2px solid ${W.motivation === String(i) ? C.info : C.line};
+            background:${W.motivation === String(i) ? C.info : 'transparent'};flex-shrink:0"></div>
+          <span style="font-size:12.5px;color:${C.ink};font-weight:500">${esc(opt)}</span>
         </div>`).join('')}
     </div>
     ${w1DimWrap(2, `<label for="w1-personal-why">My "why" — the man I want to be at age 70</label>
@@ -1053,20 +1072,20 @@ function renderW1(ctx: RenderContext): string {
     ${w1DimWrap(3, `<label for="w1-accountability">Who are you doing this for? (you'll read your "why" aloud to them on graduation day)</label>
     <input id="w1-accountability" placeholder="e.g. my wife, my kids, my parents, myself — pick one face" value="${esc(W.accountabilityTarget)}"
       oninput="portalField('accountabilityTarget',this.value)">
-    <div style="font-size:11.5px;color:#4A7A54;margin:6px 0 0">If no one is on the other end of this, you won't do it. Pick a person — see their face.</div>`)}
+    <div style="font-size:11.5px;color:${C.muted};margin:6px 0 0">If no one is on the other end of this, you won't do it. Pick a person — see their face.</div>`)}
     ${w1DimWrap(4, `<label for="w1-identity-stmt">My identity statement (draft) — "I am a man who..."</label>
     <input id="w1-identity-stmt" placeholder="I am a man who..." value="${esc(W.identityStatement)}"
       oninput="portalField('identityStatement',this.value)">`)}
   </div>
 
   <div class="card">
-    ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', '#1D9E75', 'Review your assessment results. Gut first — what you remove matters more than what you add.')}
+    ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', C.gold, 'Review your assessment results. Gut first — what you remove matters more than what you add.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
       ${w1WeekdayRow('mitigate-biome-ns', 'Take Biome NS Ultra (with breakfast)', 'mf', 5)}
       ${w1WeekdayRow('mitigate-eating-window', 'Stayed in eating window today', 'mf', 5)}
     </div>
-    <div style="font-size:12px;font-weight:600;color:#1D9E75;margin-bottom:12px;font-style:italic">
+    <div style="font-size:12px;font-weight:600;color:${C.gold};margin-bottom:12px;font-style:italic">
       Your 10-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
     </div>
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Assessment →</button>
@@ -1074,7 +1093,7 @@ function renderW1(ctx: RenderContext): string {
       <div class="card-title">My Top 3 Priority Factors</div>
       ${(() => {
         const intakeOk = typeof localStorage !== 'undefined' && !!localStorage.getItem('intake-complete-v1');
-        if (!intakeOk) return `<div style="font-size:12px;color:#6A8A6E;font-style:italic;padding:8px 0">Complete your assessment to see your top 3 priorities.</div>`;
+        if (!intakeOk) return `<div style="font-size:12px;color:${C.muted};font-style:italic;padding:8px 0">Complete your assessment to see your top 3 priorities.</div>`;
         const auditScores = loadAuditScores();
         const top3 = auditScores ? selectTop3(auditScores) : [];
         const PRIORITY_TIER_IDS = ['leaky-gut', 'gut-microbiome', 'weight-body-fat', 'hormone-balance'];
@@ -1086,9 +1105,9 @@ function renderW1(ctx: RenderContext): string {
           const auditPrefill = fromAudit ? `${fromAudit.label} (${fromAudit.score}/10)` : '';
           const displayVal = W.priorities[i] || auditPrefill || '—';
           const label = ['Highest score — fastest results', 'Second priority', 'Third priority'][i];
-          return `<div style="margin-bottom:10px;padding:10px 12px;background:#F4FBF6;border:1.5px solid #B8E8D0;border-radius:8px">
-            <div style="font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1A5A34;margin-bottom:3px">${i + 1}. ${label}${isPriority ? ` <span style="font-size:9.5px;background:#D4920A22;color:#D4920A;border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</div>
-            <div style="font-size:14px;font-weight:700;color:#0E2E1A">${esc(displayVal)}</div>
+          return `<div style="margin-bottom:10px;padding:10px 12px;background:${C.goldTint};border:1.5px solid ${C.line};border-radius:8px">
+            <div style="font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:${C.ink};margin-bottom:3px">${i + 1}. ${label}${isPriority ? ` <span style="font-size:9.5px;background:${C.warn}22;color:${C.warn};border-radius:4px;padding:2px 6px;font-weight:700">⭐ Priority</span>` : ''}</div>
+            <div style="font-size:14px;font-weight:700;color:${C.ink}">${esc(displayVal)}</div>
           </div>`;
         }).join('');
       })()}
@@ -1103,7 +1122,7 @@ function renderW1(ctx: RenderContext): string {
   </div>
 
   <div class="card">
-    ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', '#E05C2A', 'Record where you are starting.')}
+    ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', C.crit, 'Record where you are starting.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
       ${w1WeekdayRow('muscle-strength', 'Strength session — countertop push-ups 3×10 + supported air squats 3×10', 'all', 2)}
@@ -1129,7 +1148,7 @@ function renderW1(ctx: RenderContext): string {
       ${fields.map(([k, l, prefill]) => {
         const val = W.bodyBaseline[k as keyof typeof W.bodyBaseline] || prefill;
         const hint = prefill && !W.bodyBaseline[k as keyof typeof W.bodyBaseline]
-          ? `<div style="font-size:10px;color:#6A8A6E;font-style:italic;margin-top:3px">from intake answers</div>` : '';
+          ? `<div style="font-size:10px;color:${C.muted};font-style:italic;margin-top:3px">from intake answers</div>` : '';
         return `<div>
           <label for="bodyBaseline-${k}">${esc(l)}</label>
           <input id="bodyBaseline-${k}" value="${esc(val)}" placeholder="Record now..."
@@ -1139,20 +1158,20 @@ function renderW1(ctx: RenderContext): string {
     </div>`;
     })()}
     <label for="w1-protein-target">Ideal body weight (lbs)</label>
-    <div style="font-size:11px;color:#5A8A64;margin:0 0 6px;line-height:1.5">Your daily protein target = <strong>1 gram per pound of ideal body weight</strong> (e.g. 200 lb ideal = 200 g/day).</div>
+    <div style="font-size:11px;color:${C.muted};margin:0 0 6px;line-height:1.5">Your daily protein target = <strong>1 gram per pound of ideal body weight</strong> (e.g. 200 lb ideal = 200 g/day).</div>
     <input id="w1-protein-target" type="number" placeholder="e.g. 185" value="${esc(W.protein)}"
       oninput="portalField('protein',this.value);(function(v){var n=Number(v);var r=document.getElementById('w1-protein-result');var g=document.getElementById('w1-protein-grams');if(r)r.style.display=n>0?'flex':'none';if(g)g.textContent=(n>0?Math.round(n):0)+'g';})(this.value)">
-    <div id="w1-protein-result" style="margin-top:10px;background:#F0FAF5;border:1.5px solid #B8E8D0;border-radius:9px;padding:12px;align-items:center;justify-content:center;gap:10px;display:${Number(W.protein) > 0 ? 'flex' : 'none'}">
-      <div id="w1-protein-grams" style="font-size:28px;font-weight:700;color:#1D9E75">${Math.round(Number(W.protein))}g</div>
-      <div style="font-size:10px;color:#5A8A64">protein per day target</div>
+    <div id="w1-protein-result" style="margin-top:10px;background:${C.goldTint};border:1.5px solid ${C.line};border-radius:9px;padding:12px;align-items:center;justify-content:center;gap:10px;display:${Number(W.protein) > 0 ? 'flex' : 'none'}">
+      <div id="w1-protein-grams" style="font-size:28px;font-weight:700;color:${C.gold}">${Math.round(Number(W.protein))}g</div>
+      <div style="font-size:10px;color:${C.muted}">protein per day target</div>
     </div>
   </div>
 
-  <div class="card" style="border-left:4px solid #E05C2A">
-    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
+  <div class="card" style="border-left:4px solid ${C.crit}">
+    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
     <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:700;color:#E05C2A;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK</div>
-      <div style="font-size:12.5px;color:#7A3A20;line-height:1.6">
+      <div style="font-size:10px;font-weight:700;color:${C.crit};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK</div>
+      <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
         Record where you start. No judgment — just honest numbers. These become your comparison point for Week 4.
       </div>
     </div>
@@ -1167,23 +1186,23 @@ function renderW1(ctx: RenderContext): string {
   </div>
 
   <div class="card">
-    ${pillarHeader('M3', 'MIND — Circadian Anchor', '#2E7FD9', 'Anchor your day with light. The brain runs on signal, not effort.')}
+    ${pillarHeader('M3', 'MIND — Circadian Anchor', C.info, 'Anchor your day with light. The brain runs on signal, not effort.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
       ${w1WeekdayRow('mind-sunlight-walk', 'Fasted morning sunlight walk (10 min, no food yet, eyes toward sun, sunglasses off)', 'all', 2)}
     </div>
   </div>
 
-  <div class="card" style="border-color:#2E7FD955;background:rgba(46,127,217,.04)">
-    <div class="card-title" style="color:#2E7FD9">How to Box Breathe (~2 minutes daily)</div>
+  <div class="card" style="border-color:${C.info}55;background:rgba(46,127,217,.04)">
+    <div class="card-title" style="color:${C.info}">How to Box Breathe (~2 minutes daily)</div>
     <ol style="margin:10px 0 12px;padding-left:20px;display:flex;flex-direction:column;gap:7px">
-      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Hold</strong> at the top for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Exhale</strong> through your mouth for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5"><strong>Hold</strong> at the bottom for 4 seconds.</li>
-      <li style="font-size:12.5px;color:#1A2E1E;line-height:1.5">Repeat for 5–10 cycles.</li>
+      <li style="font-size:12.5px;color:${C.ink};line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
+      <li style="font-size:12.5px;color:${C.ink};line-height:1.5"><strong>Hold</strong> at the top for 4 seconds.</li>
+      <li style="font-size:12.5px;color:${C.ink};line-height:1.5"><strong>Exhale</strong> through your mouth for 4 seconds.</li>
+      <li style="font-size:12.5px;color:${C.ink};line-height:1.5"><strong>Hold</strong> at the bottom for 4 seconds.</li>
+      <li style="font-size:12.5px;color:${C.ink};line-height:1.5">Repeat for 5–10 cycles.</li>
     </ol>
-    <div style="font-size:12px;color:#1f4f7a;line-height:1.65;border-top:1px solid rgba(46,127,217,.2);padding-top:10px">
+    <div style="font-size:12px;color:${C.info};line-height:1.65;border-top:1px solid rgba(46,127,217,.2);padding-top:10px">
       Box breathing calms the autonomic nervous system, lowers cortisol, and primes focus for the day. Used by Navy SEALs and elite performers.
     </div>
   </div>
@@ -1249,7 +1268,7 @@ function renderW2(W: Workbook): string {
   const pillarActionBox = (color: string, content: string) =>
     `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
       <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">▶ ACTION THIS WEEK</div>
-      <div style="font-size:12px;color:#1A2E1E;line-height:1.6">${content}</div>
+      <div style="font-size:12px;color:${C.ink};line-height:1.6">${content}</div>
     </div>`;
 
   return `${weekBanner(2)}
@@ -1257,8 +1276,8 @@ function renderW2(W: Workbook): string {
   ${vitalsTracker(W)}
 
   <div class="card" style="background:rgba(224,92,42,.04);border:1px solid rgba(224,92,42,.18)">
-    <div style="font-size:14px;font-weight:700;color:#7A2E14;margin-bottom:6px">All 4 Pillars Continue — Week 2</div>
-    <div style="font-size:12.5px;color:#5A3020;line-height:1.7">
+    <div style="font-size:14px;font-weight:700;color:${C.crit};margin-bottom:6px">All 4 Pillars Continue — Week 2</div>
+    <div style="font-size:12.5px;color:${C.muted};line-height:1.7">
       Your baseline is set. This week everything moves from measurement to action.
       Deep focus this week is <strong>Muscle</strong> — your movement protocol and protein target.
       All four pillars get check-ins and action items below.
@@ -1266,12 +1285,12 @@ function renderW2(W: Workbook): string {
   </div>
 
   <!-- MOTIVATE W2 -->
-  <div class="card" style="border-left:4px solid #6B5ED4">
-    <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Week 2 Check-In</div>
+  <div class="card" style="border-left:4px solid ${C.info}">
+    <div class="card-title" style="color:${C.info}">🟣 M4 — MOTIVATE: Week 2 Check-In</div>
     <div style="margin-bottom:12px">
       ${(() => { const c = carryForward(wRef['w2_why'], W.personalWhy); return `
       <label for="w2-my-why">My WHY (from Week 1) — read it out loud right now${c.hint}</label>
-      <textarea id="w2-my-why" style="min-height:52px;background:#F9F7FF;border-color:#C8C0F0;font-size:13px;font-style:italic"
+      <textarea id="w2-my-why" style="min-height:52px;background:${C.panel2};border-color:rgba(212,175,90,.35);font-size:13px;font-style:italic"
         placeholder="Your Week 1 why carries over here automatically — edit it if it has evolved."
         oninput="portalField('weekReflections.w2_why',this.value)">${esc(c.value)}</textarea>`; })()}
     </div>
@@ -1293,13 +1312,13 @@ function renderW2(W: Workbook): string {
         </div>
       </div>
     </div>
-    ${pillarActionBox('#6B5ED4', 'Send your WHY statement to your accountability partner by Wednesday. No explanation needed — just send it. Let someone outside your own head know what you are doing and why.')}
+    ${pillarActionBox(C.info, 'Send your WHY statement to your accountability partner by Wednesday. No explanation needed — just send it. Let someone outside your own head know what you are doing and why.')}
   </div>
 
   <!-- MITIGATE W2 -->
-  <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Top 3 Factor Actions</div>
-    <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
+  <div class="card" style="border-left:4px solid ${C.gold}">
+    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Top 3 Factor Actions</div>
+    <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       You identified your top 3 highest-scoring risk factors in Week 1.
       This week (Week 2): execute one immediate action for each factor, then assess it at the end of Week 2.
     </div>
@@ -1312,10 +1331,10 @@ function renderW2(W: Workbook): string {
       const selectedName = userSetName || fallbackName;
       const displayScore = userSetScore || fallbackScore;
       const prefilled = !userSetName && !!fallbackName;
-      const prefillTag = prefilled ? ` <span style="font-size:10px;color:#3A6A44;font-style:italic;font-weight:600">(auto-filled from assessment)</span>` : '';
+      const prefillTag = prefilled ? ` <span style="font-size:10px;color:${C.muted};font-style:italic;font-weight:600">(auto-filled from assessment)</span>` : '';
       return `
-    <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">PRIORITY FACTOR ${n}</div>
+    <div style="background:${C.goldTint};border:1px solid ${C.line};border-radius:9px;padding:14px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:700;color:${C.gold};letter-spacing:.06em;margin-bottom:7px">PRIORITY FACTOR ${n}</div>
       <div class="g2">
         <div>
           <label for="w2-f${n}-name">Factor name (from your Week 1 assessment)${prefillTag}</label>
@@ -1342,15 +1361,15 @@ function renderW2(W: Workbook): string {
       </div>
     </div>`;
     }).join('')}
-    ${pillarActionBox('#1D9E75', 'One immediate action per factor. No perfect plans. Just one small move on each of your top 3. Progress compounds — even a 4/10 is better than an 8/10 by week 4.')}
+    ${pillarActionBox(C.gold, 'One immediate action per factor. No perfect plans. Just one small move on each of your top 3. Progress compounds — even a 4/10 is better than an 8/10 by week 4.')}
   </div>
 
   <!-- MUSCLE W2 DEEP FOCUS -->
-  <div class="card" style="border-left:4px solid #E05C2A">
-    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Week 2 Deep Focus — Movement & Protein</div>
+  <div class="card" style="border-left:4px solid ${C.crit}">
+    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Week 2 Deep Focus — Movement & Protein</div>
     <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:700;color:#E05C2A;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
-      <div style="font-size:12.5px;color:#7A3A20;line-height:1.6">
+      <div style="font-size:10px;font-weight:700;color:${C.crit};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
+      <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
         <strong>Movement starts now.</strong> The KOT beginner playlist (Ben Patrick / Knees Over Toes Guy)
         is your gym-free foundation. 3 sessions this week.
         Protein target must be hit at least 5 out of 7 days.
@@ -1364,7 +1383,7 @@ function renderW2(W: Workbook): string {
       <div class="card-title" style="font-size:10px;margin-bottom:8px">PROTEIN & EATING WINDOW COMPLIANCE</div>
       <div class="g2">
         <div>
-          <label for="w2-protein-target">My protein target (from Week 1 calculator)${!wRef['w2_protein_target'] && proteinTargetFallback ? ` <span style="font-size:10px;color:#7A3A20;font-style:italic;font-weight:600">(from Week 1)</span>` : ''}</label>
+          <label for="w2-protein-target">My protein target (from Week 1 calculator)${!wRef['w2_protein_target'] && proteinTargetFallback ? ` <span style="font-size:10px;color:${C.muted};font-style:italic;font-weight:600">(from Week 1)</span>` : ''}</label>
           <input id="w2-protein-target" placeholder="e.g. 165g/day" value="${esc(wRef['w2_protein_target'] ?? proteinTargetFallback)}"
             oninput="portalField('weekReflections.w2_protein_target',this.value)">
         </div>
@@ -1392,15 +1411,15 @@ function renderW2(W: Workbook): string {
       ${fastingDailyTracker(W, 2)}
     </div>
 
-    ${pillarActionBox('#E05C2A', `3 KOT sessions. Hit protein 5 of 7 days. Hold your 14:10 window.
+    ${pillarActionBox(C.crit, `3 KOT sessions. Hit protein 5 of 7 days. Hold your 14:10 window.
       These three numbers are the only scorecard that matters this week.
       <a class="res-pill" href="https://www.youtube.com/c/TheKneesovertoesguy"
         target="_blank" style="margin-left:8px">KOT Playlist ↗</a>`)}
   </div>
 
   <!-- MIND W2 -->
-  <div class="card" style="border-left:4px solid #2E7FD9">
-    <div class="card-title" style="color:#2E7FD9">🔵 M3 — MIND: Week 2 Cognitive Check-In</div>
+  <div class="card" style="border-left:4px solid ${C.info}">
+    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Week 2 Cognitive Check-In</div>
     <div class="g3" style="margin-bottom:14px">
       ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
         <div>
@@ -1408,7 +1427,7 @@ function renderW2(W: Workbook): string {
           <input id="w2-cog-${k}" type="number" min="1" max="10" placeholder="1–10"
             value="${esc(W.cogRatings[`w2_${k}`] ?? '')}"
             oninput="portalField('cogRatings.w2_${k}',this.value)">
-          <div style="font-size:9px;color:#8AB89A;margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
+          <div style="font-size:9px;color:${C.muted};margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
         </div>`).join('')}
     </div>
 
@@ -1418,14 +1437,14 @@ function renderW2(W: Workbook): string {
         const key = `w2s${i}`;
         const resp = W.supplements[key]?.response ?? '';
         return `<div style="display:flex;justify-content:space-between;align-items:center;
-          padding:9px 0;border-bottom:1px solid #E8F0E8">
-          <div style="font-size:12px;color:#1A2E1E">${esc(name)}</div>
+          padding:9px 0;border-bottom:1px solid ${C.line}">
+          <div style="font-size:12px;color:${C.ink}">${esc(name)}</div>
           <div style="display:flex;gap:5px">
             ${(['Yes', 'No'] as const).map(v => `
               <button class="btn xs"
-                style="background:${resp === v ? (v === 'Yes' ? '#1D9E75' : '#E8E8E8') : '#FFFFFF'};
-                  color:${resp === v ? '#fff' : '#4A7A54'};
-                  border-color:${resp === v ? (v === 'Yes' ? '#1D9E75' : '#999') : '#D8E8DC'}"
+                style="background:${resp === v ? (v === 'Yes' ? C.goodBright : C.line) : C.panel2};
+                  color:${resp === v ? C.panel2 : C.muted};
+                  border-color:${resp === v ? (v === 'Yes' ? C.goodBright : C.muted) : C.line}"
                 onclick="portalAction('setSupp','${key}','${v}')">${v}</button>`).join('')}
           </div>
         </div>`;
@@ -1438,7 +1457,7 @@ function renderW2(W: Workbook): string {
         oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', `Both Week 1 supplements continue every day (Biome NS Ultra + SleepRestore).
+    ${pillarActionBox(C.info, `Both Week 1 supplements continue every day (Biome NS Ultra + SleepRestore).
       <strong>Week 2 — Add: OmegaCN Prime</strong> (2 softgels with dinner — EPA/DHA + Kaneka QH® ubiquinol CoQ10) and <strong>ArmorVita</strong> (1 softgel with a fatty meal — D3 + K2 + Boron + A + Astaxanthin).
       Score your cognitive triad (focus / memory / mood) on Sunday.
       Read at least 10 pages of <em>Begin with the End in Mind</em> each day — check off each day in the Cognitive Training section below.`)}
@@ -1472,7 +1491,7 @@ function renderW3(W: Workbook): string {
   const pillarActionBox = (color: string, content: string) =>
     `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
       <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">▶ ACTION THIS WEEK</div>
-      <div style="font-size:12px;color:#1A2E1E;line-height:1.6">${content}</div>
+      <div style="font-size:12px;color:${C.ink};line-height:1.6">${content}</div>
     </div>`;
 
   return `${weekBanner(3)}
@@ -1482,8 +1501,8 @@ function renderW3(W: Workbook): string {
   ${vitalsTracker(W)}
 
   <div class="card" style="background:rgba(46,127,217,.04);border:1px solid rgba(46,127,217,.18)">
-    <div style="font-size:14px;font-weight:700;color:#0C447C;margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
-    <div style="font-size:12.5px;color:#1A3050;line-height:1.7">
+    <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
+    <div style="font-size:12.5px;color:${C.ink};line-height:1.7">
       Two weeks in. This is where it gets real. Deep focus this week is <strong>Mind</strong> —
       we introduce the full 7-supplement brain stack.
       Every other pillar gets a mid-month check-in and upgraded actions.
@@ -1491,8 +1510,8 @@ function renderW3(W: Workbook): string {
   </div>
 
   <!-- MOTIVATE W3 -->
-  <div class="card" style="border-left:4px solid #6B5ED4">
-    <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Momentum & Obstacles</div>
+  <div class="card" style="border-left:4px solid ${C.info}">
+    <div class="card-title" style="color:${C.info}">🟣 M4 — MOTIVATE: Momentum & Obstacles</div>
     <div class="g2" style="margin-bottom:12px">
       <div>
         <label for="w3-big-win">My biggest win from the first 2 weeks</label>
@@ -1512,25 +1531,25 @@ function renderW3(W: Workbook): string {
     </div>
     <div style="margin-bottom:12px">
       <label for="w3-identity-evolve">My identity is evolving — complete this sentence: "The man I am becoming..."</label>
-      <textarea id="w3-identity-evolve" style="min-height:52px;font-size:13px;font-style:italic;border-color:#C8C0F0"
+      <textarea id="w3-identity-evolve" style="min-height:52px;font-size:13px;font-style:italic;border-color:rgba(212,175,90,.35)"
         placeholder="The man I am becoming..."
         oninput="portalField('weekReflections.w3_identity_evolve',this.value)">${g('w3_identity_evolve')}</textarea>
     </div>
-    ${pillarActionBox('#6B5ED4', 'Share your Week 3 identity sentence with your accountability partner. Tell someone what you are actually doing — not just that you are "eating better." Specifics only.')}
+    ${pillarActionBox(C.info, 'Share your Week 3 identity sentence with your accountability partner. Tell someone what you are actually doing — not just that you are "eating better." Specifics only.')}
   </div>
 
   <!-- MITIGATE W3 -->
-  <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Mid-Month Factor Progress</div>
-    <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
+  <div class="card" style="border-left:4px solid ${C.gold}">
+    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Mid-Month Factor Progress</div>
+    <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       Progress-check your top 3 factors from Week 1.
       Rescore each one based on what you have actually done. Then identify your next step.
     </div>
     ${[1, 2, 3].map(n => {
       const selectedName = g(`w3_factor${n}_name`) || g(`w2_factor${n}_name`);
       return `
-    <div style="background:#F5FAF6;border:1px solid #D8E8DC;border-radius:9px;padding:14px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:700;color:#1D9E75;letter-spacing:.06em;margin-bottom:7px">FACTOR ${n} — MID-MONTH UPDATE</div>
+    <div style="background:${C.goldTint};border:1px solid ${C.line};border-radius:9px;padding:14px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:700;color:${C.gold};letter-spacing:.06em;margin-bottom:7px">FACTOR ${n} — MID-MONTH UPDATE</div>
       <div class="g2" style="margin-bottom:8px">
         <div>
           <label for="w3-f${n}-name">Factor name</label>
@@ -1557,12 +1576,12 @@ function renderW3(W: Workbook): string {
       </div>
     </div>`;
     }).join('')}
-    ${pillarActionBox('#1D9E75', 'Rescore all three factors. Even a half-point improvement is real progress. Focus your Week 4 deep-dive on whichever factor has moved the least.')}
+    ${pillarActionBox(C.gold, 'Rescore all three factors. Even a half-point improvement is real progress. Focus your Week 4 deep-dive on whichever factor has moved the least.')}
   </div>
 
   <!-- MUSCLE W3 -->
-  <div class="card" style="border-left:4px solid #E05C2A">
-    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Mid-Month Body Check + Progression</div>
+  <div class="card" style="border-left:4px solid ${C.crit}">
+    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Mid-Month Body Check + Progression</div>
 
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">MID-MONTH BODY COMPOSITION CHECK</div>
@@ -1583,16 +1602,16 @@ function renderW3(W: Workbook): string {
 
     ${fastingDailyTracker(W, 3)}
 
-    ${pillarActionBox('#E05C2A', '4 sessions this week. Hold the 14:10 window — first meal after 9am, last before 7pm. Month 1 stays at 14:10; we do not progress the fasting window this month.')}
+    ${pillarActionBox(C.crit, '4 sessions this week. Hold the 14:10 window — first meal after 9am, last before 7pm. Month 1 stays at 14:10; we do not progress the fasting window this month.')}
   </div>
 
   <!-- MIND W3 DEEP FOCUS -->
-  <div class="card" style="border-left:4px solid #2E7FD9">
-    <div class="card-title" style="color:#2E7FD9">🔵 M3 — MIND: Week 3 Deep Focus — Full Supplement Stack</div>
+  <div class="card" style="border-left:4px solid ${C.info}">
+    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Week 3 Deep Focus — Full Supplement Stack</div>
 
     <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:700;color:#2E7FD9;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
-      <div style="font-size:12.5px;color:#1A3050;line-height:1.6">
+      <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
+      <div style="font-size:12.5px;color:${C.ink};line-height:1.6">
         Week 3 completes your Month 1 stack. You've been running <strong>Biome NS Ultra</strong> + <strong>SleepRestore</strong> for two weeks and added <strong>OmegaCN Prime</strong> + <strong>ArmorVita</strong> in Week 2.
         <strong>Week 3 — Add: NeuroBridge</strong> (methylated B-complex — P-5-P, methylcobalamin, methylfolate) and <strong>MitoVita</strong> (creatine + L-citrulline + beetroot + electrolytes).
         This completes your full 6-supplement Month 1 stack.
@@ -1602,19 +1621,19 @@ function renderW3(W: Workbook): string {
     <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 1 COMPLETE SUPPLEMENT STACK (6 SUPPLEMENTS)</div>
     <div style="display:grid;grid-template-columns:1.8fr 0.9fr 0.9fr 0.7fr;gap:8px;padding:8px 0;margin-bottom:4px">
       ${['Supplement', 'Dose', 'Timing', 'Taking?'].map(h =>
-        `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#6A8A6E">${h}</div>`
+        `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:${C.muted}">${h}</div>`
       ).join('')}
     </div>
     ${renderSupplementsPanel(W)}
 
     <div style="margin-top:16px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">COGNITIVE PERFORMANCE — WEEKLY SCORES</div>
-      <div style="font-size:12px;color:#3A6A44;margin-bottom:10px">
+      <div style="font-size:12px;color:${C.muted};margin-bottom:10px">
         Score focus, memory, and mood every Sunday evening (1–10). The trend across 4 weeks is your data.
       </div>
       ${[1, 2, 3, 4].map(w => `
         <div style="margin-bottom:13px">
-          <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:#4A7A54;margin-bottom:7px">WEEK ${w}</div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:${C.muted};margin-bottom:7px">WEEK ${w}</div>
           <div class="g3">
             ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
               <div>
@@ -1633,7 +1652,7 @@ function renderW3(W: Workbook): string {
         oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', `Add your final two Month 1 supplements: <strong>NeuroBridge</strong> (with breakfast) and <strong>MitoVita</strong> (pre-workout or mid-day). Your Month 1 stack is now complete — 6 supplements total. Keep your daily 10-page reading habit going.`)}
+    ${pillarActionBox(C.info, `Add your final two Month 1 supplements: <strong>NeuroBridge</strong> (with breakfast) and <strong>MitoVita</strong> (pre-workout or mid-day). Your Month 1 stack is now complete — 6 supplements total. Keep your daily 10-page reading habit going.`)}
   </div>
 
   ${renderWeekCogTraining(W, 3)}
@@ -1663,7 +1682,7 @@ function renderW4(W: Workbook): string {
   const pillarActionBox = (color: string, content: string) =>
     `<div style="background:${color}0F;border:1px solid ${color}33;border-radius:9px;padding:12px 14px">
       <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">▶ ACTION THIS WEEK</div>
-      <div style="font-size:12px;color:#1A2E1E;line-height:1.6">${content}</div>
+      <div style="font-size:12px;color:${C.ink};line-height:1.6">${content}</div>
     </div>`;
 
   const metrics: [string, string][] = [
@@ -1688,8 +1707,8 @@ function renderW4(W: Workbook): string {
   ${vitalsTracker(W)}
 
   <div class="card" style="background:rgba(107,94,212,.05);border:1px solid rgba(107,94,212,.2)">
-    <div style="font-size:14px;font-weight:700;color:#3C3489;margin-bottom:6px">Month 1 Completion — All 4 Pillars</div>
-    <div style="font-size:12.5px;color:#3A3070;line-height:1.7">
+    <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:6px">Month 1 Completion — All 4 Pillars</div>
+    <div style="font-size:12.5px;color:${C.muted};line-height:1.7">
       This is the final week of Month 1. Deep focus this week is <strong>Motivate</strong> —
       locking in your identity and committing to Month 2.
       Every other pillar gets a final check-in, re-assessment, and Month 2 plan.
@@ -1697,11 +1716,11 @@ function renderW4(W: Workbook): string {
   </div>
 
   <!-- MOTIVATE W4 DEEP FOCUS -->
-  <div class="card" style="border-left:4px solid #6B5ED4">
-    <div class="card-title" style="color:#6B5ED4">🟣 M4 — MOTIVATE: Week 4 Deep Focus — Identity & Month 2 Vision</div>
+  <div class="card" style="border-left:4px solid ${C.info}">
+    <div class="card-title" style="color:${C.info}">🟣 M4 — MOTIVATE: Week 4 Deep Focus — Identity & Month 2 Vision</div>
     <div style="background:rgba(107,94,212,.06);border:1px solid rgba(107,94,212,.2);border-radius:9px;padding:12px 14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:700;color:#6B5ED4;letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
-      <div style="font-size:12.5px;color:#4A3A80;line-height:1.6">
+      <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
+      <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
         The man who finishes Month 1 is not the same man who started it.
         This week you name that man, commit to Month 2, and declare who you are becoming.
       </div>
@@ -1709,8 +1728,8 @@ function renderW4(W: Workbook): string {
 
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">IDENTITY STATEMENT — Month 1 Final</div>
-      <div style="font-size:11.5px;color:#4A7A54;margin-bottom:10px">Write in present tense. "I am a man who..." — not "I will try to..."</div>
-      <textarea style="min-height:80px;border-color:#6B5ED455;font-size:14px"
+      <div style="font-size:11.5px;color:${C.muted};margin-bottom:10px">Write in present tense. "I am a man who..." — not "I will try to..."</div>
+      <textarea style="min-height:80px;border-color:${C.info}55;font-size:14px"
         placeholder="I am a man who..."
         oninput="portalField('identityStatement',this.value)">${esc(W.identityStatement)}</textarea>
     </div>
@@ -1740,22 +1759,22 @@ function renderW4(W: Workbook): string {
         </div>`).join('')}
     </div>
 
-    <div style="border:2px solid #6B5ED455;border-radius:10px;padding:14px">
-      <div class="card-title" style="font-size:10px;margin-bottom:8px;color:#6B5ED4">GRADUATION COMMITMENT — Read Aloud on the Final Call</div>
-      <textarea style="min-height:85px;border-color:#6B5ED444;font-size:13.5px"
+    <div style="border:2px solid ${C.info}55;border-radius:10px;padding:14px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px;color:${C.info}">GRADUATION COMMITMENT — Read Aloud on the Final Call</div>
+      <textarea style="min-height:85px;border-color:${C.info}44;font-size:13.5px"
         placeholder="Write your graduation commitment here..."
         oninput="portalField('graduation',this.value)">${esc(W.graduation)}</textarea>
       <div style="margin-top:13px;padding:12px 14px;background:rgba(107,94,212,.07);
-        border-radius:8px;font-size:11.5px;color:#7060A8;font-style:italic;text-align:center;line-height:1.6">
+        border-radius:8px;font-size:11.5px;color:${C.info};font-style:italic;text-align:center;line-height:1.6">
         "In completing Month 1 of the 4M program I commit to continuing my brain optimization practice because the man I am becoming is worth protecting."
       </div>
     </div>
   </div>
 
   <!-- MITIGATE W4 RE-AUDIT -->
-  <div class="card" style="border-left:4px solid #1D9E75">
-    <div class="card-title" style="color:#1D9E75">🟢 M1 — MITIGATE: Full Re-Assessment — 10-Category Personal Risk Assessment</div>
-    <div style="font-size:12.5px;color:#3A6A44;margin-bottom:12px;line-height:1.6">
+  <div class="card" style="border-left:4px solid ${C.gold}">
+    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Full Re-Assessment — 10-Category Personal Risk Assessment</div>
+    <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       Score every category again using the 0–10 scale from your Week 1 intake.
       Compare your final assessment score to your baseline to see how far you moved in 30 days.
       Week 1 scores are <strong>auto-populated from your original assessment</strong> — no manual entry needed.
@@ -1765,37 +1784,37 @@ function renderW4(W: Workbook): string {
       const w1Total = AUDIT_CATEGORIES.reduce((s, c) => s + (w1Scores[c.id] ?? 0), 0);
       const w4Total = AUDIT_CATEGORIES.reduce((s, c) => s + (Number(W.w4audit[c.id]) || 0), 0);
       return `
-    <div style="background:#F5FAF6;border:1.5px solid #1D9E7533;border-radius:10px;padding:14px 16px;margin-bottom:14px">
+    <div style="background:${C.goldTint};border:1.5px solid rgba(212,175,90,.3);border-radius:10px;padding:14px 16px;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-        <div style="font-size:13px;font-weight:700;color:#1A3A20">Side-by-Side Assessment Comparison</div>
+        <div style="font-size:13px;font-weight:700;color:${C.ink}">Side-by-Side Assessment Comparison</div>
         <div style="display:flex;gap:12px;font-size:11px">
-          <span style="color:#6A8A6E">Week 1 total: <strong style="color:#1D9E75">${w1Total} / 200</strong></span>
-          ${w4Total > 0 ? `<span style="color:#6A8A6E">Week 4 total: <strong style="color:#6B5ED4">${w4Total} / 200</strong></span>` : ''}
+          <span style="color:${C.muted}">Week 1 total: <strong style="color:${C.gold}">${w1Total} / 200</strong></span>
+          ${w4Total > 0 ? `<span style="color:${C.muted}">Week 4 total: <strong style="color:${C.info}">${w4Total} / 200</strong></span>` : ''}
         </div>
       </div>
       <div style="overflow-x:auto">
       <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:0;font-size:10.5px;min-width:320px">
-        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#3A6A44;border-radius:6px 0 0 0">Category</div>
-        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#3A6A44;text-align:center">Week 1</div>
-        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#6B5ED4;text-align:center">Week 4</div>
-        <div style="padding:5px 8px;background:#E8F0E8;font-weight:700;color:#E05C2A;text-align:center;border-radius:0 6px 0 0">Δ</div>
+        <div style="padding:5px 8px;background:${C.line};font-weight:700;color:${C.muted};border-radius:6px 0 0 0">Category</div>
+        <div style="padding:5px 8px;background:${C.line};font-weight:700;color:${C.muted};text-align:center">Week 1</div>
+        <div style="padding:5px 8px;background:${C.line};font-weight:700;color:${C.info};text-align:center">Week 4</div>
+        <div style="padding:5px 8px;background:${C.line};font-weight:700;color:${C.crit};text-align:center;border-radius:0 6px 0 0">Δ</div>
         ${AUDIT_CATEGORIES.map((cat, i) => {
-          const bg = i % 2 === 0 ? '#FFFFFF' : '#F8FBF8';
+          const bg = i % 2 === 0 ? C.panel2 : C.panel2;
           const w1Raw = w1Scores[cat.id];
           const w1: number | null = typeof w1Raw === 'number' ? w1Raw : null;
           const w4Raw: unknown = W.w4audit?.[cat.id];
           const w4Str = w4Raw == null ? '' : String(w4Raw);
           const w4: number | null = w4Str !== '' && !isNaN(Number(w4Str)) ? Number(w4Str) : null;
           const delta: number | null = w1 !== null && w4 !== null ? (w4 - w1) : null;
-          const color = delta === null ? '#3A5A42' : (delta < 0 ? '#1D9E75' : delta > 0 ? '#E05C2A' : '#3A5A42');
-          return `<div style="padding:6px 8px;background:${bg};color:#1A3A20">${esc(cat.label)}</div>
-            <div style="padding:6px 8px;background:${bg};text-align:center;color:#5A8A64">${w1 !== null ? w1 : '—'}</div>
+          const color = delta === null ? C.muted : (delta < 0 ? C.goodBright : delta > 0 ? C.crit : C.muted);
+          return `<div style="padding:6px 8px;background:${bg};color:${C.ink}">${esc(cat.label)}</div>
+            <div style="padding:6px 8px;background:${bg};text-align:center;color:${C.muted}">${w1 !== null ? w1 : '—'}</div>
             <div style="padding:6px 8px;background:${bg};text-align:center"><input type="number" style="width:44px;text-align:center" min="0" max="10" value="${esc(String(w4 !== null ? w4 : ''))}" placeholder="—" oninput="portalField('w4audit.${cat.id}',this.value)"></div>
             <div style="padding:6px 8px;background:${bg};text-align:center;color:${color};font-weight:700">${delta === null ? '—' : (delta > 0 ? '+' : '') + delta}</div>`;
         }).join('')}
       </div>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:#6A8A6E">
+      <div style="margin-top:10px;font-size:11px;color:${C.muted}">
         Score 0–10 per category. &nbsp; <strong>0 = fully addressed</strong> &nbsp;·&nbsp; <strong>10 = major risk still present</strong> &nbsp;·&nbsp; Lower Week 4 score = improvement.
       </div>
     </div>`;
@@ -1812,20 +1831,20 @@ function renderW4(W: Workbook): string {
         value="${g('w4_needs_work')}" oninput="portalField('weekReflections.w4_needs_work',this.value)">
     </div>
 
-    ${pillarActionBox('#1D9E75', 'Complete the full re-assessment. Your score improvement is the concrete evidence that the work is real. Carry your lowest-scoring factors forward as Month 2 priorities.')}
+    ${pillarActionBox(C.gold, 'Complete the full re-assessment. Your score improvement is the concrete evidence that the work is real. Carry your lowest-scoring factors forward as Month 2 priorities.')}
   </div>
 
   <!-- MUSCLE W4 -->
-  <div class="card" style="border-left:4px solid #E05C2A">
-    <div class="card-title" style="color:#E05C2A">🟠 M2 — MUSCLE: Month 1 Progress Comparison</div>
-    <div style="font-size:12.5px;color:#5A3020;margin-bottom:12px;line-height:1.6">
+  <div class="card" style="border-left:4px solid ${C.crit}">
+    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Month 1 Progress Comparison</div>
+    <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       Enter your Week 4 numbers. Week 1 baselines pull from your earlier entries.
     </div>
     <div style="overflow-x:auto">
       <table class="compare-table">
         <thead><tr style="background:rgba(224,92,42,.1)">
           ${['Metric', 'Week 1', 'Week 4', 'Change', 'Direction'].map(h =>
-            `<th style="color:#7A3A20">${h}</th>`).join('')}
+            `<th style="color:${C.muted}">${h}</th>`).join('')}
         </tr></thead>
         <tbody>
           ${metrics.map(([label, key], i) => {
@@ -1833,15 +1852,15 @@ function renderW4(W: Workbook): string {
             const w4 = (W.w4 as unknown as Record<string, string>)[key] ?? '';
             const diff = w1 && w4 ? (Number(w4) - Number(w1)).toFixed(1) : '';
             const better = ['waist', 'weight'].includes(key) ? Number(diff) < 0 : Number(diff) > 0;
-            return `<tr style="background:${i % 2 === 0 ? '#FFFFFF' : '#FFF8F5'}">
-              <td style="color:#1A3A20">${label}</td>
-              <td style="color:#5A8A64">${w1 || '—'}</td>
+            return `<tr style="background:${i % 2 === 0 ? C.panel2 : C.panel2}">
+              <td style="color:${C.ink}">${label}</td>
+              <td style="color:${C.muted}">${w1 || '—'}</td>
               <td><input value="${esc(w4)}" placeholder="Enter..."
                 oninput="portalField('w4.${key}',this.value)"></td>
-              <td style="color:${diff ? (better ? '#1D9E75' : '#E05C2A') : '#3A5A42'};font-weight:${diff ? '700' : '400'}">
+              <td style="color:${diff ? (better ? C.goodBright : C.crit) : C.muted};font-weight:${diff ? '700' : '400'}">
                 ${diff || '—'}
               </td>
-              <td style="color:${diff ? (better ? '#1D9E75' : '#E05C2A') : '#3A5A42'}">
+              <td style="color:${diff ? (better ? C.goodBright : C.crit) : C.muted}">
                 ${diff ? (better ? '↑ Better' : '↓ Check') : '—'}
               </td>
             </tr>`;
@@ -1855,12 +1874,12 @@ function renderW4(W: Workbook): string {
     <div style="margin-top:16px">
       ${fastingDailyTracker(W, 4)}
     </div>
-    ${pillarActionBox('#E05C2A', 'Record all your Week 4 measurements. Compare honestly. Strength and waist measurement are more meaningful than scale weight at this stage.')}
+    ${pillarActionBox(C.crit, 'Record all your Week 4 measurements. Compare honestly. Strength and waist measurement are more meaningful than scale weight at this stage.')}
   </div>
 
   <!-- MIND W4 -->
-  <div class="card" style="border-left:4px solid #2E7FD9">
-    <div class="card-title" style="color:#2E7FD9">🔵 M3 — MIND: Month 1 Cognitive Wrap-Up</div>
+  <div class="card" style="border-left:4px solid ${C.info}">
+    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Month 1 Cognitive Wrap-Up</div>
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">FINAL COGNITIVE SCORES — WEEK 4</div>
       <div class="g3">
@@ -1870,7 +1889,7 @@ function renderW4(W: Workbook): string {
             <input id="w4-cog-${k}" type="number" min="1" max="10" placeholder="1–10"
               value="${esc(W.cogRatings[`w4_${k}`] ?? '')}"
               oninput="portalField('cogRatings.w4_${k}',this.value)">
-            <div style="font-size:9px;color:#8AB89A;margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
+            <div style="font-size:9px;color:${C.muted};margin-top:3px">W1 baseline: ${esc(W.cogRatings[`w1_${k}`] ?? '—')}</div>
           </div>`).join('')}
       </div>
     </div>
@@ -1887,7 +1906,7 @@ function renderW4(W: Workbook): string {
         oninput="portalField('weekReflections.w4_supp_plan',this.value)">${g('w4_supp_plan')}</textarea>
     </div>
 
-    ${pillarActionBox('#2E7FD9', 'Score all 4 weeks in the cognitive tracker. The trend line is your Month 1 story. Decide which supplements are locked in for Month 2 and write it down.')}
+    ${pillarActionBox(C.info, 'Score all 4 weeks in the cognitive tracker. The trend line is your Month 1 story. Decide which supplements are locked in for Month 2 and write it down.')}
   </div>
 
   ${renderWeekCogTraining(W, 4)}
@@ -1940,11 +1959,11 @@ function habitWeekRow(W: Workbook, w: 1 | 2 | 3 | 4, key: string, heading: strin
     return `<label style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex:1;min-width:0">
       <input type="checkbox" ${done ? 'checked' : ''} style="width:30px;height:30px;accent-color:${accent};cursor:pointer"
         onchange="window.portalField&&window.portalField('habitLog.${k}',this.checked?'1':'')">
-      <span style="font-size:10px;font-weight:600;color:#5A8A64">${dl}</span>
+      <span style="font-size:10px;font-weight:600;color:${C.muted}">${dl}</span>
     </label>`;
   }).join('');
-  return `<div style="background:#FFFFFF;border:1.5px solid #D8E8DC;border-radius:9px;padding:12px 13px">
-    <div style="font-size:12px;font-weight:700;color:#1A2E1E;margin-bottom:10px;line-height:1.45">${heading}</div>
+  return `<div style="background:${C.panel2};border:1.5px solid ${C.line};border-radius:9px;padding:12px 13px">
+    <div style="font-size:12px;font-weight:700;color:${C.ink};margin-bottom:10px;line-height:1.45">${heading}</div>
     <div style="display:flex;gap:6px;justify-content:space-between">${boxes}</div>
   </div>`;
 }
@@ -1952,15 +1971,15 @@ function habitWeekRow(W: Workbook, w: 1 | 2 | 3 | 4, key: string, heading: strin
 function renderWeekCogTraining(W: Workbook, w: 1 | 2 | 3 | 4): string {
   const cue = weekCogTrainData[w];
   return `
-  <div class="card" style="border-top:3px solid #2E7FD9;margin-top:8px">
-    <div style="font-size:14px;font-weight:700;color:#2E7FD9;margin-bottom:4px;letter-spacing:.01em">
+  <div class="card" style="border-top:3px solid ${C.info};margin-top:8px">
+    <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:4px;letter-spacing:.01em">
       Cognitive Training — Week ${w}
     </div>
-    <div style="font-size:11.5px;color:#3A5A7A;margin-bottom:16px;line-height:1.6;font-style:italic">${esc(cue)}</div>
+    <div style="font-size:11.5px;color:${C.muted};margin-bottom:16px;line-height:1.6;font-style:italic">${esc(cue)}</div>
 
-    ${habitWeekRow(W, w, 'readbook', 'I read at least 10 pages of <em>Begin with the End in Mind</em> today', 'all', '#2E7FD9')}
+    ${habitWeekRow(W, w, 'readbook', 'I read at least 10 pages of <em>Begin with the End in Mind</em> today', 'all', C.info)}
 
-    <div style="font-size:10px;color:#8A9A88;font-style:italic;margin-top:12px">
+    <div style="font-size:10px;color:${C.muted};font-style:italic;margin-top:12px">
       Other cognitive tools (Lumosity, Duolingo, and more) become available in Month 2+.
     </div>
   </div>`;
@@ -1999,24 +2018,24 @@ function renderWeekNutritionSection(W: Workbook, w: 1 | 2 | 3 | 4): string {
     <div style="font-size:14px;font-weight:700;color:${wc.ac};margin-bottom:4px;letter-spacing:.01em">
       Nutrition &amp; Fueling — Week ${w}
     </div>
-    <div style="font-size:11.5px;color:#4A7A54;margin-bottom:16px;line-height:1.6;font-style:italic">${esc(fastingCue)}</div>
+    <div style="font-size:11.5px;color:${C.muted};margin-bottom:16px;line-height:1.6;font-style:italic">${esc(fastingCue)}</div>
 
     <!-- MEAL PLAN PREVIEW -->
-    <div style="position:relative;background:#F5FAF6;border:1.5px dashed #B8E8D0;border-radius:10px;padding:14px 16px;margin-bottom:16px">
-      <span style="position:absolute;top:-10px;right:14px;background:#D4920A;color:#fff;
+    <div style="position:relative;background:${C.goldTint};border:1.5px dashed ${C.line};border-radius:10px;padding:14px 16px;margin-bottom:16px">
+      <span style="position:absolute;top:-10px;right:14px;background:${C.warn};color:${C.panel2};
         font-size:9px;font-weight:700;letter-spacing:.07em;padding:3px 9px;border-radius:4px">SAMPLE</span>
-      <div style="font-size:11px;font-weight:700;color:#1D9E75;letter-spacing:.07em;margin-bottom:6px;text-transform:uppercase">
+      <div style="font-size:11px;font-weight:700;color:${C.gold};letter-spacing:.07em;margin-bottom:6px;text-transform:uppercase">
         Week ${w} Recommended Meal Plan
       </div>
       <ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px">
-        <li style="font-size:11.5px;color:#3A6A44">Breakfast: 3–4 pasture-raised eggs + grass-fed beef or salmon + cooking fat</li>
-        <li style="font-size:11.5px;color:#3A6A44">Lunch: Large grass-fed protein portion + leafy greens + avocado</li>
-        <li style="font-size:11.5px;color:#3A6A44">Dinner: Ruminant protein or wild fish + cruciferous vegetable + bone broth</li>
+        <li style="font-size:11.5px;color:${C.muted}">Breakfast: 3–4 pasture-raised eggs + grass-fed beef or salmon + cooking fat</li>
+        <li style="font-size:11.5px;color:${C.muted}">Lunch: Large grass-fed protein portion + leafy greens + avocado</li>
+        <li style="font-size:11.5px;color:${C.muted}">Dinner: Ruminant protein or wild fish + cruciferous vegetable + bone broth</li>
       </ul>
     </div>
 
     <!-- RECOMMENDED RECIPE CHECK -->
-    <div style="font-size:11px;color:#5A8A64;line-height:1.55;margin-bottom:10px">
+    <div style="font-size:11px;color:${C.muted};line-height:1.55;margin-bottom:10px">
       Your recommended recipes, shopping list, and a prep video arrive by email a few days before each Sunday Zoom.
     </div>
     ${habitWeekRow(W, w, 'recipe', 'Did you use at least one recommended recipe (with the recommended ingredients) today?', 'mf', wc.ac)}
@@ -2033,14 +2052,14 @@ function renderSupplementsPanel(W: Workbook): string {
         <div class="supp-name">${esc(s.n)}</div>
         <div class="supp-why">${esc(s.w)}</div>
       </div>
-      <div style="font-size:11px;color:#3A6A44">${esc(s.d)}</div>
-      <div style="font-size:10px;color:#4A7A54">${esc(s.t)}</div>
+      <div style="font-size:11px;color:${C.muted}">${esc(s.d)}</div>
+      <div style="font-size:10px;color:${C.muted}">${esc(s.t)}</div>
       <div style="display:flex;gap:5px">
         ${(['Yes', 'No'] as const).map(v => `
           <button class="btn xs"
-            style="background:${resp === v ? (v === 'Yes' ? '#1D9E75' : '#E8E8E8') : '#FFFFFF'};
-              color:${resp === v ? '#fff' : '#6A9A74'};
-              border-color:${resp === v ? (v === 'Yes' ? '#1D9E75' : '#999') : '#D8E8DC'}"
+            style="background:${resp === v ? (v === 'Yes' ? C.goodBright : C.line) : C.panel2};
+              color:${resp === v ? C.panel2 : C.muted};
+              border-color:${resp === v ? (v === 'Yes' ? C.goodBright : C.muted) : C.line}"
             onclick="portalAction('setSupp','${key}','${v}')">${v}</button>`).join('')}
       </div>
     </div>`;
@@ -2049,11 +2068,11 @@ function renderSupplementsPanel(W: Workbook): string {
 
 function renderRegen(W: Workbook): string {
   return `
-  <div style="background:linear-gradient(135deg,#042C53,#0C2040);border-radius:12px;
-    padding:20px;margin-bottom:20px;border:1px solid #2E7FD944">
-    <div style="font-size:10px;font-weight:700;letter-spacing:.12em;color:#2E7FD9;margin-bottom:6px">WEEK 4 BONUS LESSON</div>
-    <div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:6px">Regenerative Medicine & Therapies</div>
-    <div style="font-size:12.5px;color:#B5D4F4;line-height:1.7">Everything you have done this month has been activating your body's innate regenerative pathways.</div>
+  <div style="background:linear-gradient(135deg,${C.panel},${C.panel});border-radius:12px;
+    padding:20px;margin-bottom:20px;border:1px solid ${C.info}44">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.12em;color:${C.info};margin-bottom:6px">WEEK 4 BONUS LESSON</div>
+    <div style="font-size:24px;font-weight:700;color:${C.panel2};margin-bottom:6px">Regenerative Medicine & Therapies</div>
+    <div style="font-size:12.5px;color:${C.info};line-height:1.7">Everything you have done this month has been activating your body's innate regenerative pathways.</div>
   </div>
 
   <div class="card">
@@ -2076,18 +2095,18 @@ function renderAuditReview(): string {
   const backBtn = `<button class="btn" onclick="portalAction('goTo','dash')" style="margin-bottom:18px">← Back to Dashboard</button>`;
   if (!scores) {
     return `<div class="page-title">Personal Risk Assessment</div>${backBtn}
-    <div class="card"><div style="color:#6A8A6E;font-size:13px">No assessment data found. Complete the intake questionnaire to generate your assessment scores.</div></div>`;
+    <div class="card"><div style="color:${C.muted};font-size:13px">No assessment data found. Complete the intake questionnaire to generate your assessment scores.</div></div>`;
   }
   const total = Object.values(scores).reduce((a, b) => a + b, 0);
   const band = auditBand200(total);
 
   const rows = AUDIT_CATEGORIES.map(cat => {
     const s = scores[cat.id] ?? 0;
-    const c = s <= 3 ? '#1D9E75' : s <= 6 ? '#D4920A' : '#E05C2A';
+    const c = s <= 3 ? C.goodBright : s <= 6 ? C.warn : C.crit;
     const barW = Math.round((s / 10) * 100);
     return `<div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <span style="font-size:12px;color:#1A2E1E">${esc(cat.label)}</span>
+        <span style="font-size:12px;color:${C.ink}">${esc(cat.label)}</span>
         <span style="font-size:12px;font-weight:700;color:${c}">${s} / 10</span>
       </div>
       <div class="pbar-wrap">
@@ -2103,11 +2122,11 @@ function renderAuditReview(): string {
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div>
         <div style="font-size:15px;font-weight:700;color:${band.color}">${band.label} Risk</div>
-        <div style="font-size:12px;color:#6A8A6E">Total score</div>
+        <div style="font-size:12px;color:${C.muted}">Total score</div>
       </div>
       <div style="font-size:52px;font-weight:800;color:${band.color};line-height:1">${total}</div>
     </div>
-    <div style="font-size:11px;color:#6A8A6E;margin-top:6px">Lower is better. Each category scores 0–10.</div>
+    <div style="font-size:11px;color:${C.muted};margin-top:6px">Lower is better. Each category scores 0–10.</div>
   </div>
   <div class="card">
     <div class="card-title">All ${AUDIT_CATEGORIES.length} Categories</div>

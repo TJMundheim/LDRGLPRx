@@ -171,17 +171,17 @@
     max-width: 380px;
     margin: 80px auto;
     padding: 36px 32px;
-    background: #fff;
+    background: var(--mc-panel-2);
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   }
-  h2 { margin: 0 0 6px; font-size: 1.4rem; color: #1a1a1a; }
-  .subtitle { margin: 0 0 16px; color: #666; font-size: 0.9rem; }
+  h2 { margin: 0 0 6px; font-size: 1.4rem; color: var(--mc-ink);; font-family: var(--mc-font-display); }
+  .subtitle { margin: 0 0 16px; color: var(--mc-muted); font-size: 0.9rem; }
   .subtitle-cta { margin: 0 0 24px; font-size: 0.9rem; }
-  .subtitle-cta a { color: #00b894; font-weight: 600; text-decoration: none; }
+  .subtitle-cta a { color: var(--mc-gold); font-weight: 600; text-decoration: none; }
   .subtitle-cta a:hover { text-decoration: underline; }
-  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #333; }
-  .optional { font-weight: 400; color: #999; font-size: 0.8rem; }
+  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--mc-ink); }
+  .optional { font-weight: 400; color: var(--mc-faint); font-size: 0.8rem; }
   input {
     width: 100%;
     box-sizing: border-box;
@@ -193,13 +193,13 @@
     transition: border-color 0.15s;
     margin-bottom: 16px;
   }
-  input:focus { border-color: #1D9E75; }
-  .error { color: #c0392b; font-size: 0.85rem; margin: 8px 0 0; }
+  input:focus { border-color: var(--mc-good-bright); }
+  .error { color: var(--mc-crit-bright); font-size: 0.85rem; margin: 8px 0 0; }
   button {
     width: 100%;
     margin-top: 4px;
     padding: 11px;
-    background: #1D9E75;
+    background: var(--mc-good-bright);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -208,14 +208,14 @@
     cursor: pointer;
     transition: background 0.15s;
   }
-  button:disabled { background: #a0c8b8; cursor: not-allowed; }
+  button:disabled { background: var(--mc-gold-dim); cursor: not-allowed; }
   button:not(:disabled):hover { background: #17875f; }
   .autosend-spinner {
     width: 36px;
     height: 36px;
     margin: 8px auto 0;
-    border: 3px solid #d8e8dc;
-    border-top-color: #1D9E75;
+    border: 3px solid var(--mc-line);
+    border-top-color: var(--mc-good-bright);
     border-radius: 50%;
     animation: spin 0.9s linear infinite;
   }
