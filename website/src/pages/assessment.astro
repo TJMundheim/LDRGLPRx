@@ -553,7 +553,7 @@ const robots = "index, follow";
 .assess-hero {
   background: var(--assess-parchment);
   border-bottom: 1px solid var(--assess-border);
-  padding: 64px 0 48px;
+  padding: calc(72px + 64px) 0 48px;
   text-align: center;
 }
 .assess-hero-inner {
@@ -604,7 +604,8 @@ const robots = "index, follow";
 /* ── Sticky progress header ── */
 .assess-sticky {
   position: sticky;
-  top: 0;
+  /* Dock below the fixed navbar (~72px) instead of sliding underneath it. */
+  top: 72px;
   z-index: 50;
   background: #fff;
   border-bottom: 1px solid var(--assess-border);

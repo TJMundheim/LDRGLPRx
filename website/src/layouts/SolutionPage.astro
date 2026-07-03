@@ -114,7 +114,8 @@ const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug
 .sol-hero-compact {
   background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
   color: #fff;
-  padding: 0.9rem 0 1rem;
+  /* Navbar is fixed (~72px); clear it plus original 0.9rem breathing room. */
+  padding: calc(72px + 0.9rem) 0 1rem;
 }
 .sol-hero-compact-inner {
   display: flex;
@@ -145,7 +146,8 @@ const canonical = `https://www.my4mlife.com${canonicalPath ?? `/solutions/${slug
 .sol-hero {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: #fff;
-  padding: 5rem 0 3.5rem;
+  /* Navbar is fixed (~72px); clear it plus original 5rem breathing room. */
+  padding: calc(72px + 5rem) 0 3.5rem;
   text-align: center;
 }
 .sol-kicker {
