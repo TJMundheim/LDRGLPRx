@@ -13,6 +13,27 @@ const ORIGIN_ALLOWLIST = new Set([
   'http://localhost:3000',
 ]);
 
+// SKU → Stripe price + mode. Physical-product SKUs collect a US shipping
+// address natively via Checkout (shipping_address_collection). Callers may
+// still pass a raw priceId (e.g. cohort-workbook) — this map only overrides
+// known SKUs.
+const SKU_CATALOG: Record<string, { priceId: string; mode: 'payment' | 'subscription'; shipping: boolean; successUrl?: string; cancelUrl?: string }> = {
+  'biome-ns-ultra': {
+    priceId: 'price_1Tp83ABSbDAyoIVynsgk0BAK',
+    mode: 'payment',
+    shipping: true,
+    successUrl: 'https://www.my4mlife.com/thank-you',
+    cancelUrl: 'https://www.my4mlife.com/go/gut-repair',
+  },
+  'biome-ns-ultra-sub': {
+    priceId: 'price_1Tp83ABSbDAyoIVyEgUb5T0V',
+    mode: 'subscription',
+    shipping: true,
+    successUrl: 'https://www.my4mlife.com/thank-you',
+    cancelUrl: 'https://www.my4mlife.com/go/gut-repair',
+  },
+};
+
 const CORS_BASE = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -81,24 +102,25 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   try { body = JSON.parse(event.body ?? '{}'); }
   catch { return reply(400, { error: 'invalid JSON body' }, cors); }
 
-  const priceId = body.priceId;
   const skuId = body.skuId;
+  const catalogEntry = skuId ? SKU_CATALOG[skuId] : undefined;
+  const priceId = catalogEntry?.priceId ?? body.priceId;
   const contactId = body.contactId;
   if (!priceId) return reply(400, { error: 'priceId required' }, cors);
 
-  const successBase = process.env.SUCCESS_URL ?? 'https://my4mlife.com/thank-you';
-  const cancelBase = process.env.CANCEL_URL ?? 'https://my4mlife.com/cart';
+  const successBase = catalogEntry?.successUrl ?? process.env.SUCCESS_URL ?? 'https://my4mlife.com/thank-you';
+  const cancelBase = catalogEntry?.cancelUrl ?? process.env.CANCEL_URL ?? 'https://my4mlife.com/cart';
 
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
+      mode: catalogEntry?.mode ?? 'payment',
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: skuId
         ? `${successBase}?session_id={CHECKOUT_SESSION_ID}&sku=${encodeURIComponent(skuId)}`
         : `${successBase}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: skuId ? `${cancelBase}?sku=${encodeURIComponent(skuId)}` : cancelBase,
       customer_email: body.email || undefined,
-      payment_intent_data: body.email ? { receipt_email: body.email } : undefined,
+      payment_intent_data: catalogEntry?.mode === 'subscription' ? undefined : (body.email ? { receipt_email: body.email } : undefined),
       metadata: {
         ...(contactId ? { contactId } : {}),
         ...(skuId ? { skuIds: skuId } : {}),
@@ -107,6 +129,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
         isDemo: String(resolvedMode === 'test'),
       },
       phone_number_collection: body.phone ? undefined : { enabled: true },
+      shipping_address_collection: catalogEntry?.shipping ? { allowed_countries: ['US'] } : undefined,
     });
 
     if (contactId) {

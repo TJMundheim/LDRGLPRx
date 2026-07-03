@@ -180,10 +180,47 @@ describe('processEvent', () => {
   it('(j) digital fulfillment: SKU not in map does NOT invoke email-sender', async () => {
     mockSessionRetrieve.mockResolvedValue({
       ...baseSession,
-      metadata: { skuIds: 'biome-ns-ultra' },
+      metadata: { skuIds: 'some-unmapped-sku' },
     });
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
     expect(mockLambdaSend).not.toHaveBeenCalled();
+  });
+
+  it('(j2) physical SKU biome-ns-ultra sends coordinator order email with shipping address', async () => {
+    mockSessionRetrieve.mockResolvedValue({
+      ...baseSession,
+      metadata: { skuIds: 'biome-ns-ultra' },
+      amount_total: 14900,
+      shipping_details: {
+        name: 'Mark Reynolds',
+        address: { line1: '100 Main St', line2: null, city: 'Dallas', state: 'TX', postal_code: '75201', country: 'US' },
+      },
+    });
+    await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
+    expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+    const payload = JSON.parse(mockLambdaSend.mock.calls[0][0].input.Payload.toString());
+    expect(payload.kind).toBe('info');
+    expect(payload.to).toBe('drtj@my4mlife.com');
+    expect(payload.subject).toMatch(/Biome NS Ultra order/);
+    expect(payload.subject).toMatch(/One-time/);
+    expect(payload.html).toContain('Mark Reynolds');
+    expect(payload.html).toContain('100 Main St');
+    expect(payload.html).toContain('75201');
+    expect(payload.html).toContain('$149.00');
+  });
+
+  it('(j3) biome-ns-ultra-sub subject says subscription; email failure never throws', async () => {
+    mockSessionRetrieve.mockResolvedValue({
+      ...baseSession,
+      metadata: { skuIds: 'biome-ns-ultra-sub' },
+      amount_total: 12900,
+    });
+    mockLambdaSend.mockRejectedValueOnce(new Error('SES down'));
+    await expect(
+      processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false }),
+    ).resolves.not.toThrow();
+    const payload = JSON.parse(mockLambdaSend.mock.calls[0][0].input.Payload.toString());
+    expect(payload.subject).toMatch(/subscription/i);
   });
 
   it('(k) digital fulfillment: idempotent retry does NOT re-send email', async () => {

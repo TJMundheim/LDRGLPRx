@@ -206,6 +206,33 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       }
     }
 
+    // 4b. Physical-product coordinator notification — Biome NS Ultra ships
+    // manually (coordinator fulfills until the distribution partner is live).
+    // Fire-and-forget: a notification failure must never fail the order.
+    if (skuId.startsWith('biome-ns-ultra')) {
+      try {
+        const ship = (session as unknown as { shipping_details?: { name?: string; address?: Record<string, string | null> } }).shipping_details;
+        const a = ship?.address ?? {};
+        const addressHtml = [ship?.name, a.line1, a.line2, `${a.city ?? ''}, ${a.state ?? ''} ${a.postal_code ?? ''}`, a.country]
+          .filter(Boolean).join('<br>');
+        const billing = skuId.endsWith('-sub') ? 'Monthly subscription ($129/mo)' : 'One-time ($149)';
+        await lambda.send(new InvokeCommand({
+          FunctionName: process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender',
+          InvocationType: 'Event',
+          Payload: Buffer.from(JSON.stringify({
+            kind: 'info',
+            to: 'drtj@my4mlife.com',
+            subject: `New Biome NS Ultra order — ${billing}`,
+            html: `<p><strong>New Biome NS Ultra order</strong></p>
+<p>Customer: ${email}<br>Billing: ${billing}<br>Amount: $${((session.amount_total ?? 0) / 100).toFixed(2)}<br>Order/session: ${session.id}</p>
+<p><strong>Ship to:</strong><br>${addressHtml || '(no shipping address on session — check Stripe dashboard)'}</p>`,
+          })),
+        }));
+      } catch (err) {
+        console.error('[order-handler] coordinator order notification failed', { orderId: session.id, error: String(err) });
+      }
+    }
+
     // 5. Protégé membership grant — for SKUs in PROTEGE_MEMBERSHIP_SKUS
     // (e.g. app-access $69.99), invoke protege-signup with the Stripe
     // customer info to create the Cognito account + Contact + Users row

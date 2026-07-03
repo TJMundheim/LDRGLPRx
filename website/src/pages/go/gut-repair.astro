@@ -24,8 +24,31 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
     <p class="lp-kicker">Gut repair · built for men</p>
     <h1>Bloating. Brain fog. The 2&nbsp;p.m. crash.<br/>Your gut is telling you what your brain already feels.</h1>
     <p class="lp-punch">Gut damage doesn't stay in the gut. It degrades the organ that makes you <em>you</em> — and it starts years before any diagnosis.</p>
-    <a class="lp-cta" href="/rx/leaky-gut/questionnaire" onclick="window.posthog && posthog.capture('lp_gut_cta_hero')">Start your free gut repair consult &rarr;</a>
-    <p class="lp-cta-sub">Free physician-reviewed telemedicine consult. Medication billed separately only if a physician writes your script — if you're not approved, you pay nothing.</p>
+    <p class="lp-cta-sub">Two ways to start — order the foundation powder today, or begin with a free physician consult.</p>
+  </section>
+
+  <!-- BUY PANELS — the two paths, up top -->
+  <section class="lp-block lp-buy">
+    <div class="lp-paths">
+      <div class="lp-path-card lp-path-primary">
+        <p class="lp-path-tag">OTC · ships to your door</p>
+        <h3>Biome NS Ultra</h3>
+        <p>The daily gut-brain foundation powder. Order today, ships to your door. No prescription, no waiting.</p>
+        <div class="lp-buy-btns">
+          <button class="lp-cta" id="buy-biome-once" data-sku="biome-ns-ultra" onclick="window.posthog && posthog.capture('lp_gut_otc_order')">Order now — $149</button>
+          <button class="lp-cta lp-cta-ghost" id="buy-biome-sub" data-sku="biome-ns-ultra-sub" onclick="window.posthog && posthog.capture('lp_gut_otc_subscribe')">Subscribe — $129/mo</button>
+        </div>
+        <p class="lp-fine" id="buy-biome-err" hidden></p>
+        <p class="lp-fine">Secure checkout. US shipping collected at checkout.</p>
+      </div>
+      <div class="lp-path-card">
+        <p class="lp-path-tag">Rx · physician-guided</p>
+        <h3>Biome NS Rx — full-formulary gut repair: oral BPC-157 + L-Glutamine + Aloe.</h3>
+        <p><strong>Custom-formulated dosage based on your needs</strong> — determined by a physician in your free telemedicine consult.</p>
+        <a class="lp-cta" href="/rx/leaky-gut/questionnaire" onclick="window.posthog && posthog.capture('lp_gut_cta_hero')">Start the free consult &rarr;</a>
+        <p class="lp-fine">Consult is free. Medication billed separately only after physician approval — if you're not approved, you pay nothing.</p>
+      </div>
+    </div>
   </section>
 
   <!-- STOP FIRST -->
@@ -51,17 +74,9 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
     <p class="lp-mech-close">When the gut lining fails, inflammatory load crosses into circulation, the signal degrades, and the brain pays the bill. That's why we start every man's protocol at the gut — and why your MindSpan Score counts gut repair before anything else. Gut inflammation is a MindSpan tax: it shows up in your score before it shows up anywhere else.</p>
   </section>
 
-  <!-- THE PATH -->
+  <!-- NOT SURE? -->
   <section class="lp-block">
-    <h2>The repair path</h2>
-    <div class="lp-paths">
-      <div class="lp-path-card lp-path-primary">
-        <p class="lp-path-tag">Physician-guided</p>
-        <h3>Rx gut repair — oral BPC-157</h3>
-        <p>A free telemedicine consult reviews your history and symptoms. If you're a candidate, a physician writes a compounded oral BPC-157 protocol — targeted repair of the gut lining itself, not another probiotic guess.</p>
-        <a class="lp-cta" href="/rx/leaky-gut/questionnaire" onclick="window.posthog && posthog.capture('lp_gut_cta_path')">Start the free consult &rarr;</a>
-        <p class="lp-fine">Consult is free. Medication billed separately only after physician approval.</p>
-      </div>
+    <div class="lp-paths lp-paths-single">
       <div class="lp-path-card">
         <p class="lp-path-tag">Not sure it's your gut?</p>
         <h3>Get your MindSpan baseline</h3>
@@ -87,6 +102,39 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
 </div>
 
 </BaseLayout>
+
+<script is:inline define:vars={{ API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+(function () {
+  var err = document.getElementById('buy-biome-err');
+  ['buy-biome-once', 'buy-biome-sub'].forEach(function (id) {
+    var btn = document.getElementById(id);
+    if (!btn) return;
+    var original = btn.textContent;
+    btn.addEventListener('click', async function () {
+      btn.disabled = true;
+      btn.textContent = 'Loading…';
+      if (err) { err.hidden = true; err.textContent = ''; }
+      try {
+        var res = await fetch(API + '/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ skuId: btn.dataset.sku }),
+        });
+        var data = await res.json();
+        if (!res.ok || !data.url) throw new Error(data.error || ('Checkout failed (' + res.status + ')'));
+        window.location.href = data.url;
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = original;
+        if (err) {
+          err.hidden = false;
+          err.textContent = (e && e.message) ? e.message : 'Something went wrong. Please try again.';
+        }
+      }
+    });
+  });
+})();
+</script>
 
 <style>
 .lp { font-family: 'Inter', sans-serif; color: #1f2d3d; background: #fdfcf9; }
@@ -127,6 +175,13 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
 .lp-mech-close { font-size: 1rem; line-height: 1.65; color: #c9d2e4; }
 @media (max-width: 680px) { .lp-mech { grid-template-columns: 1fr; } }
 
+.lp-buy { padding-top: 2.2rem; padding-bottom: 1rem; }
+.lp-buy .lp-paths { margin-top: 0; }
+.lp-buy-btns { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+button.lp-cta { border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+button.lp-cta.lp-cta-ghost { border: 2px solid #0a1f44; }
+button.lp-cta:disabled { opacity: 0.6; cursor: default; }
+.lp-paths-single { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
 .lp-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.6rem; }
 @media (max-width: 720px) { .lp-paths { grid-template-columns: 1fr; } }
 .lp-path-card { background: #fff; border: 1px solid #e8e2d4; border-radius: 14px; padding: 1.7rem 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; align-items: flex-start; }
