@@ -147,6 +147,12 @@ const programItems = [
         </div>
       </li>
 
+      <!-- Get the Book — prominent top-right, two clicks to Amazon 1-Click -->
+      <li class="nav-book-item" role="none">
+        <a href="https://www.amazon.com/dp/B0H7FJRHXC" target="_blank" rel="noopener" class="nav-book-btn"
+           onclick="window.posthog && posthog.capture('nav_book_amazon_click')">Get the Book</a>
+      </li>
+
     </ul>
 
     <!-- Hamburger -->
@@ -309,6 +315,24 @@ const programItems = [
     flex: 1;
   }
   .nav-signin-item { margin-left: auto; }
+
+  /* ── Get the Book (Amazon) button — top right ── */
+  .nav-book-item { margin-left: auto; }
+  .nav-book-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1.35rem;
+    border-radius: 50px;
+    background: #d4af5a;
+    color: #0a1f44;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .nav-book-btn:hover { background: #e3c98b; }
 
   /* ── Direct-buy Rx mobile block ── */
   .mobile-rx-block { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.5rem 0 1rem; border-bottom: 1px solid var(--border); margin-bottom: 0.5rem; }
