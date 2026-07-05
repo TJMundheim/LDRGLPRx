@@ -24,6 +24,8 @@ Every prompt ends with the same style recipe so the library reads as one photogr
 - Man in his early 60s teaching his adult son to grill over open flame at dusk, both engaged, warm firelight, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
 - Grandfather in his 60s walking a fence line with a young grandson at golden hour, tall grass, quiet conversation, seen from behind, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
 
+- (TJ concept 2026-07-05) Fit man in his early 60s at the helm of a wakeboard boat on a mountain lake at golden hour, wearing a performance polo, seen from behind in three-quarter view glancing back at his grandson wakeboarding in the wake, three generations of family aboard watching, warm low sun, boat spray backlit gold, editorial photography, deep navy and warm gold color grade, 35mm --ar 16:9 --style raw
+
 ## Contemplative (10%)
 - Man in his late 50s reading in a leather chair by a tall window, early morning, coffee steaming, calm and sharp, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
 - Man in his 50s standing on a porch at first light looking out over open land, mug in hand, back to camera, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
