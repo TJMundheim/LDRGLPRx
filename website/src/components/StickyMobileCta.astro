@@ -1,0 +1,110 @@
+---
+// Sticky mobile CTA — visible only on small viewports, hidden on funnel pages
+// (where the visitor is already mid-conversion) and whenever hideChrome is set.
+// Dismiss choice persists for the browser session only (sessionStorage).
+const path = Astro.url.pathname;
+
+const isFunnelPage =
+  path.startsWith('/go/') ||
+  path.startsWith('/assessment') ||
+  path.startsWith('/consult') ||
+  path.startsWith('/thank-you') ||
+  /^\/rx\/[^/]+\/questionnaire/.test(path);
+---
+{!isFunnelPage && (
+  <div class="sticky-cta" id="sticky-mobile-cta">
+    <a
+      href="/assessment"
+      class="sticky-cta-btn"
+      id="sticky-cta-btn"
+    >
+      Get your MindSpan baseline — free
+    </a>
+    <button class="sticky-cta-dismiss" id="sticky-cta-dismiss" aria-label="Dismiss">&times;</button>
+  </div>
+)}
+
+<style is:global>
+  .sticky-cta {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9500;
+    background: #0a1f44;
+    padding: 0.65rem 0.9rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.18);
+  }
+  .sticky-cta.visible { display: flex; }
+  .sticky-cta-btn {
+    flex: 1;
+    text-align: center;
+    background: #d4af5a;
+    color: #0a1f44;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sticky-cta-dismiss {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #f5f1e8;
+    opacity: 0.6;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .sticky-cta-dismiss:hover { opacity: 1; }
+
+  @media (max-width: 820px) {
+    .sticky-cta:not(.dismissed) { display: flex; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var KEY = 'my4m-sticky-cta-dismissed';
+    var el = document.getElementById('sticky-mobile-cta');
+    if (!el) return;
+
+    if (sessionStorage.getItem(KEY) === '1') {
+      el.classList.add('dismissed');
+      el.style.display = 'none';
+      return;
+    }
+
+    el.classList.add('visible');
+
+    var dismissBtn = document.getElementById('sticky-cta-dismiss');
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', function () {
+        sessionStorage.setItem(KEY, '1');
+        el.classList.add('dismissed');
+        el.classList.remove('visible');
+        el.style.display = 'none';
+      });
+    }
+
+    var ctaBtn = document.getElementById('sticky-cta-btn');
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', function () {
+        if (window.posthog) posthog.capture('sticky_cta_click');
+      });
+    }
+  })();
+</script>

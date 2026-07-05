@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import MedicalDisclaimer from '../components/MedicalDisclaimer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import StickyMobileCta from '../components/StickyMobileCta.astro';
 
 interface Props {
   title: string;
@@ -30,6 +31,9 @@ const {
   schema,
   hideChrome = false,
 } = Astro.props;
+
+// Exclude paid-traffic landing pages from the Pagefind search index.
+const isLandingPage = Astro.url.pathname.startsWith('/go/');
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +65,7 @@ const {
     })();
   </script>
 </head>
-<body>
+<body data-pagefind-ignore={isLandingPage ? 'all' : undefined}>
   <!-- Demo-mode init + banner. Inline so it runs immediately on every page. -->
   <script is:inline>
     (function() {
@@ -107,6 +111,7 @@ const {
   <slot />
   {!hideChrome && <Footer />}
   {!hideChrome && <MedicalDisclaimer />}
+  {!hideChrome && <StickyMobileCta />}
   <CookieBanner />
 </body>
 </html>

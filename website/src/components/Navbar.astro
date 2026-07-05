@@ -149,6 +149,14 @@ const programItems = [
 
     </ul>
 
+    <!-- Search -->
+    <button class="nav-search-btn" id="nav-search-btn" aria-label="Search">
+      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+        <circle cx="7.2" cy="7.2" r="5.7" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="11.4" y1="11.4" x2="15.5" y2="15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+
     <!-- Hamburger -->
     <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
       <span class="hamburger-bar"></span>
@@ -252,6 +260,18 @@ const programItems = [
 
 <!-- Backdrop closes mega-menu on outside click -->
 <div class="dd-backdrop" id="dd-backdrop" aria-hidden="true"></div>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Site search">
+  <div class="search-scrim" id="search-scrim"></div>
+  <div class="search-panel">
+    <button class="search-close" id="search-close" aria-label="Close search">&times;</button>
+    <h2 class="search-heading">Search</h2>
+    <div id="search-pf"></div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
 
 <style is:global>
   /* ── Base navbar ── */
@@ -511,6 +531,91 @@ const programItems = [
     box-shadow: 0 4px 15px rgba(0,184,148,0.35);
   }
 
+  /* ── Search button (deliberately quiet) ── */
+  .nav-search-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin-left: 0.5rem;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: var(--dark, #0a1f44);
+    opacity: 0.55;
+    cursor: pointer;
+    transition: opacity 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .nav-search-btn:hover { opacity: 0.9; background: var(--bg-soft, #f5f0e8); }
+
+  /* ── Search overlay ── */
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: none;
+  }
+  .search-overlay.open { display: block; }
+  .search-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 31, 68, 0.72);
+  }
+  .search-panel {
+    position: relative;
+    max-width: 640px;
+    width: calc(100% - 2.5rem);
+    margin: 8vh auto 0;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem 2rem 2.5rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .search-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--dark, #0a1f44);
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  .search-close:hover { opacity: 1; }
+  .search-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--dark, #0a1f44);
+    margin-bottom: 1.25rem;
+  }
+  #search-pf {
+    --pagefind-ui-primary: #0a1f44;
+    --pagefind-ui-text: #0a1f44;
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #e2e8f0;
+    --pagefind-ui-tag: #f5f0e8;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 10px;
+    --pagefind-ui-font: 'Inter', sans-serif;
+  }
+  #search-pf .pagefind-ui__search-input {
+    font-family: 'Inter', sans-serif;
+  }
+  #search-pf .pagefind-ui__result-link {
+    color: #0a1f44;
+  }
+  #search-pf .pagefind-ui__button,
+  #search-pf mark {
+    background: #d4af5a;
+    color: #0a1f44;
+  }
+
   /* ── Hamburger ── */
   .menu-toggle {
     display: none;
@@ -719,5 +824,59 @@ const programItems = [
       });
     });
   }
+
+  // ── Site search (Pagefind) ──
+  var searchBtn = document.getElementById('nav-search-btn');
+  var searchOverlay = document.getElementById('search-overlay');
+  var searchScrim = document.getElementById('search-scrim');
+  var searchCloseBtn = document.getElementById('search-close');
+  var pfLoaded = false;
+
+  function loadPagefindUI() {
+    if (pfLoaded) return;
+    pfLoaded = true;
+    var script = document.createElement('script');
+    script.src = '/pagefind/pagefind-ui.js';
+    script.onload = function () {
+      if (window.PagefindUI) {
+        new window.PagefindUI({
+          element: '#search-pf',
+          showImages: false,
+          showSubResults: true,
+          autofocus: true,
+        });
+      }
+      var input = document.querySelector('#search-pf input');
+      if (input) input.focus();
+    };
+    document.body.appendChild(script);
+  }
+
+  function openSearch() {
+    if (!searchOverlay) return;
+    searchOverlay.classList.add('open');
+    searchOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    loadPagefindUI();
+    if (window.posthog) posthog.capture('nav_search_open');
+    setTimeout(function () {
+      var input = document.querySelector('#search-pf input');
+      if (input) input.focus();
+    }, 60);
+  }
+
+  function closeSearch() {
+    if (!searchOverlay) return;
+    searchOverlay.classList.remove('open');
+    searchOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (searchBtn) searchBtn.addEventListener('click', openSearch);
+  if (searchScrim) searchScrim.addEventListener('click', closeSearch);
+  if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearch);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && searchOverlay && searchOverlay.classList.contains('open')) closeSearch();
+  });
 })();
 </script>
