@@ -1,79 +1,78 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
-import TwoPathsCTA from '../../components/TwoPathsCTA.astro';
 ---
 
 <SolutionPage
 
   compact={true}  title="Nutrition"
   parent="Mitigate"
-  oneliner="You can't out-supplement a bad food supply — sourcing clean food is the first act of Mitigate."
+  oneliner="You can't out-supplement a bad food supply — how you eat is the first act of Mitigate."
   slug="nutrition"
 >
-  <TwoPathsCTA
-    otcProductName="Sourcing Protocol + Foundational Nutraceuticals"
-    otcDescription="Start today with the ancestral sourcing standard — vetted partners (ButcherBox, US Wellness Meats, Vital Choice, Force of Nature, Ancestral Supplements, Thrive Market) and the 30g protein-first rule. The clean-food foundation under every 4M protocol, no prescription required."
-    otcCtaLabel="Explore Sourcing Partners →"
-    otcCtaHref="#sourcing-partners"
-    rxDescription="Comprehensive 4M consult with full metabolic and micronutrient lab review — fasting glucose, HbA1c, lipid panel, hsCRP, vitamin D, B12, ferritin, RBC magnesium. Personalized nutrition prescription tied to GLP-1 candidacy, hormone optimization, and your complete 4M plan — through our licensed telemedicine partner."
-    whenOtc="You want to start with the clean-sourcing standard and the 30g protein-first rule before adding clinical labs to the picture."
-    whenRx="You want metabolic markers measured first — fasting insulin, HbA1c, full micronutrient panel — and a personalized nutrition plan layered into the full 4M protocol."
-    protegeFooter="Become a Protégé — daily protocol guidance, weekly coaching, nutrition tracker →"
-  />
-
   <figure id="why-matters" class="scene-figure">
-    <img src="/images/scenes/nutrition-kitchen.jpg" alt="Premium kitchen — clean food sourcing as the first act of Mitigate" loading="lazy" />
-    <figcaption>Sourcing is the first act. Where the food enters the home determines what enters the brain.</figcaption>
+    <img src="/images/scenes/nutrition-kitchen.jpg" alt="Grass-finished ribeye and dark greens — the 4M plate" loading="eager" fetchpriority="high" />
+    <figcaption>This is the plan. Protein first, sourced clean, eaten inside a window that works for your brain.</figcaption>
   </figure>
 
-  <h2>What this is</h2>
+  <h2>How we eat</h2>
   <p>
-    Modern food is calorie-dense and nutrient-sparse by design. The Mitigate pillar
-    approaches nutrition through the lens of sourcing and quality, not just macros.
-    The same protein gram from a grass-finished ribeye and a feedlot-CAFO chicken breast
-    carry meaningfully different inflammatory, hormonal, and micronutrient profiles.
+    We don't prescribe a dietary ideology. We prescribe a standard and a structure:
+    <strong>what</strong> enters the house, <strong>when</strong> it gets eaten, and
+    <strong>what goes first</strong>. Three rules, learnable in a week, sustainable for life —
+    because the goal isn't a diet phase. The goal is the best mind possible until your last day of life,
+    and every meal is either a deposit toward that or a tax against it.
   </p>
+
+  <h2>1 · What you eat — the sourcing standard</h2>
   <p>
-    We don't prescribe a single dietary ideology. We prescribe a sourcing standard:
-    animals raised on their natural diet, minimal processing, no seed oils, real food first.
-    The My4MLife App includes weekly nutrition anchors aligned to the 4M protocol.
+    Modern food is calorie-dense and nutrient-sparse by design. The same protein gram from a
+    grass-finished ribeye and a feedlot chicken breast carry meaningfully different inflammatory,
+    hormonal, and micronutrient profiles. So the first rule isn't about macros — it's about what
+    qualifies as food.
   </p>
-  <p>Inflammatory food sourcing is a MindSpan tax paid at every meal — the sourcing standard below is one of the simplest levers for moving your score in the right direction.</p>
-
-
-  <aside class="protein-first-rule">
-    <span class="protein-first-tag">Universal Rule</span>
-    <h2>The 30g Protein-First Protocol</h2>
-    <p><strong>Every feeding window opens with 30g+ lean protein, 30 minutes before any other food.</strong> Whether you eat once a day or six times, the first 30 minutes of any feeding window is protein only. Then the rest of the meal follows.</p>
-    <p>The 30g threshold isn't arbitrary — it's the leucine-signal threshold that triggers maximal muscle protein synthesis in adult men, particularly after 40 when sarcopenia begins. The 30-minute spacing lets that anabolic signal land cleanly before glucose, fats, and competing macros arrive. On GLP-1 protocols where total intake drops sharply, this rule is even more critical — it protects the lean mass that drives metabolic flexibility and visceral-fat reduction.</p>
-    <p class="protein-first-examples"><em>What 30g of lean protein looks like:</em> 5 oz chicken or turkey breast · 4–5 oz lean grass-finished beef · 5 oz wild salmon · 5–6 eggs · 1.5 cups high-protein Greek yogurt · 1 scoop whey isolate with cottage cheese · 5 oz wild tuna.</p>
-  </aside>
-
-  <h2>Our approach</h2>
   <div class="card-grid">
     <div class="card">
-      <h3>Ancestral Sourcing Standard</h3>
-      <p>Grass-finished beef, pasture-raised pork and poultry, wild-caught seafood — the baseline sourcing criteria.</p>
+      <h3>Animals raised on their natural diet</h3>
+      <p>Grass-finished beef, pasture-raised pork and poultry, wild-caught seafood. The baseline criteria for every protein on the plate.</p>
     </div>
     <div class="card">
-      <h3>Organ Meat Integration</h3>
-      <p>Liver, heart, and kidney are the most nutrient-dense foods available. Ancestral Supplements offers encapsulated forms for those who won't eat them whole.</p>
+      <h3>Real food first</h3>
+      <p>Single-ingredient foods, minimally processed. If it has a mascot or a health claim on the box, it isn't on the plan.</p>
     </div>
     <div class="card">
-      <h3>Seed Oil Elimination</h3>
-      <p>Canola, soybean, sunflower, safflower, and corn oils drive linoleic acid accumulation. Remove them entirely.</p>
+      <h3>Organ meat integration</h3>
+      <p>Liver, heart, and kidney are the most nutrient-dense foods available — whole, or encapsulated for those who won't eat them from the pan.</p>
     </div>
     <div class="card">
-      <h3>Affiliate Sourcing Network</h3>
-      <p>ButcherBox, US Wellness Meats, Vital Choice, Force of Nature, Ancestral Supplements, Thrive Market — vetted partners for clean sourcing.</p>
+      <h3>Zero seed oils</h3>
+      <p>Canola, soybean, sunflower, safflower, and corn oils drive linoleic-acid accumulation and chronic inflammation. They're removed entirely — not moderated.</p>
     </div>
   </div>
 
+  <h2>2 · When you eat — the eating window</h2>
+  <p>
+    The default 4M window is <strong>9am to 6pm</strong>. Morning training or a fasted walk happens
+    <em>before</em> the window opens — you move first, then you eat. Men optimizing sleep and evening
+    cortisol can tighten the close to 4–5pm. What matters most isn't the exact hours; it's that eating
+    has a start, an end, and nothing after the end. Late-night food is one of the most reliable ways to
+    degrade deep sleep — and deep sleep is when the brain does its maintenance.
+  </p>
 
-  <fragment slot="product-cta">
-    <h3 id="sourcing-partners">Sourcing Partners</h3>
-    <p>ButcherBox &bull; US Wellness Meats &bull; Vital Choice &bull; Force of Nature &bull; Ancestral Supplements &bull; Thrive Market</p>
-    <a href="/consult" class="btn-sol secondary">Schedule Your Comprehensive 4M Consult →</a>
-  </fragment>
+  <aside class="protein-first-rule">
+    <span class="protein-first-tag">Universal Rule</span>
+    <h2>3 · Protein first — 30–40g breaks the fast</h2>
+    <p><strong>After your fasted morning training or walk, the first thing you eat is 30–40g of lean protein.</strong> Whatever else the day holds, the window opens with protein — every day, no exceptions.</p>
+    <p>The threshold isn't arbitrary — it's the leucine signal that triggers maximal muscle protein synthesis in adult men, which matters more every year after 40 as sarcopenia works against you. On GLP-1 protocols where total intake drops sharply, this rule is even more critical: it protects the lean mass that drives metabolic flexibility and visceral-fat reduction. Daily target: roughly 1g of protein per pound of ideal bodyweight.</p>
+    <p class="protein-first-examples"><em>What 30–40g of lean protein looks like:</em> 6 oz chicken or turkey breast · 5–6 oz lean grass-finished beef · 6 oz wild salmon · 6 eggs · 1.5–2 cups high-protein Greek yogurt · 1 scoop whey isolate with cottage cheese · 6 oz wild tuna.</p>
+  </aside>
+
+  <h2>Eliminate the insulting behavior</h2>
+  <p>
+    Most men don't need to add anything to fix their nutrition — they need to stop insulting their
+    biology at the table. The big four: seed oils in everything fried or packaged, eating within three
+    hours of bed, liquid calories that spike and crash, and grazing all day so insulin never rests.
+    Eliminate those and the sourcing standard above does the rest.
+  </p>
+  <p>Inflammatory food is a MindSpan tax paid at every meal. The three rules on this page are among the simplest levers a man has for moving his score in the right direction — starting at the very next meal.</p>
 
 </SolutionPage>

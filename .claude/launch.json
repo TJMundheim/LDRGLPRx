@@ -8,6 +8,12 @@
       "port": 7771
     },
     {
+      "name": "website",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["-C", "website", "run", "dev"],
+      "port": 4321
+    },
+    {
       "name": "clientportal",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["-C", "apps/clientportal", "run", "dev"],
