@@ -1,17 +1,40 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import TrustBand from '../../components/TrustBand.astro';
 
 const title = 'Regenerative Medicine Rx — My4MLife';
 const description = 'Telemedicine consult to evaluate you for our regenerative medicine portfolio — peptide protocols, RPA, and the rest of the regenerative arm.';
 const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine';
+
+const rxSteps = [
+  {
+    title: 'Complete the health questionnaire',
+    body: 'Five minutes, from your phone. No appointment, no waiting room.',
+  },
+  {
+    title: 'A physician reviews',
+    body: 'A licensed provider evaluates your history and goals.',
+  },
+  {
+    title: 'Delivered to your door',
+    body: 'Your protocol ships directly. Ongoing support included.',
+  },
+];
 ---
 <BaseLayout title={title} description={description} canonical={canonical}>
 
-<section class="rx-section">
+<section class="rx-section rx-section--top">
   <div class="container rx-inner">
     <p class="rx-eyebrow">Regenerative Medicine · Peptides · RPA</p>
     <h1>Regenerative medicine is no longer fringe. It's just not always offered to you.</h1>
+  </div>
+</section>
 
+<TrustBand />
+
+<section class="rx-section rx-section--bottom">
+  <div class="container rx-inner">
     <p class="rx-lead">
       Regenerative medicine is the umbrella for the protocols that rebuild what time and inflammation have eroded — peptide therapies that accelerate tissue repair, RPA (regenerative peptide augmentation) for neurocognitive and joint support, and the rest of the protocols traditional clinics rarely make available outside specialty channels.
     </p>
@@ -19,7 +42,13 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine';
     <p class="rx-body">
       Your telemedicine consult is a simple conversation. We walk through what you're trying to address — cognitive resilience, joint repair, post-injury recovery, performance, or the broader "I want to slow this down" agenda — and the physician maps you to the protocols in our regenerative portfolio that fit. No labs required for this consult. Most regenerative protocols can be initiated directly after the consult based on your goals and history.
     </p>
+  </div>
+</section>
 
+<HowItWorks steps={rxSteps} />
+
+<section class="rx-section rx-section--bottom">
+  <div class="container rx-inner">
     <p class="rx-price-line">
       <strong>Free</strong> — telemedicine consult with a physician in our network. No lab work required.
       <span class="rx-pay-note">Medication and protocol fees are billed separately after the physician writes your script.</span>
@@ -39,6 +68,8 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine';
 
 <style>
 .rx-section { padding: calc(76px + 3.5rem) 1rem 5rem; min-height: 60vh; }
+.rx-section--top { padding-bottom: 1.5rem; min-height: 0; }
+.rx-section--bottom { padding-top: 1.5rem; min-height: 0; }
 .rx-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem; }
 .rx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 0; overflow-wrap: break-word; }
 .rx-inner h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.85rem, 4vw, 2.6rem); color: var(--primary); margin: 0; line-height: 1.18; max-width: 640px; }

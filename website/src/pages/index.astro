@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EmailCapture from '../components/EmailCapture.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import TrustBand from '../components/TrustBand.astro';
 
 const title = "My4MLife — Live longer. Think sharper. Begin with the end in mind.";
 const description = "Brain-health-first lifestyle and telemedicine. Schedule a comprehensive consult, take the free 3-minute personalized assessment, or pick your starting protocol. Founded by Dr. TJ Mundheim, DC.";
@@ -109,6 +111,8 @@ const robots = "index, follow";
   </div>
 </section>
 
+<TrustBand />
+
 <!-- ===== MINDSPAN SCORE DEFINITION STRIP ===== -->
 <section class="hp-audit-strip">
   <div class="container hp-audit-strip-inner">
@@ -116,6 +120,8 @@ const robots = "index, follow";
     <a href="/assessment" class="btn-primary-xl btn-primary-xl--compact">Get your MindSpan baseline — free &rarr;</a>
   </div>
 </section>
+
+<HowItWorks />
 
 <!-- ===== QUICK-BUY CATEGORY BAND — 8 categories below the hero ===== -->
 <section class="quick-buy-band">

@@ -1,17 +1,40 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import TrustBand from '../../components/TrustBand.astro';
 
 const title = 'Peptides Rx — My4MLife';
 const description = 'Telemedicine consult to evaluate you for our peptide portfolio — repair, performance, cognitive, metabolic, and longevity peptides.';
 const canonical = 'https://www.my4mlife.com/rx/peptides';
+
+const rxSteps = [
+  {
+    title: 'Complete the health questionnaire',
+    body: 'Five minutes, from your phone. No appointment, no waiting room.',
+  },
+  {
+    title: 'A physician reviews',
+    body: 'A licensed provider evaluates your history and goals.',
+  },
+  {
+    title: 'Delivered to your door',
+    body: 'Your protocol ships directly. Ongoing support included.',
+  },
+];
 ---
 <BaseLayout title={title} description={description} canonical={canonical}>
 
-<section class="rx-section">
+<section class="rx-section rx-section--top">
   <div class="container rx-inner">
     <p class="rx-eyebrow">Peptides · Tissue Repair · Cognitive · Metabolic · Longevity</p>
     <h1>Peptides are the most precise tool in regenerative medicine. Used correctly, they change outcomes.</h1>
+  </div>
+</section>
 
+<TrustBand />
+
+<section class="rx-section rx-section--bottom">
+  <div class="container rx-inner">
     <p class="rx-lead">
       Peptides are short chains of amino acids that signal specific biological processes — tissue repair, growth hormone release, mitochondrial function, immune modulation, cognitive performance, fat-loss pathways, sleep architecture. They are not supplements. They are clinical-grade biological signals that have to be matched to your goals, evaluated by a physician, and dosed correctly.
     </p>
@@ -23,7 +46,13 @@ const canonical = 'https://www.my4mlife.com/rx/peptides';
     <p class="rx-body">
       Your telemedicine consult is a focused conversation about what you're trying to achieve — accelerated injury recovery, growth-hormone-axis decline, cognitive performance, fat loss, sleep, broader anti-aging — and the physician maps you to the peptide or combination that fits. <strong>One consult. One or multiple peptides depending on what the physician writes.</strong> Peptides ship direct from our regulated compounding partner after the script is written.
     </p>
+  </div>
+</section>
 
+<HowItWorks steps={rxSteps} />
+
+<section class="rx-section rx-section--bottom">
+  <div class="container rx-inner">
     <p class="rx-price-line">
       <strong>Free</strong> — telemedicine consult with a physician in our network. No lab work required.
       <span class="rx-pay-note">Peptide costs are billed separately by the partner after the physician writes your script.</span>
@@ -43,6 +72,8 @@ const canonical = 'https://www.my4mlife.com/rx/peptides';
 
 <style>
 .rx-section { padding: calc(76px + 3.5rem) 1rem 5rem; min-height: 60vh; }
+.rx-section--top { padding-bottom: 1.5rem; min-height: 0; }
+.rx-section--bottom { padding-top: 1.5rem; min-height: 0; }
 .rx-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem; }
 .rx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 0; overflow-wrap: break-word; }
 .rx-inner h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.85rem, 4vw, 2.6rem); color: var(--primary); margin: 0; line-height: 1.18; max-width: 640px; }
