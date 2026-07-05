@@ -1,8 +1,22 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-06-30 · self-contained current-state snapshot
+# Last updated: 2026-07-05 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
+
+## ⚡ 2026-07-02→05 SESSION LEDGER (Fable) — read this first
+**REPO MOVED:** now at `/Users/thomasmundheim/Development/LDRGLPRx` (out of iCloud; symlink at old Desktop path; old copy at Desktop/Development/LDRGLPRx-OLD-DELETE-AFTER-VERIFY — delete after TJ verifies a clean session). Memory copied to the new project dir.
+
+**SHIPPED & LIVE this session (all committed/pushed/deployed):**
+- **App "Mission Control" redesign** (app.my4mlife.com): --mc-* tokens + self-hosted Playfair/Inter; TodayView="Daily Brief" w/ **MindSpan Score** hero (lib/mindspan.ts, 27 tests; score=0.45·adherence+0.35·(100−risk)+0.20·streak/14; mounted at top of dash tab); PatientsAdmin="Care Console" (triage lanes, waiting-age, stepper, **charge-confirm gate** = only path to chargeEncounterAdmin, audit trail); retry toasts; branded PWA icons.
+- **Messaging spine sitewide** (TJ granted full authority): category claim "The first brain-healthspan platform for men" (gold kicker; FEAR headline restored as hero h1 per TJ) · MindSpan definition strip · CTA verb "Get your MindSpan baseline — free" · MindSpan tie-in line on all 33 solution pages · book v15 + workbook v4 name the score (S3 fulfillment refreshed; **TJ manual: KDP interior re-upload v15**).
+- **PostHog LIVE** both surfaces (key phc_qZQ…EYbY): website full (autocapture+replay); app RESTRICTED (pageviews only, no replay/autocapture — PHI, PostHog has no BAA; documented in index.html).
+- **/go/gut-repair LP** (template for all /go/*): hideChrome, men-first; Biome NS Ultra **$149 one-time / $129/mo sub** live Stripe checkout w/ US shipping collection; Rx panel full formulary (BPC-157+L-Glutamine+Aloe, bold custom-dosage line); order email → drtj@my4mlife.com (order-handler-core, 13 tests). **TJ pending: live $149 order test → refund.**
+- **Enterprise website pass:** How-It-Works band + TrustBand (homepage+5 rx) · sticky mobile CTA (funnel-gated) · minimal Pagefind search (/go/* excluded from index) · enterprise footer · 46 pages navbar-clip/mobile fixes (incl. assessment sticky progress bar) · rx heroes offset · gut LP hero color fix.
+- **Amazon affiliate hygiene:** disclosures normalized/added; HARD RULE: no tagged links in emails (email→hosted /weekly-picks page pattern; page not built yet); prices "approximate" qualifier; Kindle link (dp/B0H7FJRHXC) untagged, beside book covers (navbar button removed per TJ).
+- **Strategy locked:** Lifeforce analysis → 3 moves (no cold T marketing; T=finding not product; invert any JV: small T-clinic feeds US, flat papered marketing fee, no % splits). MindSpan = category moat.
+
+**OPEN / NEXT:** TJ: live order test; KDP v15 upload; Midjourney images (prompt set delivered in transcript 2026-07-05 — regenerate on request; navy/gold grade, men 50s-60s, face-averted). Build-next: PostHog funnels (assessment + rx) then A/B slate (fear-vs-destination hero #1); /weekly-picks page + newsletter list-building (EmailCapture currently only emails drtj@my4mlife.com — NO subscriber list is stored anywhere; wire Contact.newsletter flag); delete old Desktop repo copy after verify. Email routing rule: drtj@my4mlife.com = all internal notifications, NEVER public-facing.
 
 ## 0. Orientation
 **My4MLife** is an AI-operated telehealth + commerce + lifestyle company. Mission (TJ verbatim): help men optimize for "the best mind possible until your last day of life" — cognitive longevity through the final years. Brand wordmark **My4MLife** (exact casing). Tagline **"Begin with the end in mind."** The framework is the **4 Ms — Mind, Muscle, Mitigate, Motivate** (Mind is the destination; you run the work Mitigate→Muscle→Motivate→arrive at Mind). Repo dir name `LDRGLPRx` is legacy; the brand is My4MLife.
