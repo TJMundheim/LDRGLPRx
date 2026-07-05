@@ -10,7 +10,7 @@
 Business model = **freemium**: the assessment makes you a **Protégé** (free: app, book, workbook, weekly Zooms, cohort). Monetize via **member-priced products** (Amazon-affiliate OTC bridge now; white-label later) and **direct-buy Rx** (GLP-1, testosterone/ED, leaky-gut, peptides, regenerative). Operator = Dr. TJ Mundheim, solo, non-technical, AI-first ops.
 
 ## 1. Repo, access, conventions
-- **Path:** `/Users/thomasmundheim/Desktop/Development/LDRGLPRx`
+- **Path:** `/Users/thomasmundheim/Development/LDRGLPRx`
 - **Remote:** `git@github.com:TJMundheim/LDRGLPRx.git`
 - **Git rule:** single branch **`main`**, no feature branches, no worktrees. Commit + push directly to main.
 - **Package manager:** `pnpm` only. Apps = Vite; websites = Astro; lambdas = esbuild, thin (<100 lines, single responsibility).
