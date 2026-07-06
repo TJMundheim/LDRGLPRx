@@ -1,0 +1,314 @@
+<title>My4MLife App — Weekly Structure Mockups</title>
+<style>
+  :root{
+    --navy:#0a1f44; --navy-deep:#071633; --navy-card:#0f2a57; --navy-line:#1d3a6e;
+    --gold:#d4af5a; --gold-dim:#9c7f3f; --paper:#f6f4ef; --ink:#182236; --muted:#5d6b85;
+    --good:#3ddc97; --miss:#e05c2a;
+    --disp:"Playfair Display",Georgia,"Times New Roman",serif;
+    --ui:Inter,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);line-height:1.55}
+  .wrap{max-width:1060px;margin:0 auto;padding:48px 24px 96px}
+  header.top{border-bottom:2px solid var(--navy);padding-bottom:28px;margin-bottom:44px}
+  .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim);font-weight:600}
+  h1{font-family:var(--disp);font-size:clamp(30px,4.5vw,44px);margin:.25em 0 .2em;color:var(--navy);text-wrap:balance}
+  .lede{max-width:64ch;color:var(--muted);font-size:16.5px}
+  .lede strong{color:var(--ink)}
+
+  section.dir{margin:64px 0}
+  .dir-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .dir-num{font-family:var(--disp);font-size:44px;color:var(--gold);line-height:1}
+  h2{font-family:var(--disp);font-size:28px;color:var(--navy);margin:0}
+  .dir-sub{color:var(--muted);max-width:70ch;margin:6px 0 26px}
+  .phones{display:flex;gap:28px;flex-wrap:wrap}
+  .phone-col{flex:1 1 340px;max-width:400px}
+  .phone-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);font-weight:600;margin:0 0 10px 4px}
+
+  .phone{background:var(--navy-deep);border-radius:34px;padding:14px;box-shadow:0 24px 60px rgba(10,31,68,.35);border:1px solid #223c6d}
+  .screen{background:var(--navy);border-radius:22px;padding:18px 16px 16px;min-height:600px;display:flex;flex-direction:column;gap:12px;color:#dfe6f4;font-size:13.5px}
+  .screen .brand{font-family:var(--disp);letter-spacing:.02em;font-size:13px;color:var(--gold);text-align:center}
+
+  .chip{display:flex;justify-content:space-between;align-items:center;background:var(--navy-card);border:1px solid var(--navy-line);border-radius:10px;padding:9px 12px}
+  .chip .n{font-family:var(--disp);font-size:22px;color:var(--gold)}
+  .chip .d{color:var(--good);font-size:12px}
+
+  .hero-score{background:var(--navy-card);border:1px solid var(--navy-line);border-radius:14px;padding:18px 14px;text-align:center}
+  .hero-score .big{font-family:var(--disp);font-size:56px;color:var(--gold);line-height:1}
+  .hero-score .lab{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8fa0c4}
+  .hero-score .delta{color:var(--good);font-size:12.5px;margin-top:4px}
+
+  .onemove{background:linear-gradient(135deg,#122f63,#0f2a57);border:1px solid var(--gold-dim);border-radius:12px;padding:12px 14px}
+  .onemove .tag{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .onemove .what{font-size:15px;font-weight:600;color:#fff;margin:3px 0 2px}
+  .onemove .prog{font-size:12px;color:#8fa0c4}
+  .ring{float:right;width:44px;height:44px;border-radius:50%;background:conic-gradient(var(--gold) 216deg,#1d3a6e 0);display:grid;place-items:center;margin-left:8px}
+  .ring b{background:var(--navy-card);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:var(--gold)}
+
+  .tape{display:flex;flex-direction:column;gap:8px}
+  .row{display:flex;align-items:center;gap:10px;background:var(--navy-card);border:1px solid var(--navy-line);border-radius:10px;padding:11px 12px}
+  .box{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--gold-dim);display:grid;place-items:center;font-size:13px;flex-shrink:0}
+  .box.on{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:800}
+  .row .t{flex:1}
+  .row .s{font-size:11px;color:#8fa0c4}
+
+  .strips{display:flex;flex-direction:column;gap:10px}
+  .strip{background:var(--navy-card);border:1px solid var(--navy-line);border-radius:10px;padding:10px 12px}
+  .strip .head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px}
+  .strip .head b{color:#fff;font-weight:600}
+  .strip .head span{color:#8fa0c4}
+  .dots{display:grid;grid-template-columns:repeat(15,1fr);gap:3px}
+  .dt{aspect-ratio:1;border-radius:3px;background:#16305f}
+  .dt.f{background:var(--gold)}
+  .dt.m{background:#3a2b22}
+  .bars{display:flex;gap:4px;align-items:flex-end;height:34px;margin-top:6px}
+  .bar{flex:1;background:#16305f;border-radius:2px 2px 0 0}
+  .bar.f{background:var(--gold)}
+  .bar.now{background:#e9cf96;outline:1px solid var(--gold)}
+
+  .risk{display:flex;gap:8px}
+  .risk .pill{flex:1;text-align:center;background:var(--navy-card);border:1px solid var(--navy-line);border-radius:9px;padding:8px 4px;font-size:10.5px;color:#8fa0c4}
+  .risk .pill b{display:block;font-size:14px;color:#fff;font-weight:600}
+  .risk .pill.hot{border-color:var(--miss);color:#f0b9a4}
+  .risk .pill.hot b{color:var(--miss)}
+
+  .cta{background:var(--gold);color:var(--navy);border-radius:11px;text-align:center;font-weight:700;padding:13px;font-size:14.5px}
+  .ghost{border:1px solid var(--navy-line);color:#8fa0c4;border-radius:11px;text-align:center;padding:11px;font-size:13px}
+
+  .grid7{background:var(--navy-card);border:1px solid var(--navy-line);border-radius:12px;padding:12px}
+  .grid7 table{width:100%;border-collapse:collapse;font-size:10.5px}
+  .grid7 th{color:#8fa0c4;font-weight:600;padding:3px 2px;text-align:center}
+  .grid7 td{text-align:center;padding:3px 2px}
+  .grid7 td:first-child,.grid7 th:first-child{text-align:left;color:#dfe6f4;font-size:11px;white-space:nowrap}
+  .cell{display:inline-block;width:16px;height:16px;border-radius:4px;background:#16305f}
+  .cell.f{background:var(--gold)}
+  .cell.m{background:#3a2b22}
+  .cell.today{outline:1.5px solid #e9cf96}
+
+  .wkcards{display:flex;flex-direction:column;gap:8px}
+  .wkcard{display:flex;align-items:center;gap:10px;background:var(--navy-card);border:1px solid var(--navy-line);border-radius:10px;padding:9px 12px}
+  .wkcard .wn{font-family:var(--disp);color:var(--gold);font-size:16px;width:38px}
+  .wkcard .wt{flex:1;font-size:12px}
+  .wkcard .wt small{display:block;color:#8fa0c4}
+  .wkcard .pc{font-size:12px;color:var(--good)}
+  .wkcard.locked{opacity:.45}
+  .wkcard.locked .pc{color:#8fa0c4}
+
+  .notes{background:#fff;border:1px solid #e3ded2;border-radius:12px;padding:18px 22px;margin-top:26px}
+  .notes h3{font-family:var(--disp);color:var(--navy);margin:0 0 8px;font-size:17px}
+  .notes ul{margin:0;padding-left:18px;color:#41506b;font-size:14.5px}
+  .notes li{margin:5px 0}
+  .notes li strong{color:var(--ink)}
+
+  .ladder{margin:70px 0 0;border-top:2px solid var(--navy);padding-top:30px}
+  .months{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+  @media(max-width:760px){.months{grid-template-columns:1fr}}
+  .month{background:var(--navy);border-radius:14px;padding:16px}
+  .month h4{font-family:var(--disp);color:var(--gold);margin:0 0 3px;font-size:16px;letter-spacing:.04em}
+  .month p.mth{color:#8fa0c4;font-size:11.5px;margin:0 0 12px}
+  .mv{display:flex;gap:9px;padding:7px 0;border-top:1px solid var(--navy-line);color:#dfe6f4;font-size:12.5px}
+  .mv b{font-family:var(--disp);color:var(--gold);font-weight:500;min-width:30px}
+  .foot{margin-top:56px;background:var(--navy);color:#dfe6f4;border-radius:14px;padding:26px 28px}
+  .foot h3{font-family:var(--disp);color:var(--gold);margin:0 0 8px}
+  .foot p{margin:6px 0;font-size:14.5px;max-width:75ch}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <p class="kicker">My4MLife · App restructure · 2026-07-06</p>
+  <h1>One week, one Move, twelve times.</h1>
+  <p class="lede">Three structures for the same idea: the <strong>dashboard shows results only</strong> (MindSpan Score, risk, trends) and <strong>the week is where work gets logged</strong> — a standing daily tape plus <strong>one Move</strong> everyone takes that week, tracked straight into the score. Same Mission Control skin throughout; what changes is what the app opens on and how the week is shaped. Pick one, mark it up, and we build.</p>
+</header>
+
+<!-- ══════════ DIRECTION 1 ══════════ -->
+<section class="dir">
+  <div class="dir-head"><span class="dir-num">1</span><h2>Tape First — "open, tap, gone"</h2></div>
+  <p class="dir-sub">The app opens on today's tape. Score rides on top as a live chip — tap it for the full dashboard. Fastest possible daily loop; the dashboard is the reward you visit, not the door you walk through.</p>
+  <div class="phones">
+    <div class="phone-col">
+      <p class="phone-label">Opens on → Today</p>
+      <div class="phone"><div class="screen">
+        <div class="brand">My4MLife</div>
+        <div class="chip"><span>MindSpan</span><span><span class="n">71</span> <span class="d">▲3</span></span></div>
+        <div class="onemove"><div class="ring"><b>3/5</b></div>
+          <div class="tag">Week 6 · The Move</div>
+          <div class="what">Fasted dawn walk ×5</div>
+          <div class="prog">Mon ✓ · Tue ✓ · Wed ✓ · Thu — · Fri —</div>
+        </div>
+        <div class="tape">
+          <div class="row"><span class="box on">✓</span><span class="t">Biome NS Ultra</span><span class="s">42-day streak</span></div>
+          <div class="row"><span class="box on">✓</span><span class="t">Eating window 9–6</span><span class="s">held</span></div>
+          <div class="row"><span class="box on">✓</span><span class="t">Protein-first 30–40g</span><span class="s">after walk</span></div>
+          <div class="row"><span class="box"></span><span class="t">Strength session</span><span class="s">1 of 2 this week</span></div>
+        </div>
+        <div class="ghost">Wednesday Zoom · 7pm CT — attest to unlock Week 7</div>
+        <div class="cta">Done for today → see your trends</div>
+      </div></div>
+    </div>
+    <div class="phone-col">
+      <p class="phone-label">One tap deeper → Dashboard (results only)</p>
+      <div class="phone"><div class="screen">
+        <div class="brand">Dashboard</div>
+        <div class="hero-score"><div class="lab">MindSpan Score</div><div class="big">71</div><div class="delta">▲ 3 this week · best: 74</div></div>
+        <div class="risk">
+          <div class="pill"><b>Gut</b>improving</div>
+          <div class="pill hot"><b>Sleep</b>watch</div>
+          <div class="pill"><b>Weight</b>on track</div>
+        </div>
+        <div class="strips">
+          <div class="strip"><div class="head"><b>Gut protocol</b><span>28 of 30 days</span></div>
+            <div class="dots"><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt m"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i></div></div>
+          <div class="strip"><div class="head"><b>Eating window</b><span>25 of 30</span></div>
+            <div class="dots"><i class="dt f"></i><i class="dt f"></i><i class="dt m"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt m"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt m"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i></div></div>
+          <div class="strip"><div class="head"><b>Walks · Strength</b><span>12-week arc</span></div>
+            <div class="bars"><i class="bar f" style="height:40%"></i><i class="bar f" style="height:55%"></i><i class="bar f" style="height:70%"></i><i class="bar f" style="height:66%"></i><i class="bar f" style="height:82%"></i><i class="bar now" style="height:60%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i></div></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <div class="notes"><h3>Why you'd pick it</h3><ul>
+    <li><strong>Protects adherence.</strong> Logging is the front door — zero taps to reach it. Best habit mechanics of the three.</li>
+    <li>Score is always visible but never in the way.</li>
+    <li>Trade-off: the gauge wall — your proudest asset — lives one tap deep.</li>
+  </ul></div>
+</section>
+
+<!-- ══════════ DIRECTION 2 ══════════ -->
+<section class="dir">
+  <div class="dir-head"><span class="dir-num">2</span><h2>Instruments First — "walk into Mission Control"</h2></div>
+  <p class="dir-sub">The app opens on the gauge wall: score, risk, every trend. One gold button drops you into the week to log. The daily emotional beat is <em>seeing the number move</em> — then doing today's work to move it again.</p>
+  <div class="phones">
+    <div class="phone-col">
+      <p class="phone-label">Opens on → Dashboard</p>
+      <div class="phone"><div class="screen">
+        <div class="brand">My4MLife · Mission Control</div>
+        <div class="hero-score"><div class="lab">MindSpan Score</div><div class="big">71</div><div class="delta">▲ 3 this week · adherence 86% · risk load easing</div></div>
+        <div class="risk">
+          <div class="pill"><b>Gut</b>improving</div>
+          <div class="pill hot"><b>Sleep</b>watch</div>
+          <div class="pill"><b>Weight</b>on track</div>
+          <div class="pill"><b>Hormones</b>labs due</div>
+        </div>
+        <div class="strips">
+          <div class="strip"><div class="head"><b>This month</b><span>4 behaviors</span></div>
+            <div class="dots"><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt m"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt m"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i><i class="dt f"></i></div></div>
+          <div class="strip"><div class="head"><b>Program arc</b><span>week 6 of 12</span></div>
+            <div class="bars"><i class="bar f" style="height:40%"></i><i class="bar f" style="height:55%"></i><i class="bar f" style="height:70%"></i><i class="bar f" style="height:66%"></i><i class="bar f" style="height:82%"></i><i class="bar now" style="height:60%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i><i class="bar" style="height:12%"></i></div></div>
+        </div>
+        <div class="cta">Log today's protocol →</div>
+      </div></div>
+    </div>
+    <div class="phone-col">
+      <p class="phone-label">One tap deeper → This Week (the work)</p>
+      <div class="phone"><div class="screen">
+        <div class="brand">Week 6 · Move: dawn walks ×5</div>
+        <div class="onemove"><div class="ring"><b>3/5</b></div>
+          <div class="tag">The Move</div>
+          <div class="what">Fasted dawn walk ×5</div>
+          <div class="prog">two left — Thu &amp; Fri look clear</div>
+        </div>
+        <div class="grid7">
+          <table>
+            <tr><th></th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr>
+            <tr><td>Biome NS</td><td><i class="cell f"></i></td><td><i class="cell f"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Window 9–6</td><td><i class="cell f"></i></td><td><i class="cell f"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Protein-first</td><td><i class="cell f"></i></td><td><i class="cell m"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Walk (Move)</td><td><i class="cell f"></i></td><td><i class="cell f"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Strength ×2</td><td><i class="cell"></i></td><td><i class="cell f"></i></td><td><i class="cell today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+          </table>
+        </div>
+        <div class="ghost">Wednesday Zoom · attest to unlock Week 7</div>
+        <div class="cta">Tap today's column to log</div>
+      </div></div>
+    </div>
+  </div>
+  <div class="notes"><h3>Why you'd pick it</h3><ul>
+    <li><strong>The score is the product</strong> — every open reinforces the MindSpan brand spine.</li>
+    <li>Purest version of your instinct: dashboard = pure results, week = pure work.</li>
+    <li>Trade-off: one extra tap to log, every single day. Motivating for engaged men; friction for wobbling ones.</li>
+  </ul></div>
+</section>
+
+<!-- ══════════ DIRECTION 3 ══════════ -->
+<section class="dir">
+  <div class="dir-head"><span class="dir-num">3</span><h2>The Week Card — "one surface, whole week"</h2></div>
+  <p class="dir-sub">No split at all: the app opens on a single week card — the Move on top, the 7-day tape grid as the centerpiece, a slim results strip pinned at the bottom. The dashboard becomes a monthly review page you visit on Sundays and after Zooms.</p>
+  <div class="phones">
+    <div class="phone-col">
+      <p class="phone-label">Opens on → This Week (everything)</p>
+      <div class="phone"><div class="screen">
+        <div class="brand">Week 6 of 12 · MUSCLE month</div>
+        <div class="onemove"><div class="ring"><b>3/5</b></div>
+          <div class="tag">The Move</div>
+          <div class="what">Fasted dawn walk ×5</div>
+          <div class="prog">everyone in Cohort 3 is on this Move this week</div>
+        </div>
+        <div class="grid7">
+          <table>
+            <tr><th></th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr>
+            <tr><td>Biome NS</td><td><i class="cell f"></i></td><td><i class="cell f"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Window 9–6</td><td><i class="cell f"></i></td><td><i class="cell f"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Protein-first</td><td><i class="cell f"></i></td><td><i class="cell m"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Walk (Move)</td><td><i class="cell f"></i></td><td><i class="cell f"></i></td><td><i class="cell f today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+            <tr><td>Strength ×2</td><td><i class="cell"></i></td><td><i class="cell f"></i></td><td><i class="cell today"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td><td><i class="cell"></i></td></tr>
+          </table>
+        </div>
+        <div class="chip"><span>MindSpan 71 ▲3</span><span class="d">adherence 86% · full dashboard →</span></div>
+        <div class="ghost">Zoom Wed 7pm · attest → Week 7</div>
+      </div></div>
+    </div>
+    <div class="phone-col">
+      <p class="phone-label">Sunday visit → Program view (12 weeks)</p>
+      <div class="phone"><div class="screen">
+        <div class="brand">Program · 12 weeks</div>
+        <div class="hero-score"><div class="lab">MindSpan Score</div><div class="big">71</div><div class="delta">started 58 → best 74 · retest in week 12</div></div>
+        <div class="wkcards">
+          <div class="wkcard"><span class="wn">W4</span><span class="wt">Pantry purge — zero seed oils<small>MITIGATE</small></span><span class="pc">91%</span></div>
+          <div class="wkcard"><span class="wn">W5</span><span class="wt">Strength ×2, log the lifts<small>MUSCLE</small></span><span class="pc">83%</span></div>
+          <div class="wkcard"><span class="wn">W6</span><span class="wt">Fasted dawn walk ×5<small>MUSCLE · this week</small></span><span class="pc">60%</span></div>
+          <div class="wkcard locked"><span class="wn">W7</span><span class="wt">Add one intensity day<small>MUSCLE · unlocks Wed</small></span><span class="pc">—</span></div>
+          <div class="wkcard locked"><span class="wn">W8</span><span class="wt">Sleep: cutoff + cold dark room<small>MUSCLE</small></span><span class="pc">—</span></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <div class="notes"><h3>Why you'd pick it</h3><ul>
+    <li><strong>The week is the unit of the program</strong> — the app finally looks like the program feels (Zoom to Zoom).</li>
+    <li>Whole week visible at once: a missed Tuesday stares at you all week. Gentle shame is a feature.</li>
+    <li>Trade-off: densest screen of the three — needs the most care on small phones.</li>
+  </ul></div>
+</section>
+
+<!-- ══════════ THE LADDER ══════════ -->
+<section class="ladder">
+  <p class="kicker">Shared by all three directions</p>
+  <h2 style="font-family:var(--disp);color:var(--navy)">The 12-week Move ladder — draft</h2>
+  <p class="dir-sub">Every week has the identical tape. The only thing that changes is the Move — one action, same for every man in the cohort, tracked into the MindSpan Score. Months carry the locked 4M arc. Week 12 closes the loop: retake the assessment, watch the score move against baseline. All twelve are placeholders for you to edit.</p>
+  <div class="months">
+    <div class="month"><h4>Month 1 · MITIGATE</h4><p class="mth">stop the insults</p>
+      <div class="mv"><b>W1</b>Start Biome NS Ultra — seal the gut, every morning</div>
+      <div class="mv"><b>W2</b>Hold the 9–6 window all seven days</div>
+      <div class="mv"><b>W3</b>Protein-first 30–40g at every fast-break</div>
+      <div class="mv"><b>W4</b>Pantry purge — zero seed oils in the house</div>
+    </div>
+    <div class="month"><h4>Month 2 · MUSCLE</h4><p class="mth">build the engine</p>
+      <div class="mv"><b>W5</b>Strength ×2, log the lifts</div>
+      <div class="mv"><b>W6</b>Fasted dawn walk ×5</div>
+      <div class="mv"><b>W7</b>Add one intensity day — hills or sprints</div>
+      <div class="mv"><b>W8</b>Sleep week: 3-hr cutoff + cold dark room</div>
+    </div>
+    <div class="month"><h4>Month 3 · MOTIVATE → MIND</h4><p class="mth">lock it in for life</p>
+      <div class="mv"><b>W9</b>Name your face — write who you're doing this for</div>
+      <div class="mv"><b>W10</b>Heat or cold exposure ×2</div>
+      <div class="mv"><b>W11</b>Book your labs — measure, don't guess</div>
+      <div class="mv"><b>W12</b>Retake the assessment — new MindSpan baseline</div>
+    </div>
+  </div>
+</section>
+
+<div class="foot">
+  <h3>How to choose</h3>
+  <p><strong>Pick 1</strong> if the daily habit is sacred and everything else serves it. <strong>Pick 2</strong> if the MindSpan Score is the product and every open should sell it. <strong>Pick 3</strong> if the week — Zoom to Zoom, cohort together on one Move — is the truest shape of the program.</p>
+  <p>They share one skeleton underneath (same data, same tape, same ladder), so your tweaks can mix parts — e.g. Direction 3's week card with Direction 2's dashboard as the Sunday view. Mark it up and we build.</p>
+</div>
+</div>
