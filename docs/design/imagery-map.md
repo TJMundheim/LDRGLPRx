@@ -18,10 +18,10 @@ Rule (TJ 2026-07-05): when a page has an image, it sits at the TOP, caption dire
 |---|---|---|
 | / (homepage hero) | boardroom window dawn | NEW-LIVE ✅ |
 | /rx/testosterone-ed | couple-lapel | NEW-LIVE ✅ |
-| /rx/weight-loss | man late 50s buttoning tailored navy shirt, dim dressing room, morning light | GENERATE W1-1 |
-| /rx/leaky-gut | powder stirred into water, dark stone counter, morning rays | GENERATE W1-2 |
-| /rx/peptides | amber vials + syringe case on dark stone, minimal, morning light | GENERATE W1-3 |
-| /rx/regenerative-medicine | ridge-trail hike at golden hour (library Active #4) | GENERATE W1-4 |
+| /rx/weight-loss | shirt-in-mirror | PLACED ✅ (weight-mirror.jpg) |
+| /rx/leaky-gut | powder stir | REROLL pending — first take had a feminine hand; regenerate with "man's weathered hand" |
+| /rx/peptides | TJ's relabeled vials (BPC-157/NAD+/GLP-1) | PLACED ✅ (peptide-vials.jpg) |
+| /rx/regenerative-medicine | ridge hike golden hour | PLACED ✅ (regen-ridge.jpg) |
 | /consult | couple-rooftop (aspirational outcome) | STAGED → placed ✅ |
 | /assessment | none — intentionally imageless (conversion form; sticky progress bar) | — |
 | /go/* LPs | locked template, product imagery only | — |
@@ -29,13 +29,13 @@ Rule (TJ 2026-07-05): when a page has an image, it sits at the TOP, caption dire
 ## Map — Tier 1 (master categories, locked top-8)
 | Page | Image | Source |
 |---|---|---|
-| /solutions/gut | powder-stir variant OR considered breakfast plate | GENERATE W1-2 alt pick |
-| /solutions/sleep | masculine bedroom at dusk (library extra) | GENERATE W1-5 |
-| /solutions/weight | dawn walk, first sunlight (library Active #2) | GENERATE W1-6 |
+| /solutions/gut | powder-stir reroll (share with /rx/leaky-gut or distinct pick) | REROLL pending |
+| /solutions/sleep | TJ's magnesium-bottle bedroom (product-mood genre) | PLACED ✅ (sleep-magnesium.jpg) |
+| /solutions/weight | dawn walk | PLACED ✅ (weight-dawn-walk.jpg) |
 | /solutions/nutrition | ribeye table | NEW-LIVE ✅ |
 | /solutions/erectile-dysfunction | couple-dinner | NEW-LIVE ✅ |
-| /solutions/environment | morning sun through open window onto wood floor (library extra) | GENERATE W1-7 |
-| /solutions/cognitive | man writing in leather journal at mahogany desk, dawn, fountain pen | GENERATE W1-8 |
+| /solutions/environment | morning sun through window onto wood floor | REROLL pending (W1-7 never generated — slot went to a CGI-look bedroom, skipped) |
+| /solutions/cognitive | journal at dusk, fountain pen | PLACED ✅ (cognitive-journal.jpg) |
 | /solutions/hormones | business-dinner clasp (top) ✅ + couple-dance (mid-page payoff) | NEW-LIVE + STAGED → placed ✅ |
 
 ## Map — Tier 2 (support pages; generate wave 2)
@@ -64,3 +64,6 @@ Rule (TJ 2026-07-05): when a page has an image, it sits at the TOP, caption dire
 
 ## Founder track (separate)
 - Real founder shoot per shot list (docs/design/founder-shoot-list.md, pending) → unlocks founder-hero A/B vs boardroom hero in PostHog.
+
+## Genre discovered 2026-07-05 (TJ): product-mood
+Protocol items styled as luxury objects in brand-world settings (magnesium bottle in navy bedroom; relabeled vials on stone). Use for supplement/Rx pages instead of clinical stock. Labels must be generic/own-formulary names only — never third-party brands.
