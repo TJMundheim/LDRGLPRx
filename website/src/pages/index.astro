@@ -362,33 +362,26 @@ const robots = "index, follow";
   </div>
 </section>
 
-<!-- ===== SECTION 3: MEMBERSHIP COMPARISON ===== -->
+<!-- ===== SECTION 3: PROTÉGÉ MEMBERSHIP =====
+     Graduate tier card removed 2026-07-06 (TJ): it referenced a subscription
+     that isn't publicly offered and violated the no-coming-soon rule. Re-add
+     as an EARNED status card once a cohort is visibly halfway through the
+     12-week program — status needs witnesses. -->
 <section class="hp-section hp-tiers-section">
   <div class="container">
     <div class="hp-section-header">
-      <h2 class="hp-tiers-heading">Free Protégé. Earned Graduate. Everything in between.</h2>
+      <h2 class="hp-tiers-heading">Everything a man needs to start. Free.</h2>
     </div>
 
-    <div class="hp-tiers-grid">
+    <div class="hp-tiers-grid hp-tiers-grid--single">
 
       <div class="tier-card tier-card--free">
-        <div class="tier-badge tier-badge--free">Free</div>
+        <div class="tier-badge tier-badge--free">Free — no card required</div>
         <h3>Protégé</h3>
-        <p>The complete 4M digital workbook. Daily protocols, full Discovery assessment, gut-brain protocol, morning routine tracker. Yours forever — no card required.</p>
+        <p>The complete 12-week program: the app with your MindSpan Score, daily protocols, the full Discovery assessment, weekly cohort calls with Dr. TJ, the book, and the workbook. Yours forever.</p>
         <a href="/assessment" class="btn btn-accent">Take the Assessment</a>
       </div>
 
-      <div class="tier-card tier-card--graduate">
-        <div class="tier-badge tier-badge--earned">Earned</div>
-        <h3>Graduate</h3>
-        <p>Earned after 12+ continuous months of active subscription. Permanent app access, lifetime member benefits, alumni community. Cannot be purchased.</p>
-        <a href="/assessment" class="btn btn-outline-white">Learn More</a>
-      </div>
-
-    </div>
-
-    <div class="hp-tiers-footer">
-      <a href="/assessment" class="hp-tiers-compare-link">See full comparison &rarr;</a>
     </div>
   </div>
 </section>
@@ -1020,6 +1013,12 @@ const robots = "index, follow";
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+}
+
+.hp-tiers-grid.hp-tiers-grid--single {
+  grid-template-columns: 1fr;
+  max-width: 560px;
+  margin: 0 auto;
 }
 
 .tier-card {
