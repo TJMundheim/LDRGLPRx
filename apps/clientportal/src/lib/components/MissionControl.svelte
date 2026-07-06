@@ -122,6 +122,53 @@
   }
   const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek));
 
+  // ── weekly measurements (TJ strategy 2026-07-06): baseline + W1..W12 from
+  //    the workbook's vitalsLog; charted week-over-week here, entered in Week view ──
+  const VITAL_METRICS: Array<[string, string, string]> = [
+    ['weight', 'Weight', 'lbs'],
+    ['waist', 'Waist', 'in'],
+    ['sys', 'Systolic', 'mmHg'],
+    ['pulse', 'Pulse', 'bpm'],
+    ['spo2', 'SpO₂', '%'],
+    ['pushups', 'Push-ups', 'reps'],
+  ];
+  const vitalsLog: Record<string, string> = (() => {
+    try {
+      if (typeof localStorage === 'undefined') return {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('4m:workbook:')) {
+          const wb = JSON.parse(localStorage.getItem(k) || '{}');
+          if (wb && typeof wb === 'object' && wb.vitalsLog) return wb.vitalsLog as Record<string, string>;
+        }
+      }
+    } catch { /* ignore */ }
+    return {};
+  })();
+  function vitalSeries(metric: string): Array<{ label: string; v: number }> {
+    const cols = ['base', ...Array.from({ length: 12 }, (_, i) => `w${i + 1}`)];
+    const out: Array<{ label: string; v: number }> = [];
+    cols.forEach((c, i) => {
+      const raw = vitalsLog[`${c}_${metric}`];
+      const n = raw !== undefined && raw !== '' ? Number(raw) : NaN;
+      if (!Number.isNaN(n)) out.push({ label: i === 0 ? 'Base' : `W${i}`, v: n });
+    });
+    return out;
+  }
+  function vitalSpark(series: Array<{ v: number }>): string {
+    if (series.length < 2) return '';
+    const vals = series.map(s2 => s2.v);
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const span = Math.max(1e-6, max - min);
+    return vals.map((v, i) => `${((i / (vals.length - 1)) * 110).toFixed(1)},${(26 - ((v - min) / span) * 20).toFixed(1)}`).join(' ');
+  }
+  const trackedVitals = $derived(VITAL_METRICS.map(([id, label, unit]) => {
+    const series = vitalSeries(id);
+    const latest = series.length ? series[series.length - 1] : null;
+    const delta = series.length >= 2 ? Math.round((series[series.length - 1].v - series[0].v) * 10) / 10 : null;
+    return { id, label, unit, series, latest, delta, spark: vitalSpark(series) };
+  }));
+
   // ── week grid ──
   const GRID_ROWS = $derived.by(() => {
     const rows: Array<{ id: string; label: string; daily: boolean; cap: number; isMove: boolean }> = [
@@ -293,6 +340,29 @@
       </div>
     </div>
 
+        <h2 class="sec">Measurements</h2>
+        <div class="vitals">
+          {#each trackedVitals as vm}
+            <div class="vit" class:empty={!vm.latest}>
+              <div class="vl">{vm.label}</div>
+              {#if vm.latest}
+                <div class="vv">{vm.latest.v}<small> {vm.unit}</small></div>
+                {#if vm.spark}
+                  <svg width="110" height="28" viewBox="0 0 110 28" aria-label="{vm.label} trend">
+                    <polyline points={vm.spark} fill="none" stroke="var(--mc-gold)" stroke-width="1.8"/>
+                  </svg>
+                {/if}
+                {#if vm.delta !== null}
+                  <div class="vd">{vm.delta > 0 ? '+' : ''}{vm.delta} since baseline</div>
+                {/if}
+              {:else}
+                <div class="vv vv-empty">—</div>
+                <div class="vd">enter in Week view</div>
+              {/if}
+            </div>
+          {/each}
+        </div>
+
     <h2 class="sec">The 12 Moves</h2>
     <div class="wkcards">
       {#each MOVES as m}
@@ -435,6 +505,17 @@
   .wkcard .wt small { display: block; color: var(--mc-muted); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
   .wkcard .pc { font-size: 12px; color: var(--mc-good-bright); font-variant-numeric: tabular-nums; }
   .wkcard.locked .pc { color: var(--mc-muted); }
+
+  .vitals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 640px) { .vitals { grid-template-columns: repeat(2, 1fr); } }
+  .vit { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 11px 12px; }
+  .vit.empty { opacity: .55; }
+  .vit .vl { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mc-muted); }
+  .vit .vv { font-size: 19px; font-weight: 600; color: var(--mc-ink); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .vit .vv small { font-size: 10px; color: var(--mc-muted); font-weight: 400; }
+  .vit .vv-empty { color: var(--mc-faint); }
+  .vit svg { display: block; margin-top: 4px; }
+  .vit .vd { font-size: 10px; color: var(--mc-muted); margin-top: 3px; }
 
   /* week surface */
   .back { background: none; border: none; color: var(--mc-gold); font-size: 12px; cursor: pointer; padding: 0 0 8px; text-align: left; }

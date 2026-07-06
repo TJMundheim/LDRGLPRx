@@ -245,80 +245,13 @@ export function renderGutAssessment(): string {
 }
 
 function morningTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
-  const wc = weekMeta[w];
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const wl = W.weekLogs[w];
-  const dayBtns = days.map((d, i) => {
-    const key = `w${w}d${i + 1}`;
-    const done = wl.morn[key];
-    return `<button class="day-btn"
-      style="background:${done ? wc.ac : C.panel2};color:${done ? C.panel2 : C.muted};border-color:${done ? wc.ac : C.line}"
-      onclick="portalAction('toggleDay','morn',${w},'${key}')">
-      <span style="font-size:10px;font-weight:700">${d.charAt(0)}</span>
-      <span style="font-size:8px;color:inherit;opacity:.7">${i + 1}</span>
-    </button>`;
-  }).join('');
-  const coldBtns = days.map((d, i) => {
-    const key = `cw${w}d${i + 1}`;
-    const done = wl.cold[key];
-    return `<button class="cold-btn"
-      style="background:${done ? C.info : C.panel2};color:${done ? C.panel2 : C.muted};border-color:${done ? C.info : C.line}"
-      onclick="portalAction('toggleDay','cold',${w},'${key}')">${d.charAt(0)}</button>`;
-  }).join('');
-  const doneCt = days.filter((_, i) => wl.morn[`w${w}d${i + 1}`]).length;
-  const steps = stepsForWeek(w);
-  const week4Note = w === 4 ? ' — with more focus and passion' : '';
-  const stepsHtml = steps.length > 0 ? `
-    <div style="margin-bottom:12px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.07em;color:${C.muted};margin-bottom:6px;text-transform:uppercase">Today's morning practice${week4Note} — check off as you complete:</div>
-      <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px">
-        ${steps.map(s => `<li style="font-size:12px;color:${C.ink};line-height:1.4"><strong>${esc(s.n)}</strong> — <span style="color:${C.muted}">${esc(s.p)}</span>${s.u ? ` <a href="${s.u}" target="_blank" rel="noopener noreferrer" style="color:${wc.ac};font-size:10px;margin-left:4px">▶ video</a>` : ''}</li>`).join('')}
-      </ol>
-    </div>` : '';
-  return `<div class="card" style="border-color:${wc.ac}55">
-    <div class="card-title"><span style="color:${wc.ac}">Week ${w}</span> Morning Protocol Tracker</div>
-    ${stepsHtml}
-    <div style="font-size:11px;color:${C.muted};margin-bottom:8px">Tap each day you completed all elements</div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">${dayBtns}</div>
-    <div class="g2" style="margin-bottom:12px">
-      <div>
-        <span style="font-size:0.85rem;font-weight:600;color:${C.muted}">Days completed</span>
-        <div style="font-size:26px;font-weight:700;color:${wc.ac};margin-top:4px">${doneCt} / 7</div>
-      </div>
-      <div>
-        <span style="font-size:0.85rem;font-weight:600;color:${C.muted}">Cold showers</span>
-        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">${coldBtns}</div>
-      </div>
-    </div>
-    ${(() => {
-      const mood = wl.reflectionMood ?? '';
-      const wins = (wl.reflectionWins ?? '').split(',').filter(Boolean);
-      const moods: Array<[string, string]> = [['strong', 'Strong'], ['ok', 'OK'], ['hard', 'Hard']];
-      const winOpts = ['Sleep', 'Energy', 'Mood', 'Focus', 'Digestion', 'Strength', 'Cravings'];
-      const moodChips = moods.map(([v, l]) => {
-        const sel = mood === v;
-        return `<button type="button"
-          onclick="var p=this.parentNode;Array.prototype.forEach.call(p.children,function(c){c.style.background='${C.panel2}';c.style.borderColor='${C.line}';c.style.color='${C.muted}'});this.style.background='${C.goodBright}';this.style.borderColor='${C.goodBright}';this.style.color='${C.panel2}';window.portalField&&window.portalField('weekLogs.${w}.reflectionMood','${v}')"
-          style="flex:1;font-size:12px;font-weight:600;padding:9px 6px;border-radius:8px;cursor:pointer;background:${sel ? C.goodBright : C.panel2};border:1.5px solid ${sel ? C.goodBright : C.line};color:${sel ? C.panel2 : C.muted}">${l}</button>`;
-      }).join('');
-      const winChips = winOpts.map(o => {
-        const sel = wins.includes(o);
-        return `<button type="button" data-v="${o}" class="${sel ? 'sel' : ''}"
-          onclick="this.classList.toggle('sel');var s=this.classList.contains('sel');this.style.background=s?'${C.goodBright}':'${C.panel2}';this.style.color=s?'${C.panel2}':'${C.muted}';this.style.borderColor=s?'${C.goodBright}':'${C.line}';var box=this.parentNode;var vals=Array.prototype.slice.call(box.querySelectorAll('.sel')).map(function(e){return e.getAttribute('data-v')}).join(',');window.portalField&&window.portalField('weekLogs.${w}.reflectionWins',vals)"
-          style="font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:18px;cursor:pointer;background:${sel ? C.goodBright : C.panel2};border:1.5px solid ${sel ? C.goodBright : C.line};color:${sel ? C.panel2 : C.muted}">${o}</button>`;
-      }).join('');
-      return `
-      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:${C.muted};margin-bottom:6px">HOW DID WEEK ${w} FEEL?</div>
-      <div style="display:flex;gap:6px;margin-bottom:12px">${moodChips}</div>
-      <div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:${C.muted};margin-bottom:6px">WHAT IMPROVED? <span style="font-weight:400;text-transform:none;letter-spacing:0">(tap any)</span></div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${winChips}</div>`;
-    })()}
-    <label for="morn-reflection-w${w}">Anything else worth noting? (optional)</label>
-    <textarea id="morn-reflection-w${w}" placeholder="Optional — a sentence on what was hard or what clicked."
-      oninput="portalField('weekLogs.${w}.reflection',this.value)">${esc(wl.reflection)}</textarea>
-  </div>`;
+  // Removed 2026-07-06 (TJ): redundant with the Mission Control daily tape.
+  // Day-buttons, video links, and cold-shower tracking retired; reflection
+  // moved to the cohort call + logbook. Data helpers (mornings/colds) remain
+  // for historical stats only.
+  void W; void w;
+  return '';
 }
-
 function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
   // Per-exercise completion checkboxes — one tap, nothing to type.
   // Zone 2 cardio + HIIT are optional (not done every session) but always available to check off.
@@ -768,38 +701,48 @@ function proteinTargetLine(W: Workbook): string {
 // the trend is visible across Month 1. Cells are editable everywhere it's shown (values
 // persist to W.vitalsLog). Not a medical device — for the member's own tracking.
 function vitalsTracker(W: Workbook): string {
+  // Weekly Measurements — TJ strategy 2026-07-06: every metric gets a baseline
+  // (taken before Week 1) plus one identical measurement slot per week, all 12
+  // weeks. The Mission Control dashboard charts these week-over-week. Values
+  // persist to W.vitalsLog under `${col}_${metric}` (base, w1..w12).
   const metrics: Array<[string, string]> = [
+    ['weight', 'Body weight (lbs)'],
+    ['waist', 'Waist at navel (in)'],
     ['sys', 'Systolic (mmHg)'],
     ['dia', 'Diastolic (mmHg)'],
     ['pulse', 'Resting pulse (bpm)'],
-    ['spo2', 'SpO₂ (%)']
+    ['spo2', 'SpO₂ (%)'],
+    ['pushups', 'Push-ups (max set)']
   ];
-  const cols: Array<[string, string]> = [['Baseline', 'base'], ['Wk 1', 'w1'], ['Wk 2', 'w2'], ['Wk 3', 'w3'], ['Wk 4', 'w4']];
-  const headRow = `<div style="display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:6px;margin-bottom:6px;min-width:440px">
+  const cols: Array<[string, string]> = [
+    ['Base', 'base'],
+    ...Array.from({ length: 12 }, (_, i) => [`W${i + 1}`, `w${i + 1}`] as [string, string]),
+  ];
+  const gridCols = `grid-template-columns:1.6fr repeat(${cols.length},minmax(52px,1fr))`;
+  const headRow = `<div style="display:grid;${gridCols};gap:5px;margin-bottom:6px;min-width:880px">
     ${['Measure', ...cols.map(c => c[0])].map(h => `<div style="font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:${C.muted};text-align:center">${h}</div>`).join('')}
   </div>`;
   const rows = metrics.map(([m, label]) => {
     const cells = cols.map(([, c]) => {
       const k = `${c}_${m}`;
-      return `<input type="number" inputmode="numeric" value="${esc(W.vitalsLog?.[k] ?? '')}" placeholder="—"
+      return `<input type="number" inputmode="decimal" value="${esc(W.vitalsLog?.[k] ?? '')}" placeholder="—"
         oninput="portalField('vitalsLog.${k}',this.value)"
-        style="font-size:12px;text-align:center;padding:6px 3px;width:100%">`;
+        style="font-size:12px;text-align:center;padding:6px 2px;width:100%">`;
     }).join('');
-    return `<div style="display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:6px;margin-bottom:6px;align-items:center;min-width:440px">
+    return `<div style="display:grid;${gridCols};gap:5px;margin-bottom:6px;align-items:center;min-width:880px">
       <div style="font-size:11px;color:${C.ink};font-weight:600">${label}</div>
       ${cells}
     </div>`;
   }).join('');
   return `<div class="card">
-    <div class="card-title">❤️ Vitals Tracker — Blood Pressure &amp; Pulse Ox</div>
+    <div class="card-title">Weekly Measurements — baseline + every week</div>
     <div style="font-size:11px;color:${C.muted};line-height:1.55;margin-bottom:12px">
-      Take a baseline blood-pressure and pulse-oximeter reading now, then retest at least once each week. Every reading stays on this chart so you can watch the trend across Month 1.
+      Take every measurement once before Week 1 (your baseline), then once each week — same day, same conditions. The dashboard charts the trend. Scroll sideways for later weeks.
     </div>
-    <div style="overflow-x:auto"><div style="min-width:440px">${headRow}${rows}</div></div>
+    <div style="overflow-x:auto"><div style="min-width:880px">${headRow}${rows}</div></div>
     <div style="font-size:10px;color:${C.muted};font-style:italic;margin-top:8px">For your own tracking — not a medical device or diagnosis. Share these numbers with your physician.</div>
   </div>`;
 }
-
 function renderDash(W: Workbook): string {
   const m = mornings(W), c = colds(W);
   // Use intake audit data (localStorage audit-v1) for dashboard stats
@@ -859,21 +802,7 @@ function renderDash(W: Workbook): string {
     </div>
   </div>` : ''}
 
-  <div class="card">
-    <div class="card-title">Month 1 Progress</div>
-    ${[
-      { l: 'Morning protocol (28 days)', v: m, mx: 28, c: C.info },
-      { l: 'Cold shower streak', v: c, mx: 28, c: C.info }
-    ].map(p => `
-      <div style="margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:${C.muted};margin-bottom:5px">
-          <span>${p.l}</span><span style="color:${p.c}">${p.v} / ${p.mx}</span>
-        </div>
-        <div class="pbar-wrap">
-          <div class="pbar-fill" style="width:${Math.min(100, (p.v / p.mx) * 100)}%;background:${p.c}"></div>
-        </div>
-      </div>`).join('')}
-  </div>
+  <!-- Month 1 Progress card removed 2026-07-06: bars tracked the retired morning/cold trackers -->
 
   ${strengthTrendCard(W)}
 
@@ -1183,13 +1112,7 @@ function renderW1(ctx: RenderContext): string {
     </div>
   </div>
 
-  <div class="card">
-    ${pillarHeader('M3', 'MIND — Circadian Anchor', C.info, 'Anchor your day with light. The brain runs on signal, not effort.')}
-    <div class="w1-active">
-      <div class="w1-active-label">This week</div>
-      ${w1WeekdayRow('mind-sunlight-walk', 'Fasted morning sunlight walk (10 min, no food yet, eyes toward sun, sunglasses off)', 'all', 2)}
-    </div>
-  </div>
+  <!-- Circadian Anchor card removed 2026-07-06 (TJ): fasted walk lives on the Mission Control tape -->
 
   <div class="card" style="border-color:${C.info}55;background:rgba(46,127,217,.04)">
     <div class="card-title" style="color:${C.info}">How to Box Breathe (~2 minutes daily)</div>
@@ -1685,15 +1608,10 @@ function renderW4(W: Workbook): string {
 
   const metrics: [string, string][] = [
     ['Mitigate assessment score (/50)', 'audit'],
-    ['Body weight (lbs)', 'weight'],
-    ['Waist at navel (in)', 'waist'],
     ['Morning energy (1–10)', 'energy'],
     ['Afternoon focus (1–10)', 'focus'],
     ['Sleep quality (1–10)', 'sleep'],
-    ['Mood rating (1–10)', 'mood'],
-    ['Squat baseline', 'squat'],
-    ['Morning protocol (days/wk)', 'mornDays'],
-    ['Cold shower (days/wk)', 'coldDays']
+    ['Mood rating (1–10)', 'mood']
   ];
 
   const factorList: Factor[] = factors;
