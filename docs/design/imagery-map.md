@@ -41,15 +41,15 @@ Rule (TJ 2026-07-05): when a page has an image, it sits at the TOP, caption dire
 ## Map — Tier 2 (support pages; generate wave 2)
 | Page | Image concept |
 |---|---|
-| /pillars/mitigate | man reviewing lab-report folder at desk, warm lamp, navy blazer |
+| /pillars/mitigate | lab-report review — PLACED ✅ as pillar-hero bg (mitigate-labs.jpg) |
 | /pillars/{mind,muscle,motivate} | done ✅ (motivate closes with family-boat ✅) |
-| /membership | four men laughing around outdoor dinner table at dusk, one raising a glass |
+| /membership | PAGE IS A 301 → /assessment (deprecated 2026-06-01). Four-men dinner re-homed → /solutions/purpose-goals PLACED ✅ (membership-dinner.jpg; TJ swapped drinks to iced tea) |
 | /solutions/muscle | OLD-REUSE dark-gym dumbbell row (MATCH) |
-| /solutions/stress | man exhaling on porch at dusk after rain |
-| /solutions/alcohol | untouched whiskey glass on bar, man walking away, shallow focus |
-| /solutions/morning-routine | dawn kitchen, protocol laid out, watch and journal |
-| /solutions/environment/sauna | cedar barrel sauna steam at dawn (library extra) |
-| /solutions/environment/cold-plunge | man breaking surface of cold dark water, controlled breath (library extra) |
+| /solutions/stress | porch exhale — PLACED ✅ (stress-porch.jpg) |
+| /solutions/alcohol | untouched whiskey — PLACED ✅ (alcohol-whiskey.jpg) |
+| /solutions/morning-routine | protocol still life w/ greens drink (TJ iteration) — PLACED ✅ (morning-protocol.jpg) |
+| /solutions/environment/sauna | barrel sauna — PLACED ✅ (sauna-dawn.jpg) |
+| /solutions/environment/cold-plunge | surface break — PLACED ✅ (cold-plunge.jpg; direct-gaze exception, effort not posed) |
 | /solutions/environment/light | sunrise through bedroom window (share W1-7 crop) |
 | remaining /solutions/* (~15) | one mood image each, batch after wave 2 — see prompts file |
 
