@@ -12,7 +12,7 @@
   import AuthGate from './lib/components/auth/AuthGate.svelte';
   import SettingsView from './lib/components/SettingsView.svelte';
   import Toast from './lib/toast/Toast.svelte';
-  import TodayView from './lib/components/TodayView.svelte';
+  import MissionControl from './lib/components/MissionControl.svelte';
   import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
   import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
@@ -787,7 +787,7 @@
         <!-- MindSpan Daily Brief leads the home screen (TJ 2026-07-04:
              the ring is the first thing every member sees). Workbook
              dashboard renders below it. -->
-        <TodayView firstName={(workbook.name || '').trim().split(' ')[0]} />
+        <MissionControl firstName={(workbook.name || '').trim().split(' ')[0]} />
       {/if}
       {@html pageHtml}
     {/if}
