@@ -645,7 +645,7 @@ function renderAuditSummaryCard(): string {
       </div>
       <div style="text-align:right">
         <div style="font-size:42px;font-weight:800;color:${band.color};line-height:1">${total}</div>
-        <div style="font-size:9px;color:${C.muted}">/ 200</div>
+        <div style="font-size:9px;color:${C.muted}">/ 50</div>
         <div style="font-size:10px;font-weight:700;color:${band.color};margin-top:2px">${band.label}</div>
       </div>
     </div>
@@ -823,10 +823,8 @@ function renderDash(W: Workbook): string {
     ? `Welcome back, ${esc(displayName)}`
     : 'Welcome to your 4M Dashboard';
 
+  void greeting; // Mission Control owns the dashboard greeting (TJ 2026-07-06)
   return `
-  <div class="page-title" style="color:${C.gold}">${greeting}</div>
-  <div class="page-sub">Mind · Muscle · Mitigate · Motivate — Month 1 Brain Optimization</div>
-
   <div class="card">
     <div class="card-title">Your Profile</div>
     <div class="g3">
@@ -840,7 +838,7 @@ function renderDash(W: Workbook): string {
   </div>
 
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">ASSESSMENT SCORE /200</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">ASSESSMENT SCORE /50</div></div>
     <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditBand ? auditBand.label : '—'}</div><div class="stat-lbl">RISK BAND</div></div>
     <div class="stat-card"><div class="stat-num" style="color:${C.info}">${m}</div><div class="stat-lbl">MORNINGS DONE</div></div>
     <div class="stat-card"><div class="stat-num" style="color:${C.info}">${c}</div><div class="stat-lbl">COLD SHOWERS</div></div>
@@ -851,8 +849,8 @@ function renderDash(W: Workbook): string {
       <div>
         <div style="font-size:15px;font-weight:700;color:${auditBand.color};margin-bottom:3px">${auditBand.label} Risk</div>
         <div style="font-size:12px;color:${C.muted}">
-          ${auditTotal200 <= 60 ? 'Strong foundations — focus on fine-tuning and optimization.'
-            : auditTotal200 <= 120 ? 'Multiple factors working against you. Targeted action yields rapid results.'
+          ${auditTotal200 <= 15 ? 'Strong foundations — focus on fine-tuning and optimization.'
+            : auditTotal200 <= 30 ? 'Multiple factors working against you. Targeted action yields rapid results.'
               : 'This program was built for you. Major gains are available very quickly.'}
         </div>
         <div style="font-size:11px;color:${C.muted};margin-top:4px">${auditCategoryCount} of 10 categories scored</div>
@@ -1686,7 +1684,7 @@ function renderW4(W: Workbook): string {
     </div>`;
 
   const metrics: [string, string][] = [
-    ['Mitigate assessment score (/200)', 'audit'],
+    ['Mitigate assessment score (/50)', 'audit'],
     ['Body weight (lbs)', 'weight'],
     ['Waist at navel (in)', 'waist'],
     ['Morning energy (1–10)', 'energy'],
@@ -1788,8 +1786,8 @@ function renderW4(W: Workbook): string {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div style="font-size:13px;font-weight:700;color:${C.ink}">Side-by-Side Assessment Comparison</div>
         <div style="display:flex;gap:12px;font-size:11px">
-          <span style="color:${C.muted}">Week 1 total: <strong style="color:${C.gold}">${w1Total} / 200</strong></span>
-          ${w4Total > 0 ? `<span style="color:${C.muted}">Week 4 total: <strong style="color:${C.info}">${w4Total} / 200</strong></span>` : ''}
+          <span style="color:${C.muted}">Week 1 total: <strong style="color:${C.gold}">${w1Total} / 50</strong></span>
+          ${w4Total > 0 ? `<span style="color:${C.muted}">Week 4 total: <strong style="color:${C.info}">${w4Total} / 50</strong></span>` : ''}
         </div>
       </div>
       <div style="overflow-x:auto">
@@ -2163,8 +2161,8 @@ export function sidebarStats(W: Workbook): {
   const auditScores = loadAuditScores();
   const auditTotal200 = auditScores ? Object.values(auditScores).reduce((a, b) => a + b, 0) : null;
   return {
-    audit: auditTotal200 !== null ? `Assessment: ${auditTotal200} / 200` : 'Assessment: not yet completed',
-    score: auditTotal200 !== null ? `Score: ${auditTotal200} / 200` : 'Score: —',
+    audit: auditTotal200 !== null ? `Assessment: ${auditTotal200} / 50` : 'Assessment: not yet completed',
+    score: auditTotal200 !== null ? `Score: ${auditTotal200} / 50` : 'Score: —',
     morn: `Mornings: ${m} days`,
     cold: `Cold showers: ${c} days`
   };
