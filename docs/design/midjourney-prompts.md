@@ -42,6 +42,17 @@ Rationale: sex sells, rendered as admiration. The payoff of the protocol is bein
 - Couple in their late 50s slow-dancing in a dim kitchen late at night, her head resting against his chest, eyes closed and content, warm under-cabinet light, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
 - Fit man in his late 50s and his elegant wife close together at a rooftop terrace at dusk, she is laughing and looking at him, he looks out over the city, skyline bokeh, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
 
+## Wave 2 (2026-07-05) — support pages
+- (mitigate) Man in his late 50s in a navy blazer reviewing a lab report folder at a desk by warm lamplight, reading glasses on, focused, face angled down, editorial photography, deep navy and warm gold color grade, 85mm --ar 16:9 --style raw
+- (membership) Four fit men in their 50s and 60s laughing around an outdoor dinner table at dusk, one raising a glass, string lights, grilled food on the table, brotherhood and ease, editorial photography, deep navy and warm gold color grade, 35mm --ar 16:9 --style raw
+- (stress) Man in his late 50s standing on a covered porch at dusk after rain, exhaling slowly, eyes closed, wet garden beyond, calm release, editorial photography, deep navy and warm gold color grade, 85mm --ar 16:9 --style raw
+- (alcohol) Untouched glass of whiskey on a dark bar counter, man in a navy jacket walking away out of focus in the background, moody low light, editorial photography, deep navy and warm gold color grade, shallow depth of field --ar 16:9 --style raw
+- (morning-routine) Dawn kitchen counter with a morning protocol laid out — glass of water, supplements in a small ceramic dish, leather journal, wristwatch, first light through the window, no people, editorial still life, deep navy and warm gold color grade --ar 16:9 --style raw
+- (sauna) Steam rising from a cedar barrel sauna at dawn, forest behind, door ajar with warm glow inside, no people, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
+- (cold-plunge) Fit man in his 50s breaking the surface of cold dark water at sunrise, controlled breath, droplets backlit gold, mist on the water, editorial photography, deep navy and warm gold color grade --ar 16:9 --style raw
+- (reroll: gut powder) Close-up of a man's weathered hand stirring fine powder into a glass of water with a gold spoon, dark stone counter, morning light rays, minimal, editorial product photography, deep navy and warm gold color grade --ar 16:9 --style raw
+- (reroll: environment light) Morning sun streaming through an open bedroom window onto a wood floor, sheer curtain moving, no people, quiet and warm, editorial interior photography, deep navy and warm gold color grade --ar 16:9 --style raw
+
 ## Page-specific extras
 - Sleep page: bedroom prompt above; also "man asleep in a dark cool room, face turned away, sliver of moonlight" variant.
 - ED/hormones: use the business-dinner and handshake prompts (confidence framing — never clinical/bedroom).
