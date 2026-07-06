@@ -170,6 +170,8 @@ const robots = "index, follow";
 
 <script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
 (function () {
+  function phCapture(ev, props) { try { if (window.posthog && window.posthog.capture) { window.posthog.capture(ev, props || {}); } } catch (err) {} }
+  var phPrev = null;
   'use strict';
 
   // ── Data mirrored from website/src/data/audit-questions.ts ──
@@ -314,6 +316,12 @@ const robots = "index, follow";
   function updateProgress() {
     var count = answeredCount();
     var total = QUESTIONS.length;
+    if (phPrev === null) { phPrev = count; }
+    else if (count > phPrev) {
+      if (phPrev === 0) phCapture('assessment_started');
+      if (count === total) phCapture('assessment_questions_completed');
+      phPrev = count;
+    }
     var pct = Math.round((count / total) * 100);
     var label = document.getElementById('progress-label');
     var fill = document.getElementById('progress-fill');
@@ -402,6 +410,7 @@ const robots = "index, follow";
 
     // Continue button
     document.getElementById('continue-btn').addEventListener('click', function () {
+      phCapture('assessment_contact_reached');
       document.getElementById('questions-section').hidden = true;
       document.getElementById('capture-section').hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -511,6 +520,7 @@ const robots = "index, follow";
         }),
       }).catch(function () { /* silent */ });
 
+      phCapture('assessment_submitted');
       showResults();
     });
   });

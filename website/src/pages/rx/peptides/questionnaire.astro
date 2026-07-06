@@ -185,6 +185,8 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
   // ── State ──
   var totalSteps = 5;
   var currentStep = 1;
+  var PH_CAT = 'peptides';
+  function phCapture(ev, props) { try { if (window.posthog && window.posthog.capture) { props = props || {}; props.category = PH_CAT; window.posthog.capture(ev, props); } } catch (err) {} }
   var payload = {};
   var stripe = null;
   var elements = null;
@@ -198,6 +200,7 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
   function $$(sel) { return document.querySelectorAll(sel); }
 
   function showStep(n) {
+    phCapture(n === 'success' ? 'rx_submitted' : 'rx_step_reached', { step: n });
     $$('.q-step').forEach(function(el) { el.hidden = true; });
     var target = document.querySelector('[data-step="' + n + '"]');
     if (target) target.hidden = false;
@@ -403,6 +406,7 @@ const canonical = 'https://www.my4mlife.com/rx/peptides/questionnaire';
       return false;
     }
     paymentMethodId = result.setupIntent.payment_method;
+    phCapture('rx_card_saved');
     return true;
   }
 
