@@ -19,7 +19,7 @@ Rule (TJ 2026-07-05): when a page has an image, it sits at the TOP, caption dire
 | / (homepage hero) | boardroom window dawn | NEW-LIVE ✅ |
 | /rx/testosterone-ed | couple-lapel | NEW-LIVE ✅ |
 | /rx/weight-loss | shirt-in-mirror | PLACED ✅ (weight-mirror.jpg) |
-| /rx/leaky-gut | powder stir | REROLL pending — first take had a feminine hand; regenerate with "man's weathered hand" |
+| /rx/leaky-gut | powder stir (man's hand) | PLACED ✅ (gut-powder-stir.jpg) |
 | /rx/peptides | TJ's relabeled vials (BPC-157/NAD+/GLP-1) | PLACED ✅ (peptide-vials.jpg) |
 | /rx/regenerative-medicine | ridge hike golden hour | PLACED ✅ (regen-ridge.jpg) |
 | /consult | couple-rooftop (aspirational outcome) | STAGED → placed ✅ |
@@ -29,12 +29,12 @@ Rule (TJ 2026-07-05): when a page has an image, it sits at the TOP, caption dire
 ## Map — Tier 1 (master categories, locked top-8)
 | Page | Image | Source |
 |---|---|---|
-| /solutions/gut | powder-stir reroll (share with /rx/leaky-gut or distinct pick) | REROLL pending |
+| /solutions/gut | powder stir (shared with /rx/leaky-gut) | PLACED ✅ (gut-powder-stir.jpg) |
 | /solutions/sleep | TJ's magnesium-bottle bedroom (product-mood genre) | PLACED ✅ (sleep-magnesium.jpg) |
 | /solutions/weight | dawn walk | PLACED ✅ (weight-dawn-walk.jpg) |
 | /solutions/nutrition | ribeye table | NEW-LIVE ✅ |
 | /solutions/erectile-dysfunction | couple-dinner | NEW-LIVE ✅ |
-| /solutions/environment | morning sun through window onto wood floor | REROLL pending (W1-7 never generated — slot went to a CGI-look bedroom, skipped) |
+| /solutions/environment | morning sun through window (cropped to drop CGI wardrobe/TV from right third) | PLACED ✅ (environment-light.jpg) |
 | /solutions/cognitive | journal at dusk, fountain pen | PLACED ✅ (cognitive-journal.jpg) |
 | /solutions/hormones | business-dinner clasp (top) ✅ + couple-dance (mid-page payoff) | NEW-LIVE + STAGED → placed ✅ |
 
