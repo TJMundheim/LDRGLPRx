@@ -126,10 +126,10 @@
   const GRID_ROWS = $derived.by(() => {
     const rows: Array<{ id: string; label: string; daily: boolean; cap: number; isMove: boolean }> = [
       { id: 'biome-ns-ultra', label: 'Biome NS Ultra', daily: true, cap: 7, isMove: move.actionId === 'biome-ns-ultra' },
-      { id: 'eating-window', label: 'Eating window', daily: true, cap: 7, isMove: move.actionId === 'eating-window' },
+      { id: 'eating-window', label: 'Eating window', daily: false, cap: 5, isMove: move.actionId === 'eating-window' },
       { id: 'protein-breakfast', label: 'Protein-first', daily: true, cap: 7, isMove: move.actionId === 'protein-breakfast' },
       { id: 'fasted-walk', label: 'Fasted walk', daily: false, cap: 2, isMove: move.actionId === 'fasted-walk' },
-      { id: 'strength', label: 'Strength', daily: false, cap: 2, isMove: move.actionId === 'strength' },
+      { id: 'strength', label: 'Strength', daily: false, cap: 4, isMove: move.actionId === 'strength' },
     ];
     if (!move.standing) rows.push({ id: move.actionId, label: 'The Move', daily: false, cap: move.target, isMove: true });
     return rows;
@@ -347,7 +347,7 @@
           {/each}
         </tbody>
       </table>
-      <p class="gridhint">Tap today's column as you go. Walks need 2 days a week, strength 2, the Move {mvProgress.target}.</p>
+      <p class="gridhint">Tap today's column as you go. Window 5 days (up to two off-days — breakfast with the grandkids, then walk 30 minutes after), walks 2, strength 3–4, the Move {mvProgress.target}.</p>
     </div>
 
     {#if move.actionId === 'move-retake-assessment'}

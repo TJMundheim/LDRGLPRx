@@ -68,7 +68,7 @@ describe('week math', () => {
 
 describe('program-paced scoring (v2)', () => {
   it('a perfect first days-of-week-1 lands low — the ring must be earned', () => {
-    // perfect Mon-Wed of week 1: 3 dailies × 3 days + move (biome) not yet at 7 days
+    // perfect Mon-Wed of week 1: dailies + window × 3 days, move (biome) not yet at 7 days
     const entries: { dateActionId: string }[] = [];
     for (const d of ['06', '07', '08']) {
       for (const a of ['biome-ns-ultra', 'eating-window', 'protein-breakfast']) {

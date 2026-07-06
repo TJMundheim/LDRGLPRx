@@ -2,8 +2,8 @@
  * 12-week program — the Move ladder + program-paced MindSpan scoring (v2).
  *
  * Structure (TJ 2026-07-06, from app-week-mockups Direction 2 + 3):
- *   - Every week has the identical standing tape (gut protocol, eating window,
- *     protein-first daily; walks ×2 + strength ×2 weekly; cohort Zoom).
+ *   - Every week has the identical standing tape (gut protocol + protein-first
+ *     daily; eating window 5 of 7; walks ×2 + strength ×3–4 weekly; cohort Zoom).
  *   - Each week adds exactly ONE Move — the same Move for the whole cohort —
  *     tracked into the MindSpan Score.
  *   - Months carry the locked 4M arc: M1 MITIGATE, M2 MUSCLE, M3 MOTIVATE→MIND.
@@ -37,10 +37,10 @@ export const PROGRAM_WEEKS = 12;
 
 export const MOVES: ProgramMove[] = [
   { week: 1,  month: 1, theme: 'MITIGATE', title: 'Start Biome NS Ultra — seal the gut, every morning', actionId: 'biome-ns-ultra', target: 7, standing: true },
-  { week: 2,  month: 1, theme: 'MITIGATE', title: 'Hold the 9–6 eating window all seven days', actionId: 'eating-window', target: 7, standing: true },
+  { week: 2,  month: 1, theme: 'MITIGATE', title: 'Hold the 9–6 eating window 5 of 7 days', actionId: 'eating-window', target: 5, standing: true },
   { week: 3,  month: 1, theme: 'MITIGATE', title: 'Protein-first 30–40g at every fast-break', actionId: 'protein-breakfast', target: 7, standing: true },
   { week: 4,  month: 1, theme: 'MITIGATE', title: 'Pantry purge — zero seed oils in the house', actionId: 'move-pantry-purge', target: 1, standing: false },
-  { week: 5,  month: 2, theme: 'MUSCLE', title: 'Strength ×2 — log the lifts', actionId: 'strength', target: 2, standing: true },
+  { week: 5,  month: 2, theme: 'MUSCLE', title: 'Strength ×3 — log the lifts', actionId: 'strength', target: 3, standing: true },
   { week: 6,  month: 2, theme: 'MUSCLE', title: 'Fasted dawn walk ×5', actionId: 'fasted-walk', target: 5, standing: true },
   { week: 7,  month: 2, theme: 'MUSCLE', title: 'Add one intensity day — hills or sprints', actionId: 'move-intensity', target: 1, standing: false },
   { week: 8,  month: 2, theme: 'MUSCLE', title: 'Sleep week — 3-hour cutoff + cold dark room', actionId: 'move-sleep-protocol', target: 5, standing: false },
@@ -125,10 +125,12 @@ export function movesCompleted(entries: EntryLike[], now: Date, currentWeek: num
   return done;
 }
 
-// Program slot model: 3 dailies × 84 days + (walks 2 + strength 2) × 12 weeks + 12 Moves.
-const DAILY_IDS = ['biome-ns-ultra', 'eating-window', 'protein-breakfast'];
-const WEEKLY_TARGETS: Array<[string, number]> = [['fasted-walk', 2], ['strength', 2]];
-export const TOTAL_PROGRAM_SLOTS = 3 * 7 * PROGRAM_WEEKS + 4 * PROGRAM_WEEKS + PROGRAM_WEEKS; // 312
+// Program slot model (TJ 2026-07-06): 2 dailies × 84 days + (window 5 +
+// walks 2 + strength 4) × 12 weeks + 12 Moves. The eating window allows two
+// off-days (breakfast with the grandkids — walk 30 min after); strength 3–4×.
+const DAILY_IDS = ['biome-ns-ultra', 'protein-breakfast'];
+const WEEKLY_TARGETS: Array<[string, number]> = [['eating-window', 5], ['fasted-walk', 2], ['strength', 4]];
+export const TOTAL_PROGRAM_SLOTS = 2 * 7 * PROGRAM_WEEKS + 11 * PROGRAM_WEEKS + PROGRAM_WEEKS; // 312
 
 /**
  * Percent (0-100) of the WHOLE program completed so far. The denominator is
@@ -190,7 +192,7 @@ export function weeklyPctSeries(entries: EntryLike[], now: Date, currentWeek: nu
     for (const id of DAILY_IDS) hits += daysHitInWeek(entries, id, ws);
     for (const [id, cap] of WEEKLY_TARGETS) hits += Math.min(daysHitInWeek(entries, id, ws), cap);
     if (moveProgress(entries, MOVES[w - 1], ws).complete) hits += 1;
-    out.push(Math.round((100 * hits) / (3 * 7 + 4 + 1)));
+    out.push(Math.round((100 * hits) / (2 * 7 + 11 + 1)));
   }
   return out;
 }
