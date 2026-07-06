@@ -4,6 +4,12 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## ⚡ 2026-07-05→06 SESSION LEDGER (Fable) — imagery pass — read this first
+**SITEWIDE PHOTOGRAPHY SHIPPED (TJ generated in Midjourney, Fable reviewed/placed/deployed):** 28 images across 27 pages — homepage hero (boardroom dawn) + all 5 /rx pages + all top-8 master categories + 4 pillars (mitigate got hero-bg) + /consult + stress/alcohol/morning-routine/purpose-goals + sauna/cold-plunge. All at TOP of page, caption below (TJ rule). Production line: TJ runs prompts from `docs/design/midjourney-prompts.md` in order → Fable reviews (hands/logos/text/grade), optimizes ~1800px JPEG q80, places per `docs/design/imagery-map.md`, deploys. Old off-brand pool DELETED (survivors → `images/editorial/` for blog headers).
+**NEW LOCKED RULES:** (1) **No alcohol imagery** anywhere — even "untouched glass" metaphors; social scenes show iced/green tea (memory feedback_no_alcohol_imagery). (2) **Images at top of page**, caption directly below. (3) **ED in every early-signs list** (homepage founder quote done; site/app/book sweep PENDING — memory updated in project_ed_canary_thesis). (4) New genres: partner/attraction (tasteful admiration) + product-mood (protocol as luxury object — TJ inventions: magnesium bedroom, relabeled vials, green-tea still life).
+**ALSO:** Nutrition page reworked philosophy-first (affiliates OFF public site, 30→30–40g fixed, 9–6 window added, insulting-behavior section). Founder portrait 340px on homepage. Membership.astro discovered to be a 301 → purpose-goals got the cohort image.
+**OPEN:** founder shoot list (docs/design/founder-shoot-list.md, pending) → founder-vs-boardroom hero PostHog A/B; ED early-signs sweep (site/app/book); ~15 long-tail solution pages need images; blog headers from editorial/ pool; PostHog funnels + /weekly-picks still queued from last ledger.
+
 ## ⚡ 2026-07-02→05 SESSION LEDGER (Fable) — read this first
 **REPO MOVED:** now at `/Users/thomasmundheim/Development/LDRGLPRx` (out of iCloud; symlink at old Desktop path; old copy at Desktop/Development/LDRGLPRx-OLD-DELETE-AFTER-VERIFY — delete after TJ verifies a clean session). Memory copied to the new project dir.
 
