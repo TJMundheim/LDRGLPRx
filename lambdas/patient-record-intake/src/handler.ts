@@ -1,6 +1,6 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { deriveContactId } from '@my4mlife/contact-id';
 import { RECORD_SK, encounterSk, auditSk, forcedVisitType } from '@my4mlife/patient-record';
@@ -45,20 +45,25 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     ? serialiseConsents(parsed.consents as Record<string, unknown>)
     : undefined;
 
-  // ── Write 1: root PatientRecord item ────────────────────────────────────────
-  await ddb.send(new PutCommand({
+  // ── Write 1: root PatientRecord item — MERGE, never blind-overwrite ──────────
+  // Audit 2026-07-07: this is a public /api endpoint keyed by uuidv5(email). A
+  // full Put let anyone re-post an email and wipe an existing patient's card /
+  // consents. We now only SET fields that were actually provided, and never
+  // clobber cardOnFile / consents with null. createdAt is set once.
+  const setParts = ['updatedAt = :ts', 'createdAt = if_not_exists(createdAt, :ts)'];
+  const names: Record<string, string> = {};
+  const vals: Record<string, unknown> = { ':ts': ts };
+  if (parsed.demographics && typeof parsed.demographics === 'object') { setParts.push('demographics = :dem'); vals[':dem'] = parsed.demographics; }
+  if (parsed.history !== undefined) { setParts.push('history = :hist'); vals[':hist'] = parsed.history ?? null; }
+  if (parsed.screeningAnswers !== undefined) { setParts.push('screeningAnswers = :scr'); vals[':scr'] = parsed.screeningAnswers ?? null; }
+  if (consents !== undefined) { setParts.push('consents = :con'); vals[':con'] = consents; }
+  if (cardOnFile !== undefined) { setParts.push('cardOnFile = :card'); vals[':card'] = cardOnFile; }
+  await ddb.send(new UpdateCommand({
     TableName: TABLE,
-    Item: {
-      contactId,
-      sk: RECORD_SK,
-      demographics: parsed.demographics ?? {},
-      history: parsed.history ?? null,
-      screeningAnswers: parsed.screeningAnswers ?? null,
-      consents,
-      cardOnFile,
-      createdAt: ts,
-      updatedAt: ts,
-    },
+    Key: { contactId, sk: RECORD_SK },
+    UpdateExpression: `SET ${setParts.join(', ')}`,
+    ...(Object.keys(names).length ? { ExpressionAttributeNames: names } : {}),
+    ExpressionAttributeValues: vals,
   }));
 
   // ── Write 2: encounter item ──────────────────────────────────────────────────

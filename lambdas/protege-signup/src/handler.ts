@@ -13,8 +13,10 @@ const USER_PROFILE_TABLE = process.env.USER_PROFILE_TABLE ?? 'Users';
 const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
-const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind-v1.pdf';
-const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-v1.pdf';
+// Fallbacks MUST match the current live fulfillment keys (audit 2026-07-07:
+// the -v1 fallbacks were shipping month-old, pre-de-brand editions).
+const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind.pdf';
+const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-month1.pdf';
 const SIGNED_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
 
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
@@ -160,7 +162,16 @@ async function readContactAudit(contactId: string): Promise<{ auditTop3: unknown
 
 type WelcomeEmailVariant = 'standard' | 'app-only';
 
-async function sendWelcomeEmail(email: string, firstName: string, variant: WelcomeEmailVariant = 'standard'): Promise<void> {
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string
+  ));
+}
+
+async function sendWelcomeEmail(email: string, rawFirstName: string, variant: WelcomeEmailVariant = 'standard'): Promise<void> {
+  // Audit 2026-07-07: firstName is attacker-controlled and lands in email HTML
+  // (also viewed in the admin inbox) — escape before interpolation.
+  const firstName = escapeHtml(rawFirstName);
   const appUrl = 'https://app.my4mlife.com';
   const includeBookAndWorkbook = variant === 'standard';
   let bookUrl = '';

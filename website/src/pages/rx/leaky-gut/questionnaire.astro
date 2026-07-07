@@ -454,6 +454,10 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
   }
 
   async function confirmStripeCard() {
+    // Audit 2026-07-07: a SetupIntent can be confirmed only once. If the card is
+    // already saved (user went Back then Next), don't re-confirm — that returns
+    // setup_intent_unexpected_state and traps the user before Submit.
+    if (paymentMethodId) return true;
     if (!stripe || !cardElement || !setupIntentClientSecret) {
       $('#stripe-card-error').textContent = 'Stripe is not ready yet.';
       return false;

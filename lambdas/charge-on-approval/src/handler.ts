@@ -177,6 +177,12 @@ export const handler = async (event: AppSyncEvent): Promise<ChargeResult> => {
   let chargeStatus: string;
   const chargeKind = billingType;
 
+  // Deterministic idempotency root: same encounter + amount ⇒ Stripe returns the
+  // SAME charge on any retry instead of creating a second one (audit 2026-07-07).
+  // A retry after a transient post-charge DDB/network failure can no longer
+  // double-charge the patient's saved card.
+  const idemRoot = `charge:${contactId}:${encounterId}:${amountCents}`;
+
   try {
     if (billingType === 'one_time') {
       const pi = await stripe.paymentIntents.create({
@@ -187,27 +193,27 @@ export const handler = async (event: AppSyncEvent): Promise<ChargeResult> => {
         off_session: true,
         confirm: true,
         description: label,
-      });
+      }, { idempotencyKey: `${idemRoot}:pi` });
       chargeId = pi.id;
       chargeStatus = pi.status;
     } else {
-      // subscription
+      // subscription — idempotency keys on every create so a retry reuses the
+      // same product/price/subscription rather than stacking duplicates.
       const product = await stripe.products.create({
         name: label || 'My4MLife Rx',
-      });
+      }, { idempotencyKey: `${idemRoot}:prod` });
       const price = await stripe.prices.create({
         unit_amount: amountCents,
         currency: 'usd',
         recurring: { interval: interval ?? 'month' },
         product: product.id,
-      });
+      }, { idempotencyKey: `${idemRoot}:price` });
       const sub = await stripe.subscriptions.create({
         customer: stripeCustomerId,
         items: [{ price: price.id }],
         default_payment_method: effectivePaymentMethodId,
-        // @ts-expect-error off_session exists at runtime on subscriptions
         off_session: true,
-      });
+      } as any, { idempotencyKey: `${idemRoot}:sub` });
       chargeId = sub.id;
       chargeStatus = sub.status;
     }
@@ -222,6 +228,17 @@ export const handler = async (event: AppSyncEvent): Promise<ChargeResult> => {
       };
     }
     throw err; // non-Stripe errors bubble up
+  }
+
+  // Guard: only treat as paid when the charge actually cleared. A subscription
+  // whose first invoice fails comes back 'incomplete'/'past_due'; a one-time PI
+  // can be 'requires_action'. Don't mark the encounter fulfilled in those cases
+  // (audit 2026-07-07).
+  const paidOk = chargeKind === 'one_time'
+    ? chargeStatus === 'succeeded'
+    : chargeStatus === 'active' || chargeStatus === 'trialing';
+  if (!paidOk) {
+    return { ok: false, error: `payment not completed (status: ${chargeStatus})`, code: 'payment_incomplete' };
   }
 
   // 6. On success: write Touchpoint, update encounter → 'fulfilled', write audit
