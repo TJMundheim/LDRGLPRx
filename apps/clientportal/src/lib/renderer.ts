@@ -971,8 +971,7 @@ function renderW1(ctx: RenderContext): string {
     ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', C.gold, 'Review your assessment results. Gut first — what you remove matters more than what you add.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      ${w1WeekdayRow('mitigate-biome-ns', 'Take Biome NS Ultra (with breakfast)', 'mf', 5)}
-      ${w1WeekdayRow('mitigate-eating-window', 'Stayed in eating window today', 'mf', 5)}
+      <div style="font-size:12px;color:${C.muted};padding:6px 0">Log Biome NS Ultra and your eating window on the <strong>dashboard tape</strong> — one tap per day, it feeds your MindSpan Score directly.</div>
     </div>
     <div style="font-size:12px;font-weight:600;color:${C.gold};margin-bottom:12px;font-style:italic">
       Your 10-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
@@ -1014,7 +1013,7 @@ function renderW1(ctx: RenderContext): string {
     ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', C.crit, 'Record where you are starting.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      ${w1WeekdayRow('muscle-strength', 'Strength session — countertop push-ups 3×10 + supported air squats 3×10', 'all', 2)}
+      <div style="font-size:12px;color:${C.muted};padding:6px 0">Log each strength session on the <strong>dashboard tape</strong> (3–4× this week). Form: countertop push-ups 3×10 + supported air squats 3×10.</div>
     </div>
     <div class="card-title">Body Composition — Week 1 Baseline</div>
     ${(() => {
