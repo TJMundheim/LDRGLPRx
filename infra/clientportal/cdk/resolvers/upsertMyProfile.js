@@ -12,8 +12,7 @@ export function request(ctx) {
   const names = { '#owner': 'owner', '#updatedAt': 'updatedAt' };
   const values = { ':owner': sub, ':updatedAt': now };
   for (const [k, v] of Object.entries(input)) {
-    if (PRIVILEGED[k]) continue;
-    if (v !== undefined && v !== null) {
+    if (!PRIVILEGED[k] && v !== undefined && v !== null) {
       setExpr.push(`#${k} = :${k}`);
       names[`#${k}`] = k;
       values[`:${k}`] = v;
