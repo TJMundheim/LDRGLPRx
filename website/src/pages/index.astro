@@ -105,7 +105,7 @@ const robots = "index, follow";
           </figure>
         </div>
         <p class="hp-hero-book-caption"><em>Begin with the End in Mind</em> — Dr. TJ's 258-page field guide. Plus the <em>Cohort Workbook</em> and the <em>Protégé app</em>. All three yours free when you complete the assessment.</p>
-        <p class="hp-hero-book-buy">Prefer to own it now? <a href="https://www.amazon.com/dp/B0H7FJRHXC" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click')">Get the Kindle edition on Amazon &rarr;</a></p>
+        <p class="hp-hero-book-buy">Prefer to own it now? <a href="https://www.amazon.com/dp/B0H7FJRHXC" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click')">Get it on Amazon &rarr;</a><br><span class="hp-hero-book-formats">ebook · paperback · hardcover textbook edition for cohorts</span></p>
       </div>
     </div>
   </div>
@@ -1452,6 +1452,7 @@ const robots = "index, follow";
   text-underline-offset: 3px;
 }
 .hp-hero-book-buy a:hover { color: #e3c98b; }
+.hp-hero-book-formats { display: inline-block; margin-top: 4px; font-size: 0.78rem; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
 .hp-hero-book-caption em {
   font-style: italic;
   font-weight: 600;
