@@ -1105,11 +1105,18 @@ function renderW1(ctx: RenderContext): string {
 // top 3 forward into Week 2's MITIGATE picker. Categories without a direct
 // factor in the catalog stay blank — user picks manually.
 const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
+  // Complete map (TJ 2026-07-07): every audit category auto-fills the Mitigate
+  // pickers — the member's top 3 are fixed for Month 1, no manual selection.
   'gut-microbiome': 'Gut microbiome health',
   'sleep': 'Sleep quality & duration',
   'weight-body-fat': 'Excess body fat',
   'nutrition': 'Poor nutrition quality',
   'cognitive': 'Cognitive disengagement',
+  'alcohol': 'Alcohol consumption',
+  'already-diagnosed': 'Cognitive disengagement',
+  'environment': 'Sunlight & vitamin D',
+  'erectile-dysfunction': 'Physical inactivity & injuries',
+  'hormone-balance': 'Excess body fat',
 };
 
 function auditTop3WithIds(): Array<{ id: string; rawScore: number }> {
@@ -1494,7 +1501,7 @@ function renderW3(W: Workbook): string {
     <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.ink};line-height:1.6">
-        Three weeks in — <strong>Biome NS Ultra every morning, no gaps</strong>. The gut-brain seal is built by consistency, not intensity. Keep the daily reading habit going and score your cognitive triad on Sunday.
+        Three weeks in — <strong>Biome NS Ultra with your first meal, no gaps</strong>. The gut-brain seal is built by consistency, not intensity. Keep the daily reading habit going and score your cognitive triad on Sunday.
       </div>
     </div>
 

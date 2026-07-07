@@ -36,7 +36,7 @@ export interface ProgramMove {
 export const PROGRAM_WEEKS = 12;
 
 export const MOVES: ProgramMove[] = [
-  { week: 1,  month: 1, theme: 'MITIGATE', title: 'Start Biome NS Ultra — seal the gut, every morning', actionId: 'biome-ns-ultra', target: 7, standing: true },
+  { week: 1,  month: 1, theme: 'MITIGATE', title: 'Start Biome NS Ultra — with your first meal, every day', actionId: 'biome-ns-ultra', target: 7, standing: true },
   { week: 2,  month: 1, theme: 'MITIGATE', title: 'Hold the 9–6 eating window 5 of 7 days', actionId: 'eating-window', target: 5, standing: true },
   { week: 3,  month: 1, theme: 'MITIGATE', title: 'Protein-first 30–40g at every fast-break', actionId: 'protein-breakfast', target: 7, standing: true },
   { week: 4,  month: 1, theme: 'MITIGATE', title: 'Pantry purge — zero seed oils in the house', actionId: 'move-pantry-purge', target: 1, standing: false },
@@ -76,9 +76,23 @@ export function startOfWeekMon(d: Date): Date {
   return out;
 }
 
-/** Monday of program week 1, given "now" and the member's current week. */
+/** Monday of program week 1, given "now" and the member's current week.
+ * LEGACY derivation — drifts if the member attests early. Prefer anchoring
+ * to the signup date via programAnchor()/calendarWeek(). */
 export function programStart(now: Date, currentWeek: number): Date {
   return addDays(startOfWeekMon(now), -7 * (Math.max(1, currentWeek) - 1));
+}
+
+/** Fixed program anchor: Monday of the week the member signed up. */
+export function programAnchor(createdAt: string | Date | null | undefined, now: Date): Date {
+  const d = createdAt ? new Date(createdAt) : now;
+  return startOfWeekMon(Number.isNaN(d.getTime()) ? now : d);
+}
+
+/** Calendar program week (1-12) elapsed since the anchor Monday. */
+export function calendarWeek(anchor: Date, now: Date): number {
+  const weeks = Math.floor((startOfWeekMon(now).getTime() - anchor.getTime()) / (7 * 86400000)) + 1;
+  return Math.min(PROGRAM_WEEKS, Math.max(1, weeks));
 }
 
 export interface EntryLike {
@@ -115,8 +129,8 @@ export function moveProgress(entries: EntryLike[], move: ProgramMove, weekStart:
 }
 
 /** Number of Moves (weeks 1..upToWeek) whose target was hit in their own week. */
-export function movesCompleted(entries: EntryLike[], now: Date, currentWeek: number): number {
-  const start = programStart(now, currentWeek);
+export function movesCompleted(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date): number {
+  const start = startDate ?? programStart(now, currentWeek);
   let done = 0;
   for (let w = 1; w <= Math.min(currentWeek, PROGRAM_WEEKS); w++) {
     const ws = addDays(start, (w - 1) * 7);
@@ -137,8 +151,8 @@ export const TOTAL_PROGRAM_SLOTS = 2 * 7 * PROGRAM_WEEKS + 11 * PROGRAM_WEEKS + 
  * always the full 12 weeks — this is the "ring slowly fills over three months"
  * semantic, not a rolling-quality number.
  */
-export function programCumulativePct(entries: EntryLike[], now: Date, currentWeek: number): number {
-  const start = programStart(now, currentWeek);
+export function programCumulativePct(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date): number {
+  const start = startDate ?? programStart(now, currentWeek);
   const today = toDateStr(now);
   let hits = 0;
 
@@ -182,8 +196,8 @@ export function programMindspanScore({ cumulativePct, rollingPct, riskLoad, move
 }
 
 /** Per-week adherence % (of that week's 3×7 + 4 + 1 = 26 slots) for the 12-week bars. */
-export function weeklyPctSeries(entries: EntryLike[], now: Date, currentWeek: number): number[] {
-  const start = programStart(now, currentWeek);
+export function weeklyPctSeries(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date): number[] {
+  const start = startDate ?? programStart(now, currentWeek);
   const out: number[] = [];
   for (let w = 1; w <= PROGRAM_WEEKS; w++) {
     if (w > currentWeek) { out.push(0); continue; }

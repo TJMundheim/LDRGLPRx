@@ -103,7 +103,7 @@ function parseDateActionId(dateActionId: string): { dateStr: string; actionId: s
  * eating-window). Duplicate same-day/same-action entries count once.
  * Entries outside the window or for unrecognized action ids are ignored.
  */
-export function adherencePctForWindow(entries: MindspanEntry[], endDate: Date, days = 7): number {
+export function adherencePctForWindow(entries: MindspanEntry[], endDate: Date, days = 7, actionIds: string[] = EXPECTED_ACTION_IDS): number {
   const windowDateStrs = new Set<string>();
   for (let o = 0; o < days; o++) {
     windowDateStrs.add(toDateStr(addDays(endDate, -o)));
@@ -114,12 +114,12 @@ export function adherencePctForWindow(entries: MindspanEntry[], endDate: Date, d
     const parsed = parseDateActionId(e.dateActionId);
     if (!parsed) continue;
     const { dateStr, actionId } = parsed;
-    if (!EXPECTED_ACTION_IDS.includes(actionId)) continue;
+    if (!actionIds.includes(actionId)) continue;
     if (!windowDateStrs.has(dateStr)) continue;
     uniqueHits.add(`${dateStr}#${actionId}`);
   }
 
-  const expectedSlots = days * SLOTS_PER_DAY;
+  const expectedSlots = days * actionIds.length;
   if (expectedSlots === 0) return 0;
   return Math.round((100 * uniqueHits.size) / expectedSlots);
 }

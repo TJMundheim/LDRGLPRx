@@ -25,7 +25,7 @@ export interface Supplement {
 }
 
 export const supplements: Supplement[] = [
-  {n:'Biome NS Ultra', d:'1 scoop in 8–12 oz water (L-glutamine 5g + DGL + berberine + aloe + curcumin + zinc carnosine + A + D3)', t:'On waking, empty stomach, 30 min before first meal', w:'Gut-brain seal — foundational starting protocol. Repairs leaky gut, calms neuroinflammation.', week1:true, special:true},
+  {n:'Biome NS Ultra', d:'1 scoop in 8–12 oz water', t:'With or immediately after your first meal of the day', w:'Gut-brain seal — foundational starting protocol. Repairs leaky gut, calms neuroinflammation.', week1:true, special:true},
   {n:'SleepRestore', d:'1 capsule (Mg bisglycinate 350mg + glycine 2g + apigenin 50mg + L-theanine 200mg + KSM-66 300mg + B6 + Vitamin E)', t:'30–60 min before bed', w:'Sleep architecture, cortisol regulation, neuroprotection.', week1:true, special:true},
   {n:'OmegaCN Prime', d:'2 softgels (EPA 1200 + DHA 800, IFOS 5-star + Kaneka QH® ubiquinol CoQ10 200mg)', t:'With dinner', w:'Cardio-neuro foundation — omega-3 + mitochondrial CoQ10 in one stack.', week2:true, special:true},
   {n:'ArmorVita', d:'1 softgel (D3 5,000 IU + K2-MK7 100mcg + K2-MK4 + Boron 3mg + Retinol 2,500 IU + Astaxanthin 4mg)', t:'With a fatty meal', w:'Hormone-bone-immune scaffolding. K2 ensures calcium goes to bones not arteries.', week2:true, special:true},

@@ -20,7 +20,7 @@
   import type { AdherenceEntry, Event, UserProfile } from '../api/generated.js';
   import { riskLoadFromScores, adherencePctForWindow } from '../mindspan.js';
   import {
-    MOVES, PROGRAM_WEEKS, moveForWeek, programStart, startOfWeekMon,
+    MOVES, PROGRAM_WEEKS, moveForWeek, programAnchor, calendarWeek, startOfWeekMon,
     moveProgress, movesCompleted, programCumulativePct,
     programMindspanScore, weeklyPctSeries,
   } from '../program.js';
@@ -47,8 +47,15 @@
   let weeklyEvent = $state<Event | null>(null);
   let saving = $state<Record<string, boolean>>({});
 
-  const currentWeek = $derived(Math.min(PROGRAM_WEEKS, Math.max(1, profile?.weekUnlocked ?? 1)));
+  // Program clock anchors to the SIGNUP week (can't drift on early attests);
+  // weekUnlocked (Zoom attest) gates progression, the calendar paces it.
+  const anchor = $derived(programAnchor(profile?.createdAt ?? null, now));
+  const currentWeek = $derived(Math.min(
+    calendarWeek(anchor, now),
+    Math.max(1, profile?.weekUnlocked ?? 1),
+  ));
   const move = $derived(moveForWeek(currentWeek));
+  function weekStartOf(w: number): Date { return addDays(anchor, (w - 1) * 7); }
 
   function entryDate(e: AdherenceEntry): string { return e.dateActionId.slice(0, 10); }
   function entryAction(e: AdherenceEntry): string {
@@ -88,9 +95,10 @@
   })();
 
   // ── MindSpan v2 ──
-  const cumulativePct = $derived(programCumulativePct(entries, now, currentWeek));
-  const rollingPct = $derived(adherencePctForWindow(entries, now));
-  const movesDone = $derived(movesCompleted(entries, now, currentWeek));
+  const ROLLING_IDS = ['biome-ns-ultra', 'eating-window', 'protein-breakfast'];
+  const cumulativePct = $derived(programCumulativePct(entries, now, currentWeek, anchor));
+  const rollingPct = $derived(adherencePctForWindow(entries, now, 7, ROLLING_IDS));
+  const movesDone = $derived(movesCompleted(entries, now, currentWeek, anchor));
   const msScore = $derived(programMindspanScore({ cumulativePct, rollingPct, riskLoad, movesDone }));
 
   const RING_R = 72;
@@ -137,7 +145,8 @@
   function dotCount(actionId: string): number {
     return dotRow(actionId).filter(Boolean).length;
   }
-  const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek));
+  const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek, anchor));
+  function pastMove(w: number) { return moveProgress(entries, MOVES[w - 1], weekStartOf(w)); }
 
   // ── weekly measurements: read-only trends here; the entry table (Weekly
   //    Measurements card) renders directly below on this same page ──
@@ -231,8 +240,7 @@
     try {
       const prof = await getMyProfile();
       profile = ((prof as any)?.data?.getMyProfile ?? (prof as any)?.getMyProfile ?? null) as UserProfile | null;
-      const week = Math.min(PROGRAM_WEEKS, Math.max(1, profile?.weekUnlocked ?? 1));
-      const from = programStart(new Date(), week);
+      const from = programAnchor((profile as any)?.createdAt ?? null, new Date());
       const [adh, evs] = await Promise.all([
         listMyAdherence(ymd(from), ymd(addDays(weekStartDate, 6))),
         upcomingEvents(20),
@@ -419,7 +427,7 @@
           <span class="wn">W{m.week}</span>
           <span class="wt">{m.title}<small>{m.theme}{m.week === currentWeek ? ' · this week' : ''}</small></span>
           <span class="pc">
-            {#if m.week < currentWeek}{weekBars[m.week - 1]}%
+            {#if m.week < currentWeek}{pastMove(m.week).complete ? '✓ done' : `${pastMove(m.week).done}/${pastMove(m.week).target}`}
             {:else if m.week === currentWeek}{mvProgress.done}/{mvProgress.target}
             {:else}—{/if}
           </span>
