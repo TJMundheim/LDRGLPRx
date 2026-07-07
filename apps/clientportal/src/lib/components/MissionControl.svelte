@@ -1,15 +1,13 @@
 <script lang="ts">
   /**
-   * MissionControl — Direction 2 ("Instruments First"), approved TJ 2026-07-06.
+   * MissionControl — single-surface rework (TJ 2026-07-06 shakedown).
    *
-   * Two surfaces, one component:
-   *   DASHBOARD (landing) — results only. Gold ring fills toward 100 over the
-   *     12-week program (MindSpan v2, lib/program.ts), risk pills, month dots,
-   *     12-week bars, program (Move ladder) list. One gold CTA into the week.
-   *   WEEK — where work is logged. The week's Move + cohort line, the 7-day
-   *     tape grid (tap today's column), Zoom attest (unlocks next week).
+   * ONE page, no click-outs: score hero → this week's Move + tappable 7-day
+   * tape grid (backfillable for the whole current week) → measurements trends →
+   * month dots → 12-week bars → cohort call/attest → Move ladder.
    *
-   * Mockup source: docs/design/app-week-mockups.html (Direction 2 + parts of 3).
+   * One source of truth: the Adherence table. Legacy workbook pages carry
+   * curriculum/reflections/strength-testing only.
    */
   import { onMount } from 'svelte';
   import {
@@ -23,7 +21,7 @@
   import { riskLoadFromScores, adherencePctForWindow } from '../mindspan.js';
   import {
     MOVES, PROGRAM_WEEKS, moveForWeek, programStart, startOfWeekMon,
-    daysHitInWeek, moveProgress, movesCompleted, programCumulativePct,
+    moveProgress, movesCompleted, programCumulativePct,
     programMindspanScore, weeklyPctSeries,
   } from '../program.js';
   import { pushToast } from '../toast/toast.svelte.js';
@@ -31,7 +29,6 @@
   type Props = { firstName?: string };
   const { firstName = '' }: Props = $props();
 
-  // ── date helpers ──
   function ymd(d: Date): string {
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -44,8 +41,6 @@
   const today = ymd(now);
   const weekStartDate = startOfWeekMon(now);
 
-  // ── state ──
-  let surface = $state<'dash' | 'week'>('dash');
   let loading = $state(true);
   let entries = $state<AdherenceEntry[]>([]);
   let profile = $state<Partial<UserProfile> | null>(null);
@@ -54,9 +49,7 @@
 
   const currentWeek = $derived(Math.min(PROGRAM_WEEKS, Math.max(1, profile?.weekUnlocked ?? 1)));
   const move = $derived(moveForWeek(currentWeek));
-  const progStart = $derived(programStart(now, currentWeek));
 
-  // ── adherence helpers ──
   function entryDate(e: AdherenceEntry): string { return e.dateActionId.slice(0, 10); }
   function entryAction(e: AdherenceEntry): string {
     const h = e.dateActionId.indexOf('#');
@@ -90,7 +83,7 @@
       .map(([k, v]) => ({
         label: FACTOR_LABELS[k] ?? k.replace(/-/g, ' '),
         hot: v >= 3,
-        status: v >= 3 ? 'watch' : v >= 2 ? 'working' : 'on track',
+        status: v >= 3 ? 'highest priority' : v >= 2 ? 'working on it' : 'on track',
       }));
   })();
 
@@ -103,6 +96,30 @@
   const RING_R = 72;
   const RING_C = 2 * Math.PI * RING_R;
   const ringDash = $derived(`${(RING_C * msScore / 100).toFixed(1)} ${(RING_C * (1 - msScore / 100)).toFixed(1)}`);
+
+  // ── week grid (tappable for the whole current week — backfill allowed) ──
+  const GRID_ROWS = $derived.by(() => {
+    const rows: Array<{ id: string; label: string; cap: number; isMove: boolean }> = [
+      { id: 'biome-ns-ultra', label: 'Biome NS Ultra', cap: 7, isMove: move.actionId === 'biome-ns-ultra' },
+      { id: 'eating-window', label: 'Eating window', cap: 5, isMove: move.actionId === 'eating-window' },
+      { id: 'protein-breakfast', label: 'Protein-first', cap: 7, isMove: move.actionId === 'protein-breakfast' },
+      { id: 'fasted-walk', label: 'Fasted walk', cap: 2, isMove: move.actionId === 'fasted-walk' },
+      { id: 'strength', label: 'Strength', cap: 4, isMove: move.actionId === 'strength' },
+    ];
+    if (!move.standing) rows.push({ id: move.actionId, label: 'The Move', cap: move.target, isMove: true });
+    return rows;
+  });
+  const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  const weekDates = $derived.by(() => {
+    const out: string[] = [];
+    for (let i = 0; i < 7; i++) out.push(ymd(addDays(weekStartDate, i)));
+    return out;
+  });
+  const mvProgress = $derived(moveProgress(entries, move, weekStartDate));
+  const mvRingDeg = $derived(Math.round((mvProgress.done / Math.max(1, mvProgress.target)) * 360));
+
+  const weeklyZoomAttested = $derived(!!profile?.weeklyZoomAttestedAt
+    && new Date(profile.weeklyZoomAttestedAt).getTime() >= weekStartDate.getTime());
 
   // ── trends ──
   const DOT_BEHAVIORS: Array<[string, string]> = [
@@ -122,15 +139,15 @@
   }
   const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek));
 
-  // ── weekly measurements (TJ strategy 2026-07-06): baseline + W1..W12 from
-  //    the workbook's vitalsLog; charted week-over-week here, entered in Week view ──
+  // ── weekly measurements: read-only trends here; the entry table (Weekly
+  //    Measurements card) renders directly below on this same page ──
   const VITAL_METRICS: Array<[string, string, string]> = [
     ['weight', 'Weight', 'lbs'],
     ['waist', 'Waist', 'in'],
     ['sys', 'Systolic', 'mmHg'],
+    ['dia', 'Diastolic', 'mmHg'],
     ['pulse', 'Pulse', 'bpm'],
     ['spo2', 'SpO₂', '%'],
-    ['pushups', 'Push-ups', 'reps'],
   ];
   const vitalsLog: Record<string, string> = (() => {
     try {
@@ -169,48 +186,25 @@
     return { id, label, unit, series, latest, delta, spark: vitalSpark(series) };
   }));
 
-  // ── week grid ──
-  const GRID_ROWS = $derived.by(() => {
-    const rows: Array<{ id: string; label: string; daily: boolean; cap: number; isMove: boolean }> = [
-      { id: 'biome-ns-ultra', label: 'Biome NS Ultra', daily: true, cap: 7, isMove: move.actionId === 'biome-ns-ultra' },
-      { id: 'eating-window', label: 'Eating window', daily: false, cap: 5, isMove: move.actionId === 'eating-window' },
-      { id: 'protein-breakfast', label: 'Protein-first', daily: true, cap: 7, isMove: move.actionId === 'protein-breakfast' },
-      { id: 'fasted-walk', label: 'Fasted walk', daily: false, cap: 2, isMove: move.actionId === 'fasted-walk' },
-      { id: 'strength', label: 'Strength', daily: false, cap: 4, isMove: move.actionId === 'strength' },
-    ];
-    if (!move.standing) rows.push({ id: move.actionId, label: 'The Move', daily: false, cap: move.target, isMove: true });
-    return rows;
-  });
-  const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-  const weekDates = $derived.by(() => {
-    const out: string[] = [];
-    for (let i = 0; i < 7; i++) out.push(ymd(addDays(weekStartDate, i)));
-    return out;
-  });
-  const mvProgress = $derived(moveProgress(entries, move, weekStartDate));
-  const mvRingDeg = $derived(Math.round((mvProgress.done / Math.max(1, mvProgress.target)) * 360));
-
-  const weeklyZoomAttested = $derived(!!profile?.weeklyZoomAttestedAt
-    && new Date(profile.weeklyZoomAttestedAt).getTime() >= weekStartDate.getTime());
-
   // ── mutations ──
-  async function logAction(actionId: string): Promise<void> {
-    if (saving[actionId] || hasOn(actionId, today)) return;
-    saving[actionId] = true;
+  async function logAction(actionId: string, dateStr: string): Promise<void> {
+    const saveKey = `${dateStr}#${actionId}`;
+    if (saving[saveKey] || hasOn(actionId, dateStr)) return;
+    saving[saveKey] = true;
     const optimistic = {
-      userId: '', dateActionId: `${today}#${actionId}`, completedAt: new Date().toISOString(),
+      userId: '', dateActionId: saveKey, completedAt: new Date().toISOString(),
     } as AdherenceEntry;
     entries = [...entries, optimistic];
     try {
-      const res = await recordAdherence({ date: today, actionId, completed: true });
+      const res = await recordAdherence({ date: dateStr, actionId, completed: true });
       const data = (res as any)?.data?.recordAdherence ?? (res as any)?.recordAdherence;
       if (data) entries = [...entries.filter(e => e !== optimistic), data as AdherenceEntry];
     } catch (err) {
       console.error('[MissionControl] recordAdherence failed', err);
       entries = entries.filter(e => e !== optimistic);
-      pushToast({ message: 'Could not save that action — check your connection.', retry: () => logAction(actionId) });
+      pushToast({ message: 'Could not save that action — check your connection.', retry: () => logAction(actionId, dateStr) });
     } finally {
-      saving[actionId] = false;
+      saving[saveKey] = false;
     }
   }
 
@@ -233,7 +227,6 @@
     }
   }
 
-  // ── load ──
   onMount(async () => {
     try {
       const prof = await getMyProfile();
@@ -264,14 +257,12 @@
       weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
     });
   }
-  const todayDone = $derived(GRID_ROWS.filter(r => r.daily || r.isMove).every(r => hasOn(r.id, today)));
 </script>
 
 <div class="mc">
   {#if loading}
     <p class="meta">Loading…</p>
-  {:else if surface === 'dash'}
-    <!-- ══ DASHBOARD — results only ══ -->
+  {:else}
     <h1 class="head">Good morning{firstName ? `, ${firstName}` : ''}.</h1>
     <p class="sub">{headerDate} · Week {currentWeek} of {PROGRAM_WEEKS} · {move.theme} month</p>
 
@@ -288,59 +279,64 @@
           <text class="ring-num" x="84" y="95" text-anchor="middle">{msScore}</text>
           <text class="ring-unit" x="84" y="114" text-anchor="middle">of 100</text>
         </svg>
-        <div class="caption">The ring fills as you complete the 12-week program</div>
+        <div class="caption">The ring fills as you complete the 12-week program. 100 means you finished — and lowered your risk.</div>
         <div class="drivers">
-          <div class="drv"><div class="dl">Program</div><div class="dv">{cumulativePct}%</div></div>
-          <div class="drv"><div class="dl">Moves</div><div class="dv" class:g={movesDone >= currentWeek - 1}>{movesDone}/{PROGRAM_WEEKS}</div></div>
-          <div class="drv"><div class="dl">7-day</div><div class="dv" class:g={rollingPct >= 70}>{rollingPct}%</div></div>
-          <div class="drv"><div class="dl">Risk</div><div class="dv">{Math.round(riskLoad)}</div></div>
+          <div class="drv"><div class="dl">Program completed</div><div class="dv">{cumulativePct}%</div></div>
+          <div class="drv"><div class="dl">Moves done</div><div class="dv" class:g={movesDone >= currentWeek - 1}>{movesDone} of {PROGRAM_WEEKS}</div></div>
+          <div class="drv"><div class="dl">Last 7 days</div><div class="dv" class:g={rollingPct >= 70}>{rollingPct}%</div></div>
+          <div class="drv"><div class="dl">Risk load</div><div class="dv">{Math.round(riskLoad)} of 100</div></div>
         </div>
+        <div class="drivers-note">These four numbers make up your score.</div>
         {#if riskPills.length}
           <div class="pills">
             {#each riskPills as p}
               <div class="pill" class:hot={p.hot}><b>{p.label}</b>{p.status}</div>
             {/each}
           </div>
+          <div class="drivers-note">Your top risk areas, from your assessment. You retest in Week 12.</div>
         {/if}
       </div>
 
       <div>
-        <button class="cta" onclick={() => (surface = 'week')}>
-          {todayDone ? 'Today is logged — review your week →' : "Log today's protocol →"}
-        </button>
-
-        <div class="movechip">
-          <span class="mtag">Week {currentWeek} Move</span>
-          <span class="mtitle">{move.title}</span>
-          <span class="mprog">{mvProgress.done}/{mvProgress.target}{mvProgress.complete ? ' · complete' : ''}</span>
-        </div>
-
-        <h2 class="sec">This month</h2>
-        <div class="strips">
-          {#each DOT_BEHAVIORS as [id, label]}
-            <div class="strip">
-              <div class="shead"><b>{label}</b><span>{dotCount(id)} of {DOT_DAYS} days</span></div>
-              <div class="dots">
-                {#each dotRow(id) as f}<i class="dt" class:f={f}></i>{/each}
-              </div>
-            </div>
-          {/each}
-        </div>
-
-        <h2 class="sec">Program arc</h2>
-        <div class="strip">
-          <div class="shead"><b>Weekly adherence</b><span>week {currentWeek} of {PROGRAM_WEEKS}</span></div>
-          <div class="bars">
-            {#each weekBars as pct, i}
-              <div class="bar" class:f={i < currentWeek - 1} class:now={i === currentWeek - 1}
-                style="height:{Math.max(8, pct)}%" title="W{i + 1}: {pct}%"></div>
-            {/each}
+        <div class="movebanner">
+          <div class="mring" style="background: conic-gradient(var(--mc-gold) {mvRingDeg}deg, #1d3a6e 0)"><b>{mvProgress.done}/{mvProgress.target}</b></div>
+          <div>
+            <div class="mtag">Week {currentWeek} · The Move</div>
+            <div class="mtitle2">{move.title}</div>
+            <div class="mco">Your whole cohort is on this Move this week — it comes up on Wednesday's call.</div>
           </div>
         </div>
-      </div>
-    </div>
 
-        <h2 class="sec">Measurements</h2>
+        <div class="gridcard">
+          <table>
+            <thead>
+              <tr><th></th>{#each dayLetters as d, i}<th class:tod={weekDates[i] === today}>{d}</th>{/each}<th class="goal">Goal</th></tr>
+            </thead>
+            <tbody>
+              {#each GRID_ROWS as row}
+                <tr class:mv={row.isMove}>
+                  <td>{row.label}{#if row.isMove}<em class="mvtag">Move</em>{/if}</td>
+                  {#each weekDates as d}
+                    <td>
+                      {#if d <= today}
+                        <button class="cell tappable" class:f={hasOn(row.id, d)} class:tod={d === today}
+                          aria-label="Log {row.label} for {d}"
+                          disabled={hasOn(row.id, d) || !!saving[`${d}#${row.id}`]}
+                          onclick={() => logAction(row.id, d)}>{hasOn(row.id, d) ? '✓' : ''}</button>
+                      {:else}
+                        <span class="cell future"></span>
+                      {/if}
+                    </td>
+                  {/each}
+                  <td class="goal">{row.cap === 7 ? 'daily' : `${row.cap}×`}</td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+          <p class="gridhint">Tap any day this week you completed it — missed logging yesterday? Tap yesterday. Window goal is 5 of 7 (up to two off-days: breakfast with the kids or grandkids, then walk 30 minutes after).</p>
+        </div>
+
+        <h2 class="sec">Measurements <span class="secnote">weekly trend — log them in the table below</span></h2>
         <div class="vitals">
           {#each trackedVitals as vm}
             <div class="vit" class:empty={!vm.latest}>
@@ -357,73 +353,41 @@
                 {/if}
               {:else}
                 <div class="vv vv-empty">—</div>
-                <div class="vd">enter in Week view</div>
+                <div class="vd">no entries yet</div>
               {/if}
             </div>
           {/each}
         </div>
 
-    <h2 class="sec">The 12 Moves</h2>
-    <div class="wkcards">
-      {#each MOVES as m}
-        <div class="wkcard" class:locked={m.week > currentWeek} class:current={m.week === currentWeek}>
-          <span class="wn">W{m.week}</span>
-          <span class="wt">{m.title}<small>{m.theme}{m.week === currentWeek ? ' · this week' : ''}</small></span>
-          <span class="pc">
-            {#if m.week < currentWeek}{weekBars[m.week - 1]}%
-            {:else if m.week === currentWeek}{mvProgress.done}/{mvProgress.target}
-            {:else}—{/if}
-          </span>
-        </div>
-      {/each}
-    </div>
-  {:else}
-    <!-- ══ WEEK — the work ══ -->
-    <button class="back" onclick={() => (surface = 'dash')}>← Dashboard</button>
-    <h1 class="head">Week {currentWeek} of {PROGRAM_WEEKS}</h1>
-    <p class="sub">{move.theme} month · {headerDate}</p>
-
-    <div class="movebanner">
-      <div class="mring" style="background: conic-gradient(var(--mc-gold) {mvRingDeg}deg, #1d3a6e 0)"><b>{mvProgress.done}/{mvProgress.target}</b></div>
-      <div>
-        <div class="mtag">The Move</div>
-        <div class="mtitle2">{move.title}</div>
-        <div class="mco">Your whole cohort is on this Move this week — it comes up on Wednesday's call.</div>
-      </div>
-    </div>
-
-    <div class="gridcard">
-      <table>
-        <thead>
-          <tr><th></th>{#each dayLetters as d, i}<th class:tod={weekDates[i] === today}>{d}</th>{/each}</tr>
-        </thead>
-        <tbody>
-          {#each GRID_ROWS as row}
-            <tr class:mv={row.isMove}>
-              <td>{row.label}{#if row.isMove}<em class="mvtag">Move</em>{/if}</td>
-              {#each weekDates as d}
-                <td>
-                  {#if d === today}
-                    <button class="cell today" class:f={hasOn(row.id, d)}
-                      aria-label="Log {row.label} for today"
-                      disabled={hasOn(row.id, d) || !!saving[row.id]}
-                      onclick={() => logAction(row.id)}>{hasOn(row.id, d) ? '✓' : ''}</button>
-                  {:else}
-                    <span class="cell" class:f={hasOn(row.id, d)} class:past={d < today}>{hasOn(row.id, d) ? '✓' : ''}</span>
-                  {/if}
-                </td>
-              {/each}
-            </tr>
+        <h2 class="sec">This month <span class="secnote">one dot per day · gold = done</span></h2>
+        <div class="strips">
+          {#each DOT_BEHAVIORS as [id, label]}
+            <div class="strip">
+              <div class="shead"><b>{label}</b><span>{dotCount(id)} of {DOT_DAYS} days</span></div>
+              <div class="dots">
+                {#each dotRow(id) as f}<i class="dt" class:f={f}></i>{/each}
+              </div>
+            </div>
           {/each}
-        </tbody>
-      </table>
-      <p class="gridhint">Tap today's column as you go. Window 5 days (up to two off-days — breakfast with the grandkids, then walk 30 minutes after), walks 2, strength 3–4, the Move {mvProgress.target}.</p>
+        </div>
+
+        <h2 class="sec">Program arc <span class="secnote">each bar = one week's adherence</span></h2>
+        <div class="strip">
+          <div class="shead"><b>Weekly adherence</b><span>week {currentWeek} of {PROGRAM_WEEKS}</span></div>
+          <div class="bars">
+            {#each weekBars as pct, i}
+              <div class="bar" class:f={i < currentWeek - 1} class:now={i === currentWeek - 1}
+                style="height:{Math.max(8, pct)}%" title="W{i + 1}: {pct}%"></div>
+            {/each}
+          </div>
+        </div>
+      </div>
     </div>
 
     {#if move.actionId === 'move-retake-assessment'}
       <div class="zoomcard">
         <div class="zt">Close the loop</div>
-        <div class="zm">Retake the assessment, then log the Move — your new baseline against Week 1 is the whole point.</div>
+        <div class="zm">Retake the assessment, then tap the Move — your new score against Week 1 is the whole point.</div>
         <a class="zbtn" href="https://my4mlife.com/assessment" target="_blank" rel="noreferrer">Retake the assessment</a>
       </div>
     {/if}
@@ -439,22 +403,38 @@
         <div class="zm">Wednesday evening — link arrives by email</div>
       {/if}
       {#if weeklyZoomAttested}
-        <div class="attested">Attested — Week {Math.min(PROGRAM_WEEKS, currentWeek + 1)} unlocks Monday</div>
+        <div class="attested">✓ Attended. Week {Math.min(PROGRAM_WEEKS, currentWeek + 1)}'s Move appears here Monday morning — same tape, one new Move.</div>
       {:else}
         <label class="attest-row">
           <input type="checkbox" onchange={attestZoom} disabled={!!saving['__zoom']} />
-          I attended live or watched the recording
+          I attended live or watched the recording <span class="attest-why">(this is what advances you to Week {Math.min(PROGRAM_WEEKS, currentWeek + 1)})</span>
         </label>
       {/if}
+    </div>
+
+    <h2 class="sec">The 12 Moves <span class="secnote">one per week, whole cohort together</span></h2>
+    <div class="wkcards">
+      {#each MOVES as m}
+        <div class="wkcard" class:locked={m.week > currentWeek} class:current={m.week === currentWeek}>
+          <span class="wn">W{m.week}</span>
+          <span class="wt">{m.title}<small>{m.theme}{m.week === currentWeek ? ' · this week' : ''}</small></span>
+          <span class="pc">
+            {#if m.week < currentWeek}{weekBars[m.week - 1]}%
+            {:else if m.week === currentWeek}{mvProgress.done}/{mvProgress.target}
+            {:else}—{/if}
+          </span>
+        </div>
+      {/each}
     </div>
   {/if}
 </div>
 
 <style>
-  .mc { max-width: 980px; padding: 8px 4px 64px; }
+  .mc { max-width: 980px; padding: 8px 4px 24px; }
   .head { font-family: var(--mc-font-display); font-size: 26px; font-weight: 700; color: var(--mc-ink); margin: 4px 0 2px; letter-spacing: -.01em; }
   .sub { font-size: 11.5px; color: var(--mc-muted); margin: 0 0 20px; letter-spacing: .08em; text-transform: uppercase; }
   .sec { font-size: 11px; font-weight: 600; color: var(--mc-muted); letter-spacing: .2em; text-transform: uppercase; margin: 22px 0 10px; }
+  .secnote { font-weight: 400; color: var(--mc-faint); text-transform: none; letter-spacing: 0; font-size: 11px; margin-left: 6px; }
   .meta { font-size: 11.5px; color: var(--mc-muted); margin: 6px 0 4px; }
 
   .dash-grid { display: grid; grid-template-columns: minmax(300px, 380px) 1fr; gap: 20px; align-items: start; }
@@ -465,23 +445,52 @@
   .ring { display: block; margin: 14px auto 4px; }
   .ring-num { font-family: var(--mc-font-display); font-weight: 700; font-size: 46px; fill: var(--mc-ink); }
   .ring-unit { font-size: 10px; letter-spacing: .14em; fill: var(--mc-muted); text-transform: uppercase; }
-  .caption { font-size: 11px; color: var(--mc-muted); margin-top: 8px; max-width: 30ch; margin-inline: auto; }
-  .drivers { margin-top: 16px; border-top: 1px solid var(--mc-line); padding-top: 13px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-  .drv .dl { font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mc-faint); }
+  .caption { font-size: 11px; color: var(--mc-muted); margin-top: 8px; max-width: 32ch; margin-inline: auto; line-height: 1.5; }
+  .drivers { margin-top: 16px; border-top: 1px solid var(--mc-line); padding-top: 13px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 6px; }
+  .drv .dl { font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--mc-faint); }
   .drv .dv { font-size: 15px; font-weight: 600; margin-top: 3px; font-variant-numeric: tabular-nums; color: var(--mc-ink); }
   .drv .dv.g { color: var(--mc-good-bright); }
-  .pills { display: flex; gap: 7px; margin-top: 14px; }
-  .pill { flex: 1; background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: 9px; padding: 7px 4px; font-size: 10px; color: var(--mc-muted); }
+  .drivers-note { font-size: 10px; color: var(--mc-faint); margin-top: 9px; }
+  .pills { display: flex; gap: 7px; margin-top: 12px; }
+  .pill { flex: 1; background: transparent; border: 1px dashed var(--mc-line); border-radius: 9px; padding: 7px 4px; font-size: 10px; color: var(--mc-muted); }
   .pill b { display: block; font-size: 12.5px; color: var(--mc-ink); font-weight: 600; }
   .pill.hot { border-color: rgba(224, 92, 42, .55); }
   .pill.hot b { color: #e05c2a; }
 
-  .cta { display: block; width: 100%; border: none; cursor: pointer; background: var(--mc-gold); color: var(--mc-on-gold); border-radius: var(--mc-r-md); padding: 15px; font-size: 14.5px; font-weight: 700; }
-  .cta:hover { background: var(--mc-gold-soft); }
-  .movechip { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; background: var(--mc-panel); border: 1px solid var(--mc-gold-line); border-radius: var(--mc-r-md); padding: 12px 14px; margin-top: 10px; }
-  .mtag { font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mc-gold); font-weight: 700; white-space: nowrap; }
-  .mtitle { font-size: 13px; color: var(--mc-ink); font-weight: 600; flex: 1; min-width: 180px; }
-  .mprog { font-size: 11.5px; color: var(--mc-muted); font-variant-numeric: tabular-nums; }
+  .movebanner { display: flex; gap: 14px; align-items: center; background: linear-gradient(135deg, var(--mc-panel-raised), var(--mc-panel)); border: 1px solid var(--mc-gold-line); border-radius: var(--mc-r-lg); padding: 15px 16px; margin-bottom: 12px; }
+  .mring { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; }
+  .mring b { background: var(--mc-panel); width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; color: var(--mc-gold); font-variant-numeric: tabular-nums; }
+  .mtag { font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mc-gold); font-weight: 700; }
+  .mtitle2 { font-size: 15px; font-weight: 600; color: var(--mc-ink); margin: 3px 0 2px; }
+  .mco { font-size: 11.5px; color: var(--mc-muted); }
+
+  .gridcard { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-lg); padding: 14px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: 10.5px; color: var(--mc-muted); font-weight: 600; padding: 4px 2px; text-align: center; }
+  th.tod { color: var(--mc-gold); }
+  th.goal, td.goal { font-size: 9.5px; color: var(--mc-faint); text-align: right; padding-right: 4px; white-space: nowrap; }
+  td { text-align: center; padding: 5px 2px; }
+  td:first-child { text-align: left; font-size: 12.5px; color: var(--mc-ink); white-space: nowrap; padding-right: 8px; }
+  tr.mv td:first-child { color: var(--mc-gold); }
+  .mvtag { font-style: normal; font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mc-gold); margin-left: 6px; }
+  .cell { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: #16305f; border: none; font-size: 12px; color: var(--mc-on-gold); }
+  .cell.f { background: var(--mc-gold); font-weight: 800; }
+  .cell.future { background: #101c38; opacity: .5; }
+  button.cell.tappable { cursor: pointer; border: 1px solid var(--mc-gold-line); }
+  button.cell.tappable.tod { outline: 1.5px solid #e9cf96; }
+  button.cell.tappable:disabled { cursor: default; border-color: transparent; }
+  .gridhint { font-size: 11px; color: var(--mc-faint); margin: 10px 2px 0; line-height: 1.5; }
+
+  .vitals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 640px) { .vitals { grid-template-columns: repeat(2, 1fr); } }
+  .vit { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 11px 12px; }
+  .vit.empty { opacity: .55; }
+  .vit .vl { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mc-muted); }
+  .vit .vv { font-size: 19px; font-weight: 600; color: var(--mc-ink); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .vit .vv small { font-size: 10px; color: var(--mc-muted); font-weight: 400; }
+  .vit .vv-empty { color: var(--mc-faint); }
+  .vit svg { display: block; margin-top: 4px; }
+  .vit .vd { font-size: 10px; color: var(--mc-muted); margin-top: 3px; }
 
   .strips { display: flex; flex-direction: column; gap: 10px; }
   .strip { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 11px 13px; }
@@ -506,50 +515,16 @@
   .wkcard .pc { font-size: 12px; color: var(--mc-good-bright); font-variant-numeric: tabular-nums; }
   .wkcard.locked .pc { color: var(--mc-muted); }
 
-  .vitals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  @media (max-width: 640px) { .vitals { grid-template-columns: repeat(2, 1fr); } }
-  .vit { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 11px 12px; }
-  .vit.empty { opacity: .55; }
-  .vit .vl { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--mc-muted); }
-  .vit .vv { font-size: 19px; font-weight: 600; color: var(--mc-ink); margin-top: 4px; font-variant-numeric: tabular-nums; }
-  .vit .vv small { font-size: 10px; color: var(--mc-muted); font-weight: 400; }
-  .vit .vv-empty { color: var(--mc-faint); }
-  .vit svg { display: block; margin-top: 4px; }
-  .vit .vd { font-size: 10px; color: var(--mc-muted); margin-top: 3px; }
-
-  /* week surface */
-  .back { background: none; border: none; color: var(--mc-gold); font-size: 12px; cursor: pointer; padding: 0 0 8px; text-align: left; }
-  .movebanner { display: flex; gap: 14px; align-items: center; background: linear-gradient(135deg, var(--mc-panel-raised), var(--mc-panel)); border: 1px solid var(--mc-gold-line); border-radius: var(--mc-r-lg); padding: 15px 16px; margin-bottom: 14px; }
-  .mring { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; }
-  .mring b { background: var(--mc-panel); width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; color: var(--mc-gold); font-variant-numeric: tabular-nums; }
-  .mtitle2 { font-size: 15px; font-weight: 600; color: var(--mc-ink); margin: 3px 0 2px; }
-  .mco { font-size: 11.5px; color: var(--mc-muted); }
-
-  .gridcard { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-lg); padding: 14px; overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; }
-  th { font-size: 10.5px; color: var(--mc-muted); font-weight: 600; padding: 4px 2px; text-align: center; }
-  th.tod { color: var(--mc-gold); }
-  td { text-align: center; padding: 5px 2px; }
-  td:first-child { text-align: left; font-size: 12.5px; color: var(--mc-ink); white-space: nowrap; padding-right: 8px; }
-  tr.mv td:first-child { color: var(--mc-gold); }
-  .mvtag { font-style: normal; font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mc-gold); margin-left: 6px; }
-  .cell { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: #16305f; border: none; font-size: 12px; color: var(--mc-on-gold); }
-  .cell.f { background: var(--mc-gold); font-weight: 800; }
-  .cell.past:not(.f) { background: #221d2b; }
-  button.cell.today { cursor: pointer; outline: 1.5px solid #e9cf96; }
-  button.cell.today:disabled { cursor: default; }
-  .gridhint { font-size: 11px; color: var(--mc-faint); margin: 10px 2px 0; }
-
-  .zoomcard { background: var(--mc-panel); border: 1px solid var(--mc-gold-line); border-radius: var(--mc-r-md); padding: 15px 16px; margin-top: 14px; }
+  .zoomcard { background: var(--mc-panel); border: 1px solid var(--mc-gold-line); border-radius: var(--mc-r-md); padding: 15px 16px; margin-top: 14px; max-width: 640px; }
   .zt { font-family: var(--mc-font-display); font-size: 15px; font-weight: 600; color: var(--mc-ink); }
   .zm { font-size: 11.5px; color: var(--mc-muted); margin-top: 4px; }
   .zbtn { display: inline-block; margin-top: 11px; font-size: 11.5px; font-weight: 700; letter-spacing: .05em; color: var(--mc-on-gold); background: var(--mc-gold); border-radius: 8px; padding: 8px 16px; text-decoration: none; }
   .zbtn:hover { background: var(--mc-gold-soft); }
-  .attest-row { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--mc-muted); padding: 10px 2px 0; cursor: pointer; }
-  .attested { font-size: 12px; color: var(--mc-good-bright); font-weight: 600; margin-top: 10px; }
+  .attest-row { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--mc-muted); padding: 10px 2px 0; cursor: pointer; flex-wrap: wrap; }
+  .attest-why { color: var(--mc-faint); font-size: 11px; }
+  .attested { font-size: 12px; color: var(--mc-good-bright); font-weight: 600; margin-top: 10px; line-height: 1.5; }
 
   @media (max-width: 480px) {
     .dots { grid-template-columns: repeat(14, 1fr); }
-    .drivers { grid-template-columns: repeat(2, 1fr); }
   }
 </style>

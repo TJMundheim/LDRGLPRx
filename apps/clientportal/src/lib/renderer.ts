@@ -337,47 +337,10 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
 }
 
 function fastingDailyTracker(W: Workbook, w: 1 | 2 | 3 | 4): string {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  return `
-    <div class="card-title" style="font-size:10px;margin-bottom:6px">DAILY FASTING LOG — WEEK ${w} (target 14:10)</div>
-    <div style="font-size:11px;color:${C.muted};margin-bottom:10px">
-      Target: first meal after 9am, last before 7pm (14-hour fast, 10-hour eating window). Most days, just tap "Stuck to my window." Want to log exact meal times? Tap "exact times" on any day. Month 1 stays at 14:10.
-    </div>
-    ${days.map((d, i) => {
-      const fKey = `w${w}d${i + 1}_firstMeal`;
-      const lKey = `w${w}d${i + 1}_lastMeal`;
-      const first = W.fastingLog?.[fKey] ?? '';
-      const last = W.fastingLog?.[lKey] ?? '';
-      const stuck = (W.fastingLog?.[`w${w}d${i + 1}_stuck`] ?? '') === '1';
-      let windowHrs = '';
-      if (first && last) {
-        const [fh, fm] = first.split(':').map(Number);
-        const [lh, lm] = last.split(':').map(Number);
-        if (!isNaN(fh!) && !isNaN(lh!)) {
-          const diff = ((lh! * 60 + (lm ?? 0)) - (fh! * 60 + (fm ?? 0))) / 60;
-          windowHrs = diff > 0 ? diff.toFixed(1) : '';
-        }
-      }
-      const hasTimes = !!(first || last);
-      return `<div style="border:1px solid ${C.line};border-radius:8px;padding:9px 11px;margin-bottom:7px;background:${stuck ? C.goldTint : C.panel2}">
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
-          <input type="checkbox" ${stuck ? 'checked' : ''} style="width:22px;height:22px;flex-shrink:0;accent-color:${C.goodBright};cursor:pointer"
-            onchange="this.closest('div').style.background=this.checked?'${C.goldTint}':'${C.panel2}';window.portalField&&window.portalField('fastingLog.w${w}d${i + 1}_stuck',this.checked?'1':'')">
-          <span style="font-size:12.5px;font-weight:600;color:${C.ink};min-width:34px">${d}</span>
-          <span style="flex:1;font-size:12px;color:${stuck ? C.goodBright : C.muted};font-weight:600">Stuck to my window</span>
-        </label>
-        <button type="button" onclick="var e=document.getElementById('ft-w${w}d${i + 1}');e.style.display=(e.style.display==='none')?'block':'none'" style="background:none;border:none;color:${C.muted};font-size:10.5px;cursor:pointer;padding:5px 0 0;margin-left:32px;text-decoration:underline">exact times (optional)</button>
-        <div id="ft-w${w}d${i + 1}" style="display:${hasTimes ? 'block' : 'none'};margin:7px 0 0 32px">
-          <div style="display:grid;grid-template-columns:1fr 1fr 0.6fr;gap:8px;align-items:center;max-width:320px">
-            <input type="time" style="font-size:11px" value="${esc(first)}" oninput="portalField('fastingLog.${fKey}',this.value)" aria-label="First meal ${d}">
-            <input type="time" style="font-size:11px" value="${esc(last)}" oninput="portalField('fastingLog.${lKey}',this.value)" aria-label="Last meal ${d}">
-            <div style="font-size:11px;color:${windowHrs ? (Number(windowHrs) <= 10 ? C.goodBright : C.crit) : C.muted};font-weight:600;text-align:center">${windowHrs ? windowHrs + 'h' : '—'}</div>
-          </div>
-        </div>
-      </div>`;
-    }).join('')}`;
+  // Removed 2026-07-06 (TJ): duplicated the Mission Control eating-window tape.
+  void W; void w;
+  return '';
 }
-
 function priorityActionReminder(W: Workbook, selectedName: string): string {
   if (!selectedName) return '';
   const f = factors.find(x => x.name === selectedName);
@@ -711,8 +674,7 @@ function vitalsTracker(W: Workbook): string {
     ['sys', 'Systolic (mmHg)'],
     ['dia', 'Diastolic (mmHg)'],
     ['pulse', 'Resting pulse (bpm)'],
-    ['spo2', 'SpO₂ (%)'],
-    ['pushups', 'Push-ups (max set)']
+    ['spo2', 'SpO₂ (%)']
   ];
   const cols: Array<[string, string]> = [
     ['Base', 'base'],
@@ -961,7 +923,7 @@ function renderW1(ctx: RenderContext): string {
 
   return `${weekBanner(1)}
 
-  ${vitalsTracker(W)}
+  <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
   <div style="background:linear-gradient(135deg,${C.panel},${C.panel});border:2px solid ${C.gold};border-radius:13px;padding:20px 22px;margin-bottom:20px">
     <div style="font-size:17px;font-weight:800;color:${C.gold};margin-bottom:7px;letter-spacing:.01em;line-height:1.25">
@@ -1133,7 +1095,7 @@ function renderW1(ctx: RenderContext): string {
   ${renderWeekCogTraining(W, 1)}
 
   <div style="margin-top:16px">
-    ${fastingDailyTracker(W, 1)}
+    <!-- fastingDailyTracker removed 2026-07-06: eating window logs on the Mission Control tape -->
   </div>
 
   ${renderWeekNutritionSection(W, 1)}`;
@@ -1194,7 +1156,7 @@ function renderW2(W: Workbook): string {
 
   return `${weekBanner(2)}
 
-  ${vitalsTracker(W)}
+  <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
   <div class="card" style="background:rgba(224,92,42,.04);border:1px solid rgba(224,92,42,.18)">
     <div style="font-size:14px;font-weight:700;color:${C.crit};margin-bottom:6px">All 4 Pillars Continue — Week 2</div>
@@ -1329,7 +1291,7 @@ function renderW2(W: Workbook): string {
     </div>
 
     <div style="margin-top:16px">
-      ${fastingDailyTracker(W, 2)}
+      <!-- fastingDailyTracker removed 2026-07-06: eating window logs on the Mission Control tape -->
     </div>
 
     ${pillarActionBox(C.crit, `3 KOT sessions. Hit protein 5 of 7 days. Hold your 14:10 window.
@@ -1354,7 +1316,7 @@ function renderW2(W: Workbook): string {
 
     <div style="margin-bottom:12px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">WEEK 2 SUPPLEMENT COMPLIANCE</div>
-      ${['Biome NS Ultra (BPC-157 + L-Glutamine)', 'SleepRestore (magnesium bisglycinate + glycine + apigenin + L-theanine + KSM-66 — before bed)'].map((name, i) => {
+      ${['Biome NS Ultra'].map((name, i) => {
         const key = `w2s${i}`;
         const resp = W.supplements[key]?.response ?? '';
         return `<div style="display:flex;justify-content:space-between;align-items:center;
@@ -1378,8 +1340,7 @@ function renderW2(W: Workbook): string {
         oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
     </div>
 
-    ${pillarActionBox(C.info, `Both Week 1 supplements continue every day (Biome NS Ultra + SleepRestore).
-      <strong>Week 2 — Add: OmegaCN Prime</strong> (2 softgels with dinner — EPA/DHA + Kaneka QH® ubiquinol CoQ10) and <strong>ArmorVita</strong> (1 softgel with a fatty meal — D3 + K2 + Boron + A + Astaxanthin).
+    ${pillarActionBox(C.info, `<strong>Biome NS Ultra continues every day</strong> — it anchors Month 1.
       Score your cognitive triad (focus / memory / mood) on Sunday.
       Read at least 10 pages of <em>Begin with the End in Mind</em> each day — check off each day in the Cognitive Training section below.`)}
   </div>
@@ -1419,7 +1380,7 @@ function renderW3(W: Workbook): string {
 
   ${proteinTargetLine(W)}
 
-  ${vitalsTracker(W)}
+  <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
   <div class="card" style="background:rgba(46,127,217,.04);border:1px solid rgba(46,127,217,.18)">
     <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
@@ -1521,25 +1482,23 @@ function renderW3(W: Workbook): string {
       ${workoutLog(W, 3)}
     </div>
 
-    ${fastingDailyTracker(W, 3)}
+    <!-- fastingDailyTracker removed 2026-07-06: eating window logs on the Mission Control tape -->
 
     ${pillarActionBox(C.crit, '4 sessions this week. Hold the 14:10 window — first meal after 9am, last before 7pm. Month 1 stays at 14:10; we do not progress the fasting window this month.')}
   </div>
 
   <!-- MIND W3 DEEP FOCUS -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Week 3 Deep Focus — Full Supplement Stack</div>
+    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Week 3 Deep Focus — Consistency</div>
 
     <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.ink};line-height:1.6">
-        Week 3 completes your Month 1 stack. You've been running <strong>Biome NS Ultra</strong> + <strong>SleepRestore</strong> for two weeks and added <strong>OmegaCN Prime</strong> + <strong>ArmorVita</strong> in Week 2.
-        <strong>Week 3 — Add: NeuroBridge</strong> (methylated B-complex — P-5-P, methylcobalamin, methylfolate) and <strong>MitoVita</strong> (creatine + L-citrulline + beetroot + electrolytes).
-        This completes your full 6-supplement Month 1 stack.
+        Three weeks in — <strong>Biome NS Ultra every morning, no gaps</strong>. The gut-brain seal is built by consistency, not intensity. Keep the daily reading habit going and score your cognitive triad on Sunday.
       </div>
     </div>
 
-    <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 1 COMPLETE SUPPLEMENT STACK (6 SUPPLEMENTS)</div>
+    <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 1 SUPPLEMENT</div>
     <div style="display:grid;grid-template-columns:1.8fr 0.9fr 0.9fr 0.7fr;gap:8px;padding:8px 0;margin-bottom:4px">
       ${['Supplement', 'Dose', 'Timing', 'Taking?'].map(h =>
         `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:${C.muted}">${h}</div>`
@@ -1573,7 +1532,7 @@ function renderW3(W: Workbook): string {
         oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
     </div>
 
-    ${pillarActionBox(C.info, `Add your final two Month 1 supplements: <strong>NeuroBridge</strong> (with breakfast) and <strong>MitoVita</strong> (pre-workout or mid-day). Your Month 1 stack is now complete — 6 supplements total. Keep your daily 10-page reading habit going.`)}
+    ${pillarActionBox(C.info, `<strong>Biome NS Ultra, every morning — no additions this month.</strong> Keep your daily 10-page reading habit going.`)}
   </div>
 
   ${renderWeekCogTraining(W, 3)}
@@ -1620,7 +1579,7 @@ function renderW4(W: Workbook): string {
 
   ${proteinTargetLine(W)}
 
-  ${vitalsTracker(W)}
+  <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
   <div class="card" style="background:rgba(107,94,212,.05);border:1px solid rgba(107,94,212,.2)">
     <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:6px">Month 1 Completion — All 4 Pillars</div>
@@ -1788,7 +1747,7 @@ function renderW4(W: Workbook): string {
       ${workoutLog(W, 4)}
     </div>
     <div style="margin-top:16px">
-      ${fastingDailyTracker(W, 4)}
+      <!-- fastingDailyTracker removed 2026-07-06: eating window logs on the Mission Control tape -->
     </div>
     ${pillarActionBox(C.crit, 'Record all your Week 4 measurements. Compare honestly. Strength and waist measurement are more meaningful than scale weight at this stage.')}
   </div>
@@ -1960,7 +1919,9 @@ function renderWeekNutritionSection(W: Workbook, w: 1 | 2 | 3 | 4): string {
 }
 
 function renderSupplementsPanel(W: Workbook): string {
-  return supplements.map((s, i) => {
+  // Month 1 shows Biome NS Ultra only (TJ 2026-07-06). Full stack parked in
+  // docs/plan/month1-supplement-stack-parked.md until white-label SKUs ship.
+  return supplements.filter(sp => /biome/i.test(sp.n)).map((s, i) => {
     const key = `s${i}`;
     const resp = W.supplements[key]?.response ?? '';
     return `<div class="supp-row">
