@@ -939,7 +939,7 @@ function renderW1(ctx: RenderContext): string {
     ${pillarHeader('M4', 'MOTIVATE — Foundation', C.info, 'Why are you here? Lock in your reason before anything else.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      ${w1ActiveWeekly('motivate-zoom', "Attend (or watch the recording of) this week's Protégé Zoom", 1)}
+      <div style="font-size:12px;color:${C.muted};padding:6px 0">Attend (or watch the recording of) this week's Protégé Zoom, then <strong>attest on the dashboard</strong> — that's what unlocks next week. (Removed a duplicate log here 2026-07-07.)</div>
     </div>
     <div style="margin-top:6px;margin-bottom:14px">
       <div style="font-size:12.5px;font-weight:700;color:${C.ink};margin-bottom:8px">What is driving you?</div>
@@ -1538,7 +1538,7 @@ function renderW3(W: Workbook): string {
         oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
     </div>
 
-    ${pillarActionBox(C.info, `<strong>Biome NS Ultra, every morning — no additions this month.</strong> Keep your daily 10-page reading habit going.`)}
+    ${pillarActionBox(C.info, `<strong>Biome NS Ultra with your first meal, every day — no additions this month.</strong> Keep your daily 10-page reading habit going.`)}
   </div>
 
   ${renderWeekCogTraining(W, 3)}

@@ -1,7 +1,7 @@
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { resolveContactId } from '@my4mlife/contact-id';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, UpdateCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, UpdateCommand, PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
@@ -185,27 +185,48 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     }
   }
 
-  // 4. Digital fulfillment — only fires on the first run AND only if the SKU
-  // is mapped in DIGITAL_PRODUCTS. We invoke email-sender asynchronously
-  // (InvocationType: Event) so a transient SES/Mailgun failure doesn't fail
-  // the whole event. A delivery failure visible to the customer would be
-  // recovered manually via support@ for now; future work is a Fulfillment
-  // tracking table.
-  if (firstRun) {
-    const skuId = ((session.metadata as Record<string, string> | null)?.['skuIds'] ?? '').trim();
+  const skuId = ((session.metadata as Record<string, string> | null)?.['skuIds'] ?? '').trim();
+
+  // Run a side-effect at most once across EventBridge retries, but re-attempt
+  // it if it (or a later step) failed. We claim a per-effect marker up front;
+  // on failure we DELETE the marker so the retry runs the effect again. This
+  // replaces the old firstRun gate that skipped fulfillment on any retry —
+  // which left paying customers with no book/workbook/app (audit #11).
+  async function deliverOnce(markerSk: string, fn: () => Promise<void>): Promise<void> {
+    try {
+      await ddb.send(new PutCommand({
+        TableName: 'Touchpoints',
+        Item: { contactId, sk: markerSk, kind: 'fulfillment-marker', stripeEventId: e.id, ts: now },
+        ConditionExpression: 'attribute_not_exists(sk)',
+      }));
+    } catch (err: unknown) {
+      if ((err as { name?: string }).name === 'ConditionalCheckFailedException') return; // already delivered
+      throw err;
+    }
+    try {
+      await fn();
+    } catch (err) {
+      try { await ddb.send(new DeleteCommand({ TableName: 'Touchpoints', Key: { contactId, sk: markerSk } })); } catch { /* best-effort rollback */ }
+      throw err;
+    }
+  }
+
+  // 4. Digital fulfillment — idempotent across retries via its own marker.
+  {
     const asset = skuId ? DIGITAL_PRODUCTS[skuId] : undefined;
     if (asset && email) {
       const firstName = ((session.metadata as Record<string, string> | null)?.['firstName'] ?? '').trim() || undefined;
       try {
-        await deliverDigitalAsset({ skuId, asset, email, firstName, orderId: session.id });
+        await deliverOnce(`fulfill-digital#${e.id}`, () =>
+          deliverDigitalAsset({ skuId, asset, email, firstName, orderId: session.id }));
       } catch (err) {
         console.error('[order-handler] digital fulfillment failed', { orderId: session.id, skuId, error: String(err) });
-        // Re-throw to fail the event and let EB retry. Idempotency above
-        // guarantees Contact/Orders/Touchpoints won't double-write.
-        throw err;
+        throw err; // EB retries; marker rolled back so delivery re-attempts
       }
     }
+  }
 
+  if (firstRun) {
     // 4b. Physical-product coordinator notification — Biome NS Ultra ships
     // manually (coordinator fulfills until the distribution partner is live).
     // Fire-and-forget: a notification failure must never fail the order.
@@ -233,38 +254,37 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       }
     }
 
-    // 5. Protégé membership grant — for SKUs in PROTEGE_MEMBERSHIP_SKUS
-    // (e.g. app-access $69.99), invoke protege-signup with the Stripe
-    // customer info to create the Cognito account + Contact + Users row
-    // and send the appropriate welcome email variant.
-    const membership = skuId ? PROTEGE_MEMBERSHIP_SKUS[skuId] : undefined;
-    if (membership && email) {
-      const customerName = session.customer_details?.name ?? (session.metadata as Record<string, string> | null)?.['firstName'] ?? '';
-      const firstName = customerName.trim().split(/\s+/)[0] || 'Friend';
-      const phone = session.customer_details?.phone
-        ?? (session.metadata as Record<string, string> | null)?.['phone']
-        ?? '';
-      try {
-        const signupBody = {
-          firstName,
-          email,
-          phone: phone || '+10000000000', // protege-signup requires E.164; fallback if Stripe didn't collect
-          consent: { ai: true, protege: true },
-          welcomeEmailVariant: membership.welcomeVariant,
-        };
-        await lambda.send(new InvokeCommand({
-          FunctionName: PROTEGE_SIGNUP_FN,
-          InvocationType: 'Event',
-          Payload: Buffer.from(JSON.stringify({
-            body: JSON.stringify(signupBody),
-            requestContext: { http: { method: 'POST' } },
-            headers: { 'content-type': 'application/json' },
-          })),
-        }));
-      } catch (err) {
-        console.error('[order-handler] Protégé membership grant failed', { orderId: session.id, skuId, error: String(err) });
-        throw err;
-      }
+  }
+
+  // 5. Protégé membership grant — idempotent across retries via its own marker
+  // (audit #11: previously skipped on any retry, so a customer who paid for
+  // app-access could end up with no account).
+  const membership = skuId ? PROTEGE_MEMBERSHIP_SKUS[skuId] : undefined;
+  if (membership && email) {
+    const customerName = session.customer_details?.name ?? (session.metadata as Record<string, string> | null)?.['firstName'] ?? '';
+    const firstName = customerName.trim().split(/\s+/)[0] || 'Friend';
+    const phone = session.customer_details?.phone
+      ?? (session.metadata as Record<string, string> | null)?.['phone']
+      ?? '';
+    try {
+      await deliverOnce(`fulfill-protege#${e.id}`, () => lambda.send(new InvokeCommand({
+        FunctionName: PROTEGE_SIGNUP_FN,
+        InvocationType: 'Event',
+        Payload: Buffer.from(JSON.stringify({
+          body: JSON.stringify({
+            firstName,
+            email,
+            phone: phone || '+10000000000', // protege-signup requires E.164; fallback if Stripe didn't collect
+            consent: { ai: true, protege: true },
+            welcomeEmailVariant: membership.welcomeVariant,
+          }),
+          requestContext: { http: { method: 'POST' } },
+          headers: { 'content-type': 'application/json' },
+        })),
+      }).then(() => undefined)));
+    } catch (err) {
+      console.error('[order-handler] Protégé membership grant failed', { orderId: session.id, skuId, error: String(err) });
+      throw err;
     }
   }
 }

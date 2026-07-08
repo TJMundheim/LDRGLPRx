@@ -7,6 +7,8 @@ import {
   programStart,
   startOfWeekMon,
   daysHitInWeek,
+  effectiveTarget,
+  calendarWeek,
   moveProgress,
   movesCompleted,
   programCumulativePct,
@@ -106,3 +108,25 @@ describe('program-paced scoring (v2)', () => {
     expect(bars.slice(3).every(v => v === 0)).toBe(true);
   });
 });
+
+describe('audit 2026-07-07 fixes', () => {
+  it('effectiveTarget clamps a daily Move in the partial signup week', () => {
+    const wkMon = new Date(2026, 6, 6);
+    const signup = new Date(2026, 6, 9); // Thu → 4 days left
+    expect(effectiveTarget(moveForWeek(1), wkMon, signup)).toBe(4);
+    expect(effectiveTarget(moveForWeek(1), new Date(2026, 6, 13), signup)).toBe(7);
+  });
+  it('Week-1 Biome Move completes for a Thursday signup with 4 taps', () => {
+    const wkMon = new Date(2026, 6, 6);
+    const signup = new Date(2026, 6, 9);
+    const entries = ['09','10','11','12'].map(d => e(`2026-07-${d}`, 'biome-ns-ultra'));
+    expect(moveProgress(entries, moveForWeek(1), wkMon, signup).complete).toBe(true);
+  });
+  it('retired action ids are counted via alias', () => {
+    const entries = ['06','07'].map(d => e(`2026-07-${d}`, 'mitigate-biome-ns'));
+    expect(daysHitInWeek(entries, 'biome-ns-ultra', new Date(2026, 6, 6))).toBe(2);
+  });
+  it('calendarWeek is DST-safe across spring-forward', () => {
+    expect(calendarWeek(new Date(2026, 2, 2), new Date(2026, 2, 16))).toBe(3);
+  });
+})

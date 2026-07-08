@@ -349,8 +349,15 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   // post-purchase (app-access SKU buyer); 'standard' otherwise.
   const welcomeVariant: WelcomeEmailVariant =
     body.welcomeEmailVariant === 'app-only' ? 'app-only' : 'standard';
-  try { await sendWelcomeEmail(email, firstName, welcomeVariant); } catch (err) {
-    console.warn('[protege-signup] welcome email failed (non-fatal):', err);
+  // Only send the welcome email (which carries signed S3 download links) to
+  // NEW accounts. Re-signups for an existing email don't re-send — this blunts
+  // the email-bombing amplification for this public endpoint (audit #15).
+  // Full rate-limiting (WAF / API-GW throttle / CAPTCHA) is tracked separately
+  // as an infra task in the audit doc.
+  if (!alreadyExists) {
+    try { await sendWelcomeEmail(email, firstName, welcomeVariant); } catch (err) {
+      console.warn('[protege-signup] welcome email failed (non-fatal):', err);
+    }
   }
 
   return reply(200, { ok: true, ...(alreadyExists ? { alreadyExists: true } : {}) }, origin);

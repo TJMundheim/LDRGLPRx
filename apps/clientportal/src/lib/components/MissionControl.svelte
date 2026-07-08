@@ -37,9 +37,11 @@
   }
   function addDays(d: Date, n: number): Date { const c = new Date(d); c.setDate(c.getDate() + n); return c; }
 
-  const now = new Date();
-  const today = ymd(now);
-  const weekStartDate = startOfWeekMon(now);
+  // Clock is reactive so a resumed PWA session rolls over at midnight / Monday
+  // instead of logging taps to yesterday's date (audit #18).
+  let nowTick = $state(new Date());
+  const now = $derived(nowTick);
+  const today = $derived(ymd(now));
 
   let loading = $state(true);
   let entries = $state<AdherenceEntry[]>([]);
@@ -50,12 +52,16 @@
   // Program clock anchors to the SIGNUP week (can't drift on early attests);
   // weekUnlocked (Zoom attest) gates progression, the calendar paces it.
   const anchor = $derived(programAnchor(profile?.createdAt ?? null, now));
+  const signupDate = $derived(profile?.createdAt ? new Date(profile.createdAt as string) : undefined);
   const currentWeek = $derived(Math.min(
     calendarWeek(anchor, now),
     Math.max(1, profile?.weekUnlocked ?? 1),
   ));
   const move = $derived(moveForWeek(currentWeek));
   function weekStartOf(w: number): Date { return addDays(anchor, (w - 1) * 7); }
+  // The member always works on THEIR current program week — grid, Move, and
+  // scoring all measure the same window (audit #1/#19).
+  const currentWeekStart = $derived(weekStartOf(currentWeek));
 
   function entryDate(e: AdherenceEntry): string { return e.dateActionId.slice(0, 10); }
   function entryAction(e: AdherenceEntry): string {
@@ -96,9 +102,9 @@
 
   // ── MindSpan v2 ──
   const ROLLING_IDS = ['biome-ns-ultra', 'eating-window', 'protein-breakfast'];
-  const cumulativePct = $derived(programCumulativePct(entries, now, currentWeek, anchor));
+  const cumulativePct = $derived(programCumulativePct(entries, now, currentWeek, anchor, signupDate));
   const rollingPct = $derived(adherencePctForWindow(entries, now, 7, ROLLING_IDS));
-  const movesDone = $derived(movesCompleted(entries, now, currentWeek, anchor));
+  const movesDone = $derived(movesCompleted(entries, now, currentWeek, anchor, signupDate));
   const msScore = $derived(programMindspanScore({ cumulativePct, rollingPct, riskLoad, movesDone }));
 
   const RING_R = 72;
@@ -120,14 +126,14 @@
   const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   const weekDates = $derived.by(() => {
     const out: string[] = [];
-    for (let i = 0; i < 7; i++) out.push(ymd(addDays(weekStartDate, i)));
+    for (let i = 0; i < 7; i++) out.push(ymd(addDays(currentWeekStart, i)));
     return out;
   });
-  const mvProgress = $derived(moveProgress(entries, move, weekStartDate));
+  const mvProgress = $derived(moveProgress(entries, move, currentWeekStart, signupDate));
   const mvRingDeg = $derived(Math.round((mvProgress.done / Math.max(1, mvProgress.target)) * 360));
 
   const weeklyZoomAttested = $derived(!!profile?.weeklyZoomAttestedAt
-    && new Date(profile.weeklyZoomAttestedAt).getTime() >= weekStartDate.getTime());
+    && new Date(profile.weeklyZoomAttestedAt).getTime() >= currentWeekStart.getTime());
 
   // ── trends ──
   const DOT_BEHAVIORS: Array<[string, string]> = [
@@ -145,8 +151,8 @@
   function dotCount(actionId: string): number {
     return dotRow(actionId).filter(Boolean).length;
   }
-  const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek, anchor));
-  function pastMove(w: number) { return moveProgress(entries, MOVES[w - 1], weekStartOf(w)); }
+  const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek, anchor, signupDate));
+  function pastMove(w: number) { return moveProgress(entries, MOVES[w - 1], weekStartOf(w), signupDate); }
 
   // ── weekly measurements: read-only trends here; the entry table (Weekly
   //    Measurements card) renders directly below on this same page ──
@@ -237,29 +243,36 @@
   }
 
   onMount(async () => {
+    // Refresh the clock when the PWA regains focus so day/week rollover is live.
+    const refresh = () => { if (!document.hidden) nowTick = new Date(); };
+    document.addEventListener('visibilitychange', refresh);
+    const iv = setInterval(refresh, 60_000);
     try {
       const prof = await getMyProfile();
       profile = ((prof as any)?.data?.getMyProfile ?? (prof as any)?.getMyProfile ?? null) as UserProfile | null;
-      const from = programAnchor((profile as any)?.createdAt ?? null, new Date());
+      const anchorMon = programAnchor((profile as any)?.createdAt ?? null, new Date());
+      const rangeEnd = addDays(startOfWeekMon(new Date()), 6);
       const [adh, evs] = await Promise.all([
-        listMyAdherence(ymd(from), ymd(addDays(weekStartDate, 6))),
+        listMyAdherence(ymd(anchorMon), ymd(rangeEnd)),
         upcomingEvents(20),
       ]);
       entries = ((adh as any)?.data?.listMyAdherence ?? (adh as any)?.listMyAdherence ?? []) as AdherenceEntry[];
       const evList = ((evs as any)?.data?.upcomingEvents ?? (evs as any)?.upcomingEvents ?? []) as Event[];
+      const wkStart = weekStartOf(Math.min(calendarWeek(anchorMon, new Date()), Math.max(1, (profile as any)?.weekUnlocked ?? 1)));
       weeklyEvent = evList.find(e => {
         if (e.type !== 'zoom-weekly') return false;
         const t = new Date(e.startsAt).getTime();
-        return t >= weekStartDate.getTime() && t <= addDays(weekStartDate, 6).getTime() + 86399999;
+        return t >= wkStart.getTime() && t <= addDays(wkStart, 6).getTime() + 86399999;
       }) ?? null;
     } catch (err) {
       console.error('[MissionControl] load failed', err);
     } finally {
       loading = false;
     }
+    return () => { document.removeEventListener('visibilitychange', refresh); clearInterval(iv); };
   });
 
-  const headerDate = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  const headerDate = $derived(now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }));
   function fmtEvent(e: Event): string {
     return new Date(e.startsAt).toLocaleString(undefined, {
       weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
@@ -336,12 +349,12 @@
                       {/if}
                     </td>
                   {/each}
-                  <td class="goal">{row.cap === 7 ? 'daily' : `${row.cap}×`}</td>
+                  <td class="goal">{row.isMove && move.standing ? `${move.target}×` : row.cap === 7 ? 'daily' : `${row.cap}×`}</td>
                 </tr>
               {/each}
             </tbody>
           </table>
-          <p class="gridhint">Tap any day this week you completed it — missed logging yesterday? Tap yesterday. Window goal is 5 of 7 (up to two off-days: breakfast with the kids or grandkids, then walk 30 minutes after).</p>
+          <p class="gridhint">Tap any day this week you completed it. Window goal is 5 of 7 (up to two off-days: breakfast with the kids or grandkids, then walk 30 minutes after).</p>
         </div>
 
         <h2 class="sec">Measurements <span class="secnote">weekly trend — log them in the table below</span></h2>
@@ -414,7 +427,8 @@
         <div class="attested">✓ Attended. Week {Math.min(PROGRAM_WEEKS, currentWeek + 1)}'s Move appears here Monday morning — same tape, one new Move.</div>
       {:else}
         <label class="attest-row">
-          <input type="checkbox" onchange={attestZoom} disabled={!!saving['__zoom']} />
+          <input type="checkbox" checked={false} disabled={!!saving['__zoom']}
+            onchange={(e) => { if ((e.currentTarget as HTMLInputElement).checked) { attestZoom(); } else { (e.currentTarget as HTMLInputElement).checked = false; } }} />
           I attended live or watched the recording <span class="attest-why">(this is what advances you to Week {Math.min(PROGRAM_WEEKS, currentWeek + 1)})</span>
         </label>
       {/if}

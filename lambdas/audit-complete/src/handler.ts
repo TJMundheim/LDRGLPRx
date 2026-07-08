@@ -296,19 +296,23 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   // Consent record: the exact agreements (text + version + timestamp) the user accepted.
   const consent = (parsed.consent && typeof parsed.consent === 'object') ? parsed.consent : null;
-  const consentedAt: string | null = consent && typeof consent.consentedAt === 'string' ? consent.consentedAt : null;
   const aiCommsConsent: boolean = !!(consent && consent.aiComms && consent.aiComms.agreed);
   const protegeTermsConsent: boolean = !!(consent && consent.protegeTerms && consent.protegeTerms.agreed);
 
-  let contactId: string | undefined = typeof parsed.contactId === 'string' && parsed.contactId.trim() ? parsed.contactId.trim() : undefined;
+  // contactId is ALWAYS derived server-side from the email (audit #14). A
+  // client-supplied contactId is ignored — otherwise an attacker could target
+  // any existing Contact row and forge consent against it.
   let email = '';
+  let contactId: string | undefined;
   if (rawEmail && typeof rawEmail === 'string' && EMAIL_RE.test(rawEmail.trim().toLowerCase())) {
     email = rawEmail.trim().toLowerCase();
-    if (!contactId) contactId = uuidv5(email, NAMESPACE);
+    contactId = uuidv5(email, NAMESPACE);
   }
-  if (!contactId) return reply(400, { error: 'contactId or email required' }, origin);
+  if (!contactId) return reply(400, { error: 'valid email required' }, origin);
 
+  // Consent timestamp is stamped by the server, never trusted from the client.
   const ts = new Date().toISOString();
+  const consentAtServer = ts;
 
   await ddb.send(new UpdateCommand({
     TableName: CONTACT_TABLE,
@@ -328,7 +332,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       ...(phone ? { ':ph': phone } : {}),
       ...(consent ? {
         ':consent': JSON.stringify(consent),
-        ':consentAt': consentedAt ?? ts,
+        ':consentAt': consentAtServer,
         ':aiC': aiCommsConsent,
         ':protC': protegeTermsConsent,
       } : {}),
@@ -344,7 +348,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
           auditTop3: Array.isArray(top3) ? top3 : [],
           auditCompletedAt: ts,
           intakeAnswers: (scores && typeof scores === 'object') ? scores : {},
-          consent, consentedAt: consentedAt ?? ts,
+          consent, consentedAt: consentAtServer,
         });
       }
     } catch (e) {

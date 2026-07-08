@@ -231,8 +231,13 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
   function $(sel) { return document.querySelector(sel); }
   function $$(sel) { return document.querySelectorAll(sel); }
 
+  var _phMaxStep = 0;
   function showStep(n) {
-    phCapture(n === 'success' ? 'rx_submitted' : 'rx_step_reached', { step: n });
+    if (n === 'success') { phCapture('rx_submitted', { total_steps: totalSteps }); }
+    else if (typeof n === 'number' && n > _phMaxStep) {
+      _phMaxStep = n;
+      phCapture('rx_step_reached', { step: n, total_steps: totalSteps });
+    }
     $$('.q-step').forEach(function(el) { el.hidden = true; });
     var target = document.querySelector('[data-step="' + n + '"]');
     if (target) target.hidden = false;
@@ -431,6 +436,10 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: payload.email || '', firstName: payload.firstName || '', category: 'leaky-gut' }),
     });
+    } catch (netErr) {
+      $('#stripe-card-error').textContent = 'Network error starting secure card capture. Check your connection and try again.';
+      return;
+    }
     var json = await resp.json();
     if (!json.clientSecret || !json.publishableKey) {
       $('#stripe-card-error').textContent = 'Unable to start secure card capture. Please try again.';
@@ -506,12 +515,9 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
     });
     if (resp.ok) {
       // Best-effort persist to EMR — never blocks success UX
-      fetch(API_BASE + '/api/patient-record-intake', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      var _intakeBody = JSON.stringify({
           email: payload.email,
-          category: 'gut',
+          category: 'leaky-gut',
           demographics: {
             firstName: payload.firstName, lastName: payload.lastName,
             phone: payload.phone, state: payload.state,
@@ -540,7 +546,17 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
           },
           cardOnFile: { paymentMethodId: paymentMethodId, stripeCustomerId: stripeCustomerId },
         }),
-      }).catch(function() { /* best-effort — ignore errors */ });
+      });
+      fetch(API_BASE + '/api/patient-record-intake', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: _intakeBody,
+).then(function(r){
+        if (r && !r.ok) { throw new Error('intake ' + r.status); }
+      }).catch(function() {
+        // one retry — a failed intake after a saved card would orphan the payment
+        fetch(API_BASE + '/api/patient-record-intake', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: _intakeBody,
+        }).catch(function(){ try { window.posthog && window.posthog.capture('rx_intake_persist_failed', { category: PH_CAT }); } catch(e){} });
+      });
       showStep('success');
     } else {
       alert('Submission failed. Please try again or email support@my4mlife.com.');
@@ -614,8 +630,13 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
       }
     });
 
+    var _submitInFlight = false;
     $('#q-submit').addEventListener('click', async function() {
-      await submitQuestionnaire();
+      if (_submitInFlight) return;
+      _submitInFlight = true;
+      var btn = $('#q-submit'); if (btn) { btn.disabled = true; }
+      try { await submitQuestionnaire(); }
+      catch (e) { _submitInFlight = false; if (btn) { btn.disabled = false; } }
     });
   });
 })();

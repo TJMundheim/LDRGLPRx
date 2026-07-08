@@ -409,8 +409,9 @@ const robots = "index, follow";
     });
 
     // Continue button
+    var _phContactFired = false;
     document.getElementById('continue-btn').addEventListener('click', function () {
-      phCapture('assessment_contact_reached');
+      if (!_phContactFired) { _phContactFired = true; phCapture('assessment_contact_reached'); }
       document.getElementById('questions-section').hidden = true;
       document.getElementById('capture-section').hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -507,6 +508,8 @@ const robots = "index, follow";
       var top3Payload = selectTop3(scores, QUESTIONS).map(function (q) {
         return { id: q.id, label: q.label, slug: q.solutionSlug, score: scores[q.id] || 0 };
       });
+      // Fire assessment_submitted only when the backend actually accepted the
+      // signup — otherwise the funnel over-counts submissions (audit #21).
       fetch(apiBase + '/api/audit-complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -518,9 +521,10 @@ const robots = "index, follow";
           top3: top3Payload,
           consent: consentPayload,
         }),
-      }).catch(function () { /* silent */ });
+      }).then(function (r) {
+        phCapture(r && r.ok ? 'assessment_submitted' : 'assessment_submit_failed');
+      }).catch(function () { phCapture('assessment_submit_failed'); });
 
-      phCapture('assessment_submitted');
       showResults();
     });
   });

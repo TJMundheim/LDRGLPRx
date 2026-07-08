@@ -89,9 +89,17 @@ export function programAnchor(createdAt: string | Date | null | undefined, now: 
   return startOfWeekMon(Number.isNaN(d.getTime()) ? now : d);
 }
 
+/** Whole days from a→b using UTC midnights (DST-safe — raw ms division drifts
+ * across spring-forward/fall-back). */
+function dayDiff(a: Date, b: Date): number {
+  const ua = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const ub = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  return Math.round((ub - ua) / 86400000);
+}
+
 /** Calendar program week (1-12) elapsed since the anchor Monday. */
 export function calendarWeek(anchor: Date, now: Date): number {
-  const weeks = Math.floor((startOfWeekMon(now).getTime() - anchor.getTime()) / (7 * 86400000)) + 1;
+  const weeks = Math.floor(dayDiff(anchor, startOfWeekMon(now)) / 7) + 1;
   return Math.min(PROGRAM_WEEKS, Math.max(1, weeks));
 }
 
@@ -99,10 +107,20 @@ export interface EntryLike {
   dateActionId: string;
 }
 
+// Retired action ids still present in DDB from earlier app versions. Counting
+// them at read time (rather than a risky data migration) means every member's
+// historical taps register (audit 2026-07-07 #3/#20).
+const ID_ALIASES: Record<string, string> = {
+  'mitigate-biome-ns': 'biome-ns-ultra',
+  'mitigate-eating-window': 'eating-window',
+  'muscle-strength': 'strength',
+};
+
 function parse(e: EntryLike): { date: string; actionId: string } | null {
   const i = e.dateActionId.indexOf('#');
   if (i === -1) return null;
-  return { date: e.dateActionId.slice(0, i), actionId: e.dateActionId.slice(i + 1) };
+  const rawId = e.dateActionId.slice(i + 1);
+  return { date: e.dateActionId.slice(0, i), actionId: ID_ALIASES[rawId] ?? rawId };
 }
 
 /** Distinct days with `actionId` inside [weekStart, weekStart+6]. */
@@ -123,18 +141,30 @@ export interface MoveProgress {
   complete: boolean;
 }
 
-export function moveProgress(entries: EntryLike[], move: ProgramMove, weekStart: Date): MoveProgress {
-  const done = Math.min(daysHitInWeek(entries, move.actionId, weekStart), move.target);
-  return { done, target: move.target, complete: done >= move.target };
+/** A daily-cadence Move (target 7 / 5) in the member's SIGNUP week can't
+ * require more days than remain from signup day → that week's Sunday. Clamp so
+ * a mid-week joiner isn't handed an impossible Week-1 Move (audit #0/#4). */
+export function effectiveTarget(move: ProgramMove, weekStart: Date, signupDate?: Date): number {
+  if (!signupDate) return move.target;
+  const weekEnd = addDays(weekStart, 6);
+  if (signupDate <= weekStart || signupDate > weekEnd) return move.target;
+  const availDays = dayDiff(signupDate, weekEnd) + 1;
+  return Math.min(move.target, Math.max(1, availDays));
+}
+
+export function moveProgress(entries: EntryLike[], move: ProgramMove, weekStart: Date, signupDate?: Date): MoveProgress {
+  const target = effectiveTarget(move, weekStart, signupDate);
+  const done = Math.min(daysHitInWeek(entries, move.actionId, weekStart), target);
+  return { done, target, complete: done >= target };
 }
 
 /** Number of Moves (weeks 1..upToWeek) whose target was hit in their own week. */
-export function movesCompleted(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date): number {
+export function movesCompleted(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date, signupDate?: Date): number {
   const start = startDate ?? programStart(now, currentWeek);
   let done = 0;
   for (let w = 1; w <= Math.min(currentWeek, PROGRAM_WEEKS); w++) {
     const ws = addDays(start, (w - 1) * 7);
-    if (moveProgress(entries, MOVES[w - 1], ws).complete) done++;
+    if (moveProgress(entries, MOVES[w - 1], ws, signupDate).complete) done++;
   }
   return done;
 }
@@ -151,7 +181,7 @@ export const TOTAL_PROGRAM_SLOTS = 2 * 7 * PROGRAM_WEEKS + 11 * PROGRAM_WEEKS + 
  * always the full 12 weeks — this is the "ring slowly fills over three months"
  * semantic, not a rolling-quality number.
  */
-export function programCumulativePct(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date): number {
+export function programCumulativePct(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date, signupDate?: Date): number {
   const start = startDate ?? programStart(now, currentWeek);
   const today = toDateStr(now);
   let hits = 0;
@@ -174,7 +204,7 @@ export function programCumulativePct(entries: EntryLike[], now: Date, currentWee
     }
   }
 
-  hits += movesCompleted(entries, now, currentWeek);
+  hits += movesCompleted(entries, now, currentWeek, start, signupDate);
   return Math.round((100 * hits) / TOTAL_PROGRAM_SLOTS);
 }
 
@@ -196,7 +226,7 @@ export function programMindspanScore({ cumulativePct, rollingPct, riskLoad, move
 }
 
 /** Per-week adherence % (of that week's 3×7 + 4 + 1 = 26 slots) for the 12-week bars. */
-export function weeklyPctSeries(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date): number[] {
+export function weeklyPctSeries(entries: EntryLike[], now: Date, currentWeek: number, startDate?: Date, signupDate?: Date): number[] {
   const start = startDate ?? programStart(now, currentWeek);
   const out: number[] = [];
   for (let w = 1; w <= PROGRAM_WEEKS; w++) {
@@ -205,7 +235,7 @@ export function weeklyPctSeries(entries: EntryLike[], now: Date, currentWeek: nu
     let hits = 0;
     for (const id of DAILY_IDS) hits += daysHitInWeek(entries, id, ws);
     for (const [id, cap] of WEEKLY_TARGETS) hits += Math.min(daysHitInWeek(entries, id, ws), cap);
-    if (moveProgress(entries, MOVES[w - 1], ws).complete) hits += 1;
+    if (moveProgress(entries, MOVES[w - 1], ws, signupDate).complete) hits += 1;
     out.push(Math.round((100 * hits) / (2 * 7 + 11 + 1)));
   }
   return out;

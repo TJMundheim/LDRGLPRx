@@ -103,6 +103,13 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   catch { return reply(400, { error: 'invalid JSON body' }, cors); }
 
   const skuId = body.skuId;
+  // Audit #9: a skuId flows into fulfillment metadata (order-handler delivers by
+  // skuId). Only catalog-defined SKUs are allowed, and their priceId comes from
+  // the catalog — never the client — so a caller can't pair a cheap/foreign
+  // price with a fulfillment-bearing SKU.
+  if (skuId && !SKU_CATALOG[skuId]) {
+    return reply(400, { error: 'unknown skuId' }, cors);
+  }
   const catalogEntry = skuId ? SKU_CATALOG[skuId] : undefined;
   const priceId = catalogEntry?.priceId ?? body.priceId;
   const contactId = body.contactId;
