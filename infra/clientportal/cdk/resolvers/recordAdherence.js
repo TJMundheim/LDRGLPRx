@@ -4,10 +4,13 @@ import { util } from '@aws-appsync/utils';
 // versions / arbitrary ids so no invisible-effort rows can be minted).
 const ALLOWED_ACTIONS = {
   'biome-ns-ultra': true, 'eating-window': true, 'protein-breakfast': true,
-  'fasted-walk': true, 'strength': true,
+  'fasted-walk': true, 'strength': true, 'morning-routine': true,
   'move-pantry-purge': true, 'move-intensity': true, 'move-sleep-protocol': true,
   'move-name-your-face': true, 'move-heat-cold': true, 'move-book-labs': true,
   'move-retake-assessment': true,
+  // Numeric measurements (stored with `value`, averaged per week on the dash).
+  'measure-sys': true, 'measure-dia': true, 'measure-pulse': true,
+  'measure-spo2': true, 'measure-weight': true, 'measure-waist': true,
 };
 
 export function request(ctx) {

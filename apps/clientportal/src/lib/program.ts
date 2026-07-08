@@ -105,6 +105,7 @@ export function calendarWeek(anchor: Date, now: Date): number {
 
 export interface EntryLike {
   dateActionId: string;
+  value?: number | null;
 }
 
 // Retired action ids still present in DDB from earlier app versions. Counting
@@ -206,6 +207,51 @@ export function programCumulativePct(entries: EntryLike[], now: Date, currentWee
 
   hits += movesCompleted(entries, now, currentWeek, start, signupDate);
   return Math.round((100 * hits) / TOTAL_PROGRAM_SLOTS);
+}
+
+/**
+ * Per-week aggregate of a tracked input across the whole 12-week program,
+ * anchored to signup (TJ 2026-07-08). Two modes:
+ *   - 'average': mean of the metric's `value` readings in each week (vitals:
+ *     BP / pulse / SpO₂ / weight / waist — measured one-or-more times a week).
+ *   - 'count':   distinct days the action was completed in each week (boolean
+ *     behaviors: morning routine, or any tape row).
+ * Returns an array of length `weeks`; entries with no data are null.
+ */
+export function weeklyAggregate(
+  entries: EntryLike[],
+  actionId: string,
+  anchor: Date,
+  mode: 'average' | 'count',
+  weeks = PROGRAM_WEEKS,
+): Array<number | null> {
+  const out: Array<number | null> = [];
+  for (let w = 0; w < weeks; w++) {
+    const ws = addDays(anchor, w * 7);
+    const days = new Set<string>();
+    for (let i = 0; i < 7; i++) days.add(toDateStr(addDays(ws, i)));
+    if (mode === 'count') {
+      const hit = new Set<string>();
+      for (const e of entries) {
+        const p = parse(e);
+        if (p && p.actionId === actionId && days.has(p.date)) hit.add(p.date);
+      }
+      out.push(hit.size > 0 ? hit.size : null);
+    } else {
+      // average of the latest value per day, over days with a reading
+      const perDay = new Map<string, number>();
+      for (const e of entries) {
+        const p = parse(e);
+        if (!p || p.actionId !== actionId || !days.has(p.date)) continue;
+        if (typeof e.value === 'number' && !Number.isNaN(e.value)) perDay.set(p.date, e.value);
+      }
+      if (perDay.size === 0) { out.push(null); continue; }
+      let sum = 0;
+      for (const v of perDay.values()) sum += v;
+      out.push(Math.round((sum / perDay.size) * 10) / 10);
+    }
+  }
+  return out;
 }
 
 export interface ProgramScoreInputs {

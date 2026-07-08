@@ -9,6 +9,7 @@ import {
   daysHitInWeek,
   effectiveTarget,
   calendarWeek,
+  weeklyAggregate,
   moveProgress,
   movesCompleted,
   programCumulativePct,
@@ -128,5 +129,31 @@ describe('audit 2026-07-07 fixes', () => {
   });
   it('calendarWeek is DST-safe across spring-forward', () => {
     expect(calendarWeek(new Date(2026, 2, 2), new Date(2026, 2, 16))).toBe(3);
+  });
+})
+
+describe('weeklyAggregate (TJ 2026-07-08)', () => {
+  const anchor = new Date(2026, 6, 6); // Mon
+  it('averages numeric readings per week', () => {
+    const entries = [
+      { dateActionId: '2026-07-06#measure-sys', value: 120 },
+      { dateActionId: '2026-07-08#measure-sys', value: 130 }, // same week 1
+      { dateActionId: '2026-07-13#measure-sys', value: 118 }, // week 2
+    ];
+    const avg = weeklyAggregate(entries, 'measure-sys', anchor, 'average', 12);
+    expect(avg[0]).toBe(125);   // (120+130)/2
+    expect(avg[1]).toBe(118);
+    expect(avg[2]).toBeNull();  // no data
+    expect(avg).toHaveLength(12);
+  });
+  it('counts distinct days per week for boolean behaviors', () => {
+    const entries = [
+      { dateActionId: '2026-07-06#morning-routine' },
+      { dateActionId: '2026-07-07#morning-routine' },
+      { dateActionId: '2026-07-07#morning-routine' }, // dup same day
+    ];
+    const counts = weeklyAggregate(entries, 'morning-routine', anchor, 'count', 12);
+    expect(counts[0]).toBe(2);
+    expect(counts[1]).toBeNull();
   });
 })

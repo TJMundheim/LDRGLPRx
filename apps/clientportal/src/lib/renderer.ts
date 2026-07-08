@@ -768,7 +768,9 @@ function renderDash(W: Workbook): string {
 
   ${strengthTrendCard(W)}
 
-  ${vitalsTracker(W)}
+  <!-- vitalsTracker removed 2026-07-08: measurements now log daily on the
+       Mission Control dashboard and chart weekly averages across all 12 weeks.
+       The old single-value-per-week workbook table would duplicate that. -->
 
   ${renderAuditSummaryCard()}
 

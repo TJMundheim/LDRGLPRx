@@ -22,7 +22,7 @@
   import {
     MOVES, PROGRAM_WEEKS, moveForWeek, programAnchor, calendarWeek, startOfWeekMon,
     moveProgress, movesCompleted, programCumulativePct,
-    programMindspanScore, weeklyPctSeries,
+    programMindspanScore, weeklyPctSeries, weeklyAggregate,
   } from '../program.js';
   import { pushToast } from '../toast/toast.svelte.js';
 
@@ -119,6 +119,7 @@
       { id: 'protein-breakfast', label: 'Protein-first', cap: 7, isMove: move.actionId === 'protein-breakfast' },
       { id: 'fasted-walk', label: 'Fasted walk', cap: 2, isMove: move.actionId === 'fasted-walk' },
       { id: 'strength', label: 'Strength', cap: 4, isMove: move.actionId === 'strength' },
+      { id: 'morning-routine', label: 'Morning routine', cap: 7, isMove: move.actionId === 'morning-routine' },
     ];
     if (!move.standing) rows.push({ id: move.actionId, label: 'The Move', cap: move.target, isMove: true });
     return rows;
@@ -141,6 +142,7 @@
     ['eating-window', 'Eating window'],
     ['protein-breakfast', 'Protein-first'],
     ['fasted-walk', 'Walks'],
+    ['morning-routine', 'Morning routine'],
   ];
   const DOT_DAYS = 28;
   function dotRow(actionId: string): boolean[] {
@@ -154,52 +156,72 @@
   const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek, anchor, signupDate));
   function pastMove(w: number) { return moveProgress(entries, MOVES[w - 1], weekStartOf(w), signupDate); }
 
-  // ── weekly measurements: read-only trends here; the entry table (Weekly
-  //    Measurements card) renders directly below on this same page ──
+  // ── weekly measurements — logged daily, averaged per program week, charted
+  //    across all 12 weeks (TJ 2026-07-08). Stored as Adherence rows
+  //    `measure-<id>` with a numeric value; one reading per metric per day. ──
   const VITAL_METRICS: Array<[string, string, string]> = [
-    ['weight', 'Weight', 'lbs'],
-    ['waist', 'Waist', 'in'],
     ['sys', 'Systolic', 'mmHg'],
     ['dia', 'Diastolic', 'mmHg'],
     ['pulse', 'Pulse', 'bpm'],
     ['spo2', 'SpO₂', '%'],
+    ['weight', 'Weight', 'lbs'],
+    ['waist', 'Waist', 'in'],
   ];
-  const vitalsLog: Record<string, string> = (() => {
-    try {
-      if (typeof localStorage === 'undefined') return {};
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.startsWith('4m:workbook:')) {
-          const wb = JSON.parse(localStorage.getItem(k) || '{}');
-          if (wb && typeof wb === 'object' && wb.vitalsLog) return wb.vitalsLog as Record<string, string>;
-        }
-      }
-    } catch { /* ignore */ }
-    return {};
-  })();
-  function vitalSeries(metric: string): Array<{ label: string; v: number }> {
-    const cols = ['base', ...Array.from({ length: 12 }, (_, i) => `w${i + 1}`)];
-    const out: Array<{ label: string; v: number }> = [];
-    cols.forEach((c, i) => {
-      const raw = vitalsLog[`${c}_${metric}`];
-      const n = raw !== undefined && raw !== '' ? Number(raw) : NaN;
-      if (!Number.isNaN(n)) out.push({ label: i === 0 ? 'Base' : `W${i}`, v: n });
-    });
-    return out;
+  function todayValue(metric: string): string {
+    const e = entries.find(x => entryAction(x) === `measure-${metric}` && entryDate(x) === today);
+    return e && typeof e.value === 'number' ? String(e.value) : '';
   }
-  function vitalSpark(series: Array<{ v: number }>): string {
-    if (series.length < 2) return '';
-    const vals = series.map(s2 => s2.v);
+  function wkAvgSpark(series: Array<number | null>): string {
+    const pts = series.map((v, i) => ({ v, i })).filter(p => p.v !== null) as Array<{ v: number; i: number }>;
+    if (pts.length < 2) return '';
+    const vals = pts.map(p => p.v);
     const min = Math.min(...vals), max = Math.max(...vals);
     const span = Math.max(1e-6, max - min);
-    return vals.map((v, i) => `${((i / (vals.length - 1)) * 110).toFixed(1)},${(26 - ((v - min) / span) * 20).toFixed(1)}`).join(' ');
+    return pts.map(p => `${((p.i / (PROGRAM_WEEKS - 1)) * 110).toFixed(1)},${(26 - ((p.v - min) / span) * 20).toFixed(1)}`).join(' ');
   }
   const trackedVitals = $derived(VITAL_METRICS.map(([id, label, unit]) => {
-    const series = vitalSeries(id);
-    const latest = series.length ? series[series.length - 1] : null;
-    const delta = series.length >= 2 ? Math.round((series[series.length - 1].v - series[0].v) * 10) / 10 : null;
-    return { id, label, unit, series, latest, delta, spark: vitalSpark(series) };
+    const weekly = weeklyAggregate(entries, `measure-${id}`, anchor, 'average', PROGRAM_WEEKS);
+    const present = weekly.map((v, i) => ({ v, i })).filter(p => p.v !== null) as Array<{ v: number; i: number }>;
+    const latest = present.length ? present[present.length - 1] : null;
+    const first = present.length ? present[0] : null;
+    const delta = latest && first && present.length >= 2 ? Math.round((latest.v - first.v) * 10) / 10 : null;
+    return { id, label, unit, weekly, latest, delta, spark: wkAvgSpark(weekly) };
   }));
+
+  // measurement entry (today's readings)
+  let measureInputs = $state<Record<string, string>>({});
+  let measuring = $state(false);
+  async function saveMeasurements(): Promise<void> {
+    if (measuring) return;
+    measuring = true;
+    try {
+      for (const [id] of VITAL_METRICS) {
+        const raw = measureInputs[id];
+        if (raw === undefined || raw === '') continue;
+        const v = Number(raw);
+        if (Number.isNaN(v)) continue;
+        await logMeasurement(`measure-${id}`, v);
+      }
+      measureInputs = {};
+      pushToast({ message: "Today's measurements saved." });
+    } finally {
+      measuring = false;
+    }
+  }
+  async function logMeasurement(actionId: string, value: number): Promise<void> {
+    const saveKey = `${today}#${actionId}`;
+    const optimistic = { userId: '', dateActionId: saveKey, completedAt: new Date().toISOString(), value } as AdherenceEntry;
+    entries = [...entries.filter(e => e.dateActionId !== saveKey), optimistic];
+    try {
+      const res = await recordAdherence({ date: today, actionId, completed: true, value });
+      const data = (res as any)?.data?.recordAdherence ?? (res as any)?.recordAdherence;
+      if (data) entries = [...entries.filter(e => e.dateActionId !== saveKey), data as AdherenceEntry];
+    } catch (err) {
+      console.error('[MissionControl] measurement save failed', err);
+      entries = entries.filter(e => e !== optimistic);
+      pushToast({ message: 'Could not save that measurement — check your connection.', retry: () => logMeasurement(actionId, value) });
+    }
+  }
 
   // ── mutations ──
   async function logAction(actionId: string, dateStr: string): Promise<void> {
@@ -357,24 +379,41 @@
           <p class="gridhint">Tap any day this week you completed it. Window goal is 5 of 7 (up to two off-days: breakfast with the kids or grandkids, then walk 30 minutes after).</p>
         </div>
 
-        <h2 class="sec">Measurements <span class="secnote">weekly trend — log them in the table below</span></h2>
+        <h2 class="sec">Measurements <span class="secnote">log today · dashboard shows each week's average</span></h2>
+        <div class="measure-entry">
+          <div class="me-title">Today's readings</div>
+          <div class="me-grid">
+            {#each VITAL_METRICS as [id, label, unit]}
+              <label class="me-field">
+                <span>{label} <em>{unit}</em></span>
+                <input type="number" inputmode="decimal" placeholder={todayValue(id) || '—'}
+                  bind:value={measureInputs[id]} />
+              </label>
+            {/each}
+          </div>
+          <button class="me-save" onclick={saveMeasurements} disabled={measuring}>
+            {measuring ? 'Saving…' : "Save today's measurements"}
+          </button>
+          <p class="me-hint">Measure blood pressure, pulse, and SpO₂ whenever you like — the dashboard averages each week's readings and charts week 1 through 12.</p>
+        </div>
         <div class="vitals">
           {#each trackedVitals as vm}
             <div class="vit" class:empty={!vm.latest}>
               <div class="vl">{vm.label}</div>
               {#if vm.latest}
                 <div class="vv">{vm.latest.v}<small> {vm.unit}</small></div>
+                <div class="vwk">wk {vm.latest.i + 1} avg</div>
                 {#if vm.spark}
-                  <svg width="110" height="28" viewBox="0 0 110 28" aria-label="{vm.label} trend">
+                  <svg width="110" height="28" viewBox="0 0 110 28" aria-label="{vm.label} weekly averages">
                     <polyline points={vm.spark} fill="none" stroke="var(--mc-gold)" stroke-width="1.8"/>
                   </svg>
                 {/if}
                 {#if vm.delta !== null}
-                  <div class="vd">{vm.delta > 0 ? '+' : ''}{vm.delta} since baseline</div>
+                  <div class="vd">{vm.delta > 0 ? '+' : ''}{vm.delta} since week 1</div>
                 {/if}
               {:else}
                 <div class="vv vv-empty">—</div>
-                <div class="vd">no entries yet</div>
+                <div class="vd">no readings yet</div>
               {/if}
             </div>
           {/each}
@@ -502,6 +541,21 @@
   button.cell.tappable.tod { outline: 1.5px solid #e9cf96; }
   button.cell.tappable:disabled { cursor: default; border-color: transparent; }
   .gridhint { font-size: 11px; color: var(--mc-faint); margin: 10px 2px 0; line-height: 1.5; }
+
+  .measure-entry { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 13px 14px; margin-bottom: 10px; }
+  .me-title { font-size: 11px; font-weight: 600; color: var(--mc-ink); margin-bottom: 10px; }
+  .me-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  @media (max-width: 640px) { .me-grid { grid-template-columns: repeat(2, 1fr); } }
+  .me-field { display: flex; flex-direction: column; gap: 3px; }
+  .me-field span { font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--mc-muted); }
+  .me-field span em { font-style: normal; color: var(--mc-faint); text-transform: none; letter-spacing: 0; }
+  .me-field input { background: var(--mc-panel-raised); border: 1px solid var(--mc-line); border-radius: 8px; padding: 8px 9px; font-size: 14px; color: var(--mc-ink); width: 100%; font-variant-numeric: tabular-nums; }
+  .me-field input:focus { outline: none; border-color: var(--mc-gold-line); }
+  .me-save { margin-top: 11px; width: 100%; border: none; cursor: pointer; background: var(--mc-gold); color: var(--mc-on-gold); border-radius: 9px; padding: 11px; font-size: 13px; font-weight: 700; }
+  .me-save:hover:not(:disabled) { background: var(--mc-gold-soft); }
+  .me-save:disabled { opacity: .6; cursor: default; }
+  .me-hint { font-size: 10.5px; color: var(--mc-faint); margin: 9px 2px 0; line-height: 1.5; }
+  .vit .vwk { font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--mc-gold); margin-top: 2px; }
 
   .vitals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   @media (max-width: 640px) { .vitals { grid-template-columns: repeat(2, 1fr); } }
