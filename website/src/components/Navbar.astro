@@ -1,5 +1,16 @@
 ---
-// Radically simplified navbar: Home | Services ▾ | Sign In →
+// Gut-repair-singular nav (TJ 2026-07-09): Home | Gut Repair | Services ▾ | Sign In.
+// The 5 direct-buy Rx lanes demoted from top-level into the Services mega-menu
+// under "Prescription Therapies" — still crawlable + footer-linked for SEO.
+
+// Prescription Therapies — direct-buy Rx (moved out of the top bar).
+const rxItems = [
+  { label: 'GLP-1 Weight Loss', href: '/rx/weight-loss' },
+  { label: 'Testosterone & ED', href: '/rx/testosterone-ed' },
+  { label: 'Leaky Gut Rx',      href: '/rx/leaky-gut' },
+  { label: 'Regenerative Medicine', href: '/rx/regenerative-medicine' },
+  { label: 'Peptides Rx',       href: '/rx/peptides' },
+];
 
 const frameworkItems = [
   { label: 'Mind',     href: '/pillars/mind' },
@@ -81,12 +92,8 @@ const programItems = [
     <!-- Desktop nav: Home + Services dropdown + Sign In (8 categories moved to homepage CTA band) -->
     <ul class="nav-links" id="nav-links" role="menubar">
 
-      <!-- Direct-buy Rx lane — 3 top-level CTAs between Services and Sign In -->
-      <li class="nav-rx-item" role="none"><a href="/rx/weight-loss" class="nav-rx-link">GLP-1 Rx</a></li>
-      <li class="nav-rx-item" role="none"><a href="/rx/testosterone-ed" class="nav-rx-link">Testosterone Rx</a></li>
-      <li class="nav-rx-item" role="none"><a href="/rx/leaky-gut" class="nav-rx-link">Leaky Gut Rx</a></li>
-      <li class="nav-rx-item" role="none"><a href="/rx/regenerative-medicine" class="nav-rx-link">Regenerative Rx</a></li>
-      <li class="nav-rx-item" role="none"><a href="/rx/peptides" class="nav-rx-link">Peptides Rx</a></li>
+      <!-- Featured single solution — gut repair leads the whole brand -->
+      <li class="nav-featured-item" role="none"><a href="/solutions/gut" class="nav-featured-link">Gut Repair</a></li>
 
       <!-- Services mega-menu -->
       <li class="dd-trigger" role="none" id="dd-services">
@@ -135,6 +142,14 @@ const programItems = [
               </div>
             </div>
 
+            <!-- Prescription Therapies — direct-buy Rx (demoted from top nav 2026-07-09) -->
+            <div class="mega-section">
+              <p class="mega-heading">Prescription Therapies</p>
+              {rxItems.map((item) => (
+                <a href={item.href} class="mega-link">{item.label}</a>
+              ))}
+            </div>
+
             <!-- Programs — its own column -->
             <div class="mega-section">
               <p class="mega-heading">Programs</p>
@@ -168,13 +183,9 @@ const programItems = [
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
 
-    <!-- Direct-buy Rx lane (mobile) -->
+    <!-- Featured single solution — gut repair leads (mobile) -->
     <div class="mobile-rx-block">
-      <a href="/rx/weight-loss" class="mobile-rx-link">GLP-1 Weight Loss Rx</a>
-      <a href="/rx/testosterone-ed" class="mobile-rx-link">Testosterone / ED Rx for Men</a>
-      <a href="/rx/leaky-gut" class="mobile-rx-link">Leaky Gut Repair Rx</a>
-      <a href="/rx/regenerative-medicine" class="mobile-rx-link">Regenerative Medicine Rx</a>
-      <a href="/rx/peptides" class="mobile-rx-link">Peptides Rx</a>
+      <a href="/solutions/gut" class="mobile-rx-link">Gut Repair — Start Here</a>
     </div>
 
     <!-- Services accordion (8 categories live inside Services mega-menu, not at top of mobile menu) -->
@@ -235,6 +246,19 @@ const programItems = [
         </button>
         <ul class="mobile-sub-list" id="mobile-more" hidden>
           {moreItems.map((item) => (
+            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+          ))}
+        </ul>
+
+        <!-- Prescription Therapies (mobile) -->
+        <button class="mobile-sub-btn" aria-expanded="false" aria-controls="mobile-rx">
+          Prescription Therapies
+          <svg class="chevron" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="mobile-sub-list" id="mobile-rx" hidden>
+          {rxItems.map((item) => (
             <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
           ))}
         </ul>
@@ -353,25 +377,27 @@ const programItems = [
   .mobile-rx-link { display: block; padding: 0.7rem 1rem; background: var(--accent); color: #fff; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; text-decoration: none; border-radius: 8px; text-align: center; }
   .mobile-rx-link:hover { opacity: 0.9; }
 
-  /* ── Direct-buy Rx CTA nav items ── */
-  .nav-rx-item { list-style: none; }
-  .nav-rx-link {
+  /* ── Featured single solution — Gut Repair ── */
+  .nav-featured-item { list-style: none; }
+  .nav-featured-link {
     display: inline-block;
-    padding: 0.42rem 0.78rem;
+    padding: 0.42rem 1.1rem;
     font-family: 'Inter', sans-serif;
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    color: #fff;
-    background: var(--accent);
+    letter-spacing: 0.01em;
+    color: #0a1f44;
+    background: linear-gradient(135deg, #e3c98b, #d4af5a);
     text-decoration: none;
     border-radius: 999px;
     white-space: nowrap;
     margin-left: 0.45rem;
-    transition: opacity 0.12s, transform 0.12s;
+    box-shadow: 0 2px 10px rgba(212,175,90,0.35);
+    transition: opacity 0.12s, transform 0.12s, box-shadow 0.12s;
   }
-  .nav-rx-link:hover { opacity: 0.9; transform: translateY(-1px); }
+  .nav-featured-link:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,175,90,0.5); }
   @media (min-width: 961px) and (max-width: 1280px) {
-    .nav-rx-link { font-size: 0.72rem; padding: 0.38rem 0.6rem; margin-left: 0.3rem; }
+    .nav-featured-link { font-size: 0.82rem; padding: 0.4rem 0.85rem; margin-left: 0.3rem; }
   }
   @media (max-width: 960px) {
     .nav-rx-item { display: none; }
@@ -430,10 +456,13 @@ const programItems = [
 
   /* ── Mega-menu panel ── */
   .mega-panel {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    width: 1140px;
+    /* Fixed + viewport-centered: 6 columns no longer fit anchored to the
+       Services trigger without clipping the right edge (2026-07-09). */
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1240px;
     /* Defensive on mobile: even though .nav-links is display:none < 961px,
        some browsers still measure absolute children for the document scroll
        width. Clamp here so the panel can never exceed the viewport width. */
@@ -449,14 +478,16 @@ const programItems = [
   .mega-panel[hidden] { display: none; }
 
   @keyframes ddFadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translate(-50%, -6px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
   }
 
   .mega-grid {
     display: grid;
-    grid-template-columns: 1fr 1.1fr 1.1fr 2.2fr 1fr;
-    gap: 0 1.4rem;
+    /* 6 columns since Prescription Therapies joined (2026-07-09):
+       framework · categories · environment · more(2-col list) · rx · programs */
+    grid-template-columns: 0.9fr 1.15fr 1fr 1.9fr 1.05fr 1fr;
+    gap: 0 1.25rem;
   }
   .mega-more-list {
     column-count: 2;
