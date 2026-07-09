@@ -414,7 +414,7 @@
           <button class="more" onclick={() => toggleExpand('biome')}>{expanded['biome'] ? 'Hide' : 'Why'}</button>
           {#if expanded['biome']}
             <div class="exp">
-              BPC-157 oral is added to your protocol at your consult — it ships with your GLP-1 prescription.
+              Biome NS Rx — our proprietary gut-repair prescription, written to your needs — can be added at your consult.
               <a class="lnk" href="https://my4mlife.com/cart?sku=consult-comprehensive">Book your consult</a>
             </div>
           {/if}

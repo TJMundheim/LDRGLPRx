@@ -2563,7 +2563,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most men over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
 **What it pairs with:** Everything. Specifically amplifies the D3+K2 stack (fat-soluble absorption), the omega-3+CoQ10 softgel (anti-inflammatory synergy), and any nootropic peptide (cleaner substrate to act on).
 **What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some men report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
-**Two Paths note:** Pairs with the prescription gut-barrier peptide protocol (BPC-157 + L-glutamine + aloe, oral compounded) on top — same anchor, deeper repair.
+**Two Paths note:** Pairs with our proprietary compounded gut-barrier prescription (physician-written to your needs) on top — same anchor, deeper repair. See my4mlife.com.
 
 > *The gut-brain seal that protects cognitive longevity.*
 
@@ -2663,12 +2663,12 @@ What follows is one page per product, in the order you'd actually add them. Then
 
 ---
 
-## Prescription Gut-Barrier Peptide Protocol (BPC-157 + L-Glutamine + Aloe)
+## Prescription Gut-Barrier Protocol (proprietary compounded Rx)
 
 **Tier:** Rx single-active add-on (compounded via licensed telemed partner)
 **When:** Morning, on top of the OTC gut-barrier probiotic
 **Dose:** Per prescription
-**What it is:** Oral BPC-157 + L-glutamine + aloe. Single-active Rx tier that pairs on top of the OTC anchor. See my4mlife.com for the current Rx gut protocol.
+**What it is:** A proprietary compounded gut-barrier prescription, written by a physician to your individual needs. Pairs on top of the OTC anchor. See my4mlife.com for the current Rx gut protocol.
 **Why it's in the stack:** When the OTC seal is doing its job but you have a longer history of insult — NSAID years, antibiotic courses, alcohol decades, prior ulcer, chronic reflux — BPC-157 adds a regenerative repair signal that the OTC tier can't reach. This is the deeper-tier gut repair lane.
 **What it pairs with:** Gut-barrier probiotic (the anchor pair — never run Rx without the OTC base). D3+K2 stack (D3 amplifies barrier repair).
 **What to watch for in the first 30 days:** Reflux and post-meal discomfort drop sharply. Stool quality improves further. Energy and mood floor lifts as endotoxin load drops.
@@ -3219,7 +3219,7 @@ The OTC stack and the lifestyle protocols carry most men a long way. Some men ne
 |---|---|---|
 | **Hormones** (low T symptoms, Q8 ≥ 3) | Hormone consult — labs + coach-led titration | Full hormone panel first — coach reviews — Rx if labs and symptoms align |
 | **Weight** (Q3 ≥ 3, metabolic markers) | GLP-1 telemed consult — semaglutide / tirzepatide / retatrutide candidacy | Intake — labs reviewed — telemed visit — compounded pharmacy ships monthly |
-| **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Prescription gut-barrier peptide consult — oral BPC-157 + L-glutamine + aloe | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
+| **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Prescription gut-barrier consult — proprietary compounded Rx, physician-written | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
 | **Sleep** (Q2 ≥ 3, clotting/circulation factors) | Sleep Rx consult — nattokinase circulation tier | Sleep intake — coag and lipid review — Rx if indicated |
 | **Cognitive optimization** (Q7 ≥ 3, no diagnosis) | Nootropic peptide consult — Cerebrolysin / Semax / Selank | Cognitive intake — telemed visit — peptide protocol mailed |
 | **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **Regenerative therapies consult (TIME-SENSITIVE)** | Regenerative protocol intake — records reviewed — nationwide mobile delivery scheduled |

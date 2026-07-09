@@ -25,7 +25,7 @@ export type SolutionRow = {
 export const SOLUTIONS: Record<string, SolutionRow> = {
   gut: {
     otc: { skuId: 'biome-ns-ultra-sub', name: 'Biome NS Ultra', tagline: 'Daily gut-brain seal powder — L-glutamine, DGL, berberine, aloe, curcumin, zinc carnosine. The foundational starting protocol.' },
-    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'Biome NS Rx (BPC-157 + L-Glutamine + Aloe)', tagline: 'Proprietary compounded triple-action stack — barrier repair + epithelial fuel + mucosal soothing in one prescription. Stacks on top of Biome NS Ultra. Prescribed via our telemedicine partner.' },
+    rx: { skuId: 'consult-comprehensive', basicSkuId: 'consult-basic', name: 'Biome NS Rx — proprietary compounded prescription', tagline: 'Our proprietary deeper-repair Rx, compounded and written by your physician to your specific needs. Unique to My4MLife — you won\'t find this formulation anywhere else. Stacks on top of Biome NS Ultra. Prescribed via our telemedicine partner.' },
   },
   sleep: {
     otc: { skuId: 'sleeprestore-sub', name: 'SleepRestore', tagline: 'Magnesium bisglycinate + glycine + apigenin + L-theanine + KSM-66 ashwagandha. Sleep architecture + cortisol + nocturnal CV protection.' },

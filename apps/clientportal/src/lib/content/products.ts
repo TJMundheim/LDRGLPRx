@@ -17,9 +17,9 @@ export const products: Product[] = [
     category: 'rx',
     tagline: 'Triple-action gut-brain repair in one prescription.',
     description:
-      'Proprietary compounded oral formulation combining BPC-157 + L-Glutamine + aloe vera in a single prescription — designed to support gut lining integrity and reduce neuroinflammation across a 4-week cycle. Unique to My4MLife; most peptide pharmacies dispense BPC-157 alone.',
+      'Our proprietary compounded gut-repair prescription — written by your physician to your specific needs across a 4-week cycle. The formulation is unique to My4MLife; you won\'t find it anywhere else.',
     longDescription:
-      'Biome NS Rx combines BPC-157 (a pentadecapeptide with documented cytoprotective effects), L-Glutamine (primary fuel for enterocytes), and standardised aloe vera polysaccharides into a single daily oral capsule. The combination addresses the gut-brain axis from the mucosal layer upward, making it the deeper-tier Rx companion to the daily Biome NS Ultra OTC powder.',
+      'Biome NS Rx is our proprietary compounded prescription for deeper gut-brain repair — written by your physician to your individual needs and taken alongside the daily Biome NS Ultra OTC powder. The formulation is proprietary to My4MLife.',
     heroClaim: 'Repair the gut-brain axis in 28 days.',
     mechanismBullets: [
       'BPC-157 upregulates growth hormone receptor expression in gut tissue',
