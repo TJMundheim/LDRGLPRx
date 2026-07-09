@@ -2421,8 +2421,8 @@ Here is what I want you to do tonight, before you put this book down.
 **Take the free 4M Assessment at my4mlife.com/assessment.**
 
 <div style="text-align:center; margin:20px 0;">
-<img src="qr-home.png" alt="Scan to visit my4mlife.com" style="width:1.4in; height:1.4in;" />
-<div style="font-size:9pt; color:#555; margin-top:5px;">Scan to begin — <strong>my4mlife.com</strong></div>
+<img src="qr-home.png" alt="Scan to take your free assessment" style="width:1.4in; height:1.4in;" />
+<div style="font-size:9pt; color:#555; margin-top:5px;">Scan to take your free assessment — <strong>my4mlife.com/assessment</strong></div>
 </div>
 
 Ten questions. Five minutes. No payment, no credit card, no commitment beyond the five minutes.
@@ -2645,7 +2645,7 @@ Questions: support@my4mlife.com
     <em>My4MLife · 2026</em>
   </div>
   <div style="text-align:center;">
-    <img src="qr-home.png" alt="my4mlife.com" style="width:1.2in; height:1.2in;" />
+    <img src="qr-home.png" alt="Scan to take your free assessment" style="width:1.2in; height:1.2in;" />
     <div style="font-size:8.5pt; color:#555; margin-top:4px;">my4mlife.com</div>
   </div>
 </div>
