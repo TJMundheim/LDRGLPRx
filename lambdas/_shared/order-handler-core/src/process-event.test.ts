@@ -197,11 +197,15 @@ describe('processEvent', () => {
       },
     });
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
-    expect(mockLambdaSend).toHaveBeenCalledTimes(1);
-    const payload = JSON.parse(mockLambdaSend.mock.calls[0][0].input.Payload.toString());
+    // Biome purchase now sends TWO emails: the free gut-repair guide (to the
+    // customer) + the coordinator ship notification (to drtj@).
+    expect(mockLambdaSend).toHaveBeenCalledTimes(2);
+    const payloads = mockLambdaSend.mock.calls.map((c: any) => JSON.parse(c[0].input.Payload.toString()));
+    const guide = payloads.find((p: any) => /Fast Start Guide to Gut Repair/.test(p.subject || ''));
+    expect(guide).toBeTruthy();
+    const payload = payloads.find((p: any) => /Biome NS Ultra order/.test(p.subject || ''));
     expect(payload.kind).toBe('info');
     expect(payload.to).toBe('drtj@my4mlife.com');
-    expect(payload.subject).toMatch(/Biome NS Ultra order/);
     expect(payload.subject).toMatch(/One-time/);
     expect(payload.html).toContain('Mark Reynolds');
     expect(payload.html).toContain('100 Main St');
@@ -215,12 +219,16 @@ describe('processEvent', () => {
       metadata: { skuIds: 'biome-ns-ultra-sub' },
       amount_total: 12900,
     });
+    // First email (the guide) fails — must be swallowed; the order still
+    // completes and the coordinator subscription email still goes out.
     mockLambdaSend.mockRejectedValueOnce(new Error('SES down'));
     await expect(
       processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false }),
     ).resolves.not.toThrow();
-    const payload = JSON.parse(mockLambdaSend.mock.calls[0][0].input.Payload.toString());
-    expect(payload.subject).toMatch(/subscription/i);
+    const payloads = mockLambdaSend.mock.calls.map((c: any) => JSON.parse(c[0].input.Payload.toString()));
+    const coord = payloads.find((p: any) => /Biome NS Ultra order/.test(p.subject || ''));
+    expect(coord).toBeTruthy();
+    expect(coord.subject).toMatch(/subscription/i);
   });
 
   it('(k) digital fulfillment: idempotent retry does NOT re-send email', async () => {

@@ -39,6 +39,15 @@ const DIGITAL_PRODUCTS: Record<string, DigitalAsset> = {
   },
 };
 
+// Free Fast Start Gut Repair Guide — emailed with EVERY Biome NS purchase
+// (TJ 2026-07-08). Not a purchasable SKU; delivered as a bonus asset.
+const GUT_REPAIR_GUIDE: DigitalAsset = {
+  name: 'The Fast Start Guide to Gut Repair',
+  s3Key: 'fast-start-gut-repair.pdf',
+  subjectLine: 'Your free Fast Start Guide to Gut Repair (download inside)',
+  bodyIntro: 'Thank you for your Biome NS order — here is your free Fast Start Guide to Gut Repair. It has the exact dosing, what to expect week by week, and a 7-day fast start to follow while your Biome NS ships and after it arrives. Your download link is below, valid for 7 days.',
+};
+
 function makeDdb() {
   return DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 }
@@ -211,11 +220,12 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     }
   }
 
+  const firstName = ((session.metadata as Record<string, string> | null)?.['firstName'] ?? '').trim() || undefined;
+
   // 4. Digital fulfillment — idempotent across retries via its own marker.
   {
     const asset = skuId ? DIGITAL_PRODUCTS[skuId] : undefined;
     if (asset && email) {
-      const firstName = ((session.metadata as Record<string, string> | null)?.['firstName'] ?? '').trim() || undefined;
       try {
         await deliverOnce(`fulfill-digital#${e.id}`, () =>
           deliverDigitalAsset({ skuId, asset, email, firstName, orderId: session.id }));
@@ -227,6 +237,17 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   }
 
   if (firstRun) {
+    // 4a. Free Fast Start Gut Repair Guide — emailed with EVERY Biome NS
+    // purchase (TJ 2026-07-08). Best-effort bonus: a delivery failure must
+    // never fail the order (same contract as the coordinator notification).
+    if (skuId.startsWith('biome-ns-ultra') && email) {
+      try {
+        await deliverDigitalAsset({ skuId, asset: GUT_REPAIR_GUIDE, email, firstName, orderId: session.id });
+      } catch (err) {
+        console.error('[order-handler] gut-repair guide delivery failed', { orderId: session.id, error: String(err) });
+      }
+    }
+
     // 4b. Physical-product coordinator notification — Biome NS Ultra ships
     // manually (coordinator fulfills until the distribution partner is live).
     // Fire-and-forget: a notification failure must never fail the order.
@@ -267,21 +288,23 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       ?? (session.metadata as Record<string, string> | null)?.['phone']
       ?? '';
     try {
-      await deliverOnce(`fulfill-protege#${e.id}`, () => lambda.send(new InvokeCommand({
-        FunctionName: PROTEGE_SIGNUP_FN,
-        InvocationType: 'Event',
-        Payload: Buffer.from(JSON.stringify({
-          body: JSON.stringify({
-            firstName,
-            email,
-            phone: phone || '+10000000000', // protege-signup requires E.164; fallback if Stripe didn't collect
-            consent: { ai: true, protege: true },
-            welcomeEmailVariant: membership.welcomeVariant,
-          }),
-          requestContext: { http: { method: 'POST' } },
-          headers: { 'content-type': 'application/json' },
-        })),
-      }).then(() => undefined)));
+      await deliverOnce(`fulfill-protege#${e.id}`, async () => {
+        await lambda.send(new InvokeCommand({
+          FunctionName: PROTEGE_SIGNUP_FN,
+          InvocationType: 'Event',
+          Payload: Buffer.from(JSON.stringify({
+            body: JSON.stringify({
+              firstName,
+              email,
+              phone: phone || '+10000000000', // protege-signup requires E.164; fallback if Stripe didn't collect
+              consent: { ai: true, protege: true },
+              welcomeEmailVariant: membership.welcomeVariant,
+            }),
+            requestContext: { http: { method: 'POST' } },
+            headers: { 'content-type': 'application/json' },
+          })),
+        }));
+      });
     } catch (err) {
       console.error('[order-handler] Protégé membership grant failed', { orderId: session.id, skuId, error: String(err) });
       throw err;
