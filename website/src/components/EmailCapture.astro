@@ -60,9 +60,19 @@ const uid = `ec-${Math.random().toString(36).slice(2, 8)}`;
         localStorage.setItem('lead-captures-v1', JSON.stringify(existing));
       } catch (_) { /* ignore */ }
 
+      const apiBase = (import.meta as any).env?.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+
+      // Store the subscriber (Contact.newsletter=true) — the actual list.
+      try {
+        await fetch(`${apiBase}/api/lead-capture`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source }),
+        });
+      } catch (_) { /* silent — UI already shows success */ }
+
       // Notify drtj via email-sender lambda
       try {
-        const apiBase = (import.meta as any).env?.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
         await fetch(`${apiBase}/api/contact-form`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

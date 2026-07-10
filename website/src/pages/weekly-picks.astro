@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import { AFFILIATE_DISCLOSURE } from '../lib/affiliates';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WEEKLY PICKS — the hosted landing page every Wednesday email links to.
+// HARD RULE (Amazon Associates ToS): tagged links live ONLY on this page,
+// NEVER in an email body. Emails say "See this week's picks →" and link here.
+//
+// To publish a new week: edit WEEK below (date, theme, note, picks), rebuild,
+// deploy. Nothing else on this page needs to change.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const TAG = 'my4lifeamz-20';
+const amazon = (q: string) => `https://www.amazon.com/s?k=${encodeURIComponent(q)}&tag=${TAG}`;
+
+type Pick = { name: string; why: string; q: string; seller?: string };
+type Section = { heading: string; intro?: string; picks: Pick[] };
+
+const WEEK = {
+  updated: 'Week of July 8, 2026',
+  theme: 'Protein-first foundations',
+  note: 'Most of this week’s cart is fresh protein and produce — buy that locally (ribeye, ground beef 85/15 or leaner, eggs, wild-caught salmon). Below are the shelf-stable staples and protocol gear worth ordering online so they’re on your doorstep before Sunday’s cook.',
+  sections: [
+    {
+      heading: 'Pantry staples',
+      intro: 'The non-negotiables of a clean kitchen — every one passes the no-weak-links ingredient audit.',
+      picks: [
+        { name: 'Extra-virgin olive oil (harvest-dated)', why: 'Your default cooking and finishing fat. Harvest-dated single-origin bottles are the freshness tell.', q: 'california olive ranch extra virgin olive oil harvest dated' },
+        { name: 'Grass-fed beef tallow', why: 'The high-heat searing fat for your Sunday ribeye — zero seed oils.', q: 'grass fed beef tallow cooking' },
+        { name: 'Redmond Real Salt', why: 'Unrefined, no anti-caking agents. Salting protein generously supports the fasted-training electrolyte picture.', q: 'redmond real salt ancient sea salt' },
+        { name: 'Organic green tea (loose leaf or bags)', why: 'The default social and afternoon pour on this protocol.', q: 'organic green tea sencha' },
+      ],
+    },
+    {
+      heading: 'Protocol staples',
+      intro: 'What the cohort is actually using this month.',
+      picks: [
+        { name: 'Thorne Creatine', why: 'Five grams daily — the single best-evidenced supplement for muscle and cognition together. NSF Certified for Sport.', q: 'Thorne creatine monohydrate', seller: 'Thorne' },
+        { name: 'Electrolyte packets (unsweetened)', why: 'Morning fasted-window hydration without breaking the fast.', q: 'LMNT electrolyte drink mix unflavored' },
+      ],
+    },
+  ] as Section[],
+};
+
+const title = 'Weekly Picks | My4MLife';
+const description = 'This week’s vetted grocery staples and protocol gear from the My4MLife cohort — updated every Wednesday.';
+const canonical = 'https://www.my4mlife.com/weekly-picks';
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <main class="wp-page">
+    <header class="wp-hero">
+      <p class="wp-kicker">Updated every Wednesday</p>
+      <h1>Weekly Picks</h1>
+      <p class="wp-sub">{WEEK.updated} — <strong>{WEEK.theme}</strong></p>
+      <p class="wp-note">{WEEK.note}</p>
+    </header>
+
+    {WEEK.sections.map((section) => (
+      <section class="wp-section">
+        <h2>{section.heading}</h2>
+        {section.intro && <p class="wp-intro">{section.intro}</p>}
+        <div class="wp-grid">
+          {section.picks.map((p) => (
+            <article class="wp-card">
+              <h3>{p.name}</h3>
+              <p>{p.why}</p>
+              {p.seller && (
+                <p class="wp-verify"><strong>Verify "Sold by: {p.seller}"</strong> on the listing — the only authorized Amazon reseller.</p>
+              )}
+              <a class="wp-cta" href={amazon(p.q)} target="_blank" rel="nofollow sponsored noopener">Order via Amazon →</a>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="wp-section wp-equipment">
+      <h2>Starting the program this week?</h2>
+      <p class="wp-intro">
+        Order your tracking gear first — blood pressure monitor, pulse oximeter, and the two
+        pieces of strength equipment the program uses.
+      </p>
+      <a class="wp-cta wp-cta-outline" href="/equipment">See the equipment list →</a>
+    </section>
+
+    <section class="wp-signup">
+      <h2>Get the picks in your inbox</h2>
+      <p>One email every Wednesday: the week's cart, the Sunday cook, nothing else.</p>
+      <EmailCapture source="weekly-picks" buttonLabel="Send me the picks" successMessage="You're on the list — see you Wednesday." dark={true} />
+    </section>
+
+    <p class="wp-disclosure">{AFFILIATE_DISCLOSURE}</p>
+  </main>
+</BaseLayout>
+
+<style>
+  .wp-page { max-width: 900px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+  .wp-hero { text-align: center; margin-bottom: 2.5rem; }
+  .wp-kicker { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.78rem; color: #b8912f; font-weight: 700; margin-bottom: 0.5rem; }
+  .wp-hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); color: #0a1f44; margin: 0 0 0.4rem; }
+  .wp-sub { font-size: 1.05rem; color: #33415c; margin: 0 0 1rem; }
+  .wp-note { max-width: 640px; margin: 0 auto; color: #4a5568; line-height: 1.65; }
+  .wp-section { margin: 2.75rem 0; }
+  .wp-section h2 { color: #0a1f44; font-size: 1.4rem; margin: 0 0 0.4rem; }
+  .wp-intro { color: #4a5568; margin: 0 0 1.25rem; line-height: 1.6; }
+  .wp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .wp-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; background: #fff; display: flex; flex-direction: column; }
+  .wp-card h3 { font-size: 1.02rem; color: #0a1f44; margin: 0 0 0.4rem; }
+  .wp-card p { font-size: 0.92rem; color: #4a5568; line-height: 1.55; margin: 0 0 0.75rem; }
+  .wp-verify { font-size: 0.82rem !important; color: #7a5c12 !important; }
+  .wp-cta { margin-top: auto; display: inline-block; background: #0a1f44; color: #fff; padding: 0.6rem 1.1rem; border-radius: 8px; font-weight: 600; font-size: 0.92rem; text-decoration: none; text-align: center; }
+  .wp-cta:hover { background: #14306b; }
+  .wp-cta-outline { background: transparent; color: #0a1f44; border: 2px solid #0a1f44; }
+  .wp-cta-outline:hover { background: #0a1f44; color: #fff; }
+  .wp-equipment { border-top: 1px solid #e2e8f0; padding-top: 2rem; }
+  .wp-signup { background: #0a1f44; border-radius: 16px; padding: 2.25rem 1.75rem; text-align: center; margin: 3rem 0 2rem; }
+  .wp-signup h2 { color: #fff; margin: 0 0 0.4rem; font-size: 1.35rem; }
+  .wp-signup p { color: #c9d4e8; margin: 0 0 1.25rem; }
+  .wp-disclosure { font-size: 0.78rem; color: #8b96a8; text-align: center; line-height: 1.55; }
+</style>
