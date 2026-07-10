@@ -1,10 +1,27 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-07-05 · self-contained current-state snapshot
+# Last updated: 2026-07-10 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
-## ⚡ 2026-07-07→09 SESSION LEDGER (Fable) — audit sweep + measurements + gut-repair guide — read this first
+## ⚡ 2026-07-10 SESSION LEDGER (Fable) — tidy-up sweep (TJ delegation: "I'll work on 1 and 2, you take the rest")
+
+**SHIPPED & LIVE (all committed/pushed/deployed):**
+- **Newsletter capture LIVE (was a black hole).** `lambdas/lead-capture` rewritten as merge-upsert: `Contact.newsletter=true` + `newsletterSource` + `newsletterAt`, all creation fields `if_not_exists` (never downgrades a Protégé/customer row); CORS allowlist; deployed via new full `lambdas/lead-capture/infra/deploy.sh` (role scoped to logs + `dynamodb:UpdateItem` on Contact only). Route `POST /api/lead-capture` + OPTIONS on API v9svm8ds74 — live-verified end-to-end (test row created, checked, deleted). `EmailCapture.astro` now POSTs `{email, source}` there IN ADDITION to the drtj notify email. **Subscriber query:** scan Contact for `newsletter=true`.
+- **/weekly-picks page LIVE** (`website/src/pages/weekly-picks.astro`) — the hosted tagged-Amazon-links page every Wednesday email must link to (HARD RULE: no tagged links in email bodies). Data-driven: edit the `WEEK` object → rebuild → deploy. First edition: pantry staples + protocol staples (6 tagged links), equipment cross-link, EmailCapture signup band (source `weekly-picks`), Associates disclosure.
+- **ED early-signs sweep DONE (site).** ⚠️ LESSON: `oneliner` prop is NOT rendered on `compact` SolutionPage — put copy in visible body. ED canary now in: pillars/mind cognitive card, solutions/cognitive Why-This-Matters list (+ link to /solutions/erectile-dysfunction), solutions/hormones why-list ("bedroom goes quiet first"), low-T blog symptom list. Book (Ch7 + glossary + closing) and workbook (§1 + §9) already carried it. All live-verified post-invalidation.
+- **Founder shoot list delivered:** `docs/design/founder-shoot-list.md` — 12 shots, brand grade for the photographer, 40/25/15/10/10 coverage math, A/B plan. TJ books the photographer.
+- **Per-route API throttling applied** via new `infra/api-throttling.sh` (idempotent): request-otp/audit-complete/protege-signup/send-app-link = 1 rps burst 3; contact-form/lead-capture/Stripe/patient-record-intake = 2 rps burst 5; stage default stays 10/50. WAF + CAPTCHA still open (cost call for TJ).
+- **Old Desktop repo copy DELETED** after final sweep. Recovered first (byte-verified into new repo): `.claude/settings.local.json`, `infra/clientportal/.state.env`, `infra/website/.state.env`, `.secrets-local/admin-demo-auth-password.txt`. Remaining untracked were iCloud "… 2.*" conflict dupes — discarded. Symlink `~/Desktop/Development/LDRGLPRx → ~/Development/LDRGLPRx` intact.
+- **(Prior turn, this session:) Programs menu fixed** — dead Buy-the-Book link removed; 3 book formats (Ebook/Paperback/Hardback-for-cohorts) all → Amazon dp/B0H7FJRHXC, no prices (TJ choice); Buy-the-App + Cohort Workbook placeholders removed.
+
+**OPEN / NEXT:**
+1. TJ's own tasks: live $149 order test → refund · KDP v16 upload (on his Desktop).
+2. **Split book format links** when TJ provides paperback + hardback Amazon URLs (all three currently → the Kindle ASIN page).
+3. Wednesday email workflow: first real send should link to /weekly-picks; weekly edit = `WEEK` object in weekly-picks.astro.
+4. Logbook v1 full build · homepage flagship Biome band · contextual gut links in services pages · Search Console Rx-term check · ~15 long-tail solution images · blog headers from images/editorial/ · WAF/CAPTCHA.
+
+## ⚡ 2026-07-07→09 SESSION LEDGER (Fable) — audit sweep + measurements + gut-repair guide
 
 **SHIPPED & LIVE this session (all committed/pushed/deployed):**
 - **Red/green audit FULLY CLEARED (44 findings).** Multi-agent audit (5 red finders + adversarial verifiers + green team) → 44 confirmed (5 crit / 16 high / 13 med / 10 low). ALL fixed + deployed across website, app, 6 lambdas, 2 AppSync resolvers. Punch list: `docs/audit/red-green-2026-07-07.md`. Criticals: rx SetupIntent re-confirm trap (all 5 questionnaires), charge-on-approval double-charge (Stripe idempotency keys + payment-status guard), stale-v1 welcome PDFs (env vars fixed + verified live), upsertMyProfile privilege escalation (resolver denylist, verified via `aws appsync evaluate-code`), unauth PHI overwrite (merge not blind Put). Program engine now consistent: signup-week anchoring everywhere, partial-first-week Move fairness (`effectiveTarget`), DST-safe `calendarWeek`, retired-id read aliasing, reactive PWA clock, unified grid/Move/score week window.
