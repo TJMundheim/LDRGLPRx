@@ -70,11 +70,16 @@ const moreItems = [
   { label: 'Healthcare Access',        href: '/solutions/healthcare-access' },
 ];
 
+// Book sold on Amazon — no prices shown (Amazon shows live price; never stale).
+// TJ 2026-07-10: wants a SEPARATE Amazon link per format. Only the Kindle ASIN
+// (dp/B0H7FJRHXC) is known — all three point there for now (that page shows all
+// formats via Amazon's selector). PENDING: TJ's paperback + hardback URLs to split.
+const BOOK_AMAZON = 'https://www.amazon.com/dp/B0H7FJRHXC';
 const programItems = [
   { label: 'Take the Free Personalized Assessment', href: '/assessment' },
-  { label: 'Buy the Book — $79.99', href: '/products/begin-with-the-end-in-mind' },
-  { label: 'Buy the App — $69.99', href: '/products/my4mlife-app' },
-  { label: 'Cohort Workbook (PDF) — $2.50', href: '/products/cohort-workbook' },
+  { label: 'The Book — Ebook (Kindle)', href: BOOK_AMAZON, external: true },
+  { label: 'The Book — Paperback', href: BOOK_AMAZON, external: true },
+  { label: 'The Book — Hardback (for cohorts)', href: BOOK_AMAZON, external: true },
   { label: 'Blog',             href: '/blog' },
   { label: 'About',            href: '/about' },
 ];
@@ -154,7 +159,7 @@ const programItems = [
             <div class="mega-section">
               <p class="mega-heading">Programs</p>
               {programItems.map((item) => (
-                <a href={item.href} class="mega-link">{item.label}</a>
+                <a href={item.href} class="mega-link" {...(item.external ? { target: '_blank', rel: 'noopener' } : {})}>{item.label}</a>
               ))}
             </div>
 
@@ -272,7 +277,7 @@ const programItems = [
         </button>
         <ul class="mobile-sub-list" id="mobile-programs" hidden>
           {programItems.map((item) => (
-            <li><a href={item.href} class="mobile-link">• {item.label}</a></li>
+            <li><a href={item.href} class="mobile-link" {...(item.external ? { target: '_blank', rel: 'noopener' } : {})}>• {item.label}</a></li>
           ))}
         </ul>
 
