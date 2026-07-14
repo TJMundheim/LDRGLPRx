@@ -445,82 +445,61 @@ function loadAuditScores(): AuditScores | null {
   } catch (e) { if (DEBUG) console.debug('[4M] loadAuditScores error:', e); return null; }
 }
 
-// Scoring rules locked 2026-06-01 (revised mid-assessment — mirror in
+// Scoring rules (TJ 2026-07-13, 20-question assessment — mirror in
 // website assessment.astro + website/src/data/audit-questions.ts +
 // website/src/lib/survey-scoring.ts):
-//   - already-diagnosed >= 3 → automatic #1 in top-3 (override)
-//   - already-diagnosed 0/1/2 → ranked normally with raw score, no bonus
-//   - gut-microbiome and weight-body-fat get +2 bonus
-//   - everything else uses raw score only (no bonus)
+//   - already-diagnosed is a Yes/No FLAG (transmitted 0|5) — NEVER ranked;
+//     it routes to regenerative medicine outside the top-3
+//   - gut-microbiome +3, weight-body-fat +2 (bonus forfeited at raw 0)
+//   - ties break by question order (pillar order embedded in AUDIT_CATEGORIES)
 const AUDIT_BONUS_BY_ID: Record<string, number> = {
-  'gut-microbiome': 2,
+  'gut-microbiome': 3,
   'weight-body-fat': 2,
 };
 
 function selectTop3(scores: AuditScores): Array<{ label: string; score: number }> {
-  const diagId = 'already-diagnosed';
-  const diagScore = scores[diagId] ?? 0;
-
-  // Override: diag >= 3 → forced #1, remaining 2 from others.
-  if (diagScore >= 3) {
-    const diagCat = AUDIT_CATEGORIES.find(c => c.id === diagId);
-    const others = AUDIT_CATEGORIES
-      .filter(cat => cat.id !== diagId)
-      .map(cat => ({
-        label: cat.label,
-        id: cat.id,
-        raw: scores[cat.id] ?? 0,
-        bonus: AUDIT_BONUS_BY_ID[cat.id] ?? 0,
-        priorityTier: cat.priorityTier,
-      }))
-      .filter(x => x.raw > 0)
-      .map(x => ({ ...x, total: x.raw + x.bonus }))
-      .sort((a, b) => {
-        if (b.total !== a.total) return b.total - a.total;
-        if (b.bonus !== a.bonus) return b.bonus - a.bonus;
-        if (a.priorityTier && !b.priorityTier) return -1;
-        if (!a.priorityTier && b.priorityTier) return 1;
-        return a.id.localeCompare(b.id);
-      });
-    return [
-      ...(diagCat ? [{ label: diagCat.label, score: diagScore }] : []),
-      ...others.slice(0, 2).map(({ label, total }) => ({ label, score: total })),
-    ];
-  }
-
-  // Diagnosis 0/1/2: rank all categories normally with raw + bonus.
-  const sorted = AUDIT_CATEGORIES
-    .map(cat => ({
+  return AUDIT_CATEGORIES
+    .map((cat, i) => ({
       label: cat.label,
       id: cat.id,
+      order: i,
       raw: scores[cat.id] ?? 0,
-      bonus: AUDIT_BONUS_BY_ID[cat.id] ?? 0,
-      priorityTier: cat.priorityTier,
     }))
-    .filter(x => x.raw > 0)
-    .map(x => ({ ...x, total: x.raw + x.bonus }))
+    .filter(x => x.id !== 'already-diagnosed' && x.raw > 0)
+    .map(x => ({ ...x, total: x.raw + (AUDIT_BONUS_BY_ID[x.id] ?? 0) }))
     .sort((a, b) => {
       if (b.total !== a.total) return b.total - a.total;
-      if (b.bonus !== a.bonus) return b.bonus - a.bonus;
-      if (a.priorityTier && !b.priorityTier) return -1;
-      if (!a.priorityTier && b.priorityTier) return 1;
-      return a.id.localeCompare(b.id);
-    });
-  return sorted.slice(0, 3).map(({ label, total }) => ({ label, score: total }));
+      return a.order - b.order;
+    })
+    .slice(0, 3)
+    .map(({ label, total }) => ({ label, score: total }));
 }
 
-function auditBand200(total: number): { label: string; color: string; bg: string } {
-  // Risk bands tuned to the 10-category Personal Risk Assessment (legacy thresholds).
-  if (total <= 24) return { label: 'Low', color: C.goodBright, bg: 'rgba(46,158,107,.14)' };
-  if (total <= 48) return { label: 'Moderate', color: C.warn, bg: 'rgba(212,146,10,.08)' };
+/**
+ * Total + max for stored audit scores (0-5 per item). Scale-aware: works for
+ * both the legacy 10-question set and the 20-question set (2026-07-13) —
+ * max is derived from the stored keys. 'already-diagnosed' is a flag, not a
+ * scored item, so it's excluded from both.
+ */
+function auditTotals(scores: AuditScores): { total: number; max: number } {
+  const entries = Object.entries(scores).filter(([id]) => id !== 'already-diagnosed');
+  const total = entries.reduce((a, [, v]) => a + (Number(v) || 0), 0);
+  return { total, max: Math.max(entries.length * 5, 5) };
+}
+
+function auditBand200(total: number, max = 100): { label: string; color: string; bg: string } {
+  // Percent-of-max bands aligned with the website's 15/35 thresholds.
+  const pct = max > 0 ? total / max : 0;
+  if (pct <= 0.15) return { label: 'Low', color: C.goodBright, bg: 'rgba(46,158,107,.14)' };
+  if (pct <= 0.35) return { label: 'Moderate', color: C.warn, bg: 'rgba(212,146,10,.08)' };
   return { label: 'Elevated', color: C.crit, bg: 'rgba(224,92,42,.08)' };
 }
 
 function renderAuditSummaryCard(): string {
   const scores = loadAuditScores();
   if (!scores) return '';
-  const total = Object.values(scores).reduce((a, b) => a + b, 0);
-  const band = auditBand200(total);
+  const { total, max } = auditTotals(scores);
+  const band = auditBand200(total, max);
   const top3 = selectTop3(scores);
 
   const top3Html = top3.map(item => `
@@ -537,11 +516,11 @@ function renderAuditSummaryCard(): string {
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
         <div class="card-title" style="color:${band.color}">Your Personal Risk Assessment</div>
-        <div style="font-size:11px;color:${C.muted}">10-category intake assessment</div>
+        <div style="font-size:11px;color:${C.muted}">MindSpan intake assessment</div>
       </div>
       <div style="text-align:right">
         <div style="font-size:42px;font-weight:800;color:${band.color};line-height:1">${total}</div>
-        <div style="font-size:9px;color:${C.muted}">/ 50</div>
+        <div style="font-size:9px;color:${C.muted}">/ ${max}</div>
         <div style="font-size:10px;font-weight:700;color:${band.color};margin-top:2px">${band.label}</div>
       </div>
     </div>
@@ -709,8 +688,8 @@ function renderDash(W: Workbook): string {
   const m = mornings(W), c = colds(W);
   // Use intake audit data (localStorage audit-v1) for dashboard stats
   const auditScores = loadAuditScores();
-  const auditTotal200 = auditScores ? Object.values(auditScores).reduce((a, b) => a + b, 0) : null;
-  const auditBand = auditTotal200 !== null ? auditBand200(auditTotal200) : null;
+  const auditTotal200 = auditScores ? auditTotals(auditScores).total : null;
+  const auditBand = auditScores && auditTotal200 !== null ? auditBand200(auditTotal200, auditTotals(auditScores).max) : null;
   const auditCategoryCount = auditScores ? Object.values(auditScores).filter(v => v > 0).length : 0;
 
   // Read name from workbook first; fall back to basics-v1 captured during intake
@@ -976,7 +955,7 @@ function renderW1(ctx: RenderContext): string {
       <div style="font-size:12px;color:${C.muted};padding:6px 0">Log Biome NS Ultra and your eating window on the <strong>dashboard tape</strong> — one tap per day, it feeds your MindSpan Score directly.</div>
     </div>
     <div style="font-size:12px;font-weight:600;color:${C.gold};margin-bottom:12px;font-style:italic">
-      Your 10-category Personal Risk Assessment was completed during intake. Review your scores on the dashboard.
+      Your MindSpan assessment was completed during intake. Review your scores on the dashboard.
     </div>
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Assessment →</button>
     <div>
@@ -1106,8 +1085,9 @@ function renderW1(ctx: RenderContext): string {
 // top 3 forward into Week 2's MITIGATE picker. Categories without a direct
 // factor in the catalog stay blank — user picks manually.
 const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
-  // Complete map (TJ 2026-07-07): every audit category auto-fills the Mitigate
-  // pickers — the member's top 3 are fixed for Month 1, no manual selection.
+  // Complete map (TJ 2026-07-07; extended 2026-07-13 for the 20-question
+  // assessment): every audit category auto-fills the Mitigate pickers — the
+  // member's top 3 are fixed for Month 1, no manual selection.
   'gut-microbiome': 'Gut microbiome health',
   'sleep': 'Sleep quality & duration',
   'weight-body-fat': 'Excess body fat',
@@ -1118,6 +1098,21 @@ const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
   'environment': 'Sunlight & vitamin D',
   'erectile-dysfunction': 'Physical inactivity & injuries',
   'hormone-balance': 'Excess body fat',
+  // 20-question additions (nearest factor in the catalog):
+  // Combined item (TJ 2026-07-14): maps to the dental factor — it's the
+  // actionable Mitigate protocol of the three (hearing/vision are referrals).
+  'hearing-vision-dental': 'Poor dental health & oral microbiome',
+  'mood': 'Mental health & mental wellness',
+  'social-connection': 'Social isolation & lack of purpose',
+  'mental-challenge': 'Cognitive disengagement',
+  'movement-strength': 'Physical inactivity & injuries',
+  'pain-injury': 'Injury history & joint health',
+  'blood-pressure': 'Excess body fat',
+  'blood-sugar': 'Excess body fat',
+  'ldl-cholesterol': 'Excess body fat',
+  'purpose-accountability': 'Social isolation & lack of purpose',
+  // 'smoking-nicotine' has no factor in the catalog yet — picker stays blank
+  // for that one (user picks manually) until a smoking factor is added.
 };
 
 function auditTop3WithIds(): Array<{ id: string; rawScore: number }> {
@@ -1656,23 +1651,25 @@ function renderW4(W: Workbook): string {
 
   <!-- MITIGATE W4 RE-AUDIT -->
   <div class="card" style="border-left:4px solid ${C.gold}">
-    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Full Re-Assessment — 10-Category Personal Risk Assessment</div>
+    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Full Re-Assessment — MindSpan Personal Risk Assessment</div>
     <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
-      Score every category again using the 0–10 scale from your Week 1 intake.
+      Score every category again using the same scale as your Week 1 intake.
       Compare your final assessment score to your baseline to see how far you moved in 30 days.
       Week 1 scores are <strong>auto-populated from your original assessment</strong> — no manual entry needed.
     </div>
     ${(() => {
       const w1Scores = loadAuditScores() ?? {};
-      const w1Total = AUDIT_CATEGORIES.reduce((s, c) => s + (w1Scores[c.id] ?? 0), 0);
-      const w4Total = AUDIT_CATEGORIES.reduce((s, c) => s + (Number(W.w4audit[c.id]) || 0), 0);
+      const scoredCats = AUDIT_CATEGORIES.filter(c => c.id !== 'already-diagnosed');
+      const w1Total = scoredCats.reduce((s, c) => s + (w1Scores[c.id] ?? 0), 0);
+      const w4Total = scoredCats.reduce((s, c) => s + (Number(W.w4audit[c.id]) || 0), 0);
+      const wMax = Math.max(Object.keys(w1Scores).filter(k => k !== 'already-diagnosed').length, scoredCats.length) * 5;
       return `
     <div style="background:${C.goldTint};border:1.5px solid rgba(212,175,90,.3);border-radius:10px;padding:14px 16px;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div style="font-size:13px;font-weight:700;color:${C.ink}">Side-by-Side Assessment Comparison</div>
         <div style="display:flex;gap:12px;font-size:11px">
-          <span style="color:${C.muted}">Week 1 total: <strong style="color:${C.gold}">${w1Total} / 50</strong></span>
-          ${w4Total > 0 ? `<span style="color:${C.muted}">Week 4 total: <strong style="color:${C.info}">${w4Total} / 50</strong></span>` : ''}
+          <span style="color:${C.muted}">Week 1 total: <strong style="color:${C.gold}">${w1Total} / ${wMax}</strong></span>
+          ${w4Total > 0 ? `<span style="color:${C.muted}">Week 4 total: <strong style="color:${C.info}">${w4Total} / ${wMax}</strong></span>` : ''}
         </div>
       </div>
       <div style="overflow-x:auto">
@@ -1982,17 +1979,17 @@ function renderAuditReview(): string {
     return `<div class="page-title">Personal Risk Assessment</div>${backBtn}
     <div class="card"><div style="color:${C.muted};font-size:13px">No assessment data found. Complete the intake questionnaire to generate your assessment scores.</div></div>`;
   }
-  const total = Object.values(scores).reduce((a, b) => a + b, 0);
-  const band = auditBand200(total);
+  const { total, max } = auditTotals(scores);
+  const band = auditBand200(total, max);
 
-  const rows = AUDIT_CATEGORIES.map(cat => {
+  const rows = AUDIT_CATEGORIES.filter(cat => cat.id !== 'already-diagnosed' && scores[cat.id] !== undefined).map(cat => {
     const s = scores[cat.id] ?? 0;
-    const c = s <= 3 ? C.goodBright : s <= 6 ? C.warn : C.crit;
-    const barW = Math.round((s / 10) * 100);
+    const c = s <= 1 ? C.goodBright : s <= 3 ? C.warn : C.crit;
+    const barW = Math.round((s / 5) * 100);
     return `<div style="margin-bottom:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
         <span style="font-size:12px;color:${C.ink}">${esc(cat.label)}</span>
-        <span style="font-size:12px;font-weight:700;color:${c}">${s} / 10</span>
+        <span style="font-size:12px;font-weight:700;color:${c}">${s} / 5</span>
       </div>
       <div class="pbar-wrap">
         <div class="pbar-fill" style="width:${barW}%;background:${c}"></div>
@@ -2001,7 +1998,7 @@ function renderAuditReview(): string {
   }).join('');
 
   return `<div class="page-title" style="color:${band.color}">Personal Risk Assessment</div>
-  <div class="page-sub">Your 10-category intake assessment</div>
+  <div class="page-sub">Your MindSpan intake assessment</div>
   ${backBtn}
   <div class="card" style="background:${band.bg};border-color:${band.color}55;margin-bottom:20px">
     <div style="display:flex;justify-content:space-between;align-items:center">
@@ -2046,10 +2043,10 @@ export function sidebarStats(W: Workbook): {
 } {
   const m = mornings(W), c = colds(W);
   const auditScores = loadAuditScores();
-  const auditTotal200 = auditScores ? Object.values(auditScores).reduce((a, b) => a + b, 0) : null;
+  const t = auditScores ? auditTotals(auditScores) : null;
   return {
-    audit: auditTotal200 !== null ? `Assessment: ${auditTotal200} / 50` : 'Assessment: not yet completed',
-    score: auditTotal200 !== null ? `Score: ${auditTotal200} / 50` : 'Score: —',
+    audit: t !== null ? `Assessment: ${t.total} / ${t.max}` : 'Assessment: not yet completed',
+    score: t !== null ? `Score: ${t.total} / ${t.max}` : 'Score: —',
     morn: `Mornings: ${m} days`,
     cold: `Cold showers: ${c} days`
   };

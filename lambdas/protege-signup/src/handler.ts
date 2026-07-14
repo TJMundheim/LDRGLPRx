@@ -68,10 +68,22 @@ function reply(statusCode: number, body: unknown, origin?: string): APIGatewayPr
 }
 
 function randomPassword(len = 20): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-  let out = '';
-  for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random() * chars.length)];
-  return out;
+  const pools = [
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    'abcdefghijklmnopqrstuvwxyz',
+    '0123456789',
+    '!@#$%^&*',
+  ];
+  const all = pools.join('');
+  // Guarantee one char from every class — the pool's password policy requires
+  // upper + lower + digit + symbol, and a purely random draw can miss one.
+  const out = pools.map((p) => p[Math.floor(Math.random() * p.length)]);
+  for (let i = out.length; i < len; i++) out.push(all[Math.floor(Math.random() * all.length)]);
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out.join('');
 }
 
 async function ensureCognitoUser(email: string, firstName: string): Promise<{ alreadyExists: boolean; sub: string | null }> {

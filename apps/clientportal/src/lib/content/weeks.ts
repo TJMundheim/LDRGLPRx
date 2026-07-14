@@ -53,10 +53,10 @@ export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
     bg: '#085041', ac: '#1D9E75',
     label: 'Week 3',
     sub: 'Mind · Muscle · Mitigate · Motivate — full personalized assessment + gut-brain repair',
-    focus: 'Mitigate (deep focus): 10-Category Personal Risk Assessment',
+    focus: 'Mitigate (deep focus): MindSpan Personal Risk Assessment',
     pillarId: 'mitigate',
     primaryHeadline: 'Remove the risk factors stealing your brain & body.',
-    deckQuote: 'We start by removing what\'s working against you. Your 10-category Personalized Assessment.',
+    deckQuote: 'We start by removing what\'s working against you. Your MindSpan Personalized Assessment.',
   },
   4: {
     bg: '#3C3489', ac: '#6B5ED4',

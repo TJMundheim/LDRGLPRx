@@ -1,84 +1,86 @@
 import { describe, it, expect } from 'vitest';
 import { scoreToTop3, BONUS_MAP } from './survey-scoring';
+import { AUDIT_QUESTIONS } from '../data/audit-questions';
 
-const CATS = ['gut', 'sleep', 'weight', 'nutrition', 'erectile-dysfunction', 'environment', 'cognitive', 'hormones'];
+const ORDER = AUDIT_QUESTIONS.map((q) => q.id);
 
 const zeroes = (): Record<string, number> =>
-  Object.fromEntries(CATS.map((c) => [c, 0]));
+  Object.fromEntries(ORDER.map((c) => [c, 0]));
 
 describe('BONUS_MAP', () => {
-  it('matches the 2026-05-19 escalation: gut/sleep/weight +2, ED/hormones +1', () => {
+  it('matches the 2026-07-13 rule: gut +3, weight +2 (plus slug aliases)', () => {
     expect(BONUS_MAP).toEqual({
-      gut: 2, sleep: 2, weight: 2, 'erectile-dysfunction': 1, hormones: 1,
+      gut: 3, 'gut-microbiome': 3, weight: 2, 'weight-body-fat': 2,
     });
   });
 });
 
-describe('scoreToTop3', () => {
+describe('scoreToTop3 (20-question rules, 2026-07-13)', () => {
   it('returns exactly 3 ids', () => {
     const s = zeroes();
-    s.sleep = 8;
-    s.cognitive = 6;
-    s.nutrition = 4;
-    expect(scoreToTop3(s)).toHaveLength(3);
+    s.sleep = 5;
+    s.cognitive = 4;
+    s.nutrition = 3;
+    expect(scoreToTop3(s, ORDER)).toHaveLength(3);
   });
 
   it('sorts by raw score descending when no bonus categories present', () => {
     const s = zeroes();
-    s.sleep = 9;
-    s.cognitive = 7;
-    s.nutrition = 5;
-    s.environment = 3;
-    expect(scoreToTop3(s)).toEqual(['sleep', 'cognitive', 'nutrition']);
+    s.sleep = 5;
+    s.cognitive = 4;
+    s.nutrition = 3;
+    s.environment = 2;
+    expect(scoreToTop3(s, ORDER)).toEqual(['sleep', 'cognitive', 'nutrition']);
   });
 
-  it('applies gut +2 / sleep +2 / weight +2 bonuses before ranking', () => {
+  it('applies gut +3 and weight +2 before ranking', () => {
     const s = zeroes();
-    s.gut = 5;       // 5 + 2 = 7
-    s.sleep = 4;     // 4 + 2 = 6
-    s.weight = 4;    // 4 + 2 = 6
-    s.cognitive = 6; // 6 + 0 = 6
-    expect(scoreToTop3(s)[0]).toBe('gut');
-  });
-
-  it('applies ED +1 / hormones +1', () => {
-    const s = zeroes();
-    s['erectile-dysfunction'] = 6; // 6 + 1 = 7
-    s.hormones = 6;                // 6 + 1 = 7
-    s.cognitive = 7;               // 7 + 0 = 7 (ties; tier-2 bonuses win bonus tiebreak)
-    s.nutrition = 5;
-    const top3 = scoreToTop3(s);
-    expect(top3.slice(0, 2).sort()).toEqual(['erectile-dysfunction', 'hormones']);
+    s['gut-microbiome'] = 3;   // 3 + 3 = 6
+    s['weight-body-fat'] = 4;  // 4 + 2 = 6
+    s.cognitive = 5;           // 5 + 0 = 5
+    const top3 = scoreToTop3(s, ORDER);
+    expect(top3.slice(0, 2)).toEqual(['weight-body-fat', 'gut-microbiome']); // question order breaks the 6-6 tie
     expect(top3[2]).toBe('cognitive');
   });
 
-  it('tiebreak by bonus desc: gut(+2) > ED(+1) > cognitive(+0) at equal totals', () => {
+  it('forfeits the bonus when the raw score is 0 — a zero stays a zero', () => {
     const s = zeroes();
-    s.gut = 5;                     // 5+2 = 7
-    s['erectile-dysfunction'] = 6; // 6+1 = 7
-    s.cognitive = 7;               // 7+0 = 7
-    expect(scoreToTop3(s)).toEqual(['gut', 'erectile-dysfunction', 'cognitive']);
+    s.sleep = 1;
+    s.mood = 1;
+    s.alcohol = 1;
+    // gut-microbiome stays 0 despite its +3 bonus
+    expect(scoreToTop3(s, ORDER)).not.toContain('gut-microbiome');
   });
 
-  it('deterministic alphabetic tie-break when raw+bonus and bonus both equal', () => {
+  it('never ranks the already-diagnosed flag', () => {
     const s = zeroes();
-    s.cognitive = 5;
-    s.nutrition = 5;
-    s.environment = 5;
-    expect(scoreToTop3(s)).toEqual(['cognitive', 'environment', 'nutrition']);
+    s['already-diagnosed'] = 5; // flag transmitted as 5 for downstream compat
+    s.sleep = 4;
+    s.cognitive = 3;
+    s.nutrition = 2;
+    const top3 = scoreToTop3(s, ORDER);
+    expect(top3).toEqual(['sleep', 'cognitive', 'nutrition']);
   });
 
-  it('realistic full 8-category input', () => {
-    const s: Record<string, number> = {
-      gut: 4,                  // 4+2 = 6
-      sleep: 9,                // 9+2 = 11
-      weight: 6,               // 6+2 = 8
-      nutrition: 3,            // 3+0 = 3
-      'erectile-dysfunction': 2, // 2+1 = 3
-      environment: 5,          // 5+0 = 5
-      cognitive: 7,            // 7+0 = 7
-      hormones: 8,             // 8+1 = 9
-    };
-    expect(scoreToTop3(s)).toEqual(['sleep', 'hormones', 'weight']);
+  it('breaks ties by question order (pillar order embedded)', () => {
+    const s = zeroes();
+    s.mood = 4;              // Mind #4
+    s['pain-injury'] = 4;    // Muscle #10
+    s.environment = 4;       // Mitigate #19
+    s['purpose-accountability'] = 4; // Motivate #20
+    expect(scoreToTop3(s, ORDER)).toEqual(['mood', 'pain-injury', 'environment']);
+  });
+
+  it('realistic full 20-item input steers toward gut at equal severity', () => {
+    const s = zeroes();
+    s.cognitive = 3;
+    s.sleep = 4;
+    s.mood = 2;
+    s['movement-strength'] = 3;
+    s['weight-body-fat'] = 3;  // 3+2 = 5
+    s['gut-microbiome'] = 3;   // 3+3 = 6
+    s['hormone-balance'] = 4;  // 4
+    s.alcohol = 2;
+    expect(scoreToTop3(s, ORDER)).toEqual(['gut-microbiome', 'weight-body-fat', 'sleep']);
   });
 });

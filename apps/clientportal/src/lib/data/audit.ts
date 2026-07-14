@@ -1,12 +1,17 @@
 /**
- * audit.ts — 8 AuditCategory definitions matching the master top-8 taxonomy.
- * Locked 2026-05-12 — reduced from 20 to 8 (see project_top_8_categories.md).
+ * audit.ts — AuditCategory definitions matching the website's 20-question
+ * MindSpan assessment (2026-07-13, superseding the top-8/10-question set).
  *
- * Canonical order:
- *   gut-microbiome, sleep, weight-body-fat, nutrition,
- *   erectile-dysfunction, environment, cognitive, hormone-balance.
+ * Canonical order = website question order (pillar order embedded):
+ *   Mind: cognitive, sleep, hearing-vision, mood, social-connection, mental-challenge
+ *   Muscle: movement-strength, weight-body-fat, nutrition, pain-injury
+ *   Mitigate: blood-pressure, blood-sugar, ldl-cholesterol, smoking-nicotine,
+ *             alcohol, gut-microbiome, hormone-balance, erectile-dysfunction, environment
+ *   Motivate: purpose-accountability
  *
- * All 8 are priorityTier: true.
+ * 'already-diagnosed' is a Yes/No FLAG on the website (transmitted as 0|5) —
+ * kept here (last) so legacy stored scores and the regen-medicine routing
+ * still resolve, but it is excluded from top-3 ranking in renderer.ts.
  *
  * Scoring: each category accepts either a Likert anchor (1-5 → 0-10) OR
  * legacy yes/no follow-up flags. Linear map: 1→0, 5→10.
@@ -36,7 +41,7 @@ function likertScore(v: unknown): number {
 }
 
 /**
- * Generic Likert+follow-up scorer used by all 10 categories.
+ * Generic Likert+follow-up scorer used by all categories.
  * If `anchor` is a 1-5 Likert → base from likertScore. Else if `anchor`
  * is yes/true → base 5. Add 1 pt per yes follow-up (f1..f3), cap 10.
  */
@@ -55,97 +60,43 @@ function genericScore(cat: Record<string, unknown>): number {
   return clamp(s);
 }
 
+function cat(id: string, label: string): AuditCategory {
+  return {
+    id,
+    label,
+    priorityTier: true,
+    score(a) {
+      const answers = a as Record<string, Record<string, unknown>>;
+      return genericScore(answers[id] ?? {});
+    },
+  };
+}
+
 export const AUDIT_CATEGORIES: AuditCategory[] = [
-  {
-    id: 'gut-microbiome',
-    label: 'Gut health / leaky gut',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['gut-microbiome'] ?? {});
-    },
-  },
-  {
-    id: 'sleep',
-    label: 'Sleep / sleep optimization',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['sleep'] ?? {});
-    },
-  },
-  {
-    id: 'weight-body-fat',
-    label: 'Weight (BMI)',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['weight-body-fat'] ?? {});
-    },
-  },
-  {
-    id: 'nutrition',
-    label: 'Diet / nutrition',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['nutrition'] ?? {});
-    },
-  },
-  {
-    id: 'erectile-dysfunction',
-    label: 'Erectile + sexual function',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['erectile-dysfunction'] ?? {});
-    },
-  },
-  {
-    id: 'environment',
-    label: 'Environment',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['environment'] ?? {});
-    },
-  },
-  {
-    id: 'cognitive',
-    label: 'Cognitive / brain fog',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['cognitive'] ?? {});
-    },
-  },
-  {
-    id: 'hormone-balance',
-    label: 'Hormone optimization / TRT',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['hormone-balance'] ?? {});
-    },
-  },
-  // 2026-06-01: Added the 2 new website categories so the app's full-assessment
-  // view + total score include all 10 questions, matching the website.
-  {
-    id: 'already-diagnosed',
-    label: 'Already diagnosed',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['already-diagnosed'] ?? {});
-    },
-  },
-  {
-    id: 'alcohol',
-    label: 'Excessive alcohol',
-    priorityTier: true,
-    score(a) {
-      const answers = a as Record<string, Record<string, unknown>>;
-      return genericScore(answers['alcohol'] ?? {});
-    },
-  },
+  // ── Mind ──
+  cat('cognitive', 'Cognitive / brain fog'),
+  cat('sleep', 'Sleep'),
+  cat('hearing-vision-dental', 'Hearing, vision & dental'),
+  cat('mood', 'Mood'),
+  cat('social-connection', 'Social connection'),
+  cat('mental-challenge', 'Mental challenge'),
+  // ── Muscle ──
+  cat('movement-strength', 'Movement & strength'),
+  cat('weight-body-fat', 'Weight'),
+  cat('nutrition', 'Nutrition'),
+  cat('pain-injury', 'Pain / injury'),
+  // ── Mitigate ──
+  cat('blood-pressure', 'Blood pressure'),
+  cat('blood-sugar', 'Blood sugar'),
+  cat('ldl-cholesterol', 'LDL cholesterol'),
+  cat('smoking-nicotine', 'Smoking / nicotine'),
+  cat('alcohol', 'Alcohol'),
+  cat('gut-microbiome', 'Gut health'),
+  cat('hormone-balance', 'Hormones'),
+  cat('erectile-dysfunction', 'Sexual function'),
+  cat('environment', 'Environment'),
+  // ── Motivate ──
+  cat('purpose-accountability', 'Purpose & accountability'),
+  // ── Flag (not ranked — see renderer.ts) ──
+  cat('already-diagnosed', 'Already diagnosed'),
 ];

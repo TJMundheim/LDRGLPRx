@@ -23,10 +23,22 @@ const sqs = new SQSClient({ region: REGION });
 const lambda = new LambdaClient({ region: REGION });
 
 function randomPassword(len = 20): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-  let out = '';
-  for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random() * chars.length)];
-  return out;
+  const pools = [
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    'abcdefghijklmnopqrstuvwxyz',
+    '0123456789',
+    '!@#$%^&*',
+  ];
+  const all = pools.join('');
+  // Guarantee one char from every class — the pool's password policy requires
+  // upper + lower + digit + symbol, and a purely random draw can miss one.
+  const out = pools.map((p) => p[Math.floor(Math.random() * p.length)]);
+  for (let i = out.length; i < len; i++) out.push(all[Math.floor(Math.random() * all.length)]);
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out.join('');
 }
 
 async function ensureCognitoUser(email: string, firstName: string): Promise<string | null> {
@@ -184,10 +196,46 @@ export function getRecommendedRx(scores: any, top3: any[]): RxRec | null {
   return RX_MAP[candidates[0].id];
 }
 
-function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: string, workbookUrl: string): string {
+type BreakdownItem = { id: string; label: string; pillar: string; score: number };
+
+const PILLAR_NAMES: Record<string, string> = {
+  mind: 'Mind — the destination',
+  muscle: 'Muscle — the engine',
+  mitigate: 'Mitigate — remove the harm',
+  motivate: 'Motivate — make it stick',
+};
+
+/** Pillar-grouped table of all 20 item scores (0-5 each, /100 total). */
+function buildBreakdownCard(breakdown: BreakdownItem[], totalScore: number | null, band: string): string {
+  if (!Array.isArray(breakdown) || breakdown.length === 0) return '';
+  const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
+  const scoreColor = (n: number) => (n <= 1 ? '#276749' : n <= 3 ? '#a37a14' : '#c0451c');
+  const sections = ['mind', 'muscle', 'mitigate', 'motivate'].map((p) => {
+    const items = breakdown.filter((b) => b && b.pillar === p);
+    if (items.length === 0) return '';
+    const rows = items.map((b) => {
+      const n = Math.max(0, Math.min(5, Number(b.score) || 0));
+      return `<tr><td style="padding:5px 8px;font-size:13px;color:#222;border-bottom:1px solid #eef1f5">${safe(b.label)}</td><td style="padding:5px 8px;font-size:13px;font-weight:700;text-align:right;color:${scoreColor(n)};border-bottom:1px solid #eef1f5;white-space:nowrap">${n} / 5</td></tr>`;
+    }).join('');
+    return `<tr><td colspan="2" style="padding:12px 8px 4px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1a3656">${safe(PILLAR_NAMES[p] || p)}</td></tr>${rows}`;
+  }).join('');
+  const totalRow = totalScore != null
+    ? `<p style="margin:14px 0 0;font-size:14px;color:#0a1628;text-align:right"><strong>Total: ${Math.max(0, Math.min(100, Number(totalScore) || 0))} / 100</strong>${band ? ` &middot; ${safe(band)}` : ''} <span style="color:#777;font-size:12px">(lower is better)</span></p>`
+    : '';
+  return `<div style="margin:20px 0;padding:22px;border:1px solid #d7dee8;border-radius:10px;background:#fff">
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#1a3656;text-transform:uppercase;margin:0 0 8px">Your Full Results</p>
+<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">All 20 Questions, By Pillar</h2>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 8px">This is your complete baseline — the number you'll retest against at the end of the 12-week program.</p>
+<table style="width:100%;border-collapse:collapse">${sections}</table>
+${totalRow}
+</div>`;
+}
+
+function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: string, workbookUrl: string, breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = ''): string {
   const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
   const appUrl = 'https://app.my4mlife.com';
   const rxRec = getRecommendedRx(scores, top3);
+  const breakdownCard = buildBreakdownCard(breakdown, totalScore, band);
 
   const top3Items = top3.map((t: any, i: number) => {
     const label = safe(t?.label || t?.id || 'Priority ' + (i + 1));
@@ -256,6 +304,7 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${safe(firstName)}.</h1>
 <p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your assessment results, the book, the workbook, and the app. Take them in any order; they're designed to work together.</p>
 ${top3Card}
+${breakdownCard}
 ${rxCard}
 ${bookCard}
 ${workbookCard}
@@ -265,14 +314,14 @@ ${coordinatorCard}
 </div>`;
 }
 
-async function sendResultsEmail(email: string, firstName: string, scores: any, top3: any[]): Promise<void> {
+async function sendResultsEmail(email: string, firstName: string, scores: any, top3: any[], breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = ''): Promise<void> {
   let bookUrl = '';
   let workbookUrl = '';
   try { bookUrl = getBookDownloadUrl(); } catch (e) { console.warn('book URL build failed', e); }
   try { workbookUrl = getWorkbookDownloadUrl(); } catch (e) { console.warn('workbook URL build failed', e); }
 
   const subject = `Welcome to My4MLife — your results, book, workbook, and app are ready`;
-  const html = buildResultsHtml(firstName, scores, top3, bookUrl, workbookUrl);
+  const html = buildResultsHtml(firstName, scores, top3, bookUrl, workbookUrl, breakdown, totalScore, band);
   const payload = { kind: 'info', to: email, subject, html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
@@ -356,7 +405,10 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     }
 
     try {
-      await sendResultsEmail(email, firstName, (scores && typeof scores === 'object') ? scores : {}, Array.isArray(top3) ? top3 : []);
+      const breakdown: BreakdownItem[] = Array.isArray(parsed.breakdown) ? parsed.breakdown.slice(0, 24) : [];
+      const totalScore: number | null = Number.isFinite(Number(parsed.totalScore)) ? Number(parsed.totalScore) : null;
+      const band: string = typeof parsed.band === 'string' ? parsed.band.slice(0, 40) : '';
+      await sendResultsEmail(email, firstName, (scores && typeof scores === 'object') ? scores : {}, Array.isArray(top3) ? top3 : [], breakdown, totalScore, band);
     } catch (e) {
       console.warn('results email invoke failed', e);
     }

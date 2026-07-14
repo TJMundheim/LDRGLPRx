@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { AUDIT_QUESTIONS } from '../data/audit-questions';
+import { AUDIT_QUESTIONS, AUDIT_PILLARS, DIAGNOSED_QUESTION } from '../data/audit-questions';
 
-const title = "Get Your MindSpan Baseline — Free 5-minute 4M Assessment — My4MLife";
-const description = "Set your MindSpan baseline with the free 5-minute 4M Assessment. We'll email you your personalized results — along with a free copy of Begin with the End in Mind, the Cohort Workbook, and access to the Protégé app.";
+const title = "Get Your MindSpan Baseline — Free 20-Question 4M Assessment — My4MLife";
+const description = "Set your MindSpan baseline with the free 20-question 4M Assessment (about seven minutes). See your top 3 priorities on screen immediately — and we'll email your full results with a free copy of Begin with the End in Mind, the Cohort Workbook, and access to the Protégé app.";
 const canonical = "https://www.my4mlife.com/assessment";
 const keywords = "4M assessment, personalized health assessment, gut health quiz, hormone balance test, cognitive health assessment, My4MLife, free health quiz";
 const robots = "index, follow";
@@ -13,12 +13,12 @@ const robots = "index, follow";
 <!-- ===== HERO ===== -->
 <section class="assess-hero">
   <div class="container assess-hero-inner">
-    <div class="assess-badge">FREE · 5 MINUTES · NO ACCOUNT REQUIRED</div>
-    <h1>Set your <em>MindSpan baseline</em> — free 5-minute 4M Assessment</h1>
-    <p class="assess-sub">This is where your MindSpan Score starts. We'll email you your personalized results — along with a free copy of <em>Begin with the End in Mind</em>, the <em>Cohort Workbook</em>, and access to the Protégé app.</p>
+    <div class="assess-badge">FREE · ABOUT 7 MINUTES · NO ACCOUNT REQUIRED</div>
+    <h1>Set your <em>MindSpan baseline</em> — the free 20-question 4M Assessment</h1>
+    <p class="assess-sub">This is where your MindSpan Score starts. You'll see your top 3 priorities on screen immediately — and we'll email your full results, along with a free copy of <em>Begin with the End in Mind</em>, the <em>Cohort Workbook</em>, and access to the Protégé app.</p>
     <div class="assess-meta">
-      <span class="assess-chip">10 questions</span>
-      <span class="assess-chip">~5 min</span>
+      <span class="assess-chip">20 questions</span>
+      <span class="assess-chip">~7 min</span>
       <span class="assess-chip">Results + book + workbook + app</span>
       <span class="assess-chip">Private — no data sold</span>
     </div>
@@ -28,7 +28,7 @@ const robots = "index, follow";
 <!-- ===== STICKY PROGRESS HEADER ===== -->
 <div class="assess-sticky" id="assess-sticky" role="status" aria-live="polite">
   <div class="container assess-sticky-inner">
-    <span class="assess-sticky-label" id="progress-label">0 of 10 answered</span>
+    <span class="assess-sticky-label" id="progress-label">0 of 20 answered</span>
     <div class="assess-progress-bar" aria-hidden="true">
       <div class="assess-progress-fill" id="progress-fill" style="width:0%"></div>
     </div>
@@ -43,7 +43,13 @@ const robots = "index, follow";
     </div>
 
     <div class="q-list" id="q-list">
-      {AUDIT_QUESTIONS.map((q) => (
+      {AUDIT_PILLARS.map((pillar) => (
+        <>
+          <div class="pillar-header" aria-hidden="false">
+            <span class="pillar-name">{pillar.name}</span>
+            <span class="pillar-tag">{pillar.tag}</span>
+          </div>
+          {AUDIT_QUESTIONS.filter((q) => q.pillar === pillar.id).map((q) => (
         <div class="q-card" id={`card-${q.id}`} data-id={q.id} aria-label={`Question ${q.n}: ${q.prompt}`}>
           <div class="q-header">
             <span class="q-num">{q.n}</span>
@@ -81,14 +87,30 @@ const robots = "index, follow";
             <p class="guide-note">{q.categoryNote}</p>
           </div>
         </div>
+          ))}
+        </>
       ))}
+
+      <!-- Separate Yes/No flag — outside the scored audit -->
+      <div class="q-card diag-card" id="card-already-diagnosed" data-id="already-diagnosed">
+        <div class="q-header">
+          <span class="q-num">+</span>
+          <span class="q-label">One more — outside the audit</span>
+        </div>
+        <p class="q-prompt">{DIAGNOSED_QUESTION.prompt}</p>
+        <div class="diag-row" role="group" aria-label="Already diagnosed — yes or no">
+          <button class="diag-btn" id="diag-no" data-diag="no" aria-pressed="false" type="button">No</button>
+          <button class="diag-btn" id="diag-yes" data-diag="yes" aria-pressed="false" type="button">Yes</button>
+        </div>
+        <p class="guide-note diag-note">{DIAGNOSED_QUESTION.categoryNote} This doesn't count toward your score — it helps us point you to the right path.</p>
+      </div>
     </div>
 
     <div class="assess-footer">
       <button class="btn btn-primary btn-large" id="continue-btn" disabled type="button">
         See My Results &rarr;
       </button>
-      <p class="req-note" id="req-note">Answer all 10 questions to continue</p>
+      <p class="req-note" id="req-note">Answer all 20 questions to continue</p>
     </div>
   </div>
 </section>
@@ -140,9 +162,44 @@ const robots = "index, follow";
 <section class="assess-results" id="results-section" hidden>
   <div class="container assess-results-inner">
     <div class="results-header">
-      <div class="results-badge">CHECK YOUR EMAIL</div>
-      <h2 id="results-greeting">Thank you. Your MindSpan baseline is on the way.</h2>
-      <p class="results-sub">We just sent everything to your inbox in a single email.</p>
+      <div class="results-badge">YOUR RESULTS</div>
+      <h2 id="results-greeting">Thank you. Here is your MindSpan baseline.</h2>
+      <p class="results-sub">Your full results are also on the way to your inbox in a single email.</p>
+    </div>
+
+    <!-- On-screen results: score + band + top 3 (rendered by script) -->
+    <div class="results-score-block">
+      <div class="results-score-ring">
+        <span class="results-score-num" id="results-score-num">—</span>
+        <span class="results-score-max">/ 100</span>
+      </div>
+      <div class="results-band">
+        <span class="results-band-label" id="results-band-label"></span>
+        <span class="results-band-line" id="results-band-line"></span>
+      </div>
+      <p class="results-score-note">Lower is better — this is your risk load, the number your MindSpan work brings down.</p>
+    </div>
+
+    <div class="results-top3-block">
+      <h3>Your top 3 priorities</h3>
+      <p class="results-top3-sub">The areas where addressing the root cause creates the biggest ripple effect. Start at #1.</p>
+      <ol class="results-top3-list" id="results-top3-list"></ol>
+    </div>
+
+    <div class="results-diag-banner" id="results-diag-banner" hidden>
+      <h3>Because of your diagnosis, one path matters most</h3>
+      <p>You told us you've already received a neurocognitive diagnosis. That makes regenerative medicine time-sensitive — it's the first conversation to have.</p>
+      <a href="/regenerative-medicine" class="btn btn-primary">Explore the regenerative-medicine path &rarr;</a>
+    </div>
+
+    <!-- ConnectedMind mental-health module (conditional; hidden until the
+         consumer URL is configured — see CONNECTEDMIND_URL in the script) -->
+    <div class="results-cm-block" id="results-cm-block" hidden>
+      <h3>Worth a closer look: your mental health</h3>
+      <p>Mental health — especially depression and anxiety — is one of the most under-recognized contributors to cognitive decline. If that's on your mind, <strong>ConnectedMind</strong> is a clinical-grade screening you can complete in minutes and take to your own doctor. It's the best tool we've found for this.</p>
+      <a id="results-cm-link" href="#" target="_blank" rel="noopener" class="btn btn-primary">Open the ConnectedMind screening &rarr;</a>
+      <p class="results-cm-external">Opens in a new tab — you'll be leaving My4MLife.</p>
+      <p class="results-cm-boundary">This is a screening resource to share with your physician. My4MLife does not diagnose or treat mental-health conditions.</p>
     </div>
 
     <div class="results-email-block">
@@ -162,6 +219,10 @@ const robots = "index, follow";
       <a href="/consult" class="btn btn-primary btn-large">Schedule with a Care Coordinator &rarr;</a>
     </div>
 
+    <p class="results-cm-quiet" id="results-cm-quiet" hidden>
+      Optional: <a id="results-cm-quiet-link" href="#" target="_blank" rel="noopener">take the ConnectedMind mental-health screening</a> — a clinical-grade screen to share with your own doctor. (Opens in a new tab; My4MLife does not diagnose or treat mental-health conditions.)
+    </p>
+
     <p class="results-disclaimer">
       This assessment is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before making changes to your health regimen.
     </p>
@@ -174,34 +235,56 @@ const robots = "index, follow";
   var phPrev = null;
   'use strict';
 
-  // ── Data mirrored from website/src/data/audit-questions.ts ──
+  // ── Data mirrored from website/src/data/audit-questions.ts (20-question set, 2026-07-13) ──
   var QUESTIONS = [
-    { id: 'gut-microbiome',       n: '01', label: 'Gut health / leaky gut',           priorityTier: true, solutionSlug: 'gut'                  },
-    { id: 'sleep',                n: '02', label: 'Sleep / sleep optimization',       priorityTier: true, solutionSlug: 'sleep'                },
-    { id: 'weight-body-fat',      n: '03', label: 'Weight',                           priorityTier: true, solutionSlug: 'weight'               },
-    { id: 'nutrition',            n: '04', label: 'Diet / nutrition',                 priorityTier: true, solutionSlug: 'nutrition'            },
-    { id: 'erectile-dysfunction', n: '05', label: 'Erectile + sexual function',       priorityTier: true, solutionSlug: 'erectile-dysfunction' },
-    { id: 'environment',          n: '06', label: 'Environment',                      priorityTier: true, solutionSlug: 'environment'          },
-    { id: 'cognitive',            n: '07', label: 'Cognitive / brain fog',            priorityTier: true, solutionSlug: 'cognitive'            },
-    { id: 'hormone-balance',      n: '08', label: 'Hormone optimization / TRT',       priorityTier: true, solutionSlug: 'hormones'             },
-    { id: 'already-diagnosed',    n: '09', label: 'Already diagnosed',                priorityTier: true, solutionSlug: 'regenerative-medicine' },
-    { id: 'alcohol',              n: '10', label: 'Excessive alcohol',                priorityTier: true, solutionSlug: 'substance-use'        },
+    { id: 'cognitive',              n: '01', pillar: 'mind',     label: 'Cognitive / brain fog',     solutionSlug: 'cognitive'            },
+    { id: 'sleep',                  n: '02', pillar: 'mind',     label: 'Sleep',                     solutionSlug: 'sleep'                },
+    { id: 'hearing-vision-dental',  n: '03', pillar: 'mind',     label: 'Hearing, vision & dental',  solutionSlug: 'cognitive'            },
+    { id: 'mood',                   n: '04', pillar: 'mind',     label: 'Mood',                      solutionSlug: 'stress'               },
+    { id: 'social-connection',      n: '05', pillar: 'mind',     label: 'Social connection',         solutionSlug: 'purpose-goals'        },
+    { id: 'mental-challenge',       n: '06', pillar: 'mind',     label: 'Mental challenge',          solutionSlug: 'cognitive'            },
+    { id: 'movement-strength',      n: '07', pillar: 'muscle',   label: 'Movement & strength',       solutionSlug: 'muscle'               },
+    { id: 'weight-body-fat',        n: '08', pillar: 'muscle',   label: 'Weight',                    solutionSlug: 'weight'               },
+    { id: 'nutrition',              n: '09', pillar: 'muscle',   label: 'Nutrition',                 solutionSlug: 'nutrition'            },
+    { id: 'pain-injury',            n: '10', pillar: 'muscle',   label: 'Pain / injury',             solutionSlug: 'pain-chronic'         },
+    { id: 'blood-pressure',         n: '11', pillar: 'mitigate', label: 'Blood pressure',            solutionSlug: 'chronic-conditions'   },
+    { id: 'blood-sugar',            n: '12', pillar: 'mitigate', label: 'Blood sugar',               solutionSlug: 'chronic-conditions'   },
+    { id: 'ldl-cholesterol',        n: '13', pillar: 'mitigate', label: 'LDL cholesterol',           solutionSlug: 'chronic-conditions'   },
+    { id: 'smoking-nicotine',       n: '14', pillar: 'mitigate', label: 'Smoking / nicotine',        solutionSlug: 'substance-use'        },
+    { id: 'alcohol',                n: '15', pillar: 'mitigate', label: 'Alcohol',                   solutionSlug: 'alcohol'              },
+    { id: 'gut-microbiome',         n: '16', pillar: 'mitigate', label: 'Gut health',                solutionSlug: 'gut'                  },
+    { id: 'hormone-balance',        n: '17', pillar: 'mitigate', label: 'Hormones',                  solutionSlug: 'hormones'             },
+    { id: 'erectile-dysfunction',   n: '18', pillar: 'mitigate', label: 'Sexual function',           solutionSlug: 'erectile-dysfunction' },
+    { id: 'environment',            n: '19', pillar: 'mitigate', label: 'Environment',               solutionSlug: 'environment'          },
+    { id: 'purpose-accountability', n: '20', pillar: 'motivate', label: 'Purpose & accountability',  solutionSlug: 'purpose-goals'        },
   ];
 
-  // Scoring rules (locked 2026-06-01):
-  //   - already-diagnosed > 0 → automatic #1 in top-3 (override below)
-  //   - already-diagnosed = 0 → excluded from top-3 entirely
-  //   - gut-microbiome and weight-body-fat get +2 bonus
-  //   - everything else uses raw score (no bonus)
+  // Result bands over the 0-100 total.
+  var BANDS = [
+    { max: 15,  label: 'Sharp',           line: 'Protect it.' },
+    { max: 35,  label: 'Early drift',     line: 'Worth getting ahead of.' },
+    { max: 60,  label: 'Time for a plan', line: '' },
+    { max: 100, label: 'Act now',         line: 'While the choice is still yours.' },
+  ];
+
+  // ConnectedMind consumer screening URL. Leave empty until the custom
+  // consumer-facing link arrives — the module stays hidden (no dead buttons).
+  var CONNECTEDMIND_URL = '';
+
+  // Scoring rules (TJ 2026-07-13):
+  //   - already-diagnosed is a Yes/No FLAG — never ranked, never scored
+  //   - gut-microbiome +3, weight-body-fat +2 (forfeited when raw score is 0)
+  //   - ties break by question order (pillar order embedded)
   var BONUS_BY_ID = {
-    'gut-microbiome': 2,
+    'gut-microbiome': 3,
     'weight-body-fat': 2,
   };
 
-  var LS_KEY = 'public-assessment-v1';
+  var LS_KEY = 'public-assessment-v2';
 
   // ── State ──
-  var scores = {}; // { [id]: 0-5 }
+  var scores = {}; // { [id]: 0-5 } — the 20 scored items only
+  var diagnosed = null; // null = unanswered, true/false once answered
   var userName = '';
   var userEmail = '';
   var userPhone = '';
@@ -241,6 +324,7 @@ const robots = "index, follow";
           if (typeof v === 'number' && v >= 0 && v <= 5) scores[id] = v;
         }
       }
+      if (typeof saved.diagnosed === 'boolean') diagnosed = saved.diagnosed;
       if (saved.name) userName = saved.name;
       if (saved.email) userEmail = saved.email;
       if (saved.phone) userPhone = saved.phone;
@@ -251,6 +335,7 @@ const robots = "index, follow";
     try {
       localStorage.setItem(LS_KEY, JSON.stringify({
         scores: scores,
+        diagnosed: diagnosed,
         name: userName,
         email: userEmail,
         phone: userPhone,
@@ -274,34 +359,36 @@ const robots = "index, follow";
     return null;
   }
 
-  // ── selectTop3 ──
-  // Rules locked 2026-06-01, revised 2026-06-21:
-  //   - already-diagnosed > 0 → automatic #1 (neurocognitive jumps the queue); remaining 2 from others
-  //   - already-diagnosed = 0 → it drops out; the other categories rank normally
-  //   - others: raw score + BONUS_BY_ID[id] (bonus only when the raw score is > 0), higher wins,
-  //     priorityTier breaks ties. A zero stays a zero — the bonus never lifts an unmarked category.
+  // ── selectTop3 (TJ 2026-07-13) ──
+  //   - the diagnosed flag is never in the ranking (it routes separately)
+  //   - raw + bonus (bonus forfeited at raw 0 — a zero stays a zero)
+  //   - ties break by question order (pillar order Mind→Muscle→Mitigate→Motivate embedded)
   function selectTop3(scores, categories) {
-    // Adjusted score: raw + bonus, but the bonus is forfeited when the category was marked 0.
     function adj(id) {
       var raw = scores[id] !== undefined ? scores[id] : 0;
       return raw > 0 ? raw + (BONUS_BY_ID[id] || 0) : raw;
     }
-    function cmp(a, b) {
-      var sb = adj(b.id), sa = adj(a.id);
-      if (sb !== sa) return sb - sa;
-      var pb = (b.priorityTier ? 1 : 0) - (a.priorityTier ? 1 : 0);
-      if (pb !== 0) return pb;
-      return a.id.localeCompare(b.id);
+    return categories
+      .map(function (c, i) { return { cat: c, i: i, total: adj(c.id) }; })
+      .sort(function (a, b) {
+        if (b.total !== a.total) return b.total - a.total;
+        return a.i - b.i;
+      })
+      .slice(0, 3)
+      .map(function (e) { return e.cat; });
+  }
+
+  function totalScore() {
+    var t = 0;
+    for (var i = 0; i < QUESTIONS.length; i++) t += scores[QUESTIONS[i].id] || 0;
+    return t;
+  }
+
+  function bandFor(total) {
+    for (var i = 0; i < BANDS.length; i++) {
+      if (total <= BANDS[i].max) return BANDS[i];
     }
-    var diagScore = scores['already-diagnosed'] !== undefined ? scores['already-diagnosed'] : 0;
-    if (diagScore > 0) {
-      var others = categories.filter(function (c) { return c.id !== 'already-diagnosed'; });
-      others.sort(cmp);
-      var diagCat = categories.find(function (c) { return c.id === 'already-diagnosed'; });
-      return [diagCat].concat(others.slice(0, 2));
-    }
-    // No neurocognitive flag: every category ranked together (zeros keep no bonus).
-    return categories.slice().sort(cmp).slice(0, 3);
+    return BANDS[BANDS.length - 1];
   }
 
   // ── Progress ──
@@ -323,22 +410,38 @@ const robots = "index, follow";
       phPrev = count;
     }
     var pct = Math.round((count / total) * 100);
+    var allDone = count >= total && diagnosed !== null;
     var label = document.getElementById('progress-label');
     var fill = document.getElementById('progress-fill');
     var btn = document.getElementById('continue-btn');
     var note = document.getElementById('req-note');
     if (label) label.textContent = count + ' of ' + total + ' answered';
     if (fill) fill.style.width = pct + '%';
-    if (btn) btn.disabled = count < total;
+    if (btn) btn.disabled = !allDone;
     if (note) {
-      if (count >= total) {
+      if (allDone) {
         note.hidden = true;
+      } else if (count >= total) {
+        note.hidden = false;
+        note.textContent = 'One more — answer the yes/no question above to continue';
       } else {
         note.hidden = false;
         var remaining = total - count;
         note.textContent = remaining + ' question' + (remaining !== 1 ? 's' : '') + ' remaining — click 0 if it doesn\'t apply';
       }
     }
+  }
+
+  function highlightDiag() {
+    var yes = document.getElementById('diag-yes');
+    var no = document.getElementById('diag-no');
+    if (!yes || !no) return;
+    yes.classList.toggle('diag-selected', diagnosed === true);
+    yes.setAttribute('aria-pressed', String(diagnosed === true));
+    no.classList.toggle('diag-selected', diagnosed === false);
+    no.setAttribute('aria-pressed', String(diagnosed === false));
+    var card = document.getElementById('card-already-diagnosed');
+    if (card && diagnosed !== null) card.classList.add('q-answered');
   }
 
   // ── Apply restored scores to DOM ──
@@ -381,6 +484,7 @@ const robots = "index, follow";
   // ── Event wiring ──
   document.addEventListener('DOMContentLoaded', function () {
     applyRestoredScores();
+    highlightDiag();
 
     // Likert button clicks
     document.getElementById('q-list').addEventListener('click', function (e) {
@@ -392,6 +496,16 @@ const robots = "index, follow";
       persist();
       highlightButton(qid, val);
       markCardAnswered(qid);
+      updateProgress();
+    });
+
+    // Diagnosed Yes/No clicks
+    document.getElementById('q-list').addEventListener('click', function (e) {
+      var btn = e.target.closest('.diag-btn');
+      if (!btn) return;
+      diagnosed = btn.getAttribute('data-diag') === 'yes';
+      persist();
+      highlightDiag();
       updateProgress();
     });
 
@@ -508,6 +622,19 @@ const robots = "index, follow";
       var top3Payload = selectTop3(scores, QUESTIONS).map(function (q) {
         return { id: q.id, label: q.label, slug: q.solutionSlug, score: scores[q.id] || 0 };
       });
+      // scores payload: 20 items + the diagnosed flag encoded as 0|5 for
+      // downstream compatibility (lambda rx-rec + app factor map).
+      var scoresPayload = {};
+      for (var qi = 0; qi < QUESTIONS.length; qi++) {
+        scoresPayload[QUESTIONS[qi].id] = scores[QUESTIONS[qi].id] || 0;
+      }
+      scoresPayload['already-diagnosed'] = diagnosed === true ? 5 : 0;
+      // Full per-question breakdown for the results email (pillar-grouped table).
+      var breakdownPayload = QUESTIONS.map(function (q) {
+        return { id: q.id, label: q.label, pillar: q.pillar, score: scores[q.id] || 0 };
+      });
+      var totalPayload = totalScore();
+      var bandPayload = bandFor(totalPayload);
       // Fire assessment_submitted only when the backend actually accepted the
       // signup — otherwise the funnel over-counts submissions (audit #21).
       fetch(apiBase + '/api/audit-complete', {
@@ -517,26 +644,69 @@ const robots = "index, follow";
           email: userEmail,
           firstName: userName,
           phone: userPhone,
-          scores: scores,
+          scores: scoresPayload,
           top3: top3Payload,
+          breakdown: breakdownPayload,
+          totalScore: totalPayload,
+          band: bandPayload.label,
+          diagnosed: diagnosed === true,
           consent: consentPayload,
         }),
       }).then(function (r) {
         phCapture(r && r.ok ? 'assessment_submitted' : 'assessment_submit_failed');
       }).catch(function () { phCapture('assessment_submit_failed'); });
 
-      showResults();
+      showResults(top3Payload, totalPayload, bandPayload);
     });
   });
 
-  function showResults() {
+  function showResults(top3, total, band) {
     document.getElementById('capture-section').hidden = true;
     document.getElementById('results-section').hidden = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     var greeting = document.getElementById('results-greeting');
     if (greeting && userName) {
-      greeting.textContent = 'Thank you, ' + userName + '. Your results are on the way.';
+      greeting.textContent = 'Thank you, ' + userName + '. Here is your MindSpan baseline.';
+    }
+
+    // Score + band
+    var numEl = document.getElementById('results-score-num');
+    var bandLabelEl = document.getElementById('results-band-label');
+    var bandLineEl = document.getElementById('results-band-line');
+    if (numEl) numEl.textContent = String(total);
+    if (bandLabelEl) bandLabelEl.textContent = band.label;
+    if (bandLineEl) bandLineEl.textContent = band.line || '';
+
+    // Top 3 with solution links
+    var listEl = document.getElementById('results-top3-list');
+    if (listEl) {
+      listEl.innerHTML = top3.map(function (t) {
+        return '<li><a href="/solutions/' + encodeURIComponent(t.slug) + '">' +
+          '<span class="top3-label">' + escHtml(t.label) + '</span>' +
+          '<span class="top3-score">' + t.score + ' / 5</span>' +
+          '<span class="top3-go">See the solution path &rarr;</span></a></li>';
+      }).join('');
+    }
+
+    // Diagnosed → regenerative-medicine banner
+    if (diagnosed === true) {
+      var diagBanner = document.getElementById('results-diag-banner');
+      if (diagBanner) diagBanner.hidden = false;
+    }
+
+    // ConnectedMind module — only when the consumer URL is configured.
+    if (CONNECTEDMIND_URL) {
+      var prominent = (scores['mood'] || 0) >= 3 || diagnosed === true;
+      if (prominent) {
+        var cm = document.getElementById('results-cm-block');
+        var cmLink = document.getElementById('results-cm-link');
+        if (cm && cmLink) { cmLink.href = CONNECTEDMIND_URL; cm.hidden = false; }
+      } else {
+        var cmQuiet = document.getElementById('results-cm-quiet');
+        var cmQuietLink = document.getElementById('results-cm-quiet-link');
+        if (cmQuiet && cmQuietLink) { cmQuietLink.href = CONNECTEDMIND_URL; cmQuiet.hidden = false; }
+      }
     }
   }
 
@@ -675,6 +845,53 @@ const robots = "index, follow";
   flex-direction: column;
   gap: 12px;
 }
+
+/* Pillar section headers */
+.pillar-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 22px 0 2px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #d9a927;
+}
+.pillar-header:first-child { margin-top: 0; }
+.pillar-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dark, #0a1628);
+}
+.pillar-tag {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--assess-muted);
+}
+
+/* Diagnosed Yes/No card (outside the scored audit) */
+.diag-card { border-style: dashed; }
+.diag-row { display: flex; gap: 8px; }
+.diag-btn {
+  flex: 1;
+  padding: 12px 4px;
+  border: 1.5px solid var(--assess-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--assess-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.diag-btn:hover:not(.diag-selected) { border-color: #a0aec0; color: var(--dark, #0a1628); }
+.diag-btn.diag-selected {
+  background: var(--dark, #0a1628);
+  border-color: var(--dark, #0a1628);
+  color: #fff;
+}
+.diag-note { margin: 0; }
 
 /* Question card */
 .q-card {
@@ -1027,6 +1244,109 @@ const robots = "index, follow";
   color: var(--assess-muted);
   text-align: center;
   line-height: 1.6;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── On-screen results: score + band + top 3 ── */
+.results-score-block {
+  text-align: center;
+  padding: 8px 0 4px;
+}
+.results-score-ring {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 148px;
+  height: 148px;
+  border: 5px solid #d9a927;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.results-score-num {
+  font-size: 2.9rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--dark, #0a1628);
+  font-variant-numeric: tabular-nums;
+}
+.results-score-max { font-size: 0.85rem; font-weight: 700; color: var(--assess-muted); }
+.results-band { margin-top: 12px; }
+.results-band-label {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--dark, #0a1628);
+}
+.results-band-line { font-size: 0.95rem; font-style: italic; color: var(--assess-muted); }
+.results-score-note {
+  font-size: 0.8rem;
+  color: var(--assess-muted);
+  max-width: 420px;
+  margin: 10px auto 0;
+}
+
+.results-top3-block {
+  background: #fff;
+  border: 2px solid #1a3656;
+  border-radius: 12px;
+  padding: 24px;
+}
+.results-top3-block h3 { margin: 0 0 4px; color: var(--dark, #0a1628); }
+.results-top3-sub { font-size: 0.88rem; color: var(--assess-muted); margin: 0 0 14px; }
+.results-top3-list { list-style: none; counter-reset: top3; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.results-top3-list li { counter-increment: top3; }
+.results-top3-list li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  border: 1px solid var(--assess-border);
+  border-radius: 10px;
+  text-decoration: none;
+  background: var(--assess-parchment);
+  transition: border-color 0.15s;
+}
+.results-top3-list li a:hover { border-color: #d9a927; }
+.results-top3-list li a::before {
+  content: counter(top3);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #d9a927;
+  font-variant-numeric: tabular-nums;
+}
+.top3-label { font-weight: 700; color: var(--dark, #0a1628); }
+.top3-score { font-size: 0.82rem; font-weight: 700; color: var(--assess-muted); font-variant-numeric: tabular-nums; }
+.top3-go { margin-left: auto; font-size: 0.85rem; font-weight: 600; color: var(--assess-accent-dark); }
+
+.results-diag-banner {
+  background: #fff;
+  border: 2px solid var(--assess-danger);
+  border-radius: 12px;
+  padding: 22px;
+  text-align: center;
+}
+.results-diag-banner h3 { margin: 0 0 6px; color: var(--dark, #0a1628); }
+.results-diag-banner p { font-size: 0.92rem; color: var(--assess-muted); margin: 0 0 14px; }
+
+.results-cm-block {
+  background: var(--assess-parchment);
+  border: 1px solid var(--assess-border);
+  border-left: 4px solid #2E7FD9;
+  border-radius: 12px;
+  padding: 22px;
+}
+.results-cm-block h3 { margin: 0 0 6px; color: var(--dark, #0a1628); }
+.results-cm-block p { font-size: 0.92rem; color: #4a5568; line-height: 1.6; margin: 0 0 12px; }
+.results-cm-external { font-size: 0.78rem !important; color: var(--assess-muted) !important; margin: 8px 0 0 !important; }
+.results-cm-boundary { font-size: 0.78rem !important; font-style: italic; color: var(--assess-muted) !important; margin: 10px 0 0 !important; }
+.results-cm-quiet {
+  font-size: 0.82rem;
+  color: var(--assess-muted);
+  text-align: center;
   max-width: 560px;
   margin: 0 auto;
 }
