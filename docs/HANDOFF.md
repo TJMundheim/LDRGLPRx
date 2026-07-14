@@ -1,8 +1,23 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-07-10 · self-contained current-state snapshot
+# Last updated: 2026-07-14 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
+
+## ⚡ 2026-07-13→14 SESSION LEDGER (Fable) — 20-question assessment + ambassador draft
+
+**20-QUESTION MINDSPAN ASSESSMENT LIVE (spec: ~/Documents/MindSpan-20Q-Assessment-Spec-for-ClaudeCode.md):**
+- **Question set:** 20 items grouped by pillar (Mind 6 / Muscle 4 / Mitigate 9 / Motivate 1), 0–5 each, total /100. Bands: 0-15 Sharp / 16-35 Early drift / 36-60 Time for a plan / 61-100 Act now. **Dental folded into #3 → "Hearing, vision & dental"** (TJ 2026-07-14 — oral microbiome = front door of gut-brain axis; keeps format at 20 without diluting gut). Legacy ids preserved for the 8 carried categories (lambda RX_MAP + app factor map keep working). New canonical data: `website/src/data/audit-questions.ts` (AUDIT_PILLARS, DIAGNOSED_QUESTION, AUDIT_BANDS, AUDIT_BONUS_BY_ID) — mirrored in assessment.astro inline script.
+- **Ranking (TJ locked):** gut +3, weight +2 (bonus forfeited at raw 0); ties break by question order; **already-diagnosed = Yes/No FLAG outside the audit** — never ranked/scored, transmitted as `already-diagnosed: 0|5` inside scores for downstream compat, Yes → regen-medicine banner on results + rx-rec in email.
+- **On-screen results (reviewer feedback via TJ):** score /100 + band + top-3 with /solutions links render immediately on submit — no email wait. Email now also carries a **pillar-grouped table of all 20 scores** (audit-complete `buildBreakdownCard`, payload: breakdown/totalScore/band).
+- **ConnectedMind module (results-side, outside audit):** wired per spec (prominent if mood ≥3 or diagnosed=Yes, else quiet link) but **HIDDEN until TJ supplies the consumer URL** — set `CONNECTEDMIND_URL` in assessment.astro (no-coming-soon rule; no dead buttons). App factor 'Mental health & mental wellness' already tagged "Connected Mind".
+- **App synced:** data/audit.ts → 21 categories (20 + flag); renderer selectTop3 new rules; AUDIT_ID_TO_FACTOR_NAME extended (mood→Mental health, hearing-vision-dental→Poor dental health, pain-injury→Injury history, bp/sugar/ldl→Excess body fat, social/purpose→Social isolation; smoking-nicotine BLANK — no factor yet); `auditTotals()` scale-aware (/50 legacy vs /100 new, diagnosed excluded); band thresholds percent-based; "10-category" copy swept. localStorage key bumped public-assessment-v1→v2.
+- **Sitewide copy sweep:** all "10 questions / 5 minutes" → "20 questions / about 7 minutes" (index ×5, SolutionPage, about, privacy, thank-you, products ×3, fast-start, bmi JSON-LD, go/gut-repair). Rx-page "Five minutes, from your phone" untouched (describes rx questionnaire).
+- **E2E VERIFIED LIVE:** browser-driven full run (20 answers + No) → on-screen 44/100 "Time for a plan" + top-3 Gut/Weight/Sleep exactly as computed → Contact row (21 intakeAnswers keys, top3, protege) → results email sent → **found + fixed pre-existing bug: randomPassword could miss a symbol → InvalidPasswordException → Cognito seed silently failed for some real signups** (fixed in audit-complete + protege-signup, redeployed, re-verified user creation). Test identity fully cleaned (Cognito + Contact + Users).
+- **Deployed:** website, app.my4mlife.com, audit-complete, protege-signup. One test run polluted PostHog assessment funnel (~1 event set, 2026-07-14).
+- **AMBASSADOR PROGRAM DRAFT (do NOT build):** `docs/plan/ambassador-program-draft.md` — subscription-qualified residuals (Ambassador wk13-52 25% / Graduate yr1+ 30% proposed), Protégé/Ambassador/Graduate timeline redefinition, event-discount placeholders, AI back office. Awaiting TJ review. Legacy /referral page ($50-per-consult) must die when this builds.
+
+**OPEN:** TJ: ConnectedMind consumer URL → one-line switch to go live · ambassador draft review · paperback/hardback Amazon URLs · $149 order test · KDP v16 upload. Book appendix still prints the old 10-question assessment (update at next book rev). Smoking factor missing from app factor catalog. Nurture queue got 2 test messages for a deleted contact (worker will warn + no-op).
 
 ## ⚡ 2026-07-10 SESSION LEDGER (Fable) — tidy-up sweep (TJ delegation: "I'll work on 1 and 2, you take the rest")
 
