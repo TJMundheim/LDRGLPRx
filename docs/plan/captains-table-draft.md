@@ -39,7 +39,35 @@ Three (pairs with Biome NS "flagship product" language — possibly confusing),
 First Mate Program (sounds subordinate). "Overachievers" reads corporate-seminar,
 not voyage.
 
-## 3. The on-site week (one per month) [TJ]
+## 3. The on-site cadence [TJ — revised 2026-07-14]
+
+Price unchanged. Visit shape (replaces the original "one full week per month"):
+
+- **Months 1–3: Sunday–Tuesday on-site, fly out Wednesday.** Sunday starts
+  early with the **Captain's Table cooking broadcast shoot** — which doubles
+  as the client's actual meal prep for the entire week. Monday–Tuesday: the
+  restructure work (§ below).
+- **Months 4–6: same Sunday–Tuesday footprint**, evolving outward — the Sunday
+  shoot becomes meal-prep content for the **whole cohort**, broadcast from the
+  seat-holder's kitchen, and the coaching becomes concierge-grade 1:1 across
+  any and all elements of the 4Ms as the household systems (already installed
+  in months 1–3) shift to maintenance.
+
+**Why this works (Fable):**
+- **Capacity solved.** 3 clients × ~3.5 days = **~10 travel days/month** (was
+  ~21). Three Sun→Wed trips, home Wednesday–Saturday every week, plus one
+  fully clear week per month for the company.
+- **It locks onto the existing meal rhythm.** The locked cohort workflow is
+  Wednesday picks-email → Saturday shop → **Sunday cook**. The Table's Sunday
+  shoot IS that Sunday cook — meaning the whole cohort's cook-along can be
+  hosted live from a seat-holder's kitchen. The premium tier literally
+  produces the free tier's programming.
+- **Sunday-early start earns the short visit.** The client gets the highest-
+  value day (full meal prep for their week, on camera, with the founder at
+  their stove) plus two full working days — the "week per month" promise
+  becomes "your week runs on what we built Sunday."
+
+### What happens on-site
 
 Every part of the book, applied to their actual life, in their actual house:
 
@@ -60,12 +88,8 @@ Every part of the book, applied to their actual life, in their actual house:
 5. **The sit-down** — accountability-target work (the specific face), the
    quarter's goals, the wife/family brought into the protocol where they want in.
 
-**Capacity flag (Fable):** 3 clients × 1 week/month = ~3 of every 4 weeks on the
-road while running the company solo. Alternative cadence to consider before
-signing client #3: full week/month for months 1–3 (when the household actually
-gets rebuilt), then 3–4-day visits months 4–6. Same promise ("your house, your
-kitchen, your life — rebuilt in person"), roughly half the travel load at
-steady state. TJ's call.
+**Capacity flag: RESOLVED 2026-07-14** by the Sunday–Tuesday cadence above
+(~10 travel days/month at full capacity, down from ~21).
 
 ## 4. The remote stack (the other three weeks)
 
@@ -112,8 +136,9 @@ Every dollar of travel is double-spent: coaching delivery + content production.
    on-site coaching pairs with a physician-reviewed protocol from day one.
 5. **Renewal:** seat-holders get first right to renew before a seat opens
    publicly. A waitlist ("the manifest") builds scarcity from day one.
-6. **Start dates:** stagger the three clients' on-site weeks (weeks 1/2/3 of
-   each month, week 4 at HQ) — or adopt the tapered cadence in §3.
+6. **Start dates:** stagger the three clients across weeks 1/2/3 of each month
+   (Sun–Tue each), leaving week 4 fully at HQ. Every cohort Sunday cook-along
+   then rotates between three real kitchens.
 
 ## 7. Fit with the rest of the architecture
 
