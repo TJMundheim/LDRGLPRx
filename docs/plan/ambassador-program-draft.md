@@ -50,6 +50,23 @@ book while unqualified — pause vs. release.
   one level only, never deeper, and only if Phase-1 data shows recruiters
   recruiting. Same subscription qualifier applies **[TJ]**. Not in launch scope.
 
+### Worked scenario (TJ 2026-07-14 — confirms one-level design)
+
+Ambassador A refers Protégés P1 and B. Both subscribe → A earns 25% on each,
+monthly. B finishes his 12 weeks, becomes an Ambassador (subscribed = qualified),
+and refers C1 and C2:
+- **A keeps earning 25% on B's own autoship for as long as B subscribes** — B is
+  A's direct referral; that residual can't churn while B stays qualified.
+- **C1 and C2 pay B** (25%), not A. When C1 later becomes an ambassador and
+  refers people, those pay C1. **Nothing ever deepens past one level, for anyone.**
+- The only possible exception is the phase-3 Graduate override above (A earning
+  ~5% on B's book) — HELD until data shows ambassadors recruiting ambassadors.
+  Margin note: override on = 30% total payout on those sales (35% if B is a
+  Graduate) — must clear product gross margin before enabling.
+
+FAQ sentence for launch: *"When your referral becomes an ambassador, you keep
+earning on his subscription for as long as he's in — but his customers are his."*
+
 ## 4. Attribution & payout rules (proposed)
 
 - Each ambassador gets a **personal code + link** (e.g. my4mlife.com/go/gut-repair?ref=CODE and CODE at checkout).
