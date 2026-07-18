@@ -30,6 +30,7 @@
     weeklyDelta,
   } from '../mindspan.js';
   import { pushToast } from '../toast/toast.svelte.js';
+  import { SCORED_CATEGORY_COUNT } from '../data/audit.js';
 
   type Props = { firstName?: string };
   const { firstName = '' }: Props = $props();
@@ -141,7 +142,9 @@
       const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('audit-v1') : null;
       if (!raw) return riskLoadFromScores(null);
       const outer = JSON.parse(raw) as { scores?: Record<string, number> };
-      return riskLoadFromScores(outer.scores ?? (outer as unknown as Record<string, number>));
+      // Normalize against the canonical 20-category basis so risk here matches
+      // the /100 assessment total even when fewer keys were stored.
+      return riskLoadFromScores(outer.scores ?? (outer as unknown as Record<string, number>), 5, SCORED_CATEGORY_COUNT);
     } catch {
       return riskLoadFromScores(null);
     }

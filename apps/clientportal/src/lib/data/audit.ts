@@ -100,3 +100,6 @@ export const AUDIT_CATEGORIES: AuditCategory[] = [
   // ── Flag (not ranked — see renderer.ts) ──
   cat('already-diagnosed', 'Already diagnosed'),
 ];
+
+/** Number of scored categories (the canonical 20 — excludes the diagnosed flag). */
+export const SCORED_CATEGORY_COUNT = AUDIT_CATEGORIES.filter(c => c.id !== 'already-diagnosed').length;

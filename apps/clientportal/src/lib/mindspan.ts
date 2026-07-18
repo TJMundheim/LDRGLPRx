@@ -66,8 +66,12 @@ function addDays(d: Date, offsetDays: number): Date {
  * Composite 0-100 risk load from a map of factor scores.
  * null/undefined/empty -> 50 (neutral default).
  * Each value is clamped to [0, maxPerFactor] before averaging.
+ * Pass `expectedFactors` (e.g. the canonical 20-category count) to normalize
+ * against the full assessment basis even when the stored payload carries
+ * fewer keys (legacy handoffs) — unanswered factors then count 0, keeping
+ * the dashboard risk consistent with the /100 assessment total.
  */
-export function riskLoadFromScores(scores: RiskScores, maxPerFactor = 5): number {
+export function riskLoadFromScores(scores: RiskScores, maxPerFactor = 5, expectedFactors?: number): number {
   if (!scores) return 50;
   const keys = Object.keys(scores);
   if (keys.length === 0) return 50;
@@ -76,7 +80,8 @@ export function riskLoadFromScores(scores: RiskScores, maxPerFactor = 5): number
   for (const key of keys) {
     sum += clamp(scores[key], 0, maxPerFactor);
   }
-  return (100 * sum) / (maxPerFactor * keys.length);
+  const basis = Math.max(keys.length, expectedFactors ?? 0);
+  return (100 * sum) / (maxPerFactor * basis);
 }
 
 /** Weighted v1 MindSpan Score, clamped to [0, 100]. */

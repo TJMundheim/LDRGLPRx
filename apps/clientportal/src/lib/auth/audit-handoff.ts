@@ -8,6 +8,8 @@
 // Website slug → App AuditCategory.id mapping. Update both sides if either
 // taxonomy changes.
 
+import { AUDIT_CATEGORIES } from '../data/audit.js';
+
 const SLUG_TO_APP_ID: Record<string, string> = {
   gut: 'gut-microbiome',
   sleep: 'sleep',
@@ -19,6 +21,8 @@ const SLUG_TO_APP_ID: Record<string, string> = {
   hormones: 'hormone-balance',
 };
 
+const APP_IDS = new Set(AUDIT_CATEGORIES.map((c) => c.id));
+
 export function ingestAuditHandoff(): void {
   if (typeof window === 'undefined') return;
   const hash = window.location.hash;
@@ -29,7 +33,9 @@ export function ingestAuditHandoff(): void {
     const scores: Record<string, number> = {};
     if (payload.scores && typeof payload.scores === 'object') {
       for (const [slug, value] of Object.entries(payload.scores)) {
-        const appId = SLUG_TO_APP_ID[slug];
+        // Canonical 20-question ids pass through directly; legacy website
+        // slugs go through the map. Unknown keys are dropped.
+        const appId = APP_IDS.has(slug) ? slug : SLUG_TO_APP_ID[slug];
         if (appId && typeof value === 'number') scores[appId] = value;
       }
     }

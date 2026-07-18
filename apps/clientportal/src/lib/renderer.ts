@@ -476,15 +476,16 @@ function selectTop3(scores: AuditScores): Array<{ label: string; score: number }
 }
 
 /**
- * Total + max for stored audit scores (0-5 per item). Scale-aware: works for
- * both the legacy 10-question set and the 20-question set (2026-07-13) —
- * max is derived from the stored keys. 'already-diagnosed' is a flag, not a
- * scored item, so it's excluded from both.
+ * Total + max for stored audit scores (0-5 per item), always on the canonical
+ * 20-category basis (max 100) so the app matches the website's /100 total and
+ * its 15/35 band thresholds — regardless of how many keys the stored payload
+ * carries (legacy handoffs stored fewer). Unanswered categories count 0.
+ * 'already-diagnosed' is a flag, not a scored item, so it's excluded.
  */
 function auditTotals(scores: AuditScores): { total: number; max: number } {
-  const entries = Object.entries(scores).filter(([id]) => id !== 'already-diagnosed');
-  const total = entries.reduce((a, [, v]) => a + (Number(v) || 0), 0);
-  return { total, max: Math.max(entries.length * 5, 5) };
+  const scored = AUDIT_CATEGORIES.filter(cat => cat.id !== 'already-diagnosed');
+  const total = scored.reduce((a, cat) => a + (Number(scores[cat.id]) || 0), 0);
+  return { total, max: scored.length * 5 };
 }
 
 function auditBand200(total: number, max = 100): { label: string; color: string; bg: string } {
@@ -1982,7 +1983,8 @@ function renderAuditReview(): string {
   const { total, max } = auditTotals(scores);
   const band = auditBand200(total, max);
 
-  const rows = AUDIT_CATEGORIES.filter(cat => cat.id !== 'already-diagnosed' && scores[cat.id] !== undefined).map(cat => {
+  const scoredCats = AUDIT_CATEGORIES.filter(cat => cat.id !== 'already-diagnosed');
+  const rows = scoredCats.map(cat => {
     const s = scores[cat.id] ?? 0;
     const c = s <= 1 ? C.goodBright : s <= 3 ? C.warn : C.crit;
     const barW = Math.round((s / 5) * 100);
@@ -2008,10 +2010,10 @@ function renderAuditReview(): string {
       </div>
       <div style="font-size:52px;font-weight:800;color:${band.color};line-height:1">${total}</div>
     </div>
-    <div style="font-size:11px;color:${C.muted};margin-top:6px">Lower is better. Each category scores 0–10.</div>
+    <div style="font-size:11px;color:${C.muted};margin-top:6px">Total score out of ${max} — lower is better. Each category scores 0–5.</div>
   </div>
   <div class="card">
-    <div class="card-title">All ${AUDIT_CATEGORIES.length} Categories</div>
+    <div class="card-title">All ${scoredCats.length} Categories</div>
     ${rows}
   </div>`;
 }

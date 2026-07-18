@@ -19,6 +19,7 @@
   } from '../api/operations.js';
   import type { AdherenceEntry, Event, UserProfile } from '../api/generated.js';
   import { riskLoadFromScores, adherencePctForWindow } from '../mindspan.js';
+  import { SCORED_CATEGORY_COUNT } from '../data/audit.js';
   import {
     MOVES, PROGRAM_WEEKS, moveForWeek, programAnchor, calendarWeek, startOfWeekMon,
     moveProgress, movesCompleted, programCumulativePct,
@@ -87,7 +88,9 @@
       return outer.scores ?? (outer as unknown as Record<string, number>);
     } catch { return null; }
   })();
-  const riskLoad = riskLoadFromScores(auditScores);
+  // Normalize against the canonical 20-category assessment basis so risk here
+  // matches the /100 assessment total even when fewer keys were stored.
+  const riskLoad = riskLoadFromScores(auditScores, 5, SCORED_CATEGORY_COUNT);
   const riskPills = (() => {
     if (!auditScores) return [];
     return Object.entries(auditScores)
