@@ -53,7 +53,7 @@ This works because:
 2. **One-page speaker sheet** (PDF): photo, bio, talk title + takeaways, book cover, contact. Attach to every booking email.
 3. **Talk outline / slide deck** (10–12 slides max, or slideless).
 4. **QR handout** (quarter-page, home-printed): QR → `my4mlife.com/assessment?src=talk-<venue>` for per-venue PostHog attribution, plus book cover and "free assessment" promise.
-5. **Back table:** copies of the book if TJ orders author copies (only optional cost); otherwise the QR handout carries the Amazon link too.
+5. **Back table:** DECIDED 2026-07-21 (TJ) — combination of back-of-room author copies AND QR handouts at every talk. Book table converts in-room buyers; QR captures everyone else into the assessment funnel. TJ orders author copies via KDP (author-copy printing cost only; buyers pay cash/Venmo at the table).
 
 ## Tracking
 
@@ -68,6 +68,7 @@ This works because:
 
 ## Open items
 
-- TJ's city/metro → build the actual named target list with contacts (venue names, program-chair emails).
-- TJ decision: author copies for back-of-room sales, or QR-only (pure $0).
+- ~~TJ's city/metro~~ → DFW, Fort Worth side (Fort Worth, Arlington, Hurst, Euless, Bedford, Colleyville, Southlake, Keller, Weatherford, Benbrook; anywhere in the 12-county metroplex within ~1 hr drive). Named target list: docs/launch/speaking/targets-dfw.md.
+- ~~Author copies decision~~ → DECIDED: back-of-room books + QR combo (see Materials §5).
+- TJ: order KDP author copies (paperback) — allow ~2 weeks shipping, so order this week.
 - Optional later: film one talk well → speaker reel → bigger venues.
