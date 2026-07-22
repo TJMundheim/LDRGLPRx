@@ -1256,6 +1256,8 @@ Muse cells intrathecally is the named lead. It is not the only tool, and the reg
 
 Other modalities under active evaluation:
 
+**RPA (regenerative protein array).** A defined array of regenerative signaling proteins — growth factors, cytokines, and the other paracrine messengers that cells normally release to orchestrate repair — formulated and delivered together rather than left to a whole cell to manufacture on its own. Where a cellular protocol supplies the factory and exosomes supply the packaged messages, an RPA supplies the repair signals themselves as a curated panel. It can stand alone or run alongside a cellular protocol to reinforce the regenerative signal.
+
 **Exosome therapies.** Exosomes are the small membrane-bound vesicles that cells secrete to communicate with each other — the paracrine signaling I described earlier, isolated and delivered without the parent cell. They cross biological barriers more easily than whole cells and can be dosed more flexibly. In some indications they may complement, and in some they may eventually substitute for, the cell-based protocols.
 
 **Advanced peptide protocols.** Cerebrolysin (a porcine-derived peptide mixture with neurotrophic activity), Semax and Selank (Russian-developed neuropeptides), BPC-157 (Body Protection Compound, with a growing literature in nervous system applications), and others. These can run alongside or after a cellular protocol to extend and support the regenerative phase.
