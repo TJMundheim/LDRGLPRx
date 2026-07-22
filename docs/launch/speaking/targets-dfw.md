@@ -166,11 +166,54 @@ Gaps: no Optimist/Kiwanis in Hurst/Bedford proper (HEB Rotary + NETC Kiwanis cov
 
 YMCA of Metropolitan Fort Worth — Active Older Adults / SilverSneakers programming at branch level; pitch branch directors via ymcafw.org/programs.
 
-## I) Private clubs, country clubs, golf clubs, fitness (research in progress)
+## I) Private clubs, country clubs, golf clubs, fitness, 55+ communities (verified 2026-07-22)
 
-_Fourth research batch pending — will be appended: Fort Worth Club, Colonial, Shady Oaks, River Crest, Ridglea, Mira Vista, Timarron, Vaquero, Sky Creek Ranch, Texas Star, upscale fitness/wellness centers, 55+ active-adult community lifestyle directors._
+**How these actually book:** private clubs don't take cold speaker pitches from the street — programming is driven by the member-events / member-relations director, and the door opens via (a) a member sponsor, or (b) having already spoken at the Rotary that meets inside the building. Four Rotary clubs on list A meet INSIDE these clubs (River Crest, Ridglea, Shady Valley, Sky Creek Ranch) — speak there first, then ask your Rotary host for an intro to the club's events director. Named contacts found:
 
-Note: three Rotary clubs already meet INSIDE country clubs (River Crest, Ridglea, Shady Valley, Sky Creek Ranch) — speaking to those clubs gets you in the building and in front of members who can refer you to the club's own events director.
+### Private city clubs
+
+| Club | Where | Contact route |
+|---|---|---|
+| The Fort Worth Club | 306 W 7th St (Rotary FW flagship meets here Fridays) | Membership dept 817-338-3494 · fortworthclub.com — runs member speaker series/wine dinners |
+| Petroleum Club of Fort Worth | 777 Main St #4000 | **Juanita Melendez, Membership Director** — 817-335-7571 · reservations@fwpetrolclub.com for events · "year-round professional programs for membership" |
+
+### Country clubs / golf clubs
+
+| Club | Where | Contact route |
+|---|---|---|
+| Ridglea Country Club | 3700 Bernie Anderson Ave (Western FW Rotary meets here Tue) | **Tracy Hull, Director of Membership** — 817-732-8111; Ladies Golf Assoc meets Wednesdays |
+| Mira Vista Country Club | Fort Worth | **MaryEllen Ford, Member Relations/Events** — 817-294-6640 |
+| River Crest Country Club | 1501 Western Ave (FW South Rotary meets here 2nd/4th Tue) | via Rotary host → member events director |
+| Colonial Country Club | Fort Worth | colonialfw.com/events — high bar; approach after a Ridglea/Mira Vista talk is on the speaker sheet |
+| Shady Oaks Country Club | Fort Worth | member-sponsor route only |
+| Shady Valley Country Club | Arlington (Arlington NW Rotary meets here Tue) | via Rotary host |
+| Sky Creek Ranch Golf Club | Keller (Keller Rotary meets here Tue) | via Rotary host |
+| Texas Star Golf Course + Conference Centre | Euless — PUBLIC city facility (HEB Rotary + Pacesetters meet here) | events staff via texasstargolf.com — public venue, no member gate |
+| Timarron Country Club (Invited Clubs) | Southlake | via club events page / member sponsor |
+| Vaquero Club | Westlake | ultra-private; member-sponsor only — long-term target |
+
+### Upscale fitness / wellness
+
+| Venue | Where | Contact route |
+|---|---|---|
+| Life Time — Colleyville | Colleyville (pool/pickleball/recovery; affluent 45+ heavy) | club GM via my.lifetime.life/clubs/tx/colleyville |
+| Life Time — Fort Worth-Alliance | 10761 Founders Way, Fort Worth | club GM via lifetime.life/locations/tx/fort-worth-alliance |
+| Life Time — Westlake (opened 2024, pickleball flagship) | Westlake/Southlake corridor | via location page |
+| Texas Health / hospital-affiliated fitness centers | HEB area | branch programming route — verify by phone |
+
+Life Time clubs run member education/wellness events at GM discretion — pitch as free member-appreciation programming ("cognitive longevity for members who already train").
+
+### 55+ active-adult communities (lifestyle directors book weekly resident programming)
+
+| Community | Where | Contact route |
+|---|---|---|
+| **Elements at Viridian** | Arlington | Full-time Lifestyle Director (Magnolia Lifestyle Center) — via viridiandfw.com/elements-55-plus-community |
+| **Album Keller Ranch** (Greystar) | 5640 Keller Ranch Rd, Fort Worth/Keller | Full-time lifestyle coordinator — via albumlife.com |
+| Ladera at Tavolo Park | SW Fort Worth (228 homes, gated) | via laderaliving.com — activity center w/ multi-purpose rooms |
+| Robson Ranch | Denton (within the hour; huge — dozens of clubs incl. its OWN Kiwanis + health/fitness committee) | on-site activities director via robsonranchhoa.org |
+| Overture Highlands (55+ apartments) | Arlington (Highlands Rotary already meets in the building Tue 6:30) | via Rotary host → lifestyle director |
+
+**Why this category matters:** every resident is 55+, affluent enough for the products, and the lifestyle director's JOB is filling the calendar — a free brain-health talk with take-home book is an easy yes. Slug convention: `talk-elements-viridian`, `talk-album-keller`, etc.
 
 ---
 
