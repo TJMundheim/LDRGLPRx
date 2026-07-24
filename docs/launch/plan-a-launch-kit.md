@@ -157,7 +157,7 @@ Book back-of-room: ____ copies × ~$15 net = $______
 
 ## Open dependencies (not blockers, but name them)
 
-- **Provider throughput:** who reviews/approves consults, and can they clear ~15 this month? If that's the ceiling, meter the outreach to match.
+- **Provider throughput:** RESOLVED 2026-07-22 (TJ) — pipeline clears **50 consults/month easily**. Fulfillment is NOT the constraint; marketing is. Don't meter outreach — send everything at once. Ceiling ≈ 50 × ~$220 ≈ $11K/mo of new starts before recurring.
 - **Newsletter send tool:** confirm list size; stand up a free ESP if >50.
 - **`[phone]`** in every signature.
 - Warm-list sends run through the Gmail connector with per-batch approval (drtj@my4mlife.com).
