@@ -501,11 +501,10 @@ const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnai
             phiAuth: { agreed: true, version: 'consent-phi-auth-v1', at: new Date().toISOString(), text: 'I authorize My4MLife and its network physicians to use and disclose my health information to provide, coordinate, and bill for my care, including forwarding my intake to the telemedicine provider.' },
           },
           cardOnFile: { paymentMethodId: paymentMethodId, stripeCustomerId: stripeCustomerId },
-        }),
-      });
+        });
       fetch(API_BASE + '/api/patient-record-intake', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: _intakeBody,
-).then(function(r){
+      }).then(function(r){
         if (r && !r.ok) { throw new Error('intake ' + r.status); }
       }).catch(function() {
         // one retry — a failed intake after a saved card would orphan the payment
