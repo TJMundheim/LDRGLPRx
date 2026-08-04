@@ -71,15 +71,15 @@ const moreItems = [
 ];
 
 // Book sold on Amazon — no prices shown (Amazon shows live price; never stale).
-// TJ 2026-07-10: wants a SEPARATE Amazon link per format. Only the Kindle ASIN
-// (dp/B0H7FJRHXC) is known — all three point there for now (that page shows all
-// formats via Amazon's selector). PENDING: TJ's paperback + hardback URLs to split.
-const BOOK_AMAZON = 'https://www.amazon.com/dp/B0H7FJRHXC';
+// Per-format ASINs (TJ supplied hardcover + paperback links 2026-08-04).
+const BOOK_KINDLE = 'https://www.amazon.com/dp/B0H7FJRHXC';
+const BOOK_PAPERBACK = 'https://www.amazon.com/dp/B0H7742SDD';
+const BOOK_HARDCOVER = 'https://www.amazon.com/dp/B0H75TYF1G';
 const programItems = [
   { label: 'Take the Free Personalized Assessment', href: '/assessment' },
-  { label: 'The Book — Ebook (Kindle)', href: BOOK_AMAZON, external: true },
-  { label: 'The Book — Paperback', href: BOOK_AMAZON, external: true },
-  { label: 'The Book — Hardback (for cohorts)', href: BOOK_AMAZON, external: true },
+  { label: 'The Book — Ebook (Kindle)', href: BOOK_KINDLE, external: true },
+  { label: 'The Book — Paperback', href: BOOK_PAPERBACK, external: true },
+  { label: 'The Book — Hardback (for cohorts)', href: BOOK_HARDCOVER, external: true },
   { label: 'Blog',             href: '/blog' },
   { label: 'About',            href: '/about' },
 ];
