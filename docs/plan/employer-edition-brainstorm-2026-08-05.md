@@ -1,6 +1,17 @@
 # Employer/Employee Edition — Brainstorm (2026-08-05)
 
 **Status: BRAINSTORM for TJ review. Nothing built.**
+
+> **UPDATE 2026-08-05 (TJ direction, same session):** the workplace edition is a
+> **two-audience book** — the front matter sells the EMPLOYER, the body serves the
+> EMPLOYEE. Dedication/foreword cut; page one becomes a bullet-point "punchline"
+> page; new Chapters 1–3 carry the business case with researched numbers; the
+> "written to motivate men / 99% applies to everyone" line is demoted into the
+> author's origin story rather than the headline. Full spec + all research +
+> the prevention/screening-services layer (ConnectedMind, PGx, who pays):
+> **[employer-edition-front-matter-spec-2026-08-05.md](employer-edition-front-matter-spec-2026-08-05.md)**.
+> That doc supersedes §3.2's "For the Employer appendix" (promoted to the front
+> of the book) and §3.3's front-matter assumptions.
 Builds on [corporate-wellness-vertical-draft.md](corporate-wellness-vertical-draft.md) (2026-07-15)
 and the direction TJ + Fable set 2026-08-05 (HANDOFF "NEXT SESSION" block).
 
