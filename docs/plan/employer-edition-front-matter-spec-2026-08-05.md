@@ -7,36 +7,110 @@ source; flagged items must be traced or re-dated before print.
 
 ---
 
-## PART A — The structural change TJ called
+## PART A — The structural change (REVISED 2026-08-05 per TJ)
 
-The workplace edition is a **two-audience book**. The front sells the **employer**
-(the buyer); the body serves the **employee** (the reader). The men's edition
-opens by motivating a man to save his own mind. The workplace edition opens by
-motivating a company to fund it — and the argument is not charity, it's P&L.
+> **⚠️ SUPERSEDES the first version of this section.** The original spec bound
+> the business case into the front of the employee's book. **TJ killed that:**
+> an employee who reads "an insomniac costs you 11 productivity days a year"
+> concludes the company enrolled him to cut claims costs, not to help him. That
+> instinct is correct and it is empirically supported — see A2.
 
-**Cut in this edition:** dedication, foreword, and the current
-"Who This Book Is For" page as written. **Kept, trimmed, and moved:** the
-Personal Note from the Author (from ~8 pages to ~2, placed *after* the business
-case — the employer reads the numbers first, then meets the human being).
+### A1. THREE artifacts, not two
 
-### The new front matter, in order
+The business case and the protocol are **two different books for two different
+buyers**, and they must not be bound together.
+
+| Artifact | Audience | Contains the money numbers? | Source |
+|---|---|---|---|
+| **1. Men's edition** (shipping today, unchanged) | Consumer men | No | `_MASTER.md`, `--edition mens` |
+| **2. Workplace edition** — the employee's book | Enrolled employees (everyone) | **NEVER** | `_MASTER.md`, `--edition workplace` |
+| **3. The Employer Brief** — NEW, separate | The buyer only (owner/CEO/HR) | Yes — it's the whole point | New short source, `docs/employer-brief/` |
+
+The Employer Brief is a slim standalone piece (~20–30 pp, or a 12-page
+saddle-stitched booklet) that never reaches an employee's hands. It carries
+Parts B, C and D of this document. The employee's book carries none of it.
+
+### A2. Why this is right (and it's not just taste)
+
+**The research on this is unusually direct.** Nishii, Lepak & Schneider
+(*Personnel Psychology*, 2008; 1,300+ citations) showed that employees make
+attributions about *why* management adopted an HR practice, and those
+attributions — not the practice itself — drive commitment and satisfaction.
+Attributions to employee wellbeing produce commitment; attributions to cost
+reduction and exploitation do not. The effects aggregate to the unit level and
+show up in organizational citizenship behavior and even customer satisfaction.
+https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1744-6570.2008.00121.x
+
+In other words: **the same program produces opposite results depending on what
+the employee believes motivated it.** Handing an employee the ROI chapter is
+handing them the cost-reduction attribution in writing. It would actively
+destroy the retention and culture effect that is the strongest part of the
+employer's own business case — the pitch would eat itself.
+
+Three more reasons the split is correct:
+
+1. **The numbers are dehumanizing when read by their subject.** "$16,854 per
+   affected adult," "1,685 per employee," "$12,022 in excess medical spend" —
+   written *about* a person, these read as *you are a depreciating asset*. The
+   whole protocol runs on the accountability target (your wife, your kids,
+   your own last decade). Nothing kills that faster than being priced.
+2. **Different persuasion jobs.** The employer needs P&L. The employee needs
+   "this is yours, and it's about your life." Neither argument helps the other
+   audience; each one weakens the other.
+3. **Different shelf lives.** The employer numbers go stale annually (KFF,
+   Mercer/Aon/WTW all refresh every year). Binding them into the employee's
+   book forces a reprint of a 260-page book to update a premium figure. Kept
+   separate, the Brief is a cheap annual refresh and the employee's book is
+   evergreen.
+
+### A3. What the employee's workplace edition opens with instead
+
+Same cuts as before (dedication, foreword, current "Who This Book Is For"), but
+the replacement front matter is **warm, short, and about them**:
 
 | # | Piece | Length | Job |
 |---|---|---|---|
-| 1 | **The Punchline** — bullet page | 1 p | Entire book's argument on page one. Employer reads nothing else and still gets it. |
-| 2 | **A Letter to the Employer** | 3–4 pp | TJ's voice. Why you'd fund this, and the carryover thesis (it works at work *because* it works at home). |
-| 3 | **Chapter 1 — Cognitive Performance Is Job Performance** | 12–16 pp | The business case with the research. The chapter that closes the deal. |
-| 4 | **Chapter 2 — What It Costs You to Do Nothing** | 8–10 pp | The cost-burden numbers, per-employee, made concrete. |
-| 5 | **Chapter 3 — Why This Program, and Why It Costs You Nothing** | 6–8 pp | The $0 model, the honest ROI literature, the small-incentive math, retention/culture. |
-| 6 | **A Personal Note from the Author** (trimmed) | 2 pp | Proof a human wrote this. Origin story absorbs the "written to motivate men" line. |
-| 7 | **How to Read This Book** | 1 p | Employer: you're done, hand it to your people. Employee: the rest is yours. |
+| 1 | **"Your company opened a door."** | 1–2 pp | Names the employer's gift in wellbeing terms — time, permission, support, the cohort — with **zero financial framing**. This page is where the attribution is set; write it deliberately. |
+| 2 | **Who This Book Is For** (workplace variant) | 1 p | Everyone. Carries the origin story: written first to motivate men, because men are historically terrible at prevention — 99% applies to everyone. |
+| 3 | **A Personal Note from the Author** | keep near full | In the employee's book there's no business case to get past, so TJ's story stays close to its current length. It's the trust-builder. |
+| 4 | **How this book is built** | 1 p | Existing page, lightly adapted. |
 
-Then the existing body (Ch 1 "The Fear" onward, renumbered) per the delta map
-in the brainstorm doc.
+Then the body per the delta map in the brainstorm doc.
+
+**Copy guardrail for piece #1:** the employer gave *access, time, and
+encouragement* — never "invested in you" (investment implies return implies
+you're the asset). Truthful and warm: *"Someone at your company decided the
+people who work here should have this. That's rarer than it should be."*
+
+### A4. What the Employer Brief contains
+
+Parts B, C and D below, arranged as:
+
+| # | Piece | Length |
+|---|---|---|
+| 1 | **The Punchline** bullet page (Part B) | 1 p |
+| 2 | **A Letter to the Employer** (Part C) | 3–4 pp |
+| 3 | **Cognitive Performance Is Job Performance** (D1) | 8–10 pp |
+| 4 | **What It Costs You to Do Nothing** (D2) | 6–8 pp |
+| 5 | **Why This Costs You Nothing** (D3) | 6–8 pp |
+| 6 | **What your people actually get** | 2 pp — the employee book, the app, the Logbook, the cohort, the screening ladder (Part E) |
+| 7 | **What you see, and what you never see** | 1 p — the aggregate-only report + the privacy line, stated as a feature |
+| 8 | **A short note from the author** | 1 p |
+
+The Brief doubles as: the `/employers` page content, the speaking-circuit
+leave-behind, and the pilot-call follow-up PDF. One asset, four uses.
+
+**One deliberate crossover:** the Brief should state plainly that *the employee's
+book contains none of this* — that we never show their people the cost
+argument, because a program the staff believes is about saving money doesn't
+work. That is a trust-builder with a good employer and a filter against a bad
+one, and it makes the privacy posture feel consistent rather than convenient.
 
 ---
 
-## PART B — Page One: "The Punchline" (draft)
+## PART B — Page One of the EMPLOYER BRIEF: "The Punchline" (draft)
+
+*(Buyer-only. Never appears in the employee's book — see Part A.)*
 
 > ### Everything in this book, on one page.
 >
@@ -378,13 +452,21 @@ the HR conversation simple.
 
 ## PART F — What changes in the brainstorm doc
 
-- Build order item 1 (workplace book edition) now includes this front-matter
-  spec — it is the majority of the new writing, and it is **new composition,
-  not a de-gendering pass**. Estimate ~35–45 new pages.
-- The "For the Employer" appendix from the original brainstorm is **promoted to
-  the front of the book** and expanded into Chapters 1–3. An appendix version
-  may still be worth keeping as a tear-out leave-behind.
-- Add to open decisions: screening ladder (E5) and whether the workplace
-  edition's page-one bullet page also becomes the `/employers` hero content
-  (recommendation: yes — same argument, same order, one asset feeding two
-  surfaces).
+- **Three artifacts, not two** (Part A1). The brainstorm's "two book editions
+  only" lock still holds *for the book* — men's + workplace — but the Employer
+  Brief is a **separate non-book asset**, not a third edition. It does not come
+  off `_MASTER.md` and it never goes in an employee's hands.
+- The "For the Employer" appendix from the original brainstorm is **removed
+  from the book entirely** and becomes the Employer Brief.
+- Build order revised:
+  1. **The Employer Brief** (~25 pp of new writing) — it's the sales weapon and
+     nothing sells without it. Also the fastest to produce.
+  2. **Workplace employee edition** — now a lighter lift than originally
+     spec'd, since it's the de-gendering delta map + a short warm front matter,
+     not 35–45 pages of business case.
+  3. `/employers` page (reuses Brief content), then the enrollment pipe, then
+     the Logbook workplace edition, then the HR report generator.
+- Add to open decisions: screening ladder (E5); whether the Brief is a printed
+  booklet or PDF-only at pilot stage (recommendation: PDF first, print once a
+  pilot proves the pitch); and whether the Brief carries the My4MLife wordmark
+  or the employer surface's sub-brand, pending the naming decision.
