@@ -17,7 +17,14 @@
 
 ## ▶ NEXT SESSION STARTS HERE (queued 2026-08-05)
 
-**BRAINSTORM: employer/employee edition of *Begin with the End in Mind*** + corresponding website / app / Logbook changes for the workplace target market. Build ON TOP of the existing corporate-wellness vertical draft (docs/plan/corporate-wellness-vertical-draft.md — B2B2C skin over My4MLife engine, separate brand for employer context, PEPM + benefit-priced commerce, flank CoreHealth; memory: project_corporate_wellness_draft). Related plays: book-as-Trojan-horse (speaking circuit), Logbook rename (never "workbook"), Odyssey voyage theme, men-only HARD commit (decide: does the employer edition stay men-only or is the B2B skin the everyone-brand? The 07-15 draft says separate brand for everyone — this is the first decision to put to TJ). Book source: docs/book/draft/_MASTER.md (v17). Logbook source: docs/cohort-workbook/draft/_MASTER.md.
+**BRAINSTORM: employer/employee edition of *Begin with the End in Mind*** + corresponding website / app / Logbook changes for the workplace target market. Build ON TOP of the existing corporate-wellness vertical draft (docs/plan/corporate-wellness-vertical-draft.md; memory: project_corporate_wellness_draft). Book source: docs/book/draft/_MASTER.md (v17). Logbook source: docs/cohort-workbook/draft/_MASTER.md.
+
+**DIRECTION SET 2026-08-05 (TJ + Fable aligned, pre-brainstorm):**
+- TJ's intent: blend corporate approach using everything already built; serve men / women / everyone / employers from one engine. TJ floated a 4-choice homepage; Fable recommended AGAINST a chooser homepage → **Hims/Hers pattern instead**: my4mlife.com stays the men-first flagship untouched; NEW `/employers` front door for the corporate vertical (the de-gendered "everyone" surface); a women's door is a later Hers-style move. TJ to confirm in brainstorm.
+- Employer model: **$0 (or near-$0) PEPM as the wedge vs CoreHealth-class competitors** — employees become a company cohort (Protégé mechanics), revenue from existing product/service menu (commerce + Rx), improved and expanded. MindSpan Score + assessment data = the HR outcomes-reporting product.
+- Book: **TWO editions only** — current men's edition (unchanged) + one workplace/everyone edition (de-gendered voice, cognitive-performance-is-job-performance framing, employer cohort structure), both from the master source. Not four.
+- Canonical disclaimer line (from TJ's tested Facebook post): "I wrote this book to motivate men because they're historically not good at prevention — but 99% of it applies to everyone." Goes in talks, book preface, employer pitch.
+- This deliberately amends the men-only HARD commit at the distribution layer (new audiences get their own doors); the men-first flagship voice is NOT softened.
 
 ## ⚡ 2026-07-13→14 SESSION LEDGER (Fable) — 20-question assessment + ambassador draft
 
