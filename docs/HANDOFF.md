@@ -1,8 +1,19 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-07-14 · self-contained current-state snapshot
+# Last updated: 2026-08-04 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
+
+## ⚡ 2026-07-29→08-04 SESSION LEDGER (Fable) — first real Protégé + Logbook rename + Austin
+
+- **FIRST ORGANIC PROTÉGÉ (2026-07-30):** coonan_michael@yahoo.com, Michael, Jacksonville FL phone. Pipeline verified end-to-end: Contact + Cognito + Users profile + Mailgun-delivered welcome email. Top-3: gut 5 / weight 4 / mood 5.
+- **All 5 /rx questionnaires were DEAD (JS syntax errors — stray braces + orphan catch) — fixed + deployed (231b649b).** State dropdown + Continue verified live.
+- **"Cohort Workbook" → "The Logbook" everywhere (7c1a1e85, deployed):** PDF v5 (139pp) + S3 `the-logbook-month1.pdf` (old key refreshed, same content) + welcome emails + concierge prompt + 11 site pages + app sidebar + `/products/logbook` redirect. Stripe SKU `cohort-workbook` + app storage keys intentionally unchanged. NEVER "workbook" in new copy.
+- **Book links split per format (e6b0afa1):** Kindle B0H7FJRHXC / Paperback B0H7742SDD / Hardcover B0H75TYF1G. v17 interiors copied to TJ Desktop as `KDP-UPLOAD — *.pdf` (Desktop copies were stale v16 — repo is source). Covers still valid (259pp vs 258, spine delta negligible).
+- **INBOUND EMAIL GAP:** MX → Google Workspace; Google accepts ALL @my4mlife.com addresses (catch-all) but TJ only sees drtj@. support@ (40× on site), info@ (welcome-email FROM), etc. vanish. FIX = TJ adds aliases in admin.google.com (top of his list). SES inbound-handler can't be live (MX points to Google).
+- **ops-agent post-event 30-min cron DISABLED** (9,153 no-op Bedrock runs; exhausted daily tokens, starved Mon 7/27 weekly-Zoom run). Weekly Monday rule still ENABLED — will fail gracefully at zoom_create_meeting until Zoom acct exists. Nurture queue still unprovisioned (lead-stage only, no current impact).
+- **Austin (7/31 Speed of Light dinner):** Sinicropi follow-up ON HOLD pending TJ debrief. NEW: **Landen Fredrick** (CEO Mannatech + M5M chair) demanded follow-up. Mannatech: going-concern 10-Q, –$5.6M equity, ~$10M mkt cap, Nasdaq notice, 16% insider loans, Americas –25.6%. Strategy: advisory/licensing angles, never distributor; TJ has the leverage (Rx layer). Memory: project_sinicropi_speaker_track.
+- **TJ priority list delivered 2026-08-03** (Austin follow-ups → Google aliases → Zoom Pro → live $149 test → first admin sign-in → KDP v17 upload → ConnectedMind URL → photographer → ambassador review). Scouting calendar: docs/launch/speaking/scouting-calendar-aug2026.md.
 
 ## ⚡ 2026-07-13→14 SESSION LEDGER (Fable) — 20-question assessment + ambassador draft
 
