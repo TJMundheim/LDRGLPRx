@@ -5,7 +5,7 @@ import sys
 import re
 import pathlib
 
-ROOT = pathlib.Path('/Users/thomasmundheim/Desktop/Development/LDRGLPRx/docs/book')
+ROOT = pathlib.Path('/Users/thomasmundheim/Development/LDRGLPRx/docs/book')
 md_path = ROOT / 'draft' / '_MASTER.md'
 html_path = ROOT / 'draft' / '_MASTER.html'
 

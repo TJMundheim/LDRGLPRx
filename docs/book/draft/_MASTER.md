@@ -15,6 +15,22 @@
 
 ---
 
+# Who This Book Is For
+
+I wrote this book to motivate men.
+
+Not because the science cares who you are — it doesn't — but because men are historically terrible at prevention. We wait. We tough it out. We tell ourselves we'll get to it — and then the diagnosis picks the date.
+
+So the voice in these pages is aimed at the man who needs the push.
+
+But make no mistake: **99 percent of what's in this book applies to everyone.** The gut you repair, the sleep you defend, the muscle you keep, the mind you protect — none of it checks your driver's license first. If you're a woman reading this — for yourself, or over the shoulder of a man you love — take all of it. It's yours too.
+
+The voice is for the men. The medicine is for everyone.
+
+**— Dr. TJ**
+
+---
+
 ### A note before you begin
 
 This book is education, not prescription. It describes a framework — the 4 Ms: Mind, Muscle, Mitigate, Motivate — and the protocols that operate inside it. Nothing in these pages replaces a licensed clinician's judgment about your specific situation. The reader is treated as an adult who understands that distinction.
@@ -39,9 +55,9 @@ The 4 Ms are **Mind, Muscle, Mitigate, Motivate** — and Mind is the destinatio
 - **The Loop Closes (Chapters 17–18):** One real week running the system, then your next step.
 - **Glossary:** Every technical term in the book, in plain English.
 
-The daily protocol on paper — check-ins, the stack, the weekly reflection, the adherence scorecard — lives in the cohort workbook, which every Protégé receives through the app and by email, so it always reflects the current protocol.
+The daily protocol on paper — check-ins, the stack, the weekly reflection, the adherence scorecard — lives in the Logbook, which every Protégé receives through the app and by email, so it always reflects the current protocol.
 
-This book sells you the why and shows you the how. The workbook and the app are where you run it day to day. They are meant to be used together.
+This book sells you the why and shows you the how. The Logbook and the app are where you run it day to day. They are meant to be used together.
 
 ---
 
@@ -1826,7 +1842,7 @@ Most men I meet in this decade can list their obligations. Almost none can artic
 
 Now here is the part that we do differently. Most programs stop at "write your why." We do not.
 
-Before a Protégé writes a single word of his "why" in our workbook, we make him answer one question. It is the most important question in the Motivate pillar, and we put it on the page in larger type than anything else around it:
+Before a Protégé writes a single word of his "why" in our Logbook, we make him answer one question. It is the most important question in the Motivate pillar, and we put it on the page in larger type than anything else around it:
 
 > **Who are you doing this for?**
 
@@ -1842,7 +1858,7 @@ You can feel that writing on the page. It is heavier. It is specific. It is the 
 
 I tell our Protégés directly, in every weekly Zoom: *if no one is on the other end of this, you won't do it.* The behavioral-change literature is unambiguous. External accountability beats internal willpower every time the contest is run. Naming a specific person creates a social-bond mechanism that internal commitment cannot replicate, because human beings did not evolve to keep promises to themselves. We evolved to keep promises to each other.
 
-So we engineer that into the system. Every Protégé names a face. The face goes in the workbook. The face comes up in the weekly Zoom — *has your target changed since last week?* The face comes up when the AI concierge nudges him about a missed week — *you said you were doing this for your wife. Let's get you back on track for her.* The face comes up on graduation day, twelve months in, when the Protégé reads his "why" out loud to that named person — present in the room, on the phone, or symbolically if they're gone.
+So we engineer that into the system. Every Protégé names a face. The face goes in the Logbook. The face comes up in the weekly Zoom — *has your target changed since last week?* The face comes up when the AI concierge nudges him about a missed week — *you said you were doing this for your wife. Let's get you back on track for her.* The face comes up on graduation day, twelve months in, when the Protégé reads his "why" out loud to that named person — present in the room, on the phone, or symbolically if they're gone.
 
 If you are reading this and you have not done this yet, do it now. Close the book for thirty seconds. Pick the face. Say the name out loud. Then come back. Everything from here on lands differently.
 
@@ -1888,11 +1904,11 @@ A man who has done these three things has built something his willpower alone co
 
 I want to show you, concretely, how this lives inside the program — so you can see that this is not abstract advice. It is an architecture.
 
-When you sign up as a Protégé, the first non-trivial thing the workbook asks you is *Who are you doing this for?* Single input field. Above the "why" prompt. Above the identity statement. The order is deliberate. The face comes first.
+When you sign up as a Protégé, the first non-trivial thing the Logbook asks you is *Who are you doing this for?* Single input field. Above the "why" prompt. Above the identity statement. The order is deliberate. The face comes first.
 
 Underneath that field, the helper line says: *If no one is on the other end of this, you won't do it. Pick a person — see their face.* The system will not let you skip it.
 
-Once the face is named, the workbook walks you through the "why" — four sentences, your own voice, present tense — and then the identity statement. Both fields are stored. Both fields surface back to you on the dashboard, in the weekly Zoom check-in, and in any nudge the AI concierge sends. When the concierge sees a missed week, it does not say *get back on track.* It says: *you told us you were doing this for your wife. Let's get you back on track for her.* The named face is the recurring throughline of every touchpoint in the system. That is by design. That is the architecture of a "why" that survives February.
+Once the face is named, the Logbook walks you through the "why" — four sentences, your own voice, present tense — and then the identity statement. Both fields are stored. Both fields surface back to you on the dashboard, in the weekly Zoom check-in, and in any nudge the AI concierge sends. When the concierge sees a missed week, it does not say *get back on track.* It says: *you told us you were doing this for your wife. Let's get you back on track for her.* The named face is the recurring throughline of every touchpoint in the system. That is by design. That is the architecture of a "why" that survives February.
 
 Every Monday on the weekly Zoom with me, we open with the same check-in. *Who are you doing this for? Has that person changed since last week?* It is not a formality. Life moves. The man whose mother passed in October is doing this for a different reason in November than he was in September. The man whose grandson was born in March is doing this for a different reason in April. The system honors that. The system updates with it.
 
@@ -1970,7 +1986,7 @@ I am not here to moralize about your money. I'm not going to tell you to budget 
 
 Two things matter here. First: the financial stress conversation belongs in the same room as the hormone panel and the gut protocol. It is that load-bearing. If you cannot sleep because of money, no amount of magnesium glycinate is going to give you back the deep sleep you need. The honest move is to address the source.
 
-Second: the My4MLife system is structured so that cost does not gate the foundational work. The Protégé membership is free. The app is free. The weekly Zoom with me is free. The 4M Assessment is free. This book is free with the assessment. The cohort workbook is free with the assessment. The entire education layer — the framework, the daily protocol, the accountability — is yours without spending a dollar. That is not marketing. That is access architecture. Start where you are. Add only what your results justify. The protocol does not require a six-figure income to run.
+Second: the My4MLife system is structured so that cost does not gate the foundational work. The Protégé membership is free. The app is free. The weekly Zoom with me is free. The 4M Assessment is free. This book is free with the assessment. The Logbook is free with the assessment. The entire education layer — the framework, the daily protocol, the accountability — is yours without spending a dollar. That is not marketing. That is access architecture. Start where you are. Add only what your results justify. The protocol does not require a six-figure income to run.
 
 > Stop hurting yourself first. Then add what works. Chronic financial cortisol is one of the things you may be hurting yourself with — and it counts.
 
@@ -2374,7 +2390,7 @@ Mitigate removes the insults. Stop hurting yourself first. Then add what works. 
 
 Muscle builds the substrate. Strong body, sharp mind. Resistance training is neuroprotection. Protein-first feeding. Hormones in the right range for a man who still has work to do. Weight off the visceral compartment. Pain managed so training can happen. The body is the delivery system. You don't get to keep the mind if you let the chassis rust.
 
-Motivate sustains compliance. Purpose, identity, accountability, a face in your head you're doing this for, a cohort running alongside you, a workbook in your pocket, a structure that holds you when willpower won't. The protocol that you actually run beats the protocol that was theoretically better.
+Motivate sustains compliance. Purpose, identity, accountability, a face in your head you're doing this for, a cohort running alongside you, a logbook in your pocket, a structure that holds you when willpower won't. The protocol that you actually run beats the protocol that was theoretically better.
 
 And Mind closes the loop. Mind is both the start and the end. Every other pillar serves this destination. All roads lead back here.
 
@@ -2441,7 +2457,7 @@ When you complete the assessment, you become a Protégé. The Protégé tier is 
 
 What comes with Protégé membership, at no cost:
 
-The **My4MLife app** in your pocket. The workbook every cohort runs — the same workbook the men paying for the full program use — lives on your phone. The daily view tells you what to eat, when to eat it, what to lift, when to sleep, when to walk. The thirty-to-forty-gram protein rule. The 9 AM to 6 PM eating window. The Monday-morning starting line, laid out so you don't have to design it yourself.
+The **My4MLife app** in your pocket. The Logbook every cohort runs — the same logbook the men paying for the full program use — lives on your phone. The daily view tells you what to eat, when to eat it, what to lift, when to sleep, when to walk. The thirty-to-forty-gram protein rule. The 9 AM to 6 PM eating window. The Monday-morning starting line, laid out so you don't have to design it yourself.
 
 **Weekly Zooms with me.** Live. Not a recording. You can ask the question. I run them because the men who run the protocol in a room with other men running the protocol finish the protocol. The ones who try to run it alone, in their head, mostly don't.
 
@@ -2449,9 +2465,9 @@ The **cohort**. Other men your age, in your decade, running the same protocol on
 
 And when — not if, when — you decide to engage with the product side of the system: the **OTC foundation** at fair market price, ordered through the affiliate channels we've already audited for you so you know exactly what you're buying. The **Rx track** — the GLP-1 consult, the testosterone and ED consult, the gut-repair consult, the regenerative arm — telemedicine consults priced for access, not for margin. No upcharge. No gating. The product side is there when the protocol points you toward it, not before.
 
-You can run the Protégé tier for as long as you want without spending a dollar on a product. The app, the Zooms, the cohort, the workbook, the book — yours. The protocol works either way. The products accelerate it; they don't replace it.
+You can run the Protégé tier for as long as you want without spending a dollar on a product. The app, the Zooms, the cohort, the Logbook, the book — yours. The protocol works either way. The products accelerate it; they don't replace it.
 
-I want to be clear about why the Protégé tier is free, because if you have spent any time in the wellness market you are right to be suspicious. It is free because the men who run the protocol get results, and the men who get results stay, and the men who stay eventually engage with the product side because the protocol points them toward specific tools at specific moments. The economics work because the protocol works. I don't need to gate the workbook to make the model run. I need you on the protocol. The rest follows.
+I want to be clear about why the Protégé tier is free, because if you have spent any time in the wellness market you are right to be suspicious. It is free because the men who run the protocol get results, and the men who get results stay, and the men who stay eventually engage with the product side because the protocol points them toward specific tools at specific moments. The economics work because the protocol works. I don't need to gate the Logbook to make the model run. I need you on the protocol. The rest follows.
 
 ## For the Reader Already Diagnosed
 
@@ -2626,7 +2642,7 @@ It surfaces your top three mitigating factors — the places the insulting behav
 Completing it makes you a **Protégé. Free. No card, no catch.** That includes:
 
 - The **My4MLife app** — your daily protocol in your pocket: what to eat, when to eat it, what to lift, when to walk.
-- The **cohort workbook** — the same one the paid program runs — delivered to you.
+- The **Logbook** — the same one the paid program runs — delivered to you.
 - **Weekly Zooms with Dr. TJ** and the **cohort** of men your age running it on the same week you are.
 
 The protocol works whether or not you ever buy a product. The products accelerate it; they don't replace it.
