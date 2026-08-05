@@ -48,7 +48,7 @@ If a member asks about labs, the answer is "the comprehensive wellness lab at $1
 ## Active-member rules
 
 - Protégé = free, activated by completing the free 4M Assessment at /assessment. App access included.
-- Protégé benefits = free app, free book (*Begin with the End in Mind*), free Cohort Workbook, weekly support Zooms with Dr. TJ, cohort community, care-coordinator pathway.
+- Protégé benefits = free app, free book (*Begin with the End in Mind*), free Logbook, weekly support Zooms with Dr. TJ, cohort community, care-coordinator pathway.
 - Graduate = earned after 12+ months of continuous active membership. Lifetime app access.
 - No member discounts on products at this stage. OTC supplements route through our Amazon affiliate store at retail. Rx routes through a consult with our care coordinator.
 

@@ -1,4 +1,4 @@
-# The My4MLife Cohort Workbook
+# The My4MLife Logbook
 
 ## Month 1
 
@@ -19,13 +19,13 @@
 
 ---
 
-## How to use this workbook
+## How to use this logbook
 
-This is not a book to read. It is a **workbook** to run.
+This is not a book to read. It is a **logbook** to run.
 
 You will write in it. You will mark up the trackers. You will tear out the scorecards and tape them to your bathroom mirror — or screenshot them for your phone lock-screen. The whole point is to convert the protocol from something you read about into something you actually run, day after day, with a pen in your hand and a face in your head.
 
-The workbook covers **Month 1** — the first four weeks of the My4MLife cohort protocol. Each week builds on the prior one. You do not skip ahead. You do not start with Week 3 because hormones sound interesting. The order is the order on purpose.
+The logbook covers **Month 1** — the first four weeks of the My4MLife cohort protocol. Each week builds on the prior one. You do not skip ahead. You do not start with Week 3 because hormones sound interesting. The order is the order on purpose.
 
 ### The shape of the month
 
@@ -40,7 +40,7 @@ The workbook covers **Month 1** — the first four weeks of the My4MLife cohort 
 
 Read Part 1 with a pen in your hand. Do not skim. Do not "fill it in later." The exercises in Part 1 are short on purpose so that the only excuse for not doing them is that you are choosing not to. Write the face. Write the why. Write the baseline. Then turn the page.
 
-The next time you open this workbook, you should already be a man who has named what he's protecting.
+The next time you open this logbook, you should already be a man who has named what he's protecting.
 
 ---
 
@@ -54,7 +54,7 @@ The next time you open this workbook, you should already be a man who has named 
 
 ---
 
-# The My4MLife Cohort Workbook
+# The My4MLife Logbook
 
 ## Month 1
 
@@ -75,13 +75,13 @@ The next time you open this workbook, you should already be a man who has named 
 
 ---
 
-## How to use this workbook
+## How to use this logbook
 
-This is not a book to read. It is a **workbook** to run.
+This is not a book to read. It is a **logbook** to run.
 
 You will write in it. You will mark up the trackers. You will tear out the scorecards and tape them to your bathroom mirror — or screenshot them for your phone lock-screen. The whole point is to convert the protocol from something you read about into something you actually run, day after day, with a pen in your hand and a face in your head.
 
-The workbook covers **Month 1** — the first four weeks of the My4MLife cohort protocol. Each week builds on the prior one. You do not skip ahead. You do not start with Week 3 because hormones sound interesting. The order is the order on purpose.
+The logbook covers **Month 1** — the first four weeks of the My4MLife cohort protocol. Each week builds on the prior one. You do not skip ahead. You do not start with Week 3 because hormones sound interesting. The order is the order on purpose.
 
 ### The shape of the month
 
@@ -96,7 +96,7 @@ The workbook covers **Month 1** — the first four weeks of the My4MLife cohort 
 
 Read Part 1 with a pen in your hand. Do not skim. Do not "fill it in later." The exercises in Part 1 are short on purpose so that the only excuse for not doing them is that you are choosing not to. Write the face. Write the why. Write the baseline. Then turn the page.
 
-The next time you open this workbook, you should already be a man who has named what he's protecting.
+The next time you open this logbook, you should already be a man who has named what he's protecting.
 
 ---
 
@@ -119,13 +119,13 @@ The next time you open this workbook, you should already be a man who has named 
 
 I'm going to ask you to do something counter-intuitive before I hand you a single supplement, a single lift, a single feeding window, a single piece of the 4M system.
 
-I'm going to ask you to put the workbook down for ten minutes and look at a face.
+I'm going to ask you to put the logbook down for ten minutes and look at a face.
 
 Not your own face in the mirror. Somebody else's face. Your wife. One of your kids — by name. Your aging father in the chair he doesn't get out of anymore. The grandchild who isn't born yet. Your own younger self at twenty-two. One specific human being whose life is materially worse if your mind goes before your body does.
 
 I've been doing this work long enough to tell you what separates the men who finish a four-month cohort from the men who quit in week three. It isn't IQ. It isn't income. It isn't how clean the protocol is or how expensive the stack is. It's whether they could name, on day one, who they were doing this for.
 
-Here is the lock-in phrase for this entire workbook. Write it down. Read it back:
+Here is the lock-in phrase for this entire logbook. Write it down. Read it back:
 
 > *The protocol that you run beats the protocol that was theoretically better. And the protocol that you run is the one you run for a specific named person.*
 
@@ -137,7 +137,7 @@ If you skip this section and jump to the protocol, the protocol will not hold. I
 
 We are going to make the quitting cost something. We are going to give it a face and a name and a six-month outcome you wrote down with your own hand.
 
-Do the four exercises in order. Don't optimize. Don't pretty it up. Use a pen, not a keyboard. Mistakes are fine — cross them out and keep going. This is the only section of the workbook that has no right answer and no wrong answer. There is only your answer.
+Do the four exercises in order. Don't optimize. Don't pretty it up. Use a pen, not a keyboard. Mistakes are fine — cross them out and keep going. This is the only section of the logbook that has no right answer and no wrong answer. There is only your answer.
 
 ---
 
@@ -445,7 +445,7 @@ This page is your anchor. Any time the protocol starts to feel like a pile of ta
 
 Mind is what we're protecting.
 
-Not "longevity." Not "anti-aging." Not the body in the mirror. The man your wife married. The father your kids recognize. The operator who walks into a room and reads it. That man lives in roughly three pounds of tissue between your ears, and that tissue is what every other intervention in this workbook is serving.
+Not "longevity." Not "anti-aging." Not the body in the mirror. The man your wife married. The father your kids recognize. The operator who walks into a room and reads it. That man lives in roughly three pounds of tissue between your ears, and that tissue is what every other intervention in this logbook is serving.
 
 When you forget what the point of any single behavior is, the answer is always the same: **the point is Mind.**
 
@@ -2257,7 +2257,7 @@ Bring honest answers. Not polished ones.
 
 ## 6.5 — Month-End Synthesis
 
-The deepest reflection in the workbook. Block 60 minutes. Pen, coffee, no phone.
+The deepest reflection in the logbook. Block 60 minutes. Pen, coffee, no phone.
 
 ### Page 1 — What changed
 
@@ -2364,7 +2364,7 @@ ___________________________________________________________
 
 You will fall off. Every man on this protocol falls off. The wedding, the work trip, the flu, the funeral, the stretch where life punches you in the mouth and the daily floor goes to zero for nine days.
 
-This is the locked procedure. Tape it inside the workbook cover.
+This is the locked procedure. Tape it inside the logbook cover.
 
 1. **Do not try to make it up.** No double-stacking after a slip. You cannot earn back lost days by punishing the next ones. Trying to "catch up" is the second insult after the first.
 
@@ -2500,7 +2500,7 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 
 ### Page 2 — Month 1 Summary Scorecard
 
-**Tear-out page — keep this in the front of your workbook.**
+**Tear-out page — keep this in the front of your logbook.**
 
 | Daily Floor Behavior | Wk 1 | Wk 2 | Wk 3 | Wk 4 | Month Total |
 |---|---|---|---|---|---|
@@ -2930,7 +2930,7 @@ The hormetic tier. Stress the system briefly and deliberately, recover, adapt.
 
 **Cold plunge or shower.** 2–5 minutes, post-workout or AM. Norepinephrine spike, mood lift, brown fat activation. Brand: Polar Recovery for home plunges, or just turn the shower to cold for the last two minutes.
 
-**Grounding.** Barefoot earth contact, 10–20 minutes per day. Walk in the grass. Stand barefoot on dirt. The cheapest intervention in this entire workbook. Brand: Earthing for grounding mats if outdoor contact isn't accessible.
+**Grounding.** Barefoot earth contact, 10–20 minutes per day. Walk in the grass. Stand barefoot on dirt. The cheapest intervention in this entire logbook. Brand: Earthing for grounding mats if outdoor contact isn't accessible.
 
 > One of these per day. Rotate. Don't try to do all three every day — you'll quit by week two.
 
@@ -3009,7 +3009,7 @@ The labs every Protégé should run every 6–12 months. Bring these to your Rx 
 
 # Part 9 — Resources & Next Steps
 
-You made it to the back of the workbook. Before you close it, do three things: re-score the assessment with 30 days of lived data, decide which Rx paths (if any) you're opening, and write the 90-day plan that takes you out of Month 1 and into the rest of your life.
+You made it to the back of the logbook. Before you close it, do three things: re-score the assessment with 30 days of lived data, decide which Rx paths (if any) you're opening, and write the 90-day plan that takes you out of Month 1 and into the rest of your life.
 
 This part is the reference shelf. Come back to it.
 
@@ -3234,7 +3234,7 @@ Every Rx path begins inside the app. Tap *Rx Consults* and pick the lane. Labs y
 The cohort runs on a weekly rhythm. Three touchpoints. None of them optional if you want the work to stick.
 
 - **Wednesday Zoom — 7:00 PM CT** — Live with Dr. TJ. Cohort Q&A, protocol updates, case discussions. Recording posted to the app within 24 hours. If you can't attend live, drop your question in the app thread and watch the replay.
-- **Sunday Reflection — solo** — On paper, in the app, or in the workbook. Twenty minutes. The reflection prompts are in Part 7.
+- **Sunday Reflection — solo** — On paper, in the app, or in the logbook. Twenty minutes. The reflection prompts are in Part 7.
 - **Weekly Adherence Scorecard** — The tear-out page from Part 6. Tape it to your bathroom mirror or screenshot it for your phone lock-screen. Score yourself at end of week.
 
 ### 12-Week Zoom Log
@@ -3390,7 +3390,7 @@ I'll see you on the Zoom Wednesday. Bring a question.
 
 ## About the Author
 
-**Dr. TJ Mundheim** is the founder of My4MLife. He built the program because he is living it — every protocol in this workbook is one he runs himself. He is here to teach it, refine it, and run it alongside the men who choose to plug in.
+**Dr. TJ Mundheim** is the founder of My4MLife. He built the program because he is living it — every protocol in this logbook is one he runs himself. He is here to teach it, refine it, and run it alongside the men who choose to plug in.
 
 ---
 

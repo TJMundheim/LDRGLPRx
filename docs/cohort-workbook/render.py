@@ -3,7 +3,7 @@
 import markdown
 import pathlib
 
-ROOT = pathlib.Path('/Users/thomasmundheim/Desktop/Development/LDRGLPRx/docs/cohort-workbook')
+ROOT = pathlib.Path('/Users/thomasmundheim/Development/LDRGLPRx/docs/cohort-workbook')
 md_path = ROOT / 'draft' / '_MASTER.md'
 html_path = ROOT / 'draft' / '_MASTER.html'
 
@@ -196,7 +196,7 @@ html_doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The My4MLife Cohort Workbook — Month 1</title>
+<title>The My4MLife Logbook — Month 1</title>
 <style>{CSS}</style>
 </head>
 <body>

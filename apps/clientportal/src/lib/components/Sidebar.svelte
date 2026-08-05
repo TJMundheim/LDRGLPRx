@@ -52,7 +52,7 @@
     {@html navHtml}
   </div>
   <div class="sb-stats" style="margin-top:8px">
-    <div class="sb-stats-title">WORKBOOK PROGRESS</div>
+    <div class="sb-stats-title">LOGBOOK PROGRESS</div>
     <div class="sb-stat">{stats.audit}</div>
     <div class="sb-stat">{stats.score}</div>
     <div class="sb-stat">{stats.morn}</div>

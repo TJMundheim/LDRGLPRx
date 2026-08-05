@@ -13,7 +13,7 @@ const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
 const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind.pdf';
-const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-month1.pdf';
+const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'the-logbook-month1.pdf';
 const BUCKET_REGION = process.env.BUCKET_REGION ?? 'us-east-2';
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
@@ -268,11 +268,11 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
 
   const workbookCard = workbookUrl
     ? `<div style="margin:20px 0;padding:22px;border:2px solid #b87333;border-radius:10px;background:#fdf5ed">
-<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#7a4c1f;text-transform:uppercase;margin:0 0 8px">Your Action Workbook</p>
-<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">The Cohort Workbook — Month 1</h2>
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#7a4c1f;text-transform:uppercase;margin:0 0 8px">Your Logbook</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">The Logbook — Month 1</h2>
 <p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Print it. Mark it up. Run it daily.</p>
 <p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Daily check-ins, weekly reflections, tear-out scorecards, the stack reference, and the optional advanced layer. The how that pairs with the book's why.</p>
-<p style="margin:0"><a href="${workbookUrl}" style="background:#b87333;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Workbook (PDF) &rarr;</a></p>
+<p style="margin:0"><a href="${workbookUrl}" style="background:#b87333;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Logbook (PDF) &rarr;</a></p>
 <p style="color:#777;font-size:11px;margin:12px 0 0">Save the PDF — this download link is yours to keep and share.</p>
 </div>`
     : '';
@@ -302,7 +302,7 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
 
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${safe(firstName)}.</h1>
-<p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your assessment results, the book, the workbook, and the app. Take them in any order; they're designed to work together.</p>
+<p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your assessment results, the book, the logbook, and the app. Take them in any order; they're designed to work together.</p>
 ${top3Card}
 ${breakdownCard}
 ${rxCard}
@@ -320,7 +320,7 @@ async function sendResultsEmail(email: string, firstName: string, scores: any, t
   try { bookUrl = getBookDownloadUrl(); } catch (e) { console.warn('book URL build failed', e); }
   try { workbookUrl = getWorkbookDownloadUrl(); } catch (e) { console.warn('workbook URL build failed', e); }
 
-  const subject = `Welcome to My4MLife — your results, book, workbook, and app are ready`;
+  const subject = `Welcome to My4MLife — your results, book, logbook, and app are ready`;
   const html = buildResultsHtml(firstName, scores, top3, bookUrl, workbookUrl, breakdown, totalScore, band);
   const payload = { kind: 'info', to: email, subject, html };
   await lambda.send(new InvokeCommand({

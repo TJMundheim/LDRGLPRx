@@ -16,7 +16,7 @@ const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digit
 // Fallbacks MUST match the current live fulfillment keys (audit 2026-07-07:
 // the -v1 fallbacks were shipping month-old, pre-de-brand editions).
 const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind.pdf';
-const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'cohort-workbook-month1.pdf';
+const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'the-logbook-month1.pdf';
 const SIGNED_URL_TTL_SEC = 60 * 60 * 24 * 7; // 7 days
 
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
@@ -216,11 +216,11 @@ async function sendWelcomeEmail(email: string, rawFirstName: string, variant: We
   // Bronze/copper workbook card.
   const workbookCard = workbookUrl
     ? `<div style="margin:20px 0;padding:22px;border:2px solid #b87333;border-radius:10px;background:#fdf5ed">
-<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#7a4c1f;text-transform:uppercase;margin:0 0 8px">Your Action Workbook</p>
-<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">The Cohort Workbook — Month 1</h2>
+<p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#7a4c1f;text-transform:uppercase;margin:0 0 8px">Your Logbook</p>
+<h2 style="font-family:Georgia,serif;font-size:22px;color:#0a1628;margin:0 0 6px;line-height:1.2">The Logbook — Month 1</h2>
 <p style="font-style:italic;color:#666;font-size:14px;margin:0 0 12px;line-height:1.4">Print it. Mark it up. Run it daily.</p>
 <p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">135 pages of daily check-ins, weekly reflections, tear-out scorecards, the stack reference, and the optional advanced layer. The how that pairs with the book's why.</p>
-<p style="margin:0"><a href="${workbookUrl}" style="background:#b87333;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Workbook (PDF) &rarr;</a></p>
+<p style="margin:0"><a href="${workbookUrl}" style="background:#b87333;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Download the Logbook (PDF) &rarr;</a></p>
 <p style="color:#777;font-size:11px;margin:12px 0 0">Link valid for 7 days. Reply to this email if you need a fresh one.</p>
 </div>`
     : '';
@@ -236,11 +236,11 @@ async function sendWelcomeEmail(email: string, rawFirstName: string, variant: We
 
   const lead = variant === 'app-only'
     ? `Thanks for purchasing My4MLife Protégé app access. You're officially a Protégé and your access is ready. Tap below to open the app — we'll email you a one-time sign-in code.`
-    : `You're officially a My4MLife Protégé. Three things are yours right now — the book, the workbook, and the app. Take them in any order; they're designed to work together.`;
+    : `You're officially a My4MLife Protégé. Three things are yours right now — the book, the logbook, and the app. Take them in any order; they're designed to work together.`;
 
   const subject = variant === 'app-only'
     ? 'Welcome to My4MLife — your Protégé app access is ready'
-    : 'Welcome to My4MLife — your book, workbook, and app are ready';
+    : 'Welcome to My4MLife — your book, logbook, and app are ready';
 
   const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${firstName}.</h1>
@@ -248,7 +248,7 @@ async function sendWelcomeEmail(email: string, rawFirstName: string, variant: We
 ${bookCard}
 ${workbookCard}
 ${appCard}
-<p style="margin:24px 0 12px;font-size:14px;line-height:1.6;color:#333">Your Protégé benefits include free access to the My4MLife app, your welcome book, the cohort workbook, weekly Zooms with Dr. TJ, and the cohort community.</p>
+<p style="margin:24px 0 12px;font-size:14px;line-height:1.6;color:#333">Your Protégé benefits include free access to the My4MLife app, your welcome book, the Logbook, weekly Zooms with Dr. TJ, and the cohort community.</p>
 <p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;
 

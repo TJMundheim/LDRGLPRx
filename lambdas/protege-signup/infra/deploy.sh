@@ -89,7 +89,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
-ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=$USER_PROFILE_TABLE,COGNITO_USER_POOL_ID=$USER_POOL_ID,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind.pdf,PROTEGE_WORKBOOK_S3_KEY=cohort-workbook-month1.pdf}"
+ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=$USER_PROFILE_TABLE,COGNITO_USER_POOL_ID=$USER_POOL_ID,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind.pdf,PROTEGE_WORKBOOK_S3_KEY=the-logbook-month1.pdf}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \
