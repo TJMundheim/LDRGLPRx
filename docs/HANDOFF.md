@@ -15,6 +15,10 @@
 - **Austin (7/31 Speed of Light dinner):** Sinicropi follow-up ON HOLD pending TJ debrief. NEW: **Landen Fredrick** (CEO Mannatech + M5M chair) demanded follow-up. Mannatech: going-concern 10-Q, –$5.6M equity, ~$10M mkt cap, Nasdaq notice, 16% insider loans, Americas –25.6%. Strategy: advisory/licensing angles, never distributor; TJ has the leverage (Rx layer). Memory: project_sinicropi_speaker_track.
 - **TJ priority list delivered 2026-08-03** (Austin follow-ups → Google aliases → Zoom Pro → live $149 test → first admin sign-in → KDP v17 upload → ConnectedMind URL → photographer → ambassador review). Scouting calendar: docs/launch/speaking/scouting-calendar-aug2026.md.
 
+## ▶ NEXT SESSION STARTS HERE (queued 2026-08-05)
+
+**BRAINSTORM: employer/employee edition of *Begin with the End in Mind*** + corresponding website / app / Logbook changes for the workplace target market. Build ON TOP of the existing corporate-wellness vertical draft (docs/plan/corporate-wellness-vertical-draft.md — B2B2C skin over My4MLife engine, separate brand for employer context, PEPM + benefit-priced commerce, flank CoreHealth; memory: project_corporate_wellness_draft). Related plays: book-as-Trojan-horse (speaking circuit), Logbook rename (never "workbook"), Odyssey voyage theme, men-only HARD commit (decide: does the employer edition stay men-only or is the B2B skin the everyone-brand? The 07-15 draft says separate brand for everyone — this is the first decision to put to TJ). Book source: docs/book/draft/_MASTER.md (v17). Logbook source: docs/cohort-workbook/draft/_MASTER.md.
+
 ## ⚡ 2026-07-13→14 SESSION LEDGER (Fable) — 20-question assessment + ambassador draft
 
 **20-QUESTION MINDSPAN ASSESSMENT LIVE (spec: ~/Documents/MindSpan-20Q-Assessment-Spec-for-ClaudeCode.md):**
