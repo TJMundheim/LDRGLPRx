@@ -10,24 +10,24 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   /*
-   * PAPERBACK GEOMETRY — 6×9 trim, 262 pages, white paper (B&W)
-   * Page:        12.84in × 9.25in  (landscape, one page)
+   * PAPERBACK GEOMETRY — 6×9 trim, 262 pages, white paper (standard color)
+   * Page:        12.865in × 9.25in  (landscape, one page)
    * Left bleed:  0–0.125in
    * Back cover:  0.125–6.125in  (6.000in wide)
-   * Spine:       6.125–6.715in  (0.59in wide)
-   * Front cover: 6.715–12.715in (6.000in wide)
-   * Right bleed: 12.706–12.84in
+   * Spine:       6.125–6.74in  (0.615in wide)
+   * Front cover: 6.74–12.74in (6.000in wide)
+   * Right bleed: 12.706–12.865in
    * Vert bleed:  0.125in top, 0.125in bottom  → trim height 9.000in
    * Safety margin: ≥0.375in from outer trim edges (0.125 bleed + 0.25 safe)
    */
 
   @page {
-    size: 12.84in 9.25in;
+    size: 12.865in 9.25in;
     margin: 0;
   }
 
   html, body {
-    width: 12.84in;
+    width: 12.865in;
     height: 9.25in;
     margin: 0;
     padding: 0;
@@ -39,7 +39,7 @@
   .canvas {
     position: absolute;
     top: 0; left: 0;
-    width: 12.84in;
+    width: 12.865in;
     height: 9.25in;
     background:
       radial-gradient(ellipse at 25% 40%, rgba(212,175,90,.08) 0%, rgba(212,175,90,0) 55%),
@@ -291,13 +291,13 @@
     line-height: 1.3;
   }
 
-  /* ─── SPINE (6.125in → 6.715in = 0.59in wide) ─── */
+  /* ─── SPINE (6.125in → 6.74in = 0.615in wide) ─── */
   /* Safe text width: ~0.45in (0.065in margin each side) */
   .spine {
     position: absolute;
     top: 0;
     left: 6.125in;
-    width: 0.59in;
+    width: 0.615in;
     height: 9.25in;
     overflow: hidden;
     /* Paperback: no hinge shading, just very subtle edge darkening */
@@ -382,12 +382,12 @@
     flex-shrink: 0;
   }
 
-  /* ─── FRONT PANEL (6.715in → 12.715in = 6.000in wide) ─── */
+  /* ─── FRONT PANEL (6.74in → 12.74in = 6.000in wide) ─── */
   /* Safe zone: left clear of spine (≥0.25in gap), right ≥0.375in from trim */
   .front {
     position: absolute;
     top: 0;
-    left: 6.715in;
+    left: 6.74in;
     width: 6.000in;
     height: 9.25in;
     overflow: hidden;
@@ -598,7 +598,7 @@
 </div>
 
 <!-- ═══════════════════════════════════
-     SPINE  (6.125in → 6.715in = 0.59in wide)
+     SPINE  (6.125in → 6.74in = 0.615in wide)
 ════════════════════════════════════ -->
 <div class="spine">
   <div class="spine-safe">
@@ -628,7 +628,7 @@
 </div>
 
 <!-- ═══════════════════════════════════
-     FRONT PANEL  (6.715in → 12.715in = 6.000in wide)
+     FRONT PANEL  (6.74in → 12.74in = 6.000in wide)
 ════════════════════════════════════ -->
 <div class="front">
 
