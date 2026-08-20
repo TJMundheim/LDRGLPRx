@@ -107,6 +107,8 @@ And here's what the research shows about small numbers: **the biggest health ret
 
 Why does this matter beyond the mirror? Because body composition — most simply, whether your BMI sits in the healthy range — shows up in virtually every healthspan equation there is. Carrying less excess weight means lower odds of diabetes, heart disease, joint failure, and cognitive decline. Getting skinny isn't vanity. It's the single most leveraged health project most people will ever undertake. And it turns out to be countable.
 
+One more thing about the word on the cover. Skinny isn't just where you're going — it's how you're getting there. Look at what this program asks of you: no calorie math, no food scale, no gym membership, no forbidden-food list, no six-day-a-week anything. We took the entire bloated process of getting healthy and skinnied *it* down to a handful of numbers you can count on your fingers. **The diet industry got fat. This book got skinny. So will you.**
+
 # 2. Count to 32: The Chew
 
 Start here, because it costs nothing and starts at your very next meal.
@@ -211,6 +213,8 @@ This chapter is the promise on the cover, so let's make it explicit. On this pro
 - **Forbidden foods.** There is no list to memorize and nothing you can never eat again. When you chew every bite 32 times and eat inside a window, the *what* starts improving on its own — highly processed food is engineered to be swallowed fast, and it loses much of its magic at chew number twenty.
 
 Diets fail because they demand constant accounting of invisible things. This works because it demands occasional counting of obvious things. That's the whole trick.
+
+And that's the real meaning of the title. Skinny the process, and the body follows.
 
 > **Tonight's count:** Zero. Put the food scale in a drawer. Delete the calorie app. Enjoy it.
 
@@ -851,6 +855,9 @@ ______________________________________________________________________
 You counted yourself skinny. The next question — how to keep this mind sharp for the rest of your life — is waiting at **[my4mlife.com/assessment](https://my4mlife.com/assessment)**.
 
 # Questions People Actually Ask
+
+**Isn't "skinny" an unhealthy word? Shouldn't this book say "strong" or "well"?**
+I chose it on purpose, for two reasons. First, honesty. The wellness industry retired the word, but when people close the bathroom door and talk to the mirror, "skinny" is still the word they actually use — and I'd rather meet you at the word you use than at the word a marketing department approved. Second, this book means it twice. Skinny the body, yes. But mostly, skinny the *process*: this program is what's left when you strip dieting of everything that makes people quit — the counting of invisible things, the weighing, the buying, the forbidding. We skinnied the method down to numbers you can count on your fingers. If the cover made you mad enough to open the book and read this far — good. The argument the cover started, the program finishes.
 
 **Do I really have to chew everything 32 times? What about soup? Yogurt? A smoothie?**
 The number is a target, not a law. Foods that don't need 32 chews get the *spirit* of the rule: spoon down between bites, no gulping, let the meal take twenty minutes. But notice something — foods that require zero chewing are usually the exact foods engineered to get calories into you fastest. If most of your diet can't be chewed, that *is* the finding.
