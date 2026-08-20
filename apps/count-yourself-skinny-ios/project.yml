@@ -1,0 +1,26 @@
+name: CountYourselfSkinny
+options:
+  bundleIdPrefix: com.my4mlife
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  CountYourselfSkinny:
+    type: application
+    platform: iOS
+    sources: [Sources]
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: Count Yourself Skinny
+        UILaunchScreen: {}
+        NSMotionUsageDescription: "Motion access lets your AirPods count chews during meals. Nothing is recorded and nothing leaves your phone."
+        NSHealthShareUsageDescription: "Step count is read from Health to fill in your daily steps automatically."
+    entitlements:
+      path: Sources/CountYourselfSkinny.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: 1
