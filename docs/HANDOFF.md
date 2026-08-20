@@ -1,8 +1,17 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-08-04 · self-contained current-state snapshot
+# Last updated: 2026-08-19 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
+
+## ⚡ 2026-08-19 SESSION — Book v19: formal copyright page (all formats)
+
+- **Book v19 built (color + BW paperback + Kindle docx):** new dedicated copyright page (page 2, own page) inserted after title page in `_MASTER.md` and surgically into the ebook docx. Contains: full rights-reserved paragraph, **My4MLife Press imprint**, trademark notice (My4MLife / 4M framework / MindSpan Score / Biome NS), formal medical disclaimer (DC-credential-compliant per branding rules), references pointer to my4mlife.com/science, First Edition 2026, printer line, print run. Old one-line © removed from title page.
+- **ISBN intentionally omitted from print** — HTML comment placeholder in `_MASTER.md` copyright block. RECOMMENDED: buy Bowker ISBNs (~$295/10) so publisher of record = My4MLife Press, not "Independently published". Add before/at KDP upload if purchased.
+- v19 preserves the v18 "Who This Book Is For" page (men-motivation / 99%-for-everyone) in ALL formats. 262pp both PDFs (+2 vs v18 — covers' spine widths unaffected in practice but re-check if reprinting wraps).
+- S3 fulfillment refreshed: `begin-with-the-end-in-mind.pdf` = v19 color.
+- TJ intends to upload v19 to KDP (Kindle + paperback + hardcover). Kindle uses the updated ebook docx; both print interiors = v19 PDFs.
+- Open credibility ideas (TJ aware, not built): named foreword author instead of "consortium" signature; advance-praise page once real endorsement quotes exist (outreach letters already drafted).
 
 ## ⚡ 2026-07-29→08-04 SESSION LEDGER (Fable) — first real Protégé + Logbook rename + Austin
 

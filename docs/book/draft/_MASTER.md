@@ -9,9 +9,34 @@
 
 *A My4MLife Field Guide*
 
-© 2026 My4MLife. All rights reserved.
-
 [my4mlife.com](https://my4mlife.com) · [my4mlife.com/assessment](https://my4mlife.com/assessment)
+
+---
+
+<div style="page-break-before: always;"></div>
+
+*Begin with the End in Mind: Don't Lose Your Identity and Your Dignity While You Still Have a Choice*
+
+Copyright © 2026 by TJ Mundheim. All rights reserved.
+
+Published by **My4MLife Press**, an imprint of My4MLife.
+
+No part of this publication may be reproduced, distributed, stored in a retrieval system, or transmitted in any form or by any means — electronic, mechanical, photocopying, recording, scanning, or otherwise — without the prior written permission of the publisher, except for brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law. For permission requests, contact the publisher at support@my4mlife.com.
+
+**My4MLife**, **Begin with the End in Mind**, the **4M framework** (Mind, Muscle, Mitigate, Motivate), **MindSpan Score**, and **Biome NS** are trademarks of My4MLife. All other trademarks are the property of their respective owners.
+
+**Medical Disclaimer.** This book is for educational and informational purposes only and is not intended as medical advice, diagnosis, or treatment. The author is a Doctor of Chiropractic, NBCE-certified since 1994; he is not a medical physician and does not provide medical care through this book or the My4MLife platform. Medical care, diagnosis, and prescriptions referenced in these pages are provided exclusively by independent licensed medical practices. Always consult a qualified licensed clinician before beginning any new health protocol, supplement, or medication, and never disregard or delay seeking professional medical advice because of something you have read here. The author and publisher disclaim any liability arising directly or indirectly from the use or application of the contents of this book.
+
+Scientific references and source materials for the claims in this book are maintained and updated at [my4mlife.com/science](https://my4mlife.com/science).
+
+First Edition, 2026
+
+<!-- When ISBNs are purchased (Bowker) or assigned (KDP), add them here:
+ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
+
+Printed in the United States of America
+
+10 9 8 7 6 5 4 3 2 1
 
 ---
 
