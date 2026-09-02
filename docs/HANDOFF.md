@@ -5,12 +5,14 @@
 # ===================================================================
 
 
-## ⚡ 2026-09-02 SESSION — Direct-buy front door + gender-specific pivot (IN PROGRESS)
+## ⚡ 2026-09-02 SESSION — Direct-buy front door + gender-specific pivot (SHIPPED fae167fb + 74edbe90, deployed website + intake lambda)
 
 - **MEN-ONLY (07-03) SUPERSEDED → GENDER-SPECIFIC:** neutral where physiology isn't sex-specific; explicit men (testosterone) / women (menopause). Never scrub men→people; rewrite. Dr. TJ male-perspective voice stays.
 - **Front door = direct-buy Rx (Hims/Ro):** homepage treatment picker → /rx page → questionnaire → visit. Lanes: GLP-1 free · Gut-Brain Rx free (retitled leaky-gut; formula never shown) · **NEW /rx/gh-peptide** free (placeholder: tesamorelin OR CJC-1295, TJ to pick; truncal fat + muscle w/ GLP-1) · Testosterone $249 live · **NEW /rx/menopause-hrt** $249 live audio-visual ($129/mo mirror of TRT). Peptides/regenerative → Services only. Plan: docs/plan/direct-buy-front-door-2026-09-02.md.
 - Backend: only change = `lambdas/_shared/patient-record` forcedVisitType adds 'menopause-hrt' → audio-visual (TDD). Consult amount is admin-entered at approval (no pricing code).
 - Traffic thesis: redesign = landing pad; **Count Yourself Skinny = traffic engine.**
+- **GO-LIVE FOLLOW-UPS (reviewer flags):** (1) menopause-hrt questionnaire carries TRT Stripe price IDs — INERT today (charge comes from admin-entered amountCents in charge-on-approval) but must be replaced before any code reads them; (2) gh-peptide questionnaire Step 3 still GLP-1 screening + "no lab work" + tesamorelin off-label wording — revisit when TJ picks the product; (3) hero photos on neutral lanes (/rx/weight-loss dawn-walk, /rx/gh-peptide rowing) still show men — need neutral/dual assets; (4) Navbar has NO rendered Sign In link (pre-existing); (5) intake handler.ts 111 lines (pre-existing >100 rule); (6) Target-weight field on hormone intakes (TRT+menopause) is a GLP-1 template leftover.
+- Homepage keeps Amazon book links (Kindle B0H7FJRHXC / Paperback B0H7742SDD / Hardcover B0H75TYF1G) in the free band (TJ 2026-09-02).
 - NEXT after this ships: book one **v20** gender-specific sweep + real women's hormone section; women's HRT needs telemed partner prescribing.
 - CYS status unchanged since 08-19 (book v2 82pp; app scaffold uncompiled — no Homebrew/xcodegen on TJ's Mac; needs TJ password or permission to download xcodegen binary).
 
