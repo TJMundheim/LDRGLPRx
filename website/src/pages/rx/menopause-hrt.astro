@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import TrustBand from '../../components/TrustBand.astro';
+
+const title = 'Menopause & HRT Rx — For Women — My4MLife';
+const description = 'Telemedicine menopause & HRT consult + hormone panel. One consult fee, a plan for the whole system. For women. $249.';
+const canonical = 'https://www.my4mlife.com/rx/menopause-hrt';
+
+const rxSteps = [
+  {
+    title: 'Complete the health questionnaire',
+    body: 'Five minutes, from your phone. No appointment, no waiting room.',
+  },
+  {
+    title: 'A physician reviews',
+    body: 'A licensed provider evaluates your history and goals.',
+  },
+  {
+    title: 'Delivered to your door',
+    body: 'Your protocol ships directly. Ongoing support included.',
+  },
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="rx-section rx-section--top">
+  <div class="container rx-inner">
+    <p class="rx-eyebrow">For Women · Perimenopause &amp; Menopause</p>
+    <h1>Brain fog. Sleep. Weight. Hormones. The same system, evaluated at once.</h1>
+    <figure class="scene-figure">
+      <img src="/images/scenes/couple-rooftop.jpg" alt="A woman laughing with her partner on a rooftop terrace at dusk, city skyline behind them" loading="eager" fetchpriority="high" />
+      <figcaption>The clarity you had before — it's not gone. It's a hormone panel away from being understood.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<TrustBand />
+
+<section class="rx-section rx-section--bottom">
+  <div class="container rx-inner">
+    <p class="rx-lead">
+      Perimenopause and menopause symptoms — hot flashes, sleep disruption, brain fog, weight gain around the middle, low libido, mood changes — share upstream drivers: declining estrogen and progesterone, often testosterone too. Treating one symptom leaves the system in place. Menopause is also a documented inflection point for women's cognitive trajectory — that's why My4MLife treats it as a brain-health decision, not just a comfort decision.
+    </p>
+
+    <p class="rx-body">
+      Your live telemedicine visit includes a comprehensive hormone panel (estradiol, progesterone, FSH, total + free testosterone, SHBG, TSH, fasting glucose, HbA1c, lipids, hsCRP). Based on the panel, the physician can write for bioidentical estrogen/progesterone, testosterone where indicated, or non-hormonal options. <strong>One visit. A plan for the whole system.</strong>
+    </p>
+  </div>
+</section>
+
+<HowItWorks steps={rxSteps} />
+
+<section class="rx-section rx-section--bottom">
+  <div class="container rx-inner">
+    <p class="rx-price-line">
+      <strong>$249</strong> — live telemedicine visit + mandatory hormone panel (required for any hormone prescription).
+      <span class="rx-pay-note">Medication is billed separately.</span>
+    </p>
+
+    <a class="rx-cta-btn" href="/rx/menopause-hrt/questionnaire">
+      Start Your Health Questionnaire &rarr;
+    </a>
+
+    <p class="rx-disclosure">
+      Complete a brief health questionnaire and save your payment method. Our care coordinator will email you within 24 hours to confirm next steps with the network physician.
+    </p>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.rx-section { padding: calc(76px + 3.5rem) 1rem 5rem; min-height: 60vh; }
+.rx-section--top { padding-bottom: 1.5rem; min-height: 0; }
+.rx-section--bottom { padding-top: 1.5rem; min-height: 0; }
+.rx-inner { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem; }
+.rx-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 0; overflow-wrap: break-word; }
+.rx-inner h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 3.6vw, 2.4rem); color: var(--primary); margin: 0; line-height: 1.18; max-width: 640px; }
+.rx-lead { font-size: 1.1rem; color: var(--text); line-height: 1.6; margin: 0.5rem 0 0; max-width: 640px; }
+.rx-body { font-size: 1rem; color: var(--text); line-height: 1.62; margin: 0; max-width: 640px; }
+.rx-body strong { color: var(--accent); }
+.rx-price-line { font-size: 1.05rem; color: var(--primary); margin: 0.5rem 0 0; max-width: 640px; line-height: 1.55; }
+.rx-price-line strong { color: var(--accent); font-size: 1.35rem; }
+.rx-pay-note { display: block; font-size: 0.88rem; color: var(--text-light); font-style: italic; margin-top: 0.35rem; }
+.rx-cta-btn { display: inline-block; background: var(--accent); color: #fff; padding: 1rem 2.2rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; border: none; cursor: pointer; margin-top: 1rem; box-shadow: 0 6px 20px rgba(0,184,148,0.25); transition: opacity .15s; text-decoration: none; }
+.rx-cta-btn:hover { opacity: 0.92; }
+.rx-disclosure { font-size: 0.85rem; color: var(--text-light); margin: 0.5rem 0 0; max-width: 560px; line-height: 1.5; }
+</style>

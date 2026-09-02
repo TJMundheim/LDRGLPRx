@@ -72,6 +72,14 @@ describe('forcedVisitType', () => {
     expect(forcedVisitType('testosterone-ed')).toBe('audio-visual');
   });
 
+  it('forces audio-visual for menopause-hrt', () => {
+    expect(forcedVisitType('menopause-hrt')).toBe('audio-visual');
+  });
+
+  it('defaults gh-peptide to async', () => {
+    expect(forcedVisitType('gh-peptide')).toBe('async');
+  });
+
   it('defaults everything else to async', () => {
     expect(forcedVisitType('glp1')).toBe('async');
     expect(forcedVisitType('gut')).toBe('async');

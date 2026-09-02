@@ -10,15 +10,19 @@ const isFunnelPage =
   path.startsWith('/consult') ||
   path.startsWith('/thank-you') ||
   /^\/rx\/[^/]+\/questionnaire/.test(path);
+
+const isHome = path === '/';
+const ctaHref = isHome ? '/#treatments' : '/assessment';
+const ctaLabel = isHome ? 'Start your free visit' : 'Get your MindSpan baseline — free';
 ---
 {!isFunnelPage && (
   <div class="sticky-cta" id="sticky-mobile-cta">
     <a
-      href="/assessment"
+      href={ctaHref}
       class="sticky-cta-btn"
       id="sticky-cta-btn"
     >
-      Get your MindSpan baseline — free
+      {ctaLabel}
     </a>
     <button class="sticky-cta-dismiss" id="sticky-cta-dismiss" aria-label="Dismiss">&times;</button>
   </div>

@@ -1,13 +1,25 @@
 ---
-// Gut-repair-singular nav (TJ 2026-07-09): Home | Gut Repair | Services ▾ | Sign In.
-// The 5 direct-buy Rx lanes demoted from top-level into the Services mega-menu
-// under "Prescription Therapies" — still crawlable + footer-linked for SEO.
+// Direct-buy front door (TJ 2026-09-02): Home | 5 treatment links | Services ▾ | Sign In.
+// The 5 top-level treatment links are the direct-buy Rx front door; the same
+// (relabeled/expanded) set also lives in the Services mega-menu under
+// "Prescription Therapies" for crawlability + footer-linked SEO.
 
-// Prescription Therapies — direct-buy Rx (moved out of the top bar).
+// Top-level treatment links — direct-buy Rx front door (TJ 2026-09-02).
+const topRxItems = [
+  { label: 'GLP-1 Weight Loss', href: '/rx/weight-loss' },
+  { label: 'Gut-Brain Rx',      href: '/rx/leaky-gut' },
+  { label: 'GH Peptide',        href: '/rx/gh-peptide' },
+  { label: 'Testosterone',      href: '/rx/testosterone-ed' },
+  { label: 'Menopause & HRT',   href: '/rx/menopause-hrt' },
+];
+
+// Prescription Therapies — Services mega-menu (full Rx catalog).
 const rxItems = [
   { label: 'GLP-1 Weight Loss', href: '/rx/weight-loss' },
+  { label: 'Gut-Brain Rx',      href: '/rx/leaky-gut' },
+  { label: 'GH Peptide',        href: '/rx/gh-peptide' },
   { label: 'Testosterone & ED', href: '/rx/testosterone-ed' },
-  { label: 'Leaky Gut Rx',      href: '/rx/leaky-gut' },
+  { label: 'Menopause & HRT',   href: '/rx/menopause-hrt' },
   { label: 'Regenerative Medicine', href: '/rx/regenerative-medicine' },
   { label: 'Peptides Rx',       href: '/rx/peptides' },
 ];
@@ -97,8 +109,10 @@ const programItems = [
     <!-- Desktop nav: Home + Services dropdown + Sign In (8 categories moved to homepage CTA band) -->
     <ul class="nav-links" id="nav-links" role="menubar">
 
-      <!-- Featured single solution — gut repair leads the whole brand -->
-      <li class="nav-featured-item" role="none"><a href="/solutions/gut" class="nav-featured-link">Gut Repair</a></li>
+      <!-- Direct-buy front door — 5 top-level treatment links (TJ 2026-09-02) -->
+      {topRxItems.map((item) => (
+        <li class="nav-rx-item" role="none"><a href={item.href} class="nav-rx-link">{item.label}</a></li>
+      ))}
 
       <!-- Services mega-menu -->
       <li class="dd-trigger" role="none" id="dd-services">
@@ -188,9 +202,11 @@ const programItems = [
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
 
-    <!-- Featured single solution — gut repair leads (mobile) -->
+    <!-- Direct-buy front door — 5 top-level treatment links (mobile, TJ 2026-09-02) -->
     <div class="mobile-rx-block">
-      <a href="/solutions/gut" class="mobile-rx-link">Gut Repair — Start Here</a>
+      {topRxItems.map((item) => (
+        <a href={item.href} class="mobile-rx-link">{item.label}</a>
+      ))}
     </div>
 
     <!-- Services accordion (8 categories live inside Services mega-menu, not at top of mobile menu) -->
@@ -382,27 +398,31 @@ const programItems = [
   .mobile-rx-link { display: block; padding: 0.7rem 1rem; background: var(--accent); color: #fff; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; text-decoration: none; border-radius: 8px; text-align: center; }
   .mobile-rx-link:hover { opacity: 0.9; }
 
-  /* ── Featured single solution — Gut Repair ── */
-  .nav-featured-item { list-style: none; }
-  .nav-featured-link {
+  /* ── Direct-buy front door — 5 top-level treatment links (TJ 2026-09-02) ── */
+  .nav-rx-item { list-style: none; }
+  .nav-rx-link {
     display: inline-block;
-    padding: 0.42rem 1.1rem;
+    padding: 0.5rem 0.65rem;
     font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    color: #0a1f44;
-    background: linear-gradient(135deg, #e3c98b, #d4af5a);
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text);
     text-decoration: none;
-    border-radius: 999px;
+    border-radius: 6px;
     white-space: nowrap;
-    margin-left: 0.45rem;
-    box-shadow: 0 2px 10px rgba(212,175,90,0.35);
-    transition: opacity 0.12s, transform 0.12s, box-shadow 0.12s;
+    transition: background 0.12s, color 0.12s;
   }
-  .nav-featured-link:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,175,90,0.5); }
+  .nav-rx-link:hover {
+    background: var(--bg-soft, #f5f0e8);
+    color: var(--primary);
+  }
+  /* On narrower desktops, shrink the treatment labels so the bar doesn't wrap */
   @media (min-width: 961px) and (max-width: 1280px) {
-    .nav-featured-link { font-size: 0.82rem; padding: 0.4rem 0.85rem; margin-left: 0.3rem; }
+    .nav-rx-link { font-size: 0.76rem; padding: 0.45rem 0.45rem; }
+  }
+  /* Below 1120px, drop the "Home" text label too so 5 links + Services + Sign In fit on one line */
+  @media (min-width: 961px) and (max-width: 1119px) {
+    .nav-home-label { display: none; }
   }
   @media (max-width: 960px) {
     .nav-rx-item { display: none; }

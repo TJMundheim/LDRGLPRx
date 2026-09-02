@@ -1,8 +1,18 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-08-19 · self-contained current-state snapshot
+# Last updated: 2026-09-02 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
+
+
+## ⚡ 2026-09-02 SESSION — Direct-buy front door + gender-specific pivot (IN PROGRESS)
+
+- **MEN-ONLY (07-03) SUPERSEDED → GENDER-SPECIFIC:** neutral where physiology isn't sex-specific; explicit men (testosterone) / women (menopause). Never scrub men→people; rewrite. Dr. TJ male-perspective voice stays.
+- **Front door = direct-buy Rx (Hims/Ro):** homepage treatment picker → /rx page → questionnaire → visit. Lanes: GLP-1 free · Gut-Brain Rx free (retitled leaky-gut; formula never shown) · **NEW /rx/gh-peptide** free (placeholder: tesamorelin OR CJC-1295, TJ to pick; truncal fat + muscle w/ GLP-1) · Testosterone $249 live · **NEW /rx/menopause-hrt** $249 live audio-visual ($129/mo mirror of TRT). Peptides/regenerative → Services only. Plan: docs/plan/direct-buy-front-door-2026-09-02.md.
+- Backend: only change = `lambdas/_shared/patient-record` forcedVisitType adds 'menopause-hrt' → audio-visual (TDD). Consult amount is admin-entered at approval (no pricing code).
+- Traffic thesis: redesign = landing pad; **Count Yourself Skinny = traffic engine.**
+- NEXT after this ships: book one **v20** gender-specific sweep + real women's hormone section; women's HRT needs telemed partner prescribing.
+- CYS status unchanged since 08-19 (book v2 82pp; app scaffold uncompiled — no Homebrew/xcodegen on TJ's Mac; needs TJ password or permission to download xcodegen binary).
 
 ## ⚡ 2026-08-19 SESSION — Book v19: formal copyright page (all formats)
 

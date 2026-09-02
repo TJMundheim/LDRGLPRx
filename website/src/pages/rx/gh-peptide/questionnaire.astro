@@ -1,16 +1,16 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
-const title = 'Gut-Brain Rx — Health Questionnaire | My4MLife';
-const description = 'Complete your health questionnaire for My4MLife Gut-Brain Rx. Physician review. Card on file but no charge until approved.';
-const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
+const title = 'Growth-Hormone Peptide — Health Questionnaire | My4MLife';
+const description = 'Complete your health questionnaire for the My4MLife growth-hormone peptide program. Physician review. Card on file but no charge until approved.';
+const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
 
 <section class="q-section">
   <div class="container q-inner">
     <header class="q-header">
-      <p class="q-eyebrow">Gut-Brain Rx Telemedicine Intake</p>
+      <p class="q-eyebrow">Growth-Hormone Peptide Telemedicine Intake</p>
       <h1 id="q-step-title">Let's get you matched with a physician</h1>
       <div class="q-progress" aria-hidden="true">
         <div class="q-progress-bar" id="q-progress-bar" style="width:14%"></div>
@@ -67,93 +67,93 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
       </label>
     </section>
 
-    <!-- ── Step 3 — Leaky-Gut Specific Screening ── -->
+    <!-- ── Step 3 — GLP-1 Specific Screening ── -->
+    <!--
+      TODO(TJ): replace GLP-1 screening with GH-peptide screening (active
+      malignancy, pituitary history, pregnancy) once product is chosen.
+      This whole step is carried over from the GLP-1 lane as a placeholder.
+    -->
     <section class="q-step" data-step="3" hidden>
-      <h2>Leaky gut candidacy screening</h2>
-      <p class="q-step-sub">A few targeted questions so the physician can evaluate your gut-barrier status and prescribe safely.</p>
+      <h2>GLP-1 candidacy screening</h2>
+      <p class="q-step-sub">A few targeted questions so the physician can write the right script safely.</p>
 
       <fieldset class="q-radio-group">
-        <legend>Primary symptom pattern — select all that apply (at least one required)</legend>
-        <label class="q-checkbox-inline"><input type="checkbox" name="symptomBloating" data-q-check="symptomBloating" value="bloating"> Bloating after meals</label>
-        <label class="q-checkbox-inline"><input type="checkbox" name="symptomStool" data-q-check="symptomStool" value="irregular-stools"> Irregular stools (loose, constipated, or alternating)</label>
-        <label class="q-checkbox-inline"><input type="checkbox" name="symptomBrainFog" data-q-check="symptomBrainFog" value="brain-fog"> Brain fog 30 min post-meal</label>
-        <label class="q-checkbox-inline"><input type="checkbox" name="symptomSensitivities" data-q-check="symptomSensitivities" value="food-sensitivities"> New food sensitivities</label>
-        <label class="q-checkbox-inline"><input type="checkbox" name="symptomJoint" data-q-check="symptomJoint" value="joint-pain"> Joint pain</label>
-        <label class="q-checkbox-inline"><input type="checkbox" name="symptomSkin" data-q-check="symptomSkin" value="skin-issues"> Skin issues (acne / eczema / rashes)</label>
+        <legend>Have you used a GLP-1 medication before? (Ozempic, Wegovy, Mounjaro, Zepbound, compounded semaglutide / tirzepatide)</legend>
+        <label class="q-radio"><input type="radio" name="priorGlp1" data-q="priorGlp1" value="no" required> No, this would be my first</label>
+        <label class="q-radio"><input type="radio" name="priorGlp1" data-q="priorGlp1" value="yes-currently"> Yes, currently taking</label>
+        <label class="q-radio"><input type="radio" name="priorGlp1" data-q="priorGlp1" value="yes-past"> Yes, previously taken</label>
       </fieldset>
-
-      <fieldset class="q-radio-group q-warn" id="q-ibd-block">
-        <legend>Diagnosed Crohn's disease, ulcerative colitis, or microscopic colitis?</legend>
-        <label class="q-radio"><input type="radio" name="ibdStatus" data-q="ibdStatus" value="no" required> No</label>
-        <label class="q-radio"><input type="radio" name="ibdStatus" data-q="ibdStatus" value="yes"> Yes</label>
-        <label class="q-radio"><input type="radio" name="ibdStatus" data-q="ibdStatus" value="unsure"> Unsure</label>
-        <p class="q-warn-note" id="q-ibd-warn" hidden>⚠ Active inflammatory bowel condition — physician will review carefully before prescribing.</p>
-      </fieldset>
-
-      <fieldset class="q-radio-group">
-        <legend>Are you currently taking probiotics or fermented foods regularly?</legend>
-        <label class="q-radio"><input type="radio" name="probioticsUse" data-q="probioticsUse" value="yes" required> Yes, regularly</label>
-        <label class="q-radio"><input type="radio" name="probioticsUse" data-q="probioticsUse" value="no"> No</label>
-        <label class="q-radio"><input type="radio" name="probioticsUse" data-q="probioticsUse" value="stopped-recently"> Stopped recently (within 30 days)</label>
-      </fieldset>
-
-      <fieldset class="q-radio-group">
-        <legend>Have you taken antibiotics in the past 90 days?</legend>
-        <label class="q-radio"><input type="radio" name="antibioticUse" data-q="antibioticUse" value="no" required> No</label>
-        <label class="q-radio"><input type="radio" name="antibioticUse" data-q="antibioticUse" value="yes"> Yes</label>
-      </fieldset>
-
-      <fieldset class="q-radio-group">
-        <legend>Do you have a diagnosed autoimmune condition (Hashimoto's, RA, lupus, psoriasis, MS, etc.)?</legend>
-        <label class="q-radio"><input type="radio" name="autoimmuneStatus" data-q="autoimmuneStatus" value="no" required> No</label>
-        <label class="q-radio"><input type="radio" name="autoimmuneStatus" data-q="autoimmuneStatus" value="yes"> Yes</label>
-        <label class="q-radio"><input type="radio" name="autoimmuneStatus" data-q="autoimmuneStatus" value="unsure"> Unsure</label>
-      </fieldset>
-      <label class="q-field q-field-block" id="q-autoimmune-detail" hidden>
-        Which autoimmune condition(s)?
-        <textarea data-q="autoimmuneDetail" rows="2"></textarea>
+      <label class="q-field q-field-block" id="q-prior-detail" hidden>
+        Which GLP-1 and what was your experience (weight loss achieved, side effects, dose, when)?
+        <textarea data-q="priorGlp1Detail" rows="2"></textarea>
       </label>
 
       <fieldset class="q-radio-group">
-        <legend>Do you take NSAIDs (ibuprofen, aspirin, naproxen) regularly — more than 2x/week?</legend>
-        <label class="q-radio"><input type="radio" name="nsaidUse" data-q="nsaidUse" value="no" required> No</label>
-        <label class="q-radio"><input type="radio" name="nsaidUse" data-q="nsaidUse" value="yes"> Yes</label>
+        <legend>Type 2 diabetes status</legend>
+        <label class="q-radio"><input type="radio" name="t2d" data-q="t2d" value="no" required> No diabetes</label>
+        <label class="q-radio"><input type="radio" name="t2d" data-q="t2d" value="prediabetic"> Prediabetic / borderline</label>
+        <label class="q-radio"><input type="radio" name="t2d" data-q="t2d" value="yes"> Yes, Type 2 diabetic</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group q-warn">
+        <legend>Do you have a personal or family history of medullary thyroid carcinoma (MTC) or Multiple Endocrine Neoplasia syndrome type 2 (MEN-2)?</legend>
+        <p class="q-warn-note">⚠ This is an absolute contraindication for GLP-1 medications.</p>
+        <label class="q-radio"><input type="radio" name="mtcHistory" data-q="mtcHistory" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="mtcHistory" data-q="mtcHistory" value="yes"> Yes</label>
+        <label class="q-radio"><input type="radio" name="mtcHistory" data-q="mtcHistory" value="unsure"> Unsure</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group q-warn">
+        <legend>Have you had pancreatitis?</legend>
+        <p class="q-warn-note">⚠ Caution flag — physician will review carefully.</p>
+        <label class="q-radio"><input type="radio" name="pancreatitis" data-q="pancreatitis" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="pancreatitis" data-q="pancreatitis" value="yes"> Yes</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group">
+        <legend>Do you have a history of gallbladder disease or severe GI disease (gastroparesis, IBD)?</legend>
+        <label class="q-radio"><input type="radio" name="gi" data-q="gi" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="gi" data-q="gi" value="yes"> Yes</label>
       </fieldset>
 
       <fieldset class="q-radio-group" id="q-pregnancy-block" hidden>
         <legend>Are you pregnant, breastfeeding, or actively trying to become pregnant?</legend>
-        <p class="q-warn-note">⚠ Some compounded ingredients may require caution.</p>
+        <p class="q-warn-note">⚠ Contraindication for GLP-1 medications.</p>
         <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="no"> No</label>
         <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="yes"> Yes</label>
       </fieldset>
-
-      <label class="q-field q-field-block">List any known food sensitivities, intolerances, or trigger foods (optional)
-        <textarea data-q="foodSensitivities" rows="2" placeholder="e.g., gluten, dairy, FODMAPs, eggs"></textarea>
-      </label>
 
       <label class="q-field q-field-block">Anything else the physician should know? (optional)
         <textarea data-q="other" rows="2"></textarea>
       </label>
     </section>
 
-    <!-- ── Step 4 — Medication Selection (single, pre-selected) ── -->
+    <!-- ── Step 4 — Peptide Selection ── -->
     <section class="q-step" data-step="4" hidden>
-      <h2>Your prescribed protocol</h2>
-      <p class="q-step-sub">Based on your intake, one physician-reviewed protocol is available. Please review it below and confirm before continuing.</p>
+      <h2>Pick your growth-hormone peptide option</h2>
+      <p class="q-step-sub">Your physician makes the final call during review — but you can indicate your preference here. Each option bundles the consult, the medication, and ongoing follow-ups as needed.</p>
 
       <div class="q-med-grid">
-        <label class="q-med-card q-med-card-solo">
-          <input type="radio" name="medication" value="biome-ns-rx" data-q="medication" data-price="price_1TiY0vBSbDAyoIVyvY1LmKfA" checked>
+        <label class="q-med-card">
+          <input type="radio" name="medication" value="gh-tesamorelin" data-q="medication">
           <div class="q-med-body">
-            <p class="q-med-tier">Biome NS Rx — Gut-Brain Repair Protocol</p>
-            <h3>Biome NS Rx</h3>
-            <p class="q-med-tag">Biome NS Rx — our proprietary compounded gut-repair prescription, written by the physician to your specific needs. Unique to My4MLife.</p>
-            <p class="q-med-price">$129<span>/month</span></p>
-            <p class="q-med-follow">Subscription delivers a 30-day supply with physician follow-up at month 3 and 6.</p>
+            <p class="q-med-tier">Peptide Option</p>
+            <h3>Tesamorelin</h3>
+            <p class="q-med-tag">FDA-approved GH-releasing peptide. Most extensively studied for visceral and truncal fat reduction.</p>
+            <p class="q-med-price q-med-price--note">Pricing confirmed by your physician after review</p>
+          </div>
+        </label>
+
+        <label class="q-med-card q-med-card-mid">
+          <input type="radio" name="medication" value="gh-cjc1295-ipamorelin" data-q="medication">
+          <div class="q-med-body">
+            <p class="q-med-tier">Peptide Option</p>
+            <h3>CJC-1295 / Ipamorelin</h3>
+            <p class="q-med-tag">Compounded combination. A sustained growth-hormone pulse, typically dosed less frequently.</p>
+            <p class="q-med-price q-med-price--note">Pricing confirmed by your physician after review</p>
           </div>
         </label>
       </div>
-      <p class="q-med-solo-note">This is the only protocol available for your intake profile. By continuing you acknowledge the protocol above.</p>
     </section>
 
     <!-- ── Step 5 — Card Capture (Stripe SetupIntent) ── -->
@@ -217,7 +217,7 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
   // ── State ──
   var totalSteps = 6;
   var currentStep = 1;
-  var PH_CAT = 'leaky-gut';
+  var PH_CAT = 'gh-peptide';
   function phCapture(ev, props) { try { if (window.posthog && window.posthog.capture) { props = props || {}; props.category = PH_CAT; window.posthog.capture(ev, props); } } catch (err) {} }
   var payload = {};
   var stripe = null;
@@ -247,6 +247,7 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
     var nav = document.getElementById('q-nav');
 
     if (n === 'success') {
+      // Submitted — hide all step chrome. The success card carries its own heading + copy.
       if (header) header.style.display = 'none';
       if (nav) nav.style.display = 'none';
       return;
@@ -271,14 +272,10 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
     heightFt: 'Height (feet)', heightIn: 'Height (inches)',
     weightLb: 'Current weight', targetLb: 'Target weight',
     currentMeds: 'Current medications', allergies: 'Allergies', conditions: 'Medical conditions',
-    ibdStatus: 'IBD / colitis status',
-    probioticsUse: 'Probiotic use',
-    antibioticUse: 'Antibiotic use (past 90 days)',
-    autoimmuneStatus: 'Autoimmune condition',
-    nsaidUse: 'NSAID use',
-    pregnancy: 'Pregnancy status',
-    medication: 'Protocol selection',
-    symptoms: 'Primary symptom pattern',
+    priorGlp1: 'Prior GLP-1 use', t2d: 'Type 2 diabetes status',
+    mtcHistory: 'MTC / MEN-2 history', pancreatitis: 'Pancreatitis history',
+    gi: 'GI / gallbladder history', pregnancy: 'Pregnancy status',
+    medication: 'Program selection',
   };
 
   function collectStep(n) {
@@ -290,32 +287,12 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
     // Clear previous error highlights on this step
     step.querySelectorAll('.q-error').forEach(function(el) { el.classList.remove('q-error'); });
 
-    // Step 3 — collect symptom checkboxes (required: at least one)
-    if (n === 3) {
-      var checked = [];
-      step.querySelectorAll('[data-q-check]').forEach(function(cb) {
-        if (cb.checked) checked.push(cb.value);
-      });
-      if (checked.length === 0) {
-        missing.push(FIELD_LABELS['symptoms']);
-        var symFieldset = step.querySelector('[data-q-check]') && step.querySelector('[data-q-check]').closest('fieldset');
-        if (symFieldset) { symFieldset.classList.add('q-error'); if (!firstMissingEl) firstMissingEl = symFieldset; }
-      } else {
-        payload.symptoms = checked.join(', ');
-      }
-    }
-
-    // Step 4 — auto-set medication from checked radio (pre-selected)
-    if (n === 4) {
-      var medRadio = step.querySelector('input[name="medication"]:checked');
-      if (medRadio) payload.medication = medRadio.value;
-    }
-
     // Inputs / selects / textareas with data-q (skip radios — handled below)
     step.querySelectorAll('[data-q]').forEach(function(field) {
-      if (field.type === 'radio') return;
+      if (field.type === 'radio') return; // handled separately
       var name = field.getAttribute('data-q');
       var val = (field.value || '').trim();
+      // Skip hidden fields (conditional UI like pregnancy block)
       if (field.offsetParent === null && field.tagName !== 'SELECT') return;
       if (val) payload[name] = val;
       if (field.hasAttribute('required') && !val) {
@@ -325,10 +302,11 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
       }
     });
 
-    // Radio groups
+    // Radio groups (each group considered required if ANY radio in it is required)
     var radioGroups = {};
     step.querySelectorAll('input[type=radio]').forEach(function(r) {
       var name = r.name;
+      // Skip radios in hidden blocks (conditional UI)
       var parentFieldset = r.closest('fieldset');
       if (parentFieldset && parentFieldset.offsetParent === null) return;
       if (!radioGroups[name]) {
@@ -397,29 +375,28 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
     health += row('Conditions', payload.conditions);
 
     var screening = '';
-    screening += row('Primary symptoms', payload.symptoms);
-    screening += row('IBD / colitis status', payload.ibdStatus);
-    screening += row('Probiotic use', payload.probioticsUse);
-    screening += row('Antibiotic use (90 days)', payload.antibioticUse);
-    screening += row('Autoimmune condition', payload.autoimmuneStatus);
-    screening += row('Autoimmune detail', payload.autoimmuneDetail);
-    screening += row('NSAID use', payload.nsaidUse);
-    screening += row('Pregnancy status', payload.pregnancy);
-    screening += row('Food sensitivities', payload.foodSensitivities);
+    screening += row('Prior GLP-1', payload.priorGlp1);
+    screening += row('Prior GLP-1 detail', payload.priorGlp1Detail);
+    screening += row('T2 diabetes', payload.t2d);
+    screening += row('MTC / MEN-2 history', payload.mtcHistory);
+    screening += row('Pancreatitis history', payload.pancreatitis);
+    screening += row('GI / gallbladder history', payload.gi);
+    screening += row('Pregnancy', payload.pregnancy);
     screening += row('Other notes', payload.other);
 
-    var medLabels = {
-      'biome-ns-rx': 'Biome NS Rx — Gut-Brain Repair Protocol — $129/mo',
+    var labels = {
+      'gh-tesamorelin': 'Tesamorelin',
+      'gh-cjc1295-ipamorelin': 'CJC-1295 / Ipamorelin',
     };
     var program = '';
-    program += row('Protocol', medLabels[payload.medication] || payload.medication);
+    program += row('Program', labels[payload.medication] || payload.medication);
     program += row('Payment method', paymentMethodId ? 'Card saved (Stripe …' + paymentMethodId.slice(-6) + ')' : '— not yet saved');
 
     var html = '';
     html += section('Demographics', demographics);
     html += section('Health', health);
-    html += section('Gut Repair Screening', screening);
-    html += section('Selected Protocol', program);
+    html += section('GLP-1 Screening', screening);
+    html += section('Selected Program', program);
 
     $('#q-review-summary').innerHTML = html;
   }
@@ -431,12 +408,13 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
       return;
     }
 
+    // Create SetupIntent (Lambda returns clientSecret + publishableKey from Secrets Manager)
     var resp;
     try {
     resp = await fetch(API_BASE + '/api/create-setup-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: payload.email || '', firstName: payload.firstName || '', category: 'leaky-gut' }),
+      body: JSON.stringify({ email: payload.email || '', firstName: payload.firstName || '', category: 'gh-peptide' }),
     });
     } catch (netErr) {
       $('#stripe-card-error').textContent = 'Network error starting secure card capture. Check your connection and try again.';
@@ -511,7 +489,7 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         kind: 'form',
-        formId: 'leaky-gut-questionnaire',
+        formId: 'gh-peptide-questionnaire',
         fields: fields,
       }),
     });
@@ -519,7 +497,7 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
       // Best-effort persist to EMR — never blocks success UX
       var _intakeBody = JSON.stringify({
           email: payload.email,
-          category: 'leaky-gut',
+          category: 'gh-peptide',
           demographics: {
             firstName: payload.firstName, lastName: payload.lastName,
             phone: payload.phone, state: payload.state,
@@ -535,11 +513,10 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
             weightLb: payload.weightLb ? Number(payload.weightLb) : undefined,
           },
           screeningAnswers: {
-            symptoms: payload.symptoms, ibdStatus: payload.ibdStatus,
-            probioticsUse: payload.probioticsUse, antibioticUse: payload.antibioticUse,
-            autoimmuneStatus: payload.autoimmuneStatus, autoimmuneDetail: payload.autoimmuneDetail,
-            nsaidUse: payload.nsaidUse, pregnancy: payload.pregnancy,
-            foodSensitivities: payload.foodSensitivities, medication: payload.medication,
+            priorGlp1: payload.priorGlp1, priorGlp1Detail: payload.priorGlp1Detail,
+            t2d: payload.t2d, mtcHistory: payload.mtcHistory,
+            pancreatitis: payload.pancreatitis, gi: payload.gi,
+            pregnancy: payload.pregnancy, medication: payload.medication,
             targetLb: payload.targetLb, other: payload.other,
           },
           consents: {
@@ -547,7 +524,7 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
             phiAuth: { agreed: true, version: 'consent-phi-auth-v1', at: new Date().toISOString(), text: 'I authorize My4MLife and its network physicians to use and disclose my health information to provide, coordinate, and bill for my care, including forwarding my intake to the telemedicine provider.' },
           },
           cardOnFile: { paymentMethodId: paymentMethodId, stripeCustomerId: stripeCustomerId },
-        });
+      });
       fetch(API_BASE + '/api/patient-record-intake', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: _intakeBody,
       }).then(function(r){
@@ -564,6 +541,7 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
     }
   }
 
+  // Populate US state dropdown — 50 states + DC, alphabetized by full name
   function populateStateDropdown() {
     var sel = document.getElementById('q-state');
     if (!sel) return;
@@ -580,43 +558,34 @@ const canonical = 'https://www.my4mlife.com/rx/leaky-gut/questionnaire';
   // ── Wire up navigation ──
   document.addEventListener('DOMContentLoaded', function() {
     populateStateDropdown();
-
-    // Pre-set medication payload since it's auto-selected
-    payload.medication = 'biome-ns-rx';
-
     showStep(1);
 
-    // Conditional UI: IBD warn note
-    document.querySelectorAll('[name="ibdStatus"]').forEach(function(r) {
+    // Conditional UI: prior GLP-1 detail
+    document.querySelectorAll('[name="priorGlp1"]').forEach(function(r) {
       r.addEventListener('change', function() {
-        var warn = document.getElementById('q-ibd-warn');
-        if (warn) warn.hidden = (r.value !== 'yes');
-      });
-    });
-
-    // Conditional UI: autoimmune detail textarea
-    document.querySelectorAll('[name="autoimmuneStatus"]').forEach(function(r) {
-      r.addEventListener('change', function() {
-        var detail = document.getElementById('q-autoimmune-detail');
-        if (detail) detail.hidden = (r.value !== 'yes');
+        $('#q-prior-detail').hidden = (r.value === 'no');
       });
     });
 
     // Conditional UI: pregnancy block — only show for female
     document.querySelectorAll('[data-q="sex"]').forEach(function(el) {
       el.addEventListener('change', function() {
-        var pb = document.getElementById('q-pregnancy-block');
-        if (pb) pb.hidden = (el.value !== 'female');
+        $('#q-pregnancy-block').hidden = (el.value !== 'female');
       });
     });
 
     $('#q-next').addEventListener('click', async function() {
       if (!collectStep(currentStep)) return;
+      if (currentStep === 4 && !payload.medication) {
+        alert('Please pick a program to continue.');
+        return;
+      }
       currentStep++;
       if (currentStep === 5) {
         await initStripeCard();
       }
       if (currentStep === 6) {
+        // Need card saved before review step
         var ok = await confirmStripeCard();
         if (!ok) { currentStep--; return; }
         buildReviewSummary();
@@ -672,8 +641,6 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-radio-group legend { font-weight: 600; color: var(--primary); padding: 0 0.4rem; font-size: 0.95rem; }
 .q-radio { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.4rem 0; cursor: pointer; font-size: 0.95rem; color: var(--text); }
 .q-radio input { margin-top: 0.2rem; }
-.q-checkbox-inline { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.4rem 0; cursor: pointer; font-size: 0.95rem; color: var(--text); }
-.q-checkbox-inline input { margin-top: 0.2rem; }
 .q-warn { border-color: rgba(212, 147, 10, 0.4); background: #fff8ec; }
 .q-warn-note { color: #a37a14; font-size: 0.85rem; margin: 0.5rem 0 0.75rem; font-weight: 500; }
 
@@ -682,7 +649,6 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-med-card:hover { border-color: var(--accent); }
 .q-med-card input { float: right; margin: 0.3rem 0 0 0; transform: scale(1.25); }
 .q-med-card:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,184,148,0.15); }
-.q-med-card-solo { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,184,148,0.15); background: #f0fbf6; }
 .q-med-card-mid { background: #fbf7ec; border-color: rgba(212, 175, 90, 0.4); }
 .q-med-card-top { background: #f4f0fc; border-color: rgba(116, 80, 178, 0.35); }
 .q-med-tier { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin: 0; }
@@ -690,8 +656,8 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-med-tag { font-size: 0.9rem; color: var(--text); margin: 0 0 0.5rem; line-height: 1.5; }
 .q-med-price { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin: 0; }
 .q-med-price span { font-size: 0.9rem; font-weight: 400; color: var(--text-light); }
-.q-med-follow { font-size: 0.83rem; color: var(--text-light); margin: 0.5rem 0 0; line-height: 1.5; }
-.q-med-solo-note { font-size: 0.85rem; color: var(--text-light); margin: 0.75rem 0 0; text-align: center; font-style: italic; }
+/* Sentence-length note in the price slot — read as a note, not a headline number */
+.q-med-price--note { font-size: 0.9rem; font-weight: 500; color: var(--text-light); line-height: 1.45; }
 
 .q-noscope-box { background: #f0fbf6; border: 2px solid var(--accent); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; font-size: 0.95rem; color: #07664c; line-height: 1.5; }
 .q-noscope-box strong { display: block; margin-bottom: 0.4rem; }
@@ -728,4 +694,3 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
   .q-inner { padding: 1.5rem 1rem; }
 }
 </style>
-</BaseLayout>

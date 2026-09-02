@@ -138,10 +138,14 @@ export function canTransition(from: EncounterState, to: EncounterState): boolean
 // Visit type
 // ---------------------------------------------------------------------------
 
-// Testosterone/ED is the only category requiring an audio-visual encounter;
-// everything else defaults to async store-and-forward review.
+// Categories requiring a live audio-visual encounter (per async-telemedicine
+// model: async store-and-forward is the default, live is the exception).
+// Testosterone/ED and menopause/HRT are the current exceptions; everything
+// else defaults to async store-and-forward review.
+const LIVE_VISIT_CATEGORIES = new Set(['testosterone-ed', 'menopause-hrt']);
+
 export function forcedVisitType(category: string): VisitType {
-  return category === 'testosterone-ed' ? 'audio-visual' : 'async';
+  return LIVE_VISIT_CATEGORIES.has(category) ? 'audio-visual' : 'async';
 }
 
 // ---------------------------------------------------------------------------

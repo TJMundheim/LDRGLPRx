@@ -10,6 +10,10 @@ vi.mock('@aws-sdk/lib-dynamodb', () => ({
     input: any;
     constructor(input: any) { this.input = input; }
   },
+  UpdateCommand: class UpdateCommand {
+    input: any;
+    constructor(input: any) { this.input = input; }
+  },
 }));
 
 vi.mock('@aws-sdk/client-dynamodb', () => ({
@@ -123,12 +127,15 @@ describe('Success — happy path', () => {
   it('keys every item by the table PK contactId (never a stray pk attribute)', async () => {
     const res: any = await handler(evt(VALID_BODY));
     const contactId = JSON.parse(res.body).contactId;
-    const items = ddbSendMock.mock.calls.map((c: any[]) => c[0].input.Item);
-    expect(items).toHaveLength(3);
-    for (const item of items) {
-      expect(item.contactId).toBe(contactId);
-      expect(item.pk).toBeUndefined();
-      expect(typeof item.sk).toBe('string');
+    const inputs = ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
+    expect(inputs).toHaveLength(3);
+    for (const input of inputs) {
+      // Write 1 (record) is an UpdateCommand keyed via Key; writes 2/3 are
+      // PutCommands keyed via Item.
+      const keyed = input.Item ?? input.Key;
+      expect(keyed.contactId).toBe(contactId);
+      expect(keyed.pk).toBeUndefined();
+      expect(typeof keyed.sk).toBe('string');
     }
   });
 });
@@ -137,35 +144,35 @@ describe('DynamoDB record item (sk:"record")', () => {
   async function getRecordItem() {
     await handler(evt(VALID_BODY));
     const calls = ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
-    return calls.find((i: any) => i.Item?.sk === 'record');
+    return calls.find((i: any) => i.Key?.sk === 'record');
   }
 
   it('writes sk:"record" with demographics, history, screeningAnswers', async () => {
     const item = await getRecordItem();
     expect(item).toBeDefined();
-    expect(item.Item.sk).toBe('record');
-    expect(item.Item.demographics).toMatchObject(VALID_BODY.demographics);
-    expect(item.Item.history).toMatchObject(VALID_BODY.history);
-    expect(item.Item.screeningAnswers).toMatchObject(VALID_BODY.screeningAnswers);
+    expect(item.Key.sk).toBe('record');
+    expect(item.ExpressionAttributeValues[':dem']).toMatchObject(VALID_BODY.demographics);
+    expect(item.ExpressionAttributeValues[':hist']).toMatchObject(VALID_BODY.history);
+    expect(item.ExpressionAttributeValues[':scr']).toMatchObject(VALID_BODY.screeningAnswers);
   });
 
   it('stores NPP consent as JSON string with version and at timestamp', async () => {
     const item = await getRecordItem();
-    const npp = JSON.parse(item.Item.consents.npp);
+    const npp = JSON.parse(item.ExpressionAttributeValues[':con'].npp);
     expect(npp.version).toBe('consent-npp-v1');
     expect(npp.at).toBe('2026-06-26T10:00:00.000Z');
   });
 
   it('stores PHI auth consent as JSON string with version and at timestamp', async () => {
     const item = await getRecordItem();
-    const phi = JSON.parse(item.Item.consents.phiAuth);
+    const phi = JSON.parse(item.ExpressionAttributeValues[':con'].phiAuth);
     expect(phi.version).toBe('consent-phi-auth-v1');
     expect(phi.at).toBe('2026-06-26T10:00:00.000Z');
   });
 
   it('writes cardOnFile with only stripeCustomerId, paymentMethodId, setupIntentId', async () => {
     const item = await getRecordItem();
-    const cof = item.Item.cardOnFile;
+    const cof = item.ExpressionAttributeValues[':card'];
     expect(cof.stripeCustomerId).toBe('cus_test123');
     expect(cof.paymentMethodId).toBe('pm_test456');
     expect(cof.setupIntentId).toBe('seti_test789');
@@ -197,6 +204,13 @@ describe('DynamoDB encounter item', () => {
 
   it('sets visitType to "audio-visual" for testosterone-ed category', async () => {
     await handler(evt({ ...VALID_BODY, category: 'testosterone-ed' }));
+    const calls = ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
+    const encItem = calls.find((i: any) => typeof i.Item?.sk === 'string' && i.Item.sk.startsWith('encounter#'));
+    expect(encItem.Item.visitType).toBe('audio-visual');
+  });
+
+  it('sets visitType to "audio-visual" for menopause-hrt category', async () => {
+    await handler(evt({ ...VALID_BODY, category: 'menopause-hrt' }));
     const calls = ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
     const encItem = calls.find((i: any) => typeof i.Item?.sk === 'string' && i.Item.sk.startsWith('encounter#'));
     expect(encItem.Item.visitType).toBe('audio-visual');
@@ -241,12 +255,15 @@ describe('SECURITY — raw card data never written to DynamoDB', () => {
       },
     };
     await handler(evt(body));
-    const allItems = ddbSendMock.mock.calls.map((c: any[]) => c[0].input?.Item);
+    const inputs = ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
+    // Write 1 (record) is an UpdateCommand — its cardOnFile lives under
+    // ExpressionAttributeValues[':card']; writes 2/3 are PutCommands with Item.
+    const allItems = inputs.map((i: any) => i.Item ?? i.ExpressionAttributeValues?.[':card']);
     for (const item of allItems) {
       if (!item) continue;
       for (const key of RAW_CARD_KEYS) {
         expect(item[key]).toBeUndefined();
-        // Also check nested cardOnFile
+        // Also check nested cardOnFile (PutCommand items only)
         if (item.cardOnFile) {
           expect(item.cardOnFile[key]).toBeUndefined();
         }
@@ -265,9 +282,9 @@ describe('SECURITY — raw card data never written to DynamoDB', () => {
     };
     await handler(evt(body));
     const calls = ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
-    const recordItem = calls.find((i: any) => i.Item?.sk === 'record');
-    expect(recordItem.Item.cardOnFile.number).toBeUndefined();
-    expect(recordItem.Item.cardOnFile.cvc).toBeUndefined();
+    const recordItem = calls.find((i: any) => i.Key?.sk === 'record');
+    expect(recordItem.ExpressionAttributeValues[':card'].number).toBeUndefined();
+    expect(recordItem.ExpressionAttributeValues[':card'].cvc).toBeUndefined();
   });
 });
 
