@@ -24,3 +24,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny
         MARKETING_VERSION: "0.1.0"
         CURRENT_PROJECT_VERSION: 1
+        # Personal-team device builds: TJ picks his own Apple ID team in Xcode
+        # (Signing & Capabilities → Team). Left empty on purpose so the checked-in
+        # project doesn't pin a team id.
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""

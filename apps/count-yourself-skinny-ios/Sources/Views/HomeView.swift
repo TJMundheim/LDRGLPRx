@@ -34,6 +34,15 @@ struct HomeView: View {
                         MorningModeView()
                     }
                 }
+                Section {
+                    NavigationLink("Chew Lab — AirPods prototype") {
+                        ChewLabView()
+                    }
+                } header: {
+                    Text("Prototype")
+                } footer: {
+                    Text("v1.5 bench for AirPods chew detection. Open to everyone while we tune it.")
+                }
                 if !pro.isPro {
                     Section {
                         Button("Unlock AirPods chew counting — Pro") { showPaywall = true }

@@ -10,7 +10,9 @@
 		14861BE24E8CD41866E4423F /* CYSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81891C89EE9C8E98A218319 /* CYSApp.swift */; };
 		177DCF1D6250AF804962C87E /* BitePacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6848E3ABF2142727B13C8B16 /* BitePacerView.swift */; };
 		506F75FC0D1915C418830D7B /* CountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298B263977474FD2BAF2371B /* CountStore.swift */; };
+		69CF5411EEEA7B92CDC20E56 /* ChewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */; };
 		7E117745A55D3D0DDABD6BD3 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD2339A63C90A5A67C9EF8E /* PaywallView.swift */; };
+		D1357561AFA78C6FAE4653DA /* ChewLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBB737822DCA5E07A65FFC3 /* ChewLabView.swift */; };
 		DB4FA7BFAC25260DDF5E408A /* MorningModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDE20D0CB7A7F6989334AB7 /* MorningModeView.swift */; };
 		E08DEBCCE5428B756F574B14 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E844A82B97BD06802C7EB66 /* HomeView.swift */; };
 		E215B0C3207660324D4001E2 /* ProStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9764FBDFB69D515537547 /* ProStore.swift */; };
@@ -21,8 +23,10 @@
 		298B263977474FD2BAF2371B /* CountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStore.swift; sourceTree = "<group>"; };
 		34BEE83876151CF59722280F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3FD2339A63C90A5A67C9EF8E /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewDetector.swift; sourceTree = "<group>"; };
 		6848E3ABF2142727B13C8B16 /* BitePacerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitePacerView.swift; sourceTree = "<group>"; };
 		7BEFE6C14CAF26B9CD8DBE23 /* CountYourselfSkinny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountYourselfSkinny.entitlements; sourceTree = "<group>"; };
+		7EBB737822DCA5E07A65FFC3 /* ChewLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewLabView.swift; sourceTree = "<group>"; };
 		85D9764FBDFB69D515537547 /* ProStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStore.swift; sourceTree = "<group>"; };
 		8BF25C83EA8D67E7D7F4B3F5 /* CountYourselfSkinny.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CountYourselfSkinny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D81891C89EE9C8E98A218319 /* CYSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CYSApp.swift; sourceTree = "<group>"; };
@@ -34,6 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				6848E3ABF2142727B13C8B16 /* BitePacerView.swift */,
+				7EBB737822DCA5E07A65FFC3 /* ChewLabView.swift */,
 				1E844A82B97BD06802C7EB66 /* HomeView.swift */,
 				FBDE20D0CB7A7F6989334AB7 /* MorningModeView.swift */,
 				3FD2339A63C90A5A67C9EF8E /* PaywallView.swift */,
@@ -65,6 +70,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		742E469DEC019101E80A80DE /* Motion */ = {
+			isa = PBXGroup;
+			children = (
+				5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */,
+			);
+			path = Motion;
+			sourceTree = "<group>";
+		};
 		87B530CF3B3100425B7B4107 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +93,7 @@
 				D81891C89EE9C8E98A218319 /* CYSApp.swift */,
 				34BEE83876151CF59722280F /* Info.plist */,
 				87B530CF3B3100425B7B4107 /* Models */,
+				742E469DEC019101E80A80DE /* Motion */,
 				551179443066B70E34CBECBF /* Store */,
 				0955422BF702CEEDC54AF61D /* Views */,
 			);
@@ -115,6 +129,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					7033B3FB3213743035BA2BF4 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 4AF5CBB3E05F4E14816948EA /* Build configuration list for PBXProject "CountYourselfSkinny" */;
@@ -143,6 +161,8 @@
 			files = (
 				177DCF1D6250AF804962C87E /* BitePacerView.swift in Sources */,
 				14861BE24E8CD41866E4423F /* CYSApp.swift in Sources */,
+				69CF5411EEEA7B92CDC20E56 /* ChewDetector.swift in Sources */,
+				D1357561AFA78C6FAE4653DA /* ChewLabView.swift in Sources */,
 				506F75FC0D1915C418830D7B /* CountStore.swift in Sources */,
 				E08DEBCCE5428B756F574B14 /* HomeView.swift in Sources */,
 				DB4FA7BFAC25260DDF5E408A /* MorningModeView.swift in Sources */,
@@ -160,7 +180,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sources/CountYourselfSkinny.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -235,7 +257,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sources/CountYourselfSkinny.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
