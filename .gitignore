@@ -64,3 +64,4 @@ logs/
 .build/
 **/.build/
 .secrets-local/
+apps/count-yourself-skinny-ios/build/

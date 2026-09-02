@@ -61,6 +61,7 @@ struct CounterRow: View {
                 Spacer()
                 Text(value).monospacedDigit().foregroundStyle(.secondary)
             }
+            .contentShape(Rectangle())   // whole row is tappable, not just the text
         }
         .buttonStyle(.plain)
     }
