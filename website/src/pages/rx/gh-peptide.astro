@@ -3,8 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import HowItWorks from '../../components/HowItWorks.astro';
 import TrustBand from '../../components/TrustBand.astro';
 
-const title = 'Growth-Hormone Peptide Rx — My4MLife';
-const description = 'Telemedicine consult to evaluate your candidacy for a growth-hormone releasing peptide — tesamorelin or CJC-1295.';
+const title = 'Tesamorelin Rx — truncal fat loss with muscle preserved | My4MLife';
+const description = "Tesamorelin is a GHRH analog that restores your body's own pulsatile growth-hormone release — helping you lose the truncal fat GLP-1 leaves behind while preserving lean muscle. Free telemedicine consult, physician-prescribed.";
 const canonical = 'https://www.my4mlife.com/rx/gh-peptide';
 
 const rxSteps = [
@@ -26,8 +26,8 @@ const rxSteps = [
 
 <section class="rx-section rx-section--top">
   <div class="container rx-inner">
-    <p class="rx-eyebrow">Growth-Hormone Peptide Rx</p>
-    <h1>The peptide that goes hand in hand with GLP-1 — losing the belly fat, keeping the muscle.</h1>
+    <p class="rx-eyebrow">Tesamorelin · Growth-Hormone Peptide Rx</p>
+    <h1>Lose the belly fat GLP-1 leaves behind — and keep your muscle.</h1>
     <figure class="scene-figure">
       <img src="/images/scenes/muscle-active.jpg" alt="A person rowing a single scull across a calm lake at sunrise, mist rising off the water" loading="eager" fetchpriority="high" />
       <figcaption>The scale only tells you what left. This is about what stays — the strength you keep using it for.</figcaption>
@@ -40,11 +40,11 @@ const rxSteps = [
 <section class="rx-section rx-section--bottom">
   <div class="container rx-inner">
     <p class="rx-lead">
-      Growth-hormone releasing peptides — tesamorelin or CJC-1295, the physician selects which fits your profile and goals — work on a different lever than a GLP-1. Instead of suppressing appetite, they stimulate your own pituitary gland to release growth hormone in its natural pulsing pattern. That pulse is clinically studied for reducing visceral and truncal fat and for preserving lean muscle mass — precisely the gap GLP-1 medications leave open: weight loss that takes muscle with it.
+      Tesamorelin is a GHRH — growth-hormone releasing hormone — analog. It does not put synthetic growth hormone into your body. It signals your own pituitary gland to resume releasing growth hormone in its natural pulsing pattern. We position it hand in hand with GLP-1 because GLP-1 weight loss doesn't just take fat — it takes lean muscle along with it. Tesamorelin is built to run alongside a GLP-1 protocol and protect the muscle GLP-1 alone doesn't.
     </p>
 
     <p class="rx-body">
-      Your telemedicine consult covers candidacy for both peptides. The physician reviews your history, your current GLP-1 use if any, and your goals, then determines which one fits and writes accordingly. This program is built to run alongside your GLP-1 protocol, not compete with it.
+      Your telemedicine consult evaluates your candidacy for tesamorelin specifically. The physician reviews your history, your current GLP-1 use if any, and your goals, then determines whether tesamorelin is appropriate for you. This program is built to run alongside your GLP-1 protocol, not compete with it.
     </p>
   </div>
 </section>
@@ -53,8 +53,33 @@ const rxSteps = [
 
 <section class="rx-section rx-section--bottom">
   <div class="container rx-inner">
+    <h2 class="rx-evidence-heading">What the evidence shows</h2>
+    <div class="rx-evidence-list">
+      <ul>
+        <li>
+          Two Phase 3 randomized trials (806 patients total) found visceral fat reduced approximately 15–20% at 26 weeks, maintained through 52 weeks.
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11365754/" target="_blank" rel="noopener">Source</a>
+        </li>
+        <li>
+          A 2026 meta-analysis of 5 randomized controlled trials, published in Obesity Research &amp; Clinical Practice, found visceral fat reduced 27.7 cm² versus placebo, with trunk fat and liver fat also reduced, and <strong>lean mass increased 1.4 kg</strong>.
+          <a href="https://pubmed.ncbi.nlm.nih.gov/41545261/" target="_blank" rel="noopener">Source</a>
+        </li>
+        <li>
+          Secondary analyses showed improved skeletal-muscle area and density even as visceral fat fell.
+          <a href="https://pubmed.ncbi.nlm.nih.gov/25038357/" target="_blank" rel="noopener">Source</a>
+        </li>
+        <li>
+          Tesamorelin is FDA-approved for HIV-associated lipodystrophy. Use for general truncal-fat and muscle-preservation goals is off-label and compounded, and is prescribed only when a physician judges it appropriate for that patient. The trials above showed body-composition change, not large scale-weight change — this is recomposition, not weight loss.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="rx-section rx-section--bottom">
+  <div class="container rx-inner">
     <p class="rx-price-line">
-      <strong>Free</strong> — telemedicine consult with a physician in our network. No lab work required.
+      <strong>Free</strong> — telemedicine consult with a physician in our network. Your physician may order baseline labs (for example IGF-1 and fasting glucose).
       <span class="rx-pay-note">Medication is billed separately after the physician writes your script.</span>
     </p>
 
@@ -85,4 +110,12 @@ const rxSteps = [
 .rx-cta-btn { display: inline-block; background: var(--accent); color: #fff; padding: 1rem 2.2rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; text-decoration: none; margin-top: 1rem; box-shadow: 0 6px 20px rgba(0,184,148,0.25); transition: opacity .15s; }
 .rx-cta-btn:hover { opacity: 0.92; }
 .rx-disclosure { font-size: 0.85rem; color: var(--text-light); margin: 0.5rem 0 0; max-width: 560px; line-height: 1.5; }
+.rx-evidence-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 2rem); color: var(--primary); margin: 0; line-height: 1.2; }
+.rx-evidence-list { text-align: left; max-width: 640px; width: 100%; margin: 0 auto; }
+.rx-evidence-list ul { margin: 0; padding: 0 0 0 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+.rx-evidence-list li { font-size: 0.98rem; color: var(--text); line-height: 1.62; }
+.rx-evidence-list li:last-child { color: var(--text-light); font-style: italic; }
+.rx-evidence-list a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; margin-left: 0.25rem; }
+.rx-evidence-list a:hover { opacity: 0.85; }
+.rx-evidence-list strong { color: var(--primary); }
 </style>

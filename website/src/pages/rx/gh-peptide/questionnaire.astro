@@ -67,60 +67,49 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
       </label>
     </section>
 
-    <!-- ── Step 3 — GLP-1 Specific Screening ── -->
-    <!--
-      TODO(TJ): replace GLP-1 screening with GH-peptide screening (active
-      malignancy, pituitary history, pregnancy) once product is chosen.
-      This whole step is carried over from the GLP-1 lane as a placeholder.
-    -->
+    <!-- ── Step 3 — Tesamorelin Screening ── -->
     <section class="q-step" data-step="3" hidden>
-      <h2>GLP-1 candidacy screening</h2>
+      <h2>Tesamorelin candidacy screening</h2>
       <p class="q-step-sub">A few targeted questions so the physician can write the right script safely.</p>
 
-      <fieldset class="q-radio-group">
-        <legend>Have you used a GLP-1 medication before? (Ozempic, Wegovy, Mounjaro, Zepbound, compounded semaglutide / tirzepatide)</legend>
-        <label class="q-radio"><input type="radio" name="priorGlp1" data-q="priorGlp1" value="no" required> No, this would be my first</label>
-        <label class="q-radio"><input type="radio" name="priorGlp1" data-q="priorGlp1" value="yes-currently"> Yes, currently taking</label>
-        <label class="q-radio"><input type="radio" name="priorGlp1" data-q="priorGlp1" value="yes-past"> Yes, previously taken</label>
-      </fieldset>
-      <label class="q-field q-field-block" id="q-prior-detail" hidden>
-        Which GLP-1 and what was your experience (weight loss achieved, side effects, dose, when)?
-        <textarea data-q="priorGlp1Detail" rows="2"></textarea>
-      </label>
-
-      <fieldset class="q-radio-group">
-        <legend>Type 2 diabetes status</legend>
-        <label class="q-radio"><input type="radio" name="t2d" data-q="t2d" value="no" required> No diabetes</label>
-        <label class="q-radio"><input type="radio" name="t2d" data-q="t2d" value="prediabetic"> Prediabetic / borderline</label>
-        <label class="q-radio"><input type="radio" name="t2d" data-q="t2d" value="yes"> Yes, Type 2 diabetic</label>
+      <fieldset class="q-radio-group q-warn">
+        <legend>Do you have active cancer, or a history of cancer in the last 5 years?</legend>
+        <p class="q-warn-note">⚠ Growth-hormone axis stimulation warrants caution with active or recent malignancy.</p>
+        <label class="q-radio"><input type="radio" name="cancerHistory" data-q="cancerHistory" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="cancerHistory" data-q="cancerHistory" value="yes"> Yes</label>
       </fieldset>
 
       <fieldset class="q-radio-group q-warn">
-        <legend>Do you have a personal or family history of medullary thyroid carcinoma (MTC) or Multiple Endocrine Neoplasia syndrome type 2 (MEN-2)?</legend>
-        <p class="q-warn-note">⚠ This is an absolute contraindication for GLP-1 medications.</p>
-        <label class="q-radio"><input type="radio" name="mtcHistory" data-q="mtcHistory" value="no" required> No</label>
-        <label class="q-radio"><input type="radio" name="mtcHistory" data-q="mtcHistory" value="yes"> Yes</label>
-        <label class="q-radio"><input type="radio" name="mtcHistory" data-q="mtcHistory" value="unsure"> Unsure</label>
+        <legend>Do you have a pituitary tumor, hypopituitarism, or a history of head/pituitary radiation or surgery?</legend>
+        <p class="q-warn-note">⚠ Tesamorelin works by stimulating your pituitary to release growth hormone, so pituitary history is directly relevant.</p>
+        <label class="q-radio"><input type="radio" name="pituitaryHistory" data-q="pituitaryHistory" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="pituitaryHistory" data-q="pituitaryHistory" value="yes"> Yes</label>
       </fieldset>
 
-      <fieldset class="q-radio-group q-warn">
-        <legend>Have you had pancreatitis?</legend>
-        <p class="q-warn-note">⚠ Caution flag — physician will review carefully.</p>
-        <label class="q-radio"><input type="radio" name="pancreatitis" data-q="pancreatitis" value="no" required> No</label>
-        <label class="q-radio"><input type="radio" name="pancreatitis" data-q="pancreatitis" value="yes"> Yes</label>
-      </fieldset>
-
-      <fieldset class="q-radio-group">
-        <legend>Do you have a history of gallbladder disease or severe GI disease (gastroparesis, IBD)?</legend>
-        <label class="q-radio"><input type="radio" name="gi" data-q="gi" value="no" required> No</label>
-        <label class="q-radio"><input type="radio" name="gi" data-q="gi" value="yes"> Yes</label>
-      </fieldset>
-
-      <fieldset class="q-radio-group" id="q-pregnancy-block" hidden>
-        <legend>Are you pregnant, breastfeeding, or actively trying to become pregnant?</legend>
-        <p class="q-warn-note">⚠ Contraindication for GLP-1 medications.</p>
+      <fieldset class="q-radio-group q-warn" id="q-pregnancy-block" hidden>
+        <legend>Are you pregnant, planning pregnancy, or currently breastfeeding?</legend>
+        <p class="q-warn-note">⚠ Contraindication for tesamorelin.</p>
         <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="no"> No</label>
         <label class="q-radio"><input type="radio" name="pregnancy" data-q="pregnancy" value="yes"> Yes</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group">
+        <legend>Do you have diabetes with retinopathy, or currently uncontrolled blood sugar?</legend>
+        <label class="q-radio"><input type="radio" name="diabetesRetinopathy" data-q="diabetesRetinopathy" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="diabetesRetinopathy" data-q="diabetesRetinopathy" value="yes"> Yes</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group q-warn">
+        <legend>Do you have a known allergy to tesamorelin or mannitol?</legend>
+        <p class="q-warn-note">⚠ Physician will review carefully.</p>
+        <label class="q-radio"><input type="radio" name="tesamorelinAllergy" data-q="tesamorelinAllergy" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="tesamorelinAllergy" data-q="tesamorelinAllergy" value="yes"> Yes</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group">
+        <legend>Are you currently taking growth hormone or other GH secretagogues (other GH peptides, GH injections)?</legend>
+        <label class="q-radio"><input type="radio" name="ghSecretagogueUse" data-q="ghSecretagogueUse" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="ghSecretagogueUse" data-q="ghSecretagogueUse" value="yes"> Yes</label>
       </fieldset>
 
       <label class="q-field q-field-block">Anything else the physician should know? (optional)
@@ -130,8 +119,8 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
 
     <!-- ── Step 4 — Peptide Selection ── -->
     <section class="q-step" data-step="4" hidden>
-      <h2>Pick your growth-hormone peptide option</h2>
-      <p class="q-step-sub">Your physician makes the final call during review — but you can indicate your preference here. Each option bundles the consult, the medication, and ongoing follow-ups as needed.</p>
+      <h2>Confirm your tesamorelin program</h2>
+      <p class="q-step-sub">Tesamorelin bundles the consult, the medication, and ongoing follow-ups as needed. Your physician confirms candidacy during review.</p>
 
       <div class="q-med-grid">
         <label class="q-med-card">
@@ -140,16 +129,6 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
             <p class="q-med-tier">Peptide Option</p>
             <h3>Tesamorelin</h3>
             <p class="q-med-tag">FDA-approved GH-releasing peptide. Most extensively studied for visceral and truncal fat reduction.</p>
-            <p class="q-med-price q-med-price--note">Pricing confirmed by your physician after review</p>
-          </div>
-        </label>
-
-        <label class="q-med-card q-med-card-mid">
-          <input type="radio" name="medication" value="gh-cjc1295-ipamorelin" data-q="medication">
-          <div class="q-med-body">
-            <p class="q-med-tier">Peptide Option</p>
-            <h3>CJC-1295 / Ipamorelin</h3>
-            <p class="q-med-tag">Compounded combination. A sustained growth-hormone pulse, typically dosed less frequently.</p>
             <p class="q-med-price q-med-price--note">Pricing confirmed by your physician after review</p>
           </div>
         </label>
@@ -272,9 +251,9 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
     heightFt: 'Height (feet)', heightIn: 'Height (inches)',
     weightLb: 'Current weight', targetLb: 'Target weight',
     currentMeds: 'Current medications', allergies: 'Allergies', conditions: 'Medical conditions',
-    priorGlp1: 'Prior GLP-1 use', t2d: 'Type 2 diabetes status',
-    mtcHistory: 'MTC / MEN-2 history', pancreatitis: 'Pancreatitis history',
-    gi: 'GI / gallbladder history', pregnancy: 'Pregnancy status',
+    cancerHistory: 'Cancer history', pituitaryHistory: 'Pituitary history',
+    diabetesRetinopathy: 'Diabetes / retinopathy status', tesamorelinAllergy: 'Tesamorelin / mannitol allergy',
+    ghSecretagogueUse: 'Current GH secretagogue use', pregnancy: 'Pregnancy status',
     medication: 'Program selection',
   };
 
@@ -375,18 +354,16 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
     health += row('Conditions', payload.conditions);
 
     var screening = '';
-    screening += row('Prior GLP-1', payload.priorGlp1);
-    screening += row('Prior GLP-1 detail', payload.priorGlp1Detail);
-    screening += row('T2 diabetes', payload.t2d);
-    screening += row('MTC / MEN-2 history', payload.mtcHistory);
-    screening += row('Pancreatitis history', payload.pancreatitis);
-    screening += row('GI / gallbladder history', payload.gi);
+    screening += row('Cancer history', payload.cancerHistory);
+    screening += row('Pituitary history', payload.pituitaryHistory);
+    screening += row('Diabetes / retinopathy', payload.diabetesRetinopathy);
+    screening += row('Tesamorelin / mannitol allergy', payload.tesamorelinAllergy);
+    screening += row('Current GH secretagogue use', payload.ghSecretagogueUse);
     screening += row('Pregnancy', payload.pregnancy);
     screening += row('Other notes', payload.other);
 
     var labels = {
       'gh-tesamorelin': 'Tesamorelin',
-      'gh-cjc1295-ipamorelin': 'CJC-1295 / Ipamorelin',
     };
     var program = '';
     program += row('Program', labels[payload.medication] || payload.medication);
@@ -395,7 +372,7 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
     var html = '';
     html += section('Demographics', demographics);
     html += section('Health', health);
-    html += section('GLP-1 Screening', screening);
+    html += section('Tesamorelin Screening', screening);
     html += section('Selected Program', program);
 
     $('#q-review-summary').innerHTML = html;
@@ -513,9 +490,9 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
             weightLb: payload.weightLb ? Number(payload.weightLb) : undefined,
           },
           screeningAnswers: {
-            priorGlp1: payload.priorGlp1, priorGlp1Detail: payload.priorGlp1Detail,
-            t2d: payload.t2d, mtcHistory: payload.mtcHistory,
-            pancreatitis: payload.pancreatitis, gi: payload.gi,
+            cancerHistory: payload.cancerHistory, pituitaryHistory: payload.pituitaryHistory,
+            diabetesRetinopathy: payload.diabetesRetinopathy, tesamorelinAllergy: payload.tesamorelinAllergy,
+            ghSecretagogueUse: payload.ghSecretagogueUse,
             pregnancy: payload.pregnancy, medication: payload.medication,
             targetLb: payload.targetLb, other: payload.other,
           },
@@ -559,13 +536,6 @@ const canonical = 'https://www.my4mlife.com/rx/gh-peptide/questionnaire';
   document.addEventListener('DOMContentLoaded', function() {
     populateStateDropdown();
     showStep(1);
-
-    // Conditional UI: prior GLP-1 detail
-    document.querySelectorAll('[name="priorGlp1"]').forEach(function(r) {
-      r.addEventListener('change', function() {
-        $('#q-prior-detail').hidden = (r.value === 'no');
-      });
-    });
 
     // Conditional UI: pregnancy block — only show for female
     document.querySelectorAll('[data-q="sex"]').forEach(function(el) {
