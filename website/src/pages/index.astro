@@ -113,6 +113,21 @@ const treatments = [
     <h2 class="hp-free-heading">Not ready to buy? Start free.</h2>
     <p class="hp-free-copy">Take the free MindSpan assessment and you get the book <em>Begin with the End in Mind</em>, the <em>Logbook</em>, and the Prot&eacute;g&eacute; app.</p>
     <a href="/assessment" class="btn-secondary" onclick="window.posthog && posthog.capture('hp_free_assessment')">Take the free assessment &rarr;</a>
+
+    <div class="hp-free-book">
+      <img src="/images/book/cover-front.png" alt="Begin with the End in Mind book cover" class="hp-free-book-cover" loading="lazy" />
+      <div class="hp-free-book-text">
+        <p class="hp-free-book-title"><em>Begin with the End in Mind</em></p>
+        <p class="hp-free-book-copy">Dr. TJ's field guide. Free when you complete the assessment, or own it now:</p>
+        <p class="hp-free-book-links">
+          <a href="https://www.amazon.com/dp/B0H7FJRHXC" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'kindle'})">Kindle</a>
+          <span class="hp-free-book-sep">&middot;</span>
+          <a href="https://www.amazon.com/dp/B0H7742SDD" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'paperback'})">Paperback</a>
+          <span class="hp-free-book-sep">&middot;</span>
+          <a href="https://www.amazon.com/dp/B0H75TYF1G" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'hardcover'})">Hardcover</a>
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -348,6 +363,66 @@ const treatments = [
 .btn-secondary:hover {
   background: var(--primary);
   color: #fff;
+}
+
+/* ===== SECONDARY FREE BAND — book row ===== */
+.hp-free-book {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  max-width: 480px;
+  margin: 2rem auto 0;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+.hp-free-book-cover {
+  width: 100%;
+  max-width: 110px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.hp-free-book-text {
+  min-width: 0;
+}
+.hp-free-book-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 0.3rem;
+}
+.hp-free-book-title em { font-style: italic; }
+.hp-free-book-copy {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-light);
+  margin: 0 0 0.45rem;
+}
+.hp-free-book-links {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+.hp-free-book-links a {
+  color: var(--primary);
+  text-decoration: none;
+}
+.hp-free-book-links a:hover { text-decoration: underline; }
+.hp-free-book-sep {
+  color: var(--text-light);
+  margin: 0 0.35rem;
+}
+@media (max-width: 639px) {
+  .hp-free-book {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hp-free-book-cover { max-width: 90px; }
 }
 
 /* ===== FOUNDER QUOTE ===== */
