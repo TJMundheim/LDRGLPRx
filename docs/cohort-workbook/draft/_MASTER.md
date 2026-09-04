@@ -34,7 +34,7 @@ The logbook covers **Month 1** — the first four weeks of the My4MLife cohort p
 - **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a Wednesday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the canaries — the ED canary for men, the perimenopause/menopause canary for women. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
 - **Part 7 — The Stack Reference.** One page per product. The full My4MLife stack — every OTC, every Rx tier, every dose, every pairing — in one place. Return here any time you forget why you're taking something.
 - **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The person who layers this on a broken foundation gets the bill, not the benefit.
-- **Part 9 — Resources & Next Steps.** The 10-question assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
+- **Part 9 — Resources & Next Steps.** The 20-question MindSpan assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
 
 ### Before you start
 
@@ -244,7 +244,7 @@ _______________________________________________
 
 The last piece of Part 1 is the honest snapshot. We need a baseline. Without a baseline you cannot tell, four months from now, whether the work worked.
 
-This is the same 10-category structure as the My4MLife Assessment. Rate each category 0 to 5 — where 0 means *no issue at all in this area* and 5 means *daily problem affecting my life*. Then in one line, name the most current, most specific symptom in that category. Not the textbook description. Yours.
+This mirrors the 20-category structure of the MindSpan Assessment, question for question, so your day-one baseline lines up with the retake in Part 9. Rate each category 0 to 5 — where 0 means *no issue at all in this area* and 5 means *daily problem affecting my life*. Then in one line, name the most current, most specific symptom in that category. Not the textbook description. Yours.
 
 Be honest. Nobody is grading this. The single biggest predictor of cohort outcome is the accuracy of the day-one baseline. Overscoring "0" because you don't want to face it just delays the work. Score it the way it actually is today.
 
@@ -253,7 +253,163 @@ Be honest. Nobody is grading this. The single biggest predictor of cohort outcom
 
 ---
 
-### 01. Gut health / leaky gut
+**Mind**
+
+### 01. Cognitive / brain fog
+
+*Mind is the destination of the 4M system — cognitive performance is the end-state we are optimizing for.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (word-finding, focus, foggy days per week — be specific):
+
+_______________________________________________
+
+### 02. Sleep
+
+*The brain cleans itself only during deep sleep. Poor sleep silently degrades hormones, weight, mood, and memory.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (trouble falling asleep, 3 AM waking, unrefreshed mornings — be specific):
+
+_______________________________________________
+
+### 03. Hearing, vision & dental
+
+*Uncorrected hearing loss is one of the largest modifiable dementia risk factors — and gum disease feeds the same inflammation that reaches the brain. The oral microbiome is the front door of the gut-brain axis.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (straining in conversation, reading strain, bleeding gums, overdue dental — be specific):
+
+_______________________________________________
+
+### 04. Mood
+
+*Depression and anxiety are among the most under-recognized contributors to cognitive decline — and among the most treatable.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (low mood, anxiety, short fuse — how often, how long — be specific):
+
+_______________________________________________
+
+### 05. Social connection
+
+*Social isolation carries a dementia risk on par with the big physical factors. Connection is a protocol, not a luxury.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (real conversations per week, who you actually see — be specific):
+
+_______________________________________________
+
+### 06. Mental challenge
+
+*The brain follows a ruthless use-it-or-lose-it principle. Novelty and difficulty are what keep the architecture live.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (what you learn or practice that is genuinely hard — be specific):
+
+_______________________________________________
+
+**Muscle**
+
+### 07. Movement & strength
+
+*Muscle is the engine — and the single best-evidenced lever for both metabolic and cognitive protection.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (lifting sessions per week, daily steps, what you can no longer do — be specific):
+
+_______________________________________________
+
+### 08. Weight
+
+*Answer by how your clothes fit and how far you are from your ideal weight — no exact numbers needed.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (how clothes fit, pounds from target, belly fat — be specific):
+
+_______________________________________________
+
+### 09. Nutrition
+
+*Food quality is the daily input that drives microbiome diversity, blood sugar, and energy.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (takeout or processed meals per week, what breakfast actually is — be specific):
+
+_______________________________________________
+
+### 10. Pain / injury
+
+*Pain that blocks movement quietly costs you the muscle, sleep, and mood that protect the brain. It is fixable more often than people assume.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (where it hurts, what it stops you doing — be specific):
+
+_______________________________________________
+
+**Mitigate**
+
+### 11. Blood pressure
+
+*Midlife blood pressure is one of the strongest predictors of late-life cognitive decline. Not knowing your numbers scores like a problem — because it is one.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (last reading and date — be specific):
+
+_______________________________________________
+
+### 12. Blood sugar
+
+*Alzheimer's is often called type 3 diabetes for a reason — the brain runs on glucose signaling, and insulin resistance degrades it.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (last A1c or fasting glucose and date — be specific):
+
+_______________________________________________
+
+### 13. LDL cholesterol
+
+*The arteries that feed the brain are the smallest in the body — they clog first. LDL is a brain number, not just a heart number.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (last LDL and date — be specific):
+
+_______________________________________________
+
+### 14. Smoking / nicotine
+
+*Smoking is the single most reversible vascular insult on this list — the brain benefits start within weeks of stopping.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (product and daily amount — be specific):
+
+_______________________________________________
+
+### 15. Alcohol
+
+*Alcohol disrupts gut, sleep, hormones, and cognition simultaneously. Cutting back affects every other pillar.*
+
+Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
+
+Current symptom (drinks per week, drinks per sitting — honest — be specific):
+
+_______________________________________________
+
+### 16. Gut health
 
 *The gut-brain axis sits underneath nearly everything else — fix this first and other categories often improve on their own.*
 
@@ -263,95 +419,53 @@ Current symptom (bloating, food reactions, brain fog after meals, irregular stoo
 
 _______________________________________________
 
-### 02. Sleep
+### 17. Hormones
 
-*Poor sleep silently degrades hormones, weight, mood, and memory. The most-leveraged lever after gut.*
-
-Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
-
-Current symptom (trouble falling asleep, 3 AM waking, unrefreshed mornings — be specific):
-
-_______________________________________________
-
-### 03. Weight / body composition
-
-*Use a BMI calculator to sanity-check, but trust the mirror and the belt notch.*
+*Testosterone, estrogen, progesterone, and cortisol balance underlie resilience — proper labs and a physician-led plan beat guessing.*
 
 Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
 
-Current symptom (clothes fitting, belly fat, recent trend on the scale — be specific):
+Current symptom (fatigue, drive, mood swings, recovery, muscle loss — and for women, cycle changes, hot flashes, night sweats — be specific):
 
 _______________________________________________
 
-### 04. Diet / nutrition
+### 18. Sexual function
 
-*Food quality is the daily input that drives microbiome diversity, blood sugar, and energy.*
+*Declining sexual function is an early-warning signal — the canary in the mine — for hormones, cardiovascular health, and cognitive trajectory. For men it shows up as ED; for women, often as the first sign of the perimenopausal transition. Not a verdict.*
 
 Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
 
-Current symptom (fast food default, snacking patterns, what a typical day looks like — be specific):
+Current symptom (desire, arousal, and for men morning erection frequency and hardness — be specific):
 
 _______________________________________________
 
-### 05. Erectile + sexual function
+### 19. Environment
 
-*ED and libido decline are early-warning signals for hormones, cardiovascular health, and cognitive trajectory — not a verdict.*
+*Light, air, water, and EMF compound over years. Lack of morning sunlight is the most overlooked driver of poor sleep and mood.*
 
 Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
 
-Current symptom (morning erection frequency, hardness, drive, performance — be specific):
+Current symptom (morning sun minutes, water source, screen hours, air filtration — be specific):
 
 _______________________________________________
 
-### 06. Environment
+**Motivate**
 
-*Light, air, water, EMF. Lack of morning sunlight is the most overlooked driver of poor sleep and mood.*
+### 20. Purpose & accountability
+
+*Knowledge is not the bottleneck — accountability is. Everyone in the program names a specific face they are doing this for.*
 
 Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
 
-Current symptom (no morning sun, indoor under fluorescents, tap water, screen exposure — be specific):
+Current symptom (who checks on you, what your written goal actually says — be specific):
 
 _______________________________________________
 
-### 07. Cognitive / brain fog
+### Already diagnosed? (Yes / No)
 
-*Mind is the destination of the 4M system — cognitive performance is the end-state we are optimizing for.*
+*Have you already been diagnosed with mild cognitive impairment, early dementia, Alzheimer's, or Parkinson's?*
 
-Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
-
-Current symptom (word-finding, focus, recall, mental fatigue — be specific):
-
-_______________________________________________
-
-### 08. Hormones
-
-*Testosterone and cortisol balance underlie resilience — proper labs and a coach-led plan beat guessing.*
-
-Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
-
-Current symptom (fatigue, drive, recovery, muscle loss despite training — be specific):
-
-_______________________________________________
-
-### 09. Already diagnosed (MCI / dementia / Alzheimer's / Parkinson's / family history)
-
-*If you're already in this category, regenerative medicine becomes time-sensitive — flag this for the cohort coach.*
-
-Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
-
-Current status (no concerns / family history / undiagnosed symptoms / formal evaluation / diagnosis):
-
-_______________________________________________
-
-### 10. Alcohol
-
-*Alcohol disrupts gut, sleep, hormones, and cognition simultaneously. Cutting back affects every other pillar.*
-
-Rate today: `0 — 1 — 2 — 3 — 4 — 5`   →   My score: ____
-
-Honest current intake (drinks per week, drinks per sitting — be specific):
-
-_______________________________________________
+☐ Yes ☐ No   — a Yes makes the regenerative-medicine consult time-sensitive; book it in Week 1.
 
 ---
 
@@ -3256,99 +3370,17 @@ This part is the reference shelf. Come back to it.
 
 ---
 
-## 9.1 — The 4M Assessment Reference
+## 9.1 — The MindSpan Assessment Reference
 
-You took this assessment 30 days ago — on the website, on the app, or on paper. Take it again now. Same prompts, same scoring. The delta is the point.
+You took this assessment 30 days ago — on the website, on the app, or on paper. Take it again now. Same 20 prompts, same scoring. The delta is the point.
 
-For each question: circle the number that matches you *today*. Not last month. Not your average. Today.
-
----
-
-**Q1 — Gut health / leaky gut**
-*I deal with bloating, gas, irregular stools, food reactions, or brain fog after meals — my gut clearly isn't happy.*
-
-Score guide:
-0 = No gut issues at all
-3 = Occasional bloating or food reactions a few times a month
-5 = Daily bloating, irregular stools, multiple food sensitivities, foggy after most meals
-
-This category notes: The gut-brain axis sits underneath nearly everything else — fix this first and other categories often improve on their own.
-
-Your score: 0 — 1 — 2 — 3 — 4 — 5
+For each question: circle the number that matches you *today*. Not last month. Not your average. Today. Score guides are anchors — a 1, 2, or 4 is fine when you sit between them.
 
 ---
 
-**Q2 — Sleep / sleep optimization**
-*I don't sleep well — I have trouble falling asleep, wake up during the night, or drag through mornings even after a full night in bed.*
+### Mind
 
-Score guide:
-0 = Sleep is solid — I fall asleep fast, stay asleep, and wake rested
-3 = Some nights great, some rough
-5 = Most nights are bad, I wake up tired, and timing is all over the place
-
-This category notes: Poor sleep silently degrades hormones, weight, mood, and memory. It's the most-leveraged lever after gut.
-
-Your score: 0 — 1 — 2 — 3 — 4 — 5
-
----
-
-**Q3 — Weight (BMI)**
-*I'm carrying more body fat than I should — clothes don't fit the way they used to and the scale has been creeping up.*
-
-Score guide:
-0 = At my ideal weight, body composition feels right
-3 = About 10-20 lbs heavier than I should be
-5 = More than 30 lbs over target with visible belly fat
-
-This category notes: Use the BMI calculator on the app to sanity-check your answer — BMI is informational only and does not change your score.
-
-Your score: 0 — 1 — 2 — 3 — 4 — 5
-
----
-
-**Q4 — Diet / nutrition**
-*I rely on fast food, processed snacks, or convenience meals more often than I cook real whole-food meals at home.*
-
-Score guide:
-0 = Almost everything I eat is whole foods, mostly home-cooked
-3 = Mixed — some good days, some takeout / processed days
-5 = Fast food, packaged snacks, or convenience meals are my default
-
-This category notes: Food quality is the daily input that drives microbiome diversity, blood sugar, and energy.
-
-Your score: 0 — 1 — 2 — 3 — 4 — 5
-
----
-
-**Q5 — Erectile + sexual function**
-*My sex drive has dropped and erections aren't what they used to be — frequency, hardness, or both have declined noticeably in the past year or two.*
-
-Score guide:
-0 = Drive and function feel completely normal
-3 = Some noticeable off-weeks but not a steady pattern
-5 = Clear, sustained decline in drive, hardness, or morning erections
-
-This category notes: ED and libido decline are early-warning signals for hormones, cardiovascular health, and cognitive trajectory — not a verdict.
-
-Your score: 0 — 1 — 2 — 3 — 4 — 5
-
----
-
-**Q6 — Environment**
-*I don't get morning sunlight or any meaningful outdoor time during the day — I'm under artificial lighting most of my waking hours, drinking tap water, and surrounded by screens and EMF.*
-
-Score guide:
-0 = I get morning sun daily, filtered air and water, low artificial light
-3 = Some exposure issues, partially managing
-5 = No morning sun, indoors all day under fluorescents/screens, tap water, no air filtration, constant EMF
-
-This category notes: Light, air, water, and EMF compound over years. Lack of morning sunlight is the most overlooked driver of poor sleep and mood.
-
-Your score: 0 — 1 — 2 — 3 — 4 — 5
-
----
-
-**Q7 — Cognitive / brain fog**
+**Q1 — Cognitive / brain fog**
 *My mind isn't as sharp as it used to be — I forget words mid-sentence, lose focus, or feel mentally foggy more days than not.*
 
 Score guide:
@@ -3362,39 +3394,194 @@ Your score: 0 — 1 — 2 — 3 — 4 — 5
 
 ---
 
-**Q8 — Hormone optimization / TRT**
-*I feel like my hormones are off — persistent fatigue, low drive, mood swings, poor recovery from workouts, or loss of muscle mass despite trying.*
+**Q2 — Sleep**
+*I don't sleep well — trouble falling asleep, waking during the night, or dragging through mornings even after a full night in bed.*
 
 Score guide:
-0 = Energy, libido, mood, and recovery all feel optimal
-3 = Occasional symptoms, especially under stress
-5 = Multiple hormone-related symptoms most days affecting daily function
+0 = Sleep is solid — I fall asleep fast, stay asleep, and wake rested
+3 = Some nights great, some rough
+5 = Most nights are bad, I wake up tired, and timing is all over the place
 
-This category notes: Testosterone and cortisol balance underlie resilience — proper labs and a coach-led plan beat guessing.
+This category notes: The brain cleans itself only during deep sleep. Poor sleep silently degrades hormones, weight, mood, and memory.
 
 Your score: 0 — 1 — 2 — 3 — 4 — 5
 
 ---
 
-**Q9 — Already diagnosed**
-*Have you already been diagnosed with mild cognitive decline, early dementia, Alzheimer's, or Parkinson's?*
+**Q3 — Hearing, vision & dental**
+*My hearing, eyesight, or dental health has slipped and I haven't had it properly checked or corrected — I strain to follow conversations or read, or I'm ignoring bleeding gums, loose teeth, or overdue dental work.*
 
 Score guide:
-0 = No concerns, no family history
-1 = Family history of cognitive decline or related diagnosis
-2 = Occasional concerning symptoms (brain fog, memory lapses)
-3 = Regular symptoms I'm noticing but undiagnosed
-4 = Mild cognitive decline diagnosis or formal evaluation underway
-5 = Diagnosed with Alzheimer's, dementia, Parkinson's, or related condition
+0 = All three checked and fully maintained — no strain, healthy gums
+3 = Noticeable slippage in one, not yet properly checked or corrected
+5 = I regularly miss parts of conversations, avoid reading, or have gum/dental problems I keep putting off
 
-This category notes: If you're already in this category, regenerative medicine becomes time-sensitive.
+This category notes: Uncorrected hearing loss is one of the largest modifiable dementia risk factors — and gum disease feeds the same inflammation that reaches the brain. The oral microbiome is the front door of the gut-brain axis.
 
 Your score: 0 — 1 — 2 — 3 — 4 — 5
 
 ---
 
-**Q10 — Excessive alcohol**
-*How much alcohol do you consume?*
+**Q4 — Mood**
+*I'm dealing with anxiety, depression, ongoing low mood, or a shorter fuse than I used to have.*
+
+Score guide:
+0 = Mood is steady and generally good
+3 = Regular low days, irritability, or worry that I notice
+5 = Persistent anxiety, low mood, or anger that affects work or relationships most days
+
+This category notes: Depression and anxiety are among the most under-recognized contributors to cognitive decline — and among the most treatable.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q5 — Social connection**
+*I've become more isolated — fewer real conversations and less regular connection with people I care about.*
+
+Score guide:
+0 = Regular, real connection with people I care about
+3 = Fewer real conversations than I used to have
+5 = Genuinely isolated — days can pass without a meaningful conversation
+
+This category notes: Social isolation carries a dementia risk on par with the big physical factors. Connection is a protocol, not a luxury.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q6 — Mental challenge**
+*I rarely challenge my mind or learn anything new — most days run on autopilot.*
+
+Score guide:
+0 = I learn or build something genuinely new most weeks
+3 = Occasional challenge, mostly routine
+5 = Full autopilot — nothing new in months
+
+This category notes: The brain follows a ruthless use-it-or-lose-it principle. Novelty and difficulty are what keep the architecture live.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+### Muscle
+
+**Q7 — Movement & strength**
+*I don't move most days, and my strength, muscle, and recovery have been slipping.*
+
+Score guide:
+0 = I move daily and train strength regularly — no decline
+3 = Inconsistent — some active weeks, some sedentary
+5 = Mostly sedentary and clearly weaker than a few years ago
+
+This category notes: Muscle is the engine — and the single best-evidenced lever for both metabolic and cognitive protection.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q8 — Weight**
+*I'm carrying more body fat than I should — clothes don't fit the way they used to and the scale keeps creeping up.*
+
+Score guide:
+0 = At my ideal weight, body composition feels right
+3 = About 10-20 lbs heavier than I should be
+5 = More than 30 lbs over target with visible belly fat
+
+This category notes: Answer by how your clothes fit and how far you are from your ideal weight — no exact numbers needed.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q9 — Nutrition**
+*I rely on fast food, processed snacks, or convenience meals more often than I cook real whole-food meals at home.*
+
+Score guide:
+0 = Almost everything I eat is whole foods, mostly home-cooked
+3 = Mixed — some good days, some takeout / processed days
+5 = Fast food, packaged snacks, or convenience meals are my default
+
+This category notes: Food quality is the daily input that drives microbiome diversity, blood sugar, and energy.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q10 — Pain / injury**
+*Chronic or acute pain, or an injury, keeps me from being as active as I'd like.*
+
+Score guide:
+0 = Pain-free and fully active
+3 = A nagging issue I work around — it limits some activities
+5 = Pain or an injury shuts down most of the activity I'd like to do
+
+This category notes: Pain that blocks movement quietly costs you the muscle, sleep, and mood that protect the brain. It is fixable more often than people assume.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+### Mitigate
+
+**Q11 — Blood pressure**
+*My blood pressure runs high — or I honestly don't know my numbers.*
+
+Score guide:
+0 = Measured recently, consistently in range
+3 = Borderline readings, or I haven't checked in over a year
+5 = Known high blood pressure that isn't controlled — or I've never measured it
+
+This category notes: Midlife blood pressure is one of the strongest predictors of late-life cognitive decline. Not knowing your numbers scores like a problem — because it is one.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q12 — Blood sugar**
+*I have diabetes or prediabetes — or I've never had my blood sugar checked.*
+
+Score guide:
+0 = Checked recently, fully in range
+3 = Prediabetic range, or no check in years
+5 = Diagnosed diabetes that isn't well controlled — or completely unknown
+
+This category notes: Alzheimer's is often called type 3 diabetes for a reason — the brain runs on glucose signaling, and insulin resistance degrades it.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q13 — LDL cholesterol**
+*My cholesterol (LDL) is high — or I don't know where it stands.*
+
+Score guide:
+0 = Measured recently, in range
+3 = Borderline, or no lipid panel in over two years
+5 = Known high LDL that isn't being managed — or never tested
+
+This category notes: The arteries that feed the brain are the smallest in the body — they clog first. LDL is a brain number, not just a heart number.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q14 — Smoking / nicotine**
+*I use tobacco or nicotine regularly.*
+
+Score guide:
+0 = Never, or quit years ago
+3 = Occasional use, or recently quit
+5 = Daily tobacco or nicotine use
+
+This category notes: Smoking is the single most reversible vascular insult on this list — the brain benefits start within weeks of stopping.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q15 — Alcohol**
+*I drink more than I should — alcohol is a regular part of my week.*
 
 Score guide:
 0 = I don't drink
@@ -3410,14 +3597,103 @@ Your score: 0 — 1 — 2 — 3 — 4 — 5
 
 ---
 
-### Scoring rules
+**Q16 — Gut health**
+*I deal with bloating, gas, irregular stools, food reactions, or brain fog after meals — my gut clearly isn't happy.*
 
-1. **Override.** If Q9 (already diagnosed) is **3 or higher**, it is automatically your #1 priority. Skip the bonus math for the top slot.
-2. **Bonus.** Add **+2** to your raw score on Q1 (gut) and Q3 (weight). These two categories carry leverage across every other pillar, so they get weighted up.
-3. **Top 3.** Rank the ten scores (with bonuses applied). The top three are your starting priorities. If Q9 triggered the override, it takes slot #1 and the next two highest take slots #2 and #3.
+Score guide:
+0 = No gut issues at all
+3 = Occasional bloating or food reactions a few times a month
+5 = Daily bloating, irregular stools, multiple food sensitivities, foggy after most meals
+
+This category notes: The gut-brain axis sits underneath nearly everything else — fix this first and other categories often improve on their own.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
 
 ---
 
+**Q17 — Hormones**
+*My hormones feel off — persistent fatigue, low drive, mood swings, poor recovery, or loss of muscle despite trying.*
+
+Score guide:
+0 = Energy, libido, mood, and recovery all feel optimal
+3 = Occasional symptoms, especially under stress
+5 = Multiple hormone-related symptoms most days affecting daily function
+
+This category notes: Testosterone, estrogen, progesterone, and cortisol balance underlie resilience — proper labs and a physician-led plan beat guessing.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q18 — Sexual function**
+*My sex drive has dropped and sexual function isn't what it used to be — desire, arousal, or (for men) erection frequency and hardness have declined in the past year or two.*
+
+Score guide:
+0 = Drive and function feel completely normal
+3 = Some noticeable off-weeks but not a steady pattern
+5 = Clear, sustained decline in desire, arousal, or erectile function
+
+This category notes: Declining sexual function is an early-warning signal — the canary in the mine — for hormones, cardiovascular health, and cognitive trajectory. For men it shows up as ED; for women, often as the first sign of the perimenopausal transition. Not a verdict.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Q19 — Environment**
+*I don't get morning sunlight or meaningful outdoor time — I'm under artificial light most of the day, drinking tap water, and surrounded by screens and EMF.*
+
+Score guide:
+0 = I get morning sun daily, filtered air and water, low artificial light
+3 = Some exposure issues, partially managing
+5 = No morning sun, indoors all day under fluorescents/screens, tap water, no air filtration, constant EMF
+
+This category notes: Light, air, water, and EMF compound over years. Lack of morning sunlight is the most overlooked driver of poor sleep and mood.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+### Motivate
+
+**Q20 — Purpose & accountability**
+*I don't have clear health goals or anyone holding me accountable — I know what to do but don't follow through.*
+
+Score guide:
+0 = Clear goals, and someone specific holds me to them
+3 = Goals exist but nobody checks — follow-through is patchy
+5 = No real goals, no accountability, and I know it
+
+This category notes: Knowledge is not the bottleneck — accountability is. Everyone in the program names a specific face they are doing this for.
+
+Your score: 0 — 1 — 2 — 3 — 4 — 5
+
+---
+
+**Already diagnosed? (Yes / No — not scored)**
+*Have you already been diagnosed with mild cognitive impairment, early dementia, Alzheimer's, or Parkinson's?*
+
+This category notes: If you're already in this category, regenerative medicine becomes time-sensitive. A **Yes** routes you to the regenerative-medicine consult path regardless of your other scores.
+
+☐ Yes ☐ No
+
+---
+
+### Scoring rules
+
+1. **Total.** Add all 20 scores. That is your MindSpan Score out of 100 (lower is better).
+
+2. **Band.**
+
+   - **0–15 — Sharp.** Protect it.
+   - **16–35 — Early drift.** Worth getting ahead of.
+   - **36–60 — Time for a plan.**
+   - **61–100 — Act now.** While the choice is still yours.
+
+3. **Bonus.** For ranking only, add **+3** to Q16 (Gut health) and **+2** to Q8 (Weight). These carry leverage across every other pillar. A raw 0 stays a 0 — the bonus never lifts an unmarked category.
+
+4. **Top 3.** Rank the twenty scores with bonuses applied. The top three are your priorities for the next 30 days.
+
+---
 ### Your top-3 priorities
 
 > **Priority #1 — category:** ______________________________

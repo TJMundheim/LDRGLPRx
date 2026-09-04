@@ -147,7 +147,7 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     label: 'Pain / injury',
     prompt: "Chronic or acute pain, or an injury, keeps me from being as active as I'd like.",
     scoreGuide: "0 = Pain-free and fully active · 3 = A nagging issue I work around — it limits some activities · 5 = Pain or an injury shuts down most of the activity I'd like to do",
-    categoryNote: 'Pain that blocks movement quietly costs you the muscle, sleep, and mood that protect the brain. It is fixable more often than men assume.',
+    categoryNote: 'Pain that blocks movement quietly costs you the muscle, sleep, and mood that protect the brain. It is fixable more often than people assume.',
     solutionSlug: 'pain-chronic',
   },
 
@@ -219,7 +219,7 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     label: 'Hormones',
     prompt: 'My hormones feel off — persistent fatigue, low drive, mood swings, poor recovery, or loss of muscle despite trying.',
     scoreGuide: '0 = Energy, libido, mood, and recovery all feel optimal · 3 = Occasional symptoms, especially under stress · 5 = Multiple hormone-related symptoms most days affecting daily function',
-    categoryNote: 'Testosterone and cortisol balance underlie resilience — proper labs and a physician-led plan beat guessing.',
+    categoryNote: 'Testosterone, estrogen, progesterone, and cortisol balance underlie resilience — proper labs and a physician-led plan beat guessing.',
     solutionSlug: 'hormones',
   },
   {
@@ -227,9 +227,9 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     n: '18',
     pillar: 'mitigate',
     label: 'Sexual function',
-    prompt: "My sex drive has dropped and erections aren't what they used to be — frequency, hardness, or both have declined in the past year or two.",
-    scoreGuide: '0 = Drive and function feel completely normal · 3 = Some noticeable off-weeks but not a steady pattern · 5 = Clear, sustained decline in drive, hardness, or morning erections',
-    categoryNote: 'ED and libido decline are early-warning signals — the canary in the mine — for hormones, cardiovascular health, and cognitive trajectory. Not a verdict.',
+    prompt: "My sex drive has dropped and sexual function isn't what it used to be — desire, arousal, or (for men) erection frequency and hardness have declined in the past year or two.",
+    scoreGuide: '0 = Drive and function feel completely normal · 3 = Some noticeable off-weeks but not a steady pattern · 5 = Clear, sustained decline in desire, arousal, or erectile function',
+    categoryNote: 'Declining sexual function is an early-warning signal — the canary in the mine — for hormones, cardiovascular health, and cognitive trajectory. For men it shows up as ED; for women, often as the first sign of the perimenopausal transition. Not a verdict.',
     solutionSlug: 'erectile-dysfunction',
   },
   {
@@ -251,7 +251,7 @@ export const AUDIT_QUESTIONS: AuditQuestion[] = [
     label: 'Purpose & accountability',
     prompt: "I don't have clear health goals or anyone holding me accountable — I know what to do but don't follow through.",
     scoreGuide: "0 = Clear goals, and someone specific holds me to them · 3 = Goals exist but nobody checks — follow-through is patchy · 5 = No real goals, no accountability, and I know it",
-    categoryNote: 'Knowledge is not the bottleneck — accountability is. Every man in the program names a specific face he is doing this for.',
+    categoryNote: 'Knowledge is not the bottleneck — accountability is. Everyone in the program names a specific face they are doing this for.',
     solutionSlug: 'purpose-goals',
   },
 ];
