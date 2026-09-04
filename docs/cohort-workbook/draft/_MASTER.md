@@ -31,16 +31,28 @@ The logbook covers **Month 1** — the first four weeks of the My4MLife cohort p
 
 - **Part 1 — Your Why.** Before any protocol, you name the face you're doing this for and write your why. This page comes first because the protocol that you actually run beats the protocol that was theoretically better — and the protocol that you actually run is the one you run for a specific named person.
 - **Part 2 — The 4M Framework.** A two-page anchor on Mind, Muscle, Mitigate, Motivate. Refer back to this any time the work starts to feel like a pile of tasks instead of a system.
-- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a Wednesday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the ED canary. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
+- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a Wednesday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the canaries — the ED canary for men, the perimenopause/menopause canary for women. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
 - **Part 7 — The Stack Reference.** One page per product. The full My4MLife stack — every OTC, every Rx tier, every dose, every pairing — in one place. Return here any time you forget why you're taking something.
-- **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The man who layers this on a broken foundation gets the bill, not the benefit.
+- **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The person who layers this on a broken foundation gets the bill, not the benefit.
 - **Part 9 — Resources & Next Steps.** The 10-question assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
 
 ### Before you start
 
 Read Part 1 with a pen in your hand. Do not skim. Do not "fill it in later." The exercises in Part 1 are short on purpose so that the only excuse for not doing them is that you are choosing not to. Write the face. Write the why. Write the baseline. Then turn the page.
 
-The next time you open this logbook, you should already be a man who has named what he's protecting.
+The next time you open this logbook, you should already be someone who has named what they're protecting.
+
+---
+
+### Who This Logbook Is For
+
+I am a man, and I have spent thirty years in practice treating men and women. That is the honest origin of this program: one clinician's voice, shaped by three decades of sitting across from people who waited too long.
+
+**The medicine is for everyone.** The gut you repair, the sleep you defend, the muscle you keep, the mind you protect — none of it checks your driver's license first. Every page here is yours to run.
+
+Where the physiology actually differs by sex, this logbook says so out loud instead of pretending it doesn't. Week 3 is the only place that splits: men run the ED-canary track, women run the perimenopause/menopause track, and everyone runs the decision tree at the end of it. Everywhere else — the gut, the sleep, the lifts, the food, the environment, the drinking, the purpose, the mind itself — the biology is shared, and so is the page.
+
+**— Dr. TJ**
 
 ---
 
@@ -50,59 +62,6 @@ The next time you open this logbook, you should already be a man who has named w
 
 ---
 
-
-
----
-
-# The My4MLife Logbook
-
-## Month 1
-
-> *Begin with the end in mind.*
->
-> *Don't lose your identity and your dignity while you still have a choice.*
-
----
-
-**Dr. TJ Mundheim**
-*Founder · My4MLife*
-
----
-
-© 2026 My4MLife. All rights reserved.
-
-[my4mlife.com](https://my4mlife.com) · [my4mlife.com/assessment](https://my4mlife.com/assessment)
-
----
-
-## How to use this logbook
-
-This is not a book to read. It is a **logbook** to run.
-
-You will write in it. You will mark up the trackers. You will tear out the scorecards and tape them to your bathroom mirror — or screenshot them for your phone lock-screen. The whole point is to convert the protocol from something you read about into something you actually run, day after day, with a pen in your hand and a face in your head.
-
-The logbook covers **Month 1** — the first four weeks of the My4MLife cohort protocol. Each week builds on the prior one. You do not skip ahead. You do not start with Week 3 because hormones sound interesting. The order is the order on purpose.
-
-### The shape of the month
-
-- **Part 1 — Your Why.** Before any protocol, you name the face you're doing this for and write your why. This page comes first because the protocol that you actually run beats the protocol that was theoretically better — and the protocol that you actually run is the one you run for a specific named person.
-- **Part 2 — The 4M Framework.** A two-page anchor on Mind, Muscle, Mitigate, Motivate. Refer back to this any time the work starts to feel like a pile of tasks instead of a system.
-- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a Wednesday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the ED canary. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
-- **Part 7 — The Stack Reference.** One page per product. The full My4MLife stack — every OTC, every Rx tier, every dose, every pairing — in one place. Return here any time you forget why you're taking something.
-- **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The man who layers this on a broken foundation gets the bill, not the benefit.
-- **Part 9 — Resources & Next Steps.** The 10-question assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
-
-### Before you start
-
-Read Part 1 with a pen in your hand. Do not skim. Do not "fill it in later." The exercises in Part 1 are short on purpose so that the only excuse for not doing them is that you are choosing not to. Write the face. Write the why. Write the baseline. Then turn the page.
-
-The next time you open this logbook, you should already be a man who has named what he's protecting.
-
----
-
-*Begin with the end in mind.*
-
----
 
 
 ---
@@ -121,19 +80,19 @@ I'm going to ask you to do something counter-intuitive before I hand you a singl
 
 I'm going to ask you to put the logbook down for ten minutes and look at a face.
 
-Not your own face in the mirror. Somebody else's face. Your wife. One of your kids — by name. Your aging father in the chair he doesn't get out of anymore. The grandchild who isn't born yet. Your own younger self at twenty-two. One specific human being whose life is materially worse if your mind goes before your body does.
+Not your own face in the mirror. Somebody else's face. Your spouse or partner. One of your kids — by name. Your aging father in the chair he doesn't get out of anymore. The grandchild who isn't born yet. Your own younger self at twenty-two. One specific human being whose life is materially worse if your mind goes before your body does.
 
-I've been doing this work long enough to tell you what separates the men who finish a four-month cohort from the men who quit in week three. It isn't IQ. It isn't income. It isn't how clean the protocol is or how expensive the stack is. It's whether they could name, on day one, who they were doing this for.
+I've been doing this work long enough to tell you what separates the people who finish a four-month cohort from the ones who quit in week three. It isn't IQ. It isn't income. It isn't how clean the protocol is or how expensive the stack is. It's whether they could name, on day one, who they were doing this for.
 
 Here is the lock-in phrase for this entire logbook. Write it down. Read it back:
 
 > *The protocol that you run beats the protocol that was theoretically better. And the protocol that you run is the one you run for a specific named person.*
 
-The men who run it have a face. The men who don't, drift.
+The people who run it have a face. The ones who don't, drift.
 
 That's why Part 1 is not about gut repair, or testosterone, or sleep architecture, or resistance training, or any of the things you came here to fix. Part 1 is about you naming — in your own handwriting, on this page, today — the human being whose presence in your life makes the next four months non-negotiable.
 
-If you skip this section and jump to the protocol, the protocol will not hold. I have watched this happen for years. A man buys the stack, reads the chapters, runs week one beautifully, hits a bad Tuesday in week two, and quits. He quits because there was no face on the other side of the quitting. The quitting cost him nothing.
+If you skip this section and jump to the protocol, the protocol will not hold. I have watched this happen for years. Someone buys the stack, reads the chapters, runs week one beautifully, hits a bad Tuesday in week two, and quits. They quit because there was no face on the other side of the quitting. The quitting cost them nothing.
 
 We are going to make the quitting cost something. We are going to give it a face and a name and a six-month outcome you wrote down with your own hand.
 
@@ -145,7 +104,7 @@ Do the four exercises in order. Don't optimize. Don't pretty it up. Use a pen, n
 
 This is the locked My4MLife rule and it is the foundation of everything that follows: **you must name a specific face before you write your why.** Not "my family." Not "the people I love." Not "myself." A specific human being I could pick out of a photograph if you showed me one.
 
-Most men want to skip this step. Most men want to write "my family" because it feels generous and complete. It isn't. "My family" is an abstraction and abstractions don't get you out of bed at 5:45 in the morning when your knees hurt and the coffee isn't on yet. A face does.
+Most people want to skip this step. Most people want to write "my family" because it feels generous and complete. It isn't. "My family" is an abstraction and abstractions don't get you out of bed at 5:45 in the morning when your knees hurt and the coffee isn't on yet. A face does.
 
 Pick one. You can add more later. Right now, name the single person whose deterioration in your absence — or whose loss of you to cognitive decline — is the thing you cannot accept. Write the name. Write what they call you. Write one sentence about what they need from you that nobody else on earth can give.
 
@@ -242,7 +201,7 @@ A why without a target is a wish. We are going to give your why three measurable
 
 The rules: each outcome must be (a) specific, (b) measurable with a number or a 1-10 score, and (c) something you can verify on the date without anybody else's permission. Not "feel better." Not "be healthier." A number. A score. A waist size. A weight. A lift. A morning erection frequency. A sleep score. A cognitive clarity rating you write down today and re-rate in 180 days.
 
-Pick from the menu below or write your own. Three is the cap. Men who write ten targets hit zero. Men who write three hit two.
+Pick from the menu below or write your own. Three is the cap. People who write ten targets hit zero. People who write three hit two.
 
 **Sample target categories (pick any three or write your own):**
 
@@ -445,7 +404,7 @@ This page is your anchor. Any time the protocol starts to feel like a pile of ta
 
 Mind is what we're protecting.
 
-Not "longevity." Not "anti-aging." Not the body in the mirror. The man your wife married. The father your kids recognize. The operator who walks into a room and reads it. That man lives in roughly three pounds of tissue between your ears, and that tissue is what every other intervention in this logbook is serving.
+Not "longevity." Not "anti-aging." Not the body in the mirror. The person your spouse married. The parent your kids recognize. The operator who walks into a room and reads it. That person lives in roughly three pounds of tissue between your ears, and that tissue is what every other intervention in this logbook is serving.
 
 When you forget what the point of any single behavior is, the answer is always the same: **the point is Mind.**
 
@@ -469,7 +428,7 @@ If you only ever ran one pillar, this is the one with the most measurable physic
 
 > *Stop hurting yourself first. Then add what works.*
 
-Mitigate is the pillar that removes the chronic insults silently degrading the system. Your gut. Your sleep. Your environment (light, air, water, EMF). Your hormones (and the ED canary that signals when they've started to drift). The alcohol you've normalized. The substances you've made part of the routine.
+Mitigate is the pillar that removes the chronic insults silently degrading the system. Your gut. Your sleep. Your environment (light, air, water, EMF). Your hormones (and the canary that signals when they've started to drift — ED for men, the perimenopause/menopause cluster for women). The alcohol you've normalized. The substances you've made part of the routine.
 
 Mitigate works in one direction at a time. You cannot meaningfully *add* a protocol while still actively running the input that broke you. The order is: stop the bleed, then start the rebuild.
 
@@ -483,7 +442,7 @@ This is the largest pillar in the cohort by surface area. Most of the audit cate
 
 Motivate is why you keep showing up on the third Tuesday in February when your shoulder is sore and the deal at work is falling apart and your daughter is going through something and nothing about the protocol sounds appealing.
 
-Under Motivate: purpose (your written why from Part 1), identity (the man you're becoming, not the protocol you're trying), accountability (the face from Part 1 + the cohort), the structural enablers (a morning routine that runs without willpower, the friction-removal layer the My4MLife system is built around), and compliance (the architecture that makes running the protocol the path of least resistance).
+Under Motivate: purpose (your written why from Part 1), identity (the person you're becoming, not the protocol you're trying), accountability (the face from Part 1 + the cohort), the structural enablers (a morning routine that runs without willpower, the friction-removal layer the My4MLife system is built around), and compliance (the architecture that makes running the protocol the path of least resistance).
 
 The most rigorous protocol in the world fails if compliance fails. Motivate is the pillar that makes the other three sustainable.
 
@@ -495,7 +454,7 @@ The four pillars are not a linear sequence. They are a recursive engine.
 
 Each pass through the cycle strengthens what you came to protect. Mitigate removes the insults so Muscle has a clean substrate to work on. Muscle builds the body Mind depends on. Motivate sustains the compliance that makes Mitigate and Muscle keep running. And then you arrive back at Mind, sharper than you started, because the work itself was neuroprotective.
 
-Then you do it again. And again. The man who runs the loop longest wins.
+Then you do it again. And again. The person who runs the loop longest wins.
 
 ---
 
@@ -1029,13 +988,13 @@ You kept everything from Week 1 — morning sun and walk, 30–40g protein-first
 
 What we add this week is the lift.
 
-Here's what most men in your decade don't understand: by 50, you are almost certainly sarcopenic. You've been losing 1-2% of lean muscle per year since your mid-30s, and it accelerates after 50. You don't see it because the scale doesn't move much — fat fills in where muscle leaves. The mirror lies politely. The bloodwork doesn't.
+Here's what most people in your decade don't understand: by 50, you are almost certainly sarcopenic. You've been losing 1-2% of lean muscle per year since your mid-30s, and it accelerates after 50. You don't see it because the scale doesn't move much — fat fills in where muscle leaves. The mirror lies politely. The bloodwork doesn't.
 
 Sarcopenia is not a falls-and-fractures problem. It's a cognitive risk factor. Compound resistance training releases myokines — irisin, BDNF-adjacent signaling molecules, cathepsin B — that cross the blood-brain barrier and stimulate neurogenesis in the hippocampus. The same hippocampus that shrinks first in Alzheimer's. When I say *resistance training is neuroprotection*, I mean it literally. The squat is a memory drug. The deadlift is a mood drug. The carry is a cognition drug.
 
 Three sessions this week. A / B / A pattern. Compound lifts only. Leave one rep in the tank — recovery is where adaptation happens, not in the gym.
 
-We're also tightening sleep architecture. The 60 minutes before bed are the single highest-leverage window most men waste. You're going to install a real wind-down this week.
+We're also tightening sleep architecture. The 60 minutes before bed are the single highest-leverage window most people waste. You're going to install a real wind-down this week.
 
 Same daily check-in. Same Wednesday Zoom. Same end-of-week 4M reflection. New trackers for the lift and the wind-down.
 
@@ -1162,7 +1121,7 @@ _____________________________________________________________________
 
 Lights out is still 10:30. What changes this week is the 60 minutes before it.
 
-Most men sabotage sleep in the last hour of the day and then blame the supplement. Fix the hour first. The supplement does the rest.
+Most people sabotage sleep in the last hour of the day and then blame the supplement. Fix the hour first. The supplement does the rest.
 
 ### The 9:30 PM wind-down — six rules
 
@@ -1338,7 +1297,7 @@ _______________________________________________
 
 **One identity statement that's getting truer:**
 
-> *I am a man who ______________________________________________________.*
+> *I am a person who ___________________________________________________.*
 
 **What I want Week 3 to look like, in one sentence:**
 
@@ -1383,11 +1342,17 @@ _______________________________________________
 
 ---
 
-# Part 5 — Week 3: Hormones and the ED Canary
+# Part 5 — Week 3: Hormones and the Canaries
 
 ---
 
 ## 5.1 — How Week 3 works
+
+> **How to run this week:** men run §5.2 and §5.3 (the ED canary). Women run §5.2b and §5.3b (the perimenopause/menopause canary). Everyone runs §5.4 onward — the decision tree, the daily tracker, the Zoom prep, and the reflection are shared.
+
+Two bodies, two alarms, the same four fires underneath: hormones, cardiovascular, cognitive, and quality of life. A man's alarm is loud and humiliating, so he eventually acts on it. A woman's is quiet and easy to blame on her life instead of her physiology, so she gets told to manage her stress for six years. Both birds are singing about the same gas in the same shaft. This week you find out what yours has been saying.
+
+### For men — the ED canary
 
 Most men I see in their peak-power decade have never had an honest conversation about what's happening below the belt — and they've certainly never connected it to what's happening above the neck. That ends this week.
 
@@ -1397,7 +1362,17 @@ That's the canary. ED is the warning. The mine is your whole vascular and hormon
 
 This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window (train fasted, break the fast with 30–40g protein after), morning sun, the gut-barrier probiotic, the D3+K2 stack, the omega-3+CoQ10 softgel, the sleep-support formula, Magtein, the lifts, the lights-out at 10:30. None of that changes.
 
-What changes is that you are going to audit yourself honestly across ten markers most men have never rated in writing, walk through a four-domain ED canary worksheet, and make one decision: do you engage the Rx consult layer this month, or do you stay OTC and reassess in 90 days?
+### For women — the other canary
+
+Your body sends a different first signal, and it is a cluster rather than a single event: sleep that breaks at two or three in the morning, word-finding lapses that frighten you more than you admit, a shorter fuse where enthusiasm used to be, weight that relocates to the middle on the same calories, and intimacy that quietly gets complicated. Five signals, same four fires. Perimenopause often begins in the early forties while cycles are still perfectly regular, which is why the standard screening question — *are your periods still coming?* — misses it for years.
+
+Estrogen is not a reproductive hormone that happens to have effects elsewhere. It is a neurological hormone, with receptors dense in the hippocampus, the prefrontal cortex, and the hypothalamus. It supports cerebral blood flow through the same endothelial nitric-oxide pathway the ED canary reports on. When it falls — over a compressed handful of years, not a slow decades-long drift — the brain goes through a real metabolic transition. The fog is not imagined. It has a mechanism.
+
+Timing appears to matter. Beginning a hormone conversation near the transition, with a vascular system that is still healthy, is a different proposition than beginning a decade after the last period. Nobody honest will tell you hormone therapy prevents dementia. But the window is real enough that *waiting to see how it goes* is itself a decision with consequences — one to make deliberately, with a clinician, not by default.
+
+### What both tracks do
+
+What changes is that you are going to audit yourself honestly across ten markers you have probably never rated in writing, walk through a four-domain canary worksheet, and make one decision: do you engage the Rx consult layer this month, or do you stay OTC and reassess in 90 days?
 
 This is a decision-week, not a new-protocol week. Show up to the page honest. Nobody else reads this.
 
@@ -1406,6 +1381,8 @@ This is a decision-week, not a new-protocol week. Show up to the page honest. No
 ---
 
 ## 5.2 — The Hormone + Sexual Function Self-Audit
+
+*Men's track. Women: skip to §5.2b.*
 
 Rate each item 0 to 10. Then write one or two lines describing the current symptom in plain language — how it actually shows up in your week.
 
@@ -1549,6 +1526,8 @@ A score below 60 is not a verdict. It is information. It means several of these 
 
 ## 5.3 — The 4-Domain ED Canary Worksheet
 
+*Men's track. Women: skip to §5.3b.*
+
 Walk each domain. Answer in writing. End each domain with a single decision check.
 
 ---
@@ -1631,16 +1610,264 @@ Yes: ______    Mild: ______    No: ______
 
 ---
 
+## 5.2b — The Other Canary: Perimenopause / Menopause Self-Audit
+
+*Women's track. Men: you ran §5.2.*
+
+Rate each item 0 to 10. Then write one or two lines describing how it actually shows up in your week, in plain language.
+
+You have probably been told by more than one office that your labs are fine and you are just stressed. This page is where you write down what you actually notice, in your own handwriting, so that it stops being a feeling and becomes data.
+
+If the honest number embarrasses you, that is the number to write. Nobody is grading it but you.
+
+---
+
+**1. Sleep continuity — waking at 2 or 3 AM.**
+*(0 = wake most nights and lie there, 10 = sleep through)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+How often, and how long are you awake:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**2. Night sweats or hot flashes.**
+*(0 = daily and disruptive, 10 = none)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+When they hit — night, afternoon, under stress, after a drink:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**3. Word-finding and recall compared to 5 years ago.**
+*(0 = noticeably duller, 5 = same, 10 = sharper)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+Where the dulling shows up — names, words mid-sentence, walking into a room:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**4. Mood — fuse length and flatness.**
+*(0 = short fuse, flat, anxious in the body before the thoughts; 10 = grounded, even)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+Where it shows up most — work, marriage, kids, driving:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**5. Energy at 3 PM.**
+*(0 = crashed, need caffeine or a nap, 10 = sustained, sharp)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+Current reality:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**6. Body composition — where the weight sits.**
+*(0 = significant new midsection fat in last 5 years, 10 = unchanged or leaner)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+Waist size 5 years ago: ______   Waist size today: ______
+
+Did anything about how you eat or move actually change? ☐ Yes  ☐ No
+
+---
+
+**7. Muscle and strength response to training.**
+*(0 = absent — I train and nothing changes, 10 = visible response within weeks)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+Current reality:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**8. Libido and comfort with intimacy compared to 5 years ago.**
+*(0 = gone or physically uncomfortable, 5 = same as 5 years ago, 10 = stronger)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+Current reality — including anything physical you have never raised with a clinician:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**9. Cycle changes (if still cycling) / time since last period.**
+
+Still cycling? ☐ Yes  ☐ Irregular  ☐ No
+
+If still cycling — what has changed in length, flow, or PMS in the last 2 years:
+
+_______________________________________________
+
+If not — date of last period: ____________
+
+*Note: perimenopause frequently begins while cycles are still perfectly regular. A normal cycle does not rule this out.*
+
+---
+
+**10. Joint aches, skin, hair, and urinary or genitourinary changes.**
+*(0 = multiple new symptoms, 10 = none)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
+Which ones, specifically:
+
+_______________________________________________
+
+_______________________________________________
+
+---
+
+**Total honest score (sum of all 10): ______ / 100**
+
+A score below 60 is not a verdict. It is information. It means several of these systems are talking to you and nobody — including you — has been listening as one signal.
+
+---
+
+## 5.3b — The 4-Domain Menopause Canary Worksheet
+
+*Women's track. Men: you ran §5.3.*
+
+Same four fires, same structure. Walk each domain. Answer in writing. End each domain with a single decision check.
+
+---
+
+### Domain 1 — Hormones
+
+Have you had a full hormone panel in the last 12 months?
+☐ Yes    ☐ No    ☐ Never
+
+Last estradiol (E2): ______    Last progesterone: ______    Last FSH: ______
+
+Last total testosterone: ______    Free testosterone: ______    SHBG: ______
+
+Last TSH: ______    AM cortisol: ______    DHEA-S: ______
+
+*One number in isolation tells you nothing here. Estradiol swings erratically in perimenopause — that is the point, not the exception.*
+
+If you wrote "never" or "I don't know" on any line above, circle it. That is the gap.
+
+**Is this domain a current concern?**  ☐ Yes   ☐ Mild   ☐ No
+
+---
+
+### Domain 2 — Cardiovascular
+
+Resting blood pressure (last reading): ______ / ______
+
+Last lipid panel — Total chol: ______  LDL: ______  HDL: ______  Triglycerides: ______
+
+Last fasting glucose: ______    Last HbA1c: ______    Last hs-CRP: ______
+
+Sleep-apnea screen — exhausted after eight hours in bed? ☐ Yes ☐ No
+Morning headache? ☐ Yes ☐ No    Insomnia treated as anxiety? ☐ Yes ☐ No
+
+*Apnea is badly underdiagnosed in women because it presents as insomnia, fatigue, headache, and low mood rather than loud snoring — and risk rises sharply after menopause. Cardiovascular disease is the leading cause of death in women; the risk curve climbs after the transition until it converges with men's.*
+
+**Is this domain a current concern?**  ☐ Yes   ☐ Mild   ☐ No
+
+---
+
+### Domain 3 — Cognitive
+
+Brain fog frequency:
+☐ Rare    ☐ Weekly    ☐ Most days    ☐ Constant
+
+Word recall delay (the word is on the tip of your tongue):
+☐ Rare    ☐ Weekly    ☐ Daily    ☐ Multiple times daily
+
+Have you privately wondered whether this is early dementia?  ☐ Yes   ☐ No
+
+*Nearly every woman who rates this honestly has. It is worth writing down rather than carrying.*
+
+Are you writing things down that you never had to write down before?  ☐ Yes   ☐ No
+
+What your spouse, partner, or closest person has commented on in the last year:
+
+_______________________________________________
+
+_______________________________________________
+
+**Is this domain a current concern?**  ☐ Yes   ☐ Mild   ☐ No
+
+---
+
+### Domain 4 — Quality of Life
+
+Confidence in your own competence at work or at home (0-10): ______
+
+Intimacy frequency now: ______ / month   Five years ago: ______ / month
+
+Has physical discomfort — not desire — become part of why?  ☐ Yes   ☐ No   ☐ Both
+
+The true sentence most people never say out loud is *my body is not doing what it used to do and I don't know how to bring it up.* Write your version of it here:
+
+_______________________________________________
+
+_______________________________________________
+
+Avoidance behaviors — name them honestly. Skipping intimacy. Skipping the annual. Skipping the mirror, the scale, the photo. Managing everyone else's health and deferring your own.
+
+_______________________________________________
+
+_______________________________________________
+
+**Is this domain a current concern?**  ☐ Yes   ☐ Mild   ☐ No
+
+---
+
+**Domain tally:**
+
+Yes: ______    Mild: ______    No: ______
+
+---
+
 ## 5.4 — The Rx Consult Decision Tree
 
 > *Two Paths to Act — OTC vs Rx.*
 
-Use your domain tally from §5.3 to find your path.
+Use your domain tally — from §5.3 if you ran the men's track, from §5.3b if you ran the women's track — to find your path. Everyone answers this page.
 
 ---
 
 **If 3 or 4 domains flagged "Yes" →**
-Schedule a **full hormone consult**. Total + free T, SHBG, estradiol, DHEA-S, full cardio markers (lipid, fasting insulin, HbA1c, hs-CRP, homocysteine), GLP-1 candidacy review. This is the TRT + cardio + metabolic consult lane.
+Schedule a **full hormone consult**, booked through the care coordinator at my4mlife.com.
+
+- *Men:* total + free T, SHBG, estradiol, DHEA-S, full cardio markers (lipid, fasting insulin, HbA1c, hs-CRP, homocysteine), GLP-1 candidacy review. This is the TRT + cardio + metabolic consult lane.
+- *Women:* estradiol, progesterone, FSH, total + free T, SHBG, TSH, AM cortisol, DHEA-S, paired with the same cardio and metabolic markers and a real sleep evaluation. This is the menopause / hormone-therapy consult lane — a live encounter with a licensed prescriber who can discuss hormone therapy where indicated, low-dose testosterone where indicated, and non-hormonal options where hormones are not the right call. Nobody should leave with nothing.
 
 My decision: ☐ Scheduling this week. Date booked: ____________
 
@@ -1648,9 +1875,10 @@ My decision: ☐ Scheduling this week. Date booked: ____________
 
 **If 1 or 2 domains flagged "Yes" →**
 Schedule a **targeted consult** for the most-flagged domain.
-- Hormones-only? TRT-track consult with full panel.
+- Hormones-only? Full panel plus a hormone consult — the TRT track for men, the menopause / hormone-therapy track for women.
 - Cardiovascular-only? Metabolic + cardio consult, possible GLP-1.
-- Cognitive-only? Cognitive workup + prescription gut-barrier peptide protocol evaluation.
+- Cognitive-only? Cognitive workup + prescription gut-barrier protocol evaluation.
+- Quality-of-life-only? Still book it. This is the domain most often filed under "just stress" for years.
 
 My most-flagged domain: ____________
 
@@ -1691,7 +1919,7 @@ Keep every Week 1 and Week 2 behavior in place. Check the box at the end of each
 | Sleep-support formula 30-60 min before lights out | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
-Audit work today (5 min on §5.2 or §5.3): ☐
+Audit work today (5 min on §5.2/§5.3 or §5.2b/§5.3b): ☐
 
 ---
 
@@ -1820,7 +2048,7 @@ _______________________________________________
 
 ---
 
-**2. Which domain am I most reluctant to bring up — even in a room of men doing the same work?**
+**2. Which domain am I most reluctant to bring up — even in a room of people doing the same work?**
 
 _______________________________________________
 
@@ -1855,7 +2083,7 @@ Hormones live mostly under **Mitigate** (the insults driving the decline) and **
 
 The point of every other M is to protect this one. What did this week's audit tell you about your Mind — directly or indirectly?
 
-Cognitive markers from §5.2 #10 and §5.3 Domain 3:
+Cognitive markers from §5.2 #10 / §5.2b #3 and §5.3 / §5.3b Domain 3:
 
 _______________________________________________
 
@@ -1873,20 +2101,20 @@ _______________________________________________
 
 ### Muscle
 
-Testosterone, growth hormone, IGF-1 — these are the substrate of every muscle fiber, every recovery cycle, every rep that actually adds tissue. The §5.2 ratings on recovery, muscle gain response, and visceral fat are direct readouts on this substrate.
+Testosterone, estradiol, growth hormone, IGF-1 — these are the substrate of every muscle fiber, every recovery cycle, every rep that actually adds tissue. Your audit ratings on recovery, training response, and visceral fat are direct readouts on this substrate.
 
-My recovery rating (§5.2 #4): ______    Five years ago: ______
+My recovery rating (§5.2 #4 / §5.2b #5): ______    Five years ago: ______
 
-My muscle gain response rating (§5.2 #7): ______
+My training response rating (§5.2 #7 / §5.2b #7): ______
 
-My waist trend (§5.2 #8): ____________
+My waist trend (§5.2 #8 / §5.2b #6): ____________
 
 If these numbers are not where I want them, the upstream lever this month is:
 
 ☐ Lift harder and more often (compound lifts, 2-3x/week)
 ☐ Get the protein in (30–40g first, every feeding window opener)
-☐ Sleep — most testosterone is made between 11 PM and 3 AM
-☐ Engage the Rx consult — TRT panel
+☐ Sleep — most testosterone is made between 11 PM and 3 AM, and fragmented sleep degrades every hormone in the panel
+☐ Engage the Rx consult — full hormone panel (TRT track for men, menopause / hormone-therapy track for women)
 
 The one I commit to this week:
 
@@ -1924,7 +2152,7 @@ _______________________________________________
 
 ### Motivate
 
-Most men do not book the hormone consult because of pride, not because of money or time.
+Most people do not book the hormone consult because of pride, not because of money or time.
 
 The face I named as my accountability target in Week 1:
 
@@ -1968,8 +2196,8 @@ _______________________________________________
 
 | Item | Y / N |
 |---|---|
-| Hormone + Sexual Function Self-Audit completed (§5.2) | ☐ Y  ☐ N |
-| 4-Domain ED Canary Worksheet completed (§5.3) | ☐ Y  ☐ N |
+| Hormone self-audit completed (§5.2 men / §5.2b women) | ☐ Y  ☐ N |
+| 4-Domain Canary Worksheet completed (§5.3 men / §5.3b women) | ☐ Y  ☐ N |
 | Rx Consult Decision made and recorded (§5.4) | ☐ Y  ☐ N |
 | Consult booked OR 90-day reassessment date set | ☐ Y  ☐ N |
 
@@ -2012,11 +2240,11 @@ This week does two things.
 
 **One:** the full Eliminate-the-Insulting-Behavior audit. You will walk every Mitigate category — gut, sleep, environment, hormones, substance use, cognitive — and mark honestly what you're still doing. Then you pick the three insults you're cutting in the next 30 days. Three. Not all of them. Three.
 
-**Two:** the month-end synthesis. What changed from your Part 1 baseline. What worked and earned its place. What slipped and why. The 90-day plan forward. The locked recommit procedure for when you fall off — because you will, and the men who win are the ones who restart fastest.
+**Two:** the month-end synthesis. What changed from your Part 1 baseline. What worked and earned its place. What slipped and why. The 90-day plan forward. The locked recommit procedure for when you fall off — because you will, and the people who win are the ones who restart fastest.
 
 > *Stop hurting yourself first. Then add what works.*
 
-> *The man who runs the loop longest wins.*
+> *The person who runs the loop longest wins.*
 
 Print this section. Sit with it on Sunday morning with coffee and a pen. Don't speed through it. This is the deepest week of Month 1.
 
@@ -2024,7 +2252,7 @@ Print this section. Sit with it on Sunday morning with coffee and a pen. Don't s
 
 ## 6.2 — The Full Eliminate-the-Insulting-Behavior Audit
 
-For each insult: **☐ Yes / ☐ Some / ☐ No.** Be honest. Nobody sees this but you and the man you're becoming.
+For each insult: **☐ Yes / ☐ Some / ☐ No.** Be honest. Nobody sees this but you and the person you're becoming.
 
 ### Gut
 
@@ -2362,23 +2590,23 @@ ___________________________________________________________
 
 ## 6.6 — The 30-Day Recommit Procedure
 
-You will fall off. Every man on this protocol falls off. The wedding, the work trip, the flu, the funeral, the stretch where life punches you in the mouth and the daily floor goes to zero for nine days.
+You will fall off. Everyone on this protocol falls off. The wedding, the work trip, the flu, the funeral, the stretch where life punches you in the mouth and the daily floor goes to zero for nine days.
 
 This is the locked procedure. Tape it inside the logbook cover.
 
 1. **Do not try to make it up.** No double-stacking after a slip. You cannot earn back lost days by punishing the next ones. Trying to "catch up" is the second insult after the first.
 
-2. **Pick ONE behavior.** Whichever has the lowest activation energy for *you* right now. For most men it's the morning sun walk. For some it's protein-first. For some it's lights out at 10:30. Pick the easiest re-entry, not the most important one.
+2. **Pick ONE behavior.** Whichever has the lowest activation energy for *you* right now. For most people it's the morning sun walk. For some it's protein-first. For some it's lights out at 10:30. Pick the easiest re-entry, not the most important one.
 
 3. **Run that one for 3 days.** Just that one. Don't add. Don't apologize. Don't track anything else. Three clean days of the easiest behavior.
 
 4. **Add the second one on day 4.** Now two behaviors. Run both for three days.
 
-5. **Stack until full compliance by day 13-14.** By the end of the second week you are back on the full daily floor. The men who get back here in two weeks beat the men who tried to come back at 100% on day one and broke again by day three.
+5. **Stack until full compliance by day 13-14.** By the end of the second week you are back on the full daily floor. The people who get back here in two weeks beat the ones who tried to come back at 100% on day one and broke again by day three.
 
 6. **Show up to the weekly Zoom even when you have run zero behaviors that week.** Especially then. The face on screen matters more than the report card. The cohort sees you. You see the cohort. The loop stays closed.
 
-> *The man who runs the loop longest wins.*
+> *The person who runs the loop longest wins.*
 
 ---
 
@@ -2408,7 +2636,7 @@ One page per pillar, in locked order. Longer than the weekly versions. Sit with 
 
 ### Mind — what we're protecting
 
-Mind is the destination. Mind is also where the cycle starts. Four weeks ago you wrote about the man you want to be at 85 — sharp, present, knowing the names of grandchildren you may not have met yet.
+Mind is the destination. Mind is also where the cycle starts. Four weeks ago you wrote about the person you want to be at 85 — sharp, present, knowing the names of grandchildren you may not have met yet.
 
 > **What does my Mind feel like today versus 30 days ago?**
 >
@@ -2529,7 +2757,7 @@ A score above 200 means you ran the loop. A score below 150 means the structure 
 >
 > *Eliminate the insulting behavior.*
 >
-> *The man who runs the loop longest wins.*
+> *The person who runs the loop longest wins.*
 
 — Dr. TJ
 
@@ -2538,7 +2766,7 @@ A score above 200 means you ran the loop. A score below 150 means the structure 
 
 # Part 7 — The Stack Reference
 
-This is the part you come back to. When you forget why a powder is sitting on your counter, when your wife asks what the capsule does, when you're deciding whether to add the Rx tier — open here.
+This is the part you come back to. When you forget why a powder is sitting on your counter, when your spouse asks what the capsule does, when you're deciding whether to add the Rx tier — open here.
 
 ---
 
@@ -2560,9 +2788,9 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** Morning, empty stomach, 8oz water, 30 minutes before first food
 **Dose:** 1 scoop daily
 **What it is:** Gut-brain seal powder. L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + vitamin A + vitamin D3. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most men over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
+**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most people over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
 **What it pairs with:** Everything. Specifically amplifies the D3+K2 stack (fat-soluble absorption), the omega-3+CoQ10 softgel (anti-inflammatory synergy), and any nootropic peptide (cleaner substrate to act on).
-**What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some men report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
+**What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some people report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
 **Two Paths note:** Pairs with our proprietary compounded gut-barrier prescription (physician-written to your needs) on top — same anchor, deeper repair. See my4mlife.com.
 
 > *The gut-brain seal that protects cognitive longevity.*
@@ -2575,7 +2803,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** With protein-first breakfast
 **Dose:** 1 capsule daily
 **What it is:** D3 (cholecalciferol) + K2 (MK-7) + boron + astaxanthin. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** Four fat-soluble defenders that nearly every man over 50 is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
+**Why it's in the stack:** Four fat-soluble defenders that nearly everyone over 50 is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
 **What it pairs with:** Omega-3 + CoQ10 softgel (shared fat-soluble absorption window, mitochondrial synergy). Gut-barrier probiotic (sealed gut means D3/K2 actually get absorbed).
 **What to watch for in the first 30 days:** Subtle but real — mood floor lifts, recovery from training improves, skin tone shifts. If you're starting from a deficient D level, expect the biggest change at the 6-8 week mark when serum levels normalize.
 **Two Paths note:** No Rx upgrade. This is foundation only.
@@ -2588,7 +2816,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** With breakfast, year-round, no cycling
 **Dose:** 5g daily (no loading phase needed at our age)
 **What it is:** Pure creatine monohydrate. Not HCL, not buffered, not "advanced." Monohydrate. The form that has 700+ trials behind it.
-**Why it's in the stack:** This is the single most-evidenced cognitive supplement for men 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
+**Why it's in the stack:** This is the single most-evidenced cognitive supplement for people 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
 **What it pairs with:** Resistance training (non-negotiable). Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
 **What to watch for in the first 30 days:** 1-2 pounds of water weight in the first 10 days — that's intracellular hydration, not fat. Strength on compound lifts goes up within 2-3 weeks. Mental clarity under sleep deprivation is the tell that it's reached your brain.
 
@@ -2617,7 +2845,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** 30-60 minutes before lights out (lights out by 10:30 PM)
 **Dose:** 1 serving nightly
 **What it is:** Sleep-architecture support — non-melatonin-led formula designed to deepen slow-wave and REM without the next-morning hangover or the receptor-downregulation problem of chronic high-dose melatonin. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most men over 50 are not sleep-deprived in hours — they're sleep-deprived in architecture. This formula exists to fix the architecture so the hours you do sleep actually count.
+**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most people over 50 are not sleep-deprived in hours — they're sleep-deprived in architecture. This formula exists to fix the architecture so the hours you do sleep actually count.
 **What it pairs with:** Magnesium L-threonate (Magtein) — taken together they form the sleep stack. Lights-out-by-10:30 protocol. Morning sun anchor (sleep is set in the morning, not the evening).
 **What to watch for in the first 30 days:** First week is the tell. Fewer 3 AM wake-ups. Dreams come back (a sign REM is recovering). Morning HRV trends up if you wear a tracker.
 **Two Paths note:** Pairs with a nattokinase prescription for the circulation/clotting tier — different mechanism, same sleep-and-cardiovascular protective intent.
@@ -2682,7 +2910,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** Evening, alongside the sleep-support formula
 **Dose:** Per prescription
 **What it is:** Nattokinase, compounded. See my4mlife.com for the current sleep Rx protocol.
-**Why it's in the stack:** Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in men 50+ with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
+**Why it's in the stack:** Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in people 50+ with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
 **What it pairs with:** Sleep-support formula (architecture). Omega-3 + CoQ10 softgel (vascular health). D3+K2 stack (K2 calcification management).
 **What to watch for in the first 30 days:** Subtler than the gut Rx. Track HRV and morning resting heart rate. Look for steadier readings, not a single dramatic shift.
 **Two Paths note:** This is the Rx path for circulation. Not a sedative.
@@ -2702,6 +2930,19 @@ What follows is one page per product, in the order you'd actually add them. Then
 
 ---
 
+## Menopause Hormone Therapy (Rx)
+
+**Tier:** Rx, lab- and history-gated
+**When:** Per protocol, daily (route and schedule set by the prescriber)
+**Dose:** Individualized — titrated to symptoms and labs, reviewed on a set cadence
+**What it is:** Bio-identical estradiol and progesterone, dosed and routed to the individual, prescribed and monitored through the consult pathway; low-dose testosterone where indicated; and non-hormonal prescription options for women who cannot or do not want to take hormones — approaches for hot flashes, targeted options for genitourinary symptoms, and behavioral treatment for menopausal insomnia. Booked through the care coordinator at my4mlife.com.
+**Why it's in the stack:** Estradiol is a neurological hormone, not just a reproductive one — it supports cerebral blood flow, neuronal glucose use, synaptic plasticity, and microglial calm. When it falls over a compressed handful of years, sleep, cognition, mood, body composition, bone, and endothelial function all move at once. Timing appears to matter: near the transition, with a healthy vascular system, is a different proposition than a decade later.
+**What it pairs with:** Resistance training (non-negotiable — bone and lean mass run the same equation). D3+K2+boron stack (K2 is arguably *more* important post-menopause: losing estrogen accelerates both bone loss and calcium migration into arterial walls). Creatine (most women over 50 have never taken it and start from lower baseline stores). Omega-3 + CoQ10 softgel. Gut-barrier probiotic.
+**What to watch for in the first 30 days:** Sleep continuity is usually the first thing to move. Vasomotor symptoms and mood follow. Cognitive clarity is slower and harder to self-rate — use the §5.2b scores as your baseline and re-rate at 90 days.
+**Two Paths note:** The OTC adjacent layer is the D3+K2+boron stack, creatine, protein-first eating, lifting, and the sleep architecture from Week 2 — real leverage, and the right first move for many women. Hormone therapy is individualized and it is not for everyone: a personal history of breast or uterine cancer, a clotting history, and certain cardiovascular and liver conditions all bear on it. That call belongs to a licensed clinician reviewing your history — not to this page. The lab and the history tell.
+
+---
+
 ## GLP-1 (Semaglutide / Tirzepatide / Retatrutide)
 
 **Tier:** Rx single-active, BMI + comorbidity-gated
@@ -2711,7 +2952,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Why it's in the stack:** Visceral fat is neuroinflammatory. Insulin resistance is upstream of cognitive decline. For the right candidate — BMI threshold met, comorbidities present, lifestyle effort already in motion — GLP-1 collapses years of struggle into months. It is not a vanity drug. It is a metabolic-and-neurological intervention.
 **What it pairs with:** Resistance training (mandatory — without lifting, you lose muscle, not fat). 30–40g protein-first rule (mandatory — appetite is suppressed; protein priority is how you keep lean mass). Omega-3 + CoQ10 softgel (lipid quality protection). Gut-barrier probiotic (GLP-1 slows gut motility; the seal matters more, not less).
 **What to watch for in the first 30 days:** Appetite drops fast. Hydration discipline becomes critical. Watch for under-eating protein — the most common failure mode.
-**Two Paths note:** The OTC adjacent layer is the 9 AM – 6 PM eating window (train fasted, break the fast with 30–40g protein after) plus lifting. Many men get most of the metabolic benefit there.
+**Two Paths note:** The OTC adjacent layer is the 9 AM – 6 PM eating window (train fasted, break the fast with 30–40g protein after) plus lifting. Many people get most of the metabolic benefit there.
 
 ---
 
@@ -2771,11 +3012,11 @@ One page. Tape it inside the cabinet where the bottles live.
 
 This section is the menu, not the mandate.
 
-The men who get the most out of this protocol are the men who run Week 1–4 honestly, lock in the foundation across all four pillars, and then — somewhere around month three or four — start to ask what's possible if they go further. This section is for that man.
+The people who get the most out of this protocol are the ones who run Week 1–4 honestly, lock in the foundation across all four pillars, and then — somewhere around month three or four — start to ask what's possible if they go further. This section is for them.
 
 You do not need any of it to win. The foundation does 80% of the work. The cognitive optimization tier, the peptide layer, the biofeedback, the cold plunge — these are levers you can pull *on top of* a clean foundation. They are not substitutes for it.
 
-> Only after the foundation is locked. The man who layers this on a broken foundation gets the bill, not the benefit.
+> Only after the foundation is locked. The person who layers this on a broken foundation gets the bill, not the benefit.
 
 Read this section now if you want. Commit to running the basics for 90 days before deploying anything from it.
 
@@ -2881,7 +3122,7 @@ Pick **one** for the next 90 days. Just one.
 
 **HRV training.** The single most-evidenced consumer biofeedback intervention. Slow-paced breathing (roughly 6 breaths per minute) trains vagal tone over weeks. Polar, Whoop, Oura, or any HRV tool with biofeedback mode works. **Five minutes per day. Daily.** Add it to the morning sun walk or wind-down routine.
 
-**Muse-style EEG meditation aid.** Real-time feedback during meditation. Worth running for the man who has always struggled with meditation; the wearable gives feedback the cushion never did.
+**Muse-style EEG meditation aid.** Real-time feedback during meditation. Worth running for anyone who has always struggled with meditation; the wearable gives feedback the cushion never did.
 
 **Clinical neurofeedback.** qEEG-guided protocols available at neurofeedback clinics. Strongest evidence for ADHD and post-concussion; emerging for general cognitive optimization. The right move if you've plateaued or you're recovering from a concussion or significant head trauma.
 
@@ -2952,7 +3193,7 @@ Quick yes / no checklist. Aim for all six.
 
 ☐ TrueDark glasses if you're at screens after 8 PM
 
-> Most men optimize their gym before they optimize their bedroom. The bedroom delivers more cognitive return.
+> Most people optimize their gym before they optimize their bedroom. The bedroom delivers more cognitive return.
 
 ---
 
@@ -2989,7 +3230,7 @@ The labs every Protégé should run every 6–12 months. Bring these to your Rx 
 
 **Other foundational**
 - Vitamin D 25-OH
-- Ferritin (men over 50 — iron load matters)
+- Ferritin (men over 50 and post-menopausal women — iron load matters)
 - CBC with differential
 
 **Optional / advanced**
@@ -3213,11 +3454,11 @@ Your score: 0 — 1 — 2 — 3 — 4 — 5
 
 ## 9.2 — The Rx Consult Path
 
-The OTC stack and the lifestyle protocols carry most men a long way. Some men need an Rx tier layered on top. Here's the map.
+The OTC stack and the lifestyle protocols carry most people a long way. Some need an Rx tier layered on top. Here's the map.
 
 | If your audit flagged… | Engage… | Expected workflow |
 |---|---|---|
-| **Hormones** (low T symptoms, Q8 ≥ 3) | Hormone consult — labs + coach-led titration | Full hormone panel first — coach reviews — Rx if labs and symptoms align |
+| **Hormones** (low-T symptoms in men, perimenopause/menopause symptoms in women, Q8 ≥ 3) | Hormone consult via the care coordinator — labs + coach-led titration. TRT track for men; menopause / hormone-therapy track for women, including non-hormonal options | Full hormone panel first — clinician reviews — Rx if labs, symptoms, and history align |
 | **Weight** (Q3 ≥ 3, metabolic markers) | GLP-1 telemed consult — semaglutide / tirzepatide / retatrutide candidacy | Intake — labs reviewed — telemed visit — compounded pharmacy ships monthly |
 | **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Prescription gut-barrier consult — proprietary compounded Rx, physician-written | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
 | **Sleep** (Q2 ≥ 3, clotting/circulation factors) | Sleep Rx consult — nattokinase circulation tier | Sleep intake — coag and lipid review — Rx if indicated |
@@ -3254,7 +3495,7 @@ The cohort runs on a weekly rhythm. Three touchpoints. None of them optional if 
 | 11 |   |   |   |   |
 | 12 |   |   |   |   |
 
-The men who fill this in are the men who finish the program.
+The people who fill this in are the ones who finish the program.
 
 ---
 
@@ -3367,11 +3608,11 @@ The Advanced Layer in Part 8 is optional. Don't add it until the foundation is l
 
 You made it through Month 1.
 
-I don't say that as a participation trophy. I say it because most men who buy a program like this never get past the first two weeks. You did. You ran the protein-first rule. You closed the eating window. You walked into morning sun. You loaded the stack. You filled in the trackers. You took your scorecard seriously enough to keep coming back to it.
+I don't say that as a participation trophy. I say it because most people who buy a program like this never get past the first two weeks. You did. You ran the protein-first rule. You closed the eating window. You walked into morning sun. You loaded the stack. You filled in the trackers. You took your scorecard seriously enough to keep coming back to it.
 
-The men who finish Month 1 are not the men who started it. The man who started had a vague sense that things were sliding. The man finishing has data, a stack, a face he's doing this for, and 30 days of evidence that he can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
+The people who finish Month 1 are not the people who started it. The person who started had a vague sense that things were sliding. The person finishing has data, a stack, a face he's doing this for, and 30 days of evidence that he can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
 
-You are not doing this alone. The cohort runs alongside you. Wednesday nights I'm on the Zoom. Sunday nights you reflect. The other men in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
+You are not doing this alone. The cohort runs alongside you. Wednesday nights I'm on the Zoom. Sunday nights you reflect. The other people in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
 
 *Begin with the end in mind.*
 
@@ -3390,7 +3631,7 @@ I'll see you on the Zoom Wednesday. Bring a question.
 
 ## About the Author
 
-**Dr. TJ Mundheim** is the founder of My4MLife. He built the program because he is living it — every protocol in this logbook is one he runs himself. He is here to teach it, refine it, and run it alongside the men who choose to plug in.
+**Dr. TJ Mundheim** is the founder of My4MLife. He built the program because he is living it — every protocol in this logbook is one he runs himself. He is here to teach it, refine it, and run it alongside the people who choose to plug in.
 
 ---
 
