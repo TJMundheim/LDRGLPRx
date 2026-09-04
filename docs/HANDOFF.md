@@ -189,7 +189,7 @@ Run locally: `pnpm -C apps/clientportal dev` (app), `pnpm -C website dev` (site)
 - **Payments:** Stripe. Keys in Secrets Manager `all-stripe-keys` (via `@my4mlife/stripe-client`). **All payment lambdas are in LIVE mode** (charge real cards). Modes: create-setup-intent (card capture) = live, create-checkout-session = live, charge-on-approval = live, order-handler resolves mode per-event.
 - **Email:** Mailgun via `email-sender` lambda; recipients in Secrets Manager `form-recipients`.
 - **HIPAA:** all PHI-bearing AI calls go through **AWS Bedrock** (never @anthropic-ai/sdk in prod lambdas — AWS BAA covers it). No PHI in SMS. Consent timestamps stored.
-- **Digital fulfillment:** S3 `my4mlife-digital-fulfillment`. Keys the welcome email links to: `begin-with-the-end-in-mind.pdf` (book) + `cohort-workbook-month1.pdf` (workbook). **STANDING RULE: re-upload these on every book/workbook change** — currently serve book v14 + workbook v3.
+- **Digital fulfillment:** S3 `my4mlife-digital-fulfillment`. Keys the welcome email links to: `begin-with-the-end-in-mind.pdf` (book) + `the-logbook-month1.pdf` (logbook; `cohort-workbook-month1.pdf` kept for already-sent emails). Both are served as plain public URLs (no presign) via bucket policy — **the policy lives in `infra/digital-fulfillment/deploy-bucket-policy.sh`; re-run it after any key add/rename** (2026-09-04 incident: logbook rename left the new key out of the policy → AccessDenied for new Protégés). **STANDING RULE: re-upload BOTH logbook keys on every book/logbook change** — currently serve book v20 + logbook v5.
 
 ## 4. The two funnels
 **A. Assessment → Protégé (free).** `/assessment` (website) → `audit-complete` lambda: derives contactId, ensures Cognito user + seeds UserProfile, stores consent, and emails a welcome (top-3 results + book PDF link + workbook PDF link + app link). Member then uses the app (TodayView daily protocol, weekly Zooms, cohort).
@@ -229,7 +229,7 @@ Order = **see it → prove it → don't let anything fall through → then build
 - **Admin login:** app.my4mlife.com, email-OTP as **drtj@my4mlife.com** → Admin → Patients/Proteges/Events.
 - **Deploys:** site `bash website/deploy.sh`; app `bash apps/clientportal/deploy.sh`; AppSync `cd infra/clientportal/cdk && pnpm build && npx cdk deploy ApiStack --require-approval never`; a lambda `bash lambdas/<name>/infra/deploy.sh`.
 - **Stripe mode:** set in each payment lambda's deploy.sh `STRIPE_MODE`; all currently `live`.
-- **Fulfillment refresh:** `aws s3 cp <pdf> s3://my4mlife-digital-fulfillment/{begin-with-the-end-in-mind.pdf|cohort-workbook-month1.pdf} --region us-east-2 --content-type application/pdf`.
+- **Fulfillment refresh:** `aws s3 cp <pdf> s3://my4mlife-digital-fulfillment/{begin-with-the-end-in-mind.pdf|the-logbook-month1.pdf|cohort-workbook-month1.pdf} --region us-east-2 --content-type application/pdf`. Then `./infra/digital-fulfillment/deploy-bucket-policy.sh` if any key changed.
 - **Secrets Manager:** all-stripe-keys, form-recipients, export-clinical-packet-key.
 - **Memory system:** durable facts in `~/.claude/projects/-Users-thomasmundheim-Desktop-Development-LDRGLPRx/memory/` (index = MEMORY.md). Read it for locked brand/product/architecture decisions.
 
