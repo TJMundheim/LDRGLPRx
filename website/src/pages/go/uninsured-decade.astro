@@ -1,0 +1,403 @@
+---
+// LANDING PAGE — The Uninsured Decade cost-of-decline calculator.
+// Standalone (hideChrome): fed by talk QR codes + advisor referrals, per
+// docs/plan/uninsured-decade-calculator-and-talk-spec-2026-09-07.md PART A.
+// GENDER-NEUTRAL throughout — this page is seen by advisors, spouses, mixed rooms.
+// Single CTA: free MindSpan assessment, ?src= attribution passthrough.
+// No product sold here. No PII collected — only banded PostHog events.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MedicalDisclaimer from '../../components/MedicalDisclaimer.astro';
+
+const title = 'The Uninsured Decade — Cost of Cognitive Decline Calculator — My4MLife';
+const description = 'Medicare pays $0 toward custodial care and private long-term-care insurance has largely priced itself out of reach. See what a decade of decline could cost in your state, and what you can do about your own risk.';
+const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow" hideChrome={true}>
+
+<div class="ud">
+
+  <header class="ud-top">
+    <a class="ud-mark" href="/">My<b>4M</b>Life</a>
+    <span class="ud-top-tag">The Uninsured Decade</span>
+  </header>
+
+  <!-- HERO -->
+  <section class="ud-hero">
+    <p class="ud-kicker">The Uninsured Decade</p>
+    <h1>Medicare pays $0 toward custodial care.<br/>Here's what a decade of decline could actually cost — in your state.</h1>
+    <p class="ud-punch">You can't buy your way out of this risk anymore — most long-term-care insurers have exited the market or priced their policies out of reach. You can only underwrite it: know the number, and know what's in your control.</p>
+    <p class="ud-cta-sub">Answer six questions below. No name, no email — just the math.</p>
+  </section>
+
+  <!-- FORM -->
+  <section class="ud-block ud-form-block">
+    <h2>Run your numbers</h2>
+    <form id="ud-form" class="ud-form" autocomplete="off">
+      <div class="ud-field">
+        <label for="ud-age">Your age</label>
+        <input type="number" id="ud-age" name="age" min="45" max="85" value="62" required />
+      </div>
+
+      <div class="ud-field">
+        <label for="ud-spouse-age">Spouse / partner age <span class="ud-optional">(optional)</span></label>
+        <input type="number" id="ud-spouse-age" name="spouseAge" min="45" max="85" value="60" />
+        <label class="ud-checkbox">
+          <input type="checkbox" id="ud-no-spouse" name="noSpouse" />
+          I don't have a spouse/partner
+        </label>
+      </div>
+
+      <div class="ud-field">
+        <label for="ud-state">State</label>
+        <select id="ud-state" name="state" required></select>
+      </div>
+
+      <div class="ud-field">
+        <label for="ud-networth">Approximate net worth</label>
+        <select id="ud-networth" name="netWorthBand" required>
+          <option value="<250k">Under $250K</option>
+          <option value="250k-500k">$250K – $500K</option>
+          <option value="500k-1m" selected>$500K – $1M</option>
+          <option value="1m-2.5m">$1M – $2.5M</option>
+          <option value="2.5m-5m">$2.5M – $5M</option>
+          <option value="5m+">$5M+</option>
+        </select>
+        <p class="ud-fine">A band only — we never ask for or show a raw figure.</p>
+      </div>
+
+      <div class="ud-field">
+        <label for="ud-spend">Current monthly out-of-pocket health spend</label>
+        <input type="number" id="ud-spend" name="monthlySpend" min="0" step="10" placeholder="$" value="400" />
+        <p class="ud-fine">Supplements, gym, concierge care, etc. — used only to frame what you're already spending, not in the cost math below.</p>
+      </div>
+
+      <div class="ud-field">
+        <label for="ud-exercise">Hours/week of exercise</label>
+        <input type="number" id="ud-exercise" name="exerciseHours" min="0" max="40" step="0.5" value="3" />
+      </div>
+
+      <button type="submit" class="ud-cta ud-calc-btn">Calculate my numbers &rarr;</button>
+    </form>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="ud-block ud-results" id="ud-results" hidden>
+    <h2>Your numbers</h2>
+    <div class="ud-big-numbers">
+      <div class="ud-big-card ud-big-bill">
+        <p class="ud-big-tag">The Bill</p>
+        <p class="ud-big-num" id="ud-bill">—</p>
+        <p class="ud-big-sub">Illustrative 10-year staged care cost, adjusted to <span id="ud-state-name">your state</span></p>
+      </div>
+      <div class="ud-big-card ud-big-premium">
+        <p class="ud-big-tag">The Premium</p>
+        <p class="ud-big-num" id="ud-premium">—</p>
+        <p class="ud-big-sub">A protocol basket run for 10 years — see below</p>
+      </div>
+      <div class="ud-big-card ud-big-spenddown">
+        <p class="ud-big-tag">Years Until Spend-Down</p>
+        <p class="ud-big-num" id="ud-spenddown">—</p>
+        <p class="ud-big-sub">At your net worth band, custodial care alone would take about this long to spend you down to Medicaid eligibility</p>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="ud-chart-wrap">
+      <svg id="ud-chart" viewBox="0 0 320 220" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ud-chart-title">
+        <title id="ud-chart-title">The Bill versus ten years of The Premium</title>
+      </svg>
+    </div>
+
+    <!-- LEDGER -->
+    <h3 class="ud-ledger-h">The ledger</h3>
+    <div class="ud-table-wrap">
+      <table class="ud-table">
+        <thead>
+          <tr><th>Line</th><th>10-year amount</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Stage 1 — early-stage care</td><td id="ud-stage1">—</td><td>Mostly in-home support, illustrative</td></tr>
+          <tr><td>Stage 2 — mid-stage care</td><td id="ud-stage2">—</td><td>Heavier in-home / adult-day support</td></tr>
+          <tr><td>Stage 3 — late-stage custodial care</td><td id="ud-stage3">—</td><td>Memory care / nursing home, state-adjusted</td></tr>
+          <tr class="ud-table-total"><td>The Bill (total)</td><td id="ud-bill-row">—</td><td>Sum of stages 1–3</td></tr>
+          <tr><td>The Premium (10 years)</td><td id="ud-premium-row">—</td><td>4M protocol basket, ~$10K/yr</td></tr>
+          <tr class="ud-table-assumption"><td>Expected savings, dementia-cost avoidance only <span class="ud-tag">assumption, not a guarantee</span></td><td id="ud-expected-row">—</td><td>See disclaimer below</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EXPECTED VALUE, STATED HONESTLY -->
+    <div class="ud-honest">
+      <h3>Expected value, stated honestly</h3>
+      <p>This is the part most calculators fudge. We won't. Nothing lowers your risk to zero, and nothing "prevents" dementia — the honest claim is that a sustained, structured lifestyle protocol can <em>lower the odds</em>. Here's what that's worth in dollars, using an assumption you control:</p>
+      <div class="ud-slider-row">
+        <label for="ud-rrr">Assumed relative risk reduction: <strong id="ud-rrr-val">30%</strong></label>
+        <input type="range" id="ud-rrr" min="0" max="50" step="1" value="30" />
+        <p class="ud-fine">This is an assumption, not a guarantee — see disclaimer below.</p>
+      </div>
+      <p class="ud-honest-math" id="ud-honest-math">—</p>
+      <p class="ud-honest-close"><strong>Read plainly: dementia-cost avoidance alone usually does not break even against the premium.</strong> The honest case for the spend isn't a break-even bet on one disease — it's that the same modifiable factors also lower your risk across cardiovascular, metabolic, and other disease lines at the same time, that the $405,262 average cost has a wide right tail running well past that in real cases, and that quality-of-life and caregiver-hour value aren't captured in this math at all. Insurance is a ruin-avoidance trade, not an ROI calculation — the same trade you already make on your house. You don't insure your house because you expect it to burn down; you insure it because you can't afford it if it does.</p>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="ud-actions">
+      <a class="ud-cta" id="ud-cta-assessment" href="/assessment" onclick="window.posthog && posthog.capture('calc_cta_click', { src: window.__udSrc })">Get your free MindSpan assessment &rarr;</a>
+      <button type="button" class="ud-cta ud-cta-ghost" id="ud-print-btn">Print this for your advisor</button>
+    </div>
+  </section>
+
+  <!-- WHY THIS FRAME -->
+  <section class="ud-block ud-context">
+    <h2>Why "underwrite it," not "insure it"</h2>
+    <p class="ud-lead">Fewer than a dozen carriers still actively sell new standalone long-term-care policies, down from over a hundred two decades ago. The ones still selling have repriced aggressively — some policyholders have seen premium increases of 70–170% on policies they already owned. For most families today, "just buy a policy" isn't the reliable backstop it used to be.</p>
+    <p class="ud-lead">What's still fully in your control is your own risk profile — sleep, gut health, hormones, and movement — the modifiable factors research links to lower odds of decline. That's the premium paid in hours, not dollars: roughly ten hours a month.</p>
+  </section>
+
+  <footer class="ud-foot">
+    <MedicalDisclaimer />
+    <p class="ud-fin-disclaimer">These figures are illustrative estimates based on published third-party cost-of-care data (Alzheimer's Association, CareScout/Genworth, USC Schaeffer Center) and a hypothetical relative-risk-reduction assumption. This is not financial, tax, insurance, or legal advice, and no protocol guarantees a reduction in your personal risk. Consult your own financial advisor and physician.</p>
+    <p class="ud-credential">Dr. TJ Mundheim, DC</p>
+    <p class="ud-legal"><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/">my4mlife.com</a></p>
+    <p class="ud-print-footer">my4mlife.com/go/uninsured-decade?src=advisor-print</p>
+  </footer>
+
+</div>
+
+</BaseLayout>
+
+<script>
+  import {
+    stageCosts,
+    tenYearTotal,
+    spendDownYears,
+    spendDownYearsBand,
+    tenYearPremium,
+    expectedValue,
+    ageBand,
+    NET_WORTH_BAND_MIDPOINTS,
+    type NetWorthBand,
+  } from '../../lib/uninsured-decade-math';
+  import { COST_OF_CARE_BY_STATE } from '../../data/cost-of-care-by-state';
+
+  function money(n: number): string {
+    return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+  }
+
+  // ── src attribution passthrough ──
+  var params = new URLSearchParams(window.location.search);
+  var src = params.get('src') || 'uninsured-decade';
+  (window as any).__udSrc = src;
+
+  var assessmentLink = document.getElementById('ud-cta-assessment') as HTMLAnchorElement;
+  if (assessmentLink) assessmentLink.href = '/assessment?src=' + encodeURIComponent(src);
+
+  // ── populate state select, Texas default ──
+  var stateSelect = document.getElementById('ud-state') as HTMLSelectElement;
+  COST_OF_CARE_BY_STATE.forEach(function (row) {
+    var opt = document.createElement('option');
+    opt.value = row.abbr;
+    opt.textContent = row.state;
+    if (row.abbr === 'TX') opt.selected = true;
+    stateSelect.appendChild(opt);
+  });
+
+  // ── spouse toggle ──
+  var noSpouseBox = document.getElementById('ud-no-spouse') as HTMLInputElement;
+  var spouseAgeInput = document.getElementById('ud-spouse-age') as HTMLInputElement;
+  noSpouseBox.addEventListener('change', function () {
+    spouseAgeInput.disabled = noSpouseBox.checked;
+  });
+
+  // ── calc_start fires once, on first interaction ──
+  var calcStarted = false;
+  function fireCalcStart() {
+    if (calcStarted) return;
+    calcStarted = true;
+    window.posthog && (window as any).posthog.capture('calc_start', { src: src });
+  }
+  var form = document.getElementById('ud-form') as HTMLFormElement;
+  form.addEventListener('input', fireCalcStart, { once: true });
+
+  // ── RRR slider ──
+  var rrrInput = document.getElementById('ud-rrr') as HTMLInputElement;
+  var rrrVal = document.getElementById('ud-rrr-val') as HTMLElement;
+  var lastResult: { total: number; stateAbbr: string; netWorthBand: NetWorthBand } | null = null;
+
+  rrrInput.addEventListener('input', function () {
+    rrrVal.textContent = rrrInput.value + '%';
+    if (lastResult) renderExpectedValue(lastResult.total);
+  });
+
+  function renderExpectedValue(total: number) {
+    var rrr = Number(rrrInput.value) / 100;
+    var premium = tenYearPremium();
+    var ev = expectedValue(total, rrr);
+    document.getElementById('ud-expected-row')!.textContent = money(ev.expectedSavings);
+    var honestEl = document.getElementById('ud-honest-math')!;
+    honestEl.innerHTML =
+      'Unmitigated expected cost (probability-weighted): <strong>' + money(ev.unmitigatedExpectedCost) + '</strong>. ' +
+      'With a ' + rrrInput.value + '% assumed risk reduction: <strong>' + money(ev.mitigatedExpectedCost) + '</strong>. ' +
+      'Expected savings: <strong>' + money(ev.expectedSavings) + '</strong> against a ' + money(premium) + ' ten-year premium.';
+  }
+
+  function svgBarChart(bill: number, premium: number): string {
+    var max = Math.max(bill, premium) * 1.08;
+    var chartH = 150;
+    var billH = Math.round((bill / max) * chartH);
+    var premH = Math.round((premium / max) * chartH);
+    var baseY = 190;
+    return (
+      '<rect x="40" y="' + (baseY - billH) + '" width="80" height="' + billH + '" rx="4" fill="var(--ud-bill-color, #c0442e)" />' +
+      '<text x="80" y="' + (baseY - billH - 8) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2d3d">' + money(bill) + '</text>' +
+      '<text x="80" y="208" text-anchor="middle" font-size="11" fill="#3d4a5e">The Bill</text>' +
+      '<rect x="200" y="' + (baseY - premH) + '" width="80" height="' + premH + '" rx="4" fill="var(--ud-premium-color, #d4af5a)" />' +
+      '<text x="240" y="' + (baseY - premH - 8) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2d3d">' + money(premium) + '</text>' +
+      '<text x="240" y="208" text-anchor="middle" font-size="11" fill="#3d4a5e">Premium × 10 yrs</text>' +
+      '<line x1="20" y1="' + baseY + '" x2="300" y2="' + baseY + '" stroke="#c9c2ab" stroke-width="1" />'
+    );
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    fireCalcStart();
+
+    var age = Number((document.getElementById('ud-age') as HTMLInputElement).value) || 62;
+    var stateAbbr = stateSelect.value || 'TX';
+    var stateRow = COST_OF_CARE_BY_STATE.find(function (r) { return r.abbr === stateAbbr; });
+    var netWorthBand = (document.getElementById('ud-networth') as HTMLSelectElement).value as NetWorthBand;
+
+    var costs = stageCosts(stateAbbr);
+    var bill = tenYearTotal(stateAbbr, age);
+    var premium = tenYearPremium();
+    var spendDown = spendDownYears(netWorthBand, stateAbbr);
+
+    document.getElementById('ud-bill')!.textContent = money(bill);
+    document.getElementById('ud-state-name')!.textContent = stateRow ? stateRow.state : stateAbbr;
+    document.getElementById('ud-premium')!.textContent = money(premium);
+    document.getElementById('ud-spenddown')!.textContent = spendDown.display;
+
+    document.getElementById('ud-stage1')!.textContent = money(costs.stage1);
+    document.getElementById('ud-stage2')!.textContent = money(costs.stage2);
+    document.getElementById('ud-stage3')!.textContent = money(costs.stage3);
+    document.getElementById('ud-bill-row')!.textContent = money(bill);
+    document.getElementById('ud-premium-row')!.textContent = money(premium);
+
+    document.getElementById('ud-chart')!.innerHTML = svgBarChart(bill, premium);
+
+    lastResult = { total: bill, stateAbbr: stateAbbr, netWorthBand: netWorthBand };
+    renderExpectedValue(bill);
+
+    var resultsSection = document.getElementById('ud-results') as HTMLElement;
+    resultsSection.hidden = false;
+    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    window.posthog && (window as any).posthog.capture('calc_complete', {
+      src: src,
+      state: stateAbbr,
+      netWorthBand: netWorthBand,
+      ageBand: ageBand(age),
+      spendDownYearsBand: spendDownYearsBand(spendDown),
+    });
+  });
+
+  // ── print for advisor ──
+  var printBtn = document.getElementById('ud-print-btn');
+  if (printBtn) {
+    printBtn.addEventListener('click', function () {
+      window.print();
+    });
+  }
+</script>
+
+<style>
+.ud { font-family: 'Inter', sans-serif; color: #1f2d3d; background: #fdfcf9; }
+.ud h1, .ud h2, .ud h3 { font-family: 'Playfair Display', serif; }
+
+.ud-top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.4rem; border-bottom: 1px solid #e8e2d4; flex-wrap: wrap; }
+.ud-mark { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; color: #0a1f44; text-decoration: none; }
+.ud-mark b { color: #b9922e; }
+.ud-top-tag { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: #8a8468; }
+
+.ud-hero { background: linear-gradient(150deg, #0a1628 0%, #0a1f44 70%); color: #f2eee3; text-align: center; padding: 4rem 1.4rem 3.2rem; }
+.ud-kicker { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: #d4af5a; margin: 0 0 1.1rem; }
+.ud-hero h1 { font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.25; margin: 0 auto 1.2rem; max-width: 820px; text-wrap: balance; color: #f2eee3; }
+.ud-punch { font-size: clamp(0.95rem, 1.6vw, 1.1rem); color: #c9d2e4; max-width: 640px; margin: 0 auto 1.4rem; line-height: 1.6; }
+.ud-cta-sub { font-size: 0.82rem; color: #9fb0cc; max-width: 520px; margin: 1rem auto 0; line-height: 1.55; }
+
+.ud-cta { display: inline-block; background: #d4af5a; color: #0a1428; font-weight: 700; font-size: 1rem; padding: 0.95rem 2rem; border-radius: 999px; text-decoration: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.15s; }
+.ud-cta:hover { background: #e3c98b; }
+.ud-cta-ghost { background: transparent; border: 2px solid #0a1f44; color: #0a1f44; }
+.ud-cta-ghost:hover { background: rgba(10,31,68,0.06); }
+
+.ud-block { max-width: 820px; margin: 0 auto; padding: 3rem 1.4rem; }
+.ud-block h2 { font-size: clamp(1.3rem, 2.8vw, 1.8rem); color: #0a1f44; margin: 0 0 1.2rem; text-wrap: balance; }
+.ud-lead { font-size: 1rem; line-height: 1.65; color: #3d4a5e; max-width: 68ch; margin: 0 0 1rem; }
+
+/* FORM */
+.ud-form-block { background: #fff; border-top: 1px solid #e8e2d4; border-bottom: 1px solid #e8e2d4; }
+.ud-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.ud-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.ud-field label { font-size: 0.85rem; font-weight: 600; color: #0a1f44; }
+.ud-optional { font-weight: 400; color: #8a93a5; }
+.ud-field input, .ud-field select { font-size: 1rem; padding: 0.6rem 0.7rem; border: 1px solid #d8d2c0; border-radius: 8px; font-family: 'Inter', sans-serif; background: #fdfcf9; }
+.ud-checkbox { display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; font-weight: 400; color: #3d4a5e; margin-top: 0.2rem; }
+.ud-checkbox input { width: auto; }
+.ud-fine { font-size: 0.76rem; color: #8a93a5; margin: 0; }
+.ud-calc-btn { grid-column: 1 / -1; margin-top: 0.5rem; justify-self: start; }
+@media (max-width: 620px) { .ud-form { grid-template-columns: 1fr; } }
+
+/* RESULTS */
+.ud-big-numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.ud-big-card { background: #fff; border: 1px solid #e8e2d4; border-radius: 12px; padding: 1.4rem 1.2rem; text-align: center; }
+.ud-big-bill { border-top: 3px solid #c0442e; }
+.ud-big-premium { border-top: 3px solid #d4af5a; }
+.ud-big-spenddown { border-top: 3px solid #0a1f44; }
+.ud-big-tag { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: #8a93a5; margin: 0 0 0.4rem; font-weight: 700; }
+.ud-big-num { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; color: #0a1f44; margin: 0 0 0.5rem; font-variant-numeric: tabular-nums; }
+.ud-big-sub { font-size: 0.78rem; color: #6b7280; line-height: 1.45; margin: 0; }
+@media (max-width: 680px) { .ud-big-numbers { grid-template-columns: 1fr; } }
+
+.ud-chart-wrap { max-width: 340px; margin: 0 auto 2rem; }
+.ud-chart-wrap svg { width: 100%; height: auto; display: block; }
+
+.ud-ledger-h { font-size: 1.1rem; color: #0a1f44; margin: 0 0 0.8rem; }
+.ud-table-wrap { overflow-x: auto; margin-bottom: 2rem; }
+.ud-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 480px; }
+.ud-table th, .ud-table td { text-align: left; padding: 0.65rem 0.7rem; border-bottom: 1px solid #e8e2d4; }
+.ud-table th { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #8a93a5; }
+.ud-table td:nth-child(2) { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.ud-table-total td { font-weight: 700; border-top: 2px solid #0a1f44; }
+.ud-table-assumption td { color: #6b7280; font-style: italic; }
+.ud-tag { display: inline-block; font-size: 0.65rem; font-style: normal; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #b9922e; background: rgba(212,175,90,0.15); padding: 0.15rem 0.45rem; border-radius: 4px; margin-left: 0.4rem; }
+
+.ud-honest { background: #f6f3ea; border: 1px solid #e8e2d4; border-radius: 12px; padding: 1.6rem 1.4rem; margin-bottom: 2rem; }
+.ud-honest h3 { font-size: 1.1rem; color: #0a1f44; margin: 0 0 0.8rem; }
+.ud-honest p { font-size: 0.92rem; line-height: 1.6; color: #3d4a5e; margin: 0 0 1rem; }
+.ud-slider-row { margin: 1.2rem 0; }
+.ud-slider-row label { font-size: 0.88rem; font-weight: 600; color: #0a1f44; display: block; margin-bottom: 0.5rem; }
+.ud-slider-row input[type="range"] { width: 100%; }
+.ud-honest-math { background: #fff; border: 1px solid #e8e2d4; border-radius: 8px; padding: 0.9rem 1rem; font-size: 0.88rem; line-height: 1.6; }
+.ud-honest-close { font-size: 0.9rem; }
+
+.ud-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
+
+.ud-context { text-align: left; }
+
+.ud-foot { border-top: 1px solid #e8e2d4; padding: 2rem 1.4rem 2.5rem; text-align: center; }
+.ud-fin-disclaimer { font-size: 0.74rem; color: #8a93a5; max-width: 700px; margin: 1rem auto; line-height: 1.6; }
+.ud-credential { font-size: 0.78rem; color: #0a1f44; font-weight: 600; margin: 0.5rem 0; }
+.ud-legal { font-size: 0.78rem; color: #8a93a5; margin-top: 1rem; }
+.ud-legal a { color: #8a93a5; }
+.ud-print-footer { display: none; }
+
+/* PRINT — advisor hand-out: ledger + expected value + disclaimer only */
+@media print {
+  .ud-top, .ud-hero, .ud-form-block, .ud-actions, .ud-context, .ud-chart-wrap { display: none !important; }
+  .ud-results { display: block !important; }
+  .ud-big-numbers { grid-template-columns: repeat(3, 1fr) !important; }
+  .ud-cta, button { display: none !important; }
+  .ud-print-footer { display: block !important; font-size: 0.7rem; color: #555; margin-top: 1rem; text-align: center; }
+  body { background: #fff; }
+  .ud-block { padding: 0.6rem 0; }
+}
+</style>
