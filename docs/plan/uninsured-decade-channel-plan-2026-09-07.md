@@ -18,7 +18,7 @@ Two things make this work that no other channel gives us:
 
 > "I wrote a short book for your clients about the one retirement risk nobody underwrites. Medicare pays $0 for custodial care, the private LTC market has collapsed, and the average dementia course costs a family $405,262 — 70% of it out of their own pocket. I'll give you 50 copies at cost with your name on the inside cover, and if you want, I'll come speak for 30 minutes at your next client dinner. Nothing is sold from the stage. Nothing is sold from the stage; the only ask is a free seven-minute assessment."
 
-Three tiers of ask, escalating: **(a)** hand out the book, **(b)** host a client dinner/breakfast where TJ speaks, **(c)** co-branded CE-credit session for the intermediary's own professional association.
+Three tiers of ask, escalating: **(a)** hand out the book, **(b)** host a client dinner/breakfast where TJ speaks, **(c)** co-branded CE-credit session for the intermediary's own professional association. Every tier endorses the intermediary as the necessary professional partner — funding the risk is their job, lowering it is ours — never a competing or better solution (`feedback_endorse_the_professional_partner.md`).
 
 ---
 

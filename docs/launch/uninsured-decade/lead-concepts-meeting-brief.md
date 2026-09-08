@@ -8,6 +8,7 @@ _Drafted 2026-09-08 for TJ's meeting with Chris Wear (owner, Lead Concepts; ~30 
 3. **His read on the room.** Which client types respond to which framing (annuity vs. trust vs. Medicare-supp), which metros, what response-rate lift a guest speaker has produced historically.
 
 ## What's in it for Chris (lead with this)
+- **We make his clients look necessary, never redundant.** Every piece endorses the host advisor as the necessary professional partner — we never position against their products or plan, only ahead of their close.
 - **His clients' seminars convert better.** A credible guest who raises the stakes of the retirement conversation ("Medicare pays $0 for custodial care; the LTC market collapsed; two-in-three odds one of you faces it") makes the host's one-on-one booking feel urgent. Higher appointment rates = happier clients = retained accounts for him.
 - **Differentiation for his invitations.** Every mailbox has three steak-dinner invites. "Guest speaker + free book" is a reason to pick this one. He can offer it as a premium option to his clients.
 - **We are a client too.** When we run our own mailouts (Channel 8, phase 2), they run through Lead Concepts.

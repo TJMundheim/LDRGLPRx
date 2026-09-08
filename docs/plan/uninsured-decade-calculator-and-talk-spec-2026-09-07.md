@@ -106,7 +106,7 @@ Match `go/gut-repair.astro` structural pattern: `BaseLayout` with `hideChrome={t
 
 ## PART B — Masterclass Talk: "The Uninsured Decade"
 
-_40 min + Q&A. Reuses the speaking-circuit rules from `docs/plan/speaking-circuit-traffic-strategy.md`: no selling from stage, QR is the only ask, Q&A is the sales floor, back-table author copies. This talk is the Tier 3 "financial advisors / estate attorneys / CPAs" and "CEO peer groups" venue play from that doc — higher-trust, higher-net-worth rooms than the Tier 1 Rotary-club circuit, so the frame shifts from prevention-education to risk-underwriting, but the stage discipline is identical._
+_40 min + Q&A. Reuses the speaking-circuit rules from `docs/plan/speaking-circuit-traffic-strategy.md`: no selling from stage, QR is the only ask, Q&A is the sales floor, back-table author copies. This talk is the Tier 3 "financial advisors / estate attorneys / CPAs" and "CEO peer groups" venue play from that doc — higher-trust, higher-net-worth rooms than the Tier 1 Rotary-club circuit, so the frame shifts from prevention-education to risk-underwriting, but the stage discipline is identical. Every variant endorses the host/advisor as necessary — never a better or competing solution — per `feedback_endorse_the_professional_partner.md`._
 
 ### Slide list (max 12)
 

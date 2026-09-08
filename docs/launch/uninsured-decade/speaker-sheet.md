@@ -31,7 +31,7 @@ Both formats: no AV required (slides optional), fits any room from a private din
 
 ## What's NOT sold from the stage
 
-Nothing. No product, no supplement, no company name, no consult booking pitched from the podium. The only ask, in both formats, is a free seven-minute risk assessment reachable by QR code. Books are left on the table or the seat, not sold. This is a standing rule across every venue (see docs/plan/speaking-circuit-traffic-strategy.md and docs/plan/uninsured-decade-channel-plan-2026-09-07.md).
+Nothing. No product, no supplement, no company name, no consult booking pitched from the podium — and nothing is positioned against the host's products or plan; the talk sends attendees back to their advisor. The only ask, in both formats, is a free seven-minute risk assessment reachable by QR code. Books are left on the table or the seat, not sold. This is a standing rule across every venue (see docs/plan/speaking-circuit-traffic-strategy.md and docs/plan/uninsured-decade-channel-plan-2026-09-07.md).
 
 ## AV needs
 

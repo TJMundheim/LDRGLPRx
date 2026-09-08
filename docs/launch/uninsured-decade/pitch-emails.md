@@ -12,7 +12,7 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 >
 > I've got a new eight-minute piece I think would land well at your next client dinner — "The Uninsured Decade." It's the risk nobody's plan covers: Medicare pays $0 for custodial care, the LTC insurance market has largely collapsed, and the average dementia bill runs a family over $400K. I make the case in under ten minutes, right before your close, and it raises the stakes for the conversation you're already having.
 >
-> Nothing's sold from the podium — one QR to a free assessment, that's it. I'll bring books for every seat, on me.
+> Nothing's sold from the podium — one QR to a free assessment, that's it. I'll bring books for every seat, on me. And I send every attendee back to you: I'm never positioned against your products or your plan, only ahead of your close.
 >
 > What's your next dinner date? Happy to work around it.
 >
@@ -26,7 +26,7 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 >
 > I received your mailer for [event/venue] and wanted to reach out directly. I'm Dr. TJ — 30+ years in clinical practice — and I speak on a topic that pairs naturally with a retirement-income seminar: "The Uninsured Decade," the one risk your attendees' plans don't cover (Medicare pays $0 for custodial care; the LTC market has largely collapsed).
 >
-> I'd like to offer an 8-minute guest slot before your close — I bring books for the room, nothing is sold from the stage, and it makes your ask land harder, not compete with it.
+> I'd like to offer an 8-minute guest slot before your close — I bring books for the room, nothing is sold from the stage, and it makes your ask land harder, not compete with it. I reinforce your role throughout, never position against your products or plan, and send every attendee back to you.
 >
 > Would a quick call make sense this week?
 >
@@ -45,7 +45,7 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 > 2. Explain the Medicaid spend-down mechanism and its planning implications by net-worth band.
 > 3. Describe modifiable-risk-factor frameworks clients can be pointed to, with appropriate non-medical-advice framing.
 >
-> Entirely non-commercial — no product or company pitch. I'm happy to send a full abstract and my credential background. Is there room on an upcoming calendar, or a short-notice substitute-speaker list I could join?
+> Entirely non-commercial — no product or company pitch, and nothing positioned against the advisory/estate work your members already do — it sends attendees back to their own advisor. I'm happy to send a full abstract and my credential background. Is there room on an upcoming calendar, or a short-notice substitute-speaker list I could join?
 >
 > — Dr. TJ
 
@@ -57,7 +57,7 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 >
 > Cognitive decline is the top unhedgeable risk to a plan you've built — it's the one line item that can wreck an estate plan and no policy fully covers it anymore. I speak on this directly: "The Uninsured Decade," the bill in real numbers, the collapsed LTC insurance market, and what a household can still do about it.
 >
-> I'd like to offer 30 minutes at your next client-appreciation dinner, plus 50 books with your name on the inside cover, at cost. Nothing sold from the stage — one QR to a free assessment.
+> I'd like to offer 30 minutes at your next client-appreciation dinner, plus 50 books with your name on the inside cover, at cost. Nothing sold from the stage — one QR to a free assessment. I never position against your products or plan; every attendee is sent back to you.
 >
 > Worth a short call to see if it fits your calendar?
 >
@@ -71,7 +71,7 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 >
 > Your members already think in ROI and risk language, so this one tends to land well: "The Uninsured Decade." Cognitive capital is the asset the rest of the balance sheet depends on, and it's the one risk that's gone largely uninsurable — Medicare pays $0 for custodial care, and the private LTC market has collapsed. I reframe it as underwriting, not insuring, and give the room a real framework to act on.
 >
-> I'd like to offer a forum slot — 40 minutes, non-commercial, nothing sold. Would you have room on an upcoming calendar?
+> I'd like to offer a forum slot — 40 minutes, non-commercial, nothing sold, and nothing positioned against any member's own advisor or plan. Would you have room on an upcoming calendar?
 >
 > — Dr. TJ Mundheim
 
@@ -83,4 +83,4 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 
 ## Phone script — Channel 0 calls (60 seconds)
 
-> "Hey [Name], it's TJ. Quick one — I've got a new piece I've been running called 'The Uninsured Decade.' Eight minutes, fits right before your close: Medicare pays zero for custodial care, LTC insurance has basically collapsed as a market, and the average dementia bill runs a family over four hundred grand. It raises the stakes on the conversation you're already having with the room — doesn't compete with it. I bring books for every seat, nothing's sold from the podium, just one QR to a free assessment at the end. When's your next dinner? I'll work around it."
+> "Hey [Name], it's TJ. Quick one — I've got a new piece I've been running called 'The Uninsured Decade.' Eight minutes, fits right before your close: Medicare pays zero for custodial care, LTC insurance has basically collapsed as a market, and the average dementia bill runs a family over four hundred grand. It raises the stakes on the conversation you're already having with the room — doesn't compete with it, and I never position against your products or your plan. I bring books for every seat, nothing's sold from the podium, just one QR to a free assessment at the end. When's your next dinner? I'll work around it."

@@ -32,6 +32,7 @@ Standalone LTC policies have seen repeated double-digit rate increases — some 
 
 Insurance against this specific risk has largely disappeared. Three things a household can still do:
 
+- **Review your plan and policies with the advisor who gave you this** — and your powers of attorney and health-care directives with your attorney. Funding the risk is their job; it's the necessary first step.
 - **Run your own spend-down number.** Net worth ÷ your state's annual private-pay care cost = roughly how many years of care your assets alone would cover before Medicaid eligibility.
 - **Put a plan in writing now, while everyone involved can still weigh in** — powers of attorney, health-care directives, and a family conversation about who decides what, before a crisis forces it.
 - **Work your own modifiable risk factors** — sleep, movement, metabolic health, and related factors are linked in the research to a meaningfully lower personal risk profile. This is expected-value thinking, not a guarantee — nothing prevents dementia, but the evidence supports shifting the odds in your favor.
@@ -48,3 +49,5 @@ Scan for a free, seven-minute risk assessment and a cost-of-decline estimate for
 ---
 
 _These figures are illustrative estimates based on published third-party cost-of-care data (Alzheimer's Association, CareScout/Genworth, American Academy of Actuaries, JAMA, Nature Medicine). This is not financial, insurance, legal, or medical advice, and no protocol or program guarantees a reduction in personal risk. Consult your own financial advisor, attorney, and physician. Prepared by Dr. TJ, health-span educator, who does not provide medical care through this platform._
+
+**Your advisor protects the money. This protects the person the money is for. You need both.**
