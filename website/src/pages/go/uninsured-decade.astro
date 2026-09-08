@@ -87,17 +87,20 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
       <div class="ud-big-card ud-big-bill">
         <p class="ud-big-tag">The Bill</p>
         <p class="ud-big-num" id="ud-bill">—</p>
-        <p class="ud-big-sub">Illustrative 10-year staged care cost, adjusted to <span id="ud-state-name">your state</span></p>
+        <p class="ud-big-sub">Illustrative 10-year staged care cost, adjusted to <span id="ud-state-name">your state</span>, in <span id="ud-onset-year">—</span> dollars</p>
+        <p class="ud-why" id="ud-bill-why">—</p>
       </div>
       <div class="ud-big-card ud-big-premium">
-        <p class="ud-big-tag">The Premium</p>
+        <p class="ud-big-tag">The Premium — new money</p>
         <p class="ud-big-num" id="ud-premium">—</p>
-        <p class="ud-big-sub">A protocol basket run for 10 years — see below</p>
+        <p class="ud-big-sub">What the basket costs beyond what you already spend, over 10 years — see below</p>
+        <p class="ud-why" id="ud-premium-why">—</p>
       </div>
       <div class="ud-big-card ud-big-spenddown">
         <p class="ud-big-tag">Years Until Spend-Down</p>
         <p class="ud-big-num" id="ud-spenddown">—</p>
         <p class="ud-big-sub">At your net worth band, custodial care alone would take about this long to spend you down to Medicaid eligibility</p>
+        <p class="ud-why" id="ud-spenddown-why">—</p>
       </div>
     </div>
 
@@ -119,16 +122,19 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
           <tr><td>Stage 1 — early-stage care</td><td id="ud-stage1">—</td><td>Mostly in-home support, illustrative</td></tr>
           <tr><td>Stage 2 — mid-stage care</td><td id="ud-stage2">—</td><td>Heavier in-home / adult-day support</td></tr>
           <tr><td>Stage 3 — late-stage custodial care</td><td id="ud-stage3">—</td><td>Memory care / nursing home, state-adjusted</td></tr>
-          <tr class="ud-table-total"><td>The Bill (total)</td><td id="ud-bill-row">—</td><td>Sum of stages 1–3</td></tr>
-          <tr><td>The Premium (10 years)</td><td id="ud-premium-row">—</td><td>4M protocol basket, ~$10K/yr</td></tr>
-          <tr class="ud-table-assumption"><td>Expected savings, dementia-cost avoidance only <span class="ud-tag">assumption, not a guarantee</span></td><td id="ud-expected-row">—</td><td>See disclaimer below</td></tr>
+          <tr class="ud-table-total"><td>The Bill (total)</td><td id="ud-bill-row">—</td><td>Sum of stages 1–3, in onset-year dollars</td></tr>
+          <tr><td>The Premium — full basket (10 years)</td><td id="ud-premium-full-row">—</td><td>4M protocol basket, $675/mo ($81,000 over 10 yrs)</td></tr>
+          <tr><td>Already spending (10 years)</td><td id="ud-already-spending-row">—</td><td>Your reported current monthly health spend × 120</td></tr>
+          <tr class="ud-table-total"><td>New money (10 years)</td><td id="ud-new-money-row">—</td><td>The actual new spend the basket requires</td></tr>
+          <tr><td>Hours to add per month</td><td id="ud-hours-row">—</td><td id="ud-hours-note">Target: 10 hrs/mo (~2.3 hrs/wk)</td></tr>
+          <tr class="ud-table-assumption"><td>Expected savings, dementia-cost avoidance only <span class="ud-tag">assumption, not a guarantee</span></td><td id="ud-expected-row">—</td><td>Compared against the full basket — the honest premium</td></tr>
         </tbody>
       </table>
     </div>
 
     <!-- EXPECTED VALUE, STATED HONESTLY -->
     <div class="ud-honest">
-      <h3>Expected value, stated honestly</h3>
+      <h3>Expected value, stated honestly — for <span id="ud-honest-who">you</span></h3>
       <p>This is the part most calculators fudge. We won't. Nothing lowers your risk to zero, and nothing "prevents" dementia — the honest claim is that a sustained, structured lifestyle protocol can <em>lower the odds</em>. Here's what that's worth in dollars, using an assumption you control:</p>
       <p class="ud-honest-risk">Lifetime risk of any dementia after age 55 is <strong>42%</strong> (or, for a couple, about a <strong>66%</strong> chance at least one partner is affected) — per the largest long-running U.S. cohort study to date (Fang, Coresh et al., <em>Nature Medicine</em>, 13 Jan 2025, ARIC cohort).</p>
       <div class="ud-slider-row">
@@ -141,7 +147,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
         <p class="ud-fine">This is an assumption, not a guarantee — see disclaimer below.</p>
       </div>
       <p class="ud-honest-math" id="ud-honest-math">—</p>
-      <p class="ud-honest-close"><strong>Read plainly: with the corrected risk, dementia-cost avoidance alone gets closer — but the full case still isn't a single-disease bet.</strong> A couple at the default 30% assumed risk reduction shows expected savings of roughly $80K against a $100K ten-year premium; at the 45% Lancet ceiling, roughly $120K. The honest case for the spend is that the ledger really tips once the same modifiable factors' effect on diabetes, cardiovascular disease, and stroke — plus the wide right tail past the $405,262 average cost, plus quality-of-life and caregiver-hour value — are counted alongside dementia. None of that is captured in the math above. Insurance is a ruin-avoidance trade, not an ROI calculation — the same trade you already make on your house. You don't insure your house because you expect it to burn down; you insure it because you can't afford it if it does.</p>
+      <p class="ud-honest-close"><strong>Read plainly: whichever way your number lands, dementia-cost avoidance is a single-disease bet, and this is never a single-disease decision.</strong> <span id="ud-honest-illustrative">A couple at the default 30% assumed risk reduction shows expected savings of roughly $80K against an $81K ten-year premium; at the 45% Lancet ceiling, roughly $120K.</span> The honest case for the spend is that the ledger really tips once the same modifiable factors' effect on diabetes, cardiovascular disease, and stroke — plus the wide right tail past the $405,262 average cost, plus quality-of-life and caregiver-hour value — are counted alongside dementia. None of that is captured in the math above. Insurance is a ruin-avoidance trade, not an ROI calculation — the same trade you already make on your house. You don't insure your house because you expect it to burn down; you insure it because you can't afford it if it does.</p>
       <p class="ud-honest-close"><strong>What the ledger can't count.</strong> No policy in your folder has ever paid you while you were healthy. This one does. The same premium that lowers the odds of the bill pays a dividend now: sleep, strength, energy, a retirement decade spent on your feet. That dividend is worth more than any number above, and it is the reason the people who do this keep doing it. What it protects was never really the money. Don't lose your identity and your dignity while you still have a choice.</p>
       <p class="ud-honest-caveat">One more caveat: the 42% figure counts all dementia, including mild cases diagnosed late in life — so treat this as a range to reason with, not a promise about your own outcome.</p>
     </div>
@@ -173,11 +179,16 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 
 <script>
   import {
-    stageCosts,
+    stageCostsAtOnset,
     tenYearTotal,
+    householdOnsetAge,
+    onsetYear,
     spendDownYears,
     spendDownYearsBand,
     tenYearPremium,
+    premiumLedger,
+    hoursToAddPerMonth,
+    isExerciseAtTarget,
     expectedValue,
     ageBand,
     NET_WORTH_BAND_MIDPOINTS,
@@ -226,6 +237,18 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
   var form = document.getElementById('ud-form') as HTMLFormElement;
   form.addEventListener('input', fireCalcStart, { once: true });
 
+  // ── illustrative closing paragraph, derived from the basket (not the user's own inputs) ──
+  (function () {
+    var illustrativeEl = document.getElementById('ud-honest-illustrative');
+    if (!illustrativeEl) return;
+    var premium = tenYearPremium();
+    var atDefault = expectedValue(405_262, 0.30, LIFETIME_DEMENTIA_RISK_COUPLE, premium);
+    var atCeiling = expectedValue(405_262, 0.45, LIFETIME_DEMENTIA_RISK_COUPLE, premium);
+    illustrativeEl.textContent =
+      'A couple at the default 30% assumed risk reduction shows expected savings of roughly ' + money(atDefault.expectedSavings) +
+      ' against a ' + money(premium) + ' ten-year premium; at the 45% Lancet ceiling, roughly ' + money(atCeiling.expectedSavings) + '.';
+  })();
+
   // ── RRR slider ──
   var rrrInput = document.getElementById('ud-rrr') as HTMLInputElement;
   var rrrVal = document.getElementById('ud-rrr-val') as HTMLElement;
@@ -246,7 +269,12 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     honestEl.innerHTML =
       'Unmitigated expected cost (probability-weighted): <strong>' + money(ev.unmitigatedExpectedCost) + '</strong>. ' +
       'With a ' + rrrInput.value + '% assumed risk reduction: <strong>' + money(ev.mitigatedExpectedCost) + '</strong>. ' +
-      'Expected savings: <strong>' + money(ev.expectedSavings) + '</strong> against a ' + money(premium) + ' ten-year premium.';
+      'Expected savings: <strong>' + money(ev.expectedSavings) + '</strong> against a ' + money(premium) + ' ten-year premium — the full basket, the honest comparison. ' +
+      (ev.breaksEven
+        ? '<strong>At these inputs the expected savings exceed the premium.</strong> Read that carefully: the premium is money you will certainly spend; the savings are an expectation spread across odds you cannot see in advance. Nobody should buy this on the arithmetic alone.'
+        : '<strong>At these inputs the expected savings fall short of the premium on dementia alone.</strong> That is the honest number. The case rests on what the math below cannot count.');
+    var whoEl = document.getElementById('ud-honest-who');
+    if (whoEl) whoEl.textContent = isCouple ? 'the two of you' : 'you';
   }
 
   function svgBarChart(bill: number, premium: number): string {
@@ -261,7 +289,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
       '<text x="80" y="208" text-anchor="middle" font-size="11" fill="#3d4a5e">The Bill</text>' +
       '<rect x="200" y="' + (baseY - premH) + '" width="80" height="' + premH + '" rx="4" fill="var(--ud-premium-color, #d4af5a)" />' +
       '<text x="240" y="' + (baseY - premH - 8) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2d3d">' + money(premium) + '</text>' +
-      '<text x="240" y="208" text-anchor="middle" font-size="11" fill="#3d4a5e">Premium × 10 yrs</text>' +
+      '<text x="240" y="208" text-anchor="middle" font-size="11" fill="#3d4a5e">Full basket × 10 yrs</text>' +
       '<line x1="20" y1="' + baseY + '" x2="300" y2="' + baseY + '" stroke="#c9c2ab" stroke-width="1" />'
     );
   }
@@ -275,24 +303,50 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     var stateRow = COST_OF_CARE_BY_STATE.find(function (r) { return r.abbr === stateAbbr; });
     var netWorthBand = (document.getElementById('ud-networth') as HTMLSelectElement).value as NetWorthBand;
     var isCouple = !noSpouseBox.checked && spouseAgeInput.value !== '';
+    var spouseAge = isCouple ? Number(spouseAgeInput.value) : undefined;
+    var monthlySpend = Number((document.getElementById('ud-spend') as HTMLInputElement).value) || 0;
+    var exerciseHours = Number((document.getElementById('ud-exercise') as HTMLInputElement).value) || 0;
 
-    var costs = stageCosts(stateAbbr);
-    var bill = tenYearTotal(stateAbbr, age);
-    var premium = tenYearPremium();
-    var spendDown = spendDownYears(netWorthBand, stateAbbr);
+    var onsetDrivingAge = householdOnsetAge(age, spouseAge);
+    var onset = onsetYear(onsetDrivingAge);
+
+    var costs = stageCostsAtOnset(stateAbbr, age, spouseAge);
+    var bill = costs.total;
+    var fullPremium = tenYearPremium();
+    var ledger = premiumLedger(monthlySpend);
+    var spendDown = spendDownYears(netWorthBand, stateAbbr, onsetDrivingAge);
+    var hoursToAdd = hoursToAddPerMonth(exerciseHours);
+    var atTarget = isExerciseAtTarget(exerciseHours);
 
     document.getElementById('ud-bill')!.textContent = money(bill);
     document.getElementById('ud-state-name')!.textContent = stateRow ? stateRow.state : stateAbbr;
-    document.getElementById('ud-premium')!.textContent = money(premium);
+    document.getElementById('ud-onset-year')!.textContent = String(onset);
+    document.getElementById('ud-premium')!.textContent = money(ledger.newMoneyTenYear);
     document.getElementById('ud-spenddown')!.textContent = spendDown.display;
+
+    document.getElementById('ud-bill-why')!.textContent = onsetDrivingAge >= 70
+      ? 'Onset is modeled as starting now (age ' + onsetDrivingAge + '), so this is in today’s dollars.'
+      : 'Modeled onset is 70; at ' + onsetDrivingAge + ', that’s ' + (onset - new Date().getFullYear()) + ' years out, so this is inflated 4%/yr to ' + onset + ' dollars.';
+    document.getElementById('ud-premium-why')!.textContent = ledger.newMoneyTenYear === 0
+      ? 'You’re already spending at or above the full basket — no new money required.'
+      : 'The full basket is ' + money(ledger.fullBasketTenYear) + '; you’re already spending ' + money(ledger.alreadySpendingTenYear) + ', so ' + money(ledger.newMoneyTenYear) + ' is new.';
+    document.getElementById('ud-spenddown-why')!.textContent = onsetDrivingAge >= 70
+      ? 'Based on today’s annual private-pay cost in ' + (stateRow ? stateRow.state : stateAbbr) + '.'
+      : 'Based on the ' + onset + '-dollar annual private-pay cost, consistent with The Bill above.';
 
     document.getElementById('ud-stage1')!.textContent = money(costs.stage1);
     document.getElementById('ud-stage2')!.textContent = money(costs.stage2);
     document.getElementById('ud-stage3')!.textContent = money(costs.stage3);
     document.getElementById('ud-bill-row')!.textContent = money(bill);
-    document.getElementById('ud-premium-row')!.textContent = money(premium);
+    document.getElementById('ud-premium-full-row')!.textContent = money(ledger.fullBasketTenYear);
+    document.getElementById('ud-already-spending-row')!.textContent = money(ledger.alreadySpendingTenYear);
+    document.getElementById('ud-new-money-row')!.textContent = money(ledger.newMoneyTenYear);
+    document.getElementById('ud-hours-row')!.textContent = atTarget ? '0' : hoursToAdd.toFixed(1);
+    document.getElementById('ud-hours-note')!.textContent = atTarget
+      ? 'You’re already paying the hours; the ledger below is about the dollars.'
+      : 'Target: 10 hrs/mo (~2.3 hrs/wk)';
 
-    document.getElementById('ud-chart')!.innerHTML = svgBarChart(bill, premium);
+    document.getElementById('ud-chart')!.innerHTML = svgBarChart(bill, fullPremium);
 
     lastResult = { total: bill, stateAbbr: stateAbbr, netWorthBand: netWorthBand, isCouple: isCouple };
     renderExpectedValue(bill, isCouple);
@@ -365,6 +419,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 .ud-big-tag { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: #8a93a5; margin: 0 0 0.4rem; font-weight: 700; }
 .ud-big-num { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; color: #0a1f44; margin: 0 0 0.5rem; font-variant-numeric: tabular-nums; }
 .ud-big-sub { font-size: 0.78rem; color: #6b7280; line-height: 1.45; margin: 0; }
+.ud-why { font-size: 0.74rem; color: #8a6d1f; line-height: 1.4; margin: 0.5rem 0 0; font-style: italic; }
 @media (max-width: 680px) { .ud-big-numbers { grid-template-columns: 1fr; } }
 
 .ud-chart-wrap { max-width: 340px; margin: 0 auto 2rem; }

@@ -1,14 +1,30 @@
 import { describe, it, expect } from 'vitest';
 import {
   stageCosts,
+  stageCostsAtOnset,
   tenYearTotal,
-  ageAdjustmentFactor,
+  yearsToOnset,
+  householdOnsetAge,
+  careCostInflationFactor,
+  onsetYear,
+  CARE_COST_INFLATION_RATE,
+  ONSET_BASELINE_AGE,
   spendDownYears,
   spendDownYearsBand,
   expectedValue,
   ageBand,
   tenYearPremium,
+  premiumLedger,
   ANNUAL_PROTOCOL_PREMIUM,
+  PREMIUM_BASKET_MONTHLY,
+  GYM_MONTHLY,
+  TRAINER_MONTHLY,
+  GROCERY_PREMIUM_MONTHLY,
+  SUPPLEMENTS_MONTHLY,
+  hoursToAddPerMonth,
+  isExerciseAtTarget,
+  EXERCISE_TARGET_HOURS_PER_MONTH,
+  WEEKS_PER_MONTH,
   DEFAULT_RELATIVE_RISK_REDUCTION,
   MAX_RELATIVE_RISK_REDUCTION,
   NATIONAL_STAGE1,
@@ -59,6 +75,92 @@ describe('stageCosts', () => {
   });
 });
 
+// ---- Age -> future-dollar inflation (item 1) ----
+
+describe('yearsToOnset', () => {
+  it('is 0 at or above the 70 baseline', () => {
+    expect(yearsToOnset(70)).toBe(0);
+    expect(yearsToOnset(85)).toBe(0);
+  });
+
+  it('counts years remaining to 70 below the baseline', () => {
+    expect(yearsToOnset(62)).toBe(8);
+    expect(yearsToOnset(45)).toBe(25);
+  });
+
+  it('ONSET_BASELINE_AGE is 70', () => {
+    expect(ONSET_BASELINE_AGE).toBe(70);
+  });
+});
+
+describe('householdOnsetAge', () => {
+  it('uses the solo age when there is no spouse', () => {
+    expect(householdOnsetAge(62)).toBe(62);
+  });
+
+  it('uses the OLDER of the two ages (the earlier exposure)', () => {
+    expect(householdOnsetAge(62, 60)).toBe(62);
+    expect(householdOnsetAge(60, 65)).toBe(65);
+  });
+});
+
+describe('careCostInflationFactor', () => {
+  it('is exactly the named 4%/yr rate, compounded to age 70', () => {
+    expect(CARE_COST_INFLATION_RATE).toBe(0.04);
+    // age 62 -> 8 years to onset
+    expect(careCostInflationFactor(62)).toBeCloseTo(Math.pow(1.04, 8), 4);
+  });
+
+  it('is 1 (no inflation) at or above 70', () => {
+    expect(careCostInflationFactor(70)).toBe(1);
+    expect(careCostInflationFactor(90)).toBe(1);
+  });
+
+  it('is greater than 1 below 70, and grows the further below 70 the age is', () => {
+    expect(careCostInflationFactor(62)).toBeGreaterThan(1);
+    expect(careCostInflationFactor(45)).toBeGreaterThan(careCostInflationFactor(62));
+  });
+});
+
+describe('onsetYear', () => {
+  it('is the current year when age is 70 or above', () => {
+    expect(onsetYear(70, 2026)).toBe(2026);
+    expect(onsetYear(80, 2026)).toBe(2026);
+  });
+
+  it('is the current year plus years-to-onset when age is below 70', () => {
+    expect(onsetYear(62, 2026)).toBe(2034);
+  });
+});
+
+describe('stageCostsAtOnset', () => {
+  it('with no age, equals the unadjusted stageCosts', () => {
+    expect(stageCostsAtOnset('TX')).toEqual(stageCosts('TX'));
+  });
+
+  it('with age >= 70, equals the unadjusted stageCosts (no inflation, onset is now)', () => {
+    expect(stageCostsAtOnset('TX', 70)).toEqual(stageCosts('TX'));
+    expect(stageCostsAtOnset('TX', 85)).toEqual(stageCosts('TX'));
+  });
+
+  it('with age below 70, every stage (and the total) is inflated by the same factor', () => {
+    const base = stageCosts('TX');
+    const inflated = stageCostsAtOnset('TX', 62);
+    const factor = careCostInflationFactor(62);
+    expect(inflated.stage1).toBeCloseTo(base.stage1 * factor, 1);
+    expect(inflated.stage2).toBeCloseTo(base.stage2 * factor, 1);
+    expect(inflated.stage3).toBeCloseTo(base.stage3 * factor, 1);
+    expect(inflated.total).toBeCloseTo(inflated.stage1 + inflated.stage2 + inflated.stage3, 1);
+  });
+
+  it('for a couple, uses the OLDER age for onset timing (the earlier exposure)', () => {
+    // 65-year-old with a 68-year-old spouse: onset timing driven by 68, not 65.
+    const viaCouple = stageCostsAtOnset('TX', 65, 68);
+    const viaOlderSolo = stageCostsAtOnset('TX', 68);
+    expect(viaCouple).toEqual(viaOlderSolo);
+  });
+});
+
 describe('tenYearTotal', () => {
   it('Texas is materially below the national baseline total', () => {
     const national = NATIONAL_STAGE1 + NATIONAL_STAGE2 + NATIONAL_STAGE3;
@@ -74,35 +176,108 @@ describe('tenYearTotal', () => {
     expect(tenYearTotal('TX')).toBe(stageCosts('TX').total);
   });
 
-  it('age 70 or under applies no compression', () => {
+  it('age 70 or above applies no inflation', () => {
     const base = stageCosts('TX').total;
-    expect(tenYearTotal('TX', 62)).toBe(base);
     expect(tenYearTotal('TX', 70)).toBe(base);
+    expect(tenYearTotal('TX', 90)).toBe(base);
   });
 
-  it('age over 70 compresses the total (never increases it)', () => {
+  it('age under 70 inflates the total (never decreases it)', () => {
     const base = stageCosts('TX').total;
-    const compressed = tenYearTotal('TX', 85);
-    expect(compressed).toBeLessThan(base);
-    expect(compressed).toBeGreaterThan(0);
+    const inflated = tenYearTotal('TX', 62);
+    expect(inflated).toBeGreaterThan(base);
+  });
+
+  it('a younger age inflates more than an older (but still <70) age', () => {
+    expect(tenYearTotal('TX', 45)).toBeGreaterThan(tenYearTotal('TX', 62));
+  });
+
+  it('for a couple, the older spouse age drives the inflation, not the primary age', () => {
+    // Primary 55 (would inflate a lot alone), spouse 69 (barely inflates) -> should use 69.
+    expect(tenYearTotal('TX', 55, 69)).toBe(tenYearTotal('TX', 69));
+    expect(tenYearTotal('TX', 55, 69)).toBeLessThan(tenYearTotal('TX', 55));
   });
 });
 
-describe('ageAdjustmentFactor', () => {
-  it('is 1.0 at or below 70', () => {
-    expect(ageAdjustmentFactor(45)).toBe(1);
-    expect(ageAdjustmentFactor(70)).toBe(1);
+// ---- The Premium: new money (item 2) ----
+
+describe('premium basket constants', () => {
+  it('the mid basket sums to $675/mo (gym $60 + trainer $280 + grocery premium $185 + supplements $150)', () => {
+    expect(GYM_MONTHLY).toBe(60);
+    expect(TRAINER_MONTHLY).toBe(280);
+    expect(GROCERY_PREMIUM_MONTHLY).toBe(185);
+    expect(SUPPLEMENTS_MONTHLY).toBe(150);
+    expect(PREMIUM_BASKET_MONTHLY).toBe(675);
   });
 
-  it('decreases as age increases past 70', () => {
-    expect(ageAdjustmentFactor(75)).toBeLessThan(1);
-    expect(ageAdjustmentFactor(80)).toBeLessThan(ageAdjustmentFactor(75));
+  it('ANNUAL_PROTOCOL_PREMIUM is the basket times 12', () => {
+    expect(ANNUAL_PROTOCOL_PREMIUM).toBe(675 * 12);
   });
 
-  it('never compresses more than 30% (floors at 0.7)', () => {
-    expect(ageAdjustmentFactor(120)).toBeGreaterThanOrEqual(0.7);
+  it('tenYearPremium is the full basket over 10 years: $81,000', () => {
+    expect(tenYearPremium()).toBe(81_000);
   });
 });
+
+describe('premiumLedger', () => {
+  it('with $0 current spend, all of the basket is new money', () => {
+    const result = premiumLedger(0);
+    expect(result.fullBasketTenYear).toBe(81_000);
+    expect(result.alreadySpendingTenYear).toBe(0);
+    expect(result.newMoneyTenYear).toBe(81_000);
+  });
+
+  it('with current spend below the basket, splits into already-spending + new money that sum to the full basket', () => {
+    const result = premiumLedger(400);
+    expect(result.alreadySpendingTenYear).toBe(400 * 120);
+    expect(result.newMoneyTenYear).toBe((675 - 400) * 120);
+    expect(result.alreadySpendingTenYear + result.newMoneyTenYear).toBe(result.fullBasketTenYear);
+  });
+
+  it('with current spend at or above the basket, new money floors at zero', () => {
+    const atBasket = premiumLedger(675);
+    expect(atBasket.newMoneyTenYear).toBe(0);
+    const above = premiumLedger(900);
+    expect(above.newMoneyTenYear).toBe(0);
+    expect(above.alreadySpendingTenYear).toBe(900 * 120);
+  });
+
+  it('treats a negative or non-finite spend as zero', () => {
+    expect(premiumLedger(-50).alreadySpendingTenYear).toBe(0);
+    expect(premiumLedger(NaN).alreadySpendingTenYear).toBe(0);
+  });
+});
+
+// ---- Hours/week of exercise -> hours premium (item 3) ----
+
+describe('exercise hours', () => {
+  it('target is 10 hours/month, and the weekly->monthly multiplier is 4.33', () => {
+    expect(EXERCISE_TARGET_HOURS_PER_MONTH).toBe(10);
+    expect(WEEKS_PER_MONTH).toBe(4.33);
+  });
+
+  it('hoursToAddPerMonth is 10 minus hours*4.33, floored at 0', () => {
+    expect(hoursToAddPerMonth(0)).toBe(10);
+    expect(hoursToAddPerMonth(1)).toBeCloseTo(10 - 1 * 4.33, 2);
+    expect(hoursToAddPerMonth(3)).toBe(0); // 3 * 4.33 = 12.99, already past target
+  });
+
+  it('never goes negative', () => {
+    expect(hoursToAddPerMonth(40)).toBe(0);
+  });
+
+  it('isExerciseAtTarget is true once hours*4.33 >= 10', () => {
+    expect(isExerciseAtTarget(1)).toBe(false);
+    expect(isExerciseAtTarget(2.31)).toBe(true); // 2.31 * 4.33 = 10.0023
+  });
+
+  it('treats non-finite or negative hours as zero', () => {
+    expect(hoursToAddPerMonth(-5)).toBe(10);
+    expect(hoursToAddPerMonth(NaN)).toBe(10);
+  });
+});
+
+// ---- Net worth / spend-down (unchanged defaults + item 5 with onset inflation) ----
 
 describe('spendDownYears', () => {
   it('the top net-worth band always renders "10+ years" regardless of state', () => {
@@ -121,7 +296,6 @@ describe('spendDownYears', () => {
   });
 
   it('any raw computed value of 10+ years is floored to the "10+ years" display even off the top band', () => {
-    // 2.5m-5m midpoint ($3.75M) / a low-cost state's annual facility cost easily clears 10 years.
     const result = spendDownYears('2.5m-5m', 'TX');
     expect(result.years).toBeGreaterThanOrEqual(10);
     expect(result.display).toBe('10+ years');
@@ -135,6 +309,24 @@ describe('spendDownYears', () => {
     ];
     expect(bands[1][1]).toBeGreaterThan(bands[0][1]);
     expect(bands[2][1]).toBeGreaterThan(bands[1][1]);
+  });
+
+  it('with no onset age passed, uses today-dollar cost (unchanged default behavior)', () => {
+    const result = spendDownYears('500k-1m', 'TX');
+    const row = getCostOfCare('TX');
+    expect(result.years).toBeCloseTo(750_000 / row.nursingHomeAnnual, 2);
+  });
+
+  it('with an onset-driving age under 70, inflates the annual private-pay cost, shortening the years', () => {
+    const uninflated = spendDownYears('500k-1m', 'TX');
+    const inflated = spendDownYears('500k-1m', 'TX', 62);
+    expect(inflated.years).toBeLessThan(uninflated.years);
+  });
+
+  it('with an onset-driving age at or above 70, matches the uninflated default', () => {
+    const uninflated = spendDownYears('500k-1m', 'TX');
+    const atSeventy = spendDownYears('500k-1m', 'TX', 70);
+    expect(atSeventy.years).toBe(uninflated.years);
   });
 });
 
@@ -157,7 +349,6 @@ describe('lifetime dementia risk constants (Nature Medicine 2025, ARIC cohort)',
   });
 
   it('couple risk is the probability at least one partner develops dementia (~66.2%)', () => {
-    // 1 - (1 - 0.35)(1 - 0.48) = 1 - 0.65 * 0.52 = 1 - 0.338 = 0.662
     expect(LIFETIME_DEMENTIA_RISK_COUPLE).toBeCloseTo(0.662, 4);
     expect(LIFETIME_DEMENTIA_RISK_COUPLE).toBeGreaterThan(LIFETIME_DEMENTIA_RISK_SINGLE);
   });
@@ -189,13 +380,6 @@ describe('expectedValue', () => {
     expect(result.expectedSavings).toBe(0);
   });
 
-  it('at the default 30% assumption, does NOT break even against the ten-year premium for a typical state', () => {
-    const total = tenYearTotal('TX');
-    const result = expectedValue(total, DEFAULT_RELATIVE_RISK_REDUCTION, LIFETIME_DEMENTIA_RISK_COUPLE, tenYearPremium());
-    expect(result.breaksEven).toBe(false);
-    expect(result.expectedSavings).toBeLessThan(tenYearPremium());
-  });
-
   it('tenYearPremium is ANNUAL_PROTOCOL_PREMIUM times 10', () => {
     expect(tenYearPremium()).toBe(ANNUAL_PROTOCOL_PREMIUM * 10);
   });
@@ -207,15 +391,18 @@ describe('expectedValue', () => {
     expect(single.expectedSavings).toBeLessThan(couple.expectedSavings);
   });
 
-  it('a couple at 30% RRR against a $405,262 cost and $100K premium shows expected savings of roughly $80K', () => {
-    const result = expectedValue(405_262, 0.30, LIFETIME_DEMENTIA_RISK_COUPLE, 100_000);
+  // Illustrative national-average example ($405,262, the book's cited average total cost),
+  // now checked against the corrected $81,000 (basket-derived) ten-year premium instead of the
+  // old rounded $100,000 placeholder.
+  it('a couple at 30% RRR against a $405,262 cost and the real $81,000 premium shows expected savings of roughly $80K, not yet breaking even', () => {
+    const result = expectedValue(405_262, 0.30, LIFETIME_DEMENTIA_RISK_COUPLE, tenYearPremium());
     expect(result.expectedSavings).toBeGreaterThan(79_000);
     expect(result.expectedSavings).toBeLessThan(81_000);
     expect(result.breaksEven).toBe(false);
   });
 
-  it('a couple at the 45% Lancet ceiling against a $405,262 cost and $100K premium shows expected savings of roughly $120K', () => {
-    const result = expectedValue(405_262, LANCET_2024_RRR_CEILING, LIFETIME_DEMENTIA_RISK_COUPLE, 100_000);
+  it('a couple at the 45% Lancet ceiling against a $405,262 cost and the real $81,000 premium shows expected savings of roughly $120K and breaks even', () => {
+    const result = expectedValue(405_262, LANCET_2024_RRR_CEILING, LIFETIME_DEMENTIA_RISK_COUPLE, tenYearPremium());
     expect(result.expectedSavings).toBeGreaterThan(119_000);
     expect(result.expectedSavings).toBeLessThan(122_000);
     expect(result.breaksEven).toBe(true);
