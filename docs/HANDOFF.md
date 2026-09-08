@@ -1,9 +1,17 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-02 · self-contained current-state snapshot
+# Last updated: 2026-09-07 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+
+## ⚡ 2026-09-07 SESSION — NEW DIRECTION: "The Uninsured Decade" money door (FULL GO per TJ)
+
+- **TJ's brainstorm → locked as full-time direction:** reach the original target (executive male earner 50–70, makes household financial decisions, distrustful, unreachable via social) by reframing cognitive decline as an UNINSURABLE financial catastrophe. Frame: Medicare pays $0 custodial care + LTC insurance market collapsed → 4M protocol (~10 hrs/mo, ~$10K/yr) = "the premium paid in hours." Expected-value honest, no prevention claims. Third door in the Hims/Hers pattern (men's flagship / employer / **money**).
+- **Distribution = trusted intermediaries, NEVER social begging (TJ verbatim):** wealth advisors, private banks, FPA/estate-planning councils (CE talks), elder-law/CPAs, CEO peer groups (Vistage/Tiger 21/YPO/C12), private clubs, concierge/executive-physical practices, LTC/life agents, HNW direct mail. Target ≈ 20 intermediaries × 50 clients.
+- **Deliverables in flight (4 parallel agents, 2026-09-07 evening):** docs/plan/uninsured-decade-channel-plan-2026-09-07.md · docs/book-uninsured-decade/outline.md (~80pp standalone, not inside CYS) · docs/book-uninsured-decade/source/figures-verified-2026-09-07.md · docs/plan/uninsured-decade-calculator-and-talk-spec-2026-09-07.md. Source material (TJ's Cowork "Motivate Section", sourced cost figures) banked at docs/book-uninsured-decade/source/. Memory: project_uninsured_decade_money_door.
+- **CYS xcodegen blocker was a zombie** — project builds clean on Xcode 26.6; no TJ install needed.
+- TJ is working the punch list (delivered this session, 7 sections) tomorrow 2026-09-08; Fable holds on verification pass per TJ.
 
 ## ⚡ 2026-09-02 SESSION — Direct-buy front door + gender-specific pivot (SHIPPED fae167fb + 74edbe90, deployed website + intake lambda)
 
