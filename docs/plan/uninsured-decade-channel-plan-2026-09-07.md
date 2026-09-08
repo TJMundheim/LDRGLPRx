@@ -22,6 +22,26 @@ Three tiers of ask, escalating: **(a)** hand out the book, **(b)** host a client
 
 ---
 
+## Channel 0 — Financial-services dinner seminars (TJ's existing access; RUN FIRST)
+
+**Added 2026-09-08 by TJ.** Retirement-income, annuity, Medicare-supplement and estate-planning firms run recurring steak-dinner seminars (Ruth's Chris / Perry's / country-club rooms, 30–60 seats, mailed invitations to 55+ HNW ZIPs). They pay for the dinner and the marketing; the room is already full of the exact demographic and their spouses. TJ has done this play as a regenerative-medicine guest and has operator relationships.
+
+**Why they care:** their seminar has one job — get the couple to book a one-on-one. A credible, non-competing guest who raises the stakes of the retirement conversation ("the one risk your plan doesn't cover") makes their close easier and differentiates their dinner from the three other invitations in the mailbox. We are the value-add, not a cost.
+
+**The ask:** 8–10 minutes on their agenda (before their close, after the meal is served), a book on every seat or at the exit table, one QR slide. Nothing sold. We never touch their client relationship.
+
+**Mechanism:** the host's ask (book a review) and ours (scan for the free assessment) don't compete; ours makes theirs feel more urgent. Books = at-cost author copies; host can pay for them or not.
+
+**Segment notes:** neutral framing is mandatory here — half the room is the spouse, and she is the buyer. Lead with the Bill & Cindy bill, the $0 Medicare line, and the collapsed LTC market; skip the 4Ms detail (Q&A and the assessment carry it).
+
+**Targets:** start with the operators TJ already knows from regen-med dinners (TJ to list names). Then any firm mailing DFW seminar invitations — collect the postcards for two weeks; each one is a lead. Seminar-marketing vendors (LeadingResponse, Acquire Direct, SeminarInnovations) list active hosts by metro.
+
+**Booking path / timeline:** phone call to a known host → on the agenda within 2–3 weeks. This is the fastest channel in the plan.
+
+**Tracking:** `?src=int-dinner-<host-slug>`; count books placed vs. assessment scans per dinner.
+
+**First-week action (TJ):** call the two or three regen-med hosts, offer the Channel 0 slot for their next dinner, ask how many seats.
+
 ## Channel 1 — Wealth advisors, private banks, private-client divisions
 
 **Why they care:** cognitive decline is the top *unhedgeable* threat to a plan they built and to the AUM they hold. A client dinner needs a fresh, non-product speaker every quarter and the advisor pays for the room.
@@ -137,6 +157,8 @@ Only after 3+ intermediaries are live — mail without a borrowed name is just a
 ---
 
 ## First 30 days, ranked
+
+0. **(TJ, day 1)** Call known dinner-seminar hosts — Channel 0. Fastest booking in the plan.
 
 **TJ himself (relationship work — cannot be delegated):**
 1. **Days 1–3:** email FPA DFW, Dallas EPC, EPC of North Texas program chairs with the CE abstract. Email C12 North Texas + C12 Tarrant chair forms.
