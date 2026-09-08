@@ -12,7 +12,7 @@ Two things make this work that no other channel gives us:
 1. **The intermediary's own incentive.** A $500K uninsurable liability sitting inside a retirement plan is *their* problem too — it wrecks the plan they built, it's the risk they can't hedge, and cognitive decline in the client is the #1 cause of an AUM relationship blowing up (bad decisions, family conflict, contested documents). We hand them a conversation they want to have and can't source anywhere else.
 2. **We never sell from the stage.** The ask is always educational. The only CTA is a QR to the free assessment. (Standing rule, speaking strategy §talk.)
 
-**Positioning constraint:** Dr. TJ Mundheim, DC — NBCE-certified since 1994, 30+ years clinical. Never "physician," never "MD," never any A4M language. Every deck/handout carries the standard disclaimer (`feedback_branding_credential_rules.md`). Expected-value honest: the protocol lowers risk, it never prevents.
+**Positioning constraint (TJ 2026-09-08):** "Dr. TJ" — health-span educator, 30+ years clinical; never "DC" in these materials (he is not acting as a DC in this role). Never "physician," never "MD," never any A4M language. Every deck/handout carries the standard disclaimer (`feedback_branding_credential_rules.md`). Expected-value honest: the protocol lowers risk, it never prevents.
 
 ## The universal offer (what we hand every intermediary)
 

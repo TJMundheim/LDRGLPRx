@@ -47,4 +47,4 @@ Scan for a free, seven-minute risk assessment and a cost-of-decline estimate for
 
 ---
 
-_These figures are illustrative estimates based on published third-party cost-of-care data (Alzheimer's Association, CareScout/Genworth, American Academy of Actuaries, JAMA, Nature Medicine). This is not financial, insurance, legal, or medical advice, and no protocol or program guarantees a reduction in personal risk. Consult your own financial advisor, attorney, and physician. Dr. TJ Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994; he does not provide medical care through this platform._
+_These figures are illustrative estimates based on published third-party cost-of-care data (Alzheimer's Association, CareScout/Genworth, American Academy of Actuaries, JAMA, Nature Medicine). This is not financial, insurance, legal, or medical advice, and no protocol or program guarantees a reduction in personal risk. Consult your own financial advisor, attorney, and physician. Prepared by Dr. TJ, health-span educator, who does not provide medical care through this platform._

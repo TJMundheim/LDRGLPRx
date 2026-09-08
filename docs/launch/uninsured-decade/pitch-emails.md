@@ -24,7 +24,7 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 
 > Hi [Name],
 >
-> I received your mailer for [event/venue] and wanted to reach out directly. I'm TJ Mundheim — NBCE-certified since 1994, 30+ years in clinical practice — and I speak on a topic that pairs naturally with a retirement-income seminar: "The Uninsured Decade," the one risk your attendees' plans don't cover (Medicare pays $0 for custodial care; the LTC market has largely collapsed).
+> I received your mailer for [event/venue] and wanted to reach out directly. I'm Dr. TJ — 30+ years in clinical practice — and I speak on a topic that pairs naturally with a retirement-income seminar: "The Uninsured Decade," the one risk your attendees' plans don't cover (Medicare pays $0 for custodial care; the LTC market has largely collapsed).
 >
 > I'd like to offer an 8-minute guest slot before your close — I bring books for the room, nothing is sold from the stage, and it makes your ask land harder, not compete with it.
 >
@@ -47,7 +47,7 @@ _Drafted 2026-09-08. Five booking emails (≤130 words each) + a follow-up templ
 >
 > Entirely non-commercial — no product or company pitch. I'm happy to send a full abstract and my credential background. Is there room on an upcoming calendar, or a short-notice substitute-speaker list I could join?
 >
-> — Dr. TJ Mundheim, DC
+> — Dr. TJ
 
 ## (d) Individual wealth advisor / private banker
 

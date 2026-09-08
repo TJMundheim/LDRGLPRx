@@ -11,7 +11,7 @@ _Drafted 2026-09-08 for TJ's meeting with Chris Wear (owner, Lead Concepts; ~30 
 - **His clients' seminars convert better.** A credible guest who raises the stakes of the retirement conversation ("Medicare pays $0 for custodial care; the LTC market collapsed; two-in-three odds one of you faces it") makes the host's one-on-one booking feel urgent. Higher appointment rates = happier clients = retained accounts for him.
 - **Differentiation for his invitations.** Every mailbox has three steak-dinner invites. "Guest speaker + free book" is a reason to pick this one. He can offer it as a premium option to his clients.
 - **We are a client too.** When we run our own mailouts (Channel 8, phase 2), they run through Lead Concepts.
-- **Zero risk to his brand.** No product from the stage, no MLM, DC credential stated plainly, disclaimers on every piece, gender-neutral, no competing financial product.
+- **Zero risk to his brand.** No product from the stage, no MLM, positioned as a health-span educator, not a clinician, disclaimers on every piece, gender-neutral, no competing financial product.
 
 ## What we bring to the table (have these ready)
 - 8-minute script incl. the annuity/LTC-hybrid host variant (`dinner-guest-slot.md`)

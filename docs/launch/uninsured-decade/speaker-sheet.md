@@ -4,7 +4,7 @@ _Drafted 2026-09-08. Companion to docs/launch/speaking/booking-email-and-speaker
 
 ---
 
-**DR. TJ MUNDHEIM** — NBCE-certified since 1994 · 30+ years in clinical practice · Fort Worth, TX
+**DR. TJ** — Health-span educator · 30+ years in clinical practice · Fort Worth, TX
 Author of *The Uninsured Decade* and *Begin with the End in Mind* · Founder of My4MLife
 
 ## Headline
@@ -39,8 +39,8 @@ None required. A projector/screen for the optional slide deck and a lavalier or 
 
 ## Contact
 
-Dr. TJ Mundheim, DC · drtj@essentialmanage.com · [phone] · my4mlife.com
+Dr. TJ · drtj@essentialmanage.com · [phone] · my4mlife.com
 
 ---
 
-_Health and financial-risk education, not medical, financial, or legal advice. Attendees are encouraged to work with their own physician and advisor. Dr. Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994; he does not provide medical care through this platform._
+_Health and financial-risk education, not medical, financial, or legal advice. Attendees are encouraged to work with their own physician and advisor. Dr. TJ speaks as a health-span educator and does not provide medical care through this platform._
