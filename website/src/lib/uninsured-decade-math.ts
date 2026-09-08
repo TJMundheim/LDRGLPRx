@@ -129,16 +129,29 @@ export const DEFAULT_RELATIVE_RISK_REDUCTION = 0.3;
 export const MIN_RELATIVE_RISK_REDUCTION = 0;
 export const MAX_RELATIVE_RISK_REDUCTION = 0.5;
 
-// Illustrative blended household-level lifetime probability that "someone in this household"
-// develops dementia, per docs/book-uninsured-decade/source/figures-verified-2026-09-07.md §2d
-// (Alzheimer's Association: ~1-in-5 lifetime risk for women from 65, ~1-in-10 for men; ~15% used
-// there as an approximate blended figure for a mixed-sex household "someone in this marriage"
-// framing — an illustration, not an official blended statistic). This is what keeps the
-// expected-value math honest: without weighting by the probability the cost is ever incurred at
-// all, a naive `total * riskReduction` wildly overstates expected savings and would falsely imply
-// the premium spend "pays for itself" on dementia-cost avoidance alone — exactly what the locked
-// honesty spine forbids.
-export const LIFETIME_HOUSEHOLD_DEMENTIA_PROBABILITY = 0.15;
+// Lifetime risk of any dementia after age 55, ARIC cohort (Fang, Coresh et al., Nature Medicine,
+// 13 Jan 2025): https://www.nature.com/articles/s41591-024-03340-9 — 42% overall, 35% for men,
+// 48% for women. This page is deliberately gender-neutral (it does not ask sex), so:
+//   - a single person uses the overall 42% figure directly.
+//   - a couple (spouse/partner age provided) uses the probability that AT LEAST ONE partner
+//     develops dementia: 1 - (1 - 0.35)(1 - 0.48) ≈ 0.662, treating the two sex-specific risks
+//     as independent (an approximation — a household is never told which partner is male or
+//     female, so this combines both sex-specific rates rather than guessing).
+// This is what keeps the expected-value math honest: without weighting by the probability the
+// cost is ever incurred at all, a naive `total * riskReduction` wildly overstates expected savings
+// and would falsely imply the premium spend "pays for itself" on dementia-cost avoidance alone —
+// exactly what the locked honesty spine forbids.
+export const LIFETIME_DEMENTIA_RISK_SINGLE = 0.42;
+export const LIFETIME_DEMENTIA_RISK_MEN = 0.35;
+export const LIFETIME_DEMENTIA_RISK_WOMEN = 0.48;
+export const LIFETIME_DEMENTIA_RISK_COUPLE = round4(
+  1 - (1 - LIFETIME_DEMENTIA_RISK_MEN) * (1 - LIFETIME_DEMENTIA_RISK_WOMEN)
+);
+
+// The Lancet Commission 2024 ceiling: the population-level relative risk reduction achievable if
+// all 14 modifiable dementia risk factors were addressed. A population figure, not a personal
+// guarantee — shown as a labeled tick/marker on the RRR slider, not a promise about any individual.
+export const LANCET_2024_RRR_CEILING = 0.45;
 
 export interface ExpectedValueResult {
   /** Expected cost with no risk reduction applied: probability * total. */
@@ -155,17 +168,19 @@ export interface ExpectedValueResult {
 
 /**
  * Expected-cost math using a single, visibly-labeled assumed relative-risk-reduction, weighted by
- * an illustrative lifetime probability the cost is ever incurred at all. This is an assumption,
- * never a guarantee, and it deliberately excludes caregiver-hour value, other-disease risk
- * reduction, and quality-of-life gains (see the source doc's 2d worked example) — so it will
- * almost always understate the honest case for the premium spend while never overstating it as an
- * ROI. expectedSavings can never exceed tenYearTotal, by construction.
+ * the lifetime probability the cost is ever incurred at all — the ARIC-cohort dementia risk
+ * (Nature Medicine 2025). Callers MUST pass the probability that matches their household shape:
+ * LIFETIME_DEMENTIA_RISK_SINGLE for a single person, LIFETIME_DEMENTIA_RISK_COUPLE when a
+ * spouse/partner is in the picture. This is an assumption, never a guarantee, and it deliberately
+ * excludes caregiver-hour value, other-disease risk reduction, and quality-of-life gains — so it
+ * will almost always understate the honest case for the premium spend while never overstating it
+ * as an ROI. expectedSavings can never exceed tenYearTotal, by construction.
  */
 export function expectedValue(
   total: number,
   riskReduction: number,
-  premium: number = tenYearPremium(),
-  lifetimeProbability: number = LIFETIME_HOUSEHOLD_DEMENTIA_PROBABILITY
+  lifetimeProbability: number,
+  premium: number = tenYearPremium()
 ): ExpectedValueResult {
   const clamped = Math.min(Math.max(riskReduction, MIN_RELATIVE_RISK_REDUCTION), MAX_RELATIVE_RISK_REDUCTION);
   const unmitigatedExpectedCost = round2(lifetimeProbability * total);

@@ -10,7 +10,7 @@ _Drafted 2026-09-08. Verbatim script for financial-services dinner seminars, del
 
 > "Before [Host] wraps up tonight, I want to take eight minutes and put one number in front of you that most retirement plans never price in.
 >
-> Picture a couple — call them Bill and Cindy. Seventy years old, retired, active, doing everything right. And then one of them is diagnosed with dementia."
+> Picture a couple — call them Bill and Cindy. Seventy years old, retired, active, doing everything right. Here's the number: for a couple like that, the odds that one of them develops dementia are about two in three — that's a 2025 Nature Medicine study, not a guess. And then one of them is diagnosed."
 
 **[1:15–2:15] The $0 Medicare line.**
 

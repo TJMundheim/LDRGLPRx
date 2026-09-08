@@ -126,7 +126,7 @@ _40 min + Q&A. Reuses the speaking-circuit rules from `docs/plan/speaking-circui
 ### Speaker notes per beat
 
 1. **Title** — Land the credential once, plainly, then move on. Don't dwell.
-2. **Bill & Cindy** — "We've talked about Bill's shoulder before. Tonight I want to ask a harder question." Use the exact bridge language from the source doc's Section 4.
+2. **Bill & Cindy** — "We've talked about Bill's shoulder before. Tonight I want to ask a harder question." Open with the number: for a couple their age, the odds that one of them develops dementia run about 42% individually, 2 in 3 for the couple together (Nature Medicine, 2025). Use the exact bridge language from the source doc's Section 4.
 3. **The diagnosis** — Let it land in silence for two seconds before continuing. No slide animation needed.
 4. **The $0 line** — This is the room's "wait, what?" moment. Pause after saying it. Most people believe Medicare covers this — correcting that belief is the hook.
 5. **Collapsed LTC market** — Brief, factual, not a rant. One sentence: private LTC insurance has largely priced itself out of reach or exited the market — this is why "just buy a policy" isn't a real answer anymore for most families.

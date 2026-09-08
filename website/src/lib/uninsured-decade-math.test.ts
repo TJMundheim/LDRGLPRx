@@ -14,6 +14,11 @@ import {
   NATIONAL_STAGE1,
   NATIONAL_STAGE2,
   NATIONAL_STAGE3,
+  LIFETIME_DEMENTIA_RISK_SINGLE,
+  LIFETIME_DEMENTIA_RISK_MEN,
+  LIFETIME_DEMENTIA_RISK_WOMEN,
+  LIFETIME_DEMENTIA_RISK_COUPLE,
+  LANCET_2024_RRR_CEILING,
 } from './uninsured-decade-math';
 import { getCostOfCare, COST_OF_CARE_BY_STATE } from '../data/cost-of-care-by-state';
 
@@ -141,37 +146,79 @@ describe('spendDownYearsBand', () => {
   });
 });
 
+describe('lifetime dementia risk constants (Nature Medicine 2025, ARIC cohort)', () => {
+  it('single-person risk is the 42% overall figure', () => {
+    expect(LIFETIME_DEMENTIA_RISK_SINGLE).toBe(0.42);
+  });
+
+  it('sex-specific figures are 35% men / 48% women', () => {
+    expect(LIFETIME_DEMENTIA_RISK_MEN).toBe(0.35);
+    expect(LIFETIME_DEMENTIA_RISK_WOMEN).toBe(0.48);
+  });
+
+  it('couple risk is the probability at least one partner develops dementia (~66.2%)', () => {
+    // 1 - (1 - 0.35)(1 - 0.48) = 1 - 0.65 * 0.52 = 1 - 0.338 = 0.662
+    expect(LIFETIME_DEMENTIA_RISK_COUPLE).toBeCloseTo(0.662, 4);
+    expect(LIFETIME_DEMENTIA_RISK_COUPLE).toBeGreaterThan(LIFETIME_DEMENTIA_RISK_SINGLE);
+  });
+
+  it('the Lancet 2024 ceiling is 45%', () => {
+    expect(LANCET_2024_RRR_CEILING).toBe(0.45);
+  });
+});
+
 describe('expectedValue', () => {
   it('never exceeds the ten-year total, at the maximum allowed risk reduction', () => {
     const total = tenYearTotal('TX');
-    const result = expectedValue(total, MAX_RELATIVE_RISK_REDUCTION);
+    const result = expectedValue(total, MAX_RELATIVE_RISK_REDUCTION, LIFETIME_DEMENTIA_RISK_COUPLE);
     expect(result.expectedSavings).toBeLessThanOrEqual(total);
   });
 
   it('clamps a risk reduction above the allowed max down to the max', () => {
     const total = tenYearTotal('TX');
-    const atMax = expectedValue(total, MAX_RELATIVE_RISK_REDUCTION);
-    const overMax = expectedValue(total, 0.9);
+    const atMax = expectedValue(total, MAX_RELATIVE_RISK_REDUCTION, LIFETIME_DEMENTIA_RISK_COUPLE);
+    const overMax = expectedValue(total, 0.9, LIFETIME_DEMENTIA_RISK_COUPLE);
     expect(overMax.riskReduction).toBe(MAX_RELATIVE_RISK_REDUCTION);
     expect(overMax.expectedSavings).toBe(atMax.expectedSavings);
   });
 
   it('clamps a negative risk reduction up to zero', () => {
     const total = tenYearTotal('TX');
-    const result = expectedValue(total, -0.2);
+    const result = expectedValue(total, -0.2, LIFETIME_DEMENTIA_RISK_COUPLE);
     expect(result.riskReduction).toBe(0);
     expect(result.expectedSavings).toBe(0);
   });
 
   it('at the default 30% assumption, does NOT break even against the ten-year premium for a typical state', () => {
     const total = tenYearTotal('TX');
-    const result = expectedValue(total, DEFAULT_RELATIVE_RISK_REDUCTION, tenYearPremium());
+    const result = expectedValue(total, DEFAULT_RELATIVE_RISK_REDUCTION, LIFETIME_DEMENTIA_RISK_COUPLE, tenYearPremium());
     expect(result.breaksEven).toBe(false);
     expect(result.expectedSavings).toBeLessThan(tenYearPremium());
   });
 
   it('tenYearPremium is ANNUAL_PROTOCOL_PREMIUM times 10', () => {
     expect(tenYearPremium()).toBe(ANNUAL_PROTOCOL_PREMIUM * 10);
+  });
+
+  it('a single person uses the 42% probability, distinct from a couple', () => {
+    const total = tenYearTotal('TX');
+    const single = expectedValue(total, DEFAULT_RELATIVE_RISK_REDUCTION, LIFETIME_DEMENTIA_RISK_SINGLE);
+    const couple = expectedValue(total, DEFAULT_RELATIVE_RISK_REDUCTION, LIFETIME_DEMENTIA_RISK_COUPLE);
+    expect(single.expectedSavings).toBeLessThan(couple.expectedSavings);
+  });
+
+  it('a couple at 30% RRR against a $405,262 cost and $100K premium shows expected savings of roughly $80K', () => {
+    const result = expectedValue(405_262, 0.30, LIFETIME_DEMENTIA_RISK_COUPLE, 100_000);
+    expect(result.expectedSavings).toBeGreaterThan(79_000);
+    expect(result.expectedSavings).toBeLessThan(81_000);
+    expect(result.breaksEven).toBe(false);
+  });
+
+  it('a couple at the 45% Lancet ceiling against a $405,262 cost and $100K premium shows expected savings of roughly $120K', () => {
+    const result = expectedValue(405_262, LANCET_2024_RRR_CEILING, LIFETIME_DEMENTIA_RISK_COUPLE, 100_000);
+    expect(result.expectedSavings).toBeGreaterThan(119_000);
+    expect(result.expectedSavings).toBeLessThan(122_000);
+    expect(result.breaksEven).toBe(true);
   });
 });
 

@@ -130,13 +130,19 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     <div class="ud-honest">
       <h3>Expected value, stated honestly</h3>
       <p>This is the part most calculators fudge. We won't. Nothing lowers your risk to zero, and nothing "prevents" dementia — the honest claim is that a sustained, structured lifestyle protocol can <em>lower the odds</em>. Here's what that's worth in dollars, using an assumption you control:</p>
+      <p class="ud-honest-risk">Lifetime risk of any dementia after age 55 is <strong>42%</strong> (or, for a couple, about a <strong>66%</strong> chance at least one partner is affected) — per the largest long-running U.S. cohort study to date (Fang, Coresh et al., <em>Nature Medicine</em>, 13 Jan 2025, ARIC cohort).</p>
       <div class="ud-slider-row">
         <label for="ud-rrr">Assumed relative risk reduction: <strong id="ud-rrr-val">30%</strong></label>
-        <input type="range" id="ud-rrr" min="0" max="50" step="1" value="30" />
+        <input type="range" id="ud-rrr" min="0" max="50" step="1" value="30" list="ud-rrr-ticks" />
+        <datalist id="ud-rrr-ticks">
+          <option value="45" label="45%"></option>
+        </datalist>
+        <p class="ud-rrr-marker">45% = Lancet Commission 2024 ceiling if all 14 modifiable risk factors are addressed (a population figure, not a personal guarantee)</p>
         <p class="ud-fine">This is an assumption, not a guarantee — see disclaimer below.</p>
       </div>
       <p class="ud-honest-math" id="ud-honest-math">—</p>
-      <p class="ud-honest-close"><strong>Read plainly: dementia-cost avoidance alone usually does not break even against the premium.</strong> The honest case for the spend isn't a break-even bet on one disease — it's that the same modifiable factors also lower your risk across cardiovascular, metabolic, and other disease lines at the same time, that the $405,262 average cost has a wide right tail running well past that in real cases, and that quality-of-life and caregiver-hour value aren't captured in this math at all. Insurance is a ruin-avoidance trade, not an ROI calculation — the same trade you already make on your house. You don't insure your house because you expect it to burn down; you insure it because you can't afford it if it does.</p>
+      <p class="ud-honest-close"><strong>Read plainly: with the corrected risk, dementia-cost avoidance alone gets closer — but the full case still isn't a single-disease bet.</strong> A couple at the default 30% assumed risk reduction shows expected savings of roughly $80K against a $100K ten-year premium; at the 45% Lancet ceiling, roughly $120K. The honest case for the spend is that the ledger really tips once the same modifiable factors' effect on diabetes, cardiovascular disease, and stroke — plus the wide right tail past the $405,262 average cost, plus quality-of-life and caregiver-hour value — are counted alongside dementia. None of that is captured in the math above. Insurance is a ruin-avoidance trade, not an ROI calculation — the same trade you already make on your house. You don't insure your house because you expect it to burn down; you insure it because you can't afford it if it does.</p>
+      <p class="ud-honest-caveat">One more caveat: the 42% figure counts all dementia, including mild cases diagnosed late in life — so treat this as a range to reason with, not a promise about your own outcome.</p>
     </div>
 
     <!-- ACTIONS -->
@@ -175,6 +181,8 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     expectedValue,
     ageBand,
     NET_WORTH_BAND_MIDPOINTS,
+    LIFETIME_DEMENTIA_RISK_SINGLE,
+    LIFETIME_DEMENTIA_RISK_COUPLE,
     type NetWorthBand,
   } from '../../lib/uninsured-decade-math';
   import { COST_OF_CARE_BY_STATE } from '../../data/cost-of-care-by-state';
@@ -221,17 +229,18 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
   // ── RRR slider ──
   var rrrInput = document.getElementById('ud-rrr') as HTMLInputElement;
   var rrrVal = document.getElementById('ud-rrr-val') as HTMLElement;
-  var lastResult: { total: number; stateAbbr: string; netWorthBand: NetWorthBand } | null = null;
+  var lastResult: { total: number; stateAbbr: string; netWorthBand: NetWorthBand; isCouple: boolean } | null = null;
 
   rrrInput.addEventListener('input', function () {
     rrrVal.textContent = rrrInput.value + '%';
-    if (lastResult) renderExpectedValue(lastResult.total);
+    if (lastResult) renderExpectedValue(lastResult.total, lastResult.isCouple);
   });
 
-  function renderExpectedValue(total: number) {
+  function renderExpectedValue(total: number, isCouple: boolean) {
     var rrr = Number(rrrInput.value) / 100;
     var premium = tenYearPremium();
-    var ev = expectedValue(total, rrr);
+    var lifetimeProbability = isCouple ? LIFETIME_DEMENTIA_RISK_COUPLE : LIFETIME_DEMENTIA_RISK_SINGLE;
+    var ev = expectedValue(total, rrr, lifetimeProbability, premium);
     document.getElementById('ud-expected-row')!.textContent = money(ev.expectedSavings);
     var honestEl = document.getElementById('ud-honest-math')!;
     honestEl.innerHTML =
@@ -265,6 +274,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     var stateAbbr = stateSelect.value || 'TX';
     var stateRow = COST_OF_CARE_BY_STATE.find(function (r) { return r.abbr === stateAbbr; });
     var netWorthBand = (document.getElementById('ud-networth') as HTMLSelectElement).value as NetWorthBand;
+    var isCouple = !noSpouseBox.checked && spouseAgeInput.value !== '';
 
     var costs = stageCosts(stateAbbr);
     var bill = tenYearTotal(stateAbbr, age);
@@ -284,8 +294,8 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 
     document.getElementById('ud-chart')!.innerHTML = svgBarChart(bill, premium);
 
-    lastResult = { total: bill, stateAbbr: stateAbbr, netWorthBand: netWorthBand };
-    renderExpectedValue(bill);
+    lastResult = { total: bill, stateAbbr: stateAbbr, netWorthBand: netWorthBand, isCouple: isCouple };
+    renderExpectedValue(bill, isCouple);
 
     var resultsSection = document.getElementById('ud-results') as HTMLElement;
     resultsSection.hidden = false;
@@ -378,6 +388,9 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 .ud-slider-row input[type="range"] { width: 100%; }
 .ud-honest-math { background: #fff; border: 1px solid #e8e2d4; border-radius: 8px; padding: 0.9rem 1rem; font-size: 0.88rem; line-height: 1.6; }
 .ud-honest-close { font-size: 0.9rem; }
+.ud-honest-risk { font-size: 0.92rem; }
+.ud-honest-caveat { font-size: 0.8rem; color: #6b7280; font-style: italic; }
+.ud-rrr-marker { font-size: 0.76rem; color: #8a6d1f; margin: 0.3rem 0 0; }
 
 .ud-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
 

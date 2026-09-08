@@ -9,13 +9,14 @@ _Drafted 2026-09-08. One-page client handout an advisor gives out at the end of 
 ## The Uninsured Decade
 ### The one retirement risk that isn't on your balance sheet
 
-## The bill, in five numbers
+## The bill, in six numbers
 
-1. **$405,262** — average lifetime cost of dementia care for one person. *(Alzheimer's Association, 2026 Facts and Figures, 2024 dollars)*
-2. **70%** — the share of that cost paid by the family, out of pocket or in unpaid caregiving hours. *(Alzheimer's Association, 2026 Facts and Figures)*
-3. **~$525,000** — a ten-year staged cost model for one person's care, from early in-home support through late-stage memory care. *(CareScout/Genworth 2025 Cost of Care Survey)*
-4. **Fewer than 12** — the number of carriers still actively selling new standalone long-term-care insurance policies, down from over 100 around the year 2000. *(American Academy of Actuaries, 2025)*
-5. **63%** — the higher four-year mortality rate for a spouse under sustained caregiving strain, compared to a non-caregiving spouse. *(Schulz & Beach, JAMA, 1999)*
+1. **42%** — lifetime risk of dementia after 55 (35% men / 48% women); for a couple, about 2 in 3 odds that one of you faces it. *(Fang et al., Nature Medicine, 2025)*
+2. **$405,262** — average lifetime cost of dementia care for one person. *(Alzheimer's Association, 2026 Facts and Figures, 2024 dollars)*
+3. **70%** — the share of that cost paid by the family, out of pocket or in unpaid caregiving hours. *(Alzheimer's Association, 2026 Facts and Figures)*
+4. **~$525,000** — a ten-year staged cost model for one person's care, from early in-home support through late-stage memory care. *(CareScout/Genworth 2025 Cost of Care Survey)*
+5. **Fewer than 12** — the number of carriers still actively selling new standalone long-term-care insurance policies, down from over 100 around the year 2000. *(American Academy of Actuaries, 2025)*
+6. **63%** — the higher four-year mortality rate for a spouse under sustained caregiving strain, compared to a non-caregiving spouse. *(Schulz & Beach, JAMA, 1999)*
 
 ## The $0 line
 
@@ -44,4 +45,4 @@ Scan for a free, seven-minute risk assessment and a cost-of-decline estimate for
 
 ---
 
-_These figures are illustrative estimates based on published third-party cost-of-care data (Alzheimer's Association, CareScout/Genworth, American Academy of Actuaries, JAMA). This is not financial, insurance, legal, or medical advice, and no protocol or program guarantees a reduction in personal risk. Consult your own financial advisor, attorney, and physician. Dr. TJ Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994; he does not provide medical care through this platform._
+_These figures are illustrative estimates based on published third-party cost-of-care data (Alzheimer's Association, CareScout/Genworth, American Academy of Actuaries, JAMA, Nature Medicine). This is not financial, insurance, legal, or medical advice, and no protocol or program guarantees a reduction in personal risk. Consult your own financial advisor, attorney, and physician. Dr. TJ Mundheim is a Doctor of Chiropractic, NBCE-certified since 1994; he does not provide medical care through this platform._
