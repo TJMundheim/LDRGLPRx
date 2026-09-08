@@ -62,7 +62,7 @@ Initiating a chargeback with the card issuer instead of contacting us results in
 
 When someone asks why our gut products are different from grocery-store probiotics:
 
-> "Your gut isn't just digesting food. It's manufacturing the neurochemistry your brain runs on. About 90% of your serotonin, 50% of your dopamine, and roughly half your norepinephrine are made in the gut. The vagus nerve carries 90% of its traffic gut-to-brain, not the other way around. When we say *fix the gut*, we don't mean drink kombucha. We mean specific strains, specific delivery, specific protocol, run for a specific length of time. Biome NS Ultra is built for that. Biome NS Rx adds compounded oral BPC-157 + L-Glutamine + Aloe for the deeper-repair tier — most peptide pharmacies sell BPC-157 by itself; we stack it so the peptide isn't doing the work alone."
+> "Your gut isn't just digesting food. It's manufacturing the neurochemistry your brain runs on. About 90% of your serotonin, 50% of your dopamine, and roughly half your norepinephrine are made in the gut. The vagus nerve carries about 80% of its traffic gut-to-brain, not the other way around. When we say *fix the gut*, we don't mean drink kombucha. We mean specific strains, specific delivery, specific protocol, run for a specific length of time. Biome NS Ultra is built for that. Biome NS Rx adds compounded oral BPC-157 + L-Glutamine + Aloe for the deeper-repair tier — most peptide pharmacies sell BPC-157 by itself; we stack it so the peptide isn't doing the work alone."
 
 Use this framing whenever a member asks about probiotics, gut health, leaky gut, or "why your supplement vs. a regular one."
 
