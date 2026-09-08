@@ -28,6 +28,8 @@ Standalone LTC policies have seen repeated double-digit rate increases — some 
 
 ## What you can still underwrite
 
+*The only coverage that pays before the claim: the same premium that lowers the odds of the bill pays a dividend now — sleep, strength, energy, a retirement decade spent on your feet.*
+
 Insurance against this specific risk has largely disappeared. Three things a household can still do:
 
 - **Run your own spend-down number.** Net worth ÷ your state's annual private-pay care cost = roughly how many years of care your assets alone would cover before Medicaid eligibility.
