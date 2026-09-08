@@ -153,7 +153,7 @@ Drafted opening in §5.
 
 This is a book about money before it is a book about health. That is deliberate.
 
-It is for the person in the household who reads the statements. Who carries the umbrella policy, the key-man coverage, the term life he has never needed and pays for anyway, because that is what a responsible man does — he buys down risk for people who are not thinking about risk. Usually that is a man in his fifties or sixties. It is not always. If it is you, this book is for you.
+It is for the person in the household who reads the statements. Who carries the umbrella policy, the key-man coverage, the term life he has never needed and pays for anyway, because that is what the responsible one does — buys down risk for people who are not thinking about risk. In my experience that is usually a man in his fifties or sixties, and I write from that seat. It is not always. If it is you, this book is for you.
 
 You will not find inspiration in here. No transformation stories, no before-and-after photographs, no promises that a supplement will save you. What you will find is an exposure your plan does not cover, priced out with sources, and one honest way to reduce the odds — with the odds stated as odds, never as a guarantee.
 
