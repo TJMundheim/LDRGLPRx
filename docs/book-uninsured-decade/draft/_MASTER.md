@@ -837,11 +837,11 @@ For the record, here is where the ceiling would put the couple's arithmetic: $26
 
 Since I am asking you to accept 30%, here is the evidence underneath it.
 
-**The strongest single piece is US POINTER**, published in *JAMA* in July 2025 — 2,111 participants, mean age 68.2, two years, randomized. Both a structured multidomain lifestyle program and a self-guided version improved global cognition, and the structured arm improved significantly more than the self-guided one. The benefit held across age, sex, ethnicity, cardiovascular status, and APOE-ε4 genotype [US POINTER, JAMA 2025]. It built on the Finnish FINGER trial, which showed the same direction over two years a decade earlier [FINGER, 2015].
+**The strongest single piece is US POINTER**, published in *JAMA* in July 2025 — 2,111 participants, mean age 68.2, two years, randomized. Both a structured multidomain lifestyle program and a self-guided version improved global cognition, and the structured arm improved significantly more than the self-guided one. The benefit held across age, sex, ethnicity, cardiovascular status, and APOE-ε4 genotype [US POINTER, JAMA 2025]. It built on the Finnish FINGER trial, which showed the same direction over two years a decade earlier [Ngandu et al., Lancet 2015].
 
 Read what that says and also what it does not. It is an improvement-in-cognition and protection-from-decline finding over two years. It is **not** a finding that anybody prevented dementia. No trial has run long enough to show that, and when someone cites US POINTER as proof that lifestyle prevents Alzheimer's, they have read the headline and not the paper.
 
-**Physical activity, pooled across meta-analyses**: relative risk for all-cause dementia of about **0.80** in the more active — roughly a 20% lower risk. Alzheimer's-specific, about 0.86. Vascular dementia, about 0.79. Leisure-time activity specifically, about 0.76 [physical activity meta-analyses]. One caution that tells you these are real analyses and not marketing: occupational physical activity showed a slightly *increased* risk in one large pooled analysis. The benefit is domain-specific. Being on your feet all day at work is not the same exposure as training.
+**Physical activity, pooled across meta-analyses**: relative risk for all-cause dementia of about **0.80** in the more active — roughly a 20% lower risk. Alzheimer's-specific, about 0.86. Vascular dementia, about 0.79 [Iso-Markku et al., BJSM 2022]. Leisure-time activity specifically, about 0.76 [Feter et al., Lancet Public Health 2026]. One caution that tells you these are real analyses and not marketing: occupational physical activity showed a slightly *increased* risk in one large pooled analysis. The benefit is domain-specific. Being on your feet all day at work is not the same exposure as training.
 
 That is roughly 20 to 24% from one domain, observational, with all the confounding that implies. Stack a second and third domain — metabolic control, sleep, hearing, blood pressure — and 30% is a defensible aggregate. It is also, I want to be clear, an *estimate assembled across evidence types*, not a number that any single trial has produced for a multidomain program. That is the honest state of the field.
 
@@ -855,7 +855,7 @@ This is the largest of the three and the one the expected-value table structural
 
 The strength work, the metabolic control, the sleep, and the removal of chronic inflammatory load do not act on a dementia pathway and nothing else. They act on the same substrate that produces type 2 diabetes, hypertension, cardiovascular disease, stroke, and the sarcopenia that decides whether a fall at seventy-eight is an inconvenience or the beginning of the end.
 
-And those conditions are not sitting in a separate column from dementia. They are the road that runs to it. The hazard ratios are specific and they are not small: a type 2 diabetes diagnosis at sixty to sixty-nine carries a **hazard ratio of 1.70** for subsequent dementia; diagnosed at fifty to fifty-nine, **1.72**; diagnosed before fifty, **1.90** — each measured against diagnosis at seventy or later. And obesity plus diabetes diagnosed before fifty carries a hazard ratio of **3.05** against non-obese diagnosis at fifty or later [T2D/obesity HRs, 2024].
+And those conditions are not sitting in a separate column from dementia. They are the road that runs to it. The hazard ratios are specific and they are not small: a type 2 diabetes diagnosis at sixty to sixty-nine carries a **hazard ratio of 1.70** for subsequent dementia; diagnosed at fifty to fifty-nine, **1.72**; diagnosed before fifty, **1.90** — each measured against diagnosis at seventy or later. And obesity plus diabetes diagnosed before fifty carries a hazard ratio of **3.05** against non-obese diagnosis at fifty or later [Qi et al., PLOS ONE 2024].
 
 Read that last one again. Roughly a tripling, from two conditions that are both largely addressed by the same ten hours a month.
 
@@ -911,6 +911,451 @@ So here is the coverage schedule.
 
 ---
 
+---
+
+# Part III — The Policy
+
+---
+
+# Chapter 10 — Mind: The Destination Has a Line Item
+
+Every policy in that folder has a schedule of benefits. It is the page nobody reads — the one near the back, in the smaller type, that says exactly what is covered, up to what limit, subject to what conditions.
+
+This one has a schedule too. It is four lines long.
+
+| Line item | What it covers | Hours a month | Dollars a month |
+|---|---|---|---|
+| **Mind** (Ch. 10) | Sleep, morning light, the gut barrier, and three front doors — hearing, vision, teeth | ~0 net new | $100–$200 supplements; some one-time hardware; $150–$300 if prescription gut-barrier support is indicated |
+| **Muscle** (Ch. 11) | Two strength sessions a week, the fasted morning walk, protein first, visceral fat | ~9 | $190–$680 gym and coaching; $150–$300 if weight-management medication is indicated |
+| **Mitigate** (Ch. 12) | A1c, LDL, blood pressure, alcohol, smoking; hormones and the two canaries; air and water | ~0 — this line is mostly subtraction | labs and consults; $150–$350 if hormone support is indicated |
+| **Motivate** (Ch. 13) | One named face, one sentence about who you are, fifteen minutes on a Sunday | ~1 | $0 |
+
+Four lines. Ten hours. Most of the dollars already leaving your account under a different label, as Chapter 8 showed you on your own statement.
+
+Each of the next four chapters takes one line and reads it the way you would read any other coverage: what it covers, what it costs, what the evidence says it buys — stated as odds, the way I promised — and what the line looks like on the ledger if you leave it blank.
+
+One structural note before the first one. In the framework these four lines come from, Mind is not a pillar sitting alongside the other three. Mind is the destination. Muscle, Mitigate, and Motivate are the three things that pay for it. That is what *begin with the end in mind* means on the cover of my other book, and it works three ways at once — start from the outcome and reason backward, the way you would with any plan; the outcome in question is literally your mind; and a voyage that is worth taking ends where it started, with the same man walking back through his own front door.
+
+But a schedule of benefits still needs a line for the destination, because there is work that goes directly to the brain and nowhere else. That is this chapter. It is also, by a wide margin, the cheapest line on the page in hours, which is why I put it first.
+
+## What happens at night
+
+Start with sleep, because it is the only line item on this entire schedule that you are already spending eight hours a day on and getting no return from.
+
+Sleep is not rest. In 2013 a research team at the University of Rochester described a waste-clearance network in the brain — cerebrospinal fluid moving through the spaces between brain cells and flushing out the metabolic debris of the day, including the protein fragments most directly implicated in Alzheimer's pathology [Xie et al., *Science* 2013]. The relevant feature of that system is that it is largely dormant while you are awake. It runs during deep, slow-wave sleep, in the first third of the night.
+
+There is no supplement that substitutes for that window. There is no workout that substitutes for it. The trash goes out at night or it does not go out.
+
+The second job of the night is filing. During REM sleep, the day you just lived gets moved from short-term storage into long-term storage. Miss it and the meeting from Tuesday is smudged at the edges by Thursday — which is, incidentally, the exact symptom that made you pick up this book.
+
+So when someone your age tells me they sleep fine, the number of hours is not the interesting question. Four things are:
+
+**How long it takes to fall asleep.** Five to twenty minutes is healthy. Under five means you are not falling asleep, you are passing out. Over thirty, consistently, means something upstream is wrong.
+
+**How many times you wake.** Once around four is normal at your age. Three and four times is fragmentation, and fragmented sleep cannot deliver the consolidated blocks the two jobs above require. Six and a half consolidated hours beat eight broken ones.
+
+**How much of it is deep.** Most people past fifty have quietly lost a large share of their deep sleep without ever knowing it. A wearable that reports sleep stages makes this visible for about $300 one time, and it is the single most useful measurement in this book.
+
+**When it happens.** Ten to five and midnight to seven are both seven hours and they are not the same seven hours. The hormonal work of the night is anchored to the clock, not to whenever you happen to lie down.
+
+Now the displacement I promised you in Chapter 7. The evening hour that reorganizes itself when the strength sessions arrive is usually the hour in which a second drink happens, and that particular displacement has a compounding return, because alcohol is sedating and sedation is not sleep. It gets you down faster, then rebounds in the second half of the night and cuts into the REM block — the filing block — while you are unconscious and unable to notice [alcohol and sleep architecture]. You wake at six-thirty having "slept eight hours," and yesterday is already blurred.
+
+That is not a moral point. It is an accounting point. You are paying for the drink twice, and the second payment is drawn from the account this whole book is about.
+
+## What your eyes see in the first hour
+
+The cheapest intervention on the entire schedule costs nothing and takes ten minutes, and it attaches to the morning walk you are already going to be taking in the next chapter.
+
+Your body clock is set by light hitting the back of your eye in the first hour after waking. Outdoor light on an overcast morning is roughly ten to fifty times brighter than the lighting in your kitchen. Ten minutes outside, no sunglasses, inside an hour of waking, is the anchor. Everything downstream — when melatonin rises fourteen hours later, when cortisol peaks, when the deep-sleep window opens — is scheduled off that signal.
+
+Then the other end of it. The overhead lights in your house and the screen in your hand emit heavily in the exact blue range your brain reads as *noon*. At nine at night you are telling a two-hundred-thousand-year-old system that the sun is directly overhead, and it responds the only way it knows how.
+
+Amber bulbs in the rooms you use after dark. A red nightlight in the bathroom. The phone out of the bedroom. Call it a hundred dollars, once.
+
+I am aware of how small that sounds next to a half-million-dollar exposure. It is small. It is also free, and free things that plausibly help are exactly the bets a person who prices risk for a living should be making.
+
+## What your gut is manufacturing
+
+Now the part of this chapter that will be new to you, and the reason a book about money has a chapter about digestion in it.
+
+Your gut is not only digesting food. It is manufacturing a large share of the neurochemistry your brain runs on.
+
+About 90% of the body's serotonin — mood, sleep, appetite — is produced in the gut. Roughly half of your dopamine — motivation, reward, focus — is made there too. The microbial population living on the other side of that lining also produces the chemistry of calm and the chemistry of memory and learning. And the vagus nerve, the largest cranial nerve you own, is overwhelmingly a one-way street: about 90% of its traffic runs gut-to-brain, not brain-to-gut [gut-brain neurochemistry].
+
+Your gut is filing a continuous report to your head. The only question is what is in the report.
+
+Here is the failure mode, in one line, because you do not need the biochemistry and I am not going to perform it for you. The lining of the gut is a single layer of cells — one cell thick — and it is the entire physical boundary between everything you eat and the rest of your bloodstream. Degrade that layer, and bacterial fragments cross into circulation that were never supposed to be there. The immune system reads that as an invasion and mounts a low-grade inflammatory response, everywhere, all the time. The same inflammatory traffic degrades the barrier protecting the brain. And the brain, which has no way to tell you what is wrong, translates it into the only vocabulary it has.
+
+Fog. Flat mood on a perfectly fine Tuesday. The colleague's name that is gone for three full seconds. Reading the same paragraph three times.
+
+You are not necessarily getting old. You may be inflamed. And the inflammation may be coming from a barrier breach happening every day in a tissue you have never once thought about.
+
+What degrades it is not exotic: ultra-processed food as a daily baseline, industrial seed oils, chronic alcohol, repeated courses of antibiotics with nothing done afterward, and years of unmanaged stress. What repairs it is a specific protocol run for a specific window — not kombucha, and not the bottle of probiotics in your cabinet, most of which are strain-unspecific, unprotected against stomach acid, and mostly decorative by the time they arrive where they are needed.
+
+For a household whose symptoms have been running for years, there is a prescription tier here — a compounded gut-barrier protocol, written by an independent licensed clinician to the individual after labs and an actual evaluation, and typically run for eight to twelve weeks on top of a daily over-the-counter foundation. I am not going to print the formula and I am not going to name a product, for the same reason your attorney does not put his fee schedule in a book. Whether any of it applies to you is a clinical determination made by a prescriber, not a determination made by an author. What we do at my4mlife.com is put you in front of one.
+
+## Three front doors standing open
+
+The last piece of this line item is the piece nobody spends anything on, and it is the piece with the best evidence-to-cost ratio in the entire book.
+
+The 2024 Lancet Commission on dementia lists fourteen modifiable risk factors [Lancet Commission 2024]. You will recognize most of them — hypertension, smoking, obesity, diabetes, physical inactivity, excess alcohol. But three of them are not what anybody expects, and all three are things a competent household fixes in a month.
+
+**Hearing.** Untreated hearing loss is on that list. Not hearing aids as a vanity concession — hearing loss as a load on the brain, which spends its reserve decoding speech instead of holding a conversation, and a household that withdraws socially because the restaurant is too loud. This is a hearing test and, if indicated, a device. Most insurance covers the test.
+
+**Vision.** Untreated vision loss is on the list too. A cataract that has been getting quietly worse for six years is not just an eye problem. It is a light problem, which makes it a sleep problem, and it is a reading and driving and social-engagement problem.
+
+**Teeth.** This one surprises people. The bacteria of chronic gum disease have been identified in the brain tissue of Alzheimer's patients, and the leading periodontal pathogen is a specific named organism, not a vague association [Dominy et al., *Sci. Adv.* 2019]. Gum disease is systemic inflammation with an address. A periodontal probing once a year — not a cleaning, a probing — is the standard.
+
+A hearing test, an eye exam, and a periodontal probing. Three appointments. Two of them probably covered. Nobody in your age bracket does all three, and every one of them is on the list of things the most serious dementia commission in the world says actually matters.
+
+## What the blank line looks like
+
+Leave this line blank and nothing happens on Tuesday. That is the whole problem with it.
+
+What happens instead is the slow version. Fragmented sleep that never gets diagnosed, so the overnight clearing window runs short for fifteen years. A body clock with no anchor, so the fatigue gets attributed to age and answered with caffeine. A gut barrier under daily insult, so the inflammatory load never comes down and the fog gets filed under *fifty-eight*. And three front doors standing open the entire time, because nobody ever told you they were doors.
+
+None of that produces an event. It produces a slope. And a slope that nobody intercepts is exactly the shape of the arc in Chapter 4 — where the invoice does not spike, it escalates on a schedule.
+
+## Why this line never closes
+
+One honest thing about this line item, since I am asking you to fund it for the rest of your life.
+
+The gut barrier turns over every three to five days. It is fast tissue: fast damage, fast repair. The barrier you are walking around with on Friday is not the barrier you had on Monday. That cuts both ways — it means there is no such thing as a finished gut, and it means improvement shows up in weeks rather than years.
+
+Sleep architecture degrades with age on its own, without your help. The light your eyes actually receive declines as the lens yellows and as indoor life takes over. And every one of the insults above is delivered by ordinary modern life, continuously, whether or not you are paying attention.
+
+This is not a project with a completion date. It is a line item. That is precisely why the insurance vocabulary is the right vocabulary — you do not "finish" a premium either.
+
+> ### The Premium
+>
+> **The premium:** essentially no new hours — ten minutes of morning light that rides along with the walk in the next chapter, an evening hour that reorganizes itself, three appointments in the first month. In dollars: $100–$200 a month for a deliberate supplement foundation instead of an accidental one, a few hundred once for a sleep tracker and amber bulbs, and $150–$300 a month if an independent licensed clinician determines prescription gut-barrier support is appropriate for you.
+>
+> **What it buys:** the overnight clearing and filing windows the brain has no substitute for; a body clock with an actual anchor; a lower inflammatory load reaching the brain; and three of the fourteen risk factors the Lancet Commission names, closed [Lancet Commission 2024]. In odds, not outcomes.
+>
+> **What it does not buy:** immunity, and no claim that any of it prevents, treats, cures, or reverses anything. It lowers the odds. That remains the only sentence I will sell you.
+
+That is the destination line. Now the largest one.
+
+---
+
+# Chapter 11 — Muscle: The Reserve You Post in Advance
+
+This is the expensive line. Nine of the ten hours are here, and most of the dollars.
+
+It is also the line you already know how to run, which is why I am not going to spend the chapter motivating you. You have built things before. This is a building project with a completion schedule, and it is the only line on the page where the thing you buy stays bought.
+
+## What the line covers
+
+Four items. Two strength sessions a week, a twenty-minute walk before you eat, protein first when you break the fast, and a waist measurement you take seriously.
+
+That is it. There is no fifth thing.
+
+## Two sessions, and why they are the neuroprotective item
+
+Start with the part almost nobody over fifty believes: lifting is a brain intervention.
+
+When a muscle contracts under real load, it secretes signaling proteins into the bloodstream. Some of them cross into the brain and increase the primary growth factor for neurons. In plain terms, when you load a bar and stand up with it, your legs send a chemical message to your head that says *grow* [exercise myokines and BDNF].
+
+Skip the lift and the message does not get sent. That is the whole mechanism, and it is why "staying active" — golf, a Saturday hike, ten thousand steps — is not a substitute. Those are excellent things. They are not load.
+
+The evidence on the outcome side is what it is, and I will state it the way Chapter 9 requires. Pooled across meta-analyses, people with higher physical activity carry a relative risk for all-cause dementia of about 0.80 — roughly a fifth lower — with leisure-time activity specifically closer to 0.76 [Iso-Markku et al., BJSM 2022; Feter et al., Lancet Public Health 2026]. Those are observational estimates with all the confounding that implies, and I told you in Chapter 9 that the honest aggregate across domains is 30%, not more.
+
+The program is five movement patterns — a squat, a hinge, a push, a pull, and a carry — two sessions a week, three to five sets each, five to ten repetitions taken close to but not into failure, with a little more weight or one more repetition every week or two.
+
+It is not bodybuilding. You do not need a chest day. It is not the class your kids take, and it should not be, because one torn rotator cuff at fifty-eight buys twelve months out of the gym, and twelve months out of the gym is twelve months of the loss described below.
+
+Forty-five minutes, twice a week. Six and a half hours a month, every minute of it new.
+
+## The quiet loss, which is the real exposure
+
+Here is the reason the strength line is not optional at your age.
+
+Past fifty, without resistance training, the average person loses roughly one to two percent of their muscle mass a year [sarcopenia rate]. Quietly. Painlessly. Invisibly under a sport coat. Run that forward from fifty to seventy and it is a third or more of the lean tissue you are carrying right now.
+
+Muscle is not decoration. It is where glucose goes after a meal, which is most of what stands between you and the metabolic road in the next chapter. It is the scaffolding that decides whether a fall at seventy-eight is an inconvenience or the beginning of the end. Grip strength alone is one of the cleanest single predictors of all-cause mortality in adults past fifty — a better one, in the large international cohort that established it, than systolic blood pressure [Leong et al., *Lancet* 2015].
+
+And it is cognitive reserve. Two people can carry similar amounts of underlying pathology and function very differently, and the differences travel with things like this.
+
+Which produces the cruelest sentence in this whole subject, and I am going to say it plainly because Chapter 4 already told you the same thing from the other side: the fitter the body, the longer the decade. A physically robust man who develops dementia at seventy lives longer with it, and the ledger runs longer. Strength alone is not the answer to that. Strength inside the full schedule — with the metabolic road in Chapter 12 and the sleep in Chapter 10 — is aimed at the diagnosis arriving later or not at all, which is a different bet than arriving on time with a good bench press.
+
+I would rather hand you that sentence than let you find it yourself in year nine.
+
+## The walk, and the thirty grams that follow it
+
+Twenty minutes, five mornings, before anything crosses your lips. Outdoors, for the light, which is doing the work of the last chapter at the same time.
+
+Fasted is not a fad and it is not the gym-rat version of fasted. It is a walk. Overnight, insulin is at its low point, and movement in that state pulls preferentially at stored fat — the compartment we actually care about, for reasons that are in Chapter 12. It costs nothing, requires no equipment, and doubles as your circadian anchor. Of all the items on this schedule it is the one I have seen change the most for the most people with the least argument.
+
+Then, after the walk, you break the fast — and you break it with **thirty to forty grams of lean protein before anything else goes in.**
+
+Not because protein is virtuous. Because there is a threshold. Below a certain dose, the signal that tells muscle tissue to maintain itself fires weakly and the body shrugs. That threshold rises with age: twenty grams was enough at thirty, and thirty to forty is the floor at fifty-five. Below it you are training and then failing to send the message the training was for.
+
+Five ounces of chicken. Four or five ounces of beef. Five ounces of salmon. Five or six eggs. None of it exotic, none of it expensive when it is bought deliberately.
+
+And then a window. Most people do well eating between roughly nine in the morning and six in the evening — about nine hours of feeding, most of the fasting done unconscious. Not because clocks are magic, but because insulin sensitivity is genuinely better earlier in the day, and because eating at nine at night puts digestion in direct competition with the sleep architecture from the last chapter.
+
+## Visceral fat, and where medication fits
+
+Now the measurement that matters more than the scale.
+
+The fat around your organs is not the fat under your skin, and they behave completely differently. Abdominal fat is not stored calories sitting inertly in a warehouse. It is endocrine tissue. It secretes inflammatory signaling molecules around the clock, it drives insulin resistance both in the body and in the brain, and in a man it runs an enzyme that converts his own testosterone into estrogen — which is why the loop tightens on itself and why so many men in their fifties cannot get out of it with effort alone.
+
+The scale can hold perfectly steady while all of that gets worse. Measure the waist.
+
+And here is where I have to be honest about something the fitness industry will not tell you. For many people past fifty, diet and exercise alone do not clear this on any reasonable timeline. Testosterone has been drifting about a percent a year since thirty. The satiety signal is muted. Insulin has been running elevated most of the waking day for two decades. That is not a character problem. It is a physiology problem, and telling a fifty-eight-year-old to try harder against it is the same advice that has already failed him twice.
+
+For some people, a licensed clinician will determine that weight-management medication is appropriate. That class of drug works by amplifying a satiety hormone your own gut already makes — it is not a stimulant and it is not a cheat code, and it belongs inside the rest of this schedule rather than instead of it, because dropping intake sharply without the protein rule and the strength sessions costs you lean tissue you cannot spare. Whether it applies to you is a determination made by an independent prescriber after labs and an actual evaluation. Not by this book, and not by an advertisement.
+
+Budget $150 to $300 a month if it is indicated. Budget nothing if it is not. Most households use one prescription category on this whole schedule or none.
+
+## What the blank line looks like
+
+Leave this line blank and the ledger writes itself in the middle column of Chapter 4.
+
+Muscle comes off at one to two percent a year, unnoticed, for twenty years. Glucose handling degrades because the place it was supposed to go is smaller. Visceral fat accumulates and starts producing its own inflammatory load. Then a fall at seventy-eight, or a hip, or the pneumonia after the hip — and the hundred days of skilled nursing that Chapter 2 told you not to count on gets consumed, and the household comes out the other side needing hours instead of appointments.
+
+Twenty hours a week of in-home help runs $36,400 a year at 2025 national medians, and every additional hour is another $1,820 a year, forever [CareScout 2025]. That is the phase change. It arrives through the body long before it arrives through the diagnosis.
+
+## Why this line never closes
+
+Muscle is the only thing on this schedule you build rather than rent — and it is also the only one that begins spending itself down the moment you stop.
+
+Past fifty you are either adding to that account or drawing on it. There is no flat. The body's own production of the compounds that support the tissue declines with each decade, the anabolic threshold rises, and the tissue turns over whether or not you asked it to.
+
+Ninety minutes a week at fifty-eight is still on your balance sheet at seventy-two. That is the closest thing to compound interest that exists in a body, which I told you in Chapter 7 — and the corollary is that the compounding runs the other direction with exactly the same patience.
+
+> ### The Premium
+>
+> **The premium:** nine hours a month — two forty-five-minute strength sessions a week, a twenty-minute fasted walk five mornings. In dollars: $30–$120 a month for a gym, $160–$560 a month for coaching if you use it, and the food is already in your budget. Plus $150–$300 a month if an independent licensed clinician determines weight-management medication is appropriate for you.
+>
+> **What it buys:** lean mass held instead of lost, glucose handled where it is supposed to be handled, visceral fat mobilized, and a relative risk for all-cause dementia around 0.80 in the more physically active — an observational estimate, folded into the conservative 30% of Chapter 9, not stacked on top of it [Iso-Markku et al., BJSM 2022]. It also buys most of the dividend in Chapter 6.
+>
+> **What it does not buy:** a guarantee, or an exemption from the sentence above. A fitter body that receives the diagnosis anyway lives longer with it. This line is aimed at the odds of the diagnosis, not at the comfort of it.
+
+Now the line that costs almost nothing and that everybody skips.
+
+---
+
+# Chapter 12 — Mitigate: Stop Paying Claims Against Yourself
+
+This line costs essentially no hours, and it is the one nobody funds.
+
+That is not a paradox. It is the entire nature of the line item, because Mitigate is not a list of things to add. It is a list of things to stop. Everything on this page is subtraction, plus a handful of appointments — and subtraction has no calendar entry, no equipment, no gym bag, and nothing to post about.
+
+The framing I use for it everywhere else, and I will use it here: **eliminate the insulting behavior.** Stop hurting yourself first. Then add what works.
+
+You have a vocabulary for this already. You do not reduce your loss ratio by buying more coverage. You reduce it by not filing claims against yourself.
+
+## The metabolic road
+
+Nearly every road to a dementia diagnosis runs through somewhere else first, and the somewhere else is a set of numbers you can already read.
+
+The 2024 Lancet Commission's list of fourteen modifiable risk factors is, when you look at it honestly, mostly a cardiometabolic list: hypertension, diabetes, obesity, high LDL, smoking, excess alcohol, physical inactivity [Lancet Commission 2024]. And Chapter 9 gave you the hazard ratios. A type 2 diabetes diagnosis at sixty to sixty-nine carries a hazard ratio of 1.70 for subsequent dementia; at fifty to fifty-nine, 1.72; before fifty, 1.90 — each measured against a diagnosis at seventy or later. Obesity together with diabetes diagnosed before fifty carries a hazard ratio of 3.05 against non-obese diagnosis at fifty or later [Qi et al., PLOS ONE 2024].
+
+Roughly a tripling. From two conditions that are both largely addressed by the nine hours in the last chapter.
+
+So the four gauges on this line are not exotic and your physician already draws three of them:
+
+**A1c.** The three-month average of your blood sugar. Bill's came back at 5.9 when he was fifty-five and somebody said *borderline*, and he heard *fine*, and nobody ever mentioned it again. Know the number, know the direction it has been moving over three draws, not one.
+
+**LDL and the rest of the lipid panel.** On the Commission's list as of the 2024 update. This is a conversation with your physician about a target, not a conversation with a book.
+
+**Blood pressure.** The single most modifiable item on the entire list, and the one most likely to be sitting untreated at 148 over 90 in a man who describes himself as healthy.
+
+**Waist.** Which the last chapter already covered, and which nobody's chart records.
+
+Four gauges, a baseline column, and a column twelve weeks later. That is the whole instrument panel.
+
+## The two insults, honestly
+
+**Alcohol.** I am fifty-nine. I grew up in the same culture you did, where the after-work pour was a reward and the dinner-party wine was a social contract, and I am not going to sit outside that and lecture you.
+
+But I am going to be specific, because you are entitled to the number. Somewhere between three and seven drinks a week, the evidence is genuinely contested and I will not pretend otherwise. Above seven, and especially in the ten-to-fourteen zone where a lot of successful households quietly live, the picture sharpens: measurable effects on the memory structure of the brain on imaging, on sleep architecture, on hormones, and a cancer risk that climbs in roughly linear fashion. The large 2018 analysis that ended the red-wine story concluded that the level associated with the lowest overall harm is zero [GBD Alcohol Collaborators, *Lancet* 2018].
+
+The useful move is not abstinence. It is dropping a tier. Cutting the real number in half, sustained, moves sleep, blood pressure, hormones, and the gut barrier at the same time — four line items with one decision.
+
+And find out what the real number is, because it is almost never the number in your head. Thirty days on the calendar, then a month of actually writing it down, will tell you more than any lab draw on this page.
+
+**Smoking and nicotine.** On the Commission's list, in every version, and there is nothing to add. If this applies to you it is the largest single item on your schedule and it dwarfs everything else in this book.
+
+## Hormones and the two canaries
+
+Now the part of this line that most households will not raise on their own, and where the physiology is genuinely sex-specific. I am going to write it that way rather than write something vague enough to cover both.
+
+### For the man reading this
+
+There is a signal your body files years before anything shows up on a memory test, and it is almost never discussed as a signal.
+
+The arteries that produce an erection are roughly one to two millimeters across. The coronary arteries are three to four. The same process that ends in a heart attack — the softening of the single layer of cells lining every vessel you own — narrows the smallest vessels first, because they have the least margin. Which is why erectile difficulty frequently precedes overt cardiovascular symptoms by three to five years [ED as a vascular sentinel].
+
+That is not an embarrassment. That is a stress test your own body ran and reported the results of, three to five years early, for free. Almost no other system in the body gives that kind of notice.
+
+And the brain is on the same chassis. The brain has more vascular surface area per gram than any organ you own. The same endothelial function, the same inflammatory load, the same insulin resistance. Men who tell me their erections have softened over two years almost always tell me, in the next breath, about the word they could not find in a meeting. They believe those are two problems. They are one fire in two rooms.
+
+The response is not a pill that silences the alarm and leaves the fire burning. It is a panel — total and free testosterone, estradiol, SHBG, thyroid, morning cortisol, DHEA-S, alongside fasting glucose, A1c, lipids, and an inflammatory marker — read together, by someone actually looking, against your symptoms. Where hormone support is indicated, it is prescribed by an independent licensed clinician after that evaluation, monitored, and written to you. Where it is not indicated, it is not prescribed, and any operation that hands out the same protocol to everyone who fills out a form is not doing medicine.
+
+### For the woman reading this
+
+Your body files a different report, and it is quieter, which is why it gets misread for years.
+
+It arrives as a cluster over about eighteen months, and no single piece of it looks like a medical event. Sleep breaks first — asleep fine, awake at two or three, ninety minutes of lying there. Then the cognitive symptoms, which frighten women more than anything else on the list: word-finding lapses, a name gone for four seconds, walking into a room and losing the reason. Then a shorter fuse and a flatness where enthusiasm used to be. Then the same calories and the same walking, and the weight relocates to the middle. Then intimacy changes and nothing gets said, because there is no script for raising it in an eleven-minute appointment.
+
+Estrogen is not a reproductive hormone that happens to have effects elsewhere. Its receptors sit densely in the memory structure and the executive structure of the brain, it supports blood flow through the same vascular pathway I just described in men, and it helps keep the brain's own immune cells in a calm state rather than an activated one. When it falls — not gradually across decades, but over a compressed handful of years — the brain goes through a real metabolic transition. The fog is not imagined.
+
+And roughly two-thirds of Alzheimer's cases in this country are in women [Alz. Assoc. 2026]. Longer life expectancy explains part of that gap and, on the honest reading of the literature, not all of it. The menopausal transition is the leading suspect, and the argument is not settled.
+
+Timing appears to matter with hormone therapy — starting near the transition, in a woman whose vascular system is still healthy, looks like a different proposition than starting a decade later. That is a hypothesis, not a settled fact, and nobody honest will tell you hormone therapy prevents dementia. But the window is real enough that *waiting to see how it goes* is itself a decision with consequences, and it should be made deliberately with a clinician rather than by default. It is also individualized, and there are real contraindications — a personal cancer history, a clotting history, certain cardiovascular and liver conditions — which are a clinician's call after reviewing your history, not a book's.
+
+Two birds, two songs, the same gas in the same shaft.
+
+### And for the household already past the warning
+
+There is one more category, and I am going to describe it generically on purpose. For people already carrying a neurological diagnosis, there are regenerative therapies — a field that is moving fast enough that naming a modality in a printed book would be irresponsible. It is a real conversation to have with a licensed clinician, it is expensive, and it is a different conversation from this schedule. Everything current is at my4mlife.com.
+
+## Air and water, since you asked what else is free
+
+The environmental piece belongs on this line because it is the same shape: it is subtraction, and it does not hurt, which is why nobody does it.
+
+Indoor air is routinely measured as two to five times more polluted than outdoor air, and the average American spends roughly ninety percent of their time indoors [EPA indoor air quality]. Fine particulate matter is on the Lancet Commission's list as air pollution, one of the fourteen [Lancet Commission 2024]. The floor is a HEPA-plus-carbon filter in the bedroom, because that is where you spend a third of your life breathing the same air for eight hours. A few hundred dollars, once.
+
+Water is the same logic. Municipal treatment in this country was designed to stop cholera, and it does that superbly. It was not designed to remove the categories of compounds that show up in tap water now. A countertop reverse-osmosis unit is a few hundred dollars and takes care of the categories that matter.
+
+The phone out of the bedroom is free. Ten minutes of bare feet on grass during the morning walk is free.
+
+I put these last, and I keep them short, because I do not want a man who reads statements to conclude this book is about water filters. It is not. But the line is cheap, the mechanism is plausible, and cheap bets with plausible mechanisms on a risk with no carrier behind it are exactly the bets your whole career says you should be taking.
+
+## What the blank line looks like
+
+Leave this line blank and here is the ledger entry.
+
+An A1c that goes 5.7, 5.9, 6.2, 6.5 across eight years with nobody watching the slope. A blood pressure sitting untreated. Two drinks a night for twenty years. A canary that sings at fifty-four and gets answered with a prescription that silences it. A hormonal transition that gets six years of *manage your stress*. And a fourteen-item list of modifiable risk factors, of which this household addressed none, on a risk with a 42% lifetime probability after fifty-five and roughly 66% for a couple [Fang et al., *Nat. Med.* 2025].
+
+Nothing on that list produced an event. All of it produced a slope.
+
+## Why this line never closes
+
+Because the insults never stop arriving.
+
+The hormonal curve runs one direction after thirty and does not turn around on its own. The environmental load is cumulative — the dose is the duration. The gut takes a hit every week of high stress and every course of antibiotics for the rest of your life. And the drink that comes back into the rotation in a hard quarter comes back at the same cost it always had.
+
+This is the line item you re-audit every year, the way you re-audit everything else in that folder. Which is the point of putting it on a schedule instead of in a resolution.
+
+> ### The Premium
+>
+> **The premium:** almost no hours. Four gauges measured, three appointments made, one drink tier dropped, one panel drawn. In dollars: the labs and consults, a few hundred once for a bedroom air filter and a water unit, and $150–$350 a month if an independent licensed clinician determines hormone support is appropriate for you.
+>
+> **What it buys:** the largest share of the fourteen modifiable risk factors the Lancet Commission identified, addressed at the individual level [Lancet Commission 2024]; a metabolic road with hazard ratios of 1.70 to 3.05 attached to it, not taken [Qi et al., PLOS ONE 2024]; and a warning signal read as a warning rather than silenced.
+>
+> **What it does not buy:** the 45% headline. That number is a population ceiling under conditions that will never obtain, as Chapter 9 showed you with the arithmetic. Thirty percent stays the working assumption, and none of this prevents, treats, cures, or reverses anything. It lowers the odds.
+
+Which leaves one line on the schedule. It is the shortest one, it costs nothing, and without it none of the other three get paid.
+
+---
+
+# Chapter 13 — Motivate: The Face on the Other Side of the Table
+
+Everything in this book so far has been an argument.
+
+I have priced an exposure, read a coverage schedule, told you what happened to the market, walked a decade in installments, shown you the second patient, run the expected-value math in front of you and admitted where it comes up short, and laid out three line items with hours and dollars attached.
+
+If arguments worked, that would be enough, and this chapter would not exist.
+
+It is not enough. It has never been enough, for anyone, and I have watched enough capable people get persuaded in a room and then not do the thing to have stopped believing otherwise. It is never that they stopped believing the numbers. It is that at six-fifteen on a Tuesday morning in March, a thing you are doing to avoid a statistic in 2044 loses to a warm bed. Every time. It is not a character defect. It is the correct behavior of a nervous system that discounts the future, and it will beat your ledger in a straight fight for the rest of your life.
+
+So the fourth line item is the engineering that keeps the other three funded.
+
+## Compliance is built, not summoned
+
+Start by dismantling the thing you are probably carrying: that the people who run this for decades have more discipline than you do.
+
+They do not. They burned through their discipline years ago, same as everyone. What they built instead is a system in which doing the thing is the path of least resistance. The protein is in the refrigerator because somebody put it there on Sunday. The two sessions are in the calendar, with names, like meetings. The supplements are in a case. Somebody knows when they missed.
+
+Motivation, as a feeling, is weather. Compliance, as a structure, is bedrock. You have never once run your business on how you felt about it on a given Tuesday, and you should not run this on that either.
+
+Three load-bearing components. A named person. A sentence about who you are. And fifteen minutes on a Sunday.
+
+## The named person
+
+Here is the question, and it is not the one you expect.
+
+Not *why are you doing this.* **Who are you doing this for?**
+
+Name one. Your wife. Your daughter. Your son. Your mother, who you are already watching. Your best friend, who died of something that had a name and a modifiable risk factor list. Or yourself, at seventy-eight, in specific detail — walking your own grandchildren somewhere, still the one people call when something has to be decided.
+
+One person. One face. Someone you can picture in a room.
+
+A "why" with nobody on the other end of it does not survive February. People write *I want to be healthy* and three months later cannot remember writing it, because there is no one waiting for an answer. The behavioral literature on this is not subtle: external accountability beats internal commitment every time the contest is run. Human beings did not evolve to keep promises to themselves. We evolved to keep promises to each other.
+
+And there is a second reason for the question, which is specific to this book and which you have already read.
+
+Chapter 5 told you who actually pays for the uninsured decade. It is not you. It is the person who did not get diagnosed — a 63% higher four-year mortality among strained spousal caregivers, in the landmark 1999 study that remains the best evidence we have [Schulz & Beach, *JAMA* 1999]; chronic conditions at nearly twice the rate of non-caregivers; a decade of ranking herself last inside a set of decisions where every individual call was correct [Family Caregiver Alliance].
+
+You have spent thirty years buying down risk on her behalf. The term life was never for you. You were never going to see a dollar of it.
+
+So when I ask who you are doing this for, I am not running a motivational exercise on you. I am asking you to notice that you already know the answer, and that it is sitting one chair over.
+
+There is also, unhelpfully for my purposes, real evidence that having an answer matters on its own. In a long-running cohort study of older adults, people scoring high on a validated measure of purpose in life were roughly two and a half times less likely to develop Alzheimer's over the follow-up window than those scoring low, after controlling for age, education, depression, and baseline cognition — and later work from the same cohort found high-purpose individuals showed less clinical expression of the same underlying pathology [Boyle et al., *Arch. Gen. Psychiatry* 2010]. Two people with similar findings in the tissue, functioning differently in life.
+
+I do not file that under inspiration. I file it under physiology. It behaves epidemiologically like a modifiable risk factor, which puts it on the same schedule as everything else in Part III — and it is the only line item that costs nothing at all.
+
+## The sentence
+
+Once the face is named, write one sentence about who you are. Present tense. Not a goal.
+
+The distinction is not semantic. *I am trying to lift twice a week* is a behavior, and behaviors negotiate with you on bad days — you were only trying, and today was not the day. *I am someone who lifts* is an identity, and skipping is then dissonant, and your brain hates dissonance enough to route you back. When behavior and identity conflict, identity wins almost every time.
+
+So: *I am the one who protects his mind.* *I am someone whose mornings start with protein.* *I am not the man who has two drinks a night anymore.*
+
+Write it down. Read it on Sunday. Read it on the third Tuesday in February. Read it the morning after a wedding where you want to throw the whole project out.
+
+And do not build the sentence out of a diagnosis. *Pre-diabetic* is not an identity. *Low T* is not an identity. Those are readings on a gauge. The sentence has to have motion in it — *I used to be soft, and I am the one rebuilding* — because a sentence with motion survives a bad quarter and a label does not.
+
+That is where the line on the cover of my other book actually lands, and it is not a slogan. **Don't lose your identity and your dignity while you still have a choice.** The ledger is about the money. This is about the choice, and the choice is exercised at the level of the sentence you use to describe yourself.
+
+## Fifteen minutes on a Sunday
+
+The last component is the cheapest thing in this entire book and it is the one that determines whether the other nine hours actually happen.
+
+One sitting. Usually Sunday. What is on the calendar this week, what is getting cooked, where the two strength sessions actually go — written into the same calendar that runs everything else in your life that gets done. Not a separate app. Not a notebook. The calendar.
+
+Fifteen minutes a week. One hour a month. Zero dollars.
+
+Then tell one person. The named one, preferably. The "why" that lives only in your own notebook is half a "why." The one somebody else has read is the one that gets you out of bed on the third Tuesday in February.
+
+## The conversation Bill and Cindy never had
+
+I want to close Part III with the one scene I have been holding back.
+
+Bill was fifty-five once. Thirty pounds heavier than he had been at forty, an A1c of 5.9 that somebody called borderline, sleeping badly and calling it a personality trait, three years off the tennis court because of a knee he never had looked at.
+
+Cindy noticed all of it. She noticed it the way spouses notice — early, accurately, and without a vocabulary that would not sound like nagging. Twice that year she got most of the way to saying something. Once in the car coming home from a wedding, and once in the kitchen on a Sunday, and both times she chose the other thing, because he had a Thursday and a business and a bad shoulder and a hundred reasons to hear it as criticism.
+
+That is the conversation. It is not dramatic. It never is. It is a woman deciding, twice, that this was not the moment — and then a decade going by in which the moment never got better, and then a neurologist's office in a building with a parking garage, and a word.
+
+Sixteen years later she is seventy-nine, half a million dollars of the retirement they built together is gone, and the thing she thinks about is not the money. Chapter 5 already told you what it is. It is the year she was grieving a man who was still sitting at the table.
+
+I cannot tell you that the conversation would have changed the diagnosis. Nobody can tell you that, and Chapter 9 is where I showed you exactly how much and how little the evidence supports. What I can tell you without any statistical hedging at all is that the thirteen years between fifty-five and sixty-eight would have been materially better years — for him, and for her — and that those years were never contingent on anything.
+
+If somebody handed you this book and said *read the first six pages*, that was the conversation. It is happening right now. You are holding it.
+
+So finish the line item. Put down the book, pick the face, and say the name out loud.
+
+*I am doing this for: _____________________.*
+
+> ### The Premium
+>
+> **The premium:** one hour a month and no dollars at all. One named person, one present-tense sentence, fifteen minutes on a Sunday, and one other human being who knows the plan exists.
+>
+> **What it buys:** the other three line items, actually paid, in year four — which is the year everything in Part III stops being a plan and starts being a result. And a construct that behaves in the research like a modifiable risk factor in its own right, at a hazard that is not small [Boyle et al., *Arch. Gen. Psychiatry* 2010].
+>
+> **What it does not buy:** a substitute for the work. A named face does not lift the weight, and no sentence about who you are prevents, treats, cures, or reverses anything. It makes the premium payable for twenty years instead of eleven weeks. That is all it does, and without it nothing else on the schedule gets funded.
+
+That is the schedule of benefits. Four lines, ten hours, and a premium denominated in something no carrier can reprice and no underwriter can decline.
+
+All that is left is signing it.
+
+---
+
 ## Sources (stub — full citation list to be completed at manuscript lock)
 
 Every figure above is keyed to one of the following. Full citations, access dates, and the working updated version are maintained at my4mlife.com/science.
@@ -932,13 +1377,26 @@ Every figure above is keyed to one of the following. Full citations, access date
 - **[CRR / HCG Secure, 2026]** — Center for Retirement Research at Boston College; HCG Secure / Arctos Foundation survey. LTC insurance ownership 10–15% of Americans 65+; ~70% of those over 65 will need long-term care.
 - **[LIMRA 2026]** — LIMRA / EY, hybrid life-with-LTC product research, 2026.
 - **[Lancet Commission 2024]** — Livingston G, et al., *Lancet* Standing Commission on dementia prevention, intervention, and care, 2024 update. Fourteen modifiable risk factors; up to ~45% of dementia cases theoretically preventable or delayable. **This is a population-attributable fraction — a population-wide ceiling under conditions that will never obtain — not an individual's expected risk reduction. Never present 45% as a personal number. 30% is this book's conservative default for any individual relative-risk-reduction claim.** alzheimer-europe.org
-- **[US POINTER, JAMA 2025]** — Baker LD, et al., U.S. Study to Protect Brain Health Through Lifestyle Intervention to Reduce Risk (US POINTER), *JAMA*, 28 July 2025. 2,111 participants, mean age 68.2, 2-year RCT; both structured and self-guided multidomain lifestyle interventions improved global cognition, structured significantly more, consistent across age, sex, ethnicity, cardiovascular status, and APOE-ε4. *Improvement/protection-from-decline finding — not a prevention finding.* jamanetwork.com/journals/jama/fullarticle/2837046
-- **[FINGER, 2015]** — Ngandu T, et al., Finnish Geriatric Intervention Study to Prevent Cognitive Impairment and Disability (FINGER), 2015. 2-year multidomain lifestyle intervention improved/maintained global cognition vs. control; the design basis for US POINTER.
-- **[physical activity meta-analyses]** — Pooled relative risk for all-cause dementia with higher physical activity ≈ 0.80 (95% CI 0.77–0.84); Alzheimer's-specific ≈ 0.86; vascular dementia ≈ 0.79; leisure-time activity specifically ≈ 0.76. Occupational physical activity showed a slightly *increased* risk (RR ≈ 1.20) in one large analysis — the benefit is domain-specific. *Observational pooled estimates; individual studies to be cited in full at manuscript lock.*
-- **[T2D/obesity HRs, 2024]** — Hazard ratios for subsequent dementia by age at type 2 diabetes diagnosis (reference: diagnosis at ≥70): 60–69 → HR 1.70; 50–59 → HR 1.72; before 50 → HR 1.90. Obesity plus diabetes diagnosed before 50 → HR 3.05 vs. non-obese diagnosed ≥50. Midlife metabolically unhealthy obesity in women → HR 1.62. ncbi.nlm.nih.gov/pmc/articles/PMC11559992
+- **[US POINTER, JAMA 2025]** — Baker LD, et al. US POINTER. *JAMA* 2025;334(8):681–691. doi:10.1001/jama.2025.12923. 2,111 participants, mean age 68.2, 2-year RCT; both structured and self-guided multidomain lifestyle interventions improved global cognition, structured significantly more, consistent across age, sex, ethnicity, cardiovascular status, and APOE-ε4. *Improvement/protection-from-decline finding — not a prevention finding.* jamanetwork.com/journals/jama/fullarticle/2837046
+- **[Ngandu et al., Lancet 2015]** — Ngandu T, et al. A 2 year multidomain intervention (FINGER). *Lancet* 2015;385(9984):2255–2263. doi:10.1016/S0140-6736(15)60461-5. 2-year multidomain lifestyle intervention improved/maintained global cognition vs. control; the design basis for US POINTER.
+- **[Iso-Markku et al., BJSM 2022]** — Iso-Markku P, et al. Physical activity as a protective factor for dementia and Alzheimer's disease: systematic review, meta-analysis and quality assessment of cohort and case-control studies. *Br J Sports Med* 2022;56(12):701–709. doi:10.1136/bjsports-2021-104981. All-cause RR 0.80 (0.77–0.84); AD 0.86 (0.80–0.93); vascular 0.79 (0.66–0.95).
+- **[Feter et al., Lancet Public Health 2026]** — Feter N, Iso-Markku P, et al. Domain-specific physical activity and dementia risk: systematic review and meta-analysis. *Lancet Public Health* 2026;11(9):e650–e664. doi:10.1016/S2468-2667(26)00142-8. Leisure-time RR ≈ 0.76; occupational RR ≈ 1.20.
+- **[physical activity meta-analyses — SUPERSEDED tag, retained for reference]** — Pooled relative risk for all-cause dementia with higher physical activity ≈ 0.80 (95% CI 0.77–0.84); Alzheimer's-specific ≈ 0.86; vascular dementia ≈ 0.79; leisure-time activity specifically ≈ 0.76. Occupational physical activity showed a slightly *increased* risk (RR ≈ 1.20) in one large analysis — the benefit is domain-specific. *Observational pooled estimates; individual studies to be cited in full at manuscript lock.*
+- **[Qi et al., PLOS ONE 2024]** — Qi X, et al. *PLOS ONE* 2024;19(11):e0310964. doi:10.1371/journal.pone.0310964. Hazard ratios for subsequent dementia by age at type 2 diabetes diagnosis (reference: diagnosis at ≥70): 60–69 → HR 1.70; 50–59 → HR 1.72; before 50 → HR 1.90. Obesity plus diabetes diagnosed before 50 → HR 3.05 vs. non-obese diagnosed ≥50. Midlife metabolically unhealthy obesity in women → HR 1.62. ncbi.nlm.nih.gov/pmc/articles/PMC11559992
 - **[premium basket pricing, 2025–2026]** — Composite of published 2025–2026 US consumer pricing: mid-tier gym membership $30–$120/mo; personal trainer once weekly $160–$560/mo; organic/grass-fed grocery premium for a two-person household $120–$250/mo; quality supplement stack $100–$200/mo; single compounded prescription therapy category $150–$350/mo. *Ranges, not quotes. Re-verify at manuscript lock; regional variation is large.*
+- **[Xie et al., *Science* 2013]** — Xie L, Kang H, Xu Q, et al., "Sleep Drives Metabolite Clearance from the Adult Brain," *Science*, 18 Oct 2013. Glymphatic clearance of interstitial solutes, including amyloid-β, is markedly increased during sleep relative to waking. *Rodent study; the human extension is inferential — state it as mechanism, not as a human outcome finding.*
+- **[Dominy et al., *Sci. Adv.* 2019]** — Dominy SS, Lynch C, Ermini F, et al., "*Porphyromonas gingivalis* in Alzheimer's disease brains: Evidence for disease causation and treatment with small-molecule inhibitors," *Science Advances*, 23 Jan 2019. Periodontal pathogen and its gingipain proteases identified in Alzheimer's brain tissue. *Association plus a proposed mechanism; causation is argued by the authors, not established. Note the paper's industry funding at manuscript lock.*
+- **[Leong et al., *Lancet* 2015]** — Leong DP, Teo KK, Rangarajan S, et al., "Prognostic value of grip strength: findings from the Prospective Urban Rural Epidemiology (PURE) study," *The Lancet*, 2015. ~140,000 participants, 17 countries; grip strength was a stronger predictor of all-cause and cardiovascular mortality than systolic blood pressure.
+- **[GBD Alcohol Collaborators, *Lancet* 2018]** — GBD 2016 Alcohol Collaborators, "Alcohol use and burden for 195 countries and territories, 1990–2016," *The Lancet*, 22 Sep 2018. Level of consumption minimizing total health loss = zero. *A population-level burden analysis, not an individual risk prediction.*
+- **[Boyle et al., *Arch. Gen. Psychiatry* 2010]** — Boyle PA, Buchman AS, Barnes LL, Bennett DA, "Effect of a purpose in life on risk of incident Alzheimer disease and mild cognitive impairment in community-dwelling older persons," *Archives of General Psychiatry*, 2010 (Rush Memory and Aging Project). High purpose-in-life score associated with ~2.4× lower risk of incident Alzheimer's vs. low score, adjusted for age, sex, education, depressive symptoms, and baseline cognition. Later work from the same cohort reports reduced clinical expression of equivalent neuropathology. *Observational; purpose is self-reported on a validated scale and confounding with baseline function cannot be fully excluded.*
+- **[EPA indoor air quality]** — U.S. Environmental Protection Agency, indoor air quality program materials. Indoor air commonly measured at two to five times outdoor concentrations for some pollutants; Americans spend ~90% of time indoors. **Re-verify the current EPA wording and date at manuscript lock — this book cites it undated, which violates its own standard.**
+- **[alcohol and sleep architecture]** — **UNSOURCED AS STATED.** Alcohol as a sedative rather than a sleep aid; first-half REM suppression with second-half rebound as blood alcohol clears, and reduced slow-wave sleep. Well established in sleep medicine but cited here without a primary source. Attach one (or a review with a year) before print; the "20–50% REM reduction" figure used in the companion book should not be carried into this one without a citation.
+- **[gut-brain neurochemistry]** — **UNSOURCED AS STATED — must be primary-cited before print.** The ~90% peripheral serotonin, ~50% dopamine, and ~90% gut-to-brain vagal afferent figures are widely reported in review literature and used throughout My4MLife copy, but no single primary citation is attached to them here. Locate primary sources (enterochromaffin-cell serotonin synthesis; enteric dopamine; vagal afferent-to-efferent fiber ratio) or restate qualitatively.
+- **[exercise myokines and BDNF]** — **UNSOURCED AS STATED.** Contraction-induced myokines (irisin, cathepsin B, IL-15) and their relationship to brain-derived neurotrophic factor. Substantial animal evidence, thinner human evidence. Attach primary citations or soften to "in animal models and early human work" before print.
+- **[sarcopenia rate]** — **UNSOURCED AS STATED.** The "1–2% of muscle mass lost per year after 50" figure is standard in the geriatrics literature but is cited here without a primary source or year. Attach one, or restate as a range with the cohort it came from.
+- **[ED as a vascular sentinel]** — **UNSOURCED AS STATED.** The 1–2 mm penile vs. 3–4 mm coronary artery diameters and the "ED precedes cardiovascular events by 3–5 years" interval trace to the artery-size hypothesis literature (Montorsi and colleagues) and to cohort data on ED as an independent cardiovascular risk marker. Attach primary citations with years before print.
 
 
 ---
 
-<!-- PART III: The Policy — not yet drafted -->
+<!-- PART IV: Signing — not yet drafted -->
