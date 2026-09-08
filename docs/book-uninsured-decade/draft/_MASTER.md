@@ -9,6 +9,8 @@
 
 *A My4MLife Field Guide*
 
+**Don't lose your identity and your dignity while you still have a choice.**
+
 [my4mlife.com](https://my4mlife.com) · [my4mlife.com/assessment](https://my4mlife.com/assessment)
 
 ---

@@ -14,6 +14,8 @@ Author of *The Uninsured Decade* and *Begin with the End in Mind* · Founder of 
 
 Medicare pays nothing toward custodial care. The private long-term-care insurance market has largely collapsed — fewer than a dozen carriers still sell new standalone policies. And the average dementia care journey costs a family $405,262, about 70% of it out of their own pocket and their own hours. This talk lays out the bill in plain numbers, then reframes the response: you can't insure this risk anymore, but you can underwrite it.
 
+*Don't lose your identity and your dignity while you still have a choice.*
+
 ## Three takeaways
 
 1. **The bill is bigger and more certain than most retirement plans account for** — a ten-year staged cost model, Medicare's exact coverage gap, and the Medicaid spend-down math any household can run for itself.
