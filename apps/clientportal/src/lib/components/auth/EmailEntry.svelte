@@ -126,6 +126,7 @@
 
 <div class="auth-card">
   <h2>{isFreshSignup && loading ? "You're in. Sending your code…" : isFreshSignup ? "You're in. Let's sign you in." : 'Protégé Sign In'}</h2>
+  <p class="tagline">Don't lose your identity and your dignity while you still have a choice.</p>
   <p class="subtitle">{isFreshSignup && loading ? "We're emailing you a 6-digit code. The next screen will ask for it — no need to click anything." : isFreshSignup ? "Tap below to send your 6-digit sign-in code." : "Existing Protégé? Enter the email you used for the assessment and we'll send you a 6-digit sign-in code. New here? Start with the free 4M Assessment — that's how Protégé access is created."}</p>
   {#if !isFreshSignup}
     <p class="subtitle-cta"><a href="https://my4mlife.com/assessment">Take the free 4M Assessment →</a></p>
@@ -176,6 +177,7 @@
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   }
   h2 { margin: 0 0 6px; font-size: 1.4rem; color: var(--mc-ink);; font-family: var(--mc-font-display); }
+  .tagline { margin: 0 0 12px; color: var(--mc-faint); font-size: 0.82rem; font-style: italic; }
   .subtitle { margin: 0 0 16px; color: var(--mc-muted); font-size: 0.9rem; }
   .subtitle-cta { margin: 0 0 24px; font-size: 0.9rem; }
   .subtitle-cta a { color: var(--mc-gold); font-weight: 600; text-decoration: none; }

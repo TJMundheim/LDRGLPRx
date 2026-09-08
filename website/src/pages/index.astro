@@ -118,6 +118,7 @@ const treatments = [
       <img src="/images/book/cover-front.png" alt="Begin with the End in Mind book cover" class="hp-free-book-cover" loading="lazy" />
       <div class="hp-free-book-text">
         <p class="hp-free-book-title"><em>Begin with the End in Mind</em></p>
+        <p class="hp-free-book-tagline">Don't lose your identity and your dignity while you still have a choice.</p>
         <p class="hp-free-book-copy">Dr. TJ's field guide. Free when you complete the assessment, or own it now:</p>
         <p class="hp-free-book-links">
           <a href="https://www.amazon.com/dp/B0H7FJRHXC" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'kindle'})">Kindle</a>
@@ -395,6 +396,13 @@ const treatments = [
   margin: 0 0 0.3rem;
 }
 .hp-free-book-title em { font-style: italic; }
+.hp-free-book-tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--text-light);
+  margin: 0 0 0.5rem;
+}
 .hp-free-book-copy {
   font-family: 'Inter', sans-serif;
   font-size: 0.85rem;

@@ -66,6 +66,7 @@ Cognitive decline doesn't arrive overnight. In thirty years of clinical practice
 **Formats:** 20–25 min (service clubs) · 40 min + Q&A (libraries, centers, lunch-and-learns) · slides optional, no AV required
 **Fee:** Free — community education. Nothing is sold from the stage.
 **Book:** *Begin with the End in Mind* — available on Amazon (ebook, paperback, hardcover)
+*Don't lose your identity and your dignity while you still have a choice.*
 **Contact:** drtj@essentialmanage.com · [phone] · my4mlife.com
 
 _Health education, not medical advice. Attendees are encouraged to work with their own physicians._

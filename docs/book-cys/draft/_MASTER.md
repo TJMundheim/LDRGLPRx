@@ -854,6 +854,8 @@ ______________________________________________________________________
 
 You counted yourself skinny. The next question — how to keep this mind sharp for the rest of your life — is waiting at **[my4mlife.com/assessment](https://my4mlife.com/assessment)**.
 
+Don't lose your identity and your dignity while you still have a choice.
+
 # Questions People Actually Ask
 
 **Isn't "skinny" an unhealthy word? Shouldn't this book say "strong" or "well"?**
