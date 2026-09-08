@@ -104,7 +104,7 @@ Medicare pays nothing toward it. Not a reduced amount. Not a copay structure wit
 
 I want to be careful here, because you have been sold things before and you have a good instinct for when it is happening.
 
-I am not going to tell you that you can prevent dementia. Nobody can tell you that. Anyone who does is either careless or selling something, and by the end of Chapter 8 you will be able to hear the difference in one sentence. What I am going to tell you is that this is a risk, that risk is a thing you already know how to price, and that there is exactly one place left to post a reserve against it.
+I am not going to tell you that you can prevent dementia. Nobody can tell you that. Anyone who does is either careless or selling something, and by the end of Chapter 9 you will be able to hear the difference in one sentence. What I am going to tell you is that this is a risk, that risk is a thing you already know how to price, and that there is exactly one place left to post a reserve against it.
 
 Not a carrier. Not a rider. You.
 
@@ -171,7 +171,7 @@ You already know how to respond to an audit finding. You do not panic at it and 
 
 So that is the order of this book. Part I sizes the exposure — what Medicare actually pays, why the private market that used to cover this walked away, and what ten years costs a household, year by year, in dollars you can check. Part II prices the only premium still available to you, in hours and in dollars, with nothing hidden. Part III is what that premium buys, stated honestly, including the part where I tell you plainly what it does not buy. Part IV is thirty days.
 
-One promise before we go on. I am not going to tell you at the end that this pays for itself. When I run the expected-value math in front of you later — and I will run it in front of you, with the arithmetic showing — it does not come out to a clean break-even against dementia costs alone. With the odds at roughly two in three for a couple, that math gets close — close enough that a conservative, evidence-supported risk reduction gets a household most of the way to the number, which is closer than it has any right to be. But close is not break-even, and I am not going to round it up for you. Anyone who tells you otherwise is doing sales, not math. There is a real case for paying this premium and I think it is a strong one, but it is not the case that you will make your money back on dementia-cost avoidance alone, and I would rather lose you in Chapter 8 than get you there on a number I had to bend.
+One promise before we go on. I am not going to tell you at the end that this pays for itself. When I run the expected-value math in front of you later — and I will run it in front of you, with the arithmetic showing — it does not come out to a clean break-even against dementia costs alone. With the odds at roughly two in three for a couple, that math gets close — close enough that a conservative, evidence-supported risk reduction gets a household most of the way to the number, which is closer than it has any right to be. But close is not break-even, and I am not going to round it up for you. Anyone who tells you otherwise is doing sales, not math. There is a real case for paying this premium and I think it is a strong one, but it is not the case that you will make your money back on dementia-cost avoidance alone, and I would rather lose you in Chapter 9 than get you there on a number I had to bend.
 
 Start with the coverage read.
 
@@ -482,7 +482,7 @@ The uninsured decade is the one exposure where that instinct has nowhere to go. 
 
 That is the whole argument of this book and I have now made it. Everything after this is arithmetic and logistics.
 
-I am not going to tell you that you can prevent this. I said that in Chapter 1 and I will say it again in Chapter 8 with the evidence laid out, because it is the sentence that separates honest people from the other kind. What I am going to tell you is that this is a probability, that probabilities can be moved, that moving this one is the only reserve you can still post against the only risk nobody will underwrite for you — and that the person on the other side of that trade is not you.
+I am not going to tell you that you can prevent this. I said that in Chapter 1 and I will say it again in Chapter 9 with the evidence laid out, because it is the sentence that separates honest people from the other kind. What I am going to tell you is that this is a probability, that probabilities can be moved, that moving this one is the only reserve you can still post against the only risk nobody will underwrite for you — and that the person on the other side of that trade is not you.
 
 Turn the page and we will price it.
 
@@ -583,6 +583,8 @@ Run that forward. Bill at sixty-two, at the weight he was at forty-five, A1c at 
 But this I can tell you with no statistical hedging at all: the thirteen years between fifty-five and sixty-eight would have been materially better years. Those years are not contingent on anything.
 
 That is the dividend. It is paid whether or not the claim is ever filed.
+
+And it is why the line on the cover of my first book belongs in this one too. Don't lose your identity and your dignity while you still have a choice. The ledger is about the money. The dividend is about the choice.
 
 Which leaves the only two questions a person who reads statements actually cares about. What does it cost in hours, and what does it cost in dollars. Starting with the hours, because that is the one you think you do not have.
 
