@@ -1356,6 +1356,307 @@ All that is left is signing it.
 
 ---
 
+# Part IV — Signing
+
+---
+
+# Chapter 14 — Begin with the End in Mind
+
+There is a paperback somewhere in your house with a tan cover and a cracked spine.
+
+You read it in 1989, or 1990, or somewhere in there — on a plane, probably, or at a sales conference where somebody handed out copies. Habit 2. *Begin with the end in mind.* Covey's exercise was to sit at the back of the room at your own funeral, listen to four people speak, and ask yourself what you would want them to be able to say. Then work backward from that.
+
+You did not just read it. You used it.
+
+You built the business plan backward from the exit. You wrote the buy-sell agreement backward from the day one of you was gone. You have an estate plan, a trust, a durable power of attorney, and a letter in a fireproof box that tells your daughter where everything is. You know the number you needed at sixty-five and the year you hit it. You have, if you are like most of the men I have had this conversation with, already decided where you are going to be buried.
+
+That is thirty years of beginning with the end in mind, executed with more discipline than most people bring to anything.
+
+And there is exactly one thing you never ran the exercise on.
+
+The instrument that was supposed to be doing the living.
+
+You planned the estate. You did not plan the mind that was going to spend it. Every document in that fireproof box quietly assumes a version of you at seventy-eight who can still read the document, still sign it, still be the one in the room whose opinion settles the question. Nobody stress-tested that assumption. It was not on the checklist, because no advisor has a product to sell against it, and because there is no line on any balance sheet for it.
+
+That assumption is what this entire book has been auditing.
+
+## The end, actually stated
+
+So state it. Not the funeral — that is the wrong end for this particular exercise. The funeral is one afternoon and you will not be at it. The end that decides everything is the decade before it.
+
+Write yours down. Here is a draft you can steal and edit, which is how most people get started:
+
+*The last ten years, sharp. On my feet. In my own house. Making my own decisions, and still the one people call when something has to be decided. And my wife's last decade spent as my wife, not as my nurse.*
+
+Read that back and notice what is not in it. There is no number on a scale. There is no age. There is nothing in it about living longer — you can add years to the end of that sentence and make it worse rather than better, which is the whole argument of Chapter 6.
+
+Then notice the thing that took me an embarrassingly long time to see myself.
+
+The destination is a mind.
+
+Not the money the mind manages. Not the body that carries it around. Not the house, which is only in the sentence because being in your own house at eighty-four requires that you can still be trusted to run a stove. Every item in that paragraph is downstream of one organ, and it is the organ nobody built a policy for.
+
+That is why the schedule in Part III is shaped the way it is. Muscle, Mitigate, and Motivate are the three line items. Mind is not a fourth item sitting alongside them — it is what the other three purchase. *Begin with the end in Mind.* Both readings at once: start from the destination, and understand that the destination is the mind itself.
+
+You have been running Covey's habit on everything you own for thirty years. This is the one asset you left off the list.
+
+## The circle
+
+One more way to hold it, and then I will stop being literary at you.
+
+A long crossing is not measured in distance. It is measured by whether the man who comes back into the harbor is the same man who left it. That is the only test that has ever mattered on a voyage, and everything else — the cargo, the weather, the log — is bookkeeping.
+
+You set out from that harbor at twenty-two with nothing. You are somewhere out past the middle of it now. The circle closes when you come back in under your own power, recognized, recognizing.
+
+That is the end in mind. The rest of this book has been about provisioning the ship.
+
+## The face
+
+Chapter 13 gave you the machinery. This is where you actually run it.
+
+Not *why are you doing this.* **Who are you doing this for?**
+
+One person. Not a category — not "my family," which is four people and therefore nobody. One face you can put in a room. Your wife at the kitchen table. Your daughter, who is going to be the one who drives you. Your son, who will inherit the pattern along with the house. Or yourself at seventy-eight, in enough detail that you could describe what you are wearing.
+
+Write the name on the line. Physically. In the book, in pen.
+
+*I am doing this for: _____________________.*
+
+Then the half that people skip, which is the half that works: tell them. Out loud, to their face, this week. Not a speech. One sentence — *I read something, I'm going to start doing a couple of things, and I wanted you to know so somebody else knows.*
+
+A commitment that lives only in your own head is not a commitment. It is a preference, and preferences lose to February.
+
+## The sentence
+
+Then one line about who you are. Present tense, with motion in it, never built out of a lab value.
+
+*I am the one who protects his mind.*
+
+*I am someone whose mornings start with a walk and thirty grams of protein.*
+
+*I used to be soft, and I am the one rebuilding.*
+
+Write it where you will see it. Read it on a Sunday. Read it the morning after the wedding when you want to throw the whole project out.
+
+Those are the two things you sign before day one. A name and a sentence. Neither one costs a dollar and neither one takes ten minutes, and in four years they will turn out to have been the load-bearing part.
+
+## Bill, at fifty-five
+
+I have one thing left to say about Bill, and then he can go.
+
+Two readers are holding this book right now, and they need different things from this page.
+
+If you are Bill at seventy-one — if the word has already been said in an office in a building with a parking garage, in your household or your mother's — then the arithmetic in Part I is not a forecast for you. It is an invoice, and I am not going to pretend otherwise on the last pages of a book. But read Chapter 5 again, because the second patient in your house has not been diagnosed with anything, and every line on the schedule in Part III still applies to her at full strength, and she is currently the only person in the marriage not being cared for. And when you are ready to ask what medical support is available for a household already past the diagnosis, ask a licensed clinician, in an actual evaluation — there is more available now than there was five years ago, and none of it is a cure, and I am not going to sell you one on page two hundred.
+
+But most of you are Bill at fifty-five.
+
+Thirty pounds up. An A1c somebody called borderline, which you heard as fine. Sleeping badly and calling it a personality trait. A knee you never had looked at, three years off the court, and a Thursday. There is nothing wrong with you that anyone has put a name to. That is precisely the problem: nothing has a name yet, which is the only window in which any of this works.
+
+And here is the part I want you to sit with.
+
+Cindy tried twice.
+
+Once in the car coming home from a wedding, and once in the kitchen on a Sunday, and both times she chose the other thing, because you had a business and a bad shoulder and a hundred reasons to hear it as criticism. She was not being timid. She was being married to you, which is a job that involves a great deal of judgment about which Tuesday is the right Tuesday.
+
+She never got a third try in that story. In yours, she just did — because somebody handed you this book, or left it on the counter, or mailed it to you without a note.
+
+So finish the conversation, since you are the one holding it.
+
+You do not have to promise her anything. Do not promise her anything; you have made promises about your health before and you both remember how they went. Say the smaller, truer thing instead:
+
+*I read it. I'm going to take the seven-minute assessment tonight, and I'll show you what it says.*
+
+That is the whole conversation. It is not dramatic. It never is.
+
+Then turn the page, because the next chapter is thirty days long and it starts tonight.
+
+---
+
+# Chapter 15 — The First Thirty Days
+
+Coverage does not begin when you decide to buy it. It begins when the first premium clears.
+
+So this chapter is a schedule. Thirty days, four weeks, in the order the parts actually stack, with nothing on it that requires you to become a different person first. It is deliberately smaller than you are expecting. That is not modesty — it is the reason it works. Every one of these is binary: it happened or it did not, and on the thirtieth day you can audit yourself in four minutes.
+
+Write real dates in the margin. A plan without dates on it is a mood.
+
+## Week 1 — Baseline
+
+You cannot manage what you have not measured, and you have never measured this one. That is the whole job of week one.
+
+**Day 1. Take the assessment.** Go to **my4mlife.com/assessment**. Twenty questions, about seven minutes, on your phone, tonight. It gives you a score out of 100, the band you are in, and — the part that actually matters — your top three. Not twenty things to fix. Three, ranked, in the order that will do the most for you.
+
+It is free, and it is also the door: taking it sets up your account, so the app, the Logbook, a copy of *Begin with the End in Mind*, and the weekly Zooms come with it. There is nothing to buy on that page. If you were braced for a checkout at the end, there isn't one.
+
+Do it before you do anything else, because everything below is easier when you know which three lines are yours.
+
+**Day 1. Set the two anchors.** They are the cheapest things in the book and they are both about the clock.
+
+*Light.* Ten minutes of outdoor light within an hour of waking. Not through a window. This one anchors the body clock that runs everything downstream of it, and it rides along free with the walk below.
+
+*Sleep.* One fixed wake time, seven days a week, including Saturday. Not a bedtime — a wake time. The bedtime follows it on its own within about ten days, and fighting the bedtime directly never works.
+
+**Day 2. Put the sessions in the calendar.** Two forty-five-minute strength sessions a week, in the same calendar that runs the rest of your life, with names, like meetings. Not "workout." *Monday 6:15 — Strength.* You do not miss meetings. You miss intentions.
+
+**Day 3. The walk begins.** Twenty minutes, outside, before you eat. Five mornings a week from here on out. It is not a workout and you are not trying to raise your heart rate — you are walking, fasted, in daylight, which is doing three different jobs at once for zero dollars.
+
+The first week is the hardest one, and it is hardest for a stupid reason: it is boring, and nothing has happened yet.
+
+**Day 7. Tell the named person.** The name you wrote in Chapter 14. One sentence, out loud, to their face.
+
+By the end of week one you have a number, three priorities, two calendar entries, and one other human being who knows the plan exists. You have not changed your diet. Leave it alone for now.
+
+## Week 2 — The kitchen
+
+Now the food, and only one rule at first.
+
+**Protein first.** You break the fast after the walk, and you break it with thirty to forty grams of lean protein before anything else goes in. Not coffee and toast. Not cereal. This one rule reorganizes the rest of the day's eating without your having to think about the rest of the day's eating, which is why it is the only one I am giving you in week two.
+
+**The grocery list changes before the meals do.** This is the practical trick and almost nobody is told it. You do not start by cooking differently; you start by shopping differently, once, and then the kitchen makes the decision for you all week. Protein at the front of the cart in quantity. Vegetables. Something for the first thirty grams that requires no cooking at six-fifteen in the morning. And the two or three items you already know are in there for no reason other than habit — you know exactly which ones — do not make the trip this time.
+
+**One insult, removed.** Pick one from Chapter 12 and take it off the board this week. The second drink. The eleven-o'clock screen. The three-o'clock pastry that is why four o'clock happens to you. One. Not four. You are not trying to be good; you are trying to still be doing this in March.
+
+**Day 14. Fifteen minutes on a Sunday.** The planning hour, which is not an hour. What is on the calendar, what is getting cooked, where the two sessions actually sit. This is the appointment that keeps all the others.
+
+## Week 3 — Load, and the labs
+
+**The sessions get heavy.** Two a week, forty-five minutes, compound movements — push, pull, hinge, squat, carry — loaded so the last two repetitions are genuinely difficult. That difficulty is the active ingredient. Two sessions run seriously beat five run conversationally, and it is not close. If you have not trained in years, spend this week learning the movements at a weight that feels insulting. The loading comes in week four and it will still be there in year ten.
+
+**Get the panel drawn, if it is indicated.** A baseline is a lab draw and an actual evaluation by an independent licensed clinician — the metabolic markers, the inflammatory markers, and the hormone panel, read against what is optimal for you rather than against a reference range built from a population that is not aging well. What that panel says, and whether anything on it warrants prescription support, is a determination made by a licensed prescriber after seeing you. It is not made by this book, and it is not made by an advertisement. If you do not have a clinician for this, start at **my4mlife.com/consult**.
+
+**Book the three appointments.** Hearing test. Eye exam. A periodontal probing — not a cleaning, a probing. Three phone calls, most of it covered, and three of the fourteen risk factors from Chapter 12 closed. Nobody in your age bracket does all three. Be the one who does.
+
+## Week 4 — The household ledger
+
+The last week is the one that makes this a household decision instead of a private project, and it is the week most men skip. Do not skip it.
+
+**Run your own number.** Go to **my4mlife.com/go/uninsured-decade** and put in your actual inputs — your age, your spouse's, your state, roughly where you sit financially. The ten-year ledger in Chapter 4 is a national median household. This one is yours, on your state's care costs, with the risk-reduction assumption set where you want it set and visible on the screen while you move it.
+
+**Print it.** There is a button on the page for exactly this. One sheet.
+
+**Then have the meeting.** Sit down with your spouse or partner, and then with whoever handles your money, and put that sheet on the table next to the coverage inventory you filled out in Chapter 1. Ask the three questions in the order they actually go: *What does our plan assume about this? What happens to the survivor if it lands? What are we doing about the only lever we have?*
+
+Your advisor may not have an answer for the first two. That is not a failure on their part — there is no product for it, which has been the point since page one. But the conversation gets held, in front of the person who would otherwise have to hold it alone in twelve years, and the sheet goes in the folder with the policies where it belongs.
+
+**Show up to one Zoom.** Camera on or camera off. You will be in a room with other people running the same schedule, which does more for week six than anything I can write here.
+
+## Day 30: what you should actually feel
+
+I am going to be careful here, because the temptation at the end of a book is to promise you a transformation, and thirty days does not produce one.
+
+Here is what will not have happened. You will not have lost thirty pounds. Your A1c has not moved much, because that number reflects about three months and you have given it one. You will not look different in a photograph, and nobody at work will comment.
+
+Here is what will have happened, in most people, and it is the reason I put it last.
+
+**You will be sleeping.** Not perfectly. But consolidated — you go down, and the next thing is the alarm, instead of the ceiling at one-forty and again at four. Some people get it in ten days and some in five weeks. It is almost always the first thing to move, and it is almost always the thing that convinces a skeptical man that any of the rest of this is real, because it is not a number somebody handed him. It is his own Tuesday, arriving different.
+
+Then the four-o'clock comes back. Then, somewhere around the eighth or tenth week, you carry something up a flight of stairs and notice you did not think about it first.
+
+That is the dividend, arriving early and on its own schedule, on a premium you have been paying for one month.
+
+The other payout — the contingent one, the ledger that never gets written — you will never be able to prove you collected. That is the nature of every policy in that folder. You will only be able to notice, at eighty-two, that the invoice never came.
+
+## The 30-Day Ledger
+
+| | Item | Date done |
+|---|---|---|
+| ☐ | Assessment taken — score, band, top three | ____ |
+| ☐ | Wake time fixed, seven days | ____ |
+| ☐ | Ten minutes of morning light | ____ |
+| ☐ | Two strength sessions on the calendar, by name | ____ |
+| ☐ | First fasted morning walk | ____ |
+| ☐ | Named person told, out loud | ____ |
+| ☐ | Identity sentence written down | ____ |
+| ☐ | Protein first — thirty to forty grams after the walk | ____ |
+| ☐ | Grocery list rewritten once | ____ |
+| ☐ | One insult removed | ____ |
+| ☐ | Fifteen minutes on a Sunday | ____ |
+| ☐ | Two sessions run, loaded | ____ |
+| ☐ | Labs drawn / evaluation booked | ____ |
+| ☐ | Hearing, eyes, periodontal probing booked | ____ |
+| ☐ | Own ten-year number run and printed | ____ |
+| ☐ | Household ledger conversation held | ____ |
+| ☐ | One Zoom attended | ____ |
+
+Seventeen lines. Nine of them are free. None of them take more than an hour.
+
+That is the whole first premium payment, and it is the only one you have to make right now.
+
+> ### The Premium
+>
+> **The premium:** roughly ten hours a month and roughly eight to ten thousand dollars a year, most of which is money already in your budget under different headings. Two strength sessions, five walks, a rewritten grocery list, three appointments, one Sunday planning block, one named person, one sentence.
+>
+> **What it buys:** two payouts. A contingent one — lower odds on the decade in Chapter 4, at the conservative assumption I defended in front of you in Chapter 9, stated as odds and never as a promise. And a non-contingent one that starts inside six weeks and does not depend on the first one arriving at all: sleep, strength, the four-o'clock, presence, an active retirement decade, and a spouse whose last decade is spent as your spouse.
+>
+> **What it does not buy:** immunity. Nothing in this book prevents, treats, cures, or reverses dementia, and no one who tells you otherwise is doing math. It lowers the odds. That is the only sentence I have sold you, it is the same one I started with, and it is the last one.
+
+---
+
+# Signing
+
+Every policy you have ever bought was signed at a table by a version of you who did not know whether he would need it.
+
+That is what a signature is for. It is a decision made in advance, by the person who is thinking clearly, on behalf of the person who will not be.
+
+You did it at thirty-four with the term life, when the kids were small and the premium hurt. You did it at forty-one with the disability, and at fifty-two with the buy-sell, and every single time you were signing on behalf of somebody who was not in the room — a widow who did not exist, a partner who might be, a household in a year you could not picture.
+
+This one is the same act. The only difference is that the person you are signing on behalf of is you, at seventy-eight, and there is no carrier on the other side of the table to countersign it.
+
+There is no policy number. There is no folder to put it in. There is a name, a sentence, and a Tuesday morning that is either going to happen this week or not.
+
+I told you on page five that I would not tell you at the end that this pays for itself, and I have not. I told you I would show you the arithmetic with nothing hidden, and I did, including the part where it comes up short. What I will tell you is what I actually believe after thirty years of watching households arrive at this decade either provisioned or not: this is the one exposure on your schedule where the premium is denominated in something no underwriter can decline you for, no carrier can reprice, and no market can leave.
+
+You are the only one still writing this policy.
+
+So sign it. Tonight, in seven minutes, at my4mlife.com/assessment — and then get up tomorrow and go for a walk before you eat.
+
+Don't lose your identity and your dignity while you still have a choice.
+
+**— Dr. TJ**
+
+---
+
+# The Assessment
+
+Everything in this book routes to one page.
+
+**my4mlife.com/assessment**
+
+Twenty questions. About seven minutes. Free, and there is nothing to buy at the end of it.
+
+**What it gives you back, on screen, immediately:**
+
+- A **MindSpan Score out of 100** — your baseline, which is the number you do not currently have.
+- The **band** you are in, in plain language.
+- Your **top three priorities**, ranked. Not a list of twenty things. The three that will do the most for you, in order.
+
+**What happens next.** Your full results arrive by email, along with the things that come with being a Protégé, at no charge:
+
+- The **app**, which runs the four-month program week by week.
+- **The Logbook** — the workbook the program is built around.
+- A copy of ***Begin with the End in Mind***, the full-length book behind the framework in Part III.
+- **Weekly Zooms**, live, with other people running the same schedule.
+
+If a licensed clinician needs to be involved — labs, hormone support, anything requiring a prescriber — that is a separate conversation at **my4mlife.com/consult**, with an independent licensed medical practice, after an actual evaluation.
+
+And if you want your own household's ten-year number instead of the national median in Chapter 4, run it at **my4mlife.com/go/uninsured-decade** and print the sheet for your advisor.
+
+Take the assessment tonight. The rest of it can wait until the weekend. That one cannot, because it is the only line on the schedule that has to happen first.
+
+---
+
+# About the Author
+
+**Dr. TJ** has spent more than thirty years in clinical practice and now works as a health-span educator, writing and speaking about cognitive longevity for the people who make their household's decisions. He lives and works in Fort Worth, Texas.
+
+He is the founder of **My4MLife**, and the architect of the 4M framework — Mind, Muscle, Mitigate, Motivate — which an assembled team of clinicians, coaches, and researchers built into a working program under his guidance. He does not practice medicine; all medical care, evaluation, and prescribing referenced in his work is provided by independent licensed medical practices.
+
+He is the author of ***Begin with the End in Mind*** and ***Count Yourself Skinny***.
+
+my4mlife.com · my4mlife.com/assessment
+
+---
+
 ## Sources (stub — full citation list to be completed at manuscript lock)
 
 Every figure above is keyed to one of the following. Full citations, access dates, and the working updated version are maintained at my4mlife.com/science.
@@ -1396,7 +1697,6 @@ Every figure above is keyed to one of the following. Full citations, access date
 - **[sarcopenia rate]** — **UNSOURCED AS STATED.** The "1–2% of muscle mass lost per year after 50" figure is standard in the geriatrics literature but is cited here without a primary source or year. Attach one, or restate as a range with the cohort it came from.
 - **[ED as a vascular sentinel]** — **UNSOURCED AS STATED.** The 1–2 mm penile vs. 3–4 mm coronary artery diameters and the "ED precedes cardiovascular events by 3–5 years" interval trace to the artery-size hypothesis literature (Montorsi and colleagues) and to cohort data on ED as an independent cardiovascular risk marker. Attach primary citations with years before print.
 
-
 ---
 
-<!-- PART IV: Signing — not yet drafted -->
+<!-- DRAFT v1 COMPLETE 2026-09-08 -->
