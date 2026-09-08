@@ -34,7 +34,7 @@ Three tiers of ask, escalating: **(a)** hand out the book, **(b)** host a client
 
 **Segment notes:** neutral framing is mandatory here — half the room is the spouse, and she is the buyer. Lead with the Bill & Cindy bill, the $0 Medicare line, and the collapsed LTC market; skip the 4Ms detail (Q&A and the assessment carry it).
 
-**Targets:** start with the operators TJ already knows from regen-med dinners (TJ to list names). Then any firm mailing DFW seminar invitations — collect the postcards for two weeks; each one is a lead. Seminar-marketing vendors (LeadingResponse, Acquire Direct, SeminarInnovations) list active hosts by metro.
+**Targets — POINT OF THE SPEAR (TJ 2026-09-08): Lead Concepts (Chris Wear, owner; friend; ~30 yrs seminar direct-mail, nationwide, ~100K mailouts/week; clients = annuity / retirement-income / living-trust / estate-attorney seminar hosts).** TJ used them for the Dr. Molina / MD Specialty Group regen-med seminar. Meeting within the week. Ask = introductions to his clients for a 3-dinner pilot + a guest-speaker line or insert on the invitations themselves. Brief: docs/launch/uninsured-decade/lead-concepts-meeting-brief.md. Everything else in this channel is secondary until that meeting. Then any firm mailing DFW seminar invitations — collect the postcards for two weeks; each one is a lead. Seminar-marketing vendors (LeadingResponse, Acquire Direct, SeminarInnovations) list active hosts by metro.
 
 **Booking path / timeline:** phone call to a known host → on the agenda within 2–3 weeks. This is the fastest channel in the plan.
 

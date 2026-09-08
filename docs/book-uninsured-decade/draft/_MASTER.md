@@ -488,6 +488,427 @@ Turn the page and we will price it.
 
 ---
 
+# Part II — The Premium
+
+---
+
+# Chapter 6 — The Dividend
+
+Every policy in that folder has one thing in common, and it is the thing nobody says out loud at the closing table.
+
+You hope it never pays.
+
+That is the arrangement. You write a check every year for thirty years, and the best possible outcome — the one you are actively rooting for — is that the money is gone and nothing came back. The umbrella policy that never got touched was a success. The term life that expired unclaimed was a triumph. You paid for the absence of an event. That is a strange product when you look straight at it, and it is the only shape insurance can take.
+
+Now I am going to describe a policy with a different shape, and I want you to notice how uncomfortable it makes you, because a thing that sounds better than insurance sounds like a thing that is being sold to you.
+
+The premium in this book has two payouts.
+
+The first payout is the one you have been reading about for five chapters. It is contingent. It arrives, if it arrives at all, as a decade that did not happen — a ledger that never got written, an aide who was never hired, a Tuesday afternoon that Cindy spent at her book club instead of in a parking garage. Like every other policy in your folder, you will never be able to prove you collected it. You will only be able to notice, at eighty-two, that the invoice never came.
+
+The second payout is not contingent, and it does not wait.
+
+It starts inside about six weeks. It is paid in sleep that goes unbroken, in the fact that you can pick up a grandchild without doing the calculation first, in an afternoon at four o'clock that does not require a decision about coffee. It is paid in a waistband, a lab report, an erection, a walk up a jetway with a bag over your shoulder. It is paid in showing up to your own life at a temperature you had quietly written off as something that belonged to a younger man.
+
+You do not have to develop dementia to collect it. You do not have to *avoid* dementia to collect it. It pays on the premium itself.
+
+**It is the only policy in the folder that pays before the claim.**
+
+I have thought for a long time about how to say this next part without it turning into the thing I told you in Chapter 1 that I would not do to you.
+
+## What you are actually buying
+
+You did not pick this book up because you wanted to feel better. You picked it up — or somebody handed it to you and said *read the first six pages* — because of a number. The number is real, and I have spent four chapters making sure you cannot un-see it.
+
+But fear is a starter motor. It is not an engine. I have watched a great many capable people get scared into a decision in a room and then not do the thing, and it is never because they stopped believing the numbers. It is because at six-fifteen on a Tuesday morning in March, a thing you are doing to avoid a statistic in 2044 loses to a warm bed every single time.
+
+What does not lose to a warm bed is a thing that is already paying you.
+
+So the second payout is not a bonus I am tacking on to make the financial case more attractive. It is the mechanism by which the financial case actually gets executed, which is a different claim and a more useful one. The dividend is what makes the premium payable for twenty years instead of eleven weeks.
+
+And it is the part of this that I actually care about, so let me say it once, plainly, and then get back to the arithmetic.
+
+The goal is not to not get dementia. The goal is not even to protect the money, though the money is why we are talking. The goal is the best mind you can have until your last day of life — the whole span of it, not the tail. Sharp at seventy-eight. Present at eighty-four. Still the one people call when something has to be decided.
+
+That is what the dividend is. Everything in this book is denominated in it.
+
+## Healthspan, in the language you already use
+
+If you have run a business you already have the vocabulary for this, and it is not a medical one. There is a difference between the life of an asset and its *useful* life. You know this because you have depreciated things. The truck runs for nineteen years; the truck is worth having for eleven. The gap between those two numbers is not a rounding error. It is the whole question.
+
+The medical system measures the first number and is very good at it. The second number is the one you live in, and the gap between them has been widening for forty years. We got very good at extending the span and much less good at extending the useful part of it — which means the marginal decade we added is, for a great many people, the decade in Chapter 4.
+
+You do not want the long life. You want the long *useful* life, with the decline compressed into as short a window as the body will allow, at the far end, where it belongs. The research literature calls that healthspan, as against lifespan. Hold it in the language of the depreciation schedule instead, because that is the language in which you actually make decisions.
+
+## The dividend, itemized
+
+Let me be specific, because "quality of life" is the emptiest phrase in this entire subject and I do not want to hand it to you.
+
+**Sleep.** Not eight hours as a virtue — seven or eight hours that are *consolidated*, so you wake at six and the day starts, rather than waking at six having been up at one-forty and again at four. This is the first thing that changes and usually the one people notice.
+
+**Strength.** The kind that shows up as capacity: two suitcases up a flight of stairs, getting off the floor without a hand on the coffee table, a golf swing in October that is the same swing it was in April. Muscle is not a vanity account. It is the reserve you draw on during every bad week of the next thirty years, and after about fifty you are either adding to it or spending it down.
+
+**Energy at four in the afternoon.** The most underrated marker at your age, and the one your spouse notices before you do. The four-o'clock collapse is not aging. It is usually blood sugar, sleep debt, and a lunch that was mostly bread.
+
+**Sex.** Part III spends a chapter here, because it is not a lifestyle amenity — it is the vascular system filing an early report, and it is the most reliable canary either partner in a marriage gets. It is also, plainly, a payout.
+
+**Presence.** The hardest to quantify and the one people actually mean. Being genuinely in the room. Following a complicated conversation at the end of a long day. Interested rather than depleted. Your grandchildren will not remember whether you were fit. They will remember whether you were *there* — and "there" is a metabolic state before it is a character trait.
+
+**The active retirement decade.** Sixty-eight to seventy-eight is the decade you were saving for, and most people spend it at a level of function they never chose and never noticed choosing. The dividend is that decade arriving at the capacity you planned it at.
+
+Read that list again and notice something about it. Not one line on it requires a diagnosis, a scare, or a statistic. Every line pays out inside a year.
+
+> ### The Premium
+>
+> **The premium:** roughly ten hours a month and roughly eight to ten thousand dollars a year, most of it money you are already spending. Chapters 7 and 8 price it out line by line.
+>
+> **What it buys:** two payouts from one premium. A contingent one — lower odds on the decade in Chapter 4, stated as odds and never as a promise. And a non-contingent one, paid out while you are alive to spend it: sleep, strength, energy, sex, presence, an active retirement decade.
+>
+> **What it does not buy:** immunity. Nothing in this book prevents, cures, or reverses dementia. Anyone who tells you otherwise is selling something, and Chapter 9 is where I show you the math with nothing hidden.
+
+That box is going to keep showing up. Same three lines every time. It is there so that the honest part never gets relegated to a disclaimer at the back.
+
+## What a dividend would have looked like for Bill
+
+Bill was fifty-five once, and this is the part of his story I have not told you.
+
+At fifty-five he was six years from selling the business and working the hours that implies. He weighed about thirty pounds more than he had at forty. His A1c had come back at 5.9 that spring and the nurse had used the word *borderline*, which he heard as *fine*. He slept badly, had for years, and thought of it as a personality trait. He had stopped playing tennis for three or four years in there because of a knee he never got looked at.
+
+Nobody handed Bill a book at fifty-five. If somebody had, and if it had opened with the ledger from Chapter 4, I am not sure it would have worked, and I want to be honest with you about that. Fifty-five-year-old Bill would have read four chapters about a bill arriving in 2039, agreed with every word, and put it in the pile on the corner of the desk. He was not an unserious man. He was a man with a Thursday.
+
+What might have reached him is the other payout. Not *this lowers your odds of memory care at seventy-six* — true, and fifteen years past the horizon he was operating on. Something closer to: *you will sleep through the night, the knee is a strength problem and not a knee problem, you will get the four-o'clock back, and Cindy will get her Saturdays back, starting in about two months.*
+
+Run that forward. Bill at sixty-two, at the weight he was at forty-five, A1c at 5.3, sleeping. Bill at sixty-eight selling the business into an active decade instead of a tired one. Cindy at sixty-nine going to Portugal instead of learning to manage medications. Nobody can tell you what that does to the diagnosis at seventy — maybe it moves it, maybe it does not, and Chapter 9 is where I stop hand-waving and show you exactly what the evidence supports.
+
+But this I can tell you with no statistical hedging at all: the thirteen years between fifty-five and sixty-eight would have been materially better years. Those years are not contingent on anything.
+
+That is the dividend. It is paid whether or not the claim is ever filed.
+
+Which leaves the only two questions a person who reads statements actually cares about. What does it cost in hours, and what does it cost in dollars. Starting with the hours, because that is the one you think you do not have.
+
+---
+
+# Chapter 7 — Ten Hours a Month
+
+Ask someone in their fifties why they are not doing this and the answer is never the money.
+
+It is time. And they mean it — that is not an excuse, it is a genuine constraint, and if you asked me to produce a spare four hours a week out of a calendar that is already full I could not do it either.
+
+So let's find out what the actual number is, because in my experience it is not the number in his head. The number in his head was set by a magazine article in 1998 and it involves an hour a day, six days a week, plus a commute to a facility.
+
+Here is the real schedule.
+
+## The line items
+
+**Two strength sessions a week. Forty-five minutes each.**
+
+Not five. Two. Compound movements — a push, a pull, a hinge, a squat, a carry — loaded heavily enough that the last two repetitions are genuinely difficult, which is the entire active ingredient and the part almost everybody skips. Two sessions a week done seriously beats five sessions a week done conversationally, and it is not close.
+
+Forty-five minutes includes the warm-up. It does not include a sauna, a smoothie, or a conversation at the front desk. If you are in and out in an hour door to door, you are running it correctly.
+
+**Ninety minutes a week.**
+
+**The fasted morning walk. Twenty minutes, five mornings.**
+
+Before you eat. That is the whole specification, and the reason for it is Chapter 11's business — but the short version is that a walk taken in a fasted state does something metabolically different from the same walk taken after breakfast, and it is the single most accessible lever most people have.
+
+Twenty minutes. Not a workout. Outside if you can, for the light, which is doing more than you think. This is also where the protein rule attaches, and I will state it here in one line so it is on the record early: **you break the fast after the walk, and you break it with thirty to forty grams of lean protein before anything else goes in.** Not with the coffee-and-toast that has been the default since 1974.
+
+**A hundred minutes a week.**
+
+**Cooking. Three or four hours a week.**
+
+This is the biggest line item and it is the one that is not what it looks like, which is why I have put it third instead of hiding it.
+
+**Fifteen minutes a week of planning.** One sitting, usually Sunday. What is on the calendar, what is getting cooked, where the two strength sessions actually go — written down, in the same calendar you use for everything else that gets done.
+
+## The gross number and the net number
+
+Do the arithmetic honestly and the gross number is not ten. The strength sessions are six and a half hours a month. The walks are another seven. The planning hour is one. That is roughly fifteen hours a month before you count a single minute of cooking — and cooking is three or four hours a week on top of it. I am not going to shave that to make the chapter title work.
+
+The chapter title works because of what those hours *displace*, so let's do that subtraction in the open.
+
+**The cooking is essentially a wash.** You are already eating. The relevant comparison is not cooking versus nothing — it is cooking versus the drive-through on the way home, the twenty-two minutes waiting for a table, the delivery order and the delivery order's aftermath. A household that cooks four dinners a week instead of outsourcing them is not spending three or four net-new hours. On a full accounting — the drive, the wait, the ordering, the cleanup either way — it is close to zero, and it gets the dinner table back, which is not a health outcome but is not nothing.
+
+**The walk is mostly a wash.** For most people the twenty minutes before breakfast currently goes to a phone, to a news cycle that will be identical at eight o'clock, or to the specific low-grade activity of not quite being awake yet. Call a third of it genuinely new time — about two and a half hours a month. The rest is a reallocation of minutes you were already awake for.
+
+**The strength sessions are not a wash.** Ninety minutes a week, six and a half hours a month, and every minute of it is new. That is the real cost and I am not going to dress it up. Neither is the planning hour, which is another one.
+
+Add them: six and a half, plus two and a half, plus one, plus roughly nothing for the cooking. Net new time, honestly counted: **about ten hours a month. Two and a half hours a week.**
+
+Now put that against the rest of the calendar. Ten hours a month is:
+
+- About two percent of your waking hours.
+- Less time than the average American adult your age spends watching television in three days.
+- Less than the drive to a single out-of-town grandchild's weekend.
+- Roughly one Saturday morning a month, spread out.
+
+If your calendar cannot absorb ten hours a month, the calendar is the finding, not the protocol.
+
+## What it actually displaces, which is the honest part
+
+I want to be careful not to sell you a free lunch, because there is a version of this chapter that says "you already have the time!" and it is not quite true.
+
+Here is what usually gets displaced in a real week, in the order I see it happen:
+
+**Television, first and mostly.** This is not a moral point. It is just where the hours are. The average American in your age bracket is running three-plus hours a day here, and the strength sessions come out of it almost invisibly.
+
+**The unstructured evening hour.** The one between finishing dinner and deciding to go to bed, which historically has been the hour in which a second drink happens. That hour tends to reorganize itself, and Chapter 10 has a lot to say about why that particular displacement has a compounding return.
+
+**Some morning slack.** Twenty minutes earlier, five days. This is the one that costs something real for the first three weeks and then stops costing anything, because it moves your sleep timing with it.
+
+**Occasionally, one work thing.** Sometimes the seven a.m. call is the thing that has to move. If you have built a life in which nothing can ever move for you, that is worth noticing on its own terms, and it is the same finding as the calendar one.
+
+Nothing on that displacement list is a sacrifice you will be able to name at eighty. Nobody has ever reached the end of the useful decade wishing they had gotten more evening television in.
+
+## Why this is the cheapest line item in the plan
+
+Now put the hours next to everything else you have ever done to manage a risk of this size.
+
+Getting the umbrella policy right took a phone call and a signature — cheap, and it covers a risk you will probably never have. Getting the estate plan right took two meetings with an attorney and roughly what those meetings cost. Getting the business sold took eighteen months and most of what you had.
+
+Getting your physiology onto a different trajectory takes two and a half hours a week, and it is aimed at the largest uncovered exposure on the schedule.
+
+I do not know of another line item in a competent household's risk plan with that ratio. Not one.
+
+And there is a compounding property in the hours that is not in the dollars. The dollars in the next chapter are a flat annual number — you pay it, it is gone, you pay it again. The hours are not flat. Ninety minutes a week of loaded strength work at fifty-eight builds something that is still on the balance sheet at seventy-two. You are not renting the muscle. You are building an asset and then maintaining it at a fraction of what it cost to build.
+
+That is the closest thing to compound interest that exists in a body, and you are running out of years in which the compounding period is long enough to matter. Not out of time. Out of *compounding* time, which is a different and more urgent scarcity, and which is the only piece of genuine urgency in this entire book.
+
+> ### The Premium
+>
+> **The premium:** ten net-new hours a month. Two forty-five-minute strength sessions a week, a twenty-minute fasted walk five mornings, four dinners cooked instead of ordered, fifteen minutes of planning on a Sunday.
+>
+> **What it buys:** the dividend, starting in about six weeks — and the only intervention with randomized-trial evidence behind it on the cognitive side, which Chapter 9 lays out with the numbers showing.
+>
+> **What it does not buy:** a guarantee, and not a single one of those hours can be banked, borrowed against, or paid in a lump sum at sixty-nine. It is a premium. It is due monthly.
+
+Now the money, which is the part you thought was going to be the problem.
+
+---
+
+# Chapter 8 — Pricing the Premium
+
+I am going to give you the whole basket, at three price points, with sources.
+
+Then I am going to do the thing almost nobody does with a number like this, which is to separate what is genuinely new money from what is already leaving your account under a different label.
+
+## The basket
+
+These are national ranges for 2025 and 2026. Your market will vary and you should price your own.
+
+| Line item | Low | Mid | High |
+|---|---|---|---|
+| Gym membership, mid-tier | $30/mo | $60/mo | $120/mo |
+| Personal trainer, once a week | $160/mo | $280/mo | $560/mo |
+| Grocery premium — better protein and produce, two-person household | $120/mo | $185/mo | $250/mo |
+| Supplement stack | $100/mo | $150/mo | $200/mo |
+| **Lifestyle subtotal** | **$410/mo** | **$675/mo** | **$1,130/mo** |
+| **Annualized** | **~$4,900/yr** | **~$8,100/yr** | **~$13,600/yr** |
+| *Optional:* one compounded prescription therapy where indicated and prescribed | $150/mo | $225/mo | $350/mo |
+| **Annualized, with one prescription therapy** | **~$6,700/yr** | **~$10,800/yr** | **~$17,800/yr** |
+
+[premium basket pricing, 2025–2026]
+
+A few notes on how to read that table honestly.
+
+**The trainer line is optional and it is the largest single item.** Drop it entirely and the mid column falls from about $8,100 to about $4,700 a year. I keep it in the default basket because two heavy compound sessions a week done with bad mechanics is how people in their sixties get hurt and quit, and eight to twelve weeks of a competent coach at the front end is the cheapest injury insurance in the basket. After that it is genuinely optional, and plenty of people go to once a month or drop it.
+
+**The grocery line is a delta, not a total.** It is the premium over what you are already spending on food, not the food budget. If your household is currently eating four restaurant dinners a week, this line is negative.
+
+**The prescription line is one item, not five.** There are several categories where a licensed clinician may or may not determine that prescription support is appropriate for a given person — compounded prescription support for gut-barrier repair where indicated, weight-management medication where indicated, hormone support where indicated, regenerative therapies for those already carrying a diagnosis. A household typically uses none of these or one of them. Nobody sensible is on all of them, and I have not stacked them in the table. Which, if any, applies to you is a determination made by an independent licensed prescriber after labs and an actual clinical evaluation, and it is not something this book can tell you.
+
+So: **roughly $8,000 to $10,000 a year for the lifestyle-only version**, and **roughly $15,000 to $18,000 a year if a prescription therapy is part of it.** Those are the numbers I will use for the rest of the book.
+
+## Now subtract what you are already spending
+
+Here is where the number gets less alarming, and I want you to do this on your own statement rather than take my word for it.
+
+| Basket line | What you are probably already paying | Genuinely new money |
+|---|---|---|
+| Gym membership | Most households in this income band already carry one — frequently one that is not being used, which is a different problem | $0 to $60/mo |
+| Trainer | Usually new | $160–$560/mo, and optional after the first three months |
+| Groceries | You are buying food every week regardless; this line is only the quality delta, and it drops as restaurant meals drop | $0 to $185/mo, often less |
+| Supplements | Most men over fifty already have a shelf of these, bought without a plan and mostly not being taken | $0 to $100/mo net |
+| Prescription therapy, if indicated | New | $150–$350/mo |
+
+Run the mid column with that subtraction applied to a typical household and the genuinely new money is somewhere between three and five thousand dollars a year, not eight. The rest is reallocation — the same dollars, aimed.
+
+That is not a trick and it is not softening. It is the single most common thing I see when a household actually itemizes this: they are already spending most of the premium. They are spending it on an unused membership, a cabinet of bottles nobody chose deliberately, and a food budget with a restaurant line in it that nobody has looked at in three years. The money is not missing. It is unmanaged.
+
+## The premium against the face value
+
+Now put it in the vocabulary you actually use.
+
+Term life is priced as a premium against a face value. You do not evaluate a twenty-year, two-million-dollar policy by asking whether $2,400 a year is a lot of money to spend on nothing. You evaluate the ratio.
+
+So do it here.
+
+- **Premium:** roughly $10,000 a year.
+- **Ten-year premium:** $100,000.
+- **Exposure:** the ten-year ledger in Chapter 4 — roughly $495,000 to $560,000 for a median household, with a right tail past $800,000 and no ceiling written anywhere.
+
+Call it a hundred thousand against a half-million-plus. Roughly a five-to-one ratio at the median exposure and considerably better than that in the tail — which is exactly the region insurance exists to address.
+
+I want to flag something before you get comfortable with that ratio, because it is not the same ratio as your term policy and I am not going to let it pass as though it were.
+
+Your term policy pays the full face value if the event occurs. **This premium does not.** It does not pay $500,000 on a diagnosis. It does not pay anything on a diagnosis. What it does is reduce the probability that the event occurs at all — by some amount, which is a real amount with real evidence behind it, and which is smaller than the number you would like it to be.
+
+That distinction is the entire subject of the next chapter, and it is where I show you the arithmetic and let it land wherever it lands.
+
+## The comparison you were about to make anyway
+
+One more before we do the math, because you have been running it in the back of your head since Chapter 3.
+
+A healthy sixty-year-old couple buying moderate long-term-care coverage today — around $165,000 of initial benefit with 3% growth — is quoted somewhere in the range of $4,600 to $7,200 a year combined [industry pricing data, July 2026]. That is a comparable order of magnitude to the lifestyle basket above.
+
+So the fair comparison is not "premium versus nothing." It is: for roughly the same annual outlay, one product is medically underwritten and may decline you, is guaranteed renewable rather than premium-guaranteed and has a documented history of repricing on the people who bought it, caps out well below the ten-year exposure, and pays nothing at all unless you become impaired.
+
+The other one cannot be taken away from you, cannot be repriced by a state filing, is available regardless of your health history, and pays a dividend every year whether or not the claim is ever filed.
+
+I am not telling you to buy one instead of the other. I do not sell either one, I cannot advise you on the first, and some households should own both. I am telling you that if you have already decided the first one is too expensive for what it delivers, you should apply the same analysis to the second one and see where it comes out.
+
+> ### The Premium
+>
+> **The premium:** roughly $8,000–$10,000 a year for the lifestyle basket; roughly $15,000–$18,000 if a prescription therapy is indicated and prescribed. Genuinely new money, for most households: $3,000–$5,000 a year. The rest is money you are already spending, aimed.
+>
+> **What it buys:** a reduction in probability — not a benefit payment — on a $495,000–$560,000 median exposure with an unbounded right tail. Plus the dividend, which pays annually and unconditionally.
+>
+> **What it does not buy:** a face value. There is no check on diagnosis. If you are looking for a product that pays out when the event occurs, that product is long-term-care insurance, and Chapter 3 is where I told you what happened to it.
+
+Now the arithmetic, with nothing rounded in my favor.
+
+---
+
+# Chapter 9 — Odds, Stated Honestly
+
+I promised in Chapter 1 that I would not tell you this pays for itself.
+
+Here is where I keep that promise, with the arithmetic on the page, and I would rather lose you here on an honest number than keep you on a bent one.
+
+## The assumptions, stated before the math
+
+Four inputs. Argue with any of them and the answer moves; that is the point of listing them.
+
+**One. Lifetime risk of dementia after fifty-five: 42%.** From the ARIC cohort study published in *Nature Medicine* in January 2025, following more than 15,000 people from age fifty-five — 42% overall, 35% for men, 48% for women [Fang et al., Nat. Med. 2025].
+
+**Two. For a mixed-sex couple, the probability that at least one of you develops it: about 66%.** That is not a separate finding. It is arithmetic on the first one: 1 − (0.65 × 0.52) = 0.662.
+
+**Three. Average lifetime cost of care if it happens: $405,262**, in 2024 dollars, roughly 70% of it borne by the family [Alz. Assoc. 2026].
+
+**Four. Risk reduction from sustained structured lifestyle change: 30%.** This is the number I have to defend hardest, and I defend it below. It is a conservative reading of the evidence and it is deliberately lower than the figure you have probably seen quoted.
+
+Before I multiply anything, one caveat that has to travel with the 42% every single time it is used.
+
+**That 42% is all-cause dementia, including mild late-life cases.** It is a broader category than "Alzheimer's requiring years of full-time memory care," and a meaningful share of the people inside it will experience something considerably less severe and less expensive than the decade in Chapter 4. The $405,262 figure, meanwhile, is the average cost among people who develop dementia and require care — not further discounted for the mild cases.
+
+So do not read the table below as "66% of couples face a half-million-dollar decade." That is not what these numbers say. Read it as what it is: a risk-weighted expected value, using the broadest risk figure and an unadjusted average cost, which pull in two directions at once.
+
+## The math
+
+| | Lifetime risk | Expected cost, unmitigated<br>(risk × $405,262) | Expected savings at **30%** risk reduction | Net against a $100,000 ten-year premium |
+|---|---|---|---|---|
+| **Single person** | 42% | $170,210 | **$51,063** | **−$48,937** |
+| **Couple** — "does this happen to either of us" | 66.2% | $268,283 | **$80,485** | **−$19,515** |
+
+There it is.
+
+At the honest risk-reduction assumption, a couple paying $10,000 a year for ten years comes out roughly **nineteen thousand five hundred dollars short** on dementia-cost avoidance alone. A single person comes out about **forty-nine thousand short**.
+
+It does not break even. I told you in Chapter 1 that it would not and I am not going to pretend now that it did.
+
+## The number you have seen quoted, and why it is not in that table
+
+You have probably encountered a much friendlier figure: that up to 45% of dementia cases are attributable to modifiable risk factors. It comes from the 2024 Lancet Commission, which identified fourteen of them — hearing loss, hypertension, smoking, obesity, depression, physical inactivity, diabetes, excess alcohol, head injury, air pollution, social isolation, high LDL, untreated vision loss, and low education [Lancet Commission 2024].
+
+That is a real finding from serious people, and it is not what most people who quote it think it is.
+
+45% is a **population-attributable fraction**: the answer to the question *if every person on earth eliminated all fourteen of those factors, across the whole life course starting in childhood, what share of dementia cases would theoretically not occur?* It is a public-health ceiling, describing a population over generations under conditions that will never obtain.
+
+**It is not a statement that you, personally, starting at fifty-eight, cut your own risk by 45%.** No study shows that. Anyone who hands you that number as a personal figure either does not understand the distinction or is counting on you not to.
+
+For the record, here is where the ceiling would put the couple's arithmetic: $268,283 × 0.45 = **$120,728**, which is $20,728 *above* the $100,000 premium. I show it so you know I did not hide it, and I label it plainly: **a population ceiling under impossible conditions, not a result any individual household should expect.** It is the only version of this arithmetic that produces a positive number, and I am not going to sell you the positive one.
+
+**30% stays the working assumption.**
+
+## What the individual-level evidence actually shows
+
+Since I am asking you to accept 30%, here is the evidence underneath it.
+
+**The strongest single piece is US POINTER**, published in *JAMA* in July 2025 — 2,111 participants, mean age 68.2, two years, randomized. Both a structured multidomain lifestyle program and a self-guided version improved global cognition, and the structured arm improved significantly more than the self-guided one. The benefit held across age, sex, ethnicity, cardiovascular status, and APOE-ε4 genotype [US POINTER, JAMA 2025]. It built on the Finnish FINGER trial, which showed the same direction over two years a decade earlier [FINGER, 2015].
+
+Read what that says and also what it does not. It is an improvement-in-cognition and protection-from-decline finding over two years. It is **not** a finding that anybody prevented dementia. No trial has run long enough to show that, and when someone cites US POINTER as proof that lifestyle prevents Alzheimer's, they have read the headline and not the paper.
+
+**Physical activity, pooled across meta-analyses**: relative risk for all-cause dementia of about **0.80** in the more active — roughly a 20% lower risk. Alzheimer's-specific, about 0.86. Vascular dementia, about 0.79. Leisure-time activity specifically, about 0.76 [physical activity meta-analyses]. One caution that tells you these are real analyses and not marketing: occupational physical activity showed a slightly *increased* risk in one large pooled analysis. The benefit is domain-specific. Being on your feet all day at work is not the same exposure as training.
+
+That is roughly 20 to 24% from one domain, observational, with all the confounding that implies. Stack a second and third domain — metabolic control, sleep, hearing, blood pressure — and 30% is a defensible aggregate. It is also, I want to be clear, an *estimate assembled across evidence types*, not a number that any single trial has produced for a multidomain program. That is the honest state of the field.
+
+## Three things that tip the ledger
+
+So the dementia-only arithmetic comes up short. Here is why I still think the premium is the right trade, and each of these is a real argument rather than a consolation.
+
+### One: you are not buying one risk reduction. You are buying several, simultaneously.
+
+This is the largest of the three and the one the expected-value table structurally cannot capture, because it prices exactly one line item.
+
+The strength work, the metabolic control, the sleep, and the removal of chronic inflammatory load do not act on a dementia pathway and nothing else. They act on the same substrate that produces type 2 diabetes, hypertension, cardiovascular disease, stroke, and the sarcopenia that decides whether a fall at seventy-eight is an inconvenience or the beginning of the end.
+
+And those conditions are not sitting in a separate column from dementia. They are the road that runs to it. The hazard ratios are specific and they are not small: a type 2 diabetes diagnosis at sixty to sixty-nine carries a **hazard ratio of 1.70** for subsequent dementia; diagnosed at fifty to fifty-nine, **1.72**; diagnosed before fifty, **1.90** — each measured against diagnosis at seventy or later. And obesity plus diabetes diagnosed before fifty carries a hazard ratio of **3.05** against non-obese diagnosis at fifty or later [T2D/obesity HRs, 2024].
+
+Read that last one again. Roughly a tripling, from two conditions that are both largely addressed by the same ten hours a month.
+
+So the premium is not buying a 30% reduction on one exposure. It is buying a partial reduction across a correlated portfolio of exposures, several of which are themselves inputs to the exposure in the table. The expected-value math above prices one of those and ignores the rest, which means it is not a neutral estimate — **it is a floor.** The dementia case is the hardest case to make for these behaviors, not the easiest, and it still comes within nineteen thousand dollars of break-even.
+
+### Two: the right tail.
+
+The $405,262 in that table is an average. Chapter 4 told you what the distribution looks like around it, and it is not symmetric.
+
+The low side is bounded — a short course, two or three years, mostly at home. The high side is not. A twelve- or fourteen-year course with five years in a private room in a high-cost metro does not produce a $560,000 bill. It produces something well past $800,000, with no ceiling written anywhere.
+
+Expected-value arithmetic on an asymmetric distribution systematically understates the thing you are actually protecting against, because it averages a bounded downside against an unbounded upside and reports the middle. The middle is not the risk. The tail is the risk.
+
+Which brings me to the sentence this whole chapter has been walking toward.
+
+**You do not insure the house because you expect it to burn.**
+
+You expect, quite confidently, that it will not. The expected value of your homeowner's policy is deeply negative and has been every year for thirty years, and you have never once considered dropping it, because you are not buying expected value. You are buying the elimination of an outcome you cannot come back from.
+
+That is ruin avoidance, and it is a completely different trade from an investment. You have made it a dozen times without needing a spreadsheet to justify it. The umbrella policy has a terrible expected value. The term life had a terrible expected value. You bought them because the loss, if it landed, was unrecoverable — and unrecoverable is the test, not likely.
+
+The uninsured decade is the last unrecoverable loss on your schedule, and it is the one where the reserve has to come out of physiology because no carrier will post it for you.
+
+### Three: the dividend, which the table cannot price at all.
+
+Look at that expected-value calculation one more time and notice what it is doing. It is treating $100,000 of premium as pure cost — money spent purchasing nothing but a probability shift. That is not what happened.
+
+You bought ten years of sleeping through the night. Ten years of getting off the floor without a hand on the coffee table. Ten years of four o'clock in the afternoon not being a wall. Ten years of a marriage in which the physical part did not quietly close down at sixty-four. Ten years of being present in rooms you would otherwise have been merely attending.
+
+None of that is in the table. All of it was delivered, unconditionally, whether or not the claim ever gets filed.
+
+If you charged even a modest annual value against those ten years — and you would pay considerably more than $10,000 for a year of good sleep and functional strength if someone offered it as a product, which they cannot — the ledger closes and then some. I have not put a dollar figure on it because any figure I chose would be invented, and I have gotten this far on numbers you can check. But you can price your own, and you should, because it is the largest term in the equation and the one I left blank on purpose.
+
+## Where that leaves the trade
+
+The whole thing in one paragraph, with nothing rounded in my favor. Paying roughly $10,000 a year and ten hours a month does not, on the dementia-cost arithmetic alone, return more money than it costs — for a couple it comes about nineteen thousand five hundred dollars short over ten years at a conservative 30% risk reduction. Closer than most people expect. Not break-even. What tips it is that the same premium reduces a correlated set of other risks the table never priced, that the exposure has an unbounded right tail averages cannot represent, and that the premium delivers an unconditional annual dividend the table treats as worth zero.
+
+If you need a positive expected value on a single line item before you will act, do not do this.
+
+If you have ever bought a policy on a risk you did not expect to occur, because the version where it did was one your family could not come back from, then you already understand this trade. You have made it before. The only difference is that this time there is nobody to write the contract, and the reserve has to come out of hours.
+
+> ### The Premium
+>
+> **The premium:** ten hours a month. Roughly $8,000–$10,000 a year, most of it money already leaving your account.
+>
+> **What it buys:** a conservative 30% reduction in the odds of the decade in Chapter 4 — which does not break even on that line item alone — plus a reduction across a correlated set of exposures the arithmetic never priced, protection against a tail with no ceiling, and a dividend paid annually and unconditionally starting in about six weeks.
+>
+> **What it does not buy:** immunity, a benefit check, or a guarantee. Nothing in this book prevents, cures, treats, or reverses dementia, Alzheimer's, or Parkinson's. It lowers the odds. That is the only sentence an honest person can sell you, and it is the only one I will.
+
+You have the exposure. You have the price, in hours and in dollars. You have the odds, stated as odds.
+
+So here is the coverage schedule.
+
+---
+
 ## Sources (stub — full citation list to be completed at manuscript lock)
 
 Every figure above is keyed to one of the following. Full citations, access dates, and the working updated version are maintained at my4mlife.com/science.
@@ -508,7 +929,14 @@ Every figure above is keyed to one of the following. Full citations, access date
 - **[industry pricing data, July 2026]** — Long-term-care premium ranges for a healthy 60-year-old couple, July 2026 pricing. *Re-verify at manuscript lock.*
 - **[CRR / HCG Secure, 2026]** — Center for Retirement Research at Boston College; HCG Secure / Arctos Foundation survey. LTC insurance ownership 10–15% of Americans 65+; ~70% of those over 65 will need long-term care.
 - **[LIMRA 2026]** — LIMRA / EY, hybrid life-with-LTC product research, 2026.
+- **[Lancet Commission 2024]** — Livingston G, et al., *Lancet* Standing Commission on dementia prevention, intervention, and care, 2024 update. Fourteen modifiable risk factors; up to ~45% of dementia cases theoretically preventable or delayable. **This is a population-attributable fraction — a population-wide ceiling under conditions that will never obtain — not an individual's expected risk reduction. Never present 45% as a personal number. 30% is this book's conservative default for any individual relative-risk-reduction claim.** alzheimer-europe.org
+- **[US POINTER, JAMA 2025]** — Baker LD, et al., U.S. Study to Protect Brain Health Through Lifestyle Intervention to Reduce Risk (US POINTER), *JAMA*, 28 July 2025. 2,111 participants, mean age 68.2, 2-year RCT; both structured and self-guided multidomain lifestyle interventions improved global cognition, structured significantly more, consistent across age, sex, ethnicity, cardiovascular status, and APOE-ε4. *Improvement/protection-from-decline finding — not a prevention finding.* jamanetwork.com/journals/jama/fullarticle/2837046
+- **[FINGER, 2015]** — Ngandu T, et al., Finnish Geriatric Intervention Study to Prevent Cognitive Impairment and Disability (FINGER), 2015. 2-year multidomain lifestyle intervention improved/maintained global cognition vs. control; the design basis for US POINTER.
+- **[physical activity meta-analyses]** — Pooled relative risk for all-cause dementia with higher physical activity ≈ 0.80 (95% CI 0.77–0.84); Alzheimer's-specific ≈ 0.86; vascular dementia ≈ 0.79; leisure-time activity specifically ≈ 0.76. Occupational physical activity showed a slightly *increased* risk (RR ≈ 1.20) in one large analysis — the benefit is domain-specific. *Observational pooled estimates; individual studies to be cited in full at manuscript lock.*
+- **[T2D/obesity HRs, 2024]** — Hazard ratios for subsequent dementia by age at type 2 diabetes diagnosis (reference: diagnosis at ≥70): 60–69 → HR 1.70; 50–59 → HR 1.72; before 50 → HR 1.90. Obesity plus diabetes diagnosed before 50 → HR 3.05 vs. non-obese diagnosed ≥50. Midlife metabolically unhealthy obesity in women → HR 1.62. ncbi.nlm.nih.gov/pmc/articles/PMC11559992
+- **[premium basket pricing, 2025–2026]** — Composite of published 2025–2026 US consumer pricing: mid-tier gym membership $30–$120/mo; personal trainer once weekly $160–$560/mo; organic/grass-fed grocery premium for a two-person household $120–$250/mo; quality supplement stack $100–$200/mo; single compounded prescription therapy category $150–$350/mo. *Ranges, not quotes. Re-verify at manuscript lock; regional variation is large.*
+
 
 ---
 
-<!-- PART II: The Premium — not yet drafted -->
+<!-- PART III: The Policy — not yet drafted -->
