@@ -29,6 +29,16 @@ for _slug, _svg in EMBLEMS.items():
         html_body = html_body[:_idx] + '<div class="chap-emblem">' + _svg + '</div>' + html_body[_idx:]
 
 CSS = """
+/* Part kicker shares the page with its first chapter */
+h1.part { page-break-before: always; page-break-after: avoid; font-size: 13pt; letter-spacing: 0.12em; text-transform: uppercase; color: #8a6d1f; margin: 0 0 0.6em; }
+h1.part::after { display: none; }
+h1.after-part { page-break-before: avoid; }
+h1.after-part + p::first-letter { font-size: 3.4em; }
+/* Compact sources */
+h1.sources { page-break-before: always; font-size: 20pt; }
+h1.sources ~ ul, h1.sources ~ p, h1.sources ~ ol { font-size: 8pt; line-height: 1.3; }
+h1.sources ~ ul li { margin: 0 0 0.35em; }
+
 @page {
   size: 6in 9in;
   margin: 0.75in 0.7in 0.85in 0.7in;
