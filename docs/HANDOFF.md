@@ -5,6 +5,13 @@
 # ===================================================================
 
 
+## ⚡ 2026-09-09 SESSION — AI concierge email DRAFT MODE (code + infra scripts committed, NOT YET DEPLOYED — TJ runs 3 scripts)
+- **Plan:** `docs/plan/concierge-email-draft-mode-2026-09-09.md`. Every email to support@/info@ → Google Admin routing copies it to `concierge@inbox.my4mlife.com` → SES inbound (us-east-2, subdomain only; root MX stays Google) → S3 `my4mlife-inbound-mail` → `my4mlife-inbound-handler` → Bedrock Haiku 4.5 (JSON: category/confidence/escalate/reply/internal_note) → draft stored in Conversations → TJ gets `[Concierge draft]` email (via email-sender/Mailgun, SES is sandbox) with **Approve & send** link → `my4mlife-concierge-approve` (function URL + HMAC token) sends via email-sender from info@. `CONCIERGE_MODE=auto` later = auto-send faq/fulfillment/sales ≥0.85 confidence, non-escalated.
+- **Prompt sweep done** (`lambdas/inbound-handler/src/system-prompt.ts`): Dr. TJ only + disclaimer, Biome timing WITH meal, Rx moat (no formula), soft-launch pricing (free ×4 / $249 TRT / $249 HRT), MindSpan Assessment, Logbook, no discounts, URL allowlist, bug→escalate behavior, JSON contract.
+- **Handler split** into parse/store/draft/notify/token (<100 lines each); unknown senders = `prospect#<email>` and still get a draft; loop guard on own domains/Auto-Submitted.
+- **DEPLOY ORDER (TJ, from repo root):** `./lambdas/concierge-approve/infra/deploy.sh` → `./lambdas/inbound-handler/infra/deploy.sh` → `./lambdas/inbound-handler/infra/deploy-ses-receiving.sh` → Google Admin routing rule per `docs/ops/google-routing-concierge.md` → test by emailing support@ from an outside account.
+- Known nit: approve Lambda sends then marks; a double-click inside ~1s could double-send. Fine for draft mode; fix (claim-then-send) before auto mode.
+
 ## ⚡ 2026-09-07 SESSION — NEW DIRECTION: "The Uninsured Decade" money door (FULL GO per TJ)
 
 - **TJ's brainstorm → locked as full-time direction:** reach the original target (executive male earner 50–70, makes household financial decisions, distrustful, unreachable via social) by reframing cognitive decline as an UNINSURABLE financial catastrophe. Frame: Medicare pays $0 custodial care + LTC insurance market collapsed → 4M protocol (~10 hrs/mo, ~$10K/yr) = "the premium paid in hours." Expected-value honest, no prevention claims. Third door in the Hims/Hers pattern (men's flagship / employer / **money**).
