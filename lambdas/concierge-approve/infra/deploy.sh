@@ -160,6 +160,13 @@ $AWS lambda add-permission \
   --principal '*' \
   --function-url-auth-type NONE \
   --statement-id url-public >/dev/null 2>&1 || log "  Permission url-public already present (ignored)."
+# Since Oct 2025 a NONE-auth URL ALSO needs lambda:InvokeFunction scoped to URL invocations.
+$AWS lambda add-permission \
+  --function-name "$FUNCTION_NAME" \
+  --action lambda:InvokeFunction \
+  --principal '*' \
+  --invoked-via-function-url \
+  --statement-id url-public-invoke >/dev/null 2>&1 || log "  Permission url-public-invoke already present (ignored)."
 
 # ── 6. Publish APPROVE_URL to SSM ───────────────────────────────────────────────
 log "Writing $APPROVE_URL_PARAM..."
