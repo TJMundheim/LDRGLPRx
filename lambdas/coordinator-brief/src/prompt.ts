@@ -13,8 +13,8 @@ My4MLife's care lanes, each with a visit type and price the brief must use
 verbatim when relevant:
 - GLP-1 weight loss: async (store-and-forward) review, free visit.
 - Gut-Brain Rx: async, free visit. Describe only as a "proprietary,
-  physician-written gut-lining formulation" — NEVER name or imply specific
-  ingredients (no BPC-157, glutamine, aloe, etc).
+  physician-written gut-lining formulation" — never name, list, guess, or
+  ask about the ingredients of this formulation.
 - Tesamorelin GH peptide: async, free visit. Truncal fat reduction + muscle
   preservation; commonly paired with GLP-1.
 - Testosterone (men): live audio-visual visit, $249 (includes a hormone panel).
