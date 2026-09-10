@@ -33,13 +33,27 @@ export async function putDraftPlan(contactId: string, encounterId: string, json:
   }));
 }
 
+/** Upsert the plan item to state 'sending' with the (possibly coordinator-edited)
+ *  json BEFORE the patient email goes out, so a mail failure still leaves a
+ *  record. contactId is the table's partition key and must never appear in
+ *  SET — only non-key attrs may use if_not_exists here. */
+export async function upsertPlanSending(contactId: string, encounterId: string, json: unknown, ts: string): Promise<void> {
+  await ddb.send(new UpdateCommand({
+    TableName: TABLE,
+    Key: { contactId, sk: planSk(encounterId) },
+    UpdateExpression: 'SET #st = :sending, json = :json, updatedAt = :ts, encounterId = if_not_exists(encounterId, :eid), createdAt = if_not_exists(createdAt, :ts)',
+    ExpressionAttributeNames: { '#st': 'state' },
+    ExpressionAttributeValues: { ':sending': 'sending', ':json': json, ':ts': ts, ':eid': encounterId },
+  }));
+}
+
 export async function markPlanSent(contactId: string, encounterId: string, json: unknown, ts: string): Promise<void> {
   await ddb.send(new UpdateCommand({
     TableName: TABLE,
     Key: { contactId, sk: planSk(encounterId) },
-    UpdateExpression: 'SET #st = :sent, json = :json, updatedAt = :ts, sentAt = :ts, contactId = if_not_exists(contactId, :cid), encounterId = if_not_exists(encounterId, :eid), createdAt = if_not_exists(createdAt, :ts)',
+    UpdateExpression: 'SET #st = :sent, json = :json, updatedAt = :ts, sentAt = :ts, encounterId = if_not_exists(encounterId, :eid), createdAt = if_not_exists(createdAt, :ts)',
     ExpressionAttributeNames: { '#st': 'state' },
-    ExpressionAttributeValues: { ':sent': 'sent', ':json': json, ':ts': ts, ':cid': contactId, ':eid': encounterId },
+    ExpressionAttributeValues: { ':sent': 'sent', ':json': json, ':ts': ts, ':eid': encounterId },
   }));
 }
 

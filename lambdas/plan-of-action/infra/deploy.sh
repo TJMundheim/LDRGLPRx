@@ -76,6 +76,11 @@ INLINE_POLICY=$(cat <<EOF
     },
     {
       "Effect": "Allow",
+      "Action": ["aws-marketplace:ViewSubscriptions", "aws-marketplace:Subscribe"],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
       "Action": ["lambda:InvokeFunction"],
       "Resource": "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$EMAIL_SENDER_FN"
     }

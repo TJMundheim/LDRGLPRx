@@ -162,6 +162,44 @@ describe('action: send', () => {
 
     expect(lambdaSendMock).not.toHaveBeenCalled();
   });
+
+  it('never puts contactId (the partition key) in an UpdateExpression SET clause', async () => {
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.Key?.sk === 'record') return { Item: RECORD_ITEM };
+      return {};
+    });
+
+    await handler({
+      arguments: { action: 'send', contactId: 'contact-abc', encounterId: 'enc-1', planJson: VALID_PLAN },
+    } as any);
+
+    const updateCalls = ddbSendMock.mock.calls.filter((c: any) => c[0].constructor?.name === 'UpdateCommand');
+    expect(updateCalls.length).toBeGreaterThan(0);
+    for (const [cmd] of updateCalls) {
+      expect(cmd.input.UpdateExpression).not.toMatch(/\bcontactId\s*=/);
+    }
+  });
+
+  it('stores the plan (state: sending) before emailing the patient', async () => {
+    const callOrder: string[] = [];
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.Key?.sk === 'record') return { Item: RECORD_ITEM };
+      if (cmd.constructor?.name === 'UpdateCommand') callOrder.push(`store:${cmd.input.ExpressionAttributeValues?.[':sending'] ? 'sending' : 'sent'}`);
+      return {};
+    });
+    lambdaSendMock.mockImplementation(async () => {
+      callOrder.push('mail');
+      return {};
+    });
+
+    await handler({
+      arguments: { action: 'send', contactId: 'contact-abc', encounterId: 'enc-1', planJson: VALID_PLAN },
+    } as any);
+
+    expect(callOrder[0]).toBe('store:sending');
+    expect(callOrder.indexOf('store:sending')).toBeLessThan(callOrder.indexOf('mail'));
+    expect(callOrder.indexOf('mail')).toBeLessThan(callOrder.indexOf('store:sent'));
+  });
 });
 
 // ── renderPlan escaping ──────────────────────────────────────────────────────

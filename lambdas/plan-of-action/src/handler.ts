@@ -1,8 +1,7 @@
 // my4mlife-plan-of-action — AppSync direct Lambda data source.
-// action 'draft': coordinator notes + call brief -> Bedrock -> stored draft plan.
-// action 'send' : validates links, emails the patient, marks the plan sent,
-//                 audits it, and notifies the coordinator inbox.
-import { getRecord, getBrief, getPlan, putDraftPlan, markPlanSent, writeAudit } from './store';
+// 'draft': notes + brief -> Bedrock -> stored draft. 'send': store 'sending',
+// email patient, mark 'sent', audit, notify coordinator.
+import { getRecord, getBrief, getPlan, putDraftPlan, upsertPlanSending, markPlanSent, writeAudit } from './store';
 import { buildPrompt, DISCLAIMER } from './prompt';
 import { draftPlan, type PlanJson } from './bedrock';
 import { validateLinks, renderPlan } from './render';
@@ -76,6 +75,10 @@ async function handleSend(contactId: string, encounterId: string, planJsonArg?: 
   const email = emailOf(record);
   if (!email) throw new Error('no patient email on file');
 
+  // Store before sending so a mail failure below still leaves a record.
+  const sendingTs = new Date().toISOString();
+  await upsertPlanSending(contactId, encounterId, plan, sendingTs);
+
   const { html, text } = renderPlan(plan, firstNameOf(record));
   await sendMail(email, plan.subject, html, text);
 
@@ -85,7 +88,7 @@ async function handleSend(contactId: string, encounterId: string, planJsonArg?: 
 
   await sendMail(NOTIFY_TO, `[Plan sent] ${plan.subject}`, html, text);
 
-  return { encounterId, state: 'sent', json: plan, createdAt: createdAt ?? ts, sentAt: ts };
+  return { encounterId, state: 'sent', json: plan, createdAt: createdAt ?? sendingTs, sentAt: ts };
 }
 
 export const handler = async (event: AppSyncEvent): Promise<PlanResult> => {
