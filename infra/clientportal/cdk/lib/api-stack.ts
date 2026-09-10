@@ -243,6 +243,38 @@ export class ApiStack extends cdk.Stack {
       code: code('exportClinicalPacketAdmin.js'),
     });
 
+    // ─── GenerateCoordinatorBriefAdmin — Lambda data source ───────────────────
+    const coordinatorBriefFn = lambda.Function.fromFunctionName(this, 'CoordinatorBriefFn', 'my4mlife-coordinator-brief');
+    const dsCoordinatorBrief = this.api.addLambdaDataSource('CoordinatorBriefDS', coordinatorBriefFn);
+    new appsync.Resolver(this, 'GenerateCoordinatorBriefAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'generateCoordinatorBriefAdmin',
+      dataSource: dsCoordinatorBrief,
+      runtime: JS_RUNTIME,
+      code: code('generateCoordinatorBriefAdmin.js'),
+    });
+
+    // ─── DraftPlanOfActionAdmin / SendPlanOfActionAdmin — Lambda data source ──
+    const planOfActionFn = lambda.Function.fromFunctionName(this, 'PlanOfActionFn', 'my4mlife-plan-of-action');
+    const dsPlanOfAction = this.api.addLambdaDataSource('PlanOfActionDS', planOfActionFn);
+    new appsync.Resolver(this, 'DraftPlanOfActionAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'draftPlanOfActionAdmin',
+      dataSource: dsPlanOfAction,
+      runtime: JS_RUNTIME,
+      code: code('draftPlanOfActionAdmin.js'),
+    });
+    new appsync.Resolver(this, 'SendPlanOfActionAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'sendPlanOfActionAdmin',
+      dataSource: dsPlanOfAction,
+      runtime: JS_RUNTIME,
+      code: code('sendPlanOfActionAdmin.js'),
+    });
+
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });
   }

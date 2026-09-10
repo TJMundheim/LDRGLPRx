@@ -24,9 +24,9 @@ export function request(ctx) {
 export function response(ctx) {
   if (ctx.error) util.error(ctx.error.message, ctx.error.type);
   const items = ctx.result.items ? ctx.result.items : [];
-  // Each item has no nested encounters/audit from this scan — return empty arrays
-  // for those fields so the type contract is satisfied; getPatientRecordAdmin
-  // fetches the full composite view.
+  // Each item has no nested encounters/audit/briefs/plans from this scan — return
+  // empty arrays for those non-nullable fields so the type contract is satisfied;
+  // getPatientRecordAdmin fetches the full composite view.
   return items.map(function(item) {
     return {
       contactId: item.contactId ? item.contactId : '',
@@ -39,6 +39,8 @@ export function response(ctx) {
       updatedAt: item.updatedAt ? item.updatedAt : null,
       encounters: [],
       audit: [],
+      briefs: [],
+      plans: [],
     };
   });
 }

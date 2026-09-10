@@ -6,9 +6,22 @@
     updateEncounterStateAdmin,
     chargeEncounterAdmin,
     exportClinicalPacketAdmin,
+    generateCoordinatorBriefAdmin,
+    draftPlanOfActionAdmin,
+    sendPlanOfActionAdmin,
     type PatientRecordAdmin,
     type EncounterAdmin,
+    type BriefAdmin,
+    type PlanAdmin,
   } from '../../api/operations.js';
+  import {
+    parseBrief,
+    parsePlan,
+    emptyPlan,
+    planToJson,
+    latestFor,
+    type Plan,
+  } from './patientBrief.js';
 
   // ─── State ────────────────────────────────────────────────────────────────────
 
@@ -76,6 +89,155 @@
       const msg = e instanceof Error ? e.message : 'Network or server error. Please retry.';
       setExportState(encounterId, { exporting: false, exportError: msg });
     }
+  }
+
+  // ─── Pre-call brief state (keyed by encounterId) ──────────────────────────────
+
+  type BriefState = { generating: boolean; error: string };
+
+  let briefStates = $state<Record<string, BriefState>>({});
+
+  // Pure read — must NOT mutate $state during render.
+  function getBriefState(encounterId: string): BriefState {
+    return briefStates[encounterId] ?? { generating: false, error: '' };
+  }
+
+  function setBriefState(encounterId: string, patch: Partial<BriefState>) {
+    const existing = briefStates[encounterId] ?? { generating: false, error: '' };
+    briefStates = { ...briefStates, [encounterId]: { ...existing, ...patch } };
+  }
+
+  async function generateBrief(contactId: string, encounterId: string) {
+    setBriefState(encounterId, { generating: true, error: '' });
+    try {
+      const res = await generateCoordinatorBriefAdmin({ contactId, encounterId });
+      const brief = res.generateCoordinatorBriefAdmin;
+      if (detail) {
+        detail = { ...detail, briefs: [...(detail.briefs ?? []), brief] };
+      }
+      setBriefState(encounterId, { generating: false });
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Failed to generate brief. Please retry.';
+      setBriefState(encounterId, { generating: false, error: msg });
+    }
+  }
+
+  // ─── Plan-of-action state (keyed by encounterId) ──────────────────────────────
+
+  type PlanFormState = {
+    notes: string;
+    plan: Plan;
+    /** true once a draft (from AI or a prior session) is being edited */
+    hasDraft: boolean;
+    drafting: boolean;
+    draftError: string;
+    sending: boolean;
+    sendError: string;
+  };
+
+  function blankPlanForm(): PlanFormState {
+    return { notes: '', plan: emptyPlan(), hasDraft: false, drafting: false, draftError: '', sending: false, sendError: '' };
+  }
+
+  let planForms = $state<Record<string, PlanFormState>>({});
+
+  // Pure read — must NOT mutate $state during render.
+  function getPlanForm(encounterId: string): PlanFormState {
+    return planForms[encounterId] ?? blankPlanForm();
+  }
+
+  function setPlanForm(encounterId: string, patch: Partial<PlanFormState>) {
+    const existing = planForms[encounterId] ?? blankPlanForm();
+    planForms = { ...planForms, [encounterId]: { ...existing, ...patch } };
+  }
+
+  function updatePlanField(encounterId: string, patch: Partial<Plan>) {
+    const form = getPlanForm(encounterId);
+    setPlanForm(encounterId, { plan: { ...form.plan, ...patch } });
+  }
+
+  function updatePlanCta(encounterId: string, patch: Partial<Plan['next_step_cta']>) {
+    const form = getPlanForm(encounterId);
+    setPlanForm(encounterId, { plan: { ...form.plan, next_step_cta: { ...form.plan.next_step_cta, ...patch } } });
+  }
+
+  function addPlanStep(encounterId: string) {
+    const form = getPlanForm(encounterId);
+    setPlanForm(encounterId, { plan: { ...form.plan, plan_steps: [...form.plan.plan_steps, { step: '', why: '', link: '' }] } });
+  }
+
+  function removePlanStep(encounterId: string, index: number) {
+    const form = getPlanForm(encounterId);
+    setPlanForm(encounterId, { plan: { ...form.plan, plan_steps: form.plan.plan_steps.filter((_, i) => i !== index) } });
+  }
+
+  function updatePlanStep(encounterId: string, index: number, patch: Partial<Plan['plan_steps'][number]>) {
+    const form = getPlanForm(encounterId);
+    const steps = form.plan.plan_steps.map((s, i) => (i === index ? { ...s, ...patch } : s));
+    setPlanForm(encounterId, { plan: { ...form.plan, plan_steps: steps } });
+  }
+
+  // Seed a coordinator-editable plan form from an existing unsent draft, so
+  // reopening a patient's detail doesn't lose in-progress work. Only seeds
+  // encounters that don't already have local form state.
+  function seedPlanForms(rec: PatientRecordAdmin) {
+    const pf = { ...planForms };
+    for (const enc of rec.encounters ?? []) {
+      if (pf[enc.encounterId]) continue;
+      const planAdmin = latestFor(rec.plans ?? [], enc.encounterId);
+      if (!planAdmin || planAdmin.state === 'sent') continue;
+      const parsed = parsePlan(planAdmin.json);
+      if (parsed) {
+        pf[enc.encounterId] = { notes: '', plan: parsed, hasDraft: true, drafting: false, draftError: '', sending: false, sendError: '' };
+      }
+    }
+    planForms = pf;
+  }
+
+  async function draftPlan(contactId: string, encounterId: string) {
+    const form = getPlanForm(encounterId);
+    if (!form.notes.trim()) {
+      setPlanForm(encounterId, { draftError: 'Add coordinator notes from the call before drafting.' });
+      return;
+    }
+    setPlanForm(encounterId, { drafting: true, draftError: '' });
+    try {
+      const res = await draftPlanOfActionAdmin({ contactId, encounterId, coordinatorNotes: form.notes });
+      const planAdmin = res.draftPlanOfActionAdmin;
+      const parsed = parsePlan(planAdmin.json) ?? emptyPlan();
+      setPlanForm(encounterId, { drafting: false, hasDraft: true, plan: parsed });
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Failed to draft plan. Please retry.';
+      setPlanForm(encounterId, { drafting: false, draftError: msg });
+    }
+  }
+
+  async function sendPlan(contactId: string, encounterId: string) {
+    const form = getPlanForm(encounterId);
+    setPlanForm(encounterId, { sending: true, sendError: '' });
+    try {
+      const res = await sendPlanOfActionAdmin({ contactId, encounterId, planJson: planToJson(form.plan) });
+      const sentPlan = res.sendPlanOfActionAdmin;
+      if (detail) {
+        detail = { ...detail, plans: [...(detail.plans ?? []), sentPlan] };
+      }
+      // Refresh the full record so every derived view (audit trail, etc.) is current.
+      try {
+        const refreshed = await getPatientRecordAdmin(contactId);
+        if (refreshed.getPatientRecordAdmin) detail = refreshed.getPatientRecordAdmin;
+      } catch {
+        // ignore reload errors; the send itself already succeeded
+      }
+      setPlanForm(encounterId, { sending: false });
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Failed to send plan. Please retry.';
+      setPlanForm(encounterId, { sending: false, sendError: msg });
+    }
+  }
+
+  function confirmAndSendPlan(contactId: string, encounterId: string) {
+    if (!confirm('Send this plan of action to the patient now? This cannot be undone.')) return;
+    sendPlan(contactId, encounterId);
   }
 
   /**
@@ -217,6 +379,7 @@
       const res = await getPatientRecordAdmin(contactId);
       detail = res.getPatientRecordAdmin;
       if (detail?.encounters?.length) seedEncounterState(detail.encounters);
+      if (detail) seedPlanForms(detail);
     } catch (e: unknown) {
       detailError = e instanceof Error ? e.message : 'Failed to load patient detail';
     } finally {
@@ -445,6 +608,11 @@
                     {@const cform = getChargeForm(enc2)}
                     {@const estate = getExportState(enc2.encounterId)}
                     {@const si = stepIndex(enc2.state)}
+                    {@const briefAdmin = latestFor(detail.briefs ?? [], enc2.encounterId)}
+                    {@const brief = parseBrief(briefAdmin?.json)}
+                    {@const bstate = getBriefState(enc2.encounterId)}
+                    {@const planAdmin = latestFor(detail.plans ?? [], enc2.encounterId)}
+                    {@const pform = getPlanForm(enc2.encounterId)}
                     <div class="encounter">
                       <div class="enc-head">
                         <span class="enc-cat">{enc2.category}</span>
@@ -562,6 +730,170 @@
                             <a class="ilink" href={estate.lastUrl} target="_blank" rel="noopener">Open again</a></p>
                         {/if}
                       </div>
+
+                      <!-- Pre-call brief -->
+                      <details class="subpanel">
+                        <summary class="subpanel-summary">Pre-call brief</summary>
+                        <div class="subpanel-body">
+                          {#if brief}
+                            <div class="brief">
+                              <p class="brief-summary">{brief.summary}</p>
+                              {#if brief.why_now}<p class="brief-why"><b>Why now:</b> {brief.why_now}</p>{/if}
+
+                              {#if brief.assessment_readout.length > 0}
+                                <table class="mini-table">
+                                  <thead><tr><th>Category</th><th>Score</th><th>Note</th></tr></thead>
+                                  <tbody>
+                                    {#each brief.assessment_readout as a}
+                                      <tr><td>{a.category}</td><td>{a.score}</td><td>{a.note}</td></tr>
+                                    {/each}
+                                  </tbody>
+                                </table>
+                              {/if}
+
+                              {#if brief.red_flags.length > 0}
+                                <div class="red-flags">
+                                  <p class="cl warn-cl">Red flags</p>
+                                  <ul class="flag-list">
+                                    {#each brief.red_flags as f}<li>{f}</li>{/each}
+                                  </ul>
+                                </div>
+                              {/if}
+
+                              {#if brief.recommended_lanes.length > 0}
+                                <div class="lanes-list">
+                                  <p class="cl">Recommended lanes</p>
+                                  {#each brief.recommended_lanes as lane}
+                                    <div class="lane-item">
+                                      <b>{lane.lane}</b> — {lane.visit_type} · {lane.price}
+                                      <p class="lane-rationale">{lane.rationale}</p>
+                                    </div>
+                                  {/each}
+                                </div>
+                              {/if}
+
+                              {#if brief.questions_to_ask.length > 0}
+                                <div>
+                                  <p class="cl">Questions to ask</p>
+                                  <ul class="plain-list">
+                                    {#each brief.questions_to_ask as q}<li>{q}</li>{/each}
+                                  </ul>
+                                </div>
+                              {/if}
+
+                              {#if brief.suggested_plan_outline.length > 0}
+                                <div>
+                                  <p class="cl">Suggested plan outline</p>
+                                  <ul class="plain-list">
+                                    {#each brief.suggested_plan_outline as s}<li>{s}</li>{/each}
+                                  </ul>
+                                </div>
+                              {/if}
+                            </div>
+                            <button class="obtn" disabled={bstate.generating} onclick={() => generateBrief(p.contactId, enc2.encounterId)}>
+                              {bstate.generating ? 'Regenerating…' : 'Regenerate'}
+                            </button>
+                          {:else}
+                            <button class="gbtn" disabled={bstate.generating} onclick={() => generateBrief(p.contactId, enc2.encounterId)}>
+                              {bstate.generating ? 'Generating…' : 'Generate brief'}
+                            </button>
+                          {/if}
+                          {#if bstate.error}<p class="err small">{bstate.error}</p>{/if}
+                        </div>
+                      </details>
+
+                      <!-- Plan of action -->
+                      <details class="subpanel">
+                        <summary class="subpanel-summary">Plan of action</summary>
+                        <div class="subpanel-body">
+                          {#if planAdmin && planAdmin.state === 'sent'}
+                            {@const sentPlan = parsePlan(planAdmin.json)}
+                            <p class="plan-sent">Sent {fmtDateTime(planAdmin.sentAt ?? planAdmin.createdAt)}</p>
+                            {#if sentPlan}
+                              <div class="plan-readonly">
+                                <p><b>Subject:</b> {sentPlan.subject}</p>
+                                <p>{sentPlan.greeting}</p>
+                                <p>{sentPlan.summary_of_call}</p>
+                                {#if sentPlan.plan_steps.length > 0}
+                                  <ul class="plain-list">
+                                    {#each sentPlan.plan_steps as s}
+                                      <li><b>{s.step}</b> — {s.why}{#if s.link} · <a class="ilink" href={s.link} target="_blank" rel="noopener">Link</a>{/if}</li>
+                                    {/each}
+                                  </ul>
+                                {/if}
+                                {#if sentPlan.next_step_cta.url}
+                                  <p><a class="ilink" href={sentPlan.next_step_cta.url} target="_blank" rel="noopener">{sentPlan.next_step_cta.label || sentPlan.next_step_cta.url}</a></p>
+                                {/if}
+                                {#if sentPlan.disclaimer}<p class="plan-disclaimer">{sentPlan.disclaimer}</p>{/if}
+                              </div>
+                            {/if}
+                          {:else if !pform.hasDraft}
+                            <label class="cfield wide">
+                              <span class="cfl">Coordinator notes (what you told them on the call)</span>
+                              <textarea class="cinput plan-notes" rows="4"
+                                value={pform.notes}
+                                oninput={(e) => setPlanForm(enc2.encounterId, { notes: (e.target as HTMLTextAreaElement).value })}
+                                disabled={pform.drafting}></textarea>
+                            </label>
+                            {#if pform.draftError}<p class="err small">{pform.draftError}</p>{/if}
+                            <button class="gbtn" disabled={pform.drafting} onclick={() => draftPlan(p.contactId, enc2.encounterId)}>
+                              {pform.drafting ? 'Drafting…' : 'Draft with AI'}
+                            </button>
+                          {:else}
+                            <div class="plan-edit">
+                              <label class="cfield wide">
+                                <span class="cfl">Subject</span>
+                                <input type="text" class="cinput" value={pform.plan.subject}
+                                  oninput={(e) => updatePlanField(enc2.encounterId, { subject: (e.target as HTMLInputElement).value })} />
+                              </label>
+                              <label class="cfield wide">
+                                <span class="cfl">Greeting</span>
+                                <input type="text" class="cinput" value={pform.plan.greeting}
+                                  oninput={(e) => updatePlanField(enc2.encounterId, { greeting: (e.target as HTMLInputElement).value })} />
+                              </label>
+                              <label class="cfield wide">
+                                <span class="cfl">Summary of call</span>
+                                <textarea class="cinput plan-notes" rows="3" value={pform.plan.summary_of_call}
+                                  oninput={(e) => updatePlanField(enc2.encounterId, { summary_of_call: (e.target as HTMLTextAreaElement).value })}></textarea>
+                              </label>
+
+                              <div class="plan-steps">
+                                <p class="cl">Plan steps</p>
+                                {#each pform.plan.plan_steps as step, i}
+                                  <div class="plan-step-row">
+                                    <input type="text" class="cinput" placeholder="Step" value={step.step}
+                                      oninput={(e) => updatePlanStep(enc2.encounterId, i, { step: (e.target as HTMLInputElement).value })} />
+                                    <input type="text" class="cinput" placeholder="Why" value={step.why}
+                                      oninput={(e) => updatePlanStep(enc2.encounterId, i, { why: (e.target as HTMLInputElement).value })} />
+                                    <input type="text" class="cinput" placeholder="Link (optional)" value={step.link}
+                                      oninput={(e) => updatePlanStep(enc2.encounterId, i, { link: (e.target as HTMLInputElement).value })} />
+                                    <button type="button" class="obtn small-btn" onclick={() => removePlanStep(enc2.encounterId, i)}>Remove</button>
+                                  </div>
+                                {/each}
+                                <button type="button" class="obtn" onclick={() => addPlanStep(enc2.encounterId)}>Add step</button>
+                              </div>
+
+                              <div class="cta-fields">
+                                <label class="cfield">
+                                  <span class="cfl">CTA label</span>
+                                  <input type="text" class="cinput" value={pform.plan.next_step_cta.label}
+                                    oninput={(e) => updatePlanCta(enc2.encounterId, { label: (e.target as HTMLInputElement).value })} />
+                                </label>
+                                <label class="cfield wide">
+                                  <span class="cfl">CTA URL</span>
+                                  <input type="text" class="cinput" value={pform.plan.next_step_cta.url}
+                                    oninput={(e) => updatePlanCta(enc2.encounterId, { url: (e.target as HTMLInputElement).value })} />
+                                </label>
+                              </div>
+
+                              {#if pform.sendError}<p class="err small">{pform.sendError}</p>{/if}
+                              <button class="gbtn" disabled={pform.sending} onclick={() => confirmAndSendPlan(p.contactId, enc2.encounterId)}>
+                                {pform.sending ? 'Sending…' : 'Send to patient'}
+                              </button>
+                            </div>
+                          {/if}
+                        </div>
+                      </details>
                     </div>
                   {/each}
 
@@ -755,6 +1087,37 @@
   .export-row { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
   .export-msg { font-size: 0.72rem; color: var(--mc-muted); margin: 0; line-height: 1.5; font-style: italic; }
   .ilink { color: var(--mc-info); text-decoration: underline; }
+
+  /* pre-call brief + plan of action */
+  .subpanel { margin-top: 12px; background: var(--mc-panel-2); border: 1px solid var(--mc-line); border-radius: 11px; padding: 4px 15px; }
+  .subpanel-summary { cursor: pointer; padding: 9px 0; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mc-gold); }
+  .subpanel-body { padding: 2px 0 13px; display: flex; flex-direction: column; gap: 10px; }
+
+  .brief { display: flex; flex-direction: column; gap: 10px; }
+  .brief-summary { font-size: 0.85rem; color: var(--mc-ink); margin: 0; line-height: 1.5; }
+  .brief-why { font-size: 0.8rem; color: var(--mc-muted); margin: 0; line-height: 1.5; }
+  .brief-why b { color: var(--mc-ink); }
+  .mini-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+  .mini-table th { text-align: left; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mc-muted); padding: 4px 8px 4px 0; border-bottom: 1px solid var(--mc-line); }
+  .mini-table td { padding: 5px 8px 5px 0; color: var(--mc-ink); border-bottom: 1px solid var(--mc-line-soft); vertical-align: top; }
+  .red-flags { background: var(--mc-crit-tint); border: 1px solid var(--mc-crit-bright); border-radius: 8px; padding: 8px 12px; }
+  .flag-list { margin: 4px 0 0; padding-left: 18px; color: var(--mc-crit-bright); font-size: 0.78rem; }
+  .plain-list { margin: 4px 0 0; padding-left: 18px; color: var(--mc-ink); font-size: 0.78rem; display: flex; flex-direction: column; gap: 3px; }
+  .lanes-list { display: flex; flex-direction: column; gap: 8px; }
+  .lane-item { font-size: 0.8rem; color: var(--mc-ink); background: var(--mc-bg); border: 1px solid var(--mc-line); border-radius: 8px; padding: 8px 11px; }
+  .lane-rationale { margin: 3px 0 0; font-size: 0.72rem; color: var(--mc-muted); }
+
+  .plan-notes { width: 100%; box-sizing: border-box; font-family: inherit; resize: vertical; }
+  .plan-edit { display: flex; flex-direction: column; gap: 12px; }
+  .plan-steps { display: flex; flex-direction: column; gap: 8px; }
+  .plan-step-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: center; }
+  .plan-step-row .cinput { width: 100%; box-sizing: border-box; }
+  .small-btn { padding: 6px 10px; font-size: 0.68rem; }
+  .cta-fields { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  .plan-sent { font-size: 0.78rem; font-weight: 600; color: var(--mc-good-bright); margin: 0; }
+  .plan-readonly { display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem; color: var(--mc-ink); }
+  .plan-readonly p { margin: 0; line-height: 1.5; }
+  .plan-disclaimer { font-size: 0.7rem; color: var(--mc-faint); font-style: italic; }
 
   /* record sections */
   .dsection {}

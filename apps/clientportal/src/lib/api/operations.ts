@@ -414,6 +414,22 @@ export interface EncounterAdmin {
   updatedAt: string;
 }
 
+/** A generated coordinator pre-call brief for one encounter. `json` is a Brief (see patientBrief.ts). */
+export interface BriefAdmin {
+  encounterId: string;
+  json: string;
+  createdAt: string;
+}
+
+/** A drafted/sent plan-of-action for one encounter. `json` is a Plan (see patientBrief.ts). */
+export interface PlanAdmin {
+  encounterId: string;
+  state: string;
+  json: string;
+  createdAt: string;
+  sentAt?: string | null;
+}
+
 export interface PatientRecordAdmin {
   contactId: string;
   demographics: unknown;
@@ -422,6 +438,8 @@ export interface PatientRecordAdmin {
   consents?: unknown;
   cardOnFile?: unknown;
   encounters?: EncounterAdmin[];
+  briefs?: BriefAdmin[];
+  plans?: PlanAdmin[];
   audit?: unknown[];
   createdAt: string;
   updatedAt: string;
@@ -436,6 +454,8 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
     screeningAnswers: parseAwsJson(raw.screeningAnswers),
     consents: parseAwsJson(raw.consents),
     cardOnFile: parseAwsJson(raw.cardOnFile),
+    briefs: Array.isArray(raw.briefs) ? raw.briefs : [],
+    plans: Array.isArray(raw.plans) ? raw.plans : [],
     audit: Array.isArray(raw.audit)
       ? raw.audit.map((e: any) => ({ ...e, detail: parseAwsJson(e?.detail) }))
       : raw.audit,
@@ -443,10 +463,14 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
 }
 
 const ENCOUNTER_FIELDS = `encounterId category state visitType createdAt updatedAt`;
+const BRIEF_FIELDS = `encounterId json createdAt`;
+const PLAN_FIELDS = `encounterId state json createdAt sentAt`;
 
 const PATIENT_RECORD_FIELDS = `
   contactId demographics history screeningAnswers consents cardOnFile
   encounters { ${ENCOUNTER_FIELDS} }
+  briefs { ${BRIEF_FIELDS} }
+  plans { ${PLAN_FIELDS} }
   audit { at action detail actor }
   createdAt updatedAt
 `;
@@ -557,6 +581,67 @@ export async function exportClinicalPacketAdmin(
     variables: {
       contactId: input.contactId,
       encounterId: input.encounterId,
+    },
+  });
+}
+
+// ─── Coordinator briefs + plans of action ─────────────────────────────────────
+
+export async function generateCoordinatorBriefAdmin(
+  input: { contactId: string; encounterId: string },
+  opts?: ClientOptions,
+): Promise<{ generateCoordinatorBriefAdmin: BriefAdmin }> {
+  return client(opts)<{ generateCoordinatorBriefAdmin: BriefAdmin }>({
+    query: `
+      mutation GenerateCoordinatorBriefAdmin($contactId: ID!, $encounterId: ID!) {
+        generateCoordinatorBriefAdmin(contactId: $contactId, encounterId: $encounterId) {
+          ${BRIEF_FIELDS}
+        }
+      }
+    `,
+    variables: {
+      contactId: input.contactId,
+      encounterId: input.encounterId,
+    },
+  });
+}
+
+export async function draftPlanOfActionAdmin(
+  input: { contactId: string; encounterId: string; coordinatorNotes: string },
+  opts?: ClientOptions,
+): Promise<{ draftPlanOfActionAdmin: PlanAdmin }> {
+  return client(opts)<{ draftPlanOfActionAdmin: PlanAdmin }>({
+    query: `
+      mutation DraftPlanOfActionAdmin($contactId: ID!, $encounterId: ID!, $coordinatorNotes: String!) {
+        draftPlanOfActionAdmin(contactId: $contactId, encounterId: $encounterId, coordinatorNotes: $coordinatorNotes) {
+          ${PLAN_FIELDS}
+        }
+      }
+    `,
+    variables: {
+      contactId: input.contactId,
+      encounterId: input.encounterId,
+      coordinatorNotes: input.coordinatorNotes,
+    },
+  });
+}
+
+export async function sendPlanOfActionAdmin(
+  input: { contactId: string; encounterId: string; planJson: string },
+  opts?: ClientOptions,
+): Promise<{ sendPlanOfActionAdmin: PlanAdmin }> {
+  return client(opts)<{ sendPlanOfActionAdmin: PlanAdmin }>({
+    query: `
+      mutation SendPlanOfActionAdmin($contactId: ID!, $encounterId: ID!, $planJson: AWSJSON!) {
+        sendPlanOfActionAdmin(contactId: $contactId, encounterId: $encounterId, planJson: $planJson) {
+          ${PLAN_FIELDS}
+        }
+      }
+    `,
+    variables: {
+      contactId: input.contactId,
+      encounterId: input.encounterId,
+      planJson: input.planJson,
     },
   });
 }

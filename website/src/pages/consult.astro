@@ -1,86 +1,221 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = "Schedule a Consult | My4MLife";
-const description = "Schedule a consult with a My4MLife care coordinator. They'll connect you with a physician in our network for intake, lab review, candidacy assessment, and a personalized protocol.";
+const title = 'Care Coordinator Visit — Free | My4MLife';
+const description = "Tell us what you're working on. A My4MLife care coordinator will reach out to confirm next steps and connect you with a physician in our network.";
 const canonical = "https://www.my4mlife.com/consult";
 ---
 <BaseLayout title={title} description={description} canonical={canonical}>
 
-<section class="consult-section">
-  <div class="container consult-inner">
+<section class="q-section">
+  <div class="container q-inner">
+    <header class="q-header">
+      <p class="q-eyebrow">Care Coordinator Visit — Free</p>
+      <h1 id="q-step-title">Tell us what you're working on</h1>
+      <div class="q-progress" aria-hidden="true">
+        <div class="q-progress-bar" id="q-progress-bar" style="width:20%"></div>
+      </div>
+      <p class="q-step-counter" id="q-step-counter">Step 1 of 5</p>
+    </header>
 
-    <p class="consult-eyebrow">Care Coordinator Intake</p>
-    <h1>Schedule a Consult</h1>
-    <p class="consult-sub">
-      Tell us what you're working on. A My4MLife care coordinator will reach out within
-      one business day to confirm next steps and connect you with a physician in our network.
-    </p>
+    <!-- ── Step 1 — About you ── -->
+    <section class="q-step" data-step="1">
+      <h2>About you</h2>
+      <p class="q-step-sub">A few basics so a care coordinator can reach you.</p>
+      <div class="q-grid-2">
+        <label class="q-field">First name <input type="text" data-q="firstName" required></label>
+        <label class="q-field">Last name <input type="text" data-q="lastName" required></label>
+        <label class="q-field">Email <input type="email" data-q="email" required></label>
+        <label class="q-field">Phone <input type="tel" data-q="phone" placeholder="+1 555-555-5555" required></label>
+        <label class="q-field">Date of birth <input type="date" data-q="dob" required></label>
+        <label class="q-field">Sex
+          <select data-q="sex" required>
+            <option value="">Select…</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+        <label class="q-field">State <select data-q="state" id="q-state" required><option value="">Select state…</option></select></label>
+        <label class="q-field">Best time to reach you <input type="text" data-q="bestTime" placeholder="e.g. weekday mornings, CT" required></label>
+      </div>
+    </section>
 
-    <figure class="scene-figure">
-      <img src="/images/scenes/couple-rooftop.jpg" alt="Couple in their 50s on a rooftop terrace at dusk, she is laughing and looking at him" loading="eager" fetchpriority="high" />
-      <figcaption>Five minutes to fill out. One call back. The rest compounds for decades.</figcaption>
-    </figure>
+    <!-- ── Step 2 — What brought you here ── -->
+    <section class="q-step" data-step="2" hidden>
+      <h2>What brought you here</h2>
+      <p class="q-step-sub">This helps your coordinator prepare before the call — nothing here locks you into anything.</p>
 
-    <form id="consult-form" class="consult-form" novalidate>
-      <div class="form-row">
-        <label for="name">Full name</label>
-        <input id="name" name="name" type="text" autocomplete="name" required />
-      </div>
-      <div class="form-row form-row-2">
-        <div>
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required />
-        </div>
-        <div>
-          <label for="phone">Phone</label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 555-5555" required />
-        </div>
-      </div>
-      <div class="form-row">
-        <label for="category">What would you like to consult about?</label>
-        <input id="category" name="category" type="text" required />
-      </div>
-      <div class="form-row">
-        <label for="bestTime">Best time to reach you</label>
-        <input id="bestTime" name="bestTime" type="text" placeholder="e.g. weekday mornings, ET" required />
-      </div>
-      <div class="form-row">
-        <label for="note">Anything else we should know? <span class="opt">(optional)</span></label>
-        <textarea id="note" name="note" rows="4" placeholder="Brief context — recent labs, symptoms, prior treatments, questions…"></textarea>
-      </div>
-      <button id="consult-submit" type="submit" class="consult-submit">Submit Request →</button>
-      <p id="consult-error" class="consult-error" hidden></p>
-    </form>
+      <label class="q-field q-field-block">What's going on, and why now?
+        <textarea data-q="whyNow" rows="4" required placeholder="What made you reach out today?"></textarea>
+      </label>
 
-    <div id="consult-success" class="consult-success" hidden>
-      <h2>Got it — request received.</h2>
-      <p>
-        A care coordinator will reach out within one business day at the email
-        and phone number you provided. If your situation is time-sensitive,
-        you can also email <a href="mailto:care@my4mlife.com">care@my4mlife.com</a> directly.
-      </p>
-      <p class="consult-success-em">
-        <em>Medical emergency? Call 911. This intake form is not for emergencies and is not monitored 24/7.</em>
-      </p>
+      <fieldset class="q-radio-group">
+        <legend>What are you curious about? (check all that apply)</legend>
+        <label class="q-radio"><input type="checkbox" data-q="curiosity" value="GLP-1 weight loss"> GLP-1 weight loss</label>
+        <label class="q-radio"><input type="checkbox" data-q="curiosity" value="Gut-Brain Rx"> Gut-Brain Rx</label>
+        <label class="q-radio"><input type="checkbox" data-q="curiosity" value="Tesamorelin (belly fat + muscle)"> Tesamorelin (belly fat + muscle)</label>
+        <label class="q-radio"><input type="checkbox" data-q="curiosity" value="Testosterone (men)"> Testosterone (men)</label>
+        <label class="q-radio"><input type="checkbox" data-q="curiosity" value="Menopause & HRT (women)"> Menopause &amp; HRT (women)</label>
+        <label class="q-radio"><input type="checkbox" data-q="curiosity" value="Regenerative medicine (already diagnosed / joints)"> Regenerative medicine (already diagnosed / joints)</label>
+        <label class="q-radio"><input type="checkbox" data-q="curiosity" value="Not sure — guide me"> Not sure — guide me</label>
+      </fieldset>
+
+      <label class="q-field q-field-block">Anything you would not consider? <span class="q-opt">(optional)</span>
+        <textarea data-q="refusals" rows="2"></textarea>
+      </label>
+
+      <label class="q-field">Monthly budget in mind
+        <select data-q="budget">
+          <option value="">Select…</option>
+          <option value="under-100">Under $100/mo</option>
+          <option value="100-250">$100–250</option>
+          <option value="250-500">$250–500</option>
+          <option value="500-plus">$500+</option>
+          <option value="tell-me-on-call">Tell me on the call</option>
+        </select>
+      </label>
+    </section>
+
+    <!-- ── Step 3 — Health history ── -->
+    <section class="q-step" data-step="3" hidden>
+      <h2>Health history</h2>
+      <p class="q-step-sub">Basic background the physician needs to review.</p>
+
+      <fieldset class="q-radio-group">
+        <legend>Do any of these apply to you? (check all that apply)</legend>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="High blood pressure"> High blood pressure</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Diabetes/prediabetes"> Diabetes / prediabetes</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="High cholesterol"> High cholesterol</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Thyroid"> Thyroid</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Heart disease"> Heart disease</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Autoimmune"> Autoimmune</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Sleep apnea"> Sleep apnea</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Depression/anxiety"> Depression / anxiety</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Cancer history"> Cancer history</label>
+        <label class="q-radio"><input type="checkbox" data-q="conditions" value="Other"> Other</label>
+      </fieldset>
+      <label class="q-field q-field-block" id="q-conditions-other-wrap" hidden>Other condition(s)
+        <input type="text" data-q="conditionsOther">
+      </label>
+
+      <label class="q-field q-field-block">Current medications <span class="q-opt">(include dose if known)</span>
+        <textarea data-q="currentMeds" rows="2" placeholder="e.g., metformin 1000mg, lisinopril 10mg, none"></textarea>
+      </label>
+      <label class="q-field q-field-block">Supplements you currently take <span class="q-opt">(optional)</span>
+        <textarea data-q="supplements" rows="2"></textarea>
+      </label>
+      <label class="q-field q-field-block">Drug or food allergies
+        <input type="text" data-q="allergies" placeholder="e.g., penicillin, sulfa, none">
+      </label>
+      <label class="q-field q-field-block">Past surgeries <span class="q-opt">(optional)</span>
+        <textarea data-q="surgeries" rows="2"></textarea>
+      </label>
+
+      <fieldset class="q-radio-group">
+        <legend>Family history (check all that apply)</legend>
+        <label class="q-radio"><input type="checkbox" data-q="familyHistory" value="Dementia/Alzheimer's"> Dementia / Alzheimer's</label>
+        <label class="q-radio"><input type="checkbox" data-q="familyHistory" value="Parkinson's"> Parkinson's</label>
+        <label class="q-radio"><input type="checkbox" data-q="familyHistory" value="Heart disease"> Heart disease</label>
+        <label class="q-radio"><input type="checkbox" data-q="familyHistory" value="Diabetes"> Diabetes</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group">
+        <legend>Have you already been diagnosed with a condition you'd like help managing?</legend>
+        <label class="q-radio"><input type="radio" name="alreadyDiagnosed" data-q="alreadyDiagnosed" value="no" required> No</label>
+        <label class="q-radio"><input type="radio" name="alreadyDiagnosed" data-q="alreadyDiagnosed" value="yes"> Yes</label>
+      </fieldset>
+      <label class="q-field q-field-block" id="q-diagnosed-detail" hidden>Tell us about the diagnosis
+        <textarea data-q="diagnosedDetail" rows="2"></textarea>
+      </label>
+    </section>
+
+    <!-- ── Step 4 — Lifestyle ── -->
+    <section class="q-step" data-step="4" hidden>
+      <h2>Lifestyle</h2>
+      <p class="q-step-sub">A quick snapshot of where things stand today.</p>
+      <div class="q-grid-2">
+        <label class="q-field">Height (feet) <input type="number" min="3" max="8" data-q="heightFt" required></label>
+        <label class="q-field">Height (inches) <input type="number" min="0" max="11" data-q="heightIn" required></label>
+        <label class="q-field">Current weight (lbs) <input type="number" min="80" max="700" data-q="weightLb" required></label>
+        <label class="q-field">Waist (inches) <input type="number" min="20" max="80" data-q="waistIn"></label>
+        <label class="q-field">Average sleep (hours/night) <input type="number" min="0" max="14" step="0.5" data-q="sleepHours"></label>
+        <label class="q-field">Alcoholic drinks per week <input type="number" min="0" max="60" data-q="alcoholPerWeek"></label>
+        <label class="q-field">Exercise days per week <input type="number" min="0" max="7" data-q="exerciseDaysPerWeek"></label>
+        <label class="q-field">Daily eating window (hours) <input type="number" min="1" max="24" data-q="eatingWindowHours"></label>
+        <label class="q-field">Average steps per day
+          <select data-q="stepsPerDay">
+            <option value="">Select…</option>
+            <option value="under-3000">Under 3,000</option>
+            <option value="3000-6000">3,000–6,000</option>
+            <option value="6000-10000">6,000–10,000</option>
+            <option value="10000-plus">10,000+</option>
+            <option value="not-sure">Not sure</option>
+          </select>
+        </label>
+        <label class="q-field">Last labs drawn <input type="month" data-q="lastLabsDate"></label>
+      </div>
+
+      <fieldset class="q-radio-group">
+        <legend>Can you share recent labs with your coordinator?</legend>
+        <label class="q-radio"><input type="radio" name="canShareLabs" data-q="canShareLabs" value="yes"> Yes</label>
+        <label class="q-radio"><input type="radio" name="canShareLabs" data-q="canShareLabs" value="no"> No</label>
+        <label class="q-radio"><input type="radio" name="canShareLabs" data-q="canShareLabs" value="not-sure"> Not sure</label>
+      </fieldset>
+
+      <fieldset class="q-radio-group">
+        <legend>Prior therapies (check all that apply)</legend>
+        <label class="q-radio"><input type="checkbox" data-q="priorTherapies" value="TRT"> TRT</label>
+        <label class="q-radio"><input type="checkbox" data-q="priorTherapies" value="GLP-1"> GLP-1</label>
+        <label class="q-radio"><input type="checkbox" data-q="priorTherapies" value="Peptides"> Peptides</label>
+        <label class="q-radio"><input type="checkbox" data-q="priorTherapies" value="HRT"> HRT</label>
+        <label class="q-radio"><input type="checkbox" data-q="priorTherapies" value="None"> None</label>
+      </fieldset>
+    </section>
+
+    <!-- ── Step 5 — Review & Submit ── -->
+    <section class="q-step" data-step="5" hidden>
+      <h2>Review and submit</h2>
+      <p class="q-step-sub">Confirm everything looks right. A care coordinator will reach out at the time you gave us.</p>
+
+      <div id="q-review-summary" class="q-review-summary"></div>
+
+      <label class="q-checkbox-row">
+        <input type="checkbox" id="q-consent" required>
+        <span>I understand this intake is for education and care coordination, not medical treatment, and My4MLife may contact me by email or phone.</span>
+      </label>
+    </section>
+
+    <!-- ── Submission state (no data-step — kept out of the 5-step count) ── -->
+    <section class="q-step" id="q-success-screen" hidden>
+      <div class="q-success">
+        <div class="q-success-icon">✓</div>
+        <h2 id="q-success-heading">Got it.</h2>
+        <p>Check your email for a confirmation.</p>
+        <p class="q-success-fine">Questions? Email <a href="mailto:care@my4mlife.com">care@my4mlife.com</a>. Medical emergency? Call 911 — this form is not monitored 24/7.</p>
+      </div>
+    </section>
+
+    <div class="q-nav" id="q-nav">
+      <button type="button" class="q-btn q-btn-secondary" id="q-back" hidden>← Back</button>
+      <button type="button" class="q-btn q-btn-primary" id="q-next">Continue →</button>
+      <button type="button" class="q-btn q-btn-primary" id="q-submit" hidden>Submit →</button>
     </div>
-
+    <p id="q-submit-error" class="q-submit-error" hidden></p>
   </div>
 </section>
 
-</BaseLayout>
-
 <script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
-(function () {
-  // Prefill category from ?category= query param if present
-  try {
-    var params = new URLSearchParams(window.location.search);
-    var cat = params.get('category');
-    if (cat) {
-      var catEl = document.getElementById('category');
-      if (catEl) catEl.value = cat;
-    }
-  } catch (_) { /* no-op */ }
+(function() {
+  // ── State ──
+  var totalSteps = 5;
+  var currentStep = 1;
+  var PH_CAT = 'care-coordinator';
+  function phCapture(ev, props) { try { if (window.posthog && window.posthog.capture) { props = props || {}; props.category = PH_CAT; window.posthog.capture(ev, props); } } catch (err) {} }
+  var payload = {};
+
+  // ── Helpers ──
+  function $(sel) { return document.querySelector(sel); }
+  function $$(sel) { return document.querySelectorAll(sel); }
 
   function toE164(input) {
     var raw = String(input || '').trim();
@@ -96,96 +231,438 @@ const canonical = "https://www.my4mlife.com/consult";
     return null;
   }
 
-  var form = document.getElementById('consult-form');
-  if (!form) return;
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    var btn = document.getElementById('consult-submit');
-    var err = document.getElementById('consult-error');
-    if (err) { err.hidden = true; err.textContent = ''; }
+  var _phMaxStep = 0;
+  function showStep(n) {
+    if (n === 'success') { phCapture('consult_submitted', { total_steps: totalSteps }); }
+    else if (typeof n === 'number' && n > _phMaxStep) {
+      _phMaxStep = n;
+      phCapture('consult_step_reached', { step: n, total_steps: totalSteps });
+    }
+    $$('.q-step').forEach(function(el) { el.hidden = true; });
+    if (n === 'success') {
+      var successEl = document.getElementById('q-success-screen');
+      if (successEl) successEl.hidden = false;
+    } else {
+      var target = document.querySelector('[data-step="' + n + '"]');
+      if (target) target.hidden = false;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    var name = document.getElementById('name').value.trim();
-    var email = document.getElementById('email').value.trim();
-    var rawPhone = document.getElementById('phone').value;
-    var phone = toE164(rawPhone) || '';
-    var category = document.getElementById('category').value.trim();
-    var bestTime = document.getElementById('bestTime').value.trim();
-    var note = document.getElementById('note').value.trim();
+    var header = document.querySelector('.q-header');
+    var nav = document.getElementById('q-nav');
 
-    if (!name || !email || !phone || !category || !bestTime) {
-      if (err) {
-        err.hidden = false;
-        err.textContent = phone ? 'Please complete all required fields.' : 'Please provide a valid US phone number.';
-      }
+    if (n === 'success') {
+      if (header) header.style.display = 'none';
+      if (nav) nav.style.display = 'none';
       return;
     }
 
-    btn.disabled = true;
-    btn.textContent = 'Submitting…';
+    if (header) header.style.display = '';
+    if (nav) nav.style.display = '';
+
+    var pct = (n / totalSteps) * 100;
+    $('#q-progress-bar').style.width = Math.min(pct, 100) + '%';
+    $('#q-step-counter').textContent = 'Step ' + n + ' of ' + totalSteps;
+    $('#q-back').hidden = (n === 1);
+    $('#q-next').hidden = (n === totalSteps);
+    $('#q-submit').hidden = (n !== totalSteps);
+  }
+
+  // Friendly labels for error messages — keep in sync with data-q attributes
+  var FIELD_LABELS = {
+    firstName: 'First name', lastName: 'Last name', email: 'Email', phone: 'Phone',
+    dob: 'Date of birth', sex: 'Sex', state: 'State', bestTime: 'Best time to reach you',
+    whyNow: "What's going on, and why now",
+    allergies: 'Allergies',
+    alreadyDiagnosed: 'Already diagnosed',
+    heightFt: 'Height (feet)', heightIn: 'Height (inches)', weightLb: 'Current weight',
+  };
+
+  function collectStep(n) {
+    var step = document.querySelector('[data-step="' + n + '"]');
+    if (!step) return true;
+    var missing = [];
+    var firstMissingEl = null;
+
+    step.querySelectorAll('.q-error').forEach(function(el) { el.classList.remove('q-error'); });
+
+    // Checkbox groups — collect as arrays keyed by data-q
+    var checkboxGroups = {};
+    step.querySelectorAll('input[type=checkbox][data-q]').forEach(function(cb) {
+      var name = cb.getAttribute('data-q');
+      if (!checkboxGroups[name]) checkboxGroups[name] = [];
+      if (cb.checked) checkboxGroups[name].push(cb.value);
+    });
+    Object.keys(checkboxGroups).forEach(function(name) {
+      payload[name] = checkboxGroups[name];
+    });
+
+    // Inputs / selects / textareas with data-q (skip radios and checkboxes — handled separately)
+    step.querySelectorAll('[data-q]').forEach(function(field) {
+      if (field.type === 'radio' || field.type === 'checkbox') return;
+      var name = field.getAttribute('data-q');
+      var val = (field.value || '').trim();
+      if (field.offsetParent === null && field.tagName !== 'SELECT') return;
+      if (val) payload[name] = val;
+      if (field.hasAttribute('required') && !val) {
+        missing.push(FIELD_LABELS[name] || name);
+        field.classList.add('q-error');
+        if (!firstMissingEl) firstMissingEl = field;
+      }
+    });
+
+    // Radio groups (each group considered required if ANY radio in it is required)
+    var radioGroups = {};
+    step.querySelectorAll('input[type=radio]').forEach(function(r) {
+      var name = r.name;
+      var parentFieldset = r.closest('fieldset');
+      if (parentFieldset && parentFieldset.offsetParent === null) return;
+      if (!radioGroups[name]) {
+        radioGroups[name] = {
+          dataQ: r.getAttribute('data-q') || name,
+          required: r.hasAttribute('required'),
+          any: false,
+          firstEl: r,
+        };
+      }
+      if (r.checked) {
+        radioGroups[name].any = true;
+        payload[radioGroups[name].dataQ] = r.value;
+      }
+    });
+    Object.keys(radioGroups).forEach(function(name) {
+      var g = radioGroups[name];
+      if (g.required && !g.any) {
+        missing.push(FIELD_LABELS[g.dataQ] || g.dataQ);
+        if (g.firstEl) {
+          var fs = g.firstEl.closest('fieldset');
+          if (fs) fs.classList.add('q-error');
+          if (!firstMissingEl) firstMissingEl = g.firstEl;
+        }
+      }
+    });
+
+    if (missing.length) {
+      alert('Please complete: ' + missing.join(', '));
+      if (firstMissingEl && firstMissingEl.scrollIntoView) {
+        firstMissingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (firstMissingEl.focus) firstMissingEl.focus();
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function buildReviewSummary() {
+    function row(label, val) {
+      if (val === undefined || val === null || val === '' || (Array.isArray(val) && !val.length)) return '';
+      var text = Array.isArray(val) ? val.join(', ') : val;
+      var esc = String(text).replace(/[<>&"]/g, function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]; });
+      return '<div class="q-review-row"><span class="q-review-label">' + label + '</span><span class="q-review-value">' + esc + '</span></div>';
+    }
+    function section(title, body) {
+      if (!body) return '';
+      return '<div class="q-review-section"><h3 class="q-review-section-title">' + title + '</h3>' + body + '</div>';
+    }
+
+    var about = '';
+    about += row('Name', (payload.firstName || '') + ' ' + (payload.lastName || ''));
+    about += row('Email', payload.email);
+    about += row('Phone', payload.phone);
+    about += row('Date of birth', payload.dob);
+    about += row('Sex', payload.sex);
+    about += row('State', payload.state);
+    about += row('Best time to reach you', payload.bestTime);
+
+    var brought = '';
+    brought += row("What's going on", payload.whyNow);
+    brought += row('Curious about', payload.curiosity);
+    brought += row('Would not consider', payload.refusals);
+    brought += row('Budget', payload.budget);
+
+    var health = '';
+    health += row('Conditions', payload.conditions);
+    health += row('Other condition', payload.conditionsOther);
+    health += row('Current medications', payload.currentMeds);
+    health += row('Supplements', payload.supplements);
+    health += row('Allergies', payload.allergies);
+    health += row('Surgeries', payload.surgeries);
+    health += row('Family history', payload.familyHistory);
+    health += row('Already diagnosed', payload.alreadyDiagnosed);
+    health += row('Diagnosis detail', payload.diagnosedDetail);
+
+    var lifestyle = '';
+    lifestyle += row('Height', (payload.heightFt || '') + "' " + (payload.heightIn || '') + '"');
+    lifestyle += row('Weight', (payload.weightLb || '') + ' lbs');
+    lifestyle += row('Waist', payload.waistIn ? payload.waistIn + ' in' : '');
+    lifestyle += row('Sleep', payload.sleepHours ? payload.sleepHours + ' hrs/night' : '');
+    lifestyle += row('Alcohol', payload.alcoholPerWeek ? payload.alcoholPerWeek + ' drinks/week' : '');
+    lifestyle += row('Exercise', payload.exerciseDaysPerWeek ? payload.exerciseDaysPerWeek + ' days/week' : '');
+    lifestyle += row('Eating window', payload.eatingWindowHours ? payload.eatingWindowHours + ' hrs' : '');
+    lifestyle += row('Steps per day', payload.stepsPerDay);
+    lifestyle += row('Last labs', payload.lastLabsDate);
+    lifestyle += row('Can share labs', payload.canShareLabs);
+    lifestyle += row('Prior therapies', payload.priorTherapies);
+
+    var html = '';
+    html += section('About you', about);
+    html += section('What brought you here', brought);
+    html += section('Health history', health);
+    html += section('Lifestyle', lifestyle);
+
+    $('#q-review-summary').innerHTML = html;
+  }
+
+  async function submitIntake() {
+    if (!$('#q-consent').checked) {
+      alert('Please confirm the consent checkbox to submit.');
+      return;
+    }
+    payload.consent = true;
+
+    var phone = toE164(payload.phone) || '';
+    if (!phone) {
+      var err = $('#q-submit-error');
+      if (err) { err.hidden = false; err.textContent = 'Please provide a valid US phone number.'; }
+      currentStep = 1;
+      showStep(currentStep);
+      return;
+    }
+    payload.phone = phone;
+
+    var err = $('#q-submit-error');
+    if (err) { err.hidden = true; err.textContent = ''; }
+
+    var conditionsList = (payload.conditions || []).slice();
+    if (payload.conditionsOther) conditionsList.push(payload.conditionsOther);
+
+    var contactFields = {
+      name: (payload.firstName || '') + ' ' + (payload.lastName || ''),
+      email: payload.email,
+      phone: phone,
+      category: 'care-coordinator',
+      bestTime: payload.bestTime,
+      note: payload.whyNow,
+    };
+
+    var intakeBody = {
+      email: payload.email,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      phone: phone,
+      category: 'care-coordinator',
+      demographics: {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email,
+        phone: phone,
+        dob: payload.dob,
+        sex: payload.sex,
+        state: payload.state,
+      },
+      history: {
+        medications: (payload.currentMeds || '').split(/[,\n]/).map(function(s){ return s.trim(); }).filter(Boolean),
+        allergies: (payload.allergies || '').split(/[,\n]/).map(function(s){ return s.trim(); }).filter(Boolean),
+        conditions: conditionsList,
+        heightIn: (payload.heightFt && payload.heightIn)
+          ? (parseInt(payload.heightFt, 10) * 12 + parseInt(payload.heightIn, 10))
+          : undefined,
+        weightLb: payload.weightLb ? Number(payload.weightLb) : undefined,
+      },
+      screeningAnswers: {
+        bestTime: payload.bestTime,
+        whyNow: payload.whyNow,
+        curiosity: payload.curiosity || [],
+        refusals: payload.refusals,
+        budget: payload.budget,
+        supplements: payload.supplements,
+        surgeries: payload.surgeries,
+        familyHistory: payload.familyHistory || [],
+        alreadyDiagnosed: payload.alreadyDiagnosed,
+        diagnosedDetail: payload.diagnosedDetail,
+        waistIn: payload.waistIn,
+        sleepHours: payload.sleepHours,
+        alcoholPerWeek: payload.alcoholPerWeek,
+        exerciseDaysPerWeek: payload.exerciseDaysPerWeek,
+        eatingWindowHours: payload.eatingWindowHours,
+        stepsPerDay: payload.stepsPerDay,
+        lastLabsDate: payload.lastLabsDate,
+        canShareLabs: payload.canShareLabs,
+        priorTherapies: payload.priorTherapies || [],
+        consent: true,
+      },
+      consents: {
+        'consent-contact-v1': { version: 'v1', at: new Date().toISOString() },
+      },
+    };
 
     try {
       var res = await fetch(API_BASE + '/api/contact-form', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          kind: 'form',
-          formId: 'consult-intake',
-          fields: { name: name, email: email, phone: phone, subject: 'Consult intake — ' + category, message: 'Best time: ' + bestTime + '\n\n' + (note || '(no additional notes)') }
-        }),
+        body: JSON.stringify({ kind: 'form', formId: 'consult-intake', fields: contactFields }),
       });
       if (!res.ok) throw new Error('submit failed (' + res.status + ')');
+
       // Best-effort persist to EMR — never blocks success UX
       fetch(API_BASE + '/api/patient-record-intake', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          email: email,
-          category: category,
-          demographics: { firstName: name, phone: phone },
-          screeningAnswers: { bestTime: bestTime, note: note },
-        }),
+        body: JSON.stringify(intakeBody),
       }).catch(function() { /* best-effort — ignore errors */ });
-      form.style.display = 'none';
-      var success = document.getElementById('consult-success');
-      if (success) success.hidden = false;
-    } catch (e2) {
-      btn.disabled = false;
-      btn.textContent = 'Submit Request →';
+
+      var heading = $('#q-success-heading');
+      if (heading) heading.textContent = 'Got it. Dr. TJ will call you ' + (payload.bestTime || 'soon') + '.';
+      showStep('success');
+    } catch (e) {
       if (err) {
         err.hidden = false;
         err.textContent = 'Something went wrong submitting your request. Please try again or email care@my4mlife.com directly.';
       }
     }
+  }
+
+  // Populate US state dropdown — 50 states + DC, alphabetized by full name
+  function populateStateDropdown() {
+    var sel = document.getElementById('q-state');
+    if (!sel) return;
+    var us = 'Alabama:AL,Alaska:AK,Arizona:AZ,Arkansas:AR,California:CA,Colorado:CO,Connecticut:CT,Delaware:DE,District of Columbia:DC,Florida:FL,Georgia:GA,Hawaii:HI,Idaho:ID,Illinois:IL,Indiana:IN,Iowa:IA,Kansas:KS,Kentucky:KY,Louisiana:LA,Maine:ME,Maryland:MD,Massachusetts:MA,Michigan:MI,Minnesota:MN,Mississippi:MS,Missouri:MO,Montana:MT,Nebraska:NE,Nevada:NV,New Hampshire:NH,New Jersey:NJ,New Mexico:NM,New York:NY,North Carolina:NC,North Dakota:ND,Ohio:OH,Oklahoma:OK,Oregon:OR,Pennsylvania:PA,Rhode Island:RI,South Carolina:SC,South Dakota:SD,Tennessee:TN,Texas:TX,Utah:UT,Vermont:VT,Virginia:VA,Washington:WA,West Virginia:WV,Wisconsin:WI,Wyoming:WY';
+    us.split(',').forEach(function(pair) {
+      var parts = pair.split(':');
+      var opt = document.createElement('option');
+      opt.value = parts[1];
+      opt.textContent = parts[0];
+      sel.appendChild(opt);
+    });
+  }
+
+  // ── Wire up navigation ──
+  document.addEventListener('DOMContentLoaded', function() {
+    populateStateDropdown();
+    showStep(1);
+
+    // Prefill category-driven curiosity checkbox from ?category= query param if present
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var cat = params.get('category');
+      if (cat) {
+        document.querySelectorAll('[data-q="curiosity"]').forEach(function(cb) {
+          if (cb.value.toLowerCase().indexOf(cat.toLowerCase()) !== -1) cb.checked = true;
+        });
+      }
+    } catch (_) { /* no-op */ }
+
+    // Conditional UI: "Other" condition detail
+    document.querySelectorAll('[data-q="conditions"]').forEach(function(cb) {
+      cb.addEventListener('change', function() {
+        var anyOtherChecked = false;
+        document.querySelectorAll('[data-q="conditions"]').forEach(function(c) {
+          if (c.value === 'Other' && c.checked) anyOtherChecked = true;
+        });
+        $('#q-conditions-other-wrap').hidden = !anyOtherChecked;
+      });
+    });
+
+    // Conditional UI: diagnosed detail
+    document.querySelectorAll('[name="alreadyDiagnosed"]').forEach(function(r) {
+      r.addEventListener('change', function() {
+        $('#q-diagnosed-detail').hidden = (r.value !== 'yes');
+      });
+    });
+
+    $('#q-next').addEventListener('click', function() {
+      if (!collectStep(currentStep)) return;
+      currentStep++;
+      if (currentStep === totalSteps) {
+        buildReviewSummary();
+      }
+      showStep(currentStep);
+    });
+
+    $('#q-back').addEventListener('click', function() {
+      if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    });
+
+    var _submitInFlight = false;
+    $('#q-submit').addEventListener('click', async function() {
+      if (_submitInFlight) return;
+      _submitInFlight = true;
+      var btn = $('#q-submit'); if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+      try { await submitIntake(); }
+      finally {
+        _submitInFlight = false;
+        if (btn) { btn.disabled = false; btn.textContent = 'Submit →'; }
+      }
+    });
   });
 })();
 </script>
 
-<style>
-.consult-section { padding: 5rem 1.25rem 6rem; background: var(--bg-soft, #f7fafc); min-height: 60vh; }
-.consult-inner { max-width: 640px; margin: 0 auto; background: #fff; padding: 2.5rem 2.25rem; border-radius: var(--radius, 12px); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
-.consult-eyebrow { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent, #00b894); margin: 0 0 0.5rem; }
-.consult-inner h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary, #1a365d); margin: 0 0 0.75rem; line-height: 1.2; }
-.consult-sub { font-size: 1rem; color: var(--text); line-height: 1.6; margin: 0 0 2rem; }
-.consult-form { display: flex; flex-direction: column; gap: 1rem; }
-.form-row { display: flex; flex-direction: column; gap: 0.35rem; }
-.form-row-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-@media (min-width: 560px) { .form-row-2 { grid-template-columns: 1fr 1fr; } }
-.form-row-2 > div { display: flex; flex-direction: column; gap: 0.35rem; }
-.consult-form label { font-size: 0.82rem; font-weight: 600; color: var(--primary, #1a365d); }
-.consult-form .opt { font-weight: 400; color: var(--text-light); }
-.consult-form input, .consult-form textarea {
-  font-family: inherit; font-size: 0.95rem; color: var(--text);
-  background: #fff; border: 1px solid var(--border, #e2e8f0); border-radius: 8px;
-  padding: 0.7rem 0.85rem; transition: border-color 0.15s, box-shadow 0.15s;
+</BaseLayout>
+
+<style is:global>
+.q-section { padding: 3rem 1rem 5rem; min-height: 70vh; background: var(--bg-soft); }
+.q-inner { max-width: 720px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 2rem 1.75rem; }
+.q-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+.q-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; margin: 0 0 0.5rem; }
+.q-header h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--primary); margin: 0 0 1rem; line-height: 1.2; }
+.q-progress { background: #e2e8f0; height: 6px; border-radius: 999px; overflow: hidden; }
+.q-progress-bar { background: var(--accent); height: 100%; transition: width 0.3s; }
+.q-step-counter { font-size: 0.8rem; color: var(--text-light); margin: 0.5rem 0 0; }
+
+.q-step h2 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 0 0 0.5rem; font-size: 1.35rem; }
+.q-step h3 { font-family: 'Playfair Display', serif; color: var(--primary); margin: 1.25rem 0 0.5rem; font-size: 1.1rem; }
+.q-step-sub { color: var(--text-light); margin: 0 0 1.25rem; font-size: 0.95rem; line-height: 1.5; }
+
+.q-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.q-field { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+.q-field-wide { grid-column: 1 / -1; }
+.q-field-block { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.85rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+.q-field input, .q-field select, .q-field-block textarea, .q-field-block input, .q-field-block select { font-family: 'Inter', sans-serif; font-size: 1rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; font-weight: 400; color: var(--text); }
+.q-field input:focus, .q-field select:focus, .q-field-block textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+.q-opt { font-weight: 400; color: var(--text-light); }
+.q-error { border-color: #d4351c !important; box-shadow: 0 0 0 2px rgba(212, 53, 28, 0.18); }
+fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
+
+.q-radio-group { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
+.q-radio-group legend { font-weight: 600; color: var(--primary); padding: 0 0.4rem; font-size: 0.95rem; }
+.q-radio { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.4rem 0; cursor: pointer; font-size: 0.95rem; color: var(--text); }
+.q-radio input { margin-top: 0.2rem; }
+.q-warn { border-color: rgba(212, 147, 10, 0.4); background: #fff8ec; }
+.q-warn-note { color: #a37a14; font-size: 0.85rem; margin: 0.5rem 0 0.75rem; font-weight: 500; }
+
+.q-review-summary { background: transparent; margin: 1rem 0; }
+.q-review-section { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem 1rem; margin: 0 0 1rem; }
+.q-review-section-title { font-family: 'Playfair Display', serif; margin: 0 0 0.6rem; font-size: 1.05rem; color: var(--primary); font-weight: 700; letter-spacing: 0.01em; padding-bottom: 0.45rem; border-bottom: 2px solid var(--accent); }
+.q-review-row { display: grid; grid-template-columns: 180px 1fr; column-gap: 1.25rem; row-gap: 0.15rem; padding: 0.45rem 0; font-size: 0.92rem; border-bottom: 1px solid #f0eee8; }
+.q-review-row:last-child { border-bottom: none; }
+.q-review-label { color: var(--text-light); font-weight: 600; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.08em; padding-top: 0.15rem; }
+.q-review-value { color: var(--text); font-size: 0.95rem; line-height: 1.5; word-break: break-word; }
+
+.q-checkbox-row { display: flex; gap: 0.7rem; align-items: flex-start; margin-top: 1rem; font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+.q-checkbox-row input { margin-top: 0.3rem; transform: scale(1.15); }
+
+.q-success { text-align: center; padding: 1.5rem 0; }
+.q-success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 2rem; display: inline-flex; align-items: center; justify-content: center; margin: 0 0 1rem; }
+.q-success h2 { font-size: 1.6rem; color: var(--primary); margin: 0 0 0.6rem; }
+.q-success p { color: var(--text); line-height: 1.6; margin: 0 0 0.85rem; }
+.q-success-fine { font-size: 0.9rem; color: var(--text-light); margin-top: 1.5rem; }
+
+.q-submit-error { color: #c0392b; font-size: 0.88rem; margin: 0.75rem auto 0; max-width: 720px; text-align: center; }
+
+.q-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.q-btn { padding: 0.85rem 1.6rem; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; border: none; cursor: pointer; transition: opacity 0.15s; }
+.q-btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(0,184,148,0.25); }
+.q-btn-secondary { background: #fff; color: var(--primary); border: 1px solid var(--border); }
+.q-btn:hover { opacity: 0.92; }
+.q-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 600px) {
+  .q-grid-2 { grid-template-columns: 1fr; }
+  .q-review-row { grid-template-columns: 1fr; row-gap: 0.25rem; padding: 0.55rem 0; }
+  .q-inner { padding: 1.5rem 1rem; }
 }
-.consult-form input:focus, .consult-form textarea:focus { outline: none; border-color: var(--accent, #00b894); box-shadow: 0 0 0 3px rgba(0,184,148,0.15); }
-.consult-submit { align-self: flex-start; margin-top: 0.5rem; padding: 0.85rem 1.6rem; background: var(--accent, #00b894); color: #fff; border: none; border-radius: 999px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.15s; }
-.consult-submit:hover:not(:disabled) { background: var(--accent-dark, #00a381); transform: translateY(-1px); }
-.consult-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-.consult-error { color: #c0392b; font-size: 0.88rem; margin: 0.4rem 0 0; }
-.consult-success { padding: 0.5rem 0; }
-.consult-success h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--primary, #1a365d); margin: 0 0 0.75rem; }
-.consult-success p { font-size: 0.98rem; line-height: 1.6; color: var(--text); margin: 0 0 0.85rem; }
-.consult-success a { color: var(--accent, #00b894); font-weight: 600; }
-.consult-success-em { font-size: 0.85rem; color: var(--text-light); margin-top: 1rem !important; }
 </style>

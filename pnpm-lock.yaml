@@ -334,6 +334,40 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
+  lambdas/coordinator-brief:
+    dependencies:
+      '@aws-sdk/client-bedrock-runtime':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-lambda':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
+      '@my4mlife/patient-record':
+        specifier: workspace:*
+        version: link:../_shared/patient-record
+    devDependencies:
+      '@types/aws-lambda':
+        specifier: ^8.10.149
+        version: 8.10.161
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/create-checkout-session:
     dependencies:
       '@my4mlife/stripe-client':
@@ -647,6 +681,40 @@ importers:
       '@my4mlife/contact-id':
         specifier: workspace:*
         version: link:../_shared/contact-id
+      '@my4mlife/patient-record':
+        specifier: workspace:*
+        version: link:../_shared/patient-record
+    devDependencies:
+      '@types/aws-lambda':
+        specifier: ^8.10.149
+        version: 8.10.161
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
+
+  lambdas/plan-of-action:
+    dependencies:
+      '@aws-sdk/client-bedrock-runtime':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-lambda':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
       '@my4mlife/patient-record':
         specifier: workspace:*
         version: link:../_shared/patient-record

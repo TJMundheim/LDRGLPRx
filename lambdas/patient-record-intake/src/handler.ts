@@ -8,7 +8,7 @@ import { corsHeaders, reply, sanitiseCard, serialiseConsents } from './helpers';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
-const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
+const COORDINATOR_BRIEF_FN = process.env.COORDINATOR_BRIEF_FN ?? 'my4mlife-coordinator-brief';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const lambda = new LambdaClient({ region: REGION });
@@ -53,7 +53,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const setParts = ['updatedAt = :ts', 'createdAt = if_not_exists(createdAt, :ts)'];
   const names: Record<string, string> = {};
   const vals: Record<string, unknown> = { ':ts': ts };
-  if (parsed.demographics && typeof parsed.demographics === 'object') { setParts.push('demographics = :dem'); vals[':dem'] = parsed.demographics; }
+  // demographics always carries the validated email — plan-of-action reads the patient address from record.demographics.email.
+  if (parsed.demographics && typeof parsed.demographics === 'object') { setParts.push('demographics = :dem'); vals[':dem'] = { ...(parsed.demographics as Record<string, unknown>), email }; }
   if (parsed.history !== undefined) { setParts.push('history = :hist'); vals[':hist'] = parsed.history ?? null; }
   if (parsed.screeningAnswers !== undefined) { setParts.push('screeningAnswers = :scr'); vals[':scr'] = parsed.screeningAnswers ?? null; }
   if (consents !== undefined) { setParts.push('consents = :con'); vals[':con'] = consents; }
@@ -99,7 +100,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   try {
     const notifyPayload = { kind: 'coordinator-notify', contactId, encounterId, category, email };
     await lambda.send(new InvokeCommand({
-      FunctionName: EMAIL_SENDER_FN,
+      FunctionName: COORDINATOR_BRIEF_FN,
       InvocationType: 'Event',
       Payload: Buffer.from(JSON.stringify(notifyPayload)),
     }));

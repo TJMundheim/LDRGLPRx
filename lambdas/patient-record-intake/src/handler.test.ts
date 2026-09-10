@@ -289,12 +289,12 @@ describe('SECURITY — raw card data never written to DynamoDB', () => {
 });
 
 describe('Email sender — fire-and-forget', () => {
-  it('invokes email-sender lambda asynchronously (InvocationType Event)', async () => {
+  it('invokes coordinator-brief lambda asynchronously (InvocationType Event)', async () => {
     await handler(evt(VALID_BODY));
     expect(lambdaSendMock).toHaveBeenCalledTimes(1);
     const invokeCmd = lambdaSendMock.mock.calls[0][0];
     expect(invokeCmd.input.InvocationType).toBe('Event');
-    expect(invokeCmd.input.FunctionName).toBe('my4mlife-email-sender');
+    expect(invokeCmd.input.FunctionName).toBe('my4mlife-coordinator-brief');
   });
 
   it('returns 200 even if email-sender throws', async () => {

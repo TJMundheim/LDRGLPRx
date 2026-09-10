@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
-# deploy.sh — build, provision IAM role, create/update Lambda, wire HTTP API route.
+# deploy.sh — build, provision IAM role, create/update the plan-of-action Lambda.
 # Idempotent. Run from any directory.
+#
+# This function is an AppSync direct Lambda data source (action: 'draft' | 'send').
+# Wiring the AppSync data source + resolver itself is out of scope for this script.
 set -euo pipefail
 
-FUNCTION_NAME="my4mlife-patient-record-intake"
-ROLE_NAME="my4mlife-patient-record-intake-role"
+FUNCTION_NAME="my4mlife-plan-of-action"
+ROLE_NAME="my4mlife-plan-of-action-role"
 REGION="us-east-2"
 AWS_ACCOUNT_ID="879696522760"
+RUNTIME="nodejs20.x"
+HANDLER="handler.handler"
+TIMEOUT=60
+MEMORY=512
+
 PATIENT_RECORDS_TABLE="PatientRecords"
-COORDINATOR_BRIEF_FN="my4mlife-coordinator-brief"
-API_ID="v9svm8ds74"
+BEDROCK_MODEL="us.anthropic.claude-haiku-4-5-20251001-v1:0"
+EMAIL_SENDER_FN="my4mlife-email-sender"
+NOTIFY_TO="drtj@my4mlife.com"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AWS="aws --region $REGION"
@@ -36,7 +45,8 @@ TRUST_DOC='{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"
 
 if ! $AWS iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
   $AWS iam create-role --role-name "$ROLE_NAME" --assume-role-policy-document "$TRUST_DOC" >/dev/null
-  log "Role created."
+  log "Role created. Waiting for propagation..."
+  sleep 10
 fi
 
 INLINE_POLICY=$(cat <<EOF
@@ -50,13 +60,24 @@ INLINE_POLICY=$(cat <<EOF
     },
     {
       "Effect": "Allow",
-      "Action": ["dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:Query"],
-      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE"
+      "Action": ["dynamodb:GetItem","dynamodb:Query","dynamodb:PutItem","dynamodb:UpdateItem"],
+      "Resource": [
+        "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE",
+        "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE/index/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["bedrock:InvokeModel"],
+      "Resource": [
+        "arn:aws:bedrock:*::foundation-model/*",
+        "arn:aws:bedrock:$REGION:$AWS_ACCOUNT_ID:inference-profile/*"
+      ]
     },
     {
       "Effect": "Allow",
       "Action": ["lambda:InvokeFunction"],
-      "Resource": "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$COORDINATOR_BRIEF_FN"
+      "Resource": "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$EMAIL_SENDER_FN"
     }
   ]
 }
@@ -73,7 +94,12 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
-ENV_VARS="Variables={PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,COORDINATOR_BRIEF_FN=$COORDINATOR_BRIEF_FN}"
+# JSON env file (shorthand syntax mangles values containing "://" / commas / colons).
+ENV_FILE="$(mktemp)"
+cat > "$ENV_FILE" <<JSON
+{"Variables":{"PATIENT_RECORDS_TABLE":"$PATIENT_RECORDS_TABLE","BEDROCK_MODEL":"$BEDROCK_MODEL","EMAIL_SENDER_FN":"$EMAIL_SENDER_FN","NOTIFY_TO":"$NOTIFY_TO"}}
+JSON
+ENV_VARS="file://$ENV_FILE"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \
@@ -82,56 +108,21 @@ if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; th
   $AWS lambda wait function-updated --function-name "$FUNCTION_NAME"
   $AWS lambda update-function-configuration \
     --function-name "$FUNCTION_NAME" \
+    --runtime "$RUNTIME" --handler "$HANDLER" --timeout "$TIMEOUT" --memory-size "$MEMORY" \
     --environment "$ENV_VARS" >/dev/null
   log "Lambda updated."
 else
-  sleep 8
   $AWS lambda create-function \
     --function-name "$FUNCTION_NAME" \
-    --runtime nodejs20.x \
+    --runtime "$RUNTIME" \
     --role "$ROLE_ARN" \
-    --handler handler.handler \
+    --handler "$HANDLER" \
     --zip-file "fileb://$SCRIPT_DIR/dist/handler.zip" \
     --environment "$ENV_VARS" \
-    --timeout 15 \
-    --memory-size 256 >/dev/null
+    --timeout "$TIMEOUT" \
+    --memory-size "$MEMORY" >/dev/null
   log "Lambda created."
 fi
 
 $AWS lambda wait function-active --function-name "$FUNCTION_NAME"
-
-# ── 4. HTTP API route ─────────────────────────────────────────────────────────
-log "Wiring HTTP API route POST /api/patient-record-intake..."
-ROUTE_KEY="POST /api/patient-record-intake"
-
-EXISTING_ROUTE=$($AWS apigatewayv2 get-routes --api-id "$API_ID" \
-  --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId | [0]" --output text)
-
-if [[ "$EXISTING_ROUTE" != "None" && -n "$EXISTING_ROUTE" ]]; then
-  log "Route already exists ($EXISTING_ROUTE). Skipping."
-else
-  LAMBDA_ARN="arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$FUNCTION_NAME"
-
-  $AWS lambda add-permission \
-    --function-name "$FUNCTION_NAME" \
-    --statement-id "apigateway-patient-record-intake" \
-    --action "lambda:InvokeFunction" \
-    --principal "apigateway.amazonaws.com" \
-    --source-arn "arn:aws:execute-api:$REGION:$AWS_ACCOUNT_ID:$API_ID/*/*/api/patient-record-intake" \
-    2>/dev/null || true
-
-  INTEGRATION_ID=$($AWS apigatewayv2 create-integration \
-    --api-id "$API_ID" \
-    --integration-type AWS_PROXY \
-    --integration-uri "$LAMBDA_ARN" \
-    --payload-format-version "2.0" \
-    --query "IntegrationId" --output text)
-
-  $AWS apigatewayv2 create-route \
-    --api-id "$API_ID" \
-    --route-key "$ROUTE_KEY" \
-    --target "integrations/$INTEGRATION_ID" >/dev/null
-  log "Route created: $ROUTE_KEY -> $INTEGRATION_ID"
-fi
-
-log "Done. Endpoint: https://$API_ID.execute-api.$REGION.amazonaws.com/api/patient-record-intake"
+log "Done. Function $FUNCTION_NAME is active. Wire it as an AppSync direct Lambda data source separately."

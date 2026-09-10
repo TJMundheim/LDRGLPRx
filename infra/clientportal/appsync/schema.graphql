@@ -496,6 +496,8 @@ type PatientRecordAdmin {
   updatedAt: AWSDateTime
   encounters: [EncounterAdmin!]!
   audit: [AuditEntryAdmin!]!
+  briefs: [BriefAdmin!]!
+  plans: [PlanAdmin!]!
 }
 
 type EncounterAdmin {
@@ -505,6 +507,20 @@ type EncounterAdmin {
   visitType: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
+}
+
+type BriefAdmin {
+  encounterId: ID!
+  json: AWSJSON
+  createdAt: AWSDateTime
+}
+
+type PlanAdmin {
+  encounterId: ID!
+  state: String!
+  json: AWSJSON
+  createdAt: AWSDateTime
+  sentAt: AWSDateTime
 }
 
 type AuditEntryAdmin {
@@ -623,5 +639,11 @@ type Mutation {
   chargeEncounterAdmin(contactId: ID!, encounterId: ID!, amountCents: Int!, billingType: String!, interval: String, label: String): ChargeResultAdmin
     @aws_auth(cognito_groups: ["Admins"])
   exportClinicalPacketAdmin(contactId: ID!, encounterId: ID!): PacketResultAdmin
+    @aws_auth(cognito_groups: ["Admins"])
+  generateCoordinatorBriefAdmin(contactId: ID!, encounterId: ID!): BriefAdmin!
+    @aws_auth(cognito_groups: ["Admins"])
+  draftPlanOfActionAdmin(contactId: ID!, encounterId: ID!, coordinatorNotes: String!): PlanAdmin!
+    @aws_auth(cognito_groups: ["Admins"])
+  sendPlanOfActionAdmin(contactId: ID!, encounterId: ID!, planJson: AWSJSON!): PlanAdmin!
     @aws_auth(cognito_groups: ["Admins"])
 }

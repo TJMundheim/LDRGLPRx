@@ -10,7 +10,8 @@
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check:consult": "node scripts/check-consult.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",

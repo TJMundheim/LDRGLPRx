@@ -9,7 +9,8 @@ function isAdmin(ctx) {
 
 export function request(ctx) {
   if (!isAdmin(ctx)) util.unauthorized();
-  // Query all items for this contactId (record, encounter#*, audit#*) in one shot.
+  // Query all items for this contactId (record, encounter#*, audit#*, brief#*,
+  // plan#*) in one shot.
   return {
     operation: 'Query',
     query: {
@@ -60,6 +61,32 @@ export function response(ctx) {
       };
     });
 
+  const briefs = items
+    .filter(function (item) {
+      return (item.sk ? item.sk : '').indexOf('brief#') === 0;
+    })
+    .map(function (item) {
+      return {
+        encounterId: item.sk.slice('brief#'.length),
+        json: item.json ? item.json : null,
+        createdAt: item.createdAt ? item.createdAt : null,
+      };
+    });
+
+  const plans = items
+    .filter(function (item) {
+      return (item.sk ? item.sk : '').indexOf('plan#') === 0;
+    })
+    .map(function (item) {
+      return {
+        encounterId: item.sk.slice('plan#'.length),
+        state: item.state ? item.state : 'draft',
+        json: item.json ? item.json : null,
+        createdAt: item.createdAt ? item.createdAt : null,
+        sentAt: item.sentAt ? item.sentAt : null,
+      };
+    });
+
   if (!recordItem) return null;
 
   return {
@@ -73,5 +100,7 @@ export function response(ctx) {
     updatedAt: recordItem.updatedAt ? recordItem.updatedAt : null,
     encounters: encounters,
     audit: auditEntries,
+    briefs: briefs,
+    plans: plans,
   };
 }
