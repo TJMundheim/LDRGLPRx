@@ -1,10 +1,21 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-10 · self-contained current-state snapshot
+# Last updated: 2026-09-11 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
 
+
+
+## ⚡ 2026-09-11 SESSION — INTERIM COORDINATOR MODE LIVE (9c1b1e4d · ebd7ec91, deployed)
+
+- **TJ decision:** until 50-state telemedicine fulfillment exists (testosterone live-visit requirement), EVERY front-door path → free, no-card care-coordinator intake at /consult → TJ calls. Direct-buy/Stripe lanes KEPT, unlinked (reachable by direct URL, noindex).
+- **One flag:** `website/src/lib/siteMode.ts` `COORDINATOR_MODE = true` (+ `consultHref(lane)`). Flip to false → previous direct-buy site returns byte-for-byte (verified by review). Affects: homepage (single CTA "Free care coordinator call — find out exactly what you need"; cards = "What we help with" → /consult?lane=), Navbar top links + Services rxItems, StickyMobileCta, 7 /rx pages (CTA/price/disclosure), 7 questionnaires (interim note), /go/gut-repair LP.
+- **Qualifying flow:** /consult intake (?lane= pre-checks curiosity) → success screen "One more step (7 min): MindSpan assessment" → /assessment?from=consult with name/email/phone handed off via sessionStorage (NOT URL — PostHog pageviews would have captured PII). audit-complete now fires `{kind:'assessment-complete', contactId}` to coordinator-brief (Event invoke, try/catch) → brief regenerates for the latest care-coordinator encounter, email subject "[Pre-call brief — updated with MindSpan] …"; no encounter → `{skipped:true}`.
+- Branding: homepage attribution + meta now "Dr. TJ" (no ", DC").
+- Also repaired: 6 stale audit-complete tests (predated the server-derived contactId fix) — 21/21 green now.
+- **Follow-ups:** coordinator-brief lookup doesn't page LastEvaluatedKey (irrelevant at volume); /rx/peptides lists peptide names (catalog page — fine unless TJ objects); `lambdas/coach-proxy` direct Anthropic SDK (rule violation) still open.
+- **Brian Schumacher (call 9/16):** send him to https://www.my4mlife.com/consult — intake → assessment → brief lands in drtj@ automatically.
 
 ## ⚡ 2026-09-10 SESSION — CARE-COORDINATOR LOOP LIVE (intake → pre-call brief → plan-of-action email)
 
