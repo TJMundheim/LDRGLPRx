@@ -524,11 +524,14 @@ const canonical = "https://www.my4mlife.com/consult";
       var assessmentCta = $('#q-assessment-cta');
       if (assessmentCta) {
         var fullName = ((payload.firstName || '') + ' ' + (payload.lastName || '')).trim();
-        var assessmentUrl = '/assessment'
-          + '?name=' + encodeURIComponent(fullName)
-          + '&email=' + encodeURIComponent(payload.email || '')
-          + '&phone=' + encodeURIComponent(phone || '')
-          + '&from=consult';
+        try {
+          sessionStorage.setItem('my4m_prefill', JSON.stringify({
+            name: fullName,
+            email: payload.email || '',
+            phone: phone || '',
+          }));
+        } catch (_) { /* no-op — sessionStorage unavailable */ }
+        var assessmentUrl = '/assessment?from=consult';
         assessmentCta.setAttribute('href', assessmentUrl);
         assessmentCta.addEventListener('click', function() { phCapture('consult_to_assessment_click'); });
       }

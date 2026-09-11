@@ -310,6 +310,28 @@ const robots = "index, follow";
         var ph = document.getElementById('field-phone');
         if (ph) ph.value = decodeURIComponent(params.get('phone'));
       }
+      // Prefill from sessionStorage (passed from /consult success screen —
+      // keeps PII out of the URL). Only applies when the param-based prefill
+      // above left the fields empty, so ?name=/?email=/?phone= callers still
+      // take priority.
+      if (params.get('from') === 'consult') {
+        var nEl = document.getElementById('field-name');
+        var emEl = document.getElementById('field-email');
+        var phEl = document.getElementById('field-phone');
+        var fieldsEmpty = (!nEl || !nEl.value) && (!emEl || !emEl.value) && (!phEl || !phEl.value);
+        if (fieldsEmpty) {
+          try {
+            var rawPrefill = sessionStorage.getItem('my4m_prefill');
+            if (rawPrefill) {
+              var prefill = JSON.parse(rawPrefill);
+              if (nEl && prefill.name) nEl.value = prefill.name;
+              if (emEl && prefill.email) emEl.value = prefill.email;
+              if (phEl && prefill.phone) phEl.value = prefill.phone;
+              sessionStorage.removeItem('my4m_prefill');
+            }
+          } catch (e) {}
+        }
+      }
     } catch (e) {}
   })();
 
