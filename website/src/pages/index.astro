@@ -4,7 +4,9 @@ import HowItWorks from '../components/HowItWorks.astro';
 import TrustBand from '../components/TrustBand.astro';
 import { COORDINATOR_MODE, consultHref } from '../lib/siteMode';
 
-const title = "My4MLife — Protect your mind. Physician-prescribed treatment you can start today.";
+const title = COORDINATOR_MODE
+  ? "My4MLife — Protect your mind. The right treatment, chosen with you."
+  : "My4MLife — Protect your mind. Physician-prescribed treatment you can start today.";
 const description = "Physician-prescribed telemedicine built around brain healthspan: GLP-1 weight loss, gut-brain repair, growth-hormone peptides, testosterone, and menopause HRT. Answer a few questions from your phone — most visits are free. Founded by Dr. TJ.";
 const canonical = "https://www.my4mlife.com/";
 const keywords = "GLP-1 weight loss, semaglutide, tirzepatide, gut brain axis, gut lining repair, growth hormone peptide, testosterone therapy, menopause HRT, telemedicine, cognitive longevity, brain health, My4MLife, Dr. TJ Mundheim";
@@ -64,7 +66,7 @@ const treatments = [
 <!-- ===== HERO — direct-buy ===== -->
 <section class="hp-hero" id="hp-hero">
   <div class="container hp-hero-inner">
-    <h1 class="hp-hero-headline">Protect your mind &mdash; and the body that carries it &mdash; with physician-prescribed treatment you can start today.</h1>
+    <h1 class="hp-hero-headline">{COORDINATOR_MODE ? 'Protect your mind — and the body that carries it — with the right treatment, chosen with you.' : 'Protect your mind — and the body that carries it — with physician-prescribed treatment you can start today.'}</h1>
 
     <p class="hp-hero-sub">{COORDINATOR_MODE ? 'No card. No decisions to make. Take the intake, then Dr. TJ calls you.' : 'Pick your treatment. Answer a few questions from your phone. A licensed physician reviews — most visits are free.'}</p>
 
