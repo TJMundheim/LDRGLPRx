@@ -2,6 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import HowItWorks from '../../components/HowItWorks.astro';
 import TrustBand from '../../components/TrustBand.astro';
+import { COORDINATOR_MODE, consultHref } from '../../lib/siteMode';
+
+const LANE = 'menopause-hrt';
 
 const title = 'Menopause & HRT Rx — For Women — My4MLife';
 const description = 'Telemedicine menopause & HRT consult + hormone panel. One consult fee, a plan for the whole system. For women. $249.';
@@ -54,16 +57,26 @@ const rxSteps = [
 <section class="rx-section rx-section--bottom">
   <div class="container rx-inner">
     <p class="rx-price-line">
-      <strong>$249</strong> — live telemedicine visit + mandatory hormone panel (required for any hormone prescription).
-      <span class="rx-pay-note">Medication is billed separately.</span>
+      {COORDINATOR_MODE ? (
+        <>No card and no charge to start &mdash; a care coordinator call comes first, and the physician visit (free on most lanes; $249 for testosterone and menopause) is booked only if it fits.</>
+      ) : (
+        <>
+          <strong>$249</strong> — live telemedicine visit + mandatory hormone panel (required for any hormone prescription).
+          <span class="rx-pay-note">Medication is billed separately.</span>
+        </>
+      )}
     </p>
 
-    <a class="rx-cta-btn" href="/rx/menopause-hrt/questionnaire">
-      Start Your Health Questionnaire &rarr;
+    <a class="rx-cta-btn" href={COORDINATOR_MODE ? consultHref(LANE) : '/rx/menopause-hrt/questionnaire'}>
+      {COORDINATOR_MODE ? 'Start with a free care coordinator call →' : 'Start Your Health Questionnaire →'}
     </a>
 
     <p class="rx-disclosure">
-      Complete a brief health questionnaire and save your payment method. Our care coordinator will email you within 24 hours to confirm next steps with the network physician.
+      {COORDINATOR_MODE ? (
+        <>A care coordinator will call you at the time you choose. Nothing is charged, and no card is requested, until a physician visit is actually booked.</>
+      ) : (
+        <>Complete a brief health questionnaire and save your payment method. Our care coordinator will email you within 24 hours to confirm next steps with the network physician.</>
+      )}
     </p>
   </div>
 </section>

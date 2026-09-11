@@ -1,11 +1,20 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { COORDINATOR_MODE, consultHref } from '../../../lib/siteMode';
+
+const LANE = 'regenerative-medicine';
 
 const title = 'Regenerative Medicine — Care Coordinator Intake | My4MLife';
 const description = 'Brief intake form for our regenerative medicine portfolio. Save a card on file — no charge today. A care coordinator reaches out within 24 hours with a custom quote; nothing is charged until you approve it.';
 const canonical = 'https://www.my4mlife.com/rx/regenerative-medicine/questionnaire';
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow">
+
+{COORDINATOR_MODE && (
+  <p class="q-interim-note" style="text-align:center; font-size:0.85rem; color:var(--text-light); background:var(--bg-soft); padding:0.6rem 1rem; margin:0;">
+    Interim: you can also start with a <a href={consultHref(LANE)}>free care coordinator call</a> — no card required.
+  </p>
+)}
 
 <section class="q-section">
   <div class="container q-inner">

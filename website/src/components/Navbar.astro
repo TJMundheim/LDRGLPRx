@@ -3,6 +3,14 @@
 // The 5 top-level treatment links are the direct-buy Rx front door; the same
 // (relabeled/expanded) set also lives in the Services mega-menu under
 // "Prescription Therapies" for crawlability + footer-linked SEO.
+//
+// Coordinator mode (TJ 2026-09-11, INTERIM — see src/lib/siteMode.ts): while
+// active, every one of these links points at the free care-coordinator
+// intake (/consult?lane=<slug>) instead of straight into the Rx
+// questionnaire. Labels are unchanged; only the href changes.
+import { COORDINATOR_MODE, consultHref } from '../lib/siteMode';
+
+const laneFromHref = (href: string) => href.replace('/rx/', '');
 
 // Top-level treatment links — direct-buy Rx front door (TJ 2026-09-02).
 const topRxItems = [
@@ -11,7 +19,7 @@ const topRxItems = [
   { label: 'Tesamorelin',       href: '/rx/gh-peptide' },
   { label: 'Testosterone',      href: '/rx/testosterone-ed' },
   { label: 'Menopause & HRT',   href: '/rx/menopause-hrt' },
-];
+].map((item) => COORDINATOR_MODE ? { ...item, href: consultHref(laneFromHref(item.href)) } : item);
 
 // Prescription Therapies — Services mega-menu (full Rx catalog).
 const rxItems = [
@@ -22,7 +30,7 @@ const rxItems = [
   { label: 'Menopause & HRT',   href: '/rx/menopause-hrt' },
   { label: 'Regenerative Medicine', href: '/rx/regenerative-medicine' },
   { label: 'Peptides Rx',       href: '/rx/peptides' },
-];
+].map((item) => COORDINATOR_MODE ? { ...item, href: consultHref(laneFromHref(item.href)) } : item);
 
 const frameworkItems = [
   { label: 'Mind',     href: '/pillars/mind' },

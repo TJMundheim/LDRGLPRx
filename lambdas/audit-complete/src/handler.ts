@@ -11,6 +11,7 @@ const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
 const USER_PROFILE_TABLE = process.env.USER_PROFILE_TABLE ?? 'Users';
 const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID ?? '';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
+const COORDINATOR_BRIEF_FN = process.env.COORDINATOR_BRIEF_FN ?? 'my4mlife-coordinator-brief';
 const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digital-fulfillment';
 const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind.pdf';
 const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'the-logbook-month1.pdf';
@@ -387,6 +388,20 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       } : {}),
     },
   }));
+
+  // Fire-and-forget: let coordinator-brief regenerate any pre-call brief for
+  // this contact now that fresh MindSpan scores are on file. Never let a
+  // failure here affect the HTTP response, and never log the payload — only
+  // the error message (contactId is not PHI, but keep the log surface small).
+  try {
+    await lambda.send(new InvokeCommand({
+      FunctionName: COORDINATOR_BRIEF_FN,
+      InvocationType: 'Event',
+      Payload: Buffer.from(JSON.stringify({ kind: 'assessment-complete', contactId })),
+    }));
+  } catch (e: any) {
+    console.warn('coordinator-brief invoke failed', e?.message);
+  }
 
   if (email) {
     try {

@@ -2,6 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import HowItWorks from '../../components/HowItWorks.astro';
 import TrustBand from '../../components/TrustBand.astro';
+import { COORDINATOR_MODE, consultHref } from '../../lib/siteMode';
+
+const LANE = 'weight-loss';
 
 const title = 'GLP-1 Weight Loss Rx — My4MLife';
 const description = 'Telemedicine consult to evaluate your candidacy for semaglutide or tirzepatide.';
@@ -54,16 +57,26 @@ const rxSteps = [
 <section class="rx-section rx-section--bottom">
   <div class="container rx-inner">
     <p class="rx-price-line">
-      <strong>Free</strong> — telemedicine consult with a physician in our network. No lab work required.
-      <span class="rx-pay-note">Medication is billed separately after the physician writes your script.</span>
+      {COORDINATOR_MODE ? (
+        <>No card and no charge to start &mdash; a care coordinator call comes first, and the physician visit (free on most lanes; $249 for testosterone and menopause) is booked only if it fits.</>
+      ) : (
+        <>
+          <strong>Free</strong> — telemedicine consult with a physician in our network. No lab work required.
+          <span class="rx-pay-note">Medication is billed separately after the physician writes your script.</span>
+        </>
+      )}
     </p>
 
-    <a class="rx-cta-btn" href="/rx/weight-loss/questionnaire">
-      Start Your Health Questionnaire &rarr;
+    <a class="rx-cta-btn" href={COORDINATOR_MODE ? consultHref(LANE) : '/rx/weight-loss/questionnaire'}>
+      {COORDINATOR_MODE ? 'Start with a free care coordinator call →' : 'Start Your Health Questionnaire →'}
     </a>
 
     <p class="rx-disclosure">
-      6 quick steps. Your card will be saved securely — no charge until a physician reviews and approves your script. If you're not approved, your card is never charged.
+      {COORDINATOR_MODE ? (
+        <>A care coordinator will call you at the time you choose. Nothing is charged, and no card is requested, until a physician visit is actually booked.</>
+      ) : (
+        <>6 quick steps. Your card will be saved securely — no charge until a physician reviews and approves your script. If you're not approved, your card is never charged.</>
+      )}
     </p>
   </div>
 </section>

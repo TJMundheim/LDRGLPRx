@@ -13,10 +13,14 @@ export interface MailBrief {
   topLane: string;
   html: string;
   text: string;
+  /** Overrides the default "[Pre-call brief]" subject prefix — e.g. when a
+   *  MindSpan assessment completion regenerates an already-sent brief. */
+  subjectPrefix?: string;
 }
 
 export async function mailBrief(p: MailBrief): Promise<void> {
-  const subject = `[Pre-call brief] ${p.name} — ${p.topLane} — call ${p.bestTime}`;
+  const prefix = p.subjectPrefix ?? '[Pre-call brief]';
+  const subject = `${prefix} ${p.name} — ${p.topLane} — call ${p.bestTime}`;
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
     InvocationType: 'RequestResponse',

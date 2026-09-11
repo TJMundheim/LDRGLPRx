@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import TrustBand from '../components/TrustBand.astro';
+import { COORDINATOR_MODE, consultHref } from '../lib/siteMode';
 
 const title = "My4MLife — Protect your mind. Physician-prescribed treatment you can start today.";
 const description = "Physician-prescribed telemedicine built around brain healthspan: GLP-1 weight loss, gut-brain repair, growth-hormone peptides, testosterone, and menopause HRT. Answer a few questions from your phone — most visits are free. Founded by Dr. TJ Mundheim, DC.";
@@ -65,9 +66,13 @@ const treatments = [
   <div class="container hp-hero-inner">
     <h1 class="hp-hero-headline">Protect your mind &mdash; and the body that carries it &mdash; with physician-prescribed treatment you can start today.</h1>
 
-    <p class="hp-hero-sub">Pick your treatment. Answer a few questions from your phone. A licensed physician reviews &mdash; most visits are free.</p>
+    <p class="hp-hero-sub">{COORDINATOR_MODE ? 'No card. No decisions to make. Take the intake, then Dr. TJ calls you.' : 'Pick your treatment. Answer a few questions from your phone. A licensed physician reviews — most visits are free.'}</p>
 
-    <a href="#treatments" class="btn-primary-xl" onclick="window.posthog && posthog.capture('hp_hero_choose_treatment')">Choose your treatment &darr;</a>
+    {COORDINATOR_MODE ? (
+      <a href={consultHref()} class="btn-primary-xl" onclick="window.posthog && posthog.capture('hp_coordinator_cta')">Free care coordinator call &mdash; find out exactly what you need &rarr;</a>
+    ) : (
+      <a href="#treatments" class="btn-primary-xl" onclick="window.posthog && posthog.capture('hp_hero_choose_treatment')">Choose your treatment &darr;</a>
+    )}
 
     <p class="hp-hero-brandnote"><em>Begin with the end in mind.</em></p>
   </div>
@@ -76,20 +81,21 @@ const treatments = [
 <!-- ===== TREATMENT CARDS ===== -->
 <section id="treatments" class="hp-treatments">
   <div class="container">
+    {COORDINATOR_MODE && <h2 class="hp-treatments-heading">What we help with</h2>}
     <div class="tx-grid">
       {treatments.map((t) => (
         <a
-          href={t.href}
+          href={COORDINATOR_MODE ? consultHref(t.href.replace('/rx/', '')) : t.href}
           class="tx-card"
           onclick={`window.posthog && posthog.capture('hp_treatment_${t.slug}')`}
         >
           <div class="tx-card-top">
-            <span class={t.free ? 'tx-eyebrow tx-eyebrow--free' : 'tx-eyebrow tx-eyebrow--paid'}>{t.eyebrow}</span>
+            <span class={t.free ? 'tx-eyebrow tx-eyebrow--free' : 'tx-eyebrow tx-eyebrow--paid'}>{COORDINATOR_MODE ? 'Free coordinator call' : t.eyebrow}</span>
             {t.tag && <span class="tx-tag">{t.tag}</span>}
           </div>
           <h2 class="tx-name">{t.name}</h2>
           <p class="tx-benefit">{t.benefit}</p>
-          <span class="tx-start">Start &rarr;</span>
+          <span class="tx-start">{COORDINATOR_MODE ? 'Discuss on the call →' : 'Start →'}</span>
         </a>
       ))}
     </div>
@@ -99,7 +105,7 @@ const treatments = [
 <!-- ===== BILLING REASSURANCE STRIP ===== -->
 <section class="hp-reassure">
   <div class="container">
-    <p>Medication is billed separately after a physician writes your script. If you're not approved, you're never charged.</p>
+    <p>{COORDINATOR_MODE ? "Nothing to pay today. After your call you'll get a written plan — and if a prescription lane fits, the physician visit is booked then." : "Medication is billed separately after a physician writes your script. If you're not approved, you're never charged."}</p>
   </div>
 </section>
 
@@ -217,6 +223,14 @@ const treatments = [
 .hp-treatments {
   background: var(--bg-soft);
   padding: 3rem 0 3.25rem;
+}
+.hp-treatments-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--dark);
+  text-align: center;
+  margin: 0 0 1.75rem;
 }
 .tx-grid {
   display: grid;

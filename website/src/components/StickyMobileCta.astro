@@ -2,18 +2,20 @@
 // Sticky mobile CTA — visible only on small viewports, hidden on funnel pages
 // (where the visitor is already mid-conversion) and whenever hideChrome is set.
 // Dismiss choice persists for the browser session only (sessionStorage).
+import { COORDINATOR_MODE } from '../lib/siteMode';
+
 const path = Astro.url.pathname;
 
 const isFunnelPage =
   path.startsWith('/go/') ||
   path.startsWith('/assessment') ||
-  path.startsWith('/consult') ||
+  path.startsWith('/consult') || // coordinator mode treats /consult itself as a funnel page — sticky stays hidden there
   path.startsWith('/thank-you') ||
   /^\/rx\/[^/]+\/questionnaire/.test(path);
 
 const isHome = path === '/';
-const ctaHref = isHome ? '/#treatments' : '/assessment';
-const ctaLabel = isHome ? 'Start your free visit' : 'Get your MindSpan baseline — free';
+const ctaHref = COORDINATOR_MODE ? '/consult' : (isHome ? '/#treatments' : '/assessment');
+const ctaLabel = COORDINATOR_MODE ? 'Free care coordinator call' : (isHome ? 'Start your free visit' : 'Get your MindSpan baseline — free');
 ---
 {!isFunnelPage && (
   <div class="sticky-cta" id="sticky-mobile-cta">

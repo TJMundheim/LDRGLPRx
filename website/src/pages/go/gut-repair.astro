@@ -5,6 +5,14 @@
 // added the day it is orderable (no-coming-soon rule — never promise, only sell).
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MedicalDisclaimer from '../../components/MedicalDisclaimer.astro';
+import { COORDINATOR_MODE, consultHref } from '../../lib/siteMode';
+
+// Coordinator mode (TJ 2026-09-11, INTERIM — see src/lib/siteMode.ts): this LP
+// is a paid-traffic front door, so both CTAs route to the free care-coordinator
+// intake instead of the Rx questionnaire while the flag is on. Labels and
+// PostHog event names are unchanged.
+const LANE = 'leaky-gut';
+const lpCtaHref = COORDINATOR_MODE ? consultHref(LANE) : '/rx/leaky-gut/questionnaire';
 
 const title = 'Gut Repair for Men — Fix the Gut, Protect the Mind — My4MLife';
 const description = 'Bloating, brain fog, the 2pm crash — your gut is degrading the brain it feeds. Free physician-reviewed gut repair consult for men.';
@@ -46,7 +54,7 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
         <p class="lp-path-tag">Rx · physician-guided</p>
         <h3>Biome NS Rx — our proprietary gut-repair prescription, written by your physician to your needs.</h3>
         <p><strong>Custom-formulated dosage based on your needs</strong> — determined by a physician in your free telemedicine consult.</p>
-        <a class="lp-cta" href="/rx/leaky-gut/questionnaire" onclick="window.posthog && posthog.capture('lp_gut_cta_hero')">Start the free consult &rarr;</a>
+        <a class="lp-cta" href={lpCtaHref} onclick="window.posthog && posthog.capture('lp_gut_cta_hero')">Start the free consult &rarr;</a>
         <p class="lp-fine">Consult is free. Medication billed separately only after physician approval — if you're not approved, you pay nothing.</p>
       </div>
     </div>
@@ -91,7 +99,7 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
   <section class="lp-block lp-close">
     <h2>Built for men who plan to keep their edge</h2>
     <p class="lp-lead">Weight-loss shops sell you a scale number. We're after something bigger: the best mind possible until your last day of life. The gut is step one. <em>Begin with the end in mind.</em></p>
-    <a class="lp-cta" href="/rx/leaky-gut/questionnaire" onclick="window.posthog && posthog.capture('lp_gut_cta_close')">Start your free gut repair consult &rarr;</a>
+    <a class="lp-cta" href={lpCtaHref} onclick="window.posthog && posthog.capture('lp_gut_cta_close')">Start your free gut repair consult &rarr;</a>
   </section>
 
   <footer class="lp-foot">

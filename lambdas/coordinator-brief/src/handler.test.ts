@@ -29,7 +29,7 @@ vi.mock('@aws-sdk/client-lambda', () => ({
   InvokeCommand: class InvokeCommand { input: any; constructor(input: any) { this.input = input; } },
 }));
 
-import { handler } from './handler';
+import { handler, type BriefResult } from './handler';
 
 // ── Fixtures ───────────────────────────────────────────────────────────────
 
@@ -57,6 +57,22 @@ const CONTACT_ITEM = {
   auditTop3: ['gut', 'sleep', 'weight'],
 };
 
+// Two care-coordinator encounters (coord2 is the latest by createdAt) plus one
+// non-coordinator encounter that is more recent still — the query must filter
+// by category, not just pick the newest item overall.
+const COORDINATOR_ENCOUNTER_1 = {
+  contactId: 'c1', sk: 'encounter#coord1', encounterId: 'coord1',
+  category: 'care-coordinator', state: 'new', visitType: 'async', createdAt: '2026-09-01T10:00:00.000Z',
+};
+const COORDINATOR_ENCOUNTER_2 = {
+  contactId: 'c1', sk: 'encounter#coord2', encounterId: 'coord2',
+  category: 'care-coordinator', state: 'new', visitType: 'async', createdAt: '2026-09-05T10:00:00.000Z',
+};
+const OTHER_ENCOUNTER = {
+  contactId: 'c1', sk: 'encounter#other1', encounterId: 'other1',
+  category: 'glp1-weight-loss', state: 'new', visitType: 'async', createdAt: '2026-09-08T10:00:00.000Z',
+};
+
 const VALID_BRIEF = {
   summary: 'Sam is a strong GLP-1 candidate with gut concerns.',
   why_now: 'Top-3 audit concerns align with the GLP-1 + Gut-Brain Rx lanes.',
@@ -79,10 +95,15 @@ beforeEach(() => {
 
   ddbSendMock.mockImplementation(async (command: any) => {
     const input = command.input;
+    if (input.KeyConditionExpression) {
+      // findLatestCoordinatorEncounter's Query on PatientRecords.
+      return { Items: [COORDINATOR_ENCOUNTER_1, COORDINATOR_ENCOUNTER_2, OTHER_ENCOUNTER] };
+    }
     if (input.Key) {
       if (input.TableName === 'Contact') return { Item: contactItemOverride };
       if (input.Key.sk === 'record') return { Item: RECORD_ITEM };
       if (input.Key.sk === 'encounter#e1') return { Item: ENCOUNTER_ITEM };
+      if (input.Key.sk === 'encounter#coord2') return { Item: COORDINATOR_ENCOUNTER_2 };
       return {};
     }
     return {}; // PutCommand
@@ -100,7 +121,7 @@ function putItems() {
 
 describe('coordinator-brief handler', () => {
   it('direct invoke: gathers, calls Bedrock once, stores brief + audit, emails coordinator', async () => {
-    const result = await handler({ kind: 'coordinator-notify', contactId: 'c1', encounterId: 'e1' } as any);
+    const result = await handler({ kind: 'coordinator-notify', contactId: 'c1', encounterId: 'e1' } as any) as BriefResult;
 
     expect(bedrockSendMock).toHaveBeenCalledTimes(1);
 
@@ -125,7 +146,7 @@ describe('coordinator-brief handler', () => {
   });
 
   it('AppSync-shaped invoke returns { encounterId, json, createdAt } with json as an object', async () => {
-    const result = await handler({ arguments: { contactId: 'c1', encounterId: 'e1' }, identity: {} } as any);
+    const result = await handler({ arguments: { contactId: 'c1', encounterId: 'e1' }, identity: {} } as any) as BriefResult;
 
     expect(result.encounterId).toBe('e1');
     expect(typeof result.json).toBe('object');
@@ -172,5 +193,46 @@ describe('coordinator-brief handler', () => {
     const body = JSON.parse(invokeInput.body);
     const userContent = body.messages[0].content as string;
     expect(userContent).toContain('assessment: not taken');
+  });
+});
+
+describe('assessment-complete event (MindSpan assessment finishes after intake)', () => {
+  it('picks the latest care-coordinator encounter, regenerates the brief, stores it, and emails with the MindSpan subject prefix', async () => {
+    const result = await handler({ kind: 'assessment-complete', contactId: 'c1' } as any);
+
+    const queryCall = ddbSendMock.mock.calls.find((c: any) => c[0].input.KeyConditionExpression);
+    expect(queryCall).toBeDefined();
+    expect(queryCall![0].input.TableName).toBe('PatientRecords');
+    expect(queryCall![0].input.KeyConditionExpression).toContain("contactId = :c");
+    expect(queryCall![0].input.KeyConditionExpression).toContain("begins_with(sk, :prefix)");
+    expect(queryCall![0].input.ExpressionAttributeValues).toEqual({ ':c': 'c1', ':prefix': 'encounter#' });
+
+    expect(bedrockSendMock).toHaveBeenCalledTimes(1);
+
+    const items = putItems();
+    const briefItem = items.find((i: any) => i.Item.sk === 'brief#coord2');
+    expect(briefItem).toBeDefined();
+    expect(briefItem!.Item.json.summary).toBe(VALID_BRIEF.summary);
+
+    expect(lambdaSendMock).toHaveBeenCalledTimes(1);
+    const payload = JSON.parse(lambdaSendMock.mock.calls[0][0].input.Payload.toString());
+    expect(payload.subject.startsWith('[Pre-call brief — updated with MindSpan]')).toBe(true);
+
+    expect(result).toEqual(expect.objectContaining({ encounterId: 'coord2' }));
+  });
+
+  it('returns {skipped:true} with no Bedrock call, no store, and no email when there is no care-coordinator encounter', async () => {
+    ddbSendMock.mockImplementation(async (command: any) => {
+      const input = command.input;
+      if (input.KeyConditionExpression) return { Items: [OTHER_ENCOUNTER] };
+      return {};
+    });
+
+    const result = await handler({ kind: 'assessment-complete', contactId: 'c1' } as any);
+
+    expect(result).toEqual({ skipped: true });
+    expect(bedrockSendMock).not.toHaveBeenCalled();
+    expect(putItems().length).toBe(0);
+    expect(lambdaSendMock).not.toHaveBeenCalled();
   });
 });

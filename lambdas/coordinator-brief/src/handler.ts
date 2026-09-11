@@ -1,27 +1,35 @@
 // coordinator-brief — assembles a Bedrock-drafted pre-call brief for Dr. TJ
 // ahead of a coordinator call, stores it on the PatientRecord, and (for the
-// automatic pipeline trigger) emails it to the coordinator inbox.
+// automatic pipeline triggers) emails it to the coordinator inbox.
 //
-// Two invocation shapes:
+// Three invocation shapes:
 //   Direct invoke — { kind: 'coordinator-notify', contactId, encounterId }
 //     Generates + stores the brief AND emails it via the email-sender Lambda.
 //   AppSync direct-resolver — { arguments: { contactId, encounterId }, identity }
 //     Generates + stores the brief on demand (admin UI "regenerate brief"
 //     button); no email send.
+//   Assessment-complete — { kind: 'assessment-complete', contactId }
+//     Fired by audit-complete once a MindSpan assessment finishes AFTER
+//     intake. Looks up the patient's latest care-coordinator encounter and
+//     regenerates that brief with the new scores; skips silently if the
+//     contact has no care-coordinator encounter yet.
 //
 // NOTE: AI calls use @aws-sdk/client-bedrock-runtime only — never
 // @anthropic-ai/sdk in production Lambdas.
-import { gather } from './gather';
-import { systemPrompt, userPrompt } from './prompt';
-import { generateBrief, type Brief } from './bedrock';
-import { renderHtml, renderText } from './render';
-import { mailBrief } from './mail';
+import type { Brief } from './bedrock';
 import { storeBrief, storeAudit } from './store';
+import { buildBrief, notifyCoordinator } from './notify';
+import { findLatestCoordinatorEncounter } from './lookup';
 
 interface DirectInvokeEvent {
   kind: 'coordinator-notify';
   contactId: string;
   encounterId: string;
+}
+
+interface AssessmentCompleteEvent {
+  kind: 'assessment-complete';
+  contactId: string;
 }
 
 interface AppSyncEvent {
@@ -37,24 +45,7 @@ export interface BriefResult {
   createdAt: string;
 }
 
-async function buildBrief(contactId: string, encounterId: string): Promise<{ brief: Brief; createdAt: string; header: { name: string; phone: string; bestTime: string } }> {
-  const gathered = await gather(contactId, encounterId);
-  const brief = await generateBrief(systemPrompt, userPrompt(gathered));
-  const createdAt = new Date().toISOString();
-
-  const demo = (gathered.record?.['demographics'] as Record<string, unknown>) ?? {};
-  const screening = (gathered.record?.['screeningAnswers'] as Record<string, unknown>) ?? {};
-  const name = (gathered.contact?.['firstName'] as string) ?? (demo['firstName'] as string) ?? 'the patient';
-  const phone = (gathered.contact?.['phone'] as string) ?? (demo['phone'] as string) ?? 'no phone on file';
-  const bestTime = (gathered.contact?.['bestTime'] as string)
-    ?? (gathered.encounter?.['bestTime'] as string)
-    ?? (screening['bestTime'] as string)
-    ?? 'soon';
-
-  return { brief, createdAt, header: { name, phone, bestTime } };
-}
-
-export const handler = async (event: DirectInvokeEvent | AppSyncEvent): Promise<BriefResult> => {
+export const handler = async (event: DirectInvokeEvent | AppSyncEvent | AssessmentCompleteEvent): Promise<BriefResult | { skipped: true }> => {
   const isAppSync = 'arguments' in event;
 
   if (isAppSync) {
@@ -66,19 +57,12 @@ export const handler = async (event: DirectInvokeEvent | AppSyncEvent): Promise<
     return { encounterId, json: brief, createdAt };
   }
 
+  if (event.kind === 'assessment-complete') {
+    const found = await findLatestCoordinatorEncounter(event.contactId);
+    if (!found) return { skipped: true };
+    return notifyCoordinator(event.contactId, found.encounterId, '[Pre-call brief — updated with MindSpan]');
+  }
+
   const { contactId, encounterId } = event;
-  const { brief, createdAt, header } = await buildBrief(contactId, encounterId);
-  await storeBrief(contactId, encounterId, brief, createdAt);
-  await storeAudit(contactId, 'system');
-
-  const topLane = brief.recommended_lanes?.[0]?.lane ?? 'consult';
-  await mailBrief({
-    name: header.name,
-    bestTime: header.bestTime,
-    topLane,
-    html: renderHtml(header, brief),
-    text: renderText(header, brief),
-  });
-
-  return { encounterId, json: brief, createdAt };
+  return notifyCoordinator(contactId, encounterId);
 };

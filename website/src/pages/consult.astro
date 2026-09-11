@@ -191,6 +191,13 @@ const canonical = "https://www.my4mlife.com/consult";
         <div class="q-success-icon">✓</div>
         <h2 id="q-success-heading">Got it.</h2>
         <p>Check your email for a confirmation.</p>
+
+        <div class="q-next-step">
+          <p class="q-next-step-heading">One more step (7 minutes): your MindSpan assessment</p>
+          <p class="q-next-step-copy">It gives Dr. TJ your baseline before the call and unlocks the book, the Logbook, and the app.</p>
+          <a href="#" id="q-assessment-cta" class="q-btn q-btn-primary q-next-step-btn">Take the MindSpan assessment &rarr;</a>
+        </div>
+
         <p class="q-success-fine">Questions? Email <a href="mailto:care@my4mlife.com">care@my4mlife.com</a>. Medical emergency? Call 911 — this form is not monitored 24/7.</p>
       </div>
     </section>
@@ -513,6 +520,19 @@ const canonical = "https://www.my4mlife.com/consult";
 
       var heading = $('#q-success-heading');
       if (heading) heading.textContent = 'Got it. Dr. TJ will call you ' + (payload.bestTime || 'soon') + '.';
+
+      var assessmentCta = $('#q-assessment-cta');
+      if (assessmentCta) {
+        var fullName = ((payload.firstName || '') + ' ' + (payload.lastName || '')).trim();
+        var assessmentUrl = '/assessment'
+          + '?name=' + encodeURIComponent(fullName)
+          + '&email=' + encodeURIComponent(payload.email || '')
+          + '&phone=' + encodeURIComponent(phone || '')
+          + '&from=consult';
+        assessmentCta.setAttribute('href', assessmentUrl);
+        assessmentCta.addEventListener('click', function() { phCapture('consult_to_assessment_click'); });
+      }
+
       showStep('success');
     } catch (e) {
       if (err) {
@@ -548,6 +568,30 @@ const canonical = "https://www.my4mlife.com/consult";
       if (cat) {
         document.querySelectorAll('[data-q="curiosity"]').forEach(function(cb) {
           if (cb.value.toLowerCase().indexOf(cat.toLowerCase()) !== -1) cb.checked = true;
+        });
+      }
+    } catch (_) { /* no-op */ }
+
+    // Coordinator-mode front-door links (TJ 2026-09-11): /rx/<slug> pages and
+    // nav/home cards pass ?lane=<slug> so the matching "curious about"
+    // checkbox is pre-checked. Values below must match the checkbox `value`
+    // attributes in Step 2 exactly.
+    try {
+      var laneParams = new URLSearchParams(window.location.search);
+      var lane = laneParams.get('lane');
+      var LANE_TO_CURIOSITY = {
+        'weight-loss': 'GLP-1 weight loss',
+        'leaky-gut': 'Gut-Brain Rx',
+        'gh-peptide': 'Tesamorelin (belly fat + muscle)',
+        'testosterone-ed': 'Testosterone (men)',
+        'menopause-hrt': 'Menopause & HRT (women)',
+        'regenerative-medicine': 'Regenerative medicine (already diagnosed / joints)',
+        'peptides': 'Regenerative medicine (already diagnosed / joints)',
+      };
+      var curiosityValue = lane && LANE_TO_CURIOSITY[lane];
+      if (curiosityValue) {
+        document.querySelectorAll('[data-q="curiosity"]').forEach(function(cb) {
+          if (cb.value === curiosityValue) cb.checked = true;
         });
       }
     } catch (_) { /* no-op */ }
@@ -650,6 +694,11 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-success h2 { font-size: 1.6rem; color: var(--primary); margin: 0 0 0.6rem; }
 .q-success p { color: var(--text); line-height: 1.6; margin: 0 0 0.85rem; }
 .q-success-fine { font-size: 0.9rem; color: var(--text-light); margin-top: 1.5rem; }
+
+.q-next-step { background: var(--bg-soft); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 1.25rem 1.4rem; margin: 1.25rem 0; text-align: left; }
+.q-next-step-heading { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--primary); margin: 0 0 0.4rem; }
+.q-next-step-copy { font-size: 0.92rem; color: var(--text); line-height: 1.5; margin: 0 0 1rem; }
+.q-next-step-btn { display: inline-flex; text-decoration: none; }
 
 .q-submit-error { color: #c0392b; font-size: 0.88rem; margin: 0.75rem auto 0; max-width: 720px; text-align: center; }
 

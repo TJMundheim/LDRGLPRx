@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { v5 as uuidv5 } from 'uuid';
 
 const sendMock = vi.fn();
 
@@ -26,7 +27,12 @@ vi.mock('@aws-sdk/client-lambda', () => ({
   InvokeCommand: class { input: any; constructor(i: any) { this.input = i; } },
 }));
 
-import { handler, getRecommendedRx } from './handler';
+import { handler, getRecommendedRx, NAMESPACE } from './handler';
+
+// contactId is ALWAYS server-derived from email (audit #14) — a client-supplied
+// contactId is ignored. Tests below that exercise the Contact-write path must
+// supply an email and compare against this derived value.
+const cidFor = (email: string) => uuidv5(email.trim().toLowerCase(), NAMESPACE);
 
 describe('getRecommendedRx — email consult priority (locked 2026-06-21)', () => {
   const t = (id: string, score: number) => ({ id, label: id, slug: id, score });
@@ -89,10 +95,18 @@ beforeEach(() => {
 });
 
 describe('audit-complete handler', () => {
-  it('rejects missing contactId/email with 400', async () => {
+  it('rejects missing contactId/email with 400, without firing any downstream invoke', async () => {
     const res: any = await handler(evt({ scores: { gut: 3 }, top3: ['gut'] }));
     expect(res.statusCode).toBe(400);
     expect(sendMock).not.toHaveBeenCalled();
+    expect(lambdaSendMock).not.toHaveBeenCalled();
+  });
+
+  it('ignores a client-supplied contactId with no email and still rejects with 400 (contactId is server-derived from email only)', async () => {
+    const res: any = await handler(evt({ contactId: 'client-supplied-id', top3: [] }));
+    expect(res.statusCode).toBe(400);
+    expect(sendMock).not.toHaveBeenCalled();
+    expect(lambdaSendMock).not.toHaveBeenCalled();
   });
 
   it('rejects invalid json with 400', async () => {
@@ -100,17 +114,18 @@ describe('audit-complete handler', () => {
     expect(res.statusCode).toBe(400);
   });
 
-  it('writes UpdateCommand with correct expression on valid body (contactId path)', async () => {
+  it('writes UpdateCommand with correct expression on valid body (email-derived contactId)', async () => {
+    const email = 'audit-write-test@example.com';
     const scores = { gut: 4, weight: 2, hormones: 3 };
     const top3 = ['gut', 'hormones', 'weight'];
-    const res: any = await handler(evt({ contactId: 'abc-123', scores, top3 }));
+    const res: any = await handler(evt({ email, scores, top3 }));
     expect(res.statusCode).toBe(200);
     expect(JSON.parse(res.body)).toMatchObject({ ok: true });
 
     expect(sendMock).toHaveBeenCalledTimes(1);
     const cmd = sendMock.mock.calls[0][0];
     expect(cmd.input.TableName).toBe('Contact');
-    expect(cmd.input.Key).toEqual({ contactId: 'abc-123' });
+    expect(cmd.input.Key).toEqual({ contactId: cidFor(email) });
     expect(cmd.input.UpdateExpression).toContain('auditCompletedAt = :ts');
     expect(cmd.input.UpdateExpression).toContain('auditTop3 = :top3');
     expect(cmd.input.UpdateExpression).toContain('intakeAnswers = :scores');
@@ -124,21 +139,27 @@ describe('audit-complete handler', () => {
       protegeTerms: { agreed: true, version: 'consent-protege-v1', text: 'I agree to the Protégé terms (free account; no purchase required).' },
       aiComms: { agreed: true, version: 'consent-ai-comms-v1', text: 'I consent to receive AI-assisted health communications from My4MLife. I understand I may opt out at any time.' },
     };
-    const res: any = await handler(evt({ contactId: 'abc-123', scores: { gut: 3 }, top3: [], consent }));
+    const res: any = await handler(evt({ email: 'consent-test@example.com', scores: { gut: 3 }, top3: [], consent }));
     expect(res.statusCode).toBe(200);
     const cmd = sendMock.mock.calls[0][0];
     expect(cmd.input.UpdateExpression).toContain('consent = :consent');
     expect(cmd.input.UpdateExpression).toContain('consentedAt = :consentAt');
     expect(cmd.input.UpdateExpression).toContain('aiCommsConsent = :aiC');
     expect(cmd.input.UpdateExpression).toContain('protegeConsent = :protC');
-    expect(cmd.input.ExpressionAttributeValues[':consentAt']).toBe('2026-06-21T12:00:00.000Z');
+    // Consent timestamp is always server-stamped, never trusted from the client
+    // (see the "Consent timestamp is stamped by the server" comment in the
+    // handler) — so it must NOT equal the client-supplied consent.consentedAt,
+    // just be a valid, current ISO timestamp.
+    const storedConsentAt = cmd.input.ExpressionAttributeValues[':consentAt'];
+    expect(storedConsentAt).not.toBe(consent.consentedAt);
+    expect(new Date(storedConsentAt).toISOString()).toBe(storedConsentAt);
     expect(cmd.input.ExpressionAttributeValues[':aiC']).toBe(true);
     expect(cmd.input.ExpressionAttributeValues[':protC']).toBe(true);
     expect(JSON.parse(cmd.input.ExpressionAttributeValues[':consent']).aiComms.version).toBe('consent-ai-comms-v1');
   });
 
   it('omits consent fields from the write when no consent is provided', async () => {
-    const res: any = await handler(evt({ contactId: 'abc-123', scores: { gut: 3 }, top3: [] }));
+    const res: any = await handler(evt({ email: 'no-consent-test@example.com', scores: { gut: 3 }, top3: [] }));
     expect(res.statusCode).toBe(200);
     const cmd = sendMock.mock.calls[0][0];
     expect(cmd.input.UpdateExpression).not.toContain('consent = :consent');
@@ -166,9 +187,9 @@ describe('audit-complete handler', () => {
     expect(typeof ddbCmd.input.Key.contactId).toBe('string');
     expect(ddbCmd.input.Key.contactId.length).toBeGreaterThan(10);
 
-    // Email-sender invoked
-    expect(lambdaSendMock).toHaveBeenCalledTimes(1);
-    const invokeCmd = lambdaSendMock.mock.calls[0][0];
+    // Email-sender invoked (alongside the unconditional coordinator-brief invoke)
+    expect(lambdaSendMock).toHaveBeenCalledTimes(2);
+    const invokeCmd = lambdaSendMock.mock.calls.find((c: any) => c[0].input.FunctionName === 'my4mlife-email-sender')![0];
     expect(invokeCmd.input.FunctionName).toBe('my4mlife-email-sender');
     expect(invokeCmd.input.InvocationType).toBe('Event');
     const payload = JSON.parse(Buffer.from(invokeCmd.input.Payload).toString('utf8'));
@@ -185,7 +206,10 @@ describe('audit-complete handler', () => {
   });
 
   it('does not fail the request when email-sender invoke throws', async () => {
-    lambdaSendMock.mockRejectedValueOnce(new Error('boom'));
+    lambdaSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.FunctionName === 'my4mlife-email-sender') throw new Error('boom');
+      return {};
+    });
     const res: any = await handler(evt({
       email: 'x@example.com',
       firstName: 'X',
@@ -194,10 +218,34 @@ describe('audit-complete handler', () => {
     expect(res.statusCode).toBe(200);
   });
 
-  it('skips email invoke when only contactId provided (no email)', async () => {
-    const res: any = await handler(evt({ contactId: 'cid-only', top3: [] }));
+  it('fires coordinator-brief with the assessment-complete payload after a successful score store', async () => {
+    const email = 'brief-fires@example.com';
+    const res: any = await handler(evt({ email, scores: { gut: 3 }, top3: [] }));
     expect(res.statusCode).toBe(200);
-    expect(lambdaSendMock).not.toHaveBeenCalled();
+
+    const invokeCmd = lambdaSendMock.mock.calls.find((c: any) => c[0].input.FunctionName === 'my4mlife-coordinator-brief')?.[0];
+    expect(invokeCmd).toBeDefined();
+    expect(invokeCmd.input.InvocationType).toBe('Event');
+    const payload = JSON.parse(Buffer.from(invokeCmd.input.Payload).toString('utf8'));
+    expect(payload).toEqual({ kind: 'assessment-complete', contactId: cidFor(email) });
+
+    // Fired after the Contact score store, not before.
+    const ddbCallOrder = sendMock.mock.invocationCallOrder[0];
+    const briefCallOrder = lambdaSendMock.mock.invocationCallOrder[
+      lambdaSendMock.mock.calls.findIndex((c: any) => c[0].input.FunctionName === 'my4mlife-coordinator-brief')
+    ];
+    expect(briefCallOrder).toBeGreaterThan(ddbCallOrder);
+  });
+
+  it('does not change the HTTP response when the coordinator-brief invoke fails', async () => {
+    lambdaSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.FunctionName === 'my4mlife-coordinator-brief') throw new Error('coordinator-brief down');
+      return {};
+    });
+    const email = 'brief-fails@example.com';
+    const res: any = await handler(evt({ email, scores: { gut: 3 }, top3: [] }));
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body)).toMatchObject({ ok: true, contactId: cidFor(email) });
   });
 
   it('returns CORS headers with allowlisted origin (default fallback)', async () => {
@@ -208,17 +256,18 @@ describe('audit-complete handler', () => {
 
   it('enqueues SQS nurture stage-1 with DelaySeconds 900 when NURTURE_QUEUE_URL set', async () => {
     process.env.NURTURE_QUEUE_URL = 'https://sqs.us-east-2.amazonaws.com/123/my4mlife-nurture-queue';
-    const res: any = await handler(evt({ contactId: 'cid-1', scores: {}, top3: [] }));
+    const email = 'nurture-1@example.com';
+    const res: any = await handler(evt({ email, scores: {}, top3: [] }));
     expect(res.statusCode).toBe(200);
     expect(sqsSendMock).toHaveBeenCalledTimes(1);
     const cmd = sqsSendMock.mock.calls[0][0];
     expect(cmd.input.QueueUrl).toBe(process.env.NURTURE_QUEUE_URL);
     expect(cmd.input.DelaySeconds).toBe(900);
-    expect(JSON.parse(cmd.input.MessageBody)).toEqual({ contactId: 'cid-1', stage: 1 });
+    expect(JSON.parse(cmd.input.MessageBody)).toEqual({ contactId: cidFor(email), stage: 1 });
   });
 
   it('skips SQS enqueue gracefully when NURTURE_QUEUE_URL unset', async () => {
-    const res: any = await handler(evt({ contactId: 'cid-2', scores: {}, top3: [] }));
+    const res: any = await handler(evt({ email: 'nurture-2@example.com', scores: {}, top3: [] }));
     expect(res.statusCode).toBe(200);
     expect(sqsSendMock).not.toHaveBeenCalled();
   });
