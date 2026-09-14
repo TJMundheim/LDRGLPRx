@@ -392,7 +392,15 @@ if $EXECUTE; then
   if [[ "$pr4_count" -gt 0 ]]; then
     echo "-- DELETE: PatientRecords items via batch-write-item, chunks of 25 --" | tee -a "$LOG"
     sks=$(echo "$pr4_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);(j.Items||[]).forEach(it=>console.log(it.sk.S));});")
-    mapfile -t sk_array <<< "$sks"
+    # NOTE: do NOT use mapfile/readarray here — macOS ships bash 3.2 (no
+    # mapfile, added in bash 4), so under `set -euo pipefail` that call dies
+    # with "command not found" with nothing captured to $LOG. Build the
+    # array portably with a while-read loop instead.
+    sk_array=()
+    while IFS= read -r sk_line; do
+      [[ -z "$sk_line" ]] && continue
+      sk_array+=("$sk_line")
+    done <<< "$sks"
     chunk=()
     flush_chunk() {
       [[ ${#chunk[@]} -eq 0 ]] && return
@@ -406,7 +414,38 @@ let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
       local tmpfile
       tmpfile=$(mktemp)
       echo "$reqs" > "$tmpfile"
-      run "aws dynamodb batch-write-item --region $REGION --request-items file://$tmpfile"
+
+      # Issue the batch write, then retry any UnprocessedItems (throttling
+      # etc.) up to 5 attempts with backoff, per AWS's documented
+      # batch-write-item guidance. Each attempt is logged via $LOG.
+      local attempt=1
+      local out status unproc
+      while true; do
+        echo "[$(date -u +%FT%TZ)] aws dynamodb batch-write-item --region $REGION --request-items file://$tmpfile (attempt $attempt)" | tee -a "$LOG"
+        set +e
+        out=$(aws dynamodb batch-write-item --region "$REGION" --request-items "file://$tmpfile" --output json 2>&1)
+        status=$?
+        set -e
+        echo "$out" | tee -a "$LOG"
+        if [[ $status -ne 0 ]]; then
+          rm -f "$tmpfile"
+          return $status
+        fi
+
+        unproc=$(echo "$out" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);const u=j.UnprocessedItems||{};console.log(Object.keys(u).length>0?JSON.stringify(u):'');}catch(e){console.log('');}});" || echo "")
+
+        if [[ -z "$unproc" ]]; then
+          break
+        fi
+        attempt=$((attempt + 1))
+        if [[ $attempt -gt 5 ]]; then
+          echo "WARNING: UnprocessedItems remained after 5 attempts for a PatientRecords batch; see log." | tee -a "$LOG"
+          break
+        fi
+        echo "Retrying UnprocessedItems (attempt $attempt) after backoff..." | tee -a "$LOG"
+        sleep "$attempt"
+        echo "$unproc" > "$tmpfile"
+      done
       rm -f "$tmpfile"
       chunk=()
     }
