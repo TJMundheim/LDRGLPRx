@@ -1,11 +1,20 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-11 · self-contained current-state snapshot
+# Last updated: 2026-09-14 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
 
 
+
+
+## ⚡ 2026-09-14 SESSION — TJ test pass → punch-list batch 1 SHIPPED (…4ffaad0e, deployed website + audit-complete + email-sender + app)
+
+- Test accounts cleaned by TJ via `infra/scripts/cleanup-test-accounts.sh --execute` (tjshcacs@gmail, drtj@mdspecialtygroup, tjmundheim@genesisregenerative, drtj+intaketest). drtj@my4mlife.com kept. Script fixed for macOS bash 3.2 (no mapfile) + idempotent.
+- Punch list: docs/plan/punch-list-2026-09-14.md. Batch 1 live: two-door hero (call / assessment; cards off front page in coordinator mode); intake memory (localStorage my4m_intake → "You're all set… add a note", consult-note email branch); results page leads with the call; welcome email intake-aware CTA (COORDINATOR_MODE env on audit-complete; never links Rx questionnaires); Gut-Brain timing caption; Peptides card/nav (Tesamorelin page stays under Services); standard tagline in hero; dashboard top box = "Protocol Score — this week", MindSpan Score = baseline; wording sweep.
+- **Batch 2 NEXT:** app restyle (dark navy near-black on Surface; red-on-blue, blue-on-blue contrast failures; apply enterprise A+C hybrid) + voice-first logging ("Tell Dr. TJ's AI" mic log via Bedrock, Same-as-yesterday, chips; <30 s/day, mid-workout). PWA can't read Apple Health.
+- Flags: Services dropdown lists both Peptides Rx and Tesamorelin (TJ decide); billing reassurance strip hidden with cards in coordinator mode.
+- New talking point (memory project_middle_age_disease_talking_point): "Alzheimer's is a disease of middle age that presents when we're older; prevention must be applied earlier" → Uninsured Decade book + Mind/Motivate pillars.
 
 ## ⚡ 2026-09-11 SESSION — INTERIM COORDINATOR MODE LIVE (9c1b1e4d · ebd7ec91, deployed)
 
