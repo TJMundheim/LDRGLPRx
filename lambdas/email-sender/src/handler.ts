@@ -75,6 +75,16 @@ function confirmation(formId: string): { subject: string; html: string } {
         `<p style="color:#1A2E1E;font-size:15px;line-height:1.6">Thank you — we've received your request. A care coordinator will email you within 24 hours to confirm next steps and schedule your consult.</p>`),
     };
   }
+  // A note added from the /consult "you're all set" panel — the intake is
+  // already in and the call is already coming, so the generic "we'll be in
+  // touch" copy would be misleading.
+  if (formId === 'consult-note') {
+    return {
+      subject: 'Note added — My4MLife',
+      html: wrap('Note added.',
+        `<p style="color:#1A2E1E;font-size:15px;line-height:1.6">Thanks — your note is on your file. Dr. TJ will see it before your call.</p>`),
+    };
+  }
   return {
     subject: "We've received your message — My4MLife",
     html: wrap('Thanks for reaching out.',
