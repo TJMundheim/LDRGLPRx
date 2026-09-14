@@ -12,6 +12,7 @@ API_ID="v9svm8ds74"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 COORDINATOR_BRIEF_FN="my4mlife-coordinator-brief"
 NURTURE_QUEUE_NAME="my4mlife-nurture-queue"
+PATIENT_RECORDS_TABLE="PatientRecords"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AWS="aws --region $REGION"
@@ -82,6 +83,11 @@ INLINE_POLICY=$(cat <<EOF
       "Effect": "Allow",
       "Action": ["s3:GetObject"],
       "Resource": "arn:aws:s3:::my4mlife-digital-fulfillment/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["dynamodb:Query","dynamodb:GetItem"],
+      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE"
     }
   ]
 }
@@ -99,7 +105,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
 NURTURE_QUEUE_URL="https://sqs.$REGION.amazonaws.com/$AWS_ACCOUNT_ID/$NURTURE_QUEUE_NAME"
-ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=Users,COGNITO_USER_POOL_ID=us-east-2_kIpKnr17R,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,COORDINATOR_BRIEF_FN=$COORDINATOR_BRIEF_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind.pdf,PROTEGE_WORKBOOK_S3_KEY=the-logbook-month1.pdf}"
+ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=Users,COGNITO_USER_POOL_ID=us-east-2_kIpKnr17R,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,COORDINATOR_BRIEF_FN=$COORDINATOR_BRIEF_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind.pdf,PROTEGE_WORKBOOK_S3_KEY=the-logbook-month1.pdf,PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,COORDINATOR_MODE=true}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \

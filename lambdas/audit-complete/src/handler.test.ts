@@ -9,6 +9,14 @@ vi.mock('@aws-sdk/lib-dynamodb', () => ({
     input: any;
     constructor(input: any) { this.input = input; }
   },
+  QueryCommand: class QueryCommand {
+    input: any;
+    constructor(input: any) { this.input = input; }
+  },
+  GetCommand: class GetCommand {
+    input: any;
+    constructor(input: any) { this.input = input; }
+  },
 }));
 
 vi.mock('@aws-sdk/client-dynamodb', () => ({
@@ -122,8 +130,9 @@ describe('audit-complete handler', () => {
     expect(res.statusCode).toBe(200);
     expect(JSON.parse(res.body)).toMatchObject({ ok: true });
 
-    expect(sendMock).toHaveBeenCalledTimes(1);
-    const cmd = sendMock.mock.calls[0][0];
+    const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
+    expect(contactCalls).toHaveLength(1);
+    const cmd = contactCalls[0][0];
     expect(cmd.input.TableName).toBe('Contact');
     expect(cmd.input.Key).toEqual({ contactId: cidFor(email) });
     expect(cmd.input.UpdateExpression).toContain('auditCompletedAt = :ts');
@@ -182,8 +191,7 @@ describe('audit-complete handler', () => {
     expect(res.statusCode).toBe(200);
 
     // DDB write happened
-    expect(sendMock).toHaveBeenCalledTimes(1);
-    const ddbCmd = sendMock.mock.calls[0][0];
+    const ddbCmd = sendMock.mock.calls.find((c: any) => c[0].input.TableName === 'Contact')![0];
     expect(typeof ddbCmd.input.Key.contactId).toBe('string');
     expect(ddbCmd.input.Key.contactId.length).toBeGreaterThan(10);
 
@@ -199,8 +207,10 @@ describe('audit-complete handler', () => {
     expect(payload.html).toContain('Gut health');
     expect(payload.html).toContain('Your Top 3 Priorities');
     expect(payload.html).toContain('Open the My4MLife App');
-    // gut=5, weight/diag=0 → recommend the Leaky Gut Repair consult, not testosterone
-    expect(payload.html).toContain('Leaky Gut Repair Consult');
+    // COORDINATOR_MODE defaults true — no intake on file, so the CTA is the
+    // free coordinator call, never a direct link into an /rx solution.
+    expect(payload.html).toContain('Book your free care coordinator call');
+    expect(payload.html).not.toContain('Leaky Gut Repair Consult');
     expect(payload.html).not.toContain('Testosterone');
     expect(payload.html).not.toContain('protege-signup?');
   });
@@ -279,5 +289,88 @@ describe('audit-complete handler', () => {
     } as any);
     expect(res.statusCode).toBe(204);
     expect(sendMock).not.toHaveBeenCalled();
+  });
+});
+
+// COORDINATOR_MODE (TJ punch list item 3) — the welcome email's CTA is
+// intake-aware while the care coordinator is the only path into treatment.
+describe('audit-complete handler — COORDINATOR_MODE CTA (TJ punch list 3)', () => {
+  function getEmailHtml(): string {
+    const invokeCmd = lambdaSendMock.mock.calls.find((c: any) => c[0].input.FunctionName === 'my4mlife-email-sender')![0];
+    return JSON.parse(Buffer.from(invokeCmd.input.Payload).toString('utf8')).html;
+  }
+
+  it('shows the intake-confirmation CTA (no button) when a care-coordinator intake exists', async () => {
+    sendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.TableName === 'PatientRecords' && cmd.input.KeyConditionExpression) {
+        return { Items: [{ contactId: 'x', sk: 'encounter#1', category: 'care-coordinator', createdAt: '2026-09-01T00:00:00.000Z' }] };
+      }
+      if (cmd.input.TableName === 'PatientRecords') {
+        return { Item: { screeningAnswers: { bestTime: 'weekday mornings' } } };
+      }
+      return {};
+    });
+    const email = 'intake-on-file@example.com';
+    const res: any = await handler(evt({ email, scores: { gut: 5 }, top3: [] }));
+    expect(res.statusCode).toBe(200);
+    const html = getEmailHtml();
+    expect(html).toContain('Your intake is in');
+    expect(html).toContain('weekday mornings');
+    expect(html).not.toContain('questionnaire');
+    expect(html).not.toContain('Book your free care coordinator call');
+    expect(html).not.toContain('Leaky Gut Repair Consult');
+  });
+
+  it('shows the single "book a call" CTA when no care-coordinator intake exists', async () => {
+    sendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.TableName === 'PatientRecords') return { Items: [] };
+      return {};
+    });
+    const email = 'no-intake@example.com';
+    const res: any = await handler(evt({ email, scores: { gut: 5 }, top3: [] }));
+    expect(res.statusCode).toBe(200);
+    const html = getEmailHtml();
+    expect(html).toContain('Book your free care coordinator call');
+    expect(html).toContain('/consult');
+    expect(html).not.toContain('Your intake is in');
+    expect(html).not.toContain('questionnaire');
+  });
+
+  it('still sends the email with the no-intake CTA when the PatientRecords query throws', async () => {
+    sendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.TableName === 'PatientRecords') throw new Error('PatientRecords unreachable');
+      return {};
+    });
+    const email = 'patientrecords-down@example.com';
+    const res: any = await handler(evt({ email, scores: { gut: 5 }, top3: [] }));
+    expect(res.statusCode).toBe(200);
+    const html = getEmailHtml();
+    expect(html).toContain('Book your free care coordinator call');
+  });
+
+  it('retains the old direct-to-consult CTA when COORDINATOR_MODE=false', async () => {
+    vi.resetModules();
+    process.env.COORDINATOR_MODE = 'false';
+    sendMock.mockReset();
+    sendMock.mockResolvedValue({});
+    lambdaSendMock.mockReset();
+    lambdaSendMock.mockResolvedValue({});
+    try {
+      const { handler: handlerFalseMode } = await import('./handler.js');
+      const email = 'coordinator-mode-off@example.com';
+      const res: any = await handlerFalseMode(evt({ email, scores: { 'gut-microbiome': 5 }, top3: [] }));
+      expect(res.statusCode).toBe(200);
+      const invokeCmd = lambdaSendMock.mock.calls.find((c: any) => c[0].input.FunctionName === 'my4mlife-email-sender')![0];
+      const html = JSON.parse(Buffer.from(invokeCmd.input.Payload).toString('utf8')).html;
+      expect(html).toContain('Leaky Gut Repair Consult');
+      expect(html).toContain('Schedule with a Care Coordinator');
+      expect(html).not.toContain('Book your free care coordinator call');
+      expect(html).not.toContain('Your intake is in');
+      // PatientRecords must never be queried in the old mode.
+      expect(sendMock.mock.calls.some((c: any) => c[0].input.TableName === 'PatientRecords')).toBe(false);
+    } finally {
+      delete process.env.COORDINATOR_MODE;
+      vi.resetModules();
+    }
   });
 });

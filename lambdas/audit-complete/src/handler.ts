@@ -1,7 +1,7 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminGetUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, UpdateCommand, QueryCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { v5 as uuidv5 } from 'uuid';
@@ -16,6 +16,12 @@ const DIGITAL_BUCKET = process.env.DIGITAL_FULFILLMENT_BUCKET ?? 'my4mlife-digit
 const BOOK_S3_KEY = process.env.PROTEGE_BOOK_S3_KEY ?? 'begin-with-the-end-in-mind.pdf';
 const WORKBOOK_S3_KEY = process.env.PROTEGE_WORKBOOK_S3_KEY ?? 'the-logbook-month1.pdf';
 const BUCKET_REGION = process.env.BUCKET_REGION ?? 'us-east-2';
+// INTERIM COORDINATOR MODE (TJ punch list item 3): the welcome email CTA
+// routes to the care-coordinator call, not directly into an /rx questionnaire,
+// while the coordinator is the only path into treatment. Flip to 'false' to
+// restore the old direct-to-consult CTA behavior.
+const COORDINATOR_MODE = (process.env.COORDINATOR_MODE ?? 'true') === 'true';
+const PATIENT_RECORDS_TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
 export const NAMESPACE = 'f0e1d2c3-b4a5-4968-87a6-95c4d3e2f1a0';
 
 const cognito = new CognitoIdentityProviderClient({ region: REGION });
@@ -103,6 +109,39 @@ async function seedUserProfile(args: {
   }));
 }
 
+// COORDINATOR_MODE: has this contact already given us a care-coordinator
+// intake? Mirrors coordinator-brief's lookup.ts — latest 'encounter#' item
+// for the contact whose category is 'care-coordinator'. Best-effort only:
+// any failure (table missing, throttled, malformed item) is treated as "no
+// intake on file" so the welcome email always sends.
+async function findCoordinatorIntake(contactId: string): Promise<{ bestTime?: string } | null> {
+  try {
+    const res = await ddb.send(new QueryCommand({
+      TableName: PATIENT_RECORDS_TABLE,
+      KeyConditionExpression: 'contactId = :c AND begins_with(sk, :prefix)',
+      ExpressionAttributeValues: { ':c': contactId, ':prefix': 'encounter#' },
+    }));
+    const items = (res.Items ?? []) as Array<Record<string, unknown>>;
+    const coordinatorEncounters = items.filter((i) => i['category'] === 'care-coordinator');
+    if (coordinatorEncounters.length === 0) return null;
+    coordinatorEncounters.sort((a, b) => String(b['createdAt'] ?? '').localeCompare(String(a['createdAt'] ?? '')));
+
+    let bestTime: string | undefined;
+    try {
+      const recordRes = await ddb.send(new GetCommand({ TableName: PATIENT_RECORDS_TABLE, Key: { contactId, sk: 'record' } }));
+      const screening = (recordRes.Item?.['screeningAnswers'] as Record<string, unknown>) ?? {};
+      if (typeof screening['bestTime'] === 'string') bestTime = screening['bestTime'] as string;
+    } catch (e) {
+      console.warn('coordinator intake record lookup failed', e);
+    }
+
+    return { bestTime };
+  } catch (e) {
+    console.warn('coordinator intake lookup failed', e);
+    return null;
+  }
+}
+
 // Direct public S3 URLs — bucket policy grants public read on these 2 specific keys.
 // No presigning, no expiration, no version info in the URL.
 function getBookDownloadUrl(): string {
@@ -145,7 +184,7 @@ const RX_MAP: Record<string, RxRec> = {
   'erectile-dysfunction':  { label: 'Low Testosterone / ED Consult', url: 'https://my4mlife.com/rx/testosterone-ed',       eyebrow: 'Based on Your ED Score',      cta: 'Schedule a Testosterone / ED Consult →' },
   'weight-body-fat':       { label: 'GLP-1 Weight Loss Consult',     url: 'https://my4mlife.com/rx/weight-loss',           eyebrow: 'Based on Your Weight Score',  cta: 'Schedule a GLP-1 Consult →' },
   'gut-microbiome':        { label: 'Leaky Gut Repair Consult',      url: 'https://my4mlife.com/rx/leaky-gut',             eyebrow: 'Based on Your Gut Score',     cta: 'Schedule a Gut-Repair Consult →' },
-  'already-diagnosed':     { label: 'Regenerative Medicine Consult', url: 'https://my4mlife.com/rx/regenerative-medicine', eyebrow: 'Based on Your Assessment',    cta: 'Schedule a Regenerative Consult →' },
+  'already-diagnosed':     { label: 'Regenerative Medicine Consult', url: 'https://my4mlife.com/rx/regenerative-medicine', eyebrow: 'Based on Your MindSpan Score',    cta: 'Schedule a Regenerative Consult →' },
 };
 
 // Weight and gut tied (both non-zero) → one consult covers both protocols.
@@ -232,7 +271,7 @@ ${totalRow}
 </div>`;
 }
 
-function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: string, workbookUrl: string, breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = ''): string {
+function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: string, workbookUrl: string, breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = '', coordinatorIntake: { bestTime?: string } | null = null): string {
   const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
   const appUrl = 'https://app.my4mlife.com';
   const rxRec = getRecommendedRx(scores, top3);
@@ -245,7 +284,7 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
 
   const top3Card = `<div style="margin:20px 0;padding:22px;border:2px solid #1a3656;border-radius:10px;background:#f4f6fa">
 <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#1a3656;text-transform:uppercase;margin:0 0 8px">Your Top 3 Priorities</p>
-<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">From Your 4M Assessment</h2>
+<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">From the MindSpan Assessment</h2>
 <p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 12px">These are the areas where addressing the root cause will create the biggest ripple effect across your health.</p>
 <ol style="padding-left:18px;margin:0;color:#0a1628">${top3Items}</ol>
 </div>`;
@@ -290,7 +329,7 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
     ? `<div style="margin:20px 0;padding:22px;border:2px solid #1a3656;border-radius:10px;background:#f0f5fb">
 <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#1a3656;text-transform:uppercase;margin:0 0 8px">${safe(rxRec.eyebrow)}</p>
 <h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">${safe(rxRec.label)}</h2>
-<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">${safe(rxRec.note || 'Your assessment points directly at this. If you want to address it now rather than wait, schedule a telemedicine consult with a physician in our network. No labs required for most consults; medication is billed separately after the script is written.')}</p>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">${safe(rxRec.note || 'Your MindSpan Score points directly at this. If you want to address it now rather than wait, schedule a telemedicine consult with a physician in our network. No labs required for most consults; medication is billed separately after the script is written.')}</p>
 <p style="margin:0"><a href="${rxRec.url}" style="background:#1a3656;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">${safe(rxRec.cta)}</a></p>
 <p style="color:#777;font-size:11px;margin:12px 0 0">This is optional — your Protégé benefits above stand on their own. The consult is for when you want clinical intervention faster than diet and lifestyle alone.</p>
 </div>`
@@ -301,28 +340,51 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
 <p style="margin:0"><a href="https://my4mlife.com/consult" style="color:#1a3656;font-weight:600;font-size:14px;text-decoration:underline">Schedule with a Care Coordinator &rarr;</a></p>
 </div>`;
 
+  // INTERIM COORDINATOR MODE (TJ punch list item 3): while the care
+  // coordinator is the only path into treatment, the welcome email carries
+  // exactly one CTA — never a direct link into an /rx solution or Rx
+  // questionnaire. If the contact already completed a care-coordinator
+  // intake, there's no button at all: just confirmation Dr. TJ has it. If
+  // not, the one button is the free coordinator call.
+  const coordinatorCtaCard = coordinatorIntake
+    ? `<div style="margin:20px 0;padding:22px;border:2px solid #1a3656;border-radius:10px;background:#f0f5fb;text-align:center">
+<p style="color:#222;font-size:14px;line-height:1.6;margin:0 0 12px">Your intake is in. Dr. TJ has it alongside these results and will call you ${safe(coordinatorIntake.bestTime || 'at the time you chose')}.</p>
+<p style="margin:0"><a href="https://www.my4mlife.com/consult" style="color:#1a3656;font-weight:600;font-size:13px;text-decoration:underline">Add a note before the call &rarr;</a></p>
+</div>`
+    : `<div style="margin:20px 0;padding:22px;border:2px solid #1a3656;border-radius:10px;background:#f0f5fb;text-align:center">
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 16px">Your MindSpan Score points directly at where to start. A care coordinator will walk you through it and get you to the right next step.</p>
+<p style="margin:0"><a href="https://www.my4mlife.com/consult" style="background:#1a3656;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:700;display:inline-block;font-size:14px">Book your free care coordinator call &rarr;</a></p>
+<p style="color:#777;font-size:11px;margin:12px 0 0">No card, no decisions — Dr. TJ will walk you through exactly what you need.</p>
+</div>`;
+
+  const ctaSection = COORDINATOR_MODE ? coordinatorCtaCard : `${rxCard}${coordinatorCard}`;
+
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${safe(firstName)}.</h1>
-<p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your assessment results, the book, the logbook, and the app. Take them in any order; they're designed to work together.</p>
+<p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your MindSpan Score, the book, the logbook, and the app. Take them in any order; they're designed to work together.</p>
 ${top3Card}
 ${breakdownCard}
-${rxCard}
+${ctaSection}
 ${bookCard}
 ${workbookCard}
 ${appCard}
-${coordinatorCard}
 <p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0;text-align:center">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;
 }
 
-async function sendResultsEmail(email: string, firstName: string, scores: any, top3: any[], breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = ''): Promise<void> {
+async function sendResultsEmail(email: string, firstName: string, scores: any, top3: any[], breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = '', contactId?: string): Promise<void> {
   let bookUrl = '';
   let workbookUrl = '';
   try { bookUrl = getBookDownloadUrl(); } catch (e) { console.warn('book URL build failed', e); }
   try { workbookUrl = getWorkbookDownloadUrl(); } catch (e) { console.warn('workbook URL build failed', e); }
 
+  let coordinatorIntake: { bestTime?: string } | null = null;
+  if (COORDINATOR_MODE && contactId) {
+    coordinatorIntake = await findCoordinatorIntake(contactId);
+  }
+
   const subject = `Welcome to My4MLife — your results, book, logbook, and app are ready`;
-  const html = buildResultsHtml(firstName, scores, top3, bookUrl, workbookUrl, breakdown, totalScore, band);
+  const html = buildResultsHtml(firstName, scores, top3, bookUrl, workbookUrl, breakdown, totalScore, band, coordinatorIntake);
   const payload = { kind: 'info', to: email, subject, html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
@@ -423,7 +485,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       const breakdown: BreakdownItem[] = Array.isArray(parsed.breakdown) ? parsed.breakdown.slice(0, 24) : [];
       const totalScore: number | null = Number.isFinite(Number(parsed.totalScore)) ? Number(parsed.totalScore) : null;
       const band: string = typeof parsed.band === 'string' ? parsed.band.slice(0, 40) : '';
-      await sendResultsEmail(email, firstName, (scores && typeof scores === 'object') ? scores : {}, Array.isArray(top3) ? top3 : [], breakdown, totalScore, band);
+      await sendResultsEmail(email, firstName, (scores && typeof scores === 'object') ? scores : {}, Array.isArray(top3) ? top3 : [], breakdown, totalScore, band, contactId);
     } catch (e) {
       console.warn('results email invoke failed', e);
     }
