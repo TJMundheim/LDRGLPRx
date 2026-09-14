@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { AUDIT_QUESTIONS, AUDIT_PILLARS, DIAGNOSED_QUESTION } from '../data/audit-questions';
+import { COORDINATOR_MODE } from '../lib/siteMode';
 
 const title = "Get Your MindSpan Baseline — Free 20-Question 4M Assessment — My4MLife";
 const description = "Set your MindSpan baseline with the free 20-question 4M Assessment (about seven minutes). See your top 3 priorities on screen immediately — and we'll email your full results with a free copy of Begin with the End in Mind, the Logbook, and access to the Protégé app.";
@@ -214,11 +215,20 @@ const robots = "index, follow";
       <p class="results-email-help">Don&rsquo;t see it within a few minutes? Check spam, then email <a href="mailto:support@my4mlife.com">support@my4mlife.com</a> and we&rsquo;ll resend.</p>
     </div>
 
-    <div class="results-coordinator-block">
-      <h3>Want to talk to a person?</h3>
-      <p>Schedule a call with one of our care coordinators. They&rsquo;ll listen to your situation and connect you with the appropriate medical provider in our network for your chief complaint.</p>
-      <a href="/consult" class="btn btn-primary btn-large">Schedule with a Care Coordinator &rarr;</a>
-    </div>
+    {COORDINATOR_MODE ? (
+      <div class="results-coordinator-block" id="results-coordinator-block">
+        <h3 id="results-coordinator-heading">Book your free care coordinator call</h3>
+        <p id="results-coordinator-copy">Schedule a call with one of our care coordinators. They&rsquo;ll listen to your situation, take this baseline into the call, and connect you with the appropriate medical provider in our network.</p>
+        <a href="/consult" id="results-coordinator-cta" class="btn btn-primary btn-large">Book your free care coordinator call &rarr;</a>
+        <p id="results-coordinator-note" class="results-coordinator-note" hidden><a href="/consult">Add a note &rarr;</a></p>
+      </div>
+    ) : (
+      <div class="results-coordinator-block">
+        <h3>Want to talk to a person?</h3>
+        <p>Schedule a call with one of our care coordinators. They&rsquo;ll listen to your situation and connect you with the appropriate medical provider in our network for your chief complaint.</p>
+        <a href="/consult" class="btn btn-primary btn-large">Schedule with a Care Coordinator &rarr;</a>
+      </div>
+    )}
 
     <p class="results-cm-quiet" id="results-cm-quiet" hidden>
       Optional: <a id="results-cm-quiet-link" href="#" target="_blank" rel="noopener">take the ConnectedMind mental-health screening</a> — a clinical-grade screen to share with your own doctor. (Opens in a new tab; My4MLife does not diagnose or treat mental-health conditions.)
@@ -230,7 +240,7 @@ const robots = "index, follow";
   </div>
 </section>
 
-<script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
+<script is:inline define:vars={{ API_BASE: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com'), COORDINATOR_MODE }}>
 (function () {
   function phCapture(ev, props) { try { if (window.posthog && window.posthog.capture) { window.posthog.capture(ev, props || {}); } } catch (err) {} }
   var phPrev = null;
@@ -704,12 +714,36 @@ const robots = "index, follow";
     // Top 3 with solution links
     var listEl = document.getElementById('results-top3-list');
     if (listEl) {
-      listEl.innerHTML = top3.map(function (t) {
+      listEl.innerHTML = top3.map(function (t, i) {
+        var goText = COORDINATOR_MODE
+          ? 'Read about your #' + (i + 1) + ' priority &rarr;'
+          : 'See the solution path &rarr;';
+        var goClass = COORDINATOR_MODE ? 'top3-go top3-go--secondary' : 'top3-go';
         return '<li><a href="/solutions/' + encodeURIComponent(t.slug) + '">' +
           '<span class="top3-label">' + escHtml(t.label) + '</span>' +
           '<span class="top3-score">' + t.score + ' / 5</span>' +
-          '<span class="top3-go">See the solution path &rarr;</span></a></li>';
+          '<span class="' + goClass + '">' + goText + '</span></a></li>';
       }).join('');
+    }
+
+    // Coordinator mode: lead the results page with the care-coordinator call.
+    // If the visitor already has an intake marker (submitted /consult), show
+    // a quiet "your intake is in" panel instead of the booking button.
+    if (COORDINATOR_MODE) {
+      try {
+        var raw = localStorage.getItem('my4m_intake');
+        var marker = raw ? JSON.parse(raw) : null;
+        if (marker && marker.done) {
+          var heading2 = document.getElementById('results-coordinator-heading');
+          var copy2 = document.getElementById('results-coordinator-copy');
+          var cta2 = document.getElementById('results-coordinator-cta');
+          var note2 = document.getElementById('results-coordinator-note');
+          if (heading2) heading2.textContent = 'Your intake is in';
+          if (copy2) copy2.textContent = 'Dr. TJ will call you ' + (marker.bestTime || 'soon') + ' with this baseline in hand.';
+          if (cta2) cta2.hidden = true;
+          if (note2) note2.hidden = false;
+        }
+      } catch (_) { /* no-op */ }
     }
 
     // Diagnosed → regenerative-medicine banner
@@ -1351,6 +1385,9 @@ const robots = "index, follow";
 .top3-label { font-weight: 700; color: var(--dark, #0a1628); }
 .top3-score { font-size: 0.82rem; font-weight: 700; color: var(--assess-muted); font-variant-numeric: tabular-nums; }
 .top3-go { margin-left: auto; font-size: 0.85rem; font-weight: 600; color: var(--assess-accent-dark); }
+.top3-go--secondary { font-weight: 500; color: var(--assess-muted); text-decoration: underline; }
+.results-coordinator-note { margin-top: 0.75rem; font-size: 0.9rem; }
+.results-coordinator-note a { color: var(--assess-muted); text-decoration: underline; }
 
 .results-diag-banner {
   background: #fff;

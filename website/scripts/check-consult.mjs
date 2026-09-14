@@ -60,11 +60,17 @@ try {
 }
 
 if (coordinatorMode) {
+  // Two-door hero (TJ 2026-09-14): coordinator-mode homepage hero renders
+  // exactly two doors — /consult and /assessment — instead of the treatment
+  // cards. Assert both hrefs are present in the built hero.
   const indexPath = path.join(distRoot, 'index.html');
   try {
     const indexHtml = readFileSync(indexPath, 'utf8');
     if (!indexHtml.includes('href="/consult"')) {
       failures.push(`missing href="/consult" in ${indexPath}`);
+    }
+    if (!indexHtml.includes('href="/assessment"')) {
+      failures.push(`missing href="/assessment" in ${indexPath}`);
     }
   } catch (err) {
     failures.push(`could not read ${indexPath}: ${err.message}`);

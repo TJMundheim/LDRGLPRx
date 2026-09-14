@@ -185,6 +185,25 @@ const canonical = "https://www.my4mlife.com/consult";
       </label>
     </section>
 
+    <!-- ── "All set" state — shown instead of the form when an intake marker
+         already exists in localStorage (see my4m_intake in the script below) ── -->
+    <section class="q-step" id="q-allset-screen" hidden>
+      <div class="q-success">
+        <div class="q-success-icon">✓</div>
+        <h2 id="q-allset-heading">You're all set.</h2>
+        <p id="q-allset-copy">Dr. TJ has your intake and will call you soon.</p>
+
+        <div class="q-next-step">
+          <p class="q-next-step-heading">Anything to add? <span class="q-opt">(e.g., &ldquo;I want to talk about gut health&rdquo;)</span></p>
+          <textarea id="q-allset-note" rows="2" placeholder="A quick note for Dr. TJ before the call…"></textarea>
+          <button type="button" class="q-btn q-btn-primary q-next-step-btn" id="q-allset-note-submit" style="margin-top:0.75rem;">Add note</button>
+          <p id="q-allset-note-status" class="q-allset-note-status" hidden></p>
+        </div>
+
+        <p class="q-success-fine"><a href="/consult?fresh=1" id="q-allset-restart">Start a new intake</a></p>
+      </div>
+    </section>
+
     <!-- ── Submission state (no data-step — kept out of the 5-step count) ── -->
     <section class="q-step" id="q-success-screen" hidden>
       <div class="q-success">
@@ -511,12 +530,29 @@ const canonical = "https://www.my4mlife.com/consult";
       });
       if (!res.ok) throw new Error('submit failed (' + res.status + ')');
 
-      // Best-effort persist to EMR — never blocks success UX
-      fetch(API_BASE + '/api/patient-record-intake', {
+      // Best-effort persist to EMR — errors never block success UX, but we
+      // await it (with a catch) so we can read encounterId/contactId back
+      // for the intake-memory marker below.
+      var intakeRes = fetch(API_BASE + '/api/patient-record-intake', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(intakeBody),
-      }).catch(function() { /* best-effort — ignore errors */ });
+      }).catch(function() { return null; /* best-effort — ignore errors */ });
+
+      var intakeResult = null;
+      try { intakeResult = await intakeRes; intakeResult = intakeResult && (await intakeResult.json().catch(function () { return null; })); } catch (_) { intakeResult = null; }
+
+      try {
+        localStorage.setItem('my4m_intake', JSON.stringify({
+          done: true,
+          email: payload.email,
+          firstName: payload.firstName,
+          bestTime: payload.bestTime,
+          encounterId: intakeResult && intakeResult.encounterId,
+          contactId: intakeResult && intakeResult.contactId,
+          at: new Date().toISOString(),
+        }));
+      } catch (_) { /* no-op — localStorage unavailable */ }
 
       var heading = $('#q-success-heading');
       if (heading) heading.textContent = 'Got it. Dr. TJ will call you ' + (payload.bestTime || 'soon') + '.';
@@ -559,8 +595,109 @@ const canonical = "https://www.my4mlife.com/consult";
     });
   }
 
+  // ── Intake memory (TJ 2026-09-14) ──
+  // If a prior successful submit left a marker in localStorage, show the
+  // "all set" panel instead of the form. ?fresh=1 clears the marker and
+  // starts a new intake.
+  var INTAKE_LS_KEY = 'my4m_intake';
+  var LANE_LABELS = {
+    'weight-loss': 'GLP-1 weight loss',
+    'leaky-gut': 'gut health',
+    'gh-peptide': 'growth-hormone peptides',
+    'testosterone-ed': 'testosterone',
+    'menopause-hrt': 'menopause & HRT',
+    'regenerative-medicine': 'regenerative medicine',
+    'peptides': 'peptides',
+  };
+
+  function getIntakeMarker() {
+    try {
+      var raw = localStorage.getItem(INTAKE_LS_KEY);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      return (parsed && parsed.done) ? parsed : null;
+    } catch (_) { return null; }
+  }
+
+  function showAllSet(marker) {
+    var header = document.querySelector('.q-header');
+    var nav = document.getElementById('q-nav');
+    if (header) header.style.display = 'none';
+    if (nav) nav.style.display = 'none';
+    $$('.q-step').forEach(function(el) { el.hidden = true; });
+
+    var panel = document.getElementById('q-allset-screen');
+    if (!panel) return;
+    panel.hidden = false;
+
+    var heading = document.getElementById('q-allset-heading');
+    if (heading) heading.textContent = "You're all set" + (marker.firstName ? ', ' + marker.firstName : '') + '.';
+    var copy = document.getElementById('q-allset-copy');
+    if (copy) copy.textContent = 'Dr. TJ has your intake and will call you ' + (marker.bestTime || 'soon') + '.';
+
+    var noteEl = document.getElementById('q-allset-note');
+    try {
+      var laneParams = new URLSearchParams(window.location.search);
+      var lane = laneParams.get('lane');
+      var label = lane && LANE_LABELS[lane];
+      if (label && noteEl && !noteEl.value) {
+        noteEl.value = "I'd like to discuss " + label + '.';
+      }
+    } catch (_) { /* no-op */ }
+
+    var submitBtn = document.getElementById('q-allset-note-submit');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', async function() {
+        var statusEl = document.getElementById('q-allset-note-status');
+        var note = noteEl ? noteEl.value.trim() : '';
+        if (!note) return;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Adding…';
+        try {
+          var res = await fetch(API_BASE + '/api/contact-form', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              kind: 'form',
+              formId: 'consult-note',
+              fields: { email: marker.email, firstName: marker.firstName, note: note, encounterId: marker.encounterId },
+            }),
+          });
+          if (!res.ok) throw new Error('note submit failed (' + res.status + ')');
+          phCapture('consult_note_added');
+          if (statusEl) { statusEl.hidden = false; statusEl.textContent = 'Added — Dr. TJ will see it before the call.'; }
+        } catch (e) {
+          if (statusEl) { statusEl.hidden = false; statusEl.textContent = 'Something went wrong adding your note. Please try again or email care@my4mlife.com.'; }
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Add note';
+        }
+      });
+    }
+
+    var restart = document.getElementById('q-allset-restart');
+    if (restart) {
+      restart.addEventListener('click', function() {
+        try { localStorage.removeItem(INTAKE_LS_KEY); } catch (_) { /* no-op */ }
+      });
+    }
+  }
+
   // ── Wire up navigation ──
   document.addEventListener('DOMContentLoaded', function() {
+    try {
+      var freshParams = new URLSearchParams(window.location.search);
+      if (freshParams.get('fresh') === '1') {
+        localStorage.removeItem(INTAKE_LS_KEY);
+      } else {
+        var existingMarker = getIntakeMarker();
+        if (existingMarker) {
+          showAllSet(existingMarker);
+          return;
+        }
+      }
+    } catch (_) { /* no-op — fall through to normal wizard init */ }
+
     populateStateDropdown();
     showStep(1);
 
@@ -702,6 +839,8 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-next-step-heading { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--primary); margin: 0 0 0.4rem; }
 .q-next-step-copy { font-size: 0.92rem; color: var(--text); line-height: 1.5; margin: 0 0 1rem; }
 .q-next-step-btn { display: inline-flex; text-decoration: none; }
+.q-next-step textarea { width: 100%; font-family: 'Inter', sans-serif; font-size: 0.95rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; resize: vertical; box-sizing: border-box; }
+.q-allset-note-status { font-size: 0.88rem; color: var(--accent-dark, #00a381); margin: 0.6rem 0 0; }
 
 .q-submit-error { color: #c0392b; font-size: 0.88rem; margin: 0.75rem auto 0; max-width: 720px; text-align: center; }
 
