@@ -516,8 +516,8 @@ function renderAuditSummaryCard(): string {
   return `<div class="card" style="background:${band.bg};border-color:${band.color}55">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
       <div>
-        <div class="card-title" style="color:${band.color}">Your Personal Risk Assessment</div>
-        <div style="font-size:11px;color:${C.muted}">MindSpan intake assessment</div>
+        <div class="card-title" style="color:${band.color}">MindSpan Score</div>
+        <div style="font-size:11px;color:${C.muted}">Your baseline from the MindSpan assessment</div>
       </div>
       <div style="text-align:right">
         <div style="font-size:42px;font-weight:800;color:${band.color};line-height:1">${total}</div>
@@ -723,7 +723,7 @@ function renderDash(W: Workbook): string {
   </div>
 
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">ASSESSMENT SCORE /50</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">MINDSPAN SCORE /50</div></div>
     <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditBand ? auditBand.label : '—'}</div><div class="stat-lbl">RISK BAND</div></div>
     <div class="stat-card"><div class="stat-num" style="color:${C.info}">${m}</div><div class="stat-lbl">MORNINGS DONE</div></div>
     <div class="stat-card"><div class="stat-num" style="color:${C.info}">${c}</div><div class="stat-lbl">COLD SHOWERS</div></div>
@@ -1570,7 +1570,7 @@ function renderW4(W: Workbook): string {
     </div>`;
 
   const metrics: [string, string][] = [
-    ['Mitigate assessment score (/50)', 'audit'],
+    ['Mitigate MindSpan Score (/50)', 'audit'],
     ['Morning energy (1–10)', 'energy'],
     ['Afternoon focus (1–10)', 'focus'],
     ['Sleep quality (1–10)', 'sleep'],
@@ -1655,7 +1655,7 @@ function renderW4(W: Workbook): string {
     <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Full Re-Assessment — MindSpan Personal Risk Assessment</div>
     <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       Score every category again using the same scale as your Week 1 intake.
-      Compare your final assessment score to your baseline to see how far you moved in 30 days.
+      Compare your final MindSpan Score to your baseline to see how far you moved in 30 days.
       Week 1 scores are <strong>auto-populated from your original assessment</strong> — no manual entry needed.
     </div>
     ${(() => {
@@ -1797,7 +1797,7 @@ function renderW4(W: Workbook): string {
   <div class="card" style="border:2px solid rgba(107,94,212,.2)">
     <div class="card-title">Month 1 Final Reflection — All 4 Pillars</div>
     ${[['w4_motivate_ref', 'MOTIVATE: In one sentence — who is the man who completed Month 1?'],
-       ['w4_mitigate_ref', 'MITIGATE: How many points did your assessment score improve?'],
+       ['w4_mitigate_ref', 'MITIGATE: How many points did your MindSpan Score improve?'],
        ['w4_muscle_ref', 'MUSCLE: What is the most significant physical change you feel or see?'],
        ['w4_mind_ref', 'MIND: What cognitive change are you most proud of from Month 1?']
     ].map(([k, l]) => `
@@ -1978,7 +1978,7 @@ function renderAuditReview(): string {
   const backBtn = `<button class="btn" onclick="portalAction('goTo','dash')" style="margin-bottom:18px">← Back to Dashboard</button>`;
   if (!scores) {
     return `<div class="page-title">Personal Risk Assessment</div>${backBtn}
-    <div class="card"><div style="color:${C.muted};font-size:13px">No assessment data found. Complete the intake questionnaire to generate your assessment scores.</div></div>`;
+    <div class="card"><div style="color:${C.muted};font-size:13px">No assessment data found. Complete the intake questionnaire to generate your MindSpan Score.</div></div>`;
   }
   const { total, max } = auditTotals(scores);
   const band = auditBand200(total, max);

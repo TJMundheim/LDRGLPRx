@@ -314,8 +314,9 @@
 
     <div class="dash-grid">
       <div class="hero">
-        <div class="klabel">MindSpan Score</div>
-        <svg class="ring" width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="MindSpan score {msScore} of 100">
+        <div class="klabel">Protocol Score — this week</div>
+        <div class="drivers-note">Your protocol actions logged this week — counts up as you check boxes, resets each week.</div>
+        <svg class="ring" width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="Protocol score {msScore} of 100">
           <defs><linearGradient id="msg2" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#e3c98b"/><stop offset="1" stop-color="#d4af5a"/>
           </linearGradient></defs>
@@ -334,6 +335,7 @@
         </div>
         <div class="drivers-note">These four numbers make up your score.</div>
         {#if riskPills.length}
+          <div class="klabel">Focus areas</div>
           <div class="pills">
             {#each riskPills as p}
               <div class="pill" class:hot={p.hot}><b>{p.label}</b>{p.status}</div>
