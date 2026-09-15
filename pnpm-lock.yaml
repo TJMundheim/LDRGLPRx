@@ -295,19 +295,25 @@ importers:
 
   lambdas/coach-proxy:
     dependencies:
-      '@anthropic-ai/sdk':
-        specifier: ^0.54.0
-        version: 0.54.0
+      '@aws-sdk/client-bedrock-runtime':
+        specifier: ^3.700.0
+        version: 3.1053.0
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.149
         version: 8.10.161
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
       esbuild:
         specifier: ^0.25.3
         version: 0.25.12
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
 
   lambdas/concierge-approve:
     dependencies:
@@ -585,6 +591,28 @@ importers:
       '@types/uuid':
         specifier: ^10.0.0
         version: 10.0.0
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
+
+  lambdas/log-parse:
+    dependencies:
+      '@aws-sdk/client-bedrock-runtime':
+        specifier: ^3.700.0
+        version: 3.1053.0
+    devDependencies:
+      '@types/aws-lambda':
+        specifier: ^8.10.149
+        version: 8.10.161
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
       esbuild:
         specifier: ^0.25.3
         version: 0.25.12
@@ -920,10 +948,6 @@ packages:
 
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
-
-  '@anthropic-ai/sdk@0.54.0':
-    resolution: {integrity: sha512-xyoCtHJnt/qg5GG6IgK+UJEndz8h8ljzt/caKXmq3LfBF81nC/BW6E4x2rOWCZcvsLyVW+e8U5mtIr6UCE/kJw==}
-    hasBin: true
 
   '@apideck/better-ajv-errors@0.3.7':
     resolution: {integrity: sha512-TajUJwGWbDwkCx/CZi7tRE8PVB7simCvKJfHUsSdvps+aTM/PDPP4gkLmKnc+x3CE//y9i/nj74GqdL/hwk7Iw==}
@@ -6406,8 +6430,6 @@ packages:
 snapshots:
 
   '@adobe/css-tools@4.5.0': {}
-
-  '@anthropic-ai/sdk@0.54.0': {}
 
   '@apideck/better-ajv-errors@0.3.7(ajv@8.20.0)':
     dependencies:
