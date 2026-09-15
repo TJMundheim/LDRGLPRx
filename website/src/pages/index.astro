@@ -75,6 +75,7 @@ const treatments = [
         <a href={consultHref()} class="btn-primary-xl" onclick="window.posthog && posthog.capture('hp_coordinator_cta')">Free care coordinator call &mdash; find out exactly what you need &rarr;</a>
         <a href="/assessment" class="btn-secondary-xl" onclick="window.posthog && posthog.capture('hp_hero_assessment_cta')">Take the MindSpan assessment now &rarr;</a>
       </div>
+      <p class="hp-hero-reassure">Nothing to pay today. After your call you'll get a written plan, and nothing is booked or charged unless it fits.</p>
     ) : (
       <a href="#treatments" class="btn-primary-xl" onclick="window.posthog && posthog.capture('hp_hero_choose_treatment')">Choose your treatment &darr;</a>
     )}
@@ -254,6 +255,17 @@ const treatments = [
 .btn-secondary-xl:hover {
   border-color: #fff;
   background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== HERO REASSURANCE (coordinator mode) ===== */
+.hp-hero-reassure {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin: 0.9rem auto 0;
+  max-width: 34rem;
 }
 
 /* ===== TREATMENT CARDS ===== */
