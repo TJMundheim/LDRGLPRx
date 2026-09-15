@@ -1,12 +1,21 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-14 · self-contained current-state snapshot
+# Last updated: 2026-09-15 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
 
 
 
+
+
+## ⚡ 2026-09-15 SESSION — APP LIGHT RESTYLE + VOICE-FIRST LOG (built, reviewed, LOCAL — awaiting TJ screenshot approval, then deploy)
+
+- Plan: docs/plan/app-light-restyle-voice-log-2026-09-15.md. Local commits (unpushed): light tokens/app.css/component sweep + AA contrast test (5dcba01a), VoiceLog+Chips+speech+logParse (0005c718), lambdas/log-parse (2ce453d4), coach-proxy→Bedrock (fd9bd6e4), review fixes incl. "Same as yesterday" inside VoiceLog (a1e81c28).
+- Theme: light clinical ground (bg #f6f7fa, panel #fff, ink #0f172a, navy sidebar #0b1f3a, gold text #7d6010 / fill #d4af5a). Old dark palette preserved under [data-theme="dark"]. 25 AA contrast tests.
+- Voice log: device Web Speech → POST /api/log-parse (NEW lambda my4mlife-log-parse, Bedrock Haiku, strict JSON, no PHI) → preview → CONFIRM → setAdherence (idempotent) + localStorage daylog-<date>. Never saves without confirm. Same-as-yesterday button in VoiceLog. Chips for numbers.
+- coach-proxy migrated off @anthropic-ai/sdk — but function is NOT deployed in AWS and VITE_COACH_PROXY_URL unset → coach feature dormant; deploy.sh still a stub (intentional).
+- DEPLOY ORDER (after approval): `lambdas/log-parse/infra/deploy.sh` (creates route POST /api/log-parse on v9svm8ds74) → `apps/clientportal/deploy.sh`. Preview served at http://localhost:4173 (voice log CORS-blocked there; 5173 allowed).
 
 ## ⚡ 2026-09-14 SESSION — TJ test pass → punch-list batch 1 SHIPPED (…4ffaad0e, deployed website + audit-complete + email-sender + app)
 
