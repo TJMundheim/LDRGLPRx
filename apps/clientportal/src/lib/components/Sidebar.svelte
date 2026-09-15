@@ -99,7 +99,7 @@
   }
 
   .discovery-btn:hover {
-    background: rgba(212,175,90,0.08);
+    background: var(--mc-gold-tint);
     color: var(--mc-ink);
   }
 
@@ -121,8 +121,8 @@
   }
 
   .admin-btn { color: var(--mc-info); }
-  .admin-btn:hover { background: rgba(107,94,212,0.1); color: var(--mc-info); }
-  .admin-btn.discovery-active { background: var(--mc-info); color: #FFFFFF; }
+  .admin-btn:hover { background: var(--mc-info-tint); color: var(--mc-info); }
+  .admin-btn.discovery-active { background: var(--mc-info); color: #fff; }
 
   .settings-nav {
     border-top: 1px solid var(--mc-line);
@@ -131,7 +131,7 @@
     border-bottom: none;
   }
   .signout-btn { color: var(--mc-crit-b); }
-  .signout-btn:hover { background: rgba(154,90,74,0.1); color: #7A3A2A; }
+  .signout-btn:hover { background: var(--mc-crit-tint); color: var(--mc-crit); }
 
   /* ── Mobile: sidebar collapses to a bottom bar; make the Settings / Admin /
      Sign Out controls reachable inline as compact icon-buttons instead of
@@ -178,8 +178,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(15, 17, 23, 0.88);
-    border: 1px solid rgba(212,175,90,0.3);
+    background: var(--mc-navy);
+    border: 1px solid var(--mc-gold-line);
     border-radius: 8px;
     padding: 10px 12px;
     display: flex;

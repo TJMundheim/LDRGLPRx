@@ -32,7 +32,7 @@ export interface WeekMeta {
 
 export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
   1: {
-    bg: '#0C447C', ac: '#2E7FD9',
+    bg: '#e7effa', ac: '#1d5fa8',
     label: 'Week 1',
     sub: 'Mind · Muscle · Mitigate · Motivate — baselines, nutrition & first actions',
     focus: 'Mind (deep focus): Full Supplement Stack',
@@ -41,7 +41,7 @@ export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
     deckQuote: 'We feed the brain. Food quality, supplements, methylation.',
   },
   2: {
-    bg: '#7A2E14', ac: '#E05C2A',
+    bg: '#fbeceb', ac: '#b42318',
     label: 'Week 2',
     sub: 'Mind · Muscle · Mitigate · Motivate — actions in motion, tracking begins',
     focus: 'Muscle (deep focus): Movement & Protein',
@@ -50,7 +50,7 @@ export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
     deckQuote: 'We build the body that supports the brain. Morning protocol. Outdoor. Fasted.',
   },
   3: {
-    bg: '#085041', ac: '#1D9E75',
+    bg: '#e8f4ee', ac: '#1e7a4f',
     label: 'Week 3',
     sub: 'Mind · Muscle · Mitigate · Motivate — full personalized assessment + gut-brain repair',
     focus: 'Mitigate (deep focus): MindSpan Personal Risk Assessment',
@@ -59,7 +59,10 @@ export const weekMeta: Record<1 | 2 | 3 | 4, WeekMeta> = {
     deckQuote: 'We start by removing what\'s working against you. Your MindSpan Personalized Assessment.',
   },
   4: {
-    bg: '#3C3489', ac: '#6B5ED4',
+    /* Week accents are literal hexes (not tokens) because consumers append alpha
+       suffixes, e.g. `${wc.ac}55`. bg = pale tint, ac = AA-on-white ink.
+       Week 4 purple #3C3489/#6B5ED4 darkened to #4b3fb0 for AA on white. */
+    bg: '#eeecfa', ac: '#4b3fb0',
     label: 'Week 4',
     sub: 'Mind · Muscle · Mitigate · Motivate — re-assessment, progress, Month 2 commitment',
     focus: 'Motivate (deep focus): Identity & Month 2 Vision',

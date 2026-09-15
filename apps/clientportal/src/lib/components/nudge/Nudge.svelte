@@ -61,11 +61,11 @@
 <style>
   .nudge-card {
     position: relative;
-    background: #1A2535;
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-line);
     border-radius: 12px;
     padding: 16px 40px 16px 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    box-shadow: var(--mc-shadow);
     max-width: 360px;
     width: 100%;
     animation: nudge-slide-in 0.28s cubic-bezier(0.22,1,0.36,1) both;
@@ -75,8 +75,8 @@
 
   /* Tone variants — left border accent */
   .nudge-info    { border-left-color: var(--mc-info); }
-  .nudge-celebrate { border-left-color: var(--mc-warn-b); }
-  .nudge-reminder  { border-left-color: #8B6914; }
+  .nudge-celebrate { border-left-color: var(--mc-warn); }
+  .nudge-reminder  { border-left-color: var(--mc-gold); }
 
   .nudge-close {
     position: absolute;
@@ -84,7 +84,7 @@
     right: 12px;
     background: none;
     border: none;
-    color: rgba(255,255,255,0.4);
+    color: var(--mc-faint);
     font-size: 20px;
     line-height: 1;
     cursor: pointer;
@@ -92,12 +92,12 @@
     border-radius: 4px;
     transition: color 0.12s;
   }
-  .nudge-close:hover { color: rgba(255,255,255,0.85); }
+  .nudge-close:hover { color: var(--mc-ink); }
 
   .nudge-title {
     font-size: 13px;
     font-weight: 700;
-    color: #e8eaf0;
+    color: var(--mc-ink);
     margin-bottom: 5px;
     letter-spacing: 0.01em;
     line-height: 1.3;
@@ -105,7 +105,7 @@
 
   .nudge-body {
     font-size: 12px;
-    color: #9badb8;
+    color: var(--mc-muted);
     line-height: 1.65;
     margin-bottom: 10px;
   }
@@ -119,7 +119,7 @@
     letter-spacing: 0.02em;
     transition: color 0.12s;
   }
-  .nudge-action:hover { color: #2bce97; }
+  .nudge-action:hover { color: var(--mc-good); }
 
   @keyframes nudge-slide-in {
     from {
@@ -141,7 +141,7 @@
       border-bottom-style: solid;
     }
     .nudge-info     { border-bottom-color: var(--mc-info); }
-    .nudge-celebrate { border-bottom-color: var(--mc-warn-b); }
-    .nudge-reminder  { border-bottom-color: #8B6914; }
+    .nudge-celebrate { border-bottom-color: var(--mc-warn); }
+    .nudge-reminder  { border-bottom-color: var(--mc-gold); }
   }
 </style>

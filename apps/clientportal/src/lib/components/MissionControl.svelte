@@ -318,9 +318,9 @@
         <div class="drivers-note">Your protocol actions logged this week — counts up as you check boxes, resets each week.</div>
         <svg class="ring" width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="Protocol score {msScore} of 100">
           <defs><linearGradient id="msg2" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#e3c98b"/><stop offset="1" stop-color="#d4af5a"/>
+            <stop offset="0" stop-color="var(--mc-gold-soft)"/><stop offset="1" stop-color="var(--mc-gold)"/>
           </linearGradient></defs>
-          <circle cx="84" cy="84" r={RING_R} fill="none" stroke="#16244a" stroke-width="9"/>
+          <circle cx="84" cy="84" r={RING_R} fill="none" stroke="var(--mc-line-soft)" stroke-width="9"/>
           <circle cx="84" cy="84" r={RING_R} fill="none" stroke="url(#msg2)" stroke-width="9" stroke-linecap="round"
             stroke-dasharray={ringDash} transform="rotate(-90 84 84)"/>
           <text class="ring-num" x="84" y="95" text-anchor="middle">{msScore}</text>
@@ -347,7 +347,7 @@
 
       <div>
         <div class="movebanner">
-          <div class="mring" style="background: conic-gradient(var(--mc-gold) {mvRingDeg}deg, #1d3a6e 0)"><b>{mvProgress.done}/{mvProgress.target}</b></div>
+          <div class="mring" style="background: conic-gradient(var(--mc-gold) {mvRingDeg}deg, var(--mc-line-soft) 0)"><b>{mvProgress.done}/{mvProgress.target}</b></div>
           <div>
             <div class="mtag">Week {currentWeek} · The Move</div>
             <div class="mtitle2">{move.title}</div>
@@ -518,10 +518,10 @@
   .drv .dv.g { color: var(--mc-good-bright); }
   .drivers-note { font-size: 10px; color: var(--mc-faint); margin-top: 9px; }
   .pills { display: flex; gap: 7px; margin-top: 12px; }
-  .pill { flex: 1; background: transparent; border: 1px dashed var(--mc-line); border-radius: 9px; padding: 7px 4px; font-size: 10px; color: var(--mc-muted); }
+  .pill { flex: 1; background: var(--mc-panel-2); border: 1px solid var(--mc-line); border-radius: 9px; padding: 7px 4px; font-size: 10px; color: var(--mc-muted); }
   .pill b { display: block; font-size: 12.5px; color: var(--mc-ink); font-weight: 600; }
-  .pill.hot { border-color: rgba(224, 92, 42, .55); }
-  .pill.hot b { color: #e05c2a; }
+  .pill.hot { background: var(--mc-crit-tint); border-color: var(--mc-crit); }
+  .pill.hot b { color: var(--mc-crit); }
 
   .movebanner { display: flex; gap: 14px; align-items: center; background: linear-gradient(135deg, var(--mc-panel-raised), var(--mc-panel)); border: 1px solid var(--mc-gold-line); border-radius: var(--mc-r-lg); padding: 15px 16px; margin-bottom: 12px; }
   .mring { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; }
@@ -539,11 +539,11 @@
   td:first-child { text-align: left; font-size: 12.5px; color: var(--mc-ink); white-space: nowrap; padding-right: 8px; }
   tr.mv td:first-child { color: var(--mc-gold); }
   .mvtag { font-style: normal; font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mc-gold); margin-left: 6px; }
-  .cell { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: #16305f; border: none; font-size: 12px; color: var(--mc-on-gold); }
+  .cell { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: var(--mc-panel-2); border: 1px solid var(--mc-line); font-size: 12px; color: var(--mc-ink); }
   .cell.f { background: var(--mc-gold); font-weight: 800; }
-  .cell.future { background: #101c38; opacity: .5; }
+  .cell.future { background: var(--mc-panel-2); opacity: .45; }
   button.cell.tappable { cursor: pointer; border: 1px solid var(--mc-gold-line); }
-  button.cell.tappable.tod { outline: 1.5px solid #e9cf96; }
+  button.cell.tappable.tod { outline: 1.5px solid var(--mc-gold); }
   button.cell.tappable:disabled { cursor: default; border-color: transparent; }
   .gridhint { font-size: 11px; color: var(--mc-faint); margin: 10px 2px 0; line-height: 1.5; }
 
@@ -579,12 +579,12 @@
   .shead b { color: var(--mc-ink); font-weight: 600; }
   .shead span { color: var(--mc-muted); font-variant-numeric: tabular-nums; }
   .dots { display: grid; grid-template-columns: repeat(28, 1fr); gap: 3px; }
-  .dt { aspect-ratio: 1; border-radius: 3px; background: #16305f; }
+  .dt { aspect-ratio: 1; border-radius: 3px; background: var(--mc-line-soft); }
   .dt.f { background: var(--mc-gold); }
   .bars { display: flex; gap: 5px; align-items: flex-end; height: 44px; }
-  .bar { flex: 1; background: #16305f; border-radius: 2px 2px 0 0; }
+  .bar { flex: 1; background: var(--mc-line-soft); border-radius: 2px 2px 0 0; }
   .bar.f { background: var(--mc-gold); }
-  .bar.now { background: #e9cf96; outline: 1px solid var(--mc-gold); }
+  .bar.now { background: var(--mc-gold-soft); outline: 1px solid var(--mc-gold); }
 
   .wkcards { display: flex; flex-direction: column; gap: 8px; max-width: 640px; }
   .wkcard { display: flex; align-items: center; gap: 12px; background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: var(--mc-r-md); padding: 10px 14px; }

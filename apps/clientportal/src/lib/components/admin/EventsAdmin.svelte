@@ -158,7 +158,7 @@
     border-radius: 12px;
     padding: 2px 10px;
     font-size: 0.75rem;
-    color: #ffffff;
+    color: var(--mc-on-gold);
     font-weight: 600;
   }
 
@@ -173,7 +173,7 @@
 
   .event-row {
     background: var(--mc-panel-2);
-    border: 1px solid #d9e5d6;
+    border: 1px solid var(--mc-line);
     border-radius: 10px;
     padding: 14px 18px;
   }
@@ -196,13 +196,13 @@
     text-transform: uppercase;
     padding: 3px 9px;
     border-radius: 10px;
-    border: 1px solid #c5d0c2;
+    border: 1px solid var(--mc-line);
     color: var(--mc-ink);
   }
   .status-scheduled { color: var(--mc-good-bright); }
-  .status-live { color: var(--mc-warn-b); }
+  .status-live { color: var(--mc-warn); }
   .status-completed { color: var(--mc-good-bright); }
-  .status-cancelled { color: var(--mc-crit-b); }
+  .status-cancelled { color: var(--mc-crit); }
 
   .current-link {
     font-size: 0.82rem;
@@ -230,7 +230,7 @@
     flex: 1;
     min-width: 260px;
     background: var(--mc-panel-2);
-    border: 1px solid #c5d0c2;
+    border: 1px solid var(--mc-line);
     border-radius: 6px;
     padding: 6px 10px;
     color: var(--mc-ink);
@@ -243,7 +243,7 @@
     background: var(--mc-good-bright);
     border: 1px solid var(--mc-good-bright);
     border-radius: 6px;
-    color: #ffffff;
+    color: var(--mc-on-gold);
     padding: 6px 16px;
     cursor: pointer;
     font-size: 0.82rem;
@@ -253,6 +253,6 @@
   .save:disabled { opacity: 0.5; cursor: default; }
 
   .loading, .err { color: var(--mc-ink); padding: 14px 0; }
-  .err { color: var(--mc-crit-b); }
+  .err { color: var(--mc-crit); }
   .err.small { font-size: 0.8rem; padding: 6px 0 0; }
 </style>

@@ -996,7 +996,7 @@
   .ptable th { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mc-muted); text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--mc-line); background: var(--mc-panel-2); }
   .ptable td { padding: 12px 13px; border-bottom: 1px solid var(--mc-line-soft); font-size: 0.82rem; font-variant-numeric: tabular-nums; color: var(--mc-ink); vertical-align: middle; }
   .prow { cursor: pointer; }
-  .prow:hover td { background: rgba(212, 175, 90, 0.05); }
+  .prow:hover td { background: var(--mc-gold-tint); }
   .prow.sel td { background: var(--mc-gold-tint); }
   .pname { font-weight: 600; }
   .pmail { font-size: 0.68rem; color: var(--mc-muted); }
@@ -1008,11 +1008,11 @@
   .chev { color: var(--mc-gold); font-size: 0.7rem; text-align: right; }
 
   .chip { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--mc-r-pill); white-space: nowrap; }
-  .chip.new { color: #a9b4cc; background: #182849; }
+  .chip.new { color: var(--mc-info); background: var(--mc-info-tint); }
   .chip.reviewed { color: var(--mc-gold-soft); background: var(--mc-gold-tint); }
   .chip.provider { color: var(--mc-info); background: var(--mc-info-tint); }
   .chip.ready { color: var(--mc-good-bright); background: var(--mc-good-tint); }
-  .chip.done { color: var(--mc-muted); background: #121e38; }
+  .chip.done { color: var(--mc-muted); background: var(--mc-panel-2); }
   .chip.declined { color: var(--mc-crit-bright); background: var(--mc-crit-tint); }
 
   /* drawer */
@@ -1037,10 +1037,10 @@
   .declined-band { background: var(--mc-crit-tint); border: 1px solid var(--mc-crit-bright); border-radius: 8px; color: var(--mc-crit-bright); font-size: 0.75rem; font-weight: 600; padding: 8px 12px; margin-bottom: 10px; }
 
   .path { display: flex; align-items: center; margin: 4px 0 2px; }
-  .node { width: 10px; height: 10px; border-radius: 50%; background: #223458; flex-shrink: 0; }
+  .node { width: 10px; height: 10px; border-radius: 50%; background: var(--mc-line); flex-shrink: 0; }
   .node.done { background: var(--mc-good); }
-  .node.on { background: var(--mc-gold); box-shadow: 0 0 0 4px rgba(212, 175, 90, 0.18); }
-  .edge { height: 2px; flex: 1; background: #223458; }
+  .node.on { background: var(--mc-gold); box-shadow: 0 0 0 4px var(--mc-gold-tint); }
+  .edge { height: 2px; flex: 1; background: var(--mc-line); }
   .edge.done { background: var(--mc-good); }
   .pathlbl { display: flex; justify-content: space-between; font-size: 0.55rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mc-muted); margin: 6px 0 12px; }
 

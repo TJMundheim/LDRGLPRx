@@ -38,7 +38,7 @@ const C = {
   panel2: 'var(--mc-panel-2)',
   line: 'var(--mc-line)',
   gold: 'var(--mc-gold)',
-  goldTint: 'rgba(212,175,90,.12)',
+  goldTint: 'var(--mc-gold-tint)',
   good: 'var(--mc-good)',
   goodBright: 'var(--mc-good-bright)',
   warn: 'var(--mc-warn-bright)',
@@ -73,9 +73,9 @@ export function colds(W: Workbook): number {
 }
 
 function riskBand(score: number): { label: string; color: string; bg: string } {
-  if (score <= 28) return { label: 'Low risk', color: C.goodBright, bg: 'rgba(46,158,107,.14)' };
-  if (score <= 49) return { label: 'Moderate risk', color: C.warn, bg: 'rgba(212,146,10,.1)' };
-  return { label: 'High risk — fastest results', color: C.crit, bg: 'rgba(224,92,42,.1)' };
+  if (score <= 28) return { label: 'Low risk', color: C.goodBright, bg: 'var(--mc-good-tint)' };
+  if (score <= 49) return { label: 'Moderate risk', color: C.warn, bg: 'var(--mc-warn-tint)' };
+  return { label: 'High risk — fastest results', color: C.crit, bg: 'var(--mc-crit-tint)' };
 }
 
 function scoreBtnColor(n: number): string {
@@ -90,7 +90,7 @@ function weekBanner(w: 1 | 2 | 3 | 4): string {
     <div class="week-tag" style="color:${wc.ac};margin-bottom:4px">WEEK ${w} OF 4</div>
     <div class="week-name">${wc.label}</div>
     <div class="week-sub" style="margin-top:5px">${wc.sub}</div>
-    <div style="margin-top:8px;display:inline-block;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.06em;color:${C.panel2}">⭐ ${wc.focus}</div>
+    <div style="margin-top:8px;display:inline-block;background:color-mix(in srgb, var(--mc-panel) 15%, transparent);padding:4px 10px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.06em;color:${C.panel2}">⭐ ${wc.focus}</div>
   </div>`;
 }
 
@@ -179,7 +179,7 @@ export function renderGutAssessment(): string {
     const ans = (state.answers as Record<string, boolean>)[String(i)];
     const yesActive = ans === true;
     const noActive = ans === false;
-    return `<div data-gut-row="${i}" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(46,158,107,.15)">
+    return `<div data-gut-row="${i}" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--mc-good-tint)">
       <span style="font-size:12.5px;color:${C.ink};line-height:1.5;flex:1">${esc(q)}</span>
       <div style="display:flex;gap:6px;flex-shrink:0">
         <button class="day-btn"
@@ -274,7 +274,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
     ['deadhang', 'Dead hang (seconds)']
   ];
   const baselineHeader = `
-    <div style="background:rgba(224,92,42,.08);border:1.5px solid rgba(224,92,42,.3);border-radius:9px;padding:14px;margin-bottom:14px">
+    <div style="background:var(--mc-crit-tint);border:1.5px solid color-mix(in srgb, var(--mc-crit) 30%, transparent);border-radius:9px;padding:14px;margin-bottom:14px">
       <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:5px">⭐ STRENGTH BASELINE — RETEST DAY 1 OF WEEK ${w}</div>
       <div style="font-size:11.5px;color:${C.muted};line-height:1.55;margin-bottom:12px">
         Day 1 of every week starts with retesting your baselines. ${w === 1
@@ -301,7 +301,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
             value="${esc(cur)}"
             oninput="portalField('trainLog.${curKey}',this.value)">
           ${w > 1
-            ? `<div style="font-size:11px;color:${C.muted};padding:7px 9px;background:rgba(224,92,42,.04);border-radius:7px">${prev || '—'}</div>`
+            ? `<div style="font-size:11px;color:${C.muted};padding:7px 9px;background:var(--mc-crit-tint);border-radius:7px">${prev || '—'}</div>`
             : `<input placeholder="form / notes" style="font-size:11px" value="${esc(W.trainLog[`w1_baseline_${k}_notes`] ?? '')}" oninput="portalField('trainLog.w1_baseline_${k}_notes',this.value)">`}
           <div style="font-size:12px;font-weight:700;color:${deltaColor};text-align:center">
             ${delta ? (Number(delta) > 0 ? '+' : '') + delta : '—'}
@@ -319,7 +319,7 @@ function workoutLog(W: Workbook, w: 1 | 2 | 3 | 4): string {
     ${days.map((dLabel, di) => {
       const d = di + 1;
       return `
-      <div style="border:1px solid rgba(224,92,42,.2);border-radius:9px;padding:12px;margin-bottom:10px;background:rgba(224,92,42,.03)">
+      <div style="border:1px solid color-mix(in srgb, var(--mc-crit) 30%, transparent);border-radius:9px;padding:12px;margin-bottom:10px;background:var(--mc-crit-tint)">
         <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:.07em;margin-bottom:10px">${dLabel.toUpperCase()}</div>
         <div style="display:flex;flex-direction:column;gap:5px">
         ${exercises.map(([k, l, opt]) => {
@@ -347,7 +347,7 @@ function priorityActionReminder(W: Workbook, selectedName: string): string {
   if (!f) return '';
   const actions = f.imm ?? f.act ?? [];
   if (!actions.length) return '';
-  return `<div style="margin-top:10px;background:rgba(212,175,90,.08);border:1px solid rgba(212,175,90,.3);border-radius:8px;padding:10px 12px">
+  return `<div style="margin-top:10px;background:var(--mc-gold-tint);border:1px solid var(--mc-gold-line);border-radius:8px;padding:10px 12px">
     <div style="font-size:10px;font-weight:700;color:${C.gold};letter-spacing:.06em;margin-bottom:6px">
       ▸ IMMEDIATE ACTIONS FOR THIS FACTOR
     </div>
@@ -396,7 +396,7 @@ function factorDetail(W: Workbook, f: Factor, factorTab: RenderContext['factorTa
       <div style="font-size:12px;font-weight:700;color:${C.panel2};margin-bottom:4px">Connected Mind — Complete Before Scoring</div>
       <div style="font-size:11px;color:${C.info}">Complete this assessment before finalizing your score for Factor 01.</div>
     </div>` : ''}
-    <div class="info-box" style="background:rgba(212,175,90,.08);border:1px solid rgba(212,175,90,.3);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+    <div class="info-box" style="background:var(--mc-gold-tint);border:1px solid var(--mc-gold-line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
       <span style="font-size:11px;color:${C.muted}"><strong style="color:${C.gold}">Box breathing</strong> — 4 counts in · hold 4 · out 4 · hold 4 · repeat 4 times</span>
       <a href="https://youtube.com/watch?v=tybOi4hjZFQ" target="_blank" class="btn xs primary">▶ Watch</a>
     </div>
@@ -491,9 +491,9 @@ function auditTotals(scores: AuditScores): { total: number; max: number } {
 function auditBand200(total: number, max = 100): { label: string; color: string; bg: string } {
   // Percent-of-max bands aligned with the website's 15/35 thresholds.
   const pct = max > 0 ? total / max : 0;
-  if (pct <= 0.15) return { label: 'Low', color: C.goodBright, bg: 'rgba(46,158,107,.14)' };
-  if (pct <= 0.35) return { label: 'Moderate', color: C.warn, bg: 'rgba(212,146,10,.08)' };
-  return { label: 'Elevated', color: C.crit, bg: 'rgba(224,92,42,.08)' };
+  if (pct <= 0.15) return { label: 'Low', color: C.goodBright, bg: 'var(--mc-good-tint)' };
+  if (pct <= 0.35) return { label: 'Moderate', color: C.warn, bg: 'var(--mc-warn-tint)' };
+  return { label: 'Elevated', color: C.crit, bg: 'var(--mc-crit-tint)' };
 }
 
 function renderAuditSummaryCard(): string {
@@ -635,7 +635,7 @@ function strengthTrendCard(W: Workbook): string {
 function proteinTargetLine(W: Workbook): string {
   const n = Math.round(Number(W.protein));
   if (!(n > 0)) return '';
-  return `<div style="background:rgba(224,168,60,.12);border:1px solid rgba(224,168,60,.35);border-radius:9px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:${C.muted};line-height:1.5">
+  return `<div style="background:var(--mc-gold-tint);border:1px solid var(--mc-gold-line);border-radius:9px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:${C.muted};line-height:1.5">
     <strong>Protein target: ${n} g/day</strong> — carried from your Week 1 calculation (1 g per pound of ideal body weight). Hit it at least 5 of 7 days.
   </div>`;
 }
@@ -875,12 +875,12 @@ function renderW1(ctx: RenderContext): string {
   const pillarHeader = (num: string, title: string, color: string, tagline: string): string =>
     `<div style="display:flex;align-items:center;gap:14px;padding:14px 20px;
       background:${color};border-radius:10px 10px 0 0;margin:-20px -20px 16px">
-      <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);
+      <div style="width:36px;height:36px;border-radius:50%;background:color-mix(in srgb, var(--mc-panel) 20%, transparent);
         display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
         color:${C.panel2};flex-shrink:0">${num}</div>
       <div>
         <div style="font-size:15px;font-weight:700;color:${C.panel2};letter-spacing:.02em">${title}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.8);letter-spacing:.04em">${tagline}</div>
+        <div style="font-size:10px;color:color-mix(in srgb, var(--mc-panel) 80%, transparent);letter-spacing:.04em">${tagline}</div>
       </div>
     </div>`;
 
@@ -927,7 +927,7 @@ function renderW1(ctx: RenderContext): string {
       <div style="font-size:12.5px;font-weight:700;color:${C.ink};margin-bottom:8px">What is driving you?</div>
       ${motivationOptions.map((opt, i) => `
         <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;
-          background:${W.motivation === String(i) ? 'rgba(107,94,212,.10)' : C.panel2};
+          background:${W.motivation === String(i) ? 'color-mix(in srgb, #4b3fb0 10%, transparent)' /* darkened from #6B5ED4/rgba(107,94,212) for AA contrast on white */ : C.panel2};
           border:1.5px solid ${W.motivation === String(i) ? C.info : C.line};
           border-radius:8px;cursor:pointer;margin-bottom:7px"
           onclick="portalFieldRender('motivation','${i}')">
@@ -1039,7 +1039,7 @@ function renderW1(ctx: RenderContext): string {
 
   <div class="card" style="border-left:4px solid ${C.crit}">
     <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
-    <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+    <div style="background:var(--mc-crit-tint);border:1px solid color-mix(in srgb, var(--mc-crit) 30%, transparent);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.crit};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
         Record where you start. No judgment — just honest numbers. These become your comparison point for Week 4.
@@ -1057,7 +1057,7 @@ function renderW1(ctx: RenderContext): string {
 
   <!-- Circadian Anchor card removed 2026-07-06 (TJ): fasted walk lives on the Mission Control tape -->
 
-  <div class="card" style="border-color:${C.info}55;background:rgba(46,127,217,.04)">
+  <div class="card" style="border-color:${C.info}55;background:var(--mc-info-tint)">
     <div class="card-title" style="color:${C.info}">How to Box Breathe (~2 minutes daily)</div>
     <ol style="margin:10px 0 12px;padding-left:20px;display:flex;flex-direction:column;gap:7px">
       <li style="font-size:12.5px;color:${C.ink};line-height:1.5"><strong>Inhale</strong> through your nose for 4 seconds.</li>
@@ -1066,7 +1066,7 @@ function renderW1(ctx: RenderContext): string {
       <li style="font-size:12.5px;color:${C.ink};line-height:1.5"><strong>Hold</strong> at the bottom for 4 seconds.</li>
       <li style="font-size:12.5px;color:${C.ink};line-height:1.5">Repeat for 5–10 cycles.</li>
     </ol>
-    <div style="font-size:12px;color:${C.info};line-height:1.65;border-top:1px solid rgba(46,127,217,.2);padding-top:10px">
+    <div style="font-size:12px;color:${C.info};line-height:1.65;border-top:1px solid var(--mc-info-line);padding-top:10px">
       Box breathing calms the autonomic nervous system, lowers cortisol, and primes focus for the day. Used by Navy SEALs and elite performers.
     </div>
   </div>
@@ -1162,7 +1162,7 @@ function renderW2(W: Workbook): string {
 
   <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
-  <div class="card" style="background:rgba(224,92,42,.04);border:1px solid rgba(224,92,42,.18)">
+  <div class="card" style="background:var(--mc-crit-tint);border:1px solid color-mix(in srgb, var(--mc-crit) 30%, transparent)">
     <div style="font-size:14px;font-weight:700;color:${C.crit};margin-bottom:6px">All 4 Pillars Continue — Week 2</div>
     <div style="font-size:12.5px;color:${C.muted};line-height:1.7">
       Your baseline is set. This week everything moves from measurement to action.
@@ -1177,7 +1177,7 @@ function renderW2(W: Workbook): string {
     <div style="margin-bottom:12px">
       ${(() => { const c = carryForward(wRef['w2_why'], W.personalWhy); return `
       <label for="w2-my-why">My WHY (from Week 1) — read it out loud right now${c.hint}</label>
-      <textarea id="w2-my-why" style="min-height:52px;background:${C.panel2};border-color:rgba(212,175,90,.35);font-size:13px;font-style:italic"
+      <textarea id="w2-my-why" style="min-height:52px;background:${C.panel2};border-color:var(--mc-gold-line);font-size:13px;font-style:italic"
         placeholder="Your Week 1 why carries over here automatically — edit it if it has evolved."
         oninput="portalField('weekReflections.w2_why',this.value)">${esc(c.value)}</textarea>`; })()}
     </div>
@@ -1254,7 +1254,7 @@ function renderW2(W: Workbook): string {
   <!-- MUSCLE W2 DEEP FOCUS -->
   <div class="card" style="border-left:4px solid ${C.crit}">
     <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Week 2 Deep Focus — Movement & Protein</div>
-    <div style="background:rgba(224,92,42,.06);border:1px solid rgba(224,92,42,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+    <div style="background:var(--mc-crit-tint);border:1px solid color-mix(in srgb, var(--mc-crit) 30%, transparent);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.crit};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
         <strong>Movement starts now.</strong> The KOT beginner playlist (Ben Patrick / Knees Over Toes Guy)
@@ -1386,7 +1386,7 @@ function renderW3(W: Workbook): string {
 
   <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
-  <div class="card" style="background:rgba(46,127,217,.04);border:1px solid rgba(46,127,217,.18)">
+  <div class="card" style="background:var(--mc-info-tint);border:1px solid var(--mc-info-line)">
     <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
     <div style="font-size:12.5px;color:${C.ink};line-height:1.7">
       Two weeks in. This is where it gets real. Deep focus this week is <strong>Mind</strong> —
@@ -1417,7 +1417,7 @@ function renderW3(W: Workbook): string {
     </div>
     <div style="margin-bottom:12px">
       <label for="w3-identity-evolve">My identity is evolving — complete this sentence: "The man I am becoming..."</label>
-      <textarea id="w3-identity-evolve" style="min-height:52px;font-size:13px;font-style:italic;border-color:rgba(212,175,90,.35)"
+      <textarea id="w3-identity-evolve" style="min-height:52px;font-size:13px;font-style:italic;border-color:var(--mc-gold-line)"
         placeholder="The man I am becoming..."
         oninput="portalField('weekReflections.w3_identity_evolve',this.value)">${g('w3_identity_evolve')}</textarea>
     </div>
@@ -1495,7 +1495,7 @@ function renderW3(W: Workbook): string {
   <div class="card" style="border-left:4px solid ${C.info}">
     <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Week 3 Deep Focus — Consistency</div>
 
-    <div style="background:rgba(46,127,217,.06);border:1px solid rgba(46,127,217,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+    <div style="background:var(--mc-info-tint);border:1px solid var(--mc-info-line);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.ink};line-height:1.6">
         Three weeks in — <strong>Biome NS Ultra with your first meal, no gaps</strong>. The gut-brain seal is built by consistency, not intensity. Keep the daily reading habit going and score your cognitive triad on Sunday.
@@ -1585,7 +1585,7 @@ function renderW4(W: Workbook): string {
 
   <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
-  <div class="card" style="background:rgba(107,94,212,.05);border:1px solid rgba(107,94,212,.2)">
+  <div class="card" style="background:var(--mc-info-tint);border:1px solid var(--mc-info-tint)">
     <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:6px">Month 1 Completion — All 4 Pillars</div>
     <div style="font-size:12.5px;color:${C.muted};line-height:1.7">
       This is the final week of Month 1. Deep focus this week is <strong>Motivate</strong> —
@@ -1597,7 +1597,7 @@ function renderW4(W: Workbook): string {
   <!-- MOTIVATE W4 DEEP FOCUS -->
   <div class="card" style="border-left:4px solid ${C.info}">
     <div class="card-title" style="color:${C.info}">🟣 M4 — MOTIVATE: Week 4 Deep Focus — Identity & Month 2 Vision</div>
-    <div style="background:rgba(107,94,212,.06);border:1px solid rgba(107,94,212,.2);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+    <div style="background:var(--mc-info-tint);border:1px solid var(--mc-info-tint);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
         The man who finishes Month 1 is not the same man who started it.
@@ -1643,7 +1643,7 @@ function renderW4(W: Workbook): string {
       <textarea style="min-height:85px;border-color:${C.info}44;font-size:13.5px"
         placeholder="Write your graduation commitment here..."
         oninput="portalField('graduation',this.value)">${esc(W.graduation)}</textarea>
-      <div style="margin-top:13px;padding:12px 14px;background:rgba(107,94,212,.07);
+      <div style="margin-top:13px;padding:12px 14px;background:var(--mc-info-tint);
         border-radius:8px;font-size:11.5px;color:${C.info};font-style:italic;text-align:center;line-height:1.6">
         "In completing Month 1 of the 4M program I commit to continuing my brain optimization practice because the man I am becoming is worth protecting."
       </div>
@@ -1665,7 +1665,7 @@ function renderW4(W: Workbook): string {
       const w4Total = scoredCats.reduce((s, c) => s + (Number(W.w4audit[c.id]) || 0), 0);
       const wMax = Math.max(Object.keys(w1Scores).filter(k => k !== 'already-diagnosed').length, scoredCats.length) * 5;
       return `
-    <div style="background:${C.goldTint};border:1.5px solid rgba(212,175,90,.3);border-radius:10px;padding:14px 16px;margin-bottom:14px">
+    <div style="background:${C.goldTint};border:1.5px solid var(--mc-gold-line);border-radius:10px;padding:14px 16px;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
         <div style="font-size:13px;font-weight:700;color:${C.ink}">Side-by-Side Assessment Comparison</div>
         <div style="display:flex;gap:12px;font-size:11px">
@@ -1723,7 +1723,7 @@ function renderW4(W: Workbook): string {
     </div>
     <div style="overflow-x:auto">
       <table class="compare-table">
-        <thead><tr style="background:rgba(224,92,42,.1)">
+        <thead><tr style="background:var(--mc-crit-tint)">
           ${['Metric', 'Week 1', 'Week 4', 'Change', 'Direction'].map(h =>
             `<th style="color:${C.muted}">${h}</th>`).join('')}
         </tr></thead>
@@ -1794,7 +1794,7 @@ function renderW4(W: Workbook): string {
 
   ${morningTracker(W, 4)}
 
-  <div class="card" style="border:2px solid rgba(107,94,212,.2)">
+  <div class="card" style="border:2px solid var(--mc-info-tint)">
     <div class="card-title">Month 1 Final Reflection — All 4 Pillars</div>
     ${[['w4_motivate_ref', 'MOTIVATE: In one sentence — who is the man who completed Month 1?'],
        ['w4_mitigate_ref', 'MITIGATE: How many points did your MindSpan Score improve?'],

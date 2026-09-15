@@ -50,15 +50,15 @@
         <!-- Y grid lines -->
         {#each yTicks as tick}
           {@const cy = INNER_H - (tick / 10) * INNER_H}
-          <line x1="0" y1={cy} x2={INNER_W} y2={cy} stroke="rgba(255,255,255,0.06)" stroke-width="1" />
-          <text x="-4" y={cy + 4} text-anchor="end" font-size="9" fill="#4a5060">{tick}</text>
+          <line x1="0" y1={cy} x2={INNER_W} y2={cy} stroke="var(--mc-line-soft)" stroke-width="1" />
+          <text x="-4" y={cy + 4} text-anchor="end" font-size="9" fill="var(--mc-muted)">{tick}</text>
         {/each}
 
         <!-- Trend line -->
         <polyline
           points={polyline}
           fill="none"
-          stroke="#4a9eff"
+          stroke="var(--mc-info)"
           stroke-width="2"
           stroke-linejoin="round"
           stroke-linecap="round"
@@ -66,8 +66,8 @@
 
         <!-- Data points + x labels -->
         {#each points as p, i (i)}
-          <circle cx={p.x} cy={p.y} r="3.5" fill="#4a9eff" />
-          <text x={p.x} y={INNER_H + 14} text-anchor="middle" font-size="9" fill="#565e70">{p.label}</text>
+          <circle cx={p.x} cy={p.y} r="3.5" fill="var(--mc-info)" />
+          <text x={p.x} y={INNER_H + 14} text-anchor="middle" font-size="9" fill="var(--mc-muted)">{p.label}</text>
         {/each}
       </g>
     </svg>
@@ -84,14 +84,14 @@
   .chart-title {
     font-size: 0.78rem;
     font-weight: 600;
-    color: #9ba3b2;
+    color: var(--mc-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
   .chart-empty {
     font-size: 0.78rem;
-    color: #4a5060;
+    color: var(--mc-faint);
     height: 60px;
     display: flex;
     align-items: center;

@@ -142,7 +142,7 @@
     margin: 0;
     font-size: 1.2rem;
     font-weight: 700;
-    color: #e8ecf4;
+    color: var(--mc-ink);
   }
 
   .status-pill {
@@ -155,19 +155,19 @@
   }
 
   .status-pill.done {
-    background: rgba(52, 211, 153, 0.12);
-    color: #34d399;
+    background: var(--mc-good-tint);
+    color: var(--mc-good);
   }
 
   .status-pill.due {
-    background: rgba(74, 158, 255, 0.12);
-    color: #4a9eff;
+    background: var(--mc-info-tint);
+    color: var(--mc-info);
   }
 
   .next-checkin {
     margin: 0;
     font-size: 0.85rem;
-    color: #7a8394;
+    color: var(--mc-muted);
   }
 
   .charts-grid {
@@ -179,15 +179,15 @@
   .chart-hint {
     margin: 0;
     font-size: 0.82rem;
-    color: #4a5060;
+    color: var(--mc-faint);
   }
 
   .reopen-btn {
     align-self: flex-start;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid var(--mc-line);
     border-radius: 6px;
-    color: #7a8394;
+    color: var(--mc-muted);
     font-size: 0.8rem;
     padding: 6px 14px;
     cursor: pointer;
@@ -195,7 +195,7 @@
   }
 
   .reopen-btn:hover {
-    border-color: #4a9eff;
-    color: #4a9eff;
+    border-color: var(--mc-info);
+    color: var(--mc-info);
   }
 </style>

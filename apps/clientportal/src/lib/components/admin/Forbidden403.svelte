@@ -20,7 +20,7 @@
   .code {
     font-size: 5rem;
     font-weight: 800;
-    color: var(--mc-crit-b);
+    color: var(--mc-crit);
     line-height: 1;
     margin-bottom: 12px;
   }

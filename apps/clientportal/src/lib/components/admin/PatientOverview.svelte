@@ -104,7 +104,7 @@
 
   .po-tier {
     background: var(--mc-good-bright);
-    color: #ffffff;
+    color: var(--mc-on-gold);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -121,7 +121,7 @@
 
   .po-card {
     background: var(--mc-panel-2);
-    border: 1px solid #d9e5d6;
+    border: 1px solid var(--mc-line);
     border-radius: 10px;
     padding: 14px 16px;
   }

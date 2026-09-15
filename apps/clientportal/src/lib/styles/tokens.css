@@ -1,40 +1,52 @@
-/* ── My4MLife design tokens — "Mission Control" (Direction C, approved 2026-07-02)
-   Ground truth: docs/design/enterprise-design-directions.html (Direction C).
-   All app color/type/radius decisions derive from these variables. ── */
+/* ── My4MLife design tokens — LIGHT CLINICAL theme (TJ decision 2026-09-15)
+   Enterprise health-dashboard ground: off-white page, white cards, near-black
+   ink, navy reserved for sidebar/header, gold as the single brand accent.
+   Every variable NAME from the previous "Mission Control" dark theme is kept,
+   so all consumers keep working. The old dark values live on under
+   [data-theme="dark"] (not wired to any UI) so the dark look can return by
+   setting one attribute on <html>.
+   All pairs used for text are verified >= 4.5:1 by src/lib/styles/contrast.test.ts ── */
 :root {
   /* ground */
-  --mc-bg: #070e1d;
-  --mc-panel: #0c1730;
-  --mc-panel-2: #0a142b;
-  --mc-panel-raised: #12224a;
-  --mc-line: #1b2a4a;
-  --mc-line-soft: #12203c;
+  --mc-bg: #f6f7fa;
+  --mc-panel: #ffffff;
+  --mc-panel-2: #f2f4f8;
+  --mc-panel-raised: #ffffff;
+  --mc-line: #cbd3e2;
+  --mc-line-soft: #e8ecf3;
 
   /* ink */
-  --mc-ink: #e8ecf5;
-  --mc-muted: #7d8aa5;
-  --mc-faint: #55627e;
+  --mc-ink: #0f172a;
+  --mc-muted: #4b5670;
+  --mc-faint: #6c768c;
+
+  /* chrome (sidebar / header) */
+  --mc-navy: #0b1f3a;
+  --mc-navy-ink: #e8ecf5;
+  --mc-navy-muted: #9fb0c9;
+  --mc-navy-line: #1c3557;
 
   /* brand accent */
-  --mc-gold: #d4af5a;
-  --mc-gold-soft: #e3c98b;
-  --mc-gold-dim: #9d8248;
-  --mc-gold-tint: rgba(212, 175, 90, 0.12);
-  --mc-gold-line: rgba(212, 175, 90, 0.4);
-  --mc-on-gold: #0a1428;
+  --mc-gold: #7d6010;
+  --mc-gold-soft: #d4af5a;
+  --mc-gold-dim: #5f490c;
+  --mc-gold-tint: rgba(125, 96, 16, 0.1);
+  --mc-gold-line: rgba(125, 96, 16, 0.45);
+  --mc-on-gold: #ffffff;
 
   /* semantic (never used as brand accent) */
-  --mc-good: #2e9e6b;
-  --mc-good-bright: #43c98a;
-  --mc-good-tint: rgba(46, 158, 107, 0.14);
-  --mc-warn: #c98a1e;
-  --mc-warn-bright: #e0a83c;
-  --mc-warn-tint: rgba(201, 138, 30, 0.14);
-  --mc-crit: #c0442e;
-  --mc-crit-bright: #e06a52;
-  --mc-crit-tint: rgba(192, 68, 46, 0.14);
-  --mc-info: #5aa9dd;
-  --mc-info-tint: rgba(90, 169, 221, 0.12);
+  --mc-good: #1e7a4f;
+  --mc-good-bright: #176b44;
+  --mc-good-tint: rgba(30, 122, 79, 0.1);
+  --mc-warn: #8a5a0d;
+  --mc-warn-bright: #78500b;
+  --mc-warn-tint: rgba(138, 90, 13, 0.1);
+  --mc-crit: #b42318;
+  --mc-crit-bright: #9f1f15;
+  --mc-crit-tint: rgba(180, 35, 24, 0.1);
+  --mc-info: #1d5fa8;
+  --mc-info-tint: rgba(29, 95, 168, 0.1);
+  --mc-info-line: rgba(29, 95, 168, 0.35);
 
   /* type */
   --mc-font-display: 'Playfair Display', Georgia, serif;
@@ -47,5 +59,50 @@
   --mc-r-pill: 999px;
 
   /* elevation */
+  --mc-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  --mc-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --mc-focus: 0 0 0 3px rgba(29, 95, 168, 0.25);
+}
+
+/* ── Optional dark restore: <html data-theme="dark"> ── */
+[data-theme='dark'] {
+  --mc-bg: #070e1d;
+  --mc-panel: #0c1730;
+  --mc-panel-2: #0a142b;
+  --mc-panel-raised: #12224a;
+  --mc-line: #1b2a4a;
+  --mc-line-soft: #12203c;
+
+  --mc-ink: #e8ecf5;
+  --mc-muted: #7d8aa5;
+  --mc-faint: #55627e;
+
+  --mc-navy: #0c1730;
+  --mc-navy-ink: #e8ecf5;
+  --mc-navy-muted: #7d8aa5;
+  --mc-navy-line: #1b2a4a;
+
+  --mc-gold: #d4af5a;
+  --mc-gold-soft: #e3c98b;
+  --mc-gold-dim: #9d8248;
+  --mc-gold-tint: rgba(212, 175, 90, 0.12);
+  --mc-gold-line: rgba(212, 175, 90, 0.4);
+  --mc-on-gold: #0a1428;
+
+  --mc-good: #2e9e6b;
+  --mc-good-bright: #43c98a;
+  --mc-good-tint: rgba(46, 158, 107, 0.14);
+  --mc-warn: #c98a1e;
+  --mc-warn-bright: #e0a83c;
+  --mc-warn-tint: rgba(201, 138, 30, 0.14);
+  --mc-crit: #c0442e;
+  --mc-crit-bright: #e06a52;
+  --mc-crit-tint: rgba(192, 68, 46, 0.14);
+  --mc-info: #5aa9dd;
+  --mc-info-tint: rgba(90, 169, 221, 0.12);
+  --mc-info-line: rgba(90, 169, 221, 0.35);
+
   --mc-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --mc-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.25);
+  --mc-focus: 0 0 0 3px rgba(212, 175, 90, 0.3);
 }

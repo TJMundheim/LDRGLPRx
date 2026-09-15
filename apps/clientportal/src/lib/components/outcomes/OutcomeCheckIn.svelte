@@ -108,8 +108,8 @@
 
 <style>
   .checkin-card {
-    background: #1a1f2b;
-    border: 1px solid rgba(74, 158, 255, 0.15);
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-info-tint);
     border-radius: 12px;
     padding: 28px 24px;
     max-width: 540px;
@@ -119,7 +119,7 @@
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #4a9eff;
+    color: var(--mc-info);
     text-transform: uppercase;
   }
 
@@ -127,13 +127,13 @@
     margin: 8px 0 4px;
     font-size: 1.15rem;
     font-weight: 700;
-    color: #e8ecf4;
+    color: var(--mc-ink);
   }
 
   .checkin-sub {
     margin: 0 0 24px;
     font-size: 0.85rem;
-    color: #7a8394;
+    color: var(--mc-muted);
   }
 
   .checkin-form {
@@ -157,20 +157,20 @@
   .slider-name {
     font-size: 0.88rem;
     font-weight: 600;
-    color: #c8d0e0;
+    color: var(--mc-ink);
   }
 
   .slider-value {
     font-size: 0.8rem;
     font-weight: 700;
-    color: #4a9eff;
+    color: var(--mc-info);
     min-width: 36px;
     text-align: right;
   }
 
   .slider {
     width: 100%;
-    accent-color: #4a9eff;
+    accent-color: var(--mc-info);
     cursor: pointer;
   }
 
@@ -178,23 +178,23 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.72rem;
-    color: #565e70;
+    color: var(--mc-muted);
   }
 
   .freetext-label {
     display: block;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #c8d0e0;
+    color: var(--mc-ink);
     margin-bottom: 6px;
   }
 
   .freetext-input {
     width: 100%;
-    background: #131720;
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--mc-panel-2);
+    border: 1px solid var(--mc-line);
     border-radius: 8px;
-    color: #e8ecf4;
+    color: var(--mc-ink);
     padding: 10px 12px;
     font-size: 0.88rem;
     resize: vertical;
@@ -202,13 +202,13 @@
   }
 
   .freetext-input::placeholder {
-    color: #4a5060;
+    color: var(--mc-faint);
   }
 
   .submit-btn {
     align-self: flex-start;
-    background: #4a9eff;
-    color: #0d1117;
+    background: var(--mc-info);
+    color: var(--mc-on-gold);
     border: none;
     border-radius: 8px;
     padding: 10px 22px;
@@ -218,10 +218,10 @@
     transition: background 0.15s;
   }
 
-  .submit-btn:hover { background: #6ab4ff; }
+  .submit-btn:hover { filter: brightness(1.12); }
 
   .submit-error {
-    color: #ff6060;
+    color: var(--mc-crit);
     font-size: 0.84rem;
     margin: 0 0 8px;
   }
@@ -229,12 +229,12 @@
   .checkin-thanks {
     text-align: center;
     padding: 32px 0;
-    color: #7a8394;
+    color: var(--mc-muted);
   }
 
   .thanks-icon {
     font-size: 2rem;
-    color: #4a9eff;
+    color: var(--mc-info);
     margin-bottom: 10px;
   }
 </style>

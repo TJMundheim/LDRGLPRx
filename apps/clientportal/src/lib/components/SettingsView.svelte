@@ -112,21 +112,21 @@
   }
   h1 {
     margin: 0;
-    color: #e8eaf0;
+    color: var(--mc-ink);
     font-size: 1.7rem;
     font-weight: 700;
     letter-spacing: 0.01em;
   }
   .card {
-    background: #0f1117;
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-line);
     border-radius: 12px;
     padding: 22px 22px 24px;
     display: flex; flex-direction: column; gap: 14px;
   }
   h2 {
     margin: 0;
-    color: #e8eaf0;
+    color: var(--mc-ink);
     font-size: 1.05rem;
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -134,7 +134,7 @@
   .sub {
     margin: -6px 0 0;
     font-size: 0.85rem;
-    color: #9ba3b2;
+    color: var(--mc-muted);
     line-height: 1.5;
   }
   .row {
@@ -142,13 +142,13 @@
     padding: 4px 0;
   }
   .label {
-    font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #9ba3b2;
+    font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mc-muted);
   }
-  .value { color: #e8eaf0; font-size: 0.95rem; }
+  .value { color: var(--mc-ink); font-size: 0.95rem; }
   .signout {
     align-self: flex-start;
     background: transparent;
-    border: 1px solid rgba(224, 92, 42, 0.6);
+    border: 1px solid var(--mc-crit);
     color: var(--mc-crit-b);
     padding: 9px 16px;
     border-radius: 8px;
@@ -157,19 +157,19 @@
     cursor: pointer;
     transition: background 0.12s;
   }
-  .signout:hover { background: rgba(224, 92, 42, 0.1); }
+  .signout:hover { background: var(--mc-crit-tint); }
   .ok { color: var(--mc-good-bright); font-size: 0.85rem; }
 
   .toggle-row {
     display: flex; align-items: center; justify-content: space-between;
     gap: 16px;
   }
-  .toggle-label { color: #e8eaf0; font-size: 0.95rem; font-weight: 600; }
-  .toggle-sub { color: #9ba3b2; font-size: 0.8rem; margin-top: 4px; line-height: 1.5; }
+  .toggle-label { color: var(--mc-ink); font-size: 0.95rem; font-weight: 600; }
+  .toggle-sub { color: var(--mc-muted); font-size: 0.8rem; margin-top: 4px; line-height: 1.5; }
   .toggle {
     width: 48px; height: 28px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.12);
+    background: var(--mc-line);
     border: none;
     position: relative;
     cursor: pointer;

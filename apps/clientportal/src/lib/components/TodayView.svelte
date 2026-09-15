@@ -360,9 +360,9 @@
         <div class="klabel">MindSpan Score</div>
         <svg class="ring" width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="MindSpan score {msScore} of 100">
           <defs><linearGradient id="msg1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#e3c98b"/><stop offset="1" stop-color="#d4af5a"/>
+            <stop offset="0" stop-color="var(--mc-gold-soft)"/><stop offset="1" stop-color="var(--mc-gold)"/>
           </linearGradient></defs>
-          <circle cx="84" cy="84" r={RING_R} fill="none" stroke="#16244a" stroke-width="9"/>
+          <circle cx="84" cy="84" r={RING_R} fill="none" stroke="var(--mc-line-soft)" stroke-width="9"/>
           <circle cx="84" cy="84" r={RING_R} fill="none" stroke="url(#msg1)" stroke-width="9" stroke-linecap="round"
             stroke-dasharray={ringDash} transform="rotate(-90 84 84)"/>
           <text class="ring-num" x="84" y="95" text-anchor="middle">{msScore}</text>
@@ -580,7 +580,7 @@
   .tile .tl { font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--mc-muted); }
   .tile .tv { font-size: 17px; font-weight: 600; margin-top: 5px; font-variant-numeric: tabular-nums; color: var(--mc-ink); }
   .tile .tv small { font-size: 10.5px; color: var(--mc-muted); font-weight: 400; }
-  .tile.ok { border-color: rgba(46, 158, 107, .5); }
+  .tile.ok { border-color: var(--mc-good); background: var(--mc-good-tint); }
   .tile.ok::after { content: '✓'; position: absolute; top: 9px; right: 12px; color: var(--mc-good-bright); font-size: 13px; font-weight: 700; }
   .tile.due::after { content: ''; position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: var(--mc-gold); }
 

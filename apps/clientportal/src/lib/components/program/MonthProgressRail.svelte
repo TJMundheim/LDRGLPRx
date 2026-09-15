@@ -55,8 +55,8 @@
     align-items: center;
     gap: 0;
     padding: 0.75rem 1rem;
-    background: #0d1117;
-    border: 1px solid #2a2a2a;
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-line);
     border-radius: 8px;
     overflow-x: auto;
   }
@@ -86,7 +86,7 @@
   .stop.active .dot {
     background: var(--mc-panel-2);
     border-color: var(--mc-good-bright);
-    box-shadow: 0 0 0 3px rgba(212,175,90, 0.35);
+    box-shadow: 0 0 0 3px var(--mc-gold-tint);
   }
 
   .stop-label {
@@ -103,7 +103,7 @@
   }
 
   .stop.active .stop-label {
-    color: #fff;
+    color: var(--mc-ink);
   }
 
   .connector {

@@ -21,8 +21,8 @@
     {#each ['Yes','No'] as const as v}
       {@const active = response === v}
       <button class="btn xs"
-        style:background={active ? (v === 'Yes' ? 'var(--mc-good-bright)' : '#E8E8E8') : '#FFFFFF'}
-        style:color={active ? '#fff' : 'var(--mc-muted)'}
+        style:background={active ? (v === 'Yes' ? 'var(--mc-good)' : 'var(--mc-muted)') : 'var(--mc-panel)'}
+        style:color={active ? 'var(--mc-on-gold)' : 'var(--mc-muted)'}
         style:border-color={active ? (v === 'Yes' ? 'var(--mc-good-bright)' : 'var(--mc-faint)') : 'var(--mc-line)'}
         onclick={() => onToggle(suppKey, v)}>{v}</button>
     {/each}

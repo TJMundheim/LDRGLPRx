@@ -174,7 +174,7 @@
     padding: 36px 32px;
     background: var(--mc-panel-2);
     border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    box-shadow: var(--mc-shadow);
   }
   h2 { margin: 0 0 6px; font-size: 1.4rem; color: var(--mc-ink);; font-family: var(--mc-font-display); }
   .tagline { margin: 0 0 12px; color: var(--mc-faint); font-size: 0.82rem; font-style: italic; }
@@ -188,21 +188,22 @@
     width: 100%;
     box-sizing: border-box;
     padding: 10px 12px;
-    border: 1px solid #d0d5dd;
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-line);
     border-radius: 8px;
     font-size: 1rem;
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
     margin-bottom: 16px;
   }
-  input:focus { border-color: var(--mc-good-bright); }
+  input:focus { border-color: var(--mc-good-bright); box-shadow: var(--mc-focus); }
   .error { color: var(--mc-crit-bright); font-size: 0.85rem; margin: 8px 0 0; }
   button {
     width: 100%;
     margin-top: 4px;
     padding: 11px;
     background: var(--mc-good-bright);
-    color: #fff;
+    color: var(--mc-on-gold);
     border: none;
     border-radius: 8px;
     font-size: 1rem;
@@ -211,7 +212,7 @@
     transition: background 0.15s;
   }
   button:disabled { background: var(--mc-gold-dim); cursor: not-allowed; }
-  button:not(:disabled):hover { background: #17875f; }
+  button:not(:disabled):hover { background: var(--mc-good); }
   .autosend-spinner {
     width: 36px;
     height: 36px;

@@ -20,7 +20,7 @@
   </div>
   {#each rows as [k, l]}
     <div style="display:grid;grid-template-columns:1.5fr 1fr 0.8fr;gap:8px;margin-bottom:7px;align-items:center">
-      <div style="background:var(--mc-gold-tint);border:1px solid #D0E8D8;border-radius:7px;padding:8px 10px;font-size:11px;color:var(--mc-muted);font-weight:600">{l}</div>
+      <div style="background:var(--mc-gold-tint);border:1px solid var(--mc-line);border-radius:7px;padding:8px 10px;font-size:11px;color:var(--mc-muted);font-weight:600">{l}</div>
       <input placeholder="Weight / level" style="font-size:11px"
         value={log[`${k}_weight`] ?? ''}
         oninput={(e) => onField(`${k}_weight`, (e.currentTarget as HTMLInputElement).value)} />

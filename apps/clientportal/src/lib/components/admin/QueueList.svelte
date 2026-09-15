@@ -105,9 +105,9 @@
   }
 
   .action-error {
-    background: rgba(200,30,30,0.08);
-    border: 1px solid rgba(200,30,30,0.3);
-    color: var(--mc-crit-b);
+    background: var(--mc-crit-tint);
+    border: 1px solid var(--mc-crit);
+    color: var(--mc-crit);
     border-radius: 8px;
     padding: 10px 14px;
     font-size: 0.85rem;
@@ -116,10 +116,10 @@
 
   .queue-card {
     background: var(--mc-panel-2);
-    border: 1px solid #d9e5d6;
+    border: 1px solid var(--mc-line);
     border-radius: 10px;
     padding: 16px 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: var(--mc-shadow-sm);
   }
 
   .card-header {
@@ -132,7 +132,7 @@
 
   .kind-badge {
     background: var(--mc-good-bright);
-    color: #ffffff;
+    color: var(--mc-on-gold);
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.07em;
@@ -149,8 +149,8 @@
     border-radius: 4px;
     text-transform: uppercase;
   }
-  .urgency-urgent  { background: rgba(200,30,30,0.1);  color: var(--mc-crit-b); }
-  .urgency-soon    { background: rgba(176,125,0,0.12); color: var(--mc-warn-b); }
+  .urgency-urgent  { background: var(--mc-crit-tint);  color: var(--mc-crit); }
+  .urgency-soon    { background: var(--mc-warn-tint); color: var(--mc-warn); }
   .urgency-routine { background: var(--mc-panel); color: var(--mc-good-bright); }
 
   .patient-label {
@@ -204,8 +204,8 @@
   }
   .btn:hover { opacity: 0.8; }
 
-  .btn-approve  { background: var(--mc-good-bright); color: #ffffff; }
+  .btn-approve  { background: var(--mc-good-bright); color: var(--mc-on-gold); }
   .btn-edit     { background: var(--mc-panel); color: var(--mc-ink); }
-  .btn-defer    { background: rgba(176,125,0,0.12); color: var(--mc-warn-b); }
-  .btn-escalate { background: rgba(200,30,30,0.1);  color: var(--mc-crit-b); }
+  .btn-defer    { background: var(--mc-warn-tint); color: var(--mc-warn); }
+  .btn-escalate { background: var(--mc-crit-tint);  color: var(--mc-crit); }
 </style>

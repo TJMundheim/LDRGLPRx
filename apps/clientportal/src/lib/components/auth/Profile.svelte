@@ -114,7 +114,7 @@
 <style>
   .profile { max-width: 480px; margin: 40px auto; padding: 0 16px; }
   h2 { font-size: 1.4rem; margin-bottom: 24px; }
-  section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid #eee; }
+  section { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--mc-line); }
   section:last-child { border-bottom: none; }
   .field-label { font-size: 0.8rem; font-weight: 600; color: var(--mc-faint); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 4px; }
   .field-value { font-size: 1rem; color: var(--mc-ink); margin: 0 0 12px; }
@@ -123,26 +123,28 @@
     width: 100%;
     box-sizing: border-box;
     padding: 9px 12px;
-    border: 1px solid #d0d5dd;
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-line);
     border-radius: 8px;
     font-size: 1rem;
     outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
-  input:focus { border-color: var(--mc-good-bright); }
+  input:focus { border-color: var(--mc-good-bright); box-shadow: var(--mc-focus); }
   button {
     margin-top: 10px;
     margin-right: 8px;
     padding: 8px 16px;
     background: var(--mc-good-bright);
-    color: #fff;
+    color: var(--mc-on-gold);
     border: none;
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
   }
-  button[type="button"]:not(.signout-btn) { background: #e8f5ef; color: var(--mc-good-bright); }
-  .signout-btn { background: #f5e8e8; color: var(--mc-crit-bright); }
+  button[type="button"]:not(.signout-btn) { background: var(--mc-good-tint); color: var(--mc-good-bright); }
+  .signout-btn { background: var(--mc-crit-tint); color: var(--mc-crit-bright); }
   .error { color: var(--mc-crit-bright); font-size: 0.85rem; margin: 6px 0 0; }
   .success { color: var(--mc-good-bright); font-size: 0.85rem; margin: 6px 0 0; }
 </style>

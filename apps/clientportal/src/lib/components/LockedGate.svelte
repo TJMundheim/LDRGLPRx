@@ -78,53 +78,53 @@
     max-width: 920px;
     margin: 0 auto;
     padding: 48px 24px 80px;
-    color: #2e2a24;
+    color: var(--mc-ink);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   .gate-head { text-align: center; margin-bottom: 36px; }
   .gate-head h1 {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 40px; font-weight: 700; margin: 0 0 8px; color: #1f1b14;
+    font-size: 40px; font-weight: 700; margin: 0 0 8px; color: var(--mc-ink);
     letter-spacing: -0.01em;
   }
-  .tag { font-style: italic; color: #7a6e5a; margin: 0; font-size: 16px; }
+  .tag { font-style: italic; color: var(--mc-muted); margin: 0; font-size: 16px; }
 
-  section { background: var(--mc-panel); border: 1px solid #e6dcc4; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
+  section { background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: 12px; padding: 28px; margin-bottom: 24px; }
   section h2 {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 24px; font-weight: 600; margin: 0 0 8px; color: #2e2a24;
+    font-size: 24px; font-weight: 600; margin: 0 0 8px; color: var(--mc-ink);
   }
   section h3 {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 20px; font-weight: 600; margin: 0 0 16px; color: #2e2a24;
+    font-size: 20px; font-weight: 600; margin: 0 0 16px; color: var(--mc-ink);
   }
-  .sub { color: #6b6253; margin: 0 0 18px; font-size: 14px; }
+  .sub { color: var(--mc-muted); margin: 0 0 18px; font-size: 14px; }
   .sub a { color: var(--mc-good-bright); font-weight: 600; }
 
   .priority-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
   .priority-card {
-    background: var(--mc-panel); border: 1px solid #e6dcc4; border-radius: 10px; padding: 16px;
+    background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: 10px; padding: 16px;
     text-decoration: none; color: inherit; transition: transform .15s, border-color .15s;
   }
   .priority-card:hover { transform: translateY(-2px); border-color: var(--mc-good-bright); }
-  .priority-label { font-weight: 700; font-size: 15px; color: #1f1b14; }
-  .priority-score { font-size: 12px; color: #7a6e5a; margin-top: 2px; }
-  .priority-desc { font-size: 13px; color: #4a4338; margin-top: 8px; line-height: 1.5; }
+  .priority-label { font-weight: 700; font-size: 15px; color: var(--mc-ink); }
+  .priority-score { font-size: 12px; color: var(--mc-muted); margin-top: 2px; }
+  .priority-desc { font-size: 13px; color: var(--mc-muted); margin-top: 8px; line-height: 1.5; }
   .priority-cta { font-size: 12px; color: var(--mc-good-bright); font-weight: 700; margin-top: 10px; }
 
-  .locked { text-align: center; background: var(--mc-gold-tint); border-color: #d8c896; }
+  .locked { text-align: center; background: var(--mc-gold-tint); border-color: var(--mc-gold-line); }
   .lock-icon { font-size: 32px; margin-bottom: 8px; }
-  .locked p { color: #5a503e; font-size: 15px; line-height: 1.6; margin: 0 auto; max-width: 560px; }
+  .locked p { color: var(--mc-muted); font-size: 15px; line-height: 1.6; margin: 0 auto; max-width: 560px; }
 
   .tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
   .tile {
-    background: var(--mc-panel); border: 1px solid #e6dcc4; border-radius: 10px; padding: 14px;
+    background: var(--mc-panel); border: 1px solid var(--mc-line); border-radius: 10px; padding: 14px;
     text-decoration: none; color: inherit; transition: transform .15s, border-color .15s, background .15s;
   }
-  .tile:hover { transform: translateY(-2px); border-color: var(--mc-good-bright); background: #f7f1df; }
-  .tile-label { font-weight: 700; font-size: 14px; color: #1f1b14; }
-  .tile-blurb { font-size: 12px; color: #6b6253; margin-top: 4px; line-height: 1.4; }
+  .tile:hover { transform: translateY(-2px); border-color: var(--mc-gold); background: var(--mc-gold-tint); }
+  .tile-label { font-weight: 700; font-size: 14px; color: var(--mc-ink); }
+  .tile-blurb { font-size: 12px; color: var(--mc-muted); margin-top: 4px; line-height: 1.4; }
 
-  .gate-foot { text-align: center; padding: 16px; color: #7a6e5a; font-size: 13px; }
+  .gate-foot { text-align: center; padding: 16px; color: var(--mc-muted); font-size: 13px; }
   .gate-foot p { margin: 0; }
 </style>

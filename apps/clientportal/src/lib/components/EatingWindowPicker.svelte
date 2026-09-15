@@ -98,8 +98,8 @@
     color: var(--mc-ink);
     transition: background 0.12s, border-color 0.12s;
   }
-  .opt:hover { background: rgba(212,175,90,0.08); }
-  .opt.selected { background: rgba(212,175,90,0.12); border-color: var(--mc-good-bright); }
+  .opt:hover { background: var(--mc-gold-tint); }
+  .opt.selected { background: var(--mc-gold-tint); border-color: var(--mc-good-bright); }
   .opt input { accent-color: var(--mc-good-bright); }
   .custom { display: flex; gap: 12px; flex-wrap: wrap; }
   .custom label {
@@ -114,9 +114,9 @@
     padding: 8px 10px;
     font-size: 0.95rem;
   }
-  .err { color: var(--mc-crit-b); font-size: 0.85rem; }
+  .err { color: var(--mc-crit); font-size: 0.85rem; }
   .submit {
-    background: var(--mc-good-bright); color: #fff;
+    background: var(--mc-good-bright); color: var(--mc-on-gold);
     border: none; border-radius: 8px;
     padding: 12px 18px;
     font-size: 0.95rem; font-weight: 700;
@@ -124,6 +124,6 @@
     cursor: pointer;
     transition: background 0.12s;
   }
-  .submit:hover:not(:disabled) { background: #168661; }
+  .submit:hover:not(:disabled) { filter: brightness(1.12); }
   .submit:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>

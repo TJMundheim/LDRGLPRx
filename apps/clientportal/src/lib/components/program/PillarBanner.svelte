@@ -23,12 +23,12 @@
     display: flex;
     gap: 1.25rem;
     align-items: flex-start;
-    background: #0d1117;
-    border: 1px solid #2a2a2a;
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-line);
     border-left: 4px solid var(--ac);
     border-radius: 8px;
     padding: 1.25rem 1.5rem;
-    color: #f0f0f0;
+    color: var(--mc-ink);
     font-family: inherit;
   }
 
@@ -62,7 +62,7 @@
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--mc-ink);
     line-height: 1.1;
   }
 

@@ -25,32 +25,32 @@
 <style>
   .overlay {
     position: fixed; inset: 0;
-    background: rgba(8, 12, 20, 0.78);
+    background: rgba(15, 23, 42, 0.45);
     backdrop-filter: blur(4px);
     display: flex; align-items: center; justify-content: center;
     z-index: 10000;
     padding: 20px;
   }
   .card {
-    background: #0f1117;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: var(--mc-panel);
+    border: 1px solid var(--mc-line);
     border-radius: 12px;
     padding: 28px 28px 24px;
     width: 100%;
     max-width: 440px;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+    box-shadow: var(--mc-shadow);
   }
   h2 {
     margin: 0 0 6px;
     font-size: 1.3rem;
-    color: #e8eaf0;
+    color: var(--mc-ink);
     font-weight: 700;
     letter-spacing: 0.01em;
   }
   .sub {
     margin: 0 0 20px;
     font-size: 0.9rem;
-    color: #9ba3b2;
+    color: var(--mc-muted);
     line-height: 1.5;
   }
 </style>

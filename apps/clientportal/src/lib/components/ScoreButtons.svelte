@@ -18,8 +18,8 @@
     {@const c = color(n)}
     <button
       class="score-btn"
-      style:background={active ? c : '#FFFFFF'}
-      style:color={active ? '#fff' : 'var(--mc-muted)'}
+      style:background={active ? c : 'var(--mc-panel)'}
+      style:color={active ? 'var(--mc-on-gold)' : 'var(--mc-muted)'}
       style:border-color={active ? c : 'var(--mc-line)'}
       onclick={(e) => { e.stopPropagation(); onScore(factorId, n); }}
     >{n}</button>

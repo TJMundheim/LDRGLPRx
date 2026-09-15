@@ -103,7 +103,7 @@
   .zooms-heading {
     font-size: 15px;
     font-weight: 700;
-    color: #e8eaf0;
+    color: var(--mc-ink);
     margin: 0 0 12px;
     letter-spacing: .02em;
   }
@@ -117,24 +117,24 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    background: #1a2a1e;
-    border: 1px solid #2a3d2e;
+    background: var(--mc-good-tint);
+    border: 1px solid var(--mc-good);
     border-radius: 10px;
     padding: 14px 16px;
   }
   .zoom-title {
     font-size: 13.5px;
     font-weight: 700;
-    color: #e8eaf0;
+    color: var(--mc-ink);
     margin-bottom: 4px;
   }
   .zoom-meta {
     font-size: 11.5px;
-    color: #6A8A6E;
+    color: var(--mc-good);
   }
   .zooms-meta {
     font-size: 12.5px;
-    color: #6A8A6E;
+    color: var(--mc-good);
   }
   .zooms-error { color: var(--mc-crit-b); }
   .zoom-btn {
@@ -151,25 +151,25 @@
   }
   .zoom-btn--live {
     background: var(--mc-good-bright);
-    color: #fff;
+    color: var(--mc-on-gold);
     animation: pulse 1.6s ease-in-out infinite;
   }
   .zoom-btn--rsvp {
     background: var(--mc-info);
-    color: #fff;
+    color: var(--mc-on-gold);
   }
   .zoom-btn--rsvp:disabled {
     opacity: .6;
     cursor: not-allowed;
   }
   .zoom-btn--confirmed {
-    background: #1a2a1e;
+    background: var(--mc-good-tint);
     border: 1.5px solid var(--mc-good-bright);
     color: var(--mc-good-bright);
     cursor: default;
   }
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,90,.38); }
-    50% { box-shadow: 0 0 0 6px rgba(212,175,90,0); }
+    0%, 100% { box-shadow: 0 0 0 0 var(--mc-gold-line); }
+    50% { box-shadow: 0 0 0 6px rgba(125,96,16,0); }
   }
 </style>
