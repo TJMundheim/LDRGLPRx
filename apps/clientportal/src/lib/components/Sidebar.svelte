@@ -122,7 +122,7 @@
 
   .admin-btn { color: var(--mc-info); }
   .admin-btn:hover { background: var(--mc-info-tint); color: var(--mc-info); }
-  .admin-btn.discovery-active { background: var(--mc-info); color: #fff; }
+  .admin-btn.discovery-active { background: var(--mc-info); color: var(--mc-on-gold); }
 
   .settings-nav {
     border-top: 1px solid var(--mc-line);

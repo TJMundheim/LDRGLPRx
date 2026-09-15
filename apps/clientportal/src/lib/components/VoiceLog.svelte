@@ -44,6 +44,58 @@
   let draftActions = $state<Record<string, boolean | null>>({});
   let draftFields = $state<Record<string, number | null>>({});
 
+  // ── "Same as yesterday" ───────────────────────────────────────────────────
+  // Same logic MorningTracker uses, but living on the dashboard (MorningTracker
+  // is not mounted — the dashboard renders via renderer.ts). Reads yesterday's
+  // completed ids straight out of the adherence cache
+  // (`adherence-cache-<date>-<actionId>`) and re-logs them for today. Disabled
+  // with a reason when yesterday is empty. Nothing is written without a tap.
+  function ymd(d: Date): string {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+  const yesterdayStr = $derived.by(() => {
+    const d = new Date(`${date}T00:00:00`);
+    d.setDate(d.getDate() - 1);
+    return ymd(d);
+  });
+
+  function cachedIds(day: string, ids: string[]): string[] {
+    try {
+      return ids.filter(id => !!localStorage.getItem(`adherence-cache-${day}-${id}`));
+    } catch { return []; }
+  }
+
+  let copied = $state(false);
+  const yesterdayIds = $derived.by(() => {
+    copied; // re-read after a copy
+    return cachedIds(yesterdayStr, schema.actions.map(a => a.id));
+  });
+  const canCopy = $derived(yesterdayIds.length > 0);
+
+  async function copyYesterday(): Promise<void> {
+    if (!canCopy || busy) return;
+    busy = true;
+    errorMsg = '';
+    try {
+      const already = cachedIds(date, yesterdayIds);
+      let n = 0;
+      for (const id of yesterdayIds) {
+        if (already.includes(id)) continue;
+        await onLog(id, true);
+        n++;
+      }
+      copied = true;
+      toast = n > 0
+        ? `Logged — ${n} action${n === 1 ? '' : 's'} copied from yesterday.`
+        : 'Already logged for today.';
+      setTimeout(() => { toast = ''; }, 2600);
+    } catch {
+      errorMsg = "Couldn't copy yesterday. Try again.";
+    } finally {
+      busy = false;
+    }
+  }
+
   function toggleMic(): void {
     errorMsg = '';
     if (listening) { speech.stop(); listening = false; return; }
@@ -179,6 +231,11 @@
     <button type="button" class="primary" disabled={busy || !text.trim()} onclick={submit}>
       {busy ? 'Reading it…' : 'Log it'}
     </button>
+
+    <button type="button" class="secondary" disabled={!canCopy || busy} onclick={copyYesterday}>
+      {copied ? 'Copied from yesterday' : 'Same as yesterday'}
+      {#if !canCopy}<em>— nothing logged yesterday</em>{/if}
+    </button>
   {:else}
     <div class="vl-preview">
       <div class="vl-pretitle">Check this before it saves</div>
@@ -305,6 +362,18 @@
     cursor: pointer;
   }
   .primary:disabled { opacity: .5; cursor: default; }
+  .secondary {
+    min-height: 48px; padding: 0 16px;
+    border: 1px solid var(--mc-line); border-radius: 12px;
+    background: var(--mc-panel-2); color: var(--mc-ink);
+    font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .secondary:disabled { opacity: .5; cursor: default; }
+  .secondary em {
+    font-style: normal; font-weight: 600; font-size: 12px;
+    color: var(--mc-muted); margin-left: 6px;
+  }
+  .secondary:focus-visible { outline: 2px solid var(--mc-gold); outline-offset: 2px; }
   .ghost {
     min-height: 52px; padding: 0 20px;
     border: 1px solid var(--mc-line); border-radius: 12px;
