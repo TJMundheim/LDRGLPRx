@@ -8,8 +8,48 @@
     log: WeekLog;
     onToggle: (type: 'morn' | 'cold', week: 1 | 2 | 3 | 4, key: string) => void;
     onReflection: (week: 1 | 2 | 3 | 4, value: string) => void;
+    /** Adherence writer — same callback VoiceLog uses (App.svelte's toggle). */
+    onLog?: (actionId: string, completed: boolean) => void | Promise<void>;
+    /** Today, YYYY-MM-DD. Defaults to the device clock. */
+    today?: string;
   }
-  let { week, log, onToggle, onReflection }: Props = $props();
+  let { week, log, onToggle, onReflection, onLog, today }: Props = $props();
+
+  // ── "Same as yesterday" ───────────────────────────────────────────────────
+  // Reads the adherence cache (`adherence-cache-<date>-<actionId>`) for
+  // yesterday and re-logs the same standing actions for today. Nothing is
+  // mandatory — the button simply disables when yesterday is empty.
+  const STANDING_IDS = ['biome-ns-ultra', 'eating-window', 'protein-breakfast', 'strength', 'fasted-walk'];
+
+  function ymd(d: Date): string {
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+  const todayStr = $derived(today ?? ymd(new Date()));
+  const yesterdayStr = $derived.by(() => {
+    const d = new Date(`${todayStr}T00:00:00`);
+    d.setDate(d.getDate() - 1);
+    return ymd(d);
+  });
+
+  function cachedIds(date: string): string[] {
+    try {
+      return STANDING_IDS.filter(id => !!localStorage.getItem(`adherence-cache-${date}-${id}`));
+    } catch { return []; }
+  }
+
+  let copied = $state(false);
+  const yesterdayIds = $derived.by(() => { copied; return cachedIds(yesterdayStr); });
+  const canCopy = $derived(!!onLog && yesterdayIds.length > 0);
+
+  async function copyYesterday(): Promise<void> {
+    if (!onLog) return;
+    const ids = yesterdayIds;
+    for (const id of ids) {
+      if (cachedIds(todayStr).includes(id)) continue;
+      await onLog(id, true);
+    }
+    copied = true;
+  }
   const wc = $derived(weekMeta[week]);
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] as const;
   const doneCt = $derived(days.filter((_, i) => log.morn[`w${week}d${i+1}`]).length);
@@ -36,6 +76,13 @@
         {/each}
       </ol>
     </div>
+  {/if}
+
+  {#if onLog}
+    <button class="same-yesterday" disabled={!canCopy} onclick={copyYesterday}>
+      {copied ? 'Copied from yesterday' : 'Same as yesterday'}
+      {#if !canCopy}<em>— nothing logged yesterday</em>{/if}
+    </button>
   {/if}
 
   <div style="font-size:11px;color:#6A8A6E;margin-bottom:8px">Tap each day you completed all elements</div>
@@ -83,6 +130,29 @@
 </div>
 
 <style>
+  .same-yesterday {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    margin-bottom: 12px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1px solid var(--mc-line);
+    background: var(--mc-panel-2);
+    color: var(--mc-ink);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .same-yesterday:disabled { opacity: .5; cursor: default; }
+  .same-yesterday em {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--mc-muted);
+    margin-left: 6px;
+  }
+
   /* Display label for stat values (not form elements) */
   .tracker-lbl {
     display: block;

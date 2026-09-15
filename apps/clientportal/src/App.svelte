@@ -13,6 +13,8 @@
   import SettingsView from './lib/components/SettingsView.svelte';
   import Toast from './lib/toast/Toast.svelte';
   import MissionControl from './lib/components/MissionControl.svelte';
+  import VoiceLog from './lib/components/VoiceLog.svelte';
+  import { programAnchor, calendarWeek } from './lib/program';
   import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
   import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
@@ -124,6 +126,13 @@
   let factorTab = $state<'imm' | 'tools' | 'adv' | 'res'>('imm');
   let toastMsg = $state('');
   let toastShow = $state(false);
+  // Program week + today's date for VoiceLog. Week mirrors MissionControl's
+  // derivation (signup-anchored calendar week, capped by weekUnlocked).
+  let programWeek = $state(1);
+  const todayStr = (() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  })();
 
   // ── Intake gating ────────────────────────────────────────────────────────
   const INTAKE_COMPLETE_KEY = 'intake-complete-v1';
@@ -309,6 +318,34 @@
       } catch { /* ignore */ }
       console.error('[adherence] recordAdherence failed', e);
       showToast('Sync error — retry');
+    }
+    renderTick++;
+  }
+
+  /**
+   * Idempotent adherence write — unlike logAdherence() (a toggle), this sets
+   * the action to an explicit completed value. Shared with VoiceLog (onLog)
+   * and MorningTracker's "Same as yesterday".
+   */
+  async function setAdherence(actionId: string, completed: boolean): Promise<void> {
+    const date = todayStr;
+    const cacheKey = `adherence-cache-${date}-${actionId}`;
+    let had = false;
+    try {
+      had = !!localStorage.getItem(cacheKey);
+      if (completed) localStorage.setItem(cacheKey, '1');
+      else localStorage.removeItem(cacheKey);
+    } catch { /* ignore */ }
+    try {
+      await recordAdherence({ date, actionId, completed });
+    } catch (e) {
+      // Revert local cache so UI and server stay in sync.
+      try {
+        if (had) localStorage.setItem(cacheKey, '1');
+        else localStorage.removeItem(cacheKey);
+      } catch { /* ignore */ }
+      console.error('[adherence] setAdherence failed', e);
+      throw e;
     }
     renderTick++;
   }
@@ -626,6 +663,13 @@
         // Populate subscription state for ManageSubscriptionButton
         if (profile) {
           hasActiveSubscription = !!profile.hasActiveSubscription;
+          try {
+            const anchor = programAnchor((profile as any).createdAt ?? null, new Date());
+            programWeek = Math.min(
+              calendarWeek(anchor, new Date()),
+              Math.max(1, (profile as any).weekUnlocked ?? 1),
+            );
+          } catch { programWeek = 1; }
           stripeCustomerId = profile.stripeCustomerId ?? null;
           // Surface eating-window + bonus toggle for modal + settings.
           userEmail = (profile as any).primaryEmail ?? user?.email ?? null;
@@ -787,6 +831,7 @@
         <!-- MindSpan Daily Brief leads the home screen (TJ 2026-07-04:
              the ring is the first thing every member sees). Workbook
              dashboard renders below it. -->
+        <VoiceLog week={programWeek} date={todayStr} onLog={setAdherence} />
         <MissionControl firstName={(workbook.name || '').trim().split(' ')[0]} />
       {/if}
       {@html pageHtml}
