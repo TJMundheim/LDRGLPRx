@@ -1,5 +1,5 @@
-import Anthropic from '@anthropic-ai/sdk';
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
+import { invokeCoach } from './bedrock';
 
 const ALLOWED_MODELS = ['claude-sonnet-4-6', 'claude-opus-4-7'] as const;
 type AllowedModel = typeof ALLOWED_MODELS[number];
@@ -30,9 +30,6 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     return { statusCode: 204, headers: CORS_HEADERS, body: '' };
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return respond(500, { error: 'ANTHROPIC_API_KEY not configured' });
-
   let body: RequestBody;
   try {
     body = JSON.parse(event.body ?? '{}') as RequestBody;
@@ -53,14 +50,11 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     }
   }
 
-  const client = new Anthropic({ apiKey });
-
   try {
-    const msg = await client.messages.create({ model, max_tokens: maxTokens, system, messages });
-    const content = msg.content[0]?.type === 'text' ? msg.content[0].text : '';
+    const content = await invokeCoach(system, messages, model, maxTokens);
     return respond(200, { content });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Anthropic API error';
+    const message = err instanceof Error ? err.message : 'Bedrock error';
     return respond(502, { error: message });
   }
 };

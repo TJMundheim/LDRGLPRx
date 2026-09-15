@@ -41,6 +41,16 @@ echo "dist/handler.zip ready."
 #   --principal apigateway.amazonaws.com \
 #   --region "$REGION"
 #
+# Bedrock migration (no direct Anthropic SDK / ANTHROPIC_API_KEY — HIPAA rule):
+# execution role needs bedrock:InvokeModel on the foundation-model + inference-profile
+# ARNs (copy the inline policy shape from lambdas/inbound-handler/infra/deploy.sh),
+# plus aws-marketplace:ViewSubscriptions/Subscribe for the Anthropic model listing:
+#
+# aws lambda update-function-configuration \
+#   --function-name "$FUNCTION_NAME" \
+#   --environment "Variables={BEDROCK_MODEL=us.anthropic.claude-haiku-4-5-20251001-v1:0}" \
+#   --region "$REGION"
+#
 # ──────────────────────────────────────────────────────────────────────────────
 
 echo "Done. Run the IaC deploy script at repo infra/ to push to AWS."
