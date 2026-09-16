@@ -218,7 +218,7 @@
       id="vl-textarea"
       bind:value={text}
       rows="3"
-      placeholder="Fasted walk 30 minutes, protein after, skipped strength, slept about 7 hours."
+      placeholder="Type or tap the mic… e.g. fasted walk 30 minutes, protein after, skipped strength"
     ></textarea>
 
     {#if errorMsg}
@@ -361,7 +361,7 @@
     font-size: 15px; font-weight: 800; letter-spacing: .02em;
     cursor: pointer;
   }
-  .primary:disabled { opacity: .5; cursor: default; }
+  .primary:disabled { background: var(--mc-panel-2); color: var(--mc-muted); border: 1px solid var(--mc-line); opacity: 1; cursor: default; }
   .secondary {
     min-height: 48px; padding: 0 16px;
     border: 1px solid var(--mc-line); border-radius: 12px;
