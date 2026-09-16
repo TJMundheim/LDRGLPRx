@@ -16,6 +16,7 @@
 - Voice log: device Web Speech → POST /api/log-parse (NEW lambda my4mlife-log-parse, Bedrock Haiku, strict JSON, no PHI) → preview → CONFIRM → setAdherence (idempotent) + localStorage daylog-<date>. Never saves without confirm. Same-as-yesterday button in VoiceLog. Chips for numbers.
 - coach-proxy migrated off @anthropic-ai/sdk — but function is NOT deployed in AWS and VITE_COACH_PROXY_URL unset → coach feature dormant; deploy.sh still a stub (intentional).
 - Deployed: my4mlife-log-parse (route POST /api/log-parse on v9svm8ds74, CORS ok, sample parse verified) + app (CloudFront E2RJ7NRPD4MN2X). Old dark theme available via [data-theme="dark"] if TJ wants it back.
+- 2026-09-16 polish (e448aaeb + follow-up): SVG line icons replace all emoji in nav/cards; top-3 nudge shows once (`nudge-seen-top3-v1`); VoiceLog placeholder reads as example, disabled Log-it neutral (was mistaken for washed-out primary — it was disabled because placeholder ≠ input). TJ live-tested dashboard on Surface + phone via screenshots.
 
 ## ⚡ 2026-09-14 SESSION — TJ test pass → punch-list batch 1 SHIPPED (…4ffaad0e, deployed website + audit-complete + email-sender + app)
 
