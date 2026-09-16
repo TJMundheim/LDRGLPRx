@@ -329,8 +329,8 @@
   .mic:focus-visible { outline: 2px solid var(--mc-gold); outline-offset: 3px; }
   .mic.listening { animation: vlpulse 1.3s ease-in-out infinite; }
   @keyframes vlpulse {
-    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--mc-gold) 55%, transparent); }
-    50%      { box-shadow: 0 0 0 14px color-mix(in srgb, var(--mc-gold) 0%, transparent); }
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--mc-gold-soft) 65%, transparent); }
+    50%      { box-shadow: 0 0 0 14px color-mix(in srgb, var(--mc-gold-soft) 0%, transparent); }
   }
   @media (prefers-reduced-motion: reduce) { .mic.listening { animation: none; } }
 

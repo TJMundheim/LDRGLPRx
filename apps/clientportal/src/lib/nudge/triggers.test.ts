@@ -106,6 +106,22 @@ describe('intake celebration trigger', () => {
     runNudgeTriggers();
     expect(captured.some(n => n.id === 'intake-celebrated')).toBe(false);
   });
+
+  it('does NOT fire a second time once nudge-seen-top3-v1 is set (one-time-ever guard)', async () => {
+    localStorage.setItem('intake-complete-v1', '1');
+    localStorage.setItem('nudge-seen-top3-v1', daysAgo(0));
+    const { runNudgeTriggers } = await importTriggers();
+    runNudgeTriggers();
+    expect(captured.some(n => n.id === 'intake-celebrated')).toBe(false);
+  });
+
+  it('persists nudge-seen-top3-v1 the first time it fires so it never shows again', async () => {
+    localStorage.setItem('intake-complete-v1', '1');
+    const { runNudgeTriggers } = await importTriggers();
+    runNudgeTriggers();
+    expect(captured.some(n => n.id === 'intake-celebrated')).toBe(true);
+    expect(localStorage.getItem('nudge-seen-top3-v1')).toBeTruthy();
+  });
 });
 
 // ── Tests: Week milestone ─────────────────────────────────────────────────────

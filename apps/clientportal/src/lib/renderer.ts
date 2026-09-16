@@ -1038,7 +1038,7 @@ function renderW1(ctx: RenderContext): string {
   </div>
 
   <div class="card" style="border-left:4px solid ${C.crit}">
-    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
+    <div class="card-title" style="color:${C.crit}">M2 — MUSCLE: Week 1 Workout Log — Baseline</div>
     <div style="background:var(--mc-crit-tint);border:1px solid color-mix(in srgb, var(--mc-crit) 30%, transparent);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.crit};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
@@ -1173,7 +1173,7 @@ function renderW2(W: Workbook): string {
 
   <!-- MOTIVATE W2 -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">🟣 M4 — MOTIVATE: Week 2 Check-In</div>
+    <div class="card-title" style="color:${C.info}">M4 — MOTIVATE: Week 2 Check-In</div>
     <div style="margin-bottom:12px">
       ${(() => { const c = carryForward(wRef['w2_why'], W.personalWhy); return `
       <label for="w2-my-why">My WHY (from Week 1) — read it out loud right now${c.hint}</label>
@@ -1204,7 +1204,7 @@ function renderW2(W: Workbook): string {
 
   <!-- MITIGATE W2 -->
   <div class="card" style="border-left:4px solid ${C.gold}">
-    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Top 3 Factor Actions</div>
+    <div class="card-title" style="color:${C.gold}">M1 — MITIGATE: Top 3 Factor Actions</div>
     <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       You identified your top 3 highest-scoring risk factors in Week 1.
       This week (Week 2): execute one immediate action for each factor, then assess it at the end of Week 2.
@@ -1253,7 +1253,7 @@ function renderW2(W: Workbook): string {
 
   <!-- MUSCLE W2 DEEP FOCUS -->
   <div class="card" style="border-left:4px solid ${C.crit}">
-    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Week 2 Deep Focus — Movement & Protein</div>
+    <div class="card-title" style="color:${C.crit}">M2 — MUSCLE: Week 2 Deep Focus — Movement & Protein</div>
     <div style="background:var(--mc-crit-tint);border:1px solid color-mix(in srgb, var(--mc-crit) 30%, transparent);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.crit};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
@@ -1306,7 +1306,7 @@ function renderW2(W: Workbook): string {
 
   <!-- MIND W2 -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Week 2 Cognitive Check-In</div>
+    <div class="card-title" style="color:${C.info}">M3 — MIND: Week 2 Cognitive Check-In</div>
     <div class="g3" style="margin-bottom:14px">
       ${[['focus', 'Focus'], ['memory', 'Memory'], ['mood', 'Mood']].map(([k, l]) => `
         <div>
@@ -1397,7 +1397,7 @@ function renderW3(W: Workbook): string {
 
   <!-- MOTIVATE W3 -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">🟣 M4 — MOTIVATE: Momentum & Obstacles</div>
+    <div class="card-title" style="color:${C.info}">M4 — MOTIVATE: Momentum & Obstacles</div>
     <div class="g2" style="margin-bottom:12px">
       <div>
         <label for="w3-big-win">My biggest win from the first 2 weeks</label>
@@ -1426,7 +1426,7 @@ function renderW3(W: Workbook): string {
 
   <!-- MITIGATE W3 -->
   <div class="card" style="border-left:4px solid ${C.gold}">
-    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Mid-Month Factor Progress</div>
+    <div class="card-title" style="color:${C.gold}">M1 — MITIGATE: Mid-Month Factor Progress</div>
     <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       Progress-check your top 3 factors from Week 1.
       Rescore each one based on what you have actually done. Then identify your next step.
@@ -1467,7 +1467,7 @@ function renderW3(W: Workbook): string {
 
   <!-- MUSCLE W3 -->
   <div class="card" style="border-left:4px solid ${C.crit}">
-    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Mid-Month Body Check + Progression</div>
+    <div class="card-title" style="color:${C.crit}">M2 — MUSCLE: Mid-Month Body Check + Progression</div>
 
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">MID-MONTH BODY COMPOSITION CHECK</div>
@@ -1493,7 +1493,7 @@ function renderW3(W: Workbook): string {
 
   <!-- MIND W3 DEEP FOCUS -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Week 3 Deep Focus — Consistency</div>
+    <div class="card-title" style="color:${C.info}">M3 — MIND: Week 3 Deep Focus — Consistency</div>
 
     <div style="background:var(--mc-info-tint);border:1px solid var(--mc-info-line);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
@@ -1596,7 +1596,7 @@ function renderW4(W: Workbook): string {
 
   <!-- MOTIVATE W4 DEEP FOCUS -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">🟣 M4 — MOTIVATE: Week 4 Deep Focus — Identity & Month 2 Vision</div>
+    <div class="card-title" style="color:${C.info}">M4 — MOTIVATE: Week 4 Deep Focus — Identity & Month 2 Vision</div>
     <div style="background:var(--mc-info-tint);border:1px solid var(--mc-info-tint);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
@@ -1652,7 +1652,7 @@ function renderW4(W: Workbook): string {
 
   <!-- MITIGATE W4 RE-AUDIT -->
   <div class="card" style="border-left:4px solid ${C.gold}">
-    <div class="card-title" style="color:${C.gold}">🟢 M1 — MITIGATE: Full Re-Assessment — MindSpan Personal Risk Assessment</div>
+    <div class="card-title" style="color:${C.gold}">M1 — MITIGATE: Full Re-Assessment — MindSpan Personal Risk Assessment</div>
     <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       Score every category again using the same scale as your Week 1 intake.
       Compare your final MindSpan Score to your baseline to see how far you moved in 30 days.
@@ -1717,7 +1717,7 @@ function renderW4(W: Workbook): string {
 
   <!-- MUSCLE W4 -->
   <div class="card" style="border-left:4px solid ${C.crit}">
-    <div class="card-title" style="color:${C.crit}">🟠 M2 — MUSCLE: Month 1 Progress Comparison</div>
+    <div class="card-title" style="color:${C.crit}">M2 — MUSCLE: Month 1 Progress Comparison</div>
     <div style="font-size:12.5px;color:${C.muted};margin-bottom:12px;line-height:1.6">
       Enter your Week 4 numbers. Week 1 baselines pull from your earlier entries.
     </div>
@@ -1760,7 +1760,7 @@ function renderW4(W: Workbook): string {
 
   <!-- MIND W4 -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">🔵 M3 — MIND: Month 1 Cognitive Wrap-Up</div>
+    <div class="card-title" style="color:${C.info}">M3 — MIND: Month 1 Cognitive Wrap-Up</div>
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">FINAL COGNITIVE SCORES — WEEK 4</div>
       <div class="g3">

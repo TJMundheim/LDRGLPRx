@@ -48,7 +48,9 @@
   {/if}
 
   <section class="locked">
-    <div class="lock-icon" aria-hidden="true">🔒</div>
+    <div class="lock-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    </div>
     <h2>The 4M App unlocks with any purchase</h2>
     <p>
       Even our smallest SKU includes full app access for as long as you remain a member —

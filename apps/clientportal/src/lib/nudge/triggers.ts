@@ -9,6 +9,8 @@ import type { NudgeItem } from './types';
 const INTAKE_COMPLETE_KEY       = 'intake-complete-v1';
 const LAST_SEEN_KEY             = 'last-seen-v1';
 const INTAKE_CELEBRATED_KEY     = 'intake-celebrated-v1';
+/** One-time-ever seen flag for the "top 3 priorities" nudge (set on first show OR on dismiss). */
+const NUDGE_SEEN_TOP3_KEY       = 'nudge-seen-top3-v1';
 const SHOWN_TODAY_KEY           = 'nudges-shown-today-v1';
 const DISMISSED_KEY             = 'nudges-dismissed-v1';
 const WEEK_NUDGE_PREFIX         = 'nudges-week-';
@@ -124,10 +126,11 @@ function triggerIntakeCelebration(): void {
 
   const id = 'intake-celebrated';
   if (isDismissed(id) || wasShownToday(id)) return;
-  if (ls(INTAKE_CELEBRATED_KEY)) return; // already shown once ever
+  if (ls(INTAKE_CELEBRATED_KEY) || ls(NUDGE_SEEN_TOP3_KEY)) return; // already shown once ever
 
   // Mark celebrated before pushing to prevent re-fire on rapid re-mounts
   lsSet(INTAKE_CELEBRATED_KEY, new Date().toISOString());
+  lsSet(NUDGE_SEEN_TOP3_KEY, new Date().toISOString());
 
   push({
     id,
