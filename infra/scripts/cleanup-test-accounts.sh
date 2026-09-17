@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # cleanup-test-accounts.sh
 #
-# TJ-run infrastructure tool: removes test-account rows for four known test
+# TJ-run infrastructure tool: removes test-account rows for known test
 # identities from DynamoDB (Contact, Users, PatientRecords, Conversations)
 # and Cognito. Defaults to --dry-run (read-only). Pass --execute to perform
 # real deletes.
 #
 # Usage:
-#   infra/scripts/cleanup-test-accounts.sh              # dry-run (default)
-#   infra/scripts/cleanup-test-accounts.sh --dry-run     # explicit dry-run
-#   infra/scripts/cleanup-test-accounts.sh --execute     # actually delete
+#   infra/scripts/cleanup-test-accounts.sh                          # dry-run, all identities
+#   infra/scripts/cleanup-test-accounts.sh --dry-run                # explicit dry-run
+#   infra/scripts/cleanup-test-accounts.sh --execute                # actually delete, all identities
+#   infra/scripts/cleanup-test-accounts.sh --only <email>           # restrict run to one identity
+#   infra/scripts/cleanup-test-accounts.sh --execute --only <email> # delete just that identity
 #
 set -euo pipefail
 
@@ -24,13 +26,26 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG="$SCRIPT_DIR/cleanup-test-accounts.log"
 
 EXECUTE=false
+ONLY_EMAIL=""
+_expect_only_value=false
 for arg in "$@"; do
+  if $_expect_only_value; then
+    ONLY_EMAIL="$arg"
+    _expect_only_value=false
+    continue
+  fi
   case "$arg" in
     --execute) EXECUTE=true ;;
     --dry-run) EXECUTE=false ;;
-    *) echo "Unknown argument: $arg (expected --dry-run or --execute)" >&2; exit 1 ;;
+    --only) _expect_only_value=true ;;
+    --only=*) ONLY_EMAIL="${arg#--only=}" ;;
+    *) echo "Unknown argument: $arg (expected --dry-run, --execute, or --only <email>)" >&2; exit 1 ;;
   esac
 done
+if $_expect_only_value; then
+  echo "--only requires an email argument" >&2
+  exit 1
+fi
 
 # ---------------------------------------------------------------------------
 # Logging wrapper. Logs the exact command line, then runs it (unless dry-run).
@@ -106,6 +121,7 @@ TARGET_EMAILS=(
   "drtj@mdspecialtygroup.com"
   "tjmundheim@genesisregenerative.com"
   "drtj+intaketest@my4mlife.com"
+  "bryan@bryanshoemaker.com"
 )
 
 for te in "${TARGET_EMAILS[@]}"; do
@@ -120,6 +136,45 @@ for te in "${TARGET_EMAILS[@]}"; do
 done
 
 echo "Hard guard passed: no target email matches a forbidden email." | tee -a "$LOG"
+
+# ---------------------------------------------------------------------------
+# --only selection: validate against TARGET_EMAILS, then decide per-identity
+# whether it runs (RUN_1..RUN_5). Default (no --only) runs all identities.
+# ---------------------------------------------------------------------------
+RUN_1=true
+RUN_2=true
+RUN_3=true
+RUN_4=true
+RUN_5=true
+
+if [[ -n "$ONLY_EMAIL" ]]; then
+  only_norm="$(echo -n "$ONLY_EMAIL" | awk '{$1=$1;print}' | tr '[:upper:]' '[:lower:]')"
+  found=false
+  for te in "${TARGET_EMAILS[@]}"; do
+    te_norm="$(echo -n "$te" | awk '{$1=$1;print}' | tr '[:upper:]' '[:lower:]')"
+    if [[ "$only_norm" == "$te_norm" ]]; then
+      found=true
+      break
+    fi
+  done
+  if ! $found; then
+    echo "FATAL: --only email '$ONLY_EMAIL' is not one of the known target identities." >&2
+    exit 1
+  fi
+  RUN_1=false
+  RUN_2=false
+  RUN_3=false
+  RUN_4=false
+  RUN_5=false
+  case "$only_norm" in
+    "tjshcacs@gmail.com") RUN_1=true ;;
+    "drtj@mdspecialtygroup.com") RUN_2=true ;;
+    "tjmundheim@genesisregenerative.com") RUN_3=true ;;
+    "drtj+intaketest@my4mlife.com") RUN_4=true ;;
+    "bryan@bryanshoemaker.com") RUN_5=true ;;
+  esac
+  echo "--only restricting run to: $ONLY_EMAIL" | tee -a "$LOG"
+fi
 
 # ---------------------------------------------------------------------------
 # Target identities
@@ -145,6 +200,12 @@ IDENTITY_3_COGNITO_SUB="410b3580-9061-70eb-fb96-3f73ec11e42d"
 IDENTITY_4_LABEL="drtj+intaketest@my4mlife.com"
 IDENTITY_4_EMAIL="drtj+intaketest@my4mlife.com"
 IDENTITY_4_CONTACTID="3f4823b2-a3b1-56d0-8954-33b3dd913a13"
+
+IDENTITY_5_LABEL="bryan@bryanshoemaker.com"
+IDENTITY_5_EMAIL="bryan@bryanshoemaker.com"
+IDENTITY_5_CONTACTID="73c97bdd-a25a-56d4-8d3f-02e9512e177a"
+IDENTITY_5_USERS_ID="316b3540-30f1-70de-d90b-37fb0307526b"
+IDENTITY_5_COGNITO_SUB="316b3540-30f1-70de-d90b-37fb0307526b"
 
 REMAINING_UNEXPECTED=0
 
@@ -184,6 +245,7 @@ cognito_check_user() {
 # ---------------------------------------------------------------------------
 # Identity 1: tjshcacs@gmail.com — Users, Conversations, Cognito
 # ---------------------------------------------------------------------------
+if $RUN_1; then
 echo "" | tee -a "$LOG"
 echo "### Identity 1: $IDENTITY_1_LABEL ###" | tee -a "$LOG"
 
@@ -232,10 +294,14 @@ let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
 else
   echo "WARNING: Users.primaryEmail ('$users1_email') does NOT match expected '$IDENTITY_1_EMAIL' for identity 1. SKIPPING all deletes for identity 1." | tee -a "$LOG"
 fi
+else
+  echo "Skipping Identity 1 ($IDENTITY_1_LABEL) — not selected by --only." | tee -a "$LOG"
+fi
 
 # ---------------------------------------------------------------------------
 # Identity 2: drtj@mdspecialtygroup.com — Users, Cognito
 # ---------------------------------------------------------------------------
+if $RUN_2; then
 echo "" | tee -a "$LOG"
 echo "### Identity 2: $IDENTITY_2_LABEL ###" | tee -a "$LOG"
 
@@ -261,11 +327,15 @@ if [[ "$(echo "$users2_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTI
 else
   echo "WARNING: Users.primaryEmail ('$users2_email') does NOT match expected '$IDENTITY_2_EMAIL' for identity 2. SKIPPING all deletes for identity 2." | tee -a "$LOG"
 fi
+else
+  echo "Skipping Identity 2 ($IDENTITY_2_LABEL) — not selected by --only." | tee -a "$LOG"
+fi
 
 # ---------------------------------------------------------------------------
 # Identity 3: tjmundheim@genesisregenerative.com — Contact, Users, Cognito
 #             (+ defensive PatientRecords / Conversations check)
 # ---------------------------------------------------------------------------
+if $RUN_3; then
 echo "" | tee -a "$LOG"
 echo "### Identity 3: $IDENTITY_3_LABEL ###" | tee -a "$LOG"
 
@@ -362,10 +432,14 @@ let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
 else
   echo "(dry-run) Would delete (subject to per-row email guard): Contact contactId=$identity3_contact_id (ok=$contact3_ok), Users id=$IDENTITY_3_USERS_ID (ok=$users3_ok), Cognito sub=$IDENTITY_3_COGNITO_SUB, PatientRecords items=$pr3_count, Conversations items=$conv3_count" | tee -a "$LOG"
 fi
+else
+  echo "Skipping Identity 3 ($IDENTITY_3_LABEL) — not selected by --only." | tee -a "$LOG"
+fi
 
 # ---------------------------------------------------------------------------
 # Identity 4: drtj+intaketest@my4mlife.com — PatientRecords ONLY
 # ---------------------------------------------------------------------------
+if $RUN_4; then
 echo "" | tee -a "$LOG"
 echo "### Identity 4: $IDENTITY_4_LABEL ###" | tee -a "$LOG"
 
@@ -463,6 +537,114 @@ let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
 else
   echo "(dry-run) Would delete $pr4_count PatientRecords item(s) for contactId=$identity4_contact_id via batch-write-item." | tee -a "$LOG"
 fi
+else
+  echo "Skipping Identity 4 ($IDENTITY_4_LABEL) — not selected by --only." | tee -a "$LOG"
+fi
+
+# ---------------------------------------------------------------------------
+# Identity 5: bryan@bryanshoemaker.com — Contact, Users, Cognito
+#             (+ defensive PatientRecords / Conversations check; both
+#             expected to be empty for this identity)
+# ---------------------------------------------------------------------------
+if $RUN_5; then
+echo "" | tee -a "$LOG"
+echo "### Identity 5: $IDENTITY_5_LABEL ###" | tee -a "$LOG"
+
+identity5_contact_id="$IDENTITY_5_CONTACTID"
+
+echo "-- PRE-CHECK: Contact item --" | tee -a "$LOG"
+contact5_item=$(aws dynamodb get-item --table-name "$CONTACT_TABLE" --region "$REGION" \
+  --key "{\"contactId\":{\"S\":\"$identity5_contact_id\"}}" 2>&1)
+echo "$contact5_item" | tee -a "$LOG"
+contact5_email=$(echo "$contact5_item" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log(j.Item&&j.Item.email&&j.Item.email.S||'');}catch(e){console.log('');}});" || echo "")
+
+echo "-- PRE-CHECK: Users item --" | tee -a "$LOG"
+users5_item=$(aws dynamodb get-item --table-name "$USERS_TABLE" --region "$REGION" \
+  --key "{\"id\":{\"S\":\"$IDENTITY_5_USERS_ID\"}}" 2>&1)
+echo "$users5_item" | tee -a "$LOG"
+users5_email=$(echo "$users5_item" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log(j.Item&&j.Item.primaryEmail&&j.Item.primaryEmail.S||'');}catch(e){console.log('');}});" || echo "")
+
+echo "-- PRE-CHECK: Cognito user $IDENTITY_5_COGNITO_SUB --" | tee -a "$LOG"
+cognito_check_user "$IDENTITY_5_COGNITO_SUB" || true
+
+echo "-- PRE-CHECK (defensive): PatientRecords by contactId --" | tee -a "$LOG"
+pr5_items=$(aws dynamodb query --table-name "$PATIENT_RECORDS_TABLE" --region "$REGION" \
+  --key-condition-expression "contactId = :pk" \
+  --expression-attribute-values "{\":pk\":{\"S\":\"$identity5_contact_id\"}}" 2>&1)
+echo "$pr5_items" | tee -a "$LOG"
+pr5_count=$(echo "$pr5_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+echo "Found $pr5_count PatientRecords item(s) for identity 5." | tee -a "$LOG"
+
+echo "-- PRE-CHECK (defensive): Conversations by pk 'prospect#$IDENTITY_5_EMAIL' --" | tee -a "$LOG"
+conv5_pk="prospect#$IDENTITY_5_EMAIL"
+conv5_items=$(aws dynamodb query --table-name "$CONVERSATIONS_TABLE" --region "$REGION" \
+  --key-condition-expression "contactId = :pk" \
+  --expression-attribute-values "{\":pk\":{\"S\":\"$conv5_pk\"}}" 2>&1)
+echo "$conv5_items" | tee -a "$LOG"
+conv5_count=$(echo "$conv5_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+echo "Found $conv5_count Conversations item(s) for identity 5." | tee -a "$LOG"
+
+contact5_ok=false
+if [[ -n "$contact5_email" && "$(echo "$contact5_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTITY_5_EMAIL" | tr '[:upper:]' '[:lower:]')" ]]; then
+  contact5_ok=true
+  echo "Email match guard PASSED for identity 5 Contact row." | tee -a "$LOG"
+elif [[ -n "$contact5_email" ]]; then
+  echo "WARNING: Contact.email ('$contact5_email') does NOT match expected '$IDENTITY_5_EMAIL'. SKIPPING Contact delete." | tee -a "$LOG"
+else
+  echo "No Contact row found for identity 5 (or no email attribute) — nothing to delete there." | tee -a "$LOG"
+fi
+
+users5_ok=false
+if [[ "$(echo "$users5_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTITY_5_EMAIL" | tr '[:upper:]' '[:lower:]')" ]]; then
+  users5_ok=true
+  echo "Email match guard PASSED for identity 5 Users row." | tee -a "$LOG"
+else
+  echo "WARNING: Users.primaryEmail ('$users5_email') does NOT match expected '$IDENTITY_5_EMAIL'. SKIPPING Users delete for identity 5." | tee -a "$LOG"
+fi
+
+if $EXECUTE; then
+  if $contact5_ok; then
+    echo "-- DELETE: Contact item --" | tee -a "$LOG"
+    run "aws dynamodb delete-item --table-name $CONTACT_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$identity5_contact_id\"}}'"
+  fi
+  if $users5_ok; then
+    echo "-- DELETE: Users item --" | tee -a "$LOG"
+    run "aws dynamodb delete-item --table-name $USERS_TABLE --region $REGION --key '{\"id\":{\"S\":\"$IDENTITY_5_USERS_ID\"}}'"
+  fi
+  echo "-- DELETE: Cognito user --" | tee -a "$LOG"
+  cognito_delete_user "$IDENTITY_5_COGNITO_SUB"
+
+  if [[ "$pr5_count" -gt 0 ]]; then
+    echo "-- DELETE (defensive): PatientRecords items ($pr5_count found) --" | tee -a "$LOG"
+    sks=$(echo "$pr5_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);(j.Items||[]).forEach(it=>console.log(it.sk.S));});")
+    while read -r sk; do
+      [[ -z "$sk" ]] && continue
+      run "aws dynamodb delete-item --table-name $PATIENT_RECORDS_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$identity5_contact_id\"},\"sk\":{\"S\":\"$sk\"}}'"
+    done <<< "$sks"
+  else
+    echo "No PatientRecords items found for identity 5; nothing to delete." | tee -a "$LOG"
+  fi
+
+  if [[ "$conv5_count" -gt 0 ]]; then
+    echo "-- DELETE (defensive): Conversations items ($conv5_count found) --" | tee -a "$LOG"
+    echo "$conv5_items" | node -e "
+let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
+  const j=JSON.parse(d);
+  (j.Items||[]).forEach(it=>console.log(JSON.stringify({contactId:it.contactId.S, sk:it.sk.S})));
+});" | while read -r line; do
+      pk=$(echo "$line" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);console.log(j.contactId);});")
+      sk=$(echo "$line" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);console.log(j.sk);});")
+      run "aws dynamodb delete-item --table-name $CONVERSATIONS_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$pk\"},\"sk\":{\"S\":\"$sk\"}}'"
+    done
+  else
+    echo "No Conversations items found for identity 5; nothing to delete." | tee -a "$LOG"
+  fi
+else
+  echo "(dry-run) Would delete (subject to per-row email guard): Contact contactId=$identity5_contact_id (ok=$contact5_ok), Users id=$IDENTITY_5_USERS_ID (ok=$users5_ok), Cognito sub=$IDENTITY_5_COGNITO_SUB, PatientRecords items=$pr5_count, Conversations items=$conv5_count" | tee -a "$LOG"
+fi
+else
+  echo "Skipping Identity 5 ($IDENTITY_5_LABEL) — not selected by --only." | tee -a "$LOG"
+fi
 
 # ---------------------------------------------------------------------------
 # VERIFY
@@ -473,6 +655,7 @@ echo "### VERIFY ###" | tee -a "$LOG"
 if ! $EXECUTE; then
   echo "Dry-run mode: verify skipped, no deletes were performed." | tee -a "$LOG"
 else
+  if $RUN_1; then
   echo "-- Re-checking Identity 1 --" | tee -a "$LOG"
   v_users1=$(aws dynamodb get-item --table-name "$USERS_TABLE" --region "$REGION" --key "{\"id\":{\"S\":\"$IDENTITY_1_USERS_ID\"}}" 2>&1)
   echo "$v_users1" | tee -a "$LOG"
@@ -488,7 +671,9 @@ else
     REMAINING_UNEXPECTED=1
   fi
   cognito_check_user "$IDENTITY_1_COGNITO_SUB" && { echo "UNEXPECTED: Cognito user for identity 1 still present."; REMAINING_UNEXPECTED=1; } | tee -a "$LOG" || echo "Cognito user for identity 1 confirmed gone (or was already absent)." | tee -a "$LOG"
+  fi
 
+  if $RUN_2; then
   echo "-- Re-checking Identity 2 --" | tee -a "$LOG"
   v_users2=$(aws dynamodb get-item --table-name "$USERS_TABLE" --region "$REGION" --key "{\"id\":{\"S\":\"$IDENTITY_2_USERS_ID\"}}" 2>&1)
   echo "$v_users2" | tee -a "$LOG"
@@ -497,7 +682,9 @@ else
     REMAINING_UNEXPECTED=1
   fi
   cognito_check_user "$IDENTITY_2_COGNITO_SUB" && { echo "UNEXPECTED: Cognito user for identity 2 still present."; REMAINING_UNEXPECTED=1; } | tee -a "$LOG" || echo "Cognito user for identity 2 confirmed gone (or was already absent)." | tee -a "$LOG"
+  fi
 
+  if $RUN_3; then
   echo "-- Re-checking Identity 3 --" | tee -a "$LOG"
   v_contact3=$(aws dynamodb get-item --table-name "$CONTACT_TABLE" --region "$REGION" --key "{\"contactId\":{\"S\":\"$identity3_contact_id\"}}" 2>&1)
   echo "$v_contact3" | tee -a "$LOG"
@@ -519,7 +706,9 @@ else
     echo "UNEXPECTED: $v_pr3_count PatientRecords row(s) for identity 3 still present." | tee -a "$LOG"
     REMAINING_UNEXPECTED=1
   fi
+  fi
 
+  if $RUN_4; then
   echo "-- Re-checking Identity 4 --" | tee -a "$LOG"
   v_pr4=$(aws dynamodb query --table-name "$PATIENT_RECORDS_TABLE" --region "$REGION" --key-condition-expression "contactId = :pk" --expression-attribute-values "{\":pk\":{\"S\":\"$identity4_contact_id\"}}" 2>&1)
   echo "$v_pr4" | tee -a "$LOG"
@@ -527,6 +716,38 @@ else
   if [[ "$v_pr4_count" -gt 0 ]]; then
     echo "UNEXPECTED: $v_pr4_count PatientRecords row(s) for identity 4 still present." | tee -a "$LOG"
     REMAINING_UNEXPECTED=1
+  fi
+  fi
+
+  if $RUN_5; then
+  echo "-- Re-checking Identity 5 --" | tee -a "$LOG"
+  v_contact5=$(aws dynamodb get-item --table-name "$CONTACT_TABLE" --region "$REGION" --key "{\"contactId\":{\"S\":\"$identity5_contact_id\"}}" 2>&1)
+  echo "$v_contact5" | tee -a "$LOG"
+  if echo "$v_contact5" | grep -q '"Item"'; then
+    echo "UNEXPECTED: Contact row for identity 5 still present." | tee -a "$LOG"
+    REMAINING_UNEXPECTED=1
+  fi
+  v_users5=$(aws dynamodb get-item --table-name "$USERS_TABLE" --region "$REGION" --key "{\"id\":{\"S\":\"$IDENTITY_5_USERS_ID\"}}" 2>&1)
+  echo "$v_users5" | tee -a "$LOG"
+  if echo "$v_users5" | grep -q '"Item"'; then
+    echo "UNEXPECTED: Users row for identity 5 still present." | tee -a "$LOG"
+    REMAINING_UNEXPECTED=1
+  fi
+  cognito_check_user "$IDENTITY_5_COGNITO_SUB" && { echo "UNEXPECTED: Cognito user for identity 5 still present."; REMAINING_UNEXPECTED=1; } | tee -a "$LOG" || echo "Cognito user for identity 5 confirmed gone (or was already absent)." | tee -a "$LOG"
+  v_pr5=$(aws dynamodb query --table-name "$PATIENT_RECORDS_TABLE" --region "$REGION" --key-condition-expression "contactId = :pk" --expression-attribute-values "{\":pk\":{\"S\":\"$identity5_contact_id\"}}" 2>&1)
+  echo "$v_pr5" | tee -a "$LOG"
+  v_pr5_count=$(echo "$v_pr5" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+  if [[ "$v_pr5_count" -gt 0 ]]; then
+    echo "UNEXPECTED: $v_pr5_count PatientRecords row(s) for identity 5 still present." | tee -a "$LOG"
+    REMAINING_UNEXPECTED=1
+  fi
+  v_conv5=$(aws dynamodb query --table-name "$CONVERSATIONS_TABLE" --region "$REGION" --key-condition-expression "contactId = :pk" --expression-attribute-values "{\":pk\":{\"S\":\"prospect#$IDENTITY_5_EMAIL\"}}" 2>&1)
+  echo "$v_conv5" | tee -a "$LOG"
+  v_conv5_count=$(echo "$v_conv5" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+  if [[ "$v_conv5_count" -gt 0 ]]; then
+    echo "UNEXPECTED: $v_conv5_count Conversations row(s) for identity 5 still present." | tee -a "$LOG"
+    REMAINING_UNEXPECTED=1
+  fi
   fi
 fi
 
