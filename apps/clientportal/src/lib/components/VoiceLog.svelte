@@ -31,7 +31,11 @@
     strengthMinutes: [0, 20, 30, 45, 60],
   };
 
-  const supported = speech.isSupported();
+  // Voice can die mid-session (iOS standalone PWA: the recogniser exists but
+  // never fires an event). `voiceDead` flips on the first fatal error and the
+  // mic disappears for the rest of the session.
+  let voiceDead = $state(!speech.isSupported());
+  const supported = $derived(!voiceDead);
 
   let listening = $state(false);
   let interim = $state('');
@@ -96,9 +100,16 @@
     }
   }
 
+  /** Hard stop — always usable, never waits on the recogniser to call back. */
+  function cancelListening(): void {
+    speech.abort();
+    listening = false;
+    interim = '';
+  }
+
   function toggleMic(): void {
     errorMsg = '';
-    if (listening) { speech.stop(); listening = false; return; }
+    if (listening) { cancelListening(); return; }
     listening = true;
     interim = '';
     speech.start(
@@ -111,6 +122,9 @@
       (err) => {
         listening = false;
         interim = '';
+        if (err.code === 'unavailable' || err.code === 'not-allowed' || err.code === 'unsupported') {
+          voiceDead = true;
+        }
         if (err.code !== 'aborted') errorMsg = err.message;
       },
     );
@@ -207,9 +221,12 @@
         <div class="vl-micside">
           <div class="vl-micstate">{listening ? 'Listening…' : 'Tap to talk'}</div>
           {#if interim}<div class="vl-interim">{interim}</div>{/if}
+          {#if listening}
+            <button type="button" class="vl-cancel" onclick={cancelListening}>Cancel</button>
+          {/if}
         </div>
       {:else}
-        <div class="vl-micside"><div class="vl-micstate">Voice isn’t available in this browser — type it below.</div></div>
+        <div class="vl-micside"><div class="vl-micstate">Voice isn't available here — type your log instead.</div></div>
       {/if}
     </div>
 
@@ -327,12 +344,30 @@
     cursor: pointer;
   }
   .mic:focus-visible { outline: 2px solid var(--mc-gold); outline-offset: 3px; }
+  /* The "listening" cue is an animation on the BUTTON only — never a fixed
+     overlay, backdrop or body-scroll lock. Nothing outside this 72px circle
+     may become unclickable while listening (iOS freeze, 2026-09-17). */
   .mic.listening { animation: vlpulse 1.3s ease-in-out infinite; }
   @keyframes vlpulse {
     0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--mc-gold-soft) 65%, transparent); }
     50%      { box-shadow: 0 0 0 14px color-mix(in srgb, var(--mc-gold-soft) 0%, transparent); }
   }
-  @media (prefers-reduced-motion: reduce) { .mic.listening { animation: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .mic.listening {
+      animation: none;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--mc-gold-soft) 65%, transparent);
+    }
+  }
+
+  .vl-cancel {
+    margin-top: 6px;
+    min-height: 34px; padding: 0 14px;
+    border: 1px solid var(--mc-line); border-radius: 999px;
+    background: var(--mc-panel-2); color: var(--mc-ink);
+    font: inherit; font-size: 13px; font-weight: 700;
+    cursor: pointer;
+  }
+  .vl-cancel:focus-visible { outline: 2px solid var(--mc-gold); outline-offset: 2px; }
 
   .vl-micside { min-width: 0; }
   .vl-micstate { font-size: 12px; font-weight: 700; color: var(--mc-muted); letter-spacing: .04em; }
