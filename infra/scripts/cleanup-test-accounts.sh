@@ -188,8 +188,9 @@ IDENTITY_1_CONVERSATIONS_PK="prospect#tjshcacs@gmail.com"
 
 IDENTITY_2_LABEL="drtj@mdspecialtygroup.com"
 IDENTITY_2_EMAIL="drtj@mdspecialtygroup.com"
-IDENTITY_2_USERS_ID="519b4570-30b1-7063-c0e8-326307dcde09"
-IDENTITY_2_COGNITO_SUB="519b4570-30b1-7063-c0e8-326307dcde09"
+IDENTITY_2_USERS_ID="b18b2590-f091-7053-f104-5a0313ea3f17"
+IDENTITY_2_COGNITO_SUB="b18b2590-f091-7053-f104-5a0313ea3f17"
+IDENTITY_2_CONTACTID="db609dae-5bb4-5f23-9375-37b28eb4e7e4"
 
 IDENTITY_3_LABEL="tjmundheim@genesisregenerative.com"
 IDENTITY_3_EMAIL="tjmundheim@genesisregenerative.com"
@@ -299,11 +300,20 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Identity 2: drtj@mdspecialtygroup.com — Users, Cognito
+# Identity 2: drtj@mdspecialtygroup.com — Contact, Users, Cognito, PatientRecords
+# (re-created 2026-09-14 with new ids; TJ-approved re-clearing)
 # ---------------------------------------------------------------------------
 if $RUN_2; then
 echo "" | tee -a "$LOG"
 echo "### Identity 2: $IDENTITY_2_LABEL ###" | tee -a "$LOG"
+
+identity2_contact_id="$IDENTITY_2_CONTACTID"
+
+echo "-- PRE-CHECK: Contact item --" | tee -a "$LOG"
+contact2_item=$(aws dynamodb get-item --table-name "$CONTACT_TABLE" --region "$REGION" \
+  --key "{\"contactId\":{\"S\":\"$identity2_contact_id\"}}" 2>&1)
+echo "$contact2_item" | tee -a "$LOG"
+contact2_email=$(echo "$contact2_item" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log(j.Item&&j.Item.email&&j.Item.email.S||'');}catch(e){console.log('');}});" || echo "")
 
 echo "-- PRE-CHECK: Users item --" | tee -a "$LOG"
 users2_item=$(aws dynamodb get-item --table-name "$USERS_TABLE" --region "$REGION" \
@@ -314,18 +324,80 @@ users2_email=$(echo "$users2_item" | node -e "let d='';process.stdin.on('data',c
 echo "-- PRE-CHECK: Cognito user $IDENTITY_2_COGNITO_SUB --" | tee -a "$LOG"
 cognito_check_user "$IDENTITY_2_COGNITO_SUB" || true
 
+echo "-- PRE-CHECK: PatientRecords by contactId --" | tee -a "$LOG"
+pr2_items=$(aws dynamodb query --table-name "$PATIENT_RECORDS_TABLE" --region "$REGION" \
+  --key-condition-expression "contactId = :pk" \
+  --expression-attribute-values "{\":pk\":{\"S\":\"$identity2_contact_id\"}}" 2>&1)
+echo "$pr2_items" | tee -a "$LOG"
+pr2_count=$(echo "$pr2_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+echo "Found $pr2_count PatientRecords item(s) for identity 2." | tee -a "$LOG"
+
+echo "-- PRE-CHECK (defensive): Conversations by pk 'prospect#$IDENTITY_2_EMAIL' --" | tee -a "$LOG"
+conv2_pk="prospect#$IDENTITY_2_EMAIL"
+conv2_items=$(aws dynamodb query --table-name "$CONVERSATIONS_TABLE" --region "$REGION" \
+  --key-condition-expression "contactId = :pk" \
+  --expression-attribute-values "{\":pk\":{\"S\":\"$conv2_pk\"}}" 2>&1)
+echo "$conv2_items" | tee -a "$LOG"
+conv2_count=$(echo "$conv2_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+echo "Found $conv2_count Conversations item(s) for identity 2." | tee -a "$LOG"
+
+contact2_ok=false
+if [[ -n "$contact2_email" && "$(echo "$contact2_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTITY_2_EMAIL" | tr '[:upper:]' '[:lower:]')" ]]; then
+  contact2_ok=true
+  echo "Email match guard PASSED for identity 2 Contact row." | tee -a "$LOG"
+elif [[ -n "$contact2_email" ]]; then
+  echo "WARNING: Contact.email ('$contact2_email') does NOT match expected '$IDENTITY_2_EMAIL'. SKIPPING Contact delete." | tee -a "$LOG"
+else
+  echo "No Contact row found for identity 2 (or no email attribute) — nothing to delete there." | tee -a "$LOG"
+fi
+
+users2_ok=false
 if [[ "$(echo "$users2_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTITY_2_EMAIL" | tr '[:upper:]' '[:lower:]')" ]]; then
-  echo "Email match guard PASSED for identity 2 (Users.primaryEmail == $IDENTITY_2_EMAIL)" | tee -a "$LOG"
-  if $EXECUTE; then
+  users2_ok=true
+  echo "Email match guard PASSED for identity 2 Users row." | tee -a "$LOG"
+else
+  echo "WARNING: Users.primaryEmail ('$users2_email') does NOT match expected '$IDENTITY_2_EMAIL'. SKIPPING Users delete for identity 2." | tee -a "$LOG"
+fi
+
+if $EXECUTE; then
+  if $contact2_ok; then
+    echo "-- DELETE: Contact item --" | tee -a "$LOG"
+    run "aws dynamodb delete-item --table-name $CONTACT_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$identity2_contact_id\"}}'"
+  fi
+  if $users2_ok; then
     echo "-- DELETE: Users item --" | tee -a "$LOG"
     run "aws dynamodb delete-item --table-name $USERS_TABLE --region $REGION --key '{\"id\":{\"S\":\"$IDENTITY_2_USERS_ID\"}}'"
-    echo "-- DELETE: Cognito user --" | tee -a "$LOG"
-    cognito_delete_user "$IDENTITY_2_COGNITO_SUB"
+  fi
+  echo "-- DELETE: Cognito user --" | tee -a "$LOG"
+  cognito_delete_user "$IDENTITY_2_COGNITO_SUB"
+
+  if [[ "$pr2_count" -gt 0 ]]; then
+    echo "-- DELETE: PatientRecords items ($pr2_count found) --" | tee -a "$LOG"
+    sks=$(echo "$pr2_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);(j.Items||[]).forEach(it=>console.log(it.sk.S));});")
+    while read -r sk; do
+      [[ -z "$sk" ]] && continue
+      run "aws dynamodb delete-item --table-name $PATIENT_RECORDS_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$identity2_contact_id\"},\"sk\":{\"S\":\"$sk\"}}'"
+    done <<< "$sks"
   else
-    echo "(dry-run) Would delete: Users id=$IDENTITY_2_USERS_ID, Cognito sub=$IDENTITY_2_COGNITO_SUB" | tee -a "$LOG"
+    echo "No PatientRecords items found for identity 2; nothing to delete." | tee -a "$LOG"
+  fi
+
+  if [[ "$conv2_count" -gt 0 ]]; then
+    echo "-- DELETE (defensive): Conversations items ($conv2_count found) --" | tee -a "$LOG"
+    echo "$conv2_items" | node -e "
+let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
+  const j=JSON.parse(d);
+  (j.Items||[]).forEach(it=>console.log(JSON.stringify({contactId:it.contactId.S, sk:it.sk.S})));
+});" | while read -r line; do
+      pk=$(echo "$line" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);console.log(j.contactId);});")
+      sk=$(echo "$line" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);console.log(j.sk);});")
+      run "aws dynamodb delete-item --table-name $CONVERSATIONS_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$pk\"},\"sk\":{\"S\":\"$sk\"}}'"
+    done
+  else
+    echo "No Conversations items found for identity 2; nothing to delete." | tee -a "$LOG"
   fi
 else
-  echo "WARNING: Users.primaryEmail ('$users2_email') does NOT match expected '$IDENTITY_2_EMAIL' for identity 2. SKIPPING all deletes for identity 2." | tee -a "$LOG"
+  echo "(dry-run) Would delete (subject to per-row email guard): Contact contactId=$identity2_contact_id (ok=$contact2_ok), Users id=$IDENTITY_2_USERS_ID (ok=$users2_ok), Cognito sub=$IDENTITY_2_COGNITO_SUB, PatientRecords items=$pr2_count, Conversations items=$conv2_count" | tee -a "$LOG"
 fi
 else
   echo "Skipping Identity 2 ($IDENTITY_2_LABEL) — not selected by --only." | tee -a "$LOG"
@@ -675,6 +747,12 @@ else
 
   if $RUN_2; then
   echo "-- Re-checking Identity 2 --" | tee -a "$LOG"
+  v_contact2=$(aws dynamodb get-item --table-name "$CONTACT_TABLE" --region "$REGION" --key "{\"contactId\":{\"S\":\"$identity2_contact_id\"}}" 2>&1)
+  echo "$v_contact2" | tee -a "$LOG"
+  if echo "$v_contact2" | grep -q '"Item"'; then
+    echo "UNEXPECTED: Contact row for identity 2 still present." | tee -a "$LOG"
+    REMAINING_UNEXPECTED=1
+  fi
   v_users2=$(aws dynamodb get-item --table-name "$USERS_TABLE" --region "$REGION" --key "{\"id\":{\"S\":\"$IDENTITY_2_USERS_ID\"}}" 2>&1)
   echo "$v_users2" | tee -a "$LOG"
   if echo "$v_users2" | grep -q '"Item"'; then
@@ -682,6 +760,20 @@ else
     REMAINING_UNEXPECTED=1
   fi
   cognito_check_user "$IDENTITY_2_COGNITO_SUB" && { echo "UNEXPECTED: Cognito user for identity 2 still present."; REMAINING_UNEXPECTED=1; } | tee -a "$LOG" || echo "Cognito user for identity 2 confirmed gone (or was already absent)." | tee -a "$LOG"
+  v_pr2=$(aws dynamodb query --table-name "$PATIENT_RECORDS_TABLE" --region "$REGION" --key-condition-expression "contactId = :pk" --expression-attribute-values "{\":pk\":{\"S\":\"$identity2_contact_id\"}}" 2>&1)
+  echo "$v_pr2" | tee -a "$LOG"
+  v_pr2_count=$(echo "$v_pr2" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+  if [[ "$v_pr2_count" -gt 0 ]]; then
+    echo "UNEXPECTED: $v_pr2_count PatientRecords row(s) for identity 2 still present." | tee -a "$LOG"
+    REMAINING_UNEXPECTED=1
+  fi
+  v_conv2=$(aws dynamodb query --table-name "$CONVERSATIONS_TABLE" --region "$REGION" --key-condition-expression "contactId = :pk" --expression-attribute-values "{\":pk\":{\"S\":\"prospect#$IDENTITY_2_EMAIL\"}}" 2>&1)
+  echo "$v_conv2" | tee -a "$LOG"
+  v_conv2_count=$(echo "$v_conv2" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+  if [[ "$v_conv2_count" -gt 0 ]]; then
+    echo "UNEXPECTED: $v_conv2_count Conversations row(s) for identity 2 still present." | tee -a "$LOG"
+    REMAINING_UNEXPECTED=1
+  fi
   fi
 
   if $RUN_3; then
