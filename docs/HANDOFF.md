@@ -1,6 +1,6 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-15 · self-contained current-state snapshot
+# Last updated: 2026-09-19 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
@@ -8,6 +8,17 @@
 
 
 
+
+
+## ⚡ 2026-09-17→19 SESSION — Bryan reset, iPhone mic fix, TJ data reset
+
+- **Brian Schumacher = Bryan Shoemaker (bryan@bryanshoemaker.com).** Had taken the assessment 09-02 (no intake). Good call 09-16. TJ chose to CLEAR him entirely and have him re-enter cold via /consult as a friendly live test. Cleared 09-17 via `infra/scripts/cleanup-test-accounts.sh --execute --only bryan@bryanshoemaker.com` (script now has `--only <email>`; Bryan = identity 5). Verified gone. **Watch drtj@ for "[Pre-call brief] Bryan…" when he re-enters.**
+- **drtj@mdspecialtygroup.com** test account (re-created 09-14) cleared 09-18 (identity 2 refreshed to new ids + Contact/PatientRecords).
+- **TJ's own data reset 09-18** via NEW `infra/scripts/reset-drtj-data.sh --execute`: Contact row + 9 Adherence rows deleted; Users row RESET (audit*/workbook fields removed, weekUnlocked=1, name/phone kept); Cognito login + Admins group untouched. VERIFY PASSED. TJ now uses the app for real; he should take the MindSpan assessment with drtj@my4mlife.com (any device).
+- **iPhone mic freeze FIXED (91b40d2d, deployed):** in iOS standalone PWA, webkitSpeechRecognition starts but never fires → 6 s watchdog aborts, "Voice isn't available here — type your log instead", mic hides for session; Cancel button while listening; not-allowed/audio-capture handled. TJ confirmed mic works on later test. Full in-app voice on iPhone = native app only.
+- App polish deployed 09-16 (SVG icons, one-time top-3 nudge, neutral disabled Log-it). Light theme live since 09-15.
+- **Batch 2 punch list DONE.** Open: coach-proxy migrated to Bedrock but never deployed (dormant); intake handler 112 lines; Services dropdown keeps both Peptides + Tesamorelin (TJ decision).
+- Next pivot (TJ 09-19): revisit Count Yourself Skinny book + app — see project_count_yourself_skinny memory; CYS book v2 82pp (docs/book-cys), app scaffold + Chew Lab prototype (apps/count-yourself-skinny-ios), Apple Developer enrollment still pending, no meal CSVs yet.
 
 ## ⚡ 2026-09-15 SESSION — APP LIGHT RESTYLE + VOICE-FIRST LOG (DEPLOYED 2026-09-15 — pushed b31830a8; log-parse route live + verified; app live)
 
