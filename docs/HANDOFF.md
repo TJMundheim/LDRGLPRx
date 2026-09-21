@@ -1,6 +1,6 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-19 · self-contained current-state snapshot
+# Last updated: 2026-09-21 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
@@ -9,6 +9,16 @@
 
 
 
+
+
+## ⚡ 2026-09-21 SESSION — FULL GENDER-SPECIFIC SWEEP (site + Logbook + book) + Bryan re-entry day
+
+- **Website:** 53 files / 180 judged rewrites (solutions, blog, pillars, /go/gut-repair, bmi-calculator, protege-signup, links, fast-start, app product page). Sex-specific pages kept (testosterone-ed, menopause-hrt, ED, ED-canary blog, TRT physiology on /solutions/hormones, lane tags). Audit: docs/audit/gender-sweep-website-2026-09-21.md. Deployed.
+- **Logbook v8** (154pp, same as v7): rendered _MASTER.md had 3 rewrites (incl. Week 2 identity prompt now "I am a man who ___ / I am a woman who ___ — complete the line that's yours"); stale chapter copies (not rendered) had 47. S3 both keys refreshed. Audit: docs/audit/gender-sweep-logbook-2026-09-21.md.
+- **Book one v21** (280pp): 8 residual fixes applied (Ch3/5/9/11), all formats re-rendered, S3 refreshed, Desktop KDP-UPLOAD v21 files (covers unchanged; v20 never uploaded — upload v21). Audit: docs/audit/gender-sweep-book-residual-2026-09-21.md.
+- Rule of thumb now documented: never "men and women"; rewrite in second person; keep sex-specific where biology is.
+- **Bryan Shoemaker re-entering via /consult today** (slate verified clean; all lambdas green, 0 errors 24h). Expect "[Pre-call brief] Bryan…" email.
+- 2026-09-19: CYS competitive analysis (Ododok = only real AirPods rival, 10 wks old, no traction; our moat = program+book+voice, not the counter) docs/plan/cys-competitive-analysis-2026-09-19.md. Uninsured Decade: sister-in-law (estate attorney) read-through; foreword vs co-author pending; channel argument doc docs/launch/uninsured-decade/why-intermediaries-promote-2026-09-19.md. TJ has AirPods → Chew Lab meals next.
 
 ## ⚡ 2026-09-17→19 SESSION — Bryan reset, iPhone mic fix, TJ data reset
 
