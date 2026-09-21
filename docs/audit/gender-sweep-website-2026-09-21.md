@@ -1,0 +1,552 @@
+# Website gender-specific sweep — 2026-09-21
+
+Rule: neutral wherever physiology isn't sex-specific; judged rewrites (second person preferred); never 'men and women'; never mechanical men→people. 53 files, 180 lines changed.
+
+## Kept on purpose
+- /rx/testosterone-ed(+questionnaire), /rx/menopause-hrt(+questionnaire), /solutions/erectile-dysfunction, blog/canary-in-the-mine-erectile-dysfunction — sex-specific by design
+- /solutions/hormones TRT physiology lines (title, 1%/yr decline, 'most men below baseline'); pillars/muscle TRT + cited older-men lean-mass stat; blog.astro testosterone-decline stat
+- Homepage 'For men'/'For women' lane tags; consult lane labels 'Testosterone (men)'
+- 'MEN-2' medical acronym; 'Vitruvian Man' logo copy; Dr. TJ's own pronouns (about.astro); product sizing 'men's 7–14'; Laukkanen sauna cohort description
+
+## Every changed line (before → after)
+
+- **blog.astro**
+  - before: `const description = "Long-form articles on brain health, gut optimization, hormone balance, sleep, body composition, and environmental health — written through the lens of the 4M framework for men.";`
+  - after:  `const description = "Long-form articles on brain health, gut optimization, hormone balance, sleep, body composition, and environmental health — written through the lens of the 4M framework.";`
+- **blog.astro**
+  - before: `<p>Brain health, longevity, and the 4M framework. Long-form education for men who are serious about living their best life — written by Dr. TJ Mundheim, DC.</p>`
+  - after:  `<p>Brain health, longevity, and the 4M framework. Long-form education for people who are serious about living their best life — written by Dr. TJ Mundheim, DC.</p>`
+- **blog.astro**
+  - before: `<p style="color: var(--text-light); font-size:0.95rem; margin-bottom:1rem;">Testosterone levels in men have declined roughly 1% per year since the 1980s — independent of age. Seven behaviors are actively driving that dec`
+  - after:  `<p style="color: var(--text-light); font-size:0.95rem; margin-bottom:1rem;">Testosterone levels in men have declined roughly 1% per year since the 1980s — independent of age. Seven behaviors are actively driving that dec`
+- **blog.astro**
+  - before: `<p style="color: var(--text-light); font-size:0.95rem; margin-bottom:1rem;">The brain cleans itself during deep sleep via the glymphatic system. The behaviors most men treat as normal — late screens, evening alcohol, war`
+  - after:  `<p style="color: var(--text-light); font-size:0.95rem; margin-bottom:1rem;">The brain cleans itself during deep sleep via the glymphatic system. The behaviors most people treat as normal — late screens, evening alcohol, `
+- **blog.astro**
+  - before: `<p style="color: var(--text-light); font-size:0.95rem; margin-bottom:1rem;">Neurogenesis continues in the adult brain — but only under the right conditions. Seven insulting behaviors are suppressing BDNF, impairing glymp`
+  - after:  `<p style="color: var(--text-light); font-size:0.95rem; margin-bottom:1rem;">Neurogenesis continues in the adult brain — but only under the right conditions. Seven insulting behaviors are suppressing BDNF, impairing glymp`
+- **blog/am-i-eligible-for-glp1.astro**
+  - before: `<p>When patients ask me "Am I eligible for GLP-1 medication?", they are usually asking whether they meet a clinical threshold on paper. That is a reasonable starting point. But the more important question is: <strong>Is `
+  - after:  `<p>When patients ask me "Am I eligible for GLP-1 medication?", they are usually asking whether they meet a clinical threshold on paper. That is a reasonable starting point. But the more important question is: <strong>Is `
+- **blog/am-i-eligible-for-glp1.astro**
+  - before: `<p>Visceral fat is metabolically active tissue. It produces inflammatory cytokines — IL-6, TNF-alpha, C-reactive protein — that circulate systemically and cross the blood-brain barrier. Once inside, they trigger neuroinf`
+  - after:  `<p>Visceral fat is metabolically active tissue. It produces inflammatory cytokines — IL-6, TNF-alpha, C-reactive protein — that circulate systemically and cross the blood-brain barrier. Once inside, they trigger neuroinf`
+- **blog/am-i-eligible-for-glp1.astro**
+  - before: `<li><strong>BMI of 27–29.9 (overweight) with a weight-related condition:</strong> You may qualify if you also carry at least one comorbidity — type 2 diabetes, elevated blood pressure, dyslipidemia, obstructive sleep apn`
+  - after:  `<li><strong>BMI of 27–29.9 (overweight) with a weight-related condition:</strong> You may qualify if you also carry at least one comorbidity — type 2 diabetes, elevated blood pressure, dyslipidemia, obstructive sleep apn`
+- **blog/am-i-eligible-for-glp1.astro**
+  - before: `<li><strong>Dyslipidemia:</strong> Elevated triglycerides and low HDL — the metabolic syndrome signature — are common in men carrying visceral fat. GLP-1 therapy consistently improves lipid profiles.</li>`
+  - after:  `<li><strong>Dyslipidemia:</strong> Elevated triglycerides and low HDL — the metabolic syndrome signature — are common when you're carrying visceral fat. GLP-1 therapy consistently improves lipid profiles.</li>`
+- **blog/am-i-eligible-for-glp1.astro**
+  - before: `<p><strong>Is there an age limit?</strong> GLP-1 medications are indicated for adults 18 and older. The 4M program is specifically designed for men — the decade where visceral fat accumulation accelerates and cognitive r`
+  - after:  `<p><strong>Is there an age limit?</strong> GLP-1 medications are indicated for adults 18 and older. The 4M program is specifically designed for the decade where visceral fat accumulation accelerates and cognitive risk be`
+- **blog/canary-in-the-mine-erectile-dysfunction.astro**
+  - before: `<p><strong>Alcohol:</strong> A 30 to 60 day full break is the most informative experiment most men can run. Sleep quality, morning erections, mood, and free testosterone usually shift within weeks.</p>`
+  - after:  `<p><strong>Alcohol:</strong> A 30 to 60 day full break is the most informative experiment you can run. Sleep quality, morning erections, mood, and free testosterone usually shift within weeks.</p>`
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<p>The brain was once considered a fixed organ — formed in childhood and slowly declining from there. We now know this is wrong. Neurogenesis, the production of new neurons, continues throughout adult life, primarily in `
+  - after:  `<p>The brain was once considered a fixed organ — formed in childhood and slowly declining from there. We now know this is wrong. Neurogenesis, the production of new neurons, continues throughout adult life, primarily in `
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<p>Cognitive decline is not an inevitable feature of aging. It is the predictable outcome of a collection of modifiable behavioral patterns that most men are executing daily without recognizing their neurological consequ`
+  - after:  `<p>Cognitive decline is not an inevitable feature of aging. It is the predictable outcome of a collection of modifiable behavioral patterns that are being executed daily without recognizing their neurological consequence`
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<strong>Chronic poor sleep.</strong> The brain's primary restorative process is glymphatic clearance — the cerebrospinal fluid-driven flushing of metabolic waste that occurs during deep sleep. Amyloid-beta and tau, the p`
+  - after:  `<strong>Chronic poor sleep.</strong> The brain's primary restorative process is glymphatic clearance — the cerebrospinal fluid-driven flushing of metabolic waste that occurs during deep sleep. Amyloid-beta and tau, the p`
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<strong>Sedentary lifestyle.</strong> Exercise is the most potent natural stimulator of BDNF — brain-derived neurotrophic factor — the primary growth protein for neurons. BDNF is sometimes called "Miracle-Gro for the bra`
+  - after:  `<strong>Sedentary lifestyle.</strong> Exercise is the most potent natural stimulator of BDNF — brain-derived neurotrophic factor — the primary growth protein for neurons. BDNF is sometimes called "Miracle-Gro for the bra`
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<strong>No deliberate cognitive training.</strong> The brain strengthens what it uses and prunes what it does not. Passive consumption — scrolling social media, watching video content, consuming entertainment — does not `
+  - after:  `<strong>No deliberate cognitive training.</strong> The brain strengthens what it uses and prunes what it does not. Passive consumption — scrolling social media, watching video content, consuming entertainment — does not `
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<strong>Untreated gut dysbiosis and hormonal decline.</strong> This is the connection that most men do not make: the gut-brain axis and the hormonal axis are not separate systems from the cognitive axis — they are upstre`
+  - after:  `<strong>Untreated gut dysbiosis and hormonal decline.</strong> This is a connection most people miss: the gut-brain axis and the hormonal axis are not separate systems from the cognitive axis — they are upstream inputs t`
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<strong>Scrolling-style information consumption as a primary cognitive activity.</strong> Social media and short-form video platforms are engineered for infinite scroll and variable-ratio reinforcement — the same psychol`
+  - after:  `<strong>Scrolling-style information consumption as a primary cognitive activity.</strong> Social media and short-form video platforms are engineered for infinite scroll and variable-ratio reinforcement — the same psychol`
+- **blog/eliminate-the-insulting-behavior-cognitive.astro**
+  - before: `<strong>No tracking of cognitive metrics over time.</strong> Men track their finances, their fitness, their body weight — but almost never their cognitive performance. Without baseline measurement and longitudinal tracki`
+  - after:  `<strong>No tracking of cognitive metrics over time.</strong> You track your finances, your fitness, your body weight — but almost never your cognitive performance. Without baseline measurement and longitudinal tracking, `
+- **blog/eliminate-the-insulting-behavior-environment.astro**
+  - before: `<p>The body does not have an evolutionary framework for these inputs. It cannot signal-sort artificial blue light from mid-day sun when that light is being emitted at 10 PM. It cannot distinguish synthetic chemical compo`
+  - after:  `<p>The body does not have an evolutionary framework for these inputs. It cannot signal-sort artificial blue light from mid-day sun when that light is being emitted at 10 PM. It cannot distinguish synthetic chemical compo`
+- **blog/eliminate-the-insulting-behavior-environment.astro**
+  - before: `<p>The 4M framework addresses environment as its own optimization domain because no amount of supplement, peptide, or pharmacological support fully compensates for a body running in a fundamentally hostile environment. T`
+  - after:  `<p>The 4M framework addresses environment as its own optimization domain because no amount of supplement, peptide, or pharmacological support fully compensates for a body running in a fundamentally hostile environment. T`
+- **blog/eliminate-the-insulting-behavior-environment.astro**
+  - before: `<strong>Living under blue-spectrum artificial lighting after sunset.</strong> Standard LED lighting — now ubiquitous in homes, offices, and commercial spaces — emits heavily in the 450-480 nm blue-light range. This is th`
+  - after:  `<strong>Living under blue-spectrum artificial lighting after sunset.</strong> Standard LED lighting — now ubiquitous in homes, offices, and commercial spaces — emits heavily in the 450-480 nm blue-light range. This is th`
+- **blog/eliminate-the-insulting-behavior-environment.astro**
+  - before: `<strong>Getting no morning sunlight exposure.</strong> The circadian rhythm requires an anchor — a clear, strong morning light signal that tells the SCN when the day begins. This is not about vitamin D production, though`
+  - after:  `<strong>Getting no morning sunlight exposure.</strong> The circadian rhythm requires an anchor — a clear, strong morning light signal that tells the SCN when the day begins. This is not about vitamin D production, though`
+- **blog/eliminate-the-insulting-behavior-environment.astro**
+  - before: `<strong>Never making direct contact with the Earth's surface (grounding).</strong> Grounding — direct skin contact with the Earth's surface (soil, grass, sand, bodies of natural water) — is one of the most dismissed and `
+  - after:  `<strong>Never making direct contact with the Earth's surface (grounding).</strong> Grounding — direct skin contact with the Earth's surface (soil, grass, sand, bodies of natural water) — is one of the most dismissed and `
+- **blog/eliminate-the-insulting-behavior-environment.astro**
+  - before: `<p>The <strong>Rx path</strong> is relevant for men with significant identified environmental exposure — heavy metal toxicity, mycotoxin illness, PFAS-associated hormonal disruption — and involves comprehensive lab evalu`
+  - after:  `<p>The <strong>Rx path</strong> is relevant for anyone with significant identified environmental exposure — heavy metal toxicity, mycotoxin illness, PFAS-associated hormonal disruption — and involves comprehensive lab ev`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<p>The 4M framework — Mind, Muscle, Mitigate, Motivate — places gut health at the center of Month 1 for a reason. You cannot build a resilient brain on a dysfunctional gut. You cannot absorb the nutrients that fuel mitoc`
+  - after:  `<p>The 4M framework — Mind, Muscle, Mitigate, Motivate — places gut health at the center of Month 1 for a reason. You cannot build a resilient brain on a dysfunctional gut. You cannot absorb the nutrients that fuel mitoc`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<p>There is a second loop most men — and most clinicians — miss entirely: the microbiome's role in visceral-fat regulation. A compromised biome impairs insulin signaling, short-chain fatty acid production (butyrate, prop`
+  - after:  `<p>There is a second loop most people — and most clinicians — miss entirely: the microbiome's role in visceral-fat regulation. A compromised biome impairs insulin signaling, short-chain fatty acid production (butyrate, p`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<strong>Using alcohol as a regular relaxation tool.</strong> Alcohol is a direct gut toxin. Even moderate consumption — two to three drinks per day — measurably increases intestinal permeability, alters tight-junction pr`
+  - after:  `<strong>Using alcohol as a regular relaxation tool.</strong> Alcohol is a direct gut toxin. Even moderate consumption — two to three drinks per day — measurably increases intestinal permeability, alters tight-junction pr`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<strong>Taking antibiotics without gut restoration afterward.</strong> Antibiotics are sometimes medically necessary, and this is not an argument against appropriate antibiotic use. But failing to restore the microbiome `
+  - after:  `<strong>Taking antibiotics without gut restoration afterward.</strong> Antibiotics are sometimes medically necessary, and this is not an argument against appropriate antibiotic use. But failing to restore the microbiome `
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<strong>Ignoring symptoms that your gut is communicating.</strong> Bloating after meals. Irregular bowel movements — either constipation or loose stools that are normalized as "just how I am." Persistent brain fog that i`
+  - after:  `<strong>Ignoring symptoms that your gut is communicating.</strong> Bloating after meals. Irregular bowel movements — either constipation or loose stools that are normalized as "just how I am." Persistent brain fog that i`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<strong>Living under chronic psychological stress without a recovery strategy.</strong> The gut-brain axis is bidirectional, which means psychological stress creates measurable gut dysfunction, not just subjective discom`
+  - after:  `<strong>Living under chronic psychological stress without a recovery strategy.</strong> The gut-brain axis is bidirectional, which means psychological stress creates measurable gut dysfunction, not just subjective discom`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<strong>Eating zero fermented foods.</strong> The human microbiome co-evolved with fermented foods — yogurt, kefir, sauerkraut, kimchi, miso, tempeh — across thousands of years of human history. These are live cultures t`
+  - after:  `<strong>Eating zero fermented foods.</strong> The human microbiome co-evolved with fermented foods — yogurt, kefir, sauerkraut, kimchi, miso, tempeh — across thousands of years of human history. These are live cultures t`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<p><strong>Excess sugar:</strong> Check your labels. Sugar hides under 61 different names. Eliminate added sugar in beverages first — that single change removes the largest and most consistent glucose spike most men expe`
+  - after:  `<p><strong>Excess sugar:</strong> Check your labels. Sugar hides under 61 different names. Eliminate added sugar in beverages first — that single change removes the largest and most consistent glucose spike most people e`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<p>The <strong>Nutraceutical path</strong> starts with <strong>Biome NS Ultra</strong> — our OTC pharmaceutical-grade gut support formula designed to address dysbiosis, mucosal integrity, and microbiome diversity in a si`
+  - after:  `<p>The <strong>Nutraceutical path</strong> starts with <strong>Biome NS Ultra</strong> — our OTC pharmaceutical-grade gut support formula designed to address dysbiosis, mucosal integrity, and microbiome diversity in a si`
+- **blog/eliminate-the-insulting-behavior-gut.astro**
+  - before: `<p>The <strong>Rx path</strong> is for men with more significant gut compromise — significant history of antibiotic use, known leaky gut, inflammatory bowel history, or persistent brain fog and digestive symptoms that ha`
+  - after:  `<p>The <strong>Rx path</strong> is for anyone with more significant gut compromise — significant history of antibiotic use, known leaky gut, inflammatory bowel history, or persistent brain fog and digestive symptoms that`
+- **blog/eliminate-the-insulting-behavior-hormones.astro**
+  - before: `<strong>Using alcohol regularly.</strong> Alcohol directly suppresses testosterone synthesis by increasing the conversion of testosterone to estrogen (aromatization), elevating cortisol, and impairing the hypothalamic-pi`
+  - after:  `<strong>Using alcohol regularly.</strong> Alcohol directly suppresses testosterone synthesis by increasing the conversion of testosterone to estrogen (aromatization), elevating cortisol, and impairing the hypothalamic-pi`
+- **blog/eliminate-the-insulting-behavior-hormones.astro**
+  - before: `<strong>Living sedentary.</strong> Resistance training is one of the most well-documented natural stimulants of testosterone production. Compound movements — squat, deadlift, bench press, overhead press, row — produce ac`
+  - after:  `<strong>Living sedentary.</strong> Resistance training is one of the most well-documented natural stimulants of testosterone production. Compound movements — squat, deadlift, bench press, overhead press, row — produce ac`
+- **blog/eliminate-the-insulting-behavior-hormones.astro**
+  - before: `<strong>Living under unmanaged chronic stress.</strong> Cortisol and testosterone operate in biochemical opposition. The adrenal glands produce cortisol as the primary stress response hormone, and chronically elevated co`
+  - after:  `<strong>Living under unmanaged chronic stress.</strong> Cortisol and testosterone operate in biochemical opposition. The adrenal glands produce cortisol as the primary stress response hormone, and chronically elevated co`
+- **blog/eliminate-the-insulting-behavior-hormones.astro**
+  - before: `<p><strong>No baseline labs:</strong> Order a comprehensive male hormone panel. Most men are genuinely surprised by what they learn. Knowing your numbers is the non-negotiable first step.</p>`
+  - after:  `<p><strong>No baseline labs:</strong> Order a comprehensive male hormone panel. You'll likely be surprised by what you learn. Knowing your numbers is the non-negotiable first step.</p>`
+- **blog/eliminate-the-insulting-behavior-peptides.astro**
+  - before: `<p>Peptides have an image problem. In the public mind, they are bodybuilder shortcuts — backroom injectables associated with vanity musculature, fringe biohacking, and an aesthetic of optimization that has very little to`
+  - after:  `<p>Peptides have an image problem. In the public mind, they are bodybuilder shortcuts — backroom injectables associated with vanity musculature, fringe biohacking, and an aesthetic of optimization that has very little to`
+- **blog/eliminate-the-insulting-behavior-peptides.astro**
+  - before: `<p>Most men who could benefit from peptide therapy never encounter it because they have been insulted into a set of behaviors that obscure what peptides are actually for. Eliminate those behaviors first. The peptides wil`
+  - after:  `<p>Most people who could benefit from peptide therapy never encounter it because they have been insulted into a set of behaviors that obscure what peptides are actually for. Eliminate those behaviors first. The peptides `
+- **blog/eliminate-the-insulting-behavior-peptides.astro**
+  - before: `<strong>Treating peptides as a bodybuilding category.</strong> The cultural framing of peptides — sermorelin, ipamorelin, BPC-157 — as muscle-and-shred tools is a dramatic narrowing of what these molecules do. BPC-157 is`
+  - after:  `<strong>Treating peptides as a bodybuilding category.</strong> The cultural framing of peptides — sermorelin, ipamorelin, BPC-157 — as muscle-and-shred tools is a dramatic narrowing of what these molecules do. BPC-157 is`
+- **blog/eliminate-the-insulting-behavior-peptides.astro**
+  - before: `<strong>Sourcing peptides from gray-market vendors.</strong> Peptides ordered from research-chemical websites have no standardized purity, no clinical oversight, no dosing guidance, and no accountability if something goe`
+  - after:  `<strong>Sourcing peptides from gray-market vendors.</strong> Peptides ordered from research-chemical websites have no standardized purity, no clinical oversight, no dosing guidance, and no accountability if something goe`
+- **blog/eliminate-the-insulting-behavior-peptides.astro**
+  - before: `<strong>Stacking peptides without lab-guided sequencing.</strong> The internet is full of peptide stacks pitched as turnkey protocols. The clinical reality is that peptide therapy is sequenced — gut repair before metabol`
+  - after:  `<strong>Stacking peptides without lab-guided sequencing.</strong> The internet is full of peptide stacks pitched as turnkey protocols. The clinical reality is that peptide therapy is sequenced — gut repair before metabol`
+- **blog/eliminate-the-insulting-behavior-peptides.astro**
+  - before: `<strong>Assuming peptides replace the foundation.</strong> No peptide repairs the damage of five hours of nightly sleep, daily alcohol, sedentary work, and chronic unmanaged stress. The peptide layer of the 4M framework `
+  - after:  `<strong>Assuming peptides replace the foundation.</strong> No peptide repairs the damage of five hours of nightly sleep, daily alcohol, sedentary work, and chronic unmanaged stress. The peptide layer of the 4M framework `
+- **blog/eliminate-the-insulting-behavior-sleep.astro**
+  - before: `<p>Sleep is not passive downtime. It is an active, highly orchestrated biological process that performs functions that cannot be accomplished any other way: memory consolidation, synaptic pruning, hormone secretion (incl`
+  - after:  `<p>Sleep is not passive downtime. It is an active, highly orchestrated biological process that performs functions that cannot be accomplished any other way: memory consolidation, synaptic pruning, hormone secretion (incl`
+- **blog/eliminate-the-insulting-behavior-sleep.astro**
+  - before: `<strong>Consuming caffeine after 12-2 PM.</strong> Caffeine is a competitive antagonist of adenosine — the sleep-pressure molecule that accumulates in the brain during waking hours and drives sleep drive. The half-life o`
+  - after:  `<strong>Consuming caffeine after 12-2 PM.</strong> Caffeine is a competitive antagonist of adenosine — the sleep-pressure molecule that accumulates in the brain during waking hours and drives sleep drive. The half-life o`
+- **blog/eliminate-the-insulting-behavior-sleep.astro**
+  - before: `<strong>Using alcohol as a sleep aid.</strong> Alcohol is sedating — it is not sleep-inducing. The distinction matters enormously. Alcohol initially suppresses arousal through GABA potentiation, which feels like sleepine`
+  - after:  `<strong>Using alcohol as a sleep aid.</strong> Alcohol is sedating — it is not sleep-inducing. The distinction matters enormously. Alcohol initially suppresses arousal through GABA potentiation, which feels like sleepine`
+- **blog/eliminate-the-insulting-behavior-sleep.astro**
+  - before: `<strong>Sleeping in a warm bedroom.</strong> Core body temperature must drop 1-2 degrees Fahrenheit to initiate and maintain deep sleep. The body accomplishes this through peripheral vasodilation — routing blood flow to `
+  - after:  `<strong>Sleeping in a warm bedroom.</strong> Core body temperature must drop 1-2 degrees Fahrenheit to initiate and maintain deep sleep. The body accomplishes this through peripheral vasodilation — routing blood flow to `
+- **blog/eliminate-the-insulting-behavior-sleep.astro**
+  - before: `<strong>Ignoring untreated sleep apnea or snoring.</strong> Obstructive sleep apnea — partial or complete airway obstruction during sleep — is significantly underdiagnosed in men. It causes repeated micro-arousals that f`
+  - after:  `<strong>Ignoring untreated sleep apnea or snoring.</strong> Obstructive sleep apnea — partial or complete airway obstruction during sleep — is significantly underdiagnosed. It causes repeated micro-arousals that fragment`
+- **blog/eliminate-the-insulting-behavior-sleep.astro**
+  - before: `<p><strong>Afternoon caffeine:</strong> Hard cutoff at noon or 1 PM. Experiment with a 30-day zero-afternoon-caffeine period to discover your actual baseline sleep quality — most men are surprised by how significantly it`
+  - after:  `<p><strong>Afternoon caffeine:</strong> Hard cutoff at noon or 1 PM. Experiment with a 30-day zero-afternoon-caffeine period to discover your actual baseline sleep quality — most people are surprised by how significantly`
+- **blog/eliminate-the-insulting-behavior-sleep.astro**
+  - before: `<p>The <strong>Rx path</strong> is for men whose sleep disturbance is more significant — chronic insomnia with established psychological arousal, sleep apnea, or hormonal disruption (low testosterone, high cortisol) that`
+  - after:  `<p>The <strong>Rx path</strong> is for anyone whose sleep disturbance is more significant — chronic insomnia with established psychological arousal, sleep apnea, or hormonal disruption (low testosterone, high cortisol) t`
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<p>The conversation about weight in American culture is almost entirely wrong. It is framed as a cosmetic issue — as though the primary consequence of carrying excess body fat is how you look in clothes. This framing is `
+  - after:  `<p>The conversation about weight in American culture is almost entirely wrong. It is framed as a cosmetic issue — as though the primary consequence of carrying excess body fat is how you look in clothes. This framing is `
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<p>Visceral fat — the fat stored around the abdominal organs — is not inert. It is metabolically active tissue that produces pro-inflammatory cytokines, aromatase (which converts testosterone to estrogen), free fatty aci`
+  - after:  `<p>Visceral fat — the fat stored around the abdominal organs — is not inert. It is metabolically active tissue that produces pro-inflammatory cytokines, aromatase (which converts testosterone to estrogen), free fatty aci`
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<strong>Being sedentary during the majority of waking hours.</strong> Skeletal muscle is the largest glucose disposal organ in the body. When you contract muscle, glucose transporter proteins (GLUT4) migrate to the cell `
+  - after:  `<strong>Being sedentary during the majority of waking hours.</strong> Skeletal muscle is the largest glucose disposal organ in the body. When you contract muscle, glucose transporter proteins (GLUT4) migrate to the cell `
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<strong>Attempting to manage weight through willpower and caloric restriction alone.</strong> The research on long-term caloric restriction as a weight management strategy is clear: approximately 80-95% of people who los`
+  - after:  `<strong>Attempting to manage weight through willpower and caloric restriction alone.</strong> The research on long-term caloric restriction as a weight management strategy is clear: approximately 80-95% of people who los`
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<strong>Treating weight as a cosmetic issue and not a metabolic one.</strong> This framing delays intervention. Men who are carrying 30, 40, or 50 pounds of excess visceral fat but look "acceptable in clothes" or whose w`
+  - after:  `<strong>Treating weight as a cosmetic issue and not a metabolic one.</strong> This framing delays intervention. If you're carrying 30, 40, or 50 pounds of excess visceral fat but look "acceptable in clothes," or your wei`
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<strong>Using alcohol as a daily caloric supplement.</strong> Two glasses of wine or two beers per night adds 200-300 calories that are metabolized with absolute priority — the body drops everything else to process ethan`
+  - after:  `<strong>Using alcohol as a daily caloric supplement.</strong> Two glasses of wine or two beers per night adds 200-300 calories that are metabolized with absolute priority — the body drops everything else to process ethan`
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<strong>Not tracking body composition, only body weight.</strong> The scale measures total mass. It does not distinguish between muscle and fat, and it tells you nothing about where fat is distributed. A man can be at a `
+  - after:  `<strong>Not tracking body composition, only body weight.</strong> The scale measures total mass. It does not distinguish between muscle and fat, and it tells you nothing about where fat is distributed. You can be at a "n`
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<p><strong>Daily alcohol:</strong> Eliminate it or restrict to 1-2 times per week, maximum. The metabolic, hormonal, and cognitive benefits of reducing alcohol are among the fastest-appearing improvements a man can make.`
+  - after:  `<p><strong>Daily alcohol:</strong> Eliminate it or restrict to 1-2 times per week, maximum. The metabolic, hormonal, and cognitive benefits of reducing alcohol are among the fastest-appearing improvements you can make.</`
+- **blog/eliminate-the-insulting-behavior-weight.astro**
+  - before: `<p>The <strong>Rx path</strong> includes GLP-1 pharmacotherapy — semaglutide (Ozempic/Wegovy) or tirzepatide (Mounjaro/Zepbound) — for men with significant visceral adiposity and metabolic dysfunction who need pharmacolo`
+  - after:  `<p>The <strong>Rx path</strong> includes GLP-1 pharmacotherapy — semaglutide (Ozempic/Wegovy) or tirzepatide (Mounjaro/Zepbound) — for anyone with significant visceral adiposity and metabolic dysfunction who needs pharma`
+- **blog/semaglutide-vs-tirzepatide.astro**
+  - before: `<p>A direct head-to-head trial (SURPASS-CVOT versus SELECT for cardiovascular outcomes) is underway, but the weight loss data already tells us tirzepatide moves more metabolic mass in less time. For men with high viscera`
+  - after:  `<p>A direct head-to-head trial (SURPASS-CVOT versus SELECT for cardiovascular outcomes) is underway, but the weight loss data already tells us tirzepatide moves more metabolic mass in less time. If you carry a high visce`
+- **blog/what-to-expect-first-month-glp1.astro**
+  - before: `<p>In the app, Week 2 opens the sleep optimization module. Sleep architecture is one of the most underrated levers in cognitive longevity and metabolic health. Cortisol dysregulation from chronic poor sleep drives viscer`
+  - after:  `<p>In the app, Week 2 opens the sleep optimization module. Sleep architecture is one of the most underrated levers in cognitive longevity and metabolic health. Cortisol dysregulation from chronic poor sleep drives viscer`
+- **blog/what-to-expect-first-month-glp1.astro**
+  - before: `<p>GLP-1 medications induce weight loss that includes both fat and lean mass. Clinical data consistently shows that without resistance training, a meaningful portion of weight lost on GLP-1 therapy comes from muscle. Pre`
+  - after:  `<p>GLP-1 medications induce weight loss that includes both fat and lean mass. Clinical data consistently shows that without resistance training, a meaningful portion of weight lost on GLP-1 therapy comes from muscle. Pre`
+- **bmi-calculator.astro**
+  - before: `<li>May overestimate risk in highly muscular men</li>`
+  - after:  `<li>May overestimate risk in highly muscular individuals</li>`
+- **bmi-calculator.astro**
+  - before: `<li>May underestimate risk in men with "normal" weight but central adiposity</li>`
+  - after:  `<li>May underestimate risk in people with "normal" weight but central adiposity</li>`
+- **bmi-calculator.astro**
+  - before: `<p style="font-size:0.93rem; color:var(--text);">BMI is within a healthy range, but this does not automatically mean low visceral fat. Men with normal BMI can still carry significant central adiposity — particularly if l`
+  - after:  `<p style="font-size:0.93rem; color:var(--text);">BMI is within a healthy range, but this does not automatically mean low visceral fat. You can have a normal BMI and still carry significant central adiposity — particularl`
+- **bmi-calculator.astro**
+  - before: `<p style="font-size:0.93rem; color:var(--text);">Visceral fat accumulation is likely beginning to drive low-grade systemic inflammation. For men, this is the range where the neuroinflammatory burden starts to compound ye`
+  - after:  `<p style="font-size:0.93rem; color:var(--text);">Visceral fat accumulation is likely beginning to drive low-grade systemic inflammation. This is the range where the neuroinflammatory burden starts to compound year over y`
+- **bmi-calculator.astro**
+  - before: `'<p>A BMI of ' + bmi + ' is below the threshold where visceral fat typically drives significant neuroinflammatory load. GLP-1 medications are generally not indicated at this level. However, BMI alone does not tell the wh`
+  - after:  `'<p>A BMI of ' + bmi + ' is below the threshold where visceral fat typically drives significant neuroinflammatory load. GLP-1 medications are generally not indicated at this level. However, BMI alone does not tell the wh`
+- **bmi-calculator.astro**
+  - before: `'<p>The 4M framework addresses cognitive longevity at every metabolic level — not just for men with high BMI. The Personalized Assessment gives you the complete picture.</p>' +`
+  - after:  `'<p>The 4M framework addresses cognitive longevity at every metabolic level — not just for high BMI. The Personalized Assessment gives you the complete picture.</p>' +`
+- **fast-start.astro**
+  - before: `<p class="fs-pitch">If you're the kind of man who wants to understand the system before you put a supplement in your body, this is for you.</p>`
+  - after:  `<p class="fs-pitch">If you're the kind of person who wants to understand the system before you put a supplement in your body, this is for you.</p>`
+- **fast-start.astro**
+  - before: `<strong>The 12-week cohort.</strong> Structured programming with group cadence. You go through the work alongside other men, not in isolation.`
+  - after:  `<strong>The 12-week cohort.</strong> Structured programming with group cadence. You go through the work alongside others, not in isolation.`
+- **go/gut-repair.astro**
+  - before: `const title = 'Gut Repair for Men — Fix the Gut, Protect the Mind — My4MLife';`
+  - after:  `const title = 'Gut Repair — Fix the Gut, Protect the Mind — My4MLife';`
+- **go/gut-repair.astro**
+  - before: `const description = 'Bloating, brain fog, the 2pm crash — your gut is degrading the brain it feeds. Free physician-reviewed gut repair consult for men.';`
+  - after:  `const description = 'Bloating, brain fog, the 2pm crash — your gut is degrading the brain it feeds. Free physician-reviewed gut repair consult.';`
+- **go/gut-repair.astro**
+  - before: `<span class="lp-top-tag">The first brain-healthspan platform for men</span>`
+  - after:  `<span class="lp-top-tag">The first brain-healthspan platform</span>`
+- **go/gut-repair.astro**
+  - before: `<p class="lp-kicker">Gut repair · built for men</p>`
+  - after:  `<p class="lp-kicker">Gut repair · built to last</p>`
+- **go/gut-repair.astro**
+  - before: `<p class="lp-lead">Most men try to supplement their way past a gut they're actively injuring three times a day. Repair starts with removal:</p>`
+  - after:  `<p class="lp-lead">The usual move is to supplement your way past a gut you're actively injuring three times a day. Repair starts with removal:</p>`
+- **go/gut-repair.astro**
+  - before: `<p class="lp-mech-close">When the gut lining fails, inflammatory load crosses into circulation, the signal degrades, and the brain pays the bill. That's why we start every man's protocol at the gut — and why your MindSpa`
+  - after:  `<p class="lp-mech-close">When the gut lining fails, inflammatory load crosses into circulation, the signal degrades, and the brain pays the bill. That's why we start every protocol at the gut — and why your MindSpan Scor`
+- **go/gut-repair.astro**
+  - before: `<h2>Built for men who plan to keep their edge</h2>`
+  - after:  `<h2>Built for people who plan to keep their edge</h2>`
+- **links.astro**
+  - before: `const description = "My4MLife quick links — cognitive longevity and metabolic health for men. Dr. TJ Mundheim, DC. Take the free Personalized Assessment, book your consult, or download the app.";`
+  - after:  `const description = "My4MLife quick links — cognitive longevity and metabolic health. Dr. TJ Mundheim, DC. Take the free Personalized Assessment, book your consult, or download the app.";`
+- **links.astro**
+  - before: `<div class="tagline">Cognitive Longevity for Men &mdash; Dr. TJ</div>`
+  - after:  `<div class="tagline">Cognitive Longevity &mdash; Dr. TJ</div>`
+- **pillars/mind.astro**
+  - before: `The research on cognitive longevity is no longer ambiguous. The drivers of cognitive aging — gut inflammation, hormonal decline, environmental toxin load, sleep debt, sedentary behavior, chronic psychological stress — ar`
+  - after:  `The research on cognitive longevity is no longer ambiguous. The drivers of cognitive aging — gut inflammation, hormonal decline, environmental toxin load, sleep debt, sedentary behavior, chronic psychological stress — ar`
+- **pillars/mind.astro**
+  - before: `<p>Purposelessness is a cognitive risk factor. Men without a clear future orientation show accelerated cognitive decline — identity and vision are brain health.</p>`
+  - after:  `<p>Purposelessness is a cognitive risk factor. People without a clear future orientation show accelerated cognitive decline — identity and vision are brain health.</p>`
+- **pillars/mitigate.astro**
+  - before: `You cannot optimize a system that is actively being damaged. Most men trying to improve their health add supplements, protocols, and interventions on top of a foundation riddled with chronic insults. The result is dimini`
+  - after:  `You cannot optimize a system that is actively being damaged. Most people trying to improve their health add supplements, protocols, and interventions on top of a foundation riddled with chronic insults. The result is dim`
+- **pillars/motivate.astro**
+  - before: `Motivate is the pillar that turns Month 1 into Month 13 into Year 5. It closes the loop back to Mind — because sustained behavioral change is itself neuroprotective, and the man who lives this way builds the brain to sus`
+  - after:  `Motivate is the pillar that turns Month 1 into Month 13 into Year 5. It closes the loop back to Mind — because sustained behavioral change is itself neuroprotective, and living this way builds the brain to sustain it.`
+- **pillars/motivate.astro**
+  - before: `The barriers in this pillar are often the most underestimated. A man without a clear health vision will abandon his protocol when life gets hard. A man isolated in his health journey has no social reinforcement for the b`
+  - after:  `The barriers in this pillar are often the most underestimated. Without a clear health vision, you'll abandon the protocol when life gets hard. Isolated in your health journey, you have no social reinforcement for the beh`
+- **pillars/motivate.astro**
+  - before: `<p>Identity precedes behavior. A man who sees himself as someone who takes care of his health does not need willpower to sustain his protocols — he needs a system that reinforces the identity.</p>`
+  - after:  `<p>Identity precedes behavior. When you see yourself as someone who takes care of your health, you don't need willpower to sustain your protocols — you need a system that reinforces the identity.</p>`
+- **pillars/motivate.astro**
+  - before: `<p>Health literacy is a compliance driver. Men who understand the why behind their protocols follow them. My4MLife delivers clear, evidence-grounded education — no noise, no hype.</p>`
+  - after:  `<p>Health literacy is a compliance driver. People who understand the why behind their protocols follow them. My4MLife delivers clear, evidence-grounded education — no noise, no hype.</p>`
+- **pillars/motivate.astro**
+  - before: `<p>When healthcare is inaccessible — geographically, financially, or navigationally — men defer and deteriorate. The 4M system removes those barriers through telemedicine and tiered membership.</p>`
+  - after:  `<p>When healthcare is inaccessible — geographically, financially, or navigationally — people defer and deteriorate. The 4M system removes those barriers through telemedicine and tiered membership.</p>`
+- **pillars/motivate.astro**
+  - before: `<img src="/images/scenes/family-boat.jpg" alt="Man in his 60s at the helm of a wakeboard boat at golden hour, glancing back at his grandson riding the wake, three generations aboard" loading="lazy" />`
+  - after:  `<img src="/images/scenes/family-boat.jpg" alt="Person in their 60s at the helm of a wakeboard boat at golden hour, glancing back at a grandchild riding the wake, three generations aboard" loading="lazy" />`
+- **products/my4mlife-app.astro**
+  - before: `<li><strong>Cohort membership</strong> — the men running the protocol alongside you</li>`
+  - after:  `<li><strong>Cohort membership</strong> — the people running the protocol alongside you</li>`
+- **products/my4mlife-app.astro**
+  - before: `<li><strong>Cohort community</strong> — the men running the protocol alongside you</li>`
+  - after:  `<li><strong>Cohort community</strong> — the people running the protocol alongside you</li>`
+- **protege-signup.astro**
+  - before: `<strong>Cohort community</strong> &mdash; the men running the protocol alongside you.`
+  - after:  `<strong>Cohort community</strong> &mdash; the people running the protocol alongside you.`
+- **rx/regenerative-medicine.astro**
+  - before: `<img src="/images/scenes/regen-ridge.jpg" alt="Man in his 50s hiking a ridge trail at golden hour with a weighted pack" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/regen-ridge.jpg" alt="Person in their 50s hiking a ridge trail at golden hour with a weighted pack" loading="eager" fetchpriority="high" />`
+- **solutions/alcohol.astro**
+  - before: `oneliner="Daily alcohol is one of the most reliably overlooked accelerants of weight gain, ED, sleep collapse, and cognitive drift in men over 40. The cleanest reset is structural — and the medication is real."`
+  - after:  `oneliner="Daily alcohol is one of the most reliably overlooked accelerants of weight gain, ED, sleep collapse, and cognitive drift after 40. The cleanest reset is structural — and the medication is real."`
+- **solutions/alcohol.astro**
+  - before: `<img src="/images/scenes/alcohol-dock-sunrise.jpg" alt="Man in his 50s on a lake dock at sunrise holding a steaming mug, clear-eyed and rested" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/alcohol-dock-sunrise.jpg" alt="Person in their 50s on a lake dock at sunrise holding a steaming mug, clear-eyed and rested" loading="eager" fetchpriority="high" />`
+- **solutions/alcohol.astro**
+  - before: `rxBody="LDN is an off-label, well-tolerated prescription used by physicians to reduce alcohol cravings and intake without requiring abstinence-first commitment. Indicated for men who recognize daily drinking is interferi`
+  - after:  `rxBody="LDN is an off-label, well-tolerated prescription used by physicians to reduce alcohol cravings and intake without requiring abstinence-first commitment. Indicated when daily drinking is interfering with sleep, ho`
+- **solutions/alcohol.astro**
+  - before: `For men over 40, daily alcohol — even at "social" levels of 2-3 drinks per night —`
+  - after:  `Past 40, daily alcohol — even at "social" levels of 2-3 drinks per night —`
+- **solutions/alcohol.astro**
+  - before: `most common pattern we see in men presenting with multiple unexplained symptoms —`
+  - after:  `most common pattern we see in people presenting with multiple unexplained symptoms —`
+- **solutions/alcohol.astro**
+  - before: `The conventional binary — "you have a problem or you don't" — fails most of the men`
+  - after:  `The conventional binary — "you have a problem or you don't" — fails most of the people`
+- **solutions/alcohol.astro**
+  - before: `<li><strong>Believing willpower is the only intervention.</strong> LDN exists. NAC exists. Structured cohort accountability exists. Pretending these aren't tools because "real men just stop" leaves men stuck for years.</`
+  - after:  `<li><strong>Believing willpower is the only intervention.</strong> LDN exists. NAC exists. Structured cohort accountability exists. Pretending these aren't tools because "just stop" is enough leaves people stuck for year`
+- **solutions/alcohol.astro**
+  - before: `The honest framing: most men don't need to quit. They need to reduce intake to a level where their biology can catch up — and there are medical tools that make that easier.`
+  - after:  `The honest framing: most people don't need to quit. They need to reduce intake to a level where their biology can catch up — and there are medical tools that make that easier.`
+- **solutions/chronic-conditions.astro**
+  - before: `For a man in his 40s, 50s, or 60s living with a diagnosed chronic condition, the conventional path is a trajectory of managed decline. The body's capacity to compensate gradually narrows. The medication list grows. The f`
+  - after:  `If you're in your 40s, 50s, or 60s and living with a diagnosed chronic condition, the conventional path is a trajectory of managed decline. The body's capacity to compensate gradually narrows. The medication list grows. `
+- **solutions/cognitive.astro**
+  - before: `<img src="/images/scenes/cognitive-journal.jpg" alt="Man in his late 50s writing with a fountain pen in a leather journal at dusk" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/cognitive-journal.jpg" alt="Person in their late 50s writing with a fountain pen in a leather journal at dusk" loading="eager" fetchpriority="high" />`
+- **solutions/cognitive.astro**
+  - before: `<p class="aa-stat-headline"><strong>Lifetime risk of Alzheimer's at age 45: 1 in 10 men.</strong></p>`
+  - after:  `<p class="aa-stat-headline"><strong>Lifetime risk of Alzheimer's at age 45: 1 in 10.</strong></p>`
+- **solutions/cognitive.astro**
+  - before: `<p class="research-callout-intro">Most "premium nootropic" stacks ($60–100/month) are built on Bacopa, Lion's Mane, and proprietary blends with weak RCT support. The most-evidenced cognitive ingredient in the published l`
+  - after:  `<p class="research-callout-intro">Most "premium nootropic" stacks ($60–100/month) are built on Bacopa, Lion's Mane, and proprietary blends with weak RCT support. The most-evidenced cognitive ingredient in the published l`
+- **solutions/cognitive.astro**
+  - before: `<p class="product-in-dev-tagline"><em>The four-pillar mitochondrial supplement most men have never heard of.</em></p>`
+  - after:  `<p class="product-in-dev-tagline"><em>The four-pillar mitochondrial supplement most people have never heard of.</em></p>`
+- **solutions/cognitive.astro**
+  - before: `<p><strong>One mechanism, four outcomes.</strong> Creatine is a mitochondrial ATP buffer; the NO blend delivers oxygen to those mitochondria via vasodilation. Mitochondrial function under adequate blood flow is the upstr`
+  - after:  `<p><strong>One mechanism, four outcomes.</strong> Creatine is a mitochondrial ATP buffer; the NO blend delivers oxygen to those mitochondria via vasodilation. Mitochondrial function under adequate blood flow is the upstr`
+- **solutions/cognitive.astro**
+  - before: `<div class="four-m-card"><span class="four-m-label">Motivate</span><p>Steady energy. Freedom from the low-grade fatigue and brain fog men accept as "just getting older."</p></div>`
+  - after:  `<div class="four-m-card"><span class="four-m-label">Motivate</span><p>Steady energy. Freedom from the low-grade fatigue and brain fog people accept as "just getting older."</p></div>`
+- **solutions/cognitive.astro**
+  - before: `<p>Up to 60% of people carry genetic variants (MTHFR) that block standard B-vitamin conversion — a permanent feature of your biology. PPIs, metformin, and alcohol all deplete B-vitamins faster than diet replaces them. Ce`
+  - after:  `<p>Up to 60% of people carry genetic variants (MTHFR) that block standard B-vitamin conversion — a permanent feature of your biology. PPIs, metformin, and alcohol all deplete B-vitamins faster than diet replaces them. Ce`
+- **solutions/dental.astro**
+  - before: `oneliner="Gum disease is systemic inflammation with an address — and it's one of the most under-recognized health risks in men."`
+  - after:  `oneliner="Gum disease is systemic inflammation with an address — and it's one of the most under-recognized health risks out there."`
+- **solutions/dental.astro**
+  - before: `rxBody="Care coordinator connects you with a network physician to coordinate dental and systemic care — particularly for active periodontal disease, suspected oral infection, or men whose chronic inflammation traces back`
+  - after:  `rxBody="Care coordinator connects you with a network physician to coordinate dental and systemic care — particularly for active periodontal disease, suspected oral infection, or chronic inflammation that traces back to t`
+- **solutions/dental.astro**
+  - before: `decline, and systemic inflammatory burden — yet most men treat dental care as cosmetic`
+  - after:  `decline, and systemic inflammatory burden — yet dental care is routinely treated as cosmetic`
+- **solutions/environment/air.astro**
+  - before: `<li>A quality HEPA + activated carbon unit in your bedroom is the single highest-ROI environmental upgrade most men haven't made — you breathe that air for 7–8 hours nightly</li>`
+  - after:  `<li>A quality HEPA + activated carbon unit in your bedroom is the single highest-ROI environmental upgrade most people haven't made — you breathe that air for 7–8 hours nightly</li>`
+- **solutions/environment/air.astro**
+  - before: `<p class="product-why">Mycotoxin exposure is among the most underdiagnosed causes of cognitive impairment in otherwise healthy men. Hidden mold in a bathroom ceiling, basement crawlspace, or HVAC ductwork can generate pe`
+  - after:  `<p class="product-why">Mycotoxin exposure is among the most underdiagnosed causes of cognitive impairment in otherwise healthy people. Hidden mold in a bathroom ceiling, basement crawlspace, or HVAC ductwork can generate`
+- **solutions/environment/air.astro**
+  - before: `<p class="edu-intro">The EPA has documented indoor air as 2–5 times more polluted than outdoor air in the average American home. Most men spending 90% of their time indoors are living inside their single largest environm`
+  - after:  `<p class="edu-intro">The EPA has documented indoor air as 2–5 times more polluted than outdoor air in the average American home. If you're spending 90% of your time indoors, you're living inside your single largest envir`
+- **solutions/environment/air.astro**
+  - before: `<p>Mycotoxins specifically are among the most neurologically active compounds in the indoor environment. Even subclinical mold exposure — no visible mold, no smell — from hidden growth in walls or HVAC has been associate`
+  - after:  `<p>Mycotoxins specifically are among the most neurologically active compounds in the indoor environment. Even subclinical mold exposure — no visible mold, no smell — from hidden growth in walls or HVAC has been associate`
+- **solutions/environment/cold-plunge.astro**
+  - before: `<img src="/images/scenes/cold-plunge.jpg" alt="Man in his 50s breaking the surface of cold dark water at sunrise, controlled breath" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/cold-plunge.jpg" alt="Person in their 50s breaking the surface of cold dark water at sunrise, controlled breath" loading="eager" fetchpriority="high" />`
+- **solutions/environment/cold-plunge.astro**
+  - before: `<li>Cold exposure activates brown adipose tissue (BAT) thermogenesis and drives mitochondrial biogenesis, directly countering the age-related metabolic decline that accelerates in men</li>`
+  - after:  `<li>Cold exposure activates brown adipose tissue (BAT) thermogenesis and drives mitochondrial biogenesis, directly countering the age-related metabolic decline that accelerates with age</li>`
+- **solutions/environment/emf.astro**
+  - before: `<p class="product-why">A phone on the nightstand broadcasts continuously at full power searching for signal. For most men this is the single largest nightly RF source at the closest range. The pouch costs $29 and elimina`
+  - after:  `<p class="product-why">A phone on the nightstand broadcasts continuously at full power searching for signal. For most people this is the single largest nightly RF source at the closest range. The pouch costs $29 and elim`
+- **solutions/environment/grounding.astro**
+  - before: `<p class="product-why">For men who work seated or standing for 6–8 hours daily, the desk mat delivers grounding passively throughout the workday — stacking the anti-inflammatory benefit on top of sleep mat use rather tha`
+  - after:  `<p class="product-why">For anyone who works seated or standing for 6–8 hours daily, the desk mat delivers grounding passively throughout the workday — stacking the anti-inflammatory benefit on top of sleep mat use rather`
+- **solutions/environment/grounding.astro**
+  - before: `<p>Rubber-soled shoes were not widespread until the mid-20th century. They are excellent electrical insulators — specifically designed to prevent electron flow. Synthetic flooring, raised building foundations, multi-stor`
+  - after:  `<p>Rubber-soled shoes were not widespread until the mid-20th century. They are excellent electrical insulators — specifically designed to prevent electron flow. Synthetic flooring, raised building foundations, multi-stor`
+- **solutions/environment/grounding.astro**
+  - before: `<p><strong>Outdoor earthing sandals for daytime use.</strong> When barefoot isn't practical — terrain hazards, dress requirements, temperature — copper-soled sandals with conductive contact points at heel and ball of foo`
+  - after:  `<p><strong>Outdoor earthing sandals for daytime use.</strong> When barefoot isn't practical — terrain hazards, dress requirements, temperature — copper-soled sandals with conductive contact points at heel and ball of foo`
+- **solutions/environment/light.astro**
+  - before: `<li>Most men indoors all morning never get the full-spectrum sunlight that anchors the circadian clock — the result is a system running with no strong signal at either end</li>`
+  - after:  `<li>Most people indoors all morning never get the full-spectrum sunlight that anchors the circadian clock — the result is a system running with no strong signal at either end</li>`
+- **solutions/environment/light.astro**
+  - before: `<p>That melatonin countdown is the point most men miss. Melatonin doesn't decide when to rise based on how tired you are — it rises when the SCN says the day is over, which it measures by the <em>absence</em> of bright, `
+  - after:  `<p>That melatonin countdown is the point most people miss. Melatonin doesn't decide when to rise based on how tired you are — it rises when the SCN says the day is over, which it measures by the <em>absence</em> of brigh`
+- **solutions/environment/light.astro**
+  - before: `<p>The morning side is just as broken. Most men who work indoors never receive meaningful sunlight in the first 60 minutes after waking — the window that sets the circadian anchor. Office lighting, even "bright" overhead`
+  - after:  `<p>The morning side is just as broken. Most people who work indoors never receive meaningful sunlight in the first 60 minutes after waking — the window that sets the circadian anchor. Office lighting, even "bright" overh`
+- **solutions/environment/mineral-bath.astro**
+  - before: `<p class="product-why">Magnesium depletion drives poor sleep, elevated cortisol, and muscle tension — all three are common in men under protocol stress. A transdermal route supplements oral magnesium without additional g`
+  - after:  `<p class="product-why">Magnesium depletion drives poor sleep, elevated cortisol, and muscle tension — all three are common under protocol stress. A transdermal route supplements oral magnesium without additional gut load`
+- **solutions/environment/sauna.astro**
+  - before: `<li>Finnish epidemiological data (Laukkanen et al., 2018 JAMA Internal Medicine) shows dose-dependent reductions in cardiovascular mortality and dementia incidence at 4–7 sessions per week — among the strongest longevity`
+  - after:  `<li>Finnish epidemiological data (Laukkanen et al., 2018 JAMA Internal Medicine) shows dose-dependent reductions in cardiovascular mortality and dementia incidence at 4–7 sessions per week — among the strongest longevity`
+- **solutions/environment/sauna.astro**
+  - before: `<p class="product-why">The man who invests in his environment invests in his outcomes. A custom sauna is the highest-leverage single environmental installation available — used daily, it pays compounding health dividends`
+  - after:  `<p class="product-why">Invest in your environment and you invest in your outcomes. A custom sauna is the highest-leverage single environmental installation available — used daily, it pays compounding health dividends for`
+- **solutions/environment/sauna.astro**
+  - before: `men serious about maximizing the Finnish protocol, anyone already heat-adapted from FIR use.`
+  - after:  `people serious about maximizing the Finnish protocol, anyone already heat-adapted from FIR use.`
+- **solutions/environment/water.astro**
+  - before: `<p>Fluoride is added deliberately to most U.S. municipal supplies at 0.7 mg/L — a policy based on dental health research from the 1940s and 1950s that predates modern thyroid biology. Fluoride is a known thyroid disrupto`
+  - after:  `<p>Fluoride is added deliberately to most U.S. municipal supplies at 0.7 mg/L — a policy based on dental health research from the 1940s and 1950s that predates modern thyroid biology. Fluoride is a known thyroid disrupto`
+- **solutions/environment/water.astro**
+  - before: `<p>The exposure math is worse than most men assume. A typical adult ingests 2–3 liters of water daily through drinking and cooking — but the shower adds a second route that is frequently larger than the oral one. Hot wat`
+  - after:  `<p>The exposure math is worse than most people assume. A typical adult ingests 2–3 liters of water daily through drinking and cooking — but the shower adds a second route that is frequently larger than the oral one. Hot `
+- **solutions/environment/water.astro**
+  - before: `<p>When you aggregate oral ingestion, shower inhalation, and dermal absorption across a decade of unfiltered water use, the cumulative load of endocrine-disrupting compounds, chlorinated byproducts, and PFAS becomes a me`
+  - after:  `<p>When you aggregate oral ingestion, shower inhalation, and dermal absorption across a decade of unfiltered water use, the cumulative load of endocrine-disrupting compounds, chlorinated byproducts, and PFAS becomes a me`
+- **solutions/erectile-dysfunction.astro**
+  - before: `Most men ignore this signal for a decade. The point of My4MLife is that you don't have to.`
+  - after:  `It's easy to ignore this signal for a decade. The point of My4MLife is that you don't have to.`
+- **solutions/financial-stress.astro**
+  - before: `stated reason men don't invest in their health proactively.`
+  - after:  `stated reason people don't invest in their health proactively.`
+- **solutions/gut.astro**
+  - before: `oneliner="Leaky gut and gut microbiome dysfunction are the most underestimated drivers of cognitive decline in men — and they start decades before you feel it."`
+  - after:  `oneliner="Leaky gut and gut microbiome dysfunction are the most underestimated drivers of cognitive decline — and they start decades before you feel it."`
+- **solutions/gut.astro**
+  - before: `<img src="/images/scenes/gut-powder-stir.jpg" alt="Man's hand stirring fine powder into a glass of water on a dark stone counter" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/gut-powder-stir.jpg" alt="A hand stirring fine powder into a glass of water on a dark stone counter" loading="eager" fetchpriority="high" />`
+- **solutions/gut.astro**
+  - before: `<li>Gut-derived neuroinflammation is the most underestimated driver of early brain aging in men — and no hormone, peptide, or cognitive protocol reaches its ceiling on top of a broken gut</li>`
+  - after:  `<li>Gut-derived neuroinflammation is one of the most underestimated drivers of early brain aging — and no hormone, peptide, or cognitive protocol reaches its ceiling on top of a broken gut</li>`
+- **solutions/gut.astro**
+  - before: `<p>Your gut barrier turns over every 3–5 days — fast tissue, fast damage, fast repair. Every meal, every alcoholic drink, every dose of antibiotics, every week of high stress nicks the gut lining. The 4-week repair cycle`
+  - after:  `<p>Your gut barrier turns over every 3–5 days — fast tissue, fast damage, fast repair. Every meal, every alcoholic drink, every dose of antibiotics, every week of high stress nicks the gut lining. The 4-week repair cycle`
+- **solutions/health-knowledge.astro**
+  - before: `deep dives on topics relevant to men). Both are shaped under Dr. TJ's guidance —`
+  - after:  `deep dives on the topics that matter most at this stage of life). Both are shaped under Dr. TJ's guidance —`
+- **solutions/healthcare-access.astro**
+  - before: `oneliner="Fragmented, inconvenient, and expensive healthcare is one of the most common reasons men abandon their health — we're building an alternative."`
+  - after:  `oneliner="Fragmented, inconvenient, and expensive healthcare is one of the most common reasons people abandon their health — we're building an alternative."`
+- **solutions/healthcare-access.astro**
+  - before: `frequently cited reasons men disengage from their health. Scheduling friction,`
+  - after:  `frequently cited reasons people disengage from their health. Scheduling friction,`
+- **solutions/healthcare-access.astro**
+  - before: `for high-functioning men who deprioritize their own needs.`
+  - after:  `if you're high-functioning and used to deprioritizing your own needs.`
+- **solutions/hormones.astro**
+  - before: `<img src="/images/scenes/hormones-labs.jpg" alt="Confident man at a business dinner, firm handshake across the candlelit table" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/hormones-labs.jpg" alt="Confident professional at a business dinner, firm handshake across the candlelit table" loading="eager" fetchpriority="high" />`
+- **solutions/hormones.astro**
+  - before: `<div class="four-m-card"><span class="four-m-label">Motivate</span><p>Drive returns. Libido returns. Mood lifts. The "I'm just getting older" plateau that most men accept is, more often than not, untreated low testostero`
+  - after:  `<div class="four-m-card"><span class="four-m-label">Motivate</span><p>Drive returns. Libido returns. Mood lifts. The "I'm just getting older" plateau is, more often than not, untreated low testosterone.</p></div>`
+- **solutions/morning-routine.astro**
+  - before: `responsive, and your environment is most controllable. The men who consistently build`
+  - after:  `responsive, and your environment is most controllable. The people who consistently build`
+- **solutions/muscle.astro**
+  - before: `oneliner="Lean mass is the single most under-discussed lever in cognitive longevity. The men who keep their muscle through their 60s and 70s keep their independence — and their minds."`
+  - after:  `oneliner="Lean mass is the single most under-discussed lever in cognitive longevity. Keep your muscle through your 60s and 70s and you keep your independence — and your mind."`
+- **solutions/muscle.astro**
+  - before: `description="Muscle preservation and building protocol from My4MLife — creatine, protein-first nutrition, and the upstream rule set that protects lean mass through the decades when most men silently lose it."`
+  - after:  `description="Muscle preservation and building protocol from My4MLife — creatine, protein-first nutrition, and the upstream rule set that protects lean mass through the decades when most people silently lose it."`
+- **solutions/muscle.astro**
+  - before: `<img src="/images/scenes/gym-golden.jpg" alt="Man mid dumbbell row in a dark home gym, golden rim light" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/gym-golden.jpg" alt="Person mid dumbbell row in a dark home gym, golden rim light" loading="eager" fetchpriority="high" />`
+- **solutions/muscle.astro**
+  - before: `Sarcopenia — the age-related loss of muscle — starts in the 30s and accelerates after 60. By age 80, the average sedentary man has lost 30–40% of his peak muscle mass. That isn't a cosmetic problem. Muscle is the body's `
+  - after:  `Sarcopenia — the age-related loss of muscle — starts in the 30s and accelerates after 60. By age 80, the average sedentary adult has lost 30–40% of their peak muscle mass. That isn't a cosmetic problem. Muscle is the bod`
+- **solutions/muscle.astro**
+  - before: `<li><strong>30–40g protein per meal, breakfast-first.</strong> Lean meat, eggs, fish, or whey. The 30–40g threshold is the leucine signal that triggers muscle protein synthesis. Most men over 40 are not hitting this — pa`
+  - after:  `<li><strong>30–40g protein per meal, breakfast-first.</strong> Lean meat, eggs, fish, or whey. The 30–40g threshold is the leucine signal that triggers muscle protein synthesis. Most people over 40 are not hitting this —`
+- **solutions/nervous-system.astro**
+  - before: `description="Nervous system support protocol from My4MLife — methylation cofactors, peripheral nerve repair, and autonomic regulation. The layer underneath the cognitive, sleep, mood, and energy systems most men try to o`
+  - after:  `description="Nervous system support protocol from My4MLife — methylation cofactors, peripheral nerve repair, and autonomic regulation. The layer underneath the cognitive, sleep, mood, and energy systems most people try t`
+- **solutions/nervous-system.astro**
+  - before: `There's mechanism overlap (omega-3 DHA, magnesium-threonate, and B-vitamins all touch both), but the presenting picture is different. <strong>Brain Optimization</strong> is for the man with focus, memory, and mental-perf`
+  - after:  `There's mechanism overlap (omega-3 DHA, magnesium-threonate, and B-vitamins all touch both), but the presenting picture is different. <strong>Brain Optimization</strong> is for focus, memory, and mental-performance compl`
+- **solutions/nervous-system.astro**
+  - before: `<li><strong>Synthetic folic acid in cheap multivitamins.</strong> For men with MTHFR variants, synthetic folic acid can actually block the active folate pathway it should be supporting. Methylated forms only.</li>`
+  - after:  `<li><strong>Synthetic folic acid in cheap multivitamins.</strong> If you carry an MTHFR variant, synthetic folic acid can actually block the active folate pathway it should be supporting. Methylated forms only.</li>`
+- **solutions/nervous-system.astro**
+  - before: `Most men optimize for the brain and ignore the wiring underneath. Fix the substrate first.`
+  - after:  `Most people optimize for the brain and ignore the wiring underneath. Fix the substrate first.`
+- **solutions/nutrition.astro**
+  - before: `the meal. Men optimizing sleep and evening cortisol can tighten the close to 4–5pm. What matters most`
+  - after:  `the meal. If you're optimizing sleep and evening cortisol, tighten the close to 4–5pm. What matters most`
+- **solutions/nutrition.astro**
+  - before: `<p>The threshold isn't arbitrary — it's the leucine signal that triggers maximal muscle protein synthesis in adult men, which matters more every year after 40 as sarcopenia works against you. On GLP-1 protocols where tot`
+  - after:  `<p>The threshold isn't arbitrary — it's the leucine signal that triggers maximal muscle protein synthesis in adults, which matters more every year after 40 as sarcopenia works against you. On GLP-1 protocols where total `
+- **solutions/nutrition.astro**
+  - before: `Most men don't need to add anything to fix their nutrition — they need to stop insulting their`
+  - after:  `Most people don't need to add anything to fix their nutrition — they need to stop insulting their`
+- **solutions/nutrition.astro**
+  - before: `<p>Inflammatory food is a MindSpan tax paid at every meal. The three rules on this page are among the simplest levers a man has for moving his score in the right direction — starting at the very next meal.</p>`
+  - after:  `<p>Inflammatory food is a MindSpan tax paid at every meal. The three rules on this page are among the simplest levers you have for moving your score in the right direction — starting at the very next meal.</p>`
+- **solutions/pain-acute.astro**
+  - before: `have an outsized effect on recovery trajectory, yet most men either push through inappropriately`
+  - after:  `have an outsized effect on recovery trajectory, yet most people either push through inappropriately`
+- **solutions/pain-chronic.astro**
+  - before: `clinical practice have shown him that the men who resolve chronic pain are the ones`
+  - after:  `clinical practice have shown him that you resolve chronic pain by`
+- **solutions/pain-chronic.astro**
+  - before: `who approach it as a whole-system problem, not a structural defect to be fixed once.`
+  - after:  `approaching it as a whole-system problem, not a structural defect to be fixed once.`
+- **solutions/pain-chronic.astro**
+  - before: `Physical therapy, NSAIDs, anti-inflammatory nutrition, and peptides like BPC-157 are the right first interventions for chronic pain. For a significant portion of men who work through the 4M protocol, these approaches res`
+  - after:  `Physical therapy, NSAIDs, anti-inflammatory nutrition, and peptides like BPC-157 are the right first interventions for chronic pain. For a significant portion of the people who work through the 4M protocol, these approac`
+- **solutions/peptides.astro**
+  - before: `<div class="four-m-card"><span class="four-m-label">Motivate</span><p>Move without pain. Train harder. Recover faster. Pain is the #1 reason men quit their training — and quitting training accelerates every other decline`
+  - after:  `<div class="four-m-card"><span class="four-m-label">Motivate</span><p>Move without pain. Train harder. Recover faster. Pain is the #1 reason training gets abandoned — and quitting training accelerates every other decline`
+- **solutions/purpose-goals.astro**
+  - before: `<img src="/images/scenes/membership-dinner.jpg" alt="Four men in their 50s and 60s laughing around an outdoor dinner table at dusk" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/membership-dinner.jpg" alt="Four friends in their 50s and 60s laughing around an outdoor dinner table at dusk" loading="eager" fetchpriority="high" />`
+- **solutions/purpose-goals.astro**
+  - before: `any of this matter to you? Men in mid-life often find themselves achieving external`
+  - after:  `any of this matter to you? In mid-life, it's common to find yourself achieving external`
+- **solutions/purpose-goals.astro**
+  - before: `<p>Naming your accountability target is also a MindSpan input — men who anchor their goals to a specific face tend to show stronger momentum in their score than those working from an abstract "get healthier."</p>`
+  - after:  `<p>Naming your accountability target is also a MindSpan input — anchoring your goals to a specific face tends to build stronger momentum in your score than working from an abstract "get healthier."</p>`
+- **solutions/self-image.astro**
+  - before: `Self-image is a Motivate category because the research is unambiguous: men who feel`
+  - after:  `Self-image is a Motivate category because the research is unambiguous: feeling`
+- **solutions/self-image.astro**
+  - before: `better about their appearance are more consistent in every other health behavior.`
+  - after:  `better about your appearance makes you more consistent in every other health behavior.`
+- **solutions/self-image.astro**
+  - before: `aesthetic interventions are increasingly part of a holistic health picture for men`
+  - after:  `aesthetic interventions are increasingly part of a holistic health picture`
+- **solutions/sleep.astro**
+  - before: `<p>Sleep architecture degrades with age. Cortisol rhythm flattens. Magnesium depletes faster than most diets replace it. Most men over 40 are running 5–7 hours of mediocre sleep and don't remember what good sleep felt li`
+  - after:  `<p>Sleep architecture degrades with age. Cortisol rhythm flattens. Magnesium depletes faster than most diets replace it. If you're over 40 and running 5–7 hours of mediocre sleep, you've probably forgotten what good slee`
+- **solutions/stress.astro**
+  - before: `<img src="/images/scenes/stress-porch.jpg" alt="Man in his early 50s on a covered porch at dusk after rain, eyes closed, exhaling" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/stress-porch.jpg" alt="Person in their early 50s on a covered porch at dusk after rain, eyes closed, exhaling" loading="eager" fetchpriority="high" />`
+- **solutions/stress.astro**
+  - before: `Stress isn't an event — it's a physiological state. For men navigating career peaks,`
+  - after:  `Stress isn't an event — it's a physiological state. If you're navigating career peaks,`
+- **solutions/stress.astro**
+  - before: `relationship complexity, and body changes simultaneously, the HPA axis rarely fully`
+  - after:  `relationship complexity, and body changes simultaneously, your HPA axis rarely fully`
+- **solutions/substance-use.astro**
+  - before: `For men, the long arc matters most. A decade of two-to-four drinks nightly doesn't`
+  - after:  `The long arc matters most. A decade of two-to-four drinks nightly doesn't`
+- **solutions/weight.astro**
+  - before: `description="GLP-1 weight loss medication — semaglutide and tirzepatide — is available through My4MLife's contracted licensed telemedicine practice. An Ozempic alternative for men with visceral fat who've exhausted lifes`
+  - after:  `description="GLP-1 weight loss medication — semaglutide and tirzepatide — is available through My4MLife's contracted licensed telemedicine practice. An Ozempic alternative for anyone with visceral fat who's exhausted lif`
+- **solutions/weight.astro**
+  - before: `<img src="/images/scenes/weight-dawn-walk.jpg" alt="Man in his 50s walking at dawn on a quiet tree-lined road, first light on his face" loading="eager" fetchpriority="high" />`
+  - after:  `<img src="/images/scenes/weight-dawn-walk.jpg" alt="Person in their 50s walking at dawn on a quiet tree-lined road, first light on their face" loading="eager" fetchpriority="high" />`
+- **solutions/weight.astro**
+  - before: `<li>Chronic visceral fat accelerates brain aging faster than almost any other lifestyle variable in men</li>`
+  - after:  `<li>Chronic visceral fat accelerates brain aging faster than almost any other lifestyle variable</li>`
+- **solutions/weight.astro**
+  - before: `many men regain weight the moment the medication stops. Our protocol pairs GLP-1`
+  - after:  `much regained weight follows the moment the medication stops. Our protocol pairs GLP-1`
+- **solutions/weight.astro**
+  - before: `<p>These habits keep men metabolically stuck regardless of effort applied elsewhere.</p>`
+  - after:  `<p>These habits keep people metabolically stuck regardless of effort applied elsewhere.</p>`

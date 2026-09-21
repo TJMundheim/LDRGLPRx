@@ -14,8 +14,8 @@ import { COORDINATOR_MODE, consultHref } from '../../lib/siteMode';
 const LANE = 'leaky-gut';
 const lpCtaHref = COORDINATOR_MODE ? consultHref(LANE) : '/rx/leaky-gut/questionnaire';
 
-const title = 'Gut Repair for Men — Fix the Gut, Protect the Mind — My4MLife';
-const description = 'Bloating, brain fog, the 2pm crash — your gut is degrading the brain it feeds. Free physician-reviewed gut repair consult for men.';
+const title = 'Gut Repair — Fix the Gut, Protect the Mind — My4MLife';
+const description = 'Bloating, brain fog, the 2pm crash — your gut is degrading the brain it feeds. Free physician-reviewed gut repair consult.';
 const canonical = 'https://www.my4mlife.com/go/gut-repair';
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow" hideChrome={true}>
@@ -24,12 +24,12 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
 
   <header class="lp-top">
     <a class="lp-mark" href="/">My<b>4M</b>Life</a>
-    <span class="lp-top-tag">The first brain-healthspan platform for men</span>
+    <span class="lp-top-tag">The first brain-healthspan platform</span>
   </header>
 
   <!-- HERO -->
   <section class="lp-hero">
-    <p class="lp-kicker">Gut repair · built for men</p>
+    <p class="lp-kicker">Gut repair · built to last</p>
     <h1>Bloating. Brain fog. The 2&nbsp;p.m. crash.<br/>Your gut is telling you what your brain already feels.</h1>
     <p class="lp-punch">Gut damage doesn't stay in the gut. It degrades the organ that makes you <em>you</em> — and it starts years before any diagnosis.</p>
     <p class="lp-cta-sub">Two ways to start — order the foundation powder today, or begin with a free physician consult.</p>
@@ -63,7 +63,7 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
   <!-- STOP FIRST -->
   <section class="lp-block">
     <h2>Before anything else, stop the insulting behavior.</h2>
-    <p class="lp-lead">Most men try to supplement their way past a gut they're actively injuring three times a day. Repair starts with removal:</p>
+    <p class="lp-lead">The usual move is to supplement your way past a gut you're actively injuring three times a day. Repair starts with removal:</p>
     <ul class="lp-stop">
       <li><strong>Seed-oil fried everything.</strong> Inflammatory oils are a daily blowtorch on your gut lining.</li>
       <li><strong>The nightly alcohol "unwind."</strong> It strips the mucosal barrier while you sleep.</li>
@@ -80,7 +80,7 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
       <div class="lp-mech-item"><span class="lp-mech-n">~50%</span><p>of your dopamine originates there too — motivation runs on what your gut makes.</p></div>
       <div class="lp-mech-item"><span class="lp-mech-n">1 nerve</span><p>The vagus nerve is a direct gut-to-brain highway. An inflamed gut sends inflamed signals — all day, every day.</p></div>
     </div>
-    <p class="lp-mech-close">When the gut lining fails, inflammatory load crosses into circulation, the signal degrades, and the brain pays the bill. That's why we start every man's protocol at the gut — and why your MindSpan Score counts gut repair before anything else. Gut inflammation is a MindSpan tax: it shows up in your score before it shows up anywhere else.</p>
+    <p class="lp-mech-close">When the gut lining fails, inflammatory load crosses into circulation, the signal degrades, and the brain pays the bill. That's why we start every protocol at the gut — and why your MindSpan Score counts gut repair before anything else. Gut inflammation is a MindSpan tax: it shows up in your score before it shows up anywhere else.</p>
   </section>
 
   <!-- NOT SURE? -->
@@ -97,7 +97,7 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
 
   <!-- WHY US / CLOSE -->
   <section class="lp-block lp-close">
-    <h2>Built for men who plan to keep their edge</h2>
+    <h2>Built for people who plan to keep their edge</h2>
     <p class="lp-lead">Weight-loss shops sell you a scale number. We're after something bigger: the best mind possible until your last day of life. The gut is step one. <em>Begin with the end in mind.</em></p>
     <a class="lp-cta" href={lpCtaHref} onclick="window.posthog && posthog.capture('lp_gut_cta_close')">Start your free gut repair consult &rarr;</a>
   </section>
