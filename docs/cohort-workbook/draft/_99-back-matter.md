@@ -2,7 +2,7 @@
 
 ## About the Author
 
-**Dr. TJ Mundheim** is the founder of My4MLife. He built the program because he is living it — every protocol in this workbook is one he runs himself. He is here to teach it, refine it, and run it alongside the men who choose to plug in.
+**Dr. TJ Mundheim** is the founder of My4MLife. He built the program because he is living it — every protocol in this workbook is one he runs himself. He is here to teach it, refine it, and run it alongside the people who choose to plug in.
 
 ---
 

@@ -8,7 +8,7 @@
 - **Tagline (locked):** *Begin with the end in mind.*
 - **Sub-promise (locked):** *Don't lose your identity and your dignity while you still have a choice.*
 - **Author:** Dr. TJ Mundheim, DC — for My4MLife
-- **Audience:** Same as the book — men aged ~50-65 in their peak-power decade. They've signed up as Protégés (free, via the assessment) OR they bought the workbook standalone. Either way they want a structured, week-by-week, *action-driven* artifact to print, write in, and physically work through.
+- **Audience:** Same as the book — readers aged ~50-65 in their peak-power decade. They've signed up as Protégés (free, via the assessment) OR they bought the logbook standalone. Either way they want a structured, week-by-week, *action-driven* artifact to print, write in, and physically work through.
 - **Form:** A **workbook**, not a book. Checklists. Fill-in prompts with space to write. Daily trackers. Weekly reflection pages. Self-assessments with rating scales. Tear-out scorecards.
 - **Length per section:** 800-1,500 words of explanatory copy MAX per section, plus the workbook elements (templates, trackers, blanks). Don't write narrative prose — write *workbook copy* (clear instructions + the workbook form).
 - **Total target:** ~80 pages typeset.
@@ -55,7 +55,7 @@ Do NOT use product brand names in workbook copy. Use the generic mechanism/categ
 - *Stop hurting yourself first. Then add what works.*
 - *Strong body, sharp mind. Resistance training is neuroprotection.*
 - *Eliminate the insulting behavior.*
-- *Accountability target* — every Protégé must name a specific face (wife / kid / parent / future-self) before writing their why.
+- *Accountability target* — every Protégé must name a specific face (spouse or partner / kid / parent / future-self) before writing their why.
 - *Two Paths to Act* — OTC vs Rx tier.
 - *No weak links* — every product on the stack passes a full-ingredient audit; one off-message ingredient disqualifies the SKU.
 

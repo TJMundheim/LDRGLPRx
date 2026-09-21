@@ -435,7 +435,7 @@ _______________________________________________
 
 ---
 
-**2. Which domain am I most reluctant to bring up — even in a room of men doing the same work?**
+**2. Which domain am I most reluctant to bring up — even in a room of people doing the same work?**
 
 _______________________________________________
 
@@ -539,7 +539,7 @@ _______________________________________________
 
 ### Motivate
 
-Most men do not book the hormone consult because of pride, not because of money or time.
+Most people do not book the hormone consult because of pride, not because of money or time.
 
 The face I named as my accountability target in Week 1:
 

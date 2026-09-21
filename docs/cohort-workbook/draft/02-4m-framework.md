@@ -10,7 +10,7 @@ This page is your anchor. Any time the protocol starts to feel like a pile of ta
 
 Mind is what we're protecting.
 
-Not "longevity." Not "anti-aging." Not the body in the mirror. The man your wife married. The father your kids recognize. The operator who walks into a room and reads it. That man lives in roughly three pounds of tissue between your ears, and that tissue is what every other intervention in this workbook is serving.
+Not "longevity." Not "anti-aging." Not the body in the mirror. The person your spouse married. The parent your kids recognize. The operator who walks into a room and reads it. That person lives in roughly three pounds of tissue between your ears, and that tissue is what every other intervention in this workbook is serving.
 
 When you forget what the point of any single behavior is, the answer is always the same: **the point is Mind.**
 
@@ -48,7 +48,7 @@ This is the largest pillar in the cohort by surface area. Most of the audit cate
 
 Motivate is why you keep showing up on the third Tuesday in February when your shoulder is sore and the deal at work is falling apart and your daughter is going through something and nothing about the protocol sounds appealing.
 
-Under Motivate: purpose (your written why from Part 1), identity (the man you're becoming, not the protocol you're trying), accountability (the face from Part 1 + the cohort), the structural enablers (a morning routine that runs without willpower, the friction-removal layer the My4MLife system is built around), and compliance (the architecture that makes running the protocol the path of least resistance).
+Under Motivate: purpose (your written why from Part 1), identity (the person you're becoming, not the protocol you're trying), accountability (the face from Part 1 + the cohort), the structural enablers (a morning routine that runs without willpower, the friction-removal layer the My4MLife system is built around), and compliance (the architecture that makes running the protocol the path of least resistance).
 
 The most rigorous protocol in the world fails if compliance fails. Motivate is the pillar that makes the other three sustainable.
 
@@ -60,7 +60,7 @@ The four pillars are not a linear sequence. They are a recursive engine.
 
 Each pass through the cycle strengthens what you came to protect. Mitigate removes the insults so Muscle has a clean substrate to work on. Muscle builds the body Mind depends on. Motivate sustains the compliance that makes Mitigate and Muscle keep running. And then you arrive back at Mind, sharper than you started, because the work itself was neuroprotective.
 
-Then you do it again. And again. The man who runs the loop longest wins.
+Then you do it again. And again. Whoever runs the loop longest wins.
 
 ---
 

@@ -12,13 +12,13 @@ You kept everything from Week 1 — morning sun and walk, 30–40g protein-first
 
 What we add this week is the lift.
 
-Here's what most men in your decade don't understand: by 50, you are almost certainly sarcopenic. You've been losing 1-2% of lean muscle per year since your mid-30s, and it accelerates after 50. You don't see it because the scale doesn't move much — fat fills in where muscle leaves. The mirror lies politely. The bloodwork doesn't.
+Here's what most people in your decade don't realize: by 50, you are almost certainly sarcopenic. You've been losing 1-2% of lean muscle per year since your mid-30s, and it accelerates after 50. You don't see it because the scale doesn't move much — fat fills in where muscle leaves. The mirror lies politely. The bloodwork doesn't.
 
 Sarcopenia is not a falls-and-fractures problem. It's a cognitive risk factor. Compound resistance training releases myokines — irisin, BDNF-adjacent signaling molecules, cathepsin B — that cross the blood-brain barrier and stimulate neurogenesis in the hippocampus. The same hippocampus that shrinks first in Alzheimer's. When I say *resistance training is neuroprotection*, I mean it literally. The squat is a memory drug. The deadlift is a mood drug. The carry is a cognition drug.
 
 Three sessions this week. A / B / A pattern. Compound lifts only. Leave one rep in the tank — recovery is where adaptation happens, not in the gym.
 
-We're also tightening sleep architecture. The 60 minutes before bed are the single highest-leverage window most men waste. You're going to install a real wind-down this week.
+We're also tightening sleep architecture. The 60 minutes before bed are the single highest-leverage window most people waste. You're going to install a real wind-down this week.
 
 Same daily check-in. Same Wednesday Zoom. Same end-of-week 4M reflection. New trackers for the lift and the wind-down.
 
@@ -145,7 +145,7 @@ _____________________________________________________________________
 
 Lights out is still 10:30. What changes this week is the 60 minutes before it.
 
-Most men sabotage sleep in the last hour of the day and then blame the supplement. Fix the hour first. The supplement does the rest.
+Most people sabotage sleep in the last hour of the day and then blame the supplement. Fix the hour first. The supplement does the rest.
 
 ### The 9:30 PM wind-down — six rules
 
@@ -321,7 +321,11 @@ _______________________________________________
 
 **One identity statement that's getting truer:**
 
-> *I am a man who ______________________________________________________.*
+Complete the line that's yours.
+
+> *I am a man who _____________________________________________________.*
+>
+> *I am a woman who ___________________________________________________.*
 
 **What I want Week 3 to look like, in one sentence:**
 

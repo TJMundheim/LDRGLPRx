@@ -2,11 +2,11 @@
 
 This section is the menu, not the mandate.
 
-The men who get the most out of this protocol are the men who run Week 1–4 honestly, lock in the foundation across all four pillars, and then — somewhere around month three or four — start to ask what's possible if they go further. This section is for that man.
+The people who get the most out of this protocol are the ones who run Week 1–4 honestly, lock in the foundation across all four pillars, and then — somewhere around month three or four — start to ask what's possible if they go further. This section is for them.
 
 You do not need any of it to win. The foundation does 80% of the work. The cognitive optimization tier, the peptide layer, the biofeedback, the cold plunge — these are levers you can pull *on top of* a clean foundation. They are not substitutes for it.
 
-> Only after the foundation is locked. The man who layers this on a broken foundation gets the bill, not the benefit.
+> Only after the foundation is locked. The person who layers this on a broken foundation gets the bill, not the benefit.
 
 Read this section now if you want. Commit to running the basics for 90 days before deploying anything from it.
 
@@ -112,7 +112,7 @@ Pick **one** for the next 90 days. Just one.
 
 **HRV training.** The single most-evidenced consumer biofeedback intervention. Slow-paced breathing (roughly 6 breaths per minute) trains vagal tone over weeks. Polar, Whoop, Oura, or any HRV tool with biofeedback mode works. **Five minutes per day. Daily.** Add it to the morning sun walk or wind-down routine.
 
-**Muse-style EEG meditation aid.** Real-time feedback during meditation. Worth running for the man who has always struggled with meditation; the wearable gives feedback the cushion never did.
+**Muse-style EEG meditation aid.** Real-time feedback during meditation. Worth running for anyone who has always struggled with meditation; the wearable gives feedback the cushion never did.
 
 **Clinical neurofeedback.** qEEG-guided protocols available at neurofeedback clinics. Strongest evidence for ADHD and post-concussion; emerging for general cognitive optimization. The right move if you've plateaued or you're recovering from a concussion or significant head trauma.
 
@@ -183,7 +183,7 @@ Quick yes / no checklist. Aim for all six.
 
 ☐ TrueDark glasses if you're at screens after 8 PM
 
-> Most men optimize their gym before they optimize their bedroom. The bedroom delivers more cognitive return.
+> Most people optimize their gym before they optimize their bedroom. The bedroom delivers more cognitive return.
 
 ---
 
@@ -220,7 +220,7 @@ The labs every Protégé should run every 6–12 months. Bring these to your Rx 
 
 **Other foundational**
 - Vitamin D 25-OH
-- Ferritin (men over 50 — iron load matters)
+- Ferritin (age 50+ and post-menopausal — iron load matters)
 - CBC with differential
 
 **Optional / advanced**

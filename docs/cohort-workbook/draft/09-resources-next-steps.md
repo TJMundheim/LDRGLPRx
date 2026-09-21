@@ -204,7 +204,7 @@ Your score: 0 — 1 — 2 — 3 — 4 — 5
 
 ## 9.2 — The Rx Consult Path
 
-The OTC stack and the lifestyle protocols carry most men a long way. Some men need an Rx tier layered on top. Here's the map.
+The OTC stack and the lifestyle protocols carry most people a long way. Some need an Rx tier layered on top. Here's the map.
 
 | If your audit flagged… | Engage… | Expected workflow |
 |---|---|---|
@@ -245,7 +245,7 @@ The cohort runs on a weekly rhythm. Three touchpoints. None of them optional if 
 | 11 |   |   |   |   |
 | 12 |   |   |   |   |
 
-The men who fill this in are the men who finish the program.
+The people who fill this in are the ones who finish the program.
 
 ---
 
@@ -358,11 +358,11 @@ The Advanced Layer in Part 8 is optional. Don't add it until the foundation is l
 
 You made it through Month 1.
 
-I don't say that as a participation trophy. I say it because most men who buy a program like this never get past the first two weeks. You did. You ran the protein-first rule. You closed the eating window. You walked into morning sun. You loaded the stack. You filled in the trackers. You took your scorecard seriously enough to keep coming back to it.
+I don't say that as a participation trophy. I say it because most people who buy a program like this never get past the first two weeks. You did. You ran the protein-first rule. You closed the eating window. You walked into morning sun. You loaded the stack. You filled in the trackers. You took your scorecard seriously enough to keep coming back to it.
 
-The men who finish Month 1 are not the men who started it. The man who started had a vague sense that things were sliding. The man finishing has data, a stack, a face he's doing this for, and 30 days of evidence that he can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
+The people who finish Month 1 are not the people who started it. The person who started had a vague sense that things were sliding. The person finishing has data, a stack, a face they're doing this for, and 30 days of evidence that they can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
 
-You are not doing this alone. The cohort runs alongside you. Wednesday nights I'm on the Zoom. Sunday nights you reflect. The other men in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
+You are not doing this alone. The cohort runs alongside you. Wednesday nights I'm on the Zoom. Sunday nights you reflect. The other people in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
 
 *Begin with the end in mind.*
 

@@ -46,7 +46,7 @@ The next time you open this logbook, you should already be someone who has named
 
 ### Who This Logbook Is For
 
-I am a man, and I have spent thirty years in practice treating men and women. That is the honest origin of this program: one clinician's voice, shaped by three decades of sitting across from people who waited too long.
+I am a man, and I have spent thirty years in practice treating patients of both sexes. That is the honest origin of this program: one clinician's voice, shaped by three decades of sitting across from people who waited too long.
 
 **The medicine is for everyone.** The gut you repair, the sleep you defend, the muscle you keep, the mind you protect — none of it checks your driver's license first. Every page here is yours to run.
 
@@ -1411,7 +1411,11 @@ _______________________________________________
 
 **One identity statement that's getting truer:**
 
-> *I am a person who ___________________________________________________.*
+Complete the line that's yours.
+
+> *I am a man who _____________________________________________________.*
+>
+> *I am a woman who ___________________________________________________.*
 
 **What I want Week 3 to look like, in one sentence:**
 
@@ -3886,7 +3890,7 @@ You made it through Month 1.
 
 I don't say that as a participation trophy. I say it because most people who buy a program like this never get past the first two weeks. You did. You ran the protein-first rule. You closed the eating window. You walked into morning sun. You loaded the stack. You filled in the trackers. You took your scorecard seriously enough to keep coming back to it.
 
-The people who finish Month 1 are not the people who started it. The person who started had a vague sense that things were sliding. The person finishing has data, a stack, a face he's doing this for, and 30 days of evidence that he can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
+The people who finish Month 1 are not the people who started it. The person who started had a vague sense that things were sliding. The person finishing has data, a stack, a face they're doing this for, and 30 days of evidence that they can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
 
 You are not doing this alone. The cohort runs alongside you. Wednesday nights I'm on the Zoom. Sunday nights you reflect. The other people in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
 

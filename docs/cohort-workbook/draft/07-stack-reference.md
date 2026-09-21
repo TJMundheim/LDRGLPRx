@@ -1,6 +1,6 @@
 # Part 7 — The Stack Reference
 
-This is the part you come back to. When you forget why a powder is sitting on your counter, when your wife asks what the capsule does, when you're deciding whether to add the Rx tier — open here.
+This is the part you come back to. When you forget why a powder is sitting on your counter, when your spouse asks what the capsule does, when you're deciding whether to add the Rx tier — open here.
 
 ---
 
@@ -22,9 +22,9 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** Morning, empty stomach, 8oz water, 30 minutes before first food
 **Dose:** 1 scoop daily
 **What it is:** Gut-brain seal powder. L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + vitamin A + vitamin D3. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most men over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
+**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most people over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
 **What it pairs with:** Everything. Specifically amplifies the D3+K2 stack (fat-soluble absorption), the omega-3+CoQ10 softgel (anti-inflammatory synergy), and any nootropic peptide (cleaner substrate to act on).
-**What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some men report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
+**What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some people report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
 **Two Paths note:** Pairs with the prescription gut-barrier peptide protocol (BPC-157 + L-glutamine + aloe, oral compounded) on top — same anchor, deeper repair.
 
 > *The gut-brain seal that protects cognitive longevity.*
@@ -37,7 +37,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** With protein-first breakfast
 **Dose:** 1 capsule daily
 **What it is:** D3 (cholecalciferol) + K2 (MK-7) + boron + astaxanthin. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** Four fat-soluble defenders that nearly every man over 50 is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
+**Why it's in the stack:** Four fat-soluble defenders that nearly everyone over 50 is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
 **What it pairs with:** Omega-3 + CoQ10 softgel (shared fat-soluble absorption window, mitochondrial synergy). Gut-barrier probiotic (sealed gut means D3/K2 actually get absorbed).
 **What to watch for in the first 30 days:** Subtle but real — mood floor lifts, recovery from training improves, skin tone shifts. If you're starting from a deficient D level, expect the biggest change at the 6-8 week mark when serum levels normalize.
 **Two Paths note:** No Rx upgrade. This is foundation only.
@@ -50,7 +50,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** With breakfast, year-round, no cycling
 **Dose:** 5g daily (no loading phase needed at our age)
 **What it is:** Pure creatine monohydrate. Not HCL, not buffered, not "advanced." Monohydrate. The form that has 700+ trials behind it.
-**Why it's in the stack:** This is the single most-evidenced cognitive supplement for men 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
+**Why it's in the stack:** This is the single most-evidenced cognitive supplement for people 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
 **What it pairs with:** Resistance training (non-negotiable). Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
 **What to watch for in the first 30 days:** 1-2 pounds of water weight in the first 10 days — that's intracellular hydration, not fat. Strength on compound lifts goes up within 2-3 weeks. Mental clarity under sleep deprivation is the tell that it's reached your brain.
 
@@ -79,7 +79,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** 30-60 minutes before lights out (lights out by 10:30 PM)
 **Dose:** 1 serving nightly
 **What it is:** Sleep-architecture support — non-melatonin-led formula designed to deepen slow-wave and REM without the next-morning hangover or the receptor-downregulation problem of chronic high-dose melatonin. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most men over 50 are not sleep-deprived in hours — they're sleep-deprived in architecture. This formula exists to fix the architecture so the hours you do sleep actually count.
+**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most people over 50 are not sleep-deprived in hours — they're sleep-deprived in architecture. This formula exists to fix the architecture so the hours you do sleep actually count.
 **What it pairs with:** Magnesium L-threonate (Magtein) — taken together they form the sleep stack. Lights-out-by-10:30 protocol. Morning sun anchor (sleep is set in the morning, not the evening).
 **What to watch for in the first 30 days:** First week is the tell. Fewer 3 AM wake-ups. Dreams come back (a sign REM is recovering). Morning HRV trends up if you wear a tracker.
 **Two Paths note:** Pairs with a nattokinase prescription for the circulation/clotting tier — different mechanism, same sleep-and-cardiovascular protective intent.
@@ -144,7 +144,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** Evening, alongside the sleep-support formula
 **Dose:** Per prescription
 **What it is:** Nattokinase, compounded. See my4mlife.com for the current sleep Rx protocol.
-**Why it's in the stack:** Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in men 50+ with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
+**Why it's in the stack:** Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in people 50+ with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
 **What it pairs with:** Sleep-support formula (architecture). Omega-3 + CoQ10 softgel (vascular health). D3+K2 stack (K2 calcification management).
 **What to watch for in the first 30 days:** Subtler than the gut Rx. Track HRV and morning resting heart rate. Look for steadier readings, not a single dramatic shift.
 **Two Paths note:** This is the Rx path for circulation. Not a sedative.
@@ -173,7 +173,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Why it's in the stack:** Visceral fat is neuroinflammatory. Insulin resistance is upstream of cognitive decline. For the right candidate — BMI threshold met, comorbidities present, lifestyle effort already in motion — GLP-1 collapses years of struggle into months. It is not a vanity drug. It is a metabolic-and-neurological intervention.
 **What it pairs with:** Resistance training (mandatory — without lifting, you lose muscle, not fat). 30–40g protein-first rule (mandatory — appetite is suppressed; protein priority is how you keep lean mass). Omega-3 + CoQ10 softgel (lipid quality protection). Gut-barrier probiotic (GLP-1 slows gut motility; the seal matters more, not less).
 **What to watch for in the first 30 days:** Appetite drops fast. Hydration discipline becomes critical. Watch for under-eating protein — the most common failure mode.
-**Two Paths note:** The OTC adjacent layer is the 9 AM – 6 PM eating window (train fasted, break the fast with 30–40g protein after) plus lifting. Many men get most of the metabolic benefit there.
+**Two Paths note:** The OTC adjacent layer is the 9 AM – 6 PM eating window (train fasted, break the fast with 30–40g protein after) plus lifting. Many people get most of the metabolic benefit there.
 
 ---
 

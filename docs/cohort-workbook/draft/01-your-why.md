@@ -12,19 +12,19 @@ I'm going to ask you to do something counter-intuitive before I hand you a singl
 
 I'm going to ask you to put the workbook down for ten minutes and look at a face.
 
-Not your own face in the mirror. Somebody else's face. Your wife. One of your kids — by name. Your aging father in the chair he doesn't get out of anymore. The grandchild who isn't born yet. Your own younger self at twenty-two. One specific human being whose life is materially worse if your mind goes before your body does.
+Not your own face in the mirror. Somebody else's face. Your spouse or partner. One of your kids — by name. Your aging parent in the chair they don't get out of anymore. The grandchild who isn't born yet. Your own younger self at twenty-two. One specific human being whose life is materially worse if your mind goes before your body does.
 
-I've been doing this work long enough to tell you what separates the men who finish a four-month cohort from the men who quit in week three. It isn't IQ. It isn't income. It isn't how clean the protocol is or how expensive the stack is. It's whether they could name, on day one, who they were doing this for.
+I've been doing this work long enough to tell you what separates the people who finish a four-month cohort from the ones who quit in week three. It isn't IQ. It isn't income. It isn't how clean the protocol is or how expensive the stack is. It's whether they could name, on day one, who they were doing this for.
 
 Here is the lock-in phrase for this entire workbook. Write it down. Read it back:
 
 > *The protocol that you run beats the protocol that was theoretically better. And the protocol that you run is the one you run for a specific named person.*
 
-The men who run it have a face. The men who don't, drift.
+The people who run it have a face. The ones who don't, drift.
 
 That's why Part 1 is not about gut repair, or testosterone, or sleep architecture, or resistance training, or any of the things you came here to fix. Part 1 is about you naming — in your own handwriting, on this page, today — the human being whose presence in your life makes the next four months non-negotiable.
 
-If you skip this section and jump to the protocol, the protocol will not hold. I have watched this happen for years. A man buys the stack, reads the chapters, runs week one beautifully, hits a bad Tuesday in week two, and quits. He quits because there was no face on the other side of the quitting. The quitting cost him nothing.
+If you skip this section and jump to the protocol, the protocol will not hold. I have watched this happen for years. Someone buys the stack, reads the chapters, runs week one beautifully, hits a bad Tuesday in week two, and quits. They quit because there was no face on the other side of the quitting. The quitting cost them nothing.
 
 We are going to make the quitting cost something. We are going to give it a face and a name and a six-month outcome you wrote down with your own hand.
 
@@ -36,7 +36,7 @@ Do the four exercises in order. Don't optimize. Don't pretty it up. Use a pen, n
 
 This is the locked My4MLife rule and it is the foundation of everything that follows: **you must name a specific face before you write your why.** Not "my family." Not "the people I love." Not "myself." A specific human being I could pick out of a photograph if you showed me one.
 
-Most men want to skip this step. Most men want to write "my family" because it feels generous and complete. It isn't. "My family" is an abstraction and abstractions don't get you out of bed at 5:45 in the morning when your knees hurt and the coffee isn't on yet. A face does.
+Most people want to skip this step. Most people want to write "my family" because it feels generous and complete. It isn't. "My family" is an abstraction and abstractions don't get you out of bed at 5:45 in the morning when your knees hurt and the coffee isn't on yet. A face does.
 
 Pick one. You can add more later. Right now, name the single person whose deterioration in your absence — or whose loss of you to cognitive decline — is the thing you cannot accept. Write the name. Write what they call you. Write one sentence about what they need from you that nobody else on earth can give.
 
@@ -133,7 +133,7 @@ A why without a target is a wish. We are going to give your why three measurable
 
 The rules: each outcome must be (a) specific, (b) measurable with a number or a 1-10 score, and (c) something you can verify on the date without anybody else's permission. Not "feel better." Not "be healthier." A number. A score. A waist size. A weight. A lift. A morning erection frequency. A sleep score. A cognitive clarity rating you write down today and re-rate in 180 days.
 
-Pick from the menu below or write your own. Three is the cap. Men who write ten targets hit zero. Men who write three hit two.
+Pick from the menu below or write your own. Three is the cap. People who write ten targets hit zero. People who write three hit two.
 
 **Sample target categories (pick any three or write your own):**
 

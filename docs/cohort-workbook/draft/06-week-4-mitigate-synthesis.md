@@ -16,11 +16,11 @@ This week does two things.
 
 **One:** the full Eliminate-the-Insulting-Behavior audit. You will walk every Mitigate category — gut, sleep, environment, hormones, substance use, cognitive — and mark honestly what you're still doing. Then you pick the three insults you're cutting in the next 30 days. Three. Not all of them. Three.
 
-**Two:** the month-end synthesis. What changed from your Part 1 baseline. What worked and earned its place. What slipped and why. The 90-day plan forward. The locked recommit procedure for when you fall off — because you will, and the men who win are the ones who restart fastest.
+**Two:** the month-end synthesis. What changed from your Part 1 baseline. What worked and earned its place. What slipped and why. The 90-day plan forward. The locked recommit procedure for when you fall off — because you will, and the people who win are the ones who restart fastest.
 
 > *Stop hurting yourself first. Then add what works.*
 
-> *The man who runs the loop longest wins.*
+> *Whoever runs the loop longest wins.*
 
 Print this section. Sit with it on Sunday morning with coffee and a pen. Don't speed through it. This is the deepest week of Month 1.
 
@@ -28,7 +28,7 @@ Print this section. Sit with it on Sunday morning with coffee and a pen. Don't s
 
 ## 6.2 — The Full Eliminate-the-Insulting-Behavior Audit
 
-For each insult: **☐ Yes / ☐ Some / ☐ No.** Be honest. Nobody sees this but you and the man you're becoming.
+For each insult: **☐ Yes / ☐ Some / ☐ No.** Be honest. Nobody sees this but you and the person you're becoming.
 
 ### Gut
 
@@ -366,23 +366,23 @@ ___________________________________________________________
 
 ## 6.6 — The 30-Day Recommit Procedure
 
-You will fall off. Every man on this protocol falls off. The wedding, the work trip, the flu, the funeral, the stretch where life punches you in the mouth and the daily floor goes to zero for nine days.
+You will fall off. Everyone on this protocol falls off. The wedding, the work trip, the flu, the funeral, the stretch where life punches you in the mouth and the daily floor goes to zero for nine days.
 
 This is the locked procedure. Tape it inside the workbook cover.
 
 1. **Do not try to make it up.** No double-stacking after a slip. You cannot earn back lost days by punishing the next ones. Trying to "catch up" is the second insult after the first.
 
-2. **Pick ONE behavior.** Whichever has the lowest activation energy for *you* right now. For most men it's the morning sun walk. For some it's protein-first. For some it's lights out at 10:30. Pick the easiest re-entry, not the most important one.
+2. **Pick ONE behavior.** Whichever has the lowest activation energy for *you* right now. For most people it's the morning sun walk. For some it's protein-first. For some it's lights out at 10:30. Pick the easiest re-entry, not the most important one.
 
 3. **Run that one for 3 days.** Just that one. Don't add. Don't apologize. Don't track anything else. Three clean days of the easiest behavior.
 
 4. **Add the second one on day 4.** Now two behaviors. Run both for three days.
 
-5. **Stack until full compliance by day 13-14.** By the end of the second week you are back on the full daily floor. The men who get back here in two weeks beat the men who tried to come back at 100% on day one and broke again by day three.
+5. **Stack until full compliance by day 13-14.** By the end of the second week you are back on the full daily floor. The people who get back here in two weeks beat the ones who tried to come back at 100% on day one and broke again by day three.
 
 6. **Show up to the weekly Zoom even when you have run zero behaviors that week.** Especially then. The face on screen matters more than the report card. The cohort sees you. You see the cohort. The loop stays closed.
 
-> *The man who runs the loop longest wins.*
+> *Whoever runs the loop longest wins.*
 
 ---
 
@@ -412,7 +412,7 @@ One page per pillar, in locked order. Longer than the weekly versions. Sit with 
 
 ### Mind — what we're protecting
 
-Mind is the destination. Mind is also where the cycle starts. Four weeks ago you wrote about the man you want to be at 85 — sharp, present, knowing the names of grandchildren you may not have met yet.
+Mind is the destination. Mind is also where the cycle starts. Four weeks ago you wrote about the person you want to be at 85 — sharp, present, knowing the names of grandchildren you may not have met yet.
 
 > **What does my Mind feel like today versus 30 days ago?**
 >
@@ -531,6 +531,6 @@ A score above 200 means you ran the loop. A score below 150 means the structure 
 >
 > *Eliminate the insulting behavior.*
 >
-> *The man who runs the loop longest wins.*
+> *Whoever runs the loop longest wins.*
 
 — Dr. TJ
