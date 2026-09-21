@@ -487,7 +487,7 @@ Here is the part of the conversation no one has with you in a fifteen-minute phy
 
 The biology that decides whether you keep your mind in your seventies and eighties does not start moving when you notice symptoms. It started moving decades ago, quietly, while you were building everything else.
 
-Testosterone, the hormone that does about a hundred jobs in a man's body — muscle, mood, libido, executive function, motivation, recovery — declines roughly one percent per year after age thirty. That is not a typo. By the time a man is sixty, all else equal, he is operating on roughly seventy percent of the testosterone he had at thirty. Most men accept this as "getting older." The equivalent hormonal transition in women runs on a different clock, and I take it up directly in Chapter 7. Either way, I want you to stop accepting the drift as inevitable. There is nothing dignified about a slow decline you didn't consent to.
+Testosterone, the hormone that does about a hundred jobs in a man's body — muscle, mood, libido, executive function, motivation, recovery — declines roughly one percent per year after age thirty. That is not a typo. By the time a man is sixty, all else equal, he is operating on roughly seventy percent of the testosterone he had at thirty. Most people accept this as "getting older." The equivalent hormonal transition in women runs on a different clock, and I take it up directly in Chapter 7. Either way, I want you to stop accepting the drift as inevitable. There is nothing dignified about a slow decline you didn't consent to.
 
 The hippocampus, the seahorse-shaped structure in your brain that consolidates memory and threads context together, is exquisitely sensitive to chronic stress. Chronically elevated cortisol — the kind that comes from twenty-five years of running a company, of carrying payroll on your back, of being the last one to sleep and the first one up — measurably shrinks it. Not metaphorically. Volumetrically. On MRI.
 
@@ -787,7 +787,7 @@ Most people over fifty fail on at least two of these four dimensions. The fix is
 
 Sleep is the master regulator of the endocrine system, and the relationship runs both ways — broken sleep breaks hormones, and broken hormones break sleep. It is a closed loop, and once it locks in, you cannot exit it from either direction in isolation.
 
-Testosterone synthesis happens predominantly during sleep, with the largest pulses concentrated in REM cycles in the second half of the night. Studies of men whose sleep was experimentally restricted to five hours per night for one week show testosterone drops of 10 to 15% — equivalent to aging ten to fifteen years in seven days. The men in my practice who present with low T and ask whether they need TRT often have a sleep problem first and a hormonal problem second. Fix the sleep, retest in eight weeks, and the numbers frequently move enough that TRT becomes a different conversation.
+Testosterone synthesis happens predominantly during sleep, with the largest pulses concentrated in REM cycles in the second half of the night. Studies of men whose sleep was experimentally restricted to five hours per night for one week show testosterone drops of 10 to 15% — equivalent to aging ten to fifteen years in seven days. The patients in my practice who present with low T and ask whether they need TRT often have a sleep problem first and a hormonal problem second. Fix the sleep, retest in eight weeks, and the numbers frequently move enough that TRT becomes a different conversation.
 
 Cortisol should be at its lowest point between roughly 10 PM and 2 AM and climb gradually toward a peak around the moment you wake. When sleep is fragmented, when bedtime is late, when alcohol is on board, that nighttime cortisol nadir does not happen. Cortisol stays elevated through the night, which suppresses testosterone, raises blood pressure, drives visceral fat deposition, and — critically for this chapter — makes the next night's sleep harder. Elevated nighttime cortisol is the single most common reason anyone wakes at 3 AM and cannot get back to sleep.
 
@@ -1403,11 +1403,11 @@ Delivery is where this becomes practical, because the array can travel routes a 
 
 **Intrathecal**, into the cerebrospinal fluid, when the case warrants the most direct central access. Same route as the cellular protocol, same facility requirements.
 
-The first four are the reason this section belongs in a chapter written for families. The non-intrathecal routes are administered **mobile and nationwide, in your own home**. A provider comes to the house. No flight, no hotel week, no dragging a man who is already disoriented through three airports and a strange facility to find out whether a therapy helps him.
+The first four are the reason this section belongs in a chapter written for families. The non-intrathecal routes are administered **mobile and nationwide, in your own home**. A provider comes to the house. No flight, no hotel week, no dragging someone who is already disoriented through three airports and a strange facility to find out whether a therapy helps him.
 
 > For a patient with cognitive symptoms, travel is not neutral. Disruption is itself a clinical insult, and we do not add insults to a disease.
 
-If you are the wife or the son making this decision, hold onto that. The first regenerative step does not require you to uproot anybody.
+If you are the spouse or adult child making this decision, hold onto that. The first regenerative step does not require you to uproot anybody.
 
 ### The Newest Iteration
 
@@ -1439,7 +1439,7 @@ These are not competitors on a menu. One is the crew. The other is the order the
 
 Two other uses, briefly, because they are common and they are what a lot of readers engage first.
 
-**Post-concussion syndrome and traumatic brain injury.** The men in my practice who took hits — football, wrestling, rodeo, a rollover at twenty-two, a bad fall at fifty — often carry a low-grade version of exactly the neuroinflammatory picture above, sometimes for decades. Same stuck microglia. Same signaling deficit. It is one of the clearest applications of the array, and frequently the door a younger man walks through.
+**Post-concussion syndrome and traumatic brain injury.** The men in my practice who took hits — football, wrestling, rodeo, a rollover at twenty-two, a bad fall at fifty — often carry a low-grade version of exactly the neuroinflammatory picture above, sometimes for decades. Same stuck microglia. Same signaling deficit. It is one of the clearest applications of the array, and frequently the door a younger patient walks through.
 
 **Joints.** Knees, shoulders, hips, spine — the oldest and best-established regenerative use, with the array delivered directly into the joint. Preserving the ability to train is not a side quest in this system. You cannot run the Muscle pillar on a knee that will not let you load it.
 
@@ -1451,7 +1451,7 @@ This is a maturing modality, not a settled one. The mechanistic case is strong a
 
 So I will not give you a percentage. I will not tell you what fraction of patients improve or by how much, because anyone quoting you those numbers for this therapy in this indication is quoting numbers that do not yet exist. When I told you that the combined protocol is where the most dramatic responses are being reported, I meant exactly that — reported and observed by the clinicians administering it, in individual cases, not measured against a control arm in a published trial. It is not FDA-approved for cognitive disease, and I am not going to imply otherwise. It may help. It may support the repair environment. It is administered by a licensed clinician who evaluates whether it is appropriate for the specific case in front of them.
 
-What I will tell you is how I weigh it. The mechanism is coherent. The safety profile of an acellular, DNA-free biologic is favorable. The delivery does not require dragging a declining man across the country. And the clock in this chapter is running whether or not the literature catches up on schedule. Against a disease that takes something every month you wait, a well-reasoned intervention with a good safety profile and honest uncertainty is a defensible choice — and doing nothing is also a choice, with a far more predictable outcome.
+What I will tell you is how I weigh it. The mechanism is coherent. The safety profile of an acellular, DNA-free biologic is favorable. The delivery does not require dragging a declining patient across the country. And the clock in this chapter is running whether or not the literature catches up on schedule. Against a disease that takes something every month you wait, a well-reasoned intervention with a good safety profile and honest uncertainty is a defensible choice — and doing nothing is also a choice, with a far more predictable outcome.
 
 Ask the care coordinator. Bring your questions. Make the call with your eyes open.
 
@@ -1715,7 +1715,7 @@ Visceral adipose tissue — the fat that wraps your liver, pancreas, and intesti
 
 **TNF-alpha.** Another inflammatory cytokine, produced abundantly by visceral fat. TNF-alpha drives insulin resistance both peripherally and centrally — meaning it makes your muscles less able to take up glucose *and* it makes your brain less able to use glucose efficiently. The brain runs on glucose. A brain that cannot use glucose efficiently is a brain that is starving in a sea of plenty. That state has a name in the literature now. Researchers are calling Alzheimer's disease "type 3 diabetes" for exactly this reason.
 
-**Aromatase.** This is the enzyme that converts testosterone to estrogen. Visceral fat is one of the most aromatase-rich tissues in the male body. The more belly fat you carry, the more of your own testosterone is being converted, in real time, into estrogen by your own adipose tissue. This is why so many men in their fifties present with low T, high estrogen, low libido, soft muscle, foggy mood — and why we cannot fix that picture with testosterone alone. You cannot out-supplement an organ that is actively eating your hormones.
+**Aromatase.** This is the enzyme that converts testosterone to estrogen. Visceral fat is one of the most aromatase-rich tissues in the body. The more belly fat you carry, the more of your own testosterone is being converted, in real time, into estrogen by your own adipose tissue — this is the mechanism most studied in men, and women carrying visceral fat see a related shift in their own estrogen-to-testosterone balance. This is why so many people in their fifties present with low T, high estrogen, low libido, soft muscle, foggy mood — and why we cannot fix that picture with testosterone alone. You cannot out-supplement an organ that is actively eating your hormones.
 
 Layer one more mechanism on top, because this is where the gut chapter comes back. A compromised microbiome leaks LPS — lipopolysaccharide, a fragment of bacterial cell wall — into systemic circulation. Visceral fat preferentially absorbs and stores LPS, then re-releases it along with the cytokines above. Your gut leaks endotoxin. Your belly fat catches it, amplifies it, and ships it to your brain. That is the loop. That is why we treat fixing the gut and fixing the weight as one problem, not two.
 
@@ -1729,7 +1729,7 @@ Here is what I have watched in my practice for years. Someone in their fifties d
 
 Four mechanisms are stacked against anyone over fifty trying to lose visceral fat through lifestyle alone.
 
-**Testosterone drift.** From around age thirty, total testosterone in men declines roughly one percent per year on average. By fifty, many men are functioning at two-thirds the testosterone level they had at thirty. Testosterone is one of the primary signals telling the body to build muscle and burn fat. Less testosterone equals less muscle, more fat, lower metabolic rate. And — as we just covered — the more visceral fat accumulates, the more aromatase converts what testosterone remains into estrogen. It is a self-reinforcing loop.
+**Testosterone drift.** From around age thirty, total testosterone in men declines roughly one percent per year on average (see Chapter 7 for the female curve). By fifty, many men are functioning at two-thirds the testosterone level they had at thirty. Testosterone is one of the primary signals telling the body to build muscle and burn fat. Less testosterone equals less muscle, more fat, lower metabolic rate. And — as we just covered — the more visceral fat accumulates, the more aromatase converts what testosterone remains into estrogen. It is a self-reinforcing loop.
 
 **Leptin resistance.** Leptin is the satiety hormone, produced by fat cells, that tells the brain "you have enough energy stored, you can stop eating." In a healthy lean body, leptin works on a clean signal. In a body carrying significant visceral fat for years, the hypothalamus becomes resistant to leptin — the signal is loud but the brain stops hearing it. The result is persistent hunger and reduced satiety regardless of how much you have eaten or how much fat you are carrying. Willpower against a leptin-resistant brain is a losing fight, and it is not a fight your character flaws are responsible for losing.
 

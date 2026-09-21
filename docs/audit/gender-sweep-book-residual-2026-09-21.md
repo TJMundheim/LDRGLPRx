@@ -29,8 +29,8 @@ Rule recap: neutral wherever physiology isn't sex-specific; sex-specific content
 | 244 | "A few years ago a man I will call Daniel came into my practice..." | B | — |
 | 248 | "Not his wife. Not his partners..." (Daniel) | B | — |
 | 250 | "I cannot tell my wife because..." (Daniel) | B | — |
-| 490 | "Most men accept this as 'getting older.'" (Ch3, general T-decline framing, defers women's version to Ch7) | D | "Most people accept this as 'getting older.'" |
-| 790 | "The men in my practice who present with low T and ask whether they need TRT often have a sleep problem first..." (Ch5 Sleep, not Ch7) | D | "The men and women in my practice who present with low T and ask whether they need TRT often have a sleep problem first..." |
+| 490 | "Most men accept this as 'getting older.'" (Ch3, general T-decline framing, defers women's version to Ch7) | D (applied v21) | "Most people accept this as 'getting older.'" |
+| 790 | "The men in my practice who present with low T and ask whether they need TRT often have a sleep problem first..." (Ch5 Sleep, not Ch7) | D (applied v21) | "The men and women in my practice who present with low T and ask whether they need TRT often have a sleep problem first..." |
 | 982 | "There is a specific moment that brings a successful man into my practice..." | A | — |
 | 984 | "I want to talk to that man directly..." | A | — |
 | 990 | "...the single most misunderstood signal in modern men's health." | A | — |
@@ -68,12 +68,12 @@ Rule recap: neutral wherever physiology isn't sex-specific; sex-specific content
 | 1164 | "I have watched men in my practice... their wife has started looking at them..." | A | — |
 | 1168 | "Most men will hear the alarm... The men in my practice who get this right..." | A | — |
 | 1172 | "...not weak... not failing as a husband or as a man... Most men your age won't." | A | — |
-| 1406 | "...a man who is already disoriented through three airports..." (Ch9, regenerative medicine, not sex-specific) | D | "...a person who is already disoriented through three airports..." |
-| 1410 | "If you are the wife or the son making this decision..." (Ch9) | D | "If you are the spouse, partner, or adult child making this decision..." |
-| 1442 | "The men in my practice who took hits... a younger man walks through." (Ch9, TBI/concussion, not sex-specific) | D | "The people in my practice who took hits... a younger person walks through." |
-| 1454 | "...dragging a declining man across the country." (Ch9) | D | "...dragging a declining loved one across the country." |
-| 1718 | "Visceral fat is one of the most aromatase-rich tissues in the male body... why so many men in their fifties present with low T, high estrogen..." (Ch11 Weight/GLP-1, general audience, not Ch7) | D | Flag for clinical review rather than mechanical rewrite: aromatase/visceral-fat-to-estrogen conversion is physiologically real in men and relevant (differently) in women too. Suggest either narrowing the sentence explicitly to "in men" with a one-line bridge for women, or generalizing: "Visceral fat is one of the most aromatase-rich tissues in the body... why so many people in their fifties present with hormone panels that don't add up." |
-| 1732 | "...total testosterone in men declines roughly one percent per year... many men are functioning at two-thirds..." (Ch11, same section as above) | D | "...total testosterone declines roughly one percent per year on average in both sexes (see Ch. 7 for the female curve)... by fifty, many people are functioning at roughly two-thirds the testosterone level they had at thirty." |
+| 1406 | "...a man who is already disoriented through three airports..." (Ch9, regenerative medicine, not sex-specific) | D (applied v21) | "...a person who is already disoriented through three airports..." |
+| 1410 | "If you are the wife or the son making this decision..." (Ch9) | D (applied v21) | "If you are the spouse, partner, or adult child making this decision..." |
+| 1442 | "The men in my practice who took hits... a younger man walks through." (Ch9, TBI/concussion, not sex-specific) | D (applied v21) | "The people in my practice who took hits... a younger person walks through." |
+| 1454 | "...dragging a declining man across the country." (Ch9) | D (applied v21) | "...dragging a declining loved one across the country." |
+| 1718 | "Visceral fat is one of the most aromatase-rich tissues in the male body... why so many men in their fifties present with low T, high estrogen..." (Ch11 Weight/GLP-1, general audience, not Ch7) | D (applied v21) | Flag for clinical review rather than mechanical rewrite: aromatase/visceral-fat-to-estrogen conversion is physiologically real in men and relevant (differently) in women too. Suggest either narrowing the sentence explicitly to "in men" with a one-line bridge for women, or generalizing: "Visceral fat is one of the most aromatase-rich tissues in the body... why so many people in their fifties present with hormone panels that don't add up." |
+| 1732 | "...total testosterone in men declines roughly one percent per year... many men are functioning at two-thirds..." (Ch11, same section as above) | D (applied v21) | "...total testosterone declines roughly one percent per year on average in both sexes (see Ch. 7 for the female curve)... by fifty, many people are functioning at roughly two-thirds the testosterone level they had at thirty." |
 | 2062 | "One writes my wife Sarah, because I want to be the man at her side..." (Accountability Target exercise examples) | B | — |
 | 2448 | "...his father... asked him at Easter... James watched himself lie..." | B | — |
 | 2462 | "...a small white ceramic dish his wife found..." (James) | B | — |
