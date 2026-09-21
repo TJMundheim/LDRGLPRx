@@ -62,7 +62,7 @@ Some of the protocols referenced (TRT, GLP-1 medications, peptides, regenerative
 
 The OTC supplement stack is exactly what the name says: over-the-counter. Available without a prescription. Curated to a specific standard — see my4mlife.com for the products we currently recommend.
 
-If you are already diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you have a strong family history and current symptoms — read Chapter 9 first. The time-sensitivity in that chapter is real.
+If you are already diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you have a strong family history and current symptoms — read Chapter 10 first. The time-sensitivity in that chapter is real.
 
 ---
 
@@ -70,18 +70,39 @@ If you are already diagnosed with mild cognitive impairment, dementia, Alzheimer
 
 The 4 Ms are **Mind, Muscle, Mitigate, Motivate** — and Mind is the destination. So the book runs them in the order you actually do the work: Mitigate first, then Muscle, then Motivate, and finally arriving at Mind. Four parts:
 
-- **Opening (Chapters 1–3):** The fear, the framework, the reader.
-- **Part I — Mitigate (Chapters 4–9):** Stop hurting yourself first. The chronic insults driving neuroinflammation — gut, sleep, environment, hormones + the two canaries (ED for men, menopause for women), substance use — and the regenerative arm for those already diagnosed.
-- **Part II — Muscle (Chapters 10–12):** Build the substrate. Nutrition + the protein-first rule, weight + the GLP-1 decision, strength + sarcopenia + pain.
-- **Part III — Motivate (Chapters 13–14):** Why you keep showing up. Purpose, identity, accountability — and the structural enablers.
-- **Part IV — Mind (Chapters 15–16):** Arriving at the destination — and the cognitive optimization stack.
-- **The Loop Closes (Chapters 17–18):** One real week running the system, then your next step.
+- **Opening (Chapters 1–4):** The fear, the framework, the bill, the reader.
+- **Part I — Mitigate (Chapters 5–10):** Stop hurting yourself first. The chronic insults driving neuroinflammation — gut, sleep, environment, hormones + the two canaries (ED for men, menopause for women), substance use — and the regenerative arm for those already diagnosed.
+- **Part II — Muscle (Chapters 11–13):** Build the substrate. Nutrition + the protein-first rule, weight + the GLP-1 decision, strength + sarcopenia + pain.
+- **Part III — Motivate (Chapters 14–15):** Why you keep showing up. Purpose, identity, accountability — and the structural enablers.
+- **Part IV — Mind (Chapters 16–17):** Arriving at the destination — and the cognitive optimization stack.
+- **The Loop Closes (Chapters 18–19):** One real week running the system, then your next step.
 - **Glossary:** Every technical term in the book, in plain English.
 
 The daily protocol on paper — check-ins, the stack, the weekly reflection, the adherence scorecard — lives in the Logbook, which every Protégé receives through the app and by email, so it always reflects the current protocol.
 
 This book sells you the why and shows you the how. The Logbook and the app are where you run it day to day. They are meant to be used together.
 
+---
+
+---
+
+# Start Monday
+
+## Start Monday. Read the rest as you go.
+
+1. Put your shoes by the door tonight; walk twenty minutes fasted at first light.
+2. Break the fast with thirty to forty grams of lean protein.
+3. Eat inside a nine-to-six window. Nothing after.
+4. Thirty-two chews, fork down, every bite.
+5. Lights out seven and a half hours before your alarm; last bite three hours before that.
+6. Pour the alcohol down the sink for thirty days.
+7. Name the face you're doing this for. Write it here: \_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Take the free MindSpan assessment at my4mlife.com/assessment — it tells you which chapter to read first.
+
+*Don't lose your identity and your dignity while you still have a choice.*
+
+---
 ---
 
 ---
@@ -461,7 +482,139 @@ Turn the page.
 
 ---
 
-# Chapter 3 — Why You, Why Now
+# Chapter 3 — The Uninsured Decade
+
+## The disease starts in the middle of your life
+
+I want to say something to the younger readers before I say anything to anyone else, because if you are thirty-five and you picked this book up out of curiosity — or because someone who loves you handed it to you — this is the single most important page in it for you.
+
+Alzheimer's is a disease of middle age that presents when we are older.
+
+Read that again, slowly, because almost nobody says it out loud. We file dementia under "old people's problems." We picture it in a chair, in a facility, at eighty-two. And that picture is accurate about the *presentation* and completely wrong about the *disease*. The pathology — the amyloid, the tangles, the vascular damage, the neuroinflammation, the slow starvation of a brain that never got the sleep or the blood flow or the hormonal signaling it needed — that is being laid down in your forties. In some people, their thirties. By the time a doctor has a diagnosis to give you, the process has been running for twenty years and has already taken more than it is going to give back.
+
+This is the cruelest architecture in all of medicine: the symptoms arrive last, and by the time they arrive, the leverage is gone.
+
+Now here is the other half of it, and this is why I am not writing a book about fear.
+
+For the first time in human history, we actually know a great deal about what drives this — what accumulates, what inflames, what starves, what protects. We know the levers. We know, with a clinical confidence we did not have twenty years ago, how to take chronic insults off a nervous system and give it back what it has been missing. We know how to build a body that still delivers oxygen and hormones and glucose control to a brain at eighty.
+
+But that knowledge has one condition attached to it, and the condition is everything: **it has to be applied earlier.**
+
+That is the whole difference. Not a different drug. Not a different diet. The same knowledge, applied at forty instead of seventy-two, is the difference between prevention and management. Applied early, it is a set of habits. Applied late, it is a hospice conversation. Same science. Different decade.
+
+> The disease is written in middle age and read out loud in old age. The only place you can change the sentence is while you are still writing it.
+
+So if you are thirty, this chapter is not about your parents. It is about the thirty years of runway you are currently sitting on and spending without noticing. And if you are sixty — you still have runway, real runway, and I will show you exactly what to do with it in the chapters ahead. But first you and I are going to look at the bill.
+
+That is all this chapter does. It shows you the bill. It does not tell you what to do about it. Every other page of this book is what to do about it.
+
+## The odds
+
+Start with how likely this is, because most people are carrying a number in their head that is far too low.
+
+In January 2025, a study in *Nature Medicine* — a large, careful analysis following more than fifteen thousand people who were dementia-free at age fifty-five, from one of the best-run cardiovascular cohorts in the country — put the lifetime risk of developing dementia after age fifty-five at **42 percent**.
+
+Forty-two percent. Not the risk of a memory lapse. The risk of dementia.
+
+This is one of the few places in this book where the number splits by sex, and it splits sharply, so I will state both plainly rather than average them into something comfortable. For men the lifetime risk after fifty-five is about **35 percent**. For women it is about **48 percent** — driven in large part by the fact that women live longer, and this is fundamentally a disease of accumulated years. Risk runs higher still for people carrying the APOE ε4 variant and for Black Americans, where estimates land in the 45 to 60 percent range.
+
+Now put those two numbers in the same household, because almost nobody faces this alone. If you are part of a mixed-sex couple, the odds that dementia visits *at least one of you* are roughly **66 percent**. Two out of three. That is not a tail risk you plan around with a footnote. That is closer to a base case than most people's retirement assumptions.
+
+And the volume is rising. The same research projects new U.S. dementia cases climbing from about 514,000 a year in 2020 to roughly **one million a year by 2060** — not because anything about the biology got worse, but because the demographic bulge of people reaching the ages where the disease presents is enormous.
+
+One honest caveat, stated here and again later, because I will not build a case on a number I have to stretch. The 42 percent figure is *all-cause dementia*. It includes mild late-life cases that never require a facility, and it is a broader category than "Alzheimer's needing twenty-four-hour memory care." It is the honest number for "does this touch me," not the number for "does this bankrupt me." Those are different questions, and the second one is next.
+
+## The bill
+
+Here is what this costs when it comes.
+
+The Alzheimer's Association puts the **total lifetime cost of care for a person with dementia at $405,262** — that is in 2024 dollars, so read it as a floor rather than a ceiling. And the part of that figure that matters most to you is not the total. It is the split: **about 70 percent of it is borne by families**, through out-of-pocket spending and unpaid care hours that never show up on any invoice.
+
+Four hundred thousand dollars, and seven dollars out of every ten of it comes out of a household, not an insurer.
+
+What does that look like month to month? The 2025 CareScout Cost of Care Survey — the long-running national survey of what care actually costs — reads like this:
+
+- **In-home care: about $35 an hour.** That sounds manageable until you do the multiplication. A full-time in-home aide runs roughly **$80,000 a year**, and "full-time" here means forty-four hours a week, which is not the same as around-the-clock. Dementia care does not respect business hours.
+- **Assisted living: about $6,200 a month** — roughly $74,400 a year, and that is the general assisted-living median, before any memory-care premium. National median memory care specifically runs closer to $8,000 a month.
+- **A private room in a nursing home: $129,575 a year.**
+
+Sit with the third one. One hundred twenty-nine thousand dollars a year, after tax, for a room. Run that four years — a common, unremarkable duration — and you are past half a million dollars for a single person in a single household. The $405,262 average has a long right tail, and the people on that tail are not unlucky outliers. They are the ones who lived a while with it.
+
+And it is not only Alzheimer's. Parkinson's disease carries an annual U.S. economic burden of **$82.2 billion** (2024 data), of which **$8.3 billion is lost earnings by care partners** — the spouses and adult children who cut their hours, turned down the promotion, or retired early to be available. A third of Parkinson's care partners reported canceling or missing their *own* medical appointments. More than one in five retired early or cut back their work.
+
+> A diagnosis does not bill one person. It bills a household, and it bills it in two currencies — dollars and years.
+
+## Why it is uninsured
+
+Now the part that surprises almost every financially competent person I sit down with, and I have sat down with a lot of them. They assume this is covered. They have run businesses, built portfolios, bought every policy that mattered. And they assume that somewhere in the stack of coverage they've paid for across thirty years, this is handled.
+
+It is not.
+
+**Medicare pays essentially nothing toward this kind of care.** The government's own language is about as blunt as government language gets: Medicare doesn't cover custodial care if it's the only care you need. Custodial care is exactly what dementia requires — help bathing, dressing, eating, toileting, supervision so the person does not walk out the front door at two in the morning. That is not "skilled" care under the rules, so it is not covered. Medicare will pay for the hospital stay after the fall. It will not pay for the years of supervision that would have prevented the fall.
+
+The second assumption is long-term-care insurance, and that market has quietly collapsed underneath us. Of the hundred-plus carriers selling standalone long-term-care policies around the year 2000, fewer than a dozen actively sell new ones today. The rest mispriced the risk — they underestimated how long people would live and how much care would cost — and they left.
+
+The ones who stayed raised rates on the people already holding policies, repeatedly. Genworth raised rates on more than two thousand policyholders by an average of 97 percent in a single action, with some increases running past 170 percent; a 161 percent request was rejected in Massachusetts as unjust and unfair; the company had a 68.5 percent average increase approved in a 2026 state filing. John Hancock has gone back for increases in cycle after cycle — 15 percent, then 32 percent, then nearly 44 percent phased over three years, then more. Imagine being seventy-four, on a fixed income, holding the policy you bought at fifty-five precisely so this would never be your children's problem, and opening a letter that says your premium just doubled.
+
+Which is why almost nobody holds one. **Only about 10 to 15 percent of Americans over sixty-five have long-term-care insurance** — against a roughly 70 percent chance of needing long-term care of some kind.
+
+Hybrid products — life insurance with a long-term-care rider — are growing fast and are now the leading product trend in the space, precisely because the standalone market emptied out. They are a real option and I am not talking you out of them. But look at the price of entry: a healthy sixty-year-old couple today is looking at roughly **$4,600 to $7,200 a year** for a moderate benefit. That is real money, paid annually, for a partial answer.
+
+So: the largest predictable financial exposure of your later life is one that Medicare declines, the insurance market largely abandoned, and most households have no instrument for at all.
+
+That is what I mean by the uninsured decade. Not a decade nobody warned you about. A decade nobody will sell you a policy against.
+
+## The second patient
+
+I have left the worst part for last, and it is not a dollar figure.
+
+In my thirty years of practice, the person I end up most worried about in a dementia household is frequently not the person with the diagnosis. It is the spouse.
+
+A landmark 1999 study in *JAMA* — the Caregiver Health Effects Study, still the reference point for this — followed older spousal caregivers and found that those reporting caregiver strain had a **63 percent higher four-year mortality rate** than spouses who were not caregiving. Read it plainly: the caregiving itself, or the strain of it, was associated with the caregiver dying sooner.
+
+The surrounding picture is consistent. Caregivers report chronic conditions — heart disease, cancer, diabetes, arthritis — at nearly **twice the rate of non-caregivers, 45 percent versus 24 percent**. Roughly **40 percent of dementia caregivers show depressive symptoms**, against 5 to 17 percent of comparable non-caregivers.
+
+I have watched this happen in real families, and it looks the same every time. The healthy spouse stops going to their own appointments — there is no one to cover. They stop training, because the hour is gone. They stop cooking properly for one, and start eating whatever is fast at nine at night after the person they love is finally asleep. They stop seeing friends, because the house has become a job with no shift change. They gain weight, their blood pressure drifts, their sleep fragments, and four years in they are a patient too — just one nobody has diagnosed, because every clinical eye in the room is pointed at the other chair.
+
+That is the second patient. It is the part of the bill that never appears on the bill.
+
+> The disease takes one person's mind and one person's health, and it almost never tells you in advance which one of you will be which.
+
+## What the money actually is
+
+So here is the reframe that the rest of this book runs on, and I want to lay it out honestly rather than sell it.
+
+You cannot buy a policy against this. But there is a premium available, and it is not paid in dollars. It is paid in hours — call it ten hours a month of deliberate, structured work on your sleep, your training, your gut, your metabolic health, your hormones, your stress load, your relationships. That is the premium. That is the instrument.
+
+And now the honesty, because you are the kind of reader who will run the math yourself and I would rather hand you the arithmetic than have you catch me doing something with it.
+
+**I am not going to promise you a break-even.** If you sit down with the numbers above and multiply them out — your lifetime risk, times the cost if it happens, times a realistic reduction in that risk, against ten or fifteen years of the money and hours this life costs — the ledger does not close cleanly on dementia avoidance alone. It comes close. For a couple, at conservative assumptions, it comes within striking distance. It does not clear. Anyone who tells you the health premium pays for itself on this one line item is selling you something.
+
+**And this is risk reduction, never risk elimination.** No protocol, no supplement, no prescription, no program prevents or cures Alzheimer's or Parkinson's. Anyone who says otherwise is lying to you, and probably invoicing you for it.
+
+Two numbers get quoted in this space, and the distinction between them matters enormously, so let me put it in plain words.
+
+You have probably seen the headline: the 2024 *Lancet* Commission found that **up to about 45 percent of dementia cases worldwide are linked to fourteen modifiable risk factors** — hearing loss, hypertension, smoking, obesity, depression, inactivity, diabetes, excess alcohol, head injury, air pollution, social isolation, high LDL, untreated vision loss, low education.
+
+That 45 percent is a *population ceiling*. It is the answer to the question: if every single person on earth eliminated all fourteen of those factors, across their whole life, what share of dementia cases would disappear? It is a public-health number. It is not a promise to you personally, and every time you see it used as one, someone has quietly swapped a statistic about a planet for a statistic about a person.
+
+The honest individual number is smaller. A conservative working assumption for one motivated person doing sustained, structured work is closer to a **30 percent relative reduction in risk** — and even that is an extrapolation, built from randomized-trial evidence like the U.S. POINTER study published in *JAMA* in July 2025, where two years of structured multidomain lifestyle intervention measurably *improved* cognitive performance in over two thousand participants, with benefit holding across age, sex, and genetic risk. That trial showed protection from decline. It did not show prevention of dementia. Those are different claims, and I am going to keep them different.
+
+Thirty percent, not forty-five. A third of the risk, roughly, not half. If someone quotes you the higher number for your own life, they have moved the decimal on you.
+
+So why do it, if it does not break even on this line?
+
+Because the ledger is wider than this line. The same ten hours a month that shift your dementia risk are simultaneously shifting your cardiovascular risk, your diabetes risk, your cancer risk, your fall risk, your odds of being the one in the chair at your granddaughter's wedding instead of the one who couldn't travel. Because the $405,262 is an average with a long, ugly right tail, and the tail is where households get destroyed. Because thirty percent of a 42 percent lifetime risk is not an abstraction — it is a meaningful share of a very bad decade, removed. And because the years you buy back are not scored in dollars at all.
+
+You are not buying a guarantee. You are buying better odds in the only game where you cannot buy insurance.
+
+That is the bill. That is the whole bill, stated as accurately as I know how to state it, with nothing inflated and nothing hidden.
+
+The rest of this book is what to do about it. If you want the financial side handled with the same rigor — the spend-down rules, the instruments, the conversation to have with your advisor — that is my companion book, *The Uninsured Decade*, and it is a different book on purpose.
+
+Begin with the end in mind.
+
+# Chapter 4 — Why You, Why Now
 
 Let me say out loud who I wrote this book for, because if I don't, the wrong reader will get through the first three chapters, decide it isn't about them, and put it down. And that reader is exactly the one I need to keep going.
 
@@ -487,7 +640,7 @@ Here is the part of the conversation no one has with you in a fifteen-minute phy
 
 The biology that decides whether you keep your mind in your seventies and eighties does not start moving when you notice symptoms. It started moving decades ago, quietly, while you were building everything else.
 
-Testosterone, the hormone that does about a hundred jobs in a man's body — muscle, mood, libido, executive function, motivation, recovery — declines roughly one percent per year after age thirty. That is not a typo. By the time a man is sixty, all else equal, he is operating on roughly seventy percent of the testosterone he had at thirty. Most people accept this as "getting older." The equivalent hormonal transition in women runs on a different clock, and I take it up directly in Chapter 7. Either way, I want you to stop accepting the drift as inevitable. There is nothing dignified about a slow decline you didn't consent to.
+Testosterone, the hormone that does about a hundred jobs in a man's body — muscle, mood, libido, executive function, motivation, recovery — declines roughly one percent per year after age thirty. That is not a typo. By the time a man is sixty, all else equal, he is operating on roughly seventy percent of the testosterone he had at thirty. Most people accept this as "getting older." The equivalent hormonal transition in women runs on a different clock, and I take it up directly in Chapter 8. Either way, I want you to stop accepting the drift as inevitable. There is nothing dignified about a slow decline you didn't consent to.
 
 The hippocampus, the seahorse-shaped structure in your brain that consolidates memory and threads context together, is exquisitely sensitive to chronic stress. Chronically elevated cortisol — the kind that comes from twenty-five years of running a company, of carrying payroll on your back, of being the last one to sleep and the first one up — measurably shrinks it. Not metaphorically. Volumetrically. On MRI.
 
@@ -589,7 +742,7 @@ Turn the page.
 
 ---
 
-# Chapter 4 — Gut: The Gut-Brain Seal
+# Chapter 5 — Gut: The Gut-Brain Seal
 
 If you read no other chapter in the Mitigate section — if you skim the rest of this book and only act on one thing — make it this one.
 
@@ -745,7 +898,7 @@ Begin with the end in mind. The end is the mind. The road to the mind runs throu
 
 ---
 
-# Chapter 5 — Sleep: The Memory Consolidator
+# Chapter 6 — Sleep: The Memory Consolidator
 
 If gut is the first lever of Mitigate, sleep is the second — and the gap between them is smaller than most people think. I tell my patients that if I could only fix two things in their lives and walk away, I would fix the gut and I would fix the sleep. Everything else — the testosterone, the weight, the mood, the cognitive sharpness, the libido, the recovery from training — bends to those two inputs.
 
@@ -847,7 +1000,7 @@ But the night does not happen in a vacuum. The room you sleep in — the light l
 
 ---
 
-# Chapter 6 — Environment: Light, Air, Water, EMF
+# Chapter 7 — Environment: Light, Air, Water, EMF
 
 > Stop hurting yourself first. Then add what works.
 
@@ -977,7 +1130,7 @@ Which is why the next chapter is about what is actually happening inside the end
 
 ---
 
-# Chapter 7 — Hormones & the ED Canary
+# Chapter 8 — Hormones & the ED Canary
 
 There is a specific moment that brings a successful man into my practice for the first time. It is rarely a heart attack. It is rarely a stroke. It is rarely a memory lapse in a board meeting, though those happen too. The moment that finally makes him pick up the phone, almost without fail, is private. It happens in the bedroom. It happens twice, or three times, or a dozen times, with a wife or partner he has been with for decades. And then, when he can no longer pretend it was the bourbon or the long week or the bad mattress, he sits in his car in a parking lot and starts looking for answers.
 
@@ -1171,11 +1324,11 @@ You still have a choice. The canary is still singing. Begin with the end in mind
 
 I want to say one last thing to the man who picked up this book because of what is — or isn't — happening in his bedroom. You are not weak. You are not failing as a husband or as a man. You are running a body that has been quietly drifting for a decade or more, in an environment engineered to accelerate that drift, with almost no one in the standard medical system willing to tell you the truth about what the signal means. The fact that you are still trying to figure it out — still reading, still looking — is itself the evidence that the man you have always been is still in there, still in command, still capable of making the call. Most men your age won't. Don't roll the dice. Take action now.
 
-There is one more upstream variable that cuts across everything in this chapter — across hormones, across sleep, across the gut, across cognition itself — and most people my age have it sitting in the kitchen cabinet, the wine fridge, or the bar cart. We are about to talk about substance use, and the way alcohol in particular sabotages every protocol in this book at once. That is Chapter 8.
+There is one more upstream variable that cuts across everything in this chapter — across hormones, across sleep, across the gut, across cognition itself — and most people my age have it sitting in the kitchen cabinet, the wine fridge, or the bar cart. We are about to talk about substance use, and the way alcohol in particular sabotages every protocol in this book at once. That is Chapter 9.
 
 ---
 
-# Chapter 8 — Substance Use: Alcohol and the Other Quiet Saboteurs
+# Chapter 9 — Substance Use: Alcohol and the Other Quiet Saboteurs
 
 I want to start this chapter with a small confession on behalf of most of the people who will read it: when we say "moderate drinker," we are almost always rounding down. The two glasses of wine at dinner becomes "a glass of wine." The three fingers of bourbon becomes "a drink." The Saturday that went sideways gets quietly subtracted from the weekly count. Nobody is lying. The accounting is just generous, because the alternative — looking at the real number — is uncomfortable.
 
@@ -1279,7 +1432,7 @@ Mind is the destination. We are not done protecting it yet.
 
 ---
 
-# Chapter 9 — When You're Already Diagnosed: Regenerative Medicine
+# Chapter 10 — When You're Already Diagnosed: Regenerative Medicine
 
 ## You Or Someone You Love
 
@@ -1535,7 +1688,7 @@ Turn the page.
 
 ---
 
-# Chapter 10 — Nutrition & the Protein-First Rule
+# Chapter 11 — Nutrition & the Protein-First Rule
 
 > *Strong body, sharp mind. Resistance training is neuroprotection.*
 
@@ -1584,6 +1737,35 @@ What does thirty to forty grams of lean protein actually look like? Five ounces 
 What they require is a decision. Every feeding window, the first thing on the plate is the protein. Period.
 
 That is the rule. The rest of the chapter is about how to build the supply chain that makes that rule easy to keep.
+
+## Count to 32: The Chew Rule
+
+Before we talk about *when* you eat, one more thing about *how*.
+
+Here is the rule, and it is the cheapest one in this book. Take one bite. Put the fork down on the table. Chew that bite thirty-two times before you swallow. Then pick the fork back up.
+
+That's it. No food is forbidden. Nothing is weighed, logged, or subtracted. You are not being asked to eat less. You are being asked to eat slower, on purpose, with a number to hold you to it.
+
+Thirty-two is an old number. A nineteenth-century British prime minister prescribed one chew per tooth, and for a hundred and fifty years it sat in the folk-wisdom drawer alongside "an apple a day." Then researchers at Iowa State ran it as a randomized trial. Adults who increased their chewing by fifty percent ate about ten percent less food at the same meal. The group that doubled their chews ate about fifteen percent less. Same food. Same table. Same appetite walking in. Nobody was told to eat less — not once. They chewed more, and their bodies asked for less.
+
+I want you to sit with how strange that is. Ten to fifteen percent off a plate, with no restriction, no willpower, no measuring cup. There is no supplement in this book that produces a fifteen percent effect for free.
+
+The mechanism is timing, and it is the whole story. Your gut talks to your brain through hormones — the same satiety family we just walked through in the protein-first rule, PYY and GLP-1 among them — and that conversation takes about twenty minutes. Twenty minutes from the first bite until the signal actually lands and you feel full. That is a hardware constraint. You cannot speed it up by wanting to.
+
+Now think about how the average American man eats dinner. Eleven minutes, standing at the counter or in front of a screen, loading the next forkful while the current one is still in his mouth. He finishes the plate, and often a second plate, before the signal ever arrives. He didn't overeat because he lacked discipline. He overate because he beat his own physiology to the finish line. By the time fullness shows up, he is already on the couch wondering why he feels stuffed.
+
+Researchers have a name for the pattern they see over and over in people carrying weight they can't lose: **big bites, few chews, short meals.** Say it out loud and you'll recognize somebody. The fix is the exact mirror image — smaller bites, more chews, longer meals — and it costs nothing but attention.
+
+Notice how cleanly this interlocks with the two rules on either side of it. The protein-first rule decides *what* arrives first and gets the leucine signal and the satiety hormones firing. The eating window in the next section decides *when* the door opens and closes. The chew rule decides the pace inside the room. Protein triggers the satiety hormones; chewing gives them the twenty minutes they need to be heard. Run one without the other and you're leaving most of the effect on the table — you'll do the protein right and still out-eat the signal by finishing in nine minutes.
+
+The practical version is simpler than it sounds. You do not count to thirty-two at every bite for the rest of your life. You count for a week, maybe two, until your hands learn the rhythm — fork down, chew, swallow, fork up — and then the number fades and the pace stays. Most people tell me two things after the first week: meals take noticeably longer, and food tastes better, because it's finally in their mouth long enough to taste.
+
+Now the honest caveat, because I won't oversell a free lever. Chewing is one lever in a stack, not a miracle. The strongest effects show up in controlled single-meal studies in younger adults. In older adults, the research is more mixed — slowing the meal down reliably, but not always producing a smaller meal, which is part of why the protein-first rule and the window are doing the structural work here and the chew rule is doing the pacing. Don't expect the scale to move on chewing alone. Do expect it to make every other rule in this chapter easier to keep.
+
+For the reader who wants the whole counting method — the chew, the hours, the steps, the nights, all of it on one page — I wrote a short book called *Count Yourself Skinny* that does nothing else.
+
+---
+---
 
 ## The Eating Window
 
@@ -1689,13 +1871,13 @@ But not for everyone.
 
 A significant share of readers come into the system carrying twenty, thirty, fifty pounds of visceral fat that no amount of protein-first eating will resolve on the timeline their cognitive future requires. The inflammation cascade coming off chronic visceral adiposity — cytokines crossing the blood-brain barrier, insulin resistance dragging down hippocampal function, hormonal disruption shutting down endogenous testosterone — is too far along for nutrition alone to walk back inside the window we have.
 
-For those readers, the next chapter is the pharmacological add-on layer. GLP-1 therapy — semaglutide and tirzepatide — is the most powerful tool against visceral adiposity ever developed, and the way to deploy it without losing lean mass alongside fat mass is to deploy it on top of the protein-first rule you just learned. Nutrition is the foundation. GLP-1 is the accelerator stacked on top. That is Chapter 11.
+For those readers, the next chapter is the pharmacological add-on layer. GLP-1 therapy — semaglutide and tirzepatide — is the most powerful tool against visceral adiposity ever developed, and the way to deploy it without losing lean mass alongside fat mass is to deploy it on top of the protein-first rule you just learned. Nutrition is the foundation. GLP-1 is the accelerator stacked on top. That is Chapter 12.
 
 > Begin with the end in mind. The plate in front of you, three times a day, is one of the signals telling your brain what to do for the next twenty years. Send the right signal.
 
 ---
 
-# Chapter 11 — Weight, Visceral Fat, and the GLP-1 Decision
+# Chapter 12 — Weight, Visceral Fat, and the GLP-1 Decision
 
 > "We are not chasing an aesthetic number. We are removing a source of neurological insult that compounds year over year if left unaddressed."
 
@@ -1729,7 +1911,7 @@ Here is what I have watched in my practice for years. Someone in their fifties d
 
 Four mechanisms are stacked against anyone over fifty trying to lose visceral fat through lifestyle alone.
 
-**Testosterone drift.** From around age thirty, total testosterone in men declines roughly one percent per year on average (see Chapter 7 for the female curve). By fifty, many men are functioning at two-thirds the testosterone level they had at thirty. Testosterone is one of the primary signals telling the body to build muscle and burn fat. Less testosterone equals less muscle, more fat, lower metabolic rate. And — as we just covered — the more visceral fat accumulates, the more aromatase converts what testosterone remains into estrogen. It is a self-reinforcing loop.
+**Testosterone drift.** From around age thirty, total testosterone in men declines roughly one percent per year on average (see Chapter 8 for the female curve). By fifty, many men are functioning at two-thirds the testosterone level they had at thirty. Testosterone is one of the primary signals telling the body to build muscle and burn fat. Less testosterone equals less muscle, more fat, lower metabolic rate. And — as we just covered — the more visceral fat accumulates, the more aromatase converts what testosterone remains into estrogen. It is a self-reinforcing loop.
 
 **Leptin resistance.** Leptin is the satiety hormone, produced by fat cells, that tells the brain "you have enough energy stored, you can stop eating." In a healthy lean body, leptin works on a clean signal. In a body carrying significant visceral fat for years, the hypothalamus becomes resistant to leptin — the signal is loud but the brain stops hearing it. The result is persistent hunger and reduced satiety regardless of how much you have eaten or how much fat you are carrying. Willpower against a leptin-resistant brain is a losing fight, and it is not a fight your character flaws are responsible for losing.
 
@@ -1845,7 +2027,7 @@ Begin with the end in mind. The mind is what we're protecting. Lose the fat. Bui
 
 ---
 
-# Chapter 12 — Strength, Sarcopenia, and Pain Management
+# Chapter 13 — Strength, Sarcopenia, and Pain Management
 
 ## Resistance Training Is Neuroprotection
 
@@ -1907,7 +2089,7 @@ What it is not: bodybuilding splits. You do not need a "chest day." You do not n
 
 What it is also not: CrossFit. The injury risk on high-rep, high-speed, technique-degrading-under-fatigue work is not worth it once you cannot recover from injuries the way you could at thirty. One torn rotator cuff at fifty-eight buys you twelve months out of the gym, and twelve months out of the gym is twelve months of sarcopenia and twelve months of cognitive cost. Train with intent, not with chaos.
 
-Recovery is half the program. Forty-eight hours between sessions targeting the same muscle group. Sleep prioritized as ruthlessly as the lifts themselves — see Chapter 5. Protein at thirty to forty grams in the first feeding window post-training. The protein-first rule is not optional for the lifter over fifty; it is the substrate the muscle uses to rebuild.
+Recovery is half the program. Forty-eight hours between sessions targeting the same muscle group. Sleep prioritized as ruthlessly as the lifts themselves — see Chapter 6. Protein at thirty to forty grams in the first feeding window post-training. The protein-first rule is not optional for the lifter over fifty; it is the substrate the muscle uses to rebuild.
 
 This is what the My4MLife app delivers in Month 1 of the Protégé program — the resistance training framework, progressive overload programming, the daily movement tracker, the supplement guidance, the body composition tracking. None of it is mysterious. All of it is the work.
 
@@ -1999,7 +2181,7 @@ Begin with the end in mind. The end is your mind, intact, at eighty, recognizing
 
 ---
 
-# Chapter 13 — Purpose, Identity, and the Accountability Target
+# Chapter 14 — Purpose, Identity, and the Accountability Target
 
 There is a Tuesday in February that decides everything.
 
@@ -2141,7 +2323,7 @@ Begin with the end in mind. You have named the face. You have written who you ar
 
 ---
 
-# Chapter 14 — Knowledge, Access, and the Structural Enablers
+# Chapter 15 — Knowledge, Access, and the Structural Enablers
 
 For two decades I watched people fail at protocols they actually wanted to run. Not because they were weak. Not because they didn't care. They failed because no one had ever told them the truth about compliance, which is this: compliance is not a character trait. It is an infrastructure problem.
 
@@ -2255,7 +2437,7 @@ Begin with the end in mind. The end is Mind. Turn the page.
 
 ---
 
-# Chapter 15 — Arriving at Mind
+# Chapter 16 — Arriving at Mind
 
 The book opened with a question. *What if the person your spouse married, the parent your kids recognize, the operator who walks into a room and reads it — what if that is what you're actually trying to protect?* I told you, three chapters in, that the answer was yes. That is the destination. Everything else — the labs, the lifts, the protocols, the supplements, the sleep window, the assessment — is the delivery system. Begin with the end in mind. Mind is the end.
 
@@ -2321,7 +2503,7 @@ Turn the page.
 
 ---
 
-# Chapter 16 — The Cognitive Optimization Stack
+# Chapter 17 — The Cognitive Optimization Stack
 
 By now you know what we're protecting and why. You've walked the outside-in path: you've seen what the gut does to the brain, what sleep does to the brain, what vascular tone and visceral fat and declining hormones do to the brain. You arrived at Mind because Mind was always the destination.
 
@@ -2427,11 +2609,11 @@ The cognitive optimization stack is the destination's toolkit. It is not the des
 
 The destination is the person you have been protecting all along. The spouse whose partner still recognizes the look in their eye at eighty. The parent whose grown children still call first when something hard happens, because that judgment is still the one in the family they trust most. The grandparent whose grandkids feel a full presence in the room, not the polite shell of someone who used to be there. Strong body, sharp mind. That is the end you began with. Every supplement, every peptide, every breath of HRV-paced biofeedback in this chapter is in service of it.
 
-In the next chapter — Chapter 17, "The 4M Loop in Real Life" — I'll show you what a single ordinary week of that life actually looks like. Not the abstract pillars. The Monday morning, the Tuesday workout, the Wednesday afternoon when the executive function peptide earns its keep, the Saturday with the grandkids when all of this turns out to have been the point. The pillars stop being a framework and start being a life. Best mind possible until your last day of life. That's where we're going.
+In the next chapter — Chapter 18, "The 4M Loop in Real Life" — I'll show you what a single ordinary week of that life actually looks like. Not the abstract pillars. The Monday morning, the Tuesday workout, the Wednesday afternoon when the executive function peptide earns its keep, the Saturday with the grandkids when all of this turns out to have been the point. The pillars stop being a framework and start being a life. Best mind possible until your last day of life. That's where we're going.
 
 ---
 
-# Chapter 17 — The 4M Loop in Real Life
+# Chapter 18 — The 4M Loop in Real Life
 
 For fifteen chapters I have been telling you how the system works. Mind is the destination. Muscle builds the infrastructure. Mitigate removes the insults. Motivate closes the loop. You have the framework. You have the audit. You have the product names and the mechanisms and the reasons.
 
@@ -2583,7 +2765,7 @@ The next chapter is what you do tomorrow.
 
 ---
 
-# Chapter 18 — Your Next Step
+# Chapter 19 — Your Next Step
 
 You've read the book. The case is made. What's left is a decision, and a single physical action to anchor it.
 
@@ -2711,6 +2893,47 @@ Take the assessment. Become a Protégé. Run the protocol. I'll see you on the Z
 ---
 
 *Begin with the end in mind.*
+
+---
+
+---
+
+# Your Numbers
+
+Walk into any clinician's office with this list and you change the appointment. You stop being a person with vague complaints and become a person with a baseline. Most of these are ordinary tests your insurance already covers; a few you may have to ask for by name, and asking is the point. Get them once so you know where you stand, then recheck on the schedule below and watch the direction of travel — the trend matters more than any single number.
+
+| Measure | What it tells you | Where you want to be | Recheck |
+|---|---|---|---|
+| Waist (at navel) | Visceral fat — the metabolically active kind | Generally under half your height in inches | Monthly |
+| Grip strength | Whole-body strength; one of the cleanest predictors of all-cause mortality after fifty | Generally above the average for your age and sex, and not falling year over year | Every 6 months |
+| Resting heart rate | Cardiovascular fitness and recovery | Generally 50–70 bpm | Weekly |
+| Blood pressure | Vascular load on heart, kidneys, brain | Generally under 120/80 mmHg | Monthly |
+| Fasting glucose | Current blood sugar control | Generally 70–90 mg/dL | Every 6 months |
+| HbA1c | Average blood sugar over ~3 months | Generally under 5.5% | Every 6 months |
+| Fasting insulin | Insulin resistance — moves years before glucose does | Generally under 8 µIU/mL | Every 6 months |
+| hsCRP | Systemic inflammatory tone | Generally under 1.0 mg/L | Every 6 months |
+| Lipids — ApoB | Count of atherogenic particles; the one to ask for by name | Generally under 80 mg/dL | Annually |
+| Lipids — LDL-C | Traditional cholesterol marker | Generally under 100 mg/dL | Annually |
+| Lipids — triglycerides | Metabolic health and carbohydrate load | Generally under 100 mg/dL | Annually |
+| Lipids — HDL-C | Reverse cholesterol transport | Generally above 50 mg/dL | Annually |
+| Vitamin D (25-OH) | Steroid-hormone status; the most common deficiency I see | Generally 50–80 ng/mL | Every 6 months |
+| Total testosterone | Anabolic and cognitive hormone status | **Men:** generally upper half of the lab range, not merely "not low" · **Women:** generally mid-to-upper female reference range | Every 6 months |
+| Free testosterone | The fraction actually available to tissue | **Men:** generally upper half of the lab range · **Women:** generally mid-to-upper female reference range | Every 6 months |
+| Estradiol | Vascular, bone, and brain support; in men, the aromatization signal | **Men:** generally mid-range, neither suppressed nor elevated · **Women:** generally depends entirely on cycle stage or menopausal status — interpret with a clinician | Every 6 months |
+| SHBG | How much of your sex hormone is bound and unavailable | **Men:** generally mid-range; low SHBG often flags insulin resistance · **Women:** generally mid-range; rises through the transition | Every 6 months |
+| DHEA-S | Upstream adrenal precursor | Generally mid-to-upper range for your age | Annually |
+| AM cortisol | Stress axis and sleep debt; draw it in the morning | Generally mid-range on a true morning draw | Annually |
+| TSH (+ free T4) | Thyroid drift — usually parallel to the rest | Generally TSH 1–2 mIU/L with free T4 mid-range | Annually |
+| Ferritin | Iron stores; also rises with inflammation | Generally mid-range — neither depleted nor loaded | Annually |
+| Homocysteine | Methylation and vascular/cognitive risk | Generally under 9 µmol/L | Annually |
+| Omega-3 index | Membrane fatty-acid status | Generally above 8% | Annually |
+| IGF-1 | Growth-axis output — track only if you are on growth-hormone peptide therapy | Generally mid-to-upper age-adjusted range, never above it | Every 3 months while on therapy |
+| Sleep hours + apnea screen | The single biggest input to overnight glymphatic clearance | Generally 7–8 hours; screen formally if you wake unrefreshed | Nightly hours; screen once, then as symptoms change |
+| MindSpan Score | Your cognitive-risk baseline from the assessment | Generally improving, quarter over quarter | Quarterly |
+
+Ranges are general educational targets, not diagnoses; your clinician sets yours.
+
+Begin with the end in mind. You cannot protect what you never measured.
 
 ---
 
