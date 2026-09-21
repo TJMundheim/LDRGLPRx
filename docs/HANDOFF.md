@@ -1,6 +1,6 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-21 · self-contained current-state snapshot
+# Last updated: 2026-09-22 · self-contained current-state snapshot
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
@@ -10,6 +10,16 @@
 
 
 
+
+
+## ⚡ 2026-09-22 SESSION — BOOK ONE v22 (302pp, 19 chapters) — awaiting TJ review
+
+- **NEW Chapter 3 — The Uninsured Decade** (2,900 words; inserted after Ch2; "Why You, Why Now" → Ch4; all later chapters +1; in-text refs, "How this book is built" ranges, and render.py emblem keys shifted; new ledger emblem for Ch3). Stats+cost only, from docs/book-uninsured-decade/source/figures-verified-2026-09-07.md: 42%/35%/48% lifetime risk (Nature Med 2025), ~66% couple, $405K lifetime (70% families), CareScout 2025 costs, Medicare $0 custodial, LTC-insurance collapse, caregiver toll (1999 JAMA 63%), 45% population ceiling vs 30% individual working assumption. Opens with TJ's "disease of middle age" line for the 30-yr-old reader. One-sentence pointer to the companion book.
+- **Ch11 (Nutrition): "Count to 32: The Chew Rule"** section before The Eating Window (Iowa State RCT; one-sentence pointer to *Count Yourself Skinny*).
+- **"Start Monday" front page** (7 actions, after "How this book is built", before Dedication) + **"Your Numbers" back page** (22-measure table, general ranges, before Glossary).
+- Outputs: v22 color + BW PDFs (302pp), Kindle docx regenerated; Desktop KDP-UPLOAD = v22 interiors + re-spun paperback covers (B&W 0.680in, color 0.709in); older Desktop copies removed. Hardcover wrap NOT re-spun (was sized ~259pp; now 302 — likely needs re-spin before hardcover upload; check KDP previewer). S3 fulfillment = v22.
+- v20/v21 were never uploaded to KDP; **upload v22** after TJ's review.
+- TJ review asks: read Ch3 (docs/book/Begin-with-the-End-in-Mind-v22.pdf p.54ff), Start Monday (p.7), Your Numbers (p.288); decide named foreword (sister-in-law).
 
 ## ⚡ 2026-09-21 SESSION — FULL GENDER-SPECIFIC SWEEP (site + Logbook + book) + Bryan re-entry day
 
