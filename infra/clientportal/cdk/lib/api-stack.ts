@@ -217,7 +217,31 @@ export class ApiStack extends cdk.Stack {
     unitResolver('ListMyAdherenceResolver', 'Query', 'listMyAdherence', dsAdherence, 'listMyAdherence.js');
     unitResolver('ListPatientRecordsAdminResolver', 'Query', 'listPatientRecordsAdmin', dsPatientRecords, 'listPatientRecordsAdmin.js');
     unitResolver('GetPatientRecordAdminResolver', 'Query', 'getPatientRecordAdmin', dsPatientRecords, 'getPatientRecordAdmin.js');
-    unitResolver('UpdateEncounterStateAdminResolver', 'Mutation', 'updateEncounterStateAdmin', dsPatientRecords, 'updateEncounterStateAdmin.js');
+    // updateEncounterStateAdmin — pipeline: fetch the record's consents first
+    // (APPSYNC_JS unit resolvers can only touch one item), then gate the
+    // sent-to-provider transition on both HIPAA consents being signed.
+    const getRecordConsentsFn = new appsync.AppsyncFunction(this, 'GetRecordConsentsFn', {
+      api: this.api,
+      dataSource: dsPatientRecords,
+      name: 'getRecordConsentsFn',
+      runtime: JS_RUNTIME,
+      code: code('getRecordConsents.js'),
+    });
+    const updateEncounterStateFn = new appsync.AppsyncFunction(this, 'UpdateEncounterStateFn', {
+      api: this.api,
+      dataSource: dsPatientRecords,
+      name: 'updateEncounterStateFn',
+      runtime: JS_RUNTIME,
+      code: code('updateEncounterStateAdmin.js'),
+    });
+    new appsync.Resolver(this, 'UpdateEncounterStateAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'updateEncounterStateAdmin',
+      runtime: JS_RUNTIME,
+      code: code('updateEncounterStateAdmin.pipeline.js'),
+      pipelineConfig: [getRecordConsentsFn, updateEncounterStateFn],
+    });
 
     // ─── ChargeEncounterAdmin — Lambda data source ────────────────────────────
     const chargeFn = lambda.Function.fromFunctionName(this, 'ChargeOnApprovalFn', 'my4mlife-charge-on-approval');
@@ -273,6 +297,18 @@ export class ApiStack extends cdk.Stack {
       dataSource: dsPlanOfAction,
       runtime: JS_RUNTIME,
       code: code('sendPlanOfActionAdmin.js'),
+    });
+
+    // ─── SendConsentRequestAdmin — Lambda data source ─────────────────────────
+    const consentRequestFn = lambda.Function.fromFunctionName(this, 'ConsentRequestFn', 'my4mlife-consent-request');
+    const dsConsentRequest = this.api.addLambdaDataSource('ConsentRequestDS', consentRequestFn);
+    new appsync.Resolver(this, 'SendConsentRequestAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'sendConsentRequestAdmin',
+      dataSource: dsConsentRequest,
+      runtime: JS_RUNTIME,
+      code: code('sendConsentRequestAdmin.js'),
     });
 
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });

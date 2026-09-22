@@ -17,6 +17,12 @@ var TRANSITIONS = {
   'declined':             ['new', 'coordinator-reviewed', 'sent-to-provider', 'script-written'],
 };
 
+// Second function in the pipeline. ctx.stash.consents was populated by the
+// getRecordConsents function that runs before this one.
+function hasProviderConsents(consents) {
+  return Boolean(consents && consents['consent-npp-v1'] && consents['consent-phi-auth-v1']);
+}
+
 export function request(ctx) {
   if (!isAdmin(ctx)) util.unauthorized();
 
@@ -24,6 +30,10 @@ export function request(ctx) {
   var allowed = TRANSITIONS[toState];
   if (!allowed) {
     util.error('illegal target state: ' + toState, 'BadTransition');
+  }
+
+  if (toState === 'sent-to-provider' && !hasProviderConsents(ctx.stash.consents)) {
+    util.error('Consent required: NPP + Patient Authorization not signed', 'ConsentRequired');
   }
 
   var contactId = ctx.args.contactId;

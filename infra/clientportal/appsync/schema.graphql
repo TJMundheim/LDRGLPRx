@@ -530,6 +530,13 @@ type AuditEntryAdmin {
   actor: String
 }
 
+type ConsentRequestResultAdmin {
+  ok: Boolean!
+  url: String
+  sentTo: String
+  error: String
+}
+
 type PatientRecordAdminConnection {
   items: [PatientRecordAdmin!]!
   nextToken: String
@@ -645,5 +652,7 @@ type Mutation {
   draftPlanOfActionAdmin(contactId: ID!, encounterId: ID!, coordinatorNotes: String!): PlanAdmin!
     @aws_auth(cognito_groups: ["Admins"])
   sendPlanOfActionAdmin(contactId: ID!, encounterId: ID!, planJson: AWSJSON!): PlanAdmin!
+    @aws_auth(cognito_groups: ["Admins"])
+  sendConsentRequestAdmin(contactId: ID!, encounterId: ID!): ConsentRequestResultAdmin!
     @aws_auth(cognito_groups: ["Admins"])
 }

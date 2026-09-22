@@ -155,6 +155,14 @@ export function forcedVisitType(category: string): VisitType {
 export const CONSENT_NPP_V1 = 'consent-npp-v1';
 export const CONSENT_PHI_AUTH_V1 = 'consent-phi-auth-v1';
 
+// Whether the patient record's `consents` map has both HIPAA consents required
+// before an encounter may move to 'sent-to-provider'. Presence-only check —
+// callers own any deeper validation of the consent record shape.
+export function hasProviderConsents(consents: Record<string, unknown> | undefined): boolean {
+  if (!consents) return false;
+  return Boolean(consents[CONSENT_NPP_V1]) && Boolean(consents[CONSENT_PHI_AUTH_V1]);
+}
+
 // ---------------------------------------------------------------------------
 // DynamoDB key helpers (single-table design: PK = contactId, SK = sk)
 // ---------------------------------------------------------------------------

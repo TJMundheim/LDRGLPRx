@@ -9,6 +9,7 @@ import {
   RECORD_SK,
   CONSENT_NPP_V1,
   CONSENT_PHI_AUTH_V1,
+  hasProviderConsents,
   type EncounterState,
 } from './index.js';
 
@@ -106,5 +107,39 @@ describe('consent constants', () => {
   it('exposes the locked consent version ids', () => {
     expect(CONSENT_NPP_V1).toBe('consent-npp-v1');
     expect(CONSENT_PHI_AUTH_V1).toBe('consent-phi-auth-v1');
+  });
+});
+
+describe('hasProviderConsents', () => {
+  it('returns false when consents is undefined', () => {
+    expect(hasProviderConsents(undefined)).toBe(false);
+  });
+
+  it('returns false when consents is empty', () => {
+    expect(hasProviderConsents({})).toBe(false);
+  });
+
+  it('returns false when only one of the two required consents is present', () => {
+    expect(hasProviderConsents({ [CONSENT_NPP_V1]: { agreed: true } })).toBe(false);
+    expect(hasProviderConsents({ [CONSENT_PHI_AUTH_V1]: { agreed: true } })).toBe(false);
+  });
+
+  it('returns true when both required consents are present', () => {
+    expect(
+      hasProviderConsents({
+        [CONSENT_NPP_V1]: { agreed: true },
+        [CONSENT_PHI_AUTH_V1]: { agreed: true },
+      }),
+    ).toBe(true);
+  });
+
+  it('ignores unrelated consent keys', () => {
+    expect(
+      hasProviderConsents({
+        'some-other-consent': { agreed: true },
+        [CONSENT_NPP_V1]: { agreed: true },
+        [CONSENT_PHI_AUTH_V1]: { agreed: true },
+      }),
+    ).toBe(true);
   });
 });
