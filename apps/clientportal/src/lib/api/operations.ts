@@ -585,6 +585,34 @@ export async function exportClinicalPacketAdmin(
   });
 }
 
+// ─── SendConsentRequestAdmin ───────────────────────────────────────────────────
+
+export type ConsentRequestResultAdmin = {
+  ok: boolean;
+  url?: string;
+  sentTo?: string;
+  error?: string;
+};
+
+export async function sendConsentRequestAdmin(
+  input: { contactId: string; encounterId: string },
+  opts?: ClientOptions,
+): Promise<{ sendConsentRequestAdmin: ConsentRequestResultAdmin }> {
+  return client(opts)<{ sendConsentRequestAdmin: ConsentRequestResultAdmin }>({
+    query: `
+      mutation SendConsentRequestAdmin($contactId: ID!, $encounterId: ID!) {
+        sendConsentRequestAdmin(contactId: $contactId, encounterId: $encounterId) {
+          ok url sentTo error
+        }
+      }
+    `,
+    variables: {
+      contactId: input.contactId,
+      encounterId: input.encounterId,
+    },
+  });
+}
+
 // ─── Coordinator briefs + plans of action ─────────────────────────────────────
 
 export async function generateCoordinatorBriefAdmin(

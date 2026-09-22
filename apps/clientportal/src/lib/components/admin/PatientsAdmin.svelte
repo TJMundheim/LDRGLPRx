@@ -9,6 +9,7 @@
     generateCoordinatorBriefAdmin,
     draftPlanOfActionAdmin,
     sendPlanOfActionAdmin,
+    sendConsentRequestAdmin,
     type PatientRecordAdmin,
     type EncounterAdmin,
     type BriefAdmin,
@@ -22,6 +23,7 @@
     latestFor,
     type Plan,
   } from './patientBrief.js';
+  import { parseConsents, consentChecklist, providerReady, type ConsentsMap } from './consents.js';
 
   // ─── State ────────────────────────────────────────────────────────────────────
 
@@ -89,6 +91,49 @@
       const msg = e instanceof Error ? e.message : 'Network or server error. Please retry.';
       setExportState(encounterId, { exporting: false, exportError: msg });
     }
+  }
+
+  // ─── Consent-request state (keyed by contactId) ───────────────────────────────
+
+  type ConsentSendState = {
+    sending: boolean;
+    error: string;
+    sentTo: string;
+    url: string;
+  };
+
+  let consentSendStates = $state<Record<string, ConsentSendState>>({});
+
+  // Pure read — must NOT mutate $state during render.
+  function getConsentSendState(contactId: string): ConsentSendState {
+    return consentSendStates[contactId] ?? { sending: false, error: '', sentTo: '', url: '' };
+  }
+
+  function setConsentSendState(contactId: string, patch: Partial<ConsentSendState>) {
+    const existing = consentSendStates[contactId] ?? { sending: false, error: '', sentTo: '', url: '' };
+    consentSendStates = { ...consentSendStates, [contactId]: { ...existing, ...patch } };
+  }
+
+  async function sendConsentRequest(contactId: string, encounterId: string) {
+    setConsentSendState(contactId, { sending: true, error: '', sentTo: '', url: '' });
+    try {
+      const res = await sendConsentRequestAdmin({ contactId, encounterId });
+      const r = res.sendConsentRequestAdmin;
+      if (r.ok) {
+        setConsentSendState(contactId, { sending: false, sentTo: r.sentTo ?? '', url: r.url ?? '' });
+      } else {
+        setConsentSendState(contactId, { sending: false, error: r.error ?? 'Could not send consent forms. Please retry.' });
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Network or server error. Please retry.';
+      setConsentSendState(contactId, { sending: false, error: msg });
+    }
+  }
+
+  /** True once a consent request has already gone out for this patient (drives the "Resend" label). */
+  function hasRequestedConsent(rec: PatientRecordAdmin): boolean {
+    const audit = (rec as unknown as { audit?: Record<string, unknown>[] }).audit;
+    return Array.isArray(audit) && audit.some((a) => a.action === 'consent.requested');
   }
 
   // ─── Pre-call brief state (keyed by encounterId) ──────────────────────────────
@@ -412,7 +457,10 @@
         });
       }
     } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : 'Transition failed';
+      const rawMsg = e instanceof Error ? e.message : 'Transition failed';
+      const msg = /ConsentRequired/i.test(rawMsg)
+        ? 'Both HIPAA signatures (Notice of Privacy Practices + Patient Authorization) are required before this encounter can go to a provider.'
+        : rawMsg;
       transitionError = { ...transitionError, [enc.encounterId]: msg };
       // On error (e.g. BadTransition from concurrent change) reload the full record
       try {
@@ -498,14 +546,6 @@
     return STEP_STATES.indexOf(state);
   }
 
-  function consentSummary(consents: unknown): string {
-    if (Array.isArray(consents)) {
-      const agreed = consents.filter((c) => (c as Record<string, unknown>).agreed).length;
-      return `${agreed} of ${consents.length}`;
-    }
-    return '—';
-  }
-
   function bmiOf(demo: Record<string, unknown> | null): string {
     if (!demo) return '—';
     const h = parseFloat(String(demo.heightIn ?? demo.height ?? ''));
@@ -582,6 +622,11 @@
                   <p class="err">{detailError}</p>
                 {:else if detail}
                   {@const demo = (detail.demographics && typeof detail.demographics === 'object') ? detail.demographics as Record<string, unknown> : null}
+                  {@const consentsMap = parseConsents(detail.consents)}
+                  {@const checklist = consentChecklist(consentsMap)}
+                  {@const ready = providerReady(consentsMap)}
+                  {@const latestEnc = (detail.encounters ?? [])[0]}
+                  {@const csend = getConsentSendState(detail.contactId)}
 
                   <div class="dhead">
                     <div>
@@ -592,7 +637,6 @@
 
                   <div class="row3">
                     <div class="mini"><div class="fl2">BMI</div><div class="fv">{bmiOf(demo)}</div></div>
-                    <div class="mini"><div class="fl2">Consents</div><div class="fv ok-v">{consentSummary(detail.consents)}</div></div>
                     <div class="mini"><div class="fl2">Card</div>
                       {#if detail.cardOnFile && typeof detail.cardOnFile === 'object' && (detail.cardOnFile as Record<string, unknown>).paymentMethodId}
                         <div class="fv ok-v">Saved</div>
@@ -600,6 +644,44 @@
                         <div class="fv mut-v">None</div>
                       {/if}
                     </div>
+                  </div>
+
+                  <!-- Consent checklist -->
+                  <div class="consent-panel">
+                    <div class="consent-head">
+                      <h4 class="dsec">HIPAA consent checklist</h4>
+                      {#if ready}
+                        <span class="consent-status good">Ready for provider hand-off</span>
+                      {:else}
+                        <span class="consent-status warn">
+                          Provider hand-off blocked — {checklist.filter((c) => c.required && !c.signedAt).length} signature{checklist.filter((c) => c.required && !c.signedAt).length === 1 ? '' : 's'} needed
+                        </span>
+                      {/if}
+                    </div>
+                    <ul class="consent-list">
+                      {#each checklist as c}
+                        <li class="consent-row">
+                          <span class="consent-mark" class:signed={!!c.signedAt}>{c.signedAt ? '✓' : '✗'}</span>
+                          <span class="consent-label">{c.label}</span>
+                          {#if c.signedAt}
+                            <span class="consent-meta">{fmtDateTime(c.signedAt)}{#if consentsMap[c.id]?.typedName} · {consentsMap[c.id].typedName}{/if}</span>
+                          {:else if !c.required}
+                            <span class="consent-meta mut-v">Not on file</span>
+                          {/if}
+                        </li>
+                      {/each}
+                    </ul>
+                    {#if latestEnc}
+                      <button class="obtn" disabled={csend.sending} onclick={() => sendConsentRequest(detail!.contactId, latestEnc.encounterId)}>
+                        {csend.sending ? 'Sending…' : (hasRequestedConsent(detail) ? 'Resend consent forms' : 'Send consent forms')}
+                      </button>
+                      {#if csend.error}<p class="err small">{csend.error}</p>{/if}
+                      {#if csend.sentTo}
+                        <p class="export-msg">Sent to {csend.sentTo}.
+                          {#if csend.url}<a class="ilink" href={csend.url} target="_blank" rel="noopener">Copy link</a>{/if}
+                        </p>
+                      {/if}
+                    {/if}
                   </div>
 
                   <!-- Encounters -->
@@ -617,6 +699,7 @@
                       <div class="enc-head">
                         <span class="enc-cat">{enc2.category}</span>
                         <span class="chip {chipClass(enc2.state)}">{chipLabel(enc2.state)}</span>
+                        {#if ready}<span class="signed-badge">Signed</span>{/if}
                         <span class="enc-visit">{enc2.visitType}</span>
                         <span class="enc-date">{fmtDate(enc2.createdAt)}</span>
                       </div>
@@ -641,15 +724,20 @@
                         <div class="transition-row">
                           <span class="transition-label">{enc2.state === 'declined' ? 'Actions' : 'Advance'}</span>
                           {#each nexts as toState}
+                            {@const gated = toState === 'sent-to-provider' && !ready}
                             <button
                               class="tbtn {toState === 'declined' ? 'decline' : ''} {enc2.state === 'declined' && toState === 'new' ? 'reopen' : ''}"
-                              disabled={transitioningId === enc2.encounterId}
+                              disabled={transitioningId === enc2.encounterId || gated}
+                              title={gated ? 'Both HIPAA signatures required' : undefined}
                               onclick={() => transition(p.contactId, enc2, toState)}
                             >
                               {transitioningId === enc2.encounterId ? 'Saving…' : (enc2.state === 'declined' && toState === 'new' ? 'Reopen' : chipLabel(toState))}
                             </button>
                           {/each}
                         </div>
+                        {#if nexts.includes('sent-to-provider') && !ready}
+                          <p class="consent-note">Both HIPAA signatures required before sending to a provider.</p>
+                        {/if}
                       {:else}
                         <p class="terminal-state">Fulfilled — encounter closed.</p>
                       {/if}
@@ -1054,6 +1142,21 @@
   .tbtn.reopen { background: transparent; border-color: var(--mc-gold); color: var(--mc-gold); }
   .tbtn.reopen:hover:not(:disabled) { background: var(--mc-gold-tint); }
   .terminal-state { font-size: 0.72rem; color: var(--mc-faint); font-style: italic; margin: 0; }
+  .consent-note { font-size: 0.7rem; color: var(--mc-warn-bright); margin: 6px 0 0; }
+
+  /* consent checklist */
+  .consent-panel { margin-bottom: 14px; background: var(--mc-bg); border: 1px solid var(--mc-line); border-radius: 11px; padding: 13px 15px; }
+  .consent-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .consent-status { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+  .consent-status.good { color: var(--mc-good-bright); background: var(--mc-good-tint); }
+  .consent-status.warn { color: var(--mc-warn-bright); background: var(--mc-warn-tint); }
+  .consent-list { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .consent-row { display: flex; align-items: baseline; gap: 8px; font-size: 0.78rem; }
+  .consent-mark { color: var(--mc-crit-bright); font-weight: 700; width: 14px; flex: none; }
+  .consent-mark.signed { color: var(--mc-good-bright); }
+  .consent-label { color: var(--mc-ink); }
+  .consent-meta { color: var(--mc-faint); font-size: 0.7rem; }
+  .signed-badge { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mc-good-bright); background: var(--mc-good-tint); border-radius: 999px; padding: 2px 8px; }
 
   /* charge */
   .chargebox { margin-top: 12px; background: var(--mc-panel-2); border: 1px solid var(--mc-gold-line); border-radius: 11px; padding: 13px 15px; display: flex; flex-direction: column; gap: 10px; }
