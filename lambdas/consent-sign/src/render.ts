@@ -2,7 +2,11 @@
 import { NPP_HTML, PATIENT_AUTH_HTML, LEGAL_EFFECTIVE } from './legal';
 
 export const TAGLINE = "Don't lose your identity and your dignity while you still have a choice.";
-const DISCLOSE_TO = "My4MLife's contracted licensed telemedicine practice(s)";
+// Wording matched to the consent-request email and the admin checklist.
+// Dr. TJ is never described as a physician — the prescribers are the
+// contracted telemedicine practice's licensed physicians.
+const DISCLOSE_TO =
+  "our network's licensed physicians (My4MLife's contracted telemedicine practice(s))";
 export const ESIGN_LINE =
   'By typing your name below you consent to sign electronically under the federal E-SIGN Act, and agree your typed name is the legal equivalent of your handwritten signature.';
 
@@ -43,7 +47,9 @@ export function renderForm(opts: {
 }): string {
   return page('Sign your privacy notice and authorization', `
 <h1>Two documents to sign</h1>
-<p>Before your telemedicine visit, please review and sign the two documents below. Effective ${esc(LEGAL_EFFECTIVE)}.</p>
+<p>Before your telemedicine visit, please review and sign the two documents below. They let
+our network's licensed physicians see your intake. Effective ${esc(LEGAL_EFFECTIVE)}.</p>
+<p class="legend">&mdash; Dr. TJ</p>
 ${opts.error ? `<div class="err">${esc(opts.error)}</div>` : ''}
 <form method="post" action="?${esc(opts.query)}">
 <div class="card">${identity(opts.name, opts.email)}</div>

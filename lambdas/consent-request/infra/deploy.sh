@@ -18,22 +18,44 @@ MEMORY=256
 PATIENT_RECORDS_TABLE="PatientRecords"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 HMAC_SECRET_ID="consent-sign-hmac-key"
-
-# TODO: set to the Function URL printed by the consent-sign lambda's own
-# deploy.sh once that lambda is deployed.
-CONSENT_SIGN_URL="https://REPLACE-AFTER-CONSENT-SIGN-DEPLOY"
+SIGN_URL_PARAM="/my4mlife/consent/sign-url"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AWS="aws --region $REGION"
 
 log() { echo "==> $*"; }
 
+# ── Sign URL: published to SSM by lambdas/consent-sign/infra/deploy.sh ───────
+# Deploy consent-sign FIRST; this fails loudly rather than shipping a stale or
+# placeholder base URL into the Lambda's environment.
+CONSENT_SIGN_URL="$($AWS ssm get-parameter --name "$SIGN_URL_PARAM" \
+  --query Parameter.Value --output text 2>/dev/null || true)"
+if [ -z "$CONSENT_SIGN_URL" ] || [ "$CONSENT_SIGN_URL" = "None" ]; then
+  echo "ERROR: SSM parameter $SIGN_URL_PARAM is missing or empty." >&2
+  echo "       Run lambdas/consent-sign/infra/deploy.sh first — it publishes the Function URL there." >&2
+  exit 1
+fi
+log "Sign URL from $SIGN_URL_PARAM: $CONSENT_SIGN_URL"
+
 # CONSENT_SIGN_HMAC_KEY: never logged, never printed. Sourced from AWS Secrets
 # Manager (created out-of-band; never committed). Rotate with:
 #   aws secretsmanager put-secret-value --secret-id consent-sign-hmac-key --secret-string <new>
-CONSENT_SIGN_HMAC_KEY="${CONSENT_SIGN_HMAC_KEY:-$($AWS secretsmanager get-secret-value --secret-id "$HMAC_SECRET_ID" --query SecretString --output text)}"
-if [ -z "$CONSENT_SIGN_HMAC_KEY" ] || [ "$CONSENT_SIGN_HMAC_KEY" = "None" ]; then
-  echo "ERROR: CONSENT_SIGN_HMAC_KEY unset and secret $HMAC_SECRET_ID not found" >&2
+#
+# NOTE: consent-sign's deploy.sh stores this secret as JSON {"key":"<hex>"} and
+# feeds the inner .key to its own CONSENT_SECRET env var. This script MUST
+# extract the same inner value or every token it signs fails verification.
+if [ -z "${CONSENT_SIGN_HMAC_KEY:-}" ]; then
+  SECRET_STRING="$($AWS secretsmanager get-secret-value --secret-id "$HMAC_SECRET_ID" \
+    --query SecretString --output text 2>/dev/null || true)"
+  if [ -z "$SECRET_STRING" ] || [ "$SECRET_STRING" = "None" ]; then
+    echo "ERROR: CONSENT_SIGN_HMAC_KEY unset and secret $HMAC_SECRET_ID not found." >&2
+    echo "       Run lambdas/consent-sign/infra/deploy.sh first — it creates the secret." >&2
+    exit 1
+  fi
+  CONSENT_SIGN_HMAC_KEY="$(printf '%s' "$SECRET_STRING" | python3 -c 'import json,sys; print(json.load(sys.stdin)["key"])')"
+fi
+if [ -z "$CONSENT_SIGN_HMAC_KEY" ]; then
+  echo "ERROR: could not resolve the HMAC key from secret $HMAC_SECRET_ID" >&2
   exit 1
 fi
 

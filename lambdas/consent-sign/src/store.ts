@@ -33,6 +33,18 @@ export function readConsents(record?: Record<string, any>): { npp?: SignedConsen
 }
 
 export async function writeConsents(contactId: string, npp: SignedConsent, phi: SignedConsent, ts: string): Promise<void> {
+  // A record created by patient-record-intake has no `consents` attribute
+  // unless the intake carried consents, and DynamoDB rejects a nested SET on a
+  // missing map ("document path ... invalid"). Bootstrap the map first — the
+  // if_not_exists keeps this a no-op for records that already have one.
+  await ddb.send(new UpdateCommand({
+    TableName: TABLE,
+    Key: { contactId, sk: RECORD_SK },
+    UpdateExpression: 'SET #c = if_not_exists(#c, :empty)',
+    ExpressionAttributeNames: { '#c': 'consents' },
+    ExpressionAttributeValues: { ':empty': {} },
+  }));
+
   await ddb.send(new UpdateCommand({
     TableName: TABLE,
     Key: { contactId, sk: RECORD_SK },

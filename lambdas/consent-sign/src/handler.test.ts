@@ -89,7 +89,11 @@ describe('consent-sign handler', () => {
     expect(res.body).toContain('Signed.');
     expect(res.body).toContain('care coordinator will confirm');
 
-    const update = ddbSendMock.mock.calls.map((a) => a[0]).find((c) => c.constructor.name === 'UpdateCommand');
+    const updates = ddbSendMock.mock.calls.map((a) => a[0]).filter((c) => c.constructor.name === 'UpdateCommand');
+    // First update bootstraps the `consents` map (records from intake may not have one).
+    expect(updates[0].input.UpdateExpression).toBe('SET #c = if_not_exists(#c, :empty)');
+    expect(updates[0].input.ExpressionAttributeValues[':empty']).toEqual({});
+    const update = updates[1];
     expect(update.input.ExpressionAttributeNames['#npp']).toBe(CONSENT_NPP_V1);
     expect(update.input.ExpressionAttributeNames['#phi']).toBe(CONSENT_PHI_AUTH_V1);
     expect(update.input.UpdateExpression).toContain('#c.#npp');
