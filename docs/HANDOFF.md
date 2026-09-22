@@ -12,6 +12,16 @@
 
 
 
+
+## ⚡ 2026-09-22 (later) — STAGE-2 HIPAA E-SIGN + PROVIDER GATE LIVE (…ab720b2c, deployed)
+
+- **Finding:** no DocuSign integration ever existed (June plan = manual send; never built). Replaced with an OWNED e-sign page — E-SIGN-valid, $0, full audit trail. Plan: docs/plan/consent-esign-gate-2026-09-22.md.
+- **Flow:** Admin → Patients → Consent checklist → "Send consent forms" (`sendConsentRequestAdmin` → `my4mlife-consent-request`) → patient gets HMAC link → `my4mlife-consent-sign` Function URL (https://tqjmhvuegafgaxrobkybqozei40ftzak.lambda-url.us-east-2.on.aws/) renders NPP + Patient Authorization (legal text generated from docs/legal, LEGAL_VERSION 2026-09), two acknowledgments + typed legal name → writes `consents['consent-npp-v1']` + `['consent-phi-auth-v1']` (typedName, ip, UA) + audit `consent.signed`; copies emailed to patient + drtj@.
+- **Gate:** `updateEncounterStateAdmin(toState:'sent-to-provider')` is now a PIPELINE resolver (getRecordConsents → update) rejecting `ConsentRequired` unless both signed; admin UI disables the button until ready. Sign URL published to SSM `/my4mlife/consent/sign-url`; secret `consent-sign-hmac-key` (JSON {key}).
+- **E2E proven on synthetic drtj+consenttest@ then cleaned:** request → sign page → sign → both consents stored → gate lifts. Review caught 4 real defects pre-launch (secret JSON mismatch, missing SSM seam, nested-map write on records w/o consents, `Boolean()` invalid in APPSYNC_JS — use `aws appsync evaluate-code` to validate resolvers before CDK deploy).
+- Bryan: contact consent + assessment consents only (correct for Stage 1). When a lane is chosen: Send consent forms → he signs → hand-off unblocked.
+- Follow-up (pre-existing): resolver TRANSITIONS table and shared canTransition are separate copies — keep in sync.
+
 ## ⚡ 2026-09-22 SESSION — BOOK ONE v22 (302pp, 19 chapters) — awaiting TJ review
 
 - **NEW Chapter 3 — The Uninsured Decade** (2,900 words; inserted after Ch2; "Why You, Why Now" → Ch4; all later chapters +1; in-text refs, "How this book is built" ranges, and render.py emblem keys shifted; new ledger emblem for Ch3). Stats+cost only, from docs/book-uninsured-decade/source/figures-verified-2026-09-07.md: 42%/35%/48% lifetime risk (Nature Med 2025), ~66% couple, $405K lifetime (70% families), CareScout 2025 costs, Medicare $0 custodial, LTC-insurance collapse, caregiver toll (1999 JAMA 63%), 45% population ceiling vs 30% individual working assumption. Opens with TJ's "disease of middle age" line for the 30-yr-old reader. One-sentence pointer to the companion book.
