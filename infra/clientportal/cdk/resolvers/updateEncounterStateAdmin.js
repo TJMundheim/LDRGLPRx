@@ -19,8 +19,10 @@ var TRANSITIONS = {
 
 // Second function in the pipeline. ctx.stash.consents was populated by the
 // getRecordConsents function that runs before this one.
+// NOTE: APPSYNC_JS does not allow calling the global `Boolean` — use `!!`.
 function hasProviderConsents(consents) {
-  return Boolean(consents && consents['consent-npp-v1'] && consents['consent-phi-auth-v1']);
+  if (!consents) return false;
+  return !!consents['consent-npp-v1'] && !!consents['consent-phi-auth-v1'];
 }
 
 export function request(ctx) {
