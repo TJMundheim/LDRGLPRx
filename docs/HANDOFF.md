@@ -1019,3 +1019,10 @@ Deployed `my4mlife-inbound-handler` (Active, dormant — no SES trigger; MX poin
 - **Equipment-to-purchase website section:** TJ wants a pre-program order list (BP cuff + pulse ox to pair with vitals tracker, door-jam pull-up bar, foam squat/slant wedges, more). Needs product research + approval before building (no-weak-links rule, live affiliate links).
 - **"Today" hub:** DEFERRED (option 2). The unmounted TodayView uses a different Adherence action-ID scheme than the live week rows AND predates all the new trackers — mounting needs ID reconciliation + a canonical-surface decision + is now stale. Treat as a post-launch project (likely a fresh build). Details in `docs/APP_RED_GREEN_TEAM.md`.
 - Hook-page card mention: intentionally NOT added (big-boys match).
+
+## 2026-09-22 (evening) — FEMALE-READINESS AUDIT BEFORE FIRST WOMAN PROTÉGÉ
+First female cohort member (1,200-follower audience, likely first associate) taking /consult + MindSpan tonight.
+Audited every surface she touches: /consult intake, /assessment, welcome email (audit-complete), S3 book + logbook, app.
+- Book on S3 = v22 (md5 match, gender-specific front matter + women's hormone section). Logbook on S3 = v8 sweep (man/woman identity lines, women's lab lane). Welcome email copy neutral. Assessment ED question already reads "(for men)… for women, perimenopausal".
+- ONE defect found + fixed + deployed: app renderer.ts Week 1/3/4 identity prompts were male-default ("the man I want to be", "my wife", "I am a man who…", "the man who finishes Month 1"). Now man/woman paired, mirroring logbook v8.
+- Note: no surface captures the member's sex, so app copy can't branch per user; paired wording is the approach until intake sex is stored on UserProfile (consult already asks gender; assessment does not).

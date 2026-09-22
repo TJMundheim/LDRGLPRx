@@ -937,15 +937,15 @@ function renderW1(ctx: RenderContext): string {
           <span style="font-size:12.5px;color:${C.ink};font-weight:500">${esc(opt)}</span>
         </div>`).join('')}
     </div>
-    ${w1DimWrap(2, `<label for="w1-personal-why">My "why" — the man I want to be at age 70</label>
+    ${w1DimWrap(2, `<label for="w1-personal-why">My "why" — the man or woman I want to be at age 70</label>
     <textarea id="w1-personal-why" style="min-height:70px" placeholder="Write it here — you will read this aloud on graduation day..."
       oninput="portalField('personalWhy',this.value)">${esc(W.personalWhy)}</textarea>`)}
     ${w1DimWrap(3, `<label for="w1-accountability">Who are you doing this for? (you'll read your "why" aloud to them on graduation day)</label>
-    <input id="w1-accountability" placeholder="e.g. my wife, my kids, my parents, myself — pick one face" value="${esc(W.accountabilityTarget)}"
+    <input id="w1-accountability" placeholder="e.g. my wife, my husband, my kids, my parents, myself — pick one face" value="${esc(W.accountabilityTarget)}"
       oninput="portalField('accountabilityTarget',this.value)">
     <div style="font-size:11.5px;color:${C.muted};margin:6px 0 0">If no one is on the other end of this, you won't do it. Pick a person — see their face.</div>`)}
-    ${w1DimWrap(4, `<label for="w1-identity-stmt">My identity statement (draft) — "I am a man who..."</label>
-    <input id="w1-identity-stmt" placeholder="I am a man who..." value="${esc(W.identityStatement)}"
+    ${w1DimWrap(4, `<label for="w1-identity-stmt">My identity statement (draft) — "I am a man who..." or "I am a woman who..."</label>
+    <input id="w1-identity-stmt" placeholder="I am a man who... / I am a woman who..." value="${esc(W.identityStatement)}"
       oninput="portalField('identityStatement',this.value)">`)}
   </div>
 
@@ -1416,9 +1416,9 @@ function renderW3(W: Workbook): string {
         oninput="portalField('weekReflections.w3_recovery',this.value)">${g('w3_recovery')}</textarea>
     </div>
     <div style="margin-bottom:12px">
-      <label for="w3-identity-evolve">My identity is evolving — complete this sentence: "The man I am becoming..."</label>
+      <label for="w3-identity-evolve">My identity is evolving — complete this sentence: "The man I am becoming..." or "The woman I am becoming..."</label>
       <textarea id="w3-identity-evolve" style="min-height:52px;font-size:13px;font-style:italic;border-color:var(--mc-gold-line)"
-        placeholder="The man I am becoming..."
+        placeholder="The man I am becoming... / The woman I am becoming..."
         oninput="portalField('weekReflections.w3_identity_evolve',this.value)">${g('w3_identity_evolve')}</textarea>
     </div>
     ${pillarActionBox(C.info, 'Share your Week 3 identity sentence with your accountability partner. Tell someone what you are actually doing — not just that you are "eating better." Specifics only.')}
@@ -1600,16 +1600,16 @@ function renderW4(W: Workbook): string {
     <div style="background:var(--mc-info-tint);border:1px solid var(--mc-info-tint);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
-        The man who finishes Month 1 is not the same man who started it.
-        This week you name that man, commit to Month 2, and declare who you are becoming.
+        The man or woman who finishes Month 1 is not the same one who started it.
+        This week you name who that is, commit to Month 2, and declare who you are becoming.
       </div>
     </div>
 
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">IDENTITY STATEMENT — Month 1 Final</div>
-      <div style="font-size:11.5px;color:${C.muted};margin-bottom:10px">Write in present tense. "I am a man who..." — not "I will try to..."</div>
+      <div style="font-size:11.5px;color:${C.muted};margin-bottom:10px">Write in present tense. "I am a man who..." or "I am a woman who..." — not "I will try to..."</div>
       <textarea style="min-height:80px;border-color:${C.info}55;font-size:14px"
-        placeholder="I am a man who..."
+        placeholder="I am a man who... / I am a woman who..."
         oninput="portalField('identityStatement',this.value)">${esc(W.identityStatement)}</textarea>
     </div>
 
@@ -1645,7 +1645,7 @@ function renderW4(W: Workbook): string {
         oninput="portalField('graduation',this.value)">${esc(W.graduation)}</textarea>
       <div style="margin-top:13px;padding:12px 14px;background:var(--mc-info-tint);
         border-radius:8px;font-size:11.5px;color:${C.info};font-style:italic;text-align:center;line-height:1.6">
-        "In completing Month 1 of the 4M program I commit to continuing my brain optimization practice because the man I am becoming is worth protecting."
+        "In completing Month 1 of the 4M program I commit to continuing my brain optimization practice because who I am becoming is worth protecting."
       </div>
     </div>
   </div>
@@ -1796,7 +1796,7 @@ function renderW4(W: Workbook): string {
 
   <div class="card" style="border:2px solid var(--mc-info-tint)">
     <div class="card-title">Month 1 Final Reflection — All 4 Pillars</div>
-    ${[['w4_motivate_ref', 'MOTIVATE: In one sentence — who is the man who completed Month 1?'],
+    ${[['w4_motivate_ref', 'MOTIVATE: In one sentence — who is the man — or woman — who completed Month 1?'],
        ['w4_mitigate_ref', 'MITIGATE: How many points did your MindSpan Score improve?'],
        ['w4_muscle_ref', 'MUSCLE: What is the most significant physical change you feel or see?'],
        ['w4_mind_ref', 'MIND: What cognitive change are you most proud of from Month 1?']
