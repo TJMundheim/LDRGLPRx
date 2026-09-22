@@ -19,7 +19,7 @@
 - **"Start Monday" front page** (7 actions, after "How this book is built", before Dedication) + **"Your Numbers" back page** (22-measure table, general ranges, before Glossary).
 - Outputs: v22 color + BW PDFs (302pp), Kindle docx regenerated; Desktop KDP-UPLOAD = v22 interiors + re-spun paperback covers (B&W 0.680in, color 0.709in); older Desktop copies removed. Hardcover wrap NOT re-spun (was sized ~259pp; now 302 — likely needs re-spin before hardcover upload; check KDP previewer). S3 fulfillment = v22.
 - v20/v21 were never uploaded to KDP; **upload v22** after TJ's review.
-- TJ review asks: read Ch3 (docs/book/Begin-with-the-End-in-Mind-v22.pdf p.54ff), Start Monday (p.7), Your Numbers (p.288); decide named foreword (sister-in-law).
+- TJ review asks: read Ch3 (docs/book/Begin-with-the-End-in-Mind-v22.pdf p.54ff), Start Monday (p.7), Your Numbers (p.288). NOTE: sister-in-law's foreword = *The Uninsured Decade* ONLY (TJ 2026-09-22); book one keeps its existing foreword.
 
 ## ⚡ 2026-09-21 SESSION — FULL GENDER-SPECIFIC SWEEP (site + Logbook + book) + Bryan re-entry day
 
