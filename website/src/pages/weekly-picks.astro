@@ -13,9 +13,9 @@ import { AFFILIATE_DISCLOSURE } from '../lib/affiliates';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const TAG = 'my4lifeamz-20';
-const amazon = (q: string) => `https://www.amazon.com/s?k=${encodeURIComponent(q)}&tag=${TAG}`;
+const amazon = (q: string, asin?: string) => asin ? `https://www.amazon.com/dp/${asin}?tag=${TAG}` : `https://www.amazon.com/s?k=${encodeURIComponent(q)}&tag=${TAG}`;
 
-type Pick = { name: string; why: string; q: string; seller?: string };
+type Pick = { name: string; why: string; q: string; asin?: string; seller?: string };
 type Section = { heading: string; intro?: string; picks: Pick[] };
 
 const WEEK = {
@@ -37,8 +37,8 @@ const WEEK = {
       heading: 'Protocol staples',
       intro: 'What the cohort is actually using this month.',
       picks: [
-        { name: 'Thorne Creatine', why: 'Five grams daily — the single best-evidenced supplement for muscle and cognition together. NSF Certified for Sport.', q: 'Thorne creatine monohydrate', seller: 'Thorne' },
-        { name: 'Electrolyte packets (unsweetened)', why: 'Morning fasted-window hydration without breaking the fast.', q: 'LMNT electrolyte drink mix unflavored' },
+        { name: 'Thorne Creatine', why: 'Five grams daily — the single best-evidenced supplement for muscle and cognition together. NSF Certified for Sport.', q: 'Thorne creatine monohydrate', asin: 'B07978VPPH', seller: 'Thorne' },
+        { name: 'LMNT Raw Unflavored electrolytes', why: 'Morning fasted-window hydration without breaking the fast. No sweetener, no flavor.', q: 'LMNT Raw Unflavored electrolyte drink mix', asin: 'B085LR9BM2' },
       ],
     },
   ] as Section[],
@@ -70,7 +70,7 @@ const canonical = 'https://www.my4mlife.com/weekly-picks';
               {p.seller && (
                 <p class="wp-verify"><strong>Verify "Sold by: {p.seller}"</strong> on the listing — the only authorized Amazon reseller.</p>
               )}
-              <a class="wp-cta" href={amazon(p.q)} target="_blank" rel="nofollow sponsored noopener">Order via Amazon →</a>
+              <a class="wp-cta" href={amazon(p.q, p.asin)} target="_blank" rel="nofollow sponsored noopener">Order via Amazon →</a>
             </article>
           ))}
         </div>
