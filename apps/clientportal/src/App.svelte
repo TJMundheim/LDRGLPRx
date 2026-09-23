@@ -9,6 +9,7 @@
   import AdminDashboard from './lib/components/admin/AdminDashboard.svelte';
   import { currentUser as currentUserLegacy } from './lib/integrations/auth';
   import { getMyProfile, upsertMyProfile, recordAdherence } from './lib/api/operations';
+  import { cacheSex, readCachedSex, type Sex } from './lib/sex';
   import AuthGate from './lib/components/auth/AuthGate.svelte';
   import SettingsView from './lib/components/SettingsView.svelte';
   import Toast from './lib/toast/Toast.svelte';
@@ -158,6 +159,10 @@
   // Re-render tick: structural changes (tabs, factor toggle, score, day toggle,
   // supplement change) bump this. Field edits do NOT bump it so focus is
   // preserved while typing into inputs.
+  // UserProfile.sex — drives the sex-branched copy in renderer.ts.
+  // null = unknown (profiles created before 2026-09-22) → paired fallback copy.
+  let userSex = $state<Sex | null>(readCachedSex());
+
   let renderTick = $state(0);
   let pageHtml = $state('');
   let navHtml = $state('');
@@ -169,8 +174,9 @@
     curTab;
     openFactor;
     factorTab;
+    userSex;
     untrack(() => {
-      const ctx: RenderContext = { W: workbook, curTab, openFactor, factorTab };
+      const ctx: RenderContext = { W: workbook, curTab, openFactor, factorTab, sex: userSex };
       pageHtml = renderPage(ctx);
       navHtml = renderSidebar(ctx);
     });
@@ -676,6 +682,8 @@
           eatingWindowStart = (profile as any).eatingWindowStart ?? null;
           eatingWindowEnd = (profile as any).eatingWindowEnd ?? null;
           bonusTargetsEnabled = !!(profile as any).bonusTargetsEnabled;
+          // Two literal values only; never logged.
+          userSex = cacheSex((profile as any).sex);
           profileLoaded = true;
         }
         // ── BUG 4 fix: hydrate intake completion + workbook from remote audit data ────

@@ -581,6 +581,8 @@ export type UserProfile = {
   bonusTargetsEnabled?: Maybe<Scalars['Boolean']['output']>;
   glpStatus?: Maybe<Scalars['String']['output']>;
   weekUnlocked?: Maybe<Scalars['Int']['output']>;
+  /** 'female' | 'male'; absent = unknown (profiles created before 2026-09-22). */
+  sex?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserProfileConnection = {

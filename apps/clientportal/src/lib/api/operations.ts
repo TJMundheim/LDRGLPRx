@@ -116,7 +116,7 @@ const PROFILE_FIELDS = `
   hasActiveSubscription stripeCustomerId
   auditTop3 auditCompletedAt intakeAnswers
   eatingWindowStart eatingWindowEnd weeklyZoomAttestedAt weeklyZoomAttestedEventId
-  bonusTargetsEnabled glpStatus weekUnlocked
+  bonusTargetsEnabled glpStatus weekUnlocked sex
   address { line1 line2 city region postalCode country }
   prefs { marketingOptIn smsOptIn timezone units }
 `;
