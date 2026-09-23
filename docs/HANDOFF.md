@@ -48,6 +48,21 @@ First item of docs/plan/all-genders-midlife-reframe-2026-09-22.md §8 — everyt
 - Bryan: contact consent + assessment consents only (correct for Stage 1). When a lane is chosen: Send consent forms → he signs → hand-off unblocked.
 - Follow-up (pre-existing): resolver TRANSITIONS table and shared canTransition are separate copies — keep in sync.
 
+## ⚡ 2026-09-22 SESSION — BOOK v23 — MIDLIFE + ELENA + QUESTION-NINE FIX
+
+**v23 supersedes v22 (TJ never read v22 — he reviews v23).** 302pp → **315pp** (+13).
+
+- **"Question nine" fixed in all three places** (Ch19 close ×2, back-matter Your Next Step ×1) → "the already-diagnosed question at the end of the assessment". It was never question nine; it is the gate card after the 20 scored questions.
+- **QR codes:** one QR to the homepage, unchanged, both occurrences. Back-matter QR now carries one line under the caption: "Choose the door for you — women or men — and the site does the rest."
+- **Chapter 18 — second week added.** James lowered fifty-eight → **fifty-two** (father 83→78, married 31→28 yrs, "most of his forties", 1994→1998). NEW section **"## One Week, Another Life"** — Elena, 46, runs a regional medical-device sales team, husband Marcus, two teenagers; started 7 weeks ago after her mother (74) asked at Sunday dinner what year it was. Top three: sleep, gut, hormones. Her lane = **Menopause & HRT via the care coordinator, async labs, a licensed prescriber decides** — no live visit, no brand names, "regenerative therapies" only. ~3,000 words, Monday→Sunday, chew rule once, ends on the sister-in-law asking what she is actually doing. **Elena starts on p.278** (James p.266). Chapter intro now promises two people; "What Comes Next" and the Ch17 pointer both refer to both weeks; TOC line ("The Loop Closes") now reads "Two real weeks".
+- **Midlife spine** — "Alzheimer's is a disease that shows up when you're older. It starts in midlife." inserted exactly twice: **Opening (p.20)** and **Ch4 "Why now" (p.58)**, each with the modifiable-risk list (hearing, BP, LDL, weight, alcohol, inactivity, depression, isolation, sleep) in TJ's voice, no study named.
+- **"Peak-power decade" retired** (3 generic uses reframed to midlife). "Executive" left alone — every remaining use is either Covey/executive-assistant/executive-function, all correct. No age range printed; no new "men and women" (the 4 author's-note occurrences untouched).
+- **Outputs:** color PDF + B&W paperback PDF (both 315pp), Kindle docx regenerated via `build_ebook_docx.py`. **Paperback wraps re-spun: B&W spine 0.709in (page 12.959×9.25), color spine 0.739in (page 12.989×9.25).** Formula: pages × 0.002252 (B&W) / × 0.002347 (color).
+- **Hardcover wrap NOT re-spun** (still sized ~259pp; interior is now 315). Needs a manual re-spin + KDP previewer check before any hardcover upload — the v22 pipeline did not do it either.
+- **Desktop (v22 copies removed):** `KDP-UPLOAD — hardcover-color-interior-v23.pdf`, `— paperback-color-interior-v23.pdf`, `— paperback-bw-interior-v23.pdf`, `— paperback-bw-COVER-v23.pdf`, `— paperback-color-COVER-v23.pdf`, `— kindle-ebook-v23.docx`.
+- **S3 refreshed:** `s3://my4mlife-digital-fulfillment/begin-with-the-end-in-mind.pdf` = v23 (2,124,552 bytes, was 2,051,153).
+- Upload **v23** to KDP after TJ's review (v20/v21/v22 were never uploaded).
+
 ## ⚡ 2026-09-22 SESSION — BOOK ONE v22 (302pp, 19 chapters) — awaiting TJ review
 
 - **NEW Chapter 3 — The Uninsured Decade** (2,900 words; inserted after Ch2; "Why You, Why Now" → Ch4; all later chapters +1; in-text refs, "How this book is built" ranges, and render.py emblem keys shifted; new ledger emblem for Ch3). Stats+cost only, from docs/book-uninsured-decade/source/figures-verified-2026-09-07.md: 42%/35%/48% lifetime risk (Nature Med 2025), ~66% couple, $405K lifetime (70% families), CareScout 2025 costs, Medicare $0 custodial, LTC-insurance collapse, caregiver toll (1999 JAMA 63%), 45% population ceiling vs 30% individual working assumption. Opens with TJ's "disease of middle age" line for the 30-yr-old reader. One-sentence pointer to the companion book.
