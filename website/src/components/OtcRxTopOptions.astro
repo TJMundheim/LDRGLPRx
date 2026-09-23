@@ -16,7 +16,8 @@ interface Props {
   otcProductName: string;
   otcBridgesTo: string;          // e.g. "Biome NS Ultra"
   otcOneLiner: string;
-  otcAmazonQuery: string;        // search-URL query, NOT a specific ASIN
+  otcAmazonQuery: string;        // search-URL fallback when no ASIN is set
+  otcAsin?: string;              // Amazon ASIN — links straight to the one product page
   otcAuthorizedSeller?: string;  // e.g. "Pattern" — for Pure Encapsulations
 
   // Rx (right card)
@@ -32,6 +33,7 @@ const {
   otcBridgesTo,
   otcOneLiner,
   otcAmazonQuery,
+  otcAsin,
   otcAuthorizedSeller,
   rxName,
   rxPositionLine,
@@ -39,7 +41,9 @@ const {
 } = Astro.props as Props;
 
 const amazonTag = 'my4lifeamz-20';
-const amazonUrl = `https://www.amazon.com/s?k=${encodeURIComponent(otcAmazonQuery)}&tag=${amazonTag}`;
+const amazonUrl = otcAsin
+  ? `https://www.amazon.com/dp/${otcAsin}?tag=${amazonTag}`
+  : `https://www.amazon.com/s?k=${encodeURIComponent(otcAmazonQuery)}&tag=${amazonTag}`;
 const consultUrl = `/consult?category=${encodeURIComponent(category)}`;
 ---
 

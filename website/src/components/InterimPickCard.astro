@@ -11,7 +11,8 @@ interface Props {
   productName: string;      // e.g. "GI-Relief"
   bridgesTo: string;        // e.g. "Biome NS Ultra"
   oneLiner: string;         // short why-this-product hook
-  amazonQuery: string;      // search-URL query string, NOT a specific ASIN
+  amazonQuery: string;      // search-URL fallback when no ASIN is set
+  asin?: string;            // Amazon ASIN — links straight to the one product page
   authorizedSeller?: string; // e.g. "Pattern" — shown as "Verify Sold by: Pattern"
 }
 
@@ -21,11 +22,14 @@ const {
   bridgesTo,
   oneLiner,
   amazonQuery,
+  asin,
   authorizedSeller,
 } = Astro.props as Props;
 
 const amazonTag = 'my4lifeamz-20';
-const amazonUrl = `https://www.amazon.com/s?k=${encodeURIComponent(amazonQuery)}&tag=${amazonTag}`;
+const amazonUrl = asin
+  ? `https://www.amazon.com/dp/${asin}?tag=${amazonTag}`
+  : `https://www.amazon.com/s?k=${encodeURIComponent(amazonQuery)}&tag=${amazonTag}`;
 ---
 
 <aside class="interim-pick">
