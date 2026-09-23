@@ -1,8 +1,8 @@
-# Wave 3 — Gemini image prompts (2026-09-22)
+# Wave 3 — Artlist image prompts (2026-09-22)
 
-**Correction:** the site's existing photos carry the metadata credit "Made with Google AI" — they were made in **Gemini**, not Midjourney. Same prompts, reformatted for Gemini (no Midjourney flags).
+**Correction:** the site's existing photos carry the metadata credit "Made with Google AI" — they were made in **Artlist** (artlist.io AI image generator, Google Imagen model), not Midjourney. Same prompts, plain-prose format for Artlist.
 
-**Workflow:** gemini.google.com → new chat → paste one prompt → wait for the image → hover it → Download. Files land in ~/Downloads with Gemini's own name; Fable matches them to the shot list by content, renames to w3-NN.jpg, optimizes, and places them. No need to rename.
+**Workflow:** artlist.io → AI image generator → paste one prompt → 16:9 → generate → Download. Files land in ~/Downloads with Artlist's own name; Fable matches them to the shot list by content, renames to w3-NN.jpg, optimizes, and places them. No need to rename.
 
 **Keep/reroll rule:** face angled away or down (never smiling at the lens), no text or logos in frame, hands look right, no alcohol. Reroll with 'same scene, different take' if one misses.
 

@@ -62,7 +62,7 @@ Real-photo tracks (not AI): Dr. TJ founder half-day shoot (consult desk, walking
 
 ## Wave 3 (2026-09-22) — midlife, both sexes
 Direction change (supersedes the age read above, keeps the roles): **50% women / 50% men**, lead subjects read **40–50**, 55–65 only in supporting shots. Peak-power roles for her too: she runs the meeting, leads the table, coaches the team. No yoga-mat or smoothie stock. Same style recipe, same "face away / never at the lens" rule, no alcohol anywhere.
-**CORRECTION 2026-09-22: the existing site photos are stamped "Made with Google AI" — they came from Gemini, not Midjourney. Use `docs/design/wave3-gemini-prompts.md` (same shots, Gemini format).**
+**CORRECTION 2026-09-22: the existing site photos are stamped "Made with Google AI" — they came from Artlist (Google Imagen model), not Midjourney. Use `docs/design/wave3-artlist-prompts.md`.**
 
 - (w3-01, home hero) Man and woman in their mid-40s walking side by side into a glass office building at dawn, both in tailored dark clothing, mid-conversation and unhurried, seen from behind in three-quarter view, low sun flaring through the entrance, editorial photography, deep navy and warm gold color grade, 35mm --ar 16:9 --style raw
 - (w3-02, /women hero) Woman in her mid-40s standing at the head of a walnut conference table, mid-sentence, hand resting on the table, four colleagues listening, morning light from tall windows, dark blazer, quiet authority, face angled toward the room not the lens, editorial photography, deep navy and warm gold color grade, 85mm --ar 16:9 --style raw
