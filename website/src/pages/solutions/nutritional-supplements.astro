@@ -1,5 +1,6 @@
 ---
 import SolutionPage from '../../layouts/SolutionPage.astro';
+import InterimPickCard from '../../components/InterimPickCard.astro';
 ---
 
 <SolutionPage
@@ -56,6 +57,25 @@ import SolutionPage from '../../layouts/SolutionPage.astro';
       <p>Filtered water with mineral support, whole-food meals, real protein. No supplement protocol survives a depleted diet.</p>
     </div>
   </div>
+
+  <h2>The omega-3 + CoQ10 foundation, until ours ships</h2>
+  <p>Our OmegaCN Prime softgel pairs 2 g of EPA + DHA with 200 mg of ubiquinol in one capsule. Nothing on the shelf does both in one, so the bridge is two clean products taken together with your highest-fat meal: two omega softgels and one ubiquinol.</p>
+  <InterimPickCard
+    brand="Nordic Naturals"
+    productName="Ultimate Omega 2X, 120 softgels"
+    bridgesTo="OmegaCN Prime"
+    oneLiner="EPA 1,125 mg + DHA 875 mg per two softgels, triglyceride form from wild sardines and anchovies. Within a rounding error of our spec. Two with dinner."
+    amazonQuery="Nordic Naturals Ultimate Omega 2X 120"
+    asin="B06XPPP4M2"
+  />
+  <InterimPickCard
+    brand="Doctor's Best"
+    productName="Kaneka Ubiquinol 200 mg, 120 softgels"
+    bridgesTo="OmegaCN Prime"
+    oneLiner="The reduced, active form of CoQ10 at the exact dose in our formula. Olive oil and MCT carrier, nothing else of note. One with dinner alongside the omega."
+    amazonQuery="Doctor's Best Kaneka Ubiquinol 200 mg 120"
+    asin="B00743BYPQ"
+  />
 
   <fragment slot="product-cta">
     <h3>Start With a Nutrient Panel</h3>
