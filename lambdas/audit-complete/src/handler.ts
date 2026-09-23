@@ -72,7 +72,7 @@ async function ensureCognitoUser(email: string, firstName: string): Promise<stri
 async function seedUserProfile(args: {
   sub: string; email: string; firstName: string; phone: string;
   auditTop3: unknown; auditCompletedAt: string; intakeAnswers: unknown;
-  consent?: unknown; consentedAt?: string | null;
+  consent?: unknown; consentedAt?: string | null; sex?: string;
 }): Promise<void> {
   const now = new Date().toISOString();
   // Audit fields OVERWRITE on retake so the app always reflects the latest assessment.
@@ -87,6 +87,7 @@ async function seedUserProfile(args: {
     '#auditCompletedAt = :auditCompletedAt',
     '#intakeAnswers = :intakeAnswers',
     ...(args.consent ? ['#consent = :consent', '#consentedAt = :consentedAt'] : []),
+    ...(args.sex ? ['#sex = :sex'] : []),
   ];
   await ddb.send(new UpdateCommand({
     TableName: USER_PROFILE_TABLE,
@@ -97,6 +98,7 @@ async function seedUserProfile(args: {
       '#phone': 'phone', '#createdAt': 'createdAt', '#updatedAt': 'updatedAt',
       '#auditTop3': 'auditTop3', '#auditCompletedAt': 'auditCompletedAt', '#intakeAnswers': 'intakeAnswers',
       ...(args.consent ? { '#consent': 'consent', '#consentedAt': 'consentedAt' } : {}),
+      ...(args.sex ? { '#sex': 'sex' } : {}),
     },
     ExpressionAttributeValues: {
       ':owner': args.sub, ':primaryEmail': args.email, ':firstName': args.firstName,
@@ -105,6 +107,7 @@ async function seedUserProfile(args: {
       ':auditCompletedAt': args.auditCompletedAt,
       ':intakeAnswers': JSON.stringify(args.intakeAnswers ?? {}),
       ...(args.consent ? { ':consent': JSON.stringify(args.consent), ':consentedAt': args.consentedAt ?? now } : {}),
+      ...(args.sex ? { ':sex': args.sex } : {}),
     },
   }));
 }
@@ -405,6 +408,9 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const rawEmail: string | undefined = parsed.email;
   const firstName: string = (parsed.firstName && typeof parsed.firstName === 'string') ? parsed.firstName.trim() : '';
   const phone: string = (parsed.phone && typeof parsed.phone === 'string') ? parsed.phone.trim() : '';
+  // Biological sex, captured once so app/email/brief copy can branch. Only
+  // 'female' | 'male' are accepted; anything else is dropped (never logged).
+  const sex: string = (parsed.sex === 'female' || parsed.sex === 'male') ? parsed.sex : '';
 
   // Consent record: the exact agreements (text + version + timestamp) the user accepted.
   const consent = (parsed.consent && typeof parsed.consent === 'object') ? parsed.consent : null;
@@ -474,7 +480,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
           auditTop3: Array.isArray(top3) ? top3 : [],
           auditCompletedAt: ts,
           intakeAnswers: (scores && typeof scores === 'object') ? scores : {},
-          consent, consentedAt: consentAtServer,
+          consent, consentedAt: consentAtServer, sex,
         });
       }
     } catch (e) {

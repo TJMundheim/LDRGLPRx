@@ -35,6 +35,14 @@ vi.mock('@aws-sdk/client-lambda', () => ({
   InvokeCommand: class { input: any; constructor(i: any) { this.input = i; } },
 }));
 
+// Cognito is mocked so the UserProfile (Users table) seed path actually runs.
+const cognitoSendMock = vi.fn();
+vi.mock('@aws-sdk/client-cognito-identity-provider', () => ({
+  CognitoIdentityProviderClient: class { send = (...a: any[]) => cognitoSendMock(...a); },
+  AdminGetUserCommand: class { input: any; constructor(i: any) { this.input = i; } },
+  AdminCreateUserCommand: class { input: any; constructor(i: any) { this.input = i; } },
+}));
+
 import { handler, getRecommendedRx, NAMESPACE } from './handler';
 
 // contactId is ALWAYS server-derived from email (audit #14) — a client-supplied
@@ -99,6 +107,8 @@ beforeEach(() => {
   sqsSendMock.mockResolvedValue({ MessageId: 'm1' });
   lambdaSendMock.mockReset();
   lambdaSendMock.mockResolvedValue({});
+  cognitoSendMock.mockReset();
+  cognitoSendMock.mockResolvedValue({ UserAttributes: [{ Name: 'sub', Value: 'sub-123' }] });
   delete process.env.NURTURE_QUEUE_URL;
 });
 
@@ -140,6 +150,34 @@ describe('audit-complete handler', () => {
     expect(cmd.input.UpdateExpression).toContain('intakeAnswers = :scores');
     expect(cmd.input.ExpressionAttributeValues[':scores']).toEqual(scores);
     expect(cmd.input.ExpressionAttributeValues[':top3']).toEqual(top3);
+  });
+
+  it('writes sex to the UserProfile when the payload carries female', async () => {
+    const res: any = await handler(evt({ email: 'sex-female@example.com', scores: {}, top3: [], sex: 'female' }));
+    expect(res.statusCode).toBe(200);
+    const profileCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Users');
+    expect(profileCalls).toHaveLength(1);
+    const cmd = profileCalls[0][0];
+    expect(cmd.input.UpdateExpression).toContain('#sex = :sex');
+    expect(cmd.input.ExpressionAttributeNames['#sex']).toBe('sex');
+    expect(cmd.input.ExpressionAttributeValues[':sex']).toBe('female');
+  });
+
+  it('writes sex to the UserProfile when the payload carries male', async () => {
+    await handler(evt({ email: 'sex-male@example.com', scores: {}, top3: [], sex: 'male' }));
+    const cmd = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Users')[0][0];
+    expect(cmd.input.ExpressionAttributeValues[':sex']).toBe('male');
+  });
+
+  it('omits sex from the UserProfile write when absent or not female/male', async () => {
+    await handler(evt({ email: 'sex-none@example.com', scores: {}, top3: [] }));
+    await handler(evt({ email: 'sex-bad@example.com', scores: {}, top3: [], sex: 'Other; DROP' }));
+    const profileCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Users');
+    expect(profileCalls).toHaveLength(2);
+    for (const call of profileCalls) {
+      expect(call[0].input.UpdateExpression).not.toContain('#sex');
+      expect(call[0].input.ExpressionAttributeValues[':sex']).toBeUndefined();
+    }
   });
 
   it('persists the consent record (text + version + timestamp + flags) to the Contact', async () => {
