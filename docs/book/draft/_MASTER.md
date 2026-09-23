@@ -75,7 +75,7 @@ The 4 Ms are **Mind, Muscle, Mitigate, Motivate** — and Mind is the destinatio
 - **Part II — Muscle (Chapters 11–13):** Build the substrate. Nutrition + the protein-first rule, weight + the GLP-1 decision, strength + sarcopenia + pain.
 - **Part III — Motivate (Chapters 14–15):** Why you keep showing up. Purpose, identity, accountability — and the structural enablers.
 - **Part IV — Mind (Chapters 16–17):** Arriving at the destination — and the cognitive optimization stack.
-- **The Loop Closes (Chapters 18–19):** One real week running the system, then your next step.
+- **The Loop Closes (Chapters 18–19):** Two real weeks running the system, then your next step.
 - **Glossary:** Every technical term in the book, in plain English.
 
 The daily protocol on paper — check-ins, the stack, the weekly reflection, the adherence scorecard — lives in the Logbook, which every Protégé receives through the app and by email, so it always reflects the current protocol.
@@ -231,6 +231,8 @@ A neighbor wanders over. *What are you making?* Stone soup, the traveler says. F
 Here is the part everyone misses. The stone made nothing. You could boil that stone for a week and starve. What fed the village was the *combination* — the carrot and the onion and the barley and the meat, in one pot, each ingredient making the others worth more than they were alone.
 
 That is this book.
+
+One more thing before we start adding, because it decides when you start. Alzheimer's is a disease that shows up when you're older. It starts in midlife. The hearing you stopped protecting, the blood pressure nobody treated, the LDL you were told to watch and didn't, the weight that settled around your middle, the drinking, the sitting, the untreated low mood, the years you spent talking to almost no one, the sleep you traded away — every one of those is an ingredient too, and every one of them is doing its work on your brain decades before a doctor has a name for it. Which is the good news, if you can hear it that way: nearly all of them are things you can still change.
 
 Cognitive longevity is not a stone. It is not one intervention you drop in the water and wait on. It is not testosterone by itself, or a clean diet by itself, or a single nootropic, or eight hours of sleep alone. People spend years boiling one ingredient and wonder why they are still hungry. One carrot in an empty pot is not soup.
 
@@ -637,6 +639,8 @@ And if you are the spouse, the adult child, or the executive assistant who bough
 ## Why now: the window is closing while nothing looks wrong
 
 Here is the part of the conversation no one has with you in a fifteen-minute physical.
+
+Alzheimer's is a disease that shows up when you're older. It starts in midlife. The risks that actually move the number are not exotic and they are not genetic destiny — hearing you have let go uncorrected, blood pressure nobody is treating, LDL nobody is watching, extra weight carried through your forties, alcohol, a body that sits all day, a low mood left untreated, a life that has quietly gone solitary, and sleep you keep borrowing against. That list is the argument for acting now rather than later, because almost every item on it is something you can still take off the table.
 
 The biology that decides whether you keep your mind in your seventies and eighties does not start moving when you notice symptoms. It started moving decades ago, quietly, while you were building everything else.
 
@@ -1422,7 +1426,7 @@ That is the entire chapter.
 
 ## Where We Go From Here
 
-For most readers of this book, the picture is still optimistic. You are in the peak-power decade. The insults are real but the damage is reversible, or at least manageable, if you start now. The next several chapters are about building — Muscle, Motivate, the protocol you will actually run.
+For most readers of this book, the picture is still optimistic. You are in midlife, with the clock still moving in a direction you can change. The insults are real but the damage is reversible, or at least manageable, if you start now. The next several chapters are about building — Muscle, Motivate, the protocol you will actually run.
 
 But I have to be honest about something before we get there: for some readers, the insults have already done damage. The forgetting is no longer occasional. The names are not coming back. The room feels foggy at 4 p.m. in a way it didn't five years ago. You are reading this chapter on alcohol and you already know.
 
@@ -1654,7 +1658,7 @@ When should you engage the regenerative arm? Four entry points.
 
 **Three. Failure of conservative protocols after six to twelve months.** If you have run the gut work, the sleep work, the hormone work, the environment work, the strength work — fully, not half-heartedly — for six to twelve months and the cognitive trajectory has not bent, that is information. It does not mean the conservative work was wasted. It means the disease process has crossed a threshold the conservative work cannot reach alone.
 
-**Four. Personal preference for the most aggressive prevention layer.** Some patients, looking at a strong family history and a peak-power decade they have no intention of surrendering, simply elect the most aggressive available prevention before the symptoms arrive. That is a legitimate choice. The protocol is not less effective for being deployed earlier.
+**Four. Personal preference for the most aggressive prevention layer.** Some patients, looking at a strong family history and a working life they have no intention of surrendering, simply elect the most aggressive available prevention before the symptoms arrive. That is a legitimate choice. The protocol is not less effective for being deployed earlier.
 
 In all four cases, the conservative interventions run alongside. Always. The regenerative protocol is not a substitute for fixing the gut. The regenerative protocol is what the gut work supports.
 
@@ -2609,7 +2613,7 @@ The cognitive optimization stack is the destination's toolkit. It is not the des
 
 The destination is the person you have been protecting all along. The spouse whose partner still recognizes the look in their eye at eighty. The parent whose grown children still call first when something hard happens, because that judgment is still the one in the family they trust most. The grandparent whose grandkids feel a full presence in the room, not the polite shell of someone who used to be there. Strong body, sharp mind. That is the end you began with. Every supplement, every peptide, every breath of HRV-paced biofeedback in this chapter is in service of it.
 
-In the next chapter — Chapter 18, "The 4M Loop in Real Life" — I'll show you what a single ordinary week of that life actually looks like. Not the abstract pillars. The Monday morning, the Tuesday workout, the Wednesday afternoon when the executive function peptide earns its keep, the Saturday with the grandkids when all of this turns out to have been the point. The pillars stop being a framework and start being a life. Best mind possible until your last day of life. That's where we're going.
+In the next chapter — Chapter 18, "The 4M Loop in Real Life" — I'll show you what two ordinary weeks of that life actually look like — one man's, one woman's. Not the abstract pillars. The Monday morning, the Tuesday workout, the Wednesday afternoon when the executive function peptide earns its keep, the Saturday with the grandkids when all of this turns out to have been the point. The pillars stop being a framework and start being a life. Best mind possible until your last day of life. That's where we're going.
 
 ---
 
@@ -2619,15 +2623,15 @@ For fifteen chapters I have been telling you how the system works. Mind is the d
 
 What you do not yet have is a picture of a real person, on a real Monday, running this thing in a real life.
 
-So let me give you one.
+So let me give you two. One man, one woman, two different lanes, the same loop. Read the week that looks like yours — and then read the other one, because the person you live with is probably in it.
 
 ## One Week, One Life
 
-His name is James. He is fifty-eight. He runs a regional commercial real estate practice out of a mid-sized Southern city — three brokers under him, a paralegal, a bookkeeper who has been with him since the second Bush administration. He has been married thirty-one years. Two kids, both grown, the younger one married last fall. He drives a four-year-old SUV he keeps meaning to trade in and never does.
+His name is James. He is fifty-two. He runs a regional commercial real estate practice out of a mid-sized Southern city — three brokers under him, a paralegal, a bookkeeper who has been with him since the second Bush administration. He has been married twenty-eight years. Two kids, both grown, the younger one married last fall. He drives a four-year-old SUV he keeps meaning to trade in and never does.
 
 He is exactly the reader this book is written for. He is not broken. He is, on paper, doing well.
 
-He started the protocol six weeks ago. He did not start because he hit a wall. He started because his father, who is eighty-three and who built the business James now runs, asked him at Easter what year it was, and James watched himself lie and say it didn't matter. That night he sat in the kitchen with the lights off and decided he was not going to be that man across the table from his own kids.
+He started the protocol six weeks ago. He did not start because he hit a wall. He started because his father, who is seventy-eight and who built the business James now runs, asked him at Easter what year it was, and James watched himself lie and say it didn't matter. That night he sat in the kitchen with the lights off and decided he was not going to be that man across the table from his own kids.
 
 He took the assessment the next morning. The top three flagged categories were gut, sleep, and weight. He signed up as a Protégé that afternoon. The gut-barrier probiotic showed up on the porch four days later. He booked the consult in week two and started the GLP-1 and the BPC-157 oral in week three.
 
@@ -2635,7 +2639,7 @@ Today is Monday morning, Week 7.
 
 ## Monday Morning
 
-He wakes at five-forty without an alarm. That is new. For most of his fifties he woke at three a.m. with his heart pounding and could not get back down until the sky was gray. Now he wakes when the room starts to lighten and his body is finished with whatever it was doing.
+He wakes at five-forty without an alarm. That is new. For most of his forties he woke at three a.m. with his heart pounding and could not get back down until the sky was gray. Now he wakes when the room starts to lighten and his body is finished with whatever it was doing.
 
 He puts on shorts, a fleece, and the running shoes he bought at his daughter's insistence three years ago and barely wore until April. He drinks a full glass of water in the kitchen. He does not check his phone. The phone is the thief; he learned that on the Week 3 Zoom.
 
@@ -2691,7 +2695,7 @@ At nine-forty he takes the sleep-support formula — the OTC version, not the pr
 
 He did not used to sleep before midnight. He did not used to sleep through to morning. Now he does both, four to five nights a week, and the nights he does not are the nights he can name the reason — a late client dinner, a flight, a fight with his son about money.
 
-Sleep is where the glymphatic system clears the metabolic debris from the brain. Sleep is where the day's damage gets washed out. Sleep is the single non-negotiable Mind input. Eliminate the insulting behavior — and the insulting behavior, for a fifty-eight-year-old man with a working brain, is staying up to one a.m. with a bourbon and a screen because that is what his thirties trained him to do.
+Sleep is where the glymphatic system clears the metabolic debris from the brain. Sleep is where the day's damage gets washed out. Sleep is the single non-negotiable Mind input. Eliminate the insulting behavior — and the insulting behavior, for a fifty-two-year-old man with a working brain, is staying up to one a.m. with a bourbon and a screen because that is what his thirties trained him to do.
 
 He stopped doing it. The body remembered how to sleep within a week.
 
@@ -2745,7 +2749,7 @@ His libido came back before any lab confirmed his testosterone had moved. That i
 
 He has lost about six pounds, all of it from his waist. His pants fit different. He bought one new belt and threw the old one out. Visceral fat — the metabolically active fat that wraps the organs and feeds neuroinflammation — is the fat that comes off first on this protocol. It is also the fat that matters most for the brain.
 
-His wife looked at him last Wednesday across the kitchen island, while he was finishing his Zoom and she was finishing her book, and she looked at him the way she used to look at him in nineteen ninety-four. He saw it. She knew he saw it. Neither of them said anything. It is not the sort of thing you talk about. It is the sort of thing you notice, and let stand, and quietly build on.
+His wife looked at him last Wednesday across the kitchen island, while he was finishing his Zoom and she was finishing her book, and she looked at him the way she used to look at him in nineteen ninety-eight. He saw it. She knew he saw it. Neither of them said anything. It is not the sort of thing you talk about. It is the sort of thing you notice, and let stand, and quietly build on.
 
 None of this is dramatic. There was no moment of transformation. There was no before-and-after photo. There is no day he can point to and say, *this is when it turned.*
 
@@ -2753,9 +2757,131 @@ There is only the loop. Mind protected by Muscle and Mitigate, sustained by Moti
 
 > Begin with the end in mind. Run the loop. Do not grade yourself. Just adjust.
 
+## One Week, Another Life
+
+Her name is Elena. She is forty-six. She runs the regional sales team for a medical-device company out of a metro area in the upper Midwest — nine reps across four states, a sales engineer she shares with another region, and a quarterly number she has hit eleven of the last twelve times. She has been married twenty years to Marcus, who teaches high school history and coaches the girls' soccer team. They have two teenagers: a son who is seventeen and driving, and a daughter who is fourteen and has opinions.
+
+She is also, on paper, doing well. That is the part that matters for this chapter. Nobody looking at her calendar would say anything is wrong.
+
+She started the protocol seven weeks ago. She started because of a Sunday dinner. Her mother, who is seventy-four and who lives twenty minutes away and who has cooked that dinner every Sunday for as long as Elena can remember, put the roast on the table, sat down, looked around at everyone, and asked what year it was. Not as a joke. She asked, and then she waited for an answer, and Marcus said the year, and her mother said *of course*, and the dinner went on. Elena cleared the plates. She drove home. She sat in the car in her own driveway for a while with the engine off.
+
+Two things happened in that car. The first was the obvious one: her mother. The second was the one she has not said out loud to anyone yet, including Marcus. She had been losing words for a year. Not many. Not often. But she had stood in front of nine reps in a Tuesday pipeline meeting in March and lost the name of an account she had personally closed, and she had covered it with a joke about the coffee, and she had thought about it in bed that night for an hour.
+
+She took the assessment on her phone in the driveway. Her top three came back gut, sleep, and hormones. She read the hormone explanation twice, because it named things she had been filing under *stress* and *forty-six* for three years — the two a.m. wake-up, the heat that comes up her neck in meetings, the flat mornings, the weight that moved to her middle without her eating any differently, and the brain fog she had been treating with a third coffee. Nobody had ever put those in the same sentence for her. Her physician had said her labs were normal and offered an antidepressant, and she had declined, and that had been the whole conversation.
+
+She signed up as a Protégé that night. The gut-barrier probiotic arrived that week. She booked a consult through the care coordinator — the menopause and hormone lane — and the coordinator sent her a lab order she filled at a draw station near her office on a Thursday morning, no appointment, twelve minutes. There was no live visit. She answered the intake questions in the app, the labs came back into her record, and a licensed prescriber reviewed all of it and made the call. That is how the lane works: the coordinator opens the door, the record does the talking, and a prescriber decides. Elena's estradiol was low, her progesterone was on the floor, her FSH was where it goes in the transition, and her thyroid was fine, which she had assumed was the problem. She started hormone therapy in week four.
+
+Today is Monday morning, Week 8.
+
+### Monday — The House Before It Wakes
+
+She wakes at five-forty. The alarm is set for six and she keeps beating it, which is the single strangest development of the last two months. For three years she woke at two-ten, wide awake, hot, with a list running in her head, and then dozed from four until the alarm and got up feeling like she had been hit by something.
+
+She drinks a full glass of water standing at the sink. She does not touch her phone. The phone rule she got on the Week 3 Zoom is not about willpower, it is about sequence: the first hour of the day belongs to light and protein and movement, and the phone is allowed in after those. The first week she failed it four times out of seven. Now she does not think about it.
+
+She is out the back door at six. Around the block, down to the elementary school and back, eighteen minutes, no sunglasses, eyes up toward the east where the light is coming in flat and gold through the maples. Fasted. No coffee yet. This is the light walk, and it is the input her sleep actually responds to. The reason is upstream of everything she is doing: the light lands on the retina, the clock at the base of the brain reads it, and the whole cortisol curve — the one that had been dumping at two in the morning instead of at six — gets set for the day. She could not have explained any of that in June. What she can tell you now is that on the mornings she walks, she sleeps.
+
+She is back at six-twenty. The stack is on the counter where she set it out the night before, in a shallow wooden bowl that used to hold car keys. The gut-barrier probiotic in its scoop. The vitamin D with K2. The magnesium she takes at night, set aside on the other side of the bowl so she does not confuse them at six a.m. Her hormone therapy, in the form her prescriber chose for her, sits with them.
+
+None of it requires a decision. That is the entire design. Decisions are what fail at six in the morning in a house with teenagers in it.
+
+> The protocol is not a test of character. It is a set of things that are already sitting on the counter.
+
+Breakfast is four eggs scrambled with the last of the spinach and a slab of cheddar, and a quarter of a leftover sweet potato. Thirty-four grams of protein, protein first, before anything else hits her stomach. She eats it sitting down, which is new, and she counts her chews on the first few bites — thirty-two, or near enough — because the gut chapter was blunt about it: digestion starts in the mouth, and food that arrives at the gut in large pieces arrives as work, not as nutrition. Her daughter thinks the chewing thing is hilarious. Her daughter also now eats eggs before school, which Elena has not mentioned to her, and will not.
+
+She logs it. Walk. Probiotic. Protein breakfast. First bite at six-forty-one, so the window closes at three-forty-one. One tap each.
+
+The pipeline meeting is at eight-thirty, on video, nine faces. She runs it in forty minutes. Somewhere in the middle she catches herself doing the thing she used to do — reaching ahead for a name — and the name is there. It is a small thing. It is the whole thing.
+
+### Tuesday — Lift Day
+
+Tuesday and Friday, six a.m., the gym four minutes from the house, before the kids are up. Forty-five minutes, doors included.
+
+Today is lower body. Goblet squats, then trap-bar deadlifts because they do not aggravate the low back she tweaked two years ago hauling a demo case through an airport, then a step-up with a dumbbell in each hand, then a carry — two heavy handles, forty yards, four times. Five sets of five on the main lifts, at weights that are honest. She is not chasing anything. She is holding on to something.
+
+She has to say this part plainly, because of what is going on in her body right now: the years around the menopause transition are the years a woman loses bone and lean muscle fastest, and estrogen falling is part of why. Resistance training is not the optional pillar for her. It is the one intervention that argues directly with the thing her physiology is doing. The load on the bar is the signal that tells the bone and the muscle to stay.
+
+And there is the other part, the part that made her a believer somewhere in week five. She walks out of the locker room and her head is clear in a way coffee has never once produced. Working muscle secretes signaling molecules that cross into the brain and behave like growth factors for neurons. Strong body, sharp mind. She had read that sentence and filed it as marketing. Then she felt it, on a Tuesday, in a parking lot, and stopped arguing.
+
+Lunch at twelve-thirty, grilled chicken and a large salad, the chicken first. Forty grams. She used to eat a handful of almonds at eleven and a granola bar at three and call it discipline. The afternoon is different when the protein comes first. The two-thirty collapse she had scheduled into her life for a decade is simply not there anymore.
+
+### Wednesday — The Zoom
+
+Seven p.m. Eastern. She takes it at the kitchen table with a glass of water. Marcus is grading papers across from her with headphones in. Her son comes through twice for food and does not ask what she is watching, which is its own kind of teenage mercy.
+
+There are sixty or so faces in the grid. She knows a handful by now: a woman who runs a dental practice in Tucson, a retired colonel, a man who owns a steel shop and is very funny about his own squat form. Tonight is hormones, week three of the hormone sequence, and Dr. TJ spends the first twelve minutes on the difference between treating a number and treating a person. He is careful about the women's side of it. He says the transition is not a deficiency to be corrected back to twenty-five and it is not something to be endured in silence either, and that the decision about hormone therapy belongs to a woman and the prescriber who is looking at her labs and her history, not to the internet and not to whatever her mother was told in 1998.
+
+Then he opens the room. A woman two time zones away asks about the two a.m. wake-up. Elena types in the chat: *seven weeks in, it stopped in week three for me, hang on.* She does not say it out loud. She is not ready to be the one who talks. She notices she wanted to.
+
+The scoreboard comes up at the end. Trailing seven-day adherence: eighty-eight percent. She missed one lift — her daughter had a tournament in Rochester and they left at five-thirty in the morning — and two evening wind-downs. She logged both honestly. Nobody says anything about it, which is the point; the log is a record, not a report card.
+
+She clicks the attest box. Week 9 unlocks at midnight.
+
+### Thursday — The Sleep Day
+
+Thursday she protects sleep, because Thursday is the day the week has historically caught up with her.
+
+The eating window closes at three-forty. Last meal is at two-thirty: salmon, roasted broccoli, olive oil. Nothing after. The window is not a diet. It is a sleep intervention. A body that is digesting a meal at ten at night does not drop into the deep stages where the brain does its cleaning, and the deep stages are where the memory gets filed and the metabolic garbage gets flushed out.
+
+At eight the overhead lights go off across the main floor and the lamps come on, warm and low. At eight-thirty she is in the bath with magnesium flakes and the lights off — twenty minutes, phone in the other room, and the first week she did it she was bored out of her mind and now she defends it like a meeting. At nine-forty she takes the sleep-support formula, the over-the-counter one. Magnesium glycinate, glycine, L-theanine, a small calibrated dose of melatonin. The bedroom is sixty-six degrees, which was a negotiation with Marcus and which she won on the grounds that she is the one who was waking up soaked.
+
+She is in bed at ten with a novel. She is out by ten-fifteen. She sleeps through.
+
+That sentence is worth stopping on, because for three years she could not have written it. She did not lose sleep dramatically. She lost it quietly, an hour or two at a time, every night, and she was told that was what forty-six looked like. It was not what forty-six looked like. It was what an untreated hormonal transition and a wrecked gut and a phone on the nightstand looked like, and it turned out to be addressable.
+
+### Friday — The Table
+
+Friday night, the four of them at a restaurant, and then a table of six when Marcus's brother and his wife join.
+
+The old Friday was two glasses of wine, bread, a pasta dish, and a shared dessert she finished. The new Friday is not a performance of restraint. She orders the steak and the vegetables, she eats the steak first, she drinks iced tea because she has decided the wine is not worth what it does to the back half of her night, and when the bread comes she has a piece and does not narrate it to anyone.
+
+The alcohol decision is the one she thought would be hardest and was not. She is not a person with a drinking problem. She is a person who learned what two glasses of wine do to slow-wave sleep and decided the trade was bad. On the nights she has one, she has one, early, with water beside it, and she knows what Saturday morning will cost.
+
+Marcus's sister-in-law watches her through most of dinner. On the sidewalk afterward, while the men are arguing about the ballgame, she takes Elena's elbow and says, quietly, *You look different. Not smaller. Different.* And then: *What are you actually doing?*
+
+Elena does not give her the whole protocol. She has learned that the whole protocol, delivered on a sidewalk, sounds like a sales pitch from a woman who sells for a living. She says: *There's an assessment. It's free, it takes five minutes, it tells you where you actually stand.* She gives her the name of the website. She says, *Start with the assessment. Don't buy anything.*
+
+Her sister-in-law takes it that night in her own driveway, which Elena will not find out about for another two weeks.
+
+### Saturday — The Sunday That Isn't
+
+Saturday is the tournament, or the college visit, or the four hours in the car, depending on the weekend. This one is the car: two hours to a showcase, a folding chair on a cold sideline, two hours back.
+
+The protocol bends. She eats a gas-station protein situation at eleven because that is what exists. She misses the walk. She gets the light anyway, because the sideline is outdoors and the sun is up, which counts and which she did not realize counted until week two. She logs the window honestly — eleven to six — and the app does not scold her, because the app is a record and not a parent.
+
+They get home at seven. She does twenty minutes of the bodyweight work in the living room while her daughter narrates her form from the couch, badly. It is not the Tuesday session. It is not nothing. The protocol that only runs on ideal weeks is not a protocol; it is a hobby.
+
+### Sunday — The Dinner, Again
+
+Sunday she goes to her mother's.
+
+She does the thing she has started doing, which is to arrive an hour early and cook with her instead of arriving at six and being served. Her mother still runs the kitchen. Elena peels. They talk. Her mother tells the story about the neighbor's dog for the third time in a month and Elena lets it be the third time and does not correct her.
+
+She does not know yet what is happening to her mother. There is an appointment in October. She knows what she would do if the answer comes back the way she is afraid it will come back — there is a whole chapter in this book about that, about the regenerative therapies and the fact that the timeline changes when a diagnosis is already on the chart, and she has read it twice. She also knows that the appointment is not this week, and that sitting in the kitchen peeling potatoes is the correct use of this hour.
+
+Sunday night she does the weekly reflection at the kitchen table. Three questions.
+
+*What worked this week.* She writes: *Slept through five of seven. Two a.m. is gone. I did not know how much of me was just tired.*
+
+*What slipped.* She writes: *Saturday. Car, sideline, gas station. Fine.*
+
+*One small adjustment for next week.* She writes: *Set the stack out Sunday night for the whole week, not one night at a time.*
+
+Then she sits for a minute with the phone face down.
+
+Seven weeks. Her sleep came back first, then the mornings, then the words. Her waist is down about two inches and her weight is down about four pounds, which are not the same number and which she now understands are not supposed to be. The heat that used to come up her neck in the Tuesday meeting comes maybe once a week instead of every day. She has not told her team anything and does not intend to. What her team has noticed is that the Tuesday meeting takes forty minutes now instead of an hour.
+
+She thinks about her mother, at the stove, asking a table full of people what year it was.
+
+She is not going to be that woman at that table. Not because she is promised anything — nobody is promised anything — but because everything that is actually on the table she has now put in play, at forty-six, while the biology still answers when she calls it.
+
+She goes to bed at ten.
+
 ## What Comes Next
 
-James is running this protocol because someone showed him the system. He took an assessment, became a Protégé, opened the app, ordered the gut-barrier probiotic, sat through the first Zoom, booked the consult, started the prescriptions, and let the structure carry him through the first six weeks until the protocol was no longer something he was doing and became something he was.
+James and Elena are running this protocol because someone showed them the system. Each of them took an assessment, became a Protégé, opened the app, ordered the gut-barrier probiotic, sat through the first Zoom, booked the consult through the coordinator, started what a prescriber decided they needed, and let the structure carry them through the first six or seven weeks until the protocol was no longer something they were doing and became something they were.
+
+Their lanes are not the same. His ran through testosterone and a GLP-1; hers ran through the hormone transition and her sleep. They are the same loop. The order of the work does not change, and neither does the reason for it.
 
 You are holding that same system right now. The audit is the same audit. The app is the same app. The Wednesday Zoom is the same Zoom. The gut-barrier probiotic is the same canister.
 
@@ -2864,11 +2990,11 @@ There is a second route, and I need to address it directly, because if you fit i
 
 If you are reading this and you have already been diagnosed with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's — or if you are reading this on behalf of someone you love who has — the assessment knows that, and it will route you differently.
 
-Question nine on the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes our **regenerative medicine protocol** — including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
+The already-diagnosed question at the end of the assessment is the override question. If your answer triggers it, the system surfaces the regenerative arm directly, ahead of the rest of the prioritization. The path forward in that case isn't only the foundation protocol. It includes our **regenerative medicine protocol** — including Muse cells delivered intrathecally, with nationwide mobile delivery. The team comes to you.
 
 I am not going to spend three paragraphs softening this part. If a diagnosis is already on the chart, the clock is real, and the clock is loud, and waiting another quarter for the slow protocol to compound is not a strategy the math supports. The foundation protocol still runs in the background — gut, sleep, hormones, muscle, all of it — but the regenerative arm is what changes the trajectory on a timeline the diagnosis demands.
 
-Take the assessment. Answer question nine honestly. Let the system route you. Do not wait.
+Take the assessment. Answer the already-diagnosed question honestly. Let the system route you. Do not wait.
 
 ## Final Words
 
@@ -2878,7 +3004,7 @@ I'm closing the book the same way I opened it, because nothing in between has ch
 
 You also know — and this is the part the wellness industry will not say out loud — that the difference between the person who finishes their eighties as themselves and the one who does not is almost never one heroic intervention. It is the small, correct, repeated act, started early enough that compounding has time to do its work, run alongside other people doing the same thing, anchored to a why that does not move.
 
-You are still in your peak-power decade. You still have the cognition to make this decision well. You still have the runway for the math to work in your favor. That window does not stay open forever, but it is open right now, tonight, while you are holding this book.
+You are still in the stretch of life where this is winnable. You still have the cognition to make this decision well. You still have the runway for the math to work in your favor. That window does not stay open forever, but it is open right now, tonight, while you are holding this book.
 
 Don't lose your identity and your dignity while you still have a choice.
 
@@ -3077,7 +3203,7 @@ Completing it makes you a **Protégé. Free. No card, no catch.** That includes:
 
 The protocol works whether or not you ever buy a product. The products accelerate it; they don't replace it.
 
-**Already diagnosed** — with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's, or reading on behalf of someone you love who is? Answer question nine on the assessment honestly and the system routes you straight to the **regenerative medicine protocol**, with nationwide mobile delivery — the team comes to you. It is time-sensitive. Do not wait.
+**Already diagnosed** — with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's, or reading on behalf of someone you love who is? Answer the already-diagnosed question at the end of the assessment honestly and the system routes you straight to the **regenerative medicine protocol**, with nationwide mobile delivery — the team comes to you. It is time-sensitive. Do not wait.
 
 Questions: support@my4mlife.com
 
@@ -3095,5 +3221,6 @@ Questions: support@my4mlife.com
   <div style="text-align:center;">
     <img src="qr-home.png" alt="Scan to take your free assessment" style="width:1.2in; height:1.2in;" />
     <div style="font-size:8.5pt; color:#555; margin-top:4px;">my4mlife.com</div>
+    <div style="font-size:8.5pt; color:#555; margin-top:6px; max-width:2.2in;">Choose the door for you — women or men — and the site does the rest.</div>
   </div>
 </div>
