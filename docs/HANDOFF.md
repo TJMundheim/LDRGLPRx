@@ -42,6 +42,14 @@ First item of docs/plan/all-genders-midlife-reframe-2026-09-22.md §8 — everyt
 - v20/v21 were never uploaded to KDP; **upload v22** after TJ's review.
 - TJ review asks: read Ch3 (docs/book/Begin-with-the-End-in-Mind-v22.pdf p.54ff), Start Monday (p.7), Your Numbers (p.288). NOTE: sister-in-law's foreword = *The Uninsured Decade* ONLY (TJ 2026-09-22); book one keeps its existing foreword.
 
+## ⚡ 2026-09-22 — LOGBOOK v9 — MIDLIFE + WOMEN'S CANARY
+
+- **The Logbook v9 rendered + shipped: 154pp → 155pp.** `docs/cohort-workbook/The-Logbook-Month-1-v9.pdf` (2,067,989 bytes). Source of truth = `docs/cohort-workbook/draft/_MASTER.md`. Audit: `docs/audit/gender-sweep-logbook-v9-2026-09-22.md`. Driven by `docs/plan/all-genders-midlife-reframe-2026-09-22.md` §6.
+- **Midlife spine added to the opening author's note** ("Who This Logbook Is For"): *"Alzheimer's is a disease that shows up when you're older. It starts in midlife."* + why that moves the starting age. **"Peak-power decade" gone** (→ "their forties and fifties"); `_voice-brief.md` audience line no longer prints an age range. "Executive ×3" was a *site* count, not the logbook — only clinical "executive function" appears here, left alone.
+- **Week 3 women's track now at full equal weight.** Heading → **"For women — the perimenopause canary"**; 2 new Dr. TJ-voice paragraphs (first readable signal; estrogen/progesterone/sleep architecture/metabolism move together; **a cognitive event, not only a comfort one**); new **"The one decision this month"** block closing §5.3b (Menopause & HRT lane via care coordinator, or OTC + 90-day reassess). Same block mirrored onto the men's §5.3 (Testosterone & ED lane) so neither track is heavier. §5.2b ten markers, §5.3b four domains and the women's lab lane in §5.4 all kept from v6.
+- **S3 refresh rule honoured:** both keys re-uploaded and verified via `head-object` — `the-logbook-month1.pdf` and `cohort-workbook-month1.pdf` each **2,056,606 → 2,067,989 bytes**. No key added/renamed → bucket policy not re-run.
+- **Open:** `draft/01-09` chapter files are stale copies predating v6 (05 has no §5.2b/§5.3b) — regenerate from `_MASTER.md` or delete them; only exactly-matching lines were synced today.
+
 ## ⚡ 2026-09-21 SESSION — FULL GENDER-SPECIFIC SWEEP (site + Logbook + book) + Bryan re-entry day
 
 - **Website:** 53 files / 180 judged rewrites (solutions, blog, pillars, /go/gut-repair, bmi-calculator, protege-signup, links, fast-start, app product page). Sex-specific pages kept (testosterone-ed, menopause-hrt, ED, ED-canary blog, TRT physiology on /solutions/hormones, lane tags). Audit: docs/audit/gender-sweep-website-2026-09-21.md. Deployed.

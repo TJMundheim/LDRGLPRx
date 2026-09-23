@@ -46,6 +46,10 @@ The next time you open this logbook, you should already be someone who has named
 
 ### Who This Logbook Is For
 
+**Alzheimer's is a disease that shows up when you're older. It starts in midlife.**
+
+That one sentence is why this program starts where it starts. The damage that gets a name in your seventies is laid down in the decade you are most likely standing in right now — the years when blood pressure creeps, sleep stops holding, the waist moves, hearing dulls, the drinking gets normalized, and the hormones begin to drift, and nobody calls any of it a disease yet. So this logbook is not written for the person already worried about a diagnosis. It is written for the person in the decade it starts, who still has every lever available.
+
 I am a man, and I have spent thirty years in practice treating patients of both sexes. That is the honest origin of this program: one clinician's voice, shaped by three decades of sitting across from people who waited too long.
 
 **The medicine is for everyone.** The gut you repair, the sleep you defend, the muscle you keep, the mind you protect — none of it checks your driver's license first. Every page here is yours to run.
@@ -1466,13 +1470,13 @@ _______________________________________________
 
 ## 5.1 — How Week 3 works
 
-> **How to run this week:** men run §5.2 and §5.3 (the ED canary). Women run §5.2b and §5.3b (the perimenopause/menopause canary). Everyone runs §5.4 onward — the decision tree, the daily tracker, the Zoom prep, and the reflection are shared.
+> **How to run this week:** men run §5.2 and §5.3 (the ED canary). Women run §5.2b and §5.3b (the perimenopause canary). Everyone runs §5.4 onward — the decision tree, the daily tracker, the Zoom prep, and the reflection are shared.
 
 Two bodies, two alarms, the same four fires underneath: hormones, cardiovascular, cognitive, and quality of life. A man's alarm is loud and humiliating, so he eventually acts on it. A woman's is quiet and easy to blame on her life instead of her physiology, so she gets told to manage her stress for six years. Both birds are singing about the same gas in the same shaft. This week you find out what yours has been saying.
 
 ### For men — the ED canary
 
-Most men I see in their peak-power decade have never had an honest conversation about what's happening below the belt — and they've certainly never connected it to what's happening above the neck. That ends this week.
+Most men I see in their forties and fifties have never had an honest conversation about what's happening below the belt — and they've certainly never connected it to what's happening above the neck. That ends this week.
 
 Erectile dysfunction is not a separate problem. It is the first visible warning across four systems at once: hormones, cardiovascular, cognitive, and quality of life. It shows up early for a mechanical reason most men have never been told. Penile arteries are 1-2 millimeters wide. Coronary arteries are 3-4 millimeters. Endothelial dysfunction — the same arterial dysfunction that becomes a heart attack — shows up in the small arteries first, often three to five years before any cardiologist will see it on a stress test. By the time the cardiologist catches it, you've had three to five years of warning you ignored.
 
@@ -1480,9 +1484,13 @@ That's the canary. ED is the warning. The mine is your whole vascular and hormon
 
 This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window (train fasted, break the fast with 30–40g protein after), morning sun, the gut-barrier probiotic, the D3+K2 stack, the omega-3+CoQ10 softgel, the sleep-support formula, Magtein, the lifts, the lights-out at 10:30. None of that changes.
 
-### For women — the other canary
+### For women — the perimenopause canary
 
-Your body sends a different first signal, and it is a cluster rather than a single event: sleep that breaks at two or three in the morning, word-finding lapses that frighten you more than you admit, a shorter fuse where enthusiasm used to be, weight that relocates to the middle on the same calories, and intimacy that quietly gets complicated. Five signals, same four fires. Perimenopause often begins in the early forties while cycles are still perfectly regular, which is why the standard screening question — *are your periods still coming?* — misses it for years.
+Perimenopause is the first readable signal a woman's body sends, and it is almost always read as something else. Sleep that stopped holding. A mood you do not recognize as yours. Fog that makes you write things down you never had to write down. Weight that relocates to the middle on the same food and the same training. Six years of being told to manage your stress.
+
+Estrogen, progesterone, sleep architecture, and metabolism do not move one at a time. They move together, and they move through the brain. That makes this a cognitive event, not only a comfort one — which is exactly why it belongs in a logbook about protecting your mind rather than in a pamphlet about hot flashes.
+
+Your body sends this signal as a cluster rather than a single event: sleep that breaks at two or three in the morning, word-finding lapses that frighten you more than you admit, a shorter fuse where enthusiasm used to be, weight that relocates to the middle on the same calories, and intimacy that quietly gets complicated. Five signals, same four fires. Perimenopause often begins in the early forties while cycles are still perfectly regular, which is why the standard screening question — *are your periods still coming?* — misses it for years.
 
 Estrogen is not a reproductive hormone that happens to have effects elsewhere. It is a neurological hormone, with receptors dense in the hippocampus, the prefrontal cortex, and the hypothalamus. It supports cerebral blood flow through the same endothelial nitric-oxide pathway the ED canary reports on. When it falls — over a compressed handful of years, not a slow decades-long drift — the brain goes through a real metabolic transition. The fog is not imagined. It has a mechanism.
 
@@ -1728,6 +1736,16 @@ Yes: ______    Mild: ______    No: ______
 
 ---
 
+**The one decision this month.** You either engage the Rx consult layer now — the **Testosterone & ED lane**, booked through the care coordinator at my4mlife.com — or you stay OTC and reassess with this same worksheet in 90 days. Both are legitimate. Defaulting is not.
+
+☐ Engaging the Rx consult layer this month — Testosterone & ED lane. Date booked: ____________
+
+☐ Staying OTC. Reassessment date (90 days out): ____________
+
+Then run §5.4 with everyone else.
+
+---
+
 ## 5.2b — The Other Canary: Perimenopause / Menopause Self-Audit
 
 *Women's track. Men: you ran §5.2.*
@@ -1970,6 +1988,16 @@ _______________________________________________
 **Domain tally:**
 
 Yes: ______    Mild: ______    No: ______
+
+---
+
+**The one decision this month.** You either engage the Rx consult layer now — the **Menopause & HRT lane**, booked through the care coordinator at my4mlife.com — or you stay OTC and reassess with this same worksheet in 90 days. Both are legitimate. Defaulting is not.
+
+☐ Engaging the Rx consult layer this month — Menopause & HRT lane. Date booked: ____________
+
+☐ Staying OTC. Reassessment date (90 days out): ____________
+
+Then run §5.4 with everyone else.
 
 ---
 

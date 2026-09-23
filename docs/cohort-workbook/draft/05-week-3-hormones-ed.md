@@ -4,7 +4,7 @@
 
 ## 5.1 — How Week 3 works
 
-Most men I see in their peak-power decade have never had an honest conversation about what's happening below the belt — and they've certainly never connected it to what's happening above the neck. That ends this week.
+Most men I see in their forties and fifties have never had an honest conversation about what's happening below the belt — and they've certainly never connected it to what's happening above the neck. That ends this week.
 
 Erectile dysfunction is not a separate problem. It is the first visible warning across four systems at once: hormones, cardiovascular, cognitive, and quality of life. It shows up early for a mechanical reason most men have never been told. Penile arteries are 1-2 millimeters wide. Coronary arteries are 3-4 millimeters. Endothelial dysfunction — the same arterial dysfunction that becomes a heart attack — shows up in the small arteries first, often three to five years before any cardiologist will see it on a stress test. By the time the cardiologist catches it, you've had three to five years of warning you ignored.
 
