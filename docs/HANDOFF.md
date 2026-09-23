@@ -13,6 +13,17 @@
 
 
 
+## ⚡ 2026-09-22 — SEX CAPTURED ON PROFILE (deployed)
+
+First item of docs/plan/all-genders-midlife-reframe-2026-09-22.md §8 — everything that branches on sex depends on this. Field name is `sex` everywhere; values are exactly `'female' | 'male'` (never anything else; invalid values are dropped, never logged).
+
+- **/assessment** — required one-tap radio group `name="sex"` ("So the program speaks to you" → Woman / Man) at the top of the questions screen. Pre-filled from `?sex=female|male`, else from sessionStorage `my4m_prefill.sex`. Persisted in localStorage `public-assessment-v2` under `sex`. Blocks submit until chosen, and is sent as `sex` in the POST to `/api/audit-complete` (alongside firstName/email/scores).
+- **/consult** — existing Step-1 `[data-q="sex"]` select is now pre-selected from `?sex=`, else from sessionStorage/localStorage `my4m_prefill.sex`. Already flowed to `/api/patient-record-intake` as `demographics.sex` (unchanged). On success the hand-off now writes `sex` into sessionStorage `my4m_prefill` so /assessment arrives pre-filled.
+- **lambdas/audit-complete** — `sex` parsed and validated to the two values, written to the Users (UserProfile) row as attribute `sex` via the existing UpdateCommand; omitted entirely when absent. 3 new unit tests (28 total green). Deployed via lambdas/audit-complete/infra/deploy.sh. Handler was already 508 lines (pre-existing); grew ~7.
+- **AppSync** — `UserProfile.sex: String` added to infra/clientportal/appsync/schema.graphql. getMyProfile is a pass-through pipeline resolver, so no resolver JS changed (no APPSYNC_JS to validate). Deployed via infra/clientportal/deploy.sh (ApiStack schema update only).
+- Website deployed; verified live: `/assessment?sex=female` pre-checks Woman, `/consult?sex=male` pre-selects Male.
+- **Not done (deliberately):** app renderer copy does not branch on `sex` yet, /women and /men doors do not exist yet, and existing profiles have no `sex` (absent = unknown; keep a fallback in any consumer).
+
 ## ⚡ 2026-09-22 (later) — STAGE-2 HIPAA E-SIGN + PROVIDER GATE LIVE (…ab720b2c, deployed)
 
 - **Finding:** no DocuSign integration ever existed (June plan = manual send; never built). Replaced with an OWNED e-sign page — E-SIGN-valid, $0, full audit trail. Plan: docs/plan/consent-esign-gate-2026-09-22.md.
