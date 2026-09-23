@@ -228,7 +228,7 @@ export const SKUS: Record<string, SKU> = {
   'fast-start-protocol': {
     id: 'fast-start-protocol',
     name: 'Fast Start Protocol',
-    tagline: 'For the man who wants to understand the system before he puts a supplement in his body. Complete Fast Start Protocol + app access + 12-week cohort + your personalized assessment report.',
+    tagline: 'For you, if you want to understand the system before you put a supplement in your body. Complete Fast Start Protocol + app access + 12-week cohort + your personalized assessment report.',
     retailPriceUSD: 5,
     cadence: 'one-time',
     stripePriceId: 'price_1TbpnQBSbDAyoIVy0AyOTNlq',
