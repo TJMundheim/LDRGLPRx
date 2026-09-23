@@ -468,6 +468,8 @@
             <div class="exp">
               Form: push-ups against the kitchen counter, body straight, slow eccentric.
               Squats: hold the counter for balance, sit back, knees track over toes.
+              Training days: half a scoop of Ultima Replenisher with 5 g creatine in 16 oz of water before the fasted lift, the other half after.
+              It also blunts appetite if you want to push the fast further into the day. Non-training days: creatine with breakfast as before.
             </div>
           {/if}
         </div>

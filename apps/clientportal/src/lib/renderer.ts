@@ -2182,7 +2182,25 @@ function renderSupplementsPanel(W: Workbook): string {
             onclick="portalAction('setSupp','${key}','${v}')">${v}</button>`).join('')}
       </div>
     </div>`;
-  }).join('');
+  }).join('') + stackElectrolyteNote();
+}
+
+/**
+ * Electrolytes around the fasted lift (TJ 2026-09-23). Named part of the stack.
+ * App keeps live product names; print artifacts stay de-branded.
+ */
+function stackElectrolyteNote(): string {
+  return `<div style="margin-top:14px;padding:12px 14px;background:${C.panel2};border:1px solid ${C.line};border-radius:9px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:${C.ink};margin-bottom:5px">ELECTROLYTES — ULTIMA REPLENISHER (GRAPE)</div>
+    <div style="font-size:11.5px;color:${C.muted};line-height:1.65">
+      Training days: half a scoop with 5 g creatine in 16 oz of water before the fasted lift, the other half after.
+      It also blunts appetite if you want to push the fast further into the day.
+      Non-training days: creatine with breakfast as before.
+    </div>
+    <div style="font-size:11px;color:${C.muted};line-height:1.6;margin-top:6px">
+      Zero calories, zero sugar, 55 mg sodium, potassium and magnesium citrates, stevia leaf.
+    </div>
+  </div>`;
 }
 
 function renderRegen(W: Workbook, sex?: Sex | null): string {
