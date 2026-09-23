@@ -13,6 +13,21 @@
 
 
 
+## ⚡ 2026-09-22 — APP BRANCHES ON SEX + WEEK 3 WOMEN'S BLOCK (deployed)
+
+§5 of docs/plan/all-genders-midlife-reframe-2026-09-22.md, built on the `sex` field captured earlier the same day. apps/clientportal only.
+
+- **Helper:** `apps/clientportal/src/lib/sex.ts` — `who(sex)` returns one copy pack (labels, placeholders, closing line, commitment sentence, stack note, and which Week 3 tracks to show). `normalizeSex()` accepts only `'female' | 'male'`; anything else is unknown and gets the paired copy that shipped before this change. `readCachedSex()/cacheSex()` keep the last value in localStorage `my4m-sex-v1` so the first render (before the profile lands) is already right.
+- **Wiring:** `sex` added to `PROFILE_FIELDS` in `src/lib/api/operations.ts` (+ `UserProfile.sex` in generated.ts). App.svelte sets `userSex` from the profile and passes it on `RenderContext.sex`; `renderW3/renderW4/renderRegen` take it as a param. No PHI logged — the value is never put in the `[profile] loaded` diag.
+- **Branched copy:** Week 1 "why" label, accountability placeholder, identity statement label+placeholder; Week 3 identity-evolve; Week 4 closing line, present-tense hint, identity placeholder, graduation commitment sentence, MOTIVATE reflection question.
+- **Week 3 hormones (new, equal weight):** `renderW3Hormones()` — the ED canary (men) and the perimenopause canary (women), each with a ten-marker 0–10 honesty self-rating, a running total out of 100, her/his lab lane, and the same single decision (engage the Rx consult lane, or stay OTC and reassess in 90 days) with a booking link. Unknown sex shows BOTH tracks, as the printed Logbook does. Voice taken from docs/cohort-workbook/draft/_MASTER.md Week 3 (read only, not edited).
+- **Storage keys added** (all inside `weekReflections`, so they persist and sync through the existing portalField → saveWorkbook path; no schema change): `w3_ed_m1..m10`, `w3_ed_lab_{total_t,free_t,shbg,e2,dheas,bp,lipids,a1c}`, `w3_ed_decision`, `w3_ed_decision_note`; `w3_peri_m1..m10`, `w3_peri_lab_{e2,progesterone,fsh,total_t,free_t,shbg,tsh,cortisol,dheas,bp,lipids,a1c}`, `w3_peri_decision`, `w3_peri_decision_note`.
+- **Stack reference:** the Month 1 supplement panel (Week 3 + Regen tabs) now carries a sex-matched hormone note — labs first, physician-led; the women's line names estradiol/progesterone/testosterone in women.
+- **Deleted** `apps/clientportal/src/app.js.legacy` (nothing imported it; tsconfig exclude + README updated).
+- **Tests:** `src/lib/sex.test.ts` (6) + `src/lib/renderer.sex.test.ts` (12), all green. Full suite 220 pass / 7 fail — the 7 are the known pre-existing failures in client.test.ts, AuthGate.test.ts, nudge/triggers.test.ts.
+- **Deployed** via apps/clientportal/deploy.sh (CloudFront E2RJ7NRPD4MN2X invalidated).
+- **Left open:** existing profiles still have no `sex`, so anyone who signed up before 2026-09-22 sees the paired copy and both Week 3 tracks — there is no in-app way to set it yet (only /assessment and /consult write it). MissionControl/TodayView copy is ungendered and was left alone.
+
 ## ⚡ 2026-09-22 — SEX CAPTURED ON PROFILE (deployed)
 
 First item of docs/plan/all-genders-midlife-reframe-2026-09-22.md §8 — everything that branches on sex depends on this. Field name is `sex` everywhere; values are exactly `'female' | 'male'` (never anything else; invalid values are dropped, never logged).
