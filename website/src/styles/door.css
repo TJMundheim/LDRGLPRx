@@ -261,3 +261,7 @@
 @media (min-width: 560px) {
   .hp-audience-row { grid-template-columns: 1fr 1fr; }
 }
+
+.door-figure--group {
+  margin: 0 0 28px;
+}

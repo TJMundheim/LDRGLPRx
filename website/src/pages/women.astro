@@ -4,7 +4,7 @@
 // action doors as the homepage, carrying ?sex=female through to the
 // assessment and the coordinator intake.
 //
-// PHOTO: placeholder only. Wave 3 hero for this page is /images/wave3/w3-02.jpg
+// PHOTO: Wave 3 w3-02 (placed 2026-09-22). Group shot w3-08 sits above the action doors.
 // (woman at the head of the conference table). Swap the one <img src> below
 // when the file lands. Never a male photo on this page.
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -57,7 +57,7 @@ const lanes = [
     <h1 class="door-headline">The signals showing up now are about your brain, and you can still set the clock.</h1>
     <p class="door-sub">Alzheimer's is a disease that shows up when you're older. It starts in midlife.</p>
     <figure class="door-figure">
-      <img src="/images/scenes/morning-protocol.jpg" alt="A dawn kitchen counter with a glass of water, supplements in a small dish, and a journal" loading="eager" fetchpriority="high" />
+      <img src="/images/wave3/w3-02.jpg" alt="A woman in her mid-40s leading a conversation in a warm brick-walled office" loading="eager" fetchpriority="high" />
     </figure>
   </div>
 </section>
@@ -89,6 +89,9 @@ const lanes = [
 
 <section class="door-cta">
   <div class="container door-inner door-inner--center">
+    <figure class="door-figure door-figure--group">
+      <img src="/images/wave3/w3-08.jpg" alt="Five women, thirties to sixties, talking around a table in a bright cafe" loading="lazy" />
+    </figure>
     <h2 class="door-h2 door-h2--center">What do you want to do?</h2>
     <div class="door-doors">
       <a href={consultHref(undefined, SEX)} class="btn-primary-xl" onclick="window.posthog && posthog.capture('women_coordinator_cta')">Free care coordinator call &mdash; find out exactly what you need &rarr;</a>
