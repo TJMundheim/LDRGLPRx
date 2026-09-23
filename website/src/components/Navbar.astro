@@ -32,6 +32,12 @@ const rxItems = [
   { label: 'Regenerative Medicine', href: '/rx/regenerative-medicine' },
 ].map((item) => COORDINATOR_MODE ? { ...item, href: consultHref(laneFromHref(item.href)) } : item);
 
+// Audience doors (TJ 2026-09-22) — /women and /men landing pages.
+const doorItems = [
+  { label: 'Women', href: '/women' },
+  { label: 'Men',   href: '/men' },
+];
+
 const frameworkItems = [
   { label: 'Mind',     href: '/pillars/mind' },
   { label: 'Muscle',   href: '/pillars/muscle' },
@@ -116,6 +122,11 @@ const programItems = [
 
     <!-- Desktop nav: Home + Services dropdown + Sign In (8 categories moved to homepage CTA band) -->
     <ul class="nav-links" id="nav-links" role="menubar">
+
+      <!-- Audience doors (TJ 2026-09-22) -->
+      {doorItems.map((item) => (
+        <li class="nav-rx-item" role="none"><a href={item.href} class="nav-rx-link">{item.label}</a></li>
+      ))}
 
       <!-- Direct-buy front door — 5 top-level treatment links (TJ 2026-09-02) -->
       {topRxItems.map((item) => (
@@ -209,6 +220,13 @@ const programItems = [
 
   <!-- Mobile menu -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+
+    <!-- Audience doors (mobile, TJ 2026-09-22) -->
+    <div class="mobile-rx-block">
+      {doorItems.map((item) => (
+        <a href={item.href} class="mobile-rx-link">{item.label}</a>
+      ))}
+    </div>
 
     <!-- Direct-buy front door — 5 top-level treatment links (mobile, TJ 2026-09-02) -->
     <div class="mobile-rx-block">

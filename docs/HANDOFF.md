@@ -1026,3 +1026,12 @@ Audited every surface she touches: /consult intake, /assessment, welcome email (
 - Book on S3 = v22 (md5 match, gender-specific front matter + women's hormone section). Logbook on S3 = v8 sweep (man/woman identity lines, women's lab lane). Welcome email copy neutral. Assessment ED question already reads "(for men)… for women, perimenopausal".
 - ONE defect found + fixed + deployed: app renderer.ts Week 1/3/4 identity prompts were male-default ("the man I want to be", "my wife", "I am a man who…", "the man who finishes Month 1"). Now man/woman paired, mirroring logbook v8.
 - Note: no surface captures the member's sex, so app copy can't branch per user; paired wording is the approach until intake sex is stored on UserProfile (consult already asks gender; assessment does not).
+
+## WOMEN/MEN DOORS LIVE (2026-09-22)
+
+Audience doors from plan §2 of `docs/plan/all-genders-midlife-reframe-2026-09-22.md` are built and deployed (Astro site only; lambdas and app untouched).
+
+- **Pages:** `website/src/pages/women.astro` → https://my4mlife.com/women, `website/src/pages/men.astro` → https://my4mlife.com/men. Shared styles in `website/src/styles/door.css` (also carries the homepage "Who are you?" row).
+- **Homepage:** midlife spine sub-line added under the hero headline; the two action doors are unchanged, with a second "Who are you?" row (For women / For men) directly beneath them. Navbar (desktop + mobile) and Footer Explore column now link both pages.
+- **Sex param convention:** `?sex=female|male`. Both doors append it to **both** action CTAs — `/assessment?sex=…` and `/consult?sex=…`. `consultHref(lane?, sex?)` in `website/src/lib/siteMode.ts` now builds the query string. The assessment and consult intake consuming and persisting the value is a parallel task (plan §8 item 1) — nothing reads it yet.
+- **Placeholder photos awaiting Wave 3** (`docs/design/midjourney-prompts.md`): /women hero currently `/images/scenes/morning-protocol.jpg` (non-people still life — never a male photo on that page), target `/images/wave3/w3-02.jpg`; /men hero currently `/images/hero/main.jpg`, target `/images/wave3/w3-11.jpg`. Both swaps are a one-line `src` change; the target paths are noted in a comment at the top of each page.

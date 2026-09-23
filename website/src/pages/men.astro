@@ -1,0 +1,103 @@
+---
+// /men — audience door (TJ 2026-09-22, plan §2).
+// Thin landing page: hero → canary → lane cards (his order) → the same two
+// action doors as the homepage, carrying ?sex=male through to the
+// assessment and the coordinator intake.
+//
+// PHOTO: placeholder only. Wave 3 hero for this page is /images/wave3/w3-11.jpg
+// (man in his mid-forties at the window at dawn). Swap the one <img src> below
+// when the file lands.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/door.css';
+import TrustBand from '../components/TrustBand.astro';
+import { consultHref } from '../lib/siteMode';
+
+const SEX = 'male' as const;
+
+const title = 'For Men — Protect Your Mind | My4MLife';
+const description = "ED is the first vascular signal, not the whole story. Testosterone and ED, GLP-1 weight loss, gut-brain repair, and peptides — chosen with you, starting with a free care coordinator call.";
+const canonical = 'https://www.my4mlife.com/men';
+
+const lanes = [
+  {
+    slug: 'testosterone',
+    eyebrow: 'Live visit · $249',
+    name: 'Testosterone & ED',
+    benefit: 'Evaluated together, because they travel together. One visit, one hormone panel, and two possible scripts instead of a patch on the symptom you noticed first.',
+    href: '/rx/testosterone-ed',
+  },
+  {
+    slug: 'weight-loss',
+    eyebrow: 'Free visit',
+    name: 'GLP-1 Weight Loss',
+    benefit: 'Semaglutide or tirzepatide, prescribed correctly the first time — with the muscle and protein plan that keeps the weight you lose from being the wrong weight.',
+    href: '/rx/weight-loss',
+  },
+  {
+    slug: 'gut-brain',
+    eyebrow: 'Free visit',
+    name: 'Gut-Brain Rx',
+    benefit: 'A proprietary, physician-written gut-lining repair formulation. Your gut makes about 90% of your serotonin — repair the supply line to your mind.',
+    href: '/rx/leaky-gut',
+  },
+  {
+    slug: 'peptides',
+    eyebrow: 'Free visit',
+    name: 'Peptides',
+    benefit: 'Growth-hormone and repair peptides matched to your goals — including tesamorelin for belly fat with muscle preserved.',
+    href: '/rx/peptides',
+  },
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+
+<section class="door-hero">
+  <div class="container door-hero-inner">
+    <p class="door-eyebrow">For Men</p>
+    <h1 class="door-headline">The first thing your body warns you about is rarely the thing that's actually at stake.</h1>
+    <p class="door-sub">Alzheimer's is a disease that shows up when you're older. It starts in midlife.</p>
+    <figure class="door-figure">
+      <img src="/images/hero/main.jpg" alt="A man standing at a floor-to-ceiling office window at dawn, city below" loading="eager" fetchpriority="high" />
+    </figure>
+  </div>
+</section>
+
+<TrustBand />
+
+<section class="door-canary">
+  <div class="container door-inner">
+    <h2 class="door-h2">ED is the first vascular signal, not the whole story.</h2>
+    <p class="door-body">The smallest vessels fail first, which is why performance changes years before a stress test does — and the vessels that feed your brain are on the same plumbing, the same hormones, and the same sleep debt. Treating the symptom and stopping there leaves the system that produced it exactly where it was.</p>
+  </div>
+</section>
+
+<section class="door-lanes">
+  <div class="container">
+    <h2 class="door-h2 door-h2--center">Where you start</h2>
+    <div class="door-grid">
+      {lanes.map((t) => (
+        <a href={t.href} class="door-card" onclick={`window.posthog && posthog.capture('men_lane_${t.slug}')`}>
+          <span class="door-card-eyebrow">{t.eyebrow}</span>
+          <h3 class="door-card-name">{t.name}</h3>
+          <p class="door-card-benefit">{t.benefit}</p>
+          <span class="door-card-start">Read more &rarr;</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="door-cta">
+  <div class="container door-inner door-inner--center">
+    <h2 class="door-h2 door-h2--center">What do you want to do?</h2>
+    <div class="door-doors">
+      <a href={consultHref(undefined, SEX)} class="btn-primary-xl" onclick="window.posthog && posthog.capture('men_coordinator_cta')">Free care coordinator call &mdash; find out exactly what you need &rarr;</a>
+      <a href={`/assessment?sex=${SEX}`} class="btn-secondary-xl" onclick="window.posthog && posthog.capture('men_assessment_cta')">Take the MindSpan assessment now &rarr;</a>
+    </div>
+    <p class="door-reassure">Nothing to pay today. After your call you'll get a written plan, and nothing is booked or charged unless it fits.</p>
+    <p class="door-brandnote"><em>Begin with the end in mind.</em></p>
+    <p class="door-brandnote">Don't lose your identity and your dignity while you still have a choice.</p>
+  </div>
+</section>
+
+</BaseLayout>

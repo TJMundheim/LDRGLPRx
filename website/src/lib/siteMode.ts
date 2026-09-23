@@ -15,5 +15,12 @@ export const COORDINATOR_MODE = true;
 // Builds the /consult URL, optionally pre-selecting a treatment lane via
 // ?lane=<slug> (consult.astro reads this on load to pre-check the matching
 // "What are you curious about?" checkbox).
-export const consultHref = (lane?: string): string =>
-  lane ? `/consult?lane=${lane}` : '/consult';
+// `sex` ('female' | 'male') is carried through from the /women and /men doors
+// (2026-09-22) so the consult intake can pre-fill it. Omit it everywhere else.
+export const consultHref = (lane?: string, sex?: 'female' | 'male'): string => {
+  const params = new URLSearchParams();
+  if (lane) params.set('lane', lane);
+  if (sex) params.set('sex', sex);
+  const qs = params.toString();
+  return qs ? `/consult?${qs}` : '/consult';
+};

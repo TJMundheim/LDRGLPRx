@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HowItWorks from '../components/HowItWorks.astro';
+import '../styles/door.css';
 import TrustBand from '../components/TrustBand.astro';
 import { COORDINATOR_MODE, consultHref } from '../lib/siteMode';
 
@@ -68,12 +69,21 @@ const treatments = [
   <div class="container hp-hero-inner">
     <h1 class="hp-hero-headline">{COORDINATOR_MODE ? 'Protect your mind — and the body that carries it — with the right treatment, chosen with you.' : 'Protect your mind — and the body that carries it — with physician-prescribed treatment you can start today.'}</h1>
 
+    <p class="hp-hero-sub hp-hero-spine">Alzheimer's is a disease that shows up when you're older. It starts in midlife.</p>
+
     <p class="hp-hero-sub">{COORDINATOR_MODE ? 'No card. No decisions to make. Take the intake, then Dr. TJ calls you.' : 'Pick your treatment. Answer a few questions from your phone. A licensed physician reviews — most visits are free.'}</p>
 
     {COORDINATOR_MODE ? (
       <div class="hp-hero-doors">
         <a href={consultHref()} class="btn-primary-xl" onclick="window.posthog && posthog.capture('hp_coordinator_cta')">Free care coordinator call &mdash; find out exactly what you need &rarr;</a>
         <a href="/assessment" class="btn-secondary-xl" onclick="window.posthog && posthog.capture('hp_hero_assessment_cta')">Take the MindSpan assessment now &rarr;</a>
+      </div>
+      <div class="hp-audience">
+        <p class="hp-audience-label">Who are you?</p>
+        <div class="hp-audience-row">
+          <a href="/women" class="hp-audience-btn" onclick="window.posthog && posthog.capture('hp_door_women')">For women</a>
+          <a href="/men" class="hp-audience-btn" onclick="window.posthog && posthog.capture('hp_door_men')">For men</a>
+        </div>
       </div>
       <p class="hp-hero-reassure">Nothing to pay today. After your call you'll get a written plan, and nothing is booked or charged unless it fits.</p>
     ) : (
@@ -185,6 +195,11 @@ const treatments = [
   color: rgba(255, 255, 255, 0.86);
   margin: 0 auto 2rem;
   max-width: 620px;
+}
+.hp-hero-spine {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.94);
+  margin-bottom: 0.9rem;
 }
 .hp-hero-brandnote {
   font-family: 'Playfair Display', serif;
