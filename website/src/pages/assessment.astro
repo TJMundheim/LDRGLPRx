@@ -44,6 +44,20 @@ const robots = "index, follow";
       Rate each area honestly. <strong>0 = no problem at all &middot; 5 = severe / highly problematic.</strong>
     </div>
 
+    <fieldset class="sex-field" id="sex-field">
+      <legend>So the program speaks to you <span aria-hidden="true">*</span></legend>
+      <div class="sex-options" role="radiogroup" aria-label="So the program speaks to you">
+        <label class="sex-option">
+          <input type="radio" name="sex" value="female" />
+          <span>Woman</span>
+        </label>
+        <label class="sex-option">
+          <input type="radio" name="sex" value="male" />
+          <span>Man</span>
+        </label>
+      </div>
+    </fieldset>
+
     <div class="q-list" id="q-list">
       {AUDIT_PILLARS.map((pillar) => (
         <>
@@ -299,6 +313,19 @@ const robots = "index, follow";
   var userName = '';
   var userEmail = '';
   var userPhone = '';
+  var userSex = ''; // 'female' | 'male' — captured once, stored on the profile
+
+  function setSex(value) {
+    if (value !== 'female' && value !== 'male') return;
+    userSex = value;
+    var el = document.querySelector('input[name="sex"][value="' + value + '"]');
+    if (el) el.checked = true;
+  }
+
+  function selectedSex() {
+    var el = document.querySelector('input[name="sex"]:checked');
+    return el ? el.value : '';
+  }
 
   // ── ?reset=1 wipe ──
   (function maybeReset() {
@@ -320,10 +347,24 @@ const robots = "index, follow";
         var ph = document.getElementById('field-phone');
         if (ph) ph.value = decodeURIComponent(params.get('phone'));
       }
+      // ?sex=female|male — carried by the Women/Men doors and the /consult
+      // hand-off. Anything else is ignored.
+      var sexParam = (params.get('sex') || '').toLowerCase();
+      if (sexParam === 'female' || sexParam === 'male') setSex(sexParam);
       // Prefill from sessionStorage (passed from /consult success screen —
       // keeps PII out of the URL). Only applies when the param-based prefill
       // above left the fields empty, so ?name=/?email=/?phone= callers still
       // take priority.
+      // The /consult hand-off stashes the intake basics (incl. sex) under
+      // 'my4m_prefill' to keep PII out of the URL. Sex is read even when the
+      // name/email fields are already filled, and does not consume the key.
+      try {
+        var rawSex = sessionStorage.getItem('my4m_prefill');
+        if (rawSex) {
+          var parsedSex = JSON.parse(rawSex);
+          if (!userSex && parsedSex && parsedSex.sex) setSex(String(parsedSex.sex).toLowerCase());
+        }
+      } catch (e) {}
       if (params.get('from') === 'consult') {
         var nEl = document.getElementById('field-name');
         var emEl = document.getElementById('field-email');
@@ -361,8 +402,18 @@ const robots = "index, follow";
       if (saved.name) userName = saved.name;
       if (saved.email) userEmail = saved.email;
       if (saved.phone) userPhone = saved.phone;
+      if (saved.sex && !userSex) setSex(saved.sex);
     } catch (e) { /* ignore */ }
   })();
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('input[name="sex"]').forEach(function (el) {
+      el.addEventListener('change', function () {
+        userSex = selectedSex();
+        persist();
+      });
+    });
+  });
 
   function persist() {
     try {
@@ -372,6 +423,7 @@ const robots = "index, follow";
         name: userName,
         email: userEmail,
         phone: userPhone,
+        sex: userSex,
         savedAt: new Date().toISOString(),
       }));
     } catch (e) { /* ignore */ }
@@ -610,6 +662,18 @@ const robots = "index, follow";
         return;
       }
 
+      var sexValue = selectedSex();
+      if (sexValue !== 'female' && sexValue !== 'male') {
+        errorEl.textContent = 'Please choose Woman or Man so the program speaks to you.';
+        errorEl.hidden = false;
+        var sexField = document.getElementById('sex-field');
+        if (sexField) sexField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var firstSex = document.querySelector('input[name="sex"]');
+        if (firstSex) firstSex.focus();
+        return;
+      }
+      userSex = sexValue;
+
       userName = nameEl.value.trim();
       userEmail = emailEl.value.trim();
       userPhone = phoneE164;
@@ -683,6 +747,7 @@ const robots = "index, follow";
           totalScore: totalPayload,
           band: bandPayload.label,
           diagnosed: diagnosed === true,
+          sex: userSex,
           consent: consentPayload,
         }),
       }).then(function (r) {
@@ -903,6 +968,60 @@ const robots = "index, follow";
   font-size: 0.92rem;
   color: var(--assess-muted);
   text-align: center;
+}
+/* ── One-tap sex field (stored on the profile so later copy can branch) ── */
+.sex-field {
+  border: 1px solid var(--assess-border);
+  background: var(--assess-card);
+  border-radius: 12px;
+  padding: 14px 16px 16px;
+  margin: 16px auto 0;
+  max-width: 460px;
+  text-align: center;
+}
+.sex-field legend {
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--assess-muted);
+  padding: 0 8px;
+}
+.sex-options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 6px;
+}
+.sex-option {
+  flex: 1 1 0;
+  max-width: 170px;
+  display: block;
+  cursor: pointer;
+}
+.sex-option input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.sex-option span {
+  display: block;
+  padding: 11px 10px;
+  border: 1.5px solid var(--assess-border);
+  border-radius: 10px;
+  font-weight: 600;
+  color: #2d3748;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.sex-option input:checked + span {
+  border-color: var(--assess-accent);
+  background: var(--assess-accent);
+  color: #fff;
+}
+.sex-option input:focus-visible + span {
+  outline: 2px solid var(--assess-accent-dark);
+  outline-offset: 2px;
 }
 .q-list {
   display: flex;
