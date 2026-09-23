@@ -19,12 +19,15 @@ import { stepsForWeek } from './content/morningProtocol';
 import { tabs, weekMeta } from './content/weeks';
 import type { Workbook } from './data/schema';
 import { AUDIT_CATEGORIES } from './data/audit';
+import { who, type Sex } from './sex';
 
 export interface RenderContext {
   W: Workbook;
   curTab: string;
   openFactor: string | null;
   factorTab: 'imm' | 'tools' | 'adv' | 'res';
+  /** From UserProfile.sex. Absent/null = unknown → paired fallback copy. */
+  sex?: Sex | null;
 }
 
 // Mission Control (Direction C) palette — used throughout inline styles below.
@@ -903,6 +906,8 @@ function renderW1(ctx: RenderContext): string {
     'Both equally — motivated by avoiding decline AND reaching my highest potential'
   ];
 
+  const W1 = who(ctx.sex);
+
   return `${weekBanner(1)}
 
   <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
@@ -937,15 +942,15 @@ function renderW1(ctx: RenderContext): string {
           <span style="font-size:12.5px;color:${C.ink};font-weight:500">${esc(opt)}</span>
         </div>`).join('')}
     </div>
-    ${w1DimWrap(2, `<label for="w1-personal-why">My "why" — the man or woman I want to be at age 70</label>
+    ${w1DimWrap(2, `<label for="w1-personal-why">${esc(W1.whyLabel)}</label>
     <textarea id="w1-personal-why" style="min-height:70px" placeholder="Write it here — you will read this aloud on graduation day..."
       oninput="portalField('personalWhy',this.value)">${esc(W.personalWhy)}</textarea>`)}
     ${w1DimWrap(3, `<label for="w1-accountability">Who are you doing this for? (you'll read your "why" aloud to them on graduation day)</label>
-    <input id="w1-accountability" placeholder="e.g. my wife, my husband, my kids, my parents, myself — pick one face" value="${esc(W.accountabilityTarget)}"
+    <input id="w1-accountability" placeholder="${esc(W1.accountabilityPlaceholder)}" value="${esc(W.accountabilityTarget)}"
       oninput="portalField('accountabilityTarget',this.value)">
     <div style="font-size:11.5px;color:${C.muted};margin:6px 0 0">If no one is on the other end of this, you won't do it. Pick a person — see their face.</div>`)}
-    ${w1DimWrap(4, `<label for="w1-identity-stmt">My identity statement (draft) — "I am a man who..." or "I am a woman who..."</label>
-    <input id="w1-identity-stmt" placeholder="I am a man who... / I am a woman who..." value="${esc(W.identityStatement)}"
+    ${w1DimWrap(4, `<label for="w1-identity-stmt">${esc(W1.identityLabel)}</label>
+    <input id="w1-identity-stmt" placeholder="${esc(W1.identityPlaceholder)}" value="${esc(W.identityStatement)}"
       oninput="portalField('identityStatement',this.value)">`)}
   </div>
 
@@ -1369,7 +1374,234 @@ function renderW2(W: Workbook): string {
   ${renderWeekNutritionSection(W, 2)}`;
 }
 
-function renderW3(W: Workbook): string {
+// ── Week 3 — Hormones and the Canaries ────────────────────────────────────────
+// Two tracks, equal weight: the ED canary (men) and the perimenopause canary
+// (women). Shown by UserProfile.sex; unknown shows both, which is what the
+// printed Logbook does. All state lives in W.weekReflections, so it persists
+// and syncs through the existing portalField → saveWorkbook path.
+
+const CONSULT_TESTOSTERONE = 'https://my4mlife.com/consult?lane=testosterone-ed';
+const CONSULT_MENOPAUSE = 'https://my4mlife.com/consult?lane=menopause-hrt';
+
+/** Ten honesty markers, 0–10 each. Keys are `${prefix}_m1` … `${prefix}_m10`. */
+const MENS_MARKERS: string[] = [
+  'Morning erections (0 = absent, 10 = present most mornings)',
+  'Libido compared to 5 years ago (5 = the same)',
+  'Erection quality during intimacy',
+  'Recovery after exertion (0 = days to feel normal, 10 = next day)',
+  'Energy at 3 PM',
+  'Mood stability (0 = flat or reactive, 10 = grounded)',
+  'Muscle response to lifting',
+  'Midsection — visceral creep (0 = significant new fat, 10 = unchanged or leaner)',
+  'Sleep quality',
+  'Cognitive sharpness compared to 5 years ago (5 = the same)',
+];
+
+const WOMENS_MARKERS: string[] = [
+  'Sleep continuity — waking at 2 or 3 AM (0 = most nights, 10 = sleep through)',
+  'Hot flashes or night sweats (0 = daily and disruptive, 10 = none)',
+  'Cycle change — length, flow, PMS, or time since the last period (0 = markedly changed, 10 = unchanged)',
+  'Mood — fuse length and flatness (0 = short fuse, anxious in the body; 10 = grounded)',
+  'Brain fog — word-finding and recall compared to 5 years ago (5 = the same)',
+  'Libido and comfort with intimacy compared to 5 years ago (5 = the same)',
+  'Joint aches, skin, hair, urinary or genitourinary change (0 = several new, 10 = none)',
+  'Where the weight sits — midsection shift (0 = significant new midsection fat, 10 = unchanged or leaner)',
+  'Energy at 3 PM',
+  'Memory slips — names, the word mid-sentence, walking into a room (0 = daily, 10 = rare)',
+];
+
+const MENS_LABS: [string, string][] = [
+  ['total_t', 'Total testosterone (ng/dL)'],
+  ['free_t', 'Free testosterone'],
+  ['shbg', 'SHBG'],
+  ['e2', 'Estradiol (E2)'],
+  ['dheas', 'DHEA-S'],
+  ['bp', 'Resting blood pressure'],
+  ['lipids', 'Lipid panel — LDL / HDL / triglycerides'],
+  ['a1c', 'Fasting insulin / HbA1c / hs-CRP'],
+];
+
+const WOMENS_LABS: [string, string][] = [
+  ['e2', 'Estradiol (E2)'],
+  ['progesterone', 'Progesterone'],
+  ['fsh', 'FSH'],
+  ['total_t', 'Total testosterone'],
+  ['free_t', 'Free testosterone'],
+  ['shbg', 'SHBG'],
+  ['tsh', 'TSH'],
+  ['cortisol', 'AM cortisol'],
+  ['dheas', 'DHEA-S'],
+  ['bp', 'Resting blood pressure'],
+  ['lipids', 'Lipid panel — LDL / HDL / triglycerides'],
+  ['a1c', 'Fasting glucose / HbA1c / hs-CRP'],
+];
+
+function markerRows(W: Workbook, prefix: string, labels: string[]): string {
+  const wRef = W.weekReflections;
+  return labels.map((label, i) => {
+    const key = `${prefix}_m${i + 1}`;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;
+      padding:9px 0;border-bottom:1px solid ${C.line}">
+      <label for="${key}" style="font-size:12px;color:${C.ink};margin:0;flex:1">${i + 1}. ${label}</label>
+      <input id="${key}" type="number" min="0" max="10" placeholder="0–10" style="width:82px;flex:none"
+        value="${esc(wRef[key] ?? '')}"
+        oninput="portalField('weekReflections.${key}',this.value)">
+    </div>`;
+  }).join('');
+}
+
+function markerTotal(W: Workbook, prefix: string): number {
+  let t = 0;
+  for (let i = 1; i <= 10; i++) {
+    const v = Number(W.weekReflections[`${prefix}_m${i}`]);
+    if (Number.isFinite(v)) t += v;
+  }
+  return t;
+}
+
+function labRows(W: Workbook, prefix: string, labs: [string, string][]): string {
+  const wRef = W.weekReflections;
+  return labs.map(([k, label]) => {
+    const key = `${prefix}_lab_${k}`;
+    return `<div>
+      <label for="${key}">${label}</label>
+      <input id="${key}" placeholder="Value + date — or leave blank if never drawn"
+        value="${esc(wRef[key] ?? '')}"
+        oninput="portalField('weekReflections.${key}',this.value)">
+    </div>`;
+  }).join('');
+}
+
+function decisionBox(W: Workbook, prefix: string, consultHref: string, laneLabel: string): string {
+  const key = `${prefix}_decision`;
+  const cur = W.weekReflections[key] ?? '';
+  const opt = (value: string, label: string) => `<div
+    style="display:flex;align-items:center;gap:10px;padding:10px 14px;
+      background:${cur === value ? C.goldTint : C.panel2};
+      border:1.5px solid ${cur === value ? C.gold : C.line};
+      border-radius:8px;cursor:pointer;margin-bottom:7px"
+    onclick="portalFieldRender('weekReflections.${key}','${value}')">
+    <div style="width:16px;height:16px;border-radius:50%;flex-shrink:0;
+      border:2px solid ${cur === value ? C.gold : C.line};
+      background:${cur === value ? C.gold : 'transparent'}"></div>
+    <span style="font-size:12.5px;color:${C.ink};font-weight:500">${label}</span>
+  </div>`;
+  return `<div style="margin-top:14px">
+    <div class="card-title" style="font-size:10px;margin-bottom:8px">THE ONE DECISION THIS WEEK</div>
+    <div style="font-size:12px;color:${C.muted};line-height:1.6;margin-bottom:10px">
+      This is a decision week, not a new-protocol week. Everything from Weeks 1 and 2 stays exactly as it is.
+    </div>
+    ${opt('consult', `Engage the Rx consult layer — ${esc(laneLabel)}`)}
+    ${opt('otc', 'Stay on the OTC foundation and reassess in 90 days with this same page')}
+    <a class="res-pill" href="${consultHref}" target="_blank" rel="noopener"
+      style="margin-top:4px;display:inline-block">Book the ${esc(laneLabel)} consult ↗</a>
+    <div style="margin-top:10px">
+      <label for="${prefix}_decision_note">Date booked, or reassessment date 90 days out</label>
+      <input id="${prefix}_decision_note" placeholder="Put a date on it — a decision without a date is a wish."
+        value="${esc(W.weekReflections[`${prefix}_decision_note`] ?? '')}"
+        oninput="portalField('weekReflections.${prefix}_decision_note',this.value)">
+    </div>
+  </div>`;
+}
+
+function canaryTrack(
+  W: Workbook,
+  opts: {
+    prefix: string; title: string; intro: string; markers: string[];
+    labs: [string, string][]; labNote: string; consultHref: string; laneLabel: string;
+  },
+): string {
+  const total = markerTotal(W, opts.prefix);
+  return `
+  <div class="card" style="border-left:4px solid ${C.gold}">
+    <div class="card-title" style="color:${C.gold}">${opts.title}</div>
+    <div style="font-size:12.5px;color:${C.ink};line-height:1.7;margin-bottom:14px">${opts.intro}</div>
+
+    <div class="card-title" style="font-size:10px;margin-bottom:8px">TEN MARKERS — RATE EACH 0 TO 10</div>
+    <div style="font-size:12px;color:${C.muted};margin-bottom:10px;line-height:1.6">
+      If the honest number embarrasses you, that is the number to write. Nobody else reads this page.
+    </div>
+    ${markerRows(W, opts.prefix, opts.markers)}
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;
+      padding:10px 14px;background:${C.goldTint};border:1px solid ${C.line};border-radius:8px">
+      <span style="font-size:12px;color:${C.ink};font-weight:600">Total honest score</span>
+      <span style="font-size:18px;font-weight:800;color:${C.gold}">${total} / 100</span>
+    </div>
+    <div style="font-size:11.5px;color:${C.muted};margin-top:8px;line-height:1.6">
+      Below 60 is not a verdict. It is information — several of these systems are talking and nobody has been listening to them as one signal.
+    </div>
+
+    <div style="margin-top:18px">
+      <div class="card-title" style="font-size:10px;margin-bottom:8px">YOUR LAB LANE — WHAT YOU HAVE, AND WHAT IS MISSING</div>
+      <div style="font-size:12px;color:${C.muted};margin-bottom:10px;line-height:1.6">${opts.labNote}</div>
+      <div class="g2">${labRows(W, opts.prefix, opts.labs)}</div>
+    </div>
+
+    ${decisionBox(W, opts.prefix, opts.consultHref, opts.laneLabel)}
+  </div>`;
+}
+
+function renderW3Hormones(W: Workbook, sex?: Sex | null): string {
+  const w = who(sex);
+  const intro = `
+  <div class="card" style="background:var(--mc-gold-tint);border:1px solid var(--mc-gold-line)">
+    <div style="font-size:14px;font-weight:700;color:${C.gold};margin-bottom:6px">Week 3 — Hormones and the Canaries</div>
+    <div style="font-size:12.5px;color:${C.ink};line-height:1.7">
+      Two bodies, two alarms, the same four fires underneath: hormones, cardiovascular, cognitive, and quality of life.
+      One alarm is loud and humiliating, so it eventually gets acted on. The other is quiet and easy to blame on a busy life
+      instead of physiology, so it gets managed as stress for six years. Both birds are singing about the same gas in the same shaft.
+      This week you find out what yours has been saying.
+    </div>
+  </div>`;
+
+  const mens = canaryTrack(W, {
+    prefix: 'w3_ed',
+    title: 'THE ED CANARY — HORMONE + SEXUAL FUNCTION SELF-AUDIT',
+    intro: `Erectile dysfunction is not a separate problem. It is the first visible warning across four systems at once.
+      It shows up early for a mechanical reason: penile arteries are 1–2 millimetres wide, coronary arteries 3–4.
+      Endothelial dysfunction — the same arterial dysfunction that later becomes a heart attack — shows up in the small
+      arteries first, often three to five years before a stress test catches anything. That is the canary.
+      The mine is the whole vascular and hormonal system, and the brain runs on the same plumbing.`,
+    markers: MENS_MARKERS,
+    labs: MENS_LABS,
+    labNote: `Fill in what you have. Every line you leave blank — or write "never" into — is the gap.
+      That list is what the consult starts from.`,
+    consultHref: CONSULT_TESTOSTERONE,
+    laneLabel: 'Testosterone & ED lane',
+  });
+
+  const womens = canaryTrack(W, {
+    prefix: 'w3_peri',
+    title: 'THE PERIMENOPAUSE CANARY — HORMONE SELF-AUDIT',
+    intro: `The first signal is a cluster, not a single event: sleep that stopped holding at two or three in the morning,
+      a shorter fuse where enthusiasm used to be, word-finding lapses that frighten you more than you admit, and weight
+      that relocates to the middle on the same food and the same training. Perimenopause often begins in the early forties
+      while cycles are still perfectly regular, which is why <em>are your periods still coming?</em> misses it for years.
+      Estrogen is not a reproductive hormone with effects elsewhere — it is a neurological hormone, dense in the hippocampus
+      and prefrontal cortex, supporting cerebral blood flow through the same endothelial nitric-oxide pathway the other canary
+      reports on. The fog is not imagined. It has a mechanism.`,
+    markers: WOMENS_MARKERS,
+    labs: WOMENS_LABS,
+    labNote: `One number in isolation tells you nothing here — estradiol swings erratically through the transition,
+      and that is the point, not the exception. Fill in what you have; every blank line is the gap the consult starts from.`,
+    consultHref: CONSULT_MENOPAUSE,
+    laneLabel: 'Menopause & HRT lane',
+  });
+
+  return `${intro}
+  ${w.showMensTrack ? mens : ''}
+  ${w.showWomensTrack ? womens : ''}`;
+}
+
+/** Sex-aware hormone note printed under the Month 1 supplement stack. */
+function stackHormoneNote(sex?: Sex | null): string {
+  const note = who(sex).stackHormoneNote;
+  return note.split('\n\n').map(para => `<div style="margin-top:10px;font-size:11.5px;color:${C.muted};line-height:1.65">${para}</div>`).join('');
+}
+
+
+function renderW3(W: Workbook, sex?: Sex | null): string {
+  const W3 = who(sex);
   const wRef = W.weekReflections;
   const g = (k: string) => esc(wRef[k] ?? '');
   const { supplements } = W;
@@ -1416,9 +1648,9 @@ function renderW3(W: Workbook): string {
         oninput="portalField('weekReflections.w3_recovery',this.value)">${g('w3_recovery')}</textarea>
     </div>
     <div style="margin-bottom:12px">
-      <label for="w3-identity-evolve">My identity is evolving — complete this sentence: "The man I am becoming..." or "The woman I am becoming..."</label>
+      <label for="w3-identity-evolve">${esc(W3.identityEvolveLabel)}</label>
       <textarea id="w3-identity-evolve" style="min-height:52px;font-size:13px;font-style:italic;border-color:var(--mc-gold-line)"
-        placeholder="The man I am becoming... / The woman I am becoming..."
+        placeholder="${esc(W3.identityEvolvePlaceholder)}"
         oninput="portalField('weekReflections.w3_identity_evolve',this.value)">${g('w3_identity_evolve')}</textarea>
     </div>
     ${pillarActionBox(C.info, 'Share your Week 3 identity sentence with your accountability partner. Tell someone what you are actually doing — not just that you are "eating better." Specifics only.')}
@@ -1509,6 +1741,7 @@ function renderW3(W: Workbook): string {
       ).join('')}
     </div>
     ${renderSupplementsPanel(W)}
+    ${stackHormoneNote(sex)}
 
     <div style="margin-top:16px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">COGNITIVE PERFORMANCE — WEEKLY SCORES</div>
@@ -1539,6 +1772,8 @@ function renderW3(W: Workbook): string {
     ${pillarActionBox(C.info, `<strong>Biome NS Ultra with your first meal, every day — no additions this month.</strong> Keep your daily 10-page reading habit going.`)}
   </div>
 
+  ${renderW3Hormones(W, sex)}
+
   ${renderWeekCogTraining(W, 3)}
 
   ${morningTracker(W, 3)}
@@ -1559,7 +1794,8 @@ function renderW3(W: Workbook): string {
   ${renderWeekNutritionSection(W, 3)}`;
 }
 
-function renderW4(W: Workbook): string {
+function renderW4(W: Workbook, sex?: Sex | null): string {
+  const W4 = who(sex);
   const wRef = W.weekReflections;
   const g = (k: string) => esc(wRef[k] ?? '');
 
@@ -1600,16 +1836,16 @@ function renderW4(W: Workbook): string {
     <div style="background:var(--mc-info-tint);border:1px solid var(--mc-info-tint);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
-        The man or woman who finishes Month 1 is not the same one who started it.
+        ${esc(W4.w4Closing)}
         This week you name who that is, commit to Month 2, and declare who you are becoming.
       </div>
     </div>
 
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">IDENTITY STATEMENT — Month 1 Final</div>
-      <div style="font-size:11.5px;color:${C.muted};margin-bottom:10px">Write in present tense. "I am a man who..." or "I am a woman who..." — not "I will try to..."</div>
+      <div style="font-size:11.5px;color:${C.muted};margin-bottom:10px">${esc(W4.identityHint)}</div>
       <textarea style="min-height:80px;border-color:${C.info}55;font-size:14px"
-        placeholder="I am a man who... / I am a woman who..."
+        placeholder="${esc(W4.identityPlaceholder)}"
         oninput="portalField('identityStatement',this.value)">${esc(W.identityStatement)}</textarea>
     </div>
 
@@ -1645,7 +1881,7 @@ function renderW4(W: Workbook): string {
         oninput="portalField('graduation',this.value)">${esc(W.graduation)}</textarea>
       <div style="margin-top:13px;padding:12px 14px;background:var(--mc-info-tint);
         border-radius:8px;font-size:11.5px;color:${C.info};font-style:italic;text-align:center;line-height:1.6">
-        "In completing Month 1 of the 4M program I commit to continuing my brain optimization practice because who I am becoming is worth protecting."
+        ${esc(W4.commitmentSentence)}
       </div>
     </div>
   </div>
@@ -1796,7 +2032,7 @@ function renderW4(W: Workbook): string {
 
   <div class="card" style="border:2px solid var(--mc-info-tint)">
     <div class="card-title">Month 1 Final Reflection — All 4 Pillars</div>
-    ${[['w4_motivate_ref', 'MOTIVATE: In one sentence — who is the man — or woman — who completed Month 1?'],
+    ${[['w4_motivate_ref', W4.w4MotivateQuestion],
        ['w4_mitigate_ref', 'MITIGATE: How many points did your MindSpan Score improve?'],
        ['w4_muscle_ref', 'MUSCLE: What is the most significant physical change you feel or see?'],
        ['w4_mind_ref', 'MIND: What cognitive change are you most proud of from Month 1?']
@@ -1949,7 +2185,7 @@ function renderSupplementsPanel(W: Workbook): string {
   }).join('');
 }
 
-function renderRegen(W: Workbook): string {
+function renderRegen(W: Workbook, sex?: Sex | null): string {
   return `
   <div style="background:linear-gradient(135deg,${C.panel},${C.panel});border-radius:12px;
     padding:20px;margin-bottom:20px;border:1px solid ${C.info}44">
@@ -1970,6 +2206,7 @@ function renderRegen(W: Workbook): string {
   <div class="card">
     <div class="card-title">Month 1 Supplement Stack</div>
     ${renderSupplementsPanel(W)}
+    ${stackHormoneNote(sex)}
   </div>`;
 }
 
@@ -2022,9 +2259,9 @@ export function renderPage(ctx: RenderContext): string {
   switch (ctx.curTab) {
     case 'w1': return renderW1(ctx);
     case 'w2': return renderW2(ctx.W);
-    case 'w3': return renderW3(ctx.W);
-    case 'w4': return renderW4(ctx.W);
-    case 'regen': return renderRegen(ctx.W);
+    case 'w3': return renderW3(ctx.W, ctx.sex);
+    case 'w4': return renderW4(ctx.W, ctx.sex);
+    case 'regen': return renderRegen(ctx.W, ctx.sex);
     case 'audit-review': return renderAuditReview();
     case 'dash':
     default: return renderDash(ctx.W);
