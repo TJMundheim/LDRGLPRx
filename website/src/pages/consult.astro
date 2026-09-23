@@ -565,6 +565,7 @@ const canonical = "https://www.my4mlife.com/consult";
             name: fullName,
             email: payload.email || '',
             phone: phone || '',
+            sex: payload.sex || '',
           }));
         } catch (_) { /* no-op — sessionStorage unavailable */ }
         var assessmentUrl = '/assessment?from=consult';
@@ -700,6 +701,25 @@ const canonical = "https://www.my4mlife.com/consult";
 
     populateStateDropdown();
     showStep(1);
+
+    // Sex pre-fill (2026-09-22): ?sex=female|male from the Women/Men doors
+    // takes priority, then any stored hand-off prefill. Only those two values
+    // are accepted.
+    try {
+      var sexEl = document.querySelector('[data-q="sex"]');
+      if (sexEl && !sexEl.value) {
+        var sexParams = new URLSearchParams(window.location.search);
+        var sexValue = (sexParams.get('sex') || '').toLowerCase();
+        if (sexValue !== 'female' && sexValue !== 'male') {
+          var stored = sessionStorage.getItem('my4m_prefill') || localStorage.getItem('my4m_prefill');
+          if (stored) {
+            var parsedPrefill = JSON.parse(stored);
+            sexValue = String((parsedPrefill && parsedPrefill.sex) || '').toLowerCase();
+          }
+        }
+        if (sexValue === 'female' || sexValue === 'male') sexEl.value = sexValue;
+      }
+    } catch (_) { /* no-op */ }
 
     // Prefill category-driven curiosity checkbox from ?category= query param if present
     try {
