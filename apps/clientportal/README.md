@@ -60,5 +60,7 @@ Static build. Connect this directory as a CF Pages project:
 
 ## Legacy reference files
 
-`src/app.js.legacy`, `src/main.js.legacy`, `src/style.css.legacy` are preserved
-during the Svelte polish pass — safe to delete once all pages are componentized.
+`src/main.js.legacy` and `src/style.css.legacy` are preserved during the Svelte
+polish pass — safe to delete once all pages are componentized.
+(`src/app.js.legacy` was deleted 2026-09-22: nothing imported it and its copy
+was stale.)
