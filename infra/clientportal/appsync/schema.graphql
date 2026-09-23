@@ -104,6 +104,9 @@ type UserProfile {
   lastName: String
   displayName: String
   dob: AWSDate
+  # 'female' | 'male' — captured once at assessment/intake so app, email and
+  # brief copy can branch. Written by my4mlife-audit-complete.
+  sex: String
   phone: AWSPhone
   address: Address
   tier: TierId
