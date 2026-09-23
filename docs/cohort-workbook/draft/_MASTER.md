@@ -634,7 +634,8 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 |---|---|---|---|
 | **AM — empty stomach, 30 min before food** | Gut-barrier probiotic (the gut-brain seal) | 1 scoop in 8 oz water | Gut-brain seal. The foundation of every other pillar. |
 | **With breakfast (~9 AM)** | Vitamin D + K2 + boron + astaxanthin stack | 1 serving | D3 + K2 + boron + astaxanthin. Daily floor nutrients. |
-| **With breakfast** | Creatine monohydrate | 5 g | Muscle + cognitive. Cheapest high-leverage molecule in the stack. |
+| **Training days: around the fasted lift · Non-training days: with breakfast** | Creatine monohydrate | 5 g | Training days: half a scoop of electrolytes + 5 g creatine in 16 oz water before the fasted lift, other half after. Non-training days: 5 g with breakfast. |
+| **Training days — half before the lift, half after** | Electrolyte powder (zero-calorie, low-sodium; see my4mlife.com for the one we use) | 1 scoop split in 16 oz water | Carries the creatine, holds hydration through a fasted lift, and blunts appetite if you want to push the fast further into the day. |
 | **With your highest-fat meal of the day** | Omega-3 + ubiquinol CoQ10 softgel | 2 softgels | EPA/DHA + ubiquinol CoQ10. Cardio-neuro. Take with fat for absorption. |
 | **30–60 min before lights out** | Sleep-support formula | 1 serving | Sleep onset + architecture. |
 | **Evening (around 9 PM)** | Magnesium L-threonate | 1.5–2 g | The only magnesium form that crosses into the hippocampus. |
@@ -660,7 +661,7 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 |---|---|
 | Gut-barrier probiotic (AM, empty stomach) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
-| Creatine 5g (breakfast) | ☐ |
+| Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
 | Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
@@ -690,7 +691,7 @@ _________________________________________________________________
 |---|---|
 | Gut-barrier probiotic (AM, empty stomach) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
-| Creatine 5g (breakfast) | ☐ |
+| Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
 | Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
@@ -720,7 +721,7 @@ _________________________________________________________________
 |---|---|
 | Gut-barrier probiotic (AM, empty stomach) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
-| Creatine 5g (breakfast) | ☐ |
+| Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
 | Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
@@ -750,7 +751,7 @@ _________________________________________________________________
 |---|---|
 | Gut-barrier probiotic (AM, empty stomach) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
-| Creatine 5g (breakfast) | ☐ |
+| Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
 | Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
@@ -780,7 +781,7 @@ _________________________________________________________________
 |---|---|
 | Gut-barrier probiotic (AM, empty stomach) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
-| Creatine 5g (breakfast) | ☐ |
+| Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
 | Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
@@ -810,7 +811,7 @@ _________________________________________________________________
 |---|---|
 | Gut-barrier probiotic (AM, empty stomach) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
-| Creatine 5g (breakfast) | ☐ |
+| Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
 | Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
@@ -840,7 +841,7 @@ _________________________________________________________________
 |---|---|
 | Gut-barrier probiotic (AM, empty stomach) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
-| Creatine 5g (breakfast) | ☐ |
+| Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
 | Sleep-support formula (pre-bed) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
@@ -1070,7 +1071,7 @@ _________________________________________________________________
 | Eating window closed by 6 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out by 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Gut-barrier probiotic (AM) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| D3 + K2 stack + creatine (breakfast) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| D3 + K2 stack + creatine (+ electrolytes around the lift on training days) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Omega-3 + CoQ10 softgel (with fat meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Sleep-support formula (pre-bed) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Magnesium L-threonate (evening) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
@@ -1160,6 +1161,7 @@ No static stretching cold. Move first, stretch later (or not at all).
 Walk. Outside if you can. Don't sit down sweaty. Let the heart rate come down on its feet.
 
 **Pre-workout (optional):** Creatine + L-citrulline + beetroot + electrolyte blend (pre-workout), 20-30 min before training, with water. See my4mlife.com for the specific product we currently recommend.
+**Electrolytes on training days:** half a scoop of electrolyte powder (zero-calorie, low-sodium; see my4mlife.com for the one we use) with 5 g creatine in 16 oz water before the fasted lift, the other half after. It also blunts appetite if you want to push the fast further into the day. Non-training days: creatine with breakfast as before.
 **Post-workout:** 30–40g protein within 60 minutes. This is your protein-first feeding window opener — train fasted, then break the fast with protein after. If your workout ends around 10 AM, that's when the window opens.
 
 > *Recovery is where adaptation happens. Leave one rep in the tank.*
@@ -2963,7 +2965,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Dose:** 5g daily (no loading phase needed at our age)
 **What it is:** Pure creatine monohydrate. Not HCL, not buffered, not "advanced." Monohydrate. The form that has 700+ trials behind it.
 **Why it's in the stack:** This is the single most-evidenced cognitive supplement for people 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
-**What it pairs with:** Resistance training (non-negotiable). Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
+**What it pairs with:** Resistance training (non-negotiable). Electrolyte powder (zero-calorie, low-sodium; see my4mlife.com for the one we use) on training days — half a scoop with your 5 g of creatine in 16 oz water before the fasted lift, the other half after; it also blunts appetite if you want to push the fast further into the day. Non-training days: 5 g with breakfast. Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
 **What to watch for in the first 30 days:** 1-2 pounds of water weight in the first 10 days — that's intracellular hydration, not fat. Strength on compound lifts goes up within 2-3 weeks. Mental clarity under sleep deprivation is the tell that it's reached your brain.
 
 > *If you take exactly one supplement from this stack, take this one.*
@@ -3020,6 +3022,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Why it's in the stack:** Mitochondrial ATP plus endothelial nitric oxide in one scoop. Citrulline and beetroot raise NO and blood flow to working muscle and brain. The added creatine layer stacks on top of your daily 5g for training days. Electrolytes prevent the cramps and dizziness that derail older lifters mid-set.
 **What it pairs with:** Daily creatine (additive on training days). Resistance training (the entire point). Omega-3 + CoQ10 softgel (endothelial health amplifies citrulline's effect).
 **What to watch for in the first 30 days:** Better pumps and longer training tolerance in week 1. Lower perceived exertion on cardio. Pre-workout brain clarity — citrulline + beetroot reach the brain too.
+**Until the blend is in your hands:** a plain zero-calorie, low-sodium electrolyte powder covers the electrolyte part of this on its own — half a scoop with your creatine before the fasted lift, the other half after.
 **Two Paths note:** No Rx upgrade. Situational foundation.
 
 ---

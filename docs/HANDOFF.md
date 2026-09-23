@@ -13,6 +13,16 @@
 
 
 
+## ⚡ 2026-09-23 — ELECTROLYTE PROTOCOL: APP + LOGBOOK v10
+
+New protocol (TJ approved 2026-09-23): electrolytes are a **named part of the stack**, used around the fasted strength workout. Training days: half a scoop with 5 g creatine in 16 oz of water before the fasted lift, the other half after — it also blunts appetite if you want to push the fast further into the day. Non-training days: creatine with breakfast as before.
+
+- **Product:** Ultima Replenisher (Grape, 90-serving canister, ASIN B01IIGL894) — zero calories, zero sugar, 55 mg sodium, potassium + magnesium citrates, stevia leaf (**stevia is an approved exception for flavored hydration only**). **Never claim sea-salt sourcing; LMNT is out and must not be mentioned.**
+- **App (apps/clientportal, deployed):** `src/lib/renderer.ts` — new `stackElectrolyteNote()` appended inside `renderSupplementsPanel()`, so the electrolyte line prints under the Month 1 Supplement Stack on **both** the Week 3 and Regen tabs (product named — the app keeps live names). `src/lib/components/TodayView.svelte` — the strength-session "Form" expander now carries the training-day split. Tests 220 pass / 7 fail (the known baseline: client.test.ts, AuthGate.test.ts, nudge/triggers.test.ts). Built + deployed via `apps/clientportal/deploy.sh`.
+- **Logbook v10 (155pp → 156pp):** `docs/cohort-workbook/The-Logbook-Month-1-v10.pdf` (2,074,346 bytes). Six edits in `draft/_MASTER.md`: stack-table creatine row + new electrolyte row, the 7 daily checklists, the weekly grid row, the §4.2 pre-workout note, the Creatine reference section's "What it pairs with", and a "until the blend ships" sentence on the pre-workout-blend section. **De-branded print rule honoured** — printed as "electrolyte powder (zero-calorie, low-sodium; see my4mlife.com for the one we use)", zero brand names. Identity/dignity tagline unchanged (9×). Audit: `docs/audit/logbook-v10-electrolytes-2026-09-23.md`.
+- **S3 refresh rule honoured:** both keys re-uploaded and verified via `head-object` — `the-logbook-month1.pdf` and `cohort-workbook-month1.pdf` each **2,067,989 → 2,074,346 bytes**.
+- Stack-table page (p.26) inspected as an image: the table still fits on one page.
+
 ## ⚡ 2026-09-22 — APP BRANCHES ON SEX + WEEK 3 WOMEN'S BLOCK (deployed)
 
 §5 of docs/plan/all-genders-midlife-reframe-2026-09-22.md, built on the `sex` field captured earlier the same day. apps/clientportal only.
