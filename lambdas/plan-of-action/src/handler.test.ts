@@ -26,7 +26,7 @@ vi.mock('@aws-sdk/client-lambda', () => ({
 }));
 
 import { handler } from './handler';
-import { renderPlan } from './render';
+import { renderPlan, validateLinks } from './render';
 import { DISCLAIMER } from './prompt';
 
 // ── Fixtures ─────────────────────────────────────────────────────────────────
@@ -210,5 +210,22 @@ describe('renderPlan', () => {
     const { html } = renderPlan(plan as any, 'Jane');
     expect(html).toContain('&lt;script&gt;');
     expect(html).not.toContain('<script>alert(1)</script>');
+  });
+
+  it('appends the standard stack closing block above the disclaimer, in html and text', () => {
+    const { html, text } = renderPlan(VALID_PLAN as any, 'Jane');
+    for (const body of [html, text]) {
+      expect(body).toContain('Your stack, one click');
+      expect(body).toContain('https://my4mlife.com/stack?utm_source=plan');
+      expect(body.indexOf('Your stack, one click')).toBeLessThan(body.indexOf(DISCLAIMER));
+      expect(body).toContain(DISCLAIMER);
+      // HARD RULE (Amazon Associates ToS): no Amazon link in any email body.
+      expect(body.toLowerCase()).not.toContain('amazon.com');
+    }
+  });
+
+  it('allows a /stack link inside the plan itself', () => {
+    const plan = { ...VALID_PLAN, next_step_cta: { label: 'See your stack', url: 'https://my4mlife.com/stack' } };
+    expect(() => validateLinks(plan as any)).not.toThrow();
   });
 });

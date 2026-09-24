@@ -19,6 +19,7 @@ export const ALLOWED_PATHS = [
   '/rx/menopause-hrt',
   '/regenerative-medicine',
   '/consult',
+  '/stack',
 ];
 
 function allowlistText(): string {

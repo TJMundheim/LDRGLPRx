@@ -2,6 +2,10 @@
 import { DISCLAIMER, ALLOWED_ORIGINS, ALLOWED_PATHS } from './prompt';
 import type { PlanJson } from './bedrock';
 
+/** Standard closing block appended to every plan (TJ: automatic, not optional).
+ *  Links only to the hosted /stack page — never an Amazon link (Associates ToS). */
+export const STACK_URL = 'https://my4mlife.com/stack?utm_source=plan';
+
 const esc = (v: unknown) =>
   String(v ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
 
@@ -55,7 +59,11 @@ export function renderPlan(plan: PlanJson, firstName?: string): { html: string; 
   <p style="text-align:center;margin:28px 0">
     <a href="${ctaUrl}" style="background:#1A2E1E;color:#fff;padding:12px 28px;border-radius:6px;text-decoration:none;font-weight:600">${ctaLabel}</a>
   </p>
-  <p style="font-size:11px;color:#888;border-top:1px solid #eee;padding-top:12px">${esc(DISCLAIMER)}</p>
+  <div style="margin:28px 0 0;padding-top:18px;border-top:1px solid #eee">
+    <h2 style="font-size:16px;color:#1A2E1E;margin:0 0 6px">Your stack, one click</h2>
+    <p style="color:#333;line-height:1.5;margin:0">Everything on your plan is listed on one page, with the exact product for each line: <a href="${STACK_URL}">${STACK_URL}</a></p>
+  </div>
+  <p style="font-size:11px;color:#888;border-top:1px solid #eee;padding-top:12px;margin-top:24px">${esc(DISCLAIMER)}</p>
 </div>
 </div>`;
 
@@ -70,6 +78,9 @@ Your plan:
 ${stepsText}
 
 ${plan.next_step_cta?.label}: ${plan.next_step_cta?.url}
+
+Your stack, one click
+Everything on your plan is listed on one page, with the exact product for each line: ${STACK_URL}
 
 ${DISCLAIMER}`;
 
