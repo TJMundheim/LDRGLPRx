@@ -964,6 +964,7 @@ function renderW1(ctx: RenderContext): string {
       Your MindSpan assessment was completed during intake. Review your scores on the dashboard.
     </div>
     <button class="btn" style="margin-bottom:16px" onclick="portalAction('goTo','audit-review')">View Full Assessment →</button>
+    ${shopStackButton()}
     <div>
       <div class="card-title">My Top 3 Priority Factors</div>
       ${(() => {
@@ -2160,10 +2161,26 @@ function renderWeekNutritionSection(W: Workbook, w: 1 | 2 | 3 | 4): string {
   </div>`;
 }
 
+/**
+ * "Shop this week's stack" CTA — links out to the my4mlife.com stack page
+ * (2026-09-24). Rendered at the top of the supplement panel (Week 3, Regen)
+ * and in Week 1's Mitigate section, since Week 1 is where a new member buys.
+ */
+function shopStackButton(): string {
+  return `<div style="margin-bottom:14px">
+    <a href="https://my4mlife.com/stack?utm_source=app" target="_blank" rel="noopener"
+      class="btn xs primary" style="display:inline-flex;width:100%;justify-content:center"
+      onclick="if(window.posthog){posthog.capture('app_shop_stack')}">Shop this week's stack →</a>
+    <div style="font-size:11px;color:${C.muted};line-height:1.5;margin-top:6px">
+      The Logbook names the protocol; that page names the product, one click each, or the whole Week 1 stack to your cart at once.
+    </div>
+  </div>`;
+}
+
 function renderSupplementsPanel(W: Workbook): string {
   // Month 1 shows Biome NS Ultra only (TJ 2026-07-06). Full stack parked in
   // docs/plan/month1-supplement-stack-parked.md until white-label SKUs ship.
-  return supplements.filter(sp => /biome/i.test(sp.n)).map((s, i) => {
+  return shopStackButton() + supplements.filter(sp => /biome/i.test(sp.n)).map((s, i) => {
     const key = `s${i}`;
     const resp = W.supplements[key]?.response ?? '';
     return `<div class="supp-row">

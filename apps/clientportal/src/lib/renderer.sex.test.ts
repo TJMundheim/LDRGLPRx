@@ -110,6 +110,31 @@ describe('renderer branches on sex — Week 4', () => {
   });
 });
 
+describe('shop this week\'s stack CTA', () => {
+  const link = 'https://my4mlife.com/stack?utm_source=app';
+  const note = 'The Logbook names the protocol; that page names the product, one click each, or the whole Week 1 stack to your cart at once.';
+
+  it('renders on Week 1 (Mitigate section)', () => {
+    const h = page('w1', 'male');
+    expect(h).toContain(link);
+    expect(h).toContain('target="_blank"');
+    expect(h).toContain('rel="noopener"');
+    expect(h).toContain(note);
+  });
+
+  it('renders on Week 3 (supplement panel)', () => {
+    const h = page('w3', 'male');
+    expect(h).toContain(link);
+    expect(h).toContain(note);
+  });
+
+  it('renders on Regen (supplement panel)', () => {
+    const h = page('regen', 'male');
+    expect(h).toContain(link);
+    expect(h).toContain(note);
+  });
+});
+
 describe('copy rules', () => {
   it('no emoji and no "men and women" in the Week 3 hormones block', () => {
     for (const s of ['female', 'male', null] as const) {
