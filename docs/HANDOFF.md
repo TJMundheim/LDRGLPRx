@@ -13,6 +13,18 @@
 
 
 
+## ⚡ 2026-09-24 — YOUR STACK PAGE (/stack) + D3 BRIDGE (deployed)
+
+The page the welcome + plan emails point at is live: **https://my4mlife.com/stack** — the map from the Logbook's generic protocol rows to the exact Amazon product, one click each.
+
+- **New page `website/src/pages/stack.astro`** (public, no login, BaseLayout, title "Your Stack"). Row names and order are copied verbatim from the Week 1 Daily Stack Card in `docs/cohort-workbook/draft/_MASTER.md` §3.2, so a reader holding the printed card finds every line in the same order. Seven Week 1 rows (gut-barrier probiotic / D3 + K2 / creatine / electrolytes / omega-3 + ubiquinol / sleep-support / magnesium L-threonate), eight products. "Added in Week 3" is a collapsed `<details>` with Thorne Methyl-Guard Plus and a line saying Week 2 adds nothing new.
+- **One-click cart:** big primary button → `https://www.amazon.com/gp/aws/cart/add.html?AssociateTag=my4lifeamz-20&ASIN.1..8` with all eight Week 1 ASINs, `rel="nofollow sponsored noopener"`. Cost line is labelled an estimate (~$300, most bottles run 2–3 months).
+- **ASINs (9):** B07D41J92B, B07NXW4GW7, B07978VPPH, B01IIGL894, B06XPPP4M2, B00743BYPQ, B0015SXPI0, B006P536E6 (Week 1) + B00O5AHC4S (Week 3). All verified present on the live page.
+- **PostHog:** `stack_cart_all` on the cart button, `stack_item_<slug>` on each product link (women.astro/men.astro pattern).
+- **D3 bridge:** Sports Research Vitamin D3 + K2 (B07NXW4GW7, bridges to ArmorVita) added as an `InterimPickCard` on `website/src/pages/pillars/mitigate.astro` (new section before App Delivery) and on `website/src/pages/solutions/nutritional-supplements.astro` **above** the omega section. Copy states 5,000 IU D3 + 100 mcg K2 as MK-7 in coconut oil, nothing else; boron and astaxanthin join when ArmorVita ships.
+- **Links in:** "Your Stack" added to the Footer Explore column; "See the whole Week 1 stack on one page →" at the bottom of /solutions/nutritional-supplements and under the mitigate D3 card.
+- **Verified:** `pnpm build` clean (97 pages), deployed via `website/deploy.sh`, curl 200 on /stack with all 9 ASINs + cart URL, screenshots at desktop and 375px, `scrollWidth === innerWidth` at both.
+
 ## ⚡ 2026-09-24 — STACK LINK IN WELCOME + PLAN EMAILS (deployed)
 
 Both transactional emails now point at the single hosted product page `https://my4mlife.com/stack` (being built in parallel in website/). **HARD RULE reaffirmed in code comments and tests: no Amazon link, tagged or untagged, may ever appear in an email body (Amazon Associates ToS).** The tagged links live only on /stack.

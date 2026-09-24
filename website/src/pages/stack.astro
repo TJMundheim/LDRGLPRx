@@ -1,0 +1,314 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AFFILIATE_DISCLOSURE } from '../lib/affiliates';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// YOUR STACK (/stack) — the map from the Logbook's generic protocol rows to the
+// exact product on Amazon. Row names and order mirror the Week 1 Daily Stack
+// Card in the Logbook (docs/cohort-workbook/draft/_MASTER.md §3.2) so a reader
+// holding the printed card finds every line here, in the same order.
+//
+// HARD RULE (Amazon Associates ToS): tagged links live on hosted pages like
+// this one, NEVER in an email body.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const TAG = 'my4lifeamz-20';
+const dp = (asin: string) => `https://www.amazon.com/dp/${asin}?tag=${TAG}`;
+
+type Product = { brand: string; name: string; why: string; asin: string; slug: string };
+type Row = { logbookName: string; when: string; note?: string; products: Product[] };
+
+const WEEK1_ASINS = [
+  'B07D41J92B',
+  'B07NXW4GW7',
+  'B07978VPPH',
+  'B01IIGL894',
+  'B06XPPP4M2',
+  'B00743BYPQ',
+  'B0015SXPI0',
+  'B006P536E6',
+];
+
+const cartUrl =
+  `https://www.amazon.com/gp/aws/cart/add.html?AssociateTag=${TAG}&` +
+  WEEK1_ASINS.map((asin, i) => `ASIN.${i + 1}=${asin}&Quantity.${i + 1}=1`).join('&');
+
+const WEEK1: Row[] = [
+  {
+    logbookName: 'Gut-barrier probiotic (the gut-brain seal)',
+    when: 'AM — empty stomach, 30 minutes before food · 1 scoop in 8 oz water',
+    products: [
+      {
+        brand: 'Ancient Nutrition',
+        name: 'Multi Collagen Protein Gut Restore',
+        why: 'Collagen peptides with a gut-barrier blend, unflavored so it disappears into water. One scoop before anything else touches your stomach.',
+        asin: 'B07D41J92B',
+        slug: 'gut_probiotic',
+      },
+    ],
+  },
+  {
+    logbookName: 'Vitamin D + K2 + boron + astaxanthin stack',
+    when: 'With breakfast (~9 AM) · 1 serving',
+    note: 'This covers the D3 + K2. Boron and astaxanthin join when ArmorVita ships.',
+    products: [
+      {
+        brand: 'Sports Research',
+        name: 'Vitamin D3 + K2, 120 softgels',
+        why: 'Exactly 5,000 IU of D3 with 100 mcg of K2 as MK-7, carried in coconut oil. Nothing else in the softgel.',
+        asin: 'B07NXW4GW7',
+        slug: 'd3_k2',
+      },
+    ],
+  },
+  {
+    logbookName: 'Creatine monohydrate',
+    when: 'Training days: around the fasted lift · Non-training days: with breakfast · 5 g',
+    products: [
+      {
+        brand: 'Thorne',
+        name: 'Creatine, 90 servings',
+        why: 'Five grams of plain creatine monohydrate daily — the best-evidenced supplement for muscle and cognition at the same time. NSF Certified for Sport.',
+        asin: 'B07978VPPH',
+        slug: 'creatine',
+      },
+    ],
+  },
+  {
+    logbookName: 'Electrolyte powder (zero-calorie, low-sodium)',
+    when: 'Training days — half a scoop with your creatine before the fasted lift, half after · 1 scoop split in 16 oz water',
+    products: [
+      {
+        brand: 'Ultima Replenisher',
+        name: 'Grape, 90 servings',
+        why: 'Zero calories, low sodium. Carries the creatine, holds hydration through a fasted lift, and blunts appetite if you want to push the fast further into the day.',
+        asin: 'B01IIGL894',
+        slug: 'electrolytes',
+      },
+    ],
+  },
+  {
+    logbookName: 'Omega-3 + ubiquinol CoQ10 softgel',
+    when: 'With your highest-fat meal of the day · 2 omega softgels + 1 ubiquinol',
+    note: 'Nothing on the shelf does both in one capsule yet, so this row is two products taken together.',
+    products: [
+      {
+        brand: 'Nordic Naturals',
+        name: 'Ultimate Omega 2X, 120 softgels',
+        why: 'EPA 1,125 mg + DHA 875 mg per two softgels, triglyceride form from wild sardines and anchovies. Two with your fattiest meal.',
+        asin: 'B06XPPP4M2',
+        slug: 'omega3',
+      },
+      {
+        brand: "Doctor's Best",
+        name: 'Kaneka Ubiquinol 200 mg, 120 softgels',
+        why: 'The reduced, active form of CoQ10. Olive oil and MCT carrier, nothing else of note. One alongside the omega.',
+        asin: 'B00743BYPQ',
+        slug: 'ubiquinol',
+      },
+    ],
+  },
+  {
+    logbookName: 'Sleep-support formula',
+    when: '30–60 minutes before lights out · 1 serving',
+    products: [
+      {
+        brand: 'Pure Encapsulations',
+        name: 'Best-Rest Formula, 120 capsules',
+        why: 'Melatonin, valerian, lemon balm, passionflower and PharmaGABA in one capsule — sleep onset and architecture, not sedation.',
+        asin: 'B0015SXPI0',
+        slug: 'sleep',
+      },
+    ],
+  },
+  {
+    logbookName: 'Magnesium L-threonate',
+    when: 'Evening, around 9 PM · 1.5–2 g (3 capsules)',
+    products: [
+      {
+        brand: 'Life Extension',
+        name: 'Neuro-Mag Magnesium L-Threonate, 90 capsules',
+        why: 'Magtein at 2,000 mg per three-capsule serving — the only magnesium form shown to cross into the hippocampus.',
+        asin: 'B006P536E6',
+        slug: 'magnesium',
+      },
+    ],
+  },
+];
+
+const WEEK3: Row[] = [
+  {
+    logbookName: 'Methylated B-complex',
+    when: 'With breakfast · 1 serving',
+    products: [
+      {
+        brand: 'Thorne',
+        name: 'Methyl-Guard Plus, 90 capsules',
+        why: 'Methylfolate, methylcobalamin, P5P and riboflavin — the active forms, for the homocysteine picture your labs will show.',
+        asin: 'B00O5AHC4S',
+        slug: 'b_complex',
+      },
+    ],
+  },
+];
+
+const title = 'Your Stack | My4MLife';
+const description =
+  'The map from the Logbook protocol rows to the exact product. One click each, or add the whole Week 1 stack to your Amazon cart at once.';
+const canonical = 'https://www.my4mlife.com/stack';
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <main class="stk-page">
+    <header class="stk-hero">
+      <p class="stk-kicker">Logbook companion</p>
+      <h1>Your Stack</h1>
+      <p class="stk-sub">
+        The Logbook names the protocol. This page names the product. One click each, or add the
+        whole Week 1 stack to your cart at once.
+      </p>
+      <p class="stk-total">
+        Estimate: <strong>about $300</strong> for the full Week 1 stack. Prices move, so treat that
+        as a ballpark — and note most of these bottles run two to three months, not one.
+      </p>
+    </header>
+
+    <section class="stk-cartblock">
+      <a
+        class="stk-cart-btn"
+        href={cartUrl}
+        target="_blank"
+        rel="nofollow sponsored noopener"
+        onclick="window.posthog && posthog.capture('stack_cart_all')"
+      >
+        Add the whole Week 1 stack to my Amazon cart &rarr;
+      </a>
+      <p class="stk-cart-note">Already have some of these? Pick them one at a time below.</p>
+    </section>
+
+    <section class="stk-section">
+      <h2>Week 1</h2>
+      <p class="stk-intro">
+        Seven rows, in the order they appear on your Week 1 Daily Stack Card. Same names, same
+        timing — find the row on the card, order the product here.
+      </p>
+
+      {WEEK1.map((row) => (
+        <article class="stk-row">
+          <div class="stk-row-head">
+            <h3>{row.logbookName}</h3>
+            <p class="stk-when">{row.when}</p>
+            {row.note && <p class="stk-note">{row.note}</p>}
+          </div>
+          <div class="stk-products">
+            {row.products.map((p) => (
+              <div class="stk-card">
+                <p class="stk-brand">{p.brand}</p>
+                <h4>{p.name}</h4>
+                <p class="stk-why">{p.why}</p>
+                <a
+                  class="stk-cta"
+                  href={dp(p.asin)}
+                  target="_blank"
+                  rel="nofollow sponsored noopener"
+                  onclick={`window.posthog && posthog.capture('stack_item_${p.slug}')`}
+                >
+                  Order via Amazon &rarr;
+                </a>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section class="stk-section">
+      <details class="stk-details">
+        <summary>Added in Week 3</summary>
+        <p class="stk-intro">
+          Week 2 adds no new products — everything it asks for is already in the Week 1 stack above.
+        </p>
+        {WEEK3.map((row) => (
+          <article class="stk-row">
+            <div class="stk-row-head">
+              <h3>{row.logbookName}</h3>
+              <p class="stk-when">{row.when}</p>
+            </div>
+            <div class="stk-products">
+              {row.products.map((p) => (
+                <div class="stk-card">
+                  <p class="stk-brand">{p.brand}</p>
+                  <h4>{p.name}</h4>
+                  <p class="stk-why">{p.why}</p>
+                  <a
+                    class="stk-cta"
+                    href={dp(p.asin)}
+                    target="_blank"
+                    rel="nofollow sponsored noopener"
+                    onclick={`window.posthog && posthog.capture('stack_item_${p.slug}')`}
+                  >
+                    Order via Amazon &rarr;
+                  </a>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </details>
+    </section>
+
+    <footer class="stk-foot">
+      <p class="stk-disclosure">
+        As an Amazon Associate, My4MLife earns from qualifying purchases. {AFFILIATE_DISCLOSURE}
+      </p>
+      <p class="stk-tagline">
+        <em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em>
+      </p>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  .stk-page { max-width: 900px; margin: 0 auto; padding: 3rem 1rem 4rem; }
+  .stk-hero { text-align: center; margin-bottom: 2rem; }
+  .stk-kicker { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.78rem; color: #b8912f; font-weight: 700; margin-bottom: 0.5rem; }
+  .stk-hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); color: #0a1f44; margin: 0 0 0.6rem; }
+  .stk-sub { max-width: 620px; margin: 0 auto 1rem; color: #33415c; font-size: 1.05rem; line-height: 1.6; }
+  .stk-total { max-width: 620px; margin: 0 auto; color: #4a5568; font-size: 0.92rem; line-height: 1.6; }
+
+  .stk-cartblock { text-align: center; background: #f3f6fb; border: 1px solid #dbe3f0; border-radius: 16px; padding: 1.75rem 1.1rem; margin: 2rem 0 3rem; }
+  .stk-cart-btn { display: inline-block; background: #0a7c4d; color: #fff; padding: 0.95rem 1.6rem; border-radius: 999px; font-weight: 700; font-size: 1rem; text-decoration: none; line-height: 1.35; max-width: 100%; }
+  .stk-cart-btn:hover { background: #075c3a; }
+  .stk-cart-note { margin: 0.9rem 0 0; font-size: 0.88rem; color: #4a5568; }
+
+  .stk-section { margin: 2.5rem 0; }
+  .stk-section h2 { color: #0a1f44; font-size: 1.5rem; margin: 0 0 0.4rem; }
+  .stk-intro { color: #4a5568; line-height: 1.6; margin: 0 0 1.5rem; }
+
+  .stk-row { border-top: 1px solid #e2e8f0; padding: 1.5rem 0; }
+  .stk-row-head h3 { font-size: 1.08rem; color: #0a1f44; margin: 0 0 0.35rem; line-height: 1.35; }
+  .stk-when { font-size: 0.86rem; color: #7a5c12; margin: 0 0 0.5rem; line-height: 1.55; }
+  .stk-note { font-size: 0.86rem; color: #4a5568; margin: 0 0 0.5rem; line-height: 1.55; font-style: italic; }
+  .stk-products { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 0.9rem; }
+  .stk-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.1rem; background: #fff; display: flex; flex-direction: column; min-width: 0; }
+  .stk-brand { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8b96a8; font-weight: 700; margin: 0 0 0.25rem; }
+  .stk-card h4 { font-size: 1rem; color: #0a1f44; margin: 0 0 0.45rem; line-height: 1.35; }
+  .stk-why { font-size: 0.9rem; color: #4a5568; line-height: 1.55; margin: 0 0 0.9rem; }
+  .stk-cta { margin-top: auto; display: inline-block; background: #0a1f44; color: #fff; padding: 0.55rem 1.05rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; text-align: center; }
+  .stk-cta:hover { background: #14306b; }
+
+  .stk-details { border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem 1.15rem; background: #fbfcfe; }
+  .stk-details summary { cursor: pointer; font-weight: 700; color: #0a1f44; font-size: 1.1rem; }
+  .stk-details .stk-intro { margin-top: 1rem; }
+  .stk-details .stk-row:first-of-type { border-top: 1px solid #e2e8f0; }
+
+  .stk-foot { border-top: 1px solid #e2e8f0; padding-top: 1.75rem; margin-top: 2.5rem; text-align: center; }
+  .stk-disclosure { font-size: 0.78rem; color: #8b96a8; line-height: 1.6; max-width: 620px; margin: 0 auto 1rem; }
+  .stk-tagline { font-size: 0.92rem; color: #33415c; margin: 0; }
+
+  @media (max-width: 600px) {
+    .stk-page { padding: 2rem 1rem 3rem; }
+    .stk-products { grid-template-columns: 1fr; }
+    .stk-cart-btn { font-size: 0.95rem; padding: 0.9rem 1.1rem; }
+  }
+</style>
