@@ -13,6 +13,17 @@
 
 
 
+## ⚡ 2026-09-24 — MEALS MONTH 1 PAGES LIVE (deployed)
+- **Live:** `/meals` (index: the rule, Break the fast, links to all four weeks) + `/meals/week-1` … `/meals/week-4`.
+- **Single source of truth:** `website/src/data/meals.ts` — 12 recipes (title, hook, hands-on, protein, net carbs, ingredients, ≤8-step method), the 3 first-meal rotations (A/B/C), the fasting default, and BUY_LINKS. Edit recipes there only; one template `website/src/pages/meals/[week].astro` renders all four weeks.
+- **Plan name is "high-protein, low-carb."** "Keto" appears ONLY as the per-recipe *Keto-compatible* mark. No seed oils/sugar/flour in any recipe; no alcohol anywhere (tea on the table).
+- **Video buttons:** `video?: string` per recipe. None set yet → NO video button renders (no "coming soon"). Add the YouTube URL to the recipe in meals.ts and the button appears; PostHog `meals_video_<slug>` already wired.
+- **Buy row (3 buttons per recipe):** Meat → ButcherBox `https://www.butcherbox.com/` and Pantry → Thrive Market `https://thrivemarket.com/` are PLACEHOLDERS marked `data-affiliate="pending"` — swap in the Impact.com tracking links when TJ's accounts exist. Everything else → `/weekly-picks` (our own hosted pantry page; no Amazon search links on meals pages).
+- **PostHog:** `meals_buy_butcherbox` / `meals_buy_thrive` / `meals_buy_amazon`, `meals_video_<slug>`.
+- **Nav:** "Meals" added to Footer → Explore (next to Your Stack); `/stack` carries a one-line link to `/meals`.
+- **Verified:** `pnpm build` clean (102 pages), deployed via website/deploy.sh, `/meals` + `/meals/week-1` + `/meals/week-4` return 200 and contain "Break the fast"; 375px mobile scrollWidth === innerWidth === 375, no horizontal overflow.
+- **Open:** ButcherBox + Thrive affiliate links; 12 cooking videos (Keto Cattle Baron); macros are estimates until the actual cuts are known.
+
 ## ⚡ 2026-09-24 — YOUR STACK PAGE (/stack) + D3 BRIDGE (deployed)
 
 The page the welcome + plan emails point at is live: **https://my4mlife.com/stack** — the map from the Logbook's generic protocol rows to the exact Amazon product, one click each.

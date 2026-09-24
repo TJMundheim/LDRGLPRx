@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { AFFILIATE_DISCLOSURE } from '../../lib/affiliates';
+import {
+  WEEKS,
+  FIRST_MEALS,
+  FIRST_MEAL_RULE,
+  FASTING_DEFAULT,
+  BUY_LINKS,
+} from '../../data/meals';
+
+// One template, four static pages. Recipes are edited in src/data/meals.ts only.
+export function getStaticPaths() {
+  return WEEKS.map((w) => ({ params: { week: `week-${w.n}` }, props: { week: w } }));
+}
+
+const { week } = Astro.props;
+const prev = WEEKS.find((w) => w.n === week.n - 1);
+const next = WEEKS.find((w) => w.n === week.n + 1);
+
+const title = `Week ${week.n} Meals: ${week.theme} | My4MLife`;
+const description = `Three high-protein, low-carb dinners for Week ${week.n}. Each serves four: dinner tonight, lunch for the next two days.`;
+const canonical = `https://www.my4mlife.com/meals/week-${week.n}`;
+const buys = [BUY_LINKS.butcherbox, BUY_LINKS.thrive, BUY_LINKS.amazon];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <main class="mls-page">
+    <header class="mls-hero">
+      <p class="mls-kicker"><a href="/meals">Month 1 Meals</a> &middot; Week {week.n}</p>
+      <h1>{week.theme}</h1>
+      <p class="mls-sub">{week.intro}</p>
+      <p class="mls-plan">High-protein, low-carb. Three dinners a week, each one serving four.</p>
+    </header>
+
+    <section class="mls-first">
+      <h2>Break the fast</h2>
+      <p class="mls-rule">{FIRST_MEAL_RULE}</p>
+      <div class="mls-first-grid">
+        {FIRST_MEALS.map((m) => (
+          <div class="mls-first-card">
+            <p class="mls-first-letter">{m.letter}</p>
+            <h3>{m.name}</h3>
+            <p class="mls-first-body">{m.body}</p>
+            <p class="mls-first-protein">{m.protein}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mls-fasting"><strong>Your eating window.</strong> {FASTING_DEFAULT}</p>
+    </section>
+
+    <section class="mls-section">
+      <h2>This week&rsquo;s three dinners</h2>
+      <p class="mls-intro">
+        Cook the dinner, pack the other two servings for lunch. Iced tea or green tea on the table.
+      </p>
+
+      {week.recipes.map((r) => (
+        <article class="mls-card" id={r.slug}>
+          <div class="mls-card-head">
+            <h3>{r.title}</h3>
+            <p class="mls-hook">{r.hook}</p>
+            <ul class="mls-stats">
+              <li><span>Serves</span><strong>4 &mdash; dinner + 2 lunches</strong></li>
+              <li><span>Hands-on</span><strong>{r.handsOn}</strong></li>
+              <li><span>Protein</span><strong>{r.protein} per serving</strong></li>
+              <li><span>Net carbs</span><strong>{r.netCarbs} per serving</strong></li>
+            </ul>
+            <p class="mls-keto">Keto-compatible</p>
+          </div>
+
+          <div class="mls-body">
+            <div class="mls-ing">
+              <h4>What you need</h4>
+              <ul>
+                {r.ingredients.map((i) => <li>{i}</li>)}
+              </ul>
+            </div>
+            <div class="mls-method">
+              <h4>How you cook it</h4>
+              <ol>
+                {r.method.map((s) => <li>{s}</li>)}
+              </ol>
+            </div>
+          </div>
+
+          {r.video && (
+            <a
+              class="mls-video"
+              href={r.video}
+              target="_blank"
+              rel="noopener"
+              onclick={`window.posthog && posthog.capture('meals_video_${r.slug}')`}
+            >
+              Watch the Cattle Baron cook it &rarr;
+            </a>
+          )}
+
+          <div class="mls-buys">
+            <p class="mls-buys-label">Get the ingredients</p>
+            <div class="mls-buy-row">
+              {buys.map((b) => (
+                <a
+                  class="mls-buy"
+                  href={b.href}
+                  target="_blank"
+                  rel="nofollow sponsored noopener"
+                  data-affiliate={b.pending ? 'pending' : null}
+                  onclick={`window.posthog && posthog.capture('meals_buy_${b.vendor}')`}
+                >
+                  {b.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <nav class="mls-nav">
+      {prev ? <a href={`/meals/week-${prev.n}`}>&larr; Week {prev.n}: {prev.theme}</a> : <span></span>}
+      <a class="mls-nav-index" href="/meals">All four weeks</a>
+      {next ? <a href={`/meals/week-${next.n}`}>Week {next.n}: {next.theme} &rarr;</a> : <span></span>}
+    </nav>
+
+    <footer class="mls-foot">
+      <p class="mls-disclosure">
+        As an Amazon Associate, My4MLife earns from qualifying purchases. {AFFILIATE_DISCLOSURE}
+      </p>
+      <p class="mls-tagline">
+        <em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em>
+      </p>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  .mls-page { max-width: 900px; margin: 0 auto; padding: 3rem 1rem 4rem; }
+  .mls-hero { text-align: center; margin-bottom: 2.25rem; }
+  .mls-kicker { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.78rem; color: #b8912f; font-weight: 700; margin-bottom: 0.5rem; }
+  .mls-kicker a { color: #b8912f; text-decoration: none; }
+  .mls-kicker a:hover { text-decoration: underline; }
+  .mls-hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); color: #0a1f44; margin: 0 0 0.6rem; }
+  .mls-sub { max-width: 620px; margin: 0 auto 0.8rem; color: #33415c; font-size: 1.05rem; line-height: 1.6; }
+  .mls-plan { max-width: 620px; margin: 0 auto; color: #4a5568; font-size: 0.92rem; line-height: 1.6; }
+
+  .mls-first { background: #f3f6fb; border: 1px solid #dbe3f0; border-radius: 16px; padding: 1.75rem 1.25rem; margin: 0 0 3rem; }
+  .mls-first h2 { color: #0a1f44; font-size: 1.45rem; margin: 0 0 0.6rem; }
+  .mls-rule { color: #33415c; line-height: 1.65; margin: 0 0 1.25rem; }
+  .mls-first-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .mls-first-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.1rem; min-width: 0; }
+  .mls-first-letter { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: #b8912f; margin: 0 0 0.25rem; }
+  .mls-first-card h3 { font-size: 1rem; color: #0a1f44; margin: 0 0 0.4rem; line-height: 1.35; }
+  .mls-first-body { font-size: 0.9rem; color: #4a5568; line-height: 1.55; margin: 0 0 0.6rem; }
+  .mls-first-protein { font-size: 0.82rem; font-weight: 700; color: #0a7c4d; margin: 0; }
+  .mls-fasting { margin: 1.25rem 0 0; font-size: 0.92rem; color: #33415c; line-height: 1.65; }
+
+  .mls-section { margin: 0 0 2.5rem; }
+  .mls-section h2 { color: #0a1f44; font-size: 1.5rem; margin: 0 0 0.4rem; }
+  .mls-intro { color: #4a5568; line-height: 1.6; margin: 0 0 1.75rem; }
+
+  .mls-card { border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; padding: 1.5rem 1.25rem; margin-bottom: 1.75rem; min-width: 0; }
+  .mls-card-head h3 { font-size: 1.3rem; color: #0a1f44; margin: 0 0 0.4rem; line-height: 1.3; }
+  .mls-hook { font-size: 0.98rem; color: #4a5568; line-height: 1.6; margin: 0 0 1rem; font-style: italic; }
+  .mls-stats { list-style: none; padding: 0; margin: 0 0 0.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.6rem; }
+  .mls-stats li { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+  .mls-stats span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8b96a8; font-weight: 700; }
+  .mls-stats strong { font-size: 0.88rem; color: #0a1f44; font-weight: 600; line-height: 1.4; }
+  .mls-keto { display: inline-block; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; color: #fff; background: #0a7c4d; padding: 0.22rem 0.6rem; border-radius: 999px; margin: 0 0 1.25rem; }
+
+  .mls-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1.25rem; }
+  .mls-body h4 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8b96a8; font-weight: 700; margin: 0 0 0.6rem; }
+  .mls-ing ul { margin: 0; padding-left: 1.1rem; }
+  .mls-ing li { font-size: 0.9rem; color: #33415c; line-height: 1.55; margin-bottom: 0.35rem; }
+  .mls-method ol { margin: 0; padding-left: 1.2rem; }
+  .mls-method li { font-size: 0.93rem; color: #33415c; line-height: 1.6; margin-bottom: 0.6rem; }
+
+  .mls-video { display: inline-block; margin-top: 1.25rem; background: #0a1f44; color: #fff; padding: 0.6rem 1.15rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+  .mls-video:hover { background: #14306b; }
+
+  .mls-buys { border-top: 1px solid #e2e8f0; margin-top: 1.4rem; padding-top: 1.1rem; }
+  .mls-buys-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8b96a8; font-weight: 700; margin: 0 0 0.7rem; }
+  .mls-buy-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .mls-buy { display: inline-block; background: #0a7c4d; color: #fff; padding: 0.55rem 1.05rem; border-radius: 999px; font-weight: 700; font-size: 0.86rem; text-decoration: none; line-height: 1.35; max-width: 100%; }
+  .mls-buy:hover { background: #075c3a; }
+
+  .mls-nav { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; }
+  .mls-nav a { color: #0a1f44; font-size: 0.9rem; font-weight: 600; text-decoration: none; }
+  .mls-nav a:hover { text-decoration: underline; }
+  .mls-nav-index { color: #b8912f !important; }
+
+  .mls-foot { border-top: 1px solid #e2e8f0; padding-top: 1.75rem; margin-top: 2.5rem; text-align: center; }
+  .mls-disclosure { font-size: 0.78rem; color: #8b96a8; line-height: 1.6; max-width: 620px; margin: 0 auto 1rem; }
+  .mls-tagline { font-size: 0.92rem; color: #33415c; margin: 0; }
+
+  @media (max-width: 760px) {
+    .mls-body { grid-template-columns: 1fr; gap: 1.25rem; }
+  }
+  @media (max-width: 600px) {
+    .mls-page { padding: 2rem 1rem 3rem; }
+    .mls-first-grid { grid-template-columns: 1fr; }
+    .mls-stats { grid-template-columns: 1fr 1fr; }
+    .mls-buy { width: 100%; text-align: center; }
+    .mls-nav { flex-direction: column; align-items: flex-start; }
+  }
+</style>
