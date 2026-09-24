@@ -1,10 +1,11 @@
 // Link allowlist enforcement + deterministic, escaped HTML/text rendering of a plan.
-import { DISCLAIMER, ALLOWED_ORIGINS, ALLOWED_PATHS } from './prompt';
+import { DISCLAIMER, ALLOWED_ORIGINS, ALLOWED_PATHS, ALLOWED_PATH_PREFIXES } from './prompt';
 import type { PlanJson } from './bedrock';
 
 /** Standard closing block appended to every plan (TJ: automatic, not optional).
- *  Links only to the hosted /stack page — never an Amazon link (Associates ToS). */
+ *  Links only to the hosted /stack and /meals pages — never an Amazon link (Associates ToS). */
 export const STACK_URL = 'https://my4mlife.com/stack?utm_source=plan';
+export const MEALS_URL = 'https://my4mlife.com/meals/week-1?utm_source=plan';
 
 const esc = (v: unknown) =>
   String(v ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
@@ -23,7 +24,10 @@ export function validateLinks(plan: PlanJson): void {
     } catch {
       throw new Error('link not allowed');
     }
-    if (!ALLOWED_ORIGINS.includes(url.origin) || !ALLOWED_PATHS.includes(url.pathname)) {
+    const pathAllowed =
+      ALLOWED_PATHS.includes(url.pathname) ||
+      ALLOWED_PATH_PREFIXES.some((prefix) => url.pathname.startsWith(`${prefix}/`));
+    if (!ALLOWED_ORIGINS.includes(url.origin) || !pathAllowed) {
       throw new Error('link not allowed');
     }
   }
@@ -60,8 +64,9 @@ export function renderPlan(plan: PlanJson, firstName?: string): { html: string; 
     <a href="${ctaUrl}" style="background:#1A2E1E;color:#fff;padding:12px 28px;border-radius:6px;text-decoration:none;font-weight:600">${ctaLabel}</a>
   </p>
   <div style="margin:28px 0 0;padding-top:18px;border-top:1px solid #eee">
-    <h2 style="font-size:16px;color:#1A2E1E;margin:0 0 6px">Your stack, one click</h2>
-    <p style="color:#333;line-height:1.5;margin:0">Everything on your plan is listed on one page, with the exact product for each line: <a href="${STACK_URL}">${STACK_URL}</a></p>
+    <h2 style="font-size:16px;color:#1A2E1E;margin:0 0 6px">Your stack and your meals, one click</h2>
+    <p style="color:#333;line-height:1.5;margin:0 0 8px">Everything on your plan is listed on one page, with the exact product for each line: <a href="${STACK_URL}">${STACK_URL}</a></p>
+    <p style="color:#333;line-height:1.5;margin:0">A full month of dinners built around the protocol: <a href="${MEALS_URL}">${MEALS_URL}</a></p>
   </div>
   <p style="font-size:11px;color:#888;border-top:1px solid #eee;padding-top:12px;margin-top:24px">${esc(DISCLAIMER)}</p>
 </div>
@@ -79,8 +84,9 @@ ${stepsText}
 
 ${plan.next_step_cta?.label}: ${plan.next_step_cta?.url}
 
-Your stack, one click
+Your stack and your meals, one click
 Everything on your plan is listed on one page, with the exact product for each line: ${STACK_URL}
+A full month of dinners built around the protocol: ${MEALS_URL}
 
 ${DISCLAIMER}`;
 

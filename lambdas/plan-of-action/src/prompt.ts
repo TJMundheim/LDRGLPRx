@@ -22,10 +22,17 @@ export const ALLOWED_PATHS = [
   '/stack',
 ];
 
+// Path prefixes allowed in addition to ALLOWED_PATHS — anything under these
+// (e.g. /meals/week-1, /meals/week-2, ...) is permitted, not just the bare path.
+export const ALLOWED_PATH_PREFIXES = ['/meals'];
+
 function allowlistText(): string {
-  return ALLOWED_ORIGINS
-    .flatMap((origin) => ALLOWED_PATHS.map((path) => (path === '/' ? origin : `${origin}${path}`)))
-    .join(', ');
+  const exact = ALLOWED_ORIGINS
+    .flatMap((origin) => ALLOWED_PATHS.map((path) => (path === '/' ? origin : `${origin}${path}`)));
+  const prefixed = ALLOWED_ORIGINS.flatMap((origin) =>
+    ALLOWED_PATH_PREFIXES.map((prefix) => `${origin}${prefix}/week-1`),
+  );
+  return [...exact, ...prefixed].join(', ');
 }
 
 export interface DraftPromptInput {

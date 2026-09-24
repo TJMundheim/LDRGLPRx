@@ -212,12 +212,13 @@ describe('renderPlan', () => {
     expect(html).not.toContain('<script>alert(1)</script>');
   });
 
-  it('appends the standard stack closing block above the disclaimer, in html and text', () => {
+  it('appends the standard stack + meals closing block above the disclaimer, in html and text', () => {
     const { html, text } = renderPlan(VALID_PLAN as any, 'Jane');
     for (const body of [html, text]) {
-      expect(body).toContain('Your stack, one click');
+      expect(body).toContain('Your stack and your meals, one click');
       expect(body).toContain('https://my4mlife.com/stack?utm_source=plan');
-      expect(body.indexOf('Your stack, one click')).toBeLessThan(body.indexOf(DISCLAIMER));
+      expect(body).toContain('https://my4mlife.com/meals/week-1?utm_source=plan');
+      expect(body.indexOf('Your stack and your meals, one click')).toBeLessThan(body.indexOf(DISCLAIMER));
       expect(body).toContain(DISCLAIMER);
       // HARD RULE (Amazon Associates ToS): no Amazon link in any email body.
       expect(body.toLowerCase()).not.toContain('amazon.com');
@@ -227,5 +228,15 @@ describe('renderPlan', () => {
   it('allows a /stack link inside the plan itself', () => {
     const plan = { ...VALID_PLAN, next_step_cta: { label: 'See your stack', url: 'https://my4mlife.com/stack' } };
     expect(() => validateLinks(plan as any)).not.toThrow();
+  });
+
+  it('allows a /meals/week-N link inside the plan itself (prefix match)', () => {
+    const plan = { ...VALID_PLAN, next_step_cta: { label: 'See your meals', url: 'https://my4mlife.com/meals/week-2' } };
+    expect(() => validateLinks(plan as any)).not.toThrow();
+  });
+
+  it('rejects a link outside the allowlist even under an allowed-prefix-looking path', () => {
+    const plan = { ...VALID_PLAN, next_step_cta: { label: 'nope', url: 'https://my4mlife.com/mealsomething' } };
+    expect(() => validateLinks(plan as any)).toThrow('link not allowed');
   });
 });
