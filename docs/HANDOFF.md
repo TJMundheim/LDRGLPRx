@@ -25,7 +25,15 @@ The page the welcome + plan emails point at is live: **https://my4mlife.com/stac
 - **Links in:** "Your Stack" added to the Footer Explore column; "See the whole Week 1 stack on one page →" at the bottom of /solutions/nutritional-supplements and under the mitigate D3 card.
 - **Verified:** `pnpm build` clean (97 pages), deployed via `website/deploy.sh`, curl 200 on /stack with all 9 ASINs + cart URL, screenshots at desktop and 375px, `scrollWidth === innerWidth` at both.
 
-## ⚡ 2026-09-24 — STACK LINK IN WELCOME + PLAN EMAILS (deployed)
+## ⚡ 2026-09-24 — STACK + MEALS LINKS IN WELCOME + PLAN EMAILS (deployed)
+
+Both transactional emails now point at the two hosted pages `https://my4mlife.com/stack` and `https://my4mlife.com/meals/week-1` (stack built in parallel in website/; meals page also being built in parallel in website/ — `website/src/data/meals.ts` + `website/src/pages/meals/` untouched by this change, not our lambda work). **HARD RULE reaffirmed in code comments and tests: no Amazon link, tagged or untagged, may ever appear in an email body (Amazon Associates ToS).** The tagged links live only on /stack; meals links only point at the hosted /meals page, never Amazon.
+
+- **lambdas/audit-complete** — `src/stackCard.ts` exports `STACK_URL` + new `MEALS_URL` (`/meals/week-1?utm_source=welcome`); `buildStackCard()` now renders one card with two buttons — "See Your Stack →" and a new "See Your Meals →" under heading "Your meals for the month". `handler.ts` untouched (still just calls `buildStackCard()`, 0 lines changed). Tests extended to assert the meals link is present and `amazon.com` still appears nowhere in the email HTML. 28 tests green. Deployed via `lambdas/audit-complete/infra/deploy.sh` (LastModified 2026-09-24T22:59:07Z).
+- **lambdas/plan-of-action** — `src/render.ts` exports new `MEALS_URL` (`/meals/week-1?utm_source=plan`); the automatic closing block heading changed to "Your stack and your meals, one click" with two links (stack + meals), still above the DISCLAIMER. `src/prompt.ts` adds `ALLOWED_PATH_PREFIXES = ['/meals']`; `validateLinks()` in `render.ts` now accepts an exact `ALLOWED_PATHS` match **or** anything under an `ALLOWED_PATH_PREFIXES` entry (e.g. `/meals/week-2`, `/meals/week-3`, ...) so per-week links validate without enumerating every week. 3 new tests (12 total green, including a rejection test for a lookalike path like `/mealsomething`). Deployed via `lambdas/plan-of-action/infra/deploy.sh` (LastModified 2026-09-24T22:59:20Z).
+- No emails sent, no users created, no DynamoDB writes during this change.
+
+### 2026-09-24 (earlier) — STACK LINK IN WELCOME + PLAN EMAILS (deployed)
 
 Both transactional emails now point at the single hosted product page `https://my4mlife.com/stack` (being built in parallel in website/). **HARD RULE reaffirmed in code comments and tests: no Amazon link, tagged or untagged, may ever appear in an email body (Amazon Associates ToS).** The tagged links live only on /stack.
 
