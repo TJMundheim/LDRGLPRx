@@ -251,6 +251,12 @@ describe('audit-complete handler', () => {
     expect(payload.html).not.toContain('Leaky Gut Repair Consult');
     expect(payload.html).not.toContain('Testosterone');
     expect(payload.html).not.toContain('protege-signup?');
+    // Week 1 stack card: links to the hosted /stack page, never to Amazon.
+    expect(payload.html).toContain('Your Week 1 Stack');
+    expect(payload.html).toContain('https://my4mlife.com/stack?utm_source=welcome');
+    expect(payload.html).toContain('See Your Stack');
+    // HARD RULE (Amazon Associates ToS): no Amazon link in any email body.
+    expect(payload.html.toLowerCase()).not.toContain('amazon.com');
   });
 
   it('does not fail the request when email-sender invoke throws', async () => {

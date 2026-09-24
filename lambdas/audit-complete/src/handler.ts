@@ -5,6 +5,7 @@ import { DynamoDBDocumentClient, UpdateCommand, QueryCommand, GetCommand } from 
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { v5 as uuidv5 } from 'uuid';
+import { buildStackCard } from './stackCard';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
@@ -371,6 +372,7 @@ ${ctaSection}
 ${bookCard}
 ${workbookCard}
 ${appCard}
+${buildStackCard()}
 <p style="color:#666;font-size:13px;font-style:italic;margin:24px 0 0;text-align:center">Begin with the end in mind. — Dr. TJ &amp; the My4MLife team</p>
 </div>`;
 }

@@ -13,6 +13,14 @@
 
 
 
+## ⚡ 2026-09-24 — STACK LINK IN WELCOME + PLAN EMAILS (deployed)
+
+Both transactional emails now point at the single hosted product page `https://my4mlife.com/stack` (being built in parallel in website/). **HARD RULE reaffirmed in code comments and tests: no Amazon link, tagged or untagged, may ever appear in an email body (Amazon Associates ToS).** The tagged links live only on /stack.
+
+- **lambdas/audit-complete** — new module `src/stackCard.ts` (14 lines) exports `STACK_URL` + `buildStackCard()`; `src/handler.ts` imports it and renders the card as the fifth card, after the app card (handler 514 → 516 lines). Card: eyebrow "Your Week 1 Stack" / title "Every product on one page" / button "See Your Stack →" → `/stack?utm_source=welcome`. Tests assert the link is present and that `amazon.com` appears nowhere in the email HTML. 28 tests green. Deployed via `lambdas/audit-complete/infra/deploy.sh` (LastModified 2026-09-24T12:46:16Z).
+- **lambdas/plan-of-action** — `src/render.ts` (77 → 88 lines) exports `STACK_URL` (`/stack?utm_source=plan`) and appends a standard closing block — heading "Your stack, one click" + one sentence + the link — to **every** plan, html and text, **above** the DISCLAIMER (TJ chose automatic, not optional; disclaimer untouched). `/stack` added to `ALLOWED_PATHS` in `src/prompt.ts` so the drafting model may also cite it inside a plan and `validateLinks()` accepts it. 2 new tests (9 total green). Deployed via `lambdas/plan-of-action/infra/deploy.sh` (LastModified 2026-09-24T12:46:31Z).
+- No emails sent, no users created, no DynamoDB writes during this change.
+
 ## ⚡ 2026-09-23 — ELECTROLYTE PROTOCOL: APP + LOGBOOK v10
 
 New protocol (TJ approved 2026-09-23): electrolytes are a **named part of the stack**, used around the fasted strength workout. Training days: half a scoop with 5 g creatine in 16 oz of water before the fasted lift, the other half after — it also blunts appetite if you want to push the fast further into the day. Non-training days: creatine with breakfast as before.
