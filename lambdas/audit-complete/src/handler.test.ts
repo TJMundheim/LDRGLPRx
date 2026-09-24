@@ -255,6 +255,10 @@ describe('audit-complete handler', () => {
     expect(payload.html).toContain('Your Week 1 Stack');
     expect(payload.html).toContain('https://my4mlife.com/stack?utm_source=welcome');
     expect(payload.html).toContain('See Your Stack');
+    // Meals card: links to the hosted /meals/week-1 page, never to Amazon.
+    expect(payload.html).toContain('Your meals for the month');
+    expect(payload.html).toContain('https://my4mlife.com/meals/week-1?utm_source=welcome');
+    expect(payload.html).toContain('See Your Meals');
     // HARD RULE (Amazon Associates ToS): no Amazon link in any email body.
     expect(payload.html.toLowerCase()).not.toContain('amazon.com');
   });
