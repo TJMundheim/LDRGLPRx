@@ -48,7 +48,7 @@ const VALID_PLAN = {
   greeting: 'Hi Jane,',
   summary_of_call: 'We talked about your gut health goals.',
   plan_steps: [
-    { step: 'Start the gut-repair protocol', why: 'It may help support gut lining repair.', link: 'https://www.my4mlife.com/rx/leaky-gut' },
+    { step: 'Start the gut-repair protocol', why: 'It may help support gut lining repair.', link: 'https://www.my4mlife.com/stack' },
   ],
   next_step_cta: { label: 'Take the next step', url: 'https://www.my4mlife.com/assessment' },
   disclaimer: DISCLAIMER,

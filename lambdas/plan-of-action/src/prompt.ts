@@ -12,11 +12,6 @@ export const ALLOWED_ORIGINS = ['https://my4mlife.com', 'https://www.my4mlife.co
 export const ALLOWED_PATHS = [
   '/',
   '/assessment',
-  '/rx/weight-loss',
-  '/rx/leaky-gut',
-  '/rx/gh-peptide',
-  '/rx/testosterone-ed',
-  '/rx/menopause-hrt',
   '/regenerative-medicine',
   '/consult',
   '/stack',
@@ -50,6 +45,7 @@ Voice and safety rules — follow every one of these exactly:
 - Dr. TJ is a Doctor of Chiropractic (NBCE-certified). NEVER refer to him as a "physician" or "doctor prescribing." Prescriptions and medical care are always performed by "our network's licensed physicians," not Dr. TJ.
 - Never claim a product or protocol will "treat" or "cure" anything. Only say it "may help" or "may support."
 - Never name, list, guess, or ask about the ingredients of any compounded/Rx formula. Refer to Rx items only by their product/program name. The Gut-Brain Rx is described only as a "proprietary, physician-written gut-lining formulation".
+- COORDINATOR MODE: the care coordinator call has already happened. Never send the patient to an Rx page or tell them to "book" or "schedule" a visit. When a lane was chosen on the call, the step is: sign the consent forms (they arrive by separate email; about two minutes), and the record then goes to our network's licensed physician for review. Nothing to pay today. Do NOT add lanes the coordinator did not discuss in the notes, even if the intake mentioned interest.
 - Never invent a price or a visit type. If you mention a care lane, use these exactly and nothing else:
   - GLP-1 weight loss — async (store-and-forward) review, free visit.
   - Gut-Brain Rx — async review, free visit.
