@@ -89,6 +89,54 @@ First item of docs/plan/all-genders-midlife-reframe-2026-09-22.md §8 — everyt
 - Website deployed; verified live: `/assessment?sex=female` pre-checks Woman, `/consult?sex=male` pre-selects Male.
 - **Not done (deliberately):** app renderer copy does not branch on `sex` yet, /women and /men doors do not exist yet, and existing profiles have no `sex` (absent = unknown; keep a fallback in any consumer).
 
+## ⚡ 2026-09-28 — CARD ON FILE AT CONSENT TIME — LIVE
+
+The e-sign page now has a second step: after the two consents are signed, the same
+page captures a card (Stripe SetupIntent, `usage: 'off_session'`) and writes
+`record.cardOnFile` in the exact shape `charge-on-approval` already reads. Nothing is
+charged there — the coordinator still charges it later via "Confirm charge".
+
+- **Mutation:** `sendConsentRequestAdmin(contactId: ID!, encounterId: ID!, lane: String, priceCents: Int): ConsentRequestResultAdmin!`
+  (result now also returns `lane laneLabel priceCents`).
+- **Lanes** (`lanes.ts`, duplicated verbatim in both consent Lambdas + mirrored in PatientsAdmin.svelte):
+  `leaky-gut` → "Biome NS Rx" (default 12500) · `weight-loss` → "GLP-1 program" ·
+  `gh-peptide` → "Tesamorelin program" · `testosterone-ed` → "Testosterone program" ·
+  `menopause-hrt` → "Menopause & HRT program". Only leaky-gut carries a default price.
+- **consent-request** stamps `lane` / `laneLabel` / `priceCents` on the encounter item
+  (SET-only UpdateCommand; needed `dynamodb:UpdateItem` added to its role) and the email
+  now names the product: "…between you and your Biome NS Rx prescription review… After you
+  sign, you'll save a card for your prescription ($125 per 30-day supply). Nothing is
+  charged until the physician approves."
+- **consent-sign** — new modules `lanes.ts`, `card.ts` (step-2 HTML + Stripe.js Payment
+  Element), `stripeSetup.ts` (SetupIntent create / verify), `cardFlow.ts` (orchestration).
+  Consents are still written FIRST, so a signature is never lost; `renderSuccess` is gone
+  and the POST now falls through to the card step. **Abandon-and-return:** a GET with
+  consents present but no card shows the card step again instead of "Already signed".
+  POST `?…&step=card` re-verifies the HMAC token, retrieves the SetupIntent from Stripe,
+  and requires `status === 'succeeded'` **and** `metadata.contactId` to match before
+  merging `cardOnFile` (bootstrap + nested SET — other fields survive), writing audit
+  `card.saved`, and emailing drtj@ "[Card saved] <name> — <laneLabel>". Only brand/last4
+  ever leave Stripe.
+- **Stripe mode:** `CONSENT_STRIPE_MODE`, default **live**; deploy.sh always writes "live".
+  `test` exists only for a deliberate manual E2E invocation. consent-sign's role now also
+  reads the `all-stripe-keys` secret.
+- **Admin:** a lane `<select>` + price input sit above "Send consent forms"; once the
+  encounter is stamped the panel shows `Lane: Biome NS Rx · $125/30d`. The consent
+  checklist gained a fifth row **"Card on file"** (✓ visa ····4242 · 2026-09-28 / ✗ Not on
+  file). **The provider hand-off gate is unchanged — consents only, never the card.**
+- **E2E PROVEN** end-to-end on synthetic `drtj+cardtest@my4mlife.com` with
+  `CONSENT_STRIPE_MODE=test` and card 4242 4242 4242 4242: consent request (lane
+  leaky-gut/12500) → lane on encounter → sign → card step titled "Biome NS Rx — $125 per
+  30-day supply" → Save my card → "Signed and saved." → `cardOnFile = {cus_VLMVxyGfRYcuSQ,
+  pm_1UKfmk…, seti_1UKfmO…, visa, 4242}` verified in DynamoDB. Lambda then redeployed via
+  its deploy.sh — **CONSENT_STRIPE_MODE is back to `live` (verified)**.
+- **TJ to clean:** synthetic record `drtj+cardtest@my4mlife.com`
+  (contactId `2ae9bc79-6c72-5b2c-8e2e-0505e6b8dac9`). `cleanup-test-accounts.sh` rejects it
+  (`--only` validates against a hardcoded TARGET_EMAILS list), so either add it there or
+  delete the PatientRecords items for that contactId by hand. Also two stray **live-mode**
+  Stripe Customers + empty SetupIntents were created by an early unmocked test run before
+  the Stripe client was mocked — no card, no charge, harmless, but worth deleting.
+
 ## ⚡ 2026-09-22 (later) — STAGE-2 HIPAA E-SIGN + PROVIDER GATE LIVE (…ab720b2c, deployed)
 
 - **Finding:** no DocuSign integration ever existed (June plan = manual send; never built). Replaced with an OWNED e-sign page — E-SIGN-valid, $0, full audit trail. Plan: docs/plan/consent-esign-gate-2026-09-22.md.
