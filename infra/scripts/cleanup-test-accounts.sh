@@ -122,6 +122,7 @@ TARGET_EMAILS=(
   "tjmundheim@genesisregenerative.com"
   "drtj+intaketest@my4mlife.com"
   "drtj+cardtest@my4mlife.com"
+  "drtj+handofftest@my4mlife.com"
 )
 
 for te in "${TARGET_EMAILS[@]}"; do
@@ -146,6 +147,7 @@ RUN_2=true
 RUN_3=true
 RUN_4=true
 RUN_5=true
+RUN_6=true
 
 if [[ -n "$ONLY_EMAIL" ]]; then
   only_norm="$(echo -n "$ONLY_EMAIL" | awk '{$1=$1;print}' | tr '[:upper:]' '[:lower:]')"
@@ -166,12 +168,14 @@ if [[ -n "$ONLY_EMAIL" ]]; then
   RUN_3=false
   RUN_4=false
   RUN_5=false
+  RUN_6=false
   case "$only_norm" in
     "tjshcacs@gmail.com") RUN_1=true ;;
     "drtj@mdspecialtygroup.com") RUN_2=true ;;
     "tjmundheim@genesisregenerative.com") RUN_3=true ;;
     "drtj+intaketest@my4mlife.com") RUN_4=true ;;
     "drtj+cardtest@my4mlife.com") RUN_5=true ;;
+    "drtj+handofftest@my4mlife.com") RUN_6=true ;;
   esac
   echo "--only restricting run to: $ONLY_EMAIL" | tee -a "$LOG"
 fi
@@ -208,6 +212,14 @@ IDENTITY_5_CONTACTID="2ae9bc79-6c72-5b2c-8e2e-0505e6b8dac9"
 IDENTITY_5_USERS_ID="none"
 IDENTITY_5_COGNITO_SUB="none"
 
+# Slot 6: synthetic record for the provider-handoff E2E (2026-09-28).
+# Post-incident rule: the contactId is DERIVED from the email via uuidv5 at
+# run time (never hardcoded), and Cognito is resolved by an email lookup rather
+# than a hardcoded sub — this identity was created by the intake endpoint only,
+# so it is expected to have no Cognito user and no Users row at all.
+IDENTITY_6_LABEL="drtj+handofftest@my4mlife.com"
+IDENTITY_6_EMAIL="drtj+handofftest@my4mlife.com"
+
 REMAINING_UNEXPECTED=0
 
 # ---------------------------------------------------------------------------
@@ -229,6 +241,23 @@ cognito_delete_user() {
   else
     echo "  (dry-run: not executed)" | tee -a "$LOG"
   fi
+}
+
+# Resolve a Cognito username (sub) by email attribute. Prints nothing when no
+# user matches — callers must treat an empty result as "nothing to delete".
+cognito_sub_by_email() {
+  local email="$1"
+  set +e
+  local out
+  out=$(aws cognito-idp list-users --user-pool-id "$USER_POOL_ID" --region "$REGION" \
+    --filter "email = \"$email\"" --limit 2 2>&1)
+  local status=$?
+  set -e
+  if [[ $status -ne 0 ]]; then
+    echo "" 
+    return 0
+  fi
+  echo "$out" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);const u=(j.Users||[]);console.log(u.length===1?u[0].Username:'');}catch(e){console.log('');}});"
 }
 
 cognito_check_user() {
@@ -716,6 +745,122 @@ else
 fi
 else
   echo "Skipping Identity 5 ($IDENTITY_5_LABEL) — not selected by --only." | tee -a "$LOG"
+fi
+
+# ---------------------------------------------------------------------------
+# Identity 6: drtj+handofftest@my4mlife.com (synthetic provider-handoff E2E)
+#             PatientRecords (record + encounter + brief + audit rows) and
+#             Contact; Users/Cognito looked up by email and deleted only if a
+#             single unambiguous match exists.
+# ---------------------------------------------------------------------------
+if $RUN_6; then
+echo "" | tee -a "$LOG"
+echo "### Identity 6: $IDENTITY_6_LABEL ###" | tee -a "$LOG"
+
+identity6_contact_id="$(derive_contact_id "$IDENTITY_6_EMAIL")"
+echo "Derived contactId via uuidv5: $identity6_contact_id" | tee -a "$LOG"
+
+echo "-- PRE-CHECK: Contact item --" | tee -a "$LOG"
+contact6_item=$(aws dynamodb get-item --table-name "$CONTACT_TABLE" --region "$REGION" \
+  --key "{\"contactId\":{\"S\":\"$identity6_contact_id\"}}" 2>&1)
+echo "$contact6_item" | tee -a "$LOG"
+contact6_email=$(echo "$contact6_item" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log(j.Item&&j.Item.email&&j.Item.email.S||'');}catch(e){console.log('');}});" || echo "")
+
+echo "-- PRE-CHECK: PatientRecords by contactId --" | tee -a "$LOG"
+pr6_items=$(aws dynamodb query --table-name "$PATIENT_RECORDS_TABLE" --region "$REGION" \
+  --key-condition-expression "contactId = :pk" \
+  --expression-attribute-values "{\":pk\":{\"S\":\"$identity6_contact_id\"}}" 2>&1)
+echo "$pr6_items" | tee -a "$LOG"
+pr6_count=$(echo "$pr6_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+echo "Found $pr6_count PatientRecords item(s) for identity 6." | tee -a "$LOG"
+
+# Guard: the record row must carry this identity's email before anything goes.
+pr6_email=$(echo "$pr6_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);const r=(j.Items||[]).filter(i=>i.sk&&i.sk.S==='record')[0];console.log(r&&r.demographics&&r.demographics.M&&r.demographics.M.email&&r.demographics.M.email.S||'');}catch(e){console.log('');}});" || echo "")
+pr6_ok=false
+if [[ "$(echo "$pr6_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTITY_6_EMAIL" | tr '[:upper:]' '[:lower:]')" ]]; then
+  pr6_ok=true
+  echo "Email match guard PASSED for identity 6 PatientRecords record row." | tee -a "$LOG"
+elif [[ "$pr6_count" -eq 0 ]]; then
+  echo "No PatientRecords items for identity 6 — nothing to delete there." | tee -a "$LOG"
+else
+  echo "WARNING: PatientRecords record.demographics.email ('$pr6_email') does NOT match '$IDENTITY_6_EMAIL'. SKIPPING PatientRecords deletes for identity 6." | tee -a "$LOG"
+fi
+
+echo "-- PRE-CHECK: Cognito user by email --" | tee -a "$LOG"
+identity6_cognito_sub="$(cognito_sub_by_email "$IDENTITY_6_EMAIL")"
+if [[ -n "$identity6_cognito_sub" ]]; then
+  echo "Cognito user resolved by email: $identity6_cognito_sub" | tee -a "$LOG"
+else
+  echo "No unambiguous Cognito user for $IDENTITY_6_EMAIL (expected — this identity came from the intake endpoint only)." | tee -a "$LOG"
+fi
+
+users6_ok=false
+if [[ -n "$identity6_cognito_sub" ]]; then
+  users6_item=$(aws dynamodb get-item --table-name "$USERS_TABLE" --region "$REGION" \
+    --key "{\"id\":{\"S\":\"$identity6_cognito_sub\"}}" 2>&1)
+  echo "$users6_item" | tee -a "$LOG"
+  users6_email=$(echo "$users6_item" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log(j.Item&&j.Item.primaryEmail&&j.Item.primaryEmail.S||'');}catch(e){console.log('');}});" || echo "")
+  if [[ "$(echo "$users6_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTITY_6_EMAIL" | tr '[:upper:]' '[:lower:]')" ]]; then
+    users6_ok=true
+    echo "Email match guard PASSED for identity 6 Users row." | tee -a "$LOG"
+  fi
+fi
+
+contact6_ok=false
+if [[ "$(echo "$contact6_email" | tr '[:upper:]' '[:lower:]')" == "$(echo "$IDENTITY_6_EMAIL" | tr '[:upper:]' '[:lower:]')" ]]; then
+  contact6_ok=true
+  echo "Email match guard PASSED for identity 6 Contact row." | tee -a "$LOG"
+elif [[ -n "$contact6_email" ]]; then
+  echo "WARNING: Contact.email ('$contact6_email') does NOT match '$IDENTITY_6_EMAIL'. SKIPPING Contact delete." | tee -a "$LOG"
+else
+  echo "No Contact row found for identity 6 — nothing to delete there." | tee -a "$LOG"
+fi
+
+echo "-- PRE-CHECK: Conversations by pk 'prospect#$IDENTITY_6_EMAIL' --" | tee -a "$LOG"
+conv6_items=$(aws dynamodb query --table-name "$CONVERSATIONS_TABLE" --region "$REGION" \
+  --key-condition-expression "contactId = :pk" \
+  --expression-attribute-values "{\":pk\":{\"S\":\"prospect#$IDENTITY_6_EMAIL\"}}" 2>&1)
+echo "$conv6_items" | tee -a "$LOG"
+conv6_count=$(echo "$conv6_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const j=JSON.parse(d);console.log((j.Items||[]).length);}catch(e){console.log(0);}});" || echo 0)
+
+if $EXECUTE; then
+  if $contact6_ok; then
+    echo "-- DELETE: Contact item --" | tee -a "$LOG"
+    run "aws dynamodb delete-item --table-name $CONTACT_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$identity6_contact_id\"}}'"
+  fi
+  if $users6_ok; then
+    echo "-- DELETE: Users item --" | tee -a "$LOG"
+    run "aws dynamodb delete-item --table-name $USERS_TABLE --region $REGION --key '{\"id\":{\"S\":\"$identity6_cognito_sub\"}}'"
+  fi
+  if [[ -n "$identity6_cognito_sub" ]]; then
+    echo "-- DELETE: Cognito user --" | tee -a "$LOG"
+    cognito_delete_user "$identity6_cognito_sub"
+  fi
+  if $pr6_ok && [[ "$pr6_count" -gt 0 ]]; then
+    echo "-- DELETE: PatientRecords items ($pr6_count found) --" | tee -a "$LOG"
+    sks6=$(echo "$pr6_items" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);(j.Items||[]).forEach(it=>console.log(it.sk.S));});")
+    while read -r sk; do
+      [[ -z "$sk" ]] && continue
+      run "aws dynamodb delete-item --table-name $PATIENT_RECORDS_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$identity6_contact_id\"},\"sk\":{\"S\":\"$sk\"}}'"
+    done <<< "$sks6"
+  fi
+  if [[ "$conv6_count" -gt 0 ]]; then
+    echo "-- DELETE: Conversations items ($conv6_count found) --" | tee -a "$LOG"
+    echo "$conv6_items" | node -e "
+let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
+  const j=JSON.parse(d);
+  (j.Items||[]).forEach(it=>console.log(JSON.stringify({contactId:it.contactId.S, sk:it.sk.S})));
+});" | while read -r line; do
+      pk=$(echo "$line" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);console.log(j.contactId);});")
+      sk=$(echo "$line" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);console.log(j.sk);});")
+      run "aws dynamodb delete-item --table-name $CONVERSATIONS_TABLE --region $REGION --key '{\"contactId\":{\"S\":\"$pk\"},\"sk\":{\"S\":\"$sk\"}}'"
+    done
+  fi
+else
+  echo "(dry-run) Would delete (subject to per-row email guard): Contact contactId=$identity6_contact_id (ok=$contact6_ok), Users id=${identity6_cognito_sub:-none} (ok=$users6_ok), Cognito sub=${identity6_cognito_sub:-none}, PatientRecords items=$pr6_count (ok=$pr6_ok), Conversations items=$conv6_count" | tee -a "$LOG"
+fi
+else
+  echo "Skipping Identity 6 ($IDENTITY_6_LABEL) — not selected by --only." | tee -a "$LOG"
 fi
 
 # ---------------------------------------------------------------------------

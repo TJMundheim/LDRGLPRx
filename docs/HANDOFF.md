@@ -13,6 +13,72 @@
 
 
 
+## ⚡ 2026-09-28 — PROVIDER HAND-OFF — LIVE
+
+"Send to provider" is real. It no longer just flips the encounter state: it
+enforces the consent gate, generates the clinical packet, emails the provider
+inbox, stamps the encounter and writes an audit row.
+
+- **Mutation:** `sendToProviderAdmin(contactId: ID!, encounterId: ID!): ProviderHandoffResultAdmin!`
+  (`ok`, `sentTo`, `packetUrl`, `error`), Admins group only, direct Lambda data
+  source `ProviderHandoffDS` → `my4mlife-provider-handoff`, resolver
+  `infra/clientportal/cdk/resolvers/sendToProviderAdmin.js` (mirrors
+  `sendConsentRequestAdmin.js`; validated with `aws appsync evaluate-code`).
+- **New Lambda `lambdas/provider-handoff`** — `config.ts` (SSM, 5-min cache) /
+  `packet.ts` / `mail.ts` / `store.ts` / `handler.ts`, 19 unit tests green with
+  DDB, Lambda and SSM mocked. Deploy: `lambdas/provider-handoff/infra/deploy.sh`.
+- **Provider inbox = SSM `/my4mlife/provider/email` = `drtj@mdspecialtygroup.com`.**
+  The deploy script OWNS that value (`aws ssm put-parameter --overwrite`) — that
+  is the IaC path; never edit it in the console. To change the provider, edit
+  `PROVIDER_EMAIL` in the deploy script and re-run it (or export `PROVIDER_EMAIL`).
+- **The packet renderer is NOT duplicated.** provider-handoff invokes
+  `my4mlife-export-clinical-packet` with its AppSync event shape and uses the
+  presigned URL it returns, so the provider reads exactly what the coordinator's
+  "Export clinical packet" button produces. `packetKey` mirrors that function's
+  S3 layout: `clinical-packets/<contactId>/<encounterId>.html`, 7-day link.
+- **Provider email** — subject `[Provider review] <First Last> — <laneLabel>`,
+  CC `drtj@my4mlife.com`, Dr. TJ voice, no clinical detail in the body (name +
+  lane label only; never a formula or active-ingredient name — there is a unit
+  test asserting that). Body: who, the lane, "Asynchronous review requested.",
+  the packet link with "the link expires in 7 days", then "Reply to this email
+  with approved / declined / needs info; the coordinator will handle the patient
+  and the charge." No identity/dignity tagline on provider mail.
+- **email-sender** gained an optional `cc` on the `info` kind (a Mailgun form
+  field). Everything else about it is unchanged.
+- **Encounter stamps:** `state = 'sent-to-provider'`, `providerSentTo`,
+  `providerSentAt`, `packetKey` (SET-only Update — other attributes survive).
+  Audit row `provider.sent` with `sentTo`, `packetKey` and `resend`, append-only.
+  All three fields are on `EncounterAdmin` and returned by `getPatientRecordAdmin`.
+- **Consent gate, twice.** `updateEncounterStateAdmin`'s pipeline gate is
+  untouched; provider-handoff independently re-checks `consent-npp-v1` +
+  `consent-phi-auth-v1` on the record and refuses with
+  "Consent required: NPP + Patient Authorization not signed".
+- **Admin UI** (`PatientsAdmin.svelte`): the "Send to provider" advance button
+  now calls the mutation instead of the bare state flip (every other transition
+  is unchanged, still disabled until both signatures are green). Once sent:
+  "Sent to <email> on <date>", a "Packet link" for the fresh presigned URL, and
+  **"Re-send to provider"** — regenerates the packet, emails again, appends
+  another audit row.
+- **E2E (synthetic only):** `drtj+handofftest@my4mlife.com`,
+  contactId `575ee90c-5f53-5698-aa85-20fcbe41af6f`, encounter
+  `d34e2632-297e-4bb1-8218-6911c3339962`. Created via the intake endpoint with
+  both consents; lane stamped Biome NS Rx. Direct `aws lambda invoke` →
+  `ok:true, sentTo drtj@mdspecialtygroup.com` + packet URL; encounter stamped
+  `sent-to-provider` / providerSentTo / providerSentAt / packetKey; audit rows
+  `provider.sent` resend=false then resend=true on the second call; email-sender
+  logs clean. Consent gate verified live by removing the consents and re-running
+  (refused), then restoring them. Bryan (73c97bdd-…) and drtj@my4mlife.com were
+  never touched.
+- **TJ to clean:** `drtj+handofftest@my4mlife.com` — added as **slot 6** of
+  `infra/scripts/cleanup-test-accounts.sh`. Post-incident rules honoured: its
+  contactId is DERIVED at run time via uuidv5 (never hardcoded) and Cognito is
+  resolved by an email lookup, not a hardcoded sub. Slots 1–5 untouched.
+  Dry-run verified: 7 PatientRecords items, 0 Contact / Users / Cognito /
+  Conversations. Run
+  `infra/scripts/cleanup-test-accounts.sh --execute --only drtj+handofftest@my4mlife.com`.
+- **Left open:** the provider's reply is still read by a human — there is no
+  inbound parse that advances the encounter to `script-written` automatically.
+
 ## ⚡ 2026-09-24 — MEALS MONTH 1 PAGES LIVE (deployed)
 - **Live:** `/meals` (index: the rule, Break the fast, links to all four weeks) + `/meals/week-1` … `/meals/week-4`.
 - **Single source of truth:** `website/src/data/meals.ts` — 12 recipes (title, hook, hands-on, protein, net carbs, ingredients, ≤8-step method), the 3 first-meal rotations (A/B/C), the fasting default, and BUY_LINKS. Edit recipes there only; one template `website/src/pages/meals/[week].astro` renders all four weeks.
