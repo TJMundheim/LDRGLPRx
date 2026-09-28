@@ -311,6 +311,18 @@ export class ApiStack extends cdk.Stack {
       code: code('sendConsentRequestAdmin.js'),
     });
 
+    // ─── SendToProviderAdmin — Lambda data source ─────────────────────────────
+    const providerHandoffFn = lambda.Function.fromFunctionName(this, 'ProviderHandoffFn', 'my4mlife-provider-handoff');
+    const dsProviderHandoff = this.api.addLambdaDataSource('ProviderHandoffDS', providerHandoffFn);
+    new appsync.Resolver(this, 'SendToProviderAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'sendToProviderAdmin',
+      dataSource: dsProviderHandoff,
+      runtime: JS_RUNTIME,
+      code: code('sendToProviderAdmin.js'),
+    });
+
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });
   }

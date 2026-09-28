@@ -511,6 +511,9 @@ type EncounterAdmin {
   lane: String
   laneLabel: String
   priceCents: Int
+  providerSentTo: String
+  providerSentAt: AWSDateTime
+  packetKey: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
@@ -543,6 +546,13 @@ type ConsentRequestResultAdmin {
   lane: String
   laneLabel: String
   priceCents: Int
+  error: String
+}
+
+type ProviderHandoffResultAdmin {
+  ok: Boolean!
+  sentTo: String
+  packetUrl: String
   error: String
 }
 
@@ -663,5 +673,7 @@ type Mutation {
   sendPlanOfActionAdmin(contactId: ID!, encounterId: ID!, planJson: AWSJSON!): PlanAdmin!
     @aws_auth(cognito_groups: ["Admins"])
   sendConsentRequestAdmin(contactId: ID!, encounterId: ID!, lane: String, priceCents: Int): ConsentRequestResultAdmin!
+    @aws_auth(cognito_groups: ["Admins"])
+  sendToProviderAdmin(contactId: ID!, encounterId: ID!): ProviderHandoffResultAdmin!
     @aws_auth(cognito_groups: ["Admins"])
 }

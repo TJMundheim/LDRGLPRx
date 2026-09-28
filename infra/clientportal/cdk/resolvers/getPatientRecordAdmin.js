@@ -46,6 +46,9 @@ export function response(ctx) {
         lane: item.lane ? item.lane : null,
         laneLabel: item.laneLabel ? item.laneLabel : null,
         priceCents: item.priceCents ? item.priceCents : null,
+        providerSentTo: item.providerSentTo ? item.providerSentTo : null,
+        providerSentAt: item.providerSentAt ? item.providerSentAt : null,
+        packetKey: item.packetKey ? item.packetKey : null,
         createdAt: item.createdAt ? item.createdAt : null,
         updatedAt: item.updatedAt ? item.updatedAt : null,
       };
