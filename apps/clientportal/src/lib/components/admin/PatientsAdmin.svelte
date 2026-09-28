@@ -10,6 +10,7 @@
     draftPlanOfActionAdmin,
     sendPlanOfActionAdmin,
     sendConsentRequestAdmin,
+    sendToProviderAdmin,
     type PatientRecordAdmin,
     type EncounterAdmin,
     type BriefAdmin,
@@ -155,6 +156,63 @@
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Network or server error. Please retry.';
       setConsentSendState(contactId, { sending: false, error: msg });
+    }
+  }
+
+  // ─── Provider hand-off state (keyed by encounterId) ──────────────────────────
+
+  type ProviderSendState = {
+    sending: boolean;
+    error: string;
+    sentTo: string;
+    packetUrl: string;
+  };
+
+  let providerSendStates = $state<Record<string, ProviderSendState>>({});
+
+  // Pure read — must NOT mutate $state during render.
+  function getProviderSendState(encounterId: string): ProviderSendState {
+    return providerSendStates[encounterId] ?? { sending: false, error: '', sentTo: '', packetUrl: '' };
+  }
+
+  function setProviderSendState(encounterId: string, patch: Partial<ProviderSendState>) {
+    const existing = providerSendStates[encounterId] ?? { sending: false, error: '', sentTo: '', packetUrl: '' };
+    providerSendStates = { ...providerSendStates, [encounterId]: { ...existing, ...patch } };
+  }
+
+  /**
+   * The real "Send to provider": generates the clinical packet, emails the
+   * provider inbox the presigned link, stamps the encounter and writes the
+   * audit row. Replaces the bare state flip for this one transition. Calling it
+   * again on an already-sent encounter re-sends (a fresh packet + a fresh link).
+   */
+  async function sendToProvider(contactId: string, enc: EncounterAdmin) {
+    setProviderSendState(enc.encounterId, { sending: true, error: '', packetUrl: '' });
+    try {
+      const res = await sendToProviderAdmin({ contactId, encounterId: enc.encounterId });
+      const r = res.sendToProviderAdmin;
+      if (r.ok) {
+        const stamped = {
+          state: 'sent-to-provider',
+          providerSentTo: r.sentTo ?? '',
+          providerSentAt: new Date().toISOString(),
+        };
+        const patch = (e: EncounterAdmin) => (e.encounterId === enc.encounterId ? { ...e, ...stamped } : e);
+        if (detail) detail = { ...detail, encounters: (detail.encounters ?? []).map(patch) };
+        items = items.map((pr) =>
+          pr.contactId === contactId ? { ...pr, encounters: (pr.encounters ?? []).map(patch) } : pr,
+        );
+        setProviderSendState(enc.encounterId, {
+          sending: false,
+          sentTo: r.sentTo ?? '',
+          packetUrl: r.packetUrl ?? '',
+        });
+      } else {
+        setProviderSendState(enc.encounterId, { sending: false, error: r.error ?? 'Could not send to the provider. Please retry.' });
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Network or server error. Please retry.';
+      setProviderSendState(enc.encounterId, { sending: false, error: msg });
     }
   }
 
@@ -741,6 +799,7 @@
                     {@const nexts = nextStates(enc2.state)}
                     {@const cform = getChargeForm(enc2)}
                     {@const estate = getExportState(enc2.encounterId)}
+                    {@const pstate = getProviderSendState(enc2.encounterId)}
                     {@const si = stepIndex(enc2.state)}
                     {@const briefAdmin = latestFor(detail.briefs ?? [], enc2.encounterId)}
                     {@const brief = parseBrief(briefAdmin?.json)}
@@ -777,14 +836,25 @@
                           <span class="transition-label">{enc2.state === 'declined' ? 'Actions' : 'Advance'}</span>
                           {#each nexts as toState}
                             {@const gated = toState === 'sent-to-provider' && !ready}
-                            <button
-                              class="tbtn {toState === 'declined' ? 'decline' : ''} {enc2.state === 'declined' && toState === 'new' ? 'reopen' : ''}"
-                              disabled={transitioningId === enc2.encounterId || gated}
-                              title={gated ? 'Both HIPAA signatures required' : undefined}
-                              onclick={() => transition(p.contactId, enc2, toState)}
-                            >
-                              {transitioningId === enc2.encounterId ? 'Saving…' : (enc2.state === 'declined' && toState === 'new' ? 'Reopen' : chipLabel(toState))}
-                            </button>
+                            {#if toState === 'sent-to-provider'}
+                              <button
+                                class="tbtn"
+                                disabled={pstate.sending || gated}
+                                title={gated ? 'Both HIPAA signatures required' : 'Generates the packet and emails the provider'}
+                                onclick={() => sendToProvider(p.contactId, enc2)}
+                              >
+                                {pstate.sending ? 'Sending…' : 'Send to provider'}
+                              </button>
+                            {:else}
+                              <button
+                                class="tbtn {toState === 'declined' ? 'decline' : ''} {enc2.state === 'declined' && toState === 'new' ? 'reopen' : ''}"
+                                disabled={transitioningId === enc2.encounterId || gated}
+                                title={gated ? 'Both HIPAA signatures required' : undefined}
+                                onclick={() => transition(p.contactId, enc2, toState)}
+                              >
+                                {transitioningId === enc2.encounterId ? 'Saving…' : (enc2.state === 'declined' && toState === 'new' ? 'Reopen' : chipLabel(toState))}
+                              </button>
+                            {/if}
                           {/each}
                         </div>
                         {#if nexts.includes('sent-to-provider') && !ready}
@@ -857,6 +927,21 @@
                             </div>
                           {/if}
                         {/if}
+                      {/if}
+
+                      <!-- Provider hand-off receipt + re-send -->
+                      {#if pstate.error}<p class="err small">{pstate.error}</p>{/if}
+                      {#if enc2.providerSentTo}
+                        <div class="provider-row">
+                          <p class="export-msg">Sent to {enc2.providerSentTo} on {fmtDateTime(enc2.providerSentAt ?? '')}.
+                            {#if pstate.packetUrl}
+                              <a class="ilink" href={pstate.packetUrl} target="_blank" rel="noopener">Packet link</a>
+                            {/if}
+                          </p>
+                          <button class="obtn" disabled={pstate.sending} onclick={() => sendToProvider(p.contactId, enc2)}>
+                            {pstate.sending ? 'Sending…' : 'Re-send to provider'}
+                          </button>
+                        </div>
                       {/if}
 
                       <!-- Export clinical packet -->
@@ -1243,6 +1328,7 @@
   .cacts { display: flex; gap: 8px; margin-top: 12px; }
   .charge-success { margin: 10px 0 0; font-size: 0.82rem; font-weight: 600; color: var(--mc-good-bright); }
 
+  .provider-row { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
   .export-row { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
   .export-msg { font-size: 0.72rem; color: var(--mc-muted); margin: 0; line-height: 1.5; font-style: italic; }
   .ilink { color: var(--mc-info); text-decoration: underline; }

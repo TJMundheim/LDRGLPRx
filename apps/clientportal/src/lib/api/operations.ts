@@ -414,6 +414,10 @@ export interface EncounterAdmin {
   lane?: string | null;
   laneLabel?: string | null;
   priceCents?: number | null;
+  /** Stamped by sendToProviderAdmin when the packet is emailed to the provider. */
+  providerSentTo?: string | null;
+  providerSentAt?: string | null;
+  packetKey?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -466,7 +470,7 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
   };
 }
 
-const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents createdAt updatedAt`;
+const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents providerSentTo providerSentAt packetKey createdAt updatedAt`;
 const BRIEF_FIELDS = `encounterId json createdAt`;
 const PLAN_FIELDS = `encounterId state json createdAt sentAt`;
 
@@ -619,6 +623,31 @@ export async function sendConsentRequestAdmin(
       lane: input.lane ?? null,
       priceCents: input.priceCents ?? null,
     },
+  });
+}
+
+// ─── SendToProviderAdmin ──────────────────────────────────────────────────────
+
+export type ProviderHandoffResultAdmin = {
+  ok: boolean;
+  sentTo?: string;
+  packetUrl?: string;
+  error?: string;
+};
+
+export async function sendToProviderAdmin(
+  input: { contactId: string; encounterId: string },
+  opts?: ClientOptions,
+): Promise<{ sendToProviderAdmin: ProviderHandoffResultAdmin }> {
+  return client(opts)<{ sendToProviderAdmin: ProviderHandoffResultAdmin }>({
+    query: `
+      mutation SendToProviderAdmin($contactId: ID!, $encounterId: ID!) {
+        sendToProviderAdmin(contactId: $contactId, encounterId: $encounterId) {
+          ok sentTo packetUrl error
+        }
+      }
+    `,
+    variables: { contactId: input.contactId, encounterId: input.encounterId },
   });
 }
 
