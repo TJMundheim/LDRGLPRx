@@ -931,15 +931,19 @@
 
                       <!-- Provider hand-off receipt + re-send -->
                       {#if pstate.error}<p class="err small">{pstate.error}</p>{/if}
-                      {#if enc2.providerSentTo}
+                      {#if enc2.providerSentTo || enc2.state === 'sent-to-provider'}
                         <div class="provider-row">
-                          <p class="export-msg">Sent to {enc2.providerSentTo} on {fmtDateTime(enc2.providerSentAt ?? '')}.
-                            {#if pstate.packetUrl}
-                              <a class="ilink" href={pstate.packetUrl} target="_blank" rel="noopener">Packet link</a>
-                            {/if}
-                          </p>
+                          {#if enc2.providerSentTo}
+                            <p class="export-msg">Sent to {enc2.providerSentTo} on {fmtDateTime(enc2.providerSentAt ?? '')}.
+                              {#if pstate.packetUrl}
+                                <a class="ilink" href={pstate.packetUrl} target="_blank" rel="noopener">Packet link</a>
+                              {/if}
+                            </p>
+                          {:else}
+                            <p class="export-msg">Marked sent to provider, but no packet has been emailed yet.</p>
+                          {/if}
                           <button class="obtn" disabled={pstate.sending} onclick={() => sendToProvider(p.contactId, enc2)}>
-                            {pstate.sending ? 'Sending…' : 'Re-send to provider'}
+                            {pstate.sending ? 'Sending…' : (enc2.providerSentTo ? 'Re-send to provider' : 'Send packet to provider')}
                           </button>
                         </div>
                       {/if}
