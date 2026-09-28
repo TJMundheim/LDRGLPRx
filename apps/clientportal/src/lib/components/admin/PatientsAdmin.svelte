@@ -23,7 +23,32 @@
     latestFor,
     type Plan,
   } from './patientBrief.js';
-  import { parseConsents, consentChecklist, providerReady, type ConsentsMap } from './consents.js';
+  import { parseConsents, consentChecklist, providerReady, cardOnFileRow, type ConsentsMap } from './consents.js';
+
+  /** Treatment lanes offered at consent time. Mirrors the lanes.ts module in the consent Lambdas. */
+  const LANES = [
+    { slug: 'leaky-gut', label: 'Biome NS Rx', defaultPriceCents: 12500 },
+    { slug: 'weight-loss', label: 'GLP-1 program', defaultPriceCents: 0 },
+    { slug: 'gh-peptide', label: 'Tesamorelin program', defaultPriceCents: 0 },
+    { slug: 'testosterone-ed', label: 'Testosterone program', defaultPriceCents: 0 },
+    { slug: 'menopause-hrt', label: 'Menopause & HRT program', defaultPriceCents: 0 },
+  ];
+
+  let laneChoice = $state<Record<string, string>>({});
+  let lanePrice = $state<Record<string, string>>({});
+
+  function pickLane(contactId: string, slug: string) {
+    laneChoice = { ...laneChoice, [contactId]: slug };
+    const lane = LANES.find((l) => l.slug === slug);
+    lanePrice = { ...lanePrice, [contactId]: lane && lane.defaultPriceCents ? String(lane.defaultPriceCents / 100) : '' };
+  }
+
+  /** "Biome NS Rx · $125/30d" for an encounter already stamped with a lane. */
+  function laneSummary(enc: { laneLabel?: string | null; priceCents?: number | null } | undefined): string {
+    if (!enc?.laneLabel) return '';
+    const cents = enc.priceCents ?? 0;
+    return cents > 0 ? `${enc.laneLabel} · $${(cents / 100).toFixed(cents % 100 ? 2 : 0)}/30d` : enc.laneLabel;
+  }
 
   // ─── State ────────────────────────────────────────────────────────────────────
 
@@ -117,7 +142,10 @@
   async function sendConsentRequest(contactId: string, encounterId: string) {
     setConsentSendState(contactId, { sending: true, error: '', sentTo: '', url: '' });
     try {
-      const res = await sendConsentRequestAdmin({ contactId, encounterId });
+      const lane = laneChoice[contactId] || undefined;
+      const dollars = Number.parseFloat(lanePrice[contactId] ?? '');
+      const priceCents = Number.isFinite(dollars) && dollars > 0 ? Math.round(dollars * 100) : undefined;
+      const res = await sendConsentRequestAdmin({ contactId, encounterId, lane, priceCents });
       const r = res.sendConsentRequestAdmin;
       if (r.ok) {
         setConsentSendState(contactId, { sending: false, sentTo: r.sentTo ?? '', url: r.url ?? '' });
@@ -625,6 +653,7 @@
                   {@const consentsMap = parseConsents(detail.consents)}
                   {@const checklist = consentChecklist(consentsMap)}
                   {@const ready = providerReady(consentsMap)}
+                  {@const cardRow = cardOnFileRow(detail.cardOnFile)}
                   {@const latestEnc = (detail.encounters ?? [])[0]}
                   {@const csend = getConsentSendState(detail.contactId)}
 
@@ -670,8 +699,31 @@
                           {/if}
                         </li>
                       {/each}
+                      <li class="consent-row">
+                        <span class="consent-mark" class:signed={cardRow.onFile}>{cardRow.onFile ? '✓' : '✗'}</span>
+                        <span class="consent-label">{cardRow.label}</span>
+                        <span class="consent-meta" class:mut-v={!cardRow.onFile}>{cardRow.detail}</span>
+                      </li>
                     </ul>
                     {#if latestEnc}
+                      {#if laneSummary(latestEnc)}
+                        <p class="lane-set">Lane: {laneSummary(latestEnc)}</p>
+                      {/if}
+                      <div class="lane-pick">
+                        <label class="lane-f">
+                          <span class="fl2">Lane</span>
+                          <select value={laneChoice[detail.contactId] ?? ''} onchange={(e) => pickLane(detail!.contactId, (e.currentTarget as HTMLSelectElement).value)}>
+                            <option value="">Not specified</option>
+                            {#each LANES as l}<option value={l.slug}>{l.label}</option>{/each}
+                          </select>
+                        </label>
+                        <label class="lane-f">
+                          <span class="fl2">Price / 30 days ($)</span>
+                          <input type="number" min="0" step="1" placeholder="—"
+                            value={lanePrice[detail.contactId] ?? ''}
+                            oninput={(e) => (lanePrice = { ...lanePrice, [detail!.contactId]: (e.currentTarget as HTMLInputElement).value })} />
+                        </label>
+                      </div>
                       <button class="obtn" disabled={csend.sending} onclick={() => sendConsentRequest(detail!.contactId, latestEnc.encounterId)}>
                         {csend.sending ? 'Sending…' : (hasRequestedConsent(detail) ? 'Resend consent forms' : 'Send consent forms')}
                       </button>
@@ -1147,6 +1199,10 @@
   /* consent checklist */
   .consent-panel { margin-bottom: 14px; background: var(--mc-bg); border: 1px solid var(--mc-line); border-radius: 11px; padding: 13px 15px; }
   .consent-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .lane-set{font-size:13px;color:#475569;margin:8px 0 2px}
+  .lane-pick{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 10px}
+  .lane-f{display:flex;flex-direction:column;gap:3px;font-size:13px}
+  .lane-f select,.lane-f input{padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;background:#fff}
   .consent-status { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
   .consent-status.good { color: var(--mc-good-bright); background: var(--mc-good-tint); }
   .consent-status.warn { color: var(--mc-warn-bright); background: var(--mc-warn-tint); }

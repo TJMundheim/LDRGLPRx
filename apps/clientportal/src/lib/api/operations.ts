@@ -410,6 +410,10 @@ export interface EncounterAdmin {
   category: string;
   state: string;
   visitType: string;
+  /** Treatment lane chosen by the coordinator when consent forms were sent. */
+  lane?: string | null;
+  laneLabel?: string | null;
+  priceCents?: number | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -462,7 +466,7 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
   };
 }
 
-const ENCOUNTER_FIELDS = `encounterId category state visitType createdAt updatedAt`;
+const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents createdAt updatedAt`;
 const BRIEF_FIELDS = `encounterId json createdAt`;
 const PLAN_FIELDS = `encounterId state json createdAt sentAt`;
 
@@ -591,24 +595,29 @@ export type ConsentRequestResultAdmin = {
   ok: boolean;
   url?: string;
   sentTo?: string;
+  lane?: string;
+  laneLabel?: string;
+  priceCents?: number;
   error?: string;
 };
 
 export async function sendConsentRequestAdmin(
-  input: { contactId: string; encounterId: string },
+  input: { contactId: string; encounterId: string; lane?: string; priceCents?: number },
   opts?: ClientOptions,
 ): Promise<{ sendConsentRequestAdmin: ConsentRequestResultAdmin }> {
   return client(opts)<{ sendConsentRequestAdmin: ConsentRequestResultAdmin }>({
     query: `
-      mutation SendConsentRequestAdmin($contactId: ID!, $encounterId: ID!) {
-        sendConsentRequestAdmin(contactId: $contactId, encounterId: $encounterId) {
-          ok url sentTo error
+      mutation SendConsentRequestAdmin($contactId: ID!, $encounterId: ID!, $lane: String, $priceCents: Int) {
+        sendConsentRequestAdmin(contactId: $contactId, encounterId: $encounterId, lane: $lane, priceCents: $priceCents) {
+          ok url sentTo lane laneLabel priceCents error
         }
       }
     `,
     variables: {
       contactId: input.contactId,
       encounterId: input.encounterId,
+      lane: input.lane ?? null,
+      priceCents: input.priceCents ?? null,
     },
   });
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseConsents, consentChecklist, providerReady, REQUIRED_FOR_PROVIDER } from './consents.js';
+import { parseConsents, consentChecklist, providerReady, REQUIRED_FOR_PROVIDER, cardOnFileRow } from './consents.js';
 
 describe('parseConsents', () => {
   it('parses a plain object map with object entries', () => {
@@ -93,5 +93,28 @@ describe('providerReady', () => {
 
   it('required set matches the exported constant', () => {
     expect(REQUIRED_FOR_PROVIDER).toEqual(['consent-npp-v1', 'consent-phi-auth-v1']);
+  });
+});
+
+describe('cardOnFileRow', () => {
+  it('reports no card when nothing is stored', () => {
+    expect(cardOnFileRow(undefined)).toEqual({ label: 'Card on file', onFile: false, detail: 'Not on file' });
+    expect(cardOnFileRow('{}').onFile).toBe(false);
+    expect(cardOnFileRow('not json').onFile).toBe(false);
+    expect(cardOnFileRow({ stripeCustomerId: 'cus_1' }).onFile).toBe(false);
+  });
+
+  it('renders brand, last4 and the save date for a saved card', () => {
+    const row = cardOnFileRow({
+      stripeCustomerId: 'cus_1', paymentMethodId: 'pm_1', setupIntentId: 'seti_1',
+      brand: 'visa', last4: '4242', savedAt: '2026-09-28T12:00:00.000Z',
+    });
+    expect(row.onFile).toBe(true);
+    expect(row.detail).toBe('visa ····4242 · 2026-09-28');
+  });
+
+  it('accepts the AWSJSON string form and copes with a missing brand/last4', () => {
+    const row = cardOnFileRow(JSON.stringify({ paymentMethodId: 'pm_1' }));
+    expect(row).toMatchObject({ onFile: true, detail: 'Card' });
   });
 });
