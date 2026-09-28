@@ -22,6 +22,7 @@ PATIENT_RECORDS_TABLE="PatientRecords"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 NOTIFY_TO="drtj@my4mlife.com"
 HMAC_SECRET_ID="consent-sign-hmac-key"
+STRIPE_SECRET_ID="all-stripe-keys"
 SIGN_URL_PARAM="/my4mlife/consent/sign-url"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -58,6 +59,9 @@ fi
 CONSENT_SECRET_VALUE="$($AWS secretsmanager get-secret-value --secret-id "$HMAC_SECRET_ID" \
   --query SecretString --output text | python3 -c 'import json,sys; print(json.load(sys.stdin)["key"])')"
 HMAC_SECRET_ARN_WILDCARD="arn:aws:secretsmanager:${REGION}:${AWS_ACCOUNT_ID}:secret:${HMAC_SECRET_ID}-*"
+# The card step reads the Stripe keys through @my4mlife/stripe-client (the
+# same secret create-setup-intent uses).
+STRIPE_SECRET_ARN="$($AWS secretsmanager describe-secret --secret-id "$STRIPE_SECRET_ID" --query ARN --output text)"
 
 # ── 3. IAM role ──────────────────────────────────────────────────────────────
 log "Ensuring IAM role $ROLE_NAME..."
@@ -94,7 +98,7 @@ INLINE_POLICY=$(cat <<EOF
     {
       "Effect": "Allow",
       "Action": ["secretsmanager:GetSecretValue"],
-      "Resource": "$HMAC_SECRET_ARN_WILDCARD"
+      "Resource": ["$HMAC_SECRET_ARN_WILDCARD", "$STRIPE_SECRET_ARN"]
     }
   ]
 }
@@ -111,10 +115,12 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 
 # ── 4. Lambda create or update ───────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
+# CONSENT_STRIPE_MODE is ALWAYS "live" here. "test" exists only for a manual,
+# deliberate E2E invocation and must never be committed into this script.
 ENV_JSON="$(python3 - "$PATIENT_RECORDS_TABLE" "$CONSENT_SECRET_VALUE" "$EMAIL_SENDER_FN" "$NOTIFY_TO" <<'PY'
 import json,sys
 t,s,f,n = sys.argv[1:5]
-print(json.dumps({"Variables":{"PATIENT_RECORDS_TABLE":t,"CONSENT_SECRET":s,"EMAIL_SENDER_FN":f,"NOTIFY_TO":n}}))
+print(json.dumps({"Variables":{"PATIENT_RECORDS_TABLE":t,"CONSENT_SECRET":s,"EMAIL_SENDER_FN":f,"NOTIFY_TO":n,"CONSENT_STRIPE_MODE":"live"}}))
 PY
 )"
 

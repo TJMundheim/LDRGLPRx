@@ -74,11 +74,6 @@ export const renderAlready = (at: string) =>
   page('Already signed', `<div class="card"><h1>Already signed on ${esc(at)}</h1>
 <p>Nothing further is needed. A copy was emailed to you.</p></div>`);
 
-export const renderSuccess = () =>
-  page('Signed', `<div class="card"><h1>Signed.</h1>
-<p>Your care coordinator will confirm your visit.</p>
-<p>A copy of both signed documents has been emailed to you.</p></div>`);
-
 export const renderError = (status: string, msg: string) =>
   page(status, `<div class="card"><h1>${esc(status)}</h1><p>${esc(msg)}</p></div>`);
 

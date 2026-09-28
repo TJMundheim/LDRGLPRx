@@ -6,11 +6,12 @@
 // HMAC token in the query string, not secrecy of the URL.
 import { CONSENT_NPP_V1, CONSENT_PHI_AUTH_V1 } from '@my4mlife/patient-record';
 import { verifyToken } from './token';
-import { getRecord, readConsents, writeConsents, writeAudit, SignedConsent } from './store';
+import { getRecord, readConsents, writeConsents, writeAudit, hasCard, SignedConsent } from './store';
 import { parseForm, validateForm } from './validate';
 import { sendMail, NOTIFY_TO } from './mail';
 import { LEGAL_VERSION } from './legal';
-import { renderForm, renderAlready, renderSuccess, renderError, copyEmailHtml } from './render';
+import { renderForm, renderAlready, renderError, copyEmailHtml } from './render';
+import { showCardStep, saveCard, CardCtx } from './cardFlow';
 
 const secret = () => process.env.CONSENT_SECRET ?? '';
 
@@ -42,12 +43,27 @@ export const handler = async (event: FnUrlEvent): Promise<FnUrlResult> => {
   const email = demo.email ?? '';
   const query = new URLSearchParams({ c, e, t }).toString();
 
+  const cardCtx: CardCtx = { contactId: c, encounterId: e, name, email, query, record };
+  const method = (event.requestContext?.http?.method ?? 'GET').toUpperCase();
+
+  // Step 2 — the browser confirmed a SetupIntent and is handing back its id.
+  if (method === 'POST' && q.step === 'card') {
+    const sid = new URLSearchParams(
+      event.isBase64Encoded === true
+        ? Buffer.from(event.body ?? '', 'base64').toString('utf8')
+        : (event.body ?? ''),
+    ).get('setupIntentId') ?? '';
+    return html(200, await saveCard(cardCtx, sid));
+  }
+
   const existing = readConsents(record);
   if (existing.npp && existing.phi) {
+    // Signed already. If the patient abandoned at the card step, put them back
+    // there rather than telling them there is nothing left to do.
+    if (!hasCard(record)) return html(200, await showCardStep(cardCtx));
     return html(200, renderAlready(existing.npp.at ?? existing.phi.at ?? 'an earlier visit'));
   }
 
-  const method = (event.requestContext?.http?.method ?? 'GET').toUpperCase();
   if (method !== 'POST') return html(200, renderForm({ name, email, query }));
 
   const form = parseForm(event.body ?? '', event.isBase64Encoded === true);
@@ -79,5 +95,5 @@ export const handler = async (event: FnUrlEvent): Promise<FnUrlResult> => {
     `<p>${name} (${email}) signed the NPP + Patient Authorization on ${at}.</p><p>Encounter: ${e}</p>`,
     `${name} (${email}) signed the NPP + Patient Authorization on ${at}. Encounter: ${e}`);
 
-  return html(200, renderSuccess());
+  return html(200, await showCardStep(cardCtx));
 };
