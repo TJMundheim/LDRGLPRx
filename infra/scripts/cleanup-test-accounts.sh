@@ -114,7 +114,7 @@ derive_contact_id() {
 # ---------------------------------------------------------------------------
 # HARD GUARD — must run before ANY AWS call. Never touch these two accounts.
 # ---------------------------------------------------------------------------
-FORBIDDEN_EMAILS=("drtj@my4mlife.com" "coonan_michael@yahoo.com")
+FORBIDDEN_EMAILS=("drtj@my4mlife.com" "coonan_michael@yahoo.com" "bryan@bryanshoemaker.com")  # bryan = LIVE PATIENT, never a target (2026-09-28 incident)
 
 TARGET_EMAILS=(
   "tjshcacs@gmail.com"
@@ -202,11 +202,11 @@ IDENTITY_4_LABEL="drtj+intaketest@my4mlife.com"
 IDENTITY_4_EMAIL="drtj+intaketest@my4mlife.com"
 IDENTITY_4_CONTACTID="3f4823b2-a3b1-56d0-8954-33b3dd913a13"
 
-IDENTITY_5_LABEL="bryan@bryanshoemaker.com"
-IDENTITY_5_EMAIL="bryan@bryanshoemaker.com"
-IDENTITY_5_CONTACTID="73c97bdd-a25a-56d4-8d3f-02e9512e177a"
-IDENTITY_5_USERS_ID="316b3540-30f1-70de-d90b-37fb0307526b"
-IDENTITY_5_COGNITO_SUB="316b3540-30f1-70de-d90b-37fb0307526b"
+IDENTITY_5_LABEL="drtj+cardtest@my4mlife.com"
+IDENTITY_5_EMAIL="drtj+cardtest@my4mlife.com"
+IDENTITY_5_CONTACTID="2ae9bc79-6c72-5b2c-8e2e-0505e6b8dac9"
+IDENTITY_5_USERS_ID="none"
+IDENTITY_5_COGNITO_SUB="none"
 
 REMAINING_UNEXPECTED=0
 
@@ -614,7 +614,7 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Identity 5: bryan@bryanshoemaker.com — Contact, Users, Cognito
+# Identity 5: drtj+cardtest@my4mlife.com (synthetic card-on-file E2E) — Contact, Users, Cognito
 #             (+ defensive PatientRecords / Conversations check; both
 #             expected to be empty for this identity)
 # ---------------------------------------------------------------------------
