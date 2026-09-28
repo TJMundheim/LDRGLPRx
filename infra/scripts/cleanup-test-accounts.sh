@@ -121,7 +121,7 @@ TARGET_EMAILS=(
   "drtj@mdspecialtygroup.com"
   "tjmundheim@genesisregenerative.com"
   "drtj+intaketest@my4mlife.com"
-  "bryan@bryanshoemaker.com"
+  "drtj+cardtest@my4mlife.com"
 )
 
 for te in "${TARGET_EMAILS[@]}"; do
@@ -171,7 +171,7 @@ if [[ -n "$ONLY_EMAIL" ]]; then
     "drtj@mdspecialtygroup.com") RUN_2=true ;;
     "tjmundheim@genesisregenerative.com") RUN_3=true ;;
     "drtj+intaketest@my4mlife.com") RUN_4=true ;;
-    "bryan@bryanshoemaker.com") RUN_5=true ;;
+    "drtj+cardtest@my4mlife.com") RUN_5=true ;;
   esac
   echo "--only restricting run to: $ONLY_EMAIL" | tee -a "$LOG"
 fi
