@@ -38,14 +38,16 @@ function renderEmail(firstName: string | undefined, url: string): { html: string
   const greeting = firstName ? `Hi ${firstName},` : 'Hi,';
   const body =
     `${greeting}\n\n` +
-    `Before your care coordinator confirms your visit, please read and sign our privacy notice ` +
-    `and the authorization that lets our network's licensed physicians see your intake. It takes ` +
-    `two minutes.\n\n${url}\n\nThis link is personal to you.\n\n— Dr. TJ`;
+    `This is the one step between you and your prescription review. Please read and sign our privacy ` +
+    `notice and the authorization that lets our network's licensed physician see your record. It takes ` +
+    `two minutes. Once both are signed, your record goes to the physician for the asynchronous review ` +
+    `and your prescription follows from there.\n\n${url}\n\nThis link is personal to you.\n\n— Dr. TJ`;
   const html =
     `<p>${greeting}</p>` +
-    `<p>Before your care coordinator confirms your visit, please read and sign our privacy notice ` +
-    `and the authorization that lets our network's licensed physicians see your intake. It takes ` +
-    `two minutes.</p>` +
+    `<p>This is the one step between you and your prescription review. Please read and sign our privacy ` +
+    `notice and the authorization that lets our network's licensed physician see your record. It takes ` +
+    `two minutes. Once both are signed, your record goes to the physician for the asynchronous review ` +
+    `and your prescription follows from there.</p>` +
     `<p><a href="${url}">Read and sign your privacy notice and authorization</a></p>` +
     `<p>This link is personal to you.</p><p>— Dr. TJ</p>`;
   return { html, text: body };
