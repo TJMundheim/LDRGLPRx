@@ -23,9 +23,9 @@ async function secrets(): Promise<Cache> {
   return cache;
 }
 
-async function mailgun(from: string, to: string, subject: string, html: string, text?: string) {
+async function mailgun(from: string, to: string, subject: string, html: string, text?: string, cc?: string) {
   const { key } = await secrets();
-  const form = new URLSearchParams({ from, to, subject, html, ...(text ? { text } : {}) });
+  const form = new URLSearchParams({ from, to, subject, html, ...(text ? { text } : {}), ...(cc ? { cc } : {}) });
   const auth = Buffer.from(`api:${key}`).toString('base64');
   const res = await fetch(`https://api.mailgun.net/v3/${DOMAIN}/messages`, {
     method: 'POST',
@@ -93,7 +93,7 @@ function confirmation(formId: string): { subject: string; html: string } {
 }
 
 type SendPayload =
-  | { kind: 'verification' | 'info'; to: string; subject: string; html: string; text?: string }
+  | { kind: 'verification' | 'info'; to: string; subject: string; html: string; text?: string; cc?: string }
   | { kind: 'form'; formId: string; fields: Record<string, unknown> };
 
 async function send(p: SendPayload) {
@@ -119,7 +119,7 @@ async function send(p: SendPayload) {
   }
   const addr = p.kind === 'verification' ? addrs['email-verification'] : addrs['email-info'];
   if (!addr) throw new Error(`no from address for kind=${p.kind}`);
-  const id = await mailgun(`My4MLife <${addr}>`, p.to, p.subject, p.html, p.text);
+  const id = await mailgun(`My4MLife <${addr}>`, p.to, p.subject, p.html, p.text, p.cc);
   return { id };
 }
 
