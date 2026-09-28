@@ -94,7 +94,7 @@ INLINE_POLICY=$(cat <<EOF
     },
     {
       "Effect": "Allow",
-      "Action": ["dynamodb:GetItem","dynamodb:PutItem"],
+      "Action": ["dynamodb:GetItem","dynamodb:PutItem","dynamodb:UpdateItem"],
       "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE"
     },
     {

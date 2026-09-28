@@ -43,6 +43,9 @@ export function response(ctx) {
         category: item.category ? item.category : null,
         state: item.state ? item.state : 'new',
         visitType: item.visitType ? item.visitType : null,
+        lane: item.lane ? item.lane : null,
+        laneLabel: item.laneLabel ? item.laneLabel : null,
+        priceCents: item.priceCents ? item.priceCents : null,
         createdAt: item.createdAt ? item.createdAt : null,
         updatedAt: item.updatedAt ? item.updatedAt : null,
       };
