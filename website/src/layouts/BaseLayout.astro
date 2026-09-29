@@ -7,6 +7,7 @@ import Footer from '../components/Footer.astro';
 import MedicalDisclaimer from '../components/MedicalDisclaimer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import StickyMobileCta from '../components/StickyMobileCta.astro';
+import ChatDock from '../components/ChatDock.astro';
 
 interface Props {
   title: string;
@@ -18,6 +19,8 @@ interface Props {
   ogType?: string;
   schema?: unknown;
   hideChrome?: boolean;
+  /** Force the AI front-door dock on/off. Default: the discovery-surface list below. */
+  showChat?: boolean;
 }
 
 const {
@@ -30,10 +33,25 @@ const {
   ogType,
   schema,
   hideChrome = false,
+  showChat,
 } = Astro.props;
 
 // Exclude paid-traffic landing pages from the Pagefind search index.
 const isLandingPage = Astro.url.pathname.startsWith('/go/');
+
+// AI front door ("Ask Dr. TJ's AI") shows only on discovery surfaces. It stays
+// off the funnel pages (/consult, /assessment), the member-facing pages
+// (/stack, /meals), legal pages, paid landing pages and /employers, per
+// docs/plan/ai-front-door-2026-09-29.md.
+const chatPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const chatSurfaces =
+  chatPath === '/' ||
+  chatPath === '/women' ||
+  chatPath === '/men' ||
+  chatPath.startsWith('/solutions/') ||
+  chatPath.startsWith('/pillars/') ||
+  (chatPath.startsWith('/rx/') && !chatPath.endsWith('/questionnaire'));
+const mountChat = showChat ?? (!hideChrome && chatSurfaces);
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -113,6 +131,7 @@ const isLandingPage = Astro.url.pathname.startsWith('/go/');
   {!hideChrome && <Footer />}
   {!hideChrome && <MedicalDisclaimer />}
   {!hideChrome && <StickyMobileCta />}
+  {mountChat && <ChatDock />}
   <CookieBanner />
 </body>
 </html>

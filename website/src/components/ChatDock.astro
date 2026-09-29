@@ -1,0 +1,281 @@
+---
+// "Ask Dr. TJ's AI" — the front-door chat dock.
+// Desktop: a bottom-right pill that opens a panel. <=640px: a full-width bottom
+// sheet that clears the StickyMobileCta bar. Mounted from BaseLayout on the
+// discovery surfaces only (see showChat there) — never on the funnel pages.
+const CHAT_API = import.meta.env.PUBLIC_CHAT_API_URL
+  ?? ((import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') + '/api/chat');
+
+const DISCLOSURE = "I'm Dr. TJ's AI — trained on his books and this site. I'm not him, and I can't diagnose or prescribe. I can tell you where to start.";
+
+const CHIPS = ['Is this for me?', 'What does the free call cover?', 'What do I do first?'];
+---
+
+<button type="button" class="cd-pill" id="cd-pill" aria-expanded="false" aria-controls="cd-panel">
+  <span class="cd-pill-dot" aria-hidden="true"></span>
+  Ask Dr. TJ&rsquo;s AI
+</button>
+
+<div class="cd-scrim" id="cd-scrim" hidden></div>
+
+<section class="cd-panel" id="cd-panel" role="dialog" aria-modal="false" aria-label="Ask Dr. TJ's AI" hidden>
+  <header class="cd-head">
+    <h2 class="cd-title">Ask Dr. TJ&rsquo;s AI</h2>
+    <button type="button" class="cd-close" id="cd-close" aria-label="Close chat">&times;</button>
+  </header>
+
+  <div class="cd-log" id="cd-log" role="log" aria-live="polite">
+    <p class="cd-disclosure">{DISCLOSURE}</p>
+    <div class="cd-chips" id="cd-chips">
+      {CHIPS.map((c) => <button type="button" class="cd-chip" data-chip={c}>{c}</button>)}
+    </div>
+  </div>
+
+  <form class="cd-form" id="cd-form">
+    <label class="cd-sr" for="cd-input">Your question</label>
+    <input id="cd-input" class="cd-input" type="text" maxlength="600" autocomplete="off"
+           placeholder="Ask a question&hellip;" />
+    <button type="submit" class="cd-send" id="cd-send">Ask</button>
+  </form>
+  <p class="cd-foot">Dr. TJ&rsquo;s AI. Not medical advice.</p>
+</section>
+
+<style is:global>
+  .cd-pill {
+    position: fixed; right: 1rem; bottom: 1rem; z-index: 9600;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1.15rem; border: 0; border-radius: 999px; cursor: pointer;
+    background: var(--primary, #0f4c75); color: #fff;
+    font: 600 0.95rem/1 Inter, system-ui, sans-serif;
+    box-shadow: var(--shadow-lg, 0 10px 40px rgba(0,0,0,0.12));
+  }
+  .cd-pill:hover { background: var(--primary-light, #1b6fa8); }
+  .cd-pill:focus-visible { outline: 3px solid var(--accent, #00b894); outline-offset: 2px; }
+  .cd-pill-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent, #00b894); }
+  .cd-pill[hidden] { display: none; }
+
+  .cd-scrim { position: fixed; inset: 0; z-index: 9590; background: rgba(10,22,40,0.35); }
+  .cd-scrim[hidden] { display: none; }
+
+  .cd-panel {
+    position: fixed; right: 1rem; bottom: 1rem; z-index: 9600;
+    width: min(23rem, calc(100vw - 2rem)); max-height: min(34rem, calc(100vh - 2rem));
+    display: flex; flex-direction: column; overflow: hidden;
+    background: var(--bg, #fff); color: var(--text, #2d3748);
+    border: 1px solid var(--border, #e2e8f0); border-radius: var(--radius-lg, 20px);
+    box-shadow: var(--shadow-lg, 0 10px 40px rgba(0,0,0,0.12));
+    font-family: Inter, system-ui, sans-serif;
+  }
+  .cd-panel[hidden] { display: none; }
+
+  .cd-head { display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; padding: 0.85rem 1rem; border-bottom: 1px solid var(--border, #e2e8f0); }
+  .cd-title { margin: 0; font-size: 1rem; font-weight: 700; color: var(--dark, #0a1628); }
+  .cd-close { border: 0; background: none; cursor: pointer; font-size: 1.6rem; line-height: 1;
+    padding: 0 0.25rem; color: var(--text-light, #718096); }
+  .cd-close:focus-visible { outline: 2px solid var(--primary, #0f4c75); outline-offset: 2px; }
+
+  .cd-log { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 1rem;
+    display: flex; flex-direction: column; gap: 0.85rem; }
+  .cd-disclosure { margin: 0; font-size: 0.82rem; line-height: 1.5; color: var(--text-light, #718096); }
+
+  .cd-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .cd-chip { border: 1px solid var(--border, #e2e8f0); background: var(--bg-soft, #f7fafc);
+    color: var(--primary, #0f4c75); border-radius: 999px; cursor: pointer;
+    padding: 0.4rem 0.8rem; font: 500 0.82rem/1.2 inherit; }
+  .cd-chip:hover { background: var(--bg-accent, #edf7f6); }
+  .cd-chips[hidden] { display: none; }
+
+  .cd-msg { margin: 0; font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap;
+    overflow-wrap: anywhere; }
+  .cd-msg-you { align-self: flex-end; max-width: 85%; background: var(--bg-soft, #f7fafc);
+    border-radius: var(--radius, 12px); padding: 0.55rem 0.75rem; font-weight: 500; }
+  .cd-msg-err { color: #9b2c2c; }
+  .cd-link { display: inline-block; margin-top: 0.15rem; padding: 0.55rem 0.95rem;
+    background: var(--accent, #00b894); color: #fff; text-decoration: none; font-weight: 600;
+    font-size: 0.85rem; border-radius: var(--radius, 12px); }
+  .cd-link:hover { background: var(--accent-dark, #00a381); }
+  .cd-dots { color: var(--text-light, #718096); font-size: 0.9rem; }
+
+  .cd-form { display: flex; gap: 0.5rem; padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border, #e2e8f0); }
+  .cd-input { flex: 1; min-width: 0; padding: 0.6rem 0.75rem; font: 400 0.9rem/1.3 inherit;
+    color: var(--text, #2d3748); border: 1px solid var(--border, #e2e8f0);
+    border-radius: var(--radius, 12px); background: #fff; }
+  .cd-input:focus { outline: 2px solid var(--primary, #0f4c75); outline-offset: 0; border-color: transparent; }
+  .cd-send { border: 0; border-radius: var(--radius, 12px); cursor: pointer;
+    padding: 0.6rem 1rem; background: var(--primary, #0f4c75); color: #fff;
+    font: 600 0.9rem/1 inherit; }
+  .cd-send[disabled] { opacity: 0.55; cursor: default; }
+  .cd-foot { margin: 0; padding: 0 1rem 0.8rem; font-size: 0.72rem;
+    color: var(--text-light, #718096); }
+  .cd-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  @media (max-width: 640px) {
+    /* Clear the StickyMobileCta bar. */
+    .cd-pill { right: 1rem; bottom: 4.25rem; }
+    .cd-panel {
+      right: 0; left: 0; bottom: 0; width: 100%;
+      max-height: 85vh; border-radius: var(--radius-lg, 20px) var(--radius-lg, 20px) 0 0;
+      border-left: 0; border-right: 0; border-bottom: 0;
+      padding-bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ CHAT_API }}>
+  (function () {
+    var pill = document.getElementById('cd-pill');
+    var panel = document.getElementById('cd-panel');
+    var scrim = document.getElementById('cd-scrim');
+    var log = document.getElementById('cd-log');
+    var chips = document.getElementById('cd-chips');
+    var form = document.getElementById('cd-form');
+    var input = document.getElementById('cd-input');
+    var send = document.getElementById('cd-send');
+    var close = document.getElementById('cd-close');
+    if (!pill || !panel || !form) return;
+
+    var MAX_TURNS = 6;
+    var SS_HISTORY = 'my4m-chat-history-v1';
+    var SS_SESSION = 'my4m-chat-session-v1';
+    var busy = false;
+
+    function track(name, props) { try { window.posthog && posthog.capture(name, props || {}); } catch (e) {} }
+    function ss(key, fallback) { try { return sessionStorage.getItem(key) || fallback; } catch (e) { return fallback; } }
+    function ssSet(key, value) { try { sessionStorage.setItem(key, value); } catch (e) {} }
+
+    function sessionId() {
+      var id = ss(SS_SESSION, '');
+      if (!id) {
+        id = (crypto && crypto.randomUUID) ? crypto.randomUUID()
+          : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+              var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        ssSet(SS_SESSION, id);
+      }
+      return id;
+    }
+
+    function history() {
+      try { var h = JSON.parse(ss(SS_HISTORY, '[]')); return Array.isArray(h) ? h.slice(-MAX_TURNS) : []; }
+      catch (e) { return []; }
+    }
+    function pushHistory(role, text) {
+      var h = history(); h.push({ role: role, text: text });
+      ssSet(SS_HISTORY, JSON.stringify(h.slice(-MAX_TURNS)));
+    }
+
+    function bubble(cls, text) {
+      var p = document.createElement('p');
+      p.className = 'cd-msg ' + cls;
+      p.textContent = text;
+      log.appendChild(p);
+      log.scrollTop = log.scrollHeight;
+      return p;
+    }
+
+    function linkButton(link) {
+      var a = document.createElement('a');
+      a.className = 'cd-link';
+      a.href = link.url;
+      a.textContent = link.label;
+      log.appendChild(a);
+      log.scrollTop = log.scrollHeight;
+      return a;
+    }
+
+    function focusables() {
+      return panel.querySelectorAll('button, a[href], input');
+    }
+
+    function open() {
+      panel.hidden = false;
+      pill.hidden = true;
+      pill.setAttribute('aria-expanded', 'true');
+      if (window.matchMedia('(max-width: 640px)').matches) scrim.hidden = false;
+      input.focus();
+      track('chat_open');
+    }
+
+    function shut() {
+      panel.hidden = true;
+      scrim.hidden = true;
+      pill.hidden = false;
+      pill.setAttribute('aria-expanded', 'false');
+      pill.focus();
+    }
+
+    pill.addEventListener('click', open);
+    close.addEventListener('click', shut);
+    scrim.addEventListener('click', shut);
+
+    document.addEventListener('keydown', function (e) {
+      if (panel.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); shut(); return; }
+      if (e.key !== 'Tab') return;
+      var items = focusables();
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    chips.addEventListener('click', function (e) {
+      var btn = e.target.closest('.cd-chip');
+      if (!btn) return;
+      ask(btn.getAttribute('data-chip'));
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ask(input.value);
+    });
+
+    async function ask(message) {
+      message = (message || '').trim().slice(0, 600);
+      if (!message || busy) return;
+      busy = true;
+      send.disabled = true;
+      input.value = '';
+      chips.hidden = true;
+
+      bubble('cd-msg-you', message);
+      var pending = bubble('cd-dots', 'Thinking…');
+      track('chat_turn', { turn: history().length / 2 + 1 });
+
+      try {
+        var res = await fetch(CHAT_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: message, history: history(), sessionId: sessionId() }),
+        });
+        if (!res.ok) throw new Error('http ' + res.status);
+        var data = await res.json();
+        if (data.sessionId) ssSet(SS_SESSION, data.sessionId);
+
+        pending.remove();
+        bubble('', data.reply || '');
+        pushHistory('user', message);
+        pushHistory('assistant', data.reply || '');
+
+        var link = (data.links || [])[0];
+        if (link) {
+          var a = linkButton(link);
+          if (data.exit === 'assessment' || data.exit === 'consult') {
+            a.addEventListener('click', function () { track('chat_exit_' + data.exit); });
+          }
+        }
+      } catch (err) {
+        pending.remove();
+        bubble('cd-msg-err', "I'm having trouble right now — the free call is the fastest route.");
+        linkButton({ label: 'Book the free care coordinator call', url: '/consult' })
+          .addEventListener('click', function () { track('chat_exit_consult'); });
+      } finally {
+        busy = false;
+        send.disabled = false;
+        input.focus();
+      }
+    }
+  })();
+</script>
