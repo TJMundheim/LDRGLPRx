@@ -65,3 +65,6 @@ logs/
 **/.build/
 .secrets-local/
 apps/count-yourself-skinny-ios/build/
+
+# AI front door: embedded index is rebuilt by 'pnpm run build-index' (16 MB, vectors reused between builds)
+lambdas/front-door-chat/index/chunks.json

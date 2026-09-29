@@ -191,16 +191,29 @@ async function main() {
   if (DRY_RUN) { console.log('--dry-run: skipped embedding.'); return; }
 
   const embedded = [];
+
+  const outPath = join(outDir, 'chunks.json');
+  // Reuse vectors for chunks whose text is unchanged since the last build, so a
+  // FAQ or page edit re-embeds only what changed (a full build takes ~25 minutes).
+  const prior = new Map();
+  if (existsSync(outPath) && !process.env.REBUILD_ALL) {
+    try {
+      const old = JSON.parse(readFileSync(outPath, 'utf8'));
+      if (old.model === MODEL_ID && old.dims === DIMS) for (const c of old.chunks) prior.set(c.text, c.vec);
+    } catch { /* unreadable prior index: embed everything */ }
+  }
+  let reused = 0;
   for (let i = 0; i < chunks.length; i++) {
-    embedded.push({ ...chunks[i], vec: await embed(chunks[i].text) });
+    const cached = prior.get(chunks[i].text);
+    if (cached) reused++;
+    embedded.push({ ...chunks[i], vec: cached ?? await embed(chunks[i].text) });
     if ((i + 1) % 50 === 0 || i === chunks.length - 1) {
       process.stdout.write(`\rEmbedded ${i + 1}/${chunks.length}`);
     }
   }
   process.stdout.write('\n');
-
-  const outPath = join(outDir, 'chunks.json');
   writeFileSync(outPath, JSON.stringify({ model: MODEL_ID, dims: DIMS, builtAt, chunks: embedded }));
+  console.log(`reused ${reused} vectors, embedded ${embedded.length - reused} new`);
   const mb = (statSync(outPath).size / 1e6).toFixed(1);
   console.log(`Wrote ${outPath} (${mb} MB, ${embedded.length} chunks)`);
 }

@@ -1,7 +1,7 @@
 {
   "model": "amazon.titan-embed-text-v2:0",
   "dims": 1024,
-  "builtAt": "2026-09-29T15:10:13.855Z",
+  "builtAt": "2026-09-29T16:24:25.298Z",
   "chunks": [
     {
       "id": "book#0",
@@ -3123,7 +3123,7 @@
       "source": "faq",
       "title": "3. Who actually writes the prescriptions?",
       "url": null,
-      "text": "3. Who actually writes the prescriptions?\n\nOur network's licensed physicians, working through a contracted licensed telemedicine practice. They are the prescribing clinician of record, they hold the medical record, and they make every clinical decision. I do not, and My4MLife does not. That separation is deliberate and it is disclosed on every surface of this site. [TJ REVIEW]"
+      "text": "3. Who actually writes the prescriptions?\n\nOur network's licensed physicians, working through a contracted licensed telemedicine practice. They are the prescribing clinician of record, they hold the medical record, and they make every clinical decision. I do not, and My4MLife does not. That separation is deliberate and it is disclosed on every surface of this site."
     },
     {
       "id": "faq#3",
@@ -3228,7 +3228,7 @@
       "source": "faq",
       "title": "18. Does the $249 include labs?",
       "url": null,
-      "text": "18. Does the $249 include labs?\n\nThe testosterone visit includes a hormone panel, and the menopause and HRT visit includes a panel. That is what the fee covers along with the physician's time. Anything a physician orders beyond the included panel is a separate matter, and your coordinator will tell you before anything is ordered. [TJ REVIEW]"
+      "text": "18. Does the $249 include labs?\n\nThe testosterone visit includes a hormone panel, and the menopause and HRT visit includes a panel. Yes, the $249 covers your basic labs along with the physician's time. If the physician finds you need additional labs, there may be some additional cost, and your coordinator will tell you before anything extra is ordered."
     },
     {
       "id": "faq#18",
@@ -3298,7 +3298,7 @@
       "source": "faq",
       "title": "28. When exactly does my card get charged?",
       "url": null,
-      "text": "28. When exactly does my card get charged?\n\nOnly after our network's licensed physician reviews your record and approves the prescription. Not at the consent step, not at the intake, not on the free call. For Biome NS Rx that charge is $125 per 30-day supply, and a receipt follows. [TJ REVIEW]"
+      "text": "28. When exactly does my card get charged?\n\nOnly after our network's licensed physician reviews your record and approves the prescription. Not at the consent step, not at the intake, not on the free call. For Biome NS Rx that charge is $125 per 30-day supply, and a receipt follows."
     },
     {
       "id": "faq#28",
@@ -3410,28 +3410,28 @@
       "source": "faq",
       "title": "44. What is your refund policy?",
       "url": null,
-      "text": "44. What is your refund policy?\n\nCompleted consults are not refundable; the fee covers the clinician's time and the protocol delivered. Cancel a consult more than 24 hours ahead and you get a full refund in 5 to 7 business days. Prescriptions cannot be refunded once shipped, by federal and state pharmacy rules. Unopened supplements return within 14 days, less shipping and restocking. Full policy: https://my4mlife.com/refund-policy [TJ REVIEW]"
+      "text": "44. What is your refund policy?\n\nCompleted consults are not refundable; the fee covers the clinician's time and the protocol delivered. Cancel a consult more than 24 hours ahead and you get a full refund in 5 to 7 business days. Prescriptions cannot be refunded once shipped, by federal and state pharmacy rules. Unopened supplements return within 14 days, less shipping and restocking. Full policy: https://my4mlife.com/refund-policy"
     },
     {
       "id": "faq#44",
       "source": "faq",
       "title": "45. Can I get a refund if I miss my visit?",
       "url": null,
-      "text": "45. Can I get a refund if I miss my visit?\n\nIf you miss it, or arrive more than 15 minutes late without notice, it is treated as completed for refund purposes, because the clinician's time was reserved for you. You can reschedule a future one, but the original fee is not refunded or credited. Rescheduling more than 24 hours ahead carries your payment over instead. [TJ REVIEW]"
+      "text": "45. Can I get a refund if I miss my visit?\n\nIf you miss it, or arrive more than 15 minutes late without notice, it is treated as completed for refund purposes, because the clinician's time was reserved for you. You can reschedule a future one, but the original fee is not refunded or credited. Rescheduling more than 24 hours ahead carries your payment over instead."
     },
     {
       "id": "faq#45",
       "source": "faq",
       "title": "46. Are lab fees refundable?",
       "url": null,
-      "text": "46. Are lab fees refundable?\n\nNo, not once the clinician has generated the lab requisition. If you decide not to complete the draw after that point, the fee is forfeit. Lab work run by a third-party lab is also subject to that lab's own billing and refund rules on top of ours. [TJ REVIEW]"
+      "text": "46. Are lab fees refundable?\n\nNo, not once the clinician has generated the lab requisition. If you decide not to complete the draw after that point, the fee is forfeit. Lab work run by a third-party lab is also subject to that lab's own billing and refund rules on top of ours."
     },
     {
       "id": "faq#46",
       "source": "faq",
       "title": "47. How do I request a refund?",
       "url": null,
-      "text": "47. How do I request a refund?\n\nEmail refunds@my4mlife.com from the address on your account, include your order number or checkout email, and say what you are asking us to refund and why. We respond within 3 business days, and approved refunds process within 5 to 7 business days to the original payment method. [TJ REVIEW]"
+      "text": "47. How do I request a refund?\n\nEmail refunds@my4mlife.com from the address on your account, include your order number or checkout email, and say what you are asking us to refund and why. We respond within 3 business days, and approved refunds process within 5 to 7 business days to the original payment method."
     },
     {
       "id": "faq#47",
@@ -3501,21 +3501,21 @@
       "source": "faq",
       "title": "57. Does insurance cover any of this?",
       "url": null,
-      "text": "57. Does insurance cover any of this?\n\nOur lanes are cash-pay. Where labs run through a third-party lab, that lab's own billing applies and may work differently. If you have questions about coverage for anything specific, raise it on the free coordinator call before anything is ordered rather than after. [TJ REVIEW]"
+      "text": "57. Does insurance cover any of this?\n\nOur lanes are cash-pay. Where labs run through a third-party lab, that lab's own billing applies and may work differently. If you have questions about coverage for anything specific, raise it on the free coordinator call before anything is ordered rather than after."
     },
     {
       "id": "faq#57",
       "source": "faq",
       "title": "58. How long does it take to get started?",
       "url": null,
-      "text": "58. How long does it take to get started?\n\nThe assessment is about seven minutes and your top three priorities appear on screen when you finish. The welcome email with the book, the Logbook, and app access follows. The coordinator intake takes a few minutes, and the coordinator reaches out to arrange a time from there. Consent signing is about two minutes. [TJ REVIEW]"
+      "text": "58. How long does it take to get started?\n\nThe assessment is about seven minutes and your top three priorities appear on screen when you finish. The welcome email with the book, the Logbook, and app access follows. The coordinator intake takes a few minutes, and the coordinator reaches out to arrange a time from there. Consent signing is about two minutes."
     },
     {
       "id": "faq#58",
       "source": "faq",
       "title": "59. How does the medication reach me?",
       "url": null,
-      "text": "59. How does the medication reach me?\n\nA pharmacy partner fills the prescription that our network's licensed physician writes and ships it to you. Once a prescription has shipped, that order is final, because federal and state pharmacy rules prohibit returning or reselling dispensed medication. If your order has not shipped yet, email refunds@my4mlife.com as soon as possible and we will try to stop it. [TJ REVIEW]"
+      "text": "59. How does the medication reach me?\n\nA pharmacy partner fills the prescription that our network's licensed physician writes and ships it to you. Once a prescription has shipped, that order is final, because federal and state pharmacy rules prohibit returning or reselling dispensed medication. If your order has not shipped yet, email refunds@my4mlife.com as soon as possible and we will try to stop it."
     },
     {
       "id": "faq#59",
