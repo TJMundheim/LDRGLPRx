@@ -1,0 +1,643 @@
+{
+  "note": "Corpus manifest for the AI front door index. Public marketing pages + the two books + the hand-written FAQ. Excludes legal pages, /go/* landing pages, questionnaires, employer material, and The Uninsured Decade. Redirect-only pages (/tiers, /membership, /get-the-book, /4m-cohort, /rpa, /genesis-rpa, /solutions/vitamin-d) are omitted — they carry no content.",
+  "sources": [
+    {
+      "id": "book",
+      "kind": "book",
+      "title": "Begin with the End in Mind",
+      "path": "docs/book/draft/_MASTER.md",
+      "url": null,
+      "startAt": "Who This Book Is For"
+    },
+    {
+      "id": "logbook",
+      "kind": "logbook",
+      "title": "The Logbook",
+      "path": "docs/cohort-workbook/draft/_MASTER.md",
+      "url": null
+    },
+    {
+      "id": "faq",
+      "kind": "faq",
+      "title": "Ask Dr. TJ's AI — FAQ",
+      "path": "docs/plan/ai-front-door-faq-2026-09-29.md",
+      "url": null
+    },
+    {
+      "id": "site:about",
+      "kind": "site",
+      "title": "About My4MLife — Brain-Health-First. Founded by Dr. TJ Mundheim, DC.",
+      "path": "website/src/pages/about.astro",
+      "dist": "website/dist/about/index.html",
+      "url": "https://my4mlife.com/about"
+    },
+    {
+      "id": "site:assessment",
+      "kind": "site",
+      "title": "Get Your MindSpan Baseline — Free 20-Question 4M Assessment",
+      "path": "website/src/pages/assessment.astro",
+      "dist": "website/dist/assessment/index.html",
+      "url": "https://my4mlife.com/assessment"
+    },
+    {
+      "id": "site:biomeaxisforge",
+      "kind": "site",
+      "title": "biomeaxisforge",
+      "path": "website/src/pages/biomeaxisforge.astro",
+      "dist": "website/dist/biomeaxisforge/index.html",
+      "url": "https://my4mlife.com/biomeaxisforge"
+    },
+    {
+      "id": "site:blog",
+      "kind": "site",
+      "title": "The My4MLife Blog — Brain Health, Longevity, and the 4M Framework",
+      "path": "website/src/pages/blog.astro",
+      "dist": "website/dist/blog/index.html",
+      "url": "https://my4mlife.com/blog"
+    },
+    {
+      "id": "site:blog/am-i-eligible-for-glp1",
+      "kind": "site",
+      "title": "Am I Eligible for GLP-1 Medication? A Brain-Health Perspective",
+      "path": "website/src/pages/blog/am-i-eligible-for-glp1.astro",
+      "dist": "website/dist/blog/am-i-eligible-for-glp1/index.html",
+      "url": "https://my4mlife.com/blog/am-i-eligible-for-glp1"
+    },
+    {
+      "id": "site:blog/canary-in-the-mine-erectile-dysfunction",
+      "kind": "site",
+      "title": "Canary in the Mine: What Erectile Dysfunction Is Actually Telling You",
+      "path": "website/src/pages/blog/canary-in-the-mine-erectile-dysfunction.astro",
+      "dist": "website/dist/blog/canary-in-the-mine-erectile-dysfunction/index.html",
+      "url": "https://my4mlife.com/blog/canary-in-the-mine-erectile-dysfunction"
+    },
+    {
+      "id": "site:blog/eliminate-the-insulting-behavior-cognitive",
+      "kind": "site",
+      "title": "Eliminate the Insulting Behavior: Brain Optimization",
+      "path": "website/src/pages/blog/eliminate-the-insulting-behavior-cognitive.astro",
+      "dist": "website/dist/blog/eliminate-the-insulting-behavior-cognitive/index.html",
+      "url": "https://my4mlife.com/blog/eliminate-the-insulting-behavior-cognitive"
+    },
+    {
+      "id": "site:blog/eliminate-the-insulting-behavior-environment",
+      "kind": "site",
+      "title": "Eliminate the Insulting Behavior: Your Environmental Load",
+      "path": "website/src/pages/blog/eliminate-the-insulting-behavior-environment.astro",
+      "dist": "website/dist/blog/eliminate-the-insulting-behavior-environment/index.html",
+      "url": "https://my4mlife.com/blog/eliminate-the-insulting-behavior-environment"
+    },
+    {
+      "id": "site:blog/eliminate-the-insulting-behavior-gut",
+      "kind": "site",
+      "title": "Eliminate the Insulting Behavior: Gut Health & the Brain",
+      "path": "website/src/pages/blog/eliminate-the-insulting-behavior-gut.astro",
+      "dist": "website/dist/blog/eliminate-the-insulting-behavior-gut/index.html",
+      "url": "https://my4mlife.com/blog/eliminate-the-insulting-behavior-gut"
+    },
+    {
+      "id": "site:blog/eliminate-the-insulting-behavior-hormones",
+      "kind": "site",
+      "title": "Eliminate the Insulting Behavior: Testosterone & Hormone Optimization",
+      "path": "website/src/pages/blog/eliminate-the-insulting-behavior-hormones.astro",
+      "dist": "website/dist/blog/eliminate-the-insulting-behavior-hormones/index.html",
+      "url": "https://my4mlife.com/blog/eliminate-the-insulting-behavior-hormones"
+    },
+    {
+      "id": "site:blog/eliminate-the-insulting-behavior-peptides",
+      "kind": "site",
+      "title": "Eliminate the Insulting Behavior: Peptides & Cognitive Longevity",
+      "path": "website/src/pages/blog/eliminate-the-insulting-behavior-peptides.astro",
+      "dist": "website/dist/blog/eliminate-the-insulting-behavior-peptides/index.html",
+      "url": "https://my4mlife.com/blog/eliminate-the-insulting-behavior-peptides"
+    },
+    {
+      "id": "site:blog/eliminate-the-insulting-behavior-sleep",
+      "kind": "site",
+      "title": "Eliminate the Insulting Behavior: Sleep & Cognitive Recovery",
+      "path": "website/src/pages/blog/eliminate-the-insulting-behavior-sleep.astro",
+      "dist": "website/dist/blog/eliminate-the-insulting-behavior-sleep/index.html",
+      "url": "https://my4mlife.com/blog/eliminate-the-insulting-behavior-sleep"
+    },
+    {
+      "id": "site:blog/eliminate-the-insulting-behavior-weight",
+      "kind": "site",
+      "title": "Eliminate the Insulting Behavior: Weight, Body Composition, and Brain Health",
+      "path": "website/src/pages/blog/eliminate-the-insulting-behavior-weight.astro",
+      "dist": "website/dist/blog/eliminate-the-insulting-behavior-weight/index.html",
+      "url": "https://my4mlife.com/blog/eliminate-the-insulting-behavior-weight"
+    },
+    {
+      "id": "site:blog/semaglutide-vs-tirzepatide",
+      "kind": "site",
+      "title": "Semaglutide vs Tirzepatide: Which Fits Your 4M Protocol?",
+      "path": "website/src/pages/blog/semaglutide-vs-tirzepatide.astro",
+      "dist": "website/dist/blog/semaglutide-vs-tirzepatide/index.html",
+      "url": "https://my4mlife.com/blog/semaglutide-vs-tirzepatide"
+    },
+    {
+      "id": "site:blog/what-to-expect-first-month-glp1",
+      "kind": "site",
+      "title": "Your First Month on GLP-1 — and What the 4M Protocol Does in Parallel",
+      "path": "website/src/pages/blog/what-to-expect-first-month-glp1.astro",
+      "dist": "website/dist/blog/what-to-expect-first-month-glp1/index.html",
+      "url": "https://my4mlife.com/blog/what-to-expect-first-month-glp1"
+    },
+    {
+      "id": "site:bmi-calculator",
+      "kind": "site",
+      "title": "Free BMI + Body Composition Check — Your Brain-Health Baseline",
+      "path": "website/src/pages/bmi-calculator.astro",
+      "dist": "website/dist/bmi-calculator/index.html",
+      "url": "https://my4mlife.com/bmi-calculator"
+    },
+    {
+      "id": "site:consult",
+      "kind": "site",
+      "title": "Care Coordinator Visit — Free",
+      "path": "website/src/pages/consult.astro",
+      "dist": "website/dist/consult/index.html",
+      "url": "https://my4mlife.com/consult"
+    },
+    {
+      "id": "site:contact",
+      "kind": "site",
+      "title": "Contact Us",
+      "path": "website/src/pages/contact.astro",
+      "dist": "website/dist/contact/index.html",
+      "url": "https://my4mlife.com/contact"
+    },
+    {
+      "id": "site:equipment",
+      "kind": "site",
+      "title": "Equipment to Order Before You Start",
+      "path": "website/src/pages/equipment.astro",
+      "dist": "website/dist/equipment/index.html",
+      "url": "https://my4mlife.com/equipment"
+    },
+    {
+      "id": "site:fast-start",
+      "kind": "site",
+      "title": "The Fast Start Protocol",
+      "path": "website/src/pages/fast-start.astro",
+      "dist": "website/dist/fast-start/index.html",
+      "url": "https://my4mlife.com/fast-start"
+    },
+    {
+      "id": "site:home",
+      "kind": "site",
+      "title": "index",
+      "path": "website/src/pages/index.astro",
+      "dist": "website/dist/index.html",
+      "url": "https://my4mlife.com/"
+    },
+    {
+      "id": "site:meals",
+      "kind": "site",
+      "title": "Month 1 Meals",
+      "path": "website/src/pages/meals/index.astro",
+      "dist": "website/dist/meals/index.html",
+      "url": "https://my4mlife.com/meals"
+    },
+    {
+      "id": "site:men",
+      "kind": "site",
+      "title": "For Men — Protect Your Mind",
+      "path": "website/src/pages/men.astro",
+      "dist": "website/dist/men/index.html",
+      "url": "https://my4mlife.com/men"
+    },
+    {
+      "id": "site:pillars/mind",
+      "kind": "site",
+      "title": "pillars/mind",
+      "path": "website/src/pages/pillars/mind.astro",
+      "dist": "website/dist/pillars/mind/index.html",
+      "url": "https://my4mlife.com/pillars/mind"
+    },
+    {
+      "id": "site:pillars/mitigate",
+      "kind": "site",
+      "title": "pillars/mitigate",
+      "path": "website/src/pages/pillars/mitigate.astro",
+      "dist": "website/dist/pillars/mitigate/index.html",
+      "url": "https://my4mlife.com/pillars/mitigate"
+    },
+    {
+      "id": "site:pillars/motivate",
+      "kind": "site",
+      "title": "pillars/motivate",
+      "path": "website/src/pages/pillars/motivate.astro",
+      "dist": "website/dist/pillars/motivate/index.html",
+      "url": "https://my4mlife.com/pillars/motivate"
+    },
+    {
+      "id": "site:pillars/muscle",
+      "kind": "site",
+      "title": "pillars/muscle",
+      "path": "website/src/pages/pillars/muscle.astro",
+      "dist": "website/dist/pillars/muscle/index.html",
+      "url": "https://my4mlife.com/pillars/muscle"
+    },
+    {
+      "id": "site:protocols",
+      "kind": "site",
+      "title": "Protocols",
+      "path": "website/src/pages/protocols.astro",
+      "dist": "website/dist/protocols/index.html",
+      "url": "https://my4mlife.com/protocols"
+    },
+    {
+      "id": "site:regenerative-medicine",
+      "kind": "site",
+      "title": "Regenerative Medicine Solutions",
+      "path": "website/src/pages/regenerative-medicine.astro",
+      "dist": "website/dist/regenerative-medicine/index.html",
+      "url": "https://my4mlife.com/regenerative-medicine"
+    },
+    {
+      "id": "site:rx/gh-peptide",
+      "kind": "site",
+      "title": "Tesamorelin Rx — truncal fat loss with muscle preserved",
+      "path": "website/src/pages/rx/gh-peptide.astro",
+      "dist": "website/dist/rx/gh-peptide/index.html",
+      "url": "https://my4mlife.com/rx/gh-peptide"
+    },
+    {
+      "id": "site:rx/leaky-gut",
+      "kind": "site",
+      "title": "Gut-Brain Rx",
+      "path": "website/src/pages/rx/leaky-gut.astro",
+      "dist": "website/dist/rx/leaky-gut/index.html",
+      "url": "https://my4mlife.com/rx/leaky-gut"
+    },
+    {
+      "id": "site:rx/menopause-hrt",
+      "kind": "site",
+      "title": "Menopause & HRT Rx — For Women",
+      "path": "website/src/pages/rx/menopause-hrt.astro",
+      "dist": "website/dist/rx/menopause-hrt/index.html",
+      "url": "https://my4mlife.com/rx/menopause-hrt"
+    },
+    {
+      "id": "site:rx/peptides",
+      "kind": "site",
+      "title": "Peptides Rx",
+      "path": "website/src/pages/rx/peptides.astro",
+      "dist": "website/dist/rx/peptides/index.html",
+      "url": "https://my4mlife.com/rx/peptides"
+    },
+    {
+      "id": "site:rx/regenerative-medicine",
+      "kind": "site",
+      "title": "Regenerative Medicine Rx",
+      "path": "website/src/pages/rx/regenerative-medicine.astro",
+      "dist": "website/dist/rx/regenerative-medicine/index.html",
+      "url": "https://my4mlife.com/rx/regenerative-medicine"
+    },
+    {
+      "id": "site:rx/testosterone-ed",
+      "kind": "site",
+      "title": "Low Testosterone & ED Rx for Men",
+      "path": "website/src/pages/rx/testosterone-ed.astro",
+      "dist": "website/dist/rx/testosterone-ed/index.html",
+      "url": "https://my4mlife.com/rx/testosterone-ed"
+    },
+    {
+      "id": "site:rx/weight-loss",
+      "kind": "site",
+      "title": "GLP-1 Weight Loss Rx",
+      "path": "website/src/pages/rx/weight-loss.astro",
+      "dist": "website/dist/rx/weight-loss/index.html",
+      "url": "https://my4mlife.com/rx/weight-loss"
+    },
+    {
+      "id": "site:solutions/alcohol",
+      "kind": "site",
+      "title": "solutions/alcohol",
+      "path": "website/src/pages/solutions/alcohol.astro",
+      "dist": "website/dist/solutions/alcohol/index.html",
+      "url": "https://my4mlife.com/solutions/alcohol"
+    },
+    {
+      "id": "site:solutions/allergies",
+      "kind": "site",
+      "title": "solutions/allergies",
+      "path": "website/src/pages/solutions/allergies.astro",
+      "dist": "website/dist/solutions/allergies/index.html",
+      "url": "https://my4mlife.com/solutions/allergies"
+    },
+    {
+      "id": "site:solutions/chronic-conditions",
+      "kind": "site",
+      "title": "Chronic Conditions — Regenerative Solutions",
+      "path": "website/src/pages/solutions/chronic-conditions.astro",
+      "dist": "website/dist/solutions/chronic-conditions/index.html",
+      "url": "https://my4mlife.com/solutions/chronic-conditions"
+    },
+    {
+      "id": "site:solutions/cognitive",
+      "kind": "site",
+      "title": "solutions/cognitive",
+      "path": "website/src/pages/solutions/cognitive.astro",
+      "dist": "website/dist/solutions/cognitive/index.html",
+      "url": "https://my4mlife.com/solutions/cognitive"
+    },
+    {
+      "id": "site:solutions/dental",
+      "kind": "site",
+      "title": "solutions/dental",
+      "path": "website/src/pages/solutions/dental.astro",
+      "dist": "website/dist/solutions/dental/index.html",
+      "url": "https://my4mlife.com/solutions/dental"
+    },
+    {
+      "id": "site:solutions/environment",
+      "kind": "site",
+      "title": "solutions/environment",
+      "path": "website/src/pages/solutions/environment.astro",
+      "dist": "website/dist/solutions/environment/index.html",
+      "url": "https://my4mlife.com/solutions/environment"
+    },
+    {
+      "id": "site:solutions/environment/air",
+      "kind": "site",
+      "title": "solutions/environment/air",
+      "path": "website/src/pages/solutions/environment/air.astro",
+      "dist": "website/dist/solutions/environment/air/index.html",
+      "url": "https://my4mlife.com/solutions/environment/air"
+    },
+    {
+      "id": "site:solutions/environment/cold-plunge",
+      "kind": "site",
+      "title": "solutions/environment/cold-plunge",
+      "path": "website/src/pages/solutions/environment/cold-plunge.astro",
+      "dist": "website/dist/solutions/environment/cold-plunge/index.html",
+      "url": "https://my4mlife.com/solutions/environment/cold-plunge"
+    },
+    {
+      "id": "site:solutions/environment/emf",
+      "kind": "site",
+      "title": "solutions/environment/emf",
+      "path": "website/src/pages/solutions/environment/emf.astro",
+      "dist": "website/dist/solutions/environment/emf/index.html",
+      "url": "https://my4mlife.com/solutions/environment/emf"
+    },
+    {
+      "id": "site:solutions/environment/grounding",
+      "kind": "site",
+      "title": "solutions/environment/grounding",
+      "path": "website/src/pages/solutions/environment/grounding.astro",
+      "dist": "website/dist/solutions/environment/grounding/index.html",
+      "url": "https://my4mlife.com/solutions/environment/grounding"
+    },
+    {
+      "id": "site:solutions/environment/light",
+      "kind": "site",
+      "title": "solutions/environment/light",
+      "path": "website/src/pages/solutions/environment/light.astro",
+      "dist": "website/dist/solutions/environment/light/index.html",
+      "url": "https://my4mlife.com/solutions/environment/light"
+    },
+    {
+      "id": "site:solutions/environment/mineral-bath",
+      "kind": "site",
+      "title": "solutions/environment/mineral-bath",
+      "path": "website/src/pages/solutions/environment/mineral-bath.astro",
+      "dist": "website/dist/solutions/environment/mineral-bath/index.html",
+      "url": "https://my4mlife.com/solutions/environment/mineral-bath"
+    },
+    {
+      "id": "site:solutions/environment/sauna",
+      "kind": "site",
+      "title": "solutions/environment/sauna",
+      "path": "website/src/pages/solutions/environment/sauna.astro",
+      "dist": "website/dist/solutions/environment/sauna/index.html",
+      "url": "https://my4mlife.com/solutions/environment/sauna"
+    },
+    {
+      "id": "site:solutions/environment/water",
+      "kind": "site",
+      "title": "solutions/environment/water",
+      "path": "website/src/pages/solutions/environment/water.astro",
+      "dist": "website/dist/solutions/environment/water/index.html",
+      "url": "https://my4mlife.com/solutions/environment/water"
+    },
+    {
+      "id": "site:solutions/erectile-dysfunction",
+      "kind": "site",
+      "title": "solutions/erectile-dysfunction",
+      "path": "website/src/pages/solutions/erectile-dysfunction.astro",
+      "dist": "website/dist/solutions/erectile-dysfunction/index.html",
+      "url": "https://my4mlife.com/solutions/erectile-dysfunction"
+    },
+    {
+      "id": "site:solutions/financial-stress",
+      "kind": "site",
+      "title": "solutions/financial-stress",
+      "path": "website/src/pages/solutions/financial-stress.astro",
+      "dist": "website/dist/solutions/financial-stress/index.html",
+      "url": "https://my4mlife.com/solutions/financial-stress"
+    },
+    {
+      "id": "site:solutions/gut",
+      "kind": "site",
+      "title": "solutions/gut",
+      "path": "website/src/pages/solutions/gut.astro",
+      "dist": "website/dist/solutions/gut/index.html",
+      "url": "https://my4mlife.com/solutions/gut"
+    },
+    {
+      "id": "site:solutions/health-knowledge",
+      "kind": "site",
+      "title": "solutions/health-knowledge",
+      "path": "website/src/pages/solutions/health-knowledge.astro",
+      "dist": "website/dist/solutions/health-knowledge/index.html",
+      "url": "https://my4mlife.com/solutions/health-knowledge"
+    },
+    {
+      "id": "site:solutions/healthcare-access",
+      "kind": "site",
+      "title": "solutions/healthcare-access",
+      "path": "website/src/pages/solutions/healthcare-access.astro",
+      "dist": "website/dist/solutions/healthcare-access/index.html",
+      "url": "https://my4mlife.com/solutions/healthcare-access"
+    },
+    {
+      "id": "site:solutions/hormones",
+      "kind": "site",
+      "title": "solutions/hormones",
+      "path": "website/src/pages/solutions/hormones.astro",
+      "dist": "website/dist/solutions/hormones/index.html",
+      "url": "https://my4mlife.com/solutions/hormones"
+    },
+    {
+      "id": "site:solutions/morning-routine",
+      "kind": "site",
+      "title": "solutions/morning-routine",
+      "path": "website/src/pages/solutions/morning-routine.astro",
+      "dist": "website/dist/solutions/morning-routine/index.html",
+      "url": "https://my4mlife.com/solutions/morning-routine"
+    },
+    {
+      "id": "site:solutions/muscle",
+      "kind": "site",
+      "title": "solutions/muscle",
+      "path": "website/src/pages/solutions/muscle.astro",
+      "dist": "website/dist/solutions/muscle/index.html",
+      "url": "https://my4mlife.com/solutions/muscle"
+    },
+    {
+      "id": "site:solutions/nervous-system",
+      "kind": "site",
+      "title": "solutions/nervous-system",
+      "path": "website/src/pages/solutions/nervous-system.astro",
+      "dist": "website/dist/solutions/nervous-system/index.html",
+      "url": "https://my4mlife.com/solutions/nervous-system"
+    },
+    {
+      "id": "site:solutions/nutrition",
+      "kind": "site",
+      "title": "solutions/nutrition",
+      "path": "website/src/pages/solutions/nutrition.astro",
+      "dist": "website/dist/solutions/nutrition/index.html",
+      "url": "https://my4mlife.com/solutions/nutrition"
+    },
+    {
+      "id": "site:solutions/nutritional-supplements",
+      "kind": "site",
+      "title": "solutions/nutritional-supplements",
+      "path": "website/src/pages/solutions/nutritional-supplements.astro",
+      "dist": "website/dist/solutions/nutritional-supplements/index.html",
+      "url": "https://my4mlife.com/solutions/nutritional-supplements"
+    },
+    {
+      "id": "site:solutions/pain-acute",
+      "kind": "site",
+      "title": "solutions/pain-acute",
+      "path": "website/src/pages/solutions/pain-acute.astro",
+      "dist": "website/dist/solutions/pain-acute/index.html",
+      "url": "https://my4mlife.com/solutions/pain-acute"
+    },
+    {
+      "id": "site:solutions/pain-chronic",
+      "kind": "site",
+      "title": "solutions/pain-chronic",
+      "path": "website/src/pages/solutions/pain-chronic.astro",
+      "dist": "website/dist/solutions/pain-chronic/index.html",
+      "url": "https://my4mlife.com/solutions/pain-chronic"
+    },
+    {
+      "id": "site:solutions/peptides",
+      "kind": "site",
+      "title": "solutions/peptides",
+      "path": "website/src/pages/solutions/peptides.astro",
+      "dist": "website/dist/solutions/peptides/index.html",
+      "url": "https://my4mlife.com/solutions/peptides"
+    },
+    {
+      "id": "site:solutions/purpose-goals",
+      "kind": "site",
+      "title": "solutions/purpose-goals",
+      "path": "website/src/pages/solutions/purpose-goals.astro",
+      "dist": "website/dist/solutions/purpose-goals/index.html",
+      "url": "https://my4mlife.com/solutions/purpose-goals"
+    },
+    {
+      "id": "site:solutions/self-image",
+      "kind": "site",
+      "title": "solutions/self-image",
+      "path": "website/src/pages/solutions/self-image.astro",
+      "dist": "website/dist/solutions/self-image/index.html",
+      "url": "https://my4mlife.com/solutions/self-image"
+    },
+    {
+      "id": "site:solutions/sleep",
+      "kind": "site",
+      "title": "solutions/sleep",
+      "path": "website/src/pages/solutions/sleep.astro",
+      "dist": "website/dist/solutions/sleep/index.html",
+      "url": "https://my4mlife.com/solutions/sleep"
+    },
+    {
+      "id": "site:solutions/stress",
+      "kind": "site",
+      "title": "solutions/stress",
+      "path": "website/src/pages/solutions/stress.astro",
+      "dist": "website/dist/solutions/stress/index.html",
+      "url": "https://my4mlife.com/solutions/stress"
+    },
+    {
+      "id": "site:solutions/substance-use",
+      "kind": "site",
+      "title": "solutions/substance-use",
+      "path": "website/src/pages/solutions/substance-use.astro",
+      "dist": "website/dist/solutions/substance-use/index.html",
+      "url": "https://my4mlife.com/solutions/substance-use"
+    },
+    {
+      "id": "site:solutions/weight",
+      "kind": "site",
+      "title": "solutions/weight",
+      "path": "website/src/pages/solutions/weight.astro",
+      "dist": "website/dist/solutions/weight/index.html",
+      "url": "https://my4mlife.com/solutions/weight"
+    },
+    {
+      "id": "site:stack",
+      "kind": "site",
+      "title": "Your Stack",
+      "path": "website/src/pages/stack.astro",
+      "dist": "website/dist/stack/index.html",
+      "url": "https://my4mlife.com/stack"
+    },
+    {
+      "id": "site:weekly-picks",
+      "kind": "site",
+      "title": "Weekly Picks",
+      "path": "website/src/pages/weekly-picks.astro",
+      "dist": "website/dist/weekly-picks/index.html",
+      "url": "https://my4mlife.com/weekly-picks"
+    },
+    {
+      "id": "site:women",
+      "kind": "site",
+      "title": "For Women — Protect Your Mind",
+      "path": "website/src/pages/women.astro",
+      "dist": "website/dist/women/index.html",
+      "url": "https://my4mlife.com/women"
+    },
+    {
+      "id": "site:meals/week-1",
+      "kind": "site",
+      "title": "Meal Plan — Week 1",
+      "path": "website/src/pages/meals/[week].astro",
+      "dist": "website/dist/meals/week-1/index.html",
+      "url": "https://my4mlife.com/meals/week-1"
+    },
+    {
+      "id": "site:meals/week-2",
+      "kind": "site",
+      "title": "Meal Plan — Week 2",
+      "path": "website/src/pages/meals/[week].astro",
+      "dist": "website/dist/meals/week-2/index.html",
+      "url": "https://my4mlife.com/meals/week-2"
+    },
+    {
+      "id": "site:meals/week-3",
+      "kind": "site",
+      "title": "Meal Plan — Week 3",
+      "path": "website/src/pages/meals/[week].astro",
+      "dist": "website/dist/meals/week-3/index.html",
+      "url": "https://my4mlife.com/meals/week-3"
+    },
+    {
+      "id": "site:meals/week-4",
+      "kind": "site",
+      "title": "Meal Plan — Week 4",
+      "path": "website/src/pages/meals/[week].astro",
+      "dist": "website/dist/meals/week-4/index.html",
+      "url": "https://my4mlife.com/meals/week-4"
+    }
+  ]
+}
