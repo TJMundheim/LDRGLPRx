@@ -12,7 +12,7 @@ export const CHAT_MODEL =
 export const EMBED_MODEL = process.env.EMBED_MODEL ?? 'amazon.titan-embed-text-v2:0';
 
 export const MAX_TOKENS = 400;
-export const TEMPERATURE = 0.3;
+export const TEMPERATURE = 0;
 
 /** Retrieval: cosine top-k before title dedupe. */
 export const TOP_K = 6;

@@ -30,15 +30,19 @@ const allowed = new Set(
 const EXIT_PATH = { assessment: '/assessment', consult: '/consult' };
 const urlsIn = (s) => (s.match(/https?:\/\/[^\s)<>"'\]]+/g) ?? []).map((u) => u.replace(/[.,]$/, ''));
 
-async function ask(q) {
-  const res = await fetch(CHAT_URL, {
+async function ask(q, retry429 = 3) {
+  let res = await fetch(CHAT_URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ message: q, history: [] }),
   });
+  if (res.status === 429 && retry429 > 0) { await new Promise((r) => setTimeout(r, 8000)); return ask(q, retry429 - 1); }
   if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const json = await res.json();
-  return String(json.reply ?? json.answer ?? json.message ?? '');
+  // The guard moves the one allowed link out of the text into json.links (a button),
+  // so score the reply plus those link URLs together.
+  const links = (json.links ?? []).map((l) => l.url).join('\n');
+  return `${String(json.reply ?? json.answer ?? json.message ?? '')}\n${links}`;
 }
 
 function score(answer, expect) {
@@ -49,7 +53,9 @@ function score(answer, expect) {
     fails.push(`missing ${expect.exit} exit`);
   }
   for (const bad of expect.mustNotContain ?? []) {
-    if (lower.includes(bad.toLowerCase())) fails.push(`forbidden: "${bad}"`);
+    // entries starting with "re:" are regexes (e.g. a digit followed by mg/ml), the rest are substrings
+    const hit = bad.startsWith('re:') ? new RegExp(bad.slice(3), 'i').test(answer) : lower.includes(bad.toLowerCase());
+    if (hit) fails.push(`forbidden: "${bad}"`);
   }
   if (expect.mustContainAny?.length) {
     const hit = expect.mustContainAny.some((s) => lower.includes(s.toLowerCase()));

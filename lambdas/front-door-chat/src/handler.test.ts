@@ -99,13 +99,23 @@ describe('guard', () => {
     const r = guard('Try https://evil.com/offer and /not-a-real-page for more.');
     expect(r.reply).not.toContain('evil.com');
     expect(r.reply).not.toContain('/not-a-real-page');
-    expect(r.links).toHaveLength(0);
-    expect(r.exit).toBeNull();
-  });
-  it('keeps only the first allowed link', () => {
-    const r = guard('Read /solutions/gut then /solutions/sleep.');
+    // nothing allowed survived, so the only link is the default exit
     expect(r.links).toHaveLength(1);
+    expect(r.links[0].url).toBe('https://my4mlife.com/assessment');
+    expect(r.exit).toBe('assessment');
+  });
+  it('keeps the first page link and always ends on an exit', () => {
+    const r = guard('Read /solutions/gut then /solutions/sleep.');
+    expect(r.links).toHaveLength(2);
     expect(r.links[0].url).toBe('https://my4mlife.com/solutions/gut');
+    expect(r.links[1].url).toBe('https://my4mlife.com/assessment');
+    expect(r.exit).toBe('assessment');
+  });
+  it('uses the exit the answer names, and allows the published $125 price', () => {
+    const r = guard('Biome NS Rx is $125 per 30-day supply, charged after approval. /consult');
+    expect(r.blocked).toBe(false);
+    expect(r.links).toHaveLength(1);
+    expect(r.exit).toBe('consult');
   });
   it('accepts an absolute my4mlife url', () => {
     expect(guard('See https://www.my4mlife.com/consult').links[0].url).toBe('https://my4mlife.com/consult');
@@ -174,5 +184,34 @@ describe('prompt', () => {
   });
   it('puts the retrieved source path in the prompt', () => {
     expect(buildSystemPrompt({ chunks, firstTurn: true })).toContain('/solutions/gut');
+  });
+});
+
+import { exitFor, applyRoute } from './route';
+describe('route', () => {
+  it('sends volunteered personal details to the assessment', () => {
+    expect(exitFor('My name is John, DOB 3/14/1966, I take metformin 1000mg')).toBe('assessment');
+  });
+  it('sends prescription, price and comparison questions to the free call', () => {
+    expect(exitFor('What is in the gut program?')).toBe('consult');
+    expect(exitFor('Is Hims better than you for testosterone?')).toBe('consult');
+    expect(exitFor('How much is it per month?')).toBe('consult');
+  });
+  it('does not mistake a dosing question or the book for something else', () => {
+    expect(exitFor('What dose of testosterone should I take?')).toBe('consult');
+    expect(exitFor('Do I have to pay for the book?')).toBeNull();
+    expect(exitFor('Book me a visit for Tuesday at 3pm.')).toBe('consult');
+  });
+  it('leaves general questions to the model', () => {
+    expect(exitFor('Is this program for me?')).toBeNull();
+  });
+  it('swaps the door but keeps one page link, and never touches a blocked reply', () => {
+    const base = { reply: 'x', exit: 'assessment' as const, blocked: false,
+      links: [{ label: 'Read: gut', url: 'https://my4mlife.com/solutions/gut' }, { label: 'a', url: 'https://my4mlife.com/assessment' }] };
+    const r = applyRoute(base, 'What is in the gut program?');
+    expect(r.exit).toBe('consult');
+    expect(r.links.map((l) => l.url)).toEqual(['https://my4mlife.com/solutions/gut', 'https://my4mlife.com/consult']);
+    const blocked = { ...base, blocked: true, exit: 'consult' as const };
+    expect(applyRoute(blocked, 'My name is John, DOB 3/14/1966')).toBe(blocked);
   });
 });

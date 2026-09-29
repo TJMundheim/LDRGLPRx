@@ -259,13 +259,13 @@ const CHIPS = ['Is this for me?', 'What does the free call cover?', 'What do I d
         pushHistory('user', message);
         pushHistory('assistant', data.reply || '');
 
-        var link = (data.links || [])[0];
-        if (link) {
+        (data.links || []).slice(0, 2).forEach(function (link) {
           var a = linkButton(link);
-          if (data.exit === 'assessment' || data.exit === 'consult') {
+          var isExit = /\/(assessment|consult)$/.test(link.url);
+          if (isExit && (data.exit === 'assessment' || data.exit === 'consult')) {
             a.addEventListener('click', function () { track('chat_exit_' + data.exit); });
           }
-        }
+        });
       } catch (err) {
         pending.remove();
         bubble('cd-msg-err', "I'm having trouble right now — the free call is the fastest route.");

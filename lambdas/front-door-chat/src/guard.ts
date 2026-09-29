@@ -9,13 +9,13 @@ const SITE = 'https://my4mlife.com';
 
 export type Exit = 'assessment' | 'consult' | null;
 export interface Link { label: string; url: string }
-export interface GuardResult { reply: string; links: Link[]; exit: Exit; blocked: boolean }
+export interface GuardResult { reply: string; links: Link[]; exit: Exit; blocked: boolean; blockedBy?: string }
 
 // Absolute my4mlife URLs, bare paths, and any other scheme'd URL.
 const URL_RE = /\bhttps?:\/\/[^\s<>()\[\]"']+|(?<![\w/])\/[a-z0-9][a-z0-9/-]*/gi;
 
-/** Only $249 exists in the approved lane text; any other dollar figure is invented. */
-const PRICE_RE = /\$\s?(?!249\b)\d[\d,]*/;
+/** Only $249 (live visits) and $125 (Biome NS Rx, 30-day) are published; any other figure is invented. */
+const PRICE_RE = /\$\s?(?!249\b|125\b)\d[\d,]*/;
 
 const FORBIDDEN: Array<[RegExp, string]> = [
   [/bpc[\s-]?157/i, 'rx-formula'],
@@ -48,30 +48,36 @@ function labelFor(path: string): string {
 export function guard(raw: string): GuardResult {
   const text = raw.trim();
 
-  for (const [re] of FORBIDDEN) {
+  for (const [re, label] of FORBIDDEN) {
     if (re.test(text)) {
-      return { reply: SAFE_FALLBACK, links: [consultLink()], exit: 'consult', blocked: true };
+      return { reply: SAFE_FALLBACK, links: [consultLink()], exit: 'consult', blocked: true, blockedBy: label };
     }
   }
 
-  let kept: string | null = null;
+  let page: string | null = null;   // first allowed non-exit page
+  let door: string | null = null;   // first exit (/assessment or /consult)
   const stripped = text.replace(URL_RE, (match) => {
     const path = normalise(match);
     if (!path) return '';            // not on the allowlist — remove it entirely
-    if (kept === null) kept = path;  // keep only the first allowed link
-    return '';                       // the link is surfaced as a button, not inline
+    const isExit = path === ASSESSMENT_PATH || path === CONSULT_PATH;
+    if (isExit && door === null) door = path;
+    if (!isExit && page === null) page = path;
+    return '';                       // links are surfaced as buttons, not inline
   });
 
   const reply = stripped.replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n')
-    .replace(/[ \t]+([.,;:])/g, '$1').replace(/\(\s*\)/g, '').trim();
+    .replace(/[ \t]+([.,;:])/g, '$1').replace(/\(\s*\)/g, '')
+    .replace(/\s+(at|here|via|visit|see)[:]?\s*(?=[.!?]|$)/gim, '').replace(/\n[ \t]*[.:]\s*$/g, '').trim();
 
-  if (!reply) return { reply: SAFE_FALLBACK, links: [consultLink()], exit: 'consult', blocked: true };
+  if (!reply) return { reply: SAFE_FALLBACK, links: [consultLink()], exit: 'consult', blocked: true, blockedBy: 'empty' };
 
-  const path: string | null = kept;
-  if (!path) return { reply, links: [], exit: null, blocked: false };
-
-  const exit: Exit = path === ASSESSMENT_PATH ? 'assessment' : path === CONSULT_PATH ? 'consult' : null;
-  return { reply, links: [{ label: labelFor(path), url: `${SITE}${path === '/' ? '' : path}` }], exit, blocked: false };
+  // Every answer leaves through one of the two doors; the assessment is the default.
+  const exitPath: string = door ?? ASSESSMENT_PATH;
+  const exit: Exit = exitPath === CONSULT_PATH ? 'consult' : 'assessment';
+  const toLink = (path: string): Link => ({ label: labelFor(path), url: `${SITE}${path === '/' ? '' : path}` });
+  const pagePath: string | null = page;
+  const links = pagePath ? [toLink(pagePath), toLink(exitPath)] : [toLink(exitPath)];
+  return { reply, links, exit, blocked: false };
 }
 
 function consultLink(): Link {

@@ -9,6 +9,8 @@ import { retrieve } from './retrieve';
 import { saveTurn } from './store';
 import { reply, validateRequest, type ChatRequest } from './validate';
 import { SAFE_FALLBACK } from './config';
+import { applyRoute } from './route';
+import { PRICE_RETRY } from './rules';
 
 export async function respond(req: ChatRequest) {
   const chunks = await retrieve(req.message);
@@ -19,8 +21,12 @@ export async function respond(req: ChatRequest) {
     { role: 'user' as const, content: req.message },
   ];
 
-  const raw = await invokeChat(system, messages);
-  return guard(raw);
+  let result = guard(await invokeChat(system, messages));
+  // One corrective retry when the draft repeated a figure the visitor typed.
+  if (result.blocked && result.blockedBy === 'price') {
+    result = guard(await invokeChat(`${system}\n${PRICE_RETRY}`, messages));
+  }
+  return applyRoute(result, req.message);
 }
 
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
@@ -47,6 +53,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       historyTurns: req.history.length,
       exit: result.exit,
       blocked: result.blocked,
+      blockedBy: result.blockedBy ?? null,
       ms: Date.now() - started,
     });
 

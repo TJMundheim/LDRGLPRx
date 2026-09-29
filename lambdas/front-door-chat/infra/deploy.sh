@@ -136,6 +136,7 @@ JSON
 ENV_VARS="file://$ENV_FILE"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
+  $AWS lambda wait function-updated --function-name "$FUNCTION_NAME"
   $AWS lambda update-function-code \
     --function-name "$FUNCTION_NAME" \
     --zip-file "fileb://$SCRIPT_DIR/dist/handler.zip" >/dev/null

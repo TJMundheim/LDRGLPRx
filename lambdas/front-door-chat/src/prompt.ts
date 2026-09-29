@@ -1,8 +1,7 @@
 // Builds the Bedrock system prompt for the front-door chat. Pure string work.
 import type { Chunk } from './retrieve';
 import {
-  COORDINATOR_RULE, DISCLOSURE, FORMAT_RULES, SAFETY_RULES, VOICE_RULES,
-} from './rules';
+  COORDINATOR_RULE, DISCLOSURE, FORMAT_RULES, SAFETY_RULES, VOICE_RULES, MEDICATION_TEXT } from './rules';
 
 function sourcesBlock(chunks: Chunk[]): string {
   if (chunks.length === 0) return '(no sources retrieved — say you are not sure and offer the free call)';
@@ -35,6 +34,7 @@ ${COORDINATOR_RULE}
 ${SAFETY_RULES}
 
 Format:
+${MEDICATION_TEXT}
 ${FORMAT_RULES}
 
 Answer only from the SOURCES below plus the rules above. If the sources do not cover the question, say you are not sure and offer the free call.
