@@ -1,7 +1,7 @@
 {
   "model": "amazon.titan-embed-text-v2:0",
   "dims": 1024,
-  "builtAt": "2026-09-29T16:24:25.298Z",
+  "builtAt": "2026-09-29T21:20:01.236Z",
   "chunks": [
     {
       "id": "book#0",
@@ -8910,9 +8910,9 @@
     {
       "id": "site:solutions/gut#2",
       "source": "site",
-      "title": "Ancient Nutrition Multi Collagen Gut Restore",
+      "title": "Ancient Nutrition Gut Kit: Bone Broth Collagen + Gut Restore Capsules",
       "url": "https://my4mlife.com/solutions/gut",
-      "text": "Ancient Nutrition Multi Collagen Gut Restore\n\nInterim bridge to Biome NS Ultra\nBone broth protein, collagen peptides, L-glutamine, and DGL licorice in one scoop, plus a spore probiotic. The closest single-scoop bridge to our Biome NS Ultra formulary while manufacturing is finalized.\n\nOrder via Amazon →\nRx Protocol · By Consult"
+      "text": "Ancient Nutrition Gut Kit: Bone Broth Collagen + Gut Restore Capsules\n\nInterim bridge to Biome NS Ultra\nTwo products, taken together: a scoop of bone broth collagen (just beef and chicken bone broth protein) plus three Gut Restore capsules (spore probiotics, prebiotic fiber, slippery elm, ginger and collagen). Our gut-repair starting point while Biome NS Ultra is still in development.\n\nOrder the bone broth collagen via Amazon →\n\nOrder the Gut Restore capsules via Amazon →\nRx Protocol · By Consult"
     },
     {
       "id": "site:solutions/gut#3",
@@ -8926,7 +8926,7 @@
       "source": "site",
       "title": "Why this matters",
       "url": "https://my4mlife.com/solutions/gut",
-      "text": "Why this matters\n\nYour gut isn't just digesting food. It's manufacturing the neurochemistry your brain runs on.\nGut inflammation is a MindSpan tax — it shows up in your score before it shows up anywhere else, which is why the protocol starts here.\nAbout 90% of your body's serotonin — your mood, sleep, and appetite neurotransmitter — is produced in the gut\nAbout 50% of your dopamine — motivation, reward, focus — is made there too\nRoughly half of your norepinephrine — alertness and attention — originates in gut-adjacent organs\nYour gut microbiome also produces GABA (calm, sleep onset), acetylcholine (memory and learning), glutamate , and histamine\nThe vagus nerve is the highway — about 80% of vagal signals go gut-to-brain, not brain-to-gut. Your gut is talking to your head far more than the other way around.\nThe damage cascade: leaky gut → systemic inflammation → blood-brain barrier permeability → neuroinflammation → \"brain fog,\" mood drops, word-finding lapses\nWhy most probiotics fail: strain specificity, viability through stomach acid, CFU counts on labels vs. what actually colonizes — a \"50 billion CFU\" bottle that dies in the stomach is decoration, not medicine\nGut-derived neuroinflammation is one of the most underestimated drivers of early brain aging — and no hormone, peptide, or cognitive protocol reaches its ceiling on top of a broken gut\nWhen we say fix the gut , we don't mean drink kombucha. We mean specific strains, specific delivery, specific protocol, run for a specific length of time — which is exactly what Biome NS Ultra (and Biome NS Rx for deeper cases) is built to do."
+      "text": "Why this matters\n\nYour gut isn't just digesting food. It's manufacturing the neurochemistry your brain runs on.\nGut inflammation is a MindSpan tax — it shows up in your score before it shows up anywhere else, which is why the protocol starts here.\nAbout 90% of your body's serotonin — your mood, sleep, and appetite neurotransmitter — is produced in the gut\nAbout 50% of your dopamine — motivation, reward, focus — is made there too\nRoughly half of your norepinephrine — alertness and attention — originates in gut-adjacent organs\nYour gut microbiome also produces GABA (calm, sleep onset), acetylcholine (memory and learning), glutamate , and histamine\nThe vagus nerve is the highway — about 80% of vagal signals go gut-to-brain, not brain-to-gut. Your gut is talking to your head far more than the other way around.\nThe damage cascade: leaky gut → systemic inflammation → blood-brain barrier permeability → neuroinflammation → \"brain fog,\" mood drops, word-finding lapses\nWhy most probiotics fail: strain specificity, viability through stomach acid, CFU counts on labels vs. what actually colonizes — a \"50 billion CFU\" bottle that dies in the stomach is decoration, not medicine\nGut-derived neuroinflammation is one of the most underestimated drivers of early brain aging — and no hormone, peptide, or cognitive protocol reaches its ceiling on top of a broken gut\nWhen we say fix the gut , we don't mean drink kombucha. We mean specific strains, specific delivery, specific protocol, run for a specific length of time — which is exactly what Biome NS Ultra (in development) and Biome NS Rx for deeper cases are built to do."
     },
     {
       "id": "site:solutions/gut#5",
@@ -11005,94 +11005,101 @@
       "source": "site",
       "title": "Gut-barrier probiotic (the gut-brain seal)",
       "url": "https://my4mlife.com/stack",
-      "text": "Gut-barrier probiotic (the gut-brain seal)\n\nAM — empty stomach, 30 minutes before food · 1 scoop in 8 oz water\n\nAncient Nutrition"
+      "text": "Gut-barrier probiotic (the gut-brain seal)\n\nAM — empty stomach, 30 minutes before food · 1 scoop in 8 oz water + 3 capsules\nBiome NS Ultra is still in development, so for now this row is two products taken together.\n\nAncient Nutrition"
     },
     {
       "id": "site:stack#3",
       "source": "site",
-      "title": "Multi Collagen Protein Gut Restore",
+      "title": "Bone Broth Collagen, Pure, 30 servings",
       "url": "https://my4mlife.com/stack",
-      "text": "Multi Collagen Protein Gut Restore\n\nCollagen peptides with a gut-barrier blend, unflavored so it disappears into water. One scoop before anything else touches your stomach.\n\nOrder via Amazon &rarr;"
+      "text": "Bone Broth Collagen, Pure, 30 servings\n\nTwo ingredients: grass-fed beef and chicken bone broth protein. Unflavored, so it disappears into water. One scoop.\n\nOrder via Amazon &rarr;\n\nAncient Nutrition"
     },
     {
       "id": "site:stack#4",
+      "source": "site",
+      "title": "Multi Collagen Capsules, Gut Restore, 90 count",
+      "url": "https://my4mlife.com/stack",
+      "text": "Multi Collagen Capsules, Gut Restore, 90 count\n\nSpore-based probiotics, prebiotic fiber, slippery elm, ginger and collagen. Three capsules with the scoop.\n\nOrder via Amazon &rarr;"
+    },
+    {
+      "id": "site:stack#5",
       "source": "site",
       "title": "Vitamin D + K2 + boron + astaxanthin stack",
       "url": "https://my4mlife.com/stack",
       "text": "Vitamin D + K2 + boron + astaxanthin stack\n\nWith breakfast (~9 AM) · 1 serving\nThis covers the D3 + K2. Boron and astaxanthin join when ArmorVita ships.\n\nSports Research"
     },
     {
-      "id": "site:stack#5",
+      "id": "site:stack#6",
       "source": "site",
       "title": "Vitamin D3 + K2, 120 softgels",
       "url": "https://my4mlife.com/stack",
       "text": "Vitamin D3 + K2, 120 softgels\n\nExactly 5,000 IU of D3 with 100 mcg of K2 as MK-7, carried in coconut oil. Nothing else in the softgel.\n\nOrder via Amazon &rarr;"
     },
     {
-      "id": "site:stack#6",
+      "id": "site:stack#7",
       "source": "site",
       "title": "Creatine monohydrate",
       "url": "https://my4mlife.com/stack",
       "text": "Creatine monohydrate\n\nTraining days: around the fasted lift · Non-training days: with breakfast · 5 g\n\nThorne"
     },
     {
-      "id": "site:stack#7",
+      "id": "site:stack#8",
       "source": "site",
       "title": "Creatine, 90 servings",
       "url": "https://my4mlife.com/stack",
       "text": "Creatine, 90 servings\n\nFive grams of plain creatine monohydrate daily — the best-evidenced supplement for muscle and cognition at the same time. NSF Certified for Sport.\n\nOrder via Amazon &rarr;"
     },
     {
-      "id": "site:stack#8",
+      "id": "site:stack#9",
       "source": "site",
       "title": "Electrolyte powder (zero-calorie, low-sodium)",
       "url": "https://my4mlife.com/stack",
       "text": "Electrolyte powder (zero-calorie, low-sodium)\n\nTraining days — half a scoop with your creatine before the fasted lift, half after · 1 scoop split in 16 oz water\n\nUltima Replenisher"
     },
     {
-      "id": "site:stack#9",
+      "id": "site:stack#10",
       "source": "site",
       "title": "Grape, 90 servings",
       "url": "https://my4mlife.com/stack",
       "text": "Grape, 90 servings\n\nZero calories, low sodium. Carries the creatine, holds hydration through a fasted lift, and blunts appetite if you want to push the fast further into the day.\n\nOrder via Amazon &rarr;"
     },
     {
-      "id": "site:stack#10",
+      "id": "site:stack#11",
       "source": "site",
       "title": "Omega-3 + ubiquinol CoQ10 softgel",
       "url": "https://my4mlife.com/stack",
       "text": "Omega-3 + ubiquinol CoQ10 softgel\n\nWith your highest-fat meal of the day · 2 omega softgels + 1 ubiquinol\nNothing on the shelf does both in one capsule yet, so this row is two products taken together.\n\nNordic Naturals"
     },
     {
-      "id": "site:stack#11",
+      "id": "site:stack#12",
       "source": "site",
       "title": "Ultimate Omega 2X, 120 softgels",
       "url": "https://my4mlife.com/stack",
       "text": "Ultimate Omega 2X, 120 softgels\n\nEPA 1,125 mg + DHA 875 mg per two softgels, triglyceride form from wild sardines and anchovies. Two with your fattiest meal.\n\nOrder via Amazon &rarr;\n\nDoctor's Best"
     },
     {
-      "id": "site:stack#12",
+      "id": "site:stack#13",
       "source": "site",
       "title": "Kaneka Ubiquinol 200 mg, 120 softgels",
       "url": "https://my4mlife.com/stack",
       "text": "Kaneka Ubiquinol 200 mg, 120 softgels\n\nThe reduced, active form of CoQ10. Olive oil and MCT carrier, nothing else of note. One alongside the omega.\n\nOrder via Amazon &rarr;"
     },
     {
-      "id": "site:stack#13",
+      "id": "site:stack#14",
       "source": "site",
       "title": "Best-Rest Formula, 120 capsules",
       "url": "https://my4mlife.com/stack",
       "text": "Best-Rest Formula, 120 capsules\n\nMelatonin, valerian, lemon balm, passionflower and PharmaGABA in one capsule — sleep onset and architecture, not sedation.\n\nOrder via Amazon &rarr;"
     },
     {
-      "id": "site:stack#14",
+      "id": "site:stack#15",
       "source": "site",
       "title": "Neuro-Mag Magnesium L-Threonate, 90 capsules",
       "url": "https://my4mlife.com/stack",
       "text": "Neuro-Mag Magnesium L-Threonate, 90 capsules\n\nMagtein at 2,000 mg per three-capsule serving — the only magnesium form shown to cross into the hippocampus.\n\nOrder via Amazon &rarr;\n\n\n\nAdded in Week 3\nWeek 2 adds no new products — everything it asks for is already in the Week 1 stack above."
     },
     {
-      "id": "site:stack#15",
+      "id": "site:stack#16",
       "source": "site",
       "title": "Methyl-Guard Plus, 90 capsules",
       "url": "https://my4mlife.com/stack",
