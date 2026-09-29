@@ -19,6 +19,8 @@ interface Props {
   otcAmazonQuery: string;        // search-URL fallback when no ASIN is set
   otcAsin?: string;              // Amazon ASIN — links straight to the one product page
   otcAuthorizedSeller?: string;  // e.g. "Pattern" — for Pure Encapsulations
+  // Two-product kits (e.g. powder + capsules): one order button per product
+  otcKit?: { label: string; asin: string }[];
 
   // Rx (right card)
   rxName: string;            // e.g. "Biome NS Rx"
@@ -35,6 +37,7 @@ const {
   otcAmazonQuery,
   otcAsin,
   otcAuthorizedSeller,
+  otcKit,
   rxName,
   rxPositionLine,
   rxBody,
@@ -61,12 +64,21 @@ const consultUrl = `/consult?category=${encodeURIComponent(category)}`;
           <strong>Verify "Sold by: {otcAuthorizedSeller}"</strong> — the only authorized Amazon reseller for {otcBrand}.
         </p>
       )}
-      <a class="otcrx-cta otcrx-cta--otc"
-         href={amazonUrl}
-         target="_blank"
-         rel="nofollow sponsored noopener">
-        Order via Amazon →
-      </a>
+      {otcKit?.length ? otcKit.map((item) => (
+        <a class="otcrx-cta otcrx-cta--otc"
+           href={`https://www.amazon.com/dp/${item.asin}?tag=${amazonTag}`}
+           target="_blank"
+           rel="nofollow sponsored noopener">
+          Order {item.label} via Amazon →
+        </a>
+      )) : (
+        <a class="otcrx-cta otcrx-cta--otc"
+           href={amazonUrl}
+           target="_blank"
+           rel="nofollow sponsored noopener">
+          Order via Amazon →
+        </a>
+      )}
     </article>
 
     <!-- Rx card (Consult) -->

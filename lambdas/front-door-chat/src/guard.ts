@@ -26,6 +26,8 @@ const FORBIDDEN: Array<[RegExp, string]> = [
   [/\b(i|we)\s+(can\s+)?(prescribe|diagnose)\b/i, 'scope'],
   [/\b(cures?|will treat|guaranteed)\b/i, 'claim'],
   [PRICE_RE, 'price'],
+  // Biome NS Ultra is not in inventory: any sentence offering it as available/orderable/startable now.
+  [/(?<!\b(until|before|once|when)\s+)biome ns ultra\b(?![^.]*\b(not|isn't|development|until|once|when it ships)\b)[^.]*\b(available|order|buy|start|get started|pick (it )?up)\b|\b(order|buy|start|get)\b[^.]{0,40}biome ns ultra\b(?![^.]*\b(not|isn't|development|until|once|when it ships)\b)/i, 'ultra'],
   [/\b(in|into|through) (your|their|his|her|my) (early |mid-?|late )?(twenties|thirties|forties|fifties|sixties|seventies|eighties|[2-8]0s)\b|\b(twenty|thirty|forty|fifty|sixty|seventy)-?something\b/i, 'age'],
 ];
 

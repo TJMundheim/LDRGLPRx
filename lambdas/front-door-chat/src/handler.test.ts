@@ -229,3 +229,16 @@ describe('guard: age brackets', () => {
     expect(guard('At 38 you are not early. The damage starts in midlife. /assessment').blocked).toBe(false);
   });
 });
+
+describe('guard — Biome NS Ultra availability', () => {
+  it.each([
+    'Yes. Biome NS Ultra is available now as an over-the-counter product.',
+    'You can order Biome NS Ultra directly without a consult.',
+    'Start Biome NS Ultra with your first meal.',
+  ])('blocks: %s', (s) => { expect(guard(s).blockedBy).toBe('ultra'); });
+  it.each([
+    'Biome NS Ultra is still in development and is not available yet.',
+    'Until Biome NS Ultra ships, start with the Ancient Nutrition gut kit on /solutions/gut.',
+    'Biome NS Ultra is our gut formula, and it will be available once it ships.',
+  ])('allows: %s', (s) => { expect(guard(s).blocked).toBe(false); });
+});

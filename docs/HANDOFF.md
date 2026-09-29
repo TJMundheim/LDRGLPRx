@@ -13,6 +13,13 @@
 
 
 
+## ⚡ 2026-09-29 — AI FRONT DOOR LAUNCHED + INTERIM GUT KIT (deployed)
+- **Ask Dr. TJ's AI: LAUNCHED (TJ approved).** Live on my4mlife.com on the full index (1,667 chunks). Golden set 44/44 on two consecutive runs. TJ approved the 10 flagged FAQ answers (FAQ #18 reworded: $249 covers basic labs; extra labs may cost more) and red-penned 20 live answers: keep the "different door" line for already-diagnosed visitors. Review sheet: docs/plan/ai-front-door-tj-review-2026-09-29.md.
+- **Chat safety layers added today:** fixed facts (4Ms, MindSpan Score, 7-minute assessment, "NBCE-certified since 1994"); guard labels price / age / ultra / board-certified; up to two corrective rewrites with accumulated notes; deterministic exits (src/route.ts; "where do I start" and credential questions → /assessment). Re-index after any FAQ/site change: `pnpm run build-index` (reuses vectors, seconds), then lambdas/front-door-chat/infra/deploy.sh (now waits for any in-flight Lambda update).
+- **Interim gut kit (TJ, 2026-09-29): Biome NS Ultra is NOT in inventory.** OTC gut step = two Ancient Nutrition products ordered together: Bone Broth Collagen Pure B01JZP1NXI + Multi Collagen Gut Restore capsules B08572GG7L (both pass no-weak-links). Replaced Gut Restore tub B07D41J92B on /solutions/gut (new OtcRxTopOptions `otcKit` prop, one order button per product) and the /stack Week 1 row + cart. The chat now says Ultra is in development and hard-blocks any "Ultra available" claim.
+- **OPEN:** ~15 other pages still describe Biome NS Ultra as current (blog/eliminate-the-insulting-behavior-*, pillars/mitigate, fast-start, solutions/allergies|weight|dental|pain-chronic|substance-use, about, protocols, biomeaxisforge, blog/what-to-expect-first-month-glp1, blog/semaglutide-vs-tirzepatide) — needs a sweep to "in development; start with the gut kit".
+- Bryan: TJ CONFIRMED script-written is intentional; Confirm charge $125 when the pharmacy order is placed.
+
 ## ⚡ 2026-09-28 — PROVIDER HAND-OFF — LIVE
 
 "Send to provider" is real. It no longer just flips the encounter state: it
@@ -96,7 +103,7 @@ The page the welcome + plan emails point at is live: **https://my4mlife.com/stac
 
 - **New page `website/src/pages/stack.astro`** (public, no login, BaseLayout, title "Your Stack"). Row names and order are copied verbatim from the Week 1 Daily Stack Card in `docs/cohort-workbook/draft/_MASTER.md` §3.2, so a reader holding the printed card finds every line in the same order. Seven Week 1 rows (gut-barrier probiotic / D3 + K2 / creatine / electrolytes / omega-3 + ubiquinol / sleep-support / magnesium L-threonate), eight products. "Added in Week 3" is a collapsed `<details>` with Thorne Methyl-Guard Plus and a line saying Week 2 adds nothing new.
 - **One-click cart:** big primary button → `https://www.amazon.com/gp/aws/cart/add.html?AssociateTag=my4lifeamz-20&ASIN.1..8` with all eight Week 1 ASINs, `rel="nofollow sponsored noopener"`. Cost line is labelled an estimate (~$300, most bottles run 2–3 months).
-- **ASINs (9):** B07D41J92B, B07NXW4GW7, B07978VPPH, B01IIGL894, B06XPPP4M2, B00743BYPQ, B0015SXPI0, B006P536E6 (Week 1) + B00O5AHC4S (Week 3). All verified present on the live page.
+- **ASINs (10, gut row swapped 2026-09-29):** B01JZP1NXI, B08572GG7L, B07NXW4GW7, B07978VPPH, B01IIGL894, B06XPPP4M2, B00743BYPQ, B0015SXPI0, B006P536E6 (Week 1) + B00O5AHC4S (Week 3). All verified present on the live page.
 - **PostHog:** `stack_cart_all` on the cart button, `stack_item_<slug>` on each product link (women.astro/men.astro pattern).
 - **D3 bridge:** Sports Research Vitamin D3 + K2 (B07NXW4GW7, bridges to ArmorVita) added as an `InterimPickCard` on `website/src/pages/pillars/mitigate.astro` (new section before App Delivery) and on `website/src/pages/solutions/nutritional-supplements.astro` **above** the omega section. Copy states 5,000 IU D3 + 100 mcg K2 as MK-7 in coconut oil, nothing else; boron and astaxanthin join when ArmorVita ships.
 - **Links in:** "Your Stack" added to the Footer Explore column; "See the whole Week 1 stack on one page →" at the bottom of /solutions/nutritional-supplements and under the mitigate D3 card.

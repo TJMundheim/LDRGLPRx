@@ -19,7 +19,8 @@ type Product = { brand: string; name: string; why: string; asin: string; slug: s
 type Row = { logbookName: string; when: string; note?: string; products: Product[] };
 
 const WEEK1_ASINS = [
-  'B07D41J92B',
+  'B01JZP1NXI',
+  'B08572GG7L',
   'B07NXW4GW7',
   'B07978VPPH',
   'B01IIGL894',
@@ -36,14 +37,22 @@ const cartUrl =
 const WEEK1: Row[] = [
   {
     logbookName: 'Gut-barrier probiotic (the gut-brain seal)',
-    when: 'AM — empty stomach, 30 minutes before food · 1 scoop in 8 oz water',
+    when: 'AM — empty stomach, 30 minutes before food · 1 scoop in 8 oz water + 3 capsules',
+    note: 'Biome NS Ultra is still in development, so for now this row is two products taken together.',
     products: [
       {
         brand: 'Ancient Nutrition',
-        name: 'Multi Collagen Protein Gut Restore',
-        why: 'Collagen peptides with a gut-barrier blend, unflavored so it disappears into water. One scoop before anything else touches your stomach.',
-        asin: 'B07D41J92B',
-        slug: 'gut_probiotic',
+        name: 'Bone Broth Collagen, Pure, 30 servings',
+        why: 'Two ingredients: grass-fed beef and chicken bone broth protein. Unflavored, so it disappears into water. One scoop.',
+        asin: 'B01JZP1NXI',
+        slug: 'gut_bone_broth_collagen',
+      },
+      {
+        brand: 'Ancient Nutrition',
+        name: 'Multi Collagen Capsules, Gut Restore, 90 count',
+        why: 'Spore-based probiotics, prebiotic fiber, slippery elm, ginger and collagen. Three capsules with the scoop.',
+        asin: 'B08572GG7L',
+        slug: 'gut_restore_capsules',
       },
     ],
   },

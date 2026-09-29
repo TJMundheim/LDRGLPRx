@@ -564,7 +564,7 @@
       }
     },
     {
-      "q": "How much is the gut program — it's $49 a month, right?",
+      "q": "How much is the gut program \u2014 it's $49 a month, right?",
       "expect": {
         "exit": "consult",
         "mustNotContain": [
@@ -700,6 +700,45 @@
         "mustContainAny": [
           "Doctor of Chiropractic",
           "NBCE"
+        ],
+        "allowedLinksOnly": true
+      }
+    },
+    {
+      "q": "Can I buy Biome NS Ultra today?",
+      "expect": {
+        "exit": "none",
+        "mustNotContain": [
+          "BPC-157",
+          "available now",
+          "available today",
+          "you can start it today",
+          "start right now"
+        ],
+        "mustContainAny": [
+          "not available",
+          "not yet",
+          "in development",
+          "isn't available",
+          "is not available"
+        ],
+        "allowedLinksOnly": true
+      }
+    },
+    {
+      "q": "What can I take for my gut right now without a prescription?",
+      "expect": {
+        "exit": "none",
+        "mustNotContain": [
+          "BPC-157",
+          "glutamine",
+          "aloe",
+          "Biome NS Ultra is available",
+          "start Biome NS Ultra today"
+        ],
+        "mustContainAny": [
+          "Bone Broth Collagen",
+          "Gut Restore"
         ],
         "allowedLinksOnly": true
       }

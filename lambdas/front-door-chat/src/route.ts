@@ -11,9 +11,13 @@ const PERSONAL = /\b(my name is|dob\b|date of birth|\d{1,2}\/\d{1,2}\/\d{2,4}|a1
 // Prescription, price, visit, comparison, booking, paperwork: always the free call.
 const CONSULT = /\b(prescri\w*|rx\b|medication|ingredients?|what(?:'s| is) in\b|formula|dos(?:e|es|age|ing)|price|cost|how much|\$\s?\d|insurance|refund|book (?:a|an|me|my)\b|booking|schedule|appointment|visit\b|asynchronous|async\b|consent|card\b|charged?|better than|compare|versus|\bvs\b|hims\b|\bro\b|semaglutide|tirzepatide|testosterone|trt\b|hrt\b)/i;
 
+// "Where do I start?" questions with no prescription/price words: the assessment is the first step.
+const START = /\b(where (do|should) i (start|begin)|what do i do first|how do i (start|begin)|first step|credentials?|who is dr\.? ?tj|are you dr\.? ?tj)\b/i;
+
 export function exitFor(message: string): Exit {
   if (PERSONAL.test(message)) return 'assessment';
   if (CONSULT.test(message)) return 'consult';
+  if (START.test(message)) return 'assessment';
   return null;
 }
 
