@@ -22,19 +22,24 @@ After your edits: re-run the index build so the AI picks them up.
 ## Part 2 — 20 live answers to red-pen
 _Pulled from the live chat 2026-09-29 after the golden set passed 40/40 (temperature 0, so the same question returns the same answer). The opening AI disclosure line is left off each one. Buttons are what the visitor sees under the answer._
 
-**Claude flagged these before your read:**
-- **#10 MindSpan Score** — invents four pillars ("mind, metabolism, medication, and microbiome") that appear nowhere in the books or the site. The real four are Mind, Muscle, Mitigate, Motivate. Being fixed.
-- **#12 Is Dr. TJ a medical doctor?** — says "board-certified by the NBCE"; the site says "NBCE-certified since 1994". Also "support them without drugs". Your call on both.
-- **#1 vs #2** — the assessment is "five minutes" in one answer and "seven minutes" in the other. The site says both in different places. Pick one.
-- **#15 gut program** — says you can start Biome NS Ultra "right now without a consult." Coordinator mode sends every path to the free call; confirm Ultra is orderable today.
+**Claude flagged these before your read — status after the 2026-09-29 fix round:**
+- **#10 MindSpan Score** — FIXED. Now uses Mind, Muscle, Mitigate, Motivate (it had invented four other pillars).
+- **#12 credential** — FIXED. Now "NBCE-certified since 1994", matching the site; the guard now blocks "board-certified".
+- **Assessment length** — FIXED. Always "about seven minutes", the figure on the live assessment page.
+- **#1 Is this for me?** — NEW SLIP, being fixed: the re-pulled answer names age brackets ("fifties or sixties", "forty-something"), which breaks the no-age-range rule. Will be re-pulled once fixed.
+- **#15 gut program** — OPEN for TJ: says Biome NS Ultra can be started "right now without a consult." Confirm Ultra is orderable today.
 
 ### 1. Is this program for me?
 
-That's the question the assessment answers. It takes five minutes, surfaces your top three problem areas right now, and sets your MindSpan Score — your baseline brain-healthspan number. Then it routes you to exactly where to start Monday morning.
+That's the question I'm here to answer, and the honest answer is: I don't know yet. Not because of anything about you, but because "for me" means something different depending on where you are right now.
 
-The program is built for the person who is still chosen — still running things, still trusted, still sharp — but quietly noticing the slip. The half-beat delay on a name. The paragraph you read twice. The five moving parts instead of seven. If that's you, or if you're reading this for someone you're trying to protect, the assessment tells you whether this is your path and what comes next.
+If you're in your fifties or sixties, still running things, still chosen — and you've noticed the words don't come quite as fast, or you're reading the same paragraph twice — this is built for you. You still have the runway to fix this.
 
-It's free. No card, no catch. Completing it makes you a Protégé and unlocks the app, the Logbook, weekly Zooms with me and your cohort, and the daily protocol.
+If you're forty-something and you're reading this because you're watching a parent slip, or you're seeing yourself in that description — this is for you too. You're reading it just in time.
+
+If you've already got a diagnosis — mild cognitive impairment, Alzheimer's, Parkinson's — the program pivots. The choice is narrower and more time-sensitive, but it still exists.
+
+The way to know for sure is to take the free assessment. Twenty questions, about seven minutes. It surfaces your top three problem areas right now and tells you exactly where to start Monday morning. It also sets your baseline brain-healthspan number.
 
 _Buttons:_ [Take the MindSpan assessment](/assessment)
 
@@ -42,11 +47,9 @@ _Your notes:_
 
 ### 2. What do I do first?
 
-Take the free assessment. Seven minutes, twenty questions. You'll get your top three priorities plus the book, the Logbook, and the app in your inbox. That's where you begin — with a pen in your hand, writing down what you're protecting and why.
+Take the free MindSpan assessment. It's twenty questions, takes about seven minutes, and you'll get your top three priorities plus the book, the Logbook, and the app in your inbox. Your MindSpan Score is your baseline — the risk load the work brings down. You'll retake it at the end of the 12-week program to see what moved.
 
-If you already know you want to explore one of our treatment lanes — like the Gut-Brain Rx, GLP-1 weight loss, hormone support, or something else — you can skip straight to the free care coordinator call instead. A real person will listen to what's going on and point you to the right next step.
-
-Either way, you're not guessing. You're starting with data about yourself.
+If you already know you want to explore one of our treatment lanes — like the Gut-Brain Rx, GLP-1 weight loss, or hormone support — you can skip straight to the free care coordinator call instead. Either way, you're starting with something free and real.
 
 _Buttons:_ [Take the MindSpan assessment](/assessment)
 
@@ -138,11 +141,11 @@ _Your notes:_
 
 ### 10. What is the MindSpan Score?
 
-Your MindSpan Score is your baseline across the four pillars of brain health — mind, metabolism, medication, and microbiome. It's a single number out of 100, lower is better, and it comes from a free 20-question assessment that takes about seven minutes.
+Your MindSpan Score is your baseline across the four pillars of the 4M framework: Mind, Muscle, Mitigate, and Motivate. It comes from a free 20-question assessment and gets re-measured as you move through the program.
 
-The score exists so you're working from a number instead of a feeling. Once you set it, you'll see your top three priorities right away. You'll retake the same assessment every 30 days to measure the delta — what's actually changing as you work through the program.
+The score runs from 0 to 100, and lower is better — it's your risk load, the number the work brings down. Once you set it, you have a real number instead of a feeling. You'll see your top three priorities right away, and we'll email your full results along with the book, the Logbook, and access to the app.
 
-The assessment also unlocks a free copy of Begin with the End in Mind, the Logbook, and access to the Protégé app. Your information stays private and is never sold.
+The point is to work from a baseline, not a guess. Alzheimer's starts in midlife, which is why setting this now — while the things it measures can still be changed — matters.
 
 _Buttons:_ [Take the MindSpan assessment](/assessment)
 
@@ -160,7 +163,7 @@ _Your notes:_
 
 ### 12. Is Dr. TJ a medical doctor?
 
-No. I'm a Doctor of Chiropractic, board-certified by the NBCE. That means I'm trained in how the nervous system, the spine, and the brain work together—and how to support them without drugs. When you need a prescription or medical care on this program, our network's licensed physicians handle that part. I focus on the root: how your brain and gut talk to each other, and what happens when they don't.
+No. I hold a Doctor of Chiropractic degree, NBCE-certified since 1994. That means I'm trained in spinal health, neurology, and how the body's structure affects how it works. When you work with our network on medication or anything that requires a prescription, that is always written and managed by one of our network's licensed physicians, not by me.
 
 _Buttons:_ [Take the MindSpan assessment](/assessment)
 
