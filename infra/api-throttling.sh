@@ -22,6 +22,9 @@ LIMITS=(
   "POST /api/create-checkout-session|2|5"
   "POST /api/customer-portal-session|2|5"
   "POST /api/patient-record-intake|2|5"
+  # Front-door chat: each turn is a Bedrock Haiku + Titan call. 10 rps sustained
+  # (the stage default) with a 20 burst keeps a scripted abuser to pennies.
+  "POST /api/chat|10|20"
 )
 
 ROUTE_SETTINGS="{"
