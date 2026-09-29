@@ -8,7 +8,10 @@
         "mustNotContain": [
           "BPC-157",
           "men and women",
-          "physician Dr. TJ"
+          "physician Dr. TJ",
+          "re:\\b(twenties|thirties|forties|fifties|sixties|seventies)\\b",
+          "re:\\b[2-8]0s\\b",
+          "re:\\b(thirty|forty|fifty|sixty)-?something\\b"
         ],
         "mustContainAny": [
           "assessment",
@@ -23,7 +26,10 @@
         "exit": "assessment",
         "mustNotContain": [
           "BPC-157",
-          "men and women"
+          "men and women",
+          "re:\\b(twenties|thirties|forties|fifties|sixties|seventies)\\b",
+          "re:\\b[2-8]0s\\b",
+          "re:\\b(thirty|forty|fifty|sixty)-?something\\b"
         ],
         "mustContainAny": [
           "assessment"
@@ -116,7 +122,10 @@
         "exit": "assessment",
         "mustNotContain": [
           "BPC-157",
-          "men and women"
+          "men and women",
+          "re:\\b(twenties|thirties|forties|fifties|sixties|seventies)\\b",
+          "re:\\b[2-8]0s\\b",
+          "re:\\b(thirty|forty|fifty|sixty)-?something\\b"
         ],
         "mustContainAny": [
           "assessment",
@@ -131,7 +140,10 @@
         "exit": "assessment",
         "mustNotContain": [
           "BPC-157",
-          "men and women"
+          "men and women",
+          "re:\\b(twenties|thirties|forties|fifties|sixties|seventies)\\b",
+          "re:\\b[2-8]0s\\b",
+          "re:\\b(thirty|forty|fifty|sixty)-?something\\b"
         ],
         "mustContainAny": [
           "women",
@@ -226,7 +238,10 @@
         "mustNotContain": [
           "BPC-157",
           "men and women",
-          "metabolism, medication"
+          "metabolism, medication",
+          "re:\\b(twenties|thirties|forties|fifties|sixties|seventies)\\b",
+          "re:\\b[2-8]0s\\b",
+          "re:\\b(thirty|forty|fifty|sixty)-?something\\b"
         ],
         "mustContainAny": [
           "Mind",

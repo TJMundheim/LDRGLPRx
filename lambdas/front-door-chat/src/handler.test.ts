@@ -215,3 +215,17 @@ describe('route', () => {
     expect(applyRoute(blocked, 'My name is John, DOB 3/14/1966')).toBe(blocked);
   });
 });
+
+describe('guard: age brackets', () => {
+  it('blocks a reply that describes people by decade', () => {
+    const r = guard("If you're in your fifties or sixties, this is for you. /assessment");
+    expect(r.blocked).toBe(true);
+    expect(r.blockedBy).toBe('age');
+  });
+  it('blocks forty-something', () => {
+    expect(guard("If you're forty-something and reading this. /assessment").blockedBy).toBe('age');
+  });
+  it("lets a visitor's own stated age through", () => {
+    expect(guard('At 38 you are not early. The damage starts in midlife. /assessment').blocked).toBe(false);
+  });
+});

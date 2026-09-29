@@ -10,7 +10,9 @@ import { saveTurn } from './store';
 import { reply, validateRequest, type ChatRequest } from './validate';
 import { SAFE_FALLBACK } from './config';
 import { applyRoute } from './route';
-import { PRICE_RETRY } from './rules';
+import { AGE_RETRY, PRICE_RETRY } from './rules';
+
+const RETRY_NOTE: Record<string, string> = { price: PRICE_RETRY, age: AGE_RETRY };
 
 export async function respond(req: ChatRequest) {
   const chunks = await retrieve(req.message);
@@ -22,10 +24,9 @@ export async function respond(req: ChatRequest) {
   ];
 
   let result = guard(await invokeChat(system, messages));
-  // One corrective retry when the draft repeated a figure the visitor typed.
-  if (result.blocked && result.blockedBy === 'price') {
-    result = guard(await invokeChat(`${system}\n${PRICE_RETRY}`, messages));
-  }
+  // One corrective retry for the two slips a rewrite reliably fixes: an unpublished price, an age bracket.
+  const retry = result.blocked ? RETRY_NOTE[result.blockedBy ?? ''] : undefined;
+  if (retry) result = guard(await invokeChat(`${system}\n${retry}`, messages));
   return applyRoute(result, req.message);
 }
 

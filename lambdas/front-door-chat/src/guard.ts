@@ -26,6 +26,7 @@ const FORBIDDEN: Array<[RegExp, string]> = [
   [/\b(i|we)\s+(can\s+)?(prescribe|diagnose)\b/i, 'scope'],
   [/\b(cures?|will treat|guaranteed)\b/i, 'claim'],
   [PRICE_RE, 'price'],
+  [/\b(in|into|through) (your|their|his|her|my) (early |mid-?|late )?(twenties|thirties|forties|fifties|sixties|seventies|eighties|[2-8]0s)\b|\b(twenty|thirty|forty|fifty|sixty|seventy)-?something\b/i, 'age'],
 ];
 
 function normalise(raw: string): string | null {
