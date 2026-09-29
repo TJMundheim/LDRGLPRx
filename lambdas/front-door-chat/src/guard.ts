@@ -22,6 +22,7 @@ const FORBIDDEN: Array<[RegExp, string]> = [
   [/l-?glutamine|aloe\s+vera/i, 'rx-formula'],
   [/\b(physician|medical doctor|m\.?d\.?)\b[^.]{0,30}\b(dr\.?\s*tj|mundheim)\b/i, 'credential'],
   [/\b(dr\.?\s*tj|mundheim)\b[^.]{0,30}\b(is|as)\s+(a\s+)?(physician|medical doctor|md)\b/i, 'credential'],
+  [/\bboard[- ]certified\b/i, 'credential'],
   [/\b(i|we)\s+(can\s+)?(prescribe|diagnose)\b/i, 'scope'],
   [/\b(cures?|will treat|guaranteed)\b/i, 'claim'],
   [PRICE_RE, 'price'],

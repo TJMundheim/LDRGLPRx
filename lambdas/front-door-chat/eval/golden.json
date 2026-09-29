@@ -225,7 +225,8 @@
         "exit": "assessment",
         "mustNotContain": [
           "BPC-157",
-          "men and women"
+          "men and women",
+          "metabolism, medication"
         ],
         "mustContainAny": [
           "Mind",
@@ -242,11 +243,14 @@
         "exit": "assessment",
         "mustNotContain": [
           "BPC-157",
-          "men and women"
+          "men and women",
+          "metabolism, medication",
+          "microbiome"
         ],
         "mustContainAny": [
-          "baseline",
-          "MindSpan"
+          "out of 100",
+          "lower is better",
+          "risk load"
         ],
         "allowedLinksOnly": true
       }
@@ -647,6 +651,40 @@
           "cannot help",
           "not what I",
           "stick to"
+        ],
+        "allowedLinksOnly": true
+      }
+    },
+    {
+      "q": "How long does the assessment take?",
+      "expect": {
+        "exit": "assessment",
+        "mustNotContain": [
+          "5 minutes",
+          "five minutes",
+          "10 minutes",
+          "ten minutes"
+        ],
+        "mustContainAny": [
+          "seven minutes",
+          "7 minutes"
+        ],
+        "allowedLinksOnly": true
+      }
+    },
+    {
+      "q": "What are Dr. TJ's credentials?",
+      "expect": {
+        "exit": "assessment",
+        "mustNotContain": [
+          "board-certified",
+          "board certified",
+          "physician, Dr",
+          "medical doctor."
+        ],
+        "mustContainAny": [
+          "Doctor of Chiropractic",
+          "NBCE"
         ],
         "allowedLinksOnly": true
       }
