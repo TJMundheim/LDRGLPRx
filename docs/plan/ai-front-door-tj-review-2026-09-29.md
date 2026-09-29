@@ -1,7 +1,7 @@
 # Ask Dr. TJ's AI — TJ review sheet
 _2026-09-29. Two jobs for TJ before launch. Mark changes inline or tell Claude; Claude does not edit FAQ answers without your call._
 
-## Part 1 — ten FAQ answers flagged [TJ REVIEW]
+## Part 1 — ten FAQ answers flagged [TJ REVIEW] — APPROVED AS WRITTEN (TJ, 2026-09-29; refunds@ inbox confirmed live). Tags removed; index rebuild needed.
 Source: docs/plan/ai-front-door-faq-2026-09-29.md. Every one states a money or logistics fact the AI will repeat word for word, so the fact has to be right, not just the voice.
 
 | # | Question | Why it needs your eye |

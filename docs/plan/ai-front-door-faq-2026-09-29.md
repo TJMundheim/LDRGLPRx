@@ -8,7 +8,7 @@ No. I am an AI trained on Dr. TJ's books and this site. I answer in his first pe
 I am a Doctor of Chiropractic, NBCE-certified since 1994. I built the 4M framework, wrote *Begin with the End in Mind*, and assembled the team that runs My4MLife. I do not practice medicine on this platform and I do not write prescriptions. Medical care, diagnosis, lab orders, and prescriptions come from our network's licensed physicians through our contracted telemedicine practice. My job is education, protocol design, and getting you in front of the right clinician.
 
 ## 3. Who actually writes the prescriptions?
-Our network's licensed physicians, working through a contracted licensed telemedicine practice. They are the prescribing clinician of record, they hold the medical record, and they make every clinical decision. I do not, and My4MLife does not. That separation is deliberate and it is disclosed on every surface of this site. [TJ REVIEW]
+Our network's licensed physicians, working through a contracted licensed telemedicine practice. They are the prescribing clinician of record, they hold the medical record, and they make every clinical decision. I do not, and My4MLife does not. That separation is deliberate and it is disclosed on every surface of this site.
 
 ## 4. What is the free care coordinator call?
 It is a short conversation with a human care coordinator about what is going on with you and what you want to change. Nothing is diagnosed, nothing is prescribed, and no card is asked for. You leave with a clear next step and a plan-of-action email. If a treatment lane fits, the coordinator sets it up with you. Start here: https://my4mlife.com/consult
@@ -53,7 +53,7 @@ Two. Testosterone for men is a live audio-visual visit, $249, which includes a h
 Free visit: GLP-1 weight loss (async review), Gut-Brain Rx (async review), Tesamorelin GH peptide (async review). $249: Testosterone for men, a live audio-visual visit that includes a hormone panel; and Menopause and HRT for women, a live audio-visual visit that includes a panel. That is the whole list. If you hear a different number anywhere, it did not come from us.
 
 ## 18. Does the $249 include labs?
-The testosterone visit includes a hormone panel, and the menopause and HRT visit includes a panel. That is what the fee covers along with the physician's time. Anything a physician orders beyond the included panel is a separate matter, and your coordinator will tell you before anything is ordered. [TJ REVIEW]
+The testosterone visit includes a hormone panel, and the menopause and HRT visit includes a panel. That is what the fee covers along with the physician's time. Anything a physician orders beyond the included panel is a separate matter, and your coordinator will tell you before anything is ordered.
 
 ## 19. What does the Gut-Brain Rx cost?
 Biome NS Rx is $125 per 30-day supply. The visit itself is free, it is an async review, and your card is charged only after our network's licensed physician approves the prescription. Nothing is charged on the day you sign.
@@ -83,7 +83,7 @@ After a lane is chosen on your call, you get a separate email with the consent d
 So that nothing stalls. Your card is saved, not charged. It is charged only after the physician approves your prescription, and you get a receipt when that happens. If the physician does not approve, you are not charged at all. Nothing is charged on the day you sign.
 
 ## 28. When exactly does my card get charged?
-Only after our network's licensed physician reviews your record and approves the prescription. Not at the consent step, not at the intake, not on the free call. For Biome NS Rx that charge is $125 per 30-day supply, and a receipt follows. [TJ REVIEW]
+Only after our network's licensed physician reviews your record and approves the prescription. Not at the consent step, not at the intake, not on the free call. For Biome NS Rx that charge is $125 per 30-day supply, and a receipt follows.
 
 ## 29. What if the physician says no?
 Then nothing is charged and nothing ships. A declined review is not a failure on your part; it usually means something in your record needs handling first, or a different lane fits better. Your coordinator will tell you what the physician said and what the sensible next step is.
@@ -131,16 +131,16 @@ No. Fasting is a default in the program, not a requirement, and it is one of the
 We do not put it on the table. There is no alcohol in a recipe and none beside it. Iced tea or green tea at dinner, water through the day. If alcohol is a bigger question for you than a dinner choice, say so on the free call, because there are real options and none of them start with willpower.
 
 ## 44. What is your refund policy?
-Completed consults are not refundable; the fee covers the clinician's time and the protocol delivered. Cancel a consult more than 24 hours ahead and you get a full refund in 5 to 7 business days. Prescriptions cannot be refunded once shipped, by federal and state pharmacy rules. Unopened supplements return within 14 days, less shipping and restocking. Full policy: https://my4mlife.com/refund-policy [TJ REVIEW]
+Completed consults are not refundable; the fee covers the clinician's time and the protocol delivered. Cancel a consult more than 24 hours ahead and you get a full refund in 5 to 7 business days. Prescriptions cannot be refunded once shipped, by federal and state pharmacy rules. Unopened supplements return within 14 days, less shipping and restocking. Full policy: https://my4mlife.com/refund-policy
 
 ## 45. Can I get a refund if I miss my visit?
-If you miss it, or arrive more than 15 minutes late without notice, it is treated as completed for refund purposes, because the clinician's time was reserved for you. You can reschedule a future one, but the original fee is not refunded or credited. Rescheduling more than 24 hours ahead carries your payment over instead. [TJ REVIEW]
+If you miss it, or arrive more than 15 minutes late without notice, it is treated as completed for refund purposes, because the clinician's time was reserved for you. You can reschedule a future one, but the original fee is not refunded or credited. Rescheduling more than 24 hours ahead carries your payment over instead.
 
 ## 46. Are lab fees refundable?
-No, not once the clinician has generated the lab requisition. If you decide not to complete the draw after that point, the fee is forfeit. Lab work run by a third-party lab is also subject to that lab's own billing and refund rules on top of ours. [TJ REVIEW]
+No, not once the clinician has generated the lab requisition. If you decide not to complete the draw after that point, the fee is forfeit. Lab work run by a third-party lab is also subject to that lab's own billing and refund rules on top of ours.
 
 ## 47. How do I request a refund?
-Email refunds@my4mlife.com from the address on your account, include your order number or checkout email, and say what you are asking us to refund and why. We respond within 3 business days, and approved refunds process within 5 to 7 business days to the original payment method. [TJ REVIEW]
+Email refunds@my4mlife.com from the address on your account, include your order number or checkout email, and say what you are asking us to refund and why. We respond within 3 business days, and approved refunds process within 5 to 7 business days to the original payment method.
 
 ## 48. What happens if I file a chargeback?
 Your account is permanently terminated: subscriptions cancelled, app access revoked, no future purchases. That is not us punishing a billing dispute. We will refund any eligible order, every time, if you ask. It is the consequence of going around us instead of giving us the first chance. Email refunds@my4mlife.com first, always.
@@ -170,13 +170,13 @@ No. Dosing is a physician decision made against your record, your labs, and ever
 That is a physician question, and it is one of the few I refuse to answer even generally, because the answer depends on your dose, your other medications, and your kidneys and liver. Bring your full medication list to the free coordinator call. The intake asks for it, and the physician reviewing your record needs it.
 
 ## 57. Does insurance cover any of this?
-Our lanes are cash-pay. Where labs run through a third-party lab, that lab's own billing applies and may work differently. If you have questions about coverage for anything specific, raise it on the free coordinator call before anything is ordered rather than after. [TJ REVIEW]
+Our lanes are cash-pay. Where labs run through a third-party lab, that lab's own billing applies and may work differently. If you have questions about coverage for anything specific, raise it on the free coordinator call before anything is ordered rather than after.
 
 ## 58. How long does it take to get started?
-The assessment is about seven minutes and your top three priorities appear on screen when you finish. The welcome email with the book, the Logbook, and app access follows. The coordinator intake takes a few minutes, and the coordinator reaches out to arrange a time from there. Consent signing is about two minutes. [TJ REVIEW]
+The assessment is about seven minutes and your top three priorities appear on screen when you finish. The welcome email with the book, the Logbook, and app access follows. The coordinator intake takes a few minutes, and the coordinator reaches out to arrange a time from there. Consent signing is about two minutes.
 
 ## 59. How does the medication reach me?
-A pharmacy partner fills the prescription that our network's licensed physician writes and ships it to you. Once a prescription has shipped, that order is final, because federal and state pharmacy rules prohibit returning or reselling dispensed medication. If your order has not shipped yet, email refunds@my4mlife.com as soon as possible and we will try to stop it. [TJ REVIEW]
+A pharmacy partner fills the prescription that our network's licensed physician writes and ships it to you. Once a prescription has shipped, that order is final, because federal and state pharmacy rules prohibit returning or reselling dispensed medication. If your order has not shipped yet, email refunds@my4mlife.com as soon as possible and we will try to stop it.
 
 ## 60. What should I do first?
 Take the free assessment. Seven minutes, twenty questions, and you will have your top three priorities plus the book, the Logbook, and the app in your inbox. If you already know you want a treatment lane looked at, skip ahead to the free care coordinator call instead. https://my4mlife.com/assessment or https://my4mlife.com/consult
