@@ -26,20 +26,18 @@ _Pulled from the live chat 2026-09-29 after the golden set passed 40/40 (tempera
 - **#10 MindSpan Score** — FIXED. Now uses Mind, Muscle, Mitigate, Motivate (it had invented four other pillars).
 - **#12 credential** — FIXED. Now "NBCE-certified since 1994", matching the site; the guard now blocks "board-certified".
 - **Assessment length** — FIXED. Always "about seven minutes", the figure on the live assessment page.
-- **#1 Is this for me?** — NEW SLIP, being fixed: the re-pulled answer names age brackets ("fifties or sixties", "forty-something"), which breaks the no-age-range rule. Will be re-pulled once fixed.
+- **#1 Is this for me?** — FIXED. No ages; describes the person by what they notice. Your call: it also names the already-diagnosed door (MCI, Alzheimer's, Parkinson's, dementia) — keep it in a first-touch answer or cut it?
 - **#15 gut program** — OPEN for TJ: says Biome NS Ultra can be started "right now without a consult." Confirm Ultra is orderable today.
 
 ### 1. Is this program for me?
 
-That's the question I'm here to answer, and the honest answer is: I don't know yet. Not because of anything about you, but because "for me" means something different depending on where you are right now.
+That's the question I'm here to answer, and the honest answer is: I don't know yet. Not because of anything about you, but because "for me" means something different depending on what you're noticing and what you want to protect.
 
-If you're in your fifties or sixties, still running things, still chosen — and you've noticed the words don't come quite as fast, or you're reading the same paragraph twice — this is built for you. You still have the runway to fix this.
+This program is built for people who are still chosen — still running things, still trusted, still sharp — and who are quietly aware that something has shifted. A name that doesn't come as fast. A paragraph you read twice. Five moving parts instead of seven. You're not in trouble yet. You're in the window where you still have real choices.
 
-If you're forty-something and you're reading this because you're watching a parent slip, or you're seeing yourself in that description — this is for you too. You're reading it just in time.
+It's also for people who've already been diagnosed with mild cognitive impairment, Alzheimer's, Parkinson's, or dementia, and who want to know what's still possible. That's a different door, but it's still a door.
 
-If you've already got a diagnosis — mild cognitive impairment, Alzheimer's, Parkinson's — the program pivots. The choice is narrower and more time-sensitive, but it still exists.
-
-The way to know for sure is to take the free assessment. Twenty questions, about seven minutes. It surfaces your top three problem areas right now and tells you exactly where to start Monday morning. It also sets your baseline brain-healthspan number.
+The assessment is seven minutes. It asks what you're noticing, what matters to you, and where the insulting behavior is doing the most damage right now. It sets your baseline brain-healthspan number and routes you to your next step. Free. No card. No catch.
 
 _Buttons:_ [Take the MindSpan assessment](/assessment)
 
