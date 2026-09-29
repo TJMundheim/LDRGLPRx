@@ -53,7 +53,7 @@ Two. Testosterone for men is a live audio-visual visit, $249, which includes a h
 Free visit: GLP-1 weight loss (async review), Gut-Brain Rx (async review), Tesamorelin GH peptide (async review). $249: Testosterone for men, a live audio-visual visit that includes a hormone panel; and Menopause and HRT for women, a live audio-visual visit that includes a panel. That is the whole list. If you hear a different number anywhere, it did not come from us.
 
 ## 18. Does the $249 include labs?
-The testosterone visit includes a hormone panel, and the menopause and HRT visit includes a panel. That is what the fee covers along with the physician's time. Anything a physician orders beyond the included panel is a separate matter, and your coordinator will tell you before anything is ordered.
+The testosterone visit includes a hormone panel, and the menopause and HRT visit includes a panel. Yes, the $249 covers your basic labs along with the physician's time. If the physician finds you need additional labs, there may be some additional cost, and your coordinator will tell you before anything extra is ordered.
 
 ## 19. What does the Gut-Brain Rx cost?
 Biome NS Rx is $125 per 30-day supply. The visit itself is free, it is an async review, and your card is charged only after our network's licensed physician approves the prescription. Nothing is charged on the day you sign.
