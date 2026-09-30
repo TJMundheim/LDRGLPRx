@@ -21,6 +21,21 @@ vi.mock('@aws-sdk/client-dynamodb', () => ({
   UpdateItemCommand: vi.fn(),
 }));
 
+// push-patch-prices.json is generated later by infra/scripts/stripe-push-patch-prices.mjs — fake IDs here.
+vi.mock('./push-patch-prices.json', () => {
+  const data = {
+    test: {
+      'push-patch-wolverine': 'price_test_wolverine',
+      'push-patch-glutathione-ghk': 'price_test_glutathione_ghk',
+    },
+    live: {
+      'push-patch-wolverine': 'price_live_wolverine',
+      'push-patch-glutathione-ghk': 'price_live_glutathione_ghk',
+    },
+  };
+  return { default: data, ...data };
+});
+
 import { handler } from './handler.js';
 
 const ADMIN_PASSWORD = 'secret123';
@@ -123,5 +138,90 @@ describe('admin route POST /api/admin/demo-checkout-session', () => {
     })) as any;
     expect(res.statusCode).toBe(200);
     expect(JSON.parse(res.body).url).toBeTruthy();
+  });
+});
+
+describe('push-patch SKUs', () => {
+  const adminPath = '/api/admin/demo-checkout-session';
+  const validCreds = () => `Basic ${Buffer.from(`user:${ADMIN_PASSWORD}`).toString('base64')}`;
+  const patchBody = (extra: Record<string, unknown> = {}) =>
+    JSON.stringify({ skuId: 'push-patch-wolverine', wear: '12h', ...extra });
+
+  it('creates a payment session with US shipping, live price, and wear metadata (live mode)', async () => {
+    process.env['STRIPE_MODE'] = 'live';
+    try {
+      const res = await handler(makeEvent({ body: patchBody() })) as any;
+      expect(res.statusCode).toBe(200);
+      const args = mockCreate.mock.calls[0][0];
+      expect(args.mode).toBe('payment');
+      expect(args.shipping_address_collection).toEqual({ allowed_countries: ['US'] });
+      expect(args.line_items).toEqual([{ price: 'price_live_wolverine', quantity: 1 }]);
+      expect(args.metadata.skuIds).toBe('push-patch-wolverine');
+      expect(args.metadata.wear).toBe('12h');
+      expect(args.metadata.isDemo).toBe('false');
+    } finally {
+      delete process.env['STRIPE_MODE'];
+    }
+  });
+
+  it('uses the test price when STRIPE_MODE is unset (defaults to test)', async () => {
+    delete process.env['STRIPE_MODE'];
+    await handler(makeEvent({ body: patchBody({ skuId: 'push-patch-glutathione-ghk', wear: '14h' }) }));
+    const args = mockCreate.mock.calls[0][0];
+    expect(args.line_items).toEqual([{ price: 'price_test_glutathione_ghk', quantity: 1 }]);
+    expect(args.metadata.wear).toBe('14h');
+    expect(args.metadata.skuIds).toBe('push-patch-glutathione-ghk');
+  });
+
+  it('uses the live price for a second blend in live mode', async () => {
+    process.env['STRIPE_MODE'] = 'live';
+    try {
+      await handler(makeEvent({ body: patchBody({ skuId: 'push-patch-glutathione-ghk' }) }));
+      expect(mockCreate.mock.calls[0][0].line_items).toEqual([{ price: 'price_live_glutathione_ghk', quantity: 1 }]);
+    } finally {
+      delete process.env['STRIPE_MODE'];
+    }
+  });
+
+  it('cancel_url points at /go/push-patch and success_url at /thank-you', async () => {
+    await handler(makeEvent({ body: patchBody() }));
+    const args = mockCreate.mock.calls[0][0];
+    expect(args.cancel_url.startsWith('https://www.my4mlife.com/go/push-patch')).toBe(true);
+    expect(args.success_url.startsWith('https://www.my4mlife.com/thank-you')).toBe(true);
+  });
+
+  it('returns 400 when wear is missing', async () => {
+    const res = await handler(makeEvent({ body: JSON.stringify({ skuId: 'push-patch-wolverine' }) })) as any;
+    expect(res.statusCode).toBe(400);
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+
+  it("returns 400 when wear is '24h'", async () => {
+    const res = await handler(makeEvent({ body: patchBody({ wear: '24h' }) })) as any;
+    expect(res.statusCode).toBe(400);
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+
+  it('ignores wear for non-patch SKUs (biome-ns-ultra)', async () => {
+    const res = await handler(makeEvent({ body: JSON.stringify({ skuId: 'biome-ns-ultra', wear: '24h' }) })) as any;
+    expect(res.statusCode).toBe(200);
+    const args = mockCreate.mock.calls[0][0];
+    expect(args.metadata.wear).toBeUndefined();
+    expect(args.metadata.skuIds).toBe('biome-ns-ultra');
+    expect(args.line_items[0].price).toBe('price_1Tp83ABSbDAyoIVynsgk0BAK');
+  });
+
+  it('admin test route uses the test price even when STRIPE_MODE=live', async () => {
+    process.env['STRIPE_MODE'] = 'live';
+    try {
+      const res = await handler(makeEvent({ path: adminPath, body: patchBody(), headers: { authorization: validCreds() } })) as any;
+      expect(res.statusCode).toBe(200);
+      const args = mockCreate.mock.calls[0][0];
+      expect(args.line_items).toEqual([{ price: 'price_test_wolverine', quantity: 1 }]);
+      expect(args.metadata.isDemo).toBe('true');
+      expect(args.metadata.wear).toBe('12h');
+    } finally {
+      delete process.env['STRIPE_MODE'];
+    }
   });
 });

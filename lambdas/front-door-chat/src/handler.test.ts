@@ -121,7 +121,7 @@ describe('guard', () => {
     expect(guard('See https://www.my4mlife.com/consult').links[0].url).toBe('https://my4mlife.com/consult');
   });
   it.each([
-    'The formula contains BPC-157 at 500mcg.',
+    'Biome NS Rx contains BPC-157 at 500mcg.',
     'Dr. TJ is a physician who reviews your labs.',
     'It costs $399 a month.',
     'This cures leaky gut.',
@@ -241,4 +241,22 @@ describe('guard — Biome NS Ultra availability', () => {
     'Until Biome NS Ultra ships, start with the Ancient Nutrition gut kit on /solutions/gut.',
     'Biome NS Ultra is our gut formula, and it will be available once it ships.',
   ])('allows: %s', (s) => { expect(guard(s).blocked).toBe(false); });
+});
+
+describe('guard — Rx formula (standalone BPC-157 allowed)', () => {
+  it('allows BPC-157 named on its own', () => {
+    expect(guard('BPC-157 is one of the peptides studied for tissue repair.').blocked).toBe(false);
+  });
+  it('allows L-glutamine named on its own', () => {
+    expect(guard('L-glutamine is an amino acid found in food.').blocked).toBe(false);
+  });
+  it('blocks BPC-157 tied to Biome NS Rx', () => {
+    expect(guard('Biome NS Rx contains BPC-157.').blockedBy).toBe('rx-formula');
+  });
+  it('blocks BPC-157 and glutamine tied to the Gut-Brain Rx', () => {
+    expect(guard('The Gut-Brain Rx uses BPC-157 and glutamine.').blockedBy).toBe('rx-formula');
+  });
+  it('blocks aloe vera tied to Biome NS Rx', () => {
+    expect(guard('Biome NS Rx is made with aloe vera.').blocked).toBe(true);
+  });
 });

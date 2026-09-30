@@ -18,8 +18,8 @@ const URL_RE = /\bhttps?:\/\/[^\s<>()\[\]"']+|(?<![\w/])\/[a-z0-9][a-z0-9/-]*/gi
 const PRICE_RE = /\$\s?(?!249\b|125\b)\d[\d,]*/;
 
 const FORBIDDEN: Array<[RegExp, string]> = [
-  [/bpc[\s-]?157/i, 'rx-formula'],
-  [/l-?glutamine|aloe\s+vera/i, 'rx-formula'],
+  // Rx formula ingredients are only forbidden when tied to Biome NS Rx / Gut-Brain Rx in the same reply.
+  [/^(?=[\s\S]*\b(biome ns rx|gut[\s-]?brain rx)\b)(?=[\s\S]*(bpc[\s-]?157|glutamine|aloe\s+vera))/i, 'rx-formula'],
   [/\b(physician|medical doctor|m\.?d\.?)\b[^.]{0,30}\b(dr\.?\s*tj|mundheim)\b/i, 'credential'],
   [/\b(dr\.?\s*tj|mundheim)\b[^.]{0,30}\b(is|as)\s+(a\s+)?(physician|medical doctor|md)\b/i, 'credential'],
   [/\bboard[- ]certified\b/i, 'credential'],

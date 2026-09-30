@@ -2,6 +2,7 @@ import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { isPushPatchSku, parseWear, pushPatchEntry } from './push-patch';
 
 const REGION = 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
@@ -98,7 +99,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   const stripe = await getStripeClient({ modeOverride });
 
-  let body: { skuId?: string; priceId?: string; contactId?: string; firstName?: string; email?: string; phone?: string };
+  let body: { skuId?: string; wear?: string; priceId?: string; contactId?: string; firstName?: string; email?: string; phone?: string };
   try { body = JSON.parse(event.body ?? '{}'); }
   catch { return reply(400, { error: 'invalid JSON body' }, cors); }
 
@@ -107,10 +108,17 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   // skuId). Only catalog-defined SKUs are allowed, and their priceId comes from
   // the catalog — never the client — so a caller can't pair a cheap/foreign
   // price with a fulfillment-bearing SKU.
-  if (skuId && !SKU_CATALOG[skuId]) {
+  let wear: string | null = null;
+  let patchEntry: ReturnType<typeof pushPatchEntry> = null;
+  if (skuId && isPushPatchSku(skuId)) {
+    wear = parseWear(body.wear);
+    if (!wear) return reply(400, { error: 'wear must be 12h or 14h' }, cors);
+    patchEntry = pushPatchEntry(skuId, resolvedMode);
+    if (!patchEntry) return reply(503, { error: 'product not yet available' }, cors);
+  } else if (skuId && !SKU_CATALOG[skuId]) {
     return reply(400, { error: 'unknown skuId' }, cors);
   }
-  const catalogEntry = skuId ? SKU_CATALOG[skuId] : undefined;
+  const catalogEntry = patchEntry ?? (skuId ? SKU_CATALOG[skuId] : undefined);
   const priceId = catalogEntry?.priceId ?? body.priceId;
   const contactId = body.contactId;
   if (!priceId) return reply(400, { error: 'priceId required' }, cors);
@@ -131,6 +139,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       metadata: {
         ...(contactId ? { contactId } : {}),
         ...(skuId ? { skuIds: skuId } : {}),
+        ...(wear ? { wear } : {}),
         ...(body.firstName ? { firstName: body.firstName } : {}),
         ...(body.phone ? { phone: body.phone } : {}),
         isDemo: String(resolvedMode === 'test'),
