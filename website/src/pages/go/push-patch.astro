@@ -1,0 +1,399 @@
+---
+// LANDING PAGE — Genesis Push Patch. One message, one action: pick a blend, pick a
+// wear time, one-click Stripe checkout. Standalone (hideChrome). Built from the
+// go/gut-repair.astro template. Copy source: docs/launch/push-patch/lp-copy.md
+// (DRAFT — every <!-- TJ CONFIRM --> comment below marks text awaiting TJ approval).
+// This page intentionally ignores COORDINATOR_MODE: it sells direct, no consult door.
+// Blend data is the single source of truth in src/data/pushPatch.ts.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PUSH_PATCH_BLENDS, WEAR_OPTIONS } from '../../data/pushPatch';
+
+const title = 'Genesis Push Patch — Needle-Free Peptide and NAD+ Patches — My4MLife';
+const description = 'A weekly patch that delivers peptide and NAD+ blends through your skin. Needle-free, pain-free. Six patches, six weeks.';
+const canonical = 'https://www.my4mlife.com/go/push-patch';
+
+const API_BASE = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+
+const DEFAULT_SKU = 'push-patch-nad-ghk'; // NAD+ Restore
+const DEFAULT_WEAR = '12h';
+
+// One-line benefit per blend (lp-copy.md section 4). TJ must approve each line.
+const BENEFITS: Record<string, string> = {
+  'push-patch-nad-ghk': 'A high-dose NAD+ blend that may help support cellular energy, with GHK-Cu, which may support skin and tissue quality.',
+  'push-patch-bpc-nad-ghk': 'BPC-157 is a peptide studied for tissue repair; paired with NAD+ and GHK-Cu, this blend may support recovery after hard training.',
+  'push-patch-kpv-nad-ghk': "KPV is a peptide studied for its role in the body's inflammatory signaling; this blend may help support a calmer, steadier feeling day to day.",
+  'push-patch-nad-motsc-ghk': 'MOTS-c is a peptide studied for its role in mitochondrial and metabolic signaling; this blend may support energy and metabolic health.',
+  'push-patch-enhanced-glow': 'Our highest-GHK-Cu blend, which may help support skin appearance and tissue quality, with TB-500, BPC-157 and NAD+ in support.',
+  'push-patch-wolverine': 'For people who train hard: TB-500 and BPC-157 are peptides studied for tissue repair, and this blend may support faster recovery between sessions.',
+  'push-patch-glutathione-ghk': "Glutathione is one of the body's main antioxidants; this NAD+-free blend may help support skin quality and general wellbeing.",
+};
+
+const WEAR_HELP: Record<string, string> = {
+  '12h': 'For people who train or stay on the move.',
+  '14h': 'A longer, gentler delivery for sensitive skin.',
+};
+
+const defaultBlend = PUSH_PATCH_BLENDS.find((b) => b.skuId === DEFAULT_SKU)!;
+
+// PLACEHOLDER IMAGES: existing scenes stand in until TJ supplies the Artlist renders.
+//   hero     -> replace with push-patch-hero.jpg     (Artlist prompt 1: the morning routine, woman)
+//   recovery -> replace with push-patch-recovery.jpg (Artlist prompt 2: recovery after a workout, man)
+//   apply    -> replace with push-patch-apply.jpg    (Artlist prompt 3: applying it at home, woman and man)
+const IMG = {
+  hero: '/images/scenes/morning-protocol.jpg',
+  recovery: '/images/scenes/muscle-active.jpg',
+  apply: '/images/scenes/couple-lapel.jpg',
+};
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow" hideChrome={true}>
+
+<div class="lp">
+
+  <header class="lp-top">
+    <a class="lp-mark" href="/">My<b>4M</b>Life</a>
+    <!-- TJ CONFIRM: top-bar tag "Needle-free. Pain-free." -->
+    <span class="lp-top-tag">Needle-free. Pain-free.</span>
+  </header>
+
+  <!-- HERO -->
+  <section class="lp-hero">
+    <p class="lp-kicker">Genesis Push Patch</p>
+    <!-- TJ CONFIRM: headline is Genesis's tagline; confirm we may use it verbatim as our headline -->
+    <h1>More energy. Better focus. Faster recovery. Needle free.</h1>
+    <!-- TJ CONFIRM: subhead product facts -->
+    <p class="lp-punch">A small patch on your upper arm delivers peptide and NAD+ blends through your skin for 12 or 14 hours at a time. No injections. No pills. One patch a week for six weeks.</p>
+    <!-- TJ CONFIRM: support line confirms the one-click, no coordinator call, no visit path and the eligibility/intake story (see open question 1) -->
+    <p class="lp-punch lp-punch-sub">Pick your blend, pick your wear time, check out in about a minute.</p>
+    <a class="lp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_hero')">Choose your blend</a>
+    <ul class="lp-chips">
+      <li>Needle-free and pain-free</li>
+      <li>Sustained delivery for 12 or 14 hours</li>
+      <li>Six patches, six weeks</li>
+    </ul>
+    <img class="lp-hero-img" src={IMG.hero} alt="A woman in athletic clothing in a bright kitchen in the morning" width="1200" height="600" loading="eager" />
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="lp-block" id="how">
+    <h2>A patch instead of a needle or a pill</h2>
+    <!-- TJ CONFIRM: "used in medicine for decades" wording is the approved substitute for any regulatory language about the patch; do not add to it -->
+    <p class="lp-lead">The Push Patch uses iontophoresis, a delivery method that applies a minimal electrical charge to move molecules through the skin. Iontophoresis is an established delivery technology used in medicine for decades.</p>
+    <ol class="lp-steps">
+      <!-- TJ CONFIRM: upper arm/shoulder placement; exact site must come from Genesis's instructions -->
+      <li><strong>Apply.</strong> Each patch is single-use and goes on like kinesiology tape, on clean skin of the upper arm or shoulder.</li>
+      <!-- TJ CONFIRM: plain-language 12-hour (active) vs 14-hour (sensitive skin) -->
+      <li><strong>Wear.</strong> The patch delivers for 12 or 14 hours, a sustained delivery rather than a single spike. Choose 12-hour if you are active and want to train or work in it; choose 14-hour if your skin is sensitive.</li>
+      <!-- TJ CONFIRM: "supplies" contents, see What arrives at your door -->
+      <li><strong>Repeat weekly.</strong> One patch a week for six weeks. A set is six patches plus the supplies to apply them.</li>
+    </ol>
+    <div class="lp-benefits">
+      <div class="lp-benefit"><strong>Needle-free and pain-free.</strong> The charge moves the molecules; you feel a patch, not a shot.</div>
+      <!-- TJ CONFIRM: phrase exactly as the one-pager does; do not add absorption-percentage claims -->
+      <div class="lp-benefit"><strong>Bypasses the digestive tract.</strong> What is in the patch goes through the skin instead of through your stomach.</div>
+      <div class="lp-benefit"><strong>Sustained, not spiky.</strong> Delivery runs over 12 or 14 hours.</div>
+    </div>
+    <!-- TJ CONFIRM: "Individual experience varies." -->
+    <p class="lp-fine">Individual experience varies.</p>
+    <img class="lp-wide-img" src={IMG.apply} alt="A woman and a man in a bright living room, one smoothing a small patch onto the other's upper arm" width="1200" height="600" loading="lazy" />
+  </section>
+
+  <!-- BLEND PICKER -->
+  <section class="lp-block lp-block-tint" id="blends">
+    <h2>Seven blends. One set each: six patches, six weeks.</h2>
+    <!-- TJ CONFIRM: "start with NAD+ Restore" is a soft recommendation drafted by the copywriter; approve or delete -->
+    <p class="lp-lead">Every blend ships as a six-patch set. Six of the seven contain NAD+ and are $650. The Glutathione blend has no NAD+ and is $550. Not sure which one fits? Start with NAD+ Restore, the simplest blend, or ask the care coordinator below.</p>
+
+    <form id="patch-form" class="lp-form" novalidate>
+      <!-- TJ CONFIRM: all five proposed display names (NAD+ Restore, Repair, Calm Gut, Metabolic, Glutathione Glow) and every per-blend benefit line -->
+      <fieldset class="lp-fieldset">
+        <legend class="lp-legend">Choose your blend</legend>
+        <div class="lp-cards">
+          {PUSH_PATCH_BLENDS.map((b) => (
+            <label class="lp-opt">
+              <input type="radio" name="blend" value={b.skuId} data-price={b.priceUsd} data-name={b.name} checked={b.skuId === DEFAULT_SKU} />
+              <span class="lp-card">
+                <span class="lp-card-top">
+                  <span class="lp-card-name">{b.name}</span>
+                  <span class="lp-card-price">${b.priceUsd}</span>
+                </span>
+                <span class="lp-card-formula">{b.formula}</span>
+                <span class="lp-card-benefit">{BENEFITS[b.skuId]}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <!-- TJ CONFIRM: one-time purchase, no auto-ship (Genesis offers patient auto-ship but the plan sells one-time) -->
+      <p class="lp-fine">NAD+ is in six of the seven blends. All six-patch sets are one-time purchases, not subscriptions.</p>
+
+      <fieldset class="lp-fieldset">
+        <legend class="lp-legend">Wear time</legend>
+        <div class="lp-wears">
+          {WEAR_OPTIONS.map((w) => (
+            <label class="lp-opt">
+              <input type="radio" name="wear" value={w.id} checked={w.id === DEFAULT_WEAR} />
+              <span class="lp-card lp-card-wear">
+                <span class="lp-card-name">{w.label}</span>
+                <span class="lp-card-benefit">{WEAR_HELP[w.id]}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+        <p class="lp-fine">Same price either way.</p>
+      </fieldset>
+
+      <div class="lp-order">
+        <button type="submit" id="order-btn" class="lp-cta lp-order-btn">Order — ${defaultBlend.priceUsd}</button>
+        <p id="order-error" class="lp-error" role="alert" hidden></p>
+      </div>
+    </form>
+  </section>
+
+  <!-- WHY A PATCH -->
+  <section class="lp-block lp-split">
+    <div>
+      <h2>Built for people who plan to keep their edge</h2>
+      <!-- TJ CONFIRM: "pills and powders have to survive digestion" is a comparison claim drafted by the copywriter; approve or delete -->
+      <p class="lp-lead">Pills and powders have to survive your digestive tract. Needles are needles. A weekly patch is a third way: something you put on, forget about, and take off at the end of the day.</p>
+      <!-- TJ CONFIRM: wording follows the 2026-09-08 "Dr. TJ only" rule; do not add a title -->
+      <p class="lp-lead">Dr. TJ built My4MLife around one idea: the best mind and body possible, for as long as possible. Recovery and energy are how you keep showing up. Dr. TJ speaks as a health-span educator and does not provide medical care through this platform.</p>
+    </div>
+    <img class="lp-split-img" src={IMG.recovery} alt="A fit man resting on a bench in a sunlit home gym after a workout" width="800" height="600" loading="lazy" />
+  </section>
+
+  <!-- WHAT'S IN THE BOX -->
+  <section class="lp-block lp-block-tint">
+    <h2>What arrives at your door</h2>
+    <ul class="lp-list">
+      <li>Six single-use patches, one for each week of the six-week set.</li>
+      <!-- TJ CONFIRM: exact contents of "supplies" (for example skin prep, device/controller if any, adhesive strip, instructions) -->
+      <li>The supplies to apply them.</li>
+      <!-- TJ CONFIRM: a printed guide is not in the one-pager; confirm whether Genesis or we provide it -->
+      <li>A simple week-by-week guide: apply on the same day each week, wear it for your chosen 12 or 14 hours, remove it, repeat.</li>
+    </ul>
+    <!-- TJ CONFIRM: shipper not settled (own stock first, Genesis drop-ship later); this line may need to become "Ships to the United States" only -->
+    <p class="lp-fine">Ships from My4MLife.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="lp-block" id="faq">
+    <h2>Questions</h2>
+    <div class="lp-faq">
+      <details>
+        <summary>How fast does my order ship, and where?</summary>
+        <!-- TJ CONFIRM: ship speed ([X] business days), shipping cost, states we cannot ship to, carrier -->
+        <p>We ship within the United States. You will get a confirmation email when you check out and a shipping update when the set goes out. Expect your set within [X] business days of ordering.</p>
+      </details>
+      <details>
+        <summary>How long do I wear a patch, and how often?</summary>
+        <!-- TJ CONFIRM: wear/removal instructions; page must be explicit about removal after 12/14 hours vs worn through the week -->
+        <p>One patch a week for six weeks. You choose 12-hour or 14-hour wear at checkout. Choose 12-hour if you are active; choose 14-hour if your skin is sensitive. The price is the same.</p>
+      </details>
+      <details>
+        <summary>Does it hurt, and what about sensitive skin?</summary>
+        <!-- TJ CONFIRM: "light tingle" line is an assumption about how iontophoresis feels (confirm with Genesis or delete); skin-contact warning wording from Genesis -->
+        <p>No needles and no injection. Iontophoresis uses a minimal electrical charge and is described as pain-free. Most people describe the feeling as a light tingle or nothing at all. If your skin is sensitive, choose the 14-hour option, which was designed for sensitive skin. Do not apply a patch to broken or irritated skin.</p>
+      </details>
+      <details>
+        <summary>What is actually in my blend?</summary>
+        <!-- TJ CONFIRM: care coordinator may discuss blend choice but gives no medical advice; confirm that scope -->
+        <p>The formula on each card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+, and the Glutathione blend does not. Not sure which to choose? The care coordinator can walk you through the options.</p>
+      </details>
+      <details>
+        <summary>What is iontophoresis, and is it established?</summary>
+        <!-- TJ CONFIRM: do not add any regulatory or approval statements about the patch beyond this -->
+        <p>Iontophoresis uses a minimal electrical charge to move molecules through the skin. It is an established delivery technology used in medicine for decades. The Push Patch applies that idea to a wearable patch.</p>
+      </details>
+      <details>
+        <summary>Who should check with a clinician first?</summary>
+        <!-- TJ CONFIRM: standard-caution list drafted by the copywriter, not sourced from Genesis; legal/Genesis must supply the real contraindications, especially implanted devices and the electrical charge -->
+        <p>Anyone who is pregnant or nursing, has an implanted electronic device such as a pacemaker, has a known skin condition at the application site, or takes regular prescription medication should talk to their own healthcare provider before using a patch.</p>
+      </details>
+      <details>
+        <summary>What is your refund policy?</summary>
+        <!-- TJ CONFIRM: decide supplement rule (unopened, within 14 days of delivery) vs no-returns rule, then state it in one sentence here -->
+        <p>Questions about an order or a refund go to <a href="mailto:refunds@my4mlife.com">refunds@my4mlife.com</a>, and our full policy is at <a href="/refund-policy">/refund-policy</a>.</p>
+      </details>
+      <details>
+        <summary>I have a question before I order. Who do I ask?</summary>
+        <!-- TJ CONFIRM: /consult currently runs in coordinator mode and begins an intake; confirm it is the right door for a pre-purchase question or use a plain email address -->
+        <p>Start with our care coordinator at <a href="/consult">/consult</a>. They can help you choose a blend and answer questions about wear and shipping.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="lp-block lp-close">
+    <h2>Put it on. Get on with your week.</h2>
+    <!-- TJ CONFIRM: same tagline claims as the headline; confirm wording or soften to "may help you feel" -->
+    <p class="lp-lead">One patch a week. Six weeks. More energy, better focus, faster recovery, and not a needle in sight.</p>
+    <a class="lp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_close')">Choose your blend</a>
+    <p class="lp-tagline">Don't lose your identity and your dignity while you still have a choice.</p>
+  </section>
+
+  <footer class="lp-foot">
+    <p class="lp-ns"><em>Begin with the end in mind.</em></p>
+    <!-- TJ CONFIRM: legal wording of the patch-specific disclaimer; the page must not claim regulatory approval of the patch. Shared MedicalDisclaimer intentionally not used (GLP-1 / compounded-medication language). -->
+    <p class="lp-disclaimer"><em>These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person. Dr. TJ speaks as a health-span educator and does not provide medical care through this platform.</em></p>
+    <p class="lp-legal"><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/refund-policy">Refund policy</a> · <a href="/">my4mlife.com</a></p>
+  </footer>
+
+</div>
+
+</BaseLayout>
+
+<script is:inline define:vars={{ API_BASE }}>
+(function () {
+  var form = document.getElementById('patch-form');
+  var btn = document.getElementById('order-btn');
+  var err = document.getElementById('order-error');
+  if (!form || !btn) return;
+
+  function track(name, props) {
+    try { window.posthog && posthog.capture(name, props); } catch (e) {}
+  }
+  function selected() {
+    var b = form.querySelector('input[name="blend"]:checked');
+    var w = form.querySelector('input[name="wear"]:checked');
+    return { b: b, skuId: b ? b.value : '', wear: w ? w.value : '12h' };
+  }
+  function renderLabel() {
+    var s = selected();
+    if (s.b) btn.textContent = 'Order — $' + s.b.getAttribute('data-price');
+  }
+
+  track('lp_patch_view');
+  renderLabel();
+
+  form.addEventListener('change', function () {
+    var s = selected();
+    err.hidden = true;
+    renderLabel();
+    track('lp_patch_select', { skuId: s.skuId, wear: s.wear });
+  });
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var s = selected();
+    if (!s.skuId) return;
+    var label = btn.textContent;
+    err.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Opening secure checkout…';
+    track('lp_patch_checkout', { skuId: s.skuId, wear: s.wear });
+
+    function fail(msg) {
+      err.textContent = msg;
+      err.hidden = false;
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+
+    fetch(API_BASE + '/api/checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ skuId: s.skuId, wear: s.wear }),
+    }).then(function (r) {
+      if (r.status === 503) { fail("This blend isn't available to order yet."); return null; }
+      if (!r.ok) { fail('We could not open checkout. Please try again in a moment.'); return null; }
+      return r.json();
+    }).then(function (res) {
+      if (!res) return;
+      if (res.url) { window.location = res.url; }
+      else { fail('We could not open checkout. Please try again in a moment.'); }
+    }).catch(function () {
+      fail('We could not open checkout. Please check your connection and try again.');
+    });
+  });
+})();
+</script>
+
+<style>
+.lp { font-family: 'Inter', sans-serif; color: #1f2d3d; background: #fdfcf9; overflow-x: hidden; }
+.lp h1, .lp h2, .lp h3 { font-family: 'Playfair Display', serif; }
+.lp img { max-width: 100%; height: auto; display: block; }
+
+.lp-top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.4rem; border-bottom: 1px solid #e8e2d4; flex-wrap: wrap; }
+.lp-mark { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; color: #0a1f44; text-decoration: none; }
+.lp-mark b { color: #b9922e; }
+.lp-top-tag { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: #8a8468; overflow-wrap: break-word; }
+
+.lp-hero { background: linear-gradient(150deg, #0a1628 0%, #0a1f44 70%); color: #f2eee3; text-align: center; padding: 4rem 1.4rem 3rem; }
+.lp-kicker { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: #d4af5a; margin: 0 0 1.1rem; }
+.lp-hero h1 { font-size: clamp(1.7rem, 4.4vw, 2.9rem); line-height: 1.2; margin: 0 auto 1.2rem; max-width: 820px; text-wrap: balance; color: #f2eee3; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+.lp-punch { font-size: clamp(1rem, 1.8vw, 1.2rem); color: #c9d2e4; max-width: 620px; margin: 0 auto 1rem; line-height: 1.6; }
+.lp-punch-sub { margin-bottom: 1.8rem; color: #e3c98b; }
+.lp-chips { list-style: none; padding: 0; margin: 1.6rem auto 2rem; display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; max-width: 760px; }
+.lp-chips li { font-size: 0.78rem; padding: 0.4rem 0.9rem; border: 1px solid rgba(212,175,90,0.45); border-radius: 999px; color: #e8ecf5; }
+.lp-hero-img { width: 100%; max-width: 860px; margin: 0 auto; border-radius: 14px; object-fit: cover; aspect-ratio: 2 / 1; }
+
+.lp-cta { display: inline-block; background: #d4af5a; color: #0a1428; font-weight: 700; font-size: 1.02rem; padding: 1rem 2.1rem; border-radius: 999px; text-decoration: none; transition: background 0.15s; max-width: 100%; }
+.lp-cta:hover { background: #e3c98b; }
+button.lp-cta { border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+button.lp-cta:disabled { opacity: 0.6; cursor: default; }
+.lp-cta:focus-visible { outline: 3px solid #0a1f44; outline-offset: 3px; }
+
+.lp-block { max-width: 860px; margin: 0 auto; padding: 3.5rem 1.4rem; }
+.lp-block h2 { font-size: clamp(1.4rem, 3vw, 2rem); color: #0a1f44; margin: 0 0 1rem; text-wrap: balance; }
+.lp-lead { font-size: 1.05rem; line-height: 1.65; color: #3d4a5e; max-width: 68ch; }
+.lp-fine { font-size: 0.78rem; color: #6f788a; line-height: 1.5; }
+.lp-block-tint { max-width: none; background: #f6f1e4; }
+.lp-block-tint > * { max-width: 820px; margin-left: auto; margin-right: auto; }
+
+.lp-steps { list-style: none; counter-reset: step; padding: 0; margin: 1.6rem 0; display: flex; flex-direction: column; gap: 0.9rem; }
+.lp-steps li { counter-increment: step; position: relative; padding: 1rem 1.2rem 1rem 3.4rem; background: #fff; border: 1px solid #e8e2d4; border-radius: 10px; font-size: 0.98rem; line-height: 1.55; }
+.lp-steps li::before { content: counter(step); position: absolute; left: 1rem; top: 0.95rem; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: #0a1f44; color: #d4af5a; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; }
+.lp-steps strong { color: #0a1f44; }
+.lp-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.4rem; }
+.lp-benefit { background: #fff; border: 1px solid #e8e2d4; border-top: 3px solid #d4af5a; border-radius: 10px; padding: 1rem 1.1rem; font-size: 0.9rem; line-height: 1.55; color: #3d4a5e; }
+.lp-benefit strong { color: #0a1f44; display: block; margin-bottom: 0.25rem; }
+.lp-wide-img { width: 100%; margin-top: 1.6rem; border-radius: 14px; object-fit: cover; aspect-ratio: 2 / 1; }
+@media (max-width: 680px) { .lp-benefits { grid-template-columns: 1fr; } }
+
+.lp-form { margin-top: 1.6rem; }
+.lp-fieldset { border: 0; padding: 0; margin: 0 0 1.4rem; min-width: 0; }
+.lp-legend { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: #0a1f44; padding: 0; margin-bottom: 0.8rem; }
+.lp-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.lp-wears { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+@media (max-width: 680px) { .lp-cards, .lp-wears { grid-template-columns: 1fr; } }
+.lp-opt { position: relative; display: block; cursor: pointer; min-width: 0; }
+.lp-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.lp-card { display: flex; flex-direction: column; gap: 0.45rem; height: 100%; background: #fff; border: 2px solid #e8e2d4; border-radius: 12px; padding: 1.1rem 1.2rem; transition: border-color 0.15s, box-shadow 0.15s; }
+.lp-opt:hover .lp-card { border-color: #d9c48e; }
+.lp-opt input:checked + .lp-card { border-color: #d4af5a; box-shadow: 0 8px 22px rgba(10,31,68,0.1); background: #fffdf6; }
+.lp-opt input:focus-visible + .lp-card { outline: 3px solid #0a1f44; outline-offset: 2px; }
+.lp-card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.8rem; }
+.lp-card-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.12rem; color: #0a1f44; overflow-wrap: break-word; }
+.lp-card-price { font-weight: 700; color: #b9922e; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lp-card-formula { font-size: 0.8rem; font-weight: 600; color: #0a1f44; line-height: 1.45; overflow-wrap: anywhere; }
+.lp-card-benefit { font-size: 0.85rem; color: #3d4a5e; line-height: 1.55; }
+.lp-card-wear .lp-card-name { font-size: 1rem; }
+
+.lp-order { margin-top: 1.8rem; text-align: center; }
+.lp-order-btn { width: 100%; max-width: 420px; font-size: 1.1rem; }
+.lp-error { margin: 0.9rem auto 0; max-width: 420px; padding: 0.8rem 1rem; background: #fdecea; border: 1px solid #c0442e; border-radius: 8px; color: #8a2a18; font-size: 0.92rem; line-height: 1.5; }
+.lp-error[hidden] { display: none; }
+
+.lp-split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+.lp-split > * { min-width: 0; }
+.lp-split-img { width: 100%; border-radius: 14px; object-fit: cover; aspect-ratio: 4 / 3; }
+@media (max-width: 720px) { .lp-split { grid-template-columns: 1fr; } }
+
+.lp-list { padding-left: 1.2rem; margin: 0 0 1rem; line-height: 1.7; color: #3d4a5e; }
+
+.lp-faq { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.2rem; }
+.lp-faq details { background: #fff; border: 1px solid #e8e2d4; border-radius: 10px; padding: 0.2rem 1.1rem; }
+.lp-faq summary { cursor: pointer; font-weight: 600; color: #0a1f44; padding: 0.85rem 0; line-height: 1.45; }
+.lp-faq details p { margin: 0 0 1rem; font-size: 0.95rem; line-height: 1.65; color: #3d4a5e; }
+.lp-faq a { color: #0a1f44; }
+
+.lp-close { text-align: center; }
+.lp-close .lp-lead { margin: 0 auto 1.8rem; }
+.lp-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.4rem); color: #0a1f44; max-width: 34ch; margin: 2.4rem auto 0; line-height: 1.45; text-wrap: balance; }
+
+.lp-foot { border-top: 1px solid #e8e2d4; padding: 2rem 1.4rem 2.5rem; text-align: center; }
+.lp-ns { font-size: 0.85rem; color: #b9922e; margin: 0 0 1rem; }
+.lp-disclaimer { font-size: 0.74rem; color: #6f788a; line-height: 1.6; max-width: 640px; margin: 0 auto; }
+.lp-legal { font-size: 0.78rem; color: #8a93a5; margin-top: 1rem; }
+.lp-legal a { color: #8a93a5; }
+</style>
