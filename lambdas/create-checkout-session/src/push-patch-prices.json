@@ -1,1 +1,20 @@
-{"test":{},"live":{}}
+{
+  "test": {
+    "push-patch-nad-ghk": "price_1ULVAGBSbDAyoIVywtvftr5x",
+    "push-patch-bpc-nad-ghk": "price_1ULVAHBSbDAyoIVyUElEj5o2",
+    "push-patch-kpv-nad-ghk": "price_1ULVAIBSbDAyoIVyhH3xnNeB",
+    "push-patch-nad-motsc-ghk": "price_1ULVAJBSbDAyoIVyrZFydNdV",
+    "push-patch-enhanced-glow": "price_1ULVAJBSbDAyoIVyI8WgkuHo",
+    "push-patch-wolverine": "price_1ULVAKBSbDAyoIVyuqycszOh",
+    "push-patch-glutathione-ghk": "price_1ULVALBSbDAyoIVy90xyN4ma"
+  },
+  "live": {
+    "push-patch-nad-ghk": "price_1ULVAMBSbDAyoIVyfdgCWXSC",
+    "push-patch-bpc-nad-ghk": "price_1ULVANBSbDAyoIVypogpWWBF",
+    "push-patch-kpv-nad-ghk": "price_1ULVAOBSbDAyoIVyGaThJYwh",
+    "push-patch-nad-motsc-ghk": "price_1ULVAPBSbDAyoIVydUMhgVzG",
+    "push-patch-enhanced-glow": "price_1ULVAPBSbDAyoIVyRnBvfwWv",
+    "push-patch-wolverine": "price_1ULVAQBSbDAyoIVyBPNRpdr6",
+    "push-patch-glutathione-ghk": "price_1ULVARBSbDAyoIVyvOuxrMmT"
+  }
+}
