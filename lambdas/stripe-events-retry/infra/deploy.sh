@@ -93,7 +93,7 @@ LAMBDA_ARN_FULL="arn:aws:lambda:${REGION}:${ACCOUNT}:function:${FUNCTION_NAME}"
 EXISTING=$(aws lambda get-function --function-name "${FUNCTION_NAME}" \
   --region "${REGION}" --query 'Configuration.FunctionArn' --output text 2>/dev/null || echo "")
 
-ENV_VARS="Variables={STRIPE_MODE=test,DLQ_URL=${DLQ_URL},PERMANENT_FAILURES_URL=${PF_URL},RETRY_STATE_TABLE=RetryState,SCHEDULER_ROLE_ARN=${SCHEDULER_ROLE_ARN},LAMBDA_ARN=${LAMBDA_ARN_FULL}}"
+ENV_VARS="Variables={STRIPE_MODE=test,PUSH_PATCH_FULFILLMENT_EMAIL=drtj@my4mlife.com,DLQ_URL=${DLQ_URL},PERMANENT_FAILURES_URL=${PF_URL},RETRY_STATE_TABLE=RetryState,SCHEDULER_ROLE_ARN=${SCHEDULER_ROLE_ARN},LAMBDA_ARN=${LAMBDA_ARN_FULL}}"
 
 if [ -z "${EXISTING}" ]; then
   aws lambda create-function \

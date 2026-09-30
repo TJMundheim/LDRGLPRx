@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 const mockSend = vi.fn();
 
@@ -253,5 +253,110 @@ describe('processEvent', () => {
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
     // email-sender invoked exactly once (first run), not on retry
     expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+  });
+  describe('push-patch fulfillment email', () => {
+    const patchSession = {
+      ...baseSession,
+      id: 'cs_test_patch123',
+      amount_total: 65000,
+      metadata: { skuIds: 'push-patch-kpv-nad-ghk', wear: '14h' },
+      shipping_details: {
+        name: 'Jane Doe',
+        address: { line1: '742 Evergreen Terrace', line2: null, city: 'Austin', state: 'TX', postal_code: '78701', country: 'US' },
+      },
+    };
+    const run = () => processEvent({ id: 'evt_patch_1', type: 'checkout.session.completed', livemode: false });
+    const payloadsOf = () => mockLambdaSend.mock.calls.map((c: any) => JSON.parse(c[0].input.Payload.toString()));
+    const savedEnv = process.env.PUSH_PATCH_FULFILLMENT_EMAIL;
+
+    beforeEach(() => {
+      mockSessionRetrieve.mockResolvedValue(patchSession);
+      process.env.PUSH_PATCH_FULFILLMENT_EMAIL = 'fulfillment@example.com';
+    });
+    afterEach(() => {
+      if (savedEnv === undefined) delete process.env.PUSH_PATCH_FULFILLMENT_EMAIL;
+      else process.env.PUSH_PATCH_FULFILLMENT_EMAIL = savedEnv;
+    });
+
+    it('(p1) sends exactly one email to PUSH_PATCH_FULFILLMENT_EMAIL', async () => {
+      await run();
+      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+      const [payload] = payloadsOf();
+      expect(payload.kind).toBe('info');
+      expect(payload.to).toBe('fulfillment@example.com');
+    });
+
+    it('(p2) falls back to drtj@my4mlife.com when env is unset', async () => {
+      delete process.env.PUSH_PATCH_FULFILLMENT_EMAIL;
+      await run();
+      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+      expect(payloadsOf()[0].to).toBe('drtj@my4mlife.com');
+    });
+
+    it('(p3) body has blend, formula, 14-hour wear, ship-to address and session id', async () => {
+      await run();
+      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+      const { html } = payloadsOf()[0];
+      expect(html).toContain('KPV');
+      expect(html).toContain('NAD+');
+      expect(html).toContain('GHK-Cu');
+      expect(html).toContain('14-hour');
+      expect(html).toContain('742 Evergreen Terrace');
+      expect(html).toContain('cs_test_patch123');
+    });
+
+    it('(p4) replay with PUSH_PATCH_NOTIFY# marker already present sends no email', async () => {
+      mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
+        const sk = cmd.input?.Item?.['sk'];
+        if (cmd.input?.TableName === 'Touchpoints' && typeof sk === 'string' && sk.startsWith('PUSH_PATCH_NOTIFY#')) {
+          const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err;
+        }
+        return {};
+      });
+      await run();
+      expect(mockLambdaSend).not.toHaveBeenCalled();
+    });
+
+    it('(p5) two deliveries of the same event send one email (stateful markers)', async () => {
+      const seen = new Set<string>();
+      mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
+        const inp = cmd.input;
+        if (inp?.TableName === 'Touchpoints' && inp.Item) {
+          const key = String(inp.Item['sk']);
+          if (seen.has(key)) { const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err; }
+          seen.add(key);
+        }
+        if (inp?.TableName === 'Orders' && inp.Item) {
+          const key = `order#${String(inp.Item['orderId'])}`;
+          if (seen.has(key)) { const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err; }
+          seen.add(key);
+        }
+        return {};
+      });
+      await run();
+      await run();
+      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+    });
+
+    it('(p6) email-send rejection does not throw from processEvent', async () => {
+      mockLambdaSend.mockRejectedValue(new Error('SES down'));
+      try {
+        await expect(run()).resolves.toBeUndefined();
+        expect(mockLambdaSend).toHaveBeenCalled();
+      } finally {
+        mockLambdaSend.mockReset();
+        mockLambdaSend.mockResolvedValue({});
+      }
+    });
+
+    it('(p7) patch SKU sends no Biome NS Ultra guide or coordinator email', async () => {
+      await run();
+      const payloads = payloadsOf();
+      expect(payloads.length).toBe(1); // only the patch fulfillment email
+      for (const p of payloads) {
+        expect(p.subject ?? '').not.toMatch(/Biome NS Ultra|Gut Repair/i);
+        expect(p.to).not.toBe('test@example.com');
+      }
+    });
   });
 });

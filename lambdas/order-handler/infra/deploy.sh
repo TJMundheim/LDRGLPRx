@@ -77,7 +77,7 @@ aws iam put-role-policy \
 ROLE_ARN="arn:aws:iam::${ACCOUNT}:role/${ROLE_NAME}"
 
 # ── Lambda (idempotent) ───────────────────────────────────────────────────────
-ENV_VARS='{"Variables":{"STRIPE_MODE":"test"}}'
+ENV_VARS='{"Variables":{"STRIPE_MODE":"test","PUSH_PATCH_FULFILLMENT_EMAIL":"drtj@my4mlife.com"}}'
 
 if aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION}" &>/dev/null; then
   echo "Updating Lambda function code..."

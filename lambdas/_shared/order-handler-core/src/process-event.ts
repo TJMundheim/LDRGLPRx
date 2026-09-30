@@ -5,6 +5,7 @@ import { DynamoDBDocumentClient, UpdateCommand, PutCommand, DeleteCommand } from
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+import { notifyPushPatchOrder } from './push-patch-notify.js';
 
 const REGION = 'us-east-2';
 const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
@@ -272,6 +273,25 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
         }));
       } catch (err) {
         console.error('[order-handler] coordinator order notification failed', { orderId: session.id, error: String(err) });
+      }
+    }
+
+    // 4c. Genesis Push Patch fulfillment email — idempotent via its own marker;
+    // best-effort: a failure must never fail the order.
+    if (skuId.startsWith('push-patch-')) {
+      try {
+        await deliverOnce(`PUSH_PATCH_NOTIFY#${e.id}`, () =>
+          notifyPushPatchOrder(session as unknown as Parameters<typeof notifyPushPatchOrder>[0], {
+            send: async (payload) => {
+              await lambda.send(new InvokeCommand({
+                FunctionName: EMAIL_SENDER_FN,
+                InvocationType: 'Event',
+                Payload: Buffer.from(JSON.stringify(payload)),
+              }));
+            },
+          }));
+      } catch (err) {
+        console.error('[order-handler] push-patch fulfillment notification failed', { orderId: session.id, error: String(err) });
       }
     }
 
