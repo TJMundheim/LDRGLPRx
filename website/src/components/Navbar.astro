@@ -30,7 +30,10 @@ const rxItems = [
   { label: 'Testosterone & ED', href: '/rx/testosterone-ed' },
   { label: 'Menopause & HRT',   href: '/rx/menopause-hrt' },
   { label: 'Regenerative Medicine', href: '/rx/regenerative-medicine' },
-].map((item) => COORDINATOR_MODE ? { ...item, href: consultHref(laneFromHref(item.href)) } : item);
+].map((item) => COORDINATOR_MODE ? { ...item, href: consultHref(laneFromHref(item.href)) } : item)
+  // Push Patch (2026-09-30) sells direct via one-click checkout, so it is
+  // appended AFTER the coordinator-mode rewrite and always links to its page.
+  .concat([{ label: 'Push Patch (needle-free peptides)', href: '/go/push-patch' }]);
 
 // Audience doors (TJ 2026-09-22) — /women and /men landing pages.
 const doorItems = [

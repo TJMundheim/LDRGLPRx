@@ -1,69 +1,123 @@
 # Push Patch landing page copy — `/go/push-patch` (draft for TJ review)
 
-Task P1-E of `docs/plan/push-patch-2026-09-30.md`. Status: DRAFT, nothing here is live.
+Task P1-E of `docs/plan/push-patch-2026-09-30.md`. Status: DRAFT, not deployed. Rewritten 2026-09-30 to TJ's new direction (needle-free lead, own look, technical voice).
 
 How to read this file:
-- `[TJ CONFIRM]` after a sentence means TJ must approve that sentence (or the fact behind it) before it ships. Every benefit sentence carries the flag because the Genesis one-pager only supports the delivery facts and the tagline, not the per-ingredient benefits.
-- Facts taken from the Genesis one-pager (iontophoresis, needle-free and pain-free, bypasses the digestive tract, 12 or 14 hour sustained delivery, single-use patches applied like kinesiology tape, 6 patches per set plus supplies, one per week for six weeks, 12-hour for active people, 14-hour for sensitive skin, the four-line tagline) are the only un-flagged product facts. Everything else is marked.
-- Voice: care-coordinator / assembled-team voice. Dr. TJ appears as educator and overseer only. He is not the prescriber, reviewer, or treating clinician, and the copy never says otherwise.
-- Hard rules applied: may help / may support only; no disease language; no age anywhere; no emoji; no mention of the gut-brain prescription products; BPC-157 appears only inside its own blend; tagline verbatim in the closing block.
+- `[TJ CONFIRM]` after a sentence means TJ must approve that sentence (or the fact behind it) before it ships. In the page source these are Astro comments `{/* TJ CONFIRM: ... */}`, so they never appear in the shipped HTML.
+- Facts taken from the Genesis one-pager (iontophoresis, needle-free and pain-free, bypasses the digestive tract, 12 or 14 hour sustained delivery, single-use patches applied like kinesiology tape, 6 patches per set, one per week for six weeks, 12-hour for active people, 14-hour for sensitive skin, the four-line tagline) are the only un-flagged product facts. The kit contents come from TJ's product photos and are flagged until Genesis confirms them.
+- **Audience:** (1) people already using peptides who are tired of injecting ("needle fatigue"); (2) people who have never started because of needles.
+- **Voice:** technical product voice, empathetic and insider on the injection routine, never mocking. The page is about the Push Patch delivery technology. Dr. TJ is not mentioned on this page. My4MLife appears as a small header wordmark, a "Brought to you by My4MLife" line (hero and footer) and the footer links.
+- **Look:** near-standalone, NOT the site theme. Deep-slate/near-black sections alternating with cool light-grey and white, one cyan accent, Inter for headings (no Playfair serif), monospace for formula and spec labels. Scoped styles in the page; every section sets its own background so it renders the same in light or dark system settings.
+- **Hard rules applied:** may help / may support only; never treat / cure / heal; no regulatory-approval claim about the patch; no age anywhere; no emoji; never "men and women"; no mention of the gut-brain prescription products; doses appear only inside each blend card's formula line; tagline once, in the footer.
+- **Kit prep:** the kit includes a blend vial and an applicator tube per patch, so the user prepares the pad. Copy describes this neutrally ("prepare the pad, apply, wear") with no step details until Genesis's instructions are confirmed. The pain-point block therefore does not mention vials, reconstituting or drawing up; it stays needle-specific.
 
 ---
 
-## 1. Top bar (same pattern as `go/gut-repair.astro`)
+## 1. Top bar
 
-- Mark: `My4MLife`
-- Tag: `Needle-free. Pain-free.` [TJ CONFIRM]
+- Mark: `My4MLife` (small wordmark, links home)
+- Tag: `Needle-free delivery`
 
-## 2. Hero
+## 2. Hero (dark)
 
-**Kicker:** Genesis Push Patch
+**Kicker (pill):** Genesis Push Patch
 
-**Headline (H1):** More energy. Better focus. Faster recovery. Needle free. [TJ CONFIRM: this is Genesis's tagline; confirm we may use it verbatim as our headline]
+**Headline (H1):** Needle-free peptides. Delivered through your skin.
 
-**Subhead:** A small patch on your upper arm delivers peptide and NAD+ blends through your skin for 12 or 14 hours at a time. No injections. No pills. One patch a week for six weeks. [TJ CONFIRM]
+**Sub-line:** Done with syringes, sharps containers and bracing for the morning stick? Or are needles the reason you've never started? The Push Patch delivers peptide and NAD+ blends through your skin, steadily, over 12 or 14 hours. One patch a week. [TJ CONFIRM: speaks to both audiences]
 
-**Support line (under the subhead):** Pick your blend, pick your wear time, check out in about a minute. [TJ CONFIRM: confirms the "one-click, no coordinator call, no visit" path and the eligibility/intake story; see open questions]
+**Secondary line:** More energy. Better focus. Faster recovery. Needle free. [TJ CONFIRM: Genesis's tagline, used verbatim; confirm permission]
 
-**Primary CTA label:** `Choose your blend` (scrolls to the blend picker)
+**CTA:** `Choose your blend` (scrolls to the blend picker; PostHog `lp_patch_cta_hero`)
 
-**Sticky / picker button label (the P2-D button):** `Order — $650` (label updates to the selected blend's price, `$550` for Glutathione Glow)
+**Chips:** No needles · No pills · No IV chair · One patch a week
 
-**Trust row (three short chips under the CTA):**
-- Needle-free and pain-free
-- Sustained delivery for 12 or 14 hours
-- Six patches, six weeks
+**Line:** Brought to you by My4MLife
 
----
-
-## 3. How it works
-
-**Section H2:** A patch instead of a needle or a pill
-
-**Lead:** The Push Patch uses iontophoresis, a delivery method that applies a minimal electrical charge to move molecules through the skin. Iontophoresis is an established delivery technology used in medicine for decades. [TJ CONFIRM: the "used in medicine for decades" wording is the approved substitute for any regulatory language about the patch; do not add to it]
-
-Three steps, written for the page as a simple numbered row:
-
-1. **Apply.** Each patch is single-use and goes on like kinesiology tape, on clean skin of the upper arm or shoulder. [TJ CONFIRM: upper arm/shoulder placement; the one-pager says "like kinesiology tape" but the exact placement site must come from Genesis's instructions]
-2. **Wear.** The patch delivers for 12 or 14 hours, a sustained delivery rather than a single spike. Choose 12-hour if you are active and want to train or work in it; choose 14-hour if your skin is sensitive. [TJ CONFIRM: the one-pager ties 12-hour to active people and 14-hour to sensitive skin; confirm the plain-language version]
-3. **Repeat weekly.** One patch a week for six weeks. A set is six patches plus the supplies to apply them. [TJ CONFIRM: "supplies" contents, see section 6]
-
-**Three benefit chips under the steps:**
-- **Needle-free and pain-free.** The charge moves the molecules; you feel a patch, not a shot.
-- **Bypasses the digestive tract.** What is in the patch goes through the skin instead of through your stomach. [TJ CONFIRM: phrase as "bypasses the digestive tract" exactly as the one-pager does; do not add absorption-percentage claims]
-- **Sustained, not spiky.** Delivery runs over 12 or 14 hours.
-
-**Fine line under the chips:** Individual experience varies. [TJ CONFIRM]
+**Image:** `/images/push-patch/pouches.jpg` (real Genesis packaging, three "12 HOUR" pouches). Alt: Three black Push Patch pouches labeled 12 HOUR: NAD+ with GHK-Cu, BPC-157 and NAD+ with GHK-Cu, and KPV and NAD+.
 
 ---
 
-## 4. Choose your blend
+## 3. Pain points (light)
 
-**Section H2:** Seven blends. One set each: six patches, six weeks.
+**Eyebrow:** If you've been injecting
 
-**Lead:** Every blend ships as a six-patch set. Six of the seven contain NAD+ and are $650. The Glutathione blend has no NAD+ and is $550. Not sure which one fits? Start with NAD+ Restore, the simplest blend, or ask the care coordinator below. [TJ CONFIRM: "start with NAD+ Restore" is a soft recommendation I wrote; approve or delete]
+**H2:** You know the routine.
 
-Each card shows name, formula (exact from the catalog), price, and the one-line benefit below. Benefit sentences use may help / may support language only and describe what an ingredient is studied for, never a condition. Every line needs TJ approval.
+- Sticking yourself with a needle, week after week.
+- Pinching belly fat at 6 a.m. and bracing for the stick.
+- Rotating injection sites and still finding bruises and little lumps.
+- A sharps container on the bathroom shelf.
+- Packing syringes every time you travel.
+- Skipping a dose because you just couldn't face the needle tonight.
+
+[TJ CONFIRM: pain-point lines; empathetic insider language, no medical claims. Vial/reconstitution lines removed because the kit itself includes a vial]
+
+**Turn (large):** One patch. Once a week. No needle.
+
+**For people who never started (callout):** **Never started because of needles?** If needles are the reason you've never started, there is no needle at any step. You prepare the pad, apply the patch like a strip of kinesiology tape, and wear it.
+
+---
+
+## 4. The technology (white)
+
+**Eyebrow:** The delivery technology
+
+**H2:** Iontophoresis: a small charge does the work a needle used to do
+
+**Lead:** The Push Patch uses iontophoresis. A small electrical charge moves charged molecules through the skin, so the blend reaches you without an injection. Iontophoresis is an established delivery technology used in medicine for decades. [TJ CONFIRM: "used in medicine for decades" is the approved substitute for any regulatory language about the patch; do not add to it]
+
+**Four spec tiles:**
+- **Route — Through the skin.** Bypasses the digestive tract. Nothing to swallow. [TJ CONFIRM: phrase exactly as the one-pager; no absorption-percentage claims]
+- **Curve — Steady, not a spike.** Delivered over 12 or 14 hours instead of all at once.
+- **Setup — Nothing to inject.** No needles, no pills, no IV chair. Applied like kinesiology tape.
+- **Frequency — Once a week.** One single-use patch a week. Six patches, six weeks.
+
+**Schematic (inline SVG, dark panel):** dashed "Injection" curve that peaks and tapers vs a solid cyan "Push Patch: 12 or 14 hours" plateau. Caption: Illustration of the delivery pattern only. Not measured data. [TJ CONFIRM: schematic only, no measured data implied]
+
+---
+
+## 5. Injection vs. Push Patch (light)
+
+**Eyebrow:** Side by side
+
+**H2:** Injection vs. Push Patch
+
+| | Injection | Push Patch |
+|---|---|---|
+| Needle | Yes, at every dose | None |
+| How often | Often daily or several times a week, depending on the protocol | One patch a week |
+| Delivery curve | The full dose at once, then it tapers off | Steady, over 12 or 14 hours |
+| Route | Under the skin, through a needle | Through the skin, moved by a small electrical charge |
+| Setup | Syringes, needles, a sharps container | Prepare the pad, apply like kinesiology tape, wear |
+
+**Fine line:** A comparison of delivery method only, not of results. Individual experience varies.
+
+[TJ CONFIRM: injection frequency and setup rows are general descriptions of self-injected peptide protocols]
+
+---
+
+## 6. How to wear it (white)
+
+**Eyebrow:** How to wear it
+
+**H2:** Prepare. Apply. Wear.
+
+1. **Prepare the pad.** Each week's patch comes with its own blend vial and applicator tube to prepare the pad. [TJ CONFIRM: exact prep steps from Genesis; keep neutral until confirmed]
+2. **Apply.** The patch goes on like kinesiology tape, on clean skin of the upper arm or shoulder. [TJ CONFIRM: placement site from Genesis's instructions]
+3. **Wear.** The patch delivers over 12 or 14 hours. Choose 12-hour if you are active and want to train or work in it; choose 14-hour if your skin is sensitive. One patch a week for six weeks. [TJ CONFIRM: plain-language 12h vs 14h; removal after 12/14 hours]
+
+---
+
+## 7. Choose your blend (light) — the purchase point
+
+**Eyebrow:** Choose your blend
+
+**H2:** Seven blends. Six patches each. Six weeks.
+
+**Lead:** Every blend ships as a six-patch set. Blends with NAD+ are $650; the Glutathione blend has no NAD+ and is $550. Not sure which fits? NAD+ Restore is the simplest place to start. [TJ CONFIRM: the "simplest place to start" recommendation]
+
+Each card shows name, price, the one-line benefit, and (last, in small monospace) the exact formula from the catalog. Formulas and doses appear nowhere else on the page.
 
 | skuId | Display name | Formula (from catalog) | Price | One-line benefit |
 |---|---|---|---|---|
@@ -87,114 +141,93 @@ The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverin
 | NAD+ 1300 / MOTS-c / GHK-Cu | **Metabolic** | Names the lane MOTS-c is studied for. Risk: "metabolic" can read as a weight-loss claim; safer alternates listed | Drive, Engine |
 | Glutathione 500 / GHK-Cu 5 | **Glutathione Glow** | Says what is in it and pairs with "Enhanced Glow" so the skin-lane blends read as a family | Clear, Glow |
 
-[TJ CONFIRM: all five names]. These match the placeholders already in the plan's catalog table and P1-A module; if TJ changes any, `website/src/data/pushPatch.ts`, the Stripe Product names (P1-B) and the fulfillment email catalog (P2-B) change too.
+[TJ CONFIRM: all five names]. If TJ changes any, `website/src/data/pushPatch.ts`, the Stripe Product names (P1-B) and the fulfillment email catalog (P2-B) change too.
 
-**Picker footer:** NAD+ is in six of the seven blends. All six-patch sets are one-time purchases, not subscriptions. [TJ CONFIRM: one-time purchase, no auto-ship; Genesis offers patient auto-ship but the plan sells one-time]
+**Picker footer:** All six-patch sets are one-time purchases, not subscriptions. [TJ CONFIRM: one-time, no auto-ship]
 
-**Wear-time picker (below the blends):**
-- Label: `Wear time`
-- Option 1: `12-hour (active)`; helper: For people who train or stay on the move.
-- Option 2: `14-hour (sensitive skin)`; helper: A longer, gentler delivery for sensitive skin.
+**Wear-time picker:**
+- Legend: `Wear time`
+- `12-hour (active)` — For people who train or stay on the move.
+- `14-hour (sensitive skin)` — A longer, gentler delivery for sensitive skin.
 - Note: Same price either way.
 
----
-
-## 5. Why a patch (short, benefit-led band; optional, cut if the page runs long)
-
-**H2:** Built for people who plan to keep their edge
-
-Pills and powders have to survive your digestive tract. Needles are needles. A weekly patch is a third way: something you put on, forget about, and take off at the end of the day. [TJ CONFIRM: "pills and powders have to survive digestion" is a comparison claim of mine; approve or delete]
-
-Dr. TJ built My4MLife around one idea: the best mind and body possible, for as long as possible. Recovery and energy are how you keep showing up. Dr. TJ speaks as a health-span educator and does not provide medical care through this platform. [TJ CONFIRM: this wording follows the 2026-09-08 "Dr. TJ only" rule; do not add a title]
+**Order button:** `Order — $650` (label updates to the selected blend's price, `$550` for Glutathione Glow). One-click to Stripe Checkout; PostHog `lp_patch_view`, `lp_patch_select`, `lp_patch_checkout`.
 
 ---
 
-## 6. What's in the box
+## 8. What arrives at your door (dark)
+
+**Eyebrow:** In the box
 
 **H2:** What arrives at your door
 
-- Six single-use patches, one for each week of the six-week set.
-- The supplies to apply them. [TJ CONFIRM: the one-pager says "plus supplies" without a list; we need the exact contents, for example skin prep, the device/controller if any, adhesive strip, instructions]
-- A simple week-by-week guide: apply on the same day each week, wear it for your chosen 12 or 14 hours, remove it, repeat. [TJ CONFIRM: a printed guide is not in the one-pager; confirm whether Genesis or we provide it]
+**Image:** `/images/push-patch/kit-contents.jpg`. Alt: Push Patch kit contents: a shaped adhesive patch with a round pad, a small amber blend vial, and a clear graduated applicator tube.
 
-**Under the list:** Ships from My4MLife. [TJ CONFIRM: we ship from our own stock first and move to Genesis drop-ship later; the page must not name the shipper until that is settled, so this line may need to become "Ships to the United States" only]
+Per six-week set:
+- **6** Single-use patches, one for each week of the six-week set.
+- **6** Blend vials, one for each patch.
+- **6** Applicator tubes, one for each patch.
 
----
+[TJ CONFIRM: exact contents per set and the prep steps; is there a printed guide?]
 
-## 7. FAQ (8 items)
-
-**1. How fast does my order ship, and where?**
-We ship within the United States. You will get a confirmation email when you check out and a shipping update when the set goes out. Expect your set within [X] business days of ordering. [TJ CONFIRM: the ship speed, the shipping cost (free or flat), any states we cannot ship to, and the carrier]
-
-**2. How long do I wear a patch, and how often?**
-One patch a week for six weeks. You choose 12-hour or 14-hour wear at checkout. Choose 12-hour if you are active; choose 14-hour if your skin is sensitive. The price is the same. [TJ CONFIRM: confirm the wear instructions and whether the patch is removed after 12/14 hours or worn through the week; the one-pager says "one per week" and "sustained delivery over 12 or 14 hours", so the page must be explicit about removal]
-
-**3. Does it hurt, and what about sensitive skin?**
-No needles and no injection. Iontophoresis uses a minimal electrical charge and is described as pain-free. Most people describe the feeling as a light tingle or nothing at all. [TJ CONFIRM: the "light tingle" line is my assumption about how iontophoresis feels; confirm with Genesis or delete] If your skin is sensitive, choose the 14-hour option, which was designed for sensitive skin. Do not apply a patch to broken or irritated skin. [TJ CONFIRM: skin-contact warning wording from Genesis]
-
-**4. What is actually in my blend?**
-The formula on each card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+, and the Glutathione blend does not. Not sure which to choose? The care coordinator can walk you through the options. [TJ CONFIRM: the care coordinator is allowed to discuss blend choice but does not give medical advice; confirm that scope]
-
-**5. What is iontophoresis, and is it established?**
-Iontophoresis uses a minimal electrical charge to move molecules through the skin. It is an established delivery technology used in medicine for decades. The Push Patch applies that idea to a wearable patch. [TJ CONFIRM: do not add any regulatory or approval statements about the patch beyond this]
-
-**6. Who should check with a clinician first?**
-Anyone who is pregnant or nursing, has an implanted electronic device such as a pacemaker, has a known skin condition at the application site, or takes regular prescription medication should talk to their own healthcare provider before using a patch. [TJ CONFIRM: this is a standard-caution list I wrote, not sourced from Genesis; legal/Genesis must supply the actual contraindications, especially for implanted devices and the electrical charge]
-
-**7. What is your refund policy?**
-Questions about an order or a refund go to refunds@my4mlife.com, and our full policy is at /refund-policy. [TJ CONFIRM: the existing policy covers supplements case-by-case (unopened, unused within 14 days of delivery) and Rx as non-refundable once shipped; the Push Patch is neither category cleanly. Decide which rule applies, and then this answer should state it in one sentence, for example "Unopened sets may be returned within 14 days of delivery." Not drafted as a promise until TJ decides]
-
-**8. I have a question before I order. Who do I ask?**
-Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear and shipping. [TJ CONFIRM: the plan sends questions to /consult; /consult currently runs in coordinator mode and begins an intake, so confirm that is the right door for a pre-purchase question or whether we should use a plain email address instead]
+**Under the list:** Ships from My4MLife. [TJ CONFIRM: shipper not settled (own stock first, Genesis drop-ship later); may become "Ships to the United States" only]
 
 ---
 
-## 8. Closing block
+## 9. FAQ — "Before you order" (10 items)
 
-**H2:** Put it on. Get on with your week.
+1. **Is there a needle anywhere in the process?** No. The Push Patch is needle-free. There are no syringes and no injection at any step. You prepare the pad, apply the patch like a strip of kinesiology tape, and wear it. [TJ CONFIRM: prep wording stays neutral until Genesis confirms]
+2. **Does it hurt, and what about sensitive skin?** Iontophoresis uses a small electrical charge and is described as pain-free. Most people describe the feeling as a light tingle or nothing at all. If your skin is sensitive, choose the 14-hour option, which was designed for sensitive skin. Do not apply a patch to broken or irritated skin. [TJ CONFIRM: "light tingle" is an assumption; skin-contact warning wording from Genesis]
+3. **I already inject peptides. Can I switch to the patch?** Talk to the healthcare provider who manages your current protocol before changing how you take anything. The formula on each blend card shows exactly what is in that patch, so you can compare it with what you use now. [TJ CONFIRM: defers to the person's own provider; no medical advice]
+4. **What is iontophoresis, and is it established?** Iontophoresis uses a small electrical charge to move charged molecules through the skin. It is an established delivery technology used in medicine for decades. The Push Patch applies it in a wearable, single-use patch. [TJ CONFIRM: no regulatory or approval statements beyond this]
+5. **How long do I wear a patch, and how often?** One patch a week for six weeks. You choose 12-hour or 14-hour wear at checkout. Choose 12-hour if you are active; choose 14-hour if your skin is sensitive. The price is the same. [TJ CONFIRM: removal after 12/14 hours vs worn through the week]
+6. **What is actually in my blend?** The formula on each blend card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+; the Glutathione blend does not.
+7. **Who should check with a clinician first?** Anyone who is pregnant or nursing, has an implanted electronic device such as a pacemaker, has a known skin condition at the application site, or takes regular prescription medication should talk to their own healthcare provider before using a patch. [TJ CONFIRM: copywriter's standard-caution list; Genesis/legal must supply the real contraindications]
+8. **How fast does my order ship, and where?** We ship within the United States. You will get a confirmation email when you check out and a shipping update when the set goes out. Expect your set within [X] business days of ordering. [TJ CONFIRM: ship speed, cost, excluded states, carrier]
+9. **What is your refund policy?** Questions about an order or a refund go to refunds@my4mlife.com, and our full policy is at /refund-policy. [TJ CONFIRM: supplement rule vs no-returns rule, then one sentence]
+10. **I have a question before I order. Who do I ask?** Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear and shipping. [TJ CONFIRM: /consult vs a plain email address for pre-purchase questions]
 
-**Body:** One patch a week. Six weeks. More energy, better focus, faster recovery, and not a needle in sight. [TJ CONFIRM: same tagline claims as the headline; "may help" is implied, but the closing repeats outcomes, so confirm wording or soften to "may help you feel"]
+---
 
-**CTA label:** `Choose your blend` (scrolls to picker) and then the picker button `Order — $650`.
+## 10. Closing block (dark)
 
-**Tagline (verbatim, required on every surface, standing rule 2026-09-08):**
+**H2:** Retire the sharps container.
 
-Don't lose your identity and your dignity while you still have a choice.
+**Body:** One patch a week, applied like tape, worn for 12 or 14 hours. No needles, no pills, no IV chair.
 
-## 9. Footer block
+**CTA:** `Choose your blend` (PostHog `lp_patch_cta_close`)
 
-- Suggested line above the disclaimer: `Begin with the end in mind.` (brand tagline, in the `em` style used by gut-repair's closing).
-- Disclaimer (required): *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person. Dr. TJ speaks as a health-span educator and does not provide medical care through this platform.* [TJ CONFIRM: legal wording; the page must not claim regulatory approval of the patch. Also note the shared `MedicalDisclaimer` component carries GLP-1 and compounded-medication language that will read oddly on this page; P2-D should use a patch-specific disclaimer instead, TJ/legal to approve]
+## 11. Footer (dark)
+
+- Brought to you by My4MLife
+- Tagline (verbatim, once on the page, standing rule 2026-09-08): Don't lose your identity and your dignity while you still have a choice.
+- Disclaimer (patch-specific; shared `MedicalDisclaimer` not used because of its GLP-1 / compounded-medication language): *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.* [TJ CONFIRM: legal wording; no regulatory-approval claim about the patch]
 - Links: Privacy / Terms / Refund policy / my4mlife.com.
+- "Begin with the end in mind." is intentionally not on this page (near-standalone product page).
 
 ---
 
-## 10. Artlist image prompts (3)
+## 12. Images
 
-Plain prose, to paste into Artlist (Google Imagen). TJ generates; Fable places. No flags, no text on the image, no alcohol, no printed age. Across the three images the subjects split evenly: image 1 shows one woman, image 2 shows one man, image 3 shows one woman and one man, so the set has two women and two men. Subjects are active adults in midlife; no prompt states a number of years or an age range.
+Live on the page now (real Genesis product photos supplied by TJ, 2026-09-30):
+- `website/public/images/push-patch/pouches.jpg` — hero.
+- `website/public/images/push-patch/kit-contents.jpg` — What arrives at your door.
 
-**Prompt 1: the morning routine (hero, woman)**
-A candid, natural-light photograph of a woman with short silver-streaked dark hair standing in a bright kitchen early in the morning, wearing a fitted sleeveless athletic top. A small, flat, skin-toned rectangular patch sits on her upper arm near the shoulder, like a piece of kinesiology tape, clearly visible but understated. She is smiling slightly as she reaches for a glass of water, a pair of running shoes by the door behind her. Warm sunrise light from a window on her left, shallow depth of field, calm and confident mood, editorial lifestyle photography, horizontal frame with open space on the right for a headline. No text or logos.
+No lifestyle placeholder is used. Optional future render (Artlist / Google Imagen, TJ generates, Fable places) for the How-to-wear section, saved as `website/public/images/push-patch/apply.jpg`:
 
-**Prompt 2: recovery after a workout (benefit band, man)**
-A candid photograph of a fit man with short graying hair and a light stubble, sitting on a wooden bench in a sunlit home gym after a workout, towel over one shoulder, looking relaxed and satisfied. A small, flat, skin-toned patch is applied on his upper arm just below the shoulder. A water bottle and a set of dumbbells rest on the floor nearby. Soft natural light, true-to-life skin texture, no heavy retouching, editorial lifestyle photography, horizontal frame with open space on the left. No text or logos.
+> A warm, candid photograph of a woman and a man standing side by side in a bright living room, both dressed in casual athletic clothing. The woman is gently pressing a small, flat, skin-toned patch onto the man's upper arm, the way you would smooth a strip of tape, and both are smiling at the moment. Natural window light, muted warm tones, soft background of a sofa and a plant, no medical equipment, editorial lifestyle photography, horizontal frame. No text or logos.
 
-**Prompt 3: applying it at home (how-it-works, a woman and a man)**
-A warm, candid photograph of a woman and a man standing side by side in a bright living room, both dressed in casual athletic clothing. The woman is gently pressing a small, flat, skin-toned patch onto the man's upper arm, the way you would smooth a strip of tape, and both are smiling at the moment. Natural window light, muted warm tones, soft background of a sofa and a plant, no medical equipment, editorial lifestyle photography, horizontal frame. No text or logos.
-
-Notes for Fable when placing:
-- Save as `website/public/images/scenes/push-patch-hero.jpg`, `push-patch-recovery.jpg`, `push-patch-apply.jpg` (about 1800 px, JPEG quality 80) once TJ supplies them. Until then P2-D uses existing `/images/scenes/` placeholders.
-- Check each result for: no alcohol of any kind, no visible text, patch clearly on the upper arm or shoulder, nobody who reads as elderly or as a teenager.
+Check any render for: no alcohol of any kind, no visible text, patch clearly on the upper arm or shoulder, nobody who reads as elderly or as a teenager. (The earlier hero and recovery prompts are retired with the new clinical look.)
 
 ---
 
-## 11. Open questions TJ must resolve before launch
+## 13. Open questions TJ must resolve before launch
 
-1. **Eligibility and clinician oversight.** The plan sells with no consult and no telemedicine visit. The copy therefore says nothing about a prescription, a clinician, or medical review, and deliberately avoids "no prescription needed". Confirm with Genesis and legal what (if any) screening, intake form or clinician sign-off is required, and what the page may and may not say. [TJ CONFIRM]
-2. **Contraindications** (FAQ 6). Genesis or legal must supply the real list, especially for the electrical charge and implanted devices. [TJ CONFIRM]
-3. **Supplies in the set** (section 6). Exact contents. [TJ CONFIRM]
-4. **Refund rule** (FAQ 7). Decide between the supplement rule and a no-returns rule. [TJ CONFIRM]
-5. **Shipping speed, cost and states** (FAQ 1). [TJ CONFIRM]
-6. **Tagline as headline** (section 2). Genesis's line, used verbatim with their permission. [TJ CONFIRM]
-7. **The five display names** (section 4). [TJ CONFIRM]
-8. **Every per-blend benefit line** (section 4). These describe ingredient research themes, not results, but they are my drafting, not Genesis's. [TJ CONFIRM]
+1. **Eligibility and clinician oversight.** The page sells with no consult and no telemedicine visit, and says nothing about a prescription, a clinician or medical review (and deliberately avoids "no prescription needed"). Confirm with Genesis and legal what screening, intake or sign-off is required. [TJ CONFIRM]
+2. **Kit contents and prep steps** (sections 6, 8, FAQ 1). Photo shows patch + blend vial + applicator tube; confirm 6/6/6 per set, any printed guide, and the exact prep steps. [TJ CONFIRM]
+3. **Contraindications** (FAQ 7). Genesis or legal must supply the real list, especially for the electrical charge and implanted devices. [TJ CONFIRM]
+4. **Refund rule** (FAQ 9). [TJ CONFIRM]
+5. **Shipping speed, cost and states** (FAQ 8). [TJ CONFIRM]
+6. **Genesis tagline** as the hero's secondary line. [TJ CONFIRM]
+7. **The five display names** and **every per-blend benefit line** (section 7). [TJ CONFIRM]
+8. **Injection-comparison wording** (section 5) and **pain-point lines** (section 3). [TJ CONFIRM]
