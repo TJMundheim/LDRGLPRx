@@ -1,8 +1,10 @@
 ---
 // LANDING PAGE — gut repair. Template for all future /go/* marketing LPs.
 // Standalone (hideChrome): no navbar, no footer maze — one message, one action.
-// Primary CTA = free Rx gut consult (live today). Biome NS Ultra OTC card gets
-// added the day it is orderable (no-coming-soon rule — never promise, only sell).
+// Primary CTA = free Rx gut consult (live today). OTC card = interim gut kit
+// (links to /solutions/gut) while Biome NS Ultra is not in inventory (TJ 2026-09-29).
+// The Ultra Stripe buy buttons + checkout script were removed 2026-09-30; restore
+// from git history the day Ultra is orderable.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MedicalDisclaimer from '../../components/MedicalDisclaimer.astro';
 import { COORDINATOR_MODE, consultHref } from '../../lib/siteMode';
@@ -32,23 +34,17 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
     <p class="lp-kicker">Gut repair · built to last</p>
     <h1>Bloating. Brain fog. The 2&nbsp;p.m. crash.<br/>Your gut is telling you what your brain already feels.</h1>
     <p class="lp-punch">Gut damage doesn't stay in the gut. It degrades the organ that makes you <em>you</em> — and it starts years before any diagnosis.</p>
-    <p class="lp-cta-sub">Two ways to start — order the foundation powder today, or begin with a free physician consult.</p>
+    <p class="lp-cta-sub">Two ways to start — the interim gut kit today, or a free physician consult.</p>
   </section>
 
   <!-- BUY PANELS — the two paths, up top -->
   <section class="lp-block lp-buy">
     <div class="lp-paths">
       <div class="lp-path-card lp-path-primary">
-        <p class="lp-path-tag">OTC · ships to your door</p>
-        <h3>Biome NS Ultra</h3>
-        <p>The daily gut-brain foundation powder. Order today, ships to your door. No prescription, no waiting.</p>
-        <div class="lp-buy-btns">
-          <button class="lp-cta" id="buy-biome-once" data-sku="biome-ns-ultra" onclick="window.posthog && posthog.capture('lp_gut_otc_order')">Order now — $149</button>
-          <button class="lp-cta lp-cta-ghost" id="buy-biome-sub" data-sku="biome-ns-ultra-sub" onclick="window.posthog && posthog.capture('lp_gut_otc_subscribe')">Subscribe — $129/mo</button>
-        </div>
-        <p class="lp-fine" id="buy-biome-err" hidden></p>
-        <p class="lp-bonus">✓ Free <strong>Fast Start Guide to Gut Repair</strong> — exact dosing + your 7-day fast start — emailed instantly with every order.</p>
-        <p class="lp-fine">Secure checkout. US shipping collected at checkout.</p>
+        <p class="lp-path-tag">OTC · no prescription</p>
+        <h3>The interim gut kit</h3>
+        <p>Two products, taken together: bone broth collagen plus Gut Restore capsules. Our gut-repair starting point while Biome NS Ultra, our own gut-brain formula, is in development.</p>
+        <a class="lp-cta" href="/solutions/gut" onclick="window.posthog && posthog.capture('lp_gut_otc_kit')">See the gut kit &rarr;</a>
       </div>
       <div class="lp-path-card">
         <p class="lp-path-tag">Rx · physician-guided</p>
@@ -111,39 +107,6 @@ const canonical = 'https://www.my4mlife.com/go/gut-repair';
 </div>
 
 </BaseLayout>
-
-<script is:inline define:vars={{ API: (import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com') }}>
-(function () {
-  var err = document.getElementById('buy-biome-err');
-  ['buy-biome-once', 'buy-biome-sub'].forEach(function (id) {
-    var btn = document.getElementById(id);
-    if (!btn) return;
-    var original = btn.textContent;
-    btn.addEventListener('click', async function () {
-      btn.disabled = true;
-      btn.textContent = 'Loading…';
-      if (err) { err.hidden = true; err.textContent = ''; }
-      try {
-        var res = await fetch(API + '/api/create-checkout-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ skuId: btn.dataset.sku }),
-        });
-        var data = await res.json();
-        if (!res.ok || !data.url) throw new Error(data.error || ('Checkout failed (' + res.status + ')'));
-        window.location.href = data.url;
-      } catch (e) {
-        btn.disabled = false;
-        btn.textContent = original;
-        if (err) {
-          err.hidden = false;
-          err.textContent = (e && e.message) ? e.message : 'Something went wrong. Please try again.';
-        }
-      }
-    });
-  });
-})();
-</script>
 
 <style>
 .lp { font-family: 'Inter', sans-serif; color: #1f2d3d; background: #fdfcf9; }
