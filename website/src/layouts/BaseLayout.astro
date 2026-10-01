@@ -5,7 +5,6 @@ import JsonLd from '../components/JsonLd.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import MedicalDisclaimer from '../components/MedicalDisclaimer.astro';
-import CookieBanner from '../components/CookieBanner.astro';
 import StickyMobileCta from '../components/StickyMobileCta.astro';
 import ChatDock from '../components/ChatDock.astro';
 
@@ -132,6 +131,5 @@ const mountChat = showChat ?? (!hideChrome && chatSurfaces);
   {!hideChrome && <MedicalDisclaimer />}
   {!hideChrome && <StickyMobileCta />}
   {mountChat && <ChatDock />}
-  <CookieBanner />
 </body>
 </html>
