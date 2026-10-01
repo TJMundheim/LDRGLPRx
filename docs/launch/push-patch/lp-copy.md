@@ -148,13 +148,13 @@ Each card shows name, price, the one-line benefit, the exact formula from the ca
 | push-patch-bpc-nad-ghk | **Repair** (proposed) | BPC-157 2000 mcg / NAD+ 250 mg / GHK-Cu 5 mg | $650 | BPC-157 is a peptide studied for tissue repair; paired with NAD+ and GHK-Cu, this blend may support recovery after hard training. [TJ CONFIRM] |
 | push-patch-kpv-nad-ghk | **Calm Gut** (proposed) | KPV 10 mg / NAD+ 250 mg / GHK-Cu 5 mg | $650 | KPV is a peptide studied for its role in the body's inflammatory signaling; this blend may help support a calmer, steadier feeling day to day. [TJ CONFIRM] |
 | push-patch-nad-motsc-ghk | **Metabolic** (proposed) | NAD+ 1300 mg / MOTS-c 5 mg / GHK-Cu 5 mg | $650 | MOTS-c is a peptide studied for its role in mitochondrial and metabolic signaling; this blend may support energy and metabolic health. [TJ CONFIRM] |
-| push-patch-enhanced-glow | **Enhanced Glow** (Genesis name) | NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg | $650 | Our highest-GHK-Cu blend, which may help support skin appearance and tissue quality, with TB-500, BPC-157 and NAD+ in support. [TJ CONFIRM] |
+| push-patch-enhanced-glow | **Advanced Glow** (Genesis name) | NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg | $650 | Our highest-GHK-Cu blend, which may help support skin appearance and tissue quality, with TB-500, BPC-157 and NAD+ in support. [TJ CONFIRM] |
 | push-patch-wolverine | **Wolverine** (Genesis name) | NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 5 mg | $650 | For people who train hard: TB-500 and BPC-157 are peptides studied for tissue repair, and this blend may support faster recovery between sessions. [TJ CONFIRM] |
 | push-patch-glutathione-ghk | **Glutathione Glow** (proposed) | Glutathione 500 mg / GHK-Cu 5 mg | $550 | Glutathione is one of the body's main antioxidants; this NAD+-free blend may help support skin quality and general wellbeing. [TJ CONFIRM] |
 
 ### Proposed display names (for TJ approval)
 
-The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverine**. The five unnamed blends are proposed as:
+The two Genesis names stay exactly as they are: **Advanced Glow** and **Wolverine**. The five unnamed blends are proposed as:
 
 | Blend | Proposed name | Why | Alternates if TJ dislikes it |
 |---|---|---|---|
@@ -162,7 +162,7 @@ The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverin
 | BPC-157 / NAD+ 250 / GHK-Cu 5 | **Repair** | Matches the "studied for tissue repair" framing of BPC-157 without naming a condition | Rebuild, Recover |
 | KPV / NAD+ 250 / GHK-Cu 5 | **Calm Gut** | Signals the KPV lane in two words. Risk: "gut" edges toward a health-area claim and sits close to the existing gut brand; safer alternates listed | Steady, Calm |
 | NAD+ 1300 / MOTS-c / GHK-Cu | **Metabolic** | Names the lane MOTS-c is studied for. Risk: "metabolic" can read as a weight-loss claim; safer alternates listed | Drive, Engine |
-| Glutathione 500 / GHK-Cu 5 | **Glutathione Glow** | Says what is in it and pairs with "Enhanced Glow" so the skin-lane blends read as a family | Clear, Glow |
+| Glutathione 500 / GHK-Cu 5 | **Glutathione Glow** | Says what is in it and pairs with "Advanced Glow" so the skin-lane blends read as a family | Clear, Glow |
 
 [TJ CONFIRM: all five names]. If TJ changes any, `website/src/data/pushPatch.ts`, the Stripe Product names (P1-B) and the fulfillment email catalog (P2-B) change too.
 

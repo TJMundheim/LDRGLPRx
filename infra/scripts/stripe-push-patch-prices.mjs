@@ -24,7 +24,7 @@ const BLENDS = [
   ['push-patch-bpc-nad-ghk', 'Repair', 'BPC-157 2000 mcg / NAD+ 250 mg / GHK-Cu 5 mg', 650],
   ['push-patch-kpv-nad-ghk', 'Calm Gut', 'KPV 10 mg / NAD+ 250 mg / GHK-Cu 5 mg', 650],
   ['push-patch-nad-motsc-ghk', 'Metabolic', 'NAD+ 1300 mg / MOTS-c 5 mg / GHK-Cu 5 mg', 650],
-  ['push-patch-enhanced-glow', 'Enhanced Glow', 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg', 650],
+  ['push-patch-enhanced-glow', 'Advanced Glow', 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg', 650],
   ['push-patch-wolverine', 'Wolverine', 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 5 mg', 650],
   ['push-patch-glutathione-ghk', 'Glutathione Glow', 'Glutathione 500 mg / GHK-Cu 5 mg', 550],
 ].map(([skuId, name, formula, priceUsd]) => ({ skuId, name, formula, priceUsd }));
@@ -48,6 +48,18 @@ for (const mode of ['test', 'live']) {
   for (const b of BLENDS) {
     const tag = `[${mode}] ${b.skuId}`;
     const existing = (await stripe.prices.list({ lookup_keys: [b.skuId], limit: 1 })).data[0];
+    const catalogName = `Push Patch — ${b.name} (6-week set)`;
+    // Rename an existing product whose name drifted from the catalog (never archive/delete).
+    const found = (await stripe.products.search({ query: `metadata['skuId']:'${b.skuId}'`, limit: 1 })).data[0]
+      ?? (existing ? await stripe.products.retrieve(existing.product) : undefined);
+    if (found && found.name !== catalogName) {
+      if (apply) {
+        await stripe.products.update(found.id, { name: catalogName });
+        console.log(`${tag}: RENAMED product ${found.id} "${found.name}" -> "${catalogName}"`);
+      } else {
+        console.log(`${tag}: WOULD rename product ${found.id} "${found.name}" -> "${catalogName}"`);
+      }
+    }
     if (existing) {
       result[mode][b.skuId] = existing.id;
       console.log(`${tag}: EXISTS price ${existing.id} (${existing.unit_amount} ${existing.currency}, product ${existing.product}) - no action`);
