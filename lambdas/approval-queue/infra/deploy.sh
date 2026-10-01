@@ -13,7 +13,9 @@ HTTP_API_ID="v9svm8ds74"
 RUNTIME="nodejs24.x"
 TIMEOUT=15
 MEMORY=256
-APPROVAL_BASE_URL="https://api.my4mlife.com"
+# Approve/deny links in the email point here. api.my4mlife.com has no DNS record (checked
+# 2026-10-01), so use the HTTP API's own host. Override by exporting APPROVAL_BASE_URL.
+APPROVAL_BASE_URL="${APPROVAL_BASE_URL:-https://${HTTP_API_ID}.execute-api.${REGION}.amazonaws.com}"
 APPROVAL_TO="drtj@my4mlife.com"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 HMAC_SECRET_ID="approval-queue-hmac-key"
@@ -149,8 +151,9 @@ deploy_lambda "$DISPATCH_FN" "$DISPATCH_ROLE" "dispatch-handler.handler" "dispat
 log "Deploy: $RESPOND_FN"
 deploy_lambda "$RESPOND_FN" "$RESPOND_ROLE" "respond-handler.handler" "respond-handler.zip"
 
-# ── Wire GET /api/approve on HTTP API ────────────────────────────────────────
-log "Wire HTTP API route GET /api/approve → $RESPOND_FN"
+# ── Wire GET + POST /api/approve on HTTP API ─────────────────────────────────
+# GET = confirm page only (email scanners prefetch links); POST = the confirm form records the decision.
+log "Wire HTTP API routes GET + POST /api/approve → $RESPOND_FN"
 
 RESPOND_FN_ARN="arn:aws:lambda:${REGION}:${ACCOUNT_ID}:function:${RESPOND_FN}"
 
@@ -158,7 +161,7 @@ RESPOND_FN_ARN="arn:aws:lambda:${REGION}:${ACCOUNT_ID}:function:${RESPOND_FN}"
 EXISTING_INT="$(aws apigatewayv2 get-integrations --api-id "$HTTP_API_ID" --region "$REGION" \
   --query "Items[?IntegrationUri=='$RESPOND_FN_ARN'].IntegrationId" --output text 2>/dev/null || true)"
 
-if [[ -z "$EXISTING_INT" ]]; then
+if [[ -z "$EXISTING_INT" || "$EXISTING_INT" == "None" ]]; then
   INTEGRATION_ID="$(aws apigatewayv2 create-integration --api-id "$HTTP_API_ID" --region "$REGION" \
     --integration-type AWS_PROXY --integration-uri "$RESPOND_FN_ARN" \
     --payload-format-version 2.0 \
@@ -169,22 +172,24 @@ else
   log "  Reusing integration $INTEGRATION_ID"
 fi
 
-# Create or reuse route
-EXISTING_ROUTE="$(aws apigatewayv2 get-routes --api-id "$HTTP_API_ID" --region "$REGION" \
-  --query "Items[?RouteKey=='GET /api/approve'].RouteId" --output text 2>/dev/null || true)"
-
-if [[ -z "$EXISTING_ROUTE" ]]; then
-  aws apigatewayv2 create-route --api-id "$HTTP_API_ID" --region "$REGION" \
-    --route-key "GET /api/approve" \
-    --target "integrations/$INTEGRATION_ID" \
-    --authorization-type NONE >/dev/null
-  log "  Route GET /api/approve created."
-else
-  aws apigatewayv2 update-route --api-id "$HTTP_API_ID" --region "$REGION" \
-    --route-id "$EXISTING_ROUTE" \
-    --target "integrations/$INTEGRATION_ID" >/dev/null
-  log "  Route GET /api/approve updated."
-fi
+# Create or reuse routes
+for METHOD in GET POST; do
+  ROUTE_KEY="$METHOD /api/approve"
+  EXISTING_ROUTE="$(aws apigatewayv2 get-routes --api-id "$HTTP_API_ID" --region "$REGION" \
+    --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId" --output text 2>/dev/null || true)"
+  if [[ -z "$EXISTING_ROUTE" || "$EXISTING_ROUTE" == "None" ]]; then
+    aws apigatewayv2 create-route --api-id "$HTTP_API_ID" --region "$REGION" \
+      --route-key "$ROUTE_KEY" \
+      --target "integrations/$INTEGRATION_ID" \
+      --authorization-type NONE >/dev/null
+    log "  Route $ROUTE_KEY created."
+  else
+    aws apigatewayv2 update-route --api-id "$HTTP_API_ID" --region "$REGION" \
+      --route-id "$EXISTING_ROUTE" \
+      --target "integrations/$INTEGRATION_ID" >/dev/null
+    log "  Route $ROUTE_KEY updated."
+  fi
+done
 
 # Lambda permission for API GW
 API_ARN="arn:aws:execute-api:${REGION}:${ACCOUNT_ID}:${HTTP_API_ID}/*/*/api/approve"
@@ -197,4 +202,4 @@ aws lambda add-permission --function-name "$RESPOND_FN" --region "$REGION" \
   --source-arn "$API_ARN" >/dev/null
 log "  Lambda permission granted."
 
-log "Done. Both Lambdas deployed, route wired."
+log "Done. Both Lambdas deployed, GET + POST /api/approve wired. Links: $APPROVAL_BASE_URL/api/approve"

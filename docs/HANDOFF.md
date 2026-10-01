@@ -13,6 +13,12 @@
 
 
 
+## ⚡ 2026-10-01 — APPROVAL-QUEUE LINKS FIXED + SCANNER-SAFE (deployed)
+- `lambdas/approval-queue`: approve/deny links pointed at `api.my4mlife.com`, which has **no DNS record** (and no API Gateway custom domain), so every link was dead. Base URL now comes from `APPROVAL_BASE_URL` set in `infra/deploy.sh`, defaulting to `https://v9svm8ds74.execute-api.us-east-2.amazonaws.com`.
+- `/api/approve` used to act on GET, so Outlook Safe Links or a Gmail preview could have approved or denied on its own. Now: **GET = confirm page only; POST (form) = records the decision**, the same pattern as push-patch-decision. Also enforces the row's `expiresAt` (410), and a double-click race shows "Already decided" instead of a 500.
+- Deployed via `infra/deploy.sh` (POST route created). Verified live with a throwaway row: 2× GET left it pending → POST denied it → repeat POST "Already denied" → bad token 400. Row deleted. **No email sent.**
+- OPEN: (1) `GET`/`POST /api/approve` are unthrottled. Ask the main session to add them to `infra/api-throttling.sh`. (2) ops-agent `request_approval` invokes `my4mlife-approval-queue` (doesn't exist; the real one is `-dispatch`) with `{approvalId, action, reason}` (dispatch wants `summary`, `preview`). The error is swallowed, so **no approval email has ever been sent**. Fixing it turns on real emails to drtj@my4mlife.com, so it needs TJ's OK. (3) Optional: `api.my4mlife.com` as an API GW custom domain (ACM + Route 53). Not done; needs TJ's OK.
+
 ## ⚡ 2026-10-01 — PUSH PATCH ASYNC VISIT: BUILT, NOT DEPLOYED (awaiting TJ copy approval)
 - Flow: pay (one tap) → /go/push-patch/thank-you = 2-min intake → POST /api/push-patch-intake (lambdas/push-patch-intake) → clinical packet + provider email to SSM /my4mlife/provider/email with signed Approve/Decline links → /api/push-patch-decision (GET confirm page, POST acts; scanner-safe) → approve = encounter script-written + welcome email + order email to PUSH_PATCH_FULFILLMENT_EMAIL; decline = claim declined → Stripe refund. Reminders: lambdas/push-patch-reminder every 15 min (30 min + 24 h) until intakeSubmittedAt. Order-handler now writes PUSH_PATCH_PENDING# marker instead of emailing the order at payment.
 - Tests: intake 64, decision 27, reminder 9, order-handler-core 21, checkout 21 — all green. Opus review done; fixes committed (8df242bb). Plan: docs/plan/push-patch-async-visit-2026-10-01.md. Copy for TJ: docs/launch/push-patch/async-visit-copy.md.

@@ -6,7 +6,8 @@ import { signToken } from './sign.js';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = 'ApprovalRequests';
-const BASE_URL = process.env.APPROVAL_BASE_URL ?? 'https://api.my4mlife.com';
+// api.my4mlife.com has no DNS record — default to the site's HTTP API host. Set in infra/deploy.sh.
+const BASE_URL = (process.env.APPROVAL_BASE_URL || 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com').replace(/\/+$/, '');
 const APPROVAL_TO = process.env.APPROVAL_TO ?? 'drtj@my4mlife.com';
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const HMAC_SECRET_ID = 'approval-queue-hmac-key';

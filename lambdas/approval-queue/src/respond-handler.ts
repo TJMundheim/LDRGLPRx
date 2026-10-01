@@ -1,7 +1,12 @@
+// /api/approve — TJ's Approve / Deny, two-step.
+// GET ?token=<t>  → confirm page only (NO side effects). Email link scanners (Outlook Safe Links,
+//                   Gmail previews, corporate gateways) prefetch GET links; a GET must never act.
+// POST token=<t>  → the confirm page's form submit records the decision.
 import type { Handler } from 'aws-lambda';
-import { DynamoDBClient, GetItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, GetItemCommand, UpdateItemCommand, ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { verifyToken } from './sign.js';
+import { pages } from './pages.js';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = 'ApprovalRequests';
@@ -19,58 +24,57 @@ async function getHmacSecret(): Promise<string> {
   return hmacSecret!;
 }
 
-const html = (title: string, body: string, color = '#111') =>
-  `<!doctype html><html><head><meta charset=utf-8><title>${title}</title></head><body style="font-family:system-ui,sans-serif;max-width:480px;margin:80px auto;padding:24px;text-align:center"><h1 style="color:${color};font-size:24px">${title}</h1><p style="color:#555">${body}</p></body></html>`;
-
 const resp = (statusCode: number, body: string) => ({
-  statusCode, headers: { 'content-type': 'text/html; charset=utf-8' }, body,
+  statusCode,
+  headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-robots-tag': 'noindex' },
+  body,
 });
 
-export const handler: Handler = async (event: any) => {
-  const qs = event.queryStringParameters ?? {};
-  const token: string | undefined = qs.token;
+function formToken(event: any): string | undefined {
+  if (!event.body) return undefined;
+  const raw = event.isBase64Encoded ? Buffer.from(event.body, 'base64').toString('utf8') : event.body;
+  return new URLSearchParams(raw).get('token') ?? undefined;
+}
 
-  if (!token) return resp(400, html('Missing Token', 'No token provided.'));
+export const handler: Handler = async (event: any) => {
+  const isPost = event.requestContext?.http?.method === 'POST';
+  const token: string | undefined = isPost ? formToken(event) : event.queryStringParameters?.token;
+  if (!token) return resp(400, pages.missing());
 
   let approvalId: string, action: 'approve' | 'deny';
   try {
-    const secret = await getHmacSecret();
-    ({ approvalId, action } = verifyToken(token, secret));
+    ({ approvalId, action } = verifyToken(token, await getHmacSecret()));
   } catch {
-    return resp(400, html('Invalid Token', 'This link is invalid or has been tampered with.', '#dc2626'));
+    return resp(400, pages.invalid());
   }
+  if (!isPost) return resp(200, pages.confirm(action, token));
 
   const row = await ddb.send(new GetItemCommand({ TableName: TABLE, Key: { approvalId: { S: approvalId } } }));
-  if (!row.Item) return resp(404, html('Not Found', 'Approval request not found.'));
+  if (!row.Item) return resp(404, pages.notFound());
 
   const currentStatus = row.Item.status?.S ?? 'pending';
-  if (currentStatus !== 'pending') {
-    const respondedAt = row.Item.respondedAt?.S ?? 'unknown time';
-    const label = currentStatus === 'approved' ? 'approved' : 'denied';
-    return resp(200, html(
-      `Already ${label}`,
-      `This approval was already ${label} at ${respondedAt}.`,
-      currentStatus === 'approved' ? '#16a34a' : '#dc2626',
-    ));
-  }
+  if (currentStatus !== 'pending') return resp(200, pages.already(currentStatus, row.Item.respondedAt?.S ?? ''));
 
-  const now = new Date().toISOString();
-  await ddb.send(new UpdateItemCommand({
-    TableName: TABLE,
-    Key: { approvalId: { S: approvalId } },
-    UpdateExpression: 'SET #s = :s, respondedAt = :t, respondedVia = :v',
-    ConditionExpression: '#s = :pending',
-    ExpressionAttributeNames: { '#s': 'status' },
-    ExpressionAttributeValues: {
-      ':s': { S: action === 'approve' ? 'approved' : 'denied' },
-      ':t': { S: now },
-      ':v': { S: 'email-link' },
-      ':pending': { S: 'pending' },
-    },
-  }));
+  const expiresAt = row.Item.expiresAt?.S;
+  if (expiresAt && Date.parse(expiresAt) < Date.now()) return resp(410, pages.expired());
 
-  if (action === 'approve') {
-    return resp(200, html('&#x2705; Approved', 'The agent will continue with this action.', '#16a34a'));
+  try {
+    await ddb.send(new UpdateItemCommand({
+      TableName: TABLE,
+      Key: { approvalId: { S: approvalId } },
+      UpdateExpression: 'SET #s = :s, respondedAt = :t, respondedVia = :v',
+      ConditionExpression: '#s = :pending',
+      ExpressionAttributeNames: { '#s': 'status' },
+      ExpressionAttributeValues: {
+        ':s': { S: action === 'approve' ? 'approved' : 'denied' },
+        ':t': { S: new Date().toISOString() },
+        ':v': { S: 'email-link' },
+        ':pending': { S: 'pending' },
+      },
+    }));
+  } catch (e) {
+    if (e instanceof ConditionalCheckFailedException) return resp(200, pages.raced());
+    throw e;
   }
-  return resp(200, html('&#x274C; Denied', 'The agent will not proceed.', '#dc2626'));
+  return resp(200, action === 'approve' ? pages.approved() : pages.denied());
 };

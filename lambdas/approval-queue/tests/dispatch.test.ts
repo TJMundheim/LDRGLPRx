@@ -67,6 +67,24 @@ describe('dispatch-handler', () => {
     expect(mockLambda.send).toHaveBeenCalledOnce();
   });
 
+  it('links default to the HTTP API execute-api host (api.my4mlife.com does not resolve)', async () => {
+    delete process.env.APPROVAL_BASE_URL;
+    const { handler } = await import('../src/dispatch-handler.js');
+    await handler({ approvalId: 'approval-1', summary: 's', preview: 'p' }, {} as any, () => {});
+    const payload = JSON.parse(Buffer.from(mockLambda.send.mock.calls[0][0].input.Payload).toString());
+    expect(payload.html).toContain('https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/approve?token=');
+    expect(payload.html).not.toContain('api.my4mlife.com');
+  });
+
+  it('links use APPROVAL_BASE_URL when set (trailing slash trimmed)', async () => {
+    process.env.APPROVAL_BASE_URL = 'https://example.test/';
+    const { handler } = await import('../src/dispatch-handler.js');
+    await handler({ approvalId: 'approval-1', summary: 's', preview: 'p' }, {} as any, () => {});
+    delete process.env.APPROVAL_BASE_URL;
+    const payload = JSON.parse(Buffer.from(mockLambda.send.mock.calls[0][0].input.Payload).toString());
+    expect(payload.html).toContain('href="https://example.test/api/approve?token=');
+  });
+
   it('throws if row not found', async () => {
     mockDdb.send.mockReset();
     mockDdb.send.mockResolvedValueOnce({ Item: undefined });
