@@ -13,6 +13,12 @@
 
 
 
+## ⚡ 2026-10-01 — PUSH PATCH ASYNC VISIT: BUILT, NOT DEPLOYED (awaiting TJ copy approval)
+- Flow: pay (one tap) → /go/push-patch/thank-you = 2-min intake → POST /api/push-patch-intake (lambdas/push-patch-intake) → clinical packet + provider email to SSM /my4mlife/provider/email with signed Approve/Decline links → /api/push-patch-decision (GET confirm page, POST acts; scanner-safe) → approve = encounter script-written + welcome email + order email to PUSH_PATCH_FULFILLMENT_EMAIL; decline = claim declined → Stripe refund. Reminders: lambdas/push-patch-reminder every 15 min (30 min + 24 h) until intakeSubmittedAt. Order-handler now writes PUSH_PATCH_PENDING# marker instead of emailing the order at payment.
+- Tests: intake 64, decision 27, reminder 9, order-handler-core 21, checkout 21 — all green. Opus review done; fixes committed (8df242bb). Plan: docs/plan/push-patch-async-visit-2026-10-01.md. Copy for TJ: docs/launch/push-patch/async-visit-copy.md.
+- DEPLOY AS A SET, in order: push-patch-intake, push-patch-decision, push-patch-reminder, order-handler + stripe-events-retry, then infra/api-throttling.sh, then website. DO NOT deploy order-handler alone (orders would stop emailing at payment before the approval path exists).
+- Open: TJ copy calls ([TJ CONFIRM]s: shipping time, sender address, screening-yes routing, pregnancy question, refund timing, consent wording); provider subject includes initial+last name (TJ call); Genesis order address; dead module order-handler-core/src/push-patch-notify.ts; approval-queue links use non-resolving api.my4mlife.com (separate task).
+
 ## ⚡ 2026-10-01 — GENESIS PUSH PATCH: LIVE (direct-buy, no visit)
 - **Live:** https://my4mlife.com/go/push-patch (standalone look, "Stop sticking yourself.", 276% NAD+ hero badge, 7 blends each with its own Buy button) → Stripe Checkout → /go/push-patch/thank-you. Also in the main site Services menu. Plan: docs/plan/push-patch-2026-09-30.md; copy: docs/launch/push-patch/lp-copy.md.
 - **TJ decisions:** $650 (six NAD+ blends) / $550 (Glutathione Glow); 12-hour only; no clinician step; all sales final; no shipping details on the page; our own headline. Zero-friction buy is the overriding requirement.
