@@ -94,7 +94,17 @@ const valuesOf = (i: any): any[] => [
   ...Object.values(i.ExpressionAttributeValues ?? {}),
   ...Object.values(i.Item ?? {}),
 ];
-const recordWrite = () => ddbInputs().find((i) => skOf(i) === 'record');
+const recordWrites = () => ddbInputs().filter((i) => skOf(i) === 'record');
+/** The nested-field SET (second record write). */
+const recordWrite = () => recordWrites()[recordWrites().length - 1];
+/** Resolve a nested-SET expression into { 'demographics.firstName': value, ... }. */
+const nestedSets = (i: any): Record<string, any> => {
+  const out: Record<string, any> = {};
+  for (const m of String(i.UpdateExpression).matchAll(/(#\w+)\.(#\w+) = (:\w+)/g)) {
+    out[`${i.ExpressionAttributeNames[m[1]]}.${i.ExpressionAttributeNames[m[2]]}`] = i.ExpressionAttributeValues[m[3]];
+  }
+  return out;
+};
 const encounterWrite = () => ddbInputs().find((i) => String(skOf(i)).startsWith('encounter#'));
 
 const fnOf = (call: any[]): string => call[0].input.FunctionName;
@@ -261,25 +271,81 @@ describe('success: PatientRecord and Encounter', () => {
 
   it('writes demographics from the Stripe session (name, email) and the body (dob, sex, phone, state)', async () => {
     await handler(evt(VALID_BODY));
-    const dem = valuesOf(recordWrite()).find((v: any) => v && typeof v === 'object' && v.email);
-    expect(dem).toMatchObject({
-      firstName: 'Jane',
-      lastName: 'Doe',
-      email: EMAIL,
-      phone: VALID_BODY.phone, // body phone wins over Stripe phone
-      dob: VALID_BODY.dob,
-      sex: VALID_BODY.sex,
-      state: 'TX', // from shipping address
+    const sets = nestedSets(recordWrite());
+    expect(sets).toMatchObject({
+      'demographics.firstName': 'Jane',
+      'demographics.lastName': 'Doe',
+      'demographics.email': EMAIL,
+      'demographics.phone': VALID_BODY.phone, // body phone wins over Stripe phone
+      'demographics.dob': VALID_BODY.dob,
+      'demographics.sex': VALID_BODY.sex,
+      'demographics.state': 'TX', // from shipping address
     });
+  });
+
+  it('omits demographics.state when the Stripe session has no shipping state', async () => {
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, shipping_details: null });
+    await handler(evt(VALID_BODY));
+    expect(nestedSets(recordWrite())).not.toHaveProperty('demographics.state');
   });
 
   it('writes history (medications, allergies, conditions) and screeningAnswers', async () => {
     await handler(evt(VALID_BODY));
-    const vals = valuesOf(recordWrite());
-    expect(vals).toContainEqual(expect.objectContaining({
-      medications: ['metformin'], allergies: [], conditions: ['hypothyroidism'],
-    }));
-    expect(vals).toContainEqual(VALID_BODY.screening);
+    expect(nestedSets(recordWrite())).toMatchObject({
+      'history.medications': ['metformin'], 'history.allergies': [], 'history.conditions': ['hypothyroidism'],
+      'screeningAnswers.pushPatch': VALID_BODY.screening,
+    });
+  });
+
+  it('never removes existing data: maps are created only if absent, then only nested paths are SET', async () => {
+    await handler(evt(VALID_BODY));
+    const [ensure, nested] = recordWrites();
+    // Step 1 only ever uses if_not_exists on the maps; no whole-map overwrite.
+    expect(ensure.UpdateExpression).not.toMatch(/(^|, |SET )(demographics|history|screeningAnswers|consents) = :/);
+    for (const m of ['demographics', 'history', 'screeningAnswers', 'consents']) {
+      expect(ensure.UpdateExpression).toContain(`${m} = if_not_exists(${m}, :e)`);
+    }
+    // Step 2 touches nested paths only (plus updatedAt); no REMOVE/DELETE, no top-level map assignment.
+    expect(nested.UpdateExpression).not.toMatch(/REMOVE|DELETE/);
+    const assignments = String(nested.UpdateExpression).replace(/^SET /, '').split(', ');
+    for (const asg of assignments) expect(asg).toMatch(/^(updatedAt = :ts|#m\d+\.#f\d+ = :v\d+)$/);
+    const touched = Object.keys(nestedSets(nested));
+    expect(touched.sort()).toEqual([
+      'consents.consent-telehealth-push-patch-v1', 'demographics.dob', 'demographics.email', 'demographics.firstName',
+      'demographics.lastName', 'demographics.phone', 'demographics.sex', 'demographics.state',
+      'history.allergies', 'history.conditions', 'history.medications', 'screeningAnswers.pushPatch',
+    ]);
+  });
+
+  it('keeps an existing record intact (height, weight, whyNow, other consents) after an intake', async () => {
+    const existing: any = {
+      demographics: { heightIn: 70, firstName: 'Old', zip: '78701' },
+      history: { weightLb: 200, heightIn: 70, priorMeds: ['x'] },
+      screeningAnswers: { whyNow: 'energy' },
+      consents: { 'consent-protege-v1': { agreed: true } },
+    };
+    // Tiny in-memory DynamoDB: apply the recorded UpdateExpressions to `existing`.
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      const i = cmd.input;
+      if (skOf(i) !== 'record') return {};
+      const V = i.ExpressionAttributeValues, N = i.ExpressionAttributeNames ?? {};
+      for (const asg of String(i.UpdateExpression).replace(/^SET /, '').split(/, (?=[#\w]+(?:\.[#\w]+)? = )/)) {
+        const [lhs, rhs] = asg.split(' = ');
+        const ine = rhs.match(/^if_not_exists\((\w+), (:\w+)\)$/);
+        if (ine) { existing[ine[1]] ??= structuredClone(V[ine[2]]); continue; }
+        const path = lhs.split('.').map((p) => N[p] ?? p);
+        let o = existing;
+        for (const seg of path.slice(0, -1)) o = o[seg];   // throws if a parent map is missing, like DynamoDB
+        o[path[path.length - 1]] = V[rhs];
+      }
+      return {};
+    });
+    await handler(evt(VALID_BODY));
+    expect(existing.demographics).toMatchObject({ heightIn: 70, zip: '78701', firstName: 'Jane', state: 'TX' });
+    expect(existing.history).toMatchObject({ weightLb: 200, heightIn: 70, priorMeds: ['x'], medications: ['metformin'] });
+    expect(existing.screeningAnswers).toEqual({ whyNow: 'energy', pushPatch: VALID_BODY.screening });
+    expect(existing.consents['consent-protege-v1']).toEqual({ agreed: true });
+    expect(existing.consents['consent-telehealth-push-patch-v1']).toMatchObject({ agreed: true });
   });
 
   it('creates the Encounter with lane, sku, sessionId, paymentIntentId and state sent-to-provider', async () => {
@@ -322,12 +388,7 @@ describe('success: consent', () => {
 
   it('stores the consent as an object under consents[consent-telehealth-push-patch-v1] with agreed:true', async () => {
     await handler(evt(VALID_BODY));
-    const consents = valuesOf(recordWrite()).find(
-      (v: any) => v && typeof v === 'object' && 'consent-telehealth-push-patch-v1' in v,
-    );
-    expect(consents).toBeDefined();
-    const raw = consents['consent-telehealth-push-patch-v1'];
-    const c = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    const c = nestedSets(recordWrite())['consents.consent-telehealth-push-patch-v1'];
     expect(c).toMatchObject({ version: 'consent-telehealth-push-patch-v1', agreed: true, name: CONSENT_NAME, at: NOW });
   });
 });
@@ -466,6 +527,13 @@ describe('success: Touchpoints pending marker', () => {
     expect(Object.values(u.ExpressionAttributeValues)).toContain(NOW);
   });
 
+  it('uses metadata.contactId when present (same resolution as order-handler-core)', async () => {
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, metadata: { ...SESSION.metadata, contactId: 'meta-contact-1' } });
+    await handler(evt(VALID_BODY));
+    expect(markerUpdate().Key.contactId).toBe('meta-contact-1');
+    expect(encounterWrite().Item.contactId).toBe('meta-contact-1');
+  });
+
   it('ignores a missing marker (ConditionalCheckFailed) and still returns 200', async () => {
     ddbSendMock.mockImplementation(async (cmd: any) => {
       if (cmd.input.TableName === 'Touchpoints') throw conditionalFailure();
@@ -546,6 +614,6 @@ describe('screening flag in the provider email', () => {
   it('persists the screening answers as submitted', async () => {
     const screening = { ...VALID_BODY.screening, pregnant: true };
     await handler(evt({ ...VALID_BODY, screening }));
-    expect(valuesOf(recordWrite())).toContainEqual(screening);
+    expect(nestedSets(recordWrite())['screeningAnswers.pushPatch']).toEqual(screening);
   });
 });

@@ -23,8 +23,9 @@ LIMITS=(
   "POST /api/customer-portal-session|2|5"
   "POST /api/patient-record-intake|2|5"
   "POST /api/push-patch-intake|2|5"
-  # Physician one-tap link: triggers a refund or order/email sends; HMAC-gated, still capped.
+  # Physician decision: GET = confirm page only; POST triggers a refund or order/email sends. HMAC-gated, still capped.
   "GET /api/push-patch-decision|1|3"
+  "POST /api/push-patch-decision|1|3"
   # Front-door chat: each turn is a Bedrock Haiku + Titan call. 10 rps sustained
   # (the stage default) with a 20 burst keeps a scripted abuser to pennies.
   "POST /api/chat|10|20"

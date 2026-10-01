@@ -11,7 +11,8 @@ const PACKET_FN = process.env.EXPORT_PACKET_FN ?? 'my4mlife-export-clinical-pack
 const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const PROVIDER_EMAIL_PARAM = process.env.PROVIDER_EMAIL_PARAM ?? '/my4mlife/provider/email';
 const HMAC_PARAM = process.env.HMAC_PARAM ?? 'push-patch-decision-hmac-key';
-const BASE_URL = process.env.DECISION_BASE_URL ?? 'https://my4mlife.com';
+// my4mlife.com is CloudFront->S3 only (no /api/* behaviour), so links must hit the HTTP API host.
+const BASE_URL = process.env.DECISION_BASE_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
 
 const lambda = new LambdaClient({ region: REGION });
 const ssm = new SSMClient({ region: REGION });

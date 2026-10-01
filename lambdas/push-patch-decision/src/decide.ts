@@ -15,7 +15,7 @@ const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
 const FROM = 'sent-to-provider';
 
-async function transition(contactId: string, encounterId: string, to: string): Promise<boolean> {
+async function transition(contactId: string, encounterId: string, to: string, from = FROM): Promise<boolean> {
   try {
     await ddb.send(new UpdateCommand({
       TableName: TABLE,
@@ -23,7 +23,7 @@ async function transition(contactId: string, encounterId: string, to: string): P
       UpdateExpression: 'SET #state = :to, decidedAt = :now, updatedAt = :now',
       ConditionExpression: '#state = :from',
       ExpressionAttributeNames: { '#state': 'state' },
-      ExpressionAttributeValues: { ':to': to, ':from': FROM, ':now': new Date().toISOString() },
+      ExpressionAttributeValues: { ':to': to, ':from': from, ':now': new Date().toISOString() },
     }));
     return true;
   } catch (e) {
@@ -46,7 +46,7 @@ export async function decide(a: { contactId: string; encounterId: string; action
 
   if (a.action === 'approve') {
     const session = await stripe.checkout.sessions.retrieve(enc.sessionId, {});
-    if (!(await transition(a.contactId, a.encounterId, 'script-written'))) return { kind: 'already-decided', state: 'script-written' };
+    if (!(await transition(a.contactId, a.encounterId, 'script-written'))) return { kind: 'already-decided', state: 'decided' };
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
@@ -55,12 +55,19 @@ export async function decide(a: { contactId: string; encounterId: string; action
     return { kind: 'approved', mailOk };
   }
 
-  // Refund first (idempotent on the session id), then record the decision, then tell the patient.
-  const refund = await stripe.refunds.create(
-    { payment_intent: enc.paymentIntentId },
-    { idempotencyKey: `push-patch-decline-${enc.sessionId}` },
-  );
-  if (!(await transition(a.contactId, a.encounterId, 'declined'))) return { kind: 'already-decided', state: 'declined' };
+  // Claim the decision FIRST so a concurrent Approve can never also be refunded; roll the claim
+  // back if the refund fails. Stripe's idempotency key de-dupes a refund retried for the same session.
+  if (!(await transition(a.contactId, a.encounterId, 'declined'))) return { kind: 'already-decided', state: 'decided' };
+  let refund;
+  try {
+    refund = await stripe.refunds.create(
+      { payment_intent: enc.paymentIntentId },
+      { idempotencyKey: `push-patch-decline-${enc.sessionId}` },
+    );
+  } catch (e) {
+    await transition(a.contactId, a.encounterId, FROM, 'declined').catch(() => false);
+    throw e;
+  }
   const mailOk = await allOk([sendDeclined(demo.email, demo.firstName ?? '', sku, refund.amount)]);
   return { kind: 'declined', mailOk };
 }

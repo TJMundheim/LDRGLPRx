@@ -3,7 +3,7 @@
 // + consent -> packet -> ONE provider email with one-tap Approve/Decline.
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { getStripeClient } from '@my4mlife/stripe-client';
-import { deriveContactId } from '@my4mlife/contact-id';
+import { resolveContactId } from '@my4mlife/contact-id';
 import { validateBody, screeningFlags } from './validate';
 import {
   encounterIdFor, createEncounter, deleteEncounter, upsertRecord, type PaidSession,
@@ -57,7 +57,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   if (!paid) return reply(402, { error: 'payment not found for this session' }, origin);
   const { session, sku } = paid;
 
-  const contactId = deriveContactId(session.customer_details!.email!.trim().toLowerCase());
+  // Same resolution as order-handler-core (metadata.contactId first) so the pending marker key matches.
+  const contactId = resolveContactId({ metadataContactId: session.metadata?.['contactId'], email: session.customer_details?.email })!;
   const encounterId = encounterIdFor(session.id);
   const ts = new Date().toISOString();
   const pi = session.payment_intent;

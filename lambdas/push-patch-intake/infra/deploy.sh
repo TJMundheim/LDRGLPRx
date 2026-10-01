@@ -22,6 +22,7 @@ PROVIDER_EMAIL_PARAM="/my4mlife/provider/email"        # owned by provider-hando
 HMAC_PARAM="push-patch-decision-hmac-key"              # shared with push-patch-decision
 STRIPE_SECRET_ID="all-stripe-keys"
 ROUTE_PATH="/api/push-patch-intake"
+DECISION_BASE_URL="https://$API_ID.execute-api.$REGION.amazonaws.com"   # my4mlife.com has no /api/* proxy
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AWS="aws --region $REGION"
@@ -76,10 +77,12 @@ INLINE_POLICY=$(cat <<POLICY
     {
       "Effect": "Allow",
       "Action": ["dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:DeleteItem"],
-      "Resource": [
-        "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE",
-        "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$TOUCHPOINTS_TABLE"
-      ]
+      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["dynamodb:UpdateItem"],
+      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$TOUCHPOINTS_TABLE"
     },
     {
       "Effect": "Allow",
@@ -119,7 +122,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 log "Deploying Lambda $FUNCTION_NAME..."
 ENV_FILE="$(mktemp)"
 cat > "$ENV_FILE" <<JSON
-{"Variables":{"STRIPE_MODE":"live","PATIENT_RECORDS_TABLE":"$PATIENT_RECORDS_TABLE","TOUCHPOINTS_TABLE":"$TOUCHPOINTS_TABLE","EMAIL_SENDER_FN":"$EMAIL_SENDER_FN","EXPORT_PACKET_FN":"$EXPORT_PACKET_FN","PROVIDER_EMAIL_PARAM":"$PROVIDER_EMAIL_PARAM","HMAC_PARAM":"$HMAC_PARAM"}}
+{"Variables":{"STRIPE_MODE":"live","PATIENT_RECORDS_TABLE":"$PATIENT_RECORDS_TABLE","TOUCHPOINTS_TABLE":"$TOUCHPOINTS_TABLE","EMAIL_SENDER_FN":"$EMAIL_SENDER_FN","EXPORT_PACKET_FN":"$EXPORT_PACKET_FN","PROVIDER_EMAIL_PARAM":"$PROVIDER_EMAIL_PARAM","HMAC_PARAM":"$HMAC_PARAM","DECISION_BASE_URL":"$DECISION_BASE_URL"}}
 JSON
 ENV_VARS="file://$ENV_FILE"
 

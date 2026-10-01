@@ -1,6 +1,8 @@
-// push-patch-decision — GET /api/push-patch-decision?t=<token>
+// push-patch-decision — /api/push-patch-decision, two-step:
+//   GET ?t=<token>  → confirm page only, NO side effects (email link scanners prefetch GETs)
+//   POST t=<token>  → performs the decision (form-urlencoded body from the confirm page)
 //
-// Physician one-tap Approve / Decline for a Push Patch async visit.
+// Physician Approve / Decline for a Push Patch async visit.
 //
 // TOKEN FORMAT (encoded independently below so the tests pin the contract):
 //   base64url( `${contactId}.${encounterId}.${action}.${hmacSha256Hex}` )
@@ -63,7 +65,13 @@ function tokenFor(action: string, opts: { contactId?: string; encounterId?: stri
   return Buffer.from(`${payload}.${sig}`).toString('base64url');
 }
 
-const evt = (t?: string) => ({ queryStringParameters: t === undefined ? {} : { t } });
+// Default: the confirm page's form POST (the only request that acts).
+const evt = (t?: string) => ({
+  requestContext: { http: { method: 'POST' } },
+  queryStringParameters: t === undefined ? {} : { t },
+  body: t === undefined ? '' : `t=${encodeURIComponent(t)}`,
+});
+const getEvt = (t?: string) => ({ requestContext: { http: { method: 'GET' } }, queryStringParameters: t === undefined ? {} : { t } });
 
 const RECORD = {
   contactId: CONTACT,
@@ -234,7 +242,7 @@ describe('approve', () => {
 // ── Decline ───────────────────────────────────────────────────────────────────
 
 describe('decline', () => {
-  it('refunds the payment intent in full, then sets declined, returns confirmation HTML', async () => {
+  it('claims declined (conditional), then refunds the payment intent in full, returns confirmation HTML', async () => {
     const calls: string[] = [];
     refundsCreate.mockImplementation(async () => { calls.push('refund'); return { id: 're_1' }; });
     ddbSendMock.mockImplementation(async (cmd: any) => {
@@ -255,7 +263,7 @@ describe('decline', () => {
     // double-click race protection: Stripe de-dupes on the idempotency key
     expect(opts?.idempotencyKey).toEqual(expect.stringContaining(SESSION));
 
-    expect(calls).toEqual(['refund', 'update']);
+    expect(calls).toEqual(['update', 'refund']);
     const u = updates();
     expect(u).toHaveLength(1);
     const vals = Object.values(u[0].ExpressionAttributeValues ?? {});
@@ -275,15 +283,65 @@ describe('decline', () => {
     expect(flat(sent[0])).not.toMatch(/genesis/i);
   });
 
-  it('refund failure → 500 HTML, state unchanged, no email', async () => {
+  it('refund failure → 500 HTML, claim rolled back to sent-to-provider, no email', async () => {
     refundsCreate.mockRejectedValue(new Error('stripe is down'));
     const res: any = await handler(evt(tokenFor('decline')));
     expect(res.statusCode).toBe(500);
     expect(res.headers['content-type']).toMatch(/text\/html/);
-    expect(updates()).toHaveLength(0);
+    const u = updates();
+    expect(u).toHaveLength(2);
+    expect(u[0].ExpressionAttributeValues).toMatchObject({ ':from': 'sent-to-provider', ':to': 'declined' });
+    expect(u[1].ExpressionAttributeValues).toMatchObject({ ':from': 'declined', ':to': 'sent-to-provider' });
     expect(lambdaSendMock).not.toHaveBeenCalled();
     // error page must not leak the internal error text
     expect(body(res)).not.toContain('stripe is down');
+  });
+
+  it('race: decline loses to a concurrent approve → no refund, no email', async () => {
+    seedDdb('sent-to-provider', { updateRejects: true });
+    const res: any = await handler(evt(tokenFor('decline')));
+    expect(body(res)).toMatch(/already decided/i);
+    expect(refundsCreate).not.toHaveBeenCalled();
+    expect(lambdaSendMock).not.toHaveBeenCalled();
+  });
+});
+
+// ── GET = confirm page only (link-scanner safe) ───────────────────────────────
+
+describe('GET (email link / scanner prefetch)', () => {
+  it.each(['approve', 'decline'])('%s link → 200 confirm page with a POST form carrying the token, NO side effects', async (action) => {
+    const t = tokenFor(action);
+    const res: any = await handler(getEvt(t));
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toMatch(/text\/html/);
+    expect(body(res)).toMatch(/<form[^>]*method="post"/i);
+    expect(body(res)).toContain(`name="t" value="${t}"`);
+    expect(ddbSendMock).not.toHaveBeenCalled();
+    expect(lambdaSendMock).not.toHaveBeenCalled();
+    expect(refundsCreate).not.toHaveBeenCalled();
+    expect(sessionsRetrieve).not.toHaveBeenCalled();
+  });
+
+  it('invalid token on GET → 403, no side effects', async () => {
+    const res: any = await handler(getEvt(tokenFor('approve', { secret: 'attacker-secret' })));
+    expect(res.statusCode).toBe(403);
+    expect(ddbSendMock).not.toHaveBeenCalled();
+  });
+
+  it('POST with a base64-encoded form body (API Gateway) is accepted', async () => {
+    const t = tokenFor('approve');
+    const res: any = await handler({
+      requestContext: { http: { method: 'POST' } },
+      body: Buffer.from(`t=${t}`).toString('base64'), isBase64Encoded: true,
+    } as any);
+    expect(res.statusCode).toBe(200);
+    expect(body(res)).toMatch(/approved/i);
+  });
+
+  it('POST ignores a token that is only in the query string', async () => {
+    const res: any = await handler({ requestContext: { http: { method: 'POST' } }, queryStringParameters: { t: tokenFor('decline') }, body: '' } as any);
+    expect(res.statusCode).toBe(403);
+    expect(refundsCreate).not.toHaveBeenCalled();
   });
 });
 

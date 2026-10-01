@@ -1,10 +1,19 @@
-// GET /api/push-patch-decision?t=<token> — physician one-tap Approve / Decline.
+// /api/push-patch-decision — physician Approve / Decline, two-step.
+// GET ?t=<token>  → confirm page only (NO side effects). Email link scanners (Outlook Safe Links,
+//                   Gmail previews, corporate gateways) prefetch GET links; a GET must never act.
+// POST t=<token>  → the confirm page's form submit performs the decision.
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import { verifyToken } from './sign';
 import { decide } from './decide';
 import { pages } from './pages';
 
 type Res = { statusCode: number; headers: Record<string, string>; body: string };
+type Evt = {
+  queryStringParameters?: Record<string, string | undefined> | null;
+  requestContext?: { http?: { method?: string } };
+  body?: string | null;
+  isBase64Encoded?: boolean;
+};
 const html = (statusCode: number, body: string): Res => ({
   statusCode,
   headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-robots-tag': 'noindex' },
@@ -22,9 +31,16 @@ async function hmacKey(): Promise<string> {
   return secret;
 }
 
-export const handler = async (event: { queryStringParameters?: Record<string, string | undefined> | null }): Promise<Res> => {
+function formToken(e: Evt): string | undefined {
+  if (!e.body) return undefined;
+  const raw = e.isBase64Encoded ? Buffer.from(e.body, 'base64').toString('utf8') : e.body;
+  return new URLSearchParams(raw).get('t') ?? undefined;
+}
+
+export const handler = async (event: Evt): Promise<Res> => {
   try {
-    const token = event.queryStringParameters?.['t'];
+    const isPost = event.requestContext?.http?.method === 'POST';
+    const token = isPost ? formToken(event) : event.queryStringParameters?.['t'];
     if (!token) return html(403, pages.invalid());
     const key = await hmacKey();
     let claim;
@@ -33,6 +49,7 @@ export const handler = async (event: { queryStringParameters?: Record<string, st
     } catch {
       return html(403, pages.invalid());
     }
+    if (!isPost) return html(200, pages.confirm(claim.action, token));
     const out = await decide(claim);
     if (out.kind === 'not-found') return html(403, pages.invalid());
     if (out.kind === 'already-decided') return html(200, pages.decided(out.state));

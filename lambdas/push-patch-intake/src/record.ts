@@ -2,6 +2,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
 import type { PushPatchBody } from './validate';
+import { buildRecordUpdates } from './upsert';
 
 export const CONSENT_KEY = 'consent-telehealth-push-patch-v1';
 
@@ -60,38 +61,24 @@ export async function deleteEncounter(contactId: string, encounterId: string): P
   }
 }
 
-/** Upsert the root PatientRecord: demographics, history, screeningAnswers, consents[CONSENT_KEY]. */
+/** Upsert the root PatientRecord without removing existing data: nested SETs only (see upsert.ts). */
 export async function upsertRecord(a: {
   contactId: string; session: PaidSession; body: PushPatchBody; ts: string;
 }): Promise<void> {
   const { contactId, session, body, ts } = a;
   const [first = '', ...rest] = (session.customer_details?.name ?? '').trim().split(/\s+/);
-  const consent = { version: CONSENT_KEY, agreed: true, name: body.consentName, at: ts };
-  const key = { contactId, sk: RECORD_SK };
-  await ddb.send(new UpdateCommand({
-    TableName: TABLE,
-    Key: key,
-    UpdateExpression: 'SET demographics = :dem, history = :hist, screeningAnswers = :scr, '
-      + 'consents = if_not_exists(consents, :con), updatedAt = :ts, createdAt = if_not_exists(createdAt, :ts)',
-    ExpressionAttributeValues: {
-      ':dem': {
-        firstName: first, lastName: rest.join(' '),
-        email: (session.customer_details?.email ?? '').trim().toLowerCase(),
-        phone: body.phone, dob: body.dob, sex: body.sex,
-        ...(session.shipping_details?.address?.state ? { state: session.shipping_details.address.state } : {}),
-      },
-      ':hist': { medications: body.medications, allergies: body.allergies, conditions: body.conditions },
-      ':scr': body.screening,
-      ':con': { [CONSENT_KEY]: consent },
-      ':ts': ts,
+  const updates = buildRecordUpdates({
+    demographics: {
+      firstName: first, lastName: rest.join(' '),
+      email: (session.customer_details?.email ?? '').trim().toLowerCase(),
+      phone: body.phone, dob: body.dob, sex: body.sex,
+      state: session.shipping_details?.address?.state,
     },
-  }));
-  // The map may already exist from another consent; make sure this one is on it.
-  await ddb.send(new UpdateCommand({
-    TableName: TABLE,
-    Key: key,
-    UpdateExpression: 'SET consents.#k = :c',
-    ExpressionAttributeNames: { '#k': CONSENT_KEY },
-    ExpressionAttributeValues: { ':c': consent },
-  }));
+    history: { medications: body.medications, allergies: body.allergies, conditions: body.conditions },
+    screening: body.screening,
+    consentKey: CONSENT_KEY,
+    consent: { version: CONSENT_KEY, agreed: true, name: body.consentName, at: ts },
+    ts,
+  });
+  for (const u of updates) await ddb.send(new UpdateCommand({ TableName: TABLE, Key: { contactId, sk: RECORD_SK }, ...u }));
 }

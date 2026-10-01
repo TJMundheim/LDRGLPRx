@@ -7,9 +7,22 @@ export const page = (title: string, body: string): string =>
   `font:16px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#1b2733}` +
   `main{max-width:420px;margin:16px;padding:32px 24px;background:#fff;border-radius:12px;` +
   `box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}h1{font-size:22px;margin:0 0 8px}p{margin:0;color:#4a5a68}` +
+  `button{margin-top:20px;width:100%;padding:18px 16px;border:0;border-radius:10px;color:#fff;font:700 19px Arial,sans-serif;cursor:pointer}` +
   `</style></head><body><main><h1>${title}</h1><p>${body}</p></main></body></html>`;
 
+// Step 1 of 2: GET renders this; only the form POST acts. The token is base64url but is escaped anyway.
+const confirm = (action: 'approve' | 'decline', token: string): string => {
+  const t = token.replace(/[^A-Za-z0-9_-]/g, '');
+  const [label, bg, note] = action === 'approve'
+    ? ['Confirm approve', '#1b7f3b', 'Approving sends the patient the welcome email and forwards the order.']
+    : ['Confirm decline (full refund)', '#b00020', 'Declining refunds the patient in full and sends the not-cleared email.'];
+  return page(action === 'approve' ? 'Approve this order?' : 'Decline this order?',
+    `${note}</p><form method="post" action=""><input type="hidden" name="t" value="${t}">` +
+    `<button type="submit" style="background:${bg}">${label}</button></form><p>`);
+};
+
 export const pages = {
+  confirm,
   approved: () => page('Approved', 'Welcome email sent and order forwarded.'),
   approvedMailFailed: () => page('Approved', 'The decision is recorded, but an email failed to send. Notify the coordinator.'),
   declined: () => page('Declined', 'Refund issued and the patient has been notified.'),

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # deploy.sh — build, provision IAM + HMAC key, create/update the push-patch-decision Lambda,
-# and wire GET /api/push-patch-decision on the public HTTP API. Idempotent.
+# and wire GET + POST /api/push-patch-decision on the public HTTP API. Idempotent.
+# GET renders a confirm page only (email link scanners prefetch GETs); POST performs the decision.
 set -euo pipefail
 
 FUNCTION_NAME="my4mlife-push-patch-decision"
@@ -12,7 +13,7 @@ HANDLER="handler.handler"
 TIMEOUT=30
 MEMORY=256
 HTTP_API_ID="v9svm8ds74"
-ROUTE_KEY="GET /api/push-patch-decision"
+ROUTE_PATH="/api/push-patch-decision"
 
 PATIENT_RECORDS_TABLE="PatientRecords"
 EMAIL_SENDER_FN="my4mlife-email-sender"
@@ -86,7 +87,7 @@ else
 fi
 $AWS lambda wait function-active --function-name "$FUNCTION_NAME"
 
-# ── 5. Wire GET /api/push-patch-decision ──────────────────────────────────────
+# ── 5. Wire GET + POST /api/push-patch-decision ──────────────────────────────────────
 FN_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:${FUNCTION_NAME}"
 INTEGRATION_ID="$($AWS apigatewayv2 get-integrations --api-id "$HTTP_API_ID" \
   --query "Items[?IntegrationUri=='$FN_ARN'].IntegrationId" --output text 2>/dev/null || true)"
@@ -95,18 +96,21 @@ if [[ -z "$INTEGRATION_ID" || "$INTEGRATION_ID" == "None" ]]; then
     --integration-uri "$FN_ARN" --payload-format-version 2.0 --query IntegrationId --output text)"
   log "Created integration $INTEGRATION_ID"
 fi
-ROUTE_ID="$($AWS apigatewayv2 get-routes --api-id "$HTTP_API_ID" \
-  --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId" --output text 2>/dev/null || true)"
-if [[ -z "$ROUTE_ID" || "$ROUTE_ID" == "None" ]]; then
-  $AWS apigatewayv2 create-route --api-id "$HTTP_API_ID" --route-key "$ROUTE_KEY" \
-    --target "integrations/$INTEGRATION_ID" --authorization-type NONE >/dev/null
-else
-  $AWS apigatewayv2 update-route --api-id "$HTTP_API_ID" --route-id "$ROUTE_ID" \
-    --target "integrations/$INTEGRATION_ID" >/dev/null
-fi
+for METHOD in GET POST; do
+  ROUTE_KEY="$METHOD $ROUTE_PATH"
+  ROUTE_ID="$($AWS apigatewayv2 get-routes --api-id "$HTTP_API_ID" \
+    --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId" --output text 2>/dev/null || true)"
+  if [[ -z "$ROUTE_ID" || "$ROUTE_ID" == "None" ]]; then
+    $AWS apigatewayv2 create-route --api-id "$HTTP_API_ID" --route-key "$ROUTE_KEY" \
+      --target "integrations/$INTEGRATION_ID" --authorization-type NONE >/dev/null
+  else
+    $AWS apigatewayv2 update-route --api-id "$HTTP_API_ID" --route-id "$ROUTE_ID" \
+      --target "integrations/$INTEGRATION_ID" >/dev/null
+  fi
+done
 $AWS lambda remove-permission --function-name "$FUNCTION_NAME" --statement-id apigw-push-patch-decision >/dev/null 2>&1 || true
 $AWS lambda add-permission --function-name "$FUNCTION_NAME" --statement-id apigw-push-patch-decision \
   --action lambda:InvokeFunction --principal apigateway.amazonaws.com \
-  --source-arn "arn:aws:execute-api:${REGION}:${ACCOUNT}:${HTTP_API_ID}/*/GET/api/push-patch-decision" >/dev/null
+  --source-arn "arn:aws:execute-api:${REGION}:${ACCOUNT}:${HTTP_API_ID}/*/*${ROUTE_PATH}" >/dev/null
 
 log "Done. Run infra/api-throttling.sh to apply the route throttle."
