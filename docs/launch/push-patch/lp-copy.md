@@ -170,7 +170,9 @@ The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverin
 
 **Buy button (one per card):** `Buy — $650` (`Buy — $550` on Glutathione Radiance). One click POSTs `{skuId}` (no wear option) to `/api/checkout-session` and redirects to the returned Stripe Checkout URL. While waiting the button reads `Opening checkout…`. Errors show inline under that card: 503 -> "This blend isn't available yet."; other failures -> a generic try-again line. PostHog: `lp_patch_view` on load, `lp_patch_checkout {skuId}` on click.
 
-**Under the grid:** Secure checkout by Stripe. Apple Pay, Google Pay and cards accepted. All sales are final.
+**Under the grid:** Secure checkout by Stripe. Apple Pay, Google Pay and cards accepted. Not cleared? Full refund. Final once shipped.
+
+**Process line (under the grid, small print):** After checkout: a 2-minute health questionnaire, physician review within an hour during business hours, then your kit ships direct.
 
 **Small line:** All six-patch sets are one-time purchases, not subscriptions. [TJ CONFIRM: one-time, no auto-ship]
 
@@ -208,7 +210,7 @@ No shipping details anywhere on the page (TJ 2026-09-30).
 5. **How long do I wear a patch, and how often?** One patch a week for six weeks. Wear each patch for 12 hours, then remove it: wet it with warm soapy water and peel slowly. Wait at least 24 hours before using the same spot again.
 6. **What is actually in my blend?** The formula on each blend card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+; the Glutathione blend does not.
 7. **Who should not use the Push Patch?** Do not use it if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site.
-8. **What is your refund policy?** All sales are final.
+8. **What is your refund policy?** Not cleared? Full refund. Final once shipped.
 9. **I have a question before I order. Who do I ask?** Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear. [TJ CONFIRM: /consult vs a plain email address for pre-purchase questions]
 
 ---
@@ -266,3 +268,6 @@ Stripe success target. Same standalone look as the landing page.
 - Line: Watch your inbox for a shipping confirmation email. (No timing stated.)
 - Footer: Brought to you by My4MLife; tagline (Don't lose your identity and your dignity while you still have a choice.); the patch disclaimer.
 - PostHog: `lp_patch_purchase {sku}` with `sku` read from the `?sku=` query parameter.
+
+---
+Update 2026-10-01 (P2-D): the refund line is now "Not cleared? Full refund. Final once shipped." (replaces "All sales are final." above, in the under-grid line and FAQ 8), and a process line was added under the grid: "After checkout: a 2-minute health questionnaire, physician review within an hour during business hours, then your kit ships direct."

@@ -255,10 +255,14 @@ describe('processEvent', () => {
     expect(mockLambdaSend).toHaveBeenCalledTimes(1);
   });
   describe('push-patch fulfillment email', () => {
+    // Order email moved to physician approval (built elsewhere). At payment the
+    // handler only writes a PUSH_PATCH_PENDING# marker for the intake flow.
+    const NOW = new Date('2026-10-01T15:00:00.000Z');
     const patchSession = {
       ...baseSession,
       id: 'cs_test_patch123',
       amount_total: 65000,
+      payment_intent: 'pi_test_patch123',
       metadata: { skuIds: 'push-patch-kpv-nad-ghk', wear: '12h' },
       shipping_details: {
         name: 'Jane Doe',
@@ -267,63 +271,67 @@ describe('processEvent', () => {
     };
     const run = () => processEvent({ id: 'evt_patch_1', type: 'checkout.session.completed', livemode: false });
     const payloadsOf = () => mockLambdaSend.mock.calls.map((c: any) => JSON.parse(c[0].input.Payload.toString()));
+    const pendingPuts = () =>
+      mockSend.mock.calls
+        .map(([cmd]) => cmd?.input)
+        .filter((inp) => inp?.TableName === 'Touchpoints' && typeof inp?.Item?.sk === 'string' && inp.Item.sk.startsWith('PUSH_PATCH_PENDING#'));
     const savedEnv = process.env.PUSH_PATCH_FULFILLMENT_EMAIL;
 
     beforeEach(() => {
+      vi.useFakeTimers({ toFake: ['Date'] });
+      vi.setSystemTime(NOW);
       mockSessionRetrieve.mockResolvedValue(patchSession);
       process.env.PUSH_PATCH_FULFILLMENT_EMAIL = 'fulfillment@example.com';
     });
     afterEach(() => {
+      vi.useRealTimers();
       if (savedEnv === undefined) delete process.env.PUSH_PATCH_FULFILLMENT_EMAIL;
       else process.env.PUSH_PATCH_FULFILLMENT_EMAIL = savedEnv;
     });
 
-    it('(p1) sends exactly one email to PUSH_PATCH_FULFILLMENT_EMAIL', async () => {
+    it('(p1) sends NO email to PUSH_PATCH_FULFILLMENT_EMAIL on payment', async () => {
       await run();
-      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
-      const [payload] = payloadsOf();
-      expect(payload.kind).toBe('info');
-      expect(payload.to).toBe('fulfillment@example.com');
+      expect(payloadsOf().some((p: any) => p.to === 'fulfillment@example.com')).toBe(false);
+      expect(mockLambdaSend).not.toHaveBeenCalled();
     });
 
-    it('(p2) falls back to drtj@my4mlife.com when env is unset', async () => {
+    it('(p2) sends no order email to the drtj@my4mlife.com fallback when env is unset', async () => {
       delete process.env.PUSH_PATCH_FULFILLMENT_EMAIL;
-      await run();
-      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
-      expect(payloadsOf()[0].to).toBe('drtj@my4mlife.com');
-    });
-
-    it('(p3) body has blend, formula, 12-hour wear, ship-to address and session id', async () => {
-      await run();
-      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
-      const { html } = payloadsOf()[0];
-      expect(html).toContain('KPV');
-      expect(html).toContain('NAD+');
-      expect(html).toContain('GHK-Cu');
-      expect(html).toContain('12-hour');
-      expect(html).toContain('742 Evergreen Terrace');
-      expect(html).toContain('cs_test_patch123');
-    });
-
-    it('(p3b) missing wear is treated as 12-hour', async () => {
-      mockSessionRetrieve.mockResolvedValue({ ...patchSession, metadata: { skuIds: 'push-patch-kpv-nad-ghk' } });
-      await run();
-      expect(payloadsOf()[0].html).toContain('12-hour');
-    });
-
-    it('(p4) replay with PUSH_PATCH_NOTIFY# marker already present sends no email', async () => {
-      mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
-        const sk = cmd.input?.Item?.['sk'];
-        if (cmd.input?.TableName === 'Touchpoints' && typeof sk === 'string' && sk.startsWith('PUSH_PATCH_NOTIFY#')) {
-          const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err;
-        }
-        return {};
-      });
       await run();
       expect(mockLambdaSend).not.toHaveBeenCalled();
     });
 
-    it('(p5) two deliveries of the same event send one email (stateful markers)', async () => {
+    it('(p3) writes exactly one PUSH_PATCH_PENDING#<sessionId> Touchpoints row with all fields', async () => {
+      await run();
+      const puts = pendingPuts();
+      expect(puts).toHaveLength(1);
+      expect(puts[0].Item.sk).toBe('PUSH_PATCH_PENDING#cs_test_patch123');
+      expect(puts[0].Item).toMatchObject({
+        sessionId: 'cs_test_patch123',
+        skuId: 'push-patch-kpv-nad-ghk',
+        paymentIntentId: 'pi_test_patch123',
+        email: 'test@example.com',
+        createdAt: NOW.toISOString(),
+        remindersSent: 0,
+      });
+    });
+
+    it('(p3b) intakeDue is createdAt + 30 minutes (ISO)', async () => {
+      await run();
+      const item = pendingPuts()[0]?.Item;
+      expect(item).toBeDefined();
+      expect(item.createdAt).toBe('2026-10-01T15:00:00.000Z');
+      expect(item.intakeDue).toBe('2026-10-01T15:30:00.000Z');
+    });
+
+    it('(p4) pending marker put is conditional (attribute_not_exists(sk))', async () => {
+      await run();
+      const puts = pendingPuts();
+      expect(puts).toHaveLength(1);
+      expect(puts[0].ConditionExpression).toBe('attribute_not_exists(sk)');
+    });
+
+    it('(p5) replay is idempotent: marker conditional-fails the second time, no throw, no email', async () => {
       const seen = new Set<string>();
       mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
         const inp = cmd.input;
@@ -340,26 +348,21 @@ describe('processEvent', () => {
         return {};
       });
       await run();
-      await run();
-      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+      await expect(run()).resolves.toBeUndefined();
+      expect(pendingPuts()).toHaveLength(2); // attempted twice; second was rejected by the condition
+      expect([...seen].filter((k) => k.startsWith('PUSH_PATCH_PENDING#'))).toEqual(['PUSH_PATCH_PENDING#cs_test_patch123']);
+      expect(mockLambdaSend).not.toHaveBeenCalled();
     });
 
-    it('(p6) email-send rejection does not throw from processEvent', async () => {
-      mockLambdaSend.mockRejectedValue(new Error('SES down'));
-      try {
-        await expect(run()).resolves.toBeUndefined();
-        expect(mockLambdaSend).toHaveBeenCalled();
-      } finally {
-        mockLambdaSend.mockReset();
-        mockLambdaSend.mockResolvedValue({});
-      }
+    it('(p6) non-patch SKU writes no PUSH_PATCH_PENDING# row', async () => {
+      mockSessionRetrieve.mockResolvedValue({ ...baseSession, metadata: { skuIds: 'some-unmapped-sku' } });
+      await run();
+      expect(pendingPuts()).toHaveLength(0);
     });
 
     it('(p7) patch SKU sends no Biome NS Ultra guide or coordinator email', async () => {
       await run();
-      const payloads = payloadsOf();
-      expect(payloads.length).toBe(1); // only the patch fulfillment email
-      for (const p of payloads) {
+      for (const p of payloadsOf()) {
         expect(p.subject ?? '').not.toMatch(/Biome NS Ultra|Gut Repair/i);
         expect(p.to).not.toBe('test@example.com');
       }

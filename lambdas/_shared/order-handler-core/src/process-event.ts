@@ -5,7 +5,6 @@ import { DynamoDBDocumentClient, UpdateCommand, PutCommand, DeleteCommand } from
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
-import { notifyPushPatchOrder } from './push-patch-notify.js';
 
 const REGION = 'us-east-2';
 const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
@@ -275,26 +274,34 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
         console.error('[order-handler] coordinator order notification failed', { orderId: session.id, error: String(err) });
       }
     }
+  }
 
-    // 4c. Genesis Push Patch fulfillment email — idempotent via its own marker;
-    // best-effort: a failure must never fail the order.
-    if (skuId.startsWith('push-patch-')) {
-      try {
-        await deliverOnce(`PUSH_PATCH_NOTIFY#${e.id}`, () =>
-          notifyPushPatchOrder(session as unknown as Parameters<typeof notifyPushPatchOrder>[0], {
-            send: async (payload) => {
-              await lambda.send(new InvokeCommand({
-                FunctionName: EMAIL_SENDER_FN,
-                InvocationType: 'Event',
-                Payload: Buffer.from(JSON.stringify(payload)),
-              }));
-            },
-          }));
-      } catch (err) {
-        console.error('[order-handler] push-patch fulfillment notification failed', { orderId: session.id, error: String(err) });
+  // 4c. Genesis Push Patch: post-purchase async visit. No order email at
+  // payment — write a pending marker the intake/decision flow picks up.
+  // Idempotent via attribute_not_exists(sk); never fails the order.
+  if (skuId.startsWith('push-patch-')) {
+    try {
+      const createdAt = new Date();
+      await ddb.send(new PutCommand({
+        TableName: 'Touchpoints',
+        Item: {
+          contactId,
+          sk: `PUSH_PATCH_PENDING#${session.id}`,
+          sessionId: session.id,
+          skuId,
+          paymentIntentId: session.payment_intent as string,
+          email: session.customer_details?.email,
+          createdAt: createdAt.toISOString(),
+          intakeDue: new Date(createdAt.getTime() + 30 * 60 * 1000).toISOString(),
+          remindersSent: 0,
+        },
+        ConditionExpression: 'attribute_not_exists(sk)',
+      }));
+    } catch (err: unknown) {
+      if ((err as { name?: string }).name !== 'ConditionalCheckFailedException') {
+        console.error('[order-handler] push-patch pending marker write failed', { orderId: session.id, error: String(err) });
       }
     }
-
   }
 
   // 5. Protégé membership grant — idempotent across retries via its own marker

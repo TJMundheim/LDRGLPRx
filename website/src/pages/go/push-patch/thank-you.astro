@@ -2,11 +2,22 @@
 // Push Patch order confirmation — Stripe success_url target. Standalone (hideChrome),
 // same palette/fonts as /go/push-patch (styles duplicated minimally, scoped).
 // Fires posthog lp_patch_purchase with the sku from ?sku=. noindex.
+// Step 2 of the async-visit flow: reads ?session_id=, collects the health intake and
+// POSTs it to /api/push-patch-intake. Copy: docs/launch/push-patch/async-visit-copy.md.
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const title = 'Order received — Genesis Push Patch — My4MLife';
 const description = 'Your Push Patch order has been received.';
 const canonical = 'https://www.my4mlife.com/go/push-patch/thank-you';
+const API_BASE = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+
+const QUESTIONS = [
+  { name: 'seizures', text: 'Have you ever had epilepsy or seizures?' },
+  { name: 'pacemaker', text: 'Do you have a pacemaker?' },
+  { name: 'metalImplantNearSite', text: 'Do you have metal implants near where the patch would sit?' },
+  { name: 'pregnant', text: 'Are you pregnant? (Answer No if this does not apply to you.)' },
+  { name: 'woundAtSite', text: 'Do you have a recent wound, skin graft or scar at the spot where the patch would sit?' },
+];
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex,nofollow" hideChrome={true}>
 
@@ -16,11 +27,115 @@ const canonical = 'https://www.my4mlife.com/go/push-patch/thank-you';
   </header>
 
   <main class="pp-ty">
-    <div class="pp-wrap">
+    <div class="pp-wrap pp-narrow">
       <p class="pp-kicker">Genesis Push Patch</p>
-      <h1>Order received.</h1>
-      <p class="pp-sub">Your Push Patch set is being prepared. A receipt is on its way to your email.</p>
-      <p class="pp-sub">Watch your inbox for a shipping confirmation email.</p>
+      <h1 id="ty-h1">Payment received.</h1>
+
+      <!-- Missing session_id -->
+      <section id="ty-missing" hidden>
+        <p class="pp-sub">We could not find your order on this page. Open the link from your receipt email, or write to <a href="mailto:support@my4mlife.com">support@my4mlife.com</a> and we will sort it out.</p>
+      </section>
+
+      <!-- Success (also shown for alreadySubmitted) -->
+      <section id="ty-success" hidden aria-live="polite">
+        <h2 class="pp-h2">Submitted.</h2>
+        <p class="pp-sub" id="ty-success-body">A licensed physician in our network will review it within an hour during business hours (9 a.m.–5 p.m. Central). Your welcome email follows. If you are not cleared, your refund is automatic.</p>
+        <p class="pp-sub pp-small" id="ty-already" hidden>We already have your answers for this order. Your welcome email follows once the review is done.</p>
+        <p class="pp-sub pp-small">Check your inbox, and your spam folder, for a message from My4MLife.</p>
+        <p class="pp-sub pp-small" id="ty-afterhours" hidden>Submitted outside 9 a.m.–5 p.m. Central? You'll hear from us within the first hour of the next business day.</p>
+      </section>
+
+      <!-- Intake form -->
+      <section id="ty-form-wrap" hidden>
+        <h2 class="pp-h2">Two minutes to your physician review.</h2>
+        <p class="pp-sub">Your payment is received. Answer a few health questions so one of our network's licensed physicians can review your order.</p>
+        <p class="pp-sub pp-small">About 2 minutes. You will hear back within an hour during business hours, 9 a.m. to 5 p.m. Central. If you are not cleared, you get a full refund automatically.</p>
+        <p class="pp-sub pp-small" id="ty-afterhours-top" hidden>Submitted outside 9 a.m.–5 p.m. Central? You'll hear from us within the first hour of the next business day.</p>
+        {/* TJ CONFIRM: after-hours note: Monday to Friday business days; holidays */}
+
+        <form id="ty-form" class="pp-form" novalidate>
+          <p class="pp-help pp-help-top">Your answers go only to the reviewing physician and your care record. They are never sent by text message or shown on a receipt.</p>
+          {/* TJ CONFIRM: privacy helper wording matches the HIPAA architecture; no PHI in SMS */}
+
+          <div class="pp-field">
+            <label for="f-dob">Date of birth</label>
+            <input type="date" id="f-dob" name="dob" autocomplete="bday" max="" required aria-describedby="h-dob e-dob" />
+            <p class="pp-help" id="h-dob">Month, day, year.</p>
+            <p class="pp-err" id="e-dob" role="alert"></p>
+          </div>
+
+          <div class="pp-field">
+            <label for="f-sex">Sex</label>
+            <select id="f-sex" name="sex" required aria-describedby="h-sex e-sex">
+              <option value="">Select</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+            <p class="pp-help" id="h-sex">Used by the physician for screening.</p>
+            {/* TJ CONFIRM: sex helper wording */}
+            <p class="pp-err" id="e-sex" role="alert"></p>
+          </div>
+
+          <div class="pp-field">
+            <label for="f-phone">Mobile phone</label>
+            <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="h-phone e-phone" />
+            <p class="pp-help" id="h-phone">Used only if the physician needs to reach you about this order. We never text health information.</p>
+            <p class="pp-err" id="e-phone" role="alert"></p>
+          </div>
+
+          <div class="pp-field">
+            <label for="f-medications">Current medications and supplements</label>
+            <textarea id="f-medications" name="medications" rows="3" required aria-describedby="h-medications e-medications"></textarea>
+            <p class="pp-help" id="h-medications">List everything you take, including peptides and over-the-counter products. Write "None" if none.</p>
+            <p class="pp-err" id="e-medications" role="alert"></p>
+          </div>
+
+          <div class="pp-field">
+            <label for="f-allergies">Allergies</label>
+            <textarea id="f-allergies" name="allergies" rows="2" required aria-describedby="h-allergies e-allergies"></textarea>
+            <p class="pp-help" id="h-allergies">Include medications, adhesives, tape, latex or metals. Write "None" if none.</p>
+            <p class="pp-err" id="e-allergies" role="alert"></p>
+          </div>
+
+          <div class="pp-field">
+            <label for="f-conditions">Medical conditions</label>
+            <textarea id="f-conditions" name="conditions" rows="3" required aria-describedby="h-conditions e-conditions"></textarea>
+            <p class="pp-help" id="h-conditions">Include anything a physician has diagnosed, and any past surgeries. Write "None" if none.</p>
+            <p class="pp-err" id="e-conditions" role="alert"></p>
+          </div>
+
+          <h3 class="pp-h3">Safety check</h3>
+          <p class="pp-help">Answer each question Yes or No. A Yes does not cancel your order automatically; the physician reviews it.</p>
+          {/* TJ CONFIRM: a Yes goes to the physician for a decision and is not an auto-decline */}
+          {QUESTIONS.map((q) => (
+            <fieldset class="pp-radios" aria-describedby={`e-${q.name}`}>
+              <legend>{q.text}</legend>
+              <label class="pp-radio"><input type="radio" name={q.name} value="yes" required /> <span>Yes</span></label>
+              <label class="pp-radio"><input type="radio" name={q.name} value="no" required /> <span>No</span></label>
+              <p class="pp-err" id={`e-${q.name}`} role="alert"></p>
+            </fieldset>
+          ))}
+          {/* TJ CONFIRM: pregnancy question asked of everyone, with the "does not apply" clause */}
+
+          <h3 class="pp-h3">Telehealth consent</h3>
+          <div class="pp-consent" tabindex="0" role="region" aria-label="Telehealth consent text">
+            <p>By signing below, I consent to an asynchronous telehealth review of my order. This means a licensed physician in our network will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared, my payment is refunded in full automatically. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I am of legal adult age and a resident of the United States.</p>
+          </div>
+          {/* TJ CONFIRM: legal wording of consent paragraph */}
+          <p class="pp-help">Read the full <a href="/consent" target="_blank" rel="noopener">Medical &amp; Telehealth Consent</a> and the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+          {/* TJ CONFIRM: /consent still carries GLP-1 and compounded-medication language; decide whether to link it */}
+
+          <div class="pp-field">
+            <label for="f-consent">Type your full legal name to sign</label>
+            <input type="text" id="f-consent" name="consentName" autocomplete="name" required aria-describedby="h-consent e-consent" />
+            <p class="pp-help" id="h-consent">This works as your signature. Today's date is recorded automatically.</p>
+            <p class="pp-err" id="e-consent" role="alert"></p>
+          </div>
+
+          <p class="pp-err pp-err-form" id="e-form" role="alert"></p>
+          <button type="submit" class="pp-cta" id="ty-submit">Submit for physician review</button>
+        </form>
+      </section>
     </div>
   </main>
 
@@ -36,12 +151,118 @@ const canonical = 'https://www.my4mlife.com/go/push-patch/thank-you';
 
 </BaseLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ API_BASE }}>
 (function () {
+  var qs = new URLSearchParams(window.location.search);
+  var sessionId = qs.get('session_id') || '';
+  var sku = qs.get('sku') || '';
+  function $(id) { return document.getElementById(id); }
+  function cap(name, props) { try { window.posthog && posthog.capture(name, props || {}); } catch (e) {} }
+
+  cap('lp_patch_purchase', { sku: sku });
+
+  // Business hours: Mon-Fri 9 a.m.-5 p.m. America/Chicago
+  var afterHours = false;
   try {
-    var sku = new URLSearchParams(window.location.search).get('sku') || '';
-    window.posthog && posthog.capture('lp_patch_purchase', { sku: sku });
+    var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'short', hour: 'numeric', hour12: false }).formatToParts(new Date());
+    var wd = '', hr = 0;
+    parts.forEach(function (p) { if (p.type === 'weekday') wd = p.value; if (p.type === 'hour') hr = parseInt(p.value, 10) % 24; });
+    afterHours = wd === 'Sat' || wd === 'Sun' || hr < 9 || hr >= 17;
   } catch (e) {}
+  if (afterHours) $('ty-afterhours-top').hidden = false;
+
+  function showSuccess(already) {
+    $('ty-form-wrap').hidden = true;
+    $('ty-success').hidden = false;
+    if (already) { $('ty-already').hidden = false; }
+    if (afterHours) $('ty-afterhours').hidden = false;
+    $('ty-h1').scrollIntoView && $('ty-h1').scrollIntoView();
+  }
+
+  // Looks like a Stripe Checkout session id (cs_...)
+  if (!sessionId || !/^[A-Za-z0-9_]{8,200}$/.test(sessionId)) {
+    $('ty-missing').hidden = false;
+    return;
+  }
+  $('ty-form-wrap').hidden = false;
+
+  var form = $('ty-form');
+  var btn = $('ty-submit');
+  var dob = $('f-dob');
+  var today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+  dob.max = today.toISOString().slice(0, 10);
+
+  var QS = ['seizures', 'pacemaker', 'metalImplantNearSite', 'pregnant', 'woundAtSite'];
+
+  function setErr(id, msg) { var el = $(id); if (el) el.textContent = msg || ''; }
+  function lines(v) {
+    return v.split(/\r?\n|;/).map(function (x) { return x.trim(); }).filter(Boolean);
+  }
+  function validate() {
+    var ok = true, first = null;
+    function bad(id, msg, focusEl) { setErr(id, msg); ok = false; if (!first) first = focusEl; }
+    ['dob','sex','phone','medications','allergies','conditions','consent'].concat(QS).forEach(function (k) { setErr('e-' + k, ''); });
+    setErr('e-form', '');
+
+    var d = dob.value;
+    var dd = d ? new Date(d + 'T00:00:00') : null;
+    if (!d) bad('e-dob', 'This field is required.', dob);
+    else if (!dd || isNaN(dd.getTime()) || dd > new Date() || dd.getFullYear() < 1900) bad('e-dob', 'Enter your date of birth as month, day, year.', dob);
+
+    if (!$('f-sex').value) bad('e-sex', 'This field is required.', $('f-sex'));
+
+    var ph = $('f-phone').value.trim();
+    var digits = ph.replace(/\D/g, '');
+    if (!ph) bad('e-phone', 'This field is required.', $('f-phone'));
+    else if (digits.length < 10 || digits.length > 15 || !/^[+\d\s().-]+$/.test(ph)) bad('e-phone', 'Enter a valid mobile number.', $('f-phone'));
+
+    ['medications','allergies','conditions'].forEach(function (k) {
+      if (!$('f-' + k).value.trim()) bad('e-' + k, 'This field is required.', $('f-' + k));
+    });
+    QS.forEach(function (q) {
+      if (!form.querySelector('input[name="' + q + '"]:checked')) bad('e-' + q, 'This field is required.', form.querySelector('input[name="' + q + '"]'));
+    });
+    if (!$('f-consent').value.trim()) bad('e-consent', 'Type your full legal name to continue.', $('f-consent'));
+    if (first && first.focus) first.focus();
+    return ok;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    if (btn.disabled) return;
+    if (!validate()) return;
+    var screening = {};
+    QS.forEach(function (q) { screening[q] = form.querySelector('input[name="' + q + '"]:checked').value === 'yes'; });
+    var payload = {
+      sessionId: sessionId,
+      dob: dob.value,
+      sex: $('f-sex').value,
+      phone: $('f-phone').value.trim(),
+      medications: lines($('f-medications').value),
+      allergies: lines($('f-allergies').value),
+      conditions: lines($('f-conditions').value),
+      screening: screening,
+      consentName: $('f-consent').value.trim()
+    };
+    btn.disabled = true; btn.textContent = 'Sending...';
+    setErr('e-form', '');
+    function fail(msg) { setErr('e-form', msg); btn.disabled = false; btn.textContent = 'Submit for physician review'; }
+    fetch(API_BASE + '/api/push-patch-intake', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (res.status === 200 && data && data.alreadySubmitted) { cap('lp_patch_intake_submitted', { sku: sku, alreadySubmitted: true }); showSuccess(true); return; }
+        if (res.status === 200) { cap('lp_patch_intake_submitted', { sku: sku }); showSuccess(false); return; }
+        if (res.status === 400) return fail('Please complete every field and answer every question.');
+        if (res.status === 402) return fail('We could not match this page to a paid order. Check the link in your receipt email, or write to support@my4mlife.com.');
+        fail('Something went wrong sending your answers. Your payment is safe. Please try again, or write to support@my4mlife.com.');
+      });
+    }).catch(function () {
+      fail('Something went wrong sending your answers. Your payment is safe. Please try again, or write to support@my4mlife.com.');
+    });
+  });
 })();
 </script>
 
@@ -77,4 +298,39 @@ const canonical = 'https://www.my4mlife.com/go/push-patch/thank-you';
 .pp-disclaimer { font-size: 0.74rem; line-height: 1.6; max-width: 640px; margin: 0 auto; color: var(--on-ink-muted); }
 .pp-legal { font-size: 0.78rem; margin: 1rem 0 0; color: var(--on-ink-muted); }
 .pp-legal a { color: var(--on-ink-muted); }
+
+.pp-narrow { max-width: 640px; }
+.pp-ty { text-align: left; }
+.pp-ty .pp-kicker { display: inline-block; }
+.pp-ty h1 { text-align: left; margin-left: 0; }
+.pp-ty .pp-sub { margin-left: 0; margin-right: 0; max-width: none; }
+.pp-sub a, .pp-help a { color: var(--accent); }
+.pp-small { font-size: 0.9rem; color: var(--on-ink-muted); }
+.pp-h2 { font-size: clamp(1.4rem, 4.5vw, 1.9rem); font-weight: 700; color: #fff; margin: 0 0 1rem; line-height: 1.2; letter-spacing: -0.02em; }
+.pp-h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin: 2rem 0 0.5rem; }
+.pp-form { margin-top: 1.5rem; }
+.pp-field { margin: 0 0 1.25rem; }
+.pp-field label { display: block; font-size: 0.95rem; font-weight: 600; color: #fff; margin: 0 0 0.4rem; }
+.pp-field input, .pp-field select, .pp-field textarea {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: 1rem; color: var(--on-ink);
+  background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 8px; padding: 0.7rem 0.8rem; color-scheme: dark;
+}
+.pp-field textarea { resize: vertical; min-height: 4rem; }
+.pp-field input:focus-visible, .pp-field select:focus-visible, .pp-field textarea:focus-visible,
+.pp-consent:focus-visible, .pp-radio input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pp-help { font-size: 0.8rem; line-height: 1.5; color: var(--on-ink-muted); margin: 0.4rem 0 0; }
+.pp-help-top { margin: 0 0 1.5rem; }
+.pp-err { font-size: 0.85rem; color: #fca5a5; margin: 0.4rem 0 0; min-height: 0; }
+.pp-err:empty { display: none; }
+.pp-err-form { margin: 1rem 0 0; }
+.pp-radios { border: 0; padding: 0; margin: 1rem 0 0; min-width: 0; }
+.pp-radios legend { font-size: 0.95rem; color: #fff; padding: 0; margin: 0 0 0.5rem; line-height: 1.4; }
+.pp-radio { display: inline-flex; align-items: center; gap: 0.5rem; margin-right: 1.5rem; min-height: 44px; cursor: pointer; }
+.pp-radio input { width: 1.2rem; height: 1.2rem; accent-color: var(--accent); }
+.pp-consent { max-height: 12rem; overflow-y: auto; background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--on-ink); margin: 0.5rem 0; }
+.pp-consent p { margin: 0; }
+.pp-cta { display: block; width: 100%; box-sizing: border-box; margin-top: 1.25rem; font: inherit; font-size: 1.05rem; font-weight: 700; color: #04222a; background: var(--accent); border: 0; border-radius: 10px; padding: 0.95rem 1rem; cursor: pointer; }
+.pp-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+.pp-cta:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+[hidden] { display: none !important; }
 </style>
