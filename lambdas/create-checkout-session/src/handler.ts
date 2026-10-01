@@ -112,7 +112,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   let patchEntry: ReturnType<typeof pushPatchEntry> = null;
   if (skuId && isPushPatchSku(skuId)) {
     wear = parseWear(body.wear);
-    if (!wear) return reply(400, { error: 'wear must be 12h or 14h' }, cors);
+    if (!wear) return reply(400, { error: 'wear must be 12h' }, cors);
     patchEntry = pushPatchEntry(skuId, resolvedMode);
     if (!patchEntry) return reply(503, { error: 'product not yet available' }, cors);
   } else if (skuId && !SKU_CATALOG[skuId]) {
@@ -144,7 +144,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
         ...(body.phone ? { phone: body.phone } : {}),
         isDemo: String(resolvedMode === 'test'),
       },
-      phone_number_collection: body.phone ? undefined : { enabled: true },
+      phone_number_collection: (body.phone || patchEntry) ? undefined : { enabled: true },
       shipping_address_collection: catalogEntry?.shipping ? { allowed_countries: ['US'] } : undefined,
     });
 

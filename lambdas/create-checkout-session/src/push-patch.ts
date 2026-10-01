@@ -10,14 +10,15 @@ const PUSH_PATCH_SKUS = new Set([
   'push-patch-glutathione-ghk',
 ]);
 
-export type Wear = '12h' | '14h';
+export type Wear = '12h';
 
 export function isPushPatchSku(skuId: string | undefined): boolean {
   return !!skuId && PUSH_PATCH_SKUS.has(skuId);
 }
 
+// Push Patch is 12-hour only; a missing wear defaults to 12h.
 export function parseWear(x: unknown): Wear | null {
-  return x === '12h' || x === '14h' ? x : null;
+  return x === undefined || x === null || x === '12h' ? '12h' : null;
 }
 
 export function pushPatchEntry(skuId: string, mode: 'test' | 'live') {
@@ -28,7 +29,7 @@ export function pushPatchEntry(skuId: string, mode: 'test' | 'live') {
     priceId,
     mode: 'payment' as const,
     shipping: true,
-    successUrl: 'https://www.my4mlife.com/thank-you',
+    successUrl: 'https://www.my4mlife.com/go/push-patch/thank-you',
     cancelUrl: 'https://www.my4mlife.com/go/push-patch',
   };
 }

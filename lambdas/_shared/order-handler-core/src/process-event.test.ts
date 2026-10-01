@@ -259,7 +259,7 @@ describe('processEvent', () => {
       ...baseSession,
       id: 'cs_test_patch123',
       amount_total: 65000,
-      metadata: { skuIds: 'push-patch-kpv-nad-ghk', wear: '14h' },
+      metadata: { skuIds: 'push-patch-kpv-nad-ghk', wear: '12h' },
       shipping_details: {
         name: 'Jane Doe',
         address: { line1: '742 Evergreen Terrace', line2: null, city: 'Austin', state: 'TX', postal_code: '78701', country: 'US' },
@@ -293,16 +293,22 @@ describe('processEvent', () => {
       expect(payloadsOf()[0].to).toBe('drtj@my4mlife.com');
     });
 
-    it('(p3) body has blend, formula, 14-hour wear, ship-to address and session id', async () => {
+    it('(p3) body has blend, formula, 12-hour wear, ship-to address and session id', async () => {
       await run();
       expect(mockLambdaSend).toHaveBeenCalledTimes(1);
       const { html } = payloadsOf()[0];
       expect(html).toContain('KPV');
       expect(html).toContain('NAD+');
       expect(html).toContain('GHK-Cu');
-      expect(html).toContain('14-hour');
+      expect(html).toContain('12-hour');
       expect(html).toContain('742 Evergreen Terrace');
       expect(html).toContain('cs_test_patch123');
+    });
+
+    it('(p3b) missing wear is treated as 12-hour', async () => {
+      mockSessionRetrieve.mockResolvedValue({ ...patchSession, metadata: { skuIds: 'push-patch-kpv-nad-ghk' } });
+      await run();
+      expect(payloadsOf()[0].html).toContain('12-hour');
     });
 
     it('(p4) replay with PUSH_PATCH_NOTIFY# marker already present sends no email', async () => {

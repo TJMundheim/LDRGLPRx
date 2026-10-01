@@ -9,7 +9,7 @@ const BLENDS: Record<string, { name: string; formula: string }> = {
   'push-patch-wolverine': { name: 'Wolverine', formula: 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 5 mg' },
   'push-patch-glutathione-ghk': { name: 'Glutathione Glow', formula: 'Glutathione 500 mg / GHK-Cu 5 mg' },
 };
-const WEAR: Record<string, string> = { '12h': '12-hour (active)', '14h': '14-hour (sensitive skin)' };
+const WEAR: Record<string, string> = { '12h': '12-hour' };
 
 const esc = (s: string): string =>
   s.replace(/[<>&"']/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c] as string));
@@ -28,7 +28,8 @@ export async function notifyPushPatchOrder(
 ): Promise<void> {
   const skuId = (session.metadata?.['skuIds'] ?? '').split(',')[0]?.trim() ?? '';
   const blend = BLENDS[skuId] ?? { name: skuId || 'Unknown blend', formula: '(unknown — check Stripe)' };
-  const wear = WEAR[session.metadata?.['wear'] ?? ''] ?? `Unspecified (${session.metadata?.['wear'] ?? 'none'})`;
+  const wearKey = session.metadata?.['wear'] ?? '12h'; // Push Patch is 12-hour only; missing = 12h
+  const wear = WEAR[wearKey] ?? `Unspecified (${wearKey})`;
   const ship = session.shipping_details;
   const a = ship?.address ?? {};
   const address = [ship?.name, a['line1'], a['line2'], `${a['city'] ?? ''}, ${a['state'] ?? ''} ${a['postal_code'] ?? ''}`, a['country']]
@@ -38,7 +39,7 @@ export async function notifyPushPatchOrder(
   await deps.send({
     kind: 'info',
     to: process.env['PUSH_PATCH_FULFILLMENT_EMAIL'] ?? 'drtj@my4mlife.com',
-    subject: `New Push Patch order — ${blend.name} (${WEAR[session.metadata?.['wear'] ?? ''] ?? 'wear?'})`,
+    subject: `New Push Patch order — ${blend.name} (${wear})`,
     html: `<p><strong>New Push Patch order — fulfill via Genesis</strong></p>
 <p>Blend: ${esc(blend.name)}<br>Formula: ${esc(blend.formula)}<br>Wear time: ${esc(wear)}<br>Quantity: 6 patches (6 weeks)<br>Amount: ${amount}<br>Order/session: ${esc(session.id)}</p>
 <p>Customer: ${esc(cd?.name ?? '')} ${esc(cd?.email ?? '')} ${esc(cd?.phone ?? '')}</p>

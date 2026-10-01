@@ -166,10 +166,10 @@ describe('push-patch SKUs', () => {
 
   it('uses the test price when STRIPE_MODE is unset (defaults to test)', async () => {
     delete process.env['STRIPE_MODE'];
-    await handler(makeEvent({ body: patchBody({ skuId: 'push-patch-glutathione-ghk', wear: '14h' }) }));
+    await handler(makeEvent({ body: patchBody({ skuId: 'push-patch-glutathione-ghk', wear: '12h' }) }));
     const args = mockCreate.mock.calls[0][0];
     expect(args.line_items).toEqual([{ price: 'price_test_glutathione_ghk', quantity: 1 }]);
-    expect(args.metadata.wear).toBe('14h');
+    expect(args.metadata.wear).toBe('12h');
     expect(args.metadata.skuIds).toBe('push-patch-glutathione-ghk');
   });
 
@@ -183,22 +183,37 @@ describe('push-patch SKUs', () => {
     }
   });
 
-  it('cancel_url points at /go/push-patch and success_url at /thank-you', async () => {
+  it('cancel_url points at /go/push-patch and success_url at /go/push-patch/thank-you with session_id and sku', async () => {
     await handler(makeEvent({ body: patchBody() }));
     const args = mockCreate.mock.calls[0][0];
     expect(args.cancel_url.startsWith('https://www.my4mlife.com/go/push-patch')).toBe(true);
-    expect(args.success_url.startsWith('https://www.my4mlife.com/thank-you')).toBe(true);
+    expect(args.success_url).toBe(
+      'https://www.my4mlife.com/go/push-patch/thank-you?session_id={CHECKOUT_SESSION_ID}&sku=push-patch-wolverine',
+    );
   });
 
-  it('returns 400 when wear is missing', async () => {
+  it('does not collect a phone number for push-patch SKUs but keeps US shipping', async () => {
+    await handler(makeEvent({ body: patchBody() }));
+    const args = mockCreate.mock.calls[0][0];
+    expect(args.phone_number_collection).toBeUndefined();
+    expect(args.shipping_address_collection).toEqual({ allowed_countries: ['US'] });
+  });
+
+  it('still collects phone for non-patch SKUs', async () => {
+    await handler(makeEvent({ body: JSON.stringify({ skuId: 'biome-ns-ultra' }) }));
+    expect(mockCreate.mock.calls[0][0].phone_number_collection).toEqual({ enabled: true });
+  });
+
+  it("defaults wear to 12h when it is missing", async () => {
     const res = await handler(makeEvent({ body: JSON.stringify({ skuId: 'push-patch-wolverine' }) })) as any;
-    expect(res.statusCode).toBe(400);
-    expect(mockCreate).not.toHaveBeenCalled();
+    expect(res.statusCode).toBe(200);
+    expect(mockCreate.mock.calls[0][0].metadata.wear).toBe('12h');
   });
 
-  it("returns 400 when wear is '24h'", async () => {
-    const res = await handler(makeEvent({ body: patchBody({ wear: '24h' }) })) as any;
+  it.each(['14h', '24h'])("returns 400 'wear must be 12h' when wear is '%s'", async (w) => {
+    const res = await handler(makeEvent({ body: patchBody({ wear: w }) })) as any;
     expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res.body).error).toBe('wear must be 12h');
     expect(mockCreate).not.toHaveBeenCalled();
   });
 
