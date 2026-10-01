@@ -35,7 +35,7 @@ const COMPARE = [
   { row: 'How often', inj: 'Often daily or several times a week, depending on the protocol', patch: 'One patch a week' },
   { row: 'Delivery curve', inj: 'Fast spike, then cleared, often within hours', patch: 'Steady release over 12 hours' },
   { row: 'Route', inj: 'Under the skin, through a needle', patch: 'Through the skin, moved by a small electrical charge' },
-  { row: 'Setup', inj: 'Syringes, needles, a sharps container', patch: 'Prepare the pad, apply like kinesiology tape, wear' },
+  { row: 'Setup', inj: 'Syringes, needles, a sharps container', patch: 'Mix the blend, wet the pad, apply like kinesiology tape, wear' },
 ];
 
 // Real Genesis product photos supplied by TJ 2026-09-30. No lifestyle placeholder
@@ -94,7 +94,7 @@ const IMG = {
         <li>Skipping a dose because you just couldn't face the needle tonight.</li>
       </ul>
       <p class="pp-turn">One patch. Once a week. <span>No needle.</span></p>
-      <p class="pp-never"><strong>Never started because of needles?</strong> If needles are the reason you've never started, there is no needle at any step. You prepare the pad, apply the patch like a strip of kinesiology tape, and wear it.</p>
+      <p class="pp-never"><strong>Never started because of needles?</strong> If needles are the reason you've never started, there is no needle at any step. You mix the blend, wet the pad, apply the patch like a strip of kinesiology tape, and wear it.</p>
     </div>
   </section>
 
@@ -188,13 +188,13 @@ const IMG = {
       <p class="pp-eyebrow">How to wear it</p>
       <h2>Prepare. Apply. Wear.</h2>
       <ol class="pp-steps">
-        {/* TJ CONFIRM: exact prep steps (vial + applicator tube + pad) from Genesis's instructions; keep neutral until confirmed */}
-        <li><strong>Prepare the pad.</strong> Each week's patch comes with its own blend vial and applicator tube to prepare the pad.</li>
-        {/* TJ CONFIRM: upper arm/shoulder placement; exact site must come from Genesis's instructions */}
-        <li><strong>Apply.</strong> The patch goes on like kinesiology tape, on clean skin of the upper arm or shoulder.</li>
-        {/* TJ CONFIRM: removal after 12 hours vs worn through the week */}
-        <li><strong>Wear.</strong> The patch delivers over 12 hours, so you can train or work in it. One patch a week for six weeks.</li>
+        {/* Steps follow the manufacturer IFU "Handling Instructions for PushPatch Kits+" (research doc section 2). Water volume deliberately not printed: IFU says 2 ml, brochure says 1.5 ml. */}
+        <li><strong>Prepare.</strong> Add the sterile water provided to the powder vial, cap it and shake to mix. Press the white pad of the patch against the open vial, turn it over, and wet the whole pad.</li>
+        {/* IFU does not name an arm/shoulder site; removed 2026-10-01. */}
+        <li><strong>Apply.</strong> On clean, dry skin, peel the backing and press the patch down flat, like kinesiology tape. Pull the activation tab all the way out.</li>
+        <li><strong>Wear.</strong> Wear it for 12 hours, then remove it: wet it with warm soapy water and peel slowly. Wait at least 24 hours before using the same spot again. One patch a week for six weeks.</li>
       </ol>
+      <p class="pp-fine">Full instructions are printed in every kit. Follow the insert in your kit for the exact amount of water.</p>
     </div>
   </section>
 
@@ -228,6 +228,8 @@ const IMG = {
       {/* TJ CONFIRM: one-time purchase, no auto-ship (Genesis offers patient auto-ship but the plan sells one-time) */}
       <p class="pp-fine pp-fine-center">Secure checkout by Stripe. Apple Pay, Google Pay and cards accepted. All sales are final.</p>
       <p class="pp-fine pp-fine-center">All six-patch sets are one-time purchases, not subscriptions.</p>
+      {/* Contraindication list verbatim from the IFU (research doc section 2) */}
+      <p class="pp-fine pp-fine-center pp-safety">Not for use if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site.</p>
     </div>
   </section>
 
@@ -237,16 +239,16 @@ const IMG = {
       <p class="pp-eyebrow">In the box</p>
       <h2>What arrives at your door</h2>
       <div class="pp-box-wrap">
-        <img class="pp-kit-img" src={IMG.kit} alt="Push Patch kit contents: a shaped adhesive patch with a round pad, a small amber blend vial, and a clear graduated applicator tube" width="882" height="674" loading="lazy" />
-        {/* TJ CONFIRM: exact contents per set + prep steps (photo shows patch, amber blend vial "Net 1 g", graduated tube; is there a printed guide?) */}
+        <img class="pp-kit-img" src={IMG.kit} alt="Push Patch kit contents: a shaped adhesive patch with a round pad, a small amber blend vial, and a clear graduated tube" width="882" height="674" loading="lazy" />
+        {/* TJ CONFIRM: per-set counts (IFU shows one amber powder vial + one sterile-water ampule per kit; assumed one of each per patch) */}
         <ul class="pp-box">
           <li><strong>6</strong><span>Single-use patches, one for each week of the six-week set.</span></li>
-          <li><strong>6</strong><span>Blend vials, one for each patch.</span></li>
-          <li><strong>6</strong><span>Applicator tubes, one for each patch.</span></li>
+          <li><strong>6</strong><span>Powder vials of blend, one for each patch.</span></li>
+          <li><strong>6</strong><span>Sterile water ampules, one for each blend.</span></li>
         </ul>
       </div>
-      {/* TJ CONFIRM: COA availability; MOTS-c COA not in deck */}
-      <p class="pp-trust">Every active ingredient is third-party tested. Certificates of analysis (HPLC purity and mass-spec identity) for BPC-157, NAD+, GHK-Cu, glutathione, KPV and TB-500 are available on request.</p>
+      {/* Seven CoAs are published by Genesis (research doc section 3) */}
+      <p class="pp-trust">Every active ingredient is third-party tested. Certificates of analysis (HPLC purity and mass-spec identity) for BPC-157, NAD+, GHK-Cu, glutathione, KPV, TB-500 and MOTS-c are available on request.</p>
     </div>
   </section>
 
@@ -258,8 +260,7 @@ const IMG = {
       <div class="pp-faq">
         <details>
           <summary>Is there a needle anywhere in the process?</summary>
-          {/* TJ CONFIRM: prep wording stays neutral until Genesis's prep steps are confirmed */}
-          <p>No. The Push Patch is needle-free. There are no syringes and no injection at any step. You prepare the pad, apply the patch like a strip of kinesiology tape, and wear it.</p>
+          <p>No. The Push Patch is needle-free. There are no syringes and no injection at any step. You mix the blend, wet the pad, apply the patch like a strip of kinesiology tape, and wear it.</p>
         </details>
         <details>
           <summary>Does it hurt, and what about sensitive skin?</summary>
@@ -277,12 +278,15 @@ const IMG = {
         </details>
         <details>
           <summary>How long do I wear a patch, and how often?</summary>
-          {/* TJ CONFIRM: wear/removal instructions; page must be explicit about removal after 12 hours vs worn through the week */}
-          <p>One patch a week for six weeks. Each patch delivers over 12 hours.</p>
+          <p>One patch a week for six weeks. Wear each patch for 12 hours, then remove it: wet it with warm soapy water and peel slowly. Wait at least 24 hours before using the same spot again.</p>
         </details>
         <details>
           <summary>What is actually in my blend?</summary>
           <p>The formula on each blend card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+; the Glutathione blend does not.</p>
+        </details>
+        <details>
+          <summary>Who should not use the Push Patch?</summary>
+          <p>Do not use it if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site.</p>
         </details>
         <details>
           <summary>What is your refund policy?</summary>

@@ -9,7 +9,7 @@ How to read this file:
 - **Voice:** technical product voice, empathetic and insider on the injection routine, never mocking. The page is about the Push Patch delivery technology. Dr. TJ is not mentioned on this page. My4MLife appears as a small header wordmark, a "Brought to you by My4MLife" line (hero and footer) and the footer links.
 - **Look:** near-standalone, NOT the site theme. Deep-slate/near-black sections alternating with cool light-grey and white, one cyan accent, Inter for headings (no Playfair serif), monospace for formula and spec labels. Scoped styles in the page; every section sets its own background so it renders the same in light or dark system settings.
 - **Hard rules applied:** may help / may support only; never treat / cure / heal; no regulatory-approval claim about the patch; no age anywhere; no emoji; never "men and women"; no mention of the gut-brain prescription products; doses appear only inside each blend card's formula line; tagline once, in the footer.
-- **Kit prep:** the kit includes a blend vial and an applicator tube per patch, so the user prepares the pad. Copy describes this neutrally ("prepare the pad, apply, wear") with no step details until Genesis's instructions are confirmed. The pain-point block therefore does not mention vials, reconstituting or drawing up; it stays needle-specific.
+- **Kit prep (updated 2026-10-01):** steps now follow the manufacturer IFU (mix the blend with the sterile water provided, wet the pad, apply, pull the activation tab, wear 12 hours, remove with warm soapy water, wait 24 hours before reusing a site). No water volume is printed (IFU 2 ml vs brochure 1.5 ml). The pain-point block stays needle-specific.
 
 ---
 
@@ -63,7 +63,7 @@ How to read this file:
 
 **Turn (large):** One patch. Once a week. No needle.
 
-**For people who never started (callout):** **Never started because of needles?** If needles are the reason you've never started, there is no needle at any step. You prepare the pad, apply the patch like a strip of kinesiology tape, and wear it.
+**For people who never started (callout):** **Never started because of needles?** If needles are the reason you've never started, there is no needle at any step. You mix the blend, wet the pad, apply the patch like a strip of kinesiology tape, and wear it.
 
 ---
 
@@ -109,7 +109,7 @@ Do not quote the BPC-157, KPV or glutathione multiples from the deck: they were 
 | How often | Often daily or several times a week, depending on the protocol | One patch a week |
 | Delivery curve | Fast spike, then cleared, often within hours | Steady release over 12 hours |
 | Route | Under the skin, through a needle | Through the skin, moved by a small electrical charge |
-| Setup | Syringes, needles, a sharps container | Prepare the pad, apply like kinesiology tape, wear |
+| Setup | Syringes, needles, a sharps container | Mix the blend, wet the pad, apply like kinesiology tape, wear |
 
 **Fine line:** A comparison of delivery method only, not of results. Individual experience varies.
 
@@ -123,9 +123,13 @@ Do not quote the BPC-157, KPV or glutathione multiples from the deck: they were 
 
 **H2:** Prepare. Apply. Wear.
 
-1. **Prepare the pad.** Each week's patch comes with its own blend vial and applicator tube to prepare the pad. [TJ CONFIRM: exact prep steps from Genesis; keep neutral until confirmed]
-2. **Apply.** The patch goes on like kinesiology tape, on clean skin of the upper arm or shoulder. [TJ CONFIRM: placement site from Genesis's instructions]
-3. **Wear.** The patch delivers over 12 hours, so you can train or work in it. One patch a week for six weeks. [TJ CONFIRM: removal after 12 hours vs worn through the week]
+1. **Prepare.** Add the sterile water provided to the powder vial, cap it and shake to mix. Press the white pad of the patch against the open vial, turn it over, and wet the whole pad.
+2. **Apply.** On clean, dry skin, peel the backing and press the patch down flat, like kinesiology tape. Pull the activation tab all the way out.
+3. **Wear.** Wear it for 12 hours, then remove it: wet it with warm soapy water and peel slowly. Wait at least 24 hours before using the same spot again. One patch a week for six weeks.
+
+**Small print under the steps:** Full instructions are printed in every kit. Follow the insert in your kit for the exact amount of water.
+
+Source: manufacturer IFU "Handling Instructions for PushPatch Kits+" (research doc `genesis-site-research-2026-10-01.md` section 2). No water volume is printed because the IFU (2 ml) and the patient brochure (1.5 ml) disagree. The arm/shoulder placement was removed; the IFU does not name a site.
 
 ---
 
@@ -172,6 +176,8 @@ The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverin
 
 **Small line:** All six-patch sets are one-time purchases, not subscriptions. [TJ CONFIRM: one-time, no auto-ship]
 
+**Safety line (under the small print):** Not for use if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site. (List taken verbatim from the IFU contraindications. No "consult your doctor" gate; TJ 2026-10-01.)
+
 ---
 
 ## 8. What arrives at your door (dark)
@@ -180,31 +186,32 @@ The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverin
 
 **H2:** What arrives at your door
 
-**Image:** `/images/push-patch/kit-contents.jpg`. Alt: Push Patch kit contents: a shaped adhesive patch with a round pad, a small amber blend vial, and a clear graduated applicator tube.
+**Image:** `/images/push-patch/kit-contents.jpg`. Alt: Push Patch kit contents: a shaped adhesive patch with a round pad, a small amber blend vial, and a clear graduated tube.
 
 Per six-week set:
 - **6** Single-use patches, one for each week of the six-week set.
-- **6** Blend vials, one for each patch.
-- **6** Applicator tubes, one for each patch.
+- **6** Powder vials of blend, one for each patch.
+- **6** Sterile water ampules, one for each blend.
 
-[TJ CONFIRM: exact contents per set and the prep steps; is there a printed guide?]
+[TJ CONFIRM: per-set counts. The IFU shows one amber powder vial and one sterile-water ampule per kit; one of each per patch is assumed. The photo's "graduated tube" may be the ampule.]
 
-**Trust line (under the list):** Every active ingredient is third-party tested. Certificates of analysis (HPLC purity and mass-spec identity) for BPC-157, NAD+, GHK-Cu, glutathione, KPV and TB-500 are available on request. [TJ CONFIRM: COA availability; MOTS-c COA not in deck]
+**Trust line (under the list):** Every active ingredient is third-party tested. Certificates of analysis (HPLC purity and mass-spec identity) for BPC-157, NAD+, GHK-Cu, glutathione, KPV, TB-500 and MOTS-c are available on request. (Genesis publishes all seven CoAs; research doc section 3.)
 
 No shipping details anywhere on the page (TJ 2026-09-30).
 
 ---
 
-## 9. FAQ — "Before you order" (8 items)
+## 9. FAQ — "Before you order" (9 items)
 
-1. **Is there a needle anywhere in the process?** No. The Push Patch is needle-free. There are no syringes and no injection at any step. You prepare the pad, apply the patch like a strip of kinesiology tape, and wear it. [TJ CONFIRM: prep wording stays neutral until Genesis confirms]
+1. **Is there a needle anywhere in the process?** No. The Push Patch is needle-free. There are no syringes and no injection at any step. You mix the blend, wet the pad, apply the patch like a strip of kinesiology tape, and wear it.
 2. **Does it hurt, and what about sensitive skin?** Iontophoresis uses a small electrical charge and is described as pain-free. Most people describe the feeling as a light tingle or nothing at all. Do not apply a patch to broken or irritated skin. [TJ CONFIRM: "light tingle" is an assumption; skin-contact warning wording from Genesis]
 3. **I already inject peptides. Can I switch to the patch?** Yes, many people switch. The formula on each blend card shows exactly what is in that patch, so you can compare it with what you use now.
 4. **What is iontophoresis, and is it established?** Iontophoresis uses a small electrical charge to move charged molecules through the skin. It is an established delivery technology used in medicine for decades. The Push Patch applies it in a wearable, single-use patch. [TJ CONFIRM: no regulatory or approval statements beyond this]
-5. **How long do I wear a patch, and how often?** One patch a week for six weeks. Each patch delivers over 12 hours. [TJ CONFIRM: removal after 12 hours vs worn through the week]
+5. **How long do I wear a patch, and how often?** One patch a week for six weeks. Wear each patch for 12 hours, then remove it: wet it with warm soapy water and peel slowly. Wait at least 24 hours before using the same spot again.
 6. **What is actually in my blend?** The formula on each blend card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+; the Glutathione blend does not.
-7. **What is your refund policy?** All sales are final.
-8. **I have a question before I order. Who do I ask?** Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear. [TJ CONFIRM: /consult vs a plain email address for pre-purchase questions]
+7. **Who should not use the Push Patch?** Do not use it if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site.
+8. **What is your refund policy?** All sales are final.
+9. **I have a question before I order. Who do I ask?** Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear. [TJ CONFIRM: /consult vs a plain email address for pre-purchase questions]
 
 ---
 
@@ -242,7 +249,7 @@ Check any render for: no alcohol of any kind, no visible text, patch clearly on 
 
 ## 13. Open questions TJ must resolve before launch
 
-1. **Kit contents and prep steps** (sections 6, 8, FAQ 1). Photo shows patch + blend vial + applicator tube; confirm 6/6/6 per set, any printed guide, and the exact prep steps. [TJ CONFIRM]
+1. **Kit contents** (section 8). Confirm 6/6/6 per set (patches, powder vials, sterile water ampules) and that full instructions are printed in every kit. Prep steps now follow the IFU. [TJ CONFIRM]
 2. **The five display names** and **every per-blend benefit line** (section 7). [TJ CONFIRM]
 3. **Injection-comparison wording** (section 5) and **pain-point lines** (section 3). [TJ CONFIRM]
 
