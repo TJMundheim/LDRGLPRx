@@ -26,9 +26,11 @@ How to read this file:
 
 **Sub-headline (inside the H1, smaller, cyan):** Same peptides. No needle. One patch a week.
 
-**Proof line (compact badge with superscript link):** **Up to 276% more NAD+ exposure** than daily injections.* (*links to the AUC section below)
+**Stat badge (prominent):** very large cyan **276%** (heavy weight, ~3x body size on desktop, scales down on mobile) followed by "more NAD+ in your system than daily injections.*" (* links to the AUC section below)
 
-**Attribution (tiny muted line):** *Area-under-the-curve data from Push Patch, LLC.
+**Source line (tiny muted):** *Total exposure over time (area under the curve), data from Push Patch, LLC.
+
+**Delivery line (bold, directly under the badge):** An injection spikes and clears, often in under an hour. The patch keeps delivering for 12.
 
 **Sub-line:** Done with syringes, sharps containers and bracing for the morning stick? Or are needles the reason you've never started? The Push Patch delivers peptide and NAD+ blends through your skin, steadily, over 12 hours. [TJ CONFIRM: speaks to both audiences]
 
@@ -74,7 +76,7 @@ How to read this file:
 **Lead:** The Push Patch uses iontophoresis. A small electrical charge moves charged molecules through the skin, so the blend reaches you without an injection. Iontophoresis is an established delivery technology used in medicine for decades. [TJ CONFIRM: "used in medicine for decades" is the approved substitute for any regulatory language about the patch; do not add to it]
 
 **Four spec tiles:**
-- **Route — Through the skin.** Bypasses the digestive tract. Nothing to swallow. [TJ CONFIRM: phrase exactly as the one-pager; no absorption-percentage claims]
+- **Route — Through the skin.** Bypasses the digestive tract. Nothing to swallow. [TJ CONFIRM: phrase exactly as the one-pager; no percentage claims about the route]
 - **Curve — Steady, not a spike.** Delivered over 12 hours instead of all at once.
 - **Setup — Nothing to inject.** No needles, no pills, no IV chair. Applied like kinesiology tape.
 - **Frequency — Once a week.** One single-use patch a week. Six patches, six weeks.
@@ -84,8 +86,8 @@ How to read this file:
 **Body:** Area under the curve (AUC) is the total amount of a molecule in your system over time. Peptides like BPC-157 and KPV clear from the bloodstream quickly after an injection, often within an hour or a few hours, so most of the day is spent below the level you injected for. The Push Patch releases its blend slowly and continuously over 12 hours. [TJ CONFIRM: permission to publish Push Patch LLC AUC figures]
 
 **Two stat tiles (NAD+ only):**
-- **276%** more cellular exposure than daily 50 mg NAD+ injections
-- **163%** more cellular exposure than a 500 mg weekly NAD+ IV
+- **276%** more NAD+ in your system than daily 50 mg injections
+- **163%** more NAD+ in your system than a 500 mg weekly IV
 
 **Footnote:** Area-under-the-curve figures provided by Push Patch, LLC. Delivery data only; individual results vary.
 
@@ -134,6 +136,9 @@ Do not quote the BPC-157, KPV or glutathione multiples from the deck: they were 
 **H2:** Seven blends. Six patches each. Six weeks.
 
 **Lead:** Every blend ships as a six-patch set. Blends with NAD+ are $650; the Glutathione blend has no NAD+ and is $550. Not sure which fits? NAD+ Restore is the simplest place to start. [TJ CONFIRM: the "simplest place to start" recommendation]
+
+**Banner (bold, directly above the cards):** More in your system. No needle.
+**Banner sub-line (smaller):** One patch a week, delivering for 12 hours.
 
 Each card shows name, price, the one-line benefit, the exact formula from the catalog (small monospace), and its own primary button. Formulas and doses appear nowhere else on the page.
 
