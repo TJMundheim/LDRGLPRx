@@ -60,7 +60,7 @@ export const PUSH_PATCH_BLENDS: PushPatchBlend[] = [
   },
   {
     skuId: 'push-patch-enhanced-glow',
-    name: 'Advanced Glow',
+    name: 'Enhanced Glow',
     formula: 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg',
     ingredients: ['NAD+ 250 mg', 'TB-500 2 mg', 'BPC-157 2000 mcg', 'GHK-Cu 15 mg'],
     priceUsd: 650,
