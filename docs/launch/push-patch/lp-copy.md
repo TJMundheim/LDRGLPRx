@@ -26,6 +26,10 @@ How to read this file:
 
 **Sub-headline (inside the H1, smaller, cyan):** Same peptides. No needle. One patch a week.
 
+**Proof line (compact badge with superscript link):** **Up to 276% more NAD+ exposure** than daily injections.* (*links to the AUC section below)
+
+**Attribution (tiny muted line):** *Area-under-the-curve data from Push Patch, LLC.
+
 **Sub-line:** Done with syringes, sharps containers and bracing for the morning stick? Or are needles the reason you've never started? The Push Patch delivers peptide and NAD+ blends through your skin, steadily, over 12 hours. [TJ CONFIRM: speaks to both audiences]
 
 (Genesis's four-line tagline was dropped entirely, TJ 2026-09-30.)

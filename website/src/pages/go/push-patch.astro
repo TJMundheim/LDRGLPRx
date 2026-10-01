@@ -60,6 +60,10 @@ const IMG = {
     <div class="pp-wrap">
       <p class="pp-kicker">Genesis Push Patch</p>
       <h1>Stop sticking yourself. <span>Same peptides. No needle. One patch a week.</span></h1>
+      <div class="pp-proof">
+        <p class="pp-proof-stat"><strong>Up to 276% more NAD+ exposure</strong> than daily injections.<sup><a href="#auc">*</a></sup></p>
+        <p class="pp-proof-source">*Area-under-the-curve data from Push Patch, LLC.</p>
+      </div>
       {/* TJ CONFIRM: sub-line speaks to both audiences (needle fatigue + never started because of needles) */}
       <p class="pp-sub">Done with syringes, sharps containers and bracing for the morning stick? Or are needles the reason you've never started? The Push Patch delivers peptide and NAD+ blends through your skin, steadily, over 12 hours.</p>
       <a class="pp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_hero')">Choose your blend</a>
@@ -125,7 +129,7 @@ const IMG = {
         </div>
       </div>
 
-      <h3 class="pp-h3">Why steady beats a spike</h3>
+      <h3 class="pp-h3" id="auc">Why steady beats a spike</h3>
       <p class="pp-lead">Area under the curve (AUC) is the total amount of a molecule in your system over time. Peptides like BPC-157 and KPV clear from the bloodstream quickly after an injection, often within an hour or a few hours, so most of the day is spent below the level you injected for. The Push Patch releases its blend slowly and continuously over 12 hours.</p>
       {/* TJ CONFIRM: permission to publish Push Patch LLC AUC figures */}
       <div class="pp-stats">
@@ -405,6 +409,13 @@ const IMG = {
 .pp-kicker { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(34, 211, 238, 0.4); border-radius: 999px; padding: 0.35rem 0.9rem; margin: 0 0 1.4rem; }
 .pp-hero h1 { font-size: clamp(2.1rem, 7vw, 4rem); font-weight: 800; line-height: 1.05; margin: 0 auto 1.3rem; max-width: 20ch; color: #ffffff; text-wrap: balance; }
 .pp-hero h1 span { display: block; margin-top: 0.6rem; font-size: 0.42em; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; color: var(--accent); }
+.pp-proof { margin: 1.6rem auto 1.8rem; max-width: 60ch; }
+.pp-proof-stat { font-size: 0.95rem; line-height: 1.4; color: var(--on-ink); margin: 0 0 0.3rem; }
+.pp-proof-stat strong { color: var(--accent); font-weight: 700; }
+.pp-proof-stat sup { margin-left: 0.15em; }
+.pp-proof-stat sup a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.pp-proof-stat sup a:hover { text-decoration: underline; }
+.pp-proof-source { font-size: 0.7rem; line-height: 1.4; color: var(--on-ink-muted); margin: 0; }
 .pp-sub { font-size: clamp(1rem, 2.2vw, 1.18rem); line-height: 1.6; color: var(--on-ink); max-width: 60ch; margin: 0 auto 2rem; }
 .pp-chips { list-style: none; padding: 0; margin: 2rem auto 1.6rem; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
 .pp-chips li { font-size: 0.78rem; font-weight: 500; padding: 0.4rem 0.85rem; border: 1px solid var(--ink-line); background: var(--ink-2); border-radius: 6px; color: var(--on-ink); }
