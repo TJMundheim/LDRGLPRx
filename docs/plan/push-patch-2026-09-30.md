@@ -16,7 +16,7 @@ TJ is launching a paid-traffic campaign for the Genesis Push Patch: 7 blends, 6 
 | push-patch-nad-motsc-ghk | Metabolic | NAD+ 1300 mg / MOTS-c 5 mg / GHK-Cu 5 mg | $650 |
 | push-patch-enhanced-glow | Enhanced Glow | NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg | $650 |
 | push-patch-wolverine | Wolverine | NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 5 mg | $650 |
-| push-patch-glutathione-ghk | Glutathione Glow | Glutathione 500 mg / GHK-Cu 5 mg | $550 |
+| push-patch-glutathione-ghk | Glutathione Radiance | Glutathione 500 mg / GHK-Cu 5 mg | $550 |
 
 "Enhanced Glow" and "Wolverine" are Genesis's names. The other five display names are placeholders for TJ to approve in P1-E.
 

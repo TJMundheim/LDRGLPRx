@@ -7,7 +7,7 @@ const BLENDS: Record<string, { name: string; formula: string }> = {
   'push-patch-nad-motsc-ghk': { name: 'Metabolic', formula: 'NAD+ 1300 mg / MOTS-c 5 mg / GHK-Cu 5 mg' },
   'push-patch-enhanced-glow': { name: 'Enhanced Glow', formula: 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg' },
   'push-patch-wolverine': { name: 'Wolverine', formula: 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 5 mg' },
-  'push-patch-glutathione-ghk': { name: 'Glutathione Glow', formula: 'Glutathione 500 mg / GHK-Cu 5 mg' },
+  'push-patch-glutathione-ghk': { name: 'Glutathione Radiance', formula: 'Glutathione 500 mg / GHK-Cu 5 mg' },
 };
 const WEAR: Record<string, string> = { '12h': '12-hour' };
 

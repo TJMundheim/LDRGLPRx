@@ -80,7 +80,7 @@ export const PUSH_PATCH_BLENDS: PushPatchBlend[] = [
   },
   {
     skuId: 'push-patch-glutathione-ghk',
-    name: 'Glutathione Glow',
+    name: 'Glutathione Radiance',
     formula: 'Glutathione 500 mg / GHK-Cu 5 mg',
     ingredients: ['Glutathione 500 mg', 'GHK-Cu 5 mg'],
     priceUsd: 550,
