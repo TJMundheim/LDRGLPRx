@@ -20,17 +20,13 @@ How to read this file:
 
 ## 2. Hero (dark)
 
-**Kicker (pill):** Genesis Push Patch
-
 **Headline (H1):** Stop sticking yourself.
 
 **Sub-headline (inside the H1, smaller, cyan):** Same peptides. No needle. One patch a week.
 
-**Stat badge (prominent):** very large cyan **276%** (heavy weight, ~3x body size on desktop, scales down on mobile) followed by "more NAD+ in your system than daily injections.*" (* links to the AUC section below)
+(No kicker pill and no big stat badge under the H1, TJ 2026-10-01; the stats live once, in the hero stats panel below.)
 
-**Source line (tiny muted):** *Total exposure over time (area under the curve), data from Push Patch, LLC.
-
-**Delivery line (bold, directly under the badge):** An injection spikes and clears, often in under an hour. The patch keeps delivering for 12.
+**Delivery line (bold, directly under the H1):** An injection spikes and clears, often in under an hour. The patch keeps delivering for 12.
 
 **Sub-line:** Done with syringes, sharps containers and bracing for the morning stick? Or are needles the reason you've never started? The Push Patch delivers peptide and NAD+ blends through your skin, steadily, over 12 hours. [TJ CONFIRM: speaks to both audiences]
 
@@ -42,7 +38,15 @@ How to read this file:
 
 **Line:** Brought to you by My4MLife
 
-**Image:** `/images/push-patch/pouches.jpg` (real Genesis packaging, three "12 HOUR" pouches). Alt: Three black Push Patch pouches labeled 12 HOUR: NAD+ with GHK-Cu, BPC-157 and NAD+ with GHK-Cu, and KPV and NAD+.
+**Hero row (after chips and the "Brought to you by" line; two columns on desktop, stacked at <=720px: photo, stats, chart):**
+- **Left (~42%):** `/images/push-patch/pouches.jpg` (real Genesis packaging, three "12 HOUR" pouches), rounded. Alt: Three black Push Patch pouches labeled 12 HOUR: NAD+ with GHK-Cu, BPC-157 and NAD+ with GHK-Cu, and KPV and NAD+.
+- **Right (stats panel, `id="auc"`, dark-styled):**
+  - Two stat tiles (NAD+ only):
+    - **276%** more NAD+ in your system than daily 50 mg injections*
+    - **163%** more NAD+ in your system than a 500 mg weekly IV*
+  - **Source line (tiny muted):** *Total exposure over time (area under the curve), data from Push Patch, LLC. Delivery data only; individual results vary. (The * links to this panel, `#auc`.)
+  - **Schematic (inline SVG, dark panel):** dashed "Injection" curve that peaks and tapers vs a solid cyan "Push Patch: 12 hours" plateau. Caption: Illustration of delivery pattern; measured figures above. [TJ CONFIRM: schematic only; measured figures are the stat tiles]
+  - [TJ CONFIRM: permission to publish Push Patch LLC AUC figures]
 
 ---
 
@@ -85,15 +89,9 @@ How to read this file:
 
 **Body:** Area under the curve (AUC) is the total amount of a molecule in your system over time. Peptides like BPC-157 and KPV clear from the bloodstream quickly after an injection, often within an hour or a few hours, so most of the day is spent below the level you injected for. The Push Patch releases its blend slowly and continuously over 12 hours. [TJ CONFIRM: permission to publish Push Patch LLC AUC figures]
 
-**Two stat tiles (NAD+ only):**
-- **276%** more NAD+ in your system than daily 50 mg injections
-- **163%** more NAD+ in your system than a 500 mg weekly IV
-
-**Footnote:** Area-under-the-curve figures provided by Push Patch, LLC. Delivery data only; individual results vary.
+(Stat tiles, source line and schematic moved to the hero stats panel, TJ 2026-10-01. This section is text only.)
 
 Do not quote the BPC-157, KPV or glutathione multiples from the deck: they were measured at a different patch frequency than our once-weekly set.
-
-**Schematic (inline SVG, dark panel):** dashed "Injection" curve that peaks and tapers vs a solid cyan "Push Patch: 12 hours" plateau. Caption: Illustration of delivery pattern. See figures above. [TJ CONFIRM: schematic only; measured figures are the AUC stats above]
 
 ---
 

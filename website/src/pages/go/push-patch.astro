@@ -58,11 +58,8 @@ const IMG = {
   {/* HERO */}
   <section class="pp-hero">
     <div class="pp-wrap">
-      <p class="pp-kicker">Genesis Push Patch</p>
       <h1>Stop sticking yourself. <span>Same peptides. No needle. One patch a week.</span></h1>
       <div class="pp-proof">
-        <p class="pp-proof-stat"><strong class="pp-proof-num">276%</strong><span class="pp-proof-text">more NAD+ in your system than daily injections.<sup><a href="#auc">*</a></sup></span></p>
-        <p class="pp-proof-source">*Total exposure over time (area under the curve), data from Push Patch, LLC.</p>
         <p class="pp-proof-line">An injection spikes and clears, often in under an hour. The patch keeps delivering for 12.</p>
       </div>
       {/* TJ CONFIRM: sub-line speaks to both audiences (needle fatigue + never started because of needles) */}
@@ -75,7 +72,37 @@ const IMG = {
         <li>One patch a week</li>
       </ul>
       <p class="pp-by">Brought to you by <span class="pp-by-mark">My<b>4M</b>Life</span></p>
-      <img class="pp-hero-img" src={IMG.pouches} alt="Three black Push Patch pouches labeled 12 HOUR: NAD+ with GHK-Cu, BPC-157 and NAD+ with GHK-Cu, and KPV and NAD+" width="1173" height="428" loading="eager" />
+      {/* TJ CONFIRM: permission to publish Push Patch LLC AUC figures */}
+      <div class="pp-hero-row">
+        <img class="pp-hero-img" src={IMG.pouches} alt="Three black Push Patch pouches labeled 12 HOUR: NAD+ with GHK-Cu, BPC-157 and NAD+ with GHK-Cu, and KPV and NAD+" width="1173" height="428" loading="eager" />
+        <div class="pp-hero-stats" id="auc">
+          <div class="pp-stats">
+            <div class="pp-stat">
+              <strong>276%</strong>
+              <span>more NAD+ in your system than daily 50 mg injections<sup><a href="#auc">*</a></sup></span>
+            </div>
+            <div class="pp-stat">
+              <strong>163%</strong>
+              <span>more NAD+ in your system than a 500 mg weekly IV<sup><a href="#auc">*</a></sup></span>
+            </div>
+          </div>
+          <p class="pp-proof-source">*Total exposure over time (area under the curve), data from Push Patch, LLC. Delivery data only; individual results vary.</p>
+        {/* TJ CONFIRM: schematic of the delivery pattern (spike vs steady); illustrative only; measured figures are in the AUC stats above */}
+        <figure class="pp-curve">
+          <svg viewBox="0 0 600 222" role="img" aria-labelledby="pp-curve-title">
+            <title id="pp-curve-title">Illustration: an injection delivers its dose at once; the Push Patch delivers steadily over 12 hours.</title>
+            <line x1="40" y1="190" x2="580" y2="190" class="pp-axis" />
+            <line x1="40" y1="20" x2="40" y2="190" class="pp-axis" />
+            <path d="M40 188 C 70 188, 78 40, 92 36 C 110 32, 140 150, 200 176 C 260 188, 320 188, 580 188" class="pp-line-inj" />
+            <path d="M40 188 C 70 188, 80 104, 120 100 L 480 100 C 510 100, 520 186, 580 188" class="pp-line-patch" />
+            <text x="104" y="30" class="pp-lbl pp-lbl-inj">Injection</text>
+            <text x="300" y="86" class="pp-lbl pp-lbl-patch" text-anchor="middle">Push Patch: 12 hours</text>
+            <text x="578" y="214" class="pp-lbl pp-lbl-axis" text-anchor="end">Time</text>
+          </svg>
+          <figcaption>Illustration of delivery pattern; measured figures above.</figcaption>
+        </figure>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -130,35 +157,8 @@ const IMG = {
         </div>
       </div>
 
-      <h3 class="pp-h3" id="auc">Why steady beats a spike</h3>
+      <h3 class="pp-h3">Why steady beats a spike</h3>
       <p class="pp-lead">Area under the curve (AUC) is the total amount of a molecule in your system over time. Peptides like BPC-157 and KPV clear from the bloodstream quickly after an injection, often within an hour or a few hours, so most of the day is spent below the level you injected for. The Push Patch releases its blend slowly and continuously over 12 hours.</p>
-      {/* TJ CONFIRM: permission to publish Push Patch LLC AUC figures */}
-      <div class="pp-stats">
-        <div class="pp-stat">
-          <strong>276%</strong>
-          <span>more NAD+ in your system than daily 50 mg injections</span>
-        </div>
-        <div class="pp-stat">
-          <strong>163%</strong>
-          <span>more NAD+ in your system than a 500 mg weekly IV</span>
-        </div>
-      </div>
-      <p class="pp-fine">Area-under-the-curve figures provided by Push Patch, LLC. Delivery data only; individual results vary.</p>
-
-      {/* TJ CONFIRM: schematic of the delivery pattern (spike vs steady); illustrative only; measured figures are in the AUC stats above */}
-      <figure class="pp-curve">
-        <svg viewBox="0 0 600 222" role="img" aria-labelledby="pp-curve-title">
-          <title id="pp-curve-title">Illustration: an injection delivers its dose at once; the Push Patch delivers steadily over 12 hours.</title>
-          <line x1="40" y1="190" x2="580" y2="190" class="pp-axis" />
-          <line x1="40" y1="20" x2="40" y2="190" class="pp-axis" />
-          <path d="M40 188 C 70 188, 78 40, 92 36 C 110 32, 140 150, 200 176 C 260 188, 320 188, 580 188" class="pp-line-inj" />
-          <path d="M40 188 C 70 188, 80 104, 120 100 L 480 100 C 510 100, 520 186, 580 188" class="pp-line-patch" />
-          <text x="104" y="30" class="pp-lbl pp-lbl-inj">Injection</text>
-          <text x="300" y="86" class="pp-lbl pp-lbl-patch" text-anchor="middle">Push Patch: 12 hours</text>
-          <text x="578" y="214" class="pp-lbl pp-lbl-axis" text-anchor="end">Time</text>
-        </svg>
-        <figcaption>Illustration of delivery pattern. See figures above.</figcaption>
-      </figure>
     </div>
   </section>
 
@@ -415,24 +415,27 @@ const IMG = {
 
 /* Hero */
 .pp-hero { background: radial-gradient(120% 90% at 50% 0%, #15233d 0%, var(--ink) 65%); color: var(--on-ink); padding: 3.5rem 0 3rem; text-align: center; }
-.pp-kicker { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(34, 211, 238, 0.4); border-radius: 999px; padding: 0.35rem 0.9rem; margin: 0 0 1.4rem; }
 .pp-hero h1 { font-size: clamp(2.1rem, 7vw, 4rem); font-weight: 800; line-height: 1.05; margin: 0 auto 1.3rem; max-width: 20ch; color: #ffffff; text-wrap: balance; }
 .pp-hero h1 span { display: block; margin-top: 0.6rem; font-size: 0.42em; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; color: var(--accent); }
 .pp-proof { margin: 1.6rem auto 1.8rem; max-width: 60ch; }
-.pp-proof-stat { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; margin: 0 0 0.5rem; color: var(--on-ink); }
-.pp-proof-num { font-size: clamp(2.8rem, 14vw, 3.2rem); font-weight: 900; line-height: 1; letter-spacing: -0.03em; color: var(--accent); font-variant-numeric: tabular-nums; }
-.pp-proof-text { font-size: 1.1rem; font-weight: 600; line-height: 1.35; color: var(--on-ink); }
-.pp-proof-text sup { margin-left: 0.15em; }
-.pp-proof-text sup a { color: var(--accent); text-decoration: none; font-weight: 700; }
-.pp-proof-text sup a:hover { text-decoration: underline; }
-.pp-proof-source { font-size: 0.7rem; line-height: 1.4; color: var(--on-ink-muted); margin: 0 0 1rem; }
+.pp-proof-source { font-size: 0.7rem; line-height: 1.4; color: var(--on-ink-muted); margin: 0.7rem 0 0; text-align: left; }
 .pp-proof-line { font-size: 1.1rem; font-weight: 700; line-height: 1.4; color: #ffffff; margin: 0; text-wrap: balance; }
 .pp-sub { font-size: clamp(1rem, 2.2vw, 1.18rem); line-height: 1.6; color: var(--on-ink); max-width: 60ch; margin: 0 auto 2rem; }
 .pp-chips { list-style: none; padding: 0; margin: 2rem auto 1.6rem; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
 .pp-chips li { font-size: 0.78rem; font-weight: 500; padding: 0.4rem 0.85rem; border: 1px solid var(--ink-line); background: var(--ink-2); border-radius: 6px; color: var(--on-ink); }
 .pp-by { font-size: 0.78rem; color: var(--on-ink-muted); margin: 0; }
 .pp-by-mark { font-weight: 700; color: var(--on-ink); }
-.pp-hero-img { width: 100%; max-width: 860px; margin: 2rem auto 0; border-radius: 10px; border: 1px solid var(--ink-line); }
+.pp-hero-row { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin: 2.2rem auto 0; text-align: left; align-items: start; }
+.pp-hero-row > * { min-width: 0; }
+@media (min-width: 721px) { .pp-hero-row { grid-template-columns: 42% 1fr; gap: 1.6rem; } }
+.pp-hero-img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--ink-line); }
+.pp-hero-stats .pp-stats { margin-top: 0; grid-template-columns: 1fr 1fr; }
+@media (max-width: 480px) { .pp-hero-stats .pp-stats { grid-template-columns: 1fr; } }
+.pp-hero-stats .pp-stat { background: var(--ink-2); border-color: var(--ink-line); border-top-color: var(--accent); }
+.pp-hero-stats .pp-stat strong { color: var(--accent); }
+.pp-hero-stats .pp-stat span { color: var(--on-ink); }
+.pp-hero-stats .pp-stat sup a { color: var(--accent); text-decoration: none; font-weight: 700; margin-left: 0.15em; }
+.pp-hero-stats .pp-stat sup a:hover { text-decoration: underline; }
 
 /* CTA */
 .pp-cta { display: inline-block; max-width: 100%; background: var(--accent); color: #05121c; font-weight: 700; font-size: 1rem; padding: 0.95rem 2rem; border-radius: 8px; text-decoration: none; letter-spacing: 0.01em; transition: background 0.15s, transform 0.15s; }
@@ -481,7 +484,7 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-stat span { font-size: 0.92rem; line-height: 1.5; color: var(--muted); }
 .pp-trust { margin: 1.2rem 0 0; max-width: 68ch; padding: 0.9rem 1.1rem; border-left: 3px solid var(--accent); background: rgba(255,255,255,0.05); border-radius: 0 8px 8px 0; font-size: 0.92rem; line-height: 1.6; color: var(--on-ink-muted); }
 
-.pp-curve { margin: 1.6rem 0 0; padding: 1.2rem 1rem 1rem; background: var(--ink); border-radius: 10px; }
+.pp-curve { margin: 0.9rem 0 0; padding: 1rem 0.8rem 0.8rem; background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 10px; }
 .pp-curve svg { width: 100%; height: auto; display: block; }
 .pp-axis { stroke: #33425e; stroke-width: 1.5; }
 .pp-line-inj { fill: none; stroke: #8a9ab3; stroke-width: 2.5; stroke-dasharray: 6 5; }
