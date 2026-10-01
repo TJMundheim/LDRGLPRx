@@ -1,0 +1,77 @@
+---
+// Push Patch order confirmation — Stripe success_url target. Standalone (hideChrome),
+// same palette/fonts as /go/push-patch (styles duplicated minimally, scoped).
+// Fires posthog lp_patch_purchase with the sku from ?sku=. noindex.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Order received — Genesis Push Patch — My4MLife';
+const description = 'Your Push Patch order has been received.';
+const canonical = 'https://www.my4mlife.com/go/push-patch/thank-you';
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,nofollow" hideChrome={true}>
+
+<div class="pp">
+  <header class="pp-top">
+    <a class="pp-mark" href="/">My<b>4M</b>Life</a>
+  </header>
+
+  <main class="pp-ty">
+    <div class="pp-wrap">
+      <p class="pp-kicker">Genesis Push Patch</p>
+      <h1>Order received.</h1>
+      <p class="pp-sub">Your Push Patch set is being prepared. A receipt is on its way to your email.</p>
+      <p class="pp-sub">Watch your inbox for a shipping confirmation email.</p>
+    </div>
+  </main>
+
+  <footer class="pp-foot">
+    <div class="pp-wrap">
+      <p class="pp-by">Brought to you by <span class="pp-by-mark">My<b>4M</b>Life</span></p>
+      <p class="pp-tagline">Don't lose your identity and your dignity while you still have a choice.</p>
+      <p class="pp-disclaimer">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.</p>
+    </div>
+  </footer>
+</div>
+
+</BaseLayout>
+
+<script is:inline>
+(function () {
+  try {
+    var sku = new URLSearchParams(window.location.search).get('sku') || '';
+    window.posthog && posthog.capture('lp_patch_purchase', { sku: sku });
+  } catch (e) {}
+})();
+</script>
+
+<style>
+.pp {
+  --ink: #0b1220; --ink-2: #131d31; --ink-line: #26344d;
+  --on-ink: #e6edf7; --on-ink-muted: #9fb0c8; --accent: #22d3ee;
+  color-scheme: light;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--on-ink);
+  background: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+:global(body) { background: #0b1220; }
+.pp h1 { font-family: 'Inter', system-ui, sans-serif; letter-spacing: -0.02em; }
+.pp-wrap { max-width: 920px; margin: 0 auto; padding: 0 1rem; }
+@media (min-width: 640px) { .pp-wrap { padding: 0 1.5rem; } }
+.pp-top { padding: 1rem; border-bottom: 1px solid var(--ink-line); }
+@media (min-width: 640px) { .pp-top { padding: 1rem 1.5rem; } }
+.pp-mark { font-weight: 700; font-size: 1rem; color: var(--on-ink); text-decoration: none; letter-spacing: -0.01em; }
+.pp-mark b, .pp-by-mark b { color: var(--accent); font-weight: 800; }
+.pp-ty { flex: 1; background: radial-gradient(120% 90% at 50% 0%, #15233d 0%, var(--ink) 65%); text-align: center; padding: 4rem 0 3.5rem; }
+.pp-kicker { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(34, 211, 238, 0.4); border-radius: 999px; padding: 0.35rem 0.9rem; margin: 0 0 1.4rem; }
+.pp-ty h1 { font-size: clamp(2.1rem, 7vw, 3.6rem); font-weight: 800; line-height: 1.05; margin: 0 auto 1.3rem; color: #ffffff; }
+.pp-sub { font-size: clamp(1rem, 2.2vw, 1.18rem); line-height: 1.6; color: var(--on-ink); max-width: 56ch; margin: 0 auto 1rem; }
+.pp-foot { background: var(--ink); color: var(--on-ink-muted); border-top: 1px solid var(--ink-line); padding: 2.2rem 0 2.6rem; text-align: center; }
+.pp-by { font-size: 0.78rem; color: var(--on-ink-muted); margin: 0 0 1.2rem; }
+.pp-by-mark { font-weight: 700; color: var(--on-ink); }
+.pp-tagline { font-size: clamp(1.05rem, 2.6vw, 1.3rem); font-weight: 600; color: #ffffff; max-width: 34ch; margin: 0 auto 1.4rem; line-height: 1.4; text-wrap: balance; }
+.pp-disclaimer { font-size: 0.74rem; line-height: 1.6; max-width: 640px; margin: 0 auto; color: var(--on-ink-muted); }
+</style>

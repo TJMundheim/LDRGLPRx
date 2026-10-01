@@ -3,7 +3,7 @@
 // Source of record: docs/plan/push-patch-2026-09-30.md (locked 2026-09-30).
 //
 // Each blend is a 6-patch, 6-week transdermal delivery via iontophoresis.
-// Wear options: 12-hour (active) or 14-hour (sensitive skin), same price.
+// Wear: 12-hour only (TJ decision 2026-09-30).
 // ─────────────────────────────────────────────────────────────────────────────
 
 export type PushPatchBlend = {
@@ -15,11 +15,6 @@ export type PushPatchBlend = {
   hasNad: boolean;
   patches: 6;
   weeks: 6;
-};
-
-export type WearOption = {
-  id: '12h' | '14h';
-  label: string;
 };
 
 export const PUSH_PATCH_BLENDS: PushPatchBlend[] = [
@@ -92,16 +87,5 @@ export const PUSH_PATCH_BLENDS: PushPatchBlend[] = [
     hasNad: false,
     patches: 6,
     weeks: 6,
-  },
-];
-
-export const WEAR_OPTIONS: WearOption[] = [
-  {
-    id: '12h',
-    label: '12-hour (active)',
-  },
-  {
-    id: '14h',
-    label: '14-hour (sensitive skin)',
   },
 ];
