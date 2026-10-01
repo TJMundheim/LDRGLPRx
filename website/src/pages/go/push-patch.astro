@@ -41,7 +41,7 @@ const WEAR_HELP: Record<string, string> = {
 const COMPARE = [
   { row: 'Needle', inj: 'Yes, at every dose', patch: 'None' },
   { row: 'How often', inj: 'Often daily or several times a week, depending on the protocol', patch: 'One patch a week' },
-  { row: 'Delivery curve', inj: 'The full dose at once, then it tapers off', patch: 'Steady, over 12 or 14 hours' },
+  { row: 'Delivery curve', inj: 'Fast spike, then cleared, often within hours', patch: 'Steady release over 12 to 14 hours' },
   { row: 'Route', inj: 'Under the skin, through a needle', patch: 'Through the skin, moved by a small electrical charge' },
   { row: 'Setup', inj: 'Syringes, needles, a sharps container', patch: 'Prepare the pad, apply like kinesiology tape, wear' },
 ];
@@ -137,7 +137,22 @@ const IMG = {
         </div>
       </div>
 
-      {/* TJ CONFIRM: schematic of the delivery pattern (spike vs steady); illustrative only, no measured data implied */}
+      <h3 class="pp-h3">Why steady beats a spike</h3>
+      <p class="pp-lead">Area under the curve (AUC) is the total amount of a molecule in your system over time. Peptides like BPC-157 and KPV clear from the bloodstream quickly after an injection, often within an hour or a few hours, so most of the day is spent below the level you injected for. The Push Patch releases its blend slowly and continuously over 12 to 14 hours.</p>
+      {/* TJ CONFIRM: permission to publish Push Patch LLC AUC figures */}
+      <div class="pp-stats">
+        <div class="pp-stat">
+          <strong>276%</strong>
+          <span>more cellular exposure than daily 50 mg NAD+ injections</span>
+        </div>
+        <div class="pp-stat">
+          <strong>163%</strong>
+          <span>more cellular exposure than a 500 mg weekly NAD+ IV</span>
+        </div>
+      </div>
+      <p class="pp-fine">Area-under-the-curve figures provided by Push Patch, LLC. Delivery data only; individual results vary.</p>
+
+      {/* TJ CONFIRM: schematic of the delivery pattern (spike vs steady); illustrative only; measured figures are in the AUC stats above */}
       <figure class="pp-curve">
         <svg viewBox="0 0 600 222" role="img" aria-labelledby="pp-curve-title">
           <title id="pp-curve-title">Illustration: an injection delivers its dose at once; the Push Patch delivers steadily over 12 or 14 hours.</title>
@@ -149,7 +164,7 @@ const IMG = {
           <text x="300" y="86" class="pp-lbl pp-lbl-patch" text-anchor="middle">Push Patch: 12 or 14 hours</text>
           <text x="578" y="214" class="pp-lbl pp-lbl-axis" text-anchor="end">Time</text>
         </svg>
-        <figcaption>Illustration of the delivery pattern only. Not measured data.</figcaption>
+        <figcaption>Illustration of delivery pattern. See figures above.</figcaption>
       </figure>
     </div>
   </section>
@@ -259,6 +274,8 @@ const IMG = {
           <li><strong>6</strong><span>Applicator tubes, one for each patch.</span></li>
         </ul>
       </div>
+      {/* TJ CONFIRM: COA availability; MOTS-c COA not in deck */}
+      <p class="pp-trust">Every active ingredient is third-party tested. Certificates of analysis (HPLC purity and mass-spec identity) for BPC-157, NAD+, GHK-Cu, glutathione, KPV and TB-500 are available on request.</p>
       {/* TJ CONFIRM: shipper not settled (own stock first, Genesis drop-ship later); this line may need to become "Ships to the United States" only */}
       <p class="pp-fine pp-fine-dark">Ships from My4MLife.</p>
     </div>
@@ -503,6 +520,14 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-spec-k { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-deep); font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
 .pp-spec strong { font-size: 1.05rem; color: var(--text); }
 .pp-spec span:last-child { font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+
+.pp-h3 { font-size: clamp(1.15rem, 3vw, 1.5rem); font-weight: 800; line-height: 1.2; margin: 2.2rem 0 0.7rem; color: var(--text); }
+.pp-stats { display: grid; grid-template-columns: 1fr; gap: 0.8rem; margin: 1.2rem 0 0; }
+@media (min-width: 560px) { .pp-stats { grid-template-columns: 1fr 1fr; } }
+.pp-stat { display: flex; flex-direction: column; gap: 0.3rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-top: 3px solid var(--accent-deep); border-radius: 8px; background: var(--white); min-width: 0; }
+.pp-stat strong { font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; color: var(--accent-deep); font-variant-numeric: tabular-nums; }
+.pp-stat span { font-size: 0.92rem; line-height: 1.5; color: var(--muted); }
+.pp-trust { margin: 1.2rem 0 0; max-width: 68ch; padding: 0.9rem 1.1rem; border-left: 3px solid var(--accent); background: rgba(255,255,255,0.05); border-radius: 0 8px 8px 0; font-size: 0.92rem; line-height: 1.6; color: var(--on-ink-muted); }
 
 .pp-curve { margin: 1.6rem 0 0; padding: 1.2rem 1rem 1rem; background: var(--ink); border-radius: 10px; }
 .pp-curve svg { width: 100%; height: auto; display: block; }

@@ -73,7 +73,19 @@ How to read this file:
 - **Setup — Nothing to inject.** No needles, no pills, no IV chair. Applied like kinesiology tape.
 - **Frequency — Once a week.** One single-use patch a week. Six patches, six weeks.
 
-**Schematic (inline SVG, dark panel):** dashed "Injection" curve that peaks and tapers vs a solid cyan "Push Patch: 12 or 14 hours" plateau. Caption: Illustration of the delivery pattern only. Not measured data. [TJ CONFIRM: schematic only, no measured data implied]
+**Sub-section H3:** Why steady beats a spike
+
+**Body:** Area under the curve (AUC) is the total amount of a molecule in your system over time. Peptides like BPC-157 and KPV clear from the bloodstream quickly after an injection, often within an hour or a few hours, so most of the day is spent below the level you injected for. The Push Patch releases its blend slowly and continuously over 12 to 14 hours. [TJ CONFIRM: permission to publish Push Patch LLC AUC figures]
+
+**Two stat tiles (NAD+ only):**
+- **276%** more cellular exposure than daily 50 mg NAD+ injections
+- **163%** more cellular exposure than a 500 mg weekly NAD+ IV
+
+**Footnote:** Area-under-the-curve figures provided by Push Patch, LLC. Delivery data only; individual results vary.
+
+Do not quote the BPC-157, KPV or glutathione multiples from the deck: they were measured at a different patch frequency than our once-weekly set.
+
+**Schematic (inline SVG, dark panel):** dashed "Injection" curve that peaks and tapers vs a solid cyan "Push Patch: 12 or 14 hours" plateau. Caption: Illustration of delivery pattern. See figures above. [TJ CONFIRM: schematic only; measured figures are the AUC stats above]
 
 ---
 
@@ -87,7 +99,7 @@ How to read this file:
 |---|---|---|
 | Needle | Yes, at every dose | None |
 | How often | Often daily or several times a week, depending on the protocol | One patch a week |
-| Delivery curve | The full dose at once, then it tapers off | Steady, over 12 or 14 hours |
+| Delivery curve | Fast spike, then cleared, often within hours | Steady release over 12 to 14 hours |
 | Route | Under the skin, through a needle | Through the skin, moved by a small electrical charge |
 | Setup | Syringes, needles, a sharps container | Prepare the pad, apply like kinesiology tape, wear |
 
@@ -169,6 +181,8 @@ Per six-week set:
 - **6** Applicator tubes, one for each patch.
 
 [TJ CONFIRM: exact contents per set and the prep steps; is there a printed guide?]
+
+**Trust line (under the list):** Every active ingredient is third-party tested. Certificates of analysis (HPLC purity and mass-spec identity) for BPC-157, NAD+, GHK-Cu, glutathione, KPV and TB-500 are available on request. [TJ CONFIRM: COA availability; MOTS-c COA not in deck]
 
 **Under the list:** Ships from My4MLife. [TJ CONFIRM: shipper not settled (own stock first, Genesis drop-ship later); may become "Ships to the United States" only]
 
