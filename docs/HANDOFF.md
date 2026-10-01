@@ -20,6 +20,8 @@
 - **Fulfillment:** order-handler emails PUSH_PATCH_FULFILLMENT_EMAIL (now drtj@my4mlife.com; set in lambdas/order-handler/infra/deploy.sh and lambdas/stripe-events-retry/infra/deploy.sh) with blend, wear, ship-to, order id. Switch to Genesis's address when they drop-ship, then redeploy both.
 - **Chat:** BPC-157/glutamine/aloe now blocked only alongside Biome NS Rx / Gut-Brain Rx. Patch page is not in the chat corpus yet.
 - **Verified 2026-10-01:** clicking a Buy button on the live page opens Stripe with "Push Patch — Wolverine (6-week set) $650"; Glutathione session read back from Stripe = $550, correct URLs/metadata; wear 14h → 400.
+- **Marketing:** zero-dollar rollout plan written (docs/plan/push-patch-marketing-2026-10-01.md): Gate 0 checklist, ranked channels, platform-risk rules, UTM/vanity links, 14-day calendar, ready-to-post Day-1 assets, 7 yes/no decisions for TJ. Nothing posted or sent.
+- **Fulfillment roadmap (proposed to TJ, not built):** admin "mark shipped + tracking" button → buyer shipped email; later switch PUSH_PATCH_FULFILLMENT_EMAIL to Genesis (cc TJ); tracking back from Genesis; week-5 reorder email.
 - **OPEN:** TJ real-card test purchase + refund to confirm the fulfillment email; prep/application steps on the page ("Prepare the pad" is still generic); Artlist "applying at home" photo; zero-dollar marketing rollout plan (docs/plan/push-patch-marketing-2026-10-01.md).
 
 ## ⚡ 2026-09-30 — BIOME NS ULTRA "IN DEVELOPMENT" SWEEP (DEPLOYED 2026-10-01 with the Push Patch launch)
