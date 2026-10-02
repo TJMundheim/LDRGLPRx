@@ -3,6 +3,7 @@ import { DynamoDBDocumentClient, PutCommand, UpdateCommand, DeleteCommand } from
 import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
 import type { PushPatchBody } from './validate';
 import { buildRecordUpdates } from './upsert';
+import type { ShipTo, StripeShipping } from './ship';
 
 export const CONSENT_KEY = 'consent-telehealth-push-patch-v1';
 
@@ -16,7 +17,7 @@ export interface PaidSession {
   payment_intent?: string | { id: string } | null;
   metadata?: Record<string, string> | null;
   customer_details?: { email?: string | null; name?: string | null; phone?: string | null } | null;
-  shipping_details?: { name?: string | null; address?: Record<string, string | null> | null } | null;
+  shipping_details?: StripeShipping | null;
 }
 
 const isConditional = (e: unknown) => (e as { name?: string })?.name === 'ConditionalCheckFailedException';
@@ -26,7 +27,7 @@ export const encounterIdFor = (sessionId: string): string => `pp-${sessionId}`;
 
 /** Conditional put of the Encounter. Runs FIRST so a duplicate never touches the record or consent. */
 export async function createEncounter(a: {
-  contactId: string; encounterId: string; sku: string; sessionId: string; paymentIntentId: string; ts: string;
+  contactId: string; encounterId: string; sku: string; sessionId: string; paymentIntentId: string; shipTo: ShipTo; ts: string;
 }): Promise<'created' | 'duplicate'> {
   try {
     await ddb.send(new PutCommand({
@@ -34,7 +35,7 @@ export async function createEncounter(a: {
       Item: {
         contactId: a.contactId, sk: encounterSk(a.encounterId), encounterId: a.encounterId,
         lane: 'push-patch', category: 'push-patch', visitType: 'async', sku: a.sku,
-        sessionId: a.sessionId, paymentIntentId: a.paymentIntentId, state: 'sent-to-provider',
+        sessionId: a.sessionId, paymentIntentId: a.paymentIntentId, shipTo: a.shipTo, state: 'sent-to-provider',
         createdAt: a.ts, updatedAt: a.ts,
       },
       ConditionExpression: 'attribute_not_exists(sk)',
@@ -63,16 +64,16 @@ export async function deleteEncounter(contactId: string, encounterId: string): P
 
 /** Upsert the root PatientRecord without removing existing data: nested SETs only (see upsert.ts). */
 export async function upsertRecord(a: {
-  contactId: string; session: PaidSession; body: PushPatchBody; ts: string;
+  contactId: string; session: PaidSession; body: PushPatchBody; shipTo: ShipTo; ts: string;
 }): Promise<void> {
-  const { contactId, session, body, ts } = a;
+  const { contactId, session, body, shipTo, ts } = a;
   const [first = '', ...rest] = (session.customer_details?.name ?? '').trim().split(/\s+/);
   const updates = buildRecordUpdates({
     demographics: {
       firstName: first, lastName: rest.join(' '),
       email: (session.customer_details?.email ?? '').trim().toLowerCase(),
       phone: body.phone, dob: body.dob, sex: body.sex,
-      state: session.shipping_details?.address?.state,
+      state: shipTo.state,
     },
     history: { medications: body.medications, allergies: body.allergies, conditions: body.conditions },
     screening: body.screening,

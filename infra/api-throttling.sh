@@ -22,6 +22,7 @@ LIMITS=(
   "POST /api/create-checkout-session|2|5"
   "POST /api/customer-portal-session|2|5"
   "POST /api/patient-record-intake|2|5"
+  "GET /api/push-patch-intake|2|5"
   "POST /api/push-patch-intake|2|5"
   "GET /api/approve|1|3"
   "POST /api/approve|1|3"

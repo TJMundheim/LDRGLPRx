@@ -1,50 +1,29 @@
+// GET  /api/push-patch-intake?session_id= — the Stripe ship-to, for the buyer to confirm.
 // POST /api/push-patch-intake — post-purchase async visit intake.
 // Gate on a paid push-patch Stripe session -> encounter (idempotent) -> record
 // + consent -> packet -> ONE provider email with one-tap Approve/Decline.
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
-import { getStripeClient } from '@my4mlife/stripe-client';
 import { resolveContactId } from '@my4mlife/contact-id';
 import { validateBody, screeningFlags } from './validate';
+import { reply, paidSession } from './http';
+import { resolveShipTo, stripeShipTo } from './ship';
 import {
-  encounterIdFor, createEncounter, deleteEncounter, upsertRecord, type PaidSession,
+  encounterIdFor, createEncounter, deleteEncounter, upsertRecord,
 } from './record';
 import { markIntakeSubmitted } from './marker';
 import { generatePacket, sendProviderReview } from './provider-email';
 
-const ORIGINS = new Set([
-  'https://my4mlife.com', 'https://www.my4mlife.com', 'https://app.my4mlife.com',
-  'http://localhost:4321', 'http://localhost:5173',
-]);
-
-function reply(status: number, body: unknown, origin?: string): APIGatewayProxyResultV2 {
-  return {
-    statusCode: status,
-    headers: {
-      'Access-Control-Allow-Origin': origin && ORIGINS.has(origin) ? origin : 'https://my4mlife.com',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Methods': 'POST,OPTIONS',
-      Vary: 'Origin',
-      'Content-Type': 'application/json',
-    },
-    body: status === 204 ? '' : JSON.stringify(body),
-  };
-}
-
-async function paidSession(sessionId: string): Promise<{ session: PaidSession; sku: string } | null> {
-  try {
-    const stripe = await getStripeClient();
-    const session = (await stripe.checkout.sessions.retrieve(sessionId)) as unknown as PaidSession;
-    const sku = (session.metadata?.['skuIds'] ?? '').split(',')[0]?.trim() ?? '';
-    const email = session.customer_details?.email;
-    return session.payment_status === 'paid' && sku.startsWith('push-patch-') && email ? { session, sku } : null;
-  } catch {
-    return null;
-  }
-}
-
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
   const origin = event.headers?.['origin'] ?? event.headers?.['Origin'];
   if (event.requestContext?.http?.method === 'OPTIONS') return reply(204, {}, origin);
+  if (event.requestContext?.http?.method === 'GET') {
+    const id = event.queryStringParameters?.['session_id'];
+    if (!id) return reply(400, { error: 'session_id required' }, origin);
+    const p = await paidSession(id);
+    if (!p) return reply(402, { error: 'payment not found for this session' }, origin);
+    const shipTo = stripeShipTo(p.session.shipping_details);
+    return shipTo ? reply(200, { shipTo }, origin) : reply(404, { error: 'no shipping address on this order' }, origin);
+  }
   if (!event.body) return reply(400, { error: 'missing body' }, origin);
 
   let raw: unknown;
@@ -56,6 +35,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const paid = await paidSession(body.sessionId);
   if (!paid) return reply(402, { error: 'payment not found for this session' }, origin);
   const { session, sku } = paid;
+  const shipTo = resolveShipTo(body.shipping, session.shipping_details);
+  if (!shipTo) return reply(400, { error: 'shipping address required' }, origin);
 
   // Same resolution as order-handler-core (metadata.contactId first) so the pending marker key matches.
   const contactId = resolveContactId({ metadataContactId: session.metadata?.['contactId'], email: session.customer_details?.email })!;
@@ -66,11 +47,11 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   let created = false;
   try {
-    if ((await createEncounter({ contactId, encounterId, sku, sessionId: session.id, paymentIntentId, ts })) === 'duplicate') {
+    if ((await createEncounter({ contactId, encounterId, sku, sessionId: session.id, paymentIntentId, shipTo, ts })) === 'duplicate') {
       return reply(200, { ok: true, alreadySubmitted: true, encounterId }, origin);
     }
     created = true;
-    await upsertRecord({ contactId, session, body, ts });
+    await upsertRecord({ contactId, session, body, shipTo, ts });
   } catch (e) {
     console.error('[push-patch-intake] record write failed', { sessionId: session.id, error: String(e) });
     if (created) await deleteEncounter(contactId, encounterId);

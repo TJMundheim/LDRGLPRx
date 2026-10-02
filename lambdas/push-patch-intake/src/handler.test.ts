@@ -71,10 +71,14 @@ const VALID_BODY = {
   conditions: ['hypothyroidism'],
   screening: { seizures: false, pacemaker: false, metalImplantNearSite: false, pregnant: false, woundAtSite: false },
   consentName: CONSENT_NAME,
+  shipping: { confirmed: true },
 };
 
+const STRIPE_SHIP_TO = { name: 'Jane Doe', line1: '1 Main St', line2: '', city: 'Austin', state: 'TX', postalCode: '78701' };
+const CORRECTED = { name: 'Jane Doe', line1: '9 Oak Ave', line2: 'Apt 4', city: 'Denver', state: 'co', postalCode: '80202-1234' };
+
 const REQUIRED_FIELDS = [
-  'sessionId', 'dob', 'sex', 'phone', 'medications', 'allergies', 'conditions', 'screening', 'consentName',
+  'sessionId', 'dob', 'sex', 'phone', 'medications', 'allergies', 'conditions', 'screening', 'consentName', 'shipping',
 ];
 const SCREENING_FIELDS = ['seizures', 'pacemaker', 'metalImplantNearSite', 'pregnant', 'woundAtSite'];
 
@@ -212,6 +216,80 @@ describe('400 validation', () => {
   });
 });
 
+// ── Shipping: GET + POST shipping object ───────────────────────────────────────
+
+const getEvt = (qs: Record<string, string> | undefined = { session_id: SESSION_ID }, origin?: string) =>
+  ({ headers: origin ? { origin } : {}, queryStringParameters: qs, requestContext: { http: { method: 'GET' } } }) as any;
+
+describe('GET ship-to', () => {
+  it('returns ONLY { shipTo } from the paid session shipping details, with CORS for GET', async () => {
+    const res: any = await handler(getEvt(undefined, 'https://my4mlife.com'));
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body)).toEqual({ shipTo: STRIPE_SHIP_TO });
+    expect(res.headers['Access-Control-Allow-Methods']).toContain('GET');
+    expect(sessionRetrieveMock.mock.calls[0][0]).toBe(SESSION_ID);
+    nothingHappened();
+  });
+
+  it('returns 402 when unpaid or not a push-patch session', async () => {
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, payment_status: 'unpaid' });
+    expect(((await handler(getEvt())) as any).statusCode).toBe(402);
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, metadata: { skuIds: 'biome-ns-ultra' } });
+    expect(((await handler(getEvt())) as any).statusCode).toBe(402);
+    nothingHappened();
+  });
+
+  it('returns 400 without session_id and 404 when Stripe holds no shipping address', async () => {
+    expect(((await handler(getEvt({}))) as any).statusCode).toBe(400);
+    expect(sessionRetrieveMock).not.toHaveBeenCalled();
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, shipping_details: null });
+    expect(((await handler(getEvt())) as any).statusCode).toBe(404);
+  });
+});
+
+describe('POST shipping', () => {
+  it('confirmed:true stores the Stripe address on the encounter as shipTo', async () => {
+    await handler(evt(VALID_BODY));
+    expect(encounterWrite().Item.shipTo).toEqual(STRIPE_SHIP_TO);
+  });
+
+  it('a corrected address overrides the Stripe one (normalized state/zip)', async () => {
+    const res: any = await handler(evt({ ...VALID_BODY, shipping: { confirmed: false, address: CORRECTED } }));
+    expect(res.statusCode).toBe(200);
+    expect(encounterWrite().Item.shipTo).toEqual({ ...CORRECTED, state: 'CO', postalCode: '80202-1234' });
+  });
+
+  it('confirmed:true with no Stripe shipping address is a 400 before any write', async () => {
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, shipping_details: null });
+    expect(((await handler(evt(VALID_BODY))) as any).statusCode).toBe(400);
+    nothingHappened();
+  });
+
+  const bad: [string, unknown][] = [
+    ['shipping not an object', 'yes'],
+    ['confirmed missing', {}],
+    ['confirmed:false without address', { confirmed: false }],
+    ['blank line1', { confirmed: false, address: { ...CORRECTED, line1: ' ' } }],
+    ['blank city', { confirmed: false, address: { ...CORRECTED, city: '' } }],
+    ['blank name', { confirmed: false, address: { ...CORRECTED, name: '' } }],
+    ['3-letter state', { confirmed: false, address: { ...CORRECTED, state: 'TEX' } }],
+    ['unknown state', { confirmed: false, address: { ...CORRECTED, state: 'ZZ' } }],
+    ['4-digit zip', { confirmed: false, address: { ...CORRECTED, postalCode: '8020' } }],
+    ['alpha zip', { confirmed: false, address: { ...CORRECTED, postalCode: 'K1A 0B1' } }],
+  ];
+  it.each(bad)('returns 400 for %s, before Stripe or any write', async (_n, shipping) => {
+    const res: any = await handler(evt({ ...VALID_BODY, shipping }));
+    expect(res.statusCode).toBe(400);
+    expect(sessionRetrieveMock).not.toHaveBeenCalled();
+    nothingHappened();
+  });
+
+  it('accepts a 9-digit zip without a hyphen and normalizes it', async () => {
+    await handler(evt({ ...VALID_BODY, shipping: { confirmed: false, address: { ...CORRECTED, line2: undefined, postalCode: '802021234' } } }));
+    expect(encounterWrite().Item.shipTo).toMatchObject({ postalCode: '80202-1234', line2: '' });
+  });
+});
+
 // ── 402: payment gate ──────────────────────────────────────────────────────────
 
 describe('402 payment gate', () => {
@@ -283,10 +361,9 @@ describe('success: PatientRecord and Encounter', () => {
     });
   });
 
-  it('omits demographics.state when the Stripe session has no shipping state', async () => {
-    sessionRetrieveMock.mockResolvedValue({ ...SESSION, shipping_details: null });
-    await handler(evt(VALID_BODY));
-    expect(nestedSets(recordWrite())).not.toHaveProperty('demographics.state');
+  it('demographics.state follows the final ship-to (corrected address wins)', async () => {
+    await handler(evt({ ...VALID_BODY, shipping: { confirmed: false, address: CORRECTED } }));
+    expect(nestedSets(recordWrite())['demographics.state']).toBe('CO');
   });
 
   it('writes history (medications, allergies, conditions) and screeningAnswers', async () => {

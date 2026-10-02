@@ -1,3 +1,5 @@
+import { parseShipping, type Shipping } from './ship';
+
 export interface PushPatchBody {
   sessionId: string;
   dob: string; // YYYY-MM-DD
@@ -14,6 +16,7 @@ export interface PushPatchBody {
     woundAtSite: boolean;
   };
   consentName: string;
+  shipping: Shipping;
 }
 
 export type ValidationResult = { ok: true; body: PushPatchBody } | { ok: false; error: string };
@@ -60,8 +63,10 @@ export function validateBody(raw: unknown): ValidationResult {
   }
   const consentName = str(r.consentName);
   if (!consentName) return { ok: false, error: 'consentName required' };
+  const shipping = parseShipping(r.shipping);
+  if (!shipping) return { ok: false, error: 'shipping must be confirmed or a valid US address' };
   const screening = Object.fromEntries(SCREENING_KEYS.map((k) => [k, s[k] as boolean])) as PushPatchBody['screening'];
-  return { ok: true, body: { sessionId, dob, sex, phone, medications, allergies, conditions, screening, consentName } };
+  return { ok: true, body: { sessionId, dob, sex, phone, medications, allergies, conditions, screening, consentName, shipping } };
 }
 
 /** Names of screening questions answered "yes" (true). Empty array = no flag. */

@@ -11,6 +11,17 @@ const description = 'Your Push Patch order has been received.';
 const canonical = 'https://www.my4mlife.com/go/push-patch/thank-you';
 const API_BASE = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
 
+const US_STATES: [string, string][] = [
+  ['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],['CO','Colorado'],['CT','Connecticut'],
+  ['DE','Delaware'],['DC','District of Columbia'],['FL','Florida'],['GA','Georgia'],['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],
+  ['IN','Indiana'],['IA','Iowa'],['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],['MD','Maryland'],
+  ['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],['MO','Missouri'],['MT','Montana'],
+  ['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],['NJ','New Jersey'],['NM','New Mexico'],['NY','New York'],
+  ['NC','North Carolina'],['ND','North Dakota'],['OH','Ohio'],['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],
+  ['RI','Rhode Island'],['SC','South Carolina'],['SD','South Dakota'],['TN','Tennessee'],['TX','Texas'],['UT','Utah'],
+  ['VT','Vermont'],['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming'],
+];
+
 const QUESTIONS = [
   { name: 'seizures', text: 'Have you ever had epilepsy or seizures?' },
   { name: 'pacemaker', text: 'Do you have a pacemaker?' },
@@ -41,6 +52,7 @@ const QUESTIONS = [
         <h2 class="pp-h2">Submitted.</h2>
         <p class="pp-sub" id="ty-success-body">A licensed physician in our network will review it within an hour during business hours (9 a.m.–5 p.m. Central). Your welcome email follows. If you are not cleared, your refund is automatic.</p>
         <p class="pp-sub pp-small" id="ty-already" hidden>We already have your answers for this order. Your welcome email follows once the review is done.</p>
+        <p class="pp-sub pp-small">If cleared, your patches are prepared within 1–3 business days, then ground delivery in 3–5 business days.</p>
         <p class="pp-sub pp-small">Check your inbox, and your spam folder, for a message from My4MLife.</p>
         <p class="pp-sub pp-small" id="ty-afterhours" hidden>Submitted outside 9 a.m.–5 p.m. Central? You'll hear from us within the first hour of the next business day.</p>
       </section>
@@ -117,9 +129,59 @@ const QUESTIONS = [
           ))}
           {/* TJ CONFIRM: pregnancy question asked of everyone, with the "does not apply" clause */}
 
+          <h3 class="pp-h3">Shipping</h3>
+          <fieldset class="pp-ship" id="ty-ship" aria-describedby="e-ship">
+            <legend class="pp-ship-legend" id="ship-legend">Where should we ship your patches?</legend>
+            <div id="ship-confirm" hidden>
+              <p class="pp-ship-lead">Your patches will ship to:</p>
+              <address class="pp-addr" id="ship-addr"></address>
+              <label class="pp-radio"><input type="radio" name="shipChoice" value="yes" checked /> <span>Yes, ship here</span></label>
+              <label class="pp-radio"><input type="radio" name="shipChoice" value="other" /> <span>Ship somewhere else</span></label>
+            </div>
+            <div id="ship-fields" hidden>
+              <div class="pp-field">
+                <label for="s-name">Full name</label>
+                <input type="text" id="s-name" autocomplete="shipping name" aria-describedby="e-s-name" />
+                <p class="pp-err" id="e-s-name" role="alert"></p>
+              </div>
+              <div class="pp-field">
+                <label for="s-line1">Street address</label>
+                <input type="text" id="s-line1" autocomplete="shipping address-line1" aria-describedby="e-s-line1" />
+                <p class="pp-err" id="e-s-line1" role="alert"></p>
+              </div>
+              <div class="pp-field">
+                <label for="s-line2">Apt, suite, unit (optional)</label>
+                <input type="text" id="s-line2" autocomplete="shipping address-line2" />
+              </div>
+              <div class="pp-field">
+                <label for="s-city">City</label>
+                <input type="text" id="s-city" autocomplete="shipping address-level2" aria-describedby="e-s-city" />
+                <p class="pp-err" id="e-s-city" role="alert"></p>
+              </div>
+              <div class="pp-row">
+                <div class="pp-field">
+                  <label for="s-state">State</label>
+                  <select id="s-state" autocomplete="shipping address-level1" aria-describedby="e-s-state">
+                    <option value="">Select</option>
+                    {US_STATES.map(([code, name]) => <option value={code}>{name}</option>)}
+                  </select>
+                  <p class="pp-err" id="e-s-state" role="alert"></p>
+                </div>
+                <div class="pp-field">
+                  <label for="s-zip">ZIP code</label>
+                  <input type="text" id="s-zip" autocomplete="shipping postal-code" inputmode="numeric" aria-describedby="e-s-zip" />
+                  <p class="pp-err" id="e-s-zip" role="alert"></p>
+                </div>
+              </div>
+              <p class="pp-help">United States addresses only.</p>
+            </div>
+            <p class="pp-help">Prepared within 1–3 business days, then ground delivery in 3–5 business days.</p>
+            <p class="pp-err" id="e-ship" role="alert"></p>
+          </fieldset>
+
           <h3 class="pp-h3">Telehealth consent</h3>
           <div class="pp-consent" tabindex="0" role="region" aria-label="Telehealth consent text">
-            <p>By signing below, I consent to an asynchronous telehealth review of my order. This means a licensed physician in our network will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared, my payment is refunded in full automatically. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I am of legal adult age and a resident of the United States.</p>
+            <p>By signing below, I consent to an asynchronous telehealth review of my order. This means a licensed physician in our network will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared, my payment is refunded in full automatically. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I authorize My4MLife and our network's licensed physicians to share my name, shipping address and phone number with our pharmacy partner to fill and ship my order. I am of legal adult age and a resident of the United States.</p>
           </div>
           {/* TJ CONFIRM: legal wording of consent paragraph */}
           <p class="pp-help">Read the full <a href="/consent" target="_blank" rel="noopener">Medical &amp; Telehealth Consent</a> and the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
@@ -192,6 +254,37 @@ const QUESTIONS = [
   var today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
   dob.max = today.toISOString().slice(0, 10);
 
+  // Ship-to: GET the Stripe address; on failure fall back to empty fields.
+  var shipOk = false;
+  function shipMode() {
+    if (!shipOk) return 'ask';
+    return form.querySelector('input[name="shipChoice"]:checked').value === 'other' ? 'other' : 'confirm';
+  }
+  function syncShip() {
+    var m = shipMode();
+    $('ship-fields').hidden = m === 'confirm';
+    $('ship-confirm').hidden = !shipOk;
+    $('ship-legend').textContent = shipOk ? 'Shipping address' : 'Where should we ship your patches?';
+  }
+  function showAddr(a) {
+    var box = $('ship-addr'); box.textContent = '';
+    [a.name, a.line1, a.line2, a.city + ', ' + a.state + ' ' + a.postalCode].forEach(function (t, i) {
+      if (!t) return;
+      if (i) box.appendChild(document.createElement('br'));
+      box.appendChild(document.createTextNode(t));
+    });
+  }
+  Array.prototype.forEach.call(form.querySelectorAll('input[name="shipChoice"]'), function (r) { r.addEventListener('change', syncShip); });
+  syncShip();
+  fetch(API_BASE + '/api/push-patch-intake?session_id=' + encodeURIComponent(sessionId)).then(function (res) {
+    if (res.status !== 200) throw new Error('no address');
+    return res.json();
+  }).then(function (d) {
+    var a = d && d.shipTo;
+    if (!a || !a.line1 || !a.city || !a.state || !a.postalCode) throw new Error('no address');
+    shipOk = true; showAddr(a); $('s-name').value = a.name || ''; syncShip();
+  }).catch(function () { shipOk = false; syncShip(); });
+
   var QS = ['seizures', 'pacemaker', 'metalImplantNearSite', 'pregnant', 'woundAtSite'];
 
   function setErr(id, msg) { var el = $(id); if (el) el.textContent = msg || ''; }
@@ -201,7 +294,7 @@ const QUESTIONS = [
   function validate() {
     var ok = true, first = null;
     function bad(id, msg, focusEl) { setErr(id, msg); ok = false; if (!first) first = focusEl; }
-    ['dob','sex','phone','medications','allergies','conditions','consent'].concat(QS).forEach(function (k) { setErr('e-' + k, ''); });
+    ['dob','sex','phone','medications','allergies','conditions','consent','s-name','s-line1','s-city','s-state','s-zip','ship'].concat(QS).forEach(function (k) { setErr('e-' + k, ''); });
     setErr('e-form', '');
 
     var d = dob.value;
@@ -222,6 +315,13 @@ const QUESTIONS = [
     QS.forEach(function (q) {
       if (!form.querySelector('input[name="' + q + '"]:checked')) bad('e-' + q, 'This field is required.', form.querySelector('input[name="' + q + '"]'));
     });
+    if (shipMode() !== 'confirm') {
+      [['name','s-name'],['line1','s-line1'],['city','s-city']].forEach(function (k) {
+        if (!$(k[1]).value.trim()) bad('e-' + k[1], 'This field is required.', $(k[1]));
+      });
+      if (!$('s-state').value) bad('e-s-state', 'Select a state.', $('s-state'));
+      if (!/^\d{5}(-?\d{4})?$/.test($('s-zip').value.trim())) bad('e-s-zip', 'Enter a 5-digit ZIP code.', $('s-zip'));
+    }
     if (!$('f-consent').value.trim()) bad('e-consent', 'Type your full legal name to continue.', $('f-consent'));
     if (first && first.focus) first.focus();
     return ok;
@@ -242,7 +342,11 @@ const QUESTIONS = [
       allergies: lines($('f-allergies').value),
       conditions: lines($('f-conditions').value),
       screening: screening,
-      consentName: $('f-consent').value.trim()
+      consentName: $('f-consent').value.trim(),
+      shipping: shipMode() === 'confirm' ? { confirmed: true } : { confirmed: false, address: {
+        name: $('s-name').value.trim(), line1: $('s-line1').value.trim(), line2: $('s-line2').value.trim(),
+        city: $('s-city').value.trim(), state: $('s-state').value, postalCode: $('s-zip').value.trim()
+      } }
     };
     btn.disabled = true; btn.textContent = 'Sending...';
     setErr('e-form', '');
@@ -255,7 +359,7 @@ const QUESTIONS = [
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (res.status === 200 && data && data.alreadySubmitted) { cap('lp_patch_intake_submitted', { sku: sku, alreadySubmitted: true }); showSuccess(true); return; }
         if (res.status === 200) { cap('lp_patch_intake_submitted', { sku: sku }); showSuccess(false); return; }
-        if (res.status === 400) return fail('Please complete every field and answer every question.');
+        if (res.status === 400) return fail('Please complete every field, including a valid shipping address, and answer every question.');
         if (res.status === 402) return fail('We could not match this page to a paid order. Check the link in your receipt email, or write to support@my4mlife.com.');
         fail('Something went wrong sending your answers. Your payment is safe. Please try again, or write to support@my4mlife.com.');
       });
@@ -327,6 +431,12 @@ const QUESTIONS = [
 .pp-radios legend { font-size: 0.95rem; color: #fff; padding: 0; margin: 0 0 0.5rem; line-height: 1.4; }
 .pp-radio { display: inline-flex; align-items: center; gap: 0.5rem; margin-right: 1.5rem; min-height: 44px; cursor: pointer; }
 .pp-radio input { width: 1.2rem; height: 1.2rem; accent-color: var(--accent); }
+.pp-ship { border: 0; padding: 0; margin: 0 0 1rem; min-width: 0; }
+.pp-ship-legend { font-size: 0.95rem; font-weight: 600; color: #fff; padding: 0; margin: 0 0 0.6rem; }
+.pp-ship-lead { font-size: 0.95rem; color: var(--on-ink); margin: 0 0 0.5rem; }
+.pp-addr { font-style: normal; font-size: 1rem; line-height: 1.5; color: #fff; background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 8px; padding: 0.7rem 0.9rem; margin: 0 0 0.75rem; overflow-wrap: anywhere; }
+.pp-row { display: grid; grid-template-columns: 1fr; gap: 0 1rem; }
+@media (min-width: 480px) { .pp-row { grid-template-columns: 1fr 1fr; } }
 .pp-consent { max-height: 12rem; overflow-y: auto; background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--on-ink); margin: 0.5rem 0; }
 .pp-consent p { margin: 0; }
 .pp-cta { display: block; width: 100%; box-sizing: border-box; margin-top: 1.25rem; font: inherit; font-size: 1.05rem; font-weight: 700; color: #04222a; background: var(--accent); border: 0; border-radius: 10px; padding: 0.95rem 1rem; cursor: pointer; }

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # deploy.sh — build, provision IAM role + HMAC key (if missing), create/update the
-# push-patch-intake Lambda, wire POST + OPTIONS /api/push-patch-intake.
+# push-patch-intake Lambda, wire GET + POST + OPTIONS /api/push-patch-intake.
 # Idempotent. Run from any directory. Throttle lives in infra/api-throttling.sh.
 set -euo pipefail
 
@@ -152,7 +152,7 @@ fi
 rm -f "$ENV_FILE"
 $AWS lambda wait function-active --function-name "$FUNCTION_NAME"
 
-# ── 5. HTTP API routes: POST + OPTIONS (CORS preflight; the handler sets the
+# ── 5. HTTP API routes: GET (ship-to) + POST + OPTIONS (CORS preflight; the handler sets the
 #       my4mlife.com origin allow-list headers itself) ─────────────────────────
 LAMBDA_ARN="arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$FUNCTION_NAME"
 
@@ -165,7 +165,7 @@ $AWS lambda add-permission \
   2>/dev/null || true
 
 INTEGRATION_ID=""
-for METHOD in POST OPTIONS; do
+for METHOD in GET POST OPTIONS; do
   ROUTE_KEY="$METHOD $ROUTE_PATH"
   EXISTING_ROUTE=$($AWS apigatewayv2 get-routes --api-id "$API_ID" \
     --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId | [0]" --output text)

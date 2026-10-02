@@ -172,7 +172,7 @@ The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverin
 
 **Under the grid:** Secure checkout by Stripe. Apple Pay, Google Pay and cards accepted. Not cleared? Full refund. Final once shipped.
 
-**Process line (under the grid, small print):** After checkout: a 2-minute health questionnaire, physician review within an hour during business hours, then your kit ships direct.
+**Process line (under the grid, small print):** After checkout: a 2-minute health questionnaire, physician review within an hour during business hours, then your kit ships direct. Prepared within 1–3 business days, then ground delivery in 3–5 business days.
 
 **Small line:** All six-patch sets are one-time purchases, not subscriptions. [TJ CONFIRM: one-time, no auto-ship]
 
@@ -197,11 +197,11 @@ Per six-week set:
 
 **Trust line (under the list):** Every active ingredient is third-party tested. Certificates of analysis (HPLC purity and mass-spec identity) for BPC-157, NAD+, GHK-Cu, glutathione, KPV, TB-500 and MOTS-c are available on request. (Genesis publishes all seven CoAs; research doc section 3.)
 
-No shipping details anywhere on the page (TJ 2026-09-30).
+Shipping details: allowed as of TJ 2026-10-02. The only shipping line is: "Prepared within 1–3 business days, then ground delivery in 3–5 business days." (under-grid process line and FAQ 9).
 
 ---
 
-## 9. FAQ — "Before you order" (9 items)
+## 9. FAQ — "Before you order" (10 items)
 
 1. **Is there a needle anywhere in the process?** No. The Push Patch is needle-free. There are no syringes and no injection at any step. You mix the blend, wet the pad, apply the patch like a strip of kinesiology tape, and wear it.
 2. **Does it hurt, and what about sensitive skin?** Iontophoresis uses a small electrical charge and is described as pain-free. Most people describe the feeling as a light tingle or nothing at all. Do not apply a patch to broken or irritated skin. [TJ CONFIRM: "light tingle" is an assumption; skin-contact warning wording from Genesis]
@@ -211,7 +211,8 @@ No shipping details anywhere on the page (TJ 2026-09-30).
 6. **What is actually in my blend?** The formula on each blend card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+; the Glutathione blend does not.
 7. **Who should not use the Push Patch?** Do not use it if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site.
 8. **What is your refund policy?** Not cleared? Full refund. Final once shipped.
-9. **I have a question before I order. Who do I ask?** Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear. [TJ CONFIRM: /consult vs a plain email address for pre-purchase questions]
+9. **How long does shipping take?** Prepared within 1–3 business days, then ground delivery in 3–5 business days. At checkout you enter your shipping address, and you confirm it again after payment before anything ships.
+10. **I have a question before I order. Who do I ask?** Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear. [TJ CONFIRM: /consult vs a plain email address for pre-purchase questions]
 
 ---
 
