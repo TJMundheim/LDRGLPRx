@@ -3,6 +3,7 @@ import { DynamoDBDocumentClient, PutCommand, UpdateCommand, DeleteCommand } from
 import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
 import type { PushPatchBody } from './validate';
 import { buildRecordUpdates } from './upsert';
+import type { StoredScreening } from './screening';
 import type { ShipTo, StripeShipping } from './ship';
 
 export const CONSENT_KEY = 'consent-telehealth-push-patch-v1';
@@ -64,9 +65,9 @@ export async function deleteEncounter(contactId: string, encounterId: string): P
 
 /** Upsert the root PatientRecord without removing existing data: nested SETs only (see upsert.ts). */
 export async function upsertRecord(a: {
-  contactId: string; session: PaidSession; body: PushPatchBody; shipTo: ShipTo; ts: string;
+  contactId: string; session: PaidSession; body: PushPatchBody; shipTo: ShipTo; screening: StoredScreening; ts: string;
 }): Promise<void> {
-  const { contactId, session, body, shipTo, ts } = a;
+  const { contactId, session, body, shipTo, screening, ts } = a;
   const [first = '', ...rest] = (session.customer_details?.name ?? '').trim().split(/\s+/);
   const updates = buildRecordUpdates({
     demographics: {
@@ -76,7 +77,7 @@ export async function upsertRecord(a: {
       state: shipTo.state,
     },
     history: { medications: body.medications, allergies: body.allergies, conditions: body.conditions },
-    screening: body.screening,
+    screening,
     consentKey: CONSENT_KEY,
     consent: { version: CONSENT_KEY, agreed: true, name: body.consentName, at: ts },
     ts,

@@ -1,4 +1,4 @@
-import type { PushPatchBody } from './validate';
+import type { StoredScreening } from './screening';
 
 type Fields = Record<string, unknown>;
 type Input = {
@@ -18,7 +18,7 @@ const present = (v: unknown) => v !== undefined && v !== null && v !== '';
  * lanes' screening answers) is ever removed.
  */
 export function buildRecordUpdates(a: {
-  demographics: Fields; history: Fields; screening: PushPatchBody['screening']; consentKey: string; consent: Fields; ts: string;
+  demographics: Fields; history: Fields; screening: StoredScreening; consentKey: string; consent: Fields; ts: string;
 }): [Input, Input] {
   const ensure: Input = {
     UpdateExpression: 'SET demographics = if_not_exists(demographics, :e), history = if_not_exists(history, :e), '

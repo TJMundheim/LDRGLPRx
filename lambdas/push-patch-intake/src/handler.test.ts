@@ -53,7 +53,11 @@ const SESSION = {
   payment_status: 'paid',
   payment_intent: 'pi_123',
   amount_total: 14900,
-  metadata: { skuIds: SKU, wear: '12h' },
+  metadata: {
+    skuIds: SKU, wear: '12h',
+    screen_v: 'pp-screen-v1', screen_at: '2026-10-02T12:00:00.000Z', screen_denied: '',
+    screen_placement: 'metalImplant:no,woundOrScar:no', screen_area: 'yes',
+  },
   customer_details: { email: 'Jane@Example.com', name: 'Jane Doe', phone: '+15559990000' },
   shipping_details: {
     name: 'Jane Doe',
@@ -69,7 +73,6 @@ const VALID_BODY = {
   medications: ['metformin'],
   allergies: [],
   conditions: ['hypothyroidism'],
-  screening: { seizures: false, pacemaker: false, metalImplantNearSite: false, pregnant: false, woundAtSite: false },
   consentName: CONSENT_NAME,
   shipping: { confirmed: true },
 };
@@ -78,9 +81,13 @@ const STRIPE_SHIP_TO = { name: 'Jane Doe', line1: '1 Main St', line2: '', city: 
 const CORRECTED = { name: 'Jane Doe', line1: '9 Oak Ave', line2: 'Apt 4', city: 'Denver', state: 'co', postalCode: '80202-1234' };
 
 const REQUIRED_FIELDS = [
-  'sessionId', 'dob', 'sex', 'phone', 'medications', 'allergies', 'conditions', 'screening', 'consentName', 'shipping',
+  'sessionId', 'dob', 'sex', 'phone', 'medications', 'allergies', 'conditions', 'consentName', 'shipping',
 ];
-const SCREENING_FIELDS = ['seizures', 'pacemaker', 'metalImplantNearSite', 'pregnant', 'woundAtSite'];
+const SCREEN_RECORD = {
+  version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: [],
+  placement: { metalImplant: false, woundOrScar: false }, suitableArea: true,
+};
+const withScreen = (meta: Record<string, string>) => ({ ...SESSION, metadata: { ...SESSION.metadata, ...meta } });
 
 function evt(body: unknown, method = 'POST', origin?: string) {
   return {
@@ -186,20 +193,6 @@ describe('400 validation', () => {
     expect(res.statusCode).toBe(400);
     expect(JSON.parse(res.body).error).toEqual(expect.any(String));
     expect(sessionRetrieveMock).not.toHaveBeenCalled();
-    nothingHappened();
-  });
-
-  it.each(SCREENING_FIELDS)('returns 400 when screening.%s is missing', async (field) => {
-    const screening: any = { ...VALID_BODY.screening };
-    delete screening[field];
-    const res: any = await handler(evt({ ...VALID_BODY, screening }));
-    expect(res.statusCode).toBe(400);
-    nothingHappened();
-  });
-
-  it('returns 400 when a screening answer is not a boolean', async () => {
-    const res: any = await handler(evt({ ...VALID_BODY, screening: { ...VALID_BODY.screening, seizures: 'no' } }));
-    expect(res.statusCode).toBe(400);
     nothingHappened();
   });
 
@@ -370,7 +363,7 @@ describe('success: PatientRecord and Encounter', () => {
     await handler(evt(VALID_BODY));
     expect(nestedSets(recordWrite())).toMatchObject({
       'history.medications': ['metformin'], 'history.allergies': [], 'history.conditions': ['hypothyroidism'],
-      'screeningAnswers.pushPatch': VALID_BODY.screening,
+      'screeningAnswers.pushPatch': SCREEN_RECORD,
     });
   });
 
@@ -420,7 +413,7 @@ describe('success: PatientRecord and Encounter', () => {
     await handler(evt(VALID_BODY));
     expect(existing.demographics).toMatchObject({ heightIn: 70, zip: '78701', firstName: 'Jane', state: 'TX' });
     expect(existing.history).toMatchObject({ weightLb: 200, heightIn: 70, priorMeds: ['x'], medications: ['metformin'] });
-    expect(existing.screeningAnswers).toEqual({ whyNow: 'energy', pushPatch: VALID_BODY.screening });
+    expect(existing.screeningAnswers).toEqual({ whyNow: 'energy', pushPatch: SCREEN_RECORD });
     expect(existing.consents['consent-protege-v1']).toEqual({ agreed: true });
     expect(existing.consents['consent-telehealth-push-patch-v1']).toMatchObject({ agreed: true });
   });
@@ -665,32 +658,71 @@ describe('second submit for the same session', () => {
   });
 });
 
-// ── Screening flag ─────────────────────────────────────────────────────────────
+// ── Pre-payment safety screen ──────────────────────────────────────────────────
 
-describe('screening flag in the provider email', () => {
-  it('subject has no "[Screening flag]" when every answer is no', async () => {
-    await handler(evt(VALID_BODY));
-    expect(payloadOf(emailCalls()[0]).subject).not.toContain('[Screening flag]');
+describe('pre-payment safety screen (from Stripe session metadata)', () => {
+  const run = async (meta: Record<string, string> | null, body: any = VALID_BODY) => {
+    if (meta) sessionRetrieveMock.mockResolvedValue(withScreen(meta));
+    return handler(evt(body));
+  };
+
+  it('stores screeningAnswers.pushPatch parsed from metadata', async () => {
+    await run({ screen_denied: 'seizures,pacemaker', screen_placement: 'metalImplant:yes,woundOrScar:no', screen_area: 'yes' });
+    expect(nestedSets(recordWrite())['screeningAnswers.pushPatch']).toEqual({
+      version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: ['seizures', 'pacemaker'],
+      placement: { metalImplant: true, woundOrScar: false }, suitableArea: true,
+    });
   });
 
-  it.each(SCREENING_FIELDS)('subject contains "[Screening flag]" and HTML names %s when it is yes', async (field) => {
-    const screening = { ...VALID_BODY.screening, [field]: true };
-    await handler(evt({ ...VALID_BODY, screening }));
-    expect(emailCalls()).toHaveLength(1);
+  it('ignores a screening object in the POST body', async () => {
+    const res: any = await run(null, { ...VALID_BODY, screening: { seizures: true } });
+    expect(res.statusCode).toBe(200);
+    expect(nestedSets(recordWrite())['screeningAnswers.pushPatch']).toEqual(SCREEN_RECORD);
+  });
+
+  it('subject has no "[Placement note]" when no placement answer is yes', async () => {
+    await run(null);
     const p = payloadOf(emailCalls()[0]);
-    expect(p.subject).toContain('[Screening flag]');
-    expect(p.html).toContain(field);
+    expect(p.subject).not.toContain('[Placement note]');
+    expect(p.subject).not.toContain('[No pre-payment screening]');
+    expect(p.subject).toContain('J. Doe');
   });
 
-  it('a flagged submit still goes to the provider (physician decides) and returns 200', async () => {
-    const res: any = await handler(evt({ ...VALID_BODY, screening: { ...VALID_BODY.screening, pacemaker: true } }));
+  it('email block lists denied knockouts with version and date', async () => {
+    await run({ screen_denied: 'seizures,pacemaker,pregnant' });
+    const p = payloadOf(emailCalls()[0]);
+    const want = 'Patient denied: epilepsy/seizures; pacemaker or implanted electronic device; pregnancy (version pp-screen-v1, 2026-10-02)';
+    expect(p.html).toContain('Pre-payment safety screen');
+    expect(p.html).toContain(want);
+    expect(p.text).toContain(want);
+  });
+
+  it('says nothing was denied when screen_denied is empty', async () => {
+    await run(null);
+    expect(payloadOf(emailCalls()[0]).html).toContain('Patient denied: none');
+  });
+
+  it('a yes placement answer adds "[Placement note]" and a note', async () => {
+    await run({ screen_placement: 'metalImplant:yes,woundOrScar:yes' });
+    const p = payloadOf(emailCalls()[0]);
+    expect(p.subject).toContain('[Placement note]');
+    expect(p.html).toContain('Metal implant: yes, told to choose another area');
+    expect(p.html).toContain('Wound or scar: yes, told to choose another area');
+  });
+
+  it('a denied-only submit does not flag placement and still goes to the provider', async () => {
+    const res: any = await run({ screen_denied: 'pacemaker' });
     expect(res.statusCode).toBe(200);
     expect(emailCalls()).toHaveLength(1);
+    expect(payloadOf(emailCalls()[0]).subject).not.toContain('[Placement note]');
   });
 
-  it('persists the screening answers as submitted', async () => {
-    const screening = { ...VALID_BODY.screening, pregnant: true };
-    await handler(evt({ ...VALID_BODY, screening }));
-    expect(nestedSets(recordWrite())['screeningAnswers.pushPatch']).toEqual(screening);
+  it('legacy session without screen_v stores { version: "none" } and flags the email', async () => {
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, metadata: { skuIds: SKU, wear: '12h' } });
+    await handler(evt(VALID_BODY));
+    expect(nestedSets(recordWrite())['screeningAnswers.pushPatch']).toEqual({ version: 'none' });
+    const p = payloadOf(emailCalls()[0]);
+    expect(p.subject).toContain('[No pre-payment screening]');
+    expect(p.html).toContain('No pre-payment screening');
   });
 });

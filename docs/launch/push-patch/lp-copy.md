@@ -176,7 +176,14 @@ The two Genesis names stay exactly as they are: **Enhanced Glow** and **Wolverin
 
 **Small line:** All six-patch sets are one-time purchases, not subscriptions. [TJ CONFIRM: one-time, no auto-ship]
 
-**Safety line (under the small print):** Not for use if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site. (List taken verbatim from the IFU contraindications. No "consult your doctor" gate; TJ 2026-10-01.)
+**Safety check (replaces the old "Not for use if..." line; 2026-10-02):** The line under the buy grid is removed. Every Buy button opens a modal titled "Quick safety check" before Stripe checkout. Copy lives in `website/src/data/screening.ts` (version `pp-screen-v1`).
+- Site note: "The patch goes on clean, easy-to-reach skin with little or no hair, such as the upper arm, shoulder, upper chest, forearm, thigh or side of the abdomen."
+- "Do any of these apply to you?" with three bullets: Do you have epilepsy or a history of seizures? / Do you have a pacemaker or any other implanted electronic device? / Are you pregnant, or could you be pregnant?
+- Primary button: **None of these apply to me** (proceeds to checkout). Secondary link: **Something on this list applies to me** (expands Yes/No for the three above, plus the two placement questions and the suitable-area question).
+- Placement questions (Yes is allowed): "Do you have a metal implant (plate, screws, rods or a joint replacement) anywhere you might wear the patch?" Yes note: "No problem. Choose an area away from the implant." / "Do you have an open wound, recent skin graft or scar anywhere you might wear the patch?" Yes note: "No problem. Choose an area away from the wound or scar."
+- Suitable-area question (No stops checkout): "Is there at least one area of clean, easy-to-reach skin with little or no hair, away from any implant, wound or scar, where you could wear the patch?"
+- Stop message (any seizure, pacemaker or pregnancy Yes, or suitable-area No): "The Push Patch isn't the right fit for you right now. Our care coordinators can walk you through other options." with a link to /consult. No checkout.
+- Answers travel with checkout and are read by intake, so the patient is not asked again. No "consult your doctor" gate (TJ 2026-10-01).
 
 ---
 
@@ -209,7 +216,7 @@ Shipping details: allowed as of TJ 2026-10-02. The only shipping line is: "Prepa
 4. **What is iontophoresis, and is it established?** Iontophoresis uses a small electrical charge to move charged molecules through the skin. It is an established delivery technology used in medicine for decades. The Push Patch applies it in a wearable, single-use patch. [TJ CONFIRM: no regulatory or approval statements beyond this]
 5. **How long do I wear a patch, and how often?** One patch a week for six weeks. Wear each patch for 12 hours, then remove it: wet it with warm soapy water and peel slowly. Wait at least 24 hours before using the same spot again.
 6. **What is actually in my blend?** The formula on each blend card is exactly what is in your patch, with the amounts shown. Six of the seven blends contain NAD+; the Glutathione blend does not.
-7. **Who should not use the Push Patch?** Do not use it if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site.
+7. **Who should not use the Push Patch?** Do not use it if you have epilepsy or a history of seizures, a pacemaker or any other implanted electronic device, or are pregnant or could be pregnant. We ask about these in a quick safety check before checkout. The patch goes on clean, easy-to-reach skin with little or no hair, such as the upper arm, shoulder, upper chest, forearm, thigh or side of the abdomen. If you have a metal implant, or an open wound, recent skin graft or scar, choose an area away from it.
 8. **What is your refund policy?** Not cleared? Full refund. Final once shipped.
 9. **How long does shipping take?** Prepared within 1–3 business days, then ground delivery in 3–5 business days. At checkout you enter your shipping address, and you confirm it again after payment before anything ships.
 10. **I have a question before I order. Who do I ask?** Start with our care coordinator at /consult. They can help you choose a blend and answer questions about wear. [TJ CONFIRM: /consult vs a plain email address for pre-purchase questions]

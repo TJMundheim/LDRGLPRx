@@ -4,7 +4,8 @@
 // + consent -> packet -> ONE provider email with one-tap Approve/Decline.
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { resolveContactId } from '@my4mlife/contact-id';
-import { validateBody, screeningFlags } from './validate';
+import { validateBody } from './validate';
+import { parseScreening } from './screening';
 import { reply, paidSession } from './http';
 import { resolveShipTo, stripeShipTo } from './ship';
 import {
@@ -42,6 +43,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const contactId = resolveContactId({ metadataContactId: session.metadata?.['contactId'], email: session.customer_details?.email })!;
   const encounterId = encounterIdFor(session.id);
   const ts = new Date().toISOString();
+  const screening = parseScreening(session.metadata);
   const pi = session.payment_intent;
   const paymentIntentId = typeof pi === 'string' ? pi : (pi?.id ?? '');
 
@@ -51,7 +53,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       return reply(200, { ok: true, alreadySubmitted: true, encounterId }, origin);
     }
     created = true;
-    await upsertRecord({ contactId, session, body, shipTo, ts });
+    await upsertRecord({ contactId, session, body, shipTo, screening, ts });
   } catch (e) {
     console.error('[push-patch-intake] record write failed', { sessionId: session.id, error: String(e) });
     if (created) await deleteEncounter(contactId, encounterId);
@@ -63,7 +65,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     await sendProviderReview({
       contactId, encounterId, sku, packetUrl,
       patientName: session.customer_details?.name ?? '',
-      flags: screeningFlags(body.screening),
+      screening,
     });
   } catch (e) {
     console.error('[push-patch-intake] provider hand-off failed', { sessionId: session.id, error: String(e) });

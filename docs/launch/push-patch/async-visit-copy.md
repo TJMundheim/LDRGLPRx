@@ -6,7 +6,7 @@ How to read this file:
 - `[TJ CONFIRM]` marks a sentence or fact TJ must approve before it ships.
 - **Voice:** technical, plain, needle-free, standalone (same as `lp-copy.md`). Reviewers are always "our network's licensed physicians". No group or physician is ever named. Dr. TJ appears nowhere in this copy.
 - **Hard rules applied:** no emoji; no disease-claim verbs (per the standing copy rule); no gendered-pair phrasing; no age ranges; no Amazon links; the identity/dignity tagline in every email footer; no PHI in the reminder email; no product formula or dose in any email (blend name only).
-- **Facts used:** the buyer has already paid; the intake takes about 2 minutes; review is by our network's licensed physicians; the result comes within an hour during business hours, 9 a.m. to 5 p.m. Central; approved means a welcome email and our pharmacy partner ships direct; not cleared means an automatic full refund; one 12-hour patch a week for six weeks; setup steps follow the manufacturer IFU.
+- **Facts used:** the buyer has already paid; the intake takes about 2 minutes; review is by our network's licensed physicians; the result comes within an hour during business hours, 9 a.m. to 5 p.m. Central; approved means a welcome email and our pharmacy partner ships direct; not cleared means a full refund within 10 business days (queued for admin approval); one 12-hour patch a week for six weeks; setup steps follow the manufacturer IFU.
 - **Template tokens** (filled by the lambdas): `{{firstName}}`, `{{blendName}}`, `{{refundAmount}}`, `{{intakeLink}}`. `{{intakeLink}}` is the thank-you URL with the buyer's `session_id`; it carries no health data.
 
 Open questions are collected in section 13.
@@ -21,7 +21,7 @@ Shown after the "Payment received" line. Same standalone look as the landing pag
 
 **Subhead:** Your payment is received. Answer a few health questions so one of our network's licensed physicians can review your order.
 
-**Helper text (under the subhead):** About 2 minutes. You will hear back within an hour during business hours, 9 a.m. to 5 p.m. Central. If you are not cleared, you get a full refund automatically.
+**Helper text (under the subhead):** About 2 minutes. You will hear back within an hour during business hours, 9 a.m. to 5 p.m. Central. If you are not cleared, your payment is refunded within 10 business days.
 
 **Privacy helper (small, under the first field group):** Your answers go only to the reviewing physician and your care record. They are never sent by text message or shown on a receipt. [TJ CONFIRM: wording matches the HIPAA architecture; no PHI in SMS]
 
@@ -65,7 +65,7 @@ Source: manufacturer IFU "Handling Instructions for PushPatch Kits+", "Do not us
 
 **Consent paragraph (shown in a scrollable box above the signature):**
 
-> By signing below, I consent to an asynchronous telehealth review of my order. This means a licensed physician in our network will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared, my payment is refunded in full automatically. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I authorize My4MLife and our network's licensed physicians to share my name, shipping address and phone number with our pharmacy partner to fill and ship my order. I am of legal adult age and a resident of the United States. [TJ CONFIRM: legal wording; adapted from `website/src/pages/consent.astro` sections 1, 2, 5, 6, 7, 8 and the acknowledgment list, with the GLP-1 and compounded-medication sections removed because they do not apply to the patch]
+> By signing below, I consent to an asynchronous telehealth review of my order. This means a licensed physician in our network will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared before anything ships, my payment is refunded in full within 10 business days. Once my order has shipped, it cannot be returned or refunded. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I authorize My4MLife and our network's licensed physicians to share my name, shipping address and phone number with our pharmacy partner to fill and ship my order. I am of legal adult age and a resident of the United States. [TJ CONFIRM: legal wording; adapted from `website/src/pages/consent.astro` sections 1, 2, 5, 6, 7, 8 and the acknowledgment list, with the GLP-1 and compounded-medication sections removed because they do not apply to the patch]
 
 **Link under the paragraph:** Read the full Medical & Telehealth Consent (`/consent`) and the Privacy Policy (`/privacy`). [TJ CONFIRM: `/consent` still carries GLP-1 and compounded-medication language; decide whether to link it or leave the link off]
 
@@ -102,7 +102,7 @@ Payload: `shipping: { confirmed: true }` or `shipping: { confirmed: false, addre
 
 **Heading:** Submitted.
 
-**Body:** A licensed physician in our network will review it within an hour during business hours (9 a.m.–5 p.m. Central). Your welcome email follows. If you are not cleared, your refund is automatic.
+**Body:** A licensed physician in our network will review it within an hour during business hours (9 a.m.–5 p.m. Central). Your welcome email follows. If you are not cleared, your payment is refunded within 10 business days.
 
 **Shipping line (added 2026-10-02):** If cleared, your patches are prepared within 1–3 business days, then ground delivery in 3–5 business days.
 
@@ -177,23 +177,25 @@ Notes for P2-B:
 
 ## 3. Decline / refund email (sent when the physician does not clear the order)
 
+Updated 2026-10-02: Decline no longer refunds automatically. The order goes to `declined` with `refundStatus: pending` and an admin approves the refund, so this email promises a window, not an issued refund.
+
 **From:** My4MLife `<support@my4mlife.com>`
 
-**Subject:** Your Push Patch order was not cleared. Full refund issued
+**Subject:** You weren't cleared for the Push Patch. Refund within 10 business days
 
-**Preheader:** The physician review is complete. Your payment is refunded in full.
+**Preheader:** The physician review is complete. Your refund will be processed within 10 business days.
 
 **Body:**
 
 Hi {{firstName}},
 
-One of our network's licensed physicians reviewed your answers and did not clear your {{blendName}} Push Patch order. Nothing has shipped.
+You weren't cleared for the Push Patch. Your refund will be processed within 10 business days.
 
-We have refunded your payment in full: {{refundAmount}}. It returns to the card or wallet you paid with. Most banks show it within 5 to 10 business days. [TJ CONFIRM: refund timing line]
+One of our network's licensed physicians reviewed your {{blendName}} Push Patch order. Nothing has shipped. The refund returns to the card or wallet you paid with. Your bank may take a few more days to show it.
 
-This is not a judgment about you. The review is a safety check, and the answers you gave this time did not meet it. If your health or your answers change, you are welcome to order again.
+This is not a judgment about you. The review is a safety check. If your health changes, you are welcome to order again.
 
-**Questions about the review or the refund?** Reply to this email or write to support@my4mlife.com. We will point you to the right person. We cannot discuss health details by email or text; if we need to, we will ask you to call. [TJ CONFIRM: wording; no PHI over email, and the decline email carries no reason]
+**Questions about the refund?** Reply to this email or write to support@my4mlife.com. We cannot discuss health details by email or text; if we need to, we will ask you to call. [TJ CONFIRM: wording; no PHI over email, and the decline email carries no reason]
 
 Thank you for trusting us with the order.
 
@@ -202,8 +204,10 @@ The My4MLife team
 **Footer:** same footer as section 2, including the identity/dignity tagline.
 
 Notes for P2-B:
-- The email states the outcome only, never the reason or the screening answer that triggered it (no PHI in email).
-- The refund must already be issued (Stripe refund created) before this email sends, so the sentence "We have refunded your payment in full" is true when read.
+- The email states the outcome only, never the reason or the screening answer that triggered it (no PHI in email). It carries no refund amount.
+- The refund is NOT issued when this email sends. The decision handler never calls Stripe on decline; it sets `refundStatus: pending`, `declinedAt` and `refundDueBy` (declinedAt + 10 business days, Mon-Fri). Nothing is sent to the pharmacy partner on decline.
+- Physician confirmation page after Decline: "Declined. A refund is queued for admin approval."
+- `{{refundAmount}}` is no longer used by this email.
 
 ---
 
@@ -227,7 +231,7 @@ Your Push Patch order is paid, and one step is left before it can ship: a short 
 
 **Finish your questionnaire:** {{intakeLink}}
 
-Review happens within an hour during business hours, 9 a.m.–5 p.m. Central. If you are not cleared, you get a full refund automatically.
+Review happens within an hour during business hours, 9 a.m.–5 p.m. Central. If you are not cleared, your payment is refunded within 10 business days.
 
 If you have already finished, you can ignore this email. Questions? Reply here or write to support@my4mlife.com.
 
@@ -247,7 +251,7 @@ Reuse these exact lines everywhere to keep the promise consistent:
 
 - Review window: "within an hour during business hours (9 a.m.–5 p.m. Central)".
 - Reviewer: "our network's licensed physicians" or "one of our network's licensed physicians". Never a group or personal name.
-- Not cleared: "automatic full refund".
+- Not cleared: "refunded within 10 business days" (admin-approved).
 - After hours: "Submitted outside 9 a.m.–5 p.m. Central? You'll hear from us within the first hour of the next business day."
 - Pharmacy partner: "our pharmacy partner" (never a company name).
 - Time-to-door (TJ 2026-10-02): "Prepared within 1–3 business days, then ground delivery in 3–5 business days." Use this line wherever shipping time appears.

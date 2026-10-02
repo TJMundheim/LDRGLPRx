@@ -17,6 +17,7 @@ import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
+import { screeningLines } from './screening-block';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
@@ -53,6 +54,10 @@ export function renderSummary(packet: ReturnType<typeof assemblePacket>): string
   const esc = (v: unknown) => String(v ?? '').replace(/[<>&"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
   const d = packet.demographics;
   const h = packet.history;
+  const { pushPatch, ...otherAnswers } = (packet.screeningAnswers ?? {}) as Record<string, unknown>;
+  const safety = screeningLines(pushPatch);
+  const safetyHtml = safety.length
+    ? `<h2 style="font-size:15px;margin-top:24px">Pre-payment safety screen</h2><p>${safety.map(esc).join('<br>')}</p>` : '';
   const rows = (label: string, value: unknown) =>
     `<tr><th style="text-align:left;padding:4px 12px 4px 0;color:#555">${esc(label)}</th><td>${esc(value ?? '—')}</td></tr>`;
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Clinical Packet</title></head><body style="font-family:system-ui,sans-serif;max-width:700px;margin:32px auto;padding:0 20px">
@@ -64,8 +69,8 @@ export function renderSummary(packet: ReturnType<typeof assemblePacket>): string
 <table><tbody>${rows('Height (in)', h?.heightIn)}${rows('Weight (lb)', h?.weightLb)}${rows('BMI', packet.bmi)}${rows('Medications', (h?.medications ?? []).join(', '))}${rows('Allergies', (h?.allergies ?? []).join(', '))}${rows('Conditions', (h?.conditions ?? []).join(', '))}</tbody></table>
 <h2 style="font-size:15px;margin-top:24px">Encounter</h2>
 <table><tbody>${rows('Category', packet.category)}${rows('Visit Type', packet.visitType)}${rows('State', packet.state)}</tbody></table>
-<h2 style="font-size:15px;margin-top:24px">Screening Answers</h2>
-<pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:12px;overflow:auto">${esc(JSON.stringify(packet.screeningAnswers ?? {}, null, 2))}</pre>
+${safetyHtml}<h2 style="font-size:15px;margin-top:24px">Screening Answers</h2>
+<pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:12px;overflow:auto">${esc(JSON.stringify(otherAnswers, null, 2))}</pre>
 <h2 style="font-size:15px;margin-top:24px">Consents</h2>
 <pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:12px;overflow:auto">${esc(JSON.stringify(packet.consents ?? {}, null, 2))}</pre>
 <p style="color:#888;font-size:11px;margin-top:32px">Card on file: ${packet.cardOnFile ? 'yes' : 'no'} — raw card data never stored here (PCI scope excluded).</p>

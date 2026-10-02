@@ -144,8 +144,10 @@ describe('admin route POST /api/admin/demo-checkout-session', () => {
 describe('push-patch SKUs', () => {
   const adminPath = '/api/admin/demo-checkout-session';
   const validCreds = () => `Basic ${Buffer.from(`user:${ADMIN_PASSWORD}`).toString('base64')}`;
+  const okAnswers = { seizures: false, pacemaker: false, pregnant: false, metalImplant: false, woundOrScar: true, suitableArea: true };
+  const screen = (answers: Record<string, unknown> = {}, version = 'pp-screen-v1') => ({ version, answers: { ...okAnswers, ...answers } });
   const patchBody = (extra: Record<string, unknown> = {}) =>
-    JSON.stringify({ skuId: 'push-patch-wolverine', wear: '12h', ...extra });
+    JSON.stringify({ skuId: 'push-patch-wolverine', wear: '12h', screening: screen(), ...extra });
 
   it('creates a payment session with US shipping, live price, and wear metadata (live mode)', async () => {
     process.env['STRIPE_MODE'] = 'live';
@@ -205,7 +207,7 @@ describe('push-patch SKUs', () => {
   });
 
   it("defaults wear to 12h when it is missing", async () => {
-    const res = await handler(makeEvent({ body: JSON.stringify({ skuId: 'push-patch-wolverine' }) })) as any;
+    const res = await handler(makeEvent({ body: JSON.stringify({ skuId: 'push-patch-wolverine', screening: screen() }) })) as any;
     expect(res.statusCode).toBe(200);
     expect(mockCreate.mock.calls[0][0].metadata.wear).toBe('12h');
   });
@@ -224,6 +226,48 @@ describe('push-patch SKUs', () => {
     expect(args.metadata.wear).toBeUndefined();
     expect(args.metadata.skuIds).toBe('biome-ns-ultra');
     expect(args.line_items[0].price).toBe('price_1Tp83ABSbDAyoIVynsgk0BAK');
+  });
+
+  it('adds screening metadata on pass', async () => {
+    await handler(makeEvent({ body: patchBody() }));
+    const m = mockCreate.mock.calls[0][0].metadata;
+    expect(m.screen_v).toBe('pp-screen-v1');
+    expect(new Date(m.screen_at).toISOString()).toBe(m.screen_at);
+    expect(m.screen_denied).toBe('seizures,pacemaker,pregnant');
+    expect(m.screen_placement).toBe('metalImplant:no,woundOrScar:yes');
+    expect(m.screen_area).toBe('yes');
+  });
+
+  it.each([
+    [{ seizures: true }],
+    [{ pacemaker: true }],
+    [{ pregnant: true }],
+    [{ suitableArea: false }],
+    [{ seizures: true, pacemaker: true, pregnant: true }],
+  ])('403 not eligible and no Stripe call for knockout %j', async (a) => {
+    const res = await handler(makeEvent({ body: patchBody({ screening: screen(a) }) })) as any;
+    expect(res.statusCode).toBe(403);
+    expect(JSON.parse(res.body).error).toBe('not eligible');
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['missing', undefined],
+    ['wrong version', screen({}, 'pp-screen-v0')],
+    ['missing key', { version: 'pp-screen-v1', answers: { seizures: false } }],
+    ['non-boolean', screen({ pacemaker: 'no' })],
+    ['null answers', { version: 'pp-screen-v1', answers: null }],
+  ])("400 'screening required' for %s screening", async (_n, sc) => {
+    const res = await handler(makeEvent({ body: patchBody({ screening: sc }) })) as any;
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res.body).error).toBe('screening required');
+    expect(mockCreate).not.toHaveBeenCalled();
+  });
+
+  it('ignores screening for non-patch SKUs', async () => {
+    const res = await handler(makeEvent({ body: JSON.stringify({ skuId: 'biome-ns-ultra', screening: screen({ seizures: true }) }) })) as any;
+    expect(res.statusCode).toBe(200);
+    expect(mockCreate.mock.calls[0][0].metadata.screen_v).toBeUndefined();
   });
 
   it('admin test route uses the test price even when STRIPE_MODE=live', async () => {

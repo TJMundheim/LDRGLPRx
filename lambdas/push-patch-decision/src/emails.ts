@@ -25,12 +25,13 @@ export function sendWelcome(to: string, firstName: string, sku: string): Promise
   return mail(to, 'Welcome — your Push Patch is approved', text);
 }
 
-export function sendDeclined(to: string, firstName: string, sku: string, amountCents?: number): Promise<void> {
-  const refund = typeof amountCents === 'number' ? `We have refunded your payment in full: $${(amountCents / 100).toFixed(2)}.` : 'We have refunded your payment in full.';
-  const text = `Hi ${firstName},\n\nOne of our network's licensed physicians reviewed your answers and did not clear your ${blendFor(sku).name} Push Patch order. Nothing has shipped.\n\n` +
-    `${refund} It returns to the card or wallet you paid with. Most banks show it within 5 to 10 business days.\n\n` +
-    `This is not a judgment about you. The review is a safety check, and the answers you gave this time did not meet it. If your health or your answers change, you are welcome to order again.\n\n` +
-    `Questions about the review or the refund? Reply to this email or write to support@my4mlife.com. We will point you to the right person. We cannot discuss health details by email or text; if we need to, we will ask you to call.\n\n` +
+// Decline no longer refunds inline: the refund is queued for admin approval (refundStatus 'pending'),
+// so this email states the outcome and the 10-business-day promise only. No reason, no PHI, no amount.
+export function sendDeclined(to: string, firstName: string, sku: string): Promise<void> {
+  const text = `Hi ${firstName},\n\nYou weren't cleared for the Push Patch. Your refund will be processed within 10 business days.\n\n` +
+    `One of our network's licensed physicians reviewed your ${blendFor(sku).name} Push Patch order. Nothing has shipped. The refund returns to the card or wallet you paid with. Your bank may take a few more days to show it.\n\n` +
+    `This is not a judgment about you. The review is a safety check. If your health changes, you are welcome to order again.\n\n` +
+    `Questions about the refund? Reply to this email or write to support@my4mlife.com. We cannot discuss health details by email or text; if we need to, we will ask you to call.\n\n` +
     `Thank you for trusting us with the order.\n\nThe My4MLife team\n\n${FOOTER}`;
-  return mail(to, 'Your Push Patch order was not cleared. Full refund issued', text);
+  return mail(to, "You weren't cleared for the Push Patch. Refund within 10 business days", text);
 }

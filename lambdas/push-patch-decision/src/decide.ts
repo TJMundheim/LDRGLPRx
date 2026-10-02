@@ -1,10 +1,12 @@
 // Idempotent physician decision. Approve → encounter state 'script-written' (existing state, so
-// @my4mlife/patient-record and the admin app need no change); decline → 'declined' + full refund.
+// @my4mlife/patient-record and the admin app need no change); decline → 'declined' + refundStatus
+// 'pending' (an admin issues the refund; nothing is ever sent to Genesis on decline).
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { sendWelcome, sendDeclined } from './emails';
 import { sendGenesisOrder } from './genesis-order';
+import { addBusinessDays } from './business-days';
 import { resolveShip, type OrderInput } from './genesis-form';
 
 export type Outcome =
@@ -16,22 +18,37 @@ export type Outcome =
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? 'us-east-2' }));
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
 const FROM = 'sent-to-provider';
+const REFUND_BUSINESS_DAYS = 10;
 
-async function transition(contactId: string, encounterId: string, to: string, from = FROM): Promise<boolean> {
+async function transition(contactId: string, encounterId: string, to: string, extra: Record<string, string> = {}): Promise<boolean> {
+  const now = new Date().toISOString();
+  const sets = Object.keys(extra).map((k) => `${k} = :${k}`);
   try {
     await ddb.send(new UpdateCommand({
       TableName: TABLE,
       Key: { contactId, sk: `encounter#${encounterId}` },
-      UpdateExpression: 'SET #state = :to, decidedAt = :now, updatedAt = :now',
+      UpdateExpression: ['#state = :to', 'decidedAt = :now', 'updatedAt = :now', ...sets].map((x, i) => (i ? x : `SET ${x}`)).join(', '),
       ConditionExpression: '#state = :from',
       ExpressionAttributeNames: { '#state': 'state' },
-      ExpressionAttributeValues: { ':to': to, ':from': from, ':now': new Date().toISOString() },
+      ExpressionAttributeValues: { ':to': to, ':from': FROM, ':now': now, ...Object.fromEntries(Object.entries(extra).map(([k, v]) => [`:${k}`, v])) },
     }));
     return true;
   } catch (e) {
     if ((e as { name?: string }).name === 'ConditionalCheckFailedException') return false;
     throw e;
   }
+}
+
+// Stamped after the Genesis order (or the TJ-only ACTION NEEDED email) is out. The admin refund refuses
+// any encounter carrying genesisOrderSentAt (no refunds once shipped). Never set on decline.
+async function stampGenesisSent(contactId: string, encounterId: string, to: string, toGenesis: boolean): Promise<void> {
+  const now = new Date().toISOString();
+  await ddb.send(new UpdateCommand({
+    TableName: TABLE,
+    Key: { contactId, sk: `encounter#${encounterId}` },
+    UpdateExpression: `SET genesisOrderSentAt = :now, updatedAt = :now${toGenesis ? ', genesisOrderTo = :to' : ''}`,
+    ExpressionAttributeValues: { ':now': now, ...(toGenesis ? { ':to': to } : {}) },
+  }));
 }
 
 const allOk = async (jobs: Promise<void>[]): Promise<boolean> =>
@@ -43,33 +60,33 @@ export async function decide(a: { contactId: string; encounterId: string; action
   if (!enc) return { kind: 'not-found' };
   if (enc.state !== FROM) return { kind: 'already-decided', state: String(enc.state) };
   const demo = (await get('record'))?.demographics ?? {};
-  const stripe = await getStripeClient();
   const sku = String(enc.sku ?? '');
 
   if (a.action === 'approve') {
+    const stripe = await getStripeClient();
     const session = await stripe.checkout.sessions.retrieve(enc.sessionId, {});
     if (!(await transition(a.contactId, a.encounterId, 'script-written'))) return { kind: 'already-decided', state: 'decided' };
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
-      sendGenesisOrder({ sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) }),
+      sendGenesisOrder({ sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
+        .then((o) => stampGenesisSent(a.contactId, a.encounterId, o.to, o.toGenesis)),
     ]);
     return { kind: 'approved', mailOk };
   }
 
-  // Claim the decision FIRST so a concurrent Approve can never also be refunded; roll the claim
-  // back if the refund fails. Stripe's idempotency key de-dupes a refund retried for the same session.
-  if (!(await transition(a.contactId, a.encounterId, 'declined'))) return { kind: 'already-decided', state: 'decided' };
-  let refund;
-  try {
-    refund = await stripe.refunds.create(
-      { payment_intent: enc.paymentIntentId },
-      { idempotencyKey: `push-patch-decline-${enc.sessionId}` },
-    );
-  } catch (e) {
-    await transition(a.contactId, a.encounterId, FROM, 'declined').catch(() => false);
-    throw e;
-  }
-  const mailOk = await allOk([sendDeclined(demo.email, demo.firstName ?? '', sku, refund.amount)]);
+  // Decline: claim the decision, queue the refund for admin approval. No Stripe call, nothing to Genesis,
+  // and genesisOrderSentAt is never set here (that is what makes the admin refund eligible).
+  const declinedAt = new Date();
+  if (!(await transition(a.contactId, a.encounterId, 'declined', {
+    refundStatus: 'pending',
+    declinedAt: declinedAt.toISOString(),
+    refundDueBy: addBusinessDays(declinedAt, REFUND_BUSINESS_DAYS),
+  }))) return { kind: 'already-decided', state: 'decided' };
+  // TODO(auto-refund): when process.env.AUTO_REFUND_ON_DECLINE === 'true', call the shared refund function
+  // from lambdas/_shared/encounter-refund (being written separately) here and let it flip refundStatus.
+  // Default is 'false' (admin approves every refund), so this flag path is intentionally a no-op for now.
+  if (process.env.AUTO_REFUND_ON_DECLINE === 'true') console.warn('AUTO_REFUND_ON_DECLINE=true but the shared refund function is not wired yet; refund stays pending');
+  const mailOk = await allOk([sendDeclined(demo.email, demo.firstName ?? '', sku)]);
   return { kind: 'declined', mailOk };
 }

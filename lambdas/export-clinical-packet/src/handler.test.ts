@@ -168,6 +168,26 @@ describe('renderSummary', () => {
     expect(html).not.toContain('cvc');
   });
 
+  it('renders a human-readable Pre-payment safety screen for screeningAnswers.pushPatch', () => {
+    const pushPatch = { version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: ['seizures', 'pregnant'],
+      placement: { metalImplant: true, woundOrScar: false }, suitableArea: true };
+    const packet = assemblePacket({ contactId: 'c', encounterId: 'e', exportedAt: '2026-10-02T00:00:00Z',
+      record: { ...RECORD_ITEM, screeningAnswers: { whyNow: 'energy', pushPatch } }, encounter: ENCOUNTER_ITEM });
+    const html = renderSummary(packet);
+    expect(html).toContain('Pre-payment safety screen');
+    expect(html).toContain('Patient denied: epilepsy/seizures; pregnancy (version pp-screen-v1, 2026-10-02)');
+    expect(html).toContain('Metal implant: yes, told to choose another area');
+    expect(html).not.toContain('Wound or scar');
+    expect(html).not.toContain('&quot;pushPatch&quot;');   // not dumped as raw JSON
+    expect(html).toContain('whyNow');                      // other answers still shown
+  });
+
+  it('flags a pushPatch record with no pre-payment screening', () => {
+    const packet = assemblePacket({ contactId: 'c', encounterId: 'e', exportedAt: '2026-10-02T00:00:00Z',
+      record: { ...RECORD_ITEM, screeningAnswers: { pushPatch: { version: 'none' } } }, encounter: ENCOUNTER_ITEM });
+    expect(renderSummary(packet)).toContain('No pre-payment screening');
+  });
+
   it('output is deterministic for the same input (no Date.now / random)', () => {
     const packet = assemblePacket({ contactId: 'c', encounterId: 'e',
       exportedAt: '2026-06-26T00:00:00.000Z', record: RECORD_ITEM, encounter: ENCOUNTER_ITEM });

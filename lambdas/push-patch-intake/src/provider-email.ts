@@ -1,10 +1,11 @@
 // Owns SSM reads (provider email, HMAC key), the export-clinical-packet invoke
 // and the email-sender invoke. PHI discipline: subject/body carry first initial
-// + last name, the blend name and screening flag names only; everything
+// + last name, the blend name and the pre-payment safety-screen answers only; everything
 // clinical (DOB, phone, meds) lives behind the presigned packet link.
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import { signToken } from './sign';
+import { screeningLines, screeningSubjectFlags, type StoredScreening } from './screening';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const PACKET_FN = process.env.EXPORT_PACKET_FN ?? 'my4mlife-export-clinical-packet';
@@ -56,22 +57,21 @@ const button = (href: string, label: string, bg: string) =>
 
 /** Exactly ONE email-sender invoke ({ kind:'info', to, subject, html, text }). */
 export async function sendProviderReview(a: {
-  contactId: string; encounterId: string; patientName: string; sku: string; flags: string[]; packetUrl: string;
+  contactId: string; encounterId: string; patientName: string; sku: string; screening: StoredScreening; packetUrl: string;
 }): Promise<void> {
   const [to, secret] = await Promise.all([param(PROVIDER_EMAIL_PARAM), param(HMAC_PARAM)]);
   const [first = '', ...rest] = a.patientName.trim().split(/\s+/);
   const who = `${first.charAt(0).toUpperCase()}. ${rest.join(' ')}`.trim();
   const blend = BLEND_NAMES[a.sku] ?? 'Push Patch';
-  const flagged = a.flags.length > 0;
-  const subject = `${flagged ? '[Screening flag] ' : ''}[Provider review] Push Patch — ${blend} — ${who}`;
+  const flags = screeningSubjectFlags(a.screening).map((f) => `${f} `).join('');
+  const lines = screeningLines(a.screening);
+  const subject = `${flags}[Provider review] Push Patch — ${blend} — ${who}`;
   const url = (action: 'approve' | 'decline') =>
     `${BASE_URL}/api/push-patch-decision?t=${signToken(a.contactId, a.encounterId, action, secret)}`;
   const approve = url('approve');
   const decline = url('decline');
 
-  const flagHtml = flagged
-    ? `<p style="color:#b00020"><strong>Screening flags (answered yes):</strong> ${a.flags.map(esc).join(', ')}</p>`
-    : '<p>Screening: no flags.</p>';
+  const flagHtml = `<p><strong>Pre-payment safety screen</strong><br>${lines.map(esc).join('<br>')}</p>`;
   const html = `<div style="max-width:560px;font:16px Arial,sans-serif">`
     + `<p>${esc(who)} is ready for your review: Push Patch, ${esc(blend)}. Asynchronous review.</p>`
     + flagHtml
@@ -79,7 +79,7 @@ export async function sendProviderReview(a: {
     + button(approve, 'Approve', '#1b7f3b') + button(decline, 'Decline (full refund)', '#b00020')
     + `<p>Reply-all for questions.</p></div>`;
   const text = `${who} is ready for your review: Push Patch, ${blend}.\n`
-    + `${flagged ? `Screening flags (yes): ${a.flags.join(', ')}` : 'Screening: no flags.'}\n\n`
+    + `Pre-payment safety screen:\n${lines.join('\n')}\n\n`
     + `Packet: ${a.packetUrl}\nApprove: ${approve}\nDecline (full refund): ${decline}\n\nReply-all for questions.`;
 
   const res = await lambda.send(new InvokeCommand({

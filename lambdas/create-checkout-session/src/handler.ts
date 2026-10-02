@@ -2,6 +2,7 @@ import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { evaluateScreening } from './screening';
 import { isPushPatchSku, parseWear, pushPatchEntry } from './push-patch';
 
 const REGION = 'us-east-2';
@@ -99,7 +100,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   const stripe = await getStripeClient({ modeOverride });
 
-  let body: { skuId?: string; wear?: string; priceId?: string; contactId?: string; firstName?: string; email?: string; phone?: string };
+  let body: { skuId?: string; wear?: string; priceId?: string; contactId?: string; firstName?: string; email?: string; phone?: string; screening?: unknown };
   try { body = JSON.parse(event.body ?? '{}'); }
   catch { return reply(400, { error: 'invalid JSON body' }, cors); }
 
@@ -109,10 +110,14 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   // the catalog — never the client — so a caller can't pair a cheap/foreign
   // price with a fulfillment-bearing SKU.
   let wear: string | null = null;
+  let screenMeta: Record<string, string> = {};
   let patchEntry: ReturnType<typeof pushPatchEntry> = null;
   if (skuId && isPushPatchSku(skuId)) {
     wear = parseWear(body.wear);
     if (!wear) return reply(400, { error: 'wear must be 12h' }, cors);
+    const screened = evaluateScreening(body.screening);
+    if (!screened.ok) return reply(screened.reason === 'not eligible' ? 403 : 400, { error: screened.reason }, cors);
+    screenMeta = screened.metadata;
     patchEntry = pushPatchEntry(skuId, resolvedMode);
     if (!patchEntry) return reply(503, { error: 'product not yet available' }, cors);
   } else if (skuId && !SKU_CATALOG[skuId]) {
@@ -140,6 +145,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
         ...(contactId ? { contactId } : {}),
         ...(skuId ? { skuIds: skuId } : {}),
         ...(wear ? { wear } : {}),
+        ...screenMeta,
         ...(body.firstName ? { firstName: body.firstName } : {}),
         ...(body.phone ? { phone: body.phone } : {}),
         isDemo: String(resolvedMode === 'test'),

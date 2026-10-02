@@ -8,7 +8,9 @@ import { send } from './mailer';
 const TJ = 'drtj@my4mlife.com';
 export type OrderArgs = OrderInput & { lastName: string };
 
-export async function sendGenesisOrder(a: OrderArgs): Promise<void> {
+export interface OrderSent { to: string; toGenesis: boolean }
+
+export async function sendGenesisOrder(a: OrderArgs): Promise<OrderSent> {
   const { practice, missing } = await loadPractice();
   const blend = blendFor(a.sku);
   const pdf = await fillOrderForm(buildFields(a, practice));
@@ -29,4 +31,5 @@ export async function sendGenesisOrder(a: OrderArgs): Promise<void> {
     to, subject, text, html: text.split('\n\n').map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join(''),
     ...(to.toLowerCase() !== TJ ? { cc: TJ } : {}), attachments: [attachment],
   });
+  return { to, toGenesis: send2Genesis };
 }

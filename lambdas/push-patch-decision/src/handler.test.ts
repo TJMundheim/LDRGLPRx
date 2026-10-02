@@ -12,7 +12,7 @@
 // contactId (PK) + `encounter#<encounterId>` (SK).
 
 import { createHmac } from 'crypto';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 // ── AWS / Stripe mocks — declared before the module under test is imported ────
 
@@ -39,14 +39,16 @@ vi.mock('@aws-sdk/client-ssm', () => ({
   GetParameterCommand: class GetParameterCommand { input: any; constructor(input: any) { this.input = input; } },
 }));
 
-const refundsCreate = vi.fn();
+const refundsCreate = vi.fn(); // never expected to be called: decline no longer touches Stripe
 const sessionsRetrieve = vi.fn();
+const getStripeClientMock = vi.fn();
 vi.mock('@my4mlife/stripe-client', () => ({
-  getStripeClient: vi.fn(async () => ({
+  getStripeClient: (...a: any[]) => getStripeClientMock(...a),
+}));
+const stripeStub = () => ({
     refunds: { create: (...a: any[]) => refundsCreate(...a) },
     checkout: { sessions: { retrieve: (...a: any[]) => sessionsRetrieve(...a) } },
-  })),
-}));
+  });
 
 import { PDFDocument } from 'pdf-lib';
 import { handler } from './handler';
@@ -142,7 +144,8 @@ beforeEach(() => {
     throw new Error(`unexpected SSM param ${cmd.input.Name}`);
   });
   lambdaSendMock.mockResolvedValue({ StatusCode: 200 });
-  refundsCreate.mockResolvedValue({ id: 're_1', status: 'succeeded' });
+  getStripeClientMock.mockImplementation(async () => stripeStub());
+  delete process.env.AUTO_REFUND_ON_DECLINE;
   sessionsRetrieve.mockResolvedValue(STRIPE_SESSION);
   seedDdb();
 });
@@ -196,7 +199,7 @@ describe('approve', () => {
     expect(body(res)).toMatch(/approved/i);
 
     const u = updates();
-    expect(u).toHaveLength(1);
+    expect(u).toHaveLength(2); // [0] = state claim, [1] = genesisOrderSentAt stamp
     expect(u[0].Key).toEqual({ contactId: CONTACT, sk: `encounter#${ENC}` });
     // conditional: only from 'sent-to-provider'
     expect(u[0].ConditionExpression).toMatch(/state/);
@@ -335,7 +338,43 @@ describe('approve', () => {
     const res: any = await handler(evt(tokenFor('approve')));
     expect(res.statusCode).toBe(200);
     expect(body(res)).toMatch(/email failed/i);
-    expect(updates()).toHaveLength(1);
+    expect(updates()).toHaveLength(1); // state claim only: no genesisOrderSentAt when the order send failed
+    expect(flat(updates())).not.toContain('genesisOrderSentAt');
+  });
+
+  it('stamps genesisOrderSentAt + genesisOrderTo on the encounter after the Genesis order email goes out', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] }); vi.setSystemTime(new Date('2026-10-02T15:00:00Z'));
+    const order: string[] = [];
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.__t === 'Get') return { Item: cmd.input.Key.sk === 'record' ? RECORD : encounter() };
+      if (cmd.__t === 'Update') order.push(cmd.input.UpdateExpression.includes('genesisOrderSentAt') ? 'stamp' : 'claim');
+      return {};
+    });
+    lambdaSendMock.mockImplementation(async (c: any) => {
+      const p = JSON.parse(Buffer.from(c.input.Payload).toString());
+      order.push(p.to === GENESIS ? 'genesis-email' : 'welcome-email');
+      return {};
+    });
+    try { await handler(evt(tokenFor('approve'))); } finally { vi.useRealTimers(); }
+    expect(order.indexOf('stamp')).toBeGreaterThan(order.indexOf('genesis-email'));
+    const stamp = updates().find((u) => u.UpdateExpression.includes('genesisOrderSentAt'));
+    expect(stamp.Key).toEqual({ contactId: CONTACT, sk: `encounter#${ENC}` });
+    expect(stamp.UpdateExpression).toMatch(/genesisOrderTo = :to/);
+    expect(stamp.ExpressionAttributeValues).toMatchObject({ ':now': '2026-10-02T15:00:00.000Z', ':to': GENESIS });
+  });
+
+  it('TJ-only ACTION NEEDED send (practice config incomplete) still stamps genesisOrderSentAt, but no genesisOrderTo', async () => {
+    practiceParam = null;
+    await handler(evt(tokenFor('approve')));
+    const stamp = updates().find((u) => u.UpdateExpression.includes('genesisOrderSentAt'));
+    expect(stamp).toBeDefined();
+    expect(stamp.UpdateExpression).not.toMatch(/genesisOrderTo/);
+    expect(flat(stamp.ExpressionAttributeValues)).not.toContain(GENESIS);
+  });
+
+  it('decline never sets genesisOrderSentAt / genesisOrderTo', async () => {
+    await handler(evt(tokenFor('decline')));
+    expect(flat(updates())).not.toMatch(/genesisOrder/);
   });
 
   it('sends exactly two emails (welcome + order), no refund', async () => {
@@ -360,67 +399,89 @@ describe('approve', () => {
 
 // ── Decline ───────────────────────────────────────────────────────────────────
 
-describe('decline', () => {
-  it('claims declined (conditional), then refunds the payment intent in full, returns confirmation HTML', async () => {
-    const calls: string[] = [];
-    refundsCreate.mockImplementation(async () => { calls.push('refund'); return { id: 're_1' }; });
-    ddbSendMock.mockImplementation(async (cmd: any) => {
-      if (cmd.__t === 'Get') return { Item: cmd.input.Key.sk === 'record' ? RECORD : encounter() };
-      if (cmd.__t === 'Update') calls.push('update');
-      return {};
-    });
+describe('decline (refund queued for admin approval, no Stripe)', () => {
+  const NOW = new Date('2026-10-02T15:00:00Z'); // a Friday
+  beforeEach(() => { vi.useFakeTimers({ toFake: ['Date'] }); vi.setSystemTime(NOW); });
+  afterEach(() => { vi.useRealTimers(); });
 
+  it('claims declined with refundStatus pending + declinedAt + refundDueBy (10 business days), returns the queued page', async () => {
     const res: any = await handler(evt(tokenFor('decline')));
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toMatch(/text\/html/);
-    expect(body(res)).toMatch(/declined/i);
+    expect(body(res)).toMatch(/Declined/);
+    expect(body(res)).toContain('A refund is queued for admin approval.');
 
-    expect(refundsCreate).toHaveBeenCalledTimes(1);
-    const [arg, opts] = refundsCreate.mock.calls[0];
-    expect(arg).toMatchObject({ payment_intent: PI });
-    expect(arg.amount).toBeUndefined();                    // full refund
-    // double-click race protection: Stripe de-dupes on the idempotency key
-    expect(opts?.idempotencyKey).toEqual(expect.stringContaining(SESSION));
-
-    expect(calls).toEqual(['update', 'refund']);
     const u = updates();
     expect(u).toHaveLength(1);
-    const vals = Object.values(u[0].ExpressionAttributeValues ?? {});
-    expect(vals).toContain('sent-to-provider');
-    expect(vals).toContain('declined');
+    expect(u[0].ConditionExpression).toMatch(/#state = :from/);
+    expect(u[0].ExpressionAttributeValues).toMatchObject({
+      ':from': 'sent-to-provider',
+      ':to': 'declined',
+      ':refundStatus': 'pending',
+      ':declinedAt': NOW.toISOString(),
+      ':refundDueBy': '2026-10-16',
+    });
+    expect(u[0].UpdateExpression).toMatch(/refundStatus = :refundStatus/);
+    expect(u[0].UpdateExpression).toMatch(/declinedAt = :declinedAt/);
+    expect(u[0].UpdateExpression).toMatch(/refundDueBy = :refundDueBy/);
   });
 
-  it('emails the patient "not cleared — full refund issued" and sends NO order email', async () => {
+  it('never calls Stripe (no client, no refund, no session retrieval)', async () => {
+    await handler(evt(tokenFor('decline')));
+    expect(getStripeClientMock).not.toHaveBeenCalled();
+    expect(refundsCreate).not.toHaveBeenCalled();
+    expect(sessionsRetrieve).not.toHaveBeenCalled();
+  });
+
+  it('sends nothing to Genesis: one patient email only, no attachment, no genesis mention', async () => {
     await handler(evt(tokenFor('decline')));
     const sent = emails();
     expect(sent).toHaveLength(1);
     expect(sent[0].to).toBe('jane@example.com');
-    expect(sent[0].kind).toBe('info');
-    expect(flat(sent[0])).toMatch(/not cleared/i);
-    expect(flat(sent[0])).toMatch(/full refund/i);
+    expect(sent.find((e) => e.to === GENESIS)).toBeUndefined();
     expect(sent.find((e) => e.attachments)).toBeUndefined();
     expect(flat(sent[0])).not.toMatch(/genesis/i);
   });
 
-  it('refund failure → 500 HTML, claim rolled back to sent-to-provider, no email', async () => {
-    refundsCreate.mockRejectedValue(new Error('stripe is down'));
-    const res: any = await handler(evt(tokenFor('decline')));
-    expect(res.statusCode).toBe(500);
-    expect(res.headers['content-type']).toMatch(/text\/html/);
-    const u = updates();
-    expect(u).toHaveLength(2);
-    expect(u[0].ExpressionAttributeValues).toMatchObject({ ':from': 'sent-to-provider', ':to': 'declined' });
-    expect(u[1].ExpressionAttributeValues).toMatchObject({ ':from': 'declined', ':to': 'sent-to-provider' });
-    expect(lambdaSendMock).not.toHaveBeenCalled();
-    // error page must not leak the internal error text
-    expect(body(res)).not.toContain('stripe is down');
+  it('patient email: not cleared, refund within 10 business days, no reason/PHI, footer tagline', async () => {
+    await handler(evt(tokenFor('decline')));
+    const [m] = emails();
+    expect(m.kind).toBe('info');
+    expect(m.text).toContain("You weren't cleared for the Push Patch.");
+    expect(m.text).toContain('Your refund will be processed within 10 business days.');
+    expect(m.text).toContain("Don't lose your identity and your dignity while you still have a choice.");
+    expect(m.text).not.toMatch(/refunded your payment|full refund issued|\$\d/i);
+    expect(m.text).not.toMatch(/answers|screening|seizure|pacemaker|pregnan/i);
   });
 
-  it('race: decline loses to a concurrent approve → no refund, no email', async () => {
+  it('a failed patient email still records the decision; physician page says to notify the coordinator', async () => {
+    lambdaSendMock.mockRejectedValue(new Error('boom'));
+    const res: any = await handler(evt(tokenFor('decline')));
+    expect(res.statusCode).toBe(200);
+    expect(body(res)).toMatch(/queued for admin approval/i);
+    expect(body(res)).toMatch(/email failed/i);
+    expect(updates()).toHaveLength(1);
+  });
+
+  it('AUTO_REFUND_ON_DECLINE unset/false → refund stays pending (default)', async () => {
+    process.env.AUTO_REFUND_ON_DECLINE = 'false';
+    await handler(evt(tokenFor('decline')));
+    expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':refundStatus': 'pending' });
+    expect(getStripeClientMock).not.toHaveBeenCalled();
+  });
+
+  it('AUTO_REFUND_ON_DECLINE=true is a stub until the shared refund function lands: still pending, still no Stripe call here', async () => {
+    process.env.AUTO_REFUND_ON_DECLINE = 'true';
+    const res: any = await handler(evt(tokenFor('decline')));
+    expect(res.statusCode).toBe(200);
+    expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':refundStatus': 'pending' });
+    expect(getStripeClientMock).not.toHaveBeenCalled();
+  });
+
+  it('race: decline loses to a concurrent approve → already-decided page, no email', async () => {
     seedDdb('sent-to-provider', { updateRejects: true });
     const res: any = await handler(evt(tokenFor('decline')));
     expect(body(res)).toMatch(/already decided/i);
-    expect(refundsCreate).not.toHaveBeenCalled();
     expect(lambdaSendMock).not.toHaveBeenCalled();
   });
 });

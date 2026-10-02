@@ -8,20 +8,12 @@ export interface PushPatchBody {
   medications: string[];
   allergies: string[];
   conditions: string[];
-  screening: {
-    seizures: boolean;
-    pacemaker: boolean;
-    metalImplantNearSite: boolean;
-    pregnant: boolean;
-    woundAtSite: boolean;
-  };
   consentName: string;
   shipping: Shipping;
 }
 
 export type ValidationResult = { ok: true; body: PushPatchBody } | { ok: false; error: string };
 
-const SCREENING_KEYS = ['seizures', 'pacemaker', 'metalImplantNearSite', 'pregnant', 'woundAtSite'] as const;
 const MAX_LIST = 50;
 
 const str = (v: unknown, max = 200): string | null =>
@@ -57,19 +49,9 @@ export function validateBody(raw: unknown): ValidationResult {
   if (!medications || !allergies || !conditions) {
     return { ok: false, error: 'medications, allergies and conditions must be lists' };
   }
-  const s = r.screening as Record<string, unknown> | undefined;
-  if (!s || typeof s !== 'object' || SCREENING_KEYS.some((k) => typeof s[k] !== 'boolean')) {
-    return { ok: false, error: 'every screening answer must be yes or no' };
-  }
   const consentName = str(r.consentName);
   if (!consentName) return { ok: false, error: 'consentName required' };
   const shipping = parseShipping(r.shipping);
   if (!shipping) return { ok: false, error: 'shipping must be confirmed or a valid US address' };
-  const screening = Object.fromEntries(SCREENING_KEYS.map((k) => [k, s[k] as boolean])) as PushPatchBody['screening'];
-  return { ok: true, body: { sessionId, dob, sex, phone, medications, allergies, conditions, screening, consentName, shipping } };
-}
-
-/** Names of screening questions answered "yes" (true). Empty array = no flag. */
-export function screeningFlags(screening: PushPatchBody['screening']): string[] {
-  return SCREENING_KEYS.filter((k) => screening[k] === true);
+  return { ok: true, body: { sessionId, dob, sex, phone, medications, allergies, conditions, consentName, shipping } };
 }
