@@ -48,7 +48,9 @@ vi.mock('@my4mlife/stripe-client', () => ({
   })),
 }));
 
+import { PDFDocument } from 'pdf-lib';
 import { handler } from './handler';
+import { resetPracticeCache } from './genesis-config';
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 
@@ -57,7 +59,13 @@ const CONTACT = 'contact-abc';
 const ENC = 'pp-cs_test_123';
 const SESSION = 'cs_test_123';
 const PI = 'pi_test_456';
-const FULFILLMENT = 'orders@fulfillment.test';
+const GENESIS = 'orders@genesis.test';
+const TJ = 'drtj@my4mlife.com';
+const PRACTICE = {
+  clinician: 'Dr. Test Clinician', practice: 'Test Practice', practice_phone: '555-0100', payment_email: 'pay@example.com',
+  billing: '1 Billing St\nAustin, TX 78701', placer: 'Placer Person', placer_phone: '555-0101', salesrep: 'Rep One',
+};
+let practiceParam: any = JSON.stringify(PRACTICE);
 
 function tokenFor(action: string, opts: { contactId?: string; encounterId?: string; secret?: string } = {}): string {
   const payload = `${opts.contactId ?? CONTACT}.${opts.encounterId ?? ENC}.${action}`;
@@ -122,9 +130,15 @@ const body = (r: any) => String(r.body);
 
 beforeEach(() => {
   vi.clearAllMocks();
-  process.env.PUSH_PATCH_FULFILLMENT_EMAIL = FULFILLMENT;
+  process.env.GENESIS_ORDER_EMAIL = GENESIS;
+  practiceParam = JSON.stringify(PRACTICE);
+  resetPracticeCache();
   ssmSendMock.mockImplementation(async (cmd: any) => {
     if (cmd.input.Name === 'push-patch-decision-hmac-key') return { Parameter: { Value: SECRET } };
+    if (cmd.input.Name === '/my4mlife/genesis/practice') {
+      if (practiceParam === null) throw Object.assign(new Error('nf'), { name: 'ParameterNotFound' });
+      return { Parameter: { Value: practiceParam } };
+    }
     throw new Error(`unexpected SSM param ${cmd.input.Name}`);
   });
   lambdaSendMock.mockResolvedValue({ StatusCode: 200 });
@@ -201,22 +215,127 @@ describe('approve', () => {
     expect(flat(welcome)).not.toMatch(/genesis/i);
   });
 
-  it('sends the order email to PUSH_PATCH_FULFILLMENT_EMAIL with blend, ship-to, patient name, phone, DOB, session id', async () => {
+  it('welcome email carries the shipping-time copy', async () => {
     await handler(evt(tokenFor('approve')));
-    const order = emails().find((e) => e.to === FULFILLMENT);
+    const welcome = emails().find((e) => e.to === 'jane@example.com');
+    expect(welcome.text).toContain('Your kit is prepared within 1–3 business days and ships by ground; delivery typically takes 3–5 business days after it ships.');
+    expect(welcome.text).not.toMatch(/TJ CONFIRM|Expect it in/);
+  });
+
+  it('emails Genesis the filled order form PDF: to GENESIS_ORDER_EMAIL, cc TJ, "encrypt" subject, named attachment, sync invoke', async () => {
+    await handler(evt(tokenFor('approve')));
+    const order = emails().find((e) => e.to === GENESIS);
     expect(order).toBeDefined();
     expect(order.kind).toBe('info');
-    const html = String(order.html);
-    expect(html).toContain('Repair');                                         // blend name
-    expect(html).toContain('BPC-157 2000 mcg / NAD+ 250 mg / GHK-Cu 5 mg');   // blend formula
-    expect(html).toContain('12 Ranch Rd');                                    // ship-to
-    expect(html).toContain('Austin');
-    expect(html).toContain('78701');
-    expect(html).toContain('Jane Doe');                                       // patient name
-    expect(html).toContain('+15125550123');                                   // phone
-    expect(html).toContain('1980-04-02');                                     // DOB
-    expect(html).toContain(SESSION);                                          // session id
+    expect(order.cc).toBe(TJ);
+    expect(order.subject).toBe('encrypt — Push Patch order — Repair — Doe');
+    const text = String(order.text);
+    expect(text).toContain('Repair');
+    expect(text).toMatch(/quantity:? 1/i);
+    expect(text).toContain('Jane Doe');
+    expect(text).toMatch(/attached/i);
+    expect(order.attachments).toHaveLength(1);
+    const att = order.attachments[0];
+    expect(att).toMatchObject({ filename: `My4MLife-PushPatch-${SESSION}.pdf`, contentType: 'application/pdf' });
+    const form = (await PDFDocument.load(Buffer.from(att.contentBase64, 'base64'))).getForm();
+    expect(form.getTextField('qty_push4').getText()).toBe('1');
+    expect(form.getTextField('clinician').getText()).toBe('Dr. Test Clinician');
+    expect(form.getTextField('email').getText()).toBe('pay@example.com');
+    expect(form.getTextField('shipping').getText()).toBe('Jane Doe\n12 Ranch Rd\nAustin, TX 78701\nPhone: +15125550123');
+    expect(form.getTextField('rpa_notes1').getText()).toBe(`My4MLife order ${SESSION} · 12-hour`);
+    // RequestResponse: the ~1.2 MB base64 payload is over the 256 KB async limit
+    const invokes = lambdaSendMock.mock.calls.map((c) => c[0].input);
+    expect(invokes.every((i) => i.InvocationType === 'RequestResponse')).toBe(true);
     expect(sessionsRetrieve).toHaveBeenCalledWith(SESSION, expect.anything());
+  });
+
+  it('uses the patient-confirmed encounter.shipTo (not the Stripe address) for the PDF and the order email', async () => {
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.__t === 'Get') {
+        return { Item: cmd.input.Key.sk === 'record' ? RECORD : {
+          ...encounter(),
+          shipTo: { name: 'Janet Doe-Smith', line1: '99 New Ave', line2: 'Unit 7', city: 'Dallas', state: 'TX', postalCode: '75201' },
+        } };
+      }
+      return {};
+    });
+    await handler(evt(tokenFor('approve')));
+    const order = emails().find((e) => e.to === GENESIS);
+    const form = (await PDFDocument.load(Buffer.from(order.attachments[0].contentBase64, 'base64'))).getForm();
+    expect(form.getTextField('shipping').getText()).toBe('Janet Doe-Smith\n99 New Ave Unit 7\nDallas, TX 75201\nPhone: +15125550123');
+    expect(order.text).toContain('Ship to: Janet Doe-Smith');
+    expect(flat(order)).not.toContain('Ranch Rd');
+  });
+
+  it('shipTo without a name falls back to the patient name; partial shipTo still wins over Stripe', async () => {
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.__t === 'Get') {
+        return { Item: cmd.input.Key.sk === 'record' ? RECORD : { ...encounter(), shipTo: { line1: '5 Elm St', city: 'Waco', state: 'TX', postalCode: '76701' } } };
+      }
+      return {};
+    });
+    await handler(evt(tokenFor('approve')));
+    const order = emails().find((e) => e.to === GENESIS);
+    const form = (await PDFDocument.load(Buffer.from(order.attachments[0].contentBase64, 'base64'))).getForm();
+    expect(form.getTextField('shipping').getText()).toBe('Jane Doe\n5 Elm St\nWaco, TX 76701\nPhone: +15125550123');
+  });
+
+  it('defaults the Genesis recipient to orders@novobioalliance.com; no duplicate cc when TJ is the recipient', async () => {
+    delete process.env.GENESIS_ORDER_EMAIL;
+    await handler(evt(tokenFor('approve')));
+    expect(emails().find((e) => e.attachments).to).toBe('orders@novobioalliance.com');
+    process.env.GENESIS_ORDER_EMAIL = TJ;
+    lambdaSendMock.mockClear();
+    seedDdb();
+    await handler(evt(tokenFor('approve')));
+    const o = emails().find((e) => e.attachments);
+    expect(o.to).toBe(TJ);
+    expect(o.cc).toBeUndefined();
+  });
+
+  it.each([
+    ['parameter missing', null],
+    ['required key empty', JSON.stringify({ ...PRACTICE, billing: '' })],
+    ['invalid JSON', 'oops'],
+  ])('practice config incomplete (%s) → NOT sent to Genesis; filled-so-far PDF goes to TJ only; page still says approved; welcome still sent', async (_n, value) => {
+    practiceParam = value;
+    const res: any = await handler(evt(tokenFor('approve')));
+    expect(res.statusCode).toBe(200);
+    expect(body(res)).toMatch(/approved/i);
+    const sent = emails();
+    expect(sent.find((e) => e.to === GENESIS)).toBeUndefined();
+    expect(sent.find((e) => e.to === 'jane@example.com')).toBeDefined();
+    const alert = sent.find((e) => e.attachments);
+    expect(alert.to).toBe(TJ);
+    expect(alert.cc).toBeUndefined();
+    expect(alert.subject).toBe(`[ACTION NEEDED] Genesis practice info missing — Push Patch order ${SESSION}`);
+    expect(alert.attachments[0].filename).toBe(`My4MLife-PushPatch-${SESSION}.pdf`);
+    const form = (await PDFDocument.load(Buffer.from(alert.attachments[0].contentBase64, 'base64'))).getForm();
+    expect(form.getTextField('qty_push4').getText()).toBe('1');
+    expect(form.getTextField('shipping').getText()).toContain('Jane Doe');
+    expect(sent).toHaveLength(2);
+  });
+
+  it('unrecognized blend sku → not sent to Genesis; TJ is alerted', async () => {
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.__t === 'Get') return { Item: cmd.input.Key.sk === 'record' ? RECORD : { ...encounter(), sku: 'push-patch-mystery' } };
+      return {};
+    });
+    const res: any = await handler(evt(tokenFor('approve')));
+    expect(body(res)).toMatch(/approved/i);
+    expect(emails().find((e) => e.to === GENESIS)).toBeUndefined();
+    expect(emails().find((e) => e.attachments).to).toBe(TJ);
+  });
+
+  it('a failed Genesis send is reported on the confirmation page (mail-failed variant), state stays approved', async () => {
+    lambdaSendMock.mockImplementation(async (c: any) => {
+      const p = JSON.parse(Buffer.from(c.input.Payload).toString());
+      return p.attachments ? { FunctionError: 'Unhandled' } : { StatusCode: 200 };
+    });
+    const res: any = await handler(evt(tokenFor('approve')));
+    expect(res.statusCode).toBe(200);
+    expect(body(res)).toMatch(/email failed/i);
+    expect(updates()).toHaveLength(1);
   });
 
   it('sends exactly two emails (welcome + order), no refund', async () => {
@@ -279,7 +398,7 @@ describe('decline', () => {
     expect(sent[0].kind).toBe('info');
     expect(flat(sent[0])).toMatch(/not cleared/i);
     expect(flat(sent[0])).toMatch(/full refund/i);
-    expect(sent.find((e) => e.to === FULFILLMENT)).toBeUndefined();
+    expect(sent.find((e) => e.attachments)).toBeUndefined();
     expect(flat(sent[0])).not.toMatch(/genesis/i);
   });
 

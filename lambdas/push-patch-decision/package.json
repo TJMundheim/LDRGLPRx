@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/*",
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/* && cp assets/genesis-order-form-2026.pdf dist/",
     "test": "vitest run"
   },
   "dependencies": {
@@ -13,6 +13,7 @@
     "@aws-sdk/lib-dynamodb": "^3.700.0",
     "@my4mlife/patient-record": "workspace:*",
     "@my4mlife/stripe-client": "workspace:*",
+    "pdf-lib": "^1.17.1",
     "stripe": "^17.0.0"
   },
   "devDependencies": {

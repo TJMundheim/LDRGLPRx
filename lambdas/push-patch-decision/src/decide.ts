@@ -3,7 +3,9 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { getStripeClient } from '@my4mlife/stripe-client';
-import { sendWelcome, sendDeclined, sendOrder, type OrderArgs } from './emails';
+import { sendWelcome, sendDeclined } from './emails';
+import { sendGenesisOrder } from './genesis-order';
+import { resolveShip, type OrderInput } from './genesis-form';
 
 export type Outcome =
   | { kind: 'approved'; mailOk: boolean }
@@ -50,7 +52,7 @@ export async function decide(a: { contactId: string; encounterId: string; action
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
-      sendOrder({ sku, sessionId: enc.sessionId, name, phone: demo.phone ?? '', dob: demo.dob ?? '', ship: session.shipping_details as OrderArgs['ship'] }),
+      sendGenesisOrder({ sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) }),
     ]);
     return { kind: 'approved', mailOk };
   }

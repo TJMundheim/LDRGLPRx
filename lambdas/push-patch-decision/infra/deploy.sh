@@ -11,14 +11,19 @@ ACCOUNT="879696522760"
 RUNTIME="nodejs20.x"
 HANDLER="handler.handler"
 TIMEOUT=30
-MEMORY=256
+MEMORY=512  # pdf-lib fill of the 900 KB Genesis template
 HTTP_API_ID="v9svm8ds74"
 ROUTE_PATH="/api/push-patch-decision"
 
 PATIENT_RECORDS_TABLE="PatientRecords"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 HMAC_PARAM="push-patch-decision-hmac-key"
-FULFILLMENT_EMAIL="drtj@my4mlife.com"
+# INTERIM: Genesis order emails go to TJ for the first end-to-end test. After TJ's first test,
+# switch GENESIS_ORDER_EMAIL to orders@novobioalliance.com (the code default) and redeploy.
+GENESIS_ORDER_EMAIL="drtj@my4mlife.com"
+# Practice constants (clinician, practice, phone, payment_email, billing, placer, ...) — one JSON String
+# parameter, created by hand (NOT here). Until complete, orders are NOT sent to Genesis; TJ is alerted.
+PRACTICE_PARAM="/my4mlife/genesis/practice"
 STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT}:secret:all-stripe-keys-*"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -30,7 +35,8 @@ log "Build"
 cd "$SCRIPT_DIR"
 pnpm install --frozen-lockfile
 pnpm build
-(cd dist && rm -f handler.zip && zip -q handler.zip handler.js)
+# The Genesis order-form template is copied into dist by `pnpm build`; package it beside the handler.
+(cd dist && rm -f handler.zip && zip -q handler.zip handler.js genesis-order-form-2026.pdf)
 
 # ── 2. HMAC key (SSM SecureString, created ONLY if missing) ───────────────────
 # The physician review email (push-patch-intake) signs links with this same key.
@@ -62,6 +68,8 @@ POLICY=$(cat <<JSON
       "Resource": "arn:aws:lambda:${REGION}:${ACCOUNT}:function:${EMAIL_SENDER_FN}" },
     { "Effect": "Allow", "Action": "ssm:GetParameter",
       "Resource": "arn:aws:ssm:${REGION}:${ACCOUNT}:parameter/${HMAC_PARAM}" },
+    { "Effect": "Allow", "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:${REGION}:${ACCOUNT}:parameter${PRACTICE_PARAM}" },
     { "Effect": "Allow", "Action": "secretsmanager:GetSecretValue", "Resource": "${STRIPE_KEYS_ARN}" }
   ]
 }
@@ -71,7 +79,7 @@ $AWS iam put-role-policy --role-name "$ROLE_NAME" --policy-name "${ROLE_NAME}-po
 ROLE_ARN="arn:aws:iam::${ACCOUNT}:role/${ROLE_NAME}"
 
 # ── 4. Lambda create or update ────────────────────────────────────────────────
-ENV_VARS="{\"Variables\":{\"STRIPE_MODE\":\"live\",\"PUSH_PATCH_FULFILLMENT_EMAIL\":\"${FULFILLMENT_EMAIL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\",\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\"}}"
+ENV_VARS="{\"Variables\":{\"STRIPE_MODE\":\"live\",\"GENESIS_ORDER_EMAIL\":\"${GENESIS_ORDER_EMAIL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\",\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\"}}"
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   log "Updating $FUNCTION_NAME"
   $AWS lambda update-function-code --function-name "$FUNCTION_NAME" --zip-file "fileb://$SCRIPT_DIR/dist/handler.zip" >/dev/null

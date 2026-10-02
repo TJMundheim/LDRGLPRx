@@ -1,4 +1,5 @@
 import type { Handler } from 'aws-lambda';
+import { mailgunSend, type Attachment } from './mailgun';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
@@ -23,17 +24,9 @@ async function secrets(): Promise<Cache> {
   return cache;
 }
 
-async function mailgun(from: string, to: string, subject: string, html: string, text?: string, cc?: string) {
+async function mailgun(from: string, to: string, subject: string, html: string, text?: string, cc?: string, attachments?: Attachment[]) {
   const { key } = await secrets();
-  const form = new URLSearchParams({ from, to, subject, html, ...(text ? { text } : {}), ...(cc ? { cc } : {}) });
-  const auth = Buffer.from(`api:${key}`).toString('base64');
-  const res = await fetch(`https://api.mailgun.net/v3/${DOMAIN}/messages`, {
-    method: 'POST',
-    headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: form.toString(),
-  });
-  if (!res.ok) throw new Error(`mailgun ${res.status} ${await res.text()}`);
-  return ((await res.json()) as { id: string }).id;
+  return mailgunSend({ key, domain: DOMAIN, from, to, subject, html, text, cc, attachments });
 }
 
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' } as Record<string, string>)[c]);
@@ -93,7 +86,7 @@ function confirmation(formId: string): { subject: string; html: string } {
 }
 
 type SendPayload =
-  | { kind: 'verification' | 'info'; to: string; subject: string; html: string; text?: string; cc?: string }
+  | { kind: 'verification' | 'info'; to: string; subject: string; html: string; text?: string; cc?: string; attachments?: Attachment[] }
   | { kind: 'form'; formId: string; fields: Record<string, unknown> };
 
 async function send(p: SendPayload) {
@@ -119,7 +112,7 @@ async function send(p: SendPayload) {
   }
   const addr = p.kind === 'verification' ? addrs['email-verification'] : addrs['email-info'];
   if (!addr) throw new Error(`no from address for kind=${p.kind}`);
-  const id = await mailgun(`My4MLife <${addr}>`, p.to, p.subject, p.html, p.text, p.cc);
+  const id = await mailgun(`My4MLife <${addr}>`, p.to, p.subject, p.html, p.text, p.cc, p.kind === 'info' ? p.attachments : undefined);
   return { id };
 }
 

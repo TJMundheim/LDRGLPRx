@@ -65,7 +65,7 @@ Source: manufacturer IFU "Handling Instructions for PushPatch Kits+", "Do not us
 
 **Consent paragraph (shown in a scrollable box above the signature):**
 
-> By signing below, I consent to an asynchronous telehealth review of my order. This means a licensed physician in our network will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared, my payment is refunded in full automatically. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I am of legal adult age and a resident of the United States. [TJ CONFIRM: legal wording; adapted from `website/src/pages/consent.astro` sections 1, 2, 5, 6, 7, 8 and the acknowledgment list, with the GLP-1 and compounded-medication sections removed because they do not apply to the patch]
+> By signing below, I consent to an asynchronous telehealth review of my order. This means a licensed physician in our network will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared, my payment is refunded in full automatically. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I authorize My4MLife and our network's licensed physicians to share my name, shipping address and phone number with our pharmacy partner to fill and ship my order. I am of legal adult age and a resident of the United States. [TJ CONFIRM: legal wording; adapted from `website/src/pages/consent.astro` sections 1, 2, 5, 6, 7, 8 and the acknowledgment list, with the GLP-1 and compounded-medication sections removed because they do not apply to the patch]
 
 **Link under the paragraph:** Read the full Medical & Telehealth Consent (`/consent`) and the Privacy Policy (`/privacy`). [TJ CONFIRM: `/consent` still carries GLP-1 and compounded-medication language; decide whether to link it or leave the link off]
 
@@ -76,6 +76,21 @@ Source: manufacturer IFU "Handling Instructions for PushPatch Kits+", "Do not us
 **Signature mismatch note (inline, shown if blank):** Type your full legal name to continue.
 
 Consent record: `consent-telehealth-push-patch-v1`, name + timestamp (P1-A).
+
+### 1.3b Shipping address confirmation (added 2026-10-02)
+
+**Section label:** Shipping. **Shown above the telehealth consent.**
+
+The page fetches the Stripe checkout address (`GET /api/push-patch-intake?session_id=`) and shows:
+
+> Your patches will ship to: {name, street, apt, city, state ZIP}
+> (•) Yes, ship here (default)  ( ) Ship somewhere else
+
+"Ship somewhere else" reveals name, street, apt/suite (optional), city, state (US select) and ZIP. If the address cannot be loaded, the legend reads "Where should we ship your patches?" and the fields are shown empty. US addresses only.
+
+**Shipping-time line (under the choice):** Prepared within 1–3 business days, then ground delivery in 3–5 business days.
+
+Payload: `shipping: { confirmed: true }` or `shipping: { confirmed: false, address: {...} }`. The final address is stored on the encounter as `shipTo`.
 
 ### 1.4 Submit button
 
@@ -88,6 +103,8 @@ Consent record: `consent-telehealth-push-patch-v1`, name + timestamp (P1-A).
 **Heading:** Submitted.
 
 **Body:** A licensed physician in our network will review it within an hour during business hours (9 a.m.–5 p.m. Central). Your welcome email follows. If you are not cleared, your refund is automatic.
+
+**Shipping line (added 2026-10-02):** If cleared, your patches are prepared within 1–3 business days, then ground delivery in 3–5 business days.
 
 **Small line:** Check your inbox, and your spam folder, for a message from My4MLife.
 
@@ -122,7 +139,7 @@ One of our network's licensed physicians has reviewed your answers and cleared y
 
 **What happens next**
 
-1. **Your kit ships direct.** Our pharmacy partner ships your six-patch set straight to the address on your order. Expect it in [TJ CONFIRM: shipping time]. You will get a shipping confirmation email with tracking.
+1. **Your kit ships direct.** Our pharmacy partner ships your six-patch set straight to the address you confirmed. Your kit is prepared within 1–3 business days and ships by ground; delivery typically takes 3–5 business days after it ships. You will get a shipping confirmation email with tracking.
 2. **Your set.** Six single-use patches, one for each week of the six-week set, with the blend vials and sterile water that go with them. [TJ CONFIRM: kit counts, same open item as `lp-copy.md` section 8]
 3. **You apply it yourself. No needle at any step.** One patch a week, worn for 12 hours.
 
@@ -154,7 +171,7 @@ You received this email because you placed a Push Patch order at my4mlife.com. Y
 Notes for P2-B:
 - Welcome email carries blend name only, no formula or dose.
 - The IFU storage line ("at or below 77 F, in original amber vials and foil bags, dry") is optional. [TJ CONFIRM: add one line on storage?]
-- Shipping time is TBD; the line stays as `[TJ CONFIRM: shipping time]` in the source until TJ supplies it, then the placeholder is replaced before P2-B ships.
+- Shipping time (TJ 2026-10-02): "Prepared within 1–3 business days, then ground delivery in 3–5 business days." In the welcome email (step 1) the line reads: "Your kit is prepared within 1–3 business days and ships by ground; delivery typically takes 3–5 business days after it ships."
 
 ---
 
@@ -233,13 +250,13 @@ Reuse these exact lines everywhere to keep the promise consistent:
 - Not cleared: "automatic full refund".
 - After hours: "Submitted outside 9 a.m.–5 p.m. Central? You'll hear from us within the first hour of the next business day."
 - Pharmacy partner: "our pharmacy partner" (never a company name).
-- Time-to-door: `[TJ CONFIRM: shipping time]` until supplied.
+- Time-to-door (TJ 2026-10-02): "Prepared within 1–3 business days, then ground delivery in 3–5 business days." Use this line wherever shipping time appears.
 
 ---
 
 ## 13. Open questions for TJ
 
-1. **Shipping time** for the welcome email: `[TJ CONFIRM: shipping time]`.
+1. ~~Shipping time~~ Resolved 2026-10-02: "Prepared within 1–3 business days, then ground delivery in 3–5 business days."
 2. **Sender address.** support@my4mlife.com proposed; confirm, or give another my4mlife.com alias (the plan says "a my4mlife.com address").
 3. **Consent text** (section 1.3): legal review of the adapted paragraph, and whether to link the full `/consent` page, which still carries GLP-1 and compounded-medication sections.
 4. **Screening "Yes" handling:** goes to the physician (proposed) versus an automatic decline.
