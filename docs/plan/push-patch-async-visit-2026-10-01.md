@@ -97,3 +97,11 @@ model: opus
 - [ ] Copy: "our network's licensed physicians" only; no group or physician name on customer surfaces
 - [ ] HANDOFF updated; commit pushed to `main`
 ✓ DONE WHEN: all checklist items are checked and the commit is pushed to `origin/main`.
+
+---
+## Addendum 2026-10-02 (TJ "go")
+- **Pre-payment safety check (reusable per lane):** Buy → modal. Knockouts: seizures/epilepsy, pacemaker or other implanted electronic device, pregnancy. Placement questions (not knockouts): metal implant / wound or scar → "choose a different area"; "no suitable area" → knockout. Skin-area line: clean, easy-to-reach skin with little or no hair (upper arm, shoulder, upper chest, forearm, thigh, side of abdomen). Answers go to Stripe metadata → intake reads them (no re-asking) → packet + provider email print "Patient denied: …". Config per lane in website/src/data/screening.ts + lambda mirror, so GLP-1 etc. plug in later.
+- **Decline = refund pending, not automatic:** physician Decline → state declined + refundStatus pending, nothing to Genesis, patient email "refund within 10 business days". Admin Patients tab gets an **Issue refund** button (only declined + never sent to Genesis) → Stripe refund + confirmation email. Built so the admin step can be automated later. TJ reminder email if a pending refund is 7 business days old.
+- **Genesis practice config:** SSM /my4mlife/genesis/practice via infra script (Oscar Molina / MD Specialty Group / 817-995-3103 / drtj@mdspecialtygroup.com / 6406 Lago Vista Drive, Benbrook, TX 76132 / TJ Mundheim placer + sales rep / "Electronically signed" / microneedling 1).
+- **Patient emails from support@my4mlife.com** (email-sender optional from-alias, allowlisted).
+- **No refunds once shipped** (FDA); page copy stays "Not cleared? Full refund. Final once shipped."
