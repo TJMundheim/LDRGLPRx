@@ -129,7 +129,11 @@ export const handler: Handler = async (event: any) => {
   }
   if (event?.requestContext && typeof event?.body === 'string') {
     try {
-      const out = await send(JSON.parse(event.body));
+      // Public route (POST /api/contact-form): form submissions only. 'info'/'verification' (arbitrary
+      // to/subject/html/attachments/support@ identity) are Lambda-invoke only, never an open relay.
+      const p = JSON.parse(event.body);
+      if (p?.kind !== 'form') throw new Error('only form submissions are accepted');
+      const out = await send(p);
       return { statusCode: 200, headers: { 'content-type': 'application/json' }, body: JSON.stringify(out) };
     } catch (e: any) {
       return { statusCode: 400, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ error: e.message }) };

@@ -44,6 +44,12 @@ describe('info sender identity', () => {
     expect(p.get('h:Reply-To')).toBeNull();
   });
 
+  it.each(['info', 'verification'])('public HTTP route rejects kind %s (no open relay)', async (kind) => {
+    const res = await handler({ requestContext: {}, body: JSON.stringify({ kind, to: 'x@evil.com', subject: 's', html: 'h', from: 'support' }) }, {} as any, () => {});
+    expect(res.statusCode).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it("from: 'support' on a verification email is ignored (info kind only)", async () => {
     const p = await run({ kind: 'verification', from: 'support' });
     expect(p.get('from')).toBe('My4MLife <verify@my4mlife.com>');

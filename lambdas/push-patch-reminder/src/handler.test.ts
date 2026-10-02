@@ -106,6 +106,13 @@ describe('push-patch-reminder', () => {
     expect(sentEmail().from).toBe('support');
   });
 
+  it('promises the admin-approved refund window, never an automatic refund', async () => {
+    ddbSend.mockResolvedValueOnce({ Items: [item()] });
+    await handler();
+    expect(sentEmail().html).toContain('refunded within 10 business days');
+    expect(sentEmail().html).not.toMatch(/automatically/i);
+  });
+
   it('runs the refund sweep after the reminders and reports it; its failure does not break the reminders', async () => {
     ddbSend.mockResolvedValueOnce({ Items: [item()] }).mockResolvedValueOnce({}).mockRejectedValueOnce(new Error('scan boom'));
     const r = await sweep();
