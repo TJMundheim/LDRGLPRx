@@ -74,6 +74,34 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
+  lambdas/_shared/encounter-refund:
+    dependencies:
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-lambda':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
+      '@my4mlife/patient-record':
+        specifier: workspace:*
+        version: link:../patient-record
+      '@my4mlife/stripe-client':
+        specifier: workspace:*
+        version: link:../stripe-client
+    devDependencies:
+      stripe:
+        specifier: ^17.0.0
+        version: 17.7.0
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@24.12.4)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/_shared/order-handler-core:
     dependencies:
       '@my4mlife/contact-id':
@@ -1074,6 +1102,25 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
+
+  lambdas/refund-encounter-admin:
+    dependencies:
+      '@my4mlife/encounter-refund':
+        specifier: workspace:*
+        version: link:../_shared/encounter-refund
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
 
   lambdas/reminder-dispatcher:
     dependencies:

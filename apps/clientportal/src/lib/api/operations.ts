@@ -418,6 +418,13 @@ export interface EncounterAdmin {
   providerSentTo?: string | null;
   providerSentAt?: string | null;
   packetKey?: string | null;
+  /** Amount paid (cents), when recorded on the encounter. Used for the refund confirm text. */
+  amountCents?: number | null;
+  /** Push Patch decline flow: 'pending' | 'processing' | 'refunded'. */
+  refundStatus?: string | null;
+  /** YYYY-MM-DD: the date the patient was promised their refund by. */
+  refundDueBy?: string | null;
+  refundedAt?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -470,7 +477,7 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
   };
 }
 
-const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents providerSentTo providerSentAt packetKey createdAt updatedAt`;
+const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents providerSentTo providerSentAt packetKey amountCents refundStatus refundDueBy refundedAt createdAt updatedAt`;
 const BRIEF_FIELDS = `encounterId json createdAt`;
 const PLAN_FIELDS = `encounterId state json createdAt sentAt`;
 
@@ -563,6 +570,33 @@ export async function chargeEncounterAdmin(
       interval: input.interval,
       label: input.label,
     },
+  });
+}
+
+// ─── RefundEncounterAdmin ─────────────────────────────────────────────────────
+
+export type EncounterRefundResult = {
+  ok: boolean;
+  refundId?: string;
+  amountCents?: number;
+  emailSent?: boolean;
+  error?: string;
+  code?: string;
+};
+
+export async function refundEncounterAdmin(
+  input: { contactId: string; encounterId: string },
+  opts?: ClientOptions,
+): Promise<{ refundEncounterAdmin: EncounterRefundResult }> {
+  return client(opts)<{ refundEncounterAdmin: EncounterRefundResult }>({
+    query: `
+      mutation RefundEncounterAdmin($contactId: ID!, $encounterId: ID!) {
+        refundEncounterAdmin(contactId: $contactId, encounterId: $encounterId) {
+          ok refundId amountCents emailSent error code
+        }
+      }
+    `,
+    variables: { contactId: input.contactId, encounterId: input.encounterId },
   });
 }
 

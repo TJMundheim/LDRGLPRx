@@ -24,6 +24,7 @@ import {
   listPatientRecordsAdmin,
   getPatientRecordAdmin,
   updateEncounterStateAdmin,
+  refundEncounterAdmin,
 } from './operations.js';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -182,5 +183,25 @@ describe('updateEncounterStateAdmin', () => {
       toState: 'CANCELLED',
     });
     expect(result.updateEncounterStateAdmin).toBeNull();
+  });
+});
+
+describe('refundEncounterAdmin', () => {
+  beforeEach(() => mockRequest.mockReset());
+
+  it('sends the RefundEncounterAdmin mutation with only contactId + encounterId', async () => {
+    mockRequest.mockResolvedValue({ refundEncounterAdmin: { ok: true, refundId: 're_1' } });
+    const res = await refundEncounterAdmin({ contactId: 'c1', encounterId: 'pp-1' });
+    const [{ query, variables }] = mockRequest.mock.calls[0] as [{ query: string; variables: unknown }][];
+    expect(query).toMatch(/refundEncounterAdmin\(contactId: \$contactId, encounterId: \$encounterId\)/);
+    expect(variables).toEqual({ contactId: 'c1', encounterId: 'pp-1' });
+    expect(res.refundEncounterAdmin.ok).toBe(true);
+  });
+
+  it('requests refund fields on the encounter list query', async () => {
+    mockRequest.mockResolvedValue({ listPatientRecordsAdmin: { items: [], nextToken: null } });
+    await listPatientRecordsAdmin({} as never).catch(() => undefined);
+    const q = (mockRequest.mock.calls[0]?.[0] as { query?: string } | undefined)?.query ?? '';
+    expect(q).toMatch(/refundStatus refundDueBy/);
   });
 });

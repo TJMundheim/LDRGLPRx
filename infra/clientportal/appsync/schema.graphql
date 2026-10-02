@@ -486,6 +486,17 @@ type ChargeResultAdmin {
   code: String
 }
 
+# ─── EncounterRefundResult (admin-only; refund-encounter-admin Lambda result) ─
+
+type EncounterRefundResult {
+  ok: Boolean!
+  refundId: String
+  amountCents: Int
+  emailSent: Boolean
+  error: String
+  code: String
+}
+
 # ─── PatientRecords (admin-only; PatientRecords table PK=contactId SK=sk) ────
 
 type PatientRecordAdmin {
@@ -514,6 +525,10 @@ type EncounterAdmin {
   providerSentTo: String
   providerSentAt: AWSDateTime
   packetKey: String
+  amountCents: Int
+  refundStatus: String
+  refundDueBy: String
+  refundedAt: AWSDateTime
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
@@ -663,6 +678,8 @@ type Mutation {
   updateEncounterStateAdmin(contactId: ID!, encounterId: ID!, toState: String!): EncounterAdmin
     @aws_auth(cognito_groups: ["Admins"])
   chargeEncounterAdmin(contactId: ID!, encounterId: ID!, amountCents: Int!, billingType: String!, interval: String, label: String): ChargeResultAdmin
+    @aws_auth(cognito_groups: ["Admins"])
+  refundEncounterAdmin(contactId: ID!, encounterId: ID!): EncounterRefundResult
     @aws_auth(cognito_groups: ["Admins"])
   exportClinicalPacketAdmin(contactId: ID!, encounterId: ID!): PacketResultAdmin
     @aws_auth(cognito_groups: ["Admins"])

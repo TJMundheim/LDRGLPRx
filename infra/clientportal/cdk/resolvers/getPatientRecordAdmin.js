@@ -49,6 +49,10 @@ export function response(ctx) {
         providerSentTo: item.providerSentTo ? item.providerSentTo : null,
         providerSentAt: item.providerSentAt ? item.providerSentAt : null,
         packetKey: item.packetKey ? item.packetKey : null,
+        amountCents: item.amountCents ? item.amountCents : (item.priceCents ? item.priceCents : null),
+        refundStatus: item.refundStatus ? item.refundStatus : null,
+        refundDueBy: item.refundDueBy ? item.refundDueBy : null,
+        refundedAt: item.refundedAt ? item.refundedAt : null,
         createdAt: item.createdAt ? item.createdAt : null,
         updatedAt: item.updatedAt ? item.updatedAt : null,
       };

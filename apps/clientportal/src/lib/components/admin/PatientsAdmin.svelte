@@ -24,6 +24,7 @@
     latestFor,
     type Plan,
   } from './patientBrief.js';
+  import PushPatchRefund from './PushPatchRefund.svelte';
   import { parseConsents, consentChecklist, providerReady, cardOnFileRow, type ConsentsMap } from './consents.js';
 
   /** Treatment lanes offered at consent time. Mirrors the lanes.ts module in the consent Lambdas. */
@@ -463,6 +464,16 @@
     }
   }
 
+  /** Re-read the open patient (e.g. after a Push Patch refund) and sync the summary list. */
+  async function refreshDetail(contactId: string) {
+    try {
+      const r = (await getPatientRecordAdmin(contactId)).getPatientRecordAdmin;
+      if (!r) return;
+      detail = r;
+      items = items.map((p) => (p.contactId === contactId ? { ...p, encounters: r.encounters } : p));
+    } catch { /* the refund itself already succeeded; ignore reload errors */ }
+  }
+
   // ─── Legal state transitions ──────────────────────────────────────────────────
 
   const NEXT_STATES: Record<string, string[]> = {
@@ -826,6 +837,9 @@
                         </div>
                         <div class="pathlbl">{#each STEP_LABELS as l}<span>{l}</span>{/each}</div>
                       {/if}
+
+                      <PushPatchRefund contactId={detail.contactId} enc={enc2}
+                        name={patientName(detail) || patientEmail(detail)} onrefunded={() => refreshDetail(detail!.contactId)} />
 
                       {#if transitionError[enc2.encounterId]}
                         <p class="err small">{transitionError[enc2.encounterId]}</p>

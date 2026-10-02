@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { describe, it, expect } from 'vitest';
@@ -45,5 +47,27 @@ describe('ApiStack', () => {
         FieldName: fieldName,
       });
     });
+  });
+});
+
+describe('refundEncounterAdmin wiring', () => {
+  // Checked against the .ts source: the committed api-stack.js is a stale tsc artifact; `cdk deploy` runs the .ts via ts-node.
+  it('is wired in api-stack.ts to my4mlife-refund-encounter-admin', () => {
+    const src = readFileSync(join(__dirname, '../lib/api-stack.ts'), 'utf8');
+    expect(src).toMatch(/fromFunctionName\(this, 'RefundEncounterFn', 'my4mlife-refund-encounter-admin'\)/);
+    expect(src).toMatch(/fieldName: 'refundEncounterAdmin'/);
+    expect(src).toMatch(/code\('refundEncounterAdmin\.js'\)/);
+  });
+
+  it('declares an Admins-only mutation + result type in the schema', () => {
+    const schema = readFileSync(join(__dirname, '../../appsync/schema.graphql'), 'utf8');
+    expect(schema).toMatch(/refundEncounterAdmin\(contactId: ID!, encounterId: ID!\): EncounterRefundResult\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
+    expect(schema).toMatch(/type EncounterRefundResult \{/);
+  });
+
+  it('resolver rejects non-admins before invoking the Lambda', () => {
+    const src = readFileSync(join(__dirname, '../resolvers/refundEncounterAdmin.js'), 'utf8');
+    expect(src).toMatch(/if \(!isAdmin\(ctx\)\) util\.unauthorized\(\)/);
+    expect(src).toMatch(/operation: 'Invoke'/);
   });
 });

@@ -323,6 +323,18 @@ export class ApiStack extends cdk.Stack {
       code: code('sendToProviderAdmin.js'),
     });
 
+    // ─── RefundEncounterAdmin — Lambda data source (admin-approved Push Patch refund) ─
+    const refundEncounterFn = lambda.Function.fromFunctionName(this, 'RefundEncounterFn', 'my4mlife-refund-encounter-admin');
+    const dsRefundEncounter = this.api.addLambdaDataSource('RefundEncounterDS', refundEncounterFn);
+    new appsync.Resolver(this, 'RefundEncounterAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'refundEncounterAdmin',
+      dataSource: dsRefundEncounter,
+      runtime: JS_RUNTIME,
+      code: code('refundEncounterAdmin.js'),
+    });
+
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });
   }

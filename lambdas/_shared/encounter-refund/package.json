@@ -1,0 +1,25 @@
+{
+  "name": "@my4mlife/encounter-refund",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.700.0",
+    "@aws-sdk/client-lambda": "^3.700.0",
+    "@aws-sdk/lib-dynamodb": "^3.700.0",
+    "@my4mlife/patient-record": "workspace:*",
+    "@my4mlife/stripe-client": "workspace:*"
+  },
+  "devDependencies": {
+    "stripe": "^17.0.0",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}
