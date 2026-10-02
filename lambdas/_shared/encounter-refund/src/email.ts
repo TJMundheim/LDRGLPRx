@@ -14,7 +14,7 @@ export async function sendRefundEmail(to: string, firstName: string): Promise<vo
   const res = await lambda.send(new InvokeCommand({
     FunctionName: SENDER_FN,
     InvocationType: 'RequestResponse',
-    Payload: Buffer.from(JSON.stringify({ kind: 'info', to, subject: 'Your Push Patch refund has been issued', text, html })),
+    Payload: Buffer.from(JSON.stringify({ kind: 'info', to, subject: 'Your Push Patch refund has been issued', text, html, from: 'support' })),
   }));
   if (res.FunctionError) throw new Error('email-sender failed');
 }

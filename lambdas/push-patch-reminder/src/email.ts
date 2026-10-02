@@ -32,7 +32,7 @@ export async function sendReminder(to: string, sessionId: string, n: 0 | 1): Pro
   const r = await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
     InvocationType: 'RequestResponse',
-    Payload: Buffer.from(JSON.stringify({ kind: 'info', to, subject, html })),
+    Payload: Buffer.from(JSON.stringify({ kind: 'info', from: 'support', to, subject, html })),
   }));
   if (r.FunctionError) throw new Error('email-sender failed');
 }

@@ -53,6 +53,7 @@ const SESSION = {
   payment_status: 'paid',
   payment_intent: 'pi_123',
   amount_total: 14900,
+  currency: 'usd',
   metadata: {
     skuIds: SKU, wear: '12h',
     screen_v: 'pp-screen-v1', screen_at: '2026-10-02T12:00:00.000Z', screen_denied: '',
@@ -432,6 +433,8 @@ describe('success: PatientRecord and Encounter', () => {
       sessionId: SESSION_ID,
       paymentIntentId: 'pi_123',
       state: 'sent-to-provider',
+      amountCents: 14900,
+      currency: 'usd',
     });
   });
 

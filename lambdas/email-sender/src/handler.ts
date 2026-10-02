@@ -24,9 +24,12 @@ async function secrets(): Promise<Cache> {
   return cache;
 }
 
-async function mailgun(from: string, to: string, subject: string, html: string, text?: string, cc?: string, attachments?: Attachment[]) {
+const SUPPORT_ADDR = 'support@my4mlife.com';
+const SUPPORT_FROM = `My4MLife Support <${SUPPORT_ADDR}>`;
+
+async function mailgun(from: string, to: string, subject: string, html: string, text?: string, cc?: string, attachments?: Attachment[], replyTo?: string) {
   const { key } = await secrets();
-  return mailgunSend({ key, domain: DOMAIN, from, to, subject, html, text, cc, attachments });
+  return mailgunSend({ key, domain: DOMAIN, from, to, subject, html, text, cc, attachments, replyTo });
 }
 
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' } as Record<string, string>)[c]);
@@ -86,7 +89,7 @@ function confirmation(formId: string): { subject: string; html: string } {
 }
 
 type SendPayload =
-  | { kind: 'verification' | 'info'; to: string; subject: string; html: string; text?: string; cc?: string; attachments?: Attachment[] }
+  | { kind: 'verification' | 'info'; to: string; subject: string; html: string; text?: string; cc?: string; attachments?: Attachment[]; from?: unknown }
   | { kind: 'form'; formId: string; fields: Record<string, unknown> };
 
 async function send(p: SendPayload) {
@@ -112,7 +115,9 @@ async function send(p: SendPayload) {
   }
   const addr = p.kind === 'verification' ? addrs['email-verification'] : addrs['email-info'];
   if (!addr) throw new Error(`no from address for kind=${p.kind}`);
-  const id = await mailgun(`My4MLife <${addr}>`, p.to, p.subject, p.html, p.text, p.cc, p.kind === 'info' ? p.attachments : undefined);
+  // Allowlist: only the literal 'support' on kind 'info' switches identity; anything else is ignored.
+  const support = p.kind === 'info' && p.from === 'support';
+  const id = await mailgun(support ? SUPPORT_FROM : `My4MLife <${addr}>`, p.to, p.subject, p.html, p.text, p.cc, p.kind === 'info' ? p.attachments : undefined, support ? SUPPORT_ADDR : undefined);
   return { id };
 }
 

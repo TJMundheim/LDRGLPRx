@@ -7,7 +7,7 @@ const lambda = new LambdaClient({ region: process.env.AWS_REGION ?? 'us-east-2' 
 const SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 
 export interface Attachment { filename: string; contentBase64: string; contentType: string }
-export interface Mail { to: string; subject: string; text: string; html: string; cc?: string; attachments?: Attachment[] }
+export interface Mail { to: string; subject: string; text: string; html: string; cc?: string; attachments?: Attachment[]; from?: 'support' }
 
 export async function send(payload: Mail): Promise<void> {
   const res = await lambda.send(new InvokeCommand({

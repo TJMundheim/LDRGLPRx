@@ -16,6 +16,8 @@ export interface PaidSession {
   id: string;
   payment_status?: string | null;
   payment_intent?: string | { id: string } | null;
+  amount_total?: number | null;
+  currency?: string | null;
   metadata?: Record<string, string> | null;
   customer_details?: { email?: string | null; name?: string | null; phone?: string | null } | null;
   shipping_details?: StripeShipping | null;
@@ -29,6 +31,7 @@ export const encounterIdFor = (sessionId: string): string => `pp-${sessionId}`;
 /** Conditional put of the Encounter. Runs FIRST so a duplicate never touches the record or consent. */
 export async function createEncounter(a: {
   contactId: string; encounterId: string; sku: string; sessionId: string; paymentIntentId: string; shipTo: ShipTo; ts: string;
+  amountCents?: number | null; currency?: string | null;
 }): Promise<'created' | 'duplicate'> {
   try {
     await ddb.send(new PutCommand({
@@ -37,6 +40,7 @@ export async function createEncounter(a: {
         contactId: a.contactId, sk: encounterSk(a.encounterId), encounterId: a.encounterId,
         lane: 'push-patch', category: 'push-patch', visitType: 'async', sku: a.sku,
         sessionId: a.sessionId, paymentIntentId: a.paymentIntentId, shipTo: a.shipTo, state: 'sent-to-provider',
+        amountCents: a.amountCents, currency: a.currency,
         createdAt: a.ts, updatedAt: a.ts,
       },
       ConditionExpression: 'attribute_not_exists(sk)',

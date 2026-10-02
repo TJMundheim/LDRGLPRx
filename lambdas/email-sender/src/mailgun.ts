@@ -3,7 +3,7 @@ export interface Attachment { filename: string; contentBase64: string; contentTy
 
 export interface MailgunArgs {
   key: string; domain: string; from: string; to: string; subject: string; html: string;
-  text?: string; cc?: string; attachments?: Attachment[];
+  text?: string; cc?: string; replyTo?: string; attachments?: Attachment[];
 }
 
 const valid = (a: Attachment): boolean =>
@@ -13,7 +13,7 @@ const valid = (a: Attachment): boolean =>
 export async function mailgunSend(o: MailgunArgs): Promise<string> {
   const fields: Record<string, string> = {
     from: o.from, to: o.to, subject: o.subject, html: o.html,
-    ...(o.text ? { text: o.text } : {}), ...(o.cc ? { cc: o.cc } : {}),
+    ...(o.text ? { text: o.text } : {}), ...(o.cc ? { cc: o.cc } : {}), ...(o.replyTo ? { 'h:Reply-To': o.replyTo } : {}),
   };
   const headers: Record<string, string> = { Authorization: `Basic ${Buffer.from(`api:${o.key}`).toString('base64')}` };
   let body: string | FormData;

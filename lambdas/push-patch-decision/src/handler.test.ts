@@ -213,9 +213,15 @@ describe('approve', () => {
     const welcome = emails().find((e) => e.to === 'jane@example.com');
     expect(welcome).toBeDefined();
     expect(welcome.kind).toBe('info');
+    expect(welcome.from).toBe('support');
     expect(welcome.subject).toBe('Welcome — your Push Patch is approved');
     // customer copy never names the fulfillment partner
     expect(flat(welcome)).not.toMatch(/genesis/i);
+  });
+
+  it('internal Genesis order email is NOT sent from support', async () => {
+    await handler(evt(tokenFor('approve')));
+    expect(emails().find((e) => e.to === GENESIS).from).toBeUndefined();
   });
 
   it('welcome email carries the shipping-time copy', async () => {
@@ -438,6 +444,7 @@ describe('decline (refund queued for admin approval, no Stripe)', () => {
     const sent = emails();
     expect(sent).toHaveLength(1);
     expect(sent[0].to).toBe('jane@example.com');
+    expect(sent[0].from).toBe('support');
     expect(sent.find((e) => e.to === GENESIS)).toBeUndefined();
     expect(sent.find((e) => e.attachments)).toBeUndefined();
     expect(flat(sent[0])).not.toMatch(/genesis/i);

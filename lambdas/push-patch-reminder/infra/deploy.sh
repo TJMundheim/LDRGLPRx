@@ -2,7 +2,9 @@
 # Deploy push-patch-reminder Lambda — idempotent
 # Triggered by EventBridge rule every 15 minutes.
 # Scans Touchpoints for PUSH_PATCH_PENDING# rows past intakeDue with no intakeSubmittedAt
-# (max 2 reminders), claims each conditionally, invokes email-sender (kind 'info').
+# (max 2 reminders), claims each conditionally, invokes email-sender (kind 'info', from 'support').
+# Also scans PatientRecords for declined push-patch encounters with refundStatus 'pending' for 7+
+# business days and emails TJ once (refundReminderSentAt guard).
 set -euo pipefail
 
 FUNCTION_NAME="my4mlife-push-patch-reminder"
@@ -18,7 +20,8 @@ ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
 EMAIL_SENDER_FN="${EMAIL_SENDER_FN:-my4mlife-email-sender}"
 INTAKE_BASE_URL="${INTAKE_BASE_URL:-https://www.my4mlife.com/go/push-patch/thank-you}"
-ENV_JSON="{\"Variables\":{\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\",\"INTAKE_BASE_URL\":\"${INTAKE_BASE_URL}\"}}"
+PATIENT_RECORDS_TABLE="${PATIENT_RECORDS_TABLE:-PatientRecords}"
+ENV_JSON="{\"Variables\":{\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\",\"INTAKE_BASE_URL\":\"${INTAKE_BASE_URL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\"}}"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -47,6 +50,12 @@ POLICY_DOC=$(cat <<EOF
       "Effect": "Allow",
       "Action": ["dynamodb:Scan", "dynamodb:UpdateItem"],
       "Resource": "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/Touchpoints"
+    },
+    {
+      "Sid": "DDBPatientRecords",
+      "Effect": "Allow",
+      "Action": ["dynamodb:Scan", "dynamodb:GetItem", "dynamodb:UpdateItem"],
+      "Resource": "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/${PATIENT_RECORDS_TABLE}"
     },
     {
       "Sid": "InvokeEmailSender",

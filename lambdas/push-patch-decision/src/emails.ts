@@ -9,7 +9,7 @@ const FOOTER =
   'You received this email because you placed a Push Patch order at my4mlife.com. Your health information is handled under our Privacy Policy: https://my4mlife.com/privacy';
 
 const toHtml = (text: string): string => text.split('\n\n').map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('');
-const mail = (to: string, subject: string, text: string) => send({ to, subject, text, html: toHtml(text) });
+const mail = (to: string, subject: string, text: string) => send({ to, subject, text, html: toHtml(text), from: 'support' });
 
 export function sendWelcome(to: string, firstName: string, sku: string): Promise<void> {
   const text = `Hi ${firstName},\n\nOne of our network's licensed physicians has reviewed your answers and cleared your ${blendFor(sku).name} Push Patch set. Your payment stands and there is nothing more to do today.\n\n` +

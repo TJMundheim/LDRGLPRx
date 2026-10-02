@@ -49,7 +49,10 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   let created = false;
   try {
-    if ((await createEncounter({ contactId, encounterId, sku, sessionId: session.id, paymentIntentId, shipTo, ts })) === 'duplicate') {
+    if ((await createEncounter({
+      contactId, encounterId, sku, sessionId: session.id, paymentIntentId, shipTo, ts,
+      amountCents: session.amount_total, currency: session.currency,
+    })) === 'duplicate') {
       return reply(200, { ok: true, alreadySubmitted: true, encounterId }, origin);
     }
     created = true;

@@ -25,6 +25,14 @@ describe('mailgunSend without attachments (backward compatible)', () => {
     expect(p.get('text')).toBe('Hi');
   });
 
+  it('replyTo is sent as the h:Reply-To header (urlencoded and multipart)', async () => {
+    await mailgunSend({ ...base, replyTo: 'support@my4mlife.com' });
+    expect(new URLSearchParams(fetchMock.mock.calls[0][1].body).get('h:Reply-To')).toBe('support@my4mlife.com');
+    fetchMock.mockClear();
+    await mailgunSend({ ...base, replyTo: 'support@my4mlife.com', attachments: [{ filename: 'a.pdf', contentBase64: 'AA==', contentType: 'application/pdf' }] });
+    expect((fetchMock.mock.calls[0][1].body as FormData).get('h:Reply-To')).toBe('support@my4mlife.com');
+  });
+
   it('empty attachments array also uses the urlencoded path', async () => {
     await mailgunSend({ ...base, attachments: [] });
     expect(fetchMock.mock.calls[0][1].headers['Content-Type']).toBe('application/x-www-form-urlencoded');

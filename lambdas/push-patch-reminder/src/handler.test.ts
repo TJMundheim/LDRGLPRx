@@ -13,7 +13,8 @@ vi.mock('@aws-sdk/client-lambda', () => {
   return { InvokeCommand, LambdaClient: class { send = lambdaSend; } };
 });
 
-import { handler } from './handler';
+import { handler as sweep } from './handler';
+const handler = async () => { const { refunds: _r, ...rest } = await sweep(); return rest; };
 
 const NOW = new Date('2026-10-01T15:00:00.000Z');
 const CREATED = '2026-10-01T14:20:00.000Z';
@@ -29,6 +30,7 @@ const sentEmail = () => JSON.parse(Buffer.from(lambdaSend.mock.calls[0][0].input
 beforeEach(() => {
   vi.useFakeTimers(); vi.setSystemTime(NOW);
   ddbSend.mockReset(); lambdaSend.mockReset();
+  ddbSend.mockResolvedValue({}); // refund sweep (runs after the reminders) sees an empty scan by default
   lambdaSend.mockResolvedValue({ StatusCode: 200 });
 });
 afterEach(() => { vi.useRealTimers(); vi.restoreAllMocks(); });
@@ -96,6 +98,18 @@ describe('push-patch-reminder', () => {
     expect(rb.ConditionExpression).toContain('remindersSent = :next');
     expect(rb.ExpressionAttributeValues[':cur']).toBe(0);
     expect(rb.ExpressionAttributeValues[':dueOld']).toBe('2026-10-01T14:50:00.000Z');
+  });
+
+  it('sends patient reminders as from: support', async () => {
+    ddbSend.mockResolvedValueOnce({ Items: [item()] });
+    await handler();
+    expect(sentEmail().from).toBe('support');
+  });
+
+  it('runs the refund sweep after the reminders and reports it; its failure does not break the reminders', async () => {
+    ddbSend.mockResolvedValueOnce({ Items: [item()] }).mockResolvedValueOnce({}).mockRejectedValueOnce(new Error('scan boom'));
+    const r = await sweep();
+    expect(r).toMatchObject({ sent: 1, failed: 0, refunds: { failed: 1 } });
   });
 
   it('skips items with no email address', async () => {
