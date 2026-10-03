@@ -372,13 +372,14 @@ const SCREEN_CLIENT = {
 
       <form id="pp-screen-detail" class="pp-modal-form" novalidate>
         <div class="pp-modal-scroll">
+          <p class="pp-modal-intro">Answer all {SAFETY_ITEMS.length + WEAR_ITEMS.length} questions. It takes about 30 seconds.</p>
           {SCREEN.siteNote && <p class="pp-modal-note">{SCREEN.siteNote}</p>}
-          {[{ title: 'Safety questions', items: SAFETY_ITEMS }, { title: "Where you'll wear it", items: WEAR_ITEMS }].map((g) => (
+          {[{ title: 'Safety questions', items: SAFETY_ITEMS, start: 1 }, { title: "Where you'll wear it", items: WEAR_ITEMS, start: SAFETY_ITEMS.length + 1 }].map((g) => (
             <div class="pp-qgroup" role="group" aria-label={g.title}>
               <p class="pp-qgroup-title">{g.title}</p>
-              {g.items.map((it) => (
+              {g.items.map((it, idx) => (
                 <fieldset class="pp-q" data-id={it.id} data-kind={it.kind}>
-                  <legend>{it.question}</legend>
+                  <legend><span class="pp-q-num">{g.start + idx}.</span> {it.question}</legend>
                   <div class="pp-q-opts">
                     <label><input type="radio" name={`pp-${it.id}`} value="yes" required /> Yes</label>
                     <label><input type="radio" name={`pp-${it.id}`} value="no" required /> No</label>
@@ -784,6 +785,8 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-modal-count { margin: 0 0 0.6rem; font-size: 0.85rem; text-align: center; color: var(--on-ink-muted); }
 .pp-modal-count.pp-done { color: var(--accent); }
 .pp-q.pp-q-missing { border-color: #f87171; box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.35); }
+.pp-modal-intro { margin: 0 0 0.8rem; font-size: 0.95rem; font-weight: 600; color: #ffffff; }
+.pp-q-num { font-weight: 800; color: var(--accent); margin-right: 0.2rem; }
 .pp-q-miss { margin: 0.4rem 0 0; font-size: 0.88rem; font-weight: 600; color: #fca5a5; }
 .pp-q-miss[hidden] { display: none; }
 .pp-modal .pp-modal-go:disabled:hover { background: var(--accent); }
