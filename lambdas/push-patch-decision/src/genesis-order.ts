@@ -6,7 +6,7 @@ import { blendFor, esc } from './blends';
 import { send } from './mailer';
 
 const TJ = 'drtj@my4mlife.com';
-export type OrderArgs = OrderInput & { lastName: string };
+export type OrderArgs = OrderInput & { lastName: string; testOrder?: boolean };
 
 export interface OrderSent { to: string; toGenesis: boolean }
 
@@ -18,9 +18,10 @@ export async function sendGenesisOrder(a: OrderArgs): Promise<OrderSent> {
   const known = !!QTY_FIELD[a.sku];
   const send2Genesis = missing.length === 0 && known;
   const to = send2Genesis ? process.env.GENESIS_ORDER_EMAIL ?? 'orders@novobioalliance.com' : TJ;
-  const subject = send2Genesis ? `encrypt — Push Patch order — ${blend.name} — ${a.lastName}`
+  const marker = a.testOrder ? '[TEST ORDER — DO NOT FILL] ' : '';
+  const subject = marker + (send2Genesis ? `encrypt — Push Patch order — ${blend.name} — ${a.lastName}`
     : known ? `[ACTION NEEDED] Genesis practice info missing — Push Patch order ${a.sessionId}`
-    : `[ACTION NEEDED] Genesis order blend not recognized — Push Patch order ${a.sessionId}`;
+    : `[ACTION NEEDED] Genesis order blend not recognized — Push Patch order ${a.sessionId}`);
   const lines = [
     ...(send2Genesis ? [] : [`NOT SENT TO GENESIS. ${known ? `Missing in SSM /my4mlife/genesis/practice: ${missing.join(', ')}.` : `Unrecognized blend sku: ${a.sku}.`} Fix it, then forward the attached form.`, '']),
     'New Push Patch order — physician approved.', `Blend: ${blend.name}`, 'Quantity: 1', `Ship to: ${a.ship?.name || a.name}`,

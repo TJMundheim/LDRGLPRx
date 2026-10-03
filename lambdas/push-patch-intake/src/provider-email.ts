@@ -57,7 +57,7 @@ const button = (href: string, label: string, bg: string) =>
 
 /** Exactly ONE email-sender invoke ({ kind:'info', to, subject, html, text }). */
 export async function sendProviderReview(a: {
-  contactId: string; encounterId: string; patientName: string; sku: string; screening: StoredScreening; packetUrl: string;
+  contactId: string; encounterId: string; patientName: string; sku: string; screening: StoredScreening; packetUrl: string; testOrder?: boolean;
 }): Promise<void> {
   const [to, secret] = await Promise.all([param(PROVIDER_EMAIL_PARAM), param(HMAC_PARAM)]);
   const [first = '', ...rest] = a.patientName.trim().split(/\s+/);
@@ -65,7 +65,7 @@ export async function sendProviderReview(a: {
   const blend = BLEND_NAMES[a.sku] ?? 'Push Patch';
   const flags = screeningSubjectFlags(a.screening).map((f) => `${f} `).join('');
   const lines = screeningLines(a.screening);
-  const subject = `${flags}[Provider review] Push Patch — ${blend} — ${who}`;
+  const subject = `${a.testOrder ? '[TEST ORDER $2] ' : ''}${flags}[Provider review] Push Patch — ${blend} — ${who}`;
   const url = (action: 'approve' | 'decline') =>
     `${BASE_URL}/api/push-patch-decision?t=${signToken(a.contactId, a.encounterId, action, secret)}`;
   const approve = url('approve');

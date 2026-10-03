@@ -4,6 +4,7 @@ import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-sec
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { evaluateScreening } from './screening';
 import { isPushPatchSku, parseWear, pushPatchEntry } from './push-patch';
+import { resolveTestPrice } from './test-price';
 
 const REGION = 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
@@ -100,7 +101,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   const stripe = await getStripeClient({ modeOverride });
 
-  let body: { skuId?: string; wear?: string; priceId?: string; contactId?: string; firstName?: string; email?: string; phone?: string; screening?: unknown };
+  let body: { skuId?: string; wear?: string; priceId?: string; contactId?: string; firstName?: string; email?: string; phone?: string; screening?: unknown; testToken?: unknown };
   try { body = JSON.parse(event.body ?? '{}'); }
   catch { return reply(400, { error: 'invalid JSON body' }, cors); }
 
@@ -128,13 +129,16 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const contactId = body.contactId;
   if (!priceId) return reply(400, { error: 'priceId required' }, cors);
 
+  // Private $2 test override: push-patch SKUs only; any failure silently keeps the catalog price.
+  const testPrice = await resolveTestPrice(skuId, body.testToken);
+
   const successBase = catalogEntry?.successUrl ?? process.env.SUCCESS_URL ?? 'https://my4mlife.com/thank-you';
   const cancelBase = catalogEntry?.cancelUrl ?? process.env.CANCEL_URL ?? 'https://my4mlife.com/cart';
 
   try {
     const session = await stripe.checkout.sessions.create({
       mode: catalogEntry?.mode ?? 'payment',
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [testPrice ? { price_data: testPrice, quantity: 1 } : { price: priceId, quantity: 1 }],
       success_url: skuId
         ? `${successBase}?session_id={CHECKOUT_SESSION_ID}&sku=${encodeURIComponent(skuId)}`
         : `${successBase}?session_id={CHECKOUT_SESSION_ID}`,
@@ -146,6 +150,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
         ...(skuId ? { skuIds: skuId } : {}),
         ...(wear ? { wear } : {}),
         ...screenMeta,
+        ...(testPrice ? { test_price: 'true' } : {}),
         ...(body.firstName ? { firstName: body.firstName } : {}),
         ...(body.phone ? { phone: body.phone } : {}),
         isDemo: String(resolvedMode === 'test'),

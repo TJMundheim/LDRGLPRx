@@ -580,3 +580,27 @@ describe('already decided', () => {
     noSideEffects();
   });
 });
+
+describe('test-price orders ($2 override)', () => {
+  it('flags the Genesis order email subject, keeping "encrypt"', async () => {
+    sessionsRetrieve.mockResolvedValue({ ...STRIPE_SESSION, metadata: { test_price: 'true' } });
+    await handler(evt(tokenFor('approve')));
+    const order = emails().find((e) => e.to === GENESIS);
+    expect(order.subject).toBe('[TEST ORDER — DO NOT FILL] encrypt — Push Patch order — Repair — Doe');
+  });
+
+  it('flags the TJ-only ACTION NEEDED email too', async () => {
+    sessionsRetrieve.mockResolvedValue({ ...STRIPE_SESSION, metadata: { test_price: 'true' } });
+    practiceParam = JSON.stringify({});
+    await handler(evt(tokenFor('approve')));
+    const alert = emails().find((e) => e.attachments);
+    expect(alert.to).toBe(TJ);
+    expect(alert.subject.startsWith('[TEST ORDER — DO NOT FILL] [ACTION NEEDED]')).toBe(true);
+  });
+
+  it('real orders carry no test marker', async () => {
+    sessionsRetrieve.mockResolvedValue({ ...STRIPE_SESSION, metadata: { skuIds: 'push-patch-bpc-nad-ghk' } });
+    await handler(evt(tokenFor('approve')));
+    expect(emails().find((e) => e.to === GENESIS).subject).toBe('encrypt — Push Patch order — Repair — Doe');
+  });
+});

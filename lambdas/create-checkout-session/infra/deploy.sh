@@ -15,6 +15,9 @@ ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
 STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:all-stripe-keys"
 ADMIN_DEMO_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:admin-demo-auth"
 CONTACT_TABLE_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/Contact"
+# Private $2 test-price token (SecureString, default aws/ssm key). kms:Decrypt below is limited to
+# use via SSM. Managed by infra/scripts/push-patch-test-token.sh
+TEST_TOKEN_PARAM_ARN="arn:aws:ssm:${REGION}:${ACCOUNT_ID}:parameter/my4mlife/push-patch/test-token"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -48,7 +51,7 @@ if ! aws iam get-role --role-name "$ROLE_NAME" >/dev/null 2>&1; then
   echo "    waiting for role propagation..."; sleep 10
 fi
 
-echo "==> Apply IAM inline policy (secrets + DDB)"
+echo "==> Apply IAM inline policy (secrets + DDB + test-token SSM)"
 POLICY_DOC=$(cat <<EOF
 {
   "Version": "2012-10-17",
@@ -62,6 +65,17 @@ POLICY_DOC=$(cat <<EOF
       "Effect": "Allow",
       "Action": ["dynamodb:PutItem", "dynamodb:UpdateItem"],
       "Resource": "${CONTACT_TABLE_ARN}"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "${TEST_TOKEN_PARAM_ARN}"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "*",
+      "Condition": { "StringEquals": { "kms:ViaService": "ssm.${REGION}.amazonaws.com" } }
     }
   ]
 }

@@ -69,6 +69,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       contactId, encounterId, sku, packetUrl,
       patientName: session.customer_details?.name ?? '',
       screening,
+      testOrder: session.metadata?.['test_price'] === 'true',
     });
   } catch (e) {
     console.error('[push-patch-intake] provider hand-off failed', { sessionId: session.id, error: String(e) });

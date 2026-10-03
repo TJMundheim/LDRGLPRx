@@ -16,6 +16,12 @@ vi.mock('@aws-sdk/client-secrets-manager', () => ({
   GetSecretValueCommand: vi.fn(),
 }));
 
+const mockSsmSend = vi.hoisted(() => vi.fn());
+vi.mock('@aws-sdk/client-ssm', () => ({
+  SSMClient: vi.fn().mockImplementation(() => ({ send: mockSsmSend })),
+  GetParameterCommand: vi.fn().mockImplementation((input) => ({ input })),
+}));
+
 vi.mock('@aws-sdk/client-dynamodb', () => ({
   DynamoDBClient: vi.fn().mockImplementation(() => ({ send: mockDdbSend })),
   UpdateItemCommand: vi.fn(),
@@ -37,6 +43,7 @@ vi.mock('./push-patch-prices.json', () => {
 });
 
 import { handler } from './handler.js';
+import { resetTestPriceCache } from './test-price.js';
 
 const ADMIN_PASSWORD = 'secret123';
 
@@ -65,6 +72,8 @@ beforeEach(() => {
   mockGetStripeClient.mockResolvedValue({ checkout: { sessions: { create: mockCreate } } });
   mockSmSend.mockResolvedValue({ SecretString: JSON.stringify({ password: ADMIN_PASSWORD }) });
   mockDdbSend.mockResolvedValue({});
+  resetTestPriceCache();
+  mockSsmSend.mockResolvedValue({ Parameter: { Value: JSON.stringify({ token: 'goodtoken', expiresAt: new Date(Date.now() + 86_400_000).toISOString() }) } });
 });
 
 describe('default route POST /api/create-checkout-session', () => {
@@ -282,5 +291,59 @@ describe('push-patch SKUs', () => {
     } finally {
       delete process.env['STRIPE_MODE'];
     }
+  });
+});
+
+describe('private $2 test-price override (testToken)', () => {
+  const answers = { seizures: false, pacemaker: false, pregnant: false, metalImplant: false, woundOrScar: true, suitableArea: true };
+  const body = (extra: Record<string, unknown> = {}, sku = 'push-patch-wolverine') =>
+    JSON.stringify({ skuId: sku, wear: '12h', screening: { version: 'pp-screen-v1', answers }, ...extra });
+  const live = async (b: string) => {
+    process.env['STRIPE_MODE'] = 'live';
+    try { return await handler(makeEvent({ body: b })) as any; } finally { delete process.env['STRIPE_MODE']; }
+  };
+
+  it('valid token charges $2 via price_data, keeps skuId, flags test_price', async () => {
+    const res = await live(body({ testToken: 'goodtoken' }));
+    expect(res.statusCode).toBe(200);
+    const args = mockCreate.mock.calls[0][0];
+    expect(args.line_items).toEqual([{ price_data: { currency: 'usd', unit_amount: 200, product_data: { name: 'Push Patch — Wolverine (TEST $2)' } }, quantity: 1 }]);
+    expect(args.metadata.test_price).toBe('true');
+    expect(args.metadata.skuIds).toBe('push-patch-wolverine');
+    expect(args.metadata.wear).toBe('12h');
+  });
+
+  it('wrong token silently charges the normal price', async () => {
+    const res = await live(body({ testToken: 'badtoken' }));
+    expect(res.statusCode).toBe(200);
+    const args = mockCreate.mock.calls[0][0];
+    expect(args.line_items).toEqual([{ price: 'price_live_wolverine', quantity: 1 }]);
+    expect(args.metadata.test_price).toBeUndefined();
+  });
+
+  it('expired token charges the normal price', async () => {
+    mockSsmSend.mockResolvedValue({ Parameter: { Value: JSON.stringify({ token: 'goodtoken', expiresAt: new Date(Date.now() - 1000).toISOString() }) } });
+    await live(body({ testToken: 'goodtoken' }));
+    expect(mockCreate.mock.calls[0][0].line_items).toEqual([{ price: 'price_live_wolverine', quantity: 1 }]);
+  });
+
+  it('missing SSM parameter charges the normal price without erroring', async () => {
+    mockSsmSend.mockRejectedValue(new Error('ParameterNotFound'));
+    const res = await live(body({ testToken: 'goodtoken' }));
+    expect(res.statusCode).toBe(200);
+    expect(mockCreate.mock.calls[0][0].line_items).toEqual([{ price: 'price_live_wolverine', quantity: 1 }]);
+  });
+
+  it('non-patch sku ignores the token', async () => {
+    await handler(makeEvent({ body: JSON.stringify({ skuId: 'biome-ns-ultra', testToken: 'goodtoken' }) }));
+    const args = mockCreate.mock.calls[0][0];
+    expect(args.line_items).toEqual([{ price: 'price_1Tp83ABSbDAyoIVynsgk0BAK', quantity: 1 }]);
+    expect(args.metadata.test_price).toBeUndefined();
+  });
+
+  it('valid token still enforces screening', async () => {
+    const res = await live(body({ testToken: 'goodtoken', screening: { version: 'pp-screen-v1', answers: { ...answers, seizures: true } } }));
+    expect(res.statusCode).toBe(403);
+    expect(mockCreate).not.toHaveBeenCalled();
   });
 });

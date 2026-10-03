@@ -729,3 +729,24 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
     expect(p.html).toContain('No pre-payment screening');
   });
 });
+
+describe('test-price orders ($2 override)', () => {
+  it('prefixes the provider email subject with [TEST ORDER $2] when metadata.test_price is "true"', async () => {
+    sessionRetrieveMock.mockResolvedValue(withScreen({ test_price: 'true' }));
+    await handler(evt(VALID_BODY));
+    const p = payloadOf(emailCalls()[0]);
+    expect(p.subject.startsWith('[TEST ORDER $2] ')).toBe(true);
+    expect(p.subject).toContain('[Provider review] Push Patch');
+  });
+
+  it('real orders carry no test prefix', async () => {
+    await handler(evt(VALID_BODY));
+    expect(payloadOf(emailCalls()[0]).subject).not.toContain('TEST ORDER');
+  });
+
+  it('a non-"true" test_price value is not a test order', async () => {
+    sessionRetrieveMock.mockResolvedValue(withScreen({ test_price: 'false' }));
+    await handler(evt(VALID_BODY));
+    expect(payloadOf(emailCalls()[0]).subject).not.toContain('TEST ORDER');
+  });
+});

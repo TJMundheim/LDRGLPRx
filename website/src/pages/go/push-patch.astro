@@ -72,6 +72,26 @@ const SCREEN_CLIENT = {
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow" hideChrome={true}>
 
+<Fragment slot="head">
+  {/* Private $2 test link (?t=<token>). Runs BEFORE the PostHog snippet: keep the token in memory + sessionStorage,
+      then scrub it from the address bar so analytics/referrers never see it. Sent only in the checkout POST body. */}
+  <script is:inline>
+  (function () {
+    try {
+      var u = new URL(location.href), t = u.searchParams.get('t');
+      if (t) {
+        window.__ppT = t;
+        try { sessionStorage.setItem('pp_t', t); } catch (e) {}
+        u.searchParams.delete('t');
+        history.replaceState(null, '', u.pathname + u.search + u.hash);
+      } else {
+        try { window.__ppT = sessionStorage.getItem('pp_t') || undefined; } catch (e) {}
+      }
+    } catch (e) {}
+  })();
+  </script>
+</Fragment>
+
 <div class="pp">
 
   <header class="pp-top">
@@ -514,7 +534,7 @@ const SCREEN_CLIENT = {
     fetch(API_BASE + '/api/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ skuId: skuId, screening: { version: C.version, answers: answers } }),
+      body: JSON.stringify({ skuId: skuId, screening: { version: C.version, answers: answers }, testToken: window.__ppT || undefined }),
     }).then(function (r) {
       if (r.status === 503) { fail("This blend isn't available yet."); return null; }
       if (!r.ok) { fail(GENERIC); return null; }

@@ -69,7 +69,7 @@ export async function decide(a: { contactId: string; encounterId: string; action
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
-      sendGenesisOrder({ sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
+      sendGenesisOrder({ testOrder: session.metadata?.test_price === 'true', sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
         .then((o) => stampGenesisSent(a.contactId, a.encounterId, o.to, o.toGenesis)),
     ]);
     return { kind: 'approved', mailOk };
