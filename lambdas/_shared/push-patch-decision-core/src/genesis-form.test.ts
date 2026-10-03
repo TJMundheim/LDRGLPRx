@@ -17,30 +17,34 @@ const read = async (bytes: Uint8Array) => {
 };
 
 describe('buildFields', () => {
-  it('maps practice constants and order data to page-1 field names', () => {
+  it('maps practice constants and order data to Push Patch page field names', () => {
     const f = buildFields(ORDER, PRACTICE);
     expect(f).toMatchObject({
       clinician: 'Dr. Test Clinician', practice: 'Test Practice', practice_phone: '555-0100', email: 'pay@example.com',
-      billing: '1 Billing St\nAustin, TX 78701', placer: 'Placer Person', placer_phone: '555-0101', salesrep: 'Rep One',
+      placer: 'Placer Person', placer_phone: '555-0101', salesrep: 'Rep One',
       rpa_notes1: 'My4MLife order cs_test_123 · 12-hour',
+      rpa_notes2: 'Billing: 1 Billing St, Austin, TX 78701 · Electronically signed — Dr. Test Clinician',
     });
-    expect(f.shipping).toBe('Jane Doe\n12 Ranch Rd Apt 4\nAustin, TX 78701\nPhone: +15125550123');
-    expect(f.rpa_notes2).toBeUndefined();
+    expect(f.shipping).toBe('Jane Doe, 12 Ranch Rd Apt 4\nAustin, TX 78701 · Phone: +15125550123');
+    // The Push Patch page has no billing or signature box: those fields are never written.
+    expect(f.billing).toBeUndefined();
     expect(f.pgx_physician_signature).toBeUndefined();
   });
 
   it('single-line address when line2 is missing', () => {
     const f = buildFields({ ...ORDER, ship: { address: { line1: '12 Ranch Rd', line2: null, city: 'Austin', state: 'TX', postal_code: '78701' } } }, PRACTICE);
-    expect(f.shipping).toBe('Jane Doe\n12 Ranch Rd\nAustin, TX 78701\nPhone: +15125550123');
+    expect(f.shipping).toBe('Jane Doe, 12 Ranch Rd\nAustin, TX 78701 · Phone: +15125550123');
   });
 
   it('the ship-to recipient name (when given) leads the shipping block instead of the patient name', () => {
     const f = buildFields({ ...ORDER, ship: { ...ORDER.ship, name: 'Janet Roe' } }, PRACTICE);
-    expect(f.shipping.split('\n')[0]).toBe('Janet Roe');
+    expect(f.shipping.startsWith('Janet Roe, ')).toBe(true);
   });
 
-  it('sets the physician signature only when configured', () => {
-    expect(buildFields(ORDER, { ...PRACTICE, physician_signature: 'Dr. Sig' }).pgx_physician_signature).toBe('Dr. Sig');
+  it('notes line 2 carries billing + e-signature (with the signer when configured) and degrades gracefully', () => {
+    expect(buildFields(ORDER, { ...PRACTICE, physician_signature: 'Electronically signed' }).rpa_notes2)
+      .toBe('Billing: 1 Billing St, Austin, TX 78701 · Electronically signed — Dr. Test Clinician');
+    expect(buildFields(ORDER, { ...PRACTICE, billing: undefined }).rpa_notes2).toBe('Electronically signed — Dr. Test Clinician');
   });
 
   it('every catalog blend has exactly one distinct qty field and sets only that one to "1"', () => {
@@ -75,19 +79,34 @@ describe('buildFields', () => {
 });
 
 describe('fillOrderForm', () => {
-  it('fills the Genesis template, keeps fields editable (not flattened), and returns a PDF', async () => {
+  it('outputs ONLY the Push Patch order page, filled and still editable (not flattened)', async () => {
     const bytes = await fillOrderForm(buildFields(ORDER, PRACTICE));
     expect(Buffer.from(bytes.slice(0, 5)).toString()).toBe('%PDF-');
+    const doc = await PDFDocument.load(bytes);
+    expect(doc.getPageCount()).toBe(1);
     const get = await read(bytes);
     expect(get('clinician')).toBe('Dr. Test Clinician');
-    expect(get('shipping')).toBe('Jane Doe\n12 Ranch Rd Apt 4\nAustin, TX 78701\nPhone: +15125550123');
-    expect(get('billing')).toBe('1 Billing St\nAustin, TX 78701');
+    expect(get('practice')).toBe('Test Practice');
+    expect(get('email')).toBe('pay@example.com');
+    expect(get('shipping')).toBe('Jane Doe, 12 Ranch Rd Apt 4\nAustin, TX 78701 · Phone: +15125550123');
     expect(get('qty_push4')).toBe('1');
     expect(get('qty_push1')).toBe('');
     expect(get('rpa_notes1')).toBe('My4MLife order cs_test_123 · 12-hour');
-    const doc = await PDFDocument.load(bytes);
-    expect(doc.getForm().getFields().length).toBeGreaterThan(20);
-    expect(doc.getPageCount()).toBe(5);
+    expect(get('rpa_notes2')).toBe('Billing: 1 Billing St, Austin, TX 78701 · Electronically signed — Dr. Test Clinician');
+    // exactly the page-5 fields remain; fields that only lived on removed pages are gone
+    const names = doc.getForm().getFields().map((f) => f.getName()).sort();
+    expect(names).toEqual(['clinician', 'email', 'placer', 'placer_phone', 'practice', 'practice_phone', 'qty_push1', 'qty_push2', 'qty_push3',
+      'qty_push4', 'qty_push5', 'qty_push6', 'qty_push7', 'qty_push8', 'rpa_notes1', 'rpa_notes2', 'salesrep', 'shipping']);
+    // every remaining widget sits on the one remaining page
+    const page = doc.getPage(0);
+    const annots = page.node.Annots()?.asArray() ?? [];
+    for (const f of doc.getForm().getFields()) for (const w of f.acroField.getWidgets()) expect(w.P()).toBe(page.ref);
+    expect(annots.length).toBe(names.length);
+  });
+
+  it('microneedling qty lands in qty_push8', async () => {
+    const get = await read(await fillOrderForm(buildFields(ORDER, { ...PRACTICE, microneedling_per_order: '1' })));
+    expect(get('qty_push8')).toBe('1');
   });
 
   it('missing practice values are simply left blank', async () => {

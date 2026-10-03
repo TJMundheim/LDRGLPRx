@@ -259,7 +259,7 @@ describe('approve', () => {
     expect(form.getTextField('qty_push4').getText()).toBe('1');
     expect(form.getTextField('clinician').getText()).toBe('Dr. Test Clinician');
     expect(form.getTextField('email').getText()).toBe('pay@example.com');
-    expect(form.getTextField('shipping').getText()).toBe('Jane Doe\n12 Ranch Rd\nAustin, TX 78701\nPhone: +15125550123');
+    expect(form.getTextField('shipping').getText()).toBe('Jane Doe, 12 Ranch Rd\nAustin, TX 78701 · Phone: +15125550123');
     expect(form.getTextField('rpa_notes1').getText()).toBe(`My4MLife order ${SESSION} · 12-hour`);
     // RequestResponse: the ~1.2 MB base64 payload is over the 256 KB async limit
     const invokes = lambdaSendMock.mock.calls.map((c) => c[0].input);
@@ -280,7 +280,7 @@ describe('approve', () => {
     await handler(evt(tokenFor('approve')));
     const order = emails().find((e) => e.to === GENESIS);
     const form = (await PDFDocument.load(Buffer.from(order.attachments[0].contentBase64, 'base64'))).getForm();
-    expect(form.getTextField('shipping').getText()).toBe('Janet Doe-Smith\n99 New Ave Unit 7\nDallas, TX 75201\nPhone: +15125550123');
+    expect(form.getTextField('shipping').getText()).toBe('Janet Doe-Smith, 99 New Ave Unit 7\nDallas, TX 75201 · Phone: +15125550123');
     expect(order.text).toContain('Ship to: Janet Doe-Smith');
     expect(flat(order)).not.toContain('Ranch Rd');
   });
@@ -295,7 +295,7 @@ describe('approve', () => {
     await handler(evt(tokenFor('approve')));
     const order = emails().find((e) => e.to === GENESIS);
     const form = (await PDFDocument.load(Buffer.from(order.attachments[0].contentBase64, 'base64'))).getForm();
-    expect(form.getTextField('shipping').getText()).toBe('Jane Doe\n5 Elm St\nWaco, TX 76701\nPhone: +15125550123');
+    expect(form.getTextField('shipping').getText()).toBe('Jane Doe, 5 Elm St\nWaco, TX 76701 · Phone: +15125550123');
   });
 
   it('defaults the Genesis recipient to orders@novobioalliance.com; no duplicate cc when TJ is the recipient', async () => {
