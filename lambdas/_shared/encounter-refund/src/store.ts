@@ -5,7 +5,9 @@ import { RECORD_SK, encounterSk, auditSk } from '@my4mlife/patient-record';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? 'us-east-2' }));
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
-const NAMES = { '#rs': 'refundStatus', '#state': 'state' };
+// DynamoDB rejects ExpressionAttributeNames that an expression doesn't use, so each call gets exactly its own.
+const CLAIM_NAMES = { '#rs': 'refundStatus', '#state': 'state' };
+const RS_NAMES = { '#rs': 'refundStatus' };
 
 type Item = Record<string, any>;
 const key = (contactId: string, encounterId: string) => ({ contactId, sk: encounterSk(encounterId) });
@@ -24,7 +26,7 @@ export async function claim(contactId: string, encounterId: string): Promise<boo
       TableName: TABLE, Key: key(contactId, encounterId),
       UpdateExpression: 'SET #rs = :processing, updatedAt = :now',
       ConditionExpression: '#rs = :pending AND #state = :declined AND attribute_not_exists(genesisOrderSentAt)',
-      ExpressionAttributeNames: NAMES,
+      ExpressionAttributeNames: CLAIM_NAMES,
       ExpressionAttributeValues: { ':pending': 'pending', ':processing': 'processing', ':declined': 'declined', ':now': new Date().toISOString() },
     }));
     return true;
@@ -40,7 +42,7 @@ export async function rollback(contactId: string, encounterId: string): Promise<
     TableName: TABLE, Key: key(contactId, encounterId),
     UpdateExpression: 'SET #rs = :pending, updatedAt = :now',
     ConditionExpression: '#rs = :processing',
-    ExpressionAttributeNames: NAMES,
+    ExpressionAttributeNames: RS_NAMES,
     ExpressionAttributeValues: { ':pending': 'pending', ':processing': 'processing', ':now': new Date().toISOString() },
   }));
 }
@@ -52,7 +54,7 @@ export async function finalize(a: { contactId: string; encounterId: string; refu
     TableName: TABLE, Key: key(a.contactId, a.encounterId),
     UpdateExpression: 'SET #rs = :refunded, refundedAt = :now, refundId = :rid, refundedBy = :by, refundAmountCents = :amt, updatedAt = :now',
     ConditionExpression: '#rs = :processing',
-    ExpressionAttributeNames: NAMES,
+    ExpressionAttributeNames: RS_NAMES,
     ExpressionAttributeValues: { ':refunded': 'refunded', ':processing': 'processing', ':now': now, ':rid': a.refundId, ':by': a.actor, ':amt': a.amountCents },
   }));
   await ddb.send(new PutCommand({
