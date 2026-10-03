@@ -168,24 +168,78 @@ describe('renderSummary', () => {
     expect(html).not.toContain('cvc');
   });
 
-  it('renders a human-readable Pre-payment safety screen for screeningAnswers.pushPatch', () => {
-    const pushPatch = { version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: ['seizures', 'pregnant'],
-      placement: { metalImplant: true, woundOrScar: false }, suitableArea: true };
-    const packet = assemblePacket({ contactId: 'c', encounterId: 'e', exportedAt: '2026-10-02T00:00:00Z',
-      record: { ...RECORD_ITEM, screeningAnswers: { whyNow: 'energy', pushPatch } }, encounter: ENCOUNTER_ITEM });
-    const html = renderSummary(packet);
+  const PP = { version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: [],
+    placement: { metalImplant: true, woundOrScar: false }, suitableArea: true,
+    answers: { seizures: false, pacemaker: false, pregnant: false, metalImplant: true, woundOrScar: false, suitableArea: true } };
+  const pk = (screeningAnswers: unknown, encounter: Record<string, unknown> = ENCOUNTER_ITEM) => renderSummary(assemblePacket({
+    contactId: 'c', encounterId: 'e', exportedAt: '2026-10-02T00:00:00Z', record: { ...RECORD_ITEM, screeningAnswers }, encounter }));
+
+  it('lists all six Pre-payment safety screen answers as Yes/No, with version and Central time', () => {
+    const html = pk({ pushPatch: PP });
     expect(html).toContain('Pre-payment safety screen');
-    expect(html).toContain('Patient denied: epilepsy/seizures; pregnancy (version pp-screen-v1, 2026-10-02)');
-    expect(html).toContain('Metal implant: yes, told to choose another area');
-    expect(html).not.toContain('Wound or scar');
-    expect(html).not.toContain('&quot;pushPatch&quot;');   // not dumped as raw JSON
-    expect(html).toContain('whyNow');                      // other answers still shown
+    for (const row of [
+      ['Epilepsy or seizures', 'No'], ['Pacemaker or implanted electronic device', 'No'], ['Pregnant or could be pregnant', 'No'],
+      ['Metal implant where the patch may be worn', 'Yes (told to choose another area)'],
+      ['Open wound, recent graft or scar where the patch may be worn', 'No'],
+      ['Suitable clean, low-hair skin area available', 'Yes'],
+    ]) expect(html).toMatch(new RegExp(`<th[^>]*>${row[0]}</th><td>${row[1].replace(/[()]/g, '\\$&')}</td>`));
+    expect(html).toContain('Screen version pp-screen-v1, completed Oct 2, 2026, 7:00 AM CDT');
+  });
+
+  it('falls back to denied/placement for records stored before the answers block existed', () => {
+    const { answers, ...old } = PP;
+    const html = pk({ pushPatch: { ...old, denied: ['pacemaker'], suitableArea: false } });
+    expect(html).toMatch(/Pacemaker or implanted electronic device<\/th><td>Yes/);
+    expect(html).toMatch(/Epilepsy or seizures<\/th><td>No/);
+    expect(html).toMatch(/Suitable clean, low-hair skin area available<\/th><td>No/);
+  });
+
+  it('never prints an empty Screening Answers block when only pushPatch exists', () => {
+    const html = pk({ pushPatch: PP });
+    expect(html).not.toContain('Screening Answers');
+    expect(html).not.toContain('{}');
+    expect(html).not.toContain('&quot;pushPatch&quot;');
+  });
+
+  it('renders other screening answers as a readable label: value list, not JSON', () => {
+    const html = pk({ whyNow: 'energy', gut: 3, pushPatch: PP });
+    expect(html).toContain('Screening Answers');
+    expect(html).toMatch(/<th[^>]*>whyNow<\/th><td>energy<\/td>/);
+    expect(html).toMatch(/<th[^>]*>gut<\/th><td>3<\/td>/);
+    expect(html).not.toContain('&quot;');
+    expect(html).not.toContain('<pre');
+  });
+
+  it('shows Consents as a readable list and omits it when empty', () => {
+    expect(pk({})).toMatch(/<th[^>]*>consent-npp-v1<\/th><td>version: consent-npp-v1; agreed: true; at: 2026-06-01T10:00:00.000Z<\/td>/);
+    const none = renderSummary(assemblePacket({ contactId: 'c', encounterId: 'e', exportedAt: 'x',
+      record: { ...RECORD_ITEM, screeningAnswers: {}, consents: {} }, encounter: ENCOUNTER_ITEM }));
+    expect(none).not.toContain('Consents');
+    expect(none).not.toContain('{}');
+  });
+
+  it('shows nothing for empty screeningAnswers', () => {
+    expect(pk({})).not.toContain('Screening Answers');
+    expect(pk(undefined)).not.toContain('Screening Answers');
   });
 
   it('flags a pushPatch record with no pre-payment screening', () => {
-    const packet = assemblePacket({ contactId: 'c', encounterId: 'e', exportedAt: '2026-10-02T00:00:00Z',
-      record: { ...RECORD_ITEM, screeningAnswers: { pushPatch: { version: 'none' } } }, encounter: ENCOUNTER_ITEM });
-    expect(renderSummary(packet)).toContain('No pre-payment screening');
+    const html = pk({ pushPatch: { version: 'none' } });
+    expect(html).toContain('No pre-payment screening on this order');
+    expect(html).not.toContain('Epilepsy');
+  });
+
+  it('renders a Ship-to section from the encounter shipTo (escaped)', () => {
+    const shipTo = { name: 'Jane <b>Doe', line1: '1 Main St', line2: 'Apt 4', city: 'Austin', state: 'TX', postalCode: '78701' };
+    const html = pk({}, { ...ENCOUNTER_ITEM, shipTo });
+    expect(html).toContain('Ship-to');
+    expect(html).toContain('Jane &lt;b&gt;Doe<br>1 Main St<br>Apt 4<br>Austin, TX 78701');
+    expect(pk({})).not.toContain('Ship-to');
+  });
+
+  it('shows a TEST ORDER banner only when the encounter is flagged testOrder', () => {
+    expect(pk({}, { ...ENCOUNTER_ITEM, testOrder: true })).toContain('TEST ORDER');
+    expect(pk({})).not.toContain('TEST ORDER');
   });
 
   it('output is deterministic for the same input (no Date.now / random)', () => {

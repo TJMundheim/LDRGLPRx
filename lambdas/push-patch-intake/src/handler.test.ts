@@ -87,6 +87,7 @@ const REQUIRED_FIELDS = [
 const SCREEN_RECORD = {
   version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: [],
   placement: { metalImplant: false, woundOrScar: false }, suitableArea: true,
+  answers: { seizures: false, pacemaker: false, pregnant: false, metalImplant: false, woundOrScar: false, suitableArea: true },
 };
 const withScreen = (meta: Record<string, string>) => ({ ...SESSION, metadata: { ...SESSION.metadata, ...meta } });
 
@@ -674,6 +675,7 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
     expect(nestedSets(recordWrite())['screeningAnswers.pushPatch']).toEqual({
       version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: ['seizures', 'pacemaker'],
       placement: { metalImplant: true, woundOrScar: false }, suitableArea: true,
+      answers: { seizures: true, pacemaker: true, pregnant: false, metalImplant: true, woundOrScar: false, suitableArea: true },
     });
   });
 
@@ -691,26 +693,40 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
     expect(p.subject).toContain('J. Doe');
   });
 
-  it('email block lists denied knockouts with version and date', async () => {
-    await run({ screen_denied: 'seizures,pacemaker,pregnant' });
+  it('email block lists all six answers Yes/No with version and Central date', async () => {
+    await run({ screen_denied: 'seizures,pacemaker,pregnant', screen_placement: 'metalImplant:yes,woundOrScar:no' });
     const p = payloadOf(emailCalls()[0]);
-    const want = 'Patient denied: epilepsy/seizures; pacemaker or implanted electronic device; pregnancy (version pp-screen-v1, 2026-10-02)';
+    const want = [
+      'Epilepsy or seizures: Yes', 'Pacemaker or implanted electronic device: Yes', 'Pregnant or could be pregnant: Yes',
+      'Metal implant where the patch may be worn: Yes (told to choose another area)',
+      'Open wound, recent graft or scar where the patch may be worn: No',
+      'Suitable clean, low-hair skin area available: Yes',
+      'Screen version pp-screen-v1, completed Oct 2, 2026, 7:00 AM CDT',
+    ];
     expect(p.html).toContain('Pre-payment safety screen');
-    expect(p.html).toContain(want);
-    expect(p.text).toContain(want);
+    for (const l of want) { expect(p.html).toContain(l); expect(p.text).toContain(l); }
+    expect(p.html).not.toContain('Patient denied');
   });
 
-  it('says nothing was denied when screen_denied is empty', async () => {
+  it('all-clear answers print as No / Yes', async () => {
     await run(null);
-    expect(payloadOf(emailCalls()[0]).html).toContain('Patient denied: none');
+    const t = payloadOf(emailCalls()[0]).text;
+    expect(t).toContain('Epilepsy or seizures: No');
+    expect(t).toContain('Pregnant or could be pregnant: No');
+  });
+
+  it('screen_area=no stores suitableArea false and prints No', async () => {
+    await run({ screen_area: 'no' });
+    expect(nestedSets(recordWrite())['screeningAnswers.pushPatch'].answers.suitableArea).toBe(false);
+    expect(payloadOf(emailCalls()[0]).text).toContain('Suitable clean, low-hair skin area available: No');
   });
 
   it('a yes placement answer adds "[Placement note]" and a note', async () => {
     await run({ screen_placement: 'metalImplant:yes,woundOrScar:yes' });
     const p = payloadOf(emailCalls()[0]);
     expect(p.subject).toContain('[Placement note]');
-    expect(p.html).toContain('Metal implant: yes, told to choose another area');
-    expect(p.html).toContain('Wound or scar: yes, told to choose another area');
+    expect(p.html).toContain('Metal implant where the patch may be worn: Yes (told to choose another area)');
+    expect(p.html).toContain('Open wound, recent graft or scar where the patch may be worn: Yes (told to choose another area)');
   });
 
   it('a denied-only submit does not flag placement and still goes to the provider', async () => {
@@ -737,6 +753,17 @@ describe('test-price orders ($2 override)', () => {
     const p = payloadOf(emailCalls()[0]);
     expect(p.subject.startsWith('[TEST ORDER $2] ')).toBe(true);
     expect(p.subject).toContain('[Provider review] Push Patch');
+  });
+
+  it('stores testOrder: true on the encounter for test orders only', async () => {
+    sessionRetrieveMock.mockResolvedValue(withScreen({ test_price: 'true' }));
+    await handler(evt(VALID_BODY));
+    expect(encounterWrite().Item.testOrder).toBe(true);
+  });
+
+  it('real orders store no testOrder flag', async () => {
+    await handler(evt(VALID_BODY));
+    expect(encounterWrite().Item.testOrder).toBeUndefined();
   });
 
   it('real orders carry no test prefix', async () => {

@@ -31,7 +31,7 @@ export const encounterIdFor = (sessionId: string): string => `pp-${sessionId}`;
 /** Conditional put of the Encounter. Runs FIRST so a duplicate never touches the record or consent. */
 export async function createEncounter(a: {
   contactId: string; encounterId: string; sku: string; sessionId: string; paymentIntentId: string; shipTo: ShipTo; ts: string;
-  amountCents?: number | null; currency?: string | null;
+  amountCents?: number | null; currency?: string | null; testOrder?: boolean;
 }): Promise<'created' | 'duplicate'> {
   try {
     await ddb.send(new PutCommand({
@@ -41,6 +41,7 @@ export async function createEncounter(a: {
         lane: 'push-patch', category: 'push-patch', visitType: 'async', sku: a.sku,
         sessionId: a.sessionId, paymentIntentId: a.paymentIntentId, shipTo: a.shipTo, state: 'sent-to-provider',
         amountCents: a.amountCents, currency: a.currency,
+        ...(a.testOrder ? { testOrder: true } : {}),
         createdAt: a.ts, updatedAt: a.ts,
       },
       ConditionExpression: 'attribute_not_exists(sk)',

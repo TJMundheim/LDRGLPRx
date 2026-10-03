@@ -17,7 +17,7 @@ import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
-import { screeningLines } from './screening-block';
+import { screeningRows, answerRows, shipToLines } from './screening-block';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
@@ -55,13 +55,23 @@ export function renderSummary(packet: ReturnType<typeof assemblePacket>): string
   const d = packet.demographics;
   const h = packet.history;
   const { pushPatch, ...otherAnswers } = (packet.screeningAnswers ?? {}) as Record<string, unknown>;
-  const safety = screeningLines(pushPatch);
-  const safetyHtml = safety.length
-    ? `<h2 style="font-size:15px;margin-top:24px">Pre-payment safety screen</h2><p>${safety.map(esc).join('<br>')}</p>` : '';
+  const h2 = (t: string) => `<h2 style="font-size:15px;margin-top:24px">${t}</h2>`;
   const rows = (label: string, value: unknown) =>
     `<tr><th style="text-align:left;padding:4px 12px 4px 0;color:#555">${esc(label)}</th><td>${esc(value ?? '—')}</td></tr>`;
+  const table = (r: [string, string][]) => `<table><tbody>${r.map(([l, v]) => rows(l, v)).join('')}</tbody></table>`;
+  const screen = screeningRows(pushPatch);
+  const safetyHtml = (screen.rows.length || screen.footer)
+    ? `${h2('Pre-payment safety screen')}${screen.rows.length ? table(screen.rows) : ''}<p style="color:#555;font-size:12px">${esc(screen.footer)}</p>` : '';
+  const others = answerRows(otherAnswers);
+  const answersHtml = others.length ? `${h2('Screening Answers')}${table(others)}` : '';
+  const consents = answerRows((packet.consents ?? {}) as Record<string, unknown>);
+  const consentsHtml = consents.length ? `${h2('Consents')}${table(consents)}` : '';
+  const ship = shipToLines(packet.shipTo);
+  const shipHtml = ship.length ? `${h2('Ship-to')}<p>${ship.map(esc).join('<br>')}</p>` : '';
+  const testBanner = packet.testOrder
+    ? '<p style="background:#fff3cd;border:2px solid #b58100;padding:10px;font-weight:700">TEST ORDER ($2 test price) — do not fill or ship.</p>' : '';
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Clinical Packet</title></head><body style="font-family:system-ui,sans-serif;max-width:700px;margin:32px auto;padding:0 20px">
-<h1 style="font-size:20px">Clinical Packet — ${esc(d?.firstName)} ${esc(d?.lastName)}</h1>
+${testBanner}<h1 style="font-size:20px">Clinical Packet — ${esc(d?.firstName)} ${esc(d?.lastName)}</h1>
 <p style="color:#888;font-size:12px">contactId: ${esc(packet.contactId)} | encounterId: ${esc(packet.encounterId)} | exported: ${esc(packet.exportedAt)}</p>
 <h2 style="font-size:15px;margin-top:24px">Demographics</h2>
 <table><tbody>${rows('Email', d?.email)}${rows('Phone', d?.phone)}${rows('DOB', d?.dob)}${rows('Sex', d?.sex)}${rows('State', d?.state)}</tbody></table>
@@ -69,10 +79,8 @@ export function renderSummary(packet: ReturnType<typeof assemblePacket>): string
 <table><tbody>${rows('Height (in)', h?.heightIn)}${rows('Weight (lb)', h?.weightLb)}${rows('BMI', packet.bmi)}${rows('Medications', (h?.medications ?? []).join(', '))}${rows('Allergies', (h?.allergies ?? []).join(', '))}${rows('Conditions', (h?.conditions ?? []).join(', '))}</tbody></table>
 <h2 style="font-size:15px;margin-top:24px">Encounter</h2>
 <table><tbody>${rows('Category', packet.category)}${rows('Visit Type', packet.visitType)}${rows('State', packet.state)}</tbody></table>
-${safetyHtml}<h2 style="font-size:15px;margin-top:24px">Screening Answers</h2>
-<pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:12px;overflow:auto">${esc(JSON.stringify(otherAnswers, null, 2))}</pre>
-<h2 style="font-size:15px;margin-top:24px">Consents</h2>
-<pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:12px;overflow:auto">${esc(JSON.stringify(packet.consents ?? {}, null, 2))}</pre>
+${shipHtml}${safetyHtml}${answersHtml}
+${consentsHtml}
 <p style="color:#888;font-size:11px;margin-top:32px">Card on file: ${packet.cardOnFile ? 'yes' : 'no'} — raw card data never stored here (PCI scope excluded).</p>
 </body></html>`;
 }
@@ -104,6 +112,8 @@ export function assemblePacket(args: {
     category: encounter['category'] as string | undefined,
     visitType: encounter['visitType'] as string | undefined,
     state: encounter['state'] as string | undefined,
+    shipTo: encounter['shipTo'] as Record<string, string> | undefined,
+    testOrder: encounter['testOrder'] === true,
     cardOnFile,
   };
 }

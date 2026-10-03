@@ -8,16 +8,20 @@ export interface ScreeningAnswers {
   denied: string[];
   placement: { metalImplant: boolean; woundOrScar: boolean };
   suitableArea: boolean;
+  /** All six answers as booleans. Knockouts/placement: true = answered Yes. suitableArea: true = Yes (area available). */
+  answers: { seizures: boolean; pacemaker: boolean; pregnant: boolean; metalImplant: boolean; woundOrScar: boolean; suitableArea: boolean };
 }
 export type StoredScreening = ScreeningAnswers | ScreeningNone;
 
-const DENIED_LABELS: Record<string, string> = {
-  seizures: 'epilepsy/seizures',
-  pacemaker: 'pacemaker or implanted electronic device',
-  pregnant: 'pregnancy',
-  noSuitableArea: 'no suitable area',
-};
-const PLACEMENT_LABELS = { metalImplant: 'Metal implant', woundOrScar: 'Wound or scar' } as const;
+const QUESTIONS: [keyof ScreeningAnswers['answers'], string][] = [
+  ['seizures', 'Epilepsy or seizures'],
+  ['pacemaker', 'Pacemaker or implanted electronic device'],
+  ['pregnant', 'Pregnant or could be pregnant'],
+  ['metalImplant', 'Metal implant where the patch may be worn'],
+  ['woundOrScar', 'Open wound, recent graft or scar where the patch may be worn'],
+  ['suitableArea', 'Suitable clean, low-hair skin area available'],
+];
+const PLACEMENT_KEYS = new Set(['metalImplant', 'woundOrScar']);
 
 const isYes = (map: Record<string, string>, k: string) => map[k] === 'yes';
 const pairs = (v: string | undefined): Record<string, string> =>
@@ -27,12 +31,17 @@ export function parseScreening(meta: Record<string, string> | null | undefined):
   const m = meta ?? {};
   if (!m['screen_v']) return { version: 'none' };
   const placement = pairs(m['screen_placement']);
+  const denied = (m['screen_denied'] ?? '').split(',').map((x) => x.trim()).filter(Boolean);
+  const [metalImplant, woundOrScar] = [isYes(placement, 'metalImplant'), isYes(placement, 'woundOrScar')];
+  const suitableArea = m['screen_area'] === 'yes';
   return {
     version: m['screen_v'],
     at: m['screen_at'] ?? '',
-    denied: (m['screen_denied'] ?? '').split(',').map((x) => x.trim()).filter(Boolean),
-    placement: { metalImplant: isYes(placement, 'metalImplant'), woundOrScar: isYes(placement, 'woundOrScar') },
-    suitableArea: m['screen_area'] === 'yes',
+    denied,
+    placement: { metalImplant, woundOrScar },
+    suitableArea,
+    answers: { seizures: denied.includes('seizures'), pacemaker: denied.includes('pacemaker'), pregnant: denied.includes('pregnant'),
+      metalImplant, woundOrScar, suitableArea },
   };
 }
 
@@ -44,13 +53,15 @@ export function screeningSubjectFlags(s: StoredScreening): string[] {
   return s.placement.metalImplant || s.placement.woundOrScar ? ['[Placement note]'] : [];
 }
 
-/** Plain-text lines for the "Pre-payment safety screen" block (HTML escapes them). */
+const central = (iso: string) => new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/Chicago', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+}).format(new Date(iso));
+
+/** Plain-text lines for the "Pre-payment safety screen" block (HTML escapes them): all six answers, Yes/No. */
 export function screeningLines(s: StoredScreening): string[] {
-  if (!hasScreen(s)) return ['No pre-payment screening (order placed before the safety check existed).'];
-  const denied = s.denied.length ? s.denied.map((d) => DENIED_LABELS[d] ?? d).join('; ') : 'none';
-  const lines = [`Patient denied: ${denied} (version ${s.version}, ${s.at.slice(0, 10)})`];
-  for (const k of Object.keys(PLACEMENT_LABELS) as (keyof typeof PLACEMENT_LABELS)[]) {
-    if (s.placement[k]) lines.push(`${PLACEMENT_LABELS[k]}: yes, told to choose another area`);
-  }
-  return lines;
+  if (!hasScreen(s)) return ['No pre-payment screening on this order (placed before the safety check existed).'];
+  const lines = QUESTIONS.map(([k, label]) =>
+    `${label}: ${s.answers[k] ? 'Yes' : 'No'}${PLACEMENT_KEYS.has(k) && s.answers[k] ? ' (told to choose another area)' : ''}`);
+  const when = Number.isNaN(Date.parse(s.at)) ? '' : `, completed ${central(s.at)}`;
+  return [...lines, `Screen version ${s.version}${when}`];
 }

@@ -52,6 +52,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     if ((await createEncounter({
       contactId, encounterId, sku, sessionId: session.id, paymentIntentId, shipTo, ts,
       amountCents: session.amount_total, currency: session.currency,
+      testOrder: session.metadata?.['test_price'] === 'true',
     })) === 'duplicate') {
       return reply(200, { ok: true, alreadySubmitted: true, encounterId }, origin);
     }
