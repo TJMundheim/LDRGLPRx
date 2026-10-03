@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { PDFDocument } from 'pdf-lib';
-import { buildFields, fillOrderForm, QTY_FIELD, type Practice } from './genesis-form';
+import { PDFDocument, PDFArray, PDFName, PDFRawStream, decodePDFRawStream } from 'pdf-lib';
+import { buildFields, fillOrderForm, signatureLine, QTY_FIELD, type Practice } from './genesis-form';
 import { blendFor, BLENDS } from './blends';
 
 const PRACTICE: Practice = {
@@ -23,7 +23,7 @@ describe('buildFields', () => {
       clinician: 'Dr. Test Clinician', practice: 'Test Practice', practice_phone: '555-0100', email: 'pay@example.com',
       placer: 'Placer Person', placer_phone: '555-0101', salesrep: 'Rep One',
       rpa_notes1: 'My4MLife order cs_test_123 · 12-hour',
-      rpa_notes2: 'Billing: 1 Billing St, Austin, TX 78701 · Electronically signed — Dr. Test Clinician',
+      rpa_notes2: 'Billing: 1 Billing St, Austin, TX 78701',
     });
     expect(f.shipping).toBe('Jane Doe, 12 Ranch Rd Apt 4\nAustin, TX 78701 · Phone: +15125550123');
     // The Push Patch page has no billing or signature box: those fields are never written.
@@ -41,10 +41,9 @@ describe('buildFields', () => {
     expect(f.shipping.startsWith('Janet Roe, ')).toBe(true);
   });
 
-  it('notes line 2 carries billing + e-signature (with the signer when configured) and degrades gracefully', () => {
-    expect(buildFields(ORDER, { ...PRACTICE, physician_signature: 'Electronically signed' }).rpa_notes2)
-      .toBe('Billing: 1 Billing St, Austin, TX 78701 · Electronically signed — Dr. Test Clinician');
-    expect(buildFields(ORDER, { ...PRACTICE, billing: undefined }).rpa_notes2).toBe('Electronically signed — Dr. Test Clinician');
+  it('notes line 2 carries only billing (no signature) and is blank without billing', () => {
+    expect(buildFields(ORDER, PRACTICE).rpa_notes2).toBe('Billing: 1 Billing St, Austin, TX 78701');
+    expect(buildFields(ORDER, { ...PRACTICE, billing: undefined }).rpa_notes2).toBe('');
   });
 
   it('every catalog blend has exactly one distinct qty field and sets only that one to "1"', () => {
@@ -78,7 +77,45 @@ describe('buildFields', () => {
   });
 });
 
+describe('signatureLine', () => {
+  const f = { clinician: 'Dr. Test Clinician' };
+  it('uses the clinician field value and the Central-time date', () => {
+    expect(signatureLine(f, '2026-10-03T15:00:00Z')).toBe('Electronically signed — Dr. Test Clinician · Oct 3, 2026');
+    // 02:00 UTC on Oct 4 is still Oct 3 evening in Chicago
+    expect(signatureLine(f, '2026-10-04T02:00:00Z')).toContain('· Oct 3, 2026');
+  });
+  it('lead phrase is configurable, defaults to "Electronically signed", defaults date to now', () => {
+    expect(signatureLine(f, '2026-10-03T15:00:00Z', 'Signed by')).toBe('Signed by — Dr. Test Clinician · Oct 3, 2026');
+    expect(signatureLine(f, undefined, '')).toMatch(/^Electronically signed — Dr\. Test Clinician · [A-Z][a-z]{2} \d{1,2}, \d{4}$/);
+  });
+});
+
+// Standard-font text is written as <HEX> strings in the page's (deflated) content streams: decode the PAGE's streams and look for it.
+const hex = (s: string) => Buffer.from(s, 'latin1').toString('hex').toUpperCase();
+const hasText = async (bytes: Uint8Array, s: string) => {
+  const doc = await PDFDocument.load(bytes);
+  const c = doc.context.lookup(doc.getPage(0).node.get(PDFName.of('Contents')));
+  const streams = (c instanceof PDFArray ? c.asArray().map((r) => doc.context.lookup(r)) : [c]) as PDFRawStream[];
+  return streams.some((st) => Buffer.from(decodePDFRawStream(st).decode()).toString('latin1').includes(`<${hex(s)}>`));
+};
+
 describe('fillOrderForm', () => {
+  it('draws the bold label and the signature line inside the page, below the notes boxes', async () => {
+    const bytes = await fillOrderForm(buildFields(ORDER, PRACTICE), { signedAt: '2026-10-03T15:00:00Z' });
+    expect(await hasText(bytes, 'Provider signature:')).toBe(true);
+    expect(await hasText(bytes, 'Electronically signed \x97 Dr. Test Clinician \xb7 Oct 3, 2026')).toBe(true);
+    const doc = await PDFDocument.load(bytes);
+    const notesBottom = Math.min(...['rpa_notes1', 'rpa_notes2'].map((n) => doc.getForm().getTextField(n).acroField.getWidgets()[0].getRectangle().y));
+    expect(notesBottom).toBeGreaterThan(24); // signature baseline y=14 + 10pt font stays under the notes boxes
+    expect(doc.getPage(0).getHeight()).toBe(792);
+  });
+
+  it('lead phrase from config is used; no signature is drawn when there is no clinician', async () => {
+    const custom = await fillOrderForm(buildFields(ORDER, PRACTICE), { signedAt: '2026-10-03T15:00:00Z', lead: 'Approved by' });
+    expect(await hasText(custom, 'Approved by \x97 Dr. Test Clinician \xb7 Oct 3, 2026')).toBe(true);
+    expect(await hasText(await fillOrderForm(buildFields(ORDER, {})), 'Provider signature:')).toBe(false);
+  });
+
   it('outputs ONLY the Push Patch order page, filled and still editable (not flattened)', async () => {
     const bytes = await fillOrderForm(buildFields(ORDER, PRACTICE));
     expect(Buffer.from(bytes.slice(0, 5)).toString()).toBe('%PDF-');
@@ -92,7 +129,7 @@ describe('fillOrderForm', () => {
     expect(get('qty_push4')).toBe('1');
     expect(get('qty_push1')).toBe('');
     expect(get('rpa_notes1')).toBe('My4MLife order cs_test_123 · 12-hour');
-    expect(get('rpa_notes2')).toBe('Billing: 1 Billing St, Austin, TX 78701 · Electronically signed — Dr. Test Clinician');
+    expect(get('rpa_notes2')).toBe('Billing: 1 Billing St, Austin, TX 78701');
     // exactly the page-5 fields remain; fields that only lived on removed pages are gone
     const names = doc.getForm().getFields().map((f) => f.getName()).sort();
     expect(names).toEqual(['clinician', 'email', 'placer', 'placer_phone', 'practice', 'practice_phone', 'qty_push1', 'qty_push2', 'qty_push3',

@@ -13,7 +13,7 @@ export interface OrderSent { to: string; toGenesis: boolean }
 export async function sendGenesisOrder(a: OrderArgs): Promise<OrderSent> {
   const { practice, missing } = await loadPractice();
   const blend = blendFor(a.sku);
-  const pdf = await fillOrderForm(buildFields(a, practice));
+  const pdf = await fillOrderForm(buildFields(a, practice), { signedAt: a.signedAt, lead: practice.physician_signature });
   const attachment = { filename: `My4MLife-PushPatch-${a.sessionId}.pdf`, contentBase64: Buffer.from(pdf).toString('base64'), contentType: 'application/pdf' };
   const known = !!QTY_FIELD[a.sku];
   const send2Genesis = missing.length === 0 && known;

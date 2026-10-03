@@ -72,7 +72,7 @@ export async function decide(a: DecideArgs): Promise<Outcome> {
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
-      sendGenesisOrder({ testOrder: session.metadata?.test_price === 'true', sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
+      sendGenesisOrder({ signedAt: new Date().toISOString(), testOrder: session.metadata?.test_price === 'true', sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
         .then((o) => stampGenesisSent(a.contactId, a.encounterId, o.to, o.toGenesis)),
     ]);
     return { kind: 'approved', mailOk };

@@ -3,7 +3,7 @@
 // across pages by name, so everything is resolved against page 5. Fields stay editable (not flattened).
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { Practice } from './genesis-config';
 
 export type { Practice };
@@ -18,11 +18,24 @@ const MICRONEEDLING_FIELD = 'qty_push8';
 // Page-5 boxes are one line tall (~20 pt) but wide (~390–560 pt): the address is two lines in a small font,
 // the notes are single lines in a small font. The Push Patch page has no billing or signature box.
 const PUSH_PAGE = 4;
+const SIG_LABEL = 'Provider signature:';
+const SIG_X = 14.19; // the notes boxes' left edge; they bottom out at y≈31 (page is 612x792), so y=14 never overlaps
+const SIG_Y = 14;
 const SMALL_FONT: Record<string, number> = { shipping: 7, rpa_notes1: 8, rpa_notes2: 7 };
+
+export interface SignOpts { signedAt?: string; lead?: string } // lead = practice.physician_signature
+
+// "Electronically signed — <clinician> · Oct 3, 2026" (Central time). Clinician is the same value as the `clinician` field.
+export function signatureLine(fields: Record<string, string>, signedAt?: string, lead?: string): string {
+  const when = signedAt ? new Date(signedAt) : new Date();
+  const date = when.toLocaleDateString('en-US', { timeZone: 'America/Chicago', month: 'short', day: 'numeric', year: 'numeric' });
+  return `${lead || 'Electronically signed'} — ${fields['clinician'] ?? ''} · ${date}`;
+}
 
 export interface OrderInput {
   sku: string; sessionId: string; name: string; phone: string;
   ship?: { name?: string | null; address?: Record<string, string | null> | null } | null;
+  signedAt?: string; // ISO approval time, drawn in the provider signature line (default: now)
 }
 
 export function buildFields(o: OrderInput, p: Partial<Practice>): Record<string, string> {
@@ -31,9 +44,8 @@ export function buildFields(o: OrderInput, p: Partial<Practice>): Record<string,
   const shipping = [[o.ship?.name || o.name, street].filter(Boolean).join(', '),
     `${ad['city'] ?? ''}, ${ad['state'] ?? ''} ${ad['postal_code'] ?? ''}`.trim() + ` · Phone: ${o.phone}`].join('\n');
   const billing = p.billing ? `Billing: ${p.billing.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).join(', ')}` : '';
-  const signed = `${p.physician_signature || 'Electronically signed'} — ${p.clinician}`;
   const f: Record<string, string> = {
-    shipping, rpa_notes1: `My4MLife order ${o.sessionId} · 12-hour`, rpa_notes2: [billing, signed].filter(Boolean).join(' · '),
+    shipping, rpa_notes1: `My4MLife order ${o.sessionId} · 12-hour`, rpa_notes2: billing,
   };
   const set = (k: string, v?: string) => { if (v) f[k] = v; };
   set('clinician', p.clinician); set('practice', p.practice); set('practice_phone', p.practice_phone);
@@ -58,10 +70,11 @@ function template(): Buffer {
   return readFileSync(path);
 }
 
-export async function fillOrderForm(fields: Record<string, string>): Promise<Uint8Array> {
+export async function fillOrderForm(fields: Record<string, string>, sign: SignOpts = {}): Promise<Uint8Array> {
   const doc = await PDFDocument.load(template());
   const form = doc.getForm();
-  const keep = new Set((doc.getPage(PUSH_PAGE).node.Annots()?.asArray() ?? []).map(String));
+  const page = doc.getPage(PUSH_PAGE); // grabbed before removePage: doc.getPage(0) afterwards can return a stale cached page
+  const keep = new Set((page.node.Annots()?.asArray() ?? []).map(String));
   // Drop every widget not on the Push Patch page (and fields that only existed on other pages) so the
   // remaining AcroForm is valid once pages 1–4 are removed.
   for (const field of form.getFields()) {
@@ -78,6 +91,11 @@ export async function fillOrderForm(fields: Record<string, string>): Promise<Uin
     if (name === 'shipping') field.enableMultiline();
     if (SMALL_FONT[name]) field.setFontSize(SMALL_FONT[name]);
     field.setText(value);
+  }
+  if (fields['clinician']) { // the page has no signature field, so the provider signature line is drawn as text
+    const bold = await doc.embedFont(StandardFonts.HelveticaBold), reg = await doc.embedFont(StandardFonts.Helvetica);
+    page.drawText(SIG_LABEL, { x: SIG_X, y: SIG_Y, size: 10, font: bold, color: rgb(0, 0, 0) });
+    page.drawText(signatureLine(fields, sign.signedAt, sign.lead), { x: SIG_X + bold.widthOfTextAtSize(SIG_LABEL + ' ', 10), y: SIG_Y, size: 10, font: reg, color: rgb(0, 0, 0) });
   }
   return doc.save(); // regenerates field appearances; AcroForm stays fillable
 }
