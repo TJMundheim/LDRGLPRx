@@ -391,7 +391,8 @@ const SCREEN_CLIENT = {
         </div>
         <div class="pp-modal-foot">
           <p class="pp-modal-confirm">By continuing, I confirm my answers are accurate.</p>
-          <button type="submit" class="pp-cta pp-modal-go" id="pp-screen-go" disabled>Continue to checkout</button>
+          <p class="pp-modal-count" id="pp-screen-count" aria-live="polite"></p>
+          <button type="submit" class="pp-cta pp-modal-go" id="pp-screen-go">Continue to checkout</button>
         </div>
       </form>
 
@@ -442,19 +443,43 @@ const SCREEN_CLIENT = {
     stop.hidden = which !== 'stop';
   }
 
-  // Continue stays disabled until all six questions have an explicit Yes / No.
-  function allAnswered() {
-    var fs = detail.querySelectorAll('.pp-q');
-    for (var i = 0; i < fs.length; i++) {
-      if (!fs[i].querySelector('input:checked')) return false;
-    }
-    return fs.length > 0;
+  // Every question needs an explicit Yes / No. Continue stays clickable; a submit with gaps
+  // scrolls to and outlines the first unanswered question. A counter shows progress.
+  var countEl = document.getElementById('pp-screen-count');
+  function answeredCount() {
+    var fs = detail.querySelectorAll('.pp-q'), n = 0;
+    for (var i = 0; i < fs.length; i++) if (fs[i].querySelector('input:checked')) n++;
+    return { n: n, total: fs.length };
   }
-  function syncGo() { goBtn.disabled = !allAnswered(); }
+  function syncGo() {
+    var c = answeredCount();
+    if (countEl) countEl.textContent = c.n + ' of ' + c.total + ' answered';
+    if (countEl) countEl.classList.toggle('pp-done', c.n === c.total);
+  }
+  function flagMissing() {
+    var fs = detail.querySelectorAll('.pp-q'), first = null;
+    for (var i = 0; i < fs.length; i++) {
+      var miss = !fs[i].querySelector('input:checked');
+      fs[i].classList.toggle('pp-q-missing', miss);
+      var m = fs[i].querySelector('.pp-q-miss');
+      if (miss && !m) { m = document.createElement('p'); m.className = 'pp-q-miss'; m.textContent = 'Please answer this question.'; fs[i].appendChild(m); }
+      if (m) m.hidden = !miss;
+      if (miss && !first) first = fs[i];
+    }
+    if (first) {
+      // The dialog itself is the scroll container (top layer), so scroll it directly.
+      var fr = first.getBoundingClientRect(), dr = dlg.getBoundingClientRect();
+      var target = dlg.scrollTop + (fr.top - dr.top) - 72;
+      dlg.scrollTop = Math.max(0, target);
+      var inp = first.querySelector('input'); if (inp) { try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); } }
+    }
+  }
 
   function openModal(btn) {
     cur = { btn: btn, skuId: btn.getAttribute('data-sku'), label: btn.getAttribute('data-label') };
     detail.reset();
+    var flagged = detail.querySelectorAll('.pp-q-missing, .pp-q-miss');
+    for (var k = 0; k < flagged.length; k++) { if (flagged[k].classList.contains('pp-q-miss')) flagged[k].hidden = true; else flagged[k].classList.remove('pp-q-missing'); }
     syncGo();
     var sc = detail.querySelector('.pp-modal-scroll');
     if (sc) sc.scrollTop = 0;
@@ -511,6 +536,8 @@ const SCREEN_CLIENT = {
     if (!fs) return;
     var note = fs.querySelector('.pp-q-note');
     if (note) note.hidden = ev.target.value !== 'yes';
+    fs.classList.remove('pp-q-missing');
+    var mm = fs.querySelector('.pp-q-miss'); if (mm) mm.hidden = true;
     syncGo();
   });
 
@@ -554,11 +581,7 @@ const SCREEN_CLIENT = {
     var fs = detail.querySelectorAll('.pp-q');
     for (var i = 0; i < fs.length; i++) {
       var checked = fs[i].querySelector('input:checked');
-      if (!checked) {
-        var miss = fs[i].querySelector('input');
-        if (miss) miss.focus();
-        return;
-      }
+      if (!checked) { flagMissing(); return; }
       a[fs[i].getAttribute('data-id')] = checked.value === 'yes';
     }
     var ids = [];
@@ -758,6 +781,11 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 @media (min-width: 480px) { .pp-modal-scroll { padding: 0 1.6rem 0.6rem; } .pp-modal-foot { padding: 0.9rem 1.6rem 1.3rem; } }
 .pp-modal-confirm { margin: 0 0 0.7rem; font-size: 0.88rem; line-height: 1.45; color: var(--on-ink-muted); text-align: center; }
 .pp-modal .pp-modal-go:disabled { opacity: 0.45; cursor: not-allowed; }
+.pp-modal-count { margin: 0 0 0.6rem; font-size: 0.85rem; text-align: center; color: var(--on-ink-muted); }
+.pp-modal-count.pp-done { color: var(--accent); }
+.pp-q.pp-q-missing { border-color: #f87171; box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.35); }
+.pp-q-miss { margin: 0.4rem 0 0; font-size: 0.88rem; font-weight: 600; color: #fca5a5; }
+.pp-q-miss[hidden] { display: none; }
 .pp-modal .pp-modal-go:disabled:hover { background: var(--accent); }
 .pp-qgroup { display: flex; flex-direction: column; gap: 0.7rem; margin: 0 0 1.2rem; }
 .pp-qgroup-title { margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
