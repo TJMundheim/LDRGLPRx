@@ -4,7 +4,7 @@
 // POST t=<token>  → the confirm page's form submit performs the decision.
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import { verifyToken } from './sign';
-import { decide } from './decide';
+import { decide } from '@my4mlife/push-patch-decision-core';
 import { pages } from './pages';
 
 type Res = { statusCode: number; headers: Record<string, string>; body: string };
@@ -50,7 +50,7 @@ export const handler = async (event: Evt): Promise<Res> => {
       return html(403, pages.invalid());
     }
     if (!isPost) return html(200, pages.confirm(claim.action, token));
-    const out = await decide(claim);
+    const out = await decide({ ...claim, decidedBy: 'physician-link' });
     if (out.kind === 'not-found') return html(403, pages.invalid());
     if (out.kind === 'already-decided') return html(200, pages.decided(out.state));
     if (out.kind === 'approved') return html(200, out.mailOk ? pages.approved() : pages.approvedMailFailed());

@@ -71,3 +71,34 @@ describe('refundEncounterAdmin wiring', () => {
     expect(src).toMatch(/operation: 'Invoke'/);
   });
 });
+
+describe('decidePushPatchAdmin wiring', () => {
+  const read = (rel: string) => readFileSync(join(__dirname, rel), 'utf8');
+
+  it('is wired in api-stack.ts to my4mlife-push-patch-decide-admin', () => {
+    const src = read('../lib/api-stack.ts');
+    expect(src).toMatch(/fromFunctionName\(this, 'DecidePushPatchFn', 'my4mlife-push-patch-decide-admin'\)/);
+    expect(src).toMatch(/fieldName: 'decidePushPatchAdmin'/);
+    expect(src).toMatch(/code\('decidePushPatchAdmin\.js'\)/);
+  });
+
+  it('declares an Admins-only mutation + result type in the schema', () => {
+    const schema = read('../../appsync/schema.graphql');
+    expect(schema).toMatch(/decidePushPatchAdmin\(contactId: ID!, encounterId: ID!, action: String!\): PushPatchDecisionResult\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
+    expect(schema).toMatch(/type PushPatchDecisionResult \{/);
+  });
+
+  it('exposes the decision fields on EncounterAdmin and maps them in getPatientRecordAdmin', () => {
+    const schema = read('../../appsync/schema.graphql');
+    const enc = schema.slice(schema.indexOf('type EncounterAdmin {'), schema.indexOf('type BriefAdmin'));
+    for (const f of ['genesisOrderSentAt: AWSDateTime', 'decidedAt: AWSDateTime', 'decidedBy: String', 'testOrder: Boolean']) expect(enc).toContain(f);
+    const res = read('../resolvers/getPatientRecordAdmin.js');
+    for (const f of ['genesisOrderSentAt', 'decidedAt', 'decidedBy', 'testOrder']) expect(res).toMatch(new RegExp(`${f}: item\\.${f}`));
+  });
+
+  it('resolver rejects non-admins before invoking the Lambda', () => {
+    const src = read('../resolvers/decidePushPatchAdmin.js');
+    expect(src).toMatch(/if \(!isAdmin\(ctx\)\) util\.unauthorized\(\)/);
+    expect(src).toMatch(/operation: 'Invoke'/);
+  });
+});

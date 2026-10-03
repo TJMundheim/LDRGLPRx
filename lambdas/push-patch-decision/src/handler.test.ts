@@ -52,7 +52,7 @@ const stripeStub = () => ({
 
 import { PDFDocument } from 'pdf-lib';
 import { handler } from './handler';
-import { resetPracticeCache } from './genesis-config';
+import { resetPracticeCache } from '@my4mlife/push-patch-decision-core';
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 
@@ -206,6 +206,15 @@ describe('approve', () => {
     const vals = Object.values(u[0].ExpressionAttributeValues ?? {});
     expect(vals).toContain('sent-to-provider');
     expect(vals).toContain('script-written');
+  });
+
+  it("records decidedBy 'physician-link' on approve and on decline", async () => {
+    await handler(evt(tokenFor('approve')));
+    expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':decidedBy': 'physician-link' });
+    expect(updates()[0].UpdateExpression).toMatch(/decidedBy = :decidedBy/);
+    vi.clearAllMocks(); seedDdb();
+    await handler(evt(tokenFor('decline')));
+    expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':decidedBy': 'physician-link', ':to': 'declined' });
   });
 
   it('sends the patient a welcome email from the info alias', async () => {

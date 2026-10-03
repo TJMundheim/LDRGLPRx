@@ -148,6 +148,40 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@24.12.4)(jsdom@29.1.1)(terser@5.48.0)
 
+  lambdas/_shared/push-patch-decision-core:
+    dependencies:
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-lambda':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-ssm':
+        specifier: ^3.700.0
+        version: 3.1141.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
+      '@my4mlife/stripe-client':
+        specifier: workspace:*
+        version: link:../stripe-client
+      pdf-lib:
+        specifier: ^1.17.1
+        version: 1.17.1
+      stripe:
+        specifier: ^17.0.0
+        version: 17.7.0
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/_shared/refund-dispute-handler-core:
     dependencies:
       '@my4mlife/contact-id':
@@ -976,6 +1010,25 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
 
+  lambdas/push-patch-decide-admin:
+    dependencies:
+      '@my4mlife/push-patch-decision-core':
+        specifier: workspace:*
+        version: link:../_shared/push-patch-decision-core
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/push-patch-decision:
     dependencies:
       '@aws-sdk/client-dynamodb':
@@ -993,6 +1046,9 @@ importers:
       '@my4mlife/patient-record':
         specifier: workspace:*
         version: link:../_shared/patient-record
+      '@my4mlife/push-patch-decision-core':
+        specifier: workspace:*
+        version: link:../_shared/push-patch-decision-core
       '@my4mlife/stripe-client':
         specifier: workspace:*
         version: link:../_shared/stripe-client

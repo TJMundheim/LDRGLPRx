@@ -25,6 +25,7 @@ import {
   getPatientRecordAdmin,
   updateEncounterStateAdmin,
   refundEncounterAdmin,
+  decidePushPatchAdmin,
 } from './operations.js';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -203,5 +204,25 @@ describe('refundEncounterAdmin', () => {
     await listPatientRecordsAdmin({} as never).catch(() => undefined);
     const q = (mockRequest.mock.calls[0]?.[0] as { query?: string } | undefined)?.query ?? '';
     expect(q).toMatch(/refundStatus refundDueBy/);
+  });
+});
+
+describe('decidePushPatchAdmin', () => {
+  beforeEach(() => mockRequest.mockReset());
+
+  it('sends the DecidePushPatchAdmin mutation with contactId, encounterId and action', async () => {
+    mockRequest.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'script-written', mailOk: true } });
+    const res = await decidePushPatchAdmin({ contactId: 'c1', encounterId: 'pp-1', action: 'approve' });
+    const [{ query, variables }] = mockRequest.mock.calls[0] as [{ query: string; variables: unknown }][];
+    expect(query).toMatch(/decidePushPatchAdmin\(contactId: \$contactId, encounterId: \$encounterId, action: \$action\)/);
+    expect(variables).toEqual({ contactId: 'c1', encounterId: 'pp-1', action: 'approve' });
+    expect(res.decidePushPatchAdmin.ok).toBe(true);
+  });
+
+  it('requests the decision fields on the encounter list query', async () => {
+    mockRequest.mockResolvedValue({ listPatientRecordsAdmin: [] });
+    await listPatientRecordsAdmin().catch(() => undefined);
+    const q = (mockRequest.mock.calls[0]?.[0] as { query?: string } | undefined)?.query ?? '';
+    expect(q).toMatch(/genesisOrderSentAt decidedAt decidedBy testOrder/);
   });
 });

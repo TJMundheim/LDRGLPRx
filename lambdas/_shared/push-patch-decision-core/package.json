@@ -1,9 +1,13 @@
 {
-  "name": "@ldrglprx/push-patch-decision",
+  "name": "@my4mlife/push-patch-decision-core",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
-    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/* && cp ../_shared/push-patch-decision-core/assets/genesis-order-form-2026.pdf dist/",
     "test": "vitest run"
   },
   "dependencies": {
@@ -11,16 +15,12 @@
     "@aws-sdk/client-lambda": "^3.700.0",
     "@aws-sdk/client-ssm": "^3.700.0",
     "@aws-sdk/lib-dynamodb": "^3.700.0",
-    "@my4mlife/patient-record": "workspace:*",
-    "@my4mlife/push-patch-decision-core": "workspace:*",
     "@my4mlife/stripe-client": "workspace:*",
     "pdf-lib": "^1.17.1",
     "stripe": "^17.0.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.149",
     "@types/node": "^22.10.0",
-    "esbuild": "^0.25.3",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   }

@@ -24,7 +24,8 @@
     latestFor,
     type Plan,
   } from './patientBrief.js';
-  import PushPatchRefund from './PushPatchRefund.svelte';
+  import PushPatchPanel from './PushPatchPanel.svelte';
+  import { isPushPatch } from './refund.js';
   import { parseConsents, consentChecklist, providerReady, cardOnFileRow, type ConsentsMap } from './consents.js';
 
   /** Treatment lanes offered at consent time. Mirrors the lanes.ts module in the consent Lambdas. */
@@ -464,14 +465,14 @@
     }
   }
 
-  /** Re-read the open patient (e.g. after a Push Patch refund) and sync the summary list. */
+  /** Re-read the open patient (e.g. after a Push Patch decision or refund) and sync the summary list. */
   async function refreshDetail(contactId: string) {
     try {
       const r = (await getPatientRecordAdmin(contactId)).getPatientRecordAdmin;
       if (!r) return;
       detail = r;
       items = items.map((p) => (p.contactId === contactId ? { ...p, encounters: r.encounters } : p));
-    } catch { /* the refund itself already succeeded; ignore reload errors */ }
+    } catch { /* the action itself already succeeded; ignore reload errors */ }
   }
 
   // ─── Legal state transitions ──────────────────────────────────────────────────
@@ -621,7 +622,7 @@
   }
   const laneNew = $derived(allEncounters(items).filter(({ e }) => e.state === 'new').length);
   const laneProvider = $derived(allEncounters(items).filter(({ e }) => e.state === 'sent-to-provider').length);
-  const laneReady = $derived(allEncounters(items).filter(({ e }) => e.state === 'script-written').length);
+  const laneReady = $derived(allEncounters(items).filter(({ e }) => e.state === 'script-written' && !isPushPatch(e)).length);
   const laneStuck = $derived(allEncounters(items).filter(({ e }) =>
     (e.state === 'new' || e.state === 'coordinator-reviewed') &&
     e.createdAt && (Date.now() - new Date(e.createdAt).getTime()) > HOURS_48
@@ -807,6 +808,7 @@
 
                   <!-- Encounters -->
                   {#each detail.encounters ?? [] as enc2 (enc2.encounterId)}
+                    {@const pp = isPushPatch(enc2)}
                     {@const nexts = nextStates(enc2.state)}
                     {@const cform = getChargeForm(enc2)}
                     {@const estate = getExportState(enc2.encounterId)}
@@ -826,7 +828,9 @@
                         <span class="enc-date">{fmtDate(enc2.createdAt)}</span>
                       </div>
 
-                      {#if enc2.state === 'declined'}
+                      {#if pp}
+                        <!-- Push Patch: buyers already paid; the panel below owns status + Approve/Decline. -->
+                      {:else if enc2.state === 'declined'}
                         <div class="declined-band">Declined — reopen available below.</div>
                       {:else}
                         <div class="path">
@@ -838,14 +842,16 @@
                         <div class="pathlbl">{#each STEP_LABELS as l}<span>{l}</span>{/each}</div>
                       {/if}
 
-                      <PushPatchRefund contactId={detail.contactId} enc={enc2}
-                        name={patientName(detail) || patientEmail(detail)} onrefunded={() => refreshDetail(detail!.contactId)} />
+                      <PushPatchPanel contactId={detail.contactId} enc={enc2}
+                        name={patientName(detail) || patientEmail(detail)} onchanged={() => refreshDetail(detail!.contactId)} />
 
                       {#if transitionError[enc2.encounterId]}
                         <p class="err small">{transitionError[enc2.encounterId]}</p>
                       {/if}
 
-                      {#if nexts.length > 0}
+                      {#if pp}
+                        <!-- no generic status selector for Push Patch -->
+                      {:else if nexts.length > 0}
                         <div class="transition-row">
                           <span class="transition-label">{enc2.state === 'declined' ? 'Actions' : 'Advance'}</span>
                           {#each nexts as toState}
@@ -879,7 +885,7 @@
                       {/if}
 
                       <!-- Approve & charge with confirmation gate -->
-                      {#if enc2.state === 'script-written'}
+                      {#if enc2.state === 'script-written' && !pp}
                         {#if cform.chargeSuccess}
                           <p class="charge-success">{cform.chargeSuccess} — encounter fulfilled.</p>
                         {:else}
@@ -945,7 +951,7 @@
 
                       <!-- Provider hand-off receipt + re-send -->
                       {#if pstate.error}<p class="err small">{pstate.error}</p>{/if}
-                      {#if enc2.providerSentTo || enc2.state === 'sent-to-provider'}
+                      {#if !pp && (enc2.providerSentTo || enc2.state === 'sent-to-provider')}
                         <div class="provider-row">
                           {#if enc2.providerSentTo}
                             <p class="export-msg">Sent to {enc2.providerSentTo} on {fmtDateTime(enc2.providerSentAt ?? '')}.

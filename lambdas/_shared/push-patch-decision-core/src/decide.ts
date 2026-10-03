@@ -20,7 +20,7 @@ const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
 const FROM = 'sent-to-provider';
 const REFUND_BUSINESS_DAYS = 10;
 
-async function transition(contactId: string, encounterId: string, to: string, extra: Record<string, string> = {}): Promise<boolean> {
+async function transition(contactId: string, encounterId: string, to: string, extra: Record<string, string>): Promise<boolean> {
   const now = new Date().toISOString();
   const sets = Object.keys(extra).map((k) => `${k} = :${k}`);
   try {
@@ -54,10 +54,13 @@ async function stampGenesisSent(contactId: string, encounterId: string, to: stri
 const allOk = async (jobs: Promise<void>[]): Promise<boolean> =>
   (await Promise.allSettled(jobs)).every((r) => r.status === 'fulfilled');
 
-export async function decide(a: { contactId: string; encounterId: string; action: 'approve' | 'decline' }): Promise<Outcome> {
+// decidedBy: 'physician-link' (emailed token) or 'admin:<username>' (admin app); recorded on the encounter.
+export type DecideArgs = { contactId: string; encounterId: string; action: 'approve' | 'decline'; decidedBy: string };
+
+export async function decide(a: DecideArgs): Promise<Outcome> {
   const get = async (sk: string) => (await ddb.send(new GetCommand({ TableName: TABLE, Key: { contactId: a.contactId, sk } }))).Item;
   const enc = await get(`encounter#${a.encounterId}`);
-  if (!enc) return { kind: 'not-found' };
+  if (!enc || enc.lane !== 'push-patch') return { kind: 'not-found' }; // other Rx lanes are never decidable here
   if (enc.state !== FROM) return { kind: 'already-decided', state: String(enc.state) };
   const demo = (await get('record'))?.demographics ?? {};
   const sku = String(enc.sku ?? '');
@@ -65,7 +68,7 @@ export async function decide(a: { contactId: string; encounterId: string; action
   if (a.action === 'approve') {
     const stripe = await getStripeClient();
     const session = await stripe.checkout.sessions.retrieve(enc.sessionId, {});
-    if (!(await transition(a.contactId, a.encounterId, 'script-written'))) return { kind: 'already-decided', state: 'decided' };
+    if (!(await transition(a.contactId, a.encounterId, 'script-written', { decidedBy: a.decidedBy }))) return { kind: 'already-decided', state: 'decided' };
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
@@ -79,6 +82,7 @@ export async function decide(a: { contactId: string; encounterId: string; action
   // and genesisOrderSentAt is never set here (that is what makes the admin refund eligible).
   const declinedAt = new Date();
   if (!(await transition(a.contactId, a.encounterId, 'declined', {
+    decidedBy: a.decidedBy,
     refundStatus: 'pending',
     declinedAt: declinedAt.toISOString(),
     refundDueBy: addBusinessDays(declinedAt, REFUND_BUSINESS_DAYS),

@@ -497,6 +497,16 @@ type EncounterRefundResult {
   code: String
 }
 
+# ─── PushPatchDecisionResult (admin-only; push-patch-decide-admin Lambda result) ─
+
+type PushPatchDecisionResult {
+  ok: Boolean!
+  state: String
+  mailOk: Boolean
+  code: String
+  error: String
+}
+
 # ─── PatientRecords (admin-only; PatientRecords table PK=contactId SK=sk) ────
 
 type PatientRecordAdmin {
@@ -529,6 +539,10 @@ type EncounterAdmin {
   refundStatus: String
   refundDueBy: String
   refundedAt: AWSDateTime
+  genesisOrderSentAt: AWSDateTime
+  decidedAt: AWSDateTime
+  decidedBy: String
+  testOrder: Boolean
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
@@ -680,6 +694,8 @@ type Mutation {
   chargeEncounterAdmin(contactId: ID!, encounterId: ID!, amountCents: Int!, billingType: String!, interval: String, label: String): ChargeResultAdmin
     @aws_auth(cognito_groups: ["Admins"])
   refundEncounterAdmin(contactId: ID!, encounterId: ID!): EncounterRefundResult
+    @aws_auth(cognito_groups: ["Admins"])
+  decidePushPatchAdmin(contactId: ID!, encounterId: ID!, action: String!): PushPatchDecisionResult
     @aws_auth(cognito_groups: ["Admins"])
   exportClinicalPacketAdmin(contactId: ID!, encounterId: ID!): PacketResultAdmin
     @aws_auth(cognito_groups: ["Admins"])

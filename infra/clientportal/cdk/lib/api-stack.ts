@@ -335,6 +335,18 @@ export class ApiStack extends cdk.Stack {
       code: code('refundEncounterAdmin.js'),
     });
 
+    // ─── DecidePushPatchAdmin — Lambda data source (admin Approve/Decline of a paid Push Patch order) ─
+    const decidePushPatchFn = lambda.Function.fromFunctionName(this, 'DecidePushPatchFn', 'my4mlife-push-patch-decide-admin');
+    const dsDecidePushPatch = this.api.addLambdaDataSource('DecidePushPatchDS', decidePushPatchFn);
+    new appsync.Resolver(this, 'DecidePushPatchAdminResolver', {
+      api: this.api,
+      typeName: 'Mutation',
+      fieldName: 'decidePushPatchAdmin',
+      dataSource: dsDecidePushPatch,
+      runtime: JS_RUNTIME,
+      code: code('decidePushPatchAdmin.js'),
+    });
+
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });
   }

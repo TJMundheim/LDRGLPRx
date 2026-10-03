@@ -425,6 +425,14 @@ export interface EncounterAdmin {
   /** YYYY-MM-DD: the date the patient was promised their refund by. */
   refundDueBy?: string | null;
   refundedAt?: string | null;
+  /** Push Patch: when the order email went out to the pharmacy (or the TJ-only action-needed email). */
+  genesisOrderSentAt?: string | null;
+  /** Push Patch: when the Approve/Decline decision was recorded. */
+  decidedAt?: string | null;
+  /** Push Patch: 'physician-link' or 'admin:<username>'. */
+  decidedBy?: string | null;
+  /** Push Patch: placed at the $2 test price. */
+  testOrder?: boolean | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -477,7 +485,7 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
   };
 }
 
-const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents providerSentTo providerSentAt packetKey amountCents refundStatus refundDueBy refundedAt createdAt updatedAt`;
+const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents providerSentTo providerSentAt packetKey amountCents refundStatus refundDueBy refundedAt genesisOrderSentAt decidedAt decidedBy testOrder createdAt updatedAt`;
 const BRIEF_FIELDS = `encounterId json createdAt`;
 const PLAN_FIELDS = `encounterId state json createdAt sentAt`;
 
@@ -597,6 +605,33 @@ export async function refundEncounterAdmin(
       }
     `,
     variables: { contactId: input.contactId, encounterId: input.encounterId },
+  });
+}
+
+// ─── DecidePushPatchAdmin ─────────────────────────────────────────────────────
+
+export type PushPatchDecisionResult = {
+  ok: boolean;
+  state?: string | null;
+  /** false = the decision is recorded but a patient/pharmacy email failed to send. */
+  mailOk?: boolean | null;
+  code?: string | null;
+  error?: string | null;
+};
+
+export async function decidePushPatchAdmin(
+  input: { contactId: string; encounterId: string; action: 'approve' | 'decline' },
+  opts?: ClientOptions,
+): Promise<{ decidePushPatchAdmin: PushPatchDecisionResult }> {
+  return client(opts)<{ decidePushPatchAdmin: PushPatchDecisionResult }>({
+    query: `
+      mutation DecidePushPatchAdmin($contactId: ID!, $encounterId: ID!, $action: String!) {
+        decidePushPatchAdmin(contactId: $contactId, encounterId: $encounterId, action: $action) {
+          ok state mailOk code error
+        }
+      }
+    `,
+    variables: { contactId: input.contactId, encounterId: input.encounterId, action: input.action },
   });
 }
 

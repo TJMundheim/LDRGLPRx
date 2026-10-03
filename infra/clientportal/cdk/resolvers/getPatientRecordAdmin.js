@@ -53,6 +53,10 @@ export function response(ctx) {
         refundStatus: item.refundStatus ? item.refundStatus : null,
         refundDueBy: item.refundDueBy ? item.refundDueBy : null,
         refundedAt: item.refundedAt ? item.refundedAt : null,
+        genesisOrderSentAt: item.genesisOrderSentAt ? item.genesisOrderSentAt : null,
+        decidedAt: item.decidedAt ? item.decidedAt : null,
+        decidedBy: item.decidedBy ? item.decidedBy : null,
+        testOrder: item.testOrder === true ? true : null,
         createdAt: item.createdAt ? item.createdAt : null,
         updatedAt: item.updatedAt ? item.updatedAt : null,
       };
