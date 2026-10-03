@@ -3,6 +3,8 @@
 // from this config and sends { version, answers } to /api/create-checkout-session.
 // A lambda-side mirror of the ids lives with the checkout/intake code; keep both in sync
 // and bump SCREENING_VERSION whenever a question id or its meaning changes.
+// v2 (2026-10-03) merged the metal-implant question into suitableArea (6 -> 5 questions). The lambdas still
+// accept v1 (six keys incl. metalImplant) so in-flight pages and already-placed orders keep working.
 //
 // Answer convention: answers[id] === true means the patient answered "Yes" to the question
 // exactly as worded here.
@@ -11,7 +13,7 @@
 //   - noSuitableAreaId: the question is worded positively ("Is there at least one area..."),
 //     so No (false) is the knockout.
 
-export const SCREENING_VERSION = 'pp-screen-v1';
+export const SCREENING_VERSION = 'pp-screen-v2';
 
 export interface ScreeningQuestion {
   id: string;
@@ -47,11 +49,6 @@ export const SCREENING: Record<string, LaneScreening> = {
     ],
     placement: [
       {
-        id: 'metalImplant',
-        question: 'Do you have a metal implant (plate, screws, rods or a joint replacement) anywhere you might wear the patch?',
-        ifYes: 'No problem. Choose an area away from the implant.',
-      },
-      {
         id: 'woundOrScar',
         question: 'Do you have an open wound, recent skin graft or scar anywhere you might wear the patch?',
         ifYes: 'No problem. Choose an area away from the wound or scar.',
@@ -59,7 +56,7 @@ export const SCREENING: Record<string, LaneScreening> = {
     ],
     noSuitableAreaId: 'suitableArea',
     suitableAreaQuestion:
-      'Is there at least one area of clean, easy-to-reach skin with little or no hair, away from any implant, wound or scar, where you could wear the patch?',
+      'Is there at least one area of clean, easy-to-reach skin with little or no hair, away from any metal implant (plate, screws, rods or a joint replacement), where you could wear the patch?',
   },
 
   // Example for a future lane. NOT ACTIVE: uncomment, adapt, and mirror the ids on the lambda side.

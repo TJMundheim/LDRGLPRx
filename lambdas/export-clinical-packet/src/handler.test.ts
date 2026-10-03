@@ -186,6 +186,22 @@ describe('renderSummary', () => {
     expect(html).toContain('Screen version pp-screen-v1, completed Oct 2, 2026, 7:00 AM CDT');
   });
 
+  it('v2 renders five rows in question order, with the merged question 4 label and no metal implant row', () => {
+    const html = pk({ pushPatch: { version: 'pp-screen-v2', at: '2026-10-02T12:00:00.000Z', denied: [],
+      placement: { woundOrScar: true }, suitableArea: true,
+      answers: { seizures: false, pacemaker: false, pregnant: false, woundOrScar: true, suitableArea: true } } });
+    expect(html).not.toContain('Metal implant where the patch may be worn');
+    expect(html).not.toContain('Suitable clean, low-hair skin area available');
+    const labels = ['Epilepsy or seizures', 'Pacemaker or implanted electronic device', 'Pregnant or could be pregnant',
+      'Suitable clean, low-hair skin area away from any metal implant', 'Open wound, recent graft or scar where the patch may be worn'];
+    const idx = labels.map((l) => html.indexOf(`${l}</th>`));
+    expect(idx.every((i) => i > 0)).toBe(true);
+    expect([...idx].sort((a, b) => a - b)).toEqual(idx);
+    expect(html).toMatch(/Suitable clean, low-hair skin area away from any metal implant<\/th><td>Yes<\/td>/);
+    expect(html).toMatch(/Open wound, recent graft or scar where the patch may be worn<\/th><td>Yes \(told to choose another area\)<\/td>/);
+    expect(html).toContain('Screen version pp-screen-v2, completed Oct 2, 2026, 7:00 AM CDT');
+  });
+
   it('falls back to denied/placement for records stored before the answers block existed', () => {
     const { answers, ...old } = PP;
     const html = pk({ pushPatch: { ...old, denied: ['pacemaker'], suitableArea: false } });

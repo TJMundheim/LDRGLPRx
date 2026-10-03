@@ -247,6 +247,16 @@ describe('push-patch SKUs', () => {
     expect(m.screen_area).toBe('yes');
   });
 
+  it('adds v2 screening metadata (5 answers, no metalImplant)', async () => {
+    const answers = { seizures: false, pacemaker: false, pregnant: false, woundOrScar: true, suitableArea: true };
+    await handler(makeEvent({ body: patchBody({ screening: { version: 'pp-screen-v2', answers } }) }));
+    const m = mockCreate.mock.calls[0][0].metadata;
+    expect(m.screen_v).toBe('pp-screen-v2');
+    expect(m.screen_denied).toBe('seizures,pacemaker,pregnant');
+    expect(m.screen_placement).toBe('woundOrScar:yes');
+    expect(m.screen_area).toBe('yes');
+  });
+
   it.each([
     [{ seizures: true }],
     [{ pacemaker: true }],

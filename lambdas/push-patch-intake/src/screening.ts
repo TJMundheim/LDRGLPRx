@@ -6,21 +6,25 @@ export interface ScreeningAnswers {
   version: string;
   at: string;
   denied: string[];
-  placement: { metalImplant: boolean; woundOrScar: boolean };
+  /** v1: metalImplant + woundOrScar. v2: woundOrScar only (the implant question was merged into suitableArea). */
+  placement: { metalImplant?: boolean; woundOrScar: boolean };
   suitableArea: boolean;
-  /** All six answers as booleans. Knockouts/placement: true = answered Yes. suitableArea: true = Yes (area available). */
-  answers: { seizures: boolean; pacemaker: boolean; pregnant: boolean; metalImplant: boolean; woundOrScar: boolean; suitableArea: boolean };
+  /** v1: six answers. v2: five (no metalImplant). Knockouts/placement: true = answered Yes. suitableArea: true = Yes (area available). */
+  answers: { seizures: boolean; pacemaker: boolean; pregnant: boolean; metalImplant?: boolean; woundOrScar: boolean; suitableArea: boolean };
 }
 export type StoredScreening = ScreeningAnswers | ScreeningNone;
 
-const QUESTIONS: [keyof ScreeningAnswers['answers'], string][] = [
+type Key = keyof ScreeningAnswers['answers'];
+const SAFETY: [Key, string][] = [
   ['seizures', 'Epilepsy or seizures'],
   ['pacemaker', 'Pacemaker or implanted electronic device'],
   ['pregnant', 'Pregnant or could be pregnant'],
-  ['metalImplant', 'Metal implant where the patch may be worn'],
-  ['woundOrScar', 'Open wound, recent graft or scar where the patch may be worn'],
-  ['suitableArea', 'Suitable clean, low-hair skin area available'],
 ];
+const WOUND: [Key, string] = ['woundOrScar', 'Open wound, recent graft or scar where the patch may be worn'];
+// Row order = question order on the page. v1 keeps its six rows; anything else is read as v2 (five rows).
+const QUESTIONS_V1: [Key, string][] = [...SAFETY, ['metalImplant', 'Metal implant where the patch may be worn'], WOUND, ['suitableArea', 'Suitable clean, low-hair skin area available']];
+const QUESTIONS_V2: [Key, string][] = [...SAFETY, ['suitableArea', 'Suitable clean, low-hair skin area away from any metal implant'], WOUND];
+const questionsFor = (version: string) => (version === 'pp-screen-v1' ? QUESTIONS_V1 : QUESTIONS_V2);
 const PLACEMENT_KEYS = new Set(['metalImplant', 'woundOrScar']);
 
 const isYes = (map: Record<string, string>, k: string) => map[k] === 'yes';
@@ -32,16 +36,18 @@ export function parseScreening(meta: Record<string, string> | null | undefined):
   if (!m['screen_v']) return { version: 'none' };
   const placement = pairs(m['screen_placement']);
   const denied = (m['screen_denied'] ?? '').split(',').map((x) => x.trim()).filter(Boolean);
-  const [metalImplant, woundOrScar] = [isYes(placement, 'metalImplant'), isYes(placement, 'woundOrScar')];
+  const v1 = m['screen_v'] === 'pp-screen-v1';
+  const woundOrScar = isYes(placement, 'woundOrScar');
   const suitableArea = m['screen_area'] === 'yes';
+  const metal = v1 ? { metalImplant: isYes(placement, 'metalImplant') } : {};
   return {
     version: m['screen_v'],
     at: m['screen_at'] ?? '',
     denied,
-    placement: { metalImplant, woundOrScar },
+    placement: { ...metal, woundOrScar },
     suitableArea,
     answers: { seizures: denied.includes('seizures'), pacemaker: denied.includes('pacemaker'), pregnant: denied.includes('pregnant'),
-      metalImplant, woundOrScar, suitableArea },
+      ...metal, woundOrScar, suitableArea },
   };
 }
 
@@ -57,10 +63,10 @@ const central = (iso: string) => new Intl.DateTimeFormat('en-US', {
   timeZone: 'America/Chicago', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
 }).format(new Date(iso));
 
-/** Plain-text lines for the "Pre-payment safety screen" block (HTML escapes them): all six answers, Yes/No. */
+/** Plain-text lines for the "Pre-payment safety screen" block (HTML escapes them): every answer for the stored version (v1: six, v2: five), Yes/No. */
 export function screeningLines(s: StoredScreening): string[] {
   if (!hasScreen(s)) return ['No pre-payment screening on this order (placed before the safety check existed).'];
-  const lines = QUESTIONS.map(([k, label]) =>
+  const lines = questionsFor(s.version).map(([k, label]) =>
     `${label}: ${s.answers[k] ? 'Yes' : 'No'}${PLACEMENT_KEYS.has(k) && s.answers[k] ? ' (told to choose another area)' : ''}`);
   const when = Number.isNaN(Date.parse(s.at)) ? '' : `, completed ${central(s.at)}`;
   return [...lines, `Screen version ${s.version}${when}`];

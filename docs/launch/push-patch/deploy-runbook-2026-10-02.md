@@ -112,7 +112,7 @@ code() { curl -s -o /tmp/pp-body -w '%{http_code}' "$@"; echo " $(head -c 160 /t
 | `-d '{"skuId":"push-patch-wolverine","wear":"14h", ...valid screening}'` | `400 {"error":"wear must be 12h"}` |
 | All answers false, `"suitableArea":true` | `200 {"url":"https://checkout.stripe.com/...","id":"cs_live_..."}`. This creates an unpaid live session, which expires on its own. Do not pay it. |
 
-Browser: open https://my4mlife.com/go/push-patch and click any Buy. The "Quick safety check" modal opens. Click "Something on this list applies to me", answer **Yes** to seizures, answer every other question, then Continue. Expect "The Push Patch isn't the right fit for you right now." with a care-coordinator link and **no** Stripe redirect. Then click "Change my answers", answer Yes to metal implant, and expect the inline "Choose an area away from the implant" note. Close the modal without paying. The fine print reads "Not cleared? Full refund. Final once shipped."
+Browser: open https://my4mlife.com/go/push-patch and click any Buy. The "Quick safety check" modal opens. Click "Something on this list applies to me", answer **Yes** to seizures, answer every other question, then Continue. Expect "The Push Patch isn't the right fit for you right now." with a care-coordinator link and **no** Stripe redirect. Then click "Change my answers", answer Yes to the wound/scar question, and expect the inline "Choose an area away from the wound or scar" note (v2 has 5 questions; the metal-implant question is part of the suitable-area question). Close the modal without paying. The fine print reads "Not cleared? Full refund. Final once shipped."
 
 ### Intake (`/api/push-patch-intake`)
 | Request | Expect |
@@ -181,7 +181,7 @@ Prerequisites:
 ## 4. TJ end-to-end test B: decline path and admin refund
 
 1. Make a second purchase, of any blend. In the modal, click **Something on this list applies to me** and answer every question. Answer **Yes** only to the metal-implant question, confirm the inline "Choose an area away from the implant" note appears, and answer Yes to the suitable-area question. Click **Continue to checkout** and pay with a real card.
-2. Complete the intake as in A3. The provider email subject starts `[Placement note] [Provider review] …`, and the body includes "Metal implant: yes, told to choose another area".
+2. Complete the intake as in A3. The provider email subject starts `[Placement note] [Provider review] …`, and the body includes "Open wound, recent graft or scar where the patch may be worn: Yes (told to choose another area)" (v2; v1 orders also list "Metal implant where the patch may be worn").
 3. Tap **Decline**, then **Confirm decline**. Expect "Declined — A refund is queued for admin approval."
 4. The buyer receives **You weren't cleared for the Push Patch. Refund within 10 business days** from support@. It gives no reason and no amount, says "Nothing has shipped", and carries the tagline footer.
 5. drtj@my4mlife.com receives **no** Genesis order email.

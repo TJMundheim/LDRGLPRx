@@ -51,15 +51,15 @@ const IMG = {
 // truth in src/data/screening.ts; the modal below and the script both read from it.
 const SCREEN = SCREENING['push-patch'];
 const SCREEN_AREA_ID = SCREEN.noSuitableAreaId;
-// All six questions are shown up front, each a required Yes / No pair, in two visual groups:
-// "Safety questions" (the knockouts) and "Where you'll wear it" (placement + suitable area).
+// All questions are shown up front, each a required Yes / No pair, in two visual groups:
+// "Safety questions" (the knockouts) and "Where you'll wear it" (suitable area, then placement).
 type Item = { id: string; question: string; kind: 'knockout' | 'placement' | 'area'; ifYes?: string };
 const SAFETY_ITEMS: Item[] = SCREEN.knockouts.map((k): Item => ({ id: k.id, question: k.question, kind: 'knockout' }));
 const WEAR_ITEMS: Item[] = [
-  ...SCREEN.placement.map((q): Item => ({ id: q.id, question: q.question, kind: 'placement', ifYes: q.ifYes })),
   ...(SCREEN_AREA_ID && SCREEN.suitableAreaQuestion
     ? [{ id: SCREEN_AREA_ID, question: SCREEN.suitableAreaQuestion, kind: 'area' } as Item]
     : []),
+  ...SCREEN.placement.map((q): Item => ({ id: q.id, question: q.question, kind: 'placement', ifYes: q.ifYes })),
 ];
 const SCREEN_CLIENT = {
   lane: 'push-patch',
@@ -327,7 +327,7 @@ const SCREEN_CLIENT = {
         </details>
         <details>
           <summary>Who should not use the Push Patch?</summary>
-          <p>Do not use it if you have epilepsy or a history of seizures, a pacemaker or any other implanted electronic device, or are pregnant or could be pregnant. We ask about these in a quick safety check before checkout. The patch goes on clean, easy-to-reach skin with little or no hair, such as the upper arm, shoulder, upper chest, forearm, thigh or side of the abdomen. If you have a metal implant, or an open wound, recent skin graft or scar, choose an area away from it.</p>
+          <p>Do not use it if you have epilepsy or a history of seizures, a pacemaker or any other implanted electronic device, or are pregnant or could be pregnant. We ask about these in a quick safety check before checkout. The patch goes on clean, easy-to-reach skin with little or no hair, such as the upper arm, shoulder, upper chest, forearm, thigh or side of the abdomen. Wear the patch away from any metal implant, open wound, recent skin graft or scar.</p>
         </details>
         <details>
           <summary>What is your refund policy?</summary>

@@ -736,6 +736,41 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
     expect(payloadOf(emailCalls()[0]).subject).not.toContain('[Placement note]');
   });
 
+  describe('pp-screen-v2 (metal implant merged into suitableArea)', () => {
+    const V2 = { screen_v: 'pp-screen-v2', screen_denied: 'seizures,pacemaker,pregnant', screen_placement: 'woundOrScar:yes', screen_area: 'yes' };
+
+    it('stores five answers with no metalImplant', async () => {
+      await run({ ...V2, screen_denied: 'seizures' });
+      const stored = nestedSets(recordWrite())['screeningAnswers.pushPatch'];
+      expect(stored).toEqual({
+        version: 'pp-screen-v2', at: '2026-10-02T12:00:00.000Z', denied: ['seizures'],
+        placement: { woundOrScar: true }, suitableArea: true,
+        answers: { seizures: true, pacemaker: false, pregnant: false, woundOrScar: true, suitableArea: true },
+      });
+      expect(stored.answers).not.toHaveProperty('metalImplant');
+    });
+
+    it('provider email lists five lines with the new question 4 label', async () => {
+      await run(V2);
+      const p = payloadOf(emailCalls()[0]);
+      const want = [
+        'Epilepsy or seizures: Yes', 'Pacemaker or implanted electronic device: Yes', 'Pregnant or could be pregnant: Yes',
+        'Suitable clean, low-hair skin area away from any metal implant: Yes',
+        'Open wound, recent graft or scar where the patch may be worn: Yes (told to choose another area)',
+        'Screen version pp-screen-v2, completed Oct 2, 2026, 7:00 AM CDT',
+      ];
+      for (const l of want) { expect(p.html).toContain(l); expect(p.text).toContain(l); }
+      expect(p.text).not.toContain('Metal implant');
+      expect(p.text).not.toContain('Suitable clean, low-hair skin area available');
+      expect(p.subject).toContain('[Placement note]');
+    });
+
+    it('no wound/scar means no placement flag', async () => {
+      await run({ ...V2, screen_placement: 'woundOrScar:no' });
+      expect(payloadOf(emailCalls()[0]).subject).not.toContain('[Placement note]');
+    });
+  });
+
   it('legacy session without screen_v stores { version: "none" } and flags the email', async () => {
     sessionRetrieveMock.mockResolvedValue({ ...SESSION, metadata: { skuIds: SKU, wear: '12h' } });
     await handler(evt(VALID_BODY));

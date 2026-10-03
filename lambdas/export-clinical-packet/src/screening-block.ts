@@ -8,14 +8,15 @@ interface PushPatchScreen {
   placement?: { metalImplant?: boolean; woundOrScar?: boolean }; answers?: Answers;
 }
 
-const QUESTIONS: [key: string, label: string][] = [
+const SAFETY: [string, string][] = [
   ['seizures', 'Epilepsy or seizures'],
   ['pacemaker', 'Pacemaker or implanted electronic device'],
   ['pregnant', 'Pregnant or could be pregnant'],
-  ['metalImplant', 'Metal implant where the patch may be worn'],
-  ['woundOrScar', 'Open wound, recent graft or scar where the patch may be worn'],
-  ['suitableArea', 'Suitable clean, low-hair skin area available'],
 ];
+const WOUND: [string, string] = ['woundOrScar', 'Open wound, recent graft or scar where the patch may be worn'];
+// v1 = six rows; v2 (metal implant merged into the suitable-area question) = five rows, in page order.
+const QUESTIONS_V1: [string, string][] = [...SAFETY, ['metalImplant', 'Metal implant where the patch may be worn'], WOUND, ['suitableArea', 'Suitable clean, low-hair skin area available']];
+const QUESTIONS_V2: [string, string][] = [...SAFETY, ['suitableArea', 'Suitable clean, low-hair skin area away from any metal implant'], WOUND];
 const PLACEMENT = new Set(['metalImplant', 'woundOrScar']);
 
 const central = (iso: string) => new Intl.DateTimeFormat('en-US', {
@@ -31,7 +32,7 @@ export function screeningRows(raw: unknown): { rows: Row[]; footer: string } {
   const a: Answers = s.answers ?? {
     ...Object.fromEntries((s.denied ?? []).map((d) => [d, true])), ...s.placement, suitableArea: s.suitableArea,
   };
-  const rows = QUESTIONS.map(([k, label]): Row => [label, `${a[k] ? 'Yes' : 'No'}${PLACEMENT.has(k) && a[k] ? ' (told to choose another area)' : ''}`]);
+  const rows = (s.version === 'pp-screen-v1' ? QUESTIONS_V1 : QUESTIONS_V2).map(([k, label]): Row => [label, `${a[k] ? 'Yes' : 'No'}${PLACEMENT.has(k) && a[k] ? ' (told to choose another area)' : ''}`]);
   const when = s.at && !Number.isNaN(Date.parse(s.at)) ? `, completed ${central(s.at)}` : '';
   return { rows, footer: `Screen version ${s.version}${when}` };
 }

@@ -8,14 +8,25 @@ type Lane = {
   area: string; // the "suitable area" id (also in `required`)
 };
 
-const LANES: Record<string, Lane> = {
-  'push-patch': {
-    version: 'pp-screen-v1',
-    knockouts: ['seizures', 'pacemaker', 'pregnant'],
-    required: ['suitableArea'],
-    placement: ['metalImplant', 'woundOrScar'],
-    area: 'suitableArea',
-  },
+// Each lane lists every accepted screening version (newest first). v1 stays accepted so in-flight pages
+// and already-placed orders keep working; v2 merged the metal-implant question into suitableArea.
+const LANES: Record<string, Lane[]> = {
+  'push-patch': [
+    {
+      version: 'pp-screen-v2',
+      knockouts: ['seizures', 'pacemaker', 'pregnant'],
+      required: ['suitableArea'],
+      placement: ['woundOrScar'],
+      area: 'suitableArea',
+    },
+    {
+      version: 'pp-screen-v1',
+      knockouts: ['seizures', 'pacemaker', 'pregnant'],
+      required: ['suitableArea'],
+      placement: ['metalImplant', 'woundOrScar'],
+      area: 'suitableArea',
+    },
+  ],
 };
 
 export type ScreenResult =
@@ -25,11 +36,12 @@ export type ScreenResult =
 const yn = (b: boolean) => (b ? 'yes' : 'no');
 
 export function evaluateScreening(input: unknown, lane = 'push-patch', now = new Date()): ScreenResult {
-  const cfg = LANES[lane];
   const s = input as { version?: unknown; answers?: Record<string, unknown> } | null | undefined;
+  const cfg = LANES[lane].find((l) => l.version === s?.version);
   const a = s?.answers;
+  if (!s || !cfg || !a || typeof a !== 'object') return { ok: false, reason: 'screening required' };
   const ids = [...cfg.knockouts, ...cfg.required, ...cfg.placement];
-  if (!s || s.version !== cfg.version || !a || typeof a !== 'object' || ids.some((k) => typeof a[k] !== 'boolean')) {
+  if (ids.some((k) => typeof a[k] !== 'boolean')) {
     return { ok: false, reason: 'screening required' };
   }
   if (cfg.knockouts.some((k) => a[k] === true) || cfg.required.some((k) => a[k] !== true)) return { ok: false, reason: 'not eligible' };
