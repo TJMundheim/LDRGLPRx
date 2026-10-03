@@ -51,12 +51,11 @@ const IMG = {
 // truth in src/data/screening.ts; the modal below and the script both read from it.
 const SCREEN = SCREENING['push-patch'];
 const SCREEN_AREA_ID = SCREEN.noSuitableAreaId;
-// Bullet list shows the question without a trailing "(Choose No ...)" aside.
-const bullet = (q: string) => q.replace(/\s*\([^)]*\)\s*$/, '');
-// Detailed form: knockouts, then placement, then the suitable-area question (Yes = fine).
+// All six questions are shown up front, each a required Yes / No pair, in two visual groups:
+// "Safety questions" (the knockouts) and "Where you'll wear it" (placement + suitable area).
 type Item = { id: string; question: string; kind: 'knockout' | 'placement' | 'area'; ifYes?: string };
-const SCREEN_ITEMS: Item[] = [
-  ...SCREEN.knockouts.map((k): Item => ({ id: k.id, question: k.question, kind: 'knockout' })),
+const SAFETY_ITEMS: Item[] = SCREEN.knockouts.map((k): Item => ({ id: k.id, question: k.question, kind: 'knockout' }));
+const WEAR_ITEMS: Item[] = [
   ...SCREEN.placement.map((q): Item => ({ id: q.id, question: q.question, kind: 'placement', ifYes: q.ifYes })),
   ...(SCREEN_AREA_ID && SCREEN.suitableAreaQuestion
     ? [{ id: SCREEN_AREA_ID, question: SCREEN.suitableAreaQuestion, kind: 'area' } as Item]
@@ -66,7 +65,6 @@ const SCREEN_CLIENT = {
   lane: 'push-patch',
   version: SCREENING_VERSION,
   knockoutIds: SCREEN.knockouts.map((k) => k.id),
-  placementIds: SCREEN.placement.map((q) => q.id),
   areaId: SCREEN_AREA_ID ?? null,
 };
 ---
@@ -372,30 +370,30 @@ const SCREEN_CLIENT = {
     <div class="pp-modal-box">
       <button type="button" class="pp-modal-x" id="pp-screen-x" aria-label="Close safety check">&times;</button>
       <h2 id="pp-screen-title">Quick safety check</h2>
-      {SCREEN.siteNote && <p class="pp-modal-note">{SCREEN.siteNote}</p>}
 
-      <div id="pp-screen-quick">
-        <p class="pp-modal-lead">Do any of these apply to you?</p>
-        <ul class="pp-modal-list">
-          {SCREEN.knockouts.map((k) => <li>{bullet(k.question)}</li>)}
-        </ul>
-        <button type="button" class="pp-cta pp-modal-go" id="pp-screen-none">None of these apply to me</button>
-        <button type="button" class="pp-modal-link" id="pp-screen-some" aria-expanded="false" aria-controls="pp-screen-detail">Something on this list applies to me</button>
-      </div>
-
-      <form id="pp-screen-detail" class="pp-modal-form" hidden novalidate>
-        {SCREEN_ITEMS.map((it) => (
-          <fieldset class="pp-q" data-id={it.id} data-kind={it.kind}>
-            <legend>{it.question}</legend>
-            <div class="pp-q-opts">
-              <label><input type="radio" name={`pp-${it.id}`} value="yes" required /> Yes</label>
-              <label><input type="radio" name={`pp-${it.id}`} value="no" required /> No</label>
+      <form id="pp-screen-detail" class="pp-modal-form" novalidate>
+        <div class="pp-modal-scroll">
+          {SCREEN.siteNote && <p class="pp-modal-note">{SCREEN.siteNote}</p>}
+          {[{ title: 'Safety questions', items: SAFETY_ITEMS }, { title: "Where you'll wear it", items: WEAR_ITEMS }].map((g) => (
+            <div class="pp-qgroup" role="group" aria-label={g.title}>
+              <p class="pp-qgroup-title">{g.title}</p>
+              {g.items.map((it) => (
+                <fieldset class="pp-q" data-id={it.id} data-kind={it.kind}>
+                  <legend>{it.question}</legend>
+                  <div class="pp-q-opts">
+                    <label><input type="radio" name={`pp-${it.id}`} value="yes" required /> Yes</label>
+                    <label><input type="radio" name={`pp-${it.id}`} value="no" required /> No</label>
+                  </div>
+                  {it.ifYes && <p class="pp-q-note" hidden>{it.ifYes}</p>}
+                </fieldset>
+              ))}
             </div>
-            {it.ifYes && <p class="pp-q-note" hidden>{it.ifYes}</p>}
-          </fieldset>
-        ))}
-        <p class="pp-error" id="pp-screen-form-error" role="alert" hidden>Please answer every question.</p>
-        <button type="submit" class="pp-cta pp-modal-go">Continue to checkout</button>
+          ))}
+        </div>
+        <div class="pp-modal-foot">
+          <p class="pp-modal-confirm">By continuing, I confirm my answers are accurate.</p>
+          <button type="submit" class="pp-cta pp-modal-go" id="pp-screen-go" disabled>Continue to checkout</button>
+        </div>
       </form>
 
       <div id="pp-screen-stop" class="pp-modal-stop" role="alert" hidden>
@@ -424,12 +422,9 @@ const SCREEN_CLIENT = {
   var GENERIC = 'We could not open checkout. Please try again in a moment.';
   var C = SCREEN_CLIENT;
 
-  var quick = document.getElementById('pp-screen-quick');
   var detail = document.getElementById('pp-screen-detail');
   var stop = document.getElementById('pp-screen-stop');
-  var formErr = document.getElementById('pp-screen-form-error');
-  var someBtn = document.getElementById('pp-screen-some');
-  var noneBtn = document.getElementById('pp-screen-none');
+  var goBtn = document.getElementById('pp-screen-go');
   var cur = null; // { btn, skuId, label }
 
   function focusables() {
@@ -444,22 +439,33 @@ const SCREEN_CLIENT = {
   }
 
   function show(which) {
-    quick.hidden = which !== 'quick';
     detail.hidden = which !== 'detail';
     stop.hidden = which !== 'stop';
-    someBtn.setAttribute('aria-expanded', which === 'detail' ? 'true' : 'false');
   }
+
+  // Continue stays disabled until all six questions have an explicit Yes / No.
+  function allAnswered() {
+    var fs = detail.querySelectorAll('.pp-q');
+    for (var i = 0; i < fs.length; i++) {
+      if (!fs[i].querySelector('input:checked')) return false;
+    }
+    return fs.length > 0;
+  }
+  function syncGo() { goBtn.disabled = !allAnswered(); }
 
   function openModal(btn) {
     cur = { btn: btn, skuId: btn.getAttribute('data-sku'), label: btn.getAttribute('data-label') };
     detail.reset();
-    formErr.hidden = true;
+    syncGo();
+    var sc = detail.querySelector('.pp-modal-scroll');
+    if (sc) sc.scrollTop = 0;
     var notes = detail.querySelectorAll('.pp-q-note');
     for (var i = 0; i < notes.length; i++) notes[i].hidden = true;
-    show('quick');
+    show('detail');
     if (typeof dlg.showModal === 'function') { dlg.showModal(); } else { dlg.setAttribute('open', ''); }
     document.body.style.overflow = 'hidden';
-    noneBtn.focus();
+    var firstRadio = detail.querySelector('input');
+    if (firstRadio) firstRadio.focus();
     track('lp_patch_screen_open', { skuId: cur.skuId });
   }
 
@@ -494,11 +500,6 @@ const SCREEN_CLIENT = {
     openModal(btn);
   });
 
-  someBtn.addEventListener('click', function () {
-    show('detail');
-    var first = detail.querySelector('input');
-    if (first) first.focus();
-  });
   document.getElementById('pp-screen-back').addEventListener('click', function () {
     show('detail');
     var first = detail.querySelector('input');
@@ -511,13 +512,13 @@ const SCREEN_CLIENT = {
     if (!fs) return;
     var note = fs.querySelector('.pp-q-note');
     if (note) note.hidden = ev.target.value !== 'yes';
-    formErr.hidden = true;
+    syncGo();
   });
 
-  function startCheckout(answers, path) {
+  function startCheckout(answers) {
     var btn = cur.btn, skuId = cur.skuId, label = cur.label;
     var err = btn.parentNode.querySelector('.pp-error');
-    track('lp_patch_screen_pass', { skuId: skuId, path: path });
+    track('lp_patch_screen_pass', { skuId: skuId, path: 'detailed' });
     closeModal();
     err.hidden = true;
     btn.disabled = true;
@@ -548,15 +549,6 @@ const SCREEN_CLIENT = {
     });
   }
 
-  // "None of these apply to me": knockouts No, placement No, suitable area Yes.
-  noneBtn.addEventListener('click', function () {
-    var a = {};
-    C.knockoutIds.forEach(function (id) { a[id] = false; });
-    C.placementIds.forEach(function (id) { a[id] = false; });
-    if (C.areaId) a[C.areaId] = true;
-    startCheckout(a, 'none');
-  });
-
   detail.addEventListener('submit', function (ev) {
     ev.preventDefault();
     var a = {};
@@ -564,7 +556,6 @@ const SCREEN_CLIENT = {
     for (var i = 0; i < fs.length; i++) {
       var checked = fs[i].querySelector('input:checked');
       if (!checked) {
-        formErr.hidden = false;
         var miss = fs[i].querySelector('input');
         if (miss) miss.focus();
         return;
@@ -581,7 +572,7 @@ const SCREEN_CLIENT = {
       if (link) link.focus();
       return;
     }
-    startCheckout(a, 'detailed');
+    startCheckout(a);
   });
 })();
 </script>
@@ -746,24 +737,31 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-error[hidden] { display: none; }
 
 /* Pre-payment safety check modal */
-.pp-modal { border: 1px solid var(--ink-line); border-radius: 12px; padding: 0; background: var(--ink-2); color: var(--on-ink); width: min(30rem, calc(100vw - 1.5rem)); max-height: calc(100dvh - 1.5rem); overflow: auto; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; margin: auto; }
+.pp-modal { border: 1px solid var(--ink-line); border-radius: 12px; padding: 0; background: var(--ink-2); color: var(--on-ink); width: min(30rem, calc(100vw - 1.5rem)); max-height: 85vh; max-height: 85dvh; overflow: hidden; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; margin: auto; }
+.pp-modal[open] { display: flex; flex-direction: column; }
 .pp-modal::backdrop { background: rgba(5, 10, 20, 0.78); }
-.pp-modal-box { position: relative; padding: 1.4rem 1.1rem 1.3rem; }
-@media (min-width: 480px) { .pp-modal-box { padding: 1.8rem 1.6rem 1.6rem; } }
-.pp-modal h2 { font-size: 1.4rem; font-weight: 800; line-height: 1.2; margin: 0 2rem 0.7rem 0; color: #ffffff; letter-spacing: -0.02em; }
+.pp-modal-box { position: relative; display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; max-height: inherit; padding: 1.4rem 0 0; }
+@media (min-width: 480px) { .pp-modal-box { padding-top: 1.8rem; } }
+.pp-modal h2 { flex: none; font-size: 1.4rem; font-weight: 800; line-height: 1.2; margin: 0 3.2rem 0.7rem 1.1rem; color: #ffffff; letter-spacing: -0.02em; }
+@media (min-width: 480px) { .pp-modal h2 { margin-left: 1.6rem; } }
 .pp-modal-x { position: absolute; top: 0.6rem; right: 0.6rem; width: 2.5rem; height: 2.5rem; border: none; background: transparent; color: var(--on-ink-muted); font-size: 1.7rem; line-height: 1; cursor: pointer; border-radius: 8px; }
 .pp-modal-x:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
-.pp-modal-note { font-size: 0.92rem; line-height: 1.55; color: var(--on-ink-muted); margin: 0 0 1.1rem; }
-.pp-modal-lead { font-size: 0.98rem; font-weight: 600; color: #ffffff; margin: 0 0 0.5rem; }
-.pp-modal-list { margin: 0 0 1.2rem; padding-left: 1.2rem; font-size: 0.95rem; line-height: 1.55; color: var(--on-ink); }
-.pp-modal-list li { margin: 0.25rem 0; }
+.pp-modal-note { font-size: 0.92rem; line-height: 1.55; color: var(--on-ink); margin: 0 0 1.1rem; padding: 0.7rem 0.9rem; border-left: 3px solid var(--accent); background: rgba(34, 211, 238, 0.1); border-radius: 0 8px 8px 0; }
 .pp-modal .pp-modal-go { display: block; width: 100%; text-align: center; box-sizing: border-box; }
 .pp-modal-link { display: block; width: 100%; margin: 0.9rem 0 0; padding: 0.5rem; background: none; border: none; color: var(--accent); font: inherit; font-size: 0.92rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; text-align: center; }
 .pp-modal-link:hover { color: #67e8f9; }
 .pp-modal-x:focus-visible, .pp-modal-link:focus-visible, .pp-modal input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .pp-modal .pp-cta:focus-visible { outline-color: #ffffff; }
 .pp-modal-form[hidden], .pp-modal-stop[hidden] { display: none; }
-.pp-modal-form { display: flex; flex-direction: column; gap: 0.9rem; }
+.pp-modal-form { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; margin: 0; }
+.pp-modal-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 1.1rem 0.6rem; }
+.pp-modal-foot { flex: none; padding: 0.8rem 1.1rem 1.1rem; border-top: 1px solid var(--ink-line); background: var(--ink-2); }
+@media (min-width: 480px) { .pp-modal-scroll { padding: 0 1.6rem 0.6rem; } .pp-modal-foot { padding: 0.9rem 1.6rem 1.3rem; } }
+.pp-modal-confirm { margin: 0 0 0.7rem; font-size: 0.88rem; line-height: 1.45; color: var(--on-ink-muted); text-align: center; }
+.pp-modal .pp-modal-go:disabled { opacity: 0.45; cursor: not-allowed; }
+.pp-modal .pp-modal-go:disabled:hover { background: var(--accent); }
+.pp-qgroup { display: flex; flex-direction: column; gap: 0.7rem; margin: 0 0 1.2rem; }
+.pp-qgroup-title { margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
 .pp-q { margin: 0; padding: 0.8rem 0.9rem; border: 1px solid var(--ink-line); border-radius: 8px; min-width: 0; }
 .pp-q legend { padding: 0 0.3rem; font-size: 0.92rem; font-weight: 500; line-height: 1.45; color: var(--on-ink); letter-spacing: 0; }
 .pp-q-opts { display: flex; gap: 1.4rem; margin-top: 0.4rem; }
@@ -772,6 +770,7 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-q-note { margin: 0.4rem 0 0; padding: 0.55rem 0.75rem; border-left: 3px solid var(--accent); background: rgba(34, 211, 238, 0.1); border-radius: 0 6px 6px 0; font-size: 0.88rem; line-height: 1.5; color: var(--on-ink); }
 .pp-q-note[hidden] { display: none; }
 .pp-modal .pp-error[hidden] { display: none; }
+.pp-modal-stop { padding: 0 1.1rem 1.3rem; overflow-y: auto; }
 .pp-modal-stop p { font-size: 1rem; line-height: 1.6; color: var(--on-ink); margin: 0 0 1.2rem; }
 .pp-modal-stop strong { color: #ffffff; }
 .pp-modal-stop .pp-cta { display: block; }
