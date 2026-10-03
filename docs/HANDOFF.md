@@ -1,6 +1,6 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-09-22 · self-contained current-state snapshot
+# Last updated: 2026-10-03 · START HERE block below, then dated changelog
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
@@ -12,6 +12,27 @@
 
 
 
+
+## ▶ START HERE — 2026-10-03 — NEXT SESSION WORK QUEUE (TJ offline; build in order)
+
+**State:** Push Patch is LIVE and PROVEN end to end (both $2 live tests passed 2026-10-03; $2 test link revoked). Details: blocks below dated 2026-10-01 → 10-03, plan docs/plan/push-patch-async-visit-2026-10-01.md (+ addendum), runbook docs/launch/push-patch/deploy-runbook-2026-10-02.md, memory project_push_patch.md.
+
+**Standing rules (non-negotiable):** main branch only, primary checkout, no worktrees · pnpm only · deploy ONLY via each package's infra/deploy.sh / website/deploy.sh · lambdas esbuild, modules < 100 lines · Bedrock only (never @anthropic-ai/sdk) · plans via /plan, TDD, delegate tasks to subagents (haiku lookups, sonnet code, opus review) · never delete data (TJ runs infra/scripts/cleanup-test-accounts.sh; bryan@bryanshoemaker.com is a LIVE patient) · Dr. TJ = Doctor of Chiropractic, never "physician"; approvals say "our network's licensed physicians" (never name a group/physician on customer surfaces) · Biome NS Rx ingredients never on customer surfaces (BPC-157 IS allowed for Push Patch) · no Amazon/affiliate links in email bodies · no "men and women", no age ranges, no emoji in member UI · identity/dignity tagline on every My4MLife surface EXCEPT the Push Patch pages and Push Patch not-cleared/refund/reminder emails (welcome email keeps it + "brought to you by My4MLife" line) · commit + push at every stopping point (trailer "Co-Authored-By: Claude <model> <noreply@anthropic.com>") and keep this file current · NEW standing rule: memory feedback_capture_every_contact.md.
+
+**Queue (build in this order; each step = plan → TDD → review → deploy via scripts → verify live):**
+1. **Shared customer list (Contact table) — audit.** Map every path where an email enters: MindSpan assessment (lambdas/audit-complete → Protégé signup, protege-signup), cohort/membership, ALL purchases (create-checkout-session SKUs: Push Patch, book, Logbook, app, cart, Rx lanes such as Biome NS Rx) via order-handler-core, /consult intake (patient-record-intake + contact-form), lead-capture and other forms, /go/* landing pages, inbound-handler. Record what each writes to Contact today. Known gap: order-handler-core only SETs lastPurchaseAt/LTV/hasUsedFirstPurchaseDiscount on Contact — no email, name, source or product. Contact table: PK contactId; GSIs byEmail, byStripeCustomer, byLifecycle (~24 items).
+2. **Shared "save this contact" helper** (new lambdas/_shared package, e.g. @my4mlife/contact-upsert): email (lowercased), first/last name, phone if given, source/funnel, firstSeenAt (if_not_exists), lastSeenAt, events/flags (assessmentAt, protegeAt, purchases list with sku + amount + date), interest tags (string set, ADD), lifetimeValueUSD, marketingConsent {status, at, source}. Additive only: never overwrite good data with blanks, never delete. NO PHI (health answers stay in PatientRecords). Wire EVERY path from step 1 to it, using resolveContactId from @my4mlife/contact-id so ids stay consistent.
+3. **Push Patch capture:** complete Contact row per buyer (source push-patch, tags peptides / needle-free / blend); Stripe Checkout optional promotional-email consent (consent_collection promotions) → marketingConsent; Stripe abandoned-cart recovery (after_expiration.recovery + checkout.session.expired handling → Contact with source "push-patch-abandoned" + a "your Push Patch is waiting" email from support@my4mlife.com that links to /go/push-patch — no affiliate links). Show TJ the recovery email copy before turning it on.
+4. **Backfill** the Contact list from Stripe customers/sessions, Cognito users (assessment/Protégé), PatientRecords demographics (email + name ONLY, no health data), past form submissions, existing Contact rows. Idempotent script in infra/scripts with --dry-run default; show TJ the dry-run counts before --apply. Never delete or overwrite.
+5. **Segment exports:** infra/scripts/export-contacts.sh (or an admin-app button) → CSV by segment: all, by source, assessment-no-purchase, Push Patch buyers, abandoned checkout, opted-in, by tag. Exports may contain PII → write to a local path or private S3 only, never commit them.
+6. **Uninsured Decade calculator gate** (/go/uninsured-decade, already live and ungated; spec docs/plan/uninsured-decade-calculator-and-talk-spec-2026-09-07.md): free inputs + headline figure, then first name + email unlocks the full breakdown + an emailed personalized PDF report; optional "send a copy to my financial advisor" (neutral, endorses the advisor per feedback_endorse_the_professional_partner); Contact source "uninsured-decade-calculator" + consent. Keep the honesty framing and disclaimer exactly.
+7. **Red-light/green-light review (opus)** of steps 1–6 together (every entry point touched): contracts, idempotency, no PHI in Contact, consent recorded, no data loss, deploy scripts. Fix, then deploy, then smoke-test each entry point.
+
+**Open items waiting on TJ (do not block the queue):**
+- Genesis to confirm the ONE-PAGE Push Patch order form works (billing + "Electronically signed — Oscar Molina" in the notes; red "internal use only" line printed on their template). Then set GENESIS_ORDER_EMAIL=orders@novobioalliance.com in BOTH lambdas/push-patch-decision/infra/deploy.sh and lambdas/push-patch-decide-admin/infra/deploy.sh and redeploy both.
+- TJ may add more ideas before/after going offline — append them to this queue.
+- Ops-agent request_approval has never sent an email (wrong function name; see 2026-10-01 approval-queue block) — fixing it starts real approval emails to drtj@my4mlife.com; needs TJ's OK.
+- Sunday 2026-10-04 evening: free marketing + ad copy session with TJ (docs/plan/push-patch-marketing-2026-10-01.md). Have Day-1 assets ready to review.
 
 ## ⚡ 2026-10-01 — APPROVAL-QUEUE LINKS FIXED + SCANNER-SAFE (deployed)
 - `lambdas/approval-queue`: approve/deny links pointed at `api.my4mlife.com`, which has **no DNS record** (and no API Gateway custom domain), so every link was dead. Base URL now comes from `APPROVAL_BASE_URL` set in `infra/deploy.sh`, defaulting to `https://v9svm8ds74.execute-api.us-east-2.amazonaws.com`.
