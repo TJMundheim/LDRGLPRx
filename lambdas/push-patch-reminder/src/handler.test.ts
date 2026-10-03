@@ -68,7 +68,7 @@ describe('push-patch-reminder', () => {
     expect(lambdaSend.mock.calls[0][0].input.FunctionName).toBe('my4mlife-email-sender');
     expect(p).toMatchObject({ kind: 'info', to: EMAIL, subject: 'One step left on your Push Patch order' });
     expect(p.html).toContain('https://www.my4mlife.com/go/push-patch/thank-you?session_id=cs_live_abc');
-    expect(p.html).toContain("Don't lose your identity and your dignity while you still have a choice.");
+    expect(p.html).not.toContain('identity and your dignity');
   });
 
   it('second reminder uses variant 2 and reaches the limit', async () => {
@@ -81,6 +81,9 @@ describe('push-patch-reminder', () => {
     const p = sentEmail();
     expect(p.subject).toBe('Your Push Patch order is waiting on 2 minutes');
     expect(p.html).toContain('It has been a day');
+    expect(p.html).not.toContain('identity and your dignity');
+    expect(p.html).toContain('support@my4mlife.com');
+    expect(p.html).toContain('have not been evaluated by the Food and Drug Administration');
   });
 
   it('skips (no email) when another run already claimed the item', async () => {

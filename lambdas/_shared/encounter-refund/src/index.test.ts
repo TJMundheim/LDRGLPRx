@@ -72,12 +72,13 @@ describe('success path', () => {
     expect(put.detail).toContain('re_1');
   });
 
-  it('emails the patient from the info alias with no PHI and the tagline', async () => {
+  it('emails the patient from the info alias with no PHI and no tagline', async () => {
     await refundEncounter(ARGS);
     const p = JSON.parse(Buffer.from(lambdaSend.mock.calls[0][0].input.Payload).toString());
     expect(p).toMatchObject({ kind: 'info', to: 'pat@x.com', from: 'support' });
     expect(p.text).toContain('Your Push Patch refund has been issued. It may take 5–10 business days to appear on your statement.');
-    expect(p.text).toContain("Don't lose your identity and your dignity while you still have a choice.");
+    expect(p.text).not.toContain('identity and your dignity');
+    expect(p.html).not.toContain('identity and your dignity');
     expect(p.text).not.toMatch(/BPC|declin|physician|did not clear/i);
   });
 

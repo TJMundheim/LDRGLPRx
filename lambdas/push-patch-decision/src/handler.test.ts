@@ -228,6 +228,20 @@ describe('approve', () => {
     expect(flat(welcome)).not.toMatch(/genesis/i);
   });
 
+  it('welcome email keeps the tagline and adds the My4MLife line, linked in HTML and as a URL in text', async () => {
+    await handler(evt(tokenFor('approve')));
+    const welcome = emails().find((e) => e.to === 'jane@example.com');
+    const url = 'https://my4mlife.com/?utm_source=push-patch&utm_medium=email&utm_campaign=welcome';
+    expect(welcome.text).toContain("Don't lose your identity and your dignity while you still have a choice.");
+    expect(welcome.html).toContain("Don&#39;t lose your identity and your dignity while you still have a choice.");
+    expect(welcome.text).toContain(`Push Patch is brought to you by My4MLife (${url}), where we help you protect your mind for the long run.`);
+    expect(welcome.html).toContain(`Push Patch is brought to you by <a href="${url.replace(/&/g, '&amp;')}">My4MLife</a>, where we help you protect your mind for the long run.`);
+    // the line sits directly under the tagline
+    expect(welcome.text).toMatch(/while you still have a choice\.\nPush Patch is brought to you by My4MLife/);
+    expect(welcome.text).toContain('support@my4mlife.com');
+    expect(welcome.text).toContain('have not been evaluated by the Food and Drug Administration');
+  });
+
   it('internal Genesis order email is NOT sent from support', async () => {
     await handler(evt(tokenFor('approve')));
     expect(emails().find((e) => e.to === GENESIS).from).toBeUndefined();
@@ -459,13 +473,14 @@ describe('decline (refund queued for admin approval, no Stripe)', () => {
     expect(flat(sent[0])).not.toMatch(/genesis/i);
   });
 
-  it('patient email: not cleared, refund within 10 business days, no reason/PHI, footer tagline', async () => {
+  it('patient email: not cleared, refund within 10 business days, no reason/PHI, no tagline', async () => {
     await handler(evt(tokenFor('decline')));
     const [m] = emails();
     expect(m.kind).toBe('info');
     expect(m.text).toContain("You weren't cleared for the Push Patch.");
     expect(m.text).toContain('Your refund will be processed within 10 business days.');
-    expect(m.text).toContain("Don't lose your identity and your dignity while you still have a choice.");
+    expect(m.text).not.toContain('identity and your dignity');
+    expect(m.html).not.toContain('identity and your dignity');
     expect(m.text).not.toMatch(/refunded your payment|full refund issued|\$\d/i);
     expect(m.text).not.toMatch(/answers|screening|seizure|pacemaker|pregnan/i);
   });

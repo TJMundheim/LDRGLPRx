@@ -4,12 +4,11 @@ import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 const lambda = new LambdaClient({ region: process.env.AWS_REGION ?? 'us-east-2' });
 const SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 
-const TAGLINE = "Don't lose your identity and your dignity while you still have a choice.";
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
 
 export async function sendRefundEmail(to: string, firstName: string): Promise<void> {
   const text = `Hi ${firstName || 'there'},\n\nYour Push Patch refund has been issued. It may take 5–10 business days to appear on your statement.\n\n` +
-    `Questions? Reply to this email or write to support@my4mlife.com.\n\nThe My4MLife team\n\nMy4MLife\n${TAGLINE}`;
+    `Questions? Reply to this email or write to support@my4mlife.com.\n\nThe My4MLife team\n\nMy4MLife`;
   const html = text.split('\n\n').map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('');
   const res = await lambda.send(new InvokeCommand({
     FunctionName: SENDER_FN,

@@ -20,7 +20,7 @@ export function compose(sessionId: string, n: 0 | 1): { subject: string; html: s
 <p>Review happens within an hour during business hours, 9 a.m.&ndash;5 p.m. Central. If you are not cleared, your payment is refunded within 10 business days.</p>
 <p>If you have already finished, you can ignore this email. Questions? Reply here or write to support@my4mlife.com.</p>
 <p>The My4MLife team</p>
-<p style="color:#666;font-size:13px;margin-top:32px">My4MLife<br/>Don't lose your identity and your dignity while you still have a choice.</p>
+<p style="color:#666;font-size:13px;margin-top:32px">My4MLife</p>
 <p style="color:#666;font-size:12px"><em>These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.</em></p>
 </div>`;
   return { subject: SUBJECTS[n], html };

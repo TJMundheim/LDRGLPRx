@@ -5,7 +5,7 @@ Task P1-C of `docs/plan/push-patch-async-visit-2026-10-01.md`. Status: DRAFT, no
 How to read this file:
 - `[TJ CONFIRM]` marks a sentence or fact TJ must approve before it ships.
 - **Voice:** technical, plain, needle-free, standalone (same as `lp-copy.md`). Reviewers are always "our network's licensed physicians". No group or physician is ever named. Dr. TJ appears nowhere in this copy.
-- **Hard rules applied:** no emoji; no disease-claim verbs (per the standing copy rule); no gendered-pair phrasing; no age ranges; no Amazon links; the identity/dignity tagline in every email footer; no PHI in the reminder email; no product formula or dose in any email (blend name only).
+- **Hard rules applied:** no emoji; no disease-claim verbs (per the standing copy rule); no gendered-pair phrasing; no age ranges; no Amazon links; the identity/dignity tagline in the welcome email footer only (TJ 2026-10-03: removed from the not-cleared, refund-issued and reminder emails); no PHI in the reminder email; no product formula or dose in any email (blend name only).
 - **Facts used:** the buyer has already paid; the intake takes about 2 minutes; review is by our network's licensed physicians; the result comes within an hour during business hours, 9 a.m. to 5 p.m. Central; approved means a welcome email and our pharmacy partner ships direct; not cleared means a full refund within 10 business days (queued for admin approval); one 12-hour patch a week for six weeks; setup steps follow the manufacturer IFU.
 - **Template tokens** (filled by the lambdas): `{{firstName}}`, `{{blendName}}`, `{{refundAmount}}`, `{{intakeLink}}`. `{{intakeLink}}` is the thank-you URL with the buyer's `session_id`; it carries no health data.
 
@@ -159,10 +159,13 @@ Welcome aboard.
 
 The My4MLife team
 
-**Footer (every email):**
+**Footer (welcome email; the other patient emails use the same footer without the tagline and brand line):**
 
 My4MLife
 Don't lose your identity and your dignity while you still have a choice.
+Push Patch is brought to you by My4MLife, where we help you protect your mind for the long run.
+
+(Welcome email only. "My4MLife" in the last line links to https://my4mlife.com/?utm_source=push-patch&utm_medium=email&utm_campaign=welcome in HTML; the plain-text version shows the URL in parentheses after the name. The tagline and this line are removed from every other patient email; those footers keep the "My4MLife" line, the disclaimer and the support contact.)
 
 *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.* [TJ CONFIRM: same patch disclaimer as `lp-copy.md` section 11]
 
@@ -201,7 +204,7 @@ Thank you for trusting us with the order.
 
 The My4MLife team
 
-**Footer:** same footer as section 2, including the identity/dignity tagline.
+**Footer:** same footer as section 2, without the identity/dignity tagline and without the "brought to you by" line (TJ 2026-10-03).
 
 Notes for P2-B:
 - The email states the outcome only, never the reason or the screening answer that triggered it (no PHI in email). It carries no refund amount.
@@ -239,7 +242,7 @@ The My4MLife team
 
 **Opening line swap (reminder 2):** It has been a day and your Push Patch order is still waiting on the 2-minute questionnaire. Your payment is safe, and nothing ships until it is done. Finish it here: {{intakeLink}}
 
-**Footer:** same footer as section 2, including the identity/dignity tagline.
+**Footer:** same footer as section 2, without the identity/dignity tagline and without the "brought to you by" line (TJ 2026-10-03).
 
 No-PHI check for P2-C: the email contains only first name, blend name, a link and generic process text. It does not state any medication, condition, screening result or DOB.
 
