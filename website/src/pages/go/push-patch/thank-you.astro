@@ -6,7 +6,7 @@
 // POSTs it to /api/push-patch-intake. Copy: docs/launch/push-patch/async-visit-copy.md.
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
-const title = 'Order received — Genesis Push Patch — My4MLife';
+const title = 'Order received — Push Patch — My4MLife';
 const description = 'Your Push Patch order has been received.';
 const canonical = 'https://www.my4mlife.com/go/push-patch/thank-you';
 const API_BASE = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
@@ -32,7 +32,7 @@ const US_STATES: [string, string][] = [
 
   <main class="pp-ty">
     <div class="pp-wrap pp-narrow">
-      <p class="pp-kicker">Genesis Push Patch</p>
+      <p class="pp-kicker">Push Patch</p>
       <h1 id="ty-h1">Payment received.</h1>
 
       <!-- Missing session_id -->
@@ -186,7 +186,6 @@ const US_STATES: [string, string][] = [
   <footer class="pp-foot">
     <div class="pp-wrap">
       <p class="pp-by">Brought to you by <span class="pp-by-mark">My<b>4M</b>Life</span></p>
-      <p class="pp-tagline">Don't lose your identity and your dignity while you still have a choice.</p>
       <p class="pp-disclaimer">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.</p>
       <p class="pp-legal"><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/">my4mlife.com</a> · We use cookies for site analytics.</p>
     </div>
