@@ -152,3 +152,16 @@ describe('fillOrderForm', () => {
     expect(get('shipping')).toContain('Jane Doe');
   });
 });
+
+describe('internal-use banner', () => {
+  it('covers the red "FOR INTERNAL USE ONLY" line with a white box on the kept page', async () => {
+    const doc = await PDFDocument.load(await fillOrderForm({ salesrep: 'TJ Mundheim' }));
+    const c = doc.context.lookup(doc.getPage(0).node.get(PDFName.of('Contents')));
+    const streams = (c instanceof PDFArray ? c.asArray().map((r) => doc.context.lookup(r)) : [c]) as PDFRawStream[];
+    const ops = streams.map((st) => Buffer.from(decodePDFRawStream(st).decode()).toString('latin1')).join('\n');
+    // pdf-lib draws the box as a white fill (1 1 1 rg) translated to (124, 593), 450 x 19.
+    expect(ops).toContain('1 1 1 rg');
+    expect(ops).toContain('1 0 0 1 124 593 cm');
+    expect(ops).toContain('450 19 l');
+  });
+});

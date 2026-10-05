@@ -86,6 +86,8 @@ export async function fillOrderForm(fields: Record<string, string>, sign: SignOp
     for (let i = refs.length - 1; i >= 0; i--) if (!onPage[i]) af.removeWidget(i);
   }
   for (let i = doc.getPageCount() - 1; i >= 0; i--) if (i !== PUSH_PAGE) doc.removePage(i);
+  // TJ 2026-10-05: hide the template's red "FOR INTERNAL USE ONLY …" banner (fitz bbox x127–571, y182–198 from top).
+  page.drawRectangle({ x: 124, y: 792 - 199, width: 450, height: 19, color: rgb(1, 1, 1) });
   for (const [name, value] of Object.entries(fields)) {
     const field = form.getTextField(name);
     if (name === 'shipping') field.enableMultiline();
