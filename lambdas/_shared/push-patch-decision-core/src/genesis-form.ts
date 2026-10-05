@@ -5,6 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { Practice } from './genesis-config';
+import { layoutAccountBlock } from './genesis-layout';
 
 export type { Practice };
 export const TEMPLATE = 'genesis-order-form-2026.pdf';
@@ -15,12 +16,10 @@ export const QTY_FIELD: Record<string, string> = {
   'push-patch-nad-motsc-ghk': 'qty_push7',
 };
 const MICRONEEDLING_FIELD = 'qty_push8';
-// Page-5 boxes are one line tall (~20 pt) but wide (~390–560 pt): the address is two lines in a small font,
-// the notes are single lines in a small font. The Push Patch page has no billing or signature box.
+// Page-5 boxes are one line tall but wide: the address wraps to two lines in a small font, the notes are single
+// small-font lines. The page has no billing or signature box. Signature: notes boxes' left edge, below them (y≈31).
 const PUSH_PAGE = 4;
-const SIG_LABEL = 'Provider signature:';
-const SIG_X = 14.19; // the notes boxes' left edge; they bottom out at y≈31 (page is 612x792), so y=14 never overlaps
-const SIG_Y = 14;
+const SIG_LABEL = 'Provider signature:', SIG_X = 14.19, SIG_Y = 14;
 const SMALL_FONT: Record<string, number> = { shipping: 7, rpa_notes1: 8, rpa_notes2: 7 };
 
 export interface SignOpts { signedAt?: string; lead?: string } // lead = practice.physician_signature
@@ -41,11 +40,12 @@ export interface OrderInput {
 export function buildFields(o: OrderInput, p: Partial<Practice>): Record<string, string> {
   const ad = o.ship?.address ?? {};
   const street = [ad['line1'], ad['line2']].filter(Boolean).join(' ');
-  const shipping = [[o.ship?.name || o.name, street].filter(Boolean).join(', '),
-    `${ad['city'] ?? ''}, ${ad['state'] ?? ''} ${ad['postal_code'] ?? ''}`.trim() + ` · Phone: ${o.phone}`].join('\n');
+  // The recipient goes in its own Patient Name row; the address box (wraps to 2 lines) carries no name.
+  const city = `${ad['city'] ?? ''}, ${ad['state'] ?? ''} ${ad['postal_code'] ?? ''}`.trim();
+  const shipping = [street, city].filter(Boolean).join(', ') + ` · Phone: ${o.phone}`;
   const billing = p.billing ? `Billing: ${p.billing.split(/\r?\n/).map((l) => l.trim()).filter(Boolean).join(', ')}` : '';
   const f: Record<string, string> = {
-    shipping, rpa_notes1: `My4MLife order ${o.sessionId} · 12-hour`, rpa_notes2: billing,
+    patient_name: o.ship?.name || o.name, shipping, rpa_notes1: `My4MLife order ${o.sessionId} · 12-hour`, rpa_notes2: billing,
   };
   const set = (k: string, v?: string) => { if (v) f[k] = v; };
   set('clinician', p.clinician); set('practice', p.practice); set('practice_phone', p.practice_phone);
@@ -86,8 +86,7 @@ export async function fillOrderForm(fields: Record<string, string>, sign: SignOp
     for (let i = refs.length - 1; i >= 0; i--) if (!onPage[i]) af.removeWidget(i);
   }
   for (let i = doc.getPageCount() - 1; i >= 0; i--) if (i !== PUSH_PAGE) doc.removePage(i);
-  // TJ 2026-10-05: hide the template's red "FOR INTERNAL USE ONLY …" banner (fitz bbox x127–571, y182–198 from top).
-  page.drawRectangle({ x: 124, y: 792 - 199, width: 450, height: 19, color: rgb(1, 1, 1) });
+  await layoutAccountBlock(doc, form, page); // also hides the red "FOR INTERNAL USE ONLY …" banner
   for (const [name, value] of Object.entries(fields)) {
     const field = form.getTextField(name);
     if (name === 'shipping') field.enableMultiline();

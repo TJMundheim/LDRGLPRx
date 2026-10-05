@@ -25,7 +25,8 @@ describe('buildFields', () => {
       rpa_notes1: 'My4MLife order cs_test_123 · 12-hour',
       rpa_notes2: 'Billing: 1 Billing St, Austin, TX 78701',
     });
-    expect(f.shipping).toBe('Jane Doe, 12 Ranch Rd Apt 4\nAustin, TX 78701 · Phone: +15125550123');
+    expect(f.patient_name).toBe('Jane Doe');
+    expect(f.shipping).toBe('12 Ranch Rd Apt 4, Austin, TX 78701 · Phone: +15125550123');
     // The Push Patch page has no billing or signature box: those fields are never written.
     expect(f.billing).toBeUndefined();
     expect(f.pgx_physician_signature).toBeUndefined();
@@ -33,12 +34,16 @@ describe('buildFields', () => {
 
   it('single-line address when line2 is missing', () => {
     const f = buildFields({ ...ORDER, ship: { address: { line1: '12 Ranch Rd', line2: null, city: 'Austin', state: 'TX', postal_code: '78701' } } }, PRACTICE);
-    expect(f.shipping).toBe('Jane Doe, 12 Ranch Rd\nAustin, TX 78701 · Phone: +15125550123');
+    expect(f.shipping).toBe('12 Ranch Rd, Austin, TX 78701 · Phone: +15125550123');
+    expect(f.patient_name).toBe('Jane Doe'); // no ship-to name → the patient name
   });
 
-  it('the ship-to recipient name (when given) leads the shipping block instead of the patient name', () => {
+  it('the ship-to recipient name (when given) fills patient_name; the shipping block never carries a name', () => {
     const f = buildFields({ ...ORDER, ship: { ...ORDER.ship, name: 'Janet Roe' } }, PRACTICE);
-    expect(f.shipping.startsWith('Janet Roe, ')).toBe(true);
+    expect(f.patient_name).toBe('Janet Roe');
+    expect(f.shipping.startsWith('12 Ranch Rd')).toBe(true);
+    expect(f.shipping).not.toContain('Janet Roe');
+    expect(f.shipping).not.toContain('Jane Doe');
   });
 
   it('notes line 2 carries only billing (no signature) and is blank without billing', () => {
@@ -125,14 +130,15 @@ describe('fillOrderForm', () => {
     expect(get('clinician')).toBe('Dr. Test Clinician');
     expect(get('practice')).toBe('Test Practice');
     expect(get('email')).toBe('pay@example.com');
-    expect(get('shipping')).toBe('Jane Doe, 12 Ranch Rd Apt 4\nAustin, TX 78701 · Phone: +15125550123');
+    expect(get('patient_name')).toBe('Jane Doe');
+    expect(get('shipping')).toBe('12 Ranch Rd Apt 4, Austin, TX 78701 · Phone: +15125550123');
     expect(get('qty_push4')).toBe('1');
     expect(get('qty_push1')).toBe('');
     expect(get('rpa_notes1')).toBe('My4MLife order cs_test_123 · 12-hour');
     expect(get('rpa_notes2')).toBe('Billing: 1 Billing St, Austin, TX 78701');
     // exactly the page-5 fields remain; fields that only lived on removed pages are gone
     const names = doc.getForm().getFields().map((f) => f.getName()).sort();
-    expect(names).toEqual(['clinician', 'email', 'placer', 'placer_phone', 'practice', 'practice_phone', 'qty_push1', 'qty_push2', 'qty_push3',
+    expect(names).toEqual(['clinician', 'email', 'patient_name', 'placer', 'placer_phone', 'practice', 'practice_phone', 'qty_push1', 'qty_push2', 'qty_push3',
       'qty_push4', 'qty_push5', 'qty_push6', 'qty_push7', 'qty_push8', 'rpa_notes1', 'rpa_notes2', 'salesrep', 'shipping']);
     // every remaining widget sits on the one remaining page
     const page = doc.getPage(0);
@@ -149,19 +155,62 @@ describe('fillOrderForm', () => {
   it('missing practice values are simply left blank', async () => {
     const get = await read(await fillOrderForm(buildFields(ORDER, {})));
     expect(get('clinician')).toBe('');
-    expect(get('shipping')).toContain('Jane Doe');
+    expect(get('patient_name')).toBe('Jane Doe');
+  });
+
+  it('blank form: patient_name exists and is empty (clinics may order for office inventory)', async () => {
+    const get = await read(await fillOrderForm({ salesrep: 'TJ Mundheim' }));
+    expect(get('patient_name')).toBe('');
+    expect(get('salesrep')).toBe('TJ Mundheim');
   });
 });
 
-describe('internal-use banner', () => {
-  it('covers the red "FOR INTERNAL USE ONLY" line with a white box on the kept page', async () => {
-    const doc = await PDFDocument.load(await fillOrderForm({ salesrep: 'TJ Mundheim' }));
+describe('account block layout', () => {
+  const ROWS = ['clinician', 'practice', 'practice_phone', 'patient_name', 'shipping', 'placer', 'placer_phone', 'email', 'salesrep'];
+  const PRODUCT_TOP = 792 - 397.4; // "Product Order Information" text top (pdf-lib coords)
+  const TITLE_BOTTOM = 792 - 182.6; // "Push Patch Order Form" text bottom
+  const rects = async (bytes: Uint8Array) => {
+    const form = (await PDFDocument.load(bytes)).getForm();
+    return Object.fromEntries(form.getFields().map((f) => [f.getName(), f.acroField.getWidgets()[0].getRectangle()]));
+  };
+  const overlap = (a: { x: number; y: number; width: number; height: number }, b: typeof a) =>
+    a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+
+  it('rows run top→bottom in order, Patient Name directly above Shipping, inside title…Product Order Information', async () => {
+    const r = await rects(await fillOrderForm(buildFields(ORDER, PRACTICE)));
+    const ys = ROWS.map((n) => r[n].y);
+    for (let i = 1; i < ys.length; i++) expect(ys[i]).toBeLessThan(ys[i - 1]);
+    for (const n of ROWS) {
+      expect(r[n].y + r[n].height).toBeLessThanOrEqual(TITLE_BOTTOM);
+      expect(r[n].y).toBeGreaterThanOrEqual(PRODUCT_TOP + 1);
+      expect(r[n].x + r[n].width).toBeLessThanOrEqual(580);
+    }
+    expect(r['patient_name'].width).toBeGreaterThanOrEqual(180);
+  });
+
+  it('no account-row widget overlaps any other widget', async () => {
+    for (const bytes of [await fillOrderForm(buildFields(ORDER, PRACTICE)), await fillOrderForm({ salesrep: 'TJ Mundheim' })]) {
+      const all = Object.entries(await rects(bytes));
+      for (let i = 0; i < all.length; i++) for (let j = i + 1; j < all.length; j++)
+        if (ROWS.includes(all[i][0]) || ROWS.includes(all[j][0])) expect(overlap(all[i][1], all[j][1]), `${all[i][0]} vs ${all[j][0]}`).toBe(false);
+    }
+  });
+
+  it('redraws every account label (incl. the new Patient Name row) and covers the red banner', async () => {
+    const bytes = await fillOrderForm({ salesrep: 'TJ Mundheim' });
+    for (const l of ['Account Information', 'Ordering Clinician Name:', 'Patient Name (if shipping direct to patient):', 'Shipping Address for PushPatch:', 'Sales Rep:'])
+      expect(await hasText(bytes, l), l).toBe(true);
+    const doc = await PDFDocument.load(bytes);
     const c = doc.context.lookup(doc.getPage(0).node.get(PDFName.of('Contents')));
     const streams = (c instanceof PDFArray ? c.asArray().map((r) => doc.context.lookup(r)) : [c]) as PDFRawStream[];
     const ops = streams.map((st) => Buffer.from(decodePDFRawStream(st).decode()).toString('latin1')).join('\n');
-    // pdf-lib draws the box as a white fill (1 1 1 rg) translated to (124, 593), 450 x 19.
-    expect(ops).toContain('1 1 1 rg');
-    expect(ops).toContain('1 0 0 1 124 593 cm');
-    expect(ops).toContain('450 19 l');
+    // one white box spans the whole old account block, banner (y 182–198 from top) included, title untouched
+    // pdf-lib path: "1 0 0 1 x y cm … 0 0 m / 0 h l / w h l / w 0 l"
+    const m = ops.match(/1 1 1 rg[\s\S]*?1 0 0 1 ([\d.]+) ([\d.]+) cm[\s\S]*?0 0 m\s+0 [\d.]+ l\s+([\d.]+) ([\d.]+) l/);
+    expect(m).not.toBeNull();
+    const [x, y, w, h] = m!.slice(1).map(Number);
+    expect(x).toBeLessThanOrEqual(124); expect(x + w).toBeGreaterThanOrEqual(580);
+    expect(y).toBeLessThanOrEqual(792 - 380); expect(y + h).toBeGreaterThanOrEqual(792 - 184); // banner glyphs start ~y187 (bbox 182.3 incl. leading)
+    expect(y).toBeGreaterThanOrEqual(PRODUCT_TOP); expect(y + h).toBeLessThanOrEqual(TITLE_BOTTOM);
   });
 });
