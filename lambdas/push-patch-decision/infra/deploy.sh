@@ -18,9 +18,8 @@ ROUTE_PATH="/api/push-patch-decision"
 PATIENT_RECORDS_TABLE="PatientRecords"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 HMAC_PARAM="push-patch-decision-hmac-key"
-# INTERIM: Genesis order emails go to TJ for the first end-to-end test. After TJ's first test,
-# switch GENESIS_ORDER_EMAIL to orders@novobioalliance.com (the code default) and redeploy.
-GENESIS_ORDER_EMAIL="drtj@my4mlife.com"
+# Genesis order emails go to Genesis's order desk (switched 2026-10-06 after TJ's tests + Genesis COO approval).
+GENESIS_ORDER_EMAIL="orders@novobioalliance.com"   # LIVE 2026-10-06 (Genesis COO approved the form); drtj@my4mlife.com is cc'd on every order
 # Practice constants (clinician, practice, phone, payment_email, billing, placer, ...) — one JSON String
 # parameter, created by hand (NOT here). Until complete, orders are NOT sent to Genesis; TJ is alerted.
 PRACTICE_PARAM="/my4mlife/genesis/practice"
