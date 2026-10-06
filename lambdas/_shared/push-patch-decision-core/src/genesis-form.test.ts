@@ -214,3 +214,10 @@ describe('account block layout', () => {
     expect(y).toBeGreaterThanOrEqual(PRODUCT_TOP); expect(y + h).toBeLessThanOrEqual(TITLE_BOTTOM);
   });
 });
+
+describe('label typo fix', () => {
+  it('redraws the NAD+ 1300 / GHK-Cu row as "5mg" (not "5gm")', async () => {
+    const bytes = await fillOrderForm({ salesrep: 'TJ Mundheim' });
+    expect(await hasText(bytes, '5mg (6 Per Box - $300 ea.) Quantity:')).toBe(true);
+  });
+});

@@ -5,7 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { Practice } from './genesis-config';
-import { layoutAccountBlock } from './genesis-layout';
+import { layoutAccountBlock, fixLabelTypos } from './genesis-layout';
 
 export type { Practice };
 export const TEMPLATE = 'genesis-order-form-2026.pdf';
@@ -87,6 +87,7 @@ export async function fillOrderForm(fields: Record<string, string>, sign: SignOp
   }
   for (let i = doc.getPageCount() - 1; i >= 0; i--) if (i !== PUSH_PAGE) doc.removePage(i);
   await layoutAccountBlock(doc, form, page); // also hides the red "FOR INTERNAL USE ONLY …" banner
+  await fixLabelTypos(doc, page); // "GHK-Cu 5gm" → "5mg" (matches Genesis's corrected form)
   for (const [name, value] of Object.entries(fields)) {
     const field = form.getTextField(name);
     if (name === 'shipping') field.enableMultiline();

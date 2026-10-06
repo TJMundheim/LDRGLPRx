@@ -46,3 +46,12 @@ export async function layoutAccountBlock(doc: PDFDocument, form: PDFForm, page: 
     top += name === 'shipping' ? SHIP_H + (PITCH - BOX_H) : PITCH;
   }
 }
+
+// TJ 2026-10-06: Genesis's updated one-pager corrects "GHK-Cu 5gm" to "5mg" on the NAD+ 1300 / GHK-Cu row.
+// Template span (fitz): ArialMT 11.04, baseline y469.47; "5gm" starts x139.49, span ends x320.67, top y457.99, bottom y473.06.
+export const LABEL_FIX = { from: '5gm', text: '5mg (6 Per Box - $300 ea.) Quantity:', x: 139.49, baseline: 469.47, top: 457.5, bottom: 473.5, right: 321.5 };
+export async function fixLabelTypos(doc: PDFDocument, page: PDFPage): Promise<void> {
+  const reg = await doc.embedFont(StandardFonts.Helvetica), f = LABEL_FIX;
+  page.drawRectangle({ x: f.x - 0.5, y: H - f.bottom, width: f.right - f.x + 0.5, height: f.bottom - f.top, color: WHITE });
+  page.drawText(f.text, { x: f.x, y: H - f.baseline, size: LABEL_SIZE, font: reg, color: BLACK });
+}
