@@ -38,7 +38,13 @@ describe('info sender identity', () => {
     expect(p.get('h:Reply-To')).toBe('support@my4mlife.com');
   });
 
-  it.each(['evil@attacker.com', 'My4MLife <x@y.com>', 'SUPPORT', '', 42, null, {}])('ignores non-allowlisted from value %j', async (bad) => {
+  it("from: 'drtj' sends as Dr. TJ <drtj@my4mlife.com> with Reply-To drtj@my4mlife.com", async () => {
+    const p = await run({ from: 'drtj' });
+    expect(p.get('from')).toBe('Dr. TJ <drtj@my4mlife.com>');
+    expect(p.get('h:Reply-To')).toBe('drtj@my4mlife.com');
+  });
+
+  it.each(['evil@attacker.com', 'My4MLife <x@y.com>', 'SUPPORT', 'DRTJ', '', 42, null, {}])('ignores non-allowlisted from value %j', async (bad) => {
     const p = await run({ from: bad });
     expect(p.get('from')).toBe('My4MLife <info@my4mlife.com>');
     expect(p.get('h:Reply-To')).toBeNull();

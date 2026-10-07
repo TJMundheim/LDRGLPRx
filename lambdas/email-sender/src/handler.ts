@@ -25,6 +25,9 @@ async function secrets(): Promise<Cache> {
 }
 
 const SUPPORT_ADDR = 'support@my4mlife.com';
+// Personal notes from TJ (friends-and-family sends): allowlisted 'drtj' identity, replies to drtj@.
+const DRTJ_ADDR = 'drtj@my4mlife.com';
+const DRTJ_FROM = `Dr. TJ <${DRTJ_ADDR}>`;
 const SUPPORT_FROM = `My4MLife Support <${SUPPORT_ADDR}>`;
 
 async function mailgun(from: string, to: string, subject: string, html: string, text?: string, cc?: string, attachments?: Attachment[], replyTo?: string) {
@@ -115,9 +118,10 @@ async function send(p: SendPayload) {
   }
   const addr = p.kind === 'verification' ? addrs['email-verification'] : addrs['email-info'];
   if (!addr) throw new Error(`no from address for kind=${p.kind}`);
-  // Allowlist: only the literal 'support' on kind 'info' switches identity; anything else is ignored.
-  const support = p.kind === 'info' && p.from === 'support';
-  const id = await mailgun(support ? SUPPORT_FROM : `My4MLife <${addr}>`, p.to, p.subject, p.html, p.text, p.cc, p.kind === 'info' ? p.attachments : undefined, support ? SUPPORT_ADDR : undefined);
+  // Allowlist: only the literals 'support' / 'drtj' on kind 'info' switch identity; anything else is ignored.
+  const ident = p.kind === 'info' && p.from === 'support' ? { from: SUPPORT_FROM, reply: SUPPORT_ADDR }
+    : p.kind === 'info' && p.from === 'drtj' ? { from: DRTJ_FROM, reply: DRTJ_ADDR } : null;
+  const id = await mailgun(ident ? ident.from : `My4MLife <${addr}>`, p.to, p.subject, p.html, p.text, p.cc, p.kind === 'info' ? p.attachments : undefined, ident ? ident.reply : undefined);
   return { id };
 }
 
