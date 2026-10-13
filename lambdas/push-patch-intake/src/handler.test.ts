@@ -33,6 +33,11 @@ vi.mock('@my4mlife/stripe-client', () => ({
   __resetCacheForTests: vi.fn(),
 }));
 
+const upsertContactMock = vi.fn();
+vi.mock('@my4mlife/contact-upsert', () => ({
+  upsertContact: (...a: any[]) => upsertContactMock(...a),
+}));
+
 import { deriveContactId } from '@my4mlife/contact-id';
 import { handler } from './handler';
 import { verifyToken } from './sign';
@@ -138,6 +143,8 @@ beforeEach(() => {
 
   ddbSendMock.mockReset();
   ddbSendMock.mockResolvedValue({});
+  upsertContactMock.mockReset();
+  upsertContactMock.mockResolvedValue(undefined);
 
   sessionRetrieveMock.mockReset();
   sessionRetrieveMock.mockResolvedValue(SESSION);
@@ -810,5 +817,69 @@ describe('test-price orders ($2 override)', () => {
     sessionRetrieveMock.mockResolvedValue(withScreen({ test_price: 'false' }));
     await handler(evt(VALID_BODY));
     expect(payloadOf(emailCalls()[0]).subject).not.toContain('TEST ORDER');
+  });
+});
+
+// ── Contact capture: email/name only ───────────────────────────────────────────
+
+describe('Contact capture (email/name only)', () => {
+  it('calls upsertContact once with exactly the allowed keys and nothing else', async () => {
+    const res: any = await handler(evt(VALID_BODY));
+    expect(res.statusCode).toBe(200);
+    expect(upsertContactMock).toHaveBeenCalledTimes(1);
+    const input = upsertContactMock.mock.calls[0][1];
+    expect(input).toEqual({
+      email: 'jane@example.com',
+      firstName: 'Jane',
+      lastName: 'Doe',
+      phone: '+15551234567',
+      source: 'push-patch-intake',
+      tags: ['push-patch'],
+      stage: 'customer',
+      event: { type: 'push-patch-intake' },
+    });
+    expect(Object.keys(input).sort()).toEqual(
+      ['email', 'event', 'firstName', 'lastName', 'phone', 'source', 'stage', 'tags']);
+  });
+
+  it('never leaks dob, sex, meds, conditions, allergies, shipping or screening', async () => {
+    await handler(evt(VALID_BODY));
+    const json = JSON.stringify(upsertContactMock.mock.calls[0]);
+    for (const leak of ['1984-03-09', 'female', 'metformin', 'hypothyroidism', '1 Main St', 'Austin', '78701', 'pp-screen', 'seizures']) {
+      expect(json).not.toContain(leak);
+    }
+  });
+
+  it('omits phone when it is a placeholder', async () => {
+    await handler(evt({ ...VALID_BODY, phone: '+10000000000' }));
+    expect('phone' in upsertContactMock.mock.calls[0][1]).toBe(false);
+  });
+
+  it('still returns 200 when upsertContact rejects, logging no email', async () => {
+    upsertContactMock.mockRejectedValue(new Error('boom jane@example.com'));
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const res: any = await handler(evt(VALID_BODY));
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body).ok).toBe(true);
+    expect(JSON.stringify([...err.mock.calls, ...warn.mock.calls])).not.toContain('jane@example.com');
+    err.mockRestore(); warn.mockRestore();
+  });
+
+  it('does not upsert when payment is not found', async () => {
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, payment_status: 'unpaid' });
+    const res: any = await handler(evt(VALID_BODY));
+    expect(res.statusCode).toBe(402);
+    expect(upsertContactMock).not.toHaveBeenCalled();
+  });
+
+  it('does not upsert on a duplicate submit', async () => {
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (String(cmd.input.Item?.sk).startsWith('encounter#')) throw conditionalFailure();
+      return {};
+    });
+    const res: any = await handler(evt(VALID_BODY));
+    expect(JSON.parse(res.body).alreadySubmitted).toBe(true);
+    expect(upsertContactMock).not.toHaveBeenCalled();
   });
 });

@@ -26,6 +26,11 @@ vi.mock('@aws-sdk/client-lambda', () => ({
   InvokeCommand: class { input: any; constructor(i: any) { this.input = i; } },
 }));
 
+const upsertContactMock = vi.fn();
+vi.mock('@my4mlife/contact-upsert', () => ({
+  upsertContact: (...a: any[]) => upsertContactMock(...a),
+}));
+
 // ── Import handler AFTER mocks ─────────────────────────────────────────────────
 import { handler } from './handler';
 
@@ -61,6 +66,8 @@ beforeEach(() => {
   ddbSendMock.mockResolvedValue({});
   lambdaSendMock.mockReset();
   lambdaSendMock.mockResolvedValue({});
+  upsertContactMock.mockReset();
+  upsertContactMock.mockResolvedValue(undefined);
 });
 
 // ── Test suites ────────────────────────────────────────────────────────────────
@@ -320,5 +327,62 @@ describe('CORS headers', () => {
   it('falls back to default for unknown origin', async () => {
     const res: any = await handler(evt(VALID_BODY, 'POST', 'https://evil.com'));
     expect(res.headers['Access-Control-Allow-Origin']).toBe('https://my4mlife.com');
+  });
+});
+
+describe('Contact capture (email/name only)', () => {
+  it('calls upsertContact with exactly the allowed keys and nothing else', async () => {
+    await handler(evt(VALID_BODY));
+    expect(upsertContactMock).toHaveBeenCalledTimes(1);
+    const input = upsertContactMock.mock.calls[0][1];
+    expect(input).toEqual({
+      email: 'tj@example.com',
+      firstName: 'TJ',
+      lastName: 'Smith',
+      phone: '+15551234567',
+      source: 'consult-intake:weight-loss',
+      tags: ['weight-loss'],
+      stage: 'lead',
+      event: { type: 'consult-intake' },
+    });
+    expect(Object.keys(input).sort()).toEqual(
+      ['email', 'event', 'firstName', 'lastName', 'phone', 'source', 'stage', 'tags']);
+  });
+
+  it('never passes demographics, history, answers, consents or card data', async () => {
+    await handler(evt(VALID_BODY));
+    const json = JSON.stringify(upsertContactMock.mock.calls[0]);
+    for (const leak of ['metformin', 'screeningAnswers', 'q1', 'cus_test123', 'pm_test456', 'NPP text', 'heightIn']) {
+      expect(json).not.toContain(leak);
+    }
+  });
+
+  it('omits phone when it is a placeholder, and names when absent', async () => {
+    await handler(evt({ ...VALID_BODY, demographics: { phone: '+10000000000' } }));
+    const input = upsertContactMock.mock.calls[0][1];
+    expect(Object.keys(input).sort()).toEqual(['email', 'event', 'source', 'stage', 'tags']);
+  });
+
+  it('defaults lane to general', async () => {
+    const { category: _c, ...body } = VALID_BODY;
+    await handler(evt(body));
+    expect(upsertContactMock.mock.calls[0][1].source).toBe('consult-intake:general');
+  });
+
+  it('still returns 200 when upsertContact rejects, logging no email', async () => {
+    upsertContactMock.mockRejectedValue(new Error('boom tj@example.com'));
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const res: any = await handler(evt(VALID_BODY));
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body).ok).toBe(true);
+    const logged = JSON.stringify([...warn.mock.calls, ...err.mock.calls]);
+    expect(logged).not.toContain('tj@example.com');
+    warn.mockRestore(); err.mockRestore();
+  });
+
+  it('does not call upsertContact on a validation failure', async () => {
+    await handler(evt({ ...VALID_BODY, email: '' }));
+    expect(upsertContactMock).not.toHaveBeenCalled();
   });
 });

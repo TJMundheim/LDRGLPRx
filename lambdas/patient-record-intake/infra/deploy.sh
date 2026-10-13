@@ -8,6 +8,7 @@ ROLE_NAME="my4mlife-patient-record-intake-role"
 REGION="us-east-2"
 AWS_ACCOUNT_ID="879696522760"
 PATIENT_RECORDS_TABLE="PatientRecords"
+CONTACT_TABLE="Contact"
 COORDINATOR_BRIEF_FN="my4mlife-coordinator-brief"
 API_ID="v9svm8ds74"
 
@@ -52,6 +53,11 @@ INLINE_POLICY=$(cat <<EOF
       "Effect": "Allow",
       "Action": ["dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:Query"],
       "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["dynamodb:UpdateItem"],
+      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$CONTACT_TABLE"
     },
     {
       "Effect": "Allow",

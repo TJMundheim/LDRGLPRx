@@ -4,6 +4,7 @@ import { DynamoDBDocumentClient, PutCommand, UpdateCommand } from '@aws-sdk/lib-
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { deriveContactId } from '@my4mlife/contact-id';
 import { RECORD_SK, encounterSk, auditSk, forcedVisitType } from '@my4mlife/patient-record';
+import { captureContact } from './contact';
 import { corsHeaders, reply, sanitiseCard, serialiseConsents } from './helpers';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
@@ -95,6 +96,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       actor: 'patient',
     },
   }));
+
+  await captureContact(ddb, email, category, parsed.demographics);
 
   // ── Fire-and-forget coordinator notification ─────────────────────────────────
   try {

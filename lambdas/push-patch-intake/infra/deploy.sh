@@ -16,6 +16,7 @@ MEMORY=256
 
 PATIENT_RECORDS_TABLE="PatientRecords"
 TOUCHPOINTS_TABLE="Touchpoints"
+CONTACT_TABLE="Contact"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 EXPORT_PACKET_FN="my4mlife-export-clinical-packet"
 PROVIDER_EMAIL_PARAM="/my4mlife/provider/email"        # owned by provider-handoff/infra/deploy.sh
@@ -83,6 +84,11 @@ INLINE_POLICY=$(cat <<POLICY
       "Effect": "Allow",
       "Action": ["dynamodb:UpdateItem"],
       "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$TOUCHPOINTS_TABLE"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["dynamodb:UpdateItem"],
+      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$CONTACT_TABLE"
     },
     {
       "Effect": "Allow",

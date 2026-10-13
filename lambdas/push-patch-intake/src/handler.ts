@@ -11,6 +11,7 @@ import { resolveShipTo, stripeShipTo } from './ship';
 import {
   encounterIdFor, createEncounter, deleteEncounter, upsertRecord,
 } from './record';
+import { captureContact } from './contact';
 import { markIntakeSubmitted } from './marker';
 import { generatePacket, sendProviderReview } from './provider-email';
 
@@ -79,5 +80,10 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   }
 
   await markIntakeSubmitted(contactId, session.id, ts);
+  await captureContact({
+    email: (session.customer_details?.email ?? '').trim().toLowerCase(),
+    fullName: session.customer_details?.name ?? '',
+    phone: body.phone,
+  });
   return reply(200, { ok: true, encounterId }, origin);
 };
