@@ -439,15 +439,29 @@ const robots = "index, follow";
     resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // Email form handler (placeholder)
-  function submitEmail(e) {
+</script>
+
+<script>
+  import { submitLead, setFormError, LEAD_CAPTURE_ERROR } from '../scripts/lead-capture';
+
+  (window as any).submitEmail = async function (e: Event) {
     e.preventDefault();
-    var emailInput = document.getElementById('email-input');
-    if (emailInput.value) {
-      document.getElementById('email-form').style.display = 'none';
-      document.getElementById('email-confirmation').classList.add('visible');
+    const form = document.getElementById('email-form') as HTMLFormElement;
+    const input = document.getElementById('email-input') as HTMLInputElement;
+    const button = form.querySelector('button') as HTMLButtonElement;
+    const email = input.value.trim();
+    if (!email) return;
+    button.disabled = true;
+    setFormError(form, null);
+    const ok = await submitLead(email, 'bmi-calculator');
+    button.disabled = false;
+    if (!ok) {
+      setFormError(form, LEAD_CAPTURE_ERROR);
+      return; // keep the typed email
     }
-  }
+    form.style.display = 'none';
+    document.getElementById('email-confirmation')!.classList.add('visible');
+  };
 </script>
 
 

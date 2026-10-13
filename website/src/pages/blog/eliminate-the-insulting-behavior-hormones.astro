@@ -155,16 +155,11 @@ const robots = "index, follow";
       setTimeout(function() { toast.classList.remove('show'); }, 2500);
     });
   }
-  function handleNewsletter(form) {
-    var button = form.querySelector('button');
-    button.textContent = 'Subscribed!';
-    button.style.background = 'var(--primary)';
-    form.querySelector('input[type="email"]').value = '';
-    setTimeout(function() {
-      button.textContent = 'Subscribe';
-      button.style.background = '';
-    }, 3000);
-  }
+</script>
+
+<script>
+  import { bindNewsletter } from '../../scripts/lead-capture';
+  bindNewsletter('eliminate-the-insulting-behavior-hormones');
 </script>
 
 </ArticleLayout>

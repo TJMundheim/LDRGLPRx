@@ -261,18 +261,13 @@ const robots = "index, follow";
       document.getElementById('nav-links').classList.remove('open');
     });
   });
-  function handleNewsletter(form) {
-    var button = form.querySelector('button');
-    button.textContent = 'Subscribed!';
-    button.style.background = 'var(--primary)';
-    form.querySelector('input[type="email"]').value = '';
-    setTimeout(function() {
-      button.textContent = 'Subscribe';
-      button.style.background = '';
-    }, 3000);
-  }
 </script>
 
+
+<script>
+  import { bindNewsletter } from '../scripts/lead-capture';
+  bindNewsletter('blog');
+</script>
 
 </BaseLayout>
 
