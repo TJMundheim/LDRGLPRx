@@ -43,23 +43,14 @@ Respond with STRICT JSON ONLY (no prose, no markdown fences) matching exactly:
   "suggested_plan_outline": string[]
 }`;
 
-function normalizeIntake(raw: unknown): Record<string, number> | undefined {
-  if (raw == null) return undefined;
-  if (typeof raw === 'string') {
-    try { return JSON.parse(raw); } catch { return undefined; }
-  }
-  if (typeof raw === 'object') return raw as Record<string, number>;
-  return undefined;
-}
-
 export function userPrompt(gathered: GatheredData): string {
   const { record, encounter, contact } = gathered;
   const firstName = (contact?.['firstName'] as string) ?? (record?.['demographics'] as any)?.firstName ?? 'the patient';
   const email = (contact?.['email'] as string) ?? (record?.['demographics'] as any)?.email ?? 'unknown';
   const phone = (contact?.['phone'] as string) ?? (record?.['demographics'] as any)?.phone ?? 'unknown';
   const diagnosed = contact?.['diagnosed'] ?? false;
-  const auditTop3 = contact?.['auditTop3'] ?? [];
-  const intake = normalizeIntake(contact?.['intakeAnswers']);
+  const auditTop3 = gathered.assessment?.auditTop3 ?? [];
+  const intake = gathered.assessment?.intakeAnswers;
 
   const assessmentLine = intake && Object.keys(intake).length > 0
     ? `assessment: ${JSON.stringify(intake)}`

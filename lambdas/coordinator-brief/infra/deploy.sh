@@ -14,6 +14,8 @@ MEMORY=512
 
 PATIENT_RECORDS_TABLE="PatientRecords"
 CONTACT_TABLE="Contact"
+USER_PROFILE_TABLE="Users"
+USER_POOL_ID="us-east-2_kIpKnr17R"
 BEDROCK_MODEL="us.anthropic.claude-haiku-4-5-20251001-v1:0"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 NOTIFY_TO="drtj@my4mlife.com"
@@ -67,7 +69,15 @@ INLINE_POLICY=$(cat <<EOF
     {
       "Effect": "Allow",
       "Action": ["dynamodb:GetItem"],
-      "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$CONTACT_TABLE"
+      "Resource": [
+        "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$CONTACT_TABLE",
+        "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$USER_PROFILE_TABLE"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["cognito-idp:ListUsers"],
+      "Resource": "arn:aws:cognito-idp:$REGION:$AWS_ACCOUNT_ID:userpool/$USER_POOL_ID"
     },
     {
       "Effect": "Allow",
@@ -105,7 +115,7 @@ log "Deploying Lambda $FUNCTION_NAME..."
 # JSON env file (shorthand syntax mangles values containing special chars).
 ENV_FILE="$(mktemp)"
 cat > "$ENV_FILE" <<JSON
-{"Variables":{"PATIENT_RECORDS_TABLE":"$PATIENT_RECORDS_TABLE","CONTACT_TABLE":"$CONTACT_TABLE","BEDROCK_MODEL":"$BEDROCK_MODEL","EMAIL_SENDER_FN":"$EMAIL_SENDER_FN","NOTIFY_TO":"$NOTIFY_TO"}}
+{"Variables":{"PATIENT_RECORDS_TABLE":"$PATIENT_RECORDS_TABLE","CONTACT_TABLE":"$CONTACT_TABLE","USER_PROFILE_TABLE":"$USER_PROFILE_TABLE","COGNITO_USER_POOL_ID":"$USER_POOL_ID","BEDROCK_MODEL":"$BEDROCK_MODEL","EMAIL_SENDER_FN":"$EMAIL_SENDER_FN","NOTIFY_TO":"$NOTIFY_TO"}}
 JSON
 ENV_VARS="file://$ENV_FILE"
 

@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 // ── AWS SDK mocks — must be declared before any import of the module under test ──
 
+vi.hoisted(() => { process.env.COGNITO_USER_POOL_ID = 'us-east-2_test'; });
+
 const ddbSendMock = vi.fn();
 
 vi.mock('@aws-sdk/lib-dynamodb', () => ({
@@ -13,6 +15,13 @@ vi.mock('@aws-sdk/lib-dynamodb', () => ({
 
 vi.mock('@aws-sdk/client-dynamodb', () => ({
   DynamoDBClient: class DynamoDBClient { constructor(_: any) {} },
+}));
+
+const cognitoSendMock = vi.fn();
+
+vi.mock('@aws-sdk/client-cognito-identity-provider', () => ({
+  CognitoIdentityProviderClient: class { constructor(_: any) {} send = (...a: any[]) => cognitoSendMock(...a); },
+  ListUsersCommand: class ListUsersCommand { input: any; constructor(input: any) { this.input = input; } },
 }));
 
 const bedrockSendMock = vi.fn();
@@ -88,10 +97,13 @@ function bedrockReply(text: string) {
 }
 
 let contactItemOverride: Record<string, unknown> | undefined = CONTACT_ITEM;
+let usersItemOverride: Record<string, unknown> | undefined;
 
 beforeEach(() => {
   vi.clearAllMocks();
   contactItemOverride = CONTACT_ITEM;
+  usersItemOverride = undefined;
+  cognitoSendMock.mockResolvedValue({ Users: [] });
 
   ddbSendMock.mockImplementation(async (command: any) => {
     const input = command.input;
@@ -100,6 +112,7 @@ beforeEach(() => {
       return { Items: [COORDINATOR_ENCOUNTER_1, COORDINATOR_ENCOUNTER_2, OTHER_ENCOUNTER] };
     }
     if (input.Key) {
+      if (input.TableName === 'Users') return { Item: usersItemOverride };
       if (input.TableName === 'Contact') return { Item: contactItemOverride };
       if (input.Key.sk === 'record') return { Item: RECORD_ITEM };
       if (input.Key.sk === 'encounter#e1') return { Item: ENCOUNTER_ITEM };
@@ -193,6 +206,38 @@ describe('coordinator-brief handler', () => {
     const body = JSON.parse(invokeInput.body);
     const userContent = body.messages[0].content as string;
     expect(userContent).toContain('assessment: not taken');
+  });
+});
+
+describe('assessment source (Users table, legacy Contact fallback)', () => {
+  const userPromptText = () => JSON.parse(bedrockSendMock.mock.calls[0][0].input.body).messages[0].content as string;
+  const run = () => handler({ kind: 'coordinator-notify', contactId: 'c1', encounterId: 'e1' } as any);
+
+  it('uses the Users row (via Cognito sub) when present, ignoring stale Contact values', async () => {
+    cognitoSendMock.mockResolvedValue({ Users: [{ Username: 'sub-9', Attributes: [{ Name: 'sub', Value: 'sub-9' }] }] });
+    usersItemOverride = { id: 'sub-9', intakeAnswers: JSON.stringify({ energy: 5 }), auditTop3: JSON.stringify(['energy']) };
+    contactItemOverride = { ...CONTACT_ITEM, intakeAnswers: undefined, auditTop3: undefined };
+    await run();
+    expect(userPromptText()).toContain('assessment: {"energy":5}');
+    expect(userPromptText()).toContain('Audit top-3 concerns: ["energy"]');
+  });
+
+  it('falls back to legacy Contact fields when Cognito has no matching user', async () => {
+    await run();
+    expect(userPromptText()).toContain('assessment: {"sleep":2,"gut":4}');
+  });
+
+  it('a Cognito failure does not fail the brief', async () => {
+    cognitoSendMock.mockRejectedValue(Object.assign(new Error('nope'), { name: 'AccessDeniedException' }));
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    await expect(run()).resolves.toBeDefined();
+    expect(userPromptText()).toContain('assessment: {"sleep":2,"gut":4}');
+  });
+
+  it('says "not taken" when neither Users nor Contact has an assessment', async () => {
+    contactItemOverride = { ...CONTACT_ITEM, intakeAnswers: undefined, auditTop3: undefined };
+    await run();
+    expect(userPromptText()).toContain('assessment: not taken');
   });
 });
 
