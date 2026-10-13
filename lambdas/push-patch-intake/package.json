@@ -15,7 +15,8 @@
     "@my4mlife/contact-id": "workspace:*",
     "@my4mlife/patient-record": "workspace:*",
     "@my4mlife/stripe-client": "workspace:*",
-    "stripe": "^17.0.0"
+    "stripe": "^17.0.0",
+    "@my4mlife/contact-upsert": "workspace:*"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.149",
