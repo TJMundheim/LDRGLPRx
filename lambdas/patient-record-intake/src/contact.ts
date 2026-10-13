@@ -22,14 +22,16 @@ export async function captureContact(ddb: Ddb, email: string, lane: string, demo
   const firstName = text(d.firstName);
   const lastName = text(d.lastName);
   const phone = realPhone(d.phone);
+  // `category` is client-supplied: only a short slug reaches a Contact tag/source.
+  const slug = typeof lane === 'string' && /^[a-z0-9-]{1,48}$/.test(lane) ? lane : 'general';
   try {
     await upsertContact(ddb, {
       email,
       ...(firstName ? { firstName } : {}),
       ...(lastName ? { lastName } : {}),
       ...(phone ? { phone } : {}),
-      source: `consult-intake:${lane}`,
-      tags: [lane],
+      source: `consult-intake:${slug}`,
+      tags: [slug],
       stage: 'lead',
       event: { type: 'consult-intake' },
     });

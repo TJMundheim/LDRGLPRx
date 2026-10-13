@@ -229,7 +229,7 @@ const robots = "index, follow";
     <div class="email-wrapper">
       <h2>Get Your Results Emailed</h2>
       <p>Receive a copy of your BMI results and eligibility information, plus helpful weight loss resources.</p>
-      <form class="email-form" id="email-form" onsubmit="submitEmail(event)">
+      <form class="email-form" id="email-form" onsubmit="event.preventDefault(); submitEmail(event);">
         <input type="email" id="email-input" placeholder="you@example.com" required />
         <button type="submit">Send Results</button>
       </form>
