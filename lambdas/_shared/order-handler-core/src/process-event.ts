@@ -79,6 +79,17 @@ function esc(s: string): string {
 }
 
 export async function processEvent(e: { id: string; type: string; livemode: boolean }): Promise<void> {
+  // Only paid-session events are fulfillable. Other checkout.session.* types
+  // (expired, async_payment_failed, ...) must not create orders or send email.
+  if (
+    e.type.startsWith('checkout.session.') &&
+    e.type !== 'checkout.session.completed' &&
+    e.type !== 'checkout.session.async_payment_succeeded'
+  ) {
+    console.log(`order-handler: skipping ${e.type} event ${e.id}`);
+    return;
+  }
+
   const stripe = await getStripeClient({ livemode: e.livemode });
 
   // e.id is the Stripe EVENT id (evt_...). Retrieve the event to get the

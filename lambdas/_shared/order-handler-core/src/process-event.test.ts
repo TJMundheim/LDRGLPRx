@@ -254,6 +254,51 @@ describe('processEvent', () => {
     // email-sender invoked exactly once (first run), not on retry
     expect(mockLambdaSend).toHaveBeenCalledTimes(1);
   });
+  // Non-paid checkout events must not record an order. stripe-events-retry
+  // routes every `checkout.session.*` event here, so a future
+  // `checkout.session.expired` / `async_payment_failed` EventBridge rule would
+  // otherwise write a fake Orders row, bump LTV, and fire fulfillment.
+  //
+  // Skipped result shape: processEvent returns Promise<void>, and its only
+  // existing "no-op" outcome (idempotent replay, see (p5)) is a normal resolve
+  // with `undefined`. So "skipped" = resolves to undefined WITHOUT throwing
+  // (a throw would send the event to the DLQ / trigger EB retries) and with
+  // zero DynamoDB sends and zero Lambda (email / protege-signup) invocations.
+  describe('non-completed checkout events are skipped', () => {
+    const expectSkipped = async (type: string) => {
+      await expect(processEvent({ id: 'evt_skip', type, livemode: false })).resolves.toBeUndefined();
+      expect(mockSend).toHaveBeenCalledTimes(0);
+      expect(mockLambdaSend).toHaveBeenCalledTimes(0);
+    };
+
+    it('(s1) checkout.session.expired is skipped: no ddb, no email/lambda', async () => {
+      await expectSkipped('checkout.session.expired');
+    });
+
+    it('(s2) checkout.session.async_payment_failed is skipped: no ddb, no email/lambda', async () => {
+      await expectSkipped('checkout.session.async_payment_failed');
+    });
+
+    it('(s3) skip holds even for a fulfillable SKU (no email, no Orders/Contact/Touchpoints)', async () => {
+      mockSessionRetrieve.mockResolvedValue({ ...baseSession, metadata: { skuIds: 'cohort-workbook', firstName: 'TJ' } });
+      await expectSkipped('checkout.session.expired');
+    });
+
+    it('(s4) checkout.session.completed still processes (Orders + Contact + Touchpoints)', async () => {
+      await processEvent({ id: 'evt_ok', type: 'checkout.session.completed', livemode: false });
+      expect(mockSend).toHaveBeenCalledTimes(3);
+      const tables = mockSend.mock.calls.map(([cmd]) => cmd?.input?.TableName);
+      expect(tables).toEqual(['Orders', 'Contact', 'Touchpoints']);
+    });
+
+    it('(s5) checkout.session.async_payment_succeeded still processes (Orders + Contact + Touchpoints)', async () => {
+      await processEvent({ id: 'evt_ok', type: 'checkout.session.async_payment_succeeded', livemode: false });
+      expect(mockSend).toHaveBeenCalledTimes(3);
+      const tables = mockSend.mock.calls.map(([cmd]) => cmd?.input?.TableName);
+      expect(tables).toEqual(['Orders', 'Contact', 'Touchpoints']);
+    });
+  });
+
   describe('push-patch fulfillment email', () => {
     // Order email moved to physician approval (built elsewhere). At payment the
     // handler only writes a PUSH_PATCH_PENDING# marker for the intake flow.
