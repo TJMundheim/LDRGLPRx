@@ -56,7 +56,7 @@ export async function processEvent(e: {
 
   // ── Contact: email + stage via the shared helper (throws → event retries) ──
   if (customerEmail) {
-    await upsertContact(ddb as unknown as Parameters<typeof upsertContact>[0], {
+    await upsertContact(ddb, {
       email: customerEmail,
       source: 'subscription',
       ...(stripeCustomerId ? { stripeCustomerId } : {}),

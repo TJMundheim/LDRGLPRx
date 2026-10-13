@@ -2,8 +2,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { upsertContact } from '@my4mlife/contact-upsert';
 
-type Ddb = Parameters<typeof upsertContact>[0];
-const ddb: unknown = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? 'us-east-2' }));
+const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? 'us-east-2' }));
 
 /** A real number has >= 10 digits and is not all zeros (e.g. +10000000000). */
 const realPhone = (p: string): string | undefined => {
@@ -21,7 +20,7 @@ export async function captureContact(a: { email: string; fullName: string; phone
   const lastName = rest.join(' ');
   const phone = realPhone(a.phone);
   try {
-    await upsertContact(ddb as Ddb, {
+    await upsertContact(ddb, {
       email: a.email,
       ...(first ? { firstName: first } : {}),
       ...(lastName ? { lastName } : {}),

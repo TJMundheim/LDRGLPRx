@@ -171,8 +171,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   // to upsert and the small update below falls back to the resolved id.
   const contactKey = email ? deriveContactId(email) : contactId;
   if (email) {
-    // Cast: helper's structural Ddb type vs the SDK's overloaded send().
-    await upsertContact(ddb as unknown as Parameters<typeof upsertContact>[0], {
+    await upsertContact(ddb, {
       email,
       ...(contactFirstName ? { firstName: contactFirstName } : {}),
       ...(lastName ? { lastName } : {}),

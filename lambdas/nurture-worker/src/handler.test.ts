@@ -97,4 +97,39 @@ describe('nurture-worker handler', () => {
     expect(fetchMock).not.toHaveBeenCalled();
     expect(snsSend).not.toHaveBeenCalled();
   });
+  describe('topCategories', () => {
+    async function run(extra: Record<string, unknown>) {
+      ddbSend.mockResolvedValueOnce({ Item: { contactId: 'cx', lifecycleStage: 'lead', email: 'l@e.com', phone: '+15551112222', firstName: 'Sam', ...extra } });
+      ddbSend.mockResolvedValue({});
+      await handler(sqsEvent('cx'));
+      return String(fetchMock.mock.calls[0][1].body);
+    }
+    const bodyText = (form: string) => new URLSearchParams(form).get('text') ?? '';
+
+    it('derives categories from the tags string set, ignoring non-category tags', async () => {
+      const text = bodyText(await run({ tags: new Set(['gut', 'sleep', 'push-patch']) }));
+      expect(text).toContain('came back as: Gut, Sleep.');
+      expect(text).not.toContain('push-patch');
+    });
+
+    it('accepts tags as an array too', async () => {
+      const text = bodyText(await run({ tags: ['push-patch', 'weight', 'erectile-dysfunction'] }));
+      expect(text).toContain('came back as: Weight, Erectile dysfunction.');
+    });
+
+    it('falls back to legacy auditTop3 when tags carry no category', async () => {
+      const text = bodyText(await run({ tags: new Set(['push-patch']), auditTop3: ['Gut', 'Hormones'] }));
+      expect(text).toContain('came back as: Gut, Hormones.');
+    });
+
+    it('still reads legacy auditTop3 with no tags at all', async () => {
+      const text = bodyText(await run({ auditTop3: ['Gut', 'Sleep'] }));
+      expect(text).toContain('came back as: Gut, Sleep.');
+    });
+
+    it('uses the "your priorities" fallback when nothing is known', async () => {
+      const text = bodyText(await run({ tags: new Set(['push-patch']) }));
+      expect(text).toContain('came back as: your priorities.');
+    });
+  });
 });

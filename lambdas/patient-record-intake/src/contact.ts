@@ -17,13 +17,13 @@ const realPhone = (v: unknown): string | undefined => {
  * lane ONLY. Demographics / history / answers / card never reach this call.
  * Never throws: a Contact failure must not fail the intake.
  */
-export async function captureContact(ddb: unknown, email: string, lane: string, demographics: unknown): Promise<void> {
+export async function captureContact(ddb: Ddb, email: string, lane: string, demographics: unknown): Promise<void> {
   const d = (demographics && typeof demographics === 'object' ? demographics : {}) as Record<string, unknown>;
   const firstName = text(d.firstName);
   const lastName = text(d.lastName);
   const phone = realPhone(d.phone);
   try {
-    await upsertContact(ddb as Ddb, {
+    await upsertContact(ddb, {
       email,
       ...(firstName ? { firstName } : {}),
       ...(lastName ? { lastName } : {}),

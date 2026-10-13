@@ -1,7 +1,6 @@
 import { GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { upsertContact } from '@my4mlife/contact-upsert';
 
-type Ddb = Parameters<typeof upsertContact>[0];
 type Sender = { send: (cmd: any) => Promise<any> };
 
 export type ProtegeContact = {
@@ -23,7 +22,7 @@ export async function isBanned(ddb: Sender, table: string, contactId: string): P
 // Additive Contact write: identity (firstName/phone/...) is if_not_exists, so a
 // repeat signup never clobbers good data. The consent map is written only once.
 export async function writeProtegeContact(ddb: Sender, table: string, c: ProtegeContact): Promise<void> {
-  await upsertContact(ddb as Ddb, {
+  await upsertContact(ddb, {
     email: c.email,
     firstName: c.firstName,
     ...(c.phone ? { phone: c.phone } : {}),

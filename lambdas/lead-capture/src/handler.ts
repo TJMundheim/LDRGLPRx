@@ -6,7 +6,6 @@ import { upsertContact } from '@my4mlife/contact-upsert';
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
 
-type UpsertDdb = Parameters<typeof upsertContact>[0];
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 
 const ORIGIN_ALLOWLIST = new Set([
@@ -61,7 +60,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     body.firstName && typeof body.firstName === 'string' ? body.firstName.trim().slice(0, 80) : undefined;
 
   try {
-    await upsertContact(ddb as unknown as UpsertDdb, {
+    await upsertContact(ddb, {
       email,
       ...(firstName ? { firstName } : {}),
       source,

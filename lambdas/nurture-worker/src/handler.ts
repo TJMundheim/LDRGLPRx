@@ -7,6 +7,22 @@ import { emailTemplate, smsTemplate, NurtureStage } from './templates';
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
 const TOUCHPOINTS_TABLE = process.env.TOUCHPOINTS_TABLE ?? 'Touchpoints';
+// The 8 assessment category slugs audit-complete writes into Contact `tags`
+// (same set as apps/clientportal audit-handoff SLUG_TO_APP_ID), with display labels.
+const CATEGORY_LABELS: Record<string, string> = {
+  gut: 'Gut', sleep: 'Sleep', weight: 'Weight', nutrition: 'Nutrition',
+  'erectile-dysfunction': 'Erectile dysfunction', environment: 'Environment',
+  cognitive: 'Cognitive', hormones: 'Hormones',
+};
+
+/** Category labels from Contact `tags` (Set or array; non-category tags ignored), else legacy `auditTop3`. */
+export function topCategoriesFor(c: { tags?: unknown; auditTop3?: unknown }): string {
+  const tags = c.tags instanceof Set ? [...c.tags] : Array.isArray(c.tags) ? c.tags : [];
+  const fromTags = tags.filter((t): t is string => typeof t === 'string' && t in CATEGORY_LABELS).map((t) => CATEGORY_LABELS[t]);
+  if (fromTags.length) return fromTags.join(', ');
+  return Array.isArray(c.auditTop3) ? c.auditTop3.join(', ') : '';
+}
+
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const sns = new SNSClient({ region: REGION });
 
@@ -49,7 +65,7 @@ export const handler = async (event: SQSEvent): Promise<{ ok: true }> => {
     if (c.lifecycleStage !== 'lead') continue;
     const stageFlag = `nurtureStage${stage}Sent`;
     if (c[stageFlag] === true) continue;
-    const topCategories = Array.isArray(c.auditTop3) ? c.auditTop3.join(', ') : '';
+    const topCategories = topCategoriesFor(c);
     const ctx = { firstName: c.firstName ?? '', introZoomUrl: process.env.INTRO_ZOOM_URL ?? '', topCategories };
     const { subject, body } = emailTemplate(stage, ctx);
     const emailId = await sendEmail(c.email, subject, body);

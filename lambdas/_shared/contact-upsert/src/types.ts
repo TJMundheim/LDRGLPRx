@@ -17,4 +17,7 @@ export type ContactUpsertInput = Record<string, unknown> & {
 
 export type Clock = string | Date | (() => string | Date);
 export type ContactUpsertOptions = { table?: string; now?: Clock };
-export type Ddb = { send: (cmd: unknown) => Promise<unknown> };
+// Structural subset of DynamoDBDocumentClient. `any` (not `unknown`) so the SDK's overloaded
+// send() type-checks without caller casts; commands are built inside the helper.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Ddb = { send(cmd: any): Promise<any> };
