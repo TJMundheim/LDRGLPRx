@@ -36,7 +36,11 @@ vi.mock('@aws-sdk/s3-request-presigner', () => ({
   getSignedUrl: vi.fn().mockResolvedValue('https://signed.example/cohort-workbook-v1.pdf?sig=test'),
 }));
 
+const { mockUpsert } = vi.hoisted(() => ({ mockUpsert: vi.fn().mockResolvedValue(undefined) }));
+vi.mock('@my4mlife/contact-upsert', () => ({ upsertContact: mockUpsert }));
+
 import { getStripeClient } from '@my4mlife/stripe-client';
+import { deriveContactId } from '@my4mlife/contact-id';
 import { processEvent } from './process-event.js';
 
 const mockSessionRetrieve = vi.fn();
@@ -110,13 +114,16 @@ describe('processEvent', () => {
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
 
-    // On second run, Contact update must NOT include the LTV increment.
+    // LTV flows through upsertContact: only the first (new-order) run carries amountUSD.
+    expect(mockUpsert).toHaveBeenCalledTimes(2);
+    expect(mockUpsert.mock.calls[0][1].amountUSD).toBe(99);
+    expect(mockUpsert.mock.calls[1][1].amountUSD).toBeUndefined();
+    // The direct Contact UpdateCommand never touches LTV any more.
     const contactUpdates = mockSend.mock.calls
       .map(([cmd]) => cmd?.input)
       .filter((inp) => inp?.TableName === 'Contact' && inp?.UpdateExpression);
     expect(contactUpdates.length).toBe(2);
-    expect(contactUpdates[0].UpdateExpression).toContain('lifetimeValueUSD');
-    expect(contactUpdates[1].UpdateExpression).not.toContain('lifetimeValueUSD');
+    for (const u of contactUpdates) expect(u.UpdateExpression).not.toContain('lifetimeValueUSD');
   });
 
   it('(e) livemode=false → Touchpoints mode:test', async () => {
@@ -136,16 +143,17 @@ describe('processEvent', () => {
     expect(contactUpdate?.Key).not.toHaveProperty('email');
   });
 
-  it('(g) metadata.contactId wins over email-derived', async () => {
+  it('(g) metadata.contactId still keys Orders/Touchpoints; Contact row is keyed by the email-derived id (same row upsertContact writes)', async () => {
     mockSessionRetrieve.mockResolvedValue({
       ...baseSession,
       metadata: { contactId: 'meta-contact-xyz' },
     });
     await processEvent({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
-    const contactUpdate = mockSend.mock.calls
-      .map(([cmd]) => cmd?.input)
-      .find((inp) => inp?.TableName === 'Contact');
-    expect(contactUpdate?.Key.contactId).toBe('meta-contact-xyz');
+    const inputs = mockSend.mock.calls.map(([cmd]) => cmd?.input);
+    expect(inputs.find((inp) => inp?.TableName === 'Orders')?.Item.contactId).toBe('meta-contact-xyz');
+    expect(inputs.find((inp) => inp?.TableName === 'Touchpoints')?.Item.contactId).toBe('meta-contact-xyz');
+    const contactUpdate = inputs.find((inp) => inp?.TableName === 'Contact');
+    expect(contactUpdate?.Key.contactId).toBe(deriveContactId('test@example.com'));
   });
 
   it('(h) throws when no contactId and no email available', async () => {
@@ -411,6 +419,89 @@ describe('processEvent', () => {
         expect(p.subject ?? '').not.toMatch(/Biome NS Ultra|Gut Repair/i);
         expect(p.to).not.toBe('test@example.com');
       }
+    });
+  });
+
+  describe('Contact row via upsertContact', () => {
+    const run = () => processEvent({ id: 'evt_c1', type: 'checkout.session.completed', livemode: false });
+    const upsertArg = () => mockUpsert.mock.calls[0][1];
+
+    it('(c1) calls upsertContact with full purchase fields for a Push Patch sku', async () => {
+      mockSessionRetrieve.mockResolvedValue({
+        ...baseSession,
+        id: 'cs_test_patch',
+        amount_total: 65000,
+        customer: 'cus_str_1',
+        customer_details: { email: 'jane@example.com', name: 'Jane Q Doe', phone: '+15125550123' },
+        payment_intent: 'pi_1',
+        metadata: { skuIds: 'push-patch-kpv-nad-ghk' },
+      });
+      await run();
+      expect(mockUpsert).toHaveBeenCalledTimes(1);
+      expect(mockUpsert.mock.calls[0][0]).toEqual({ send: mockSend });
+      expect(upsertArg()).toEqual({
+        email: 'jane@example.com',
+        firstName: 'Jane',
+        lastName: 'Q Doe',
+        phone: '+15125550123',
+        source: 'purchase:push-patch-kpv-nad-ghk',
+        skus: ['push-patch-kpv-nad-ghk'],
+        amountUSD: 650,
+        stripeCustomerId: 'cus_str_1',
+        stage: 'customer',
+        event: { type: 'purchase' },
+      });
+    });
+
+    it('(c2) minimal session: no name/phone/sku omits those keys; expanded customer object supplies stripeCustomerId', async () => {
+      await run();
+      const arg = upsertArg();
+      expect(arg).toMatchObject({ email: 'test@example.com', source: 'purchase', stage: 'customer', stripeCustomerId: 'cus_123', amountUSD: 99, event: { type: 'purchase' } });
+      for (const k of ['firstName', 'lastName', 'phone', 'skus']) expect(arg).not.toHaveProperty(k);
+    });
+
+    it('(c3) replay (Orders conditional-check fails) sends no amountUSD so LTV is not re-added', async () => {
+      mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
+        if (cmd.input?.TableName === 'Orders') { const err = new Error('CCF'); err.name = 'ConditionalCheckFailedException'; throw err; }
+        return {};
+      });
+      await run();
+      expect(mockUpsert).toHaveBeenCalledTimes(1);
+      expect(upsertArg()).not.toHaveProperty('amountUSD');
+    });
+
+    it('(c4) hasUsedFirstPurchaseDiscount + lastPurchaseAt still set by a small direct Contact update (no LTV)', async () => {
+      await run();
+      const u = mockSend.mock.calls.map(([cmd]) => cmd?.input).find((inp) => inp?.TableName === 'Contact');
+      expect(u.UpdateExpression).toContain('hasUsedFirstPurchaseDiscount');
+      expect(u.UpdateExpression).toContain('lastPurchaseAt');
+      expect(u.UpdateExpression).not.toContain('lifetimeValueUSD');
+    });
+
+    it('(c5) upsert failure still fails the event (retry), like the old Contact write', async () => {
+      mockUpsert.mockRejectedValueOnce(new Error('ddb down'));
+      await expect(run()).rejects.toThrow(/ddb down/);
+    });
+
+    it('(c6) app-access protege-signup payload carries no placeholder phone when Stripe collected none', async () => {
+      mockSessionRetrieve.mockResolvedValue({ ...baseSession, metadata: { skuIds: 'app-access' } });
+      await run();
+      const invoke = mockLambdaSend.mock.calls.map((c: any) => c[0].input).find((i: any) => i.FunctionName === 'my4mlife-protege-signup');
+      const body = JSON.parse(JSON.parse(invoke.Payload.toString()).body);
+      expect(body).not.toHaveProperty('phone');
+      expect(JSON.stringify(body)).not.toContain('+10000000000');
+      expect(body.email).toBe('test@example.com');
+    });
+
+    it('(c7) app-access forwards a real Stripe-collected phone', async () => {
+      mockSessionRetrieve.mockResolvedValue({
+        ...baseSession,
+        customer_details: { email: 'test@example.com', name: 'Sam Lee', phone: '+15125550999' },
+        metadata: { skuIds: 'app-access' },
+      });
+      await run();
+      const invoke = mockLambdaSend.mock.calls.map((c: any) => c[0].input).find((i: any) => i.FunctionName === 'my4mlife-protege-signup');
+      expect(JSON.parse(JSON.parse(invoke.Payload.toString()).body).phone).toBe('+15125550999');
     });
   });
 });

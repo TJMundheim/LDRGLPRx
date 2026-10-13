@@ -1,7 +1,8 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { getStripeClient } from '@my4mlife/stripe-client';
-import { resolveContactId } from '@my4mlife/contact-id';
+import { resolveContactId, deriveContactId } from '@my4mlife/contact-id';
+import { upsertContact } from '@my4mlife/contact-upsert';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: 'us-east-2' }));
 
@@ -28,15 +29,18 @@ export async function processEvent(e: {
   const now = new Date().toISOString();
 
   // Resolve contactId: metadata wins; fall back to deriving from the customer's email.
+  // The customer is fetched even when metadata supplies the id: the Contact
+  // upsert needs the email. A lookup failure only skips the upsert.
   const metadataContactId = (sub.metadata as Record<string, string> | null)?.['contactId'] ?? null;
+  const stripeCustomerId = typeof sub.customer === 'string' ? sub.customer : (sub.customer as { id?: string } | null)?.id;
   let customerEmail: string | null = null;
-  if (!metadataContactId && typeof sub.customer === 'string') {
+  if (typeof sub.customer === 'string') {
     try {
       const cust = await stripe.customers.retrieve(sub.customer);
       if (!(cust as { deleted?: boolean }).deleted) {
         customerEmail = (cust as { email?: string | null }).email ?? null;
       }
-    } catch { /* fall through — resolveContactId will throw below */ }
+    } catch { /* fall through — resolveContactId will throw below if no metadata id */ }
   }
   const contactId = resolveContactId({ metadataContactId, email: customerEmail });
   if (!contactId) {
@@ -50,11 +54,23 @@ export async function processEvent(e: {
     ? new Date(cpEndSec * 1000).toISOString()
     : null;
 
+  // ── Contact: email + stage via the shared helper (throws → event retries) ──
+  if (customerEmail) {
+    await upsertContact(ddb as unknown as Parameters<typeof upsertContact>[0], {
+      email: customerEmail,
+      source: 'subscription',
+      ...(stripeCustomerId ? { stripeCustomerId } : {}),
+      stage: 'customer',
+      event: { type: 'subscription' },
+    });
+  }
+
   // ── Contact update ───────────────────────────────────────────────────────
+  // Keyed on the row the helper writes (email-derived) so one customer = one row.
   // subscriptionStartedAt: set only on first transition using if_not_exists
   await ddb.send(new UpdateCommand({
     TableName: CONTACT,
-    Key: { contactId },
+    Key: { contactId: customerEmail ? deriveContactId(customerEmail) : contactId },
     UpdateExpression: [
       'SET hasActiveSubscription = :hasActiveSub',
       'updatedAt = :now',

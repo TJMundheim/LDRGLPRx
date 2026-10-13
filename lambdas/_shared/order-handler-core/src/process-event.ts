@@ -1,5 +1,6 @@
 import { getStripeClient } from '@my4mlife/stripe-client';
-import { resolveContactId } from '@my4mlife/contact-id';
+import { resolveContactId, deriveContactId } from '@my4mlife/contact-id';
+import { upsertContact } from '@my4mlife/contact-upsert';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
@@ -153,24 +154,43 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     }
   }
 
-  // 2. Contact upsert — only increment LTV if this is a new order.
-  const updateExpr = [
-    'SET lastPurchaseAt = :now',
-    'updatedAt = :now',
-    'hasUsedFirstPurchaseDiscount = :true',
-  ];
-  const values: Record<string, unknown> = { ':now': now, ':true': true };
-  if (isNewOrder) {
-    updateExpr.push('lifetimeValueUSD = if_not_exists(lifetimeValueUSD, :zero) + :amount');
-    values[':zero'] = 0;
-    values[':amount'] = amountUSD;
+  // 2. Contact upsert via the shared helper (additive, identity if_not_exists,
+  // promotes to `customer`). amountUSD only for a NEW order so a replay never
+  // re-adds LTV. A failure throws so the event retries, as before.
+  const meta = (session.metadata as Record<string, string> | null) ?? {};
+  const purchasedSku = (meta['skuIds'] ?? '').trim();
+  const fullName = (session.customer_details?.name ?? '').trim();
+  const [nameFirst, ...nameRest] = fullName.split(/\s+/).filter(Boolean);
+  const contactFirstName = nameFirst || (meta['firstName'] ?? '').trim() || undefined;
+  const lastName = nameRest.join(' ') || undefined;
+  const phone = (session.customer_details?.phone ?? meta['phone'] ?? '').trim() || undefined;
+  const stripeCustomerId =
+    typeof session.customer === 'string' ? session.customer : (session.customer as { id?: string } | null)?.id;
+  // The helper keys Contact by the email-derived id. Orders/Touchpoints keep
+  // the resolved id (metadata.contactId wins); with no email there is nothing
+  // to upsert and the small update below falls back to the resolved id.
+  const contactKey = email ? deriveContactId(email) : contactId;
+  if (email) {
+    // Cast: helper's structural Ddb type vs the SDK's overloaded send().
+    await upsertContact(ddb as unknown as Parameters<typeof upsertContact>[0], {
+      email,
+      ...(contactFirstName ? { firstName: contactFirstName } : {}),
+      ...(lastName ? { lastName } : {}),
+      ...(phone ? { phone } : {}),
+      source: purchasedSku ? `purchase:${purchasedSku}` : 'purchase',
+      ...(purchasedSku ? { skus: [purchasedSku] } : {}),
+      ...(isNewOrder ? { amountUSD } : {}),
+      ...(stripeCustomerId ? { stripeCustomerId } : {}),
+      stage: 'customer',
+      event: { type: 'purchase' },
+    });
   }
   await ddb.send(
     new UpdateCommand({
       TableName: 'Contact',
-      Key: { contactId },
-      UpdateExpression: updateExpr.join(', '),
-      ExpressionAttributeValues: values,
+      Key: { contactId: contactKey },
+      UpdateExpression: 'SET lastPurchaseAt = :now, updatedAt = :now, hasUsedFirstPurchaseDiscount = :true',
+      ExpressionAttributeValues: { ':now': now, ':true': true },
     })
   );
 
@@ -322,9 +342,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   if (membership && email) {
     const customerName = session.customer_details?.name ?? (session.metadata as Record<string, string> | null)?.['firstName'] ?? '';
     const firstName = customerName.trim().split(/\s+/)[0] || 'Friend';
-    const phone = session.customer_details?.phone
-      ?? (session.metadata as Record<string, string> | null)?.['phone']
-      ?? '';
+    // Real phone only: protege-signup must never receive a placeholder.
     try {
       await deliverOnce(`fulfill-protege#${e.id}`, async () => {
         await lambda.send(new InvokeCommand({
@@ -334,7 +352,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
             body: JSON.stringify({
               firstName,
               email,
-              phone: phone || '+10000000000', // protege-signup requires E.164; fallback if Stripe didn't collect
+              ...(phone ? { phone } : {}),
               consent: { ai: true, protege: true },
               welcomeEmailVariant: membership.welcomeVariant,
             }),

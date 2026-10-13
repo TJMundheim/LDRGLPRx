@@ -31,6 +31,10 @@ vi.mock('@aws-sdk/client-dynamodb', () => ({
   DynamoDBClient: vi.fn(() => ({})),
 }));
 
+const { mockUpsert } = vi.hoisted(() => ({ mockUpsert: vi.fn().mockResolvedValue(undefined) }));
+vi.mock('@my4mlife/contact-upsert', () => ({ upsertContact: mockUpsert }));
+
+import { deriveContactId } from '@my4mlife/contact-id';
 import { processEvent } from './process-event.js';
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -183,5 +187,51 @@ describe('processEvent — subscription-handler-core', () => {
     );
     const item = (tpCall![0] as { input: { Item: Record<string, unknown> } }).input.Item;
     expect(item['mode']).toBe('test');
+  });
+
+  describe('Contact email + stage via upsertContact', () => {
+    it('upserts email, source, stripeCustomerId, stage customer (customer fetched even when metadata.contactId is set)', async () => {
+      mockStripeRetrieve.mockResolvedValue(makeSubscription('sub_100', 'active', 'cus_100'));
+      await processEvent({ id: 'evt_100', type: 'customer.subscription.created', livemode: false });
+      expect(mockCustomerRetrieve).toHaveBeenCalledWith('cus_100');
+      expect(mockUpsert).toHaveBeenCalledTimes(1);
+      expect(mockUpsert.mock.calls[0][1]).toEqual({
+        email: 'fallback@example.com',
+        source: 'subscription',
+        stripeCustomerId: 'cus_100',
+        stage: 'customer',
+        event: { type: 'subscription' },
+      });
+    });
+
+    it('keeps the existing subscription-field Contact write, on the same row the helper writes', async () => {
+      mockStripeRetrieve.mockResolvedValue(makeSubscription('sub_101', 'active', 'cus_101'));
+      await processEvent({ id: 'evt_101', type: 'customer.subscription.created', livemode: false });
+      const contactCall = mockUpdate.mock.calls.find((c) => (c[0] as { input?: { TableName?: string } }).input?.TableName === 'Contact');
+      const input = (contactCall![0] as { input: { UpdateExpression: string; Key: { contactId: string } } }).input;
+      expect(input.UpdateExpression).toContain('hasActiveSubscription');
+      expect(input.Key.contactId).toBe(deriveContactId('fallback@example.com'));
+    });
+
+    it('skips the upsert (does not fail the event) when the customer has no email / lookup fails', async () => {
+      mockStripeRetrieve.mockResolvedValue(makeSubscription('sub_102', 'active', 'cus_102'));
+      mockCustomerRetrieve.mockRejectedValueOnce(new Error('stripe down'));
+      await expect(processEvent({ id: 'evt_102', type: 'customer.subscription.updated', livemode: false })).resolves.toBeUndefined();
+      expect(mockUpsert).not.toHaveBeenCalled();
+      const contactCall = mockUpdate.mock.calls.find((c) => (c[0] as { input?: { TableName?: string } }).input?.TableName === 'Contact');
+      expect((contactCall![0] as { input: { Key: { contactId: string } } }).input.Key.contactId).toBe('contact-123');
+    });
+
+    it('throws (so the event retries) when the upsert itself fails', async () => {
+      mockStripeRetrieve.mockResolvedValue(makeSubscription('sub_103', 'active', 'cus_103'));
+      mockUpsert.mockRejectedValueOnce(new Error('ddb down'));
+      await expect(processEvent({ id: 'evt_103', type: 'customer.subscription.created', livemode: false })).rejects.toThrow(/ddb down/);
+    });
+
+    it('cancelled subscription still upserts (stage customer is rank-only, never demotes)', async () => {
+      mockStripeRetrieve.mockResolvedValue(makeSubscription('sub_104', 'canceled', 'cus_104'));
+      await processEvent({ id: 'evt_104', type: 'customer.subscription.deleted', livemode: false });
+      expect(mockUpsert).toHaveBeenCalledTimes(1);
+    });
   });
 });
