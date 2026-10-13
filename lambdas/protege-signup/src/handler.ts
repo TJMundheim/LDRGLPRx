@@ -2,6 +2,7 @@ import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda
 import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminGetUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { isBanned, writeProtegeContact } from './contact';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -110,7 +111,7 @@ async function ensureCognitoUser(email: string, firstName: string): Promise<{ al
 }
 
 async function seedUserProfile(args: {
-  sub: string; email: string; firstName: string; phone: string;
+  sub: string; email: string; firstName: string; phone?: string;
   auditTop3: unknown; auditCompletedAt: string | null; intakeAnswers: unknown;
   // When true (retake path), audit fields overwrite existing values rather
   // than preserving the prior assessment via if_not_exists.
@@ -121,18 +122,22 @@ async function seedUserProfile(args: {
     '#owner = if_not_exists(#owner, :owner)',
     '#primaryEmail = if_not_exists(#primaryEmail, :primaryEmail)',
     '#firstName = if_not_exists(#firstName, :firstName)',
-    '#phone = if_not_exists(#phone, :phone)',
     '#createdAt = if_not_exists(#createdAt, :createdAt)',
     '#updatedAt = :updatedAt',
   ];
   const names: Record<string, string> = {
     '#owner': 'owner', '#primaryEmail': 'primaryEmail', '#firstName': 'firstName',
-    '#phone': 'phone', '#createdAt': 'createdAt', '#updatedAt': 'updatedAt',
+    '#createdAt': 'createdAt', '#updatedAt': 'updatedAt',
   };
   const values: Record<string, unknown> = {
     ':owner': args.sub, ':primaryEmail': args.email, ':firstName': args.firstName,
-    ':phone': args.phone, ':createdAt': now, ':updatedAt': now,
+    ':createdAt': now, ':updatedAt': now,
   };
+  if (args.phone) {
+    sets.push('#phone = if_not_exists(#phone, :phone)');
+    names['#phone'] = 'phone';
+    values[':phone'] = args.phone;
+  }
   const auditExpr = (col: string) => args.overwriteAudit ? `#${col} = :${col}` : `#${col} = if_not_exists(#${col}, :${col})`;
   if (args.auditTop3 !== undefined && args.auditTop3 !== null) {
     sets.push(auditExpr('auditTop3'));
@@ -276,8 +281,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   if (!firstName) return reply(400, { error: 'firstName required' }, origin);
 
   const phone: string | undefined = body.phone ? String(body.phone).trim() : undefined;
-  if (!phone) return reply(400, { error: 'phone required' }, origin);
-  if (!E164_RE.test(phone)) return reply(400, { error: 'phone must be E.164 (e.g. +15551234567)' }, origin);
+  // Phone is optional (app-access purchases arrive without one); validated only when present.
+  if (phone && !E164_RE.test(phone)) return reply(400, { error: 'phone must be E.164 (e.g. +15551234567)' }, origin);
 
   const consent = body.consent;
   if (!consent || consent.ai !== true || consent.protege !== true) {
@@ -296,33 +301,11 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const ts = new Date().toISOString();
 
   try {
-    await ddb.send(new UpdateCommand({
-      TableName: CONTACT_TABLE,
-      Key: { contactId },
-      UpdateExpression: [
-        'SET #email = :email',
-        '#firstName = :firstName',
-        '#phone = :phone',
-        '#consent = :consent',
-        '#updatedAt = :updatedAt',
-        '#lifecycleStage = if_not_exists(#lifecycleStage, :protege)',
-        '#createdAt = if_not_exists(#createdAt, :createdAt)',
-      ].join(', '),
-      ConditionExpression: 'attribute_not_exists(#lifecycleStage) OR #lifecycleStage = :lead OR #lifecycleStage = :protege',
-      ExpressionAttributeNames: {
-        '#email': 'email', '#firstName': 'firstName', '#phone': 'phone',
-        '#consent': 'consent', '#updatedAt': 'updatedAt', '#lifecycleStage': 'lifecycleStage',
-        '#createdAt': 'createdAt',
-      },
-      ExpressionAttributeValues: {
-        ':email': email, ':firstName': firstName, ':phone': phone,
-        ':consent': { ai: { v: 'consent-ai-v1', at: ts }, protege: { v: 'consent-protege-v1', at: ts } },
-        ':updatedAt': ts, ':createdAt': ts,
-        ':protege': 'protege', ':lead': 'lead',
-      },
-    }));
-  } catch (e: any) {
-    if (e?.name !== 'ConditionalCheckFailedException') return reply(500, { error: 'write failed' }, origin);
+    if (!(await isBanned(ddb, CONTACT_TABLE, contactId))) {
+      await writeProtegeContact(ddb, CONTACT_TABLE, { contactId, email, firstName, phone, at: ts });
+    }
+  } catch {
+    return reply(500, { error: 'write failed' }, origin);
   }
 
   // Seed UserProfile (Users table) with audit data so the app skips the intake gate.

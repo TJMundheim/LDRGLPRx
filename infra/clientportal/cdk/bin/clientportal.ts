@@ -15,8 +15,8 @@ const env = {
 
 new ClientPortalStack(app, 'ClientPortalStack', { env });
 const dataStack = new DataStack(app, 'DataStack', { env });
-const authStack = new AuthStack(app, 'AuthStack', { env, usersTable: dataStack.usersTable });
-new LeadCaptureStack(app, 'LeadCaptureStack', { env, usersTable: dataStack.usersTable });
+const authStack = new AuthStack(app, 'AuthStack', { env, usersTable: dataStack.usersTable, contactTable: dataStack.contactTable });
+new LeadCaptureStack(app, 'LeadCaptureStack', { env, usersTable: dataStack.usersTable, contactTable: dataStack.contactTable });
 new ApiStack(app, 'ApiStack', {
   env,
   userPool: authStack.userPool,

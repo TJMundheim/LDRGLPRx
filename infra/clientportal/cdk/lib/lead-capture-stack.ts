@@ -13,6 +13,7 @@ const APP_CLIENT_ID = '6bur4eipv67vlsmi0qceqv9fd0';
 
 export interface LeadCaptureStackProps extends cdk.StackProps {
   usersTable?: dynamodb.Table;
+  contactTable?: dynamodb.ITable;
 }
 
 export class LeadCaptureStack extends cdk.Stack {
@@ -32,6 +33,17 @@ export class LeadCaptureStack extends cdk.Stack {
       new iam.PolicyStatement({
         actions: ['ses:SendEmail', 'ses:SendRawEmail', 'sesv2:SendEmail'],
         resources: [`arn:aws:ses:us-east-2:879696522760:identity/*`],
+      }),
+    );
+
+    // Contact capture: send-app-link upserts via UpdateItem only.
+    sendAppLink.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ['dynamodb:UpdateItem'],
+        resources: [
+          props?.contactTable?.tableArn ??
+            `arn:aws:dynamodb:${cdk.Stack.of(this).region}:${cdk.Stack.of(this).account}:table/Contact`,
+        ],
       }),
     );
 

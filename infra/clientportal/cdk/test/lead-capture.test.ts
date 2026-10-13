@@ -41,4 +41,15 @@ describe('LeadCaptureStack', () => {
     );
     expect(hasCognito).toBe(true);
   });
+
+  it('grants dynamodb:UpdateItem on the Contact table to SendAppLinkFn only', () => {
+    const template = buildTemplate();
+    const policies = template.findResources('AWS::IAM::Policy');
+    const withContact = Object.values(policies).filter((p: any) => {
+      const d = JSON.stringify(p.Properties?.PolicyDocument);
+      return d.includes('dynamodb:UpdateItem') && d.includes('table/Contact');
+    });
+    expect(withContact).toHaveLength(1);
+    expect(JSON.stringify(withContact[0])).toContain('SendAppLinkFn');
+  });
 });

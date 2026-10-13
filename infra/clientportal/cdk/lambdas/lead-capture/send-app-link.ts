@@ -1,6 +1,10 @@
 import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { upsertContact } from '../../../../../lambdas/_shared/contact-upsert/src/index';
 
 const ses = new SESv2Client({});
+const docClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const FROM = 'noreply@my4mlife.com';
 const APP_URL = 'https://app.my4mlife.com';
 
@@ -62,6 +66,21 @@ export const handler = async (event: {
 
   const timestamp = new Date().toISOString();
   console.log(JSON.stringify({ event: 'lead_capture', email, firstName, source, timestamp }));
+
+  // Contact capture is best-effort: never block the app-link email on it.
+  try {
+    await upsertContact(docClient, {
+      email,
+      source: 'app-link-request',
+      event: { type: 'app-link-request' },
+    });
+  } catch (err) {
+    console.error(JSON.stringify({
+      event: 'contact_upsert_failed',
+      handler: 'send-app-link',
+      error: err instanceof Error ? err.name : 'unknown',
+    }));
+  }
 
   try {
     const cmd = new SendEmailCommand({

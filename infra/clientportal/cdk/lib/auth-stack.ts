@@ -9,6 +9,7 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 export interface AuthStackProps extends cdk.StackProps {
   usersTable?: dynamodb.ITable;
+  contactTable?: dynamodb.ITable;
 }
 
 /**
@@ -74,6 +75,17 @@ export class AuthStack extends cdk.Stack {
       props.usersTable.grantReadWriteData(postConfirmation);
       props.usersTable.grantReadWriteData(postAuthentication);
     }
+
+    // Contact capture: post-confirmation upserts via UpdateItem only.
+    postConfirmation.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ['dynamodb:UpdateItem'],
+        resources: [
+          props?.contactTable?.tableArn ??
+            `arn:aws:dynamodb:${cdk.Stack.of(this).region}:${cdk.Stack.of(this).account}:table/Contact`,
+        ],
+      }),
+    );
 
     // UserPool — email-only, passwordless via custom auth.
     this.userPool = new cognito.UserPool(this, 'UserPool', {

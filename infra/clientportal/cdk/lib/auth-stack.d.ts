@@ -4,6 +4,7 @@ import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 export interface AuthStackProps extends cdk.StackProps {
     usersTable?: dynamodb.ITable;
+    contactTable?: dynamodb.ITable;
 }
 /**
  * AuthStack — passwordless Cognito (email-OTP via custom-auth flow)

@@ -142,3 +142,15 @@ describe('Cognito Admins group', () => {
     });
   });
 });
+
+// ─── Contact capture IAM ─────────────────────────────────────────────────────
+
+describe('PostConfirmationFn Contact access', () => {
+  it('is granted dynamodb:UpdateItem on the Contact table', () => {
+    const policies = template.findResources('AWS::IAM::Policy');
+    const docs = Object.values(policies).map((p: any) => JSON.stringify(p.Properties?.PolicyDocument));
+    expect(
+      docs.some((d) => d.includes('dynamodb:UpdateItem') && d.includes('table/Contact')),
+    ).toBe(true);
+  });
+});
