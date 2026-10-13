@@ -122,6 +122,41 @@ Dr. TJ
 
 ---
 
+### Email 1b — Warm list (SENT 2026-10-13 to 42 people TJ kept in the Instinct review)
+> Sent individually via `infra/scripts/push-patch-ff-send.sh "<first>" <email> v2`. TJ's edits: his NAD+/needle/value copy worked in, six-week value framing (~$470/month vs $800–$1,000/month injections), subject about "peptides without the needle", closing about what it does for them (no favor ask).
+
+**Subject:** An early look, just for you: peptides without the needle
+
+Hi [first name],
+
+Before we announce this publicly, I wanted you to be among the first to see it.
+
+You've probably been hearing about peptides from everywhere: BPC-157, NAD+, GHK-Cu. Everyone has a protocol, and most of them start with a needle. This week My4MLife is launching the Push Patch, which delivers those same peptide and NAD+ blends through your skin with no needle at all.
+
+Here's why I'm excited about it:
+
+- More NAD+, not less. In the manufacturer's testing, one patch a week delivered 276% more total NAD+ than daily 50 mg injections, and 163% more than a 500 mg weekly IV.
+- Steady delivery, not a spike. An injection hits all at once, and your body clears peptides like BPC-157 and KPV within hours. The patch keeps delivering for 12 hours.
+- No needle routine. No syringes, sharps containers, bruised injection sites, or afternoons in an IV chair. You press it on like a piece of athletic tape and wear it for 12 hours. Most people feel a light tingle or nothing at all. Then you're done for the week.
+
+It's also a better value than it first looks. Each set is six patches, so it covers six weeks, not the usual monthly cycle. If you were getting NAD+ and glow-peptide injections, you'd typically pay $800 to $1,000 a month. A Push Patch set is $650 for six weeks, which works out to about $470 a month. Glutathione Radiance is $550.
+
+How ordering works:
+
+- There are seven blends, including ones for energy and recovery, tissue repair, and skin. The page explains each one.
+- You'll answer five quick safety questions, then fill out a short health form. One of our network's licensed physicians reviews it, usually within an hour during business hours.
+- Once you're approved, your kit ships straight to you: prepared in 1 to 3 business days, then 3 to 5 days by ground.
+
+https://my4mlife.com/go/push-patch?utm_source=email&utm_medium=personal&utm_campaign=push-patch-launch&utm_content=friends-family
+
+If you have any questions about which blend fits you, just reply to this email. I'll answer you personally.
+
+I'm sharing this with you first because I think it can make a real difference for you. Here's to feeling your best.
+
+Dr. TJ
+
+---
+
 ### Email 2 — Your broader email list (later, after the first orders go through)
 > Sent from the My4MLife email system once the shared customer list is built (it adds the unsubscribe link and mailing address automatically). Tagged "list".
 
