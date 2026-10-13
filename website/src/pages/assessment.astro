@@ -750,6 +750,7 @@ const robots = "index, follow";
           diagnosed: diagnosed === true,
           sex: userSex,
           consent: consentPayload,
+          src: new URLSearchParams(location.search).get('src') || undefined,
         }),
       }).then(function (r) {
         phCapture(r && r.ok ? 'assessment_submitted' : 'assessment_submit_failed');
