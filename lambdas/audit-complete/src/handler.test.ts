@@ -43,6 +43,13 @@ vi.mock('@aws-sdk/client-cognito-identity-provider', () => ({
   AdminCreateUserCommand: class { input: any; constructor(i: any) { this.input = i; } },
 }));
 
+// Spy on the real helper so tests see both the upsert input and the DDB writes.
+vi.mock('@my4mlife/contact-upsert', async (orig) => {
+  const actual: any = await orig();
+  return { ...actual, upsertContact: vi.fn(actual.upsertContact) };
+});
+
+import { upsertContact } from '@my4mlife/contact-upsert';
 import { handler, getRecommendedRx, NAMESPACE } from './handler';
 
 // contactId is ALWAYS server-derived from email (audit #14) — a client-supplied
@@ -103,6 +110,7 @@ function evt(body: any) {
 beforeEach(() => {
   sendMock.mockReset();
   sendMock.mockResolvedValue({});
+  (upsertContact as any).mockClear();
   sqsSendMock.mockReset();
   sqsSendMock.mockResolvedValue({ MessageId: 'm1' });
   lambdaSendMock.mockReset();
@@ -132,24 +140,93 @@ describe('audit-complete handler', () => {
     expect(res.statusCode).toBe(400);
   });
 
-  it('writes UpdateCommand with correct expression on valid body (email-derived contactId)', async () => {
-    const email = 'audit-write-test@example.com';
+  it('writes the Contact via upsertContact: email-derived key, slugs only, no stage, assessment-complete event', async () => {
+    const email = 'Audit-Write-Test@example.com';
     const scores = { gut: 4, weight: 2, hormones: 3 };
-    const top3 = ['gut', 'hormones', 'weight'];
-    const res: any = await handler(evt({ email, scores, top3 }));
+    const top3 = [
+      { id: 'gut-microbiome', label: 'Gut', slug: 'gut', score: 5 },
+      { id: 'sleep', label: 'Sleep', slug: 'sleep', score: 4 },
+      { id: 'cognitive', label: 'Cognitive', slug: 'cognitive', score: 3 },
+    ];
+    const res: any = await handler(evt({ email, firstName: 'Sam', phone: '+15551234567', scores, top3 }));
     expect(res.statusCode).toBe(200);
     expect(JSON.parse(res.body)).toMatchObject({ ok: true });
 
+    expect(upsertContact).toHaveBeenCalledTimes(1);
+    const input = (upsertContact as any).mock.calls[0][1];
+    expect(input).toEqual({
+      email: email.toLowerCase(),
+      source: 'assessment',
+      firstName: 'Sam',
+      phone: '+15551234567',
+      tags: ['gut', 'sleep', 'cognitive'],
+      event: { type: 'assessment-complete', at: expect.any(String) },
+    });
+    expect(input).not.toHaveProperty('stage');
+
     const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
-    expect(contactCalls).toHaveLength(1);
+    expect(contactCalls).toHaveLength(1); // upsert only: no promote, no consent update
     const cmd = contactCalls[0][0];
-    expect(cmd.input.TableName).toBe('Contact');
     expect(cmd.input.Key).toEqual({ contactId: cidFor(email) });
-    expect(cmd.input.UpdateExpression).toContain('auditCompletedAt = :ts');
-    expect(cmd.input.UpdateExpression).toContain('auditTop3 = :top3');
-    expect(cmd.input.UpdateExpression).toContain('intakeAnswers = :scores');
-    expect(cmd.input.ExpressionAttributeValues[':scores']).toEqual(scores);
-    expect(cmd.input.ExpressionAttributeValues[':top3']).toEqual(top3);
+    expect(cmd.input.UpdateExpression).toContain('if_not_exists(#lifecycleStage, :lifecycleStage)');
+    expect(cmd.input.ExpressionAttributeValues[':lifecycleStage']).toBe('lead');
+  });
+
+  it('keeps answers, scores, top3 objects and consent JSON off the Contact write', async () => {
+    const consent = { consentedAt: 'x', aiComms: { agreed: true, version: 'v1', text: 't' }, protegeTerms: { agreed: true, version: 'v1', text: 't' } };
+    await handler(evt({
+      email: 'phi-free@example.com', firstName: 'Pat',
+      scores: { gut: 4 }, top3: [{ id: 'gut-microbiome', label: 'Gut', slug: 'gut', score: 5 }], consent,
+    }));
+    const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
+    const upsertCmd = contactCalls[0][0];
+    const blob = JSON.stringify(upsertCmd.input);
+    for (const banned of ['intakeAnswers', 'auditTop3', 'auditCompletedAt', 'consentedAt', 'aiCommsConsent', 'protegeConsent', 'score', '"gut":4']) {
+      expect(blob).not.toContain(banned);
+    }
+    expect(Object.values(upsertCmd.input.ExpressionAttributeNames)).not.toContain('consent');
+    expect(upsertCmd.input.ExpressionAttributeValues[':tags']).toEqual(new Set(['gut']));
+  });
+
+  it('still stores the answers, top3 and completion time on the Users table', async () => {
+    const scores = { gut: 4 };
+    const top3 = [{ id: 'gut-microbiome', label: 'Gut', slug: 'gut', score: 5 }];
+    await handler(evt({ email: 'users-keeps@example.com', scores, top3 }));
+    const users = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Users');
+    expect(users).toHaveLength(1);
+    const v = users[0][0].input.ExpressionAttributeValues;
+    expect(JSON.parse(v[':intakeAnswers'])).toEqual(scores);
+    expect(JSON.parse(v[':auditTop3'])).toEqual(top3);
+    expect(typeof v[':auditCompletedAt']).toBe('string');
+  });
+
+  it('omits placeholder phones and blank names from the upsert input', async () => {
+    await handler(evt({ email: 'ph@example.com', phone: '+10000000000', top3: [] }));
+    const input = (upsertContact as any).mock.calls[0][1];
+    expect(input.firstName).toBeUndefined();
+    // The helper drops the placeholder phone before it reaches DynamoDB.
+    const cmd = sendMock.mock.calls.find((c: any) => c[0].input.TableName === 'Contact')![0];
+    expect(cmd.input.ExpressionAttributeNames['#phone']).toBeUndefined();
+  });
+
+  it('uses the request src (body field) as the contact source', async () => {
+    await handler(evt({ email: 'src-body@example.com', src: 'Uninsured-Decade', top3: [] }));
+    expect((upsertContact as any).mock.calls[0][1].source).toBe('uninsured-decade');
+  });
+
+  it('falls back to the ?src= query param, then to "assessment", and rejects junk values', async () => {
+    const withQuery = { ...evt({ email: 'src-query@example.com', top3: [] }), queryStringParameters: { src: 'advisor-print' } };
+    await handler(withQuery);
+    expect((upsertContact as any).mock.calls[0][1].source).toBe('advisor-print');
+    await handler(evt({ email: 'src-junk@example.com', src: '<script>alert(1)</script>', top3: [] }));
+    expect((upsertContact as any).mock.calls[1][1].source).toBe('assessment');
+    await handler(evt({ email: 'src-none@example.com', top3: [] }));
+    expect((upsertContact as any).mock.calls[2][1].source).toBe('assessment');
+  });
+
+  it('never passes a stage, so existing protege/customer rows are not touched (no promote call)', async () => {
+    await handler(evt({ email: 'stage@example.com', top3: [] }));
+    expect(sendMock.mock.calls.filter((c: any) => c[0].input.ConditionExpression)).toHaveLength(0);
   });
 
   it('writes sex to the UserProfile when the payload carries female', async () => {
@@ -180,37 +257,39 @@ describe('audit-complete handler', () => {
     }
   });
 
-  it('persists the consent record (text + version + timestamp + flags) to the Contact', async () => {
+  it('persists the consent record (text + version + timestamp + flags) to the Contact, only if_not_exists', async () => {
     const consent = {
       consentedAt: '2026-06-21T12:00:00.000Z',
       protegeTerms: { agreed: true, version: 'consent-protege-v1', text: 'I agree to the Protégé terms (free account; no purchase required).' },
       aiComms: { agreed: true, version: 'consent-ai-comms-v1', text: 'I consent to receive AI-assisted health communications from My4MLife. I understand I may opt out at any time.' },
     };
-    const res: any = await handler(evt({ email: 'consent-test@example.com', scores: { gut: 3 }, top3: [], consent }));
+    const email = 'consent-test@example.com';
+    const res: any = await handler(evt({ email, scores: { gut: 3 }, top3: [], consent }));
     expect(res.statusCode).toBe(200);
-    const cmd = sendMock.mock.calls[0][0];
-    expect(cmd.input.UpdateExpression).toContain('consent = :consent');
-    expect(cmd.input.UpdateExpression).toContain('consentedAt = :consentAt');
-    expect(cmd.input.UpdateExpression).toContain('aiCommsConsent = :aiC');
-    expect(cmd.input.UpdateExpression).toContain('protegeConsent = :protC');
-    // Consent timestamp is always server-stamped, never trusted from the client
-    // (see the "Consent timestamp is stamped by the server" comment in the
-    // handler) — so it must NOT equal the client-supplied consent.consentedAt,
-    // just be a valid, current ISO timestamp.
-    const storedConsentAt = cmd.input.ExpressionAttributeValues[':consentAt'];
+    const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
+    expect(contactCalls).toHaveLength(2); // upsert + consent
+    const cmd = contactCalls.map((c: any) => c[0]).find((c: any) => c.input.ExpressionAttributeValues[':c'] !== undefined);
+    expect(cmd.input.Key).toEqual({ contactId: cidFor(email) });
+    const expr: string = cmd.input.UpdateExpression;
+    for (const attr of ['#c', '#at', '#ai', '#pr']) expect(expr).toContain(`${attr} = if_not_exists(${attr},`);
+    expect(expr.match(/=/g)!.length).toBe(4); // every assignment is if_not_exists
+    expect(cmd.input.ExpressionAttributeNames).toEqual({ '#c': 'consent', '#at': 'consentedAt', '#ai': 'aiCommsConsent', '#pr': 'protegeConsent' });
+    // Consent timestamp is always server-stamped, never the client's value.
+    const storedConsentAt = cmd.input.ExpressionAttributeValues[':at'];
     expect(storedConsentAt).not.toBe(consent.consentedAt);
     expect(new Date(storedConsentAt).toISOString()).toBe(storedConsentAt);
-    expect(cmd.input.ExpressionAttributeValues[':aiC']).toBe(true);
-    expect(cmd.input.ExpressionAttributeValues[':protC']).toBe(true);
-    expect(JSON.parse(cmd.input.ExpressionAttributeValues[':consent']).aiComms.version).toBe('consent-ai-comms-v1');
+    expect(cmd.input.ExpressionAttributeValues[':ai']).toBe(true);
+    expect(cmd.input.ExpressionAttributeValues[':pr']).toBe(true);
+    expect(JSON.parse(cmd.input.ExpressionAttributeValues[':c']).aiComms.version).toBe('consent-ai-comms-v1');
   });
 
-  it('omits consent fields from the write when no consent is provided', async () => {
+  it('skips the consent write entirely when no consent is provided', async () => {
     const res: any = await handler(evt({ email: 'no-consent-test@example.com', scores: { gut: 3 }, top3: [] }));
     expect(res.statusCode).toBe(200);
-    const cmd = sendMock.mock.calls[0][0];
-    expect(cmd.input.UpdateExpression).not.toContain('consent = :consent');
-    expect(cmd.input.ExpressionAttributeValues[':consent']).toBeUndefined();
+    const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
+    expect(contactCalls).toHaveLength(1);
+    const names = Object.values(contactCalls[0][0].input.ExpressionAttributeNames);
+    for (const attr of ['consent', 'consentedAt', 'aiCommsConsent', 'protegeConsent']) expect(names).not.toContain(attr);
   });
 
   it('derives contactId from email and invokes email-sender with correct payload', async () => {
@@ -232,6 +311,7 @@ describe('audit-complete handler', () => {
     const ddbCmd = sendMock.mock.calls.find((c: any) => c[0].input.TableName === 'Contact')![0];
     expect(typeof ddbCmd.input.Key.contactId).toBe('string');
     expect(ddbCmd.input.Key.contactId.length).toBeGreaterThan(10);
+    expect((upsertContact as any).mock.calls[0][1].email).toBe('test-debug@my4mlife.com');
 
     // Email-sender invoked (alongside the unconditional coordinator-brief invoke)
     expect(lambdaSendMock).toHaveBeenCalledTimes(2);

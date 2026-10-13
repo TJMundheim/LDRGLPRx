@@ -6,6 +6,7 @@ import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { v5 as uuidv5 } from 'uuid';
 import { buildStackCard } from './stackCard';
+import { recordAssessmentContact } from './contact';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
@@ -434,30 +435,11 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const ts = new Date().toISOString();
   const consentAtServer = ts;
 
-  await ddb.send(new UpdateCommand({
-    TableName: CONTACT_TABLE,
-    Key: { contactId },
-    UpdateExpression: 'SET auditCompletedAt = :ts, intakeAnswers = :scores, auditTop3 = :top3, updatedAt = :ts, #ls = if_not_exists(#ls, :protege), createdAt = if_not_exists(createdAt, :ts)' + (email ? ', #em = if_not_exists(#em, :em)' : '') + (firstName ? ', firstName = if_not_exists(firstName, :fn)' : '') + (phone ? ', phone = if_not_exists(phone, :ph)' : '') + (consent ? ', consent = :consent, consentedAt = :consentAt, aiCommsConsent = :aiC, protegeConsent = :protC' : ''),
-    ExpressionAttributeNames: {
-      '#ls': 'lifecycleStage',
-      ...(email ? { '#em': 'email' } : {}),
-    },
-    ExpressionAttributeValues: {
-      ':ts': ts,
-      ':scores': (scores && typeof scores === 'object') ? scores : {},
-      ':top3': Array.isArray(top3) ? top3 : [],
-      ':protege': 'protege',
-      ...(email ? { ':em': email } : {}),
-      ...(firstName ? { ':fn': firstName } : {}),
-      ...(phone ? { ':ph': phone } : {}),
-      ...(consent ? {
-        ':consent': JSON.stringify(consent),
-        ':consentAt': consentAtServer,
-        ':aiC': aiCommsConsent,
-        ':protC': protegeTermsConsent,
-      } : {}),
-    },
-  }));
+  await recordAssessmentContact({
+    ddb, table: CONTACT_TABLE, contactId, email, firstName, phone, top3,
+    src: parsed.src ?? event.queryStringParameters?.src,
+    consent, aiComms: aiCommsConsent, protege: protegeTermsConsent, now: consentAtServer,
+  });
 
   // Fire-and-forget: let coordinator-brief regenerate any pre-call brief for
   // this contact now that fresh MindSpan scores are on file. Never let a
