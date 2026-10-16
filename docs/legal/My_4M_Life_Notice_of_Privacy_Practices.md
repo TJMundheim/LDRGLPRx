@@ -58,17 +58,17 @@ H. Right to Choose Someone to Act for You
 If you have given someone medical power of attorney or if someone is your legal guardian, that person may exercise your rights and make choices about your PHI.
 6. How to Exercise Your Rights or File a Complaint
 To exercise any of your rights, or to ask questions about this Notice, please contact our Privacy Officer:
-Privacy Officer: [NAME OF PRIVACY OFFICER]
-Mailing Address: [PRACTICE ADDRESS]
-Phone: [PHONE]
-Email: [PRIVACY OFFICER EMAIL]
+Privacy Officer, My4MLife
+Email: support@my4mlife.com
+Website: https://my4mlife.com
+Requests may be made by email. Please write "Privacy Request" in the subject line.
 If you believe your privacy rights have been violated, you may file a complaint with us or with the U.S. Department of Health and Human Services, Office for Civil Rights. We will not retaliate against you for filing a complaint.
 U.S. DHHS, Office for Civil Rights:
 	•	200 Independence Avenue, S.W., Washington, D.C. 20201
 	•	Toll-free: 1-877-696-6775
 	•	https://www.hhs.gov/ocr/privacy/hipaa/complaints/
 7. Changes to This Notice
-We reserve the right to change this Notice and to make the revised Notice effective for PHI we already have about you as well as any PHI we receive in the future. Copies of the current Notice are available at our office and on our website at [WEBSITE]. The effective date appears at the top of this Notice.
+We reserve the right to change this Notice and to make the revised Notice effective for PHI we already have about you as well as any PHI we receive in the future. Copies of the current Notice are available at our office and on our website at https://my4mlife.com/legal/privacy-notice. The effective date appears at the top of this Notice.
 8. Acknowledgment
 Please sign below to acknowledge receipt of this Notice. Your signature does not constitute consent for any specific use or disclosure of PHI; it only confirms that you have received this Notice.
 ____________________________________	____________________________________
