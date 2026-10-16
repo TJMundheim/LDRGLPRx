@@ -6,7 +6,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const REPO = resolve(HERE, '../../..');
+const REPO = resolve(HERE, '../../../..');
 const OUT = resolve(HERE, '../src/legal.ts');
 
 const EFFECTIVE = 'September 1, 2026';

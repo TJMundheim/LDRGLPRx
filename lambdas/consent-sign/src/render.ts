@@ -1,17 +1,5 @@
 // HTML for the hosted consent e-sign page. No frameworks, inline CSS, light theme.
-import { NPP_HTML, PATIENT_AUTH_HTML, LEGAL_EFFECTIVE } from './legal';
-
-export const TAGLINE = "Don't lose your identity and your dignity while you still have a choice.";
-// Wording matched to the consent-request email and the admin checklist.
-// Dr. TJ is never described as a physician — the prescribers are the
-// contracted telemedicine practice's licensed physicians.
-const DISCLOSE_TO =
-  "our network's licensed physicians (My4MLife's contracted telemedicine practice(s))";
-export const ESIGN_LINE =
-  'By typing your name below you consent to sign electronically under the federal E-SIGN Act, and agree your typed name is the legal equivalent of your handwritten signature.';
-
-export const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, (c) =>
-  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' } as Record<string, string>)[c]);
+import { NPP_HTML, PATIENT_AUTH_HTML, LEGAL_EFFECTIVE, TAGLINE, ESIGN_LINE, DISCLOSE_TO, esc } from '@my4mlife/legal-consents';
 
 const CSS = `*{box-sizing:border-box}body{margin:0;background:#f6f7fa;color:#0f172a;font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
 .wrap{max-width:720px;margin:0 auto;padding:20px 16px 56px}
@@ -76,11 +64,3 @@ export const renderAlready = (at: string) =>
 
 export const renderError = (status: string, msg: string) =>
   page(status, `<div class="card"><h1>${esc(status)}</h1><p>${esc(msg)}</p></div>`);
-
-export const copyEmailHtml = (name: string, typedName: string, at: string) =>
-  `<p>Hello ${esc(name)},</p><p>Here is your signed copy. Effective ${esc(LEGAL_EFFECTIVE)}.</p>
-<h2>Notice of Privacy Practices</h2>${NPP_HTML}
-<h2>Authorization for Use and Disclosure of PHI</h2>
-<p><strong>Disclose to:</strong> ${esc(DISCLOSE_TO)}</p>${PATIENT_AUTH_HTML}
-<h2>Signature</h2><p>Electronically signed by <strong>${esc(typedName)}</strong> on ${esc(at)}.</p>
-<p>${ESIGN_LINE}</p><p>${TAGLINE}</p>`;

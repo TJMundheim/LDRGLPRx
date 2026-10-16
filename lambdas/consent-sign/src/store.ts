@@ -2,20 +2,14 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { RECORD_SK, auditSk, encounterSk, CONSENT_NPP_V1, CONSENT_PHI_AUTH_V1 } from '@my4mlife/patient-record';
+import type { SignedConsent } from '@my4mlife/legal-consents';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 
-export interface SignedConsent {
-  version: string;
-  legalVersion: string;
-  at: string;
-  typedName: string;
-  ip?: string;
-  userAgent?: string;
-}
+export type { SignedConsent };
 
 export async function getRecord(contactId: string): Promise<Record<string, any> | undefined> {
   const res = await ddb.send(new GetCommand({ TableName: TABLE, Key: { contactId, sk: RECORD_SK } }));

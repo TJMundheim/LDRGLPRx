@@ -1,7 +1,8 @@
 // Step 2 of the e-sign flow: save a card for the prescription.
 // Nothing is charged here — the coordinator charges it later, after the
 // physician approves. No card digits ever reach this Lambda beyond last4.
-import { page, esc } from './render';
+import { esc } from '@my4mlife/legal-consents';
+import { page } from './render';
 import { formatPrice } from './lanes';
 
 export interface CardStepOpts {

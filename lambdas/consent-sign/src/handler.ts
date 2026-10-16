@@ -4,13 +4,12 @@
 //
 // Security note: the Function URL is public (auth NONE) — the gate is the
 // HMAC token in the query string, not secrecy of the URL.
-import { CONSENT_NPP_V1, CONSENT_PHI_AUTH_V1 } from '@my4mlife/patient-record';
 import { verifyToken } from './token';
-import { getRecord, readConsents, writeConsents, writeAudit, hasCard, SignedConsent } from './store';
+import { getRecord, readConsents, writeConsents, writeAudit, hasCard } from './store';
 import { parseForm, validateForm } from './validate';
 import { sendMail, NOTIFY_TO } from './mail';
-import { LEGAL_VERSION } from './legal';
-import { renderForm, renderAlready, renderError, copyEmailHtml } from './render';
+import { buildSignedConsents, copyEmailHtml } from '@my4mlife/legal-consents';
+import { renderForm, renderAlready, renderError } from './render';
 import { showCardStep, saveCard, CardCtx } from './cardFlow';
 
 const secret = () => process.env.CONSENT_SECRET ?? '';
@@ -73,15 +72,12 @@ export const handler = async (event: FnUrlEvent): Promise<FnUrlResult> => {
   }
 
   const at = new Date().toISOString();
-  const base = {
-    legalVersion: LEGAL_VERSION,
-    at,
+  const { npp, phi } = buildSignedConsents({
     typedName: form.typedName,
+    at,
     ip: event.requestContext?.http?.sourceIp,
     userAgent: event.requestContext?.http?.userAgent ?? event.headers?.['user-agent'],
-  };
-  const npp: SignedConsent = { version: CONSENT_NPP_V1, ...base };
-  const phi: SignedConsent = { version: CONSENT_PHI_AUTH_V1, ...base };
+  });
 
   await writeConsents(c, npp, phi, at);
   await writeAudit(c, e, at);

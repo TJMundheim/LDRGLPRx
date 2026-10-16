@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "embed:legal": "node scripts/embed-legal.mjs",
-    "prebuild": "pnpm embed:legal",
+    "prebuild": "pnpm --filter @my4mlife/legal-consents embed:legal",
     "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/*",
     "test": "vitest run"
   },
@@ -12,6 +11,7 @@
     "@aws-sdk/client-dynamodb": "^3.700.0",
     "@aws-sdk/lib-dynamodb": "^3.700.0",
     "@aws-sdk/client-lambda": "^3.700.0",
+    "@my4mlife/legal-consents": "workspace:*",
     "@my4mlife/patient-record": "workspace:*",
     "@my4mlife/stripe-client": "workspace:*",
     "stripe": "^17.0.0"
