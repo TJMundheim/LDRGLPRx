@@ -929,6 +929,9 @@ importers:
       '@my4mlife/contact-upsert':
         specifier: workspace:*
         version: link:../_shared/contact-upsert
+      '@my4mlife/legal-consents':
+        specifier: workspace:*
+        version: link:../_shared/legal-consents
       '@my4mlife/patient-record':
         specifier: workspace:*
         version: link:../_shared/patient-record
@@ -1154,6 +1157,9 @@ importers:
       '@my4mlife/contact-upsert':
         specifier: workspace:*
         version: link:../_shared/contact-upsert
+      '@my4mlife/legal-consents':
+        specifier: workspace:*
+        version: link:../_shared/legal-consents
       '@my4mlife/patient-record':
         specifier: workspace:*
         version: link:../_shared/patient-record
@@ -1348,6 +1354,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.7.2
         version: 3.7.2
+      '@my4mlife/legal-consents':
+        specifier: workspace:*
+        version: link:../lambdas/_shared/legal-consents
       astro:
         specifier: ^6.1.8
         version: 6.3.7(@types/node@24.12.4)(jiti@2.7.0)(rollup@4.60.4)(terser@5.48.0)(yaml@2.9.0)

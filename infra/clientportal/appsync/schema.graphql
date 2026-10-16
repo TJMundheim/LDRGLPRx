@@ -576,6 +576,8 @@ type ConsentRequestResultAdmin {
   laneLabel: String
   priceCents: Int
   error: String
+  alreadySigned: Boolean
+  cardOnly: Boolean
 }
 
 type ProviderHandoffResultAdmin {

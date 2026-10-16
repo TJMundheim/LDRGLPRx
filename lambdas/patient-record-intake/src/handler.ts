@@ -3,9 +3,11 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { deriveContactId } from '@my4mlife/contact-id';
-import { RECORD_SK, encounterSk, auditSk, forcedVisitType } from '@my4mlife/patient-record';
+import { RECORD_SK, encounterSk, auditSk, forcedVisitType, CONSENT_NPP_V1, CONSENT_PHI_AUTH_V1 } from '@my4mlife/patient-record';
 import { captureContact } from './contact';
 import { corsHeaders, reply, sanitiseCard, serialiseConsents } from './helpers';
+import { typedSignature } from './signature';
+import { signAtIntake, writeConsentKeys } from './intakeConsents';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
@@ -41,10 +43,14 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     ? sanitiseCard(parsed.cardOnFile as Record<string, unknown>)
     : undefined;
 
-  // Serialise consents — each consent value stored as JSON string with version + at.
+  // Serialise client consents (contact etc.) as JSON strings. The NPP + Patient Authorization
+  // are NEVER taken from the client — a forged key would lift the physician hand-off gate;
+  // they are built server-side from privacySign below.
   const consents = parsed.consents && typeof parsed.consents === 'object'
     ? serialiseConsents(parsed.consents as Record<string, unknown>)
-    : undefined;
+    : {};
+  delete consents[CONSENT_NPP_V1];
+  delete consents[CONSENT_PHI_AUTH_V1];
 
   // ── Write 1: root PatientRecord item — MERGE, never blind-overwrite ──────────
   // Audit 2026-07-07: this is a public /api endpoint keyed by uuidv5(email). A
@@ -58,7 +64,6 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   if (parsed.demographics && typeof parsed.demographics === 'object') { setParts.push('demographics = :dem'); vals[':dem'] = { ...(parsed.demographics as Record<string, unknown>), email }; }
   if (parsed.history !== undefined) { setParts.push('history = :hist'); vals[':hist'] = parsed.history ?? null; }
   if (parsed.screeningAnswers !== undefined) { setParts.push('screeningAnswers = :scr'); vals[':scr'] = parsed.screeningAnswers ?? null; }
-  if (consents !== undefined) { setParts.push('consents = :con'); vals[':con'] = consents; }
   if (cardOnFile !== undefined) { setParts.push('cardOnFile = :card'); vals[':card'] = cardOnFile; }
   await ddb.send(new UpdateCommand({
     TableName: TABLE,
@@ -67,6 +72,9 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     ...(Object.keys(names).length ? { ExpressionAttributeNames: names } : {}),
     ExpressionAttributeValues: vals,
   }));
+
+  // Merge client consent keys one by one — a re-submit never wipes signatures collected elsewhere.
+  await writeConsentKeys(ddb, contactId, consents, ts);
 
   // ── Write 2: encounter item ──────────────────────────────────────────────────
   await ddb.send(new PutCommand({
@@ -99,6 +107,17 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   await captureContact(ddb, email, category, parsed.demographics);
 
+  // ── Typed e-signature → NPP + Patient Authorization (server-built; never fails the intake) ──
+  const demo = parsed.demographics as { firstName?: string; lastName?: string } | undefined;
+  const typedName = typedSignature(parsed, demo);
+  const http = event.requestContext?.http;
+  const consentsSigned = typedName
+    ? await signAtIntake(ddb, lambda, {
+        contactId, encounterId, typedName, at: ts, ip: http?.sourceIp, userAgent: http?.userAgent, email,
+        name: [demo?.firstName, demo?.lastName].filter(Boolean).join(' ') || 'Patient',
+      })
+    : false;
+
   // ── Fire-and-forget coordinator notification ─────────────────────────────────
   try {
     const notifyPayload = { kind: 'coordinator-notify', contactId, encounterId, category, email };
@@ -111,5 +130,5 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     console.warn('coordinator notify invoke failed', e);
   }
 
-  return reply(200, { ok: true, contactId, encounterId }, origin);
+  return reply(200, { ok: true, contactId, encounterId, consentsSigned }, origin);
 };

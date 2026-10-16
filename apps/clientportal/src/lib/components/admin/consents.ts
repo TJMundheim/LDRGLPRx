@@ -130,3 +130,13 @@ export function cardOnFileRow(raw: unknown): CardOnFileRow {
 export function providerReady(consents: ConsentsMap): boolean {
   return REQUIRED_FOR_PROVIDER.every((id) => id in consents);
 }
+
+/**
+ * Label for the consent-request button, or null when it should be hidden.
+ * Not ready: today's send/resend. Ready (signed at intake or by email) but no
+ * card yet: a card-only link. Ready with a card: nothing left to send.
+ */
+export function consentAction(ready: boolean, card: boolean, requested: boolean): string | null {
+  if (!ready) return requested ? 'Resend consent forms' : 'Send consent forms';
+  return card ? null : 'Send card link';
+}

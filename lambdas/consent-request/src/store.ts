@@ -18,10 +18,11 @@ export async function writeConsentRequestedAudit(
   encounterId: string,
   sentTo: string,
   ts: string,
+  action = 'consent.requested',
 ): Promise<void> {
   await ddb.send(new PutCommand({
     TableName: TABLE,
-    Item: { contactId, sk: auditSk(ts, 0), action: 'consent.requested', encounterId, sentTo, at: ts },
+    Item: { contactId, sk: auditSk(ts, 0), action, encounterId, sentTo, at: ts },
   }));
 }
 

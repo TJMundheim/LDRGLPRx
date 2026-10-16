@@ -26,7 +26,7 @@
   } from './patientBrief.js';
   import PushPatchPanel from './PushPatchPanel.svelte';
   import { isPushPatch } from './refund.js';
-  import { parseConsents, consentChecklist, providerReady, cardOnFileRow, type ConsentsMap } from './consents.js';
+  import { parseConsents, consentChecklist, providerReady, cardOnFileRow, consentAction, type ConsentsMap } from './consents.js';
 
   /** Treatment lanes offered at consent time. Mirrors the lanes.ts module in the consent Lambdas. */
   const LANES = [
@@ -128,22 +128,26 @@
     error: string;
     sentTo: string;
     url: string;
+    cardOnly: boolean;
+    alreadySigned: boolean;
   };
+
+  const IDLE_SEND: ConsentSendState = { sending: false, error: '', sentTo: '', url: '', cardOnly: false, alreadySigned: false };
 
   let consentSendStates = $state<Record<string, ConsentSendState>>({});
 
   // Pure read — must NOT mutate $state during render.
   function getConsentSendState(contactId: string): ConsentSendState {
-    return consentSendStates[contactId] ?? { sending: false, error: '', sentTo: '', url: '' };
+    return consentSendStates[contactId] ?? IDLE_SEND;
   }
 
   function setConsentSendState(contactId: string, patch: Partial<ConsentSendState>) {
-    const existing = consentSendStates[contactId] ?? { sending: false, error: '', sentTo: '', url: '' };
+    const existing = consentSendStates[contactId] ?? IDLE_SEND;
     consentSendStates = { ...consentSendStates, [contactId]: { ...existing, ...patch } };
   }
 
   async function sendConsentRequest(contactId: string, encounterId: string) {
-    setConsentSendState(contactId, { sending: true, error: '', sentTo: '', url: '' });
+    setConsentSendState(contactId, { ...IDLE_SEND, sending: true });
     try {
       const lane = laneChoice[contactId] || undefined;
       const dollars = Number.parseFloat(lanePrice[contactId] ?? '');
@@ -151,7 +155,10 @@
       const res = await sendConsentRequestAdmin({ contactId, encounterId, lane, priceCents });
       const r = res.sendConsentRequestAdmin;
       if (r.ok) {
-        setConsentSendState(contactId, { sending: false, sentTo: r.sentTo ?? '', url: r.url ?? '' });
+        setConsentSendState(contactId, {
+          sending: false, sentTo: r.sentTo ?? '', url: r.url ?? '',
+          cardOnly: !!r.cardOnly, alreadySigned: !!r.alreadySigned,
+        });
       } else {
         setConsentSendState(contactId, { sending: false, error: r.error ?? 'Could not send consent forms. Please retry.' });
       }
@@ -726,6 +733,7 @@
                   {@const cardRow = cardOnFileRow(detail.cardOnFile)}
                   {@const latestEnc = (detail.encounters ?? [])[0]}
                   {@const csend = getConsentSendState(detail.contactId)}
+                  {@const action = consentAction(ready, cardRow.onFile, hasRequestedConsent(detail))}
 
                   <div class="dhead">
                     <div>
@@ -779,6 +787,7 @@
                       {#if laneSummary(latestEnc)}
                         <p class="lane-set">Lane: {laneSummary(latestEnc)}</p>
                       {/if}
+                      {#if action}
                       <div class="lane-pick">
                         <label class="lane-f">
                           <span class="fl2">Lane</span>
@@ -795,10 +804,19 @@
                         </label>
                       </div>
                       <button class="obtn" disabled={csend.sending} onclick={() => sendConsentRequest(detail!.contactId, latestEnc.encounterId)}>
-                        {csend.sending ? 'Sending…' : (hasRequestedConsent(detail) ? 'Resend consent forms' : 'Send consent forms')}
+                        {csend.sending ? 'Sending…' : action}
                       </button>
+                      {:else}
+                        <p class="export-msg">Signed and card on file — nothing to send.</p>
+                      {/if}
                       {#if csend.error}<p class="err small">{csend.error}</p>{/if}
-                      {#if csend.sentTo}
+                      {#if csend.cardOnly}
+                        <p class="export-msg">Card link sent to {csend.sentTo}.
+                          {#if csend.url}<a class="ilink" href={csend.url} target="_blank" rel="noopener">Copy link</a>{/if}
+                        </p>
+                      {:else if csend.alreadySigned}
+                        <p class="export-msg">Already signed — nothing sent (no card needed for this lane).</p>
+                      {:else if csend.sentTo}
                         <p class="export-msg">Sent to {csend.sentTo}.
                           {#if csend.url}<a class="ilink" href={csend.url} target="_blank" rel="noopener">Copy link</a>{/if}
                         </p>

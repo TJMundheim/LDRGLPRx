@@ -86,6 +86,28 @@ describe('consent-sign handler', () => {
     expect(res.body).not.toContain('Already signed');
   });
 
+  it('intake-signed, no card → GET shows card step only, no consent form/writes/emails', async () => {
+    const intakeSigned = {
+      [CONSENT_NPP_V1]: JSON.stringify({ version: CONSENT_NPP_V1, at: '2026-10-15T00:00:00.000Z', typedName: 'Jane Doe' }),
+      [CONSENT_PHI_AUTH_V1]: JSON.stringify({ version: CONSENT_PHI_AUTH_V1, at: '2026-10-15T00:00:00.000Z', typedName: 'Jane Doe' }),
+    };
+    ddbSendMock.mockImplementation((cmd: any) => {
+      const sk = cmd.input?.Key?.sk;
+      if (sk === 'record') return Promise.resolve({ Item: { ...RECORD, consents: intakeSigned } });
+      return Promise.resolve({ Item: { sk, laneLabel: 'Biome NS Rx', priceCents: 12500 } });
+    });
+    const res = await handler(ev('GET') as any);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toContain('Save a card for your prescription');
+    expect(res.body).not.toContain('name="nppAck"');
+    expect(res.body).not.toContain('name="phiAuth"');
+    expect(res.body).not.toContain('Already signed');
+    const writes = ddbSendMock.mock.calls.map((a) => a[0])
+      .filter((c) => c.constructor.name === 'UpdateCommand' || c.constructor.name === 'PutCommand');
+    expect(writes).toHaveLength(0);
+    expect(lambdaSendMock).not.toHaveBeenCalled();
+  });
+
   it('card step names the lane and price from the encounter item', async () => {
     ddbSendMock.mockImplementation((cmd: any) => {
       const sk = cmd.input?.Key?.sk;

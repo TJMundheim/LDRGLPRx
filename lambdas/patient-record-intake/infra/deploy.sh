@@ -10,6 +10,8 @@ AWS_ACCOUNT_ID="879696522760"
 PATIENT_RECORDS_TABLE="PatientRecords"
 CONTACT_TABLE="Contact"
 COORDINATOR_BRIEF_FN="my4mlife-coordinator-brief"
+EMAIL_SENDER_FN="my4mlife-email-sender"
+NOTIFY_TO="drtj@my4mlife.com"
 API_ID="v9svm8ds74"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -62,7 +64,10 @@ INLINE_POLICY=$(cat <<EOF
     {
       "Effect": "Allow",
       "Action": ["lambda:InvokeFunction"],
-      "Resource": "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$COORDINATOR_BRIEF_FN"
+      "Resource": [
+        "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$COORDINATOR_BRIEF_FN",
+        "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$EMAIL_SENDER_FN"
+      ]
     }
   ]
 }
@@ -79,7 +84,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
-ENV_VARS="Variables={PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,COORDINATOR_BRIEF_FN=$COORDINATOR_BRIEF_FN}"
+ENV_VARS="Variables={PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,COORDINATOR_BRIEF_FN=$COORDINATOR_BRIEF_FN,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,NOTIFY_TO=$NOTIFY_TO}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \

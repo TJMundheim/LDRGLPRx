@@ -152,3 +152,83 @@ describe('lane + price', () => {
     expect(payload.html).toContain('you and your prescription review');
   });
 });
+
+describe('already signed at intake (Appendix B)', () => {
+  const SIGNED = {
+    'consent-npp-v1': JSON.stringify({ version: 'consent-npp-v1', at: '2026-10-15T00:00:00.000Z' }),
+    'consent-phi-auth-v1': JSON.stringify({ version: 'consent-phi-auth-v1', at: '2026-10-15T00:00:00.000Z' }),
+  };
+  const withRecord = (extra: Record<string, unknown>) =>
+    ddbSendMock.mockImplementation(async (cmd: any) =>
+      cmd.input.Key?.sk === 'record' ? { Item: { ...RECORD_ITEM, ...extra } } : {});
+  const sentPayload = () => JSON.parse(Buffer.from(lambdaSendMock.mock.calls[0][0].input.Payload).toString());
+  const audits = () => ddbSendMock.mock.calls.map((c: any) => c[0].input.Item)
+    .filter((i: any) => typeof i?.sk === 'string' && i.sk.startsWith('audit#'));
+
+  it('signed + priced + no card → card-only email, no "Read and sign", audit card.requested', async () => {
+    withRecord({ consents: SIGNED });
+    const res: any = await handler({
+      arguments: { contactId: 'contact-abc', encounterId: 'enc-1', lane: 'leaky-gut', priceCents: 12500 },
+    } as any);
+    expect(res).toMatchObject({ ok: true, alreadySigned: true, cardOnly: true, sentTo: 'jane@example.com' });
+    expect(res.url).toContain('?c=');
+    const p = sentPayload();
+    expect(p.subject).toBe('Save a card for your prescription');
+    expect(p.html).toContain('Hi Jane, your privacy notice and authorization are already signed.');
+    expect(p.html).toContain('save a card for your Biome NS Rx prescription ($125 per 30-day supply). Nothing is charged until the physician approves.');
+    expect(p.html).toContain('Save my card');
+    expect(p.html).toContain('This link is personal to you. — Dr. TJ');
+    expect(p.html).not.toContain('Read and sign');
+    expect(p.text).not.toContain('Read and sign');
+    expect(audits()).toHaveLength(1);
+    expect(audits()[0].action).toBe('card.requested');
+  });
+
+  it('signed + free lane → nothing sent, alreadySigned', async () => {
+    withRecord({ consents: SIGNED });
+    const res: any = await handler({
+      arguments: { contactId: 'contact-abc', encounterId: 'enc-1', lane: 'weight-loss' },
+    } as any);
+    expect(res).toEqual({ ok: true, alreadySigned: true });
+    expect(lambdaSendMock).not.toHaveBeenCalled();
+    expect(audits()).toHaveLength(0);
+  });
+
+  it('signed + unset lane → nothing sent, alreadySigned', async () => {
+    withRecord({ consents: SIGNED });
+    const res: any = await handler({ arguments: { contactId: 'contact-abc', encounterId: 'enc-1' } } as any);
+    expect(res).toEqual({ ok: true, alreadySigned: true });
+    expect(lambdaSendMock).not.toHaveBeenCalled();
+  });
+
+  it('signed + card on file → nothing sent', async () => {
+    withRecord({ consents: SIGNED, cardOnFile: { stripeCustomerId: 'cus_x', paymentMethodId: 'pm_x' } });
+    const res: any = await handler({
+      arguments: { contactId: 'contact-abc', encounterId: 'enc-1', lane: 'leaky-gut', priceCents: 12500 },
+    } as any);
+    expect(res).toEqual({ ok: true, alreadySigned: true });
+    expect(lambdaSendMock).not.toHaveBeenCalled();
+  });
+
+  it('one consent only → today\'s sign-link email', async () => {
+    withRecord({ consents: { 'consent-npp-v1': SIGNED['consent-npp-v1'] } });
+    const res: any = await handler({
+      arguments: { contactId: 'contact-abc', encounterId: 'enc-1', lane: 'leaky-gut' },
+    } as any);
+    expect(res.alreadySigned).toBeUndefined();
+    const p = sentPayload();
+    expect(p.subject).toBe('One step before your visit: privacy notice and authorization');
+    expect(p.html).toContain('Read and sign your privacy notice and authorization');
+    expect(audits()[0].action).toBe('consent.requested');
+  });
+
+  it('still stamps the lane on the encounter when signed', async () => {
+    withRecord({ consents: SIGNED });
+    await handler({
+      arguments: { contactId: 'contact-abc', encounterId: 'enc-1', lane: 'weight-loss' },
+    } as any);
+    const upd = ddbSendMock.mock.calls.map((c: any) => c[0]).filter((c: any) => c.constructor.name === 'UpdateCommand');
+    expect(upd).toHaveLength(1);
+    expect(upd[0].input.ExpressionAttributeValues[':lane']).toBe('weight-loss');
+  });
+});

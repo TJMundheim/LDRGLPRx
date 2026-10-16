@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { ESIGN_LINE } from '@my4mlife/legal-consents';
 
 const title = 'Care Coordinator Visit — Free | My4MLife';
 const description = "Tell us what you're working on. A My4MLife care coordinator will reach out to confirm next steps and connect you with a physician in our network.";
@@ -175,9 +176,19 @@ const canonical = "https://www.my4mlife.com/consult";
     <!-- ── Step 5 — Review & Submit ── -->
     <section class="q-step" data-step="5" hidden>
       <h2>Review and submit</h2>
-      <p class="q-step-sub">Confirm everything looks right. A care coordinator will reach out at the time you gave us.</p>
+      <p class="q-step-sub">Confirm everything looks right, then sign below so the physician can review your case. A care coordinator will reach out at the time you gave us.</p>
 
       <div id="q-review-summary" class="q-review-summary"></div>
+
+      <label class="q-checkbox-row">
+        <input type="checkbox" id="q-privacy" required>
+        <span>I acknowledge the <a href="/legal/privacy-notice" target="_blank" rel="noopener">Notice of Privacy Practices</a> and sign the <a href="/legal/authorization" target="_blank" rel="noopener">Authorization</a> to share my health information with our network's licensed physicians.</span>
+      </label>
+
+      <label class="q-field q-field-block" for="q-typed-name">Type your full legal name to sign
+        <input type="text" id="q-typed-name" autocomplete="name" required>
+      </label>
+      <p class="q-esign-fine">{ESIGN_LINE}</p>
 
       <label class="q-checkbox-row">
         <input type="checkbox" id="q-consent" required>
@@ -446,6 +457,23 @@ const canonical = "https://www.my4mlife.com/consult";
     }
     payload.consent = true;
 
+    // Typed e-signature for the NPP + Patient Authorization (same rule as the server and consent-sign).
+    var typedName = ($('#q-typed-name').value || '').trim();
+    var sigErr = $('#q-submit-error');
+    function showSigError(msg) { if (sigErr) { sigErr.hidden = false; sigErr.textContent = msg; } }
+    if (!$('#q-privacy').checked || typedName.length < 3) {
+      showSigError('Please check the privacy box and type your full legal name to sign.');
+      return;
+    }
+    var sigTargets = [payload.firstName, payload.lastName]
+      .map(function (n) { return (n || '').trim().toLowerCase(); })
+      .filter(function (n) { return n.length >= 2; });
+    var sigTyped = typedName.toLowerCase();
+    if (sigTargets.length && !sigTargets.some(function (n) { return sigTyped.indexOf(n) !== -1; })) {
+      showSigError("The name you typed doesn't match the name you gave us. Please type your full legal name.");
+      return;
+    }
+
     var phone = toE164(payload.phone) || '';
     if (!phone) {
       var err = $('#q-submit-error');
@@ -520,6 +548,7 @@ const canonical = "https://www.my4mlife.com/consult";
       consents: {
         'consent-contact-v1': { version: 'v1', at: new Date().toISOString() },
       },
+      privacySign: { agreed: true, typedName: typedName },
     };
 
     try {
@@ -862,6 +891,7 @@ fieldset.q-error { border-color: #d4351c !important; background: #fef3f1; }
 .q-next-step textarea { width: 100%; font-family: 'Inter', sans-serif; font-size: 0.95rem; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-radius: 6px; resize: vertical; box-sizing: border-box; }
 .q-allset-note-status { font-size: 0.88rem; color: var(--accent-dark, #00a381); margin: 0.6rem 0 0; }
 
+.q-esign-fine { font-size: 0.78rem; opacity: 0.75; margin: 0.25rem 0 0; }
 .q-submit-error { color: #c0392b; font-size: 0.88rem; margin: 0.75rem auto 0; max-width: 720px; text-align: center; }
 
 .q-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }

@@ -672,6 +672,8 @@ export type ConsentRequestResultAdmin = {
   laneLabel?: string;
   priceCents?: number;
   error?: string;
+  alreadySigned?: boolean;
+  cardOnly?: boolean;
 };
 
 export async function sendConsentRequestAdmin(
@@ -682,7 +684,7 @@ export async function sendConsentRequestAdmin(
     query: `
       mutation SendConsentRequestAdmin($contactId: ID!, $encounterId: ID!, $lane: String, $priceCents: Int) {
         sendConsentRequestAdmin(contactId: $contactId, encounterId: $encounterId, lane: $lane, priceCents: $priceCents) {
-          ok url sentTo lane laneLabel priceCents error
+          ok url sentTo lane laneLabel priceCents error alreadySigned cardOnly
         }
       }
     `,

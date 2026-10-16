@@ -36,11 +36,11 @@ import { handler } from './handler';
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-function evt(body: any, method = 'POST', origin?: string) {
+function evt(body: any, method = 'POST', origin?: string, http: Record<string, string> = {}) {
   return {
     body: typeof body === 'string' ? body : JSON.stringify(body),
     headers: origin ? { origin } : {},
-    requestContext: { http: { method } },
+    requestContext: { http: { method, ...http } },
   } as any;
 }
 
@@ -51,8 +51,7 @@ const VALID_BODY = {
   history: { medications: ['metformin'], allergies: [], conditions: [], heightIn: 70, weightLb: 220 },
   screeningAnswers: { q1: 'yes', q2: 'no' },
   consents: {
-    npp: { version: 'consent-npp-v1', agreed: true, at: '2026-06-26T10:00:00.000Z', text: 'NPP text' },
-    phiAuth: { version: 'consent-phi-auth-v1', agreed: true, at: '2026-06-26T10:00:00.000Z', text: 'PHI auth text' },
+    'consent-contact-v1': { version: 'v1', at: '2026-06-26T10:00:00.000Z' },
   },
   cardOnFile: {
     stripeCustomerId: 'cus_test123',
@@ -126,16 +125,16 @@ describe('Success — happy path', () => {
     expect(body.contactId).toBe(body2.contactId);
   });
 
-  it('makes exactly 3 DynamoDB PutCommand calls (record, encounter, audit)', async () => {
+  it('makes exactly 5 DynamoDB calls (record, consent bootstrap, consent keys, encounter, audit)', async () => {
     await handler(evt(VALID_BODY));
-    expect(ddbSendMock).toHaveBeenCalledTimes(3);
+    expect(ddbSendMock).toHaveBeenCalledTimes(5);
   });
 
   it('keys every item by the table PK contactId (never a stray pk attribute)', async () => {
     const res: any = await handler(evt(VALID_BODY));
     const contactId = JSON.parse(res.body).contactId;
     const inputs = ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
-    expect(inputs).toHaveLength(3);
+    expect(inputs).toHaveLength(5);
     for (const input of inputs) {
       // Write 1 (record) is an UpdateCommand keyed via Key; writes 2/3 are
       // PutCommands keyed via Item.
@@ -163,18 +162,21 @@ describe('DynamoDB record item (sk:"record")', () => {
     expect(item.ExpressionAttributeValues[':scr']).toMatchObject(VALID_BODY.screeningAnswers);
   });
 
-  it('stores NPP consent as JSON string with version and at timestamp', async () => {
-    const item = await getRecordItem();
-    const npp = JSON.parse(item.ExpressionAttributeValues[':con'].npp);
-    expect(npp.version).toBe('consent-npp-v1');
-    expect(npp.at).toBe('2026-06-26T10:00:00.000Z');
+  it('stores a client consent key as a per-key SET of a JSON string (never replaces the map)', async () => {
+    await handler(evt(VALID_BODY));
+    const upd = ddbSendMock.mock.calls.map((c: any[]) => c[0].input)
+      .filter((i: any) => i.Key?.sk === 'record' && /#c\.#k/.test(i.UpdateExpression ?? ''));
+    expect(upd).toHaveLength(1);
+    const names = upd[0].ExpressionAttributeNames;
+    expect(Object.values(names)).toContain('consent-contact-v1');
+    const stored = Object.values(upd[0].ExpressionAttributeValues).find((v) => typeof v === 'string' && v.includes('"v1"'));
+    expect(JSON.parse(stored as string)).toMatchObject({ version: 'v1', at: '2026-06-26T10:00:00.000Z' });
   });
 
-  it('stores PHI auth consent as JSON string with version and at timestamp', async () => {
+  it('the record update no longer carries a consents = :con replacement', async () => {
     const item = await getRecordItem();
-    const phi = JSON.parse(item.ExpressionAttributeValues[':con'].phiAuth);
-    expect(phi.version).toBe('consent-phi-auth-v1');
-    expect(phi.at).toBe('2026-06-26T10:00:00.000Z');
+    expect(item.UpdateExpression).not.toContain('consents');
+    expect(item.ExpressionAttributeValues[':con']).toBeUndefined();
   });
 
   it('writes cardOnFile with only stripeCustomerId, paymentMethodId, setupIntentId', async () => {
@@ -308,7 +310,7 @@ describe('Email sender — fire-and-forget', () => {
     lambdaSendMock.mockRejectedValueOnce(new Error('email boom'));
     const res: any = await handler(evt(VALID_BODY));
     expect(res.statusCode).toBe(200);
-    expect(ddbSendMock).toHaveBeenCalledTimes(3);
+    expect(ddbSendMock).toHaveBeenCalledTimes(5);
   });
 });
 
@@ -384,5 +386,111 @@ describe('Contact capture (email/name only)', () => {
   it('does not call upsertContact on a validation failure', async () => {
     await handler(evt({ ...VALID_BODY, email: '' }));
     expect(upsertContactMock).not.toHaveBeenCalled();
+  });
+});
+
+// ── Sign at intake (Appendix B) ──────────────────────────────────────────────────
+
+describe('Sign at intake', () => {
+  const SIGNED_BODY = { ...VALID_BODY, privacySign: { agreed: true, typedName: 'TJ Smith' } };
+  const http = { sourceIp: '203.0.113.9', userAgent: 'TestAgent/1.0' };
+  const inputs = () => ddbSendMock.mock.calls.map((c: any[]) => c[0].input);
+  const payloads = () => lambdaSendMock.mock.calls
+    .filter((c: any[]) => c[0].input.FunctionName === 'my4mlife-email-sender')
+    .map((c: any[]) => JSON.parse(Buffer.from(c[0].input.Payload).toString()));
+
+  it('valid signature stores both keys as JSON {version, legalVersion, at, typedName, ip, userAgent}', async () => {
+    const res: any = await handler(evt(SIGNED_BODY, 'POST', undefined, http));
+    expect(JSON.parse(res.body).consentsSigned).toBe(true);
+    const upd = inputs().find((i: any) => Object.values(i.ExpressionAttributeNames ?? {}).includes('consent-npp-v1'));
+    expect(upd.UpdateExpression).toMatch(/#c\.#k\d = :v\d/);
+    // Resolve each key name to its stored value.
+    const stored = (key: string) => {
+      const ph = Object.entries(upd.ExpressionAttributeNames).find(([, v]) => v === key)![0];
+      return JSON.parse(upd.ExpressionAttributeValues[`:v${ph.slice(2)}`]);
+    };
+    const npp = stored('consent-npp-v1');
+    const phi = stored('consent-phi-auth-v1');
+    expect(npp).toMatchObject({
+      version: 'consent-npp-v1', legalVersion: '2026-09', typedName: 'TJ Smith',
+      ip: '203.0.113.9', userAgent: 'TestAgent/1.0',
+    });
+    expect(typeof npp.at).toBe('string');
+    expect(phi).toEqual({ ...npp, version: 'consent-phi-auth-v1' });
+  });
+
+  it('writes a consent.signed audit with the encounterId and an sk different from record-created', async () => {
+    const res: any = await handler(evt(SIGNED_BODY, 'POST', undefined, http));
+    const { encounterId } = JSON.parse(res.body);
+    const audits = inputs().map((i: any) => i.Item).filter((it: any) => it?.sk?.startsWith('audit#'));
+    const created = audits.find((a: any) => a.action === 'record-created');
+    const signed = audits.find((a: any) => a.action === 'consent.signed');
+    expect(signed.encounterId).toBe(encounterId);
+    expect(signed.detail).toEqual({ npp: true, phiAuth: true, source: 'intake' });
+    expect(signed.sk).not.toBe(created.sk);
+  });
+
+  it('emails the signed copy to the patient and a notice to drtj@', async () => {
+    await handler(evt(SIGNED_BODY, 'POST', undefined, http));
+    const mails = payloads();
+    expect(mails).toHaveLength(2);
+    const patient = mails.find((m: any) => m.to === 'tj@example.com');
+    expect(patient).toMatchObject({ kind: 'info', subject: 'Your signed My4MLife privacy notice and authorization' });
+    expect(patient.html).toContain('TJ Smith');
+    expect(patient.html).toContain('Notice of Privacy Practices');
+    const notice = mails.find((m: any) => m.to === 'drtj@my4mlife.com');
+    expect(notice.kind).toBe('info');
+    expect(notice.subject).toBe('[Consent signed] TJ Smith');
+  });
+
+  it('copy-email failure still returns 200 with consentsSigned:true', async () => {
+    lambdaSendMock.mockImplementation(async (cmd: any) => {
+      if (cmd.input.FunctionName === 'my4mlife-email-sender') throw new Error('ses down');
+      return {};
+    });
+    const res: any = await handler(evt(SIGNED_BODY, 'POST', undefined, http));
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body).consentsSigned).toBe(true);
+  });
+
+  it('name mismatch → 200, consentsSigned:false, no NPP/PHI write or audit', async () => {
+    const body = { ...VALID_BODY, privacySign: { agreed: true, typedName: 'Bob Jones' } };
+    const res: any = await handler(evt(body, 'POST', undefined, http));
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body).consentsSigned).toBe(false);
+    expect(inputs().some((i: any) => Object.values(i.ExpressionAttributeNames ?? {}).includes('consent-npp-v1'))).toBe(false);
+    expect(inputs().some((i: any) => i.Item?.action === 'consent.signed')).toBe(false);
+    expect(payloads()).toHaveLength(0);
+  });
+
+  it.each([
+    ['agreed false', { agreed: false, typedName: 'TJ Smith' }],
+    ['too short', { agreed: true, typedName: 'TJ' }],
+    ['absent', undefined],
+  ])('%s → not signed', async (_n, privacySign) => {
+    const res: any = await handler(evt({ ...VALID_BODY, privacySign }, 'POST', undefined, http));
+    expect(JSON.parse(res.body).consentsSigned).toBe(false);
+    expect(inputs().some((i: any) => i.Item?.action === 'consent.signed')).toBe(false);
+  });
+
+  it('ignores forged client consent-npp-v1 / consent-phi-auth-v1 entries', async () => {
+    const body = {
+      ...VALID_BODY,
+      consents: {
+        ...VALID_BODY.consents,
+        'consent-npp-v1': { version: 'consent-npp-v1', at: '2020-01-01T00:00:00.000Z' },
+        'consent-phi-auth-v1': { version: 'consent-phi-auth-v1', at: '2020-01-01T00:00:00.000Z' },
+      },
+    };
+    await handler(evt(body, 'POST', undefined, http));
+    const everyName = inputs().flatMap((i: any) => Object.values(i.ExpressionAttributeNames ?? {}));
+    expect(everyName).not.toContain('consent-npp-v1');
+    expect(everyName).not.toContain('consent-phi-auth-v1');
+    expect(JSON.stringify(inputs())).not.toContain('2020-01-01');
+  });
+
+  it('no UpdateExpression contains "consents = "', async () => {
+    await handler(evt(SIGNED_BODY, 'POST', undefined, http));
+    for (const i of inputs()) expect(i.UpdateExpression ?? '').not.toContain('consents = ');
   });
 });

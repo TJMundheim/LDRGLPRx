@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseConsents, consentChecklist, providerReady, REQUIRED_FOR_PROVIDER, cardOnFileRow } from './consents.js';
+import { parseConsents, consentChecklist, providerReady, REQUIRED_FOR_PROVIDER, cardOnFileRow, consentAction } from './consents.js';
 
 describe('parseConsents', () => {
   it('parses a plain object map with object entries', () => {
@@ -116,5 +116,23 @@ describe('cardOnFileRow', () => {
   it('accepts the AWSJSON string form and copes with a missing brand/last4', () => {
     const row = cardOnFileRow(JSON.stringify({ paymentMethodId: 'pm_1' }));
     expect(row).toMatchObject({ onFile: true, detail: 'Card' });
+  });
+});
+
+describe('consentAction', () => {
+  it('not ready → today\'s labels (Send / Resend consent forms)', () => {
+    expect(consentAction(false, false, false)).toBe('Send consent forms');
+    expect(consentAction(false, false, true)).toBe('Resend consent forms');
+    expect(consentAction(false, true, true)).toBe('Resend consent forms');
+  });
+
+  it('ready, no card → Send card link', () => {
+    expect(consentAction(true, false, false)).toBe('Send card link');
+    expect(consentAction(true, false, true)).toBe('Send card link');
+  });
+
+  it('ready with a card → hidden (null)', () => {
+    expect(consentAction(true, true, false)).toBeNull();
+    expect(consentAction(true, true, true)).toBeNull();
   });
 });
