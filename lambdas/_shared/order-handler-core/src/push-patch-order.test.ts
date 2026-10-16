@@ -76,6 +76,12 @@ describe('handlePushPatchOrder', () => {
     expect(calls('email-fn')).toHaveLength(0);
   });
 
+  it.each([['pay-last', undefined], ['legacy', {}]])('unpaid session (%s, delayed payment): no finalize, no marker, no email', async (_n, metadata) => {
+    await handlePushPatchOrder(base({ payment_status: 'unpaid', ...(metadata ? { metadata } : {}) }));
+    expect(lambdaSend).not.toHaveBeenCalled();
+    expect(markers()).toHaveLength(0);
+  });
+
   it("'missing' falls back to the legacy path exactly", async () => {
     lambdaSend.mockResolvedValueOnce(reply({ result: 'missing' })).mockResolvedValue({});
     await handlePushPatchOrder(base());

@@ -7,7 +7,7 @@ type Args = {
   ddb: { send: (cmd: PutCommand) => Promise<unknown> };
   lambda: Lambda;
   emailFn: string;
-  session: { id: string; payment_intent?: unknown; customer_details?: { email?: string | null } | null; metadata?: Record<string, string> | null };
+  session: { id: string; payment_status?: string | null; payment_intent?: unknown; customer_details?: { email?: string | null } | null; metadata?: Record<string, string> | null };
   contactId: string;
   skuId: string;
   email: string;
@@ -35,6 +35,11 @@ async function finalize(lambda: Lambda, sessionId: string, intakeId: string): Pr
  */
 export async function handlePushPatchOrder(a: Args): Promise<void> {
   const { session } = a;
+  // Delayed methods (ACH): 'completed' arrives unpaid; wait for async_payment_succeeded (finalize needs paid).
+  if (session.payment_status === 'unpaid') {
+    console.log('[order-handler] push-patch session unpaid; awaiting async_payment_succeeded', { orderId: session.id });
+    return;
+  }
   const intakeId = session.metadata?.['intakeId']?.trim();
   const result = intakeId ? await finalize(a.lambda, session.id, intakeId) : 'missing';
   const finalized = result !== 'missing';
