@@ -140,7 +140,7 @@ describe('audit-complete handler', () => {
     expect(res.statusCode).toBe(400);
   });
 
-  it('writes the Contact via upsertContact: email-derived key, slugs only, no stage, assessment-complete event', async () => {
+  it('writes the Contact via upsertContact: email-derived key, slugs only, stage protege + protege flag, assessment-complete event', async () => {
     const email = 'Audit-Write-Test@example.com';
     const scores = { gut: 4, weight: 2, hormones: 3 };
     const top3 = [
@@ -160,13 +160,15 @@ describe('audit-complete handler', () => {
       firstName: 'Sam',
       phone: '+15551234567',
       tags: ['gut', 'sleep', 'cognitive'],
+      stage: 'protege',
+      protege: true,
       event: { type: 'assessment-complete', at: expect.any(String) },
     });
-    expect(input).not.toHaveProperty('stage');
 
     const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
-    expect(contactCalls).toHaveLength(1); // upsert only: no promote, no consent update
+    expect(contactCalls).toHaveLength(2); // upsert + conditional promote; no consent update
     const cmd = contactCalls[0][0];
+    expect(cmd.input.UpdateExpression).toContain('if_not_exists(#protegeSince, :protegeSince)');
     expect(cmd.input.Key).toEqual({ contactId: cidFor(email) });
     expect(cmd.input.UpdateExpression).toContain('if_not_exists(#lifecycleStage, :lifecycleStage)');
     expect(cmd.input.ExpressionAttributeValues[':lifecycleStage']).toBe('lead');
@@ -224,9 +226,13 @@ describe('audit-complete handler', () => {
     expect((upsertContact as any).mock.calls[2][1].source).toBe('assessment');
   });
 
-  it('never passes a stage, so existing protege/customer rows are not touched (no promote call)', async () => {
+  it('promotes via a conditional update that never demotes (customers/banned stay put) and sets protegeSince once', async () => {
     await handler(evt({ email: 'stage@example.com', top3: [] }));
-    expect(sendMock.mock.calls.filter((c: any) => c[0].input.ConditionExpression)).toHaveLength(0);
+    const cond = sendMock.mock.calls.filter((c: any) => c[0].input.ConditionExpression);
+    expect(cond).toHaveLength(1);
+    expect(cond[0][0].input.ExpressionAttributeValues[':target']).toBe('protege');
+    expect(Object.values(cond[0][0].input.ExpressionAttributeValues)).not.toContain('customer');
+    expect(Object.values(cond[0][0].input.ExpressionAttributeValues)).not.toContain('banned');
   });
 
   it('writes sex to the UserProfile when the payload carries female', async () => {
@@ -267,7 +273,7 @@ describe('audit-complete handler', () => {
     const res: any = await handler(evt({ email, scores: { gut: 3 }, top3: [], consent }));
     expect(res.statusCode).toBe(200);
     const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
-    expect(contactCalls).toHaveLength(2); // upsert + consent
+    expect(contactCalls).toHaveLength(3); // upsert + promote + consent
     const cmd = contactCalls.map((c: any) => c[0]).find((c: any) => c.input.ExpressionAttributeValues[':c'] !== undefined);
     expect(cmd.input.Key).toEqual({ contactId: cidFor(email) });
     const expr: string = cmd.input.UpdateExpression;
@@ -287,9 +293,11 @@ describe('audit-complete handler', () => {
     const res: any = await handler(evt({ email: 'no-consent-test@example.com', scores: { gut: 3 }, top3: [] }));
     expect(res.statusCode).toBe(200);
     const contactCalls = sendMock.mock.calls.filter((c: any) => c[0].input.TableName === 'Contact');
-    expect(contactCalls).toHaveLength(1);
-    const names = Object.values(contactCalls[0][0].input.ExpressionAttributeNames);
-    for (const attr of ['consent', 'consentedAt', 'aiCommsConsent', 'protegeConsent']) expect(names).not.toContain(attr);
+    expect(contactCalls).toHaveLength(2); // upsert + promote only
+    for (const c of contactCalls) {
+      const names = Object.values(c[0].input.ExpressionAttributeNames);
+      for (const attr of ['consent', 'consentedAt', 'aiCommsConsent', 'protegeConsent']) expect(names).not.toContain(attr);
+    }
   });
 
   it('derives contactId from email and invokes email-sender with correct payload', async () => {

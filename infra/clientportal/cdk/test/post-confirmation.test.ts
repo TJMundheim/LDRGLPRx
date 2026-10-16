@@ -81,6 +81,7 @@ describe('post-confirmation handler', () => {
         email: 'test@example.com',
         source: 'app-signup',
         stage: 'protege',
+        protege: true,
         event: { type: 'app-signup' },
       });
     });
@@ -98,6 +99,7 @@ describe('post-confirmation handler', () => {
         phone: '+15125550123',
         source: 'app-signup',
         stage: 'protege',
+        protege: true,
         event: { type: 'app-signup' },
       });
     });
@@ -106,7 +108,7 @@ describe('post-confirmation handler', () => {
       ddbMock.on(PutItemCommand).resolves({});
       await handler(makeEvent('u', 'a@b.co', { birthdate: '1970-01-01' }), {} as any, {} as any);
       expect(Object.keys(upsertContact.mock.calls[0][1]).sort()).toEqual(
-        ['email', 'event', 'source', 'stage'].sort(),
+        ['email', 'event', 'protege', 'source', 'stage'].sort(),
       );
     });
 

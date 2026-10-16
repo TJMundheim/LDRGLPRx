@@ -338,6 +338,34 @@ describe('lifecycle stage', () => {
   });
 });
 
+describe('protege flag (protegeSince, independent of lifecycleStage)', () => {
+  it('protege:true sets protegeSince via if_not_exists with now', async () => {
+    await run({ email: 'a@b.co', protege: true });
+    expect(setRhs(first(), 'protegeSince')).toMatch(/if_not_exists\(\s*protegeSince\s*,/);
+    expect(setValue(first(), 'protegeSince')).toBe(NOW);
+  });
+  it.each([undefined, false])('protege=%s never writes protegeSince', async (protege) => {
+    await run({ email: 'a@b.co', protege });
+    expect(setRhs(first(), 'protegeSince')).toBeUndefined();
+  });
+  it('protege:true alone does not promote or change the call count', async () => {
+    await run({ email: 'a@b.co', protege: true });
+    expect(send).toHaveBeenCalledTimes(1);
+  });
+  it('protege:true with stage customer still writes protegeSince on the first update and promotes to customer', async () => {
+    await run({ email: 'a@b.co', protege: true, stage: 'customer' });
+    expect(send).toHaveBeenCalledTimes(2);
+    expect(setValue(inputs()[0], 'protegeSince')).toBe(NOW);
+    expect(setValue(inputs()[1], 'lifecycleStage')).toBe('customer');
+    expect(setRhs(inputs()[1], 'protegeSince')).toBeUndefined();
+  });
+  it('protege:true with stage protege writes both the flag and the promotion', async () => {
+    await run({ email: 'a@b.co', protege: true, stage: 'protege' });
+    expect(setValue(inputs()[0], 'protegeSince')).toBe(NOW);
+    expect(setValue(inputs()[1], 'lifecycleStage')).toBe('protege');
+  });
+});
+
 describe('PHI denylist', () => {
   const keys = ['intakeAnswers', 'answers', 'conditions', 'medications', 'allergies', 'dob', 'sex', 'auditTop3', 'screening', 'screeningAnswers', 'screeningScore'];
   it.each(keys)('throws when input has %s', async (k) => {

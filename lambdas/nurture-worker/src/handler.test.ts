@@ -90,6 +90,24 @@ describe('nurture-worker handler', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it('sends email + sms when lifecycleStage is protege (assessment completers are Protégés)', async () => {
+    ddbSend.mockResolvedValueOnce({
+      Item: { contactId: 'c5', lifecycleStage: 'protege', email: 'p@example.com', phone: '+15551112222' },
+    });
+    ddbSend.mockResolvedValue({});
+    const res = await handler(sqsEvent('c5'));
+    expect(res).toEqual({ ok: true });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(snsSend).toHaveBeenCalledTimes(1);
+  });
+
+  it('still noops for customers (only lead or protege are nurtured)', async () => {
+    ddbSend.mockResolvedValueOnce({ Item: { contactId: 'c6', lifecycleStage: 'customer', email: 'c@example.com', phone: '+15551112222' } });
+    await handler(sqsEvent('c6'));
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(snsSend).not.toHaveBeenCalled();
+  });
+
   it('noops when contact banned', async () => {
     ddbSend.mockResolvedValueOnce({ Item: { contactId: 'c4', lifecycleStage: 'banned', email: 'b@b.com' } });
     const res = await handler(sqsEvent('c4'));

@@ -44,6 +44,7 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
       ...(phone_number ? { phone: phone_number } : {}),
       source: 'app-signup',
       stage: 'protege',
+      protege: true,
       event: { type: 'app-signup' },
     });
   } catch (err) {

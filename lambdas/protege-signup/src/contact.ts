@@ -28,6 +28,7 @@ export async function writeProtegeContact(ddb: Sender, table: string, c: Protege
     ...(c.phone ? { phone: c.phone } : {}),
     source: 'protege-signup',
     stage: 'protege',
+    protege: true,
     event: { type: 'protege-signup', at: c.at },
   }, { table, now: c.at });
 

@@ -11,6 +11,8 @@ export type ContactUpsertInput = Record<string, unknown> & {
   amountUSD?: number;
   stripeCustomerId?: string;
   stage?: Stage;
+  // Membership flag independent of lifecycleStage: sets protegeSince once (a customer can also be a Protégé).
+  protege?: boolean;
   marketingConsent?: { status: 'opted_in' | 'opted_out'; source: string };
   event?: { type: string; at?: string };
 };

@@ -33,8 +33,9 @@ export function top3Slugs(top3: unknown): string[] {
 
 /**
  * Marketing-list write for a finished assessment. No answers or scores reach
- * Contact (they live in Users). Stage is not passed: new rows default to
- * 'lead' (so nurture runs); existing protege/customer rows keep their stage.
+ * Contact (they live in Users). Founder rule 2026-10-15: finishing the
+ * assessment makes you a Protégé, so stage 'protege' (never demotes a
+ * customer) plus protege:true (protegeSince, independent of lifecycleStage).
  */
 export async function recordAssessmentContact(a: AssessmentContact): Promise<void> {
   await upsertContact(a.ddb, {
@@ -43,6 +44,8 @@ export async function recordAssessmentContact(a: AssessmentContact): Promise<voi
     ...(a.firstName ? { firstName: a.firstName } : {}),
     ...(a.phone ? { phone: a.phone } : {}),
     tags: top3Slugs(a.top3),
+    stage: 'protege',
+    protege: true,
     event: { type: 'assessment-complete', at: a.now },
   }, { table: a.table, now: a.now });
 

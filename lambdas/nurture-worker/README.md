@@ -12,7 +12,7 @@ side (audit-complete) sets `DelaySeconds: 1800`.
 
 1. `GetCommand` Contact.
 2. If missing, `banned`, or already `nurtureSent: true` → noop.
-3. If `lifecycleStage != lead` (e.g. `consult-paid`) → noop.
+3. If `lifecycleStage` is not `lead` or `protege` (e.g. `consult-paid`, `customer`) → noop.
 4. Else: send email via Mailgun + SMS via SNS (each containing `INTRO_ZOOM_URL`),
    append two Touchpoints rows (`email-out`, `sms-out`), set `nurtureSent: true`.
 

@@ -146,4 +146,24 @@ describe('handler — mocked AWS', () => {
     const invokeCalls = mockSend.mock.calls.filter(([cmd]: any) => cmd?.constructor?.name === 'InvokeCommand' || cmd?.InvocationType === 'Event');
     expect(invokeCalls.length).toBeGreaterThan(0);
   });
+  it('new-Protégé scan counts protegeSince in the last 24h, falling back to stage+createdAt for legacy rows', async () => {
+    const mockSend = vi.fn().mockResolvedValue({ Items: [] });
+    vi.doMock('@aws-sdk/client-dynamodb', () => ({ DynamoDBClient: vi.fn(() => ({ send: mockSend })) }));
+    vi.doMock('@aws-sdk/lib-dynamodb', () => ({
+      DynamoDBDocumentClient: { from: vi.fn(() => ({ send: mockSend })) },
+      ScanCommand: vi.fn((input) => ({ constructor: { name: 'ScanCommand' }, ...input })),
+    }));
+    vi.doMock('@aws-sdk/client-lambda', () => ({
+      LambdaClient: vi.fn(() => ({ send: mockSend })),
+      InvokeCommand: vi.fn((input) => ({ constructor: { name: 'InvokeCommand' }, ...input })),
+    }));
+
+    const { handler } = await import('./handler.js');
+    await handler();
+    const scan = mockSend.mock.calls.map(([c]: any) => c).find((c: any) => c.TableName === 'Contact');
+    expect(scan.FilterExpression).toBe('#ps >= :since OR (attribute_not_exists(#ps) AND #ls = :protege AND #ca >= :since)');
+    expect(scan.ExpressionAttributeNames).toEqual({ '#ls': 'lifecycleStage', '#ca': 'createdAt', '#ps': 'protegeSince' });
+    expect(scan.ExpressionAttributeValues[':protege']).toBe('protege');
+    expect(scan.ExpressionAttributeValues[':since']).toEqual(expect.any(String));
+  });
 });

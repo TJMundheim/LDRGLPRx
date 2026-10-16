@@ -44,6 +44,7 @@ export function buildUpdate(input: ContactUpsertInput, email: string, now: strin
   if (phone) setOnce('phone', phone);
   if (str(input.stripeCustomerId)) setOnce('stripeCustomerId', input.stripeCustomerId);
   setOnce('lifecycleStage', 'lead');
+  if (input.protege === true) setOnce('protegeSince', now);
   setAlways('updatedAt', now);
   setAlways('lastEvent', {
     type: input.event?.type ?? 'upsert',

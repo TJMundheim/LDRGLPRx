@@ -174,10 +174,20 @@ describe('protege-signup handler', () => {
       expect(row.lifecycleStage).toBe('protege');
     });
 
-    it('allows a customer to sign up: Contact is updated but stage is not demoted', async () => {
+    it('stamps protegeSince on a new signup and keeps the original value on a repeat', async () => {
+      await handler(evt(validBody));
+      const first = store.get(id).protegeSince;
+      expect(typeof first).toBe('string');
+      store.get(id).protegeSince = 'T0';
+      await handler(evt(validBody));
+      expect(store.get(id).protegeSince).toBe('T0');
+    });
+
+    it('allows a customer to sign up: Contact is updated but stage is not demoted, and protegeSince is set', async () => {
       store.set(id, { contactId: id, email: 'tj@example.com', lifecycleStage: 'customer' });
       const res: any = await handler(evt(validBody));
       expect(res.statusCode).toBe(200);
+      expect(typeof store.get(id).protegeSince).toBe('string');
       expect(contactWrites().length).toBeGreaterThan(0);
       expect(store.get(id).lifecycleStage).toBe('customer');
       expect(store.get(id).lastEvent.type).toBe('protege-signup');

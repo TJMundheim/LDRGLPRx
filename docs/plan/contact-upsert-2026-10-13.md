@@ -4,11 +4,12 @@
 Every place someone gives us an email must land on the ONE marketing list (DynamoDB `Contact`), additively and with no health data (standing rule feedback_capture_every_contact; audit docs/plan/contact-audit-2026-10-07.md). Today purchases write stub rows with no email, consult/Push Patch/app-link/Cognito write nothing, protege-signup clobbers good data, and audit-complete stores screening answers on Contact. TJ decisions 2026-10-13: (a) move intakeAnswers/audit scores off Contact (Users keeps them); (b) new assessment takers start as `lead` so nurture runs.
 
 Helper contract (`@my4mlife/contact-upsert`, lambdas/_shared/contact-upsert):
-`upsertContact(ddb, {email, firstName?, lastName?, phone?, source, tags?, skus?, amountUSD?, stripeCustomerId?, stage?, marketingConsent?: {status:'opted_in'|'opted_out', source}, event?: {type, at?}}, {table?, now?})`
+`upsertContact(ddb, {email, firstName?, lastName?, phone?, source, tags?, skus?, amountUSD?, stripeCustomerId?, stage?, protege?, marketingConsent?: {status:'opted_in'|'opted_out', source}, event?: {type, at?}}, {table?, now?})`
 - contactId = deriveContactId(email). Identity (email, firstName, lastName, phone, createdAt, firstSeenAt, firstSource, stripeCustomerId) = `if_not_exists` only. Placeholder phones (`+10000000000`, all-zero, <10 digits) ignored.
 - ADD: `sources` (SS), `tags` (SS), `skusPurchased` (SS), `lifetimeValueUSD` (N, only when amountUSD > 0). SET `lastEvent` {type, at, source}, `updatedAt`.
 - `marketingConsent` SET only when passed (explicit choice).
 - Stage: first write sets `lifecycleStage` if_not_exists (default `lead`); then a second conditional UpdateItem promotes by rank lead < protege < customer, never demotes, never touches `banned` (ConditionalCheckFailed swallowed).
+- `protege?: boolean`: when true, SET `protegeSince = if_not_exists(protegeSince, now)` on the first update. Membership flag independent of `lifecycleStage` (a customer who completes the assessment is both); lists/digests count `lifecycleStage = 'protege' OR attribute_exists(protegeSince)`.
 - Rejects (throws) any key in a PHI denylist (intakeAnswers, answers, conditions, medications, allergies, dob, sex, auditTop3, screening*).
 Event history stays in Touchpoints; no unbounded list on Contact.
 

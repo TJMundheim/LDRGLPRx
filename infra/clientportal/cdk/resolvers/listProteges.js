@@ -14,8 +14,10 @@ export function request(ctx) {
     limit: ctx.args.limit ?? 50,
     nextToken: ctx.args.nextToken,
     filter: {
-      expression: '#ls = :protege',
-      expressionNames: { '#ls': 'lifecycleStage' },
+      // Membership = completed the assessment: stage 'protege' OR the protegeSince flag
+      // (a customer who later took the assessment keeps lifecycleStage 'customer').
+      expression: '#ls = :protege OR attribute_exists(#ps)',
+      expressionNames: { '#ls': 'lifecycleStage', '#ps': 'protegeSince' },
       expressionValues: { ':protege': { S: 'protege' } },
     },
   };
@@ -27,10 +29,11 @@ export function response(ctx) {
   const rawItems = ctx.result.items ? ctx.result.items : [];
   const items = rawItems.map(function(item) {
     const createdAt = item.createdAt ? item.createdAt : '';
+    const since = item.protegeSince ? item.protegeSince : createdAt;
     let daysAsProtege = 0;
-    if (createdAt) {
-      const createdMs = util.time.parseISO8601ToEpochMilliSeconds(createdAt);
-      const diff = nowMs - createdMs;
+    if (since) {
+      const sinceMs = util.time.parseISO8601ToEpochMilliSeconds(since);
+      const diff = nowMs - sinceMs;
       daysAsProtege = diff > 0 ? Math.floor(diff / 86400000) : 0;
     }
     return {

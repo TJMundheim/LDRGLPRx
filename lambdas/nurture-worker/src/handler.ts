@@ -62,7 +62,7 @@ export const handler = async (event: SQSEvent): Promise<{ ok: true }> => {
     const got = await ddb.send(new GetCommand({ TableName: CONTACT_TABLE, Key: { contactId } }));
     const c: any = got.Item;
     if (!c || c.lifecycleStage === 'banned') continue;
-    if (c.lifecycleStage !== 'lead') continue;
+    if (c.lifecycleStage !== 'lead' && c.lifecycleStage !== 'protege') continue;
     const stageFlag = `nurtureStage${stage}Sent`;
     if (c[stageFlag] === true) continue;
     const topCategories = topCategoriesFor(c);
