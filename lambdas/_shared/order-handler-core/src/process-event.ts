@@ -6,7 +6,7 @@ import { DynamoDBDocumentClient, UpdateCommand, PutCommand, DeleteCommand } from
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
-import { sendOrderReceivedEmail } from './order-received-email.js';
+import { handlePushPatchOrder } from './push-patch-order.js';
 
 const REGION = 'us-east-2';
 const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
@@ -307,36 +307,10 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     }
   }
 
-  // 4c. Genesis Push Patch: post-purchase async visit. Write a pending marker
-  // the intake/decision flow picks up; when the marker is NEWLY written, send
-  // the instant "finish your questionnaire" email (never on replay).
-  // Idempotent via attribute_not_exists(sk); never fails the order.
+  // 4c. Genesis Push Patch: finalize (pay-last flow) or legacy pending marker.
+  // A finalize failure throws so the Stripe retry chain covers it. See push-patch-order.ts.
   if (skuId.startsWith('push-patch-')) {
-    try {
-      const createdAt = new Date();
-      await ddb.send(new PutCommand({
-        TableName: 'Touchpoints',
-        Item: {
-          contactId,
-          sk: `PUSH_PATCH_PENDING#${session.id}`,
-          sessionId: session.id,
-          skuId,
-          paymentIntentId: session.payment_intent as string,
-          email: session.customer_details?.email,
-          createdAt: createdAt.toISOString(),
-          intakeDue: new Date(createdAt.getTime() + 30 * 60 * 1000).toISOString(),
-          remindersSent: 0,
-        },
-        ConditionExpression: 'attribute_not_exists(sk)',
-      }));
-      if (email) {
-        await sendOrderReceivedEmail(lambda, EMAIL_SENDER_FN, { to: email, sessionId: session.id, firstName: contactFirstName });
-      }
-    } catch (err: unknown) {
-      if ((err as { name?: string }).name !== 'ConditionalCheckFailedException') {
-        console.error('[order-handler] push-patch pending marker write failed', { orderId: session.id, error: String(err) });
-      }
-    }
+    await handlePushPatchOrder({ ddb, lambda, emailFn: EMAIL_SENDER_FN, session, contactId, skuId, email, firstName: contactFirstName });
   }
 
   // 5. Protégé membership grant — idempotent across retries via its own marker
