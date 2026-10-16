@@ -16,7 +16,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
+import { RECORD_SK, encounterSk, signedConsentLine } from '@my4mlife/patient-record';
 import { screeningRows, answerRows, shipToLines } from './screening-block';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
@@ -65,7 +65,8 @@ export function renderSummary(packet: ReturnType<typeof assemblePacket>): string
   const others = answerRows(otherAnswers);
   const answersHtml = others.length ? `${h2('Screening Answers')}${table(others)}` : '';
   const consents = answerRows((packet.consents ?? {}) as Record<string, unknown>);
-  const consentsHtml = consents.length ? `${h2('Consents')}${table(consents)}` : '';
+  const signedRow: [string, string] = ['Privacy notice + Authorization', signedConsentLine((packet.consents ?? {}) as Record<string, unknown>)];
+  const consentsHtml = `${h2('Consents')}${table([signedRow, ...consents])}`;
   const ship = shipToLines(packet.shipTo);
   const shipHtml = ship.length ? `${h2('Ship-to')}<p>${ship.map(esc).join('<br>')}</p>` : '';
   const testBanner = packet.testOrder

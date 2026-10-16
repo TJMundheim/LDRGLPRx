@@ -3,7 +3,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
-import { RECORD_SK, auditSk, CONSENT_NPP_V1, CONSENT_PHI_AUTH_V1 } from '@my4mlife/patient-record';
+import { RECORD_SK, auditSk, signedConsentLine, CONSENT_NPP_V1, CONSENT_PHI_AUTH_V1 } from '@my4mlife/patient-record';
 import { buildSignedConsents, copyEmailHtml } from '@my4mlife/legal-consents';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
@@ -14,11 +14,11 @@ const lambda = new LambdaClient({ region: REGION });
 
 const errName = (e: unknown) => (e as { name?: string })?.name ?? 'Error';
 
-/** Writes both consents + the audit item, then emails the signed copy. Never throws: the intake already succeeded. */
-export async function signAndSendCopy(a: {
+/** Writes both consents + the audit item. Never throws: returns the provider-facing consent line
+ *  ("... signed — name, date", or "not recorded" when the write failed) so the packet/email can show it. */
+export async function recordConsents(a: {
   contactId: string; encounterId: string; typedName: string; at: string; ip?: string; userAgent?: string;
-  email: string; name: string;
-}): Promise<void> {
+}): Promise<string> {
   const { npp, phi } = buildSignedConsents({ typedName: a.typedName, at: a.at, ip: a.ip, userAgent: a.userAgent });
   try {
     const Key = { contactId: a.contactId, sk: RECORD_SK };
@@ -38,9 +38,15 @@ export async function signAndSendCopy(a: {
         action: 'consent.signed', detail: { npp: true, phiAuth: true },
       },
     }));
+    return signedConsentLine({ [CONSENT_NPP_V1]: npp, [CONSENT_PHI_AUTH_V1]: phi });
   } catch (e) {
     console.error('[push-patch-intake] consent write failed', { error: errName(e) });
+    return signedConsentLine(undefined);
   }
+}
+
+/** Emails the patient their signed copy. Last step; never throws (the intake already succeeded). */
+export async function sendSignedCopy(a: { typedName: string; at: string; email: string; name: string }): Promise<void> {
   try {
     const html = copyEmailHtml(a.name, a.typedName, a.at);
     const res = await lambda.send(new InvokeCommand({

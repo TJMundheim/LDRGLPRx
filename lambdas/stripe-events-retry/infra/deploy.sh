@@ -17,6 +17,7 @@ CONTACT_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Contact"
 ORDERS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Orders"
 SUBSCRIPTIONS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Subscriptions"
 TOUCHPOINTS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Touchpoints"
+EMAIL_SENDER_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-email-sender"
 
 LAMBDA_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -80,7 +81,8 @@ aws iam put-role-policy \
       {\"Effect\":\"Allow\",\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"dynamodb:UpdateItem\",\"dynamodb:DeleteItem\"],
         \"Resource\":\"${RETRY_STATE_ARN}\"},
       {\"Effect\":\"Allow\",\"Action\":[\"dynamodb:PutItem\",\"dynamodb:UpdateItem\"],
-        \"Resource\":[\"${CONTACT_ARN}\",\"${ORDERS_ARN}\",\"${SUBSCRIPTIONS_ARN}\",\"${TOUCHPOINTS_ARN}\"]}
+        \"Resource\":[\"${CONTACT_ARN}\",\"${ORDERS_ARN}\",\"${SUBSCRIPTIONS_ARN}\",\"${TOUCHPOINTS_ARN}\"]},
+      {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"${EMAIL_SENDER_ARN}\"}
     ]
   }"
 

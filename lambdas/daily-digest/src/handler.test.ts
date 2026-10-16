@@ -161,9 +161,10 @@ describe('handler — mocked AWS', () => {
     const { handler } = await import('./handler.js');
     await handler();
     const scan = mockSend.mock.calls.map(([c]: any) => c).find((c: any) => c.TableName === 'Contact');
-    expect(scan.FilterExpression).toBe('#ps >= :since OR (attribute_not_exists(#ps) AND #ls = :protege AND #ca >= :since)');
+    expect(scan.FilterExpression).toBe('(#ps >= :since OR (attribute_not_exists(#ps) AND #ls = :protege AND #ca >= :since)) AND #ls <> :banned');
     expect(scan.ExpressionAttributeNames).toEqual({ '#ls': 'lifecycleStage', '#ca': 'createdAt', '#ps': 'protegeSince' });
     expect(scan.ExpressionAttributeValues[':protege']).toBe('protege');
+    expect(scan.ExpressionAttributeValues[':banned']).toBe('banned');
     expect(scan.ExpressionAttributeValues[':since']).toEqual(expect.any(String));
   });
 });

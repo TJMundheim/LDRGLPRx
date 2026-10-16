@@ -27,12 +27,12 @@ describe('listProteges resolver', () => {
   it('rejects non-admins', () => {
     expect(() => load().request({ identity: { groups: [] }, args: {} })).toThrow('unauthorized');
   });
-  it('scans for lifecycleStage = protege OR attribute_exists(protegeSince)', () => {
+  it('scans for (lifecycleStage = protege OR attribute_exists(protegeSince)) AND lifecycleStage <> banned', () => {
     const req = load().request(admin);
     expect(req.operation).toBe('Scan');
-    expect(req.filter.expression).toBe('#ls = :protege OR attribute_exists(#ps)');
+    expect(req.filter.expression).toBe('(#ls = :protege OR attribute_exists(#ps)) AND #ls <> :banned');
     expect(req.filter.expressionNames).toEqual({ '#ls': 'lifecycleStage', '#ps': 'protegeSince' });
-    expect(req.filter.expressionValues).toEqual({ ':protege': { S: 'protege' } });
+    expect(req.filter.expressionValues).toEqual({ ':protege': { S: 'protege' }, ':banned': { S: 'banned' } });
   });
   it('counts days from protegeSince when present, else createdAt', () => {
     const { items } = load().response({

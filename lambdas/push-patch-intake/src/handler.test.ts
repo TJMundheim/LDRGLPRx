@@ -950,22 +950,20 @@ describe('privacy notice + authorization signature', () => {
     expect(a.Item.sk).toBe(auditSk(AT, 0));
   });
 
-  it('writes consents only after the provider hand-off, and not at all on a duplicate or 502', async () => {
+  it('writes consents BEFORE the packet and provider email, and the copy email last; none on a duplicate', async () => {
     const order: string[] = [];
     ddbSendMock.mockImplementation(async (cmd: any) => { if (isConsentSignWrite(cmd.input)) order.push('consent'); return {}; });
     lambdaSendMock.mockImplementation(async (cmd: any) => {
       const fn: string = cmd.input.FunctionName;
-      if (fn.includes('export-clinical-packet')) return { Payload: Buffer.from(JSON.stringify({ ok: true, summaryUrl: PACKET_URL })) };
+      if (fn.includes('export-clinical-packet')) { order.push('packet'); return { Payload: Buffer.from(JSON.stringify({ ok: true, summaryUrl: PACKET_URL })) }; }
       order.push(payloadOf([cmd]).to === PROVIDER ? 'provider' : 'copy');
       return {};
     });
     await handler(evt(VALID_BODY));
-    expect(order.indexOf('provider')).toBeLessThan(order.indexOf('consent'));
-
-    ddbSendMock.mockReset(); ddbSendMock.mockResolvedValue({});
-    lambdaSendMock.mockImplementation(async () => ({ FunctionError: 'Unhandled', Payload: Buffer.from('{}') }));
-    expect(((await handler(evt(VALID_BODY))) as any).statusCode).toBe(502);
-    expect(consentSignWrites()).toHaveLength(0);
+    expect(order.indexOf('consent')).toBeGreaterThan(-1);
+    expect(order.lastIndexOf('consent')).toBeLessThan(order.indexOf('packet'));
+    expect(order.indexOf('packet')).toBeLessThan(order.indexOf('provider'));
+    expect(order[order.length - 1]).toBe('copy');
 
     ddbSendMock.mockReset();
     ddbSendMock.mockImplementation(async (cmd: any) => {
@@ -974,6 +972,36 @@ describe('privacy notice + authorization signature', () => {
     });
     await handler(evt(VALID_BODY));
     expect(consentSignWrites()).toHaveLength(0);
+  });
+
+  it('the provider email carries the signed line (typed name, date); the packet is built after the consents exist', async () => {
+    await handler(evt(VALID_BODY));
+    const p = payloadOf(emailCalls()[0]);
+    const line = 'Privacy notice acknowledged + Authorization signed \u2014 Jane Q Doe, ';
+    expect(p.html).toContain(line);
+    expect(p.text).toContain(line);
+    expect(p.text).not.toContain('not recorded');
+  });
+
+  it('a failed consent write still sends the provider email, which says Privacy notice/Authorization: not recorded', async () => {
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (isConsentSignWrite(cmd.input)) throw Object.assign(new Error('x'), { name: 'ProvisionedThroughputExceededException' });
+      return {};
+    });
+    const res: any = await handler(evt(VALID_BODY));
+    expect(res.statusCode).toBe(200);
+    const p = payloadOf(emailCalls()[0]);
+    expect(p.html).toContain('Privacy notice/Authorization: not recorded');
+    expect(p.text).toContain('Privacy notice/Authorization: not recorded');
+    err.mockRestore();
+  });
+
+  it('on a 502 the consents were already written (resubmit overwrites them) and no copy email is sent', async () => {
+    lambdaSendMock.mockImplementation(async () => ({ FunctionError: 'Unhandled', Payload: Buffer.from('{}') }));
+    expect(((await handler(evt(VALID_BODY))) as any).statusCode).toBe(502);
+    expect(consentSignWrites()).toHaveLength(2);
+    expect(copyCalls()).toHaveLength(0);
   });
 
   it('omits ip / userAgent from the stored consent when the request carries none', async () => {

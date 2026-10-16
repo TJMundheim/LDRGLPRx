@@ -57,7 +57,7 @@ const button = (href: string, label: string, bg: string) =>
 
 /** Exactly ONE email-sender invoke ({ kind:'info', to, subject, html, text }). */
 export async function sendProviderReview(a: {
-  contactId: string; encounterId: string; patientName: string; sku: string; screening: StoredScreening; packetUrl: string; testOrder?: boolean;
+  contactId: string; encounterId: string; patientName: string; sku: string; screening: StoredScreening; packetUrl: string; consentLine: string; testOrder?: boolean;
 }): Promise<void> {
   const [to, secret] = await Promise.all([param(PROVIDER_EMAIL_PARAM), param(HMAC_PARAM)]);
   const [first = '', ...rest] = a.patientName.trim().split(/\s+/);
@@ -75,11 +75,12 @@ export async function sendProviderReview(a: {
   const html = `<div style="max-width:560px;font:16px Arial,sans-serif">`
     + `<p>${esc(who)} is ready for your review: Push Patch, ${esc(blend)}. Asynchronous review.</p>`
     + flagHtml
+    + `<p>${esc(a.consentLine)}</p>`
     + `<p><a href="${esc(a.packetUrl)}">Open the clinical packet</a> (link expires in 7 days).</p>`
     + button(approve, 'Approve', '#1b7f3b') + button(decline, 'Decline (full refund)', '#b00020')
     + `<p>Reply-all for questions.</p></div>`;
   const text = `${who} is ready for your review: Push Patch, ${blend}.\n`
-    + `Pre-payment safety screen:\n${lines.join('\n')}\n\n`
+    + `Pre-payment safety screen:\n${lines.join('\n')}\n\n${a.consentLine}\n\n`
     + `Packet: ${a.packetUrl}\nApprove: ${approve}\nDecline (full refund): ${decline}\n\nReply-all for questions.`;
 
   const res = await lambda.send(new InvokeCommand({

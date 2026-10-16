@@ -10,6 +10,7 @@ import {
   CONSENT_NPP_V1,
   CONSENT_PHI_AUTH_V1,
   hasProviderConsents,
+  signedConsentLine,
   type EncounterState,
 } from './index.js';
 
@@ -141,5 +142,26 @@ describe('hasProviderConsents', () => {
         [CONSENT_PHI_AUTH_V1]: { agreed: true },
       }),
     ).toBe(true);
+  });
+});
+
+describe('signedConsentLine', () => {
+  const at = '2026-10-15T23:30:00.000Z'; // 6:30 PM Central, same calendar day
+  const s = (name: string) => JSON.stringify({ typedName: name, at });
+
+  it('names the typed name and the Central date when both consents are signed (JSON strings or objects)', () => {
+    const line = 'Privacy notice acknowledged + Authorization signed \u2014 Jane Q Doe, Oct 15, 2026';
+    expect(signedConsentLine({ [CONSENT_NPP_V1]: s('Jane Q Doe'), [CONSENT_PHI_AUTH_V1]: s('Jane Q Doe') })).toBe(line);
+    expect(signedConsentLine({
+      [CONSENT_NPP_V1]: { typedName: 'Jane Q Doe', at }, [CONSENT_PHI_AUTH_V1]: { typedName: 'Jane Q Doe', at },
+    })).toBe(line);
+  });
+
+  it('says not recorded when either consent is missing or unreadable', () => {
+    const none = 'Privacy notice/Authorization: not recorded';
+    expect(signedConsentLine(undefined)).toBe(none);
+    expect(signedConsentLine({})).toBe(none);
+    expect(signedConsentLine({ [CONSENT_NPP_V1]: s('A B') })).toBe(none);
+    expect(signedConsentLine({ [CONSENT_NPP_V1]: 'not json', [CONSENT_PHI_AUTH_V1]: s('A B') })).toBe(none);
   });
 });

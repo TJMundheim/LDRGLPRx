@@ -13,7 +13,7 @@ import {
 } from './record';
 import { captureContact } from './contact';
 import { markIntakeSubmitted } from './marker';
-import { signAndSendCopy } from './consent';
+import { recordConsents, sendSignedCopy } from './consent';
 import { generatePacket, sendProviderReview } from './provider-email';
 
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
@@ -66,10 +66,16 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     return reply(500, { error: 'could not save your submission' }, origin);
   }
 
+  const h = event.headers ?? {};
+  // Consents first so the packet and provider email can show them; a failed write never blocks the hand-off.
+  const consentLine = await recordConsents({
+    contactId, encounterId, typedName: body.consentName, at: ts,
+    ip: event.requestContext?.http?.sourceIp, userAgent: h['user-agent'] ?? h['User-Agent'] ?? event.requestContext?.http?.userAgent,
+  });
   try {
     const packetUrl = await generatePacket(contactId, encounterId);
     await sendProviderReview({
-      contactId, encounterId, sku, packetUrl,
+      contactId, encounterId, sku, packetUrl, consentLine,
       patientName: session.customer_details?.name ?? '',
       screening,
       testOrder: session.metadata?.['test_price'] === 'true',
@@ -86,10 +92,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     fullName: session.customer_details?.name ?? '',
     phone: body.phone,
   });
-  const h = event.headers ?? {};
-  await signAndSendCopy({
-    contactId, encounterId, typedName: body.consentName, at: ts,
-    ip: event.requestContext?.http?.sourceIp, userAgent: h['user-agent'] ?? h['User-Agent'] ?? event.requestContext?.http?.userAgent,
+  await sendSignedCopy({
+    typedName: body.consentName, at: ts,
     email: (session.customer_details?.email ?? '').trim().toLowerCase(), name: session.customer_details?.name ?? '',
   });
   return reply(200, { ok: true, encounterId }, origin);

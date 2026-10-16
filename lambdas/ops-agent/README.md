@@ -44,7 +44,7 @@ Two EventBridge rules drive the weekly Zoom lifecycle. Both are defined and depl
 
 ### `ops-agent-weekly-schedule` — Monday 13:00 UTC (~9 AM ET)
 
-Creates the week's Protégé Zoom meeting in Zoom, writes an `Events` row (`status='scheduled'`), reads each Protégé's `personalWhy` + `accountabilityTarget`, drafts personalized invite emails, and calls `request_approval` with a preview. Email dispatch happens in the follow-up run after TJ approves.
+Creates the week's Protégé Zoom meeting in Zoom, writes an `Events` row (`status='scheduled'`), scans Contact for Protégés (`(lifecycleStage = protege OR attribute_exists(protegeSince)) AND lifecycleStage <> banned`), reads each Protégé's `personalWhy` + `accountabilityTarget`, drafts personalized invite emails, and calls `request_approval` with a preview. Email dispatch happens in the follow-up run after TJ approves.
 
 ### `ops-agent-post-event-cron` — every 30 minutes
 

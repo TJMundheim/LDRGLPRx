@@ -230,8 +230,16 @@ describe('renderSummary', () => {
     expect(pk({})).toMatch(/<th[^>]*>consent-npp-v1<\/th><td>version: consent-npp-v1; agreed: true; at: 2026-06-01T10:00:00.000Z<\/td>/);
     const none = renderSummary(assemblePacket({ contactId: 'c', encounterId: 'e', exportedAt: 'x',
       record: { ...RECORD_ITEM, screeningAnswers: {}, consents: {} }, encounter: ENCOUNTER_ITEM }));
-    expect(none).not.toContain('Consents');
+    expect(none).toContain('Privacy notice/Authorization: not recorded');
     expect(none).not.toContain('{}');
+  });
+
+  it('shows a readable Privacy notice + Authorization row (typed name, date) ahead of the raw consent rows', () => {
+    const signed = JSON.stringify({ typedName: 'Jane Q Doe', at: '2026-10-15T23:30:00.000Z' });
+    const html = renderSummary(assemblePacket({ contactId: 'c', encounterId: 'e', exportedAt: 'x',
+      record: { ...RECORD_ITEM, consents: { 'consent-npp-v1': signed, 'consent-phi-auth-v1': signed } }, encounter: ENCOUNTER_ITEM }));
+    expect(html).toContain('Privacy notice acknowledged + Authorization signed \u2014 Jane Q Doe, Oct 15, 2026');
+    expect(pk({})).toContain('Privacy notice/Authorization: not recorded');
   });
 
   it('shows nothing for empty screeningAnswers', () => {

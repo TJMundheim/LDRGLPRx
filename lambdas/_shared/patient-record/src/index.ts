@@ -163,6 +163,19 @@ export function hasProviderConsents(consents: Record<string, unknown> | undefine
   return Boolean(consents[CONSENT_NPP_V1]) && Boolean(consents[CONSENT_PHI_AUTH_V1]);
 }
 
+// One-line provider-facing statement of the NPP + Authorization signature (plain text; caller escapes).
+// Consent values are JSON strings (consent-sign shape) or objects; anything unreadable counts as not recorded.
+export function signedConsentLine(consents: Record<string, unknown> | undefined): string {
+  const read = (v: unknown): { typedName?: string; at?: string } | null => {
+    try { const o = typeof v === 'string' ? JSON.parse(v) : v; return o && typeof o === 'object' ? o : null; } catch { return null; }
+  };
+  const npp = read(consents?.[CONSENT_NPP_V1]);
+  const phi = read(consents?.[CONSENT_PHI_AUTH_V1]);
+  if (!npp || !phi || !npp.typedName || !npp.at || Number.isNaN(Date.parse(npp.at))) return 'Privacy notice/Authorization: not recorded';
+  const date = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(npp.at));
+  return `Privacy notice acknowledged + Authorization signed \u2014 ${npp.typedName}, ${date}`;
+}
+
 // ---------------------------------------------------------------------------
 // DynamoDB key helpers (single-table design: PK = contactId, SK = sk)
 // ---------------------------------------------------------------------------

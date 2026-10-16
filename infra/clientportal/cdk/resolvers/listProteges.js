@@ -15,10 +15,10 @@ export function request(ctx) {
     nextToken: ctx.args.nextToken,
     filter: {
       // Membership = completed the assessment: stage 'protege' OR the protegeSince flag
-      // (a customer who later took the assessment keeps lifecycleStage 'customer').
-      expression: '#ls = :protege OR attribute_exists(#ps)',
+      // (a customer who later took the assessment keeps lifecycleStage 'customer'). Banned contacts never count.
+      expression: '(#ls = :protege OR attribute_exists(#ps)) AND #ls <> :banned',
       expressionNames: { '#ls': 'lifecycleStage', '#ps': 'protegeSince' },
-      expressionValues: { ':protege': { S: 'protege' } },
+      expressionValues: { ':protege': { S: 'protege' }, ':banned': { S: 'banned' } },
     },
   };
 }

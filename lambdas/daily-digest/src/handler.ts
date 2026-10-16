@@ -23,8 +23,8 @@ export const handler = async (): Promise<void> => {
   const [runs, approvals, newProteges, upcomingEvents] = await Promise.all([
     scan<AgentRun>('AgentRuns', '#s >= :since', { '#s': 'startedAt' }, { ':since': since }),
     scan<ApprovalRequest>('ApprovalRequests', '#st = :pending', { '#st': 'status' }, { ':pending': 'pending' }),
-    // Protégé = completed the assessment: protegeSince (any stage, so customers count) or, for legacy rows, stage 'protege' by createdAt.
-    scan<Contact>('Contact', '#ps >= :since OR (attribute_not_exists(#ps) AND #ls = :protege AND #ca >= :since)', { '#ls': 'lifecycleStage', '#ca': 'createdAt', '#ps': 'protegeSince' }, { ':protege': 'protege', ':since': since }),
+    // Protégé = completed the assessment (banned excluded): protegeSince (any stage, so customers count) or, for legacy rows, stage 'protege' by createdAt.
+    scan<Contact>('Contact', '(#ps >= :since OR (attribute_not_exists(#ps) AND #ls = :protege AND #ca >= :since)) AND #ls <> :banned', { '#ls': 'lifecycleStage', '#ca': 'createdAt', '#ps': 'protegeSince' }, { ':protege': 'protege', ':banned': 'banned', ':since': since }),
     scan<Event>('Events', '#st = :scheduled AND #sa <= :week', { '#st': 'status', '#sa': 'startsAt' }, { ':scheduled': 'scheduled', ':week': sevenDays }),
   ]);
 
