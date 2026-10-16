@@ -5,6 +5,7 @@
 // Reads ?session_id= and asks GET /api/push-patch-intake which of three states the order is in:
 //   complete   -> health form was taken before payment and the order is finalized ("Order complete.")
 //   processing -> paid, finalize still running (poll every 3 s for up to 60 s)
+//   payment-pending (HTTP 402) -> bank transfer still clearing: calm "Payment processing." panel, no form
 //   needs-form -> legacy / expired pre-intake: today's post-payment health form + ship-to confirmation,
 //                 POSTed to /api/push-patch-intake. Copy: docs/launch/push-patch/async-visit-copy.md.
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -52,6 +53,11 @@ const US_STATES: [string, string][] = [
       <!-- Processing: paid, order is being finalized -->
       <section id="ty-processing" hidden aria-live="polite">
         <p class="pp-sub" id="ty-processing-msg">Finishing your order. This takes a few seconds.</p>
+      </section>
+
+      <!-- Payment still clearing (HTTP 402, e.g. bank transfer): no form -->
+      <section id="ty-paying" hidden aria-live="polite">
+        <p class="pp-sub">Your bank is still confirming the payment. As soon as it clears, a licensed physician in our network reviews your order and we email you. Nothing else is needed from you.</p>
       </section>
 
       <!-- Complete: health form was taken before payment -->
@@ -176,7 +182,7 @@ const US_STATES: [string, string][] = [
   } catch (e) {}
   if (afterHours) $('ty-afterhours-top').hidden = false;
 
-  var STATES = ['ty-missing', 'ty-checking', 'ty-processing', 'ty-complete', 'ty-success', 'ty-form-wrap'];
+  var STATES = ['ty-missing', 'ty-checking', 'ty-processing', 'ty-paying', 'ty-complete', 'ty-success', 'ty-form-wrap'];
   function only(id) {
     STATES.forEach(function (k) { $(k).hidden = k !== id; });
   }
@@ -187,6 +193,10 @@ const US_STATES: [string, string][] = [
     if (already) { $('ty-already').hidden = false; }
     if (afterHours) $('ty-afterhours').hidden = false;
     toTop();
+  }
+  function showPaying() {
+    $('ty-h1').textContent = 'Payment processing.';
+    only('ty-paying');
   }
   function showComplete() {
     $('ty-h1').textContent = 'Order complete.';
@@ -290,11 +300,13 @@ const US_STATES: [string, string][] = [
   var started = Date.now();
   var pollTimer = null;
 
+  // Rejects with err.paying (HTTP 402) or err.retryable (network error / 5xx); other non-200s are plain errors.
   function getStatus() {
     return fetch(API_BASE + '/api/push-patch-intake?session_id=' + encodeURIComponent(sessionId)).then(function (res) {
-      if (res.status !== 200) throw new Error('status ' + res.status);
+      if (res.status === 402) { var p = new Error('status 402'); p.paying = true; throw p; }
+      if (res.status !== 200) { var e = new Error('status ' + res.status); e.retryable = res.status >= 500; throw e; }
       return res.json();
-    });
+    }, function (err) { err.retryable = true; throw err; });
   }
   function handle(d) {
     var st = d && d.status;
@@ -312,7 +324,8 @@ const US_STATES: [string, string][] = [
     showForm(d && d.shipTo);
   }
   function poll() {
-    getStatus().then(handle).catch(function () {
+    getStatus().then(handle).catch(function (err) {
+      if (err && err.paying) { showPaying(); return; }
       // Transient failure while processing: keep trying until the 60 s window closes.
       if (Date.now() - started >= POLL_MAX_MS) {
         $('ty-processing-msg').textContent = 'Your order is in and we are finishing it now. We will email you shortly; nothing else is needed from you.';
@@ -321,7 +334,18 @@ const US_STATES: [string, string][] = [
       pollTimer = setTimeout(poll, POLL_MS);
     });
   }
-  getStatus().then(handle).catch(function () { showForm(null); });
+  // First request: on a network error or 5xx, retry every 3 s for up to 60 s before falling back to the legacy form.
+  function firstLoad() {
+    getStatus().then(handle).catch(function (err) {
+      if (err && err.paying) { showPaying(); return; }
+      if (err && err.retryable && Date.now() - started < POLL_MAX_MS) {
+        pollTimer = setTimeout(firstLoad, POLL_MS);
+        return;
+      }
+      showForm(null);
+    });
+  }
+  firstLoad();
 })();
 </script>
 

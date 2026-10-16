@@ -259,6 +259,8 @@ No-PHI check for P2-C: the email contains only first name, blend name, a link an
 
 ## Order-received email (2026-10-15)
 
+> **Superseded for pay-last orders (2026-10-15).** Orders placed through the pay-last flow (health questions answered before checkout) get the receipt email in "Pay-last flow (2026-10-15)" below instead. This email, with its "one step left" questionnaire link, is still used for legacy orders (health questions not taken before payment).
+
 Sent instantly at payment by `order-handler-core` (once per order, never on webhook replays). It tells the buyer the one remaining step before the physician review. The 30-minute and 24-hour reminders in section 4 still follow if the questionnaire is not finished.
 
 **From:** My4MLife `<support@my4mlife.com>`
@@ -282,6 +284,105 @@ The My4MLife team
 **Footer:** same as section 4 (My4MLife line plus the FDA statement), no identity/dignity tagline.
 
 No-PHI check: only first name, a session link and generic process text. No product, address, condition or screening content.
+
+---
+
+## Pay-last flow (2026-10-15)
+
+Source: `docs/plan/push-patch-pay-last-2026-10-15.md`, Appendix A, "Customer-facing text (verbatim)". In the pay-last flow the buyer answers the health questions before checkout, pays, and the physician review starts at payment. Legacy copy elsewhere in this file stays in use for legacy orders (health questions taken after payment).
+
+### Landing page (`push-patch.astro`)
+
+Line 272:
+
+> Before checkout: a 30-second safety check and a 2-minute health form. After you pay, one of our network's licensed physicians reviews your order within an hour during business hours, then your kit ships direct. Prepared within 1–3 business days, then ground delivery in 3–5 business days.
+
+Line 338:
+
+> Prepared within 1–3 business days, then ground delivery in 3–5 business days. You enter your shipping address at checkout.
+
+Safety-check button: "Continue to checkout" is now "Continue".
+
+### Health panel
+
+Heading: "Your health questions"
+
+Intro:
+
+> About 2 minutes. After you pay, one of our network's licensed physicians reviews your answers within an hour during business hours, 9 a.m. to 5 p.m. Central. If you are not cleared, your payment is refunded within 10 business days.
+
+New fields: "First name", "Last name", and "Email", with the help text "Your receipt and the physician's decision are sent here."
+
+Then, verbatim from the thank-you form (section 1): the privacy line, date of birth through conditions, the "Telehealth consent" paragraph and its links, the privacy checkbox, and the signature field. "Shipping" and "Safety check completed before checkout." are dropped (the buyer enters the shipping address at checkout).
+
+Buttons: "Continue to payment" (while busy: "Opening secure checkout…") and "Back to safety check".
+
+Errors:
+
+- 400: "Please complete every field and answer every question."
+- 403: the existing stop panel.
+- 503: "This blend isn't available yet."
+- Other: "We could not open checkout. Please try again in a moment."
+- Network: "We could not open checkout. Please check your connection and try again."
+- New field error: "Enter a valid email address."
+
+### Thank-you page
+
+`complete` state
+
+- h1: "Order complete."
+- Body:
+
+  > A licensed physician in our network is reviewing it now, usually within an hour during business hours (9 a.m.–5 p.m. Central). Nothing else is needed from you.
+
+- Then:
+  - "If you are not cleared, your payment is refunded in full within 10 business days."
+  - "If cleared, your patches are prepared within 1–3 business days, then ground delivery in 3–5 business days."
+  - "Check your inbox, and your spam folder, for a message from My4MLife."
+  - The existing after-hours line (section 5).
+
+`processing` state
+
+- h1: "Payment received."
+- "Finishing your order. This takes a few seconds."
+- After 60 s: "Your order is in and we are finishing it now. We will email you shortly; nothing else is needed from you."
+
+`payment processing` state (bank transfer or other delayed payment; status request returns HTTP 402)
+
+- Heading: "Payment processing."
+- Body:
+
+  > Your bank is still confirming the payment. As soon as it clears, a licensed physician in our network reviews your order and we email you. Nothing else is needed from you.
+
+- No form is shown.
+
+The other thank-you states are unchanged.
+
+### Receipt email (pay-last orders only)
+
+Sent at payment by the order handler once the pre-paid intake is finalized.
+
+**From:** My4MLife `<support@my4mlife.com>`
+
+**Subject:** Your Push Patch order is in
+
+**Body:**
+
+Hi {{firstName or "there"}},
+
+Thank you for your order. A licensed physician in our network is reviewing it now, usually within an hour during business hours, 9 a.m.–5 p.m. Central.
+
+If you are not cleared, your payment is refunded in full within 10 business days.
+
+If cleared, your patches are prepared within 1–3 business days, then ground delivery in 3–5 business days.
+
+Questions? Reply here.
+
+The My4MLife team
+
+**Footer:** same as the current order-received email (My4MLife line plus the FDA statement), no identity/dignity tagline.
+
+No-PHI check: only first name and generic process text. No product, address, condition or screening content.
 
 ---
 

@@ -94,6 +94,17 @@ aws iam put-role-policy \
 echo "Deploying Lambda ${FUNCTION_NAME}..."
 LAMBDA_ARN_FULL="arn:aws:lambda:${REGION}:${ACCOUNT}:function:${FUNCTION_NAME}"
 
+# SQS guidance: queue VisibilityTimeout >= 6x the function timeout. Timeout is 90 s, so 540 s.
+# Set BEFORE the function update so a message is never redelivered while a run is still in flight.
+# (set-queue-attributes is idempotent.)
+FUNCTION_TIMEOUT=90
+DLQ_VISIBILITY_TIMEOUT=$((FUNCTION_TIMEOUT * 6))
+echo "Setting ${DLQ_URL##*/} VisibilityTimeout to ${DLQ_VISIBILITY_TIMEOUT}s..."
+aws sqs set-queue-attributes \
+  --queue-url "${DLQ_URL}" \
+  --attributes "VisibilityTimeout=${DLQ_VISIBILITY_TIMEOUT}" \
+  --region "${REGION}"
+
 EXISTING=$(aws lambda get-function --function-name "${FUNCTION_NAME}" \
   --region "${REGION}" --query 'Configuration.FunctionArn' --output text 2>/dev/null || echo "")
 
@@ -107,7 +118,7 @@ if [ -z "${EXISTING}" ]; then
     --handler handler.handler \
     --zip-file "fileb://${LAMBDA_DIR}/dist/handler.zip" \
     --environment "${ENV_VARS}" \
-    --timeout 30 \
+    --timeout "${FUNCTION_TIMEOUT}" \
     --region "${REGION}"
   echo "Created Lambda"
 else
@@ -119,7 +130,7 @@ else
   aws lambda update-function-configuration \
     --function-name "${FUNCTION_NAME}" \
     --environment "${ENV_VARS}" \
-    --timeout 30 \
+    --timeout "${FUNCTION_TIMEOUT}" \
     --region "${REGION}"
   echo "Updated Lambda"
 fi
