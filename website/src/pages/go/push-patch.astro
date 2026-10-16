@@ -12,6 +12,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PUSH_PATCH_BLENDS } from '../../data/pushPatch';
 import { SCREENING, SCREENING_VERSION } from '../../data/screening';
+import HealthForm from '../../components/push-patch/HealthForm.astro';
 
 const title = 'Push Patch — Needle-Free Peptides Through the Skin — My4MLife';
 const description = 'A weekly iontophoresis patch that delivers peptide and NAD+ blends through the skin over 12 hours. No needles, no pills, no IV chair.';
@@ -269,7 +270,7 @@ const SCREEN_CLIENT = {
       </div>
       {/* TJ CONFIRM: one-time purchase, no auto-ship (Genesis offers patient auto-ship but the plan sells one-time) */}
       <p class="pp-fine pp-fine-center">Secure checkout by Stripe. Apple Pay, Google Pay and cards accepted. Not cleared? Full refund. Final once shipped.</p>
-      <p class="pp-fine pp-fine-center">After checkout: a 2-minute health questionnaire, physician review within an hour during business hours, then your kit ships direct. Prepared within 1–3 business days, then ground delivery in 3–5 business days.</p>
+      <p class="pp-fine pp-fine-center">Before checkout: a 30-second safety check and a 2-minute health form. After you pay, one of our network's licensed physicians reviews your order within an hour during business hours, then your kit ships direct. Prepared within 1–3 business days, then ground delivery in 3–5 business days.</p>
       <p class="pp-fine pp-fine-center">All six-patch sets are one-time purchases, not subscriptions.</p>
     </div>
   </section>
@@ -335,7 +336,7 @@ const SCREEN_CLIENT = {
         </details>
         <details>
           <summary>How long does shipping take?</summary>
-          <p>Prepared within 1–3 business days, then ground delivery in 3–5 business days. At checkout you enter your shipping address, and you confirm it again after payment before anything ships.</p>
+          <p>Prepared within 1–3 business days, then ground delivery in 3–5 business days. You enter your shipping address at checkout.</p>
         </details>
         <details>
           <summary>I have a question before I order. Who do I ask?</summary>
@@ -367,8 +368,8 @@ const SCREEN_CLIENT = {
   {/* PRE-PAYMENT SAFETY CHECK (modal). Opened by every Buy button; copy in src/data/screening.ts. */}
   <dialog class="pp-modal" id="pp-screen" aria-labelledby="pp-screen-title">
     <div class="pp-modal-box">
-      <button type="button" class="pp-modal-x" id="pp-screen-x" aria-label="Close safety check">&times;</button>
-      <h2 id="pp-screen-title">Quick safety check</h2>
+      <button type="button" class="pp-modal-x" id="pp-screen-x" aria-label="Close">&times;</button>
+      <h2 id="pp-screen-title" class="pp-screen-title">Quick safety check</h2>
 
       <form id="pp-screen-detail" class="pp-modal-form" novalidate>
         <div class="pp-modal-scroll">
@@ -393,7 +394,21 @@ const SCREEN_CLIENT = {
         <div class="pp-modal-foot">
           <p class="pp-modal-confirm">By continuing, I confirm my answers are accurate.</p>
           <p class="pp-modal-count" id="pp-screen-count" aria-live="polite"></p>
-          <button type="submit" class="pp-cta pp-modal-go" id="pp-screen-go">Continue to checkout</button>
+          <button type="submit" class="pp-cta pp-modal-go" id="pp-screen-go">Continue</button>
+        </div>
+      </form>
+
+      {/* HEALTH PANEL: second step of the same dialog; fields live in components/push-patch/HealthForm.astro. */}
+      <form id="pp-screen-health" class="pp-modal-form" novalidate hidden>
+        <div class="pp-modal-scroll">
+          <h2 id="pp-health-title" class="pp-health-title" tabindex="-1">Your health questions</h2>
+          <p class="pp-health-intro">About 2 minutes. After you pay, one of our network's licensed physicians reviews your answers within an hour during business hours, 9 a.m. to 5 p.m. Central. If you are not cleared, your payment is refunded within 10 business days.</p>
+          <HealthForm identity={true} />
+        </div>
+        <div class="pp-modal-foot">
+          <p class="pp-health-err" id="pp-health-err" role="alert"></p>
+          <button type="submit" class="pp-cta pp-modal-go" id="pp-health-go">Continue to payment</button>
+          <button type="button" class="pp-modal-link" id="pp-health-back">Back to safety check</button>
         </div>
       </form>
 
@@ -425,11 +440,19 @@ const SCREEN_CLIENT = {
 
   var detail = document.getElementById('pp-screen-detail');
   var stop = document.getElementById('pp-screen-stop');
+  var health = document.getElementById('pp-screen-health');
+  var healthBtn = document.getElementById('pp-health-go');
+  var healthErr = document.getElementById('pp-health-err');
+  var healthTitle = document.getElementById('pp-health-title');
+  var screenTitle = document.getElementById('pp-screen-title');
+  var BUSY_LABEL = 'Opening secure checkout…';
+  var PAY_LABEL = 'Continue to payment';
   var goBtn = document.getElementById('pp-screen-go');
-  var cur = null; // { btn, skuId, label }
+  var cur = null; // { btn, skuId, label, answers }
+  var busy = false;
 
   function focusables() {
-    var list = dlg.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"])');
+    var list = dlg.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     var out = [];
     for (var i = 0; i < list.length; i++) {
       var el = list[i];
@@ -442,6 +465,19 @@ const SCREEN_CLIENT = {
   function show(which) {
     detail.hidden = which !== 'detail';
     stop.hidden = which !== 'stop';
+    health.hidden = which !== 'health';
+    screenTitle.hidden = which === 'health';
+    dlg.setAttribute('aria-labelledby', which === 'health' ? 'pp-health-title' : 'pp-screen-title');
+    dlg.scrollTop = 0;
+  }
+  function setHealthBusy(on) {
+    busy = on;
+    healthBtn.disabled = on;
+    healthBtn.textContent = on ? BUSY_LABEL : PAY_LABEL;
+  }
+  function healthFail(msg) {
+    healthErr.textContent = msg;
+    setHealthBusy(false);
   }
 
   // Every question needs an explicit Yes / No. Continue stays clickable; a submit with gaps
@@ -479,6 +515,10 @@ const SCREEN_CLIENT = {
   function openModal(btn) {
     cur = { btn: btn, skuId: btn.getAttribute('data-sku'), label: btn.getAttribute('data-label') };
     detail.reset();
+    health.reset();
+    if (window.PPHealth) window.PPHealth.clearHealthErrors();
+    healthErr.textContent = '';
+    setHealthBusy(false);
     var flagged = detail.querySelectorAll('.pp-q-missing, .pp-q-miss');
     for (var k = 0; k < flagged.length; k++) { if (flagged[k].classList.contains('pp-q-miss')) flagged[k].hidden = true; else flagged[k].classList.remove('pp-q-missing'); }
     syncGo();
@@ -542,39 +582,61 @@ const SCREEN_CLIENT = {
     syncGo();
   });
 
-  function startCheckout(answers) {
-    var btn = cur.btn, skuId = cur.skuId, label = cur.label;
-    var err = btn.parentNode.querySelector('.pp-error');
-    track('lp_patch_screen_pass', { skuId: skuId, path: 'detailed' });
-    closeModal();
-    err.hidden = true;
-    btn.disabled = true;
-    btn.textContent = 'Opening checkout…';
-    track('lp_patch_checkout', { skuId: skuId });
+  // Safety check passed: ask the health questions in the same dialog (no payment yet).
+  function showHealth(answers) {
+    cur.answers = answers;
+    track('lp_patch_screen_pass', { skuId: cur.skuId, path: 'detailed' });
+    show('health');
+    healthTitle.focus();
+  }
 
-    function fail(msg) {
-      err.textContent = msg;
-      err.hidden = false;
-      btn.disabled = false;
-      btn.textContent = label;
-    }
+  document.getElementById('pp-health-back').addEventListener('click', function () {
+    if (busy) return;
+    healthErr.textContent = '';
+    show('detail');
+    var first = detail.querySelector('input:checked') || detail.querySelector('input');
+    if (first) first.focus();
+  });
 
-    fetch(API_BASE + '/api/create-checkout-session', {
+  // Health form: validate, POST everything to the pre-intake route, then redirect to Stripe.
+  health.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    if (busy || !cur || !cur.answers) return;
+    healthErr.textContent = '';
+    var H = window.PPHealth;
+    if (!H || !H.validateHealth()) return;
+    var payload = H.collectHealth();
+    payload.skuId = cur.skuId;
+    payload.screening = { version: C.version, answers: cur.answers };
+    payload.testToken = window.__ppT || undefined;
+    setHealthBusy(true);
+    track('lp_patch_checkout', { skuId: cur.skuId });
+
+    fetch(API_BASE + '/api/push-patch-pre-intake', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ skuId: skuId, screening: { version: C.version, answers: answers }, testToken: window.__ppT || undefined }),
+      body: JSON.stringify(payload),
     }).then(function (r) {
-      if (r.status === 503) { fail("This blend isn't available yet."); return null; }
-      if (!r.ok) { fail(GENERIC); return null; }
+      if (r.status === 400) { healthFail('Please complete every field and answer every question.'); return null; }
+      if (r.status === 403) {
+        setHealthBusy(false);
+        track('lp_patch_screen_fail', { skuId: cur.skuId, ids: ['server'] });
+        show('stop');
+        var link = stop.querySelector('a');
+        if (link) link.focus();
+        return null;
+      }
+      if (r.status === 503) { healthFail("This blend isn't available yet."); return null; }
+      if (!r.ok) { healthFail(GENERIC); return null; }
       return r.json();
     }).then(function (res) {
       if (!res) return;
       if (res.url) { window.location = res.url; }
-      else { fail(GENERIC); }
+      else { healthFail(GENERIC); }
     }).catch(function () {
-      fail('We could not open checkout. Please check your connection and try again.');
+      healthFail('We could not open checkout. Please check your connection and try again.');
     });
-  }
+  });
 
   detail.addEventListener('submit', function (ev) {
     ev.preventDefault();
@@ -595,7 +657,7 @@ const SCREEN_CLIENT = {
       if (link) link.focus();
       return;
     }
-    startCheckout(a);
+    showHealth(a);
   });
 })();
 </script>
@@ -800,6 +862,12 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-q-note { margin: 0.4rem 0 0; padding: 0.55rem 0.75rem; border-left: 3px solid var(--accent); background: rgba(34, 211, 238, 0.1); border-radius: 0 6px 6px 0; font-size: 0.88rem; line-height: 1.5; color: var(--on-ink); }
 .pp-q-note[hidden] { display: none; }
 .pp-modal .pp-error[hidden] { display: none; }
+.pp-modal .pp-health-title { margin: 0 3.2rem 0.7rem 0; }
+.pp-modal .pp-health-title:focus { outline: none; }
+.pp-modal .pp-health-title:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.pp-health-intro { margin: 0 0 1.1rem; font-size: 0.95rem; line-height: 1.55; color: var(--on-ink); }
+.pp-health-err { margin: 0 0 0.7rem; font-size: 0.9rem; line-height: 1.45; font-weight: 600; color: #fca5a5; text-align: center; }
+.pp-health-err:empty { display: none; }
 .pp-modal-stop { padding: 0 1.1rem 1.3rem; }
 .pp-modal-stop p { font-size: 1rem; line-height: 1.6; color: var(--on-ink); margin: 0 0 1.2rem; }
 .pp-modal-stop strong { color: #ffffff; }

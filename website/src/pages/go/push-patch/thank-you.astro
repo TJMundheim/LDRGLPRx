@@ -2,9 +2,13 @@
 // Push Patch order confirmation — Stripe success_url target. Standalone (hideChrome),
 // same palette/fonts as /go/push-patch (styles duplicated minimally, scoped).
 // Fires posthog lp_patch_purchase with the sku from ?sku=. noindex.
-// Step 2 of the async-visit flow: reads ?session_id=, collects the health intake and
-// POSTs it to /api/push-patch-intake. Copy: docs/launch/push-patch/async-visit-copy.md.
+// Reads ?session_id= and asks GET /api/push-patch-intake which of three states the order is in:
+//   complete   -> health form was taken before payment and the order is finalized ("Order complete.")
+//   processing -> paid, finalize still running (poll every 3 s for up to 60 s)
+//   needs-form -> legacy / expired pre-intake: today's post-payment health form + ship-to confirmation,
+//                 POSTed to /api/push-patch-intake. Copy: docs/launch/push-patch/async-visit-copy.md.
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import HealthForm from '../../../components/push-patch/HealthForm.astro';
 
 const title = 'Order received — Push Patch — My4MLife';
 const description = 'Your Push Patch order has been received.';
@@ -40,7 +44,26 @@ const US_STATES: [string, string][] = [
         <p class="pp-sub">We could not find your order on this page. Open the link from your receipt email, or write to <a href="mailto:support@my4mlife.com">support@my4mlife.com</a> and we will sort it out.</p>
       </section>
 
-      <!-- Success (also shown for alreadySubmitted) -->
+      <!-- Checking (brief, while the status request is in flight) -->
+      <section id="ty-checking" aria-live="polite">
+        <p class="pp-sub">Checking your order.</p>
+      </section>
+
+      <!-- Processing: paid, order is being finalized -->
+      <section id="ty-processing" hidden aria-live="polite">
+        <p class="pp-sub" id="ty-processing-msg">Finishing your order. This takes a few seconds.</p>
+      </section>
+
+      <!-- Complete: health form was taken before payment -->
+      <section id="ty-complete" hidden aria-live="polite">
+        <p class="pp-sub">A licensed physician in our network is reviewing it now, usually within an hour during business hours (9 a.m.–5 p.m. Central). Nothing else is needed from you.</p>
+        <p class="pp-sub pp-small">If you are not cleared, your payment is refunded in full within 10 business days.</p>
+        <p class="pp-sub pp-small">If cleared, your patches are prepared within 1–3 business days, then ground delivery in 3–5 business days.</p>
+        <p class="pp-sub pp-small">Check your inbox, and your spam folder, for a message from My4MLife.</p>
+        <p class="pp-sub pp-small" id="ty-complete-afterhours" hidden>Submitted outside 9 a.m.–5 p.m. Central? You'll hear from us within the first hour of the next business day.</p>
+      </section>
+
+      <!-- Success after the legacy form (also shown for alreadySubmitted) -->
       <section id="ty-success" hidden aria-live="polite">
         <h2 class="pp-h2">Submitted.</h2>
         <p class="pp-sub" id="ty-success-body">One of our network's licensed physicians will review it within an hour during business hours (9 a.m.–5 p.m. Central). Your welcome email follows. If you are not cleared, your payment is refunded within 10 business days.</p>
@@ -59,130 +82,61 @@ const US_STATES: [string, string][] = [
         {/* TJ CONFIRM: after-hours note: Monday to Friday business days; holidays */}
 
         <form id="ty-form" class="pp-form" novalidate>
-          <p class="pp-help pp-help-top">Your answers go only to the reviewing physician and your care record. They are never sent by text message or shown on a receipt.</p>
-          {/* TJ CONFIRM: privacy helper wording matches the HIPAA architecture; no PHI in SMS */}
+          <HealthForm>
+            <Fragment slot="shipping">
+            <p class="pp-help">Safety check completed before checkout.</p>
 
-          <div class="pp-field">
-            <label for="f-dob">Date of birth</label>
-            <input type="date" id="f-dob" name="dob" autocomplete="bday" max="" required aria-describedby="h-dob e-dob" />
-            <p class="pp-help" id="h-dob">Month, day, year.</p>
-            <p class="pp-err" id="e-dob" role="alert"></p>
-          </div>
-
-          <div class="pp-field">
-            <label for="f-sex">Sex</label>
-            <select id="f-sex" name="sex" required aria-describedby="h-sex e-sex">
-              <option value="">Select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-            <p class="pp-help" id="h-sex">Used by the physician for screening.</p>
-            {/* TJ CONFIRM: sex helper wording */}
-            <p class="pp-err" id="e-sex" role="alert"></p>
-          </div>
-
-          <div class="pp-field">
-            <label for="f-phone">Mobile phone</label>
-            <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="h-phone e-phone" />
-            <p class="pp-help" id="h-phone">Used only if the physician needs to reach you about this order. We never text health information.</p>
-            <p class="pp-err" id="e-phone" role="alert"></p>
-          </div>
-
-          <div class="pp-field">
-            <label for="f-medications">Current medications and supplements</label>
-            <textarea id="f-medications" name="medications" rows="3" required aria-describedby="h-medications e-medications"></textarea>
-            <p class="pp-help" id="h-medications">List everything you take, including peptides and over-the-counter products. Write "None" if none.</p>
-            <p class="pp-err" id="e-medications" role="alert"></p>
-          </div>
-
-          <div class="pp-field">
-            <label for="f-allergies">Allergies</label>
-            <textarea id="f-allergies" name="allergies" rows="2" required aria-describedby="h-allergies e-allergies"></textarea>
-            <p class="pp-help" id="h-allergies">Include medications, adhesives, tape, latex or metals. Write "None" if none.</p>
-            <p class="pp-err" id="e-allergies" role="alert"></p>
-          </div>
-
-          <div class="pp-field">
-            <label for="f-conditions">Medical conditions</label>
-            <textarea id="f-conditions" name="conditions" rows="3" required aria-describedby="h-conditions e-conditions"></textarea>
-            <p class="pp-help" id="h-conditions">Include anything a physician has diagnosed, and any past surgeries. Write "None" if none.</p>
-            <p class="pp-err" id="e-conditions" role="alert"></p>
-          </div>
-
-          <p class="pp-help">Safety check completed before checkout.</p>
-
-          <h3 class="pp-h3">Shipping</h3>
-          <fieldset class="pp-ship" id="ty-ship" aria-describedby="e-ship">
-            <legend class="pp-ship-legend" id="ship-legend">Where should we ship your patches?</legend>
-            <div id="ship-confirm" hidden>
-              <p class="pp-ship-lead">Your patches will ship to:</p>
-              <address class="pp-addr" id="ship-addr"></address>
-              <label class="pp-radio"><input type="radio" name="shipChoice" value="yes" checked /> <span>Yes, ship here</span></label>
-              <label class="pp-radio"><input type="radio" name="shipChoice" value="other" /> <span>Ship somewhere else</span></label>
-            </div>
-            <div id="ship-fields" hidden>
-              <div class="pp-field">
-                <label for="s-name">Full name</label>
-                <input type="text" id="s-name" autocomplete="shipping name" aria-describedby="e-s-name" />
-                <p class="pp-err" id="e-s-name" role="alert"></p>
+            <h3 class="pp-h3">Shipping</h3>
+            <fieldset class="pp-ship" id="ty-ship" aria-describedby="e-ship">
+              <legend class="pp-ship-legend" id="ship-legend">Where should we ship your patches?</legend>
+              <div id="ship-confirm" hidden>
+                <p class="pp-ship-lead">Your patches will ship to:</p>
+                <address class="pp-addr" id="ship-addr"></address>
+                <label class="pp-radio"><input type="radio" name="shipChoice" value="yes" checked /> <span>Yes, ship here</span></label>
+                <label class="pp-radio"><input type="radio" name="shipChoice" value="other" /> <span>Ship somewhere else</span></label>
               </div>
-              <div class="pp-field">
-                <label for="s-line1">Street address</label>
-                <input type="text" id="s-line1" autocomplete="shipping address-line1" aria-describedby="e-s-line1" />
-                <p class="pp-err" id="e-s-line1" role="alert"></p>
-              </div>
-              <div class="pp-field">
-                <label for="s-line2">Apt, suite, unit (optional)</label>
-                <input type="text" id="s-line2" autocomplete="shipping address-line2" />
-              </div>
-              <div class="pp-field">
-                <label for="s-city">City</label>
-                <input type="text" id="s-city" autocomplete="shipping address-level2" aria-describedby="e-s-city" />
-                <p class="pp-err" id="e-s-city" role="alert"></p>
-              </div>
-              <div class="pp-row">
+              <div id="ship-fields" hidden>
                 <div class="pp-field">
-                  <label for="s-state">State</label>
-                  <select id="s-state" autocomplete="shipping address-level1" aria-describedby="e-s-state">
-                    <option value="">Select</option>
-                    {US_STATES.map(([code, name]) => <option value={code}>{name}</option>)}
-                  </select>
-                  <p class="pp-err" id="e-s-state" role="alert"></p>
+                  <label for="s-name">Full name</label>
+                  <input type="text" id="s-name" autocomplete="shipping name" aria-describedby="e-s-name" />
+                  <p class="pp-err" id="e-s-name" role="alert"></p>
                 </div>
                 <div class="pp-field">
-                  <label for="s-zip">ZIP code</label>
-                  <input type="text" id="s-zip" autocomplete="shipping postal-code" inputmode="numeric" aria-describedby="e-s-zip" />
-                  <p class="pp-err" id="e-s-zip" role="alert"></p>
+                  <label for="s-line1">Street address</label>
+                  <input type="text" id="s-line1" autocomplete="shipping address-line1" aria-describedby="e-s-line1" />
+                  <p class="pp-err" id="e-s-line1" role="alert"></p>
                 </div>
+                <div class="pp-field">
+                  <label for="s-line2">Apt, suite, unit (optional)</label>
+                  <input type="text" id="s-line2" autocomplete="shipping address-line2" />
+                </div>
+                <div class="pp-field">
+                  <label for="s-city">City</label>
+                  <input type="text" id="s-city" autocomplete="shipping address-level2" aria-describedby="e-s-city" />
+                  <p class="pp-err" id="e-s-city" role="alert"></p>
+                </div>
+                <div class="pp-row">
+                  <div class="pp-field">
+                    <label for="s-state">State</label>
+                    <select id="s-state" autocomplete="shipping address-level1" aria-describedby="e-s-state">
+                      <option value="">Select</option>
+                      {US_STATES.map(([code, name]) => <option value={code}>{name}</option>)}
+                    </select>
+                    <p class="pp-err" id="e-s-state" role="alert"></p>
+                  </div>
+                  <div class="pp-field">
+                    <label for="s-zip">ZIP code</label>
+                    <input type="text" id="s-zip" autocomplete="shipping postal-code" inputmode="numeric" aria-describedby="e-s-zip" />
+                    <p class="pp-err" id="e-s-zip" role="alert"></p>
+                  </div>
+                </div>
+                <p class="pp-help">United States addresses only.</p>
               </div>
-              <p class="pp-help">United States addresses only.</p>
-            </div>
-            <p class="pp-help">Prepared within 1–3 business days, then ground delivery in 3–5 business days.</p>
-            <p class="pp-err" id="e-ship" role="alert"></p>
-          </fieldset>
-
-          <h3 class="pp-h3">Telehealth consent</h3>
-          <div class="pp-consent" tabindex="0" role="region" aria-label="Telehealth consent text">
-            <p>By signing below, I consent to an asynchronous telehealth review of my order. This means one of our network's licensed physicians will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared before anything ships, my payment is refunded in full within 10 business days. Once my order has shipped, it cannot be returned or refunded. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I authorize My4MLife and our network's licensed physicians to share my name, shipping address and phone number with our pharmacy partner to fill and ship my order. I am of legal adult age and a resident of the United States.</p>
-          </div>
-          {/* TJ CONFIRM: legal wording of consent paragraph */}
-          <p class="pp-help">Read the full <a href="/consent" target="_blank" rel="noopener">Medical &amp; Telehealth Consent</a> and the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
-          {/* TJ CONFIRM: /consent still carries GLP-1 and compounded-medication language; decide whether to link it */}
-
-          <div class="pp-field pp-check-field">
-            <label class="pp-check" for="f-privacy">
-              <input type="checkbox" id="f-privacy" name="privacyAck" required aria-describedby="e-privacy" />
-              <span>I acknowledge the <a href="/legal/privacy-notice" target="_blank" rel="noopener">Notice of Privacy Practices</a> and sign the <a href="/legal/authorization" target="_blank" rel="noopener">Authorization</a> to share my health information with our network's licensed physicians and pharmacy partner.</span>
-            </label>
-            <p class="pp-err" id="e-privacy" role="alert"></p>
-          </div>
-
-          <div class="pp-field">
-            <label for="f-consent">Type your full legal name to sign</label>
-            <input type="text" id="f-consent" name="consentName" autocomplete="name" required aria-describedby="h-consent e-consent" />
-            <p class="pp-help" id="h-consent">This works as your signature for the consent, the privacy notice and the authorization. Today's date is recorded automatically.</p>
-            <p class="pp-err" id="e-consent" role="alert"></p>
-          </div>
+              <p class="pp-help">Prepared within 1–3 business days, then ground delivery in 3–5 business days.</p>
+              <p class="pp-err" id="e-ship" role="alert"></p>
+            </fieldset>
+            </Fragment>
+          </HealthForm>
 
           <p class="pp-err pp-err-form" id="e-form" role="alert"></p>
           <button type="submit" class="pp-cta" id="ty-submit">Submit for physician review</button>
@@ -222,28 +176,35 @@ const US_STATES: [string, string][] = [
   } catch (e) {}
   if (afterHours) $('ty-afterhours-top').hidden = false;
 
+  var STATES = ['ty-missing', 'ty-checking', 'ty-processing', 'ty-complete', 'ty-success', 'ty-form-wrap'];
+  function only(id) {
+    STATES.forEach(function (k) { $(k).hidden = k !== id; });
+  }
+  function toTop() { var h = $('ty-h1'); h.scrollIntoView && h.scrollIntoView(); }
+
   function showSuccess(already) {
-    $('ty-form-wrap').hidden = true;
-    $('ty-success').hidden = false;
+    only('ty-success');
     if (already) { $('ty-already').hidden = false; }
     if (afterHours) $('ty-afterhours').hidden = false;
-    $('ty-h1').scrollIntoView && $('ty-h1').scrollIntoView();
+    toTop();
+  }
+  function showComplete() {
+    $('ty-h1').textContent = 'Order complete.';
+    only('ty-complete');
+    if (afterHours) $('ty-complete-afterhours').hidden = false;
+    cap('lp_patch_intake_submitted', { sku: sku, preIntake: true });
   }
 
   // Looks like a Stripe Checkout session id (cs_...)
   if (!sessionId || !/^[A-Za-z0-9_]{8,200}$/.test(sessionId)) {
-    $('ty-missing').hidden = false;
+    only('ty-missing');
     return;
   }
-  $('ty-form-wrap').hidden = false;
+  only('ty-checking');
 
+  // ---------- Legacy form (needs-form): health fields + ship-to confirmation ----------
   var form = $('ty-form');
   var btn = $('ty-submit');
-  var dob = $('f-dob');
-  var today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
-  dob.max = today.toISOString().slice(0, 10);
-
-  // Ship-to: GET the Stripe address; on failure fall back to empty fields.
   var shipOk = false;
   function shipMode() {
     if (!shipOk) return 'ask';
@@ -265,40 +226,21 @@ const US_STATES: [string, string][] = [
   }
   Array.prototype.forEach.call(form.querySelectorAll('input[name="shipChoice"]'), function (r) { r.addEventListener('change', syncShip); });
   syncShip();
-  fetch(API_BASE + '/api/push-patch-intake?session_id=' + encodeURIComponent(sessionId)).then(function (res) {
-    if (res.status !== 200) throw new Error('no address');
-    return res.json();
-  }).then(function (d) {
-    var a = d && d.shipTo;
-    if (!a || !a.line1 || !a.city || !a.state || !a.postalCode) throw new Error('no address');
-    shipOk = true; showAddr(a); $('s-name').value = a.name || ''; syncShip();
-  }).catch(function () { shipOk = false; syncShip(); });
+
+  function showForm(shipTo) {
+    var a = shipTo;
+    if (a && a.line1 && a.city && a.state && a.postalCode) {
+      shipOk = true; showAddr(a); $('s-name').value = a.name || '';
+    } else { shipOk = false; }
+    syncShip();
+    only('ty-form-wrap');
+  }
 
   function setErr(id, msg) { var el = $(id); if (el) el.textContent = msg || ''; }
-  function lines(v) {
-    return v.split(/\r?\n|;/).map(function (x) { return x.trim(); }).filter(Boolean);
-  }
-  function validate() {
+  function validateShip(canFocus) {
     var ok = true, first = null;
     function bad(id, msg, focusEl) { setErr(id, msg); ok = false; if (!first) first = focusEl; }
-    ['dob','sex','phone','medications','allergies','conditions','privacy','consent','s-name','s-line1','s-city','s-state','s-zip','ship'].forEach(function (k) { setErr('e-' + k, ''); });
-    setErr('e-form', '');
-
-    var d = dob.value;
-    var dd = d ? new Date(d + 'T00:00:00') : null;
-    if (!d) bad('e-dob', 'This field is required.', dob);
-    else if (!dd || isNaN(dd.getTime()) || dd > new Date() || dd.getFullYear() < 1900) bad('e-dob', 'Enter your date of birth as month, day, year.', dob);
-
-    if (!$('f-sex').value) bad('e-sex', 'This field is required.', $('f-sex'));
-
-    var ph = $('f-phone').value.trim();
-    var digits = ph.replace(/\D/g, '');
-    if (!ph) bad('e-phone', 'This field is required.', $('f-phone'));
-    else if (digits.length < 10 || digits.length > 15 || !/^[+\d\s().-]+$/.test(ph)) bad('e-phone', 'Enter a valid mobile number.', $('f-phone'));
-
-    ['medications','allergies','conditions'].forEach(function (k) {
-      if (!$('f-' + k).value.trim()) bad('e-' + k, 'This field is required.', $('f-' + k));
-    });
+    ['s-name','s-line1','s-city','s-state','s-zip','ship'].forEach(function (k) { setErr('e-' + k, ''); });
     if (shipMode() !== 'confirm') {
       [['name','s-name'],['line1','s-line1'],['city','s-city']].forEach(function (k) {
         if (!$(k[1]).value.trim()) bad('e-' + k[1], 'This field is required.', $(k[1]));
@@ -306,33 +248,25 @@ const US_STATES: [string, string][] = [
       if (!$('s-state').value) bad('e-s-state', 'Select a state.', $('s-state'));
       if (!/^\d{5}(-?\d{4})?$/.test($('s-zip').value.trim())) bad('e-s-zip', 'Enter a 5-digit ZIP code.', $('s-zip'));
     }
-    if (!$('f-privacy').checked) bad('e-privacy', 'Please check this box to continue.', $('f-privacy'));
-    if (!$('f-consent').value.trim()) bad('e-consent', 'Type your full legal name to continue.', $('f-consent'));
-    if (first && first.focus) first.focus();
+    if (first && canFocus && first.focus) first.focus();
     return ok;
   }
 
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
     if (btn.disabled) return;
-    if (!validate()) return;
-    var payload = {
-      sessionId: sessionId,
-      dob: dob.value,
-      sex: $('f-sex').value,
-      phone: $('f-phone').value.trim(),
-      medications: lines($('f-medications').value),
-      allergies: lines($('f-allergies').value),
-      conditions: lines($('f-conditions').value),
-      consentName: $('f-consent').value.trim(),
-      privacyAck: true,
-      shipping: shipMode() === 'confirm' ? { confirmed: true } : { confirmed: false, address: {
-        name: $('s-name').value.trim(), line1: $('s-line1').value.trim(), line2: $('s-line2').value.trim(),
-        city: $('s-city').value.trim(), state: $('s-state').value, postalCode: $('s-zip').value.trim()
-      } }
-    };
-    btn.disabled = true; btn.textContent = 'Sending...';
     setErr('e-form', '');
+    var H = window.PPHealth;
+    var healthOk = H.validateHealth();
+    var shipValid = validateShip(healthOk);
+    if (!healthOk || !shipValid) return;
+    var payload = H.collectHealth();
+    payload.sessionId = sessionId;
+    payload.shipping = shipMode() === 'confirm' ? { confirmed: true } : { confirmed: false, address: {
+      name: $('s-name').value.trim(), line1: $('s-line1').value.trim(), line2: $('s-line2').value.trim(),
+      city: $('s-city').value.trim(), state: $('s-state').value, postalCode: $('s-zip').value.trim()
+    } };
+    btn.disabled = true; btn.textContent = 'Sending...';
     function fail(msg) { setErr('e-form', msg); btn.disabled = false; btn.textContent = 'Submit for physician review'; }
     fetch(API_BASE + '/api/push-patch-intake', {
       method: 'POST',
@@ -350,6 +284,44 @@ const US_STATES: [string, string][] = [
       fail('Something went wrong sending your answers. Your payment is safe. Please try again, or write to support@my4mlife.com.');
     });
   });
+
+  // ---------- Order status: complete | processing | needs-form ----------
+  var POLL_MS = 3000, POLL_MAX_MS = 60000;
+  var started = Date.now();
+  var pollTimer = null;
+
+  function getStatus() {
+    return fetch(API_BASE + '/api/push-patch-intake?session_id=' + encodeURIComponent(sessionId)).then(function (res) {
+      if (res.status !== 200) throw new Error('status ' + res.status);
+      return res.json();
+    });
+  }
+  function handle(d) {
+    var st = d && d.status;
+    if (st === 'complete') { showComplete(); return; }
+    if (st === 'processing') {
+      only('ty-processing');
+      if (Date.now() - started >= POLL_MAX_MS) {
+        $('ty-processing-msg').textContent = 'Your order is in and we are finishing it now. We will email you shortly; nothing else is needed from you.';
+        return;
+      }
+      pollTimer = setTimeout(poll, POLL_MS);
+      return;
+    }
+    // needs-form (or anything unrecognised): today's post-payment form.
+    showForm(d && d.shipTo);
+  }
+  function poll() {
+    getStatus().then(handle).catch(function () {
+      // Transient failure while processing: keep trying until the 60 s window closes.
+      if (Date.now() - started >= POLL_MAX_MS) {
+        $('ty-processing-msg').textContent = 'Your order is in and we are finishing it now. We will email you shortly; nothing else is needed from you.';
+        return;
+      }
+      pollTimer = setTimeout(poll, POLL_MS);
+    });
+  }
+  getStatus().then(handle).catch(function () { showForm(null); });
 })();
 </script>
 

@@ -1,0 +1,136 @@
+---
+// Push Patch health fields, shared by /go/push-patch (pre-payment dialog panel) and
+// /go/push-patch/thank-you (legacy post-payment form). Text is moved verbatim from the original
+// thank-you form; validation lives in src/scripts/push-patch-health.ts (window.PPHealth).
+// identity=true adds First name / Last name / Email (pre-payment flow only).
+// The <slot name="shipping"> sits between the conditions field and the consent text (legacy form only).
+interface Props { identity?: boolean }
+const { identity = false } = Astro.props;
+---
+<div class="pp-hf">
+  <p class="hf-help hf-help-top">Your answers go only to the reviewing physician and your care record. They are never sent by text message or shown on a receipt.</p>
+  {/* TJ CONFIRM: privacy helper wording matches the HIPAA architecture; no PHI in SMS */}
+
+  {identity && (
+    <>
+      <div class="hf-field">
+        <label for="f-first">First name</label>
+        <input type="text" id="f-first" name="firstName" autocomplete="given-name" required aria-describedby="e-first" />
+        <p class="hf-err" id="e-first" role="alert"></p>
+      </div>
+
+      <div class="hf-field">
+        <label for="f-last">Last name</label>
+        <input type="text" id="f-last" name="lastName" autocomplete="family-name" required aria-describedby="e-last" />
+        <p class="hf-err" id="e-last" role="alert"></p>
+      </div>
+
+      <div class="hf-field">
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" name="email" autocomplete="email" inputmode="email" required aria-describedby="h-email e-email" />
+        <p class="hf-help" id="h-email">Your receipt and the physician's decision are sent here.</p>
+        <p class="hf-err" id="e-email" role="alert"></p>
+      </div>
+    </>
+  )}
+
+  <div class="hf-field">
+    <label for="f-dob">Date of birth</label>
+    <input type="date" id="f-dob" name="dob" autocomplete="bday" max="" required aria-describedby="h-dob e-dob" />
+    <p class="hf-help" id="h-dob">Month, day, year.</p>
+    <p class="hf-err" id="e-dob" role="alert"></p>
+  </div>
+
+  <div class="hf-field">
+    <label for="f-sex">Sex</label>
+    <select id="f-sex" name="sex" required aria-describedby="h-sex e-sex">
+      <option value="">Select</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <p class="hf-help" id="h-sex">Used by the physician for screening.</p>
+    {/* TJ CONFIRM: sex helper wording */}
+    <p class="hf-err" id="e-sex" role="alert"></p>
+  </div>
+
+  <div class="hf-field">
+    <label for="f-phone">Mobile phone</label>
+    <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="h-phone e-phone" />
+    <p class="hf-help" id="h-phone">Used only if the physician needs to reach you about this order. We never text health information.</p>
+    <p class="hf-err" id="e-phone" role="alert"></p>
+  </div>
+
+  <div class="hf-field">
+    <label for="f-medications">Current medications and supplements</label>
+    <textarea id="f-medications" name="medications" rows="3" required aria-describedby="h-medications e-medications"></textarea>
+    <p class="hf-help" id="h-medications">List everything you take, including peptides and over-the-counter products. Write "None" if none.</p>
+    <p class="hf-err" id="e-medications" role="alert"></p>
+  </div>
+
+  <div class="hf-field">
+    <label for="f-allergies">Allergies</label>
+    <textarea id="f-allergies" name="allergies" rows="2" required aria-describedby="h-allergies e-allergies"></textarea>
+    <p class="hf-help" id="h-allergies">Include medications, adhesives, tape, latex or metals. Write "None" if none.</p>
+    <p class="hf-err" id="e-allergies" role="alert"></p>
+  </div>
+
+  <div class="hf-field">
+    <label for="f-conditions">Medical conditions</label>
+    <textarea id="f-conditions" name="conditions" rows="3" required aria-describedby="h-conditions e-conditions"></textarea>
+    <p class="hf-help" id="h-conditions">Include anything a physician has diagnosed, and any past surgeries. Write "None" if none.</p>
+    <p class="hf-err" id="e-conditions" role="alert"></p>
+  </div>
+
+  <slot name="shipping" />
+
+  <h3 class="hf-h3">Telehealth consent</h3>
+  <div class="hf-consent" tabindex="0" role="region" aria-label="Telehealth consent text">
+    <p>By signing below, I consent to an asynchronous telehealth review of my order. This means one of our network's licensed physicians will review the health information I submit here, without a live video or phone visit, and decide whether the Push Patch is appropriate for me. I understand that this review cannot include a physical exam, that it depends on my answers being complete and truthful, and that the physician may decide I am not cleared. If I am not cleared before anything ships, my payment is refunded in full within 10 business days. Once my order has shipped, it cannot be returned or refunded. I agree to give accurate information about my medications, allergies, conditions and screening answers, and to tell my physician about any change in my health. I understand that telehealth is not for emergencies; if I have a medical emergency I will call 911. I may withdraw this consent at any time without affecting my right to future care. My health information is handled under the My4MLife Privacy Policy and applicable privacy law. I authorize My4MLife and our network's licensed physicians to share my name, shipping address and phone number with our pharmacy partner to fill and ship my order. I am of legal adult age and a resident of the United States.</p>
+  </div>
+  {/* TJ CONFIRM: legal wording of consent paragraph */}
+  <p class="hf-help">Read the full <a href="/consent" target="_blank" rel="noopener">Medical &amp; Telehealth Consent</a> and the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+  {/* TJ CONFIRM: /consent still carries GLP-1 and compounded-medication language; decide whether to link it */}
+
+  <div class="hf-field hf-check-field">
+    <label class="hf-check" for="f-privacy">
+      <input type="checkbox" id="f-privacy" name="privacyAck" required aria-describedby="e-privacy" />
+      <span>I acknowledge the <a href="/legal/privacy-notice" target="_blank" rel="noopener">Notice of Privacy Practices</a> and sign the <a href="/legal/authorization" target="_blank" rel="noopener">Authorization</a> to share my health information with our network's licensed physicians and pharmacy partner.</span>
+    </label>
+    <p class="hf-err" id="e-privacy" role="alert"></p>
+  </div>
+
+  <div class="hf-field">
+    <label for="f-consent">Type your full legal name to sign</label>
+    <input type="text" id="f-consent" name="consentName" autocomplete="name" required aria-describedby="h-consent e-consent" />
+    <p class="hf-help" id="h-consent">This works as your signature for the consent, the privacy notice and the authorization. Today's date is recorded automatically.</p>
+    <p class="hf-err" id="e-consent" role="alert"></p>
+  </div>
+</div>
+
+<script>
+  import { initHealthForm } from '../../scripts/push-patch-health';
+  initHealthForm();
+</script>
+
+<style is:global>
+/* Namespaced under .pp-hf so it cannot leak; colours come from the host page's --ink / --on-ink variables. */
+.pp-hf .hf-field { margin: 0 0 1.25rem; text-align: left; }
+.pp-hf .hf-field label { display: block; font-size: 0.95rem; font-weight: 600; color: #fff; margin: 0 0 0.4rem; }
+.pp-hf .hf-field input, .pp-hf .hf-field select, .pp-hf .hf-field textarea {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: 1rem; color: var(--on-ink);
+  background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 8px; padding: 0.7rem 0.8rem; color-scheme: dark;
+}
+.pp-hf .hf-field textarea { resize: vertical; min-height: 4rem; }
+.pp-hf .hf-field input:focus-visible, .pp-hf .hf-field select:focus-visible, .pp-hf .hf-field textarea:focus-visible,
+.pp-hf .hf-consent:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pp-hf .hf-field .hf-check { display: flex; font-weight: 400; margin: 0; align-items: flex-start; gap: 0.7rem; min-height: 44px; cursor: pointer; font-size: 0.95rem; line-height: 1.5; color: var(--on-ink); }
+.pp-hf .hf-check input { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.2rem; accent-color: var(--accent); }
+.pp-hf .hf-check a, .pp-hf .hf-help a { color: var(--accent); }
+.pp-hf .hf-help { font-size: 0.8rem; line-height: 1.5; color: var(--on-ink-muted); margin: 0.4rem 0 0; }
+.pp-hf .hf-help-top { margin: 0 0 1.5rem; }
+.pp-hf .hf-err { font-size: 0.85rem; color: #fca5a5; margin: 0.4rem 0 0; }
+.pp-hf .hf-err:empty { display: none; }
+.pp-hf .hf-h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin: 2rem 0 0.5rem; }
+.pp-hf .hf-consent { max-height: 12rem; overflow-y: auto; background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.85rem; line-height: 1.6; color: var(--on-ink); margin: 0.5rem 0; }
+.pp-hf .hf-consent p { margin: 0; }
+</style>
