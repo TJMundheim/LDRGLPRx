@@ -178,6 +178,15 @@ Notes for P2-B:
 
 ---
 
+## Welcome email — assessment invitation (2026-10-15, pending TJ OK)
+
+Placed in the welcome email (section 2) after the order/shipping and safety information, before the "Questions?" line. Welcome email only; the decline, refund and reminder emails do not carry it.
+
+- Heading: Your free MindSpan assessment
+- Body: As a Push Patch customer, you're invited to take our free 20-question MindSpan assessment. It shows where your brain health stands today, and when you finish you get the book, the Logbook and our app, all free.
+- Button: Take the assessment → https://my4mlife.com/assessment?src=push-patch-buyer
+- Plain-text version: the button reads "Take the assessment: <URL>".
+
 ## 3. Decline / refund email (sent when the physician does not clear the order)
 
 Updated 2026-10-02: Decline no longer refunds automatically. The order goes to `declined` with `refundStatus: pending` and an admin approves the refund, so this email promises a window, not an issued refund.

@@ -13,6 +13,14 @@ const FOOTER_BODY =
 const FOOTER = `My4MLife\n\n${FOOTER_BODY}`;
 const WELCOME_FOOTER = `My4MLife\n${TAGLINE}\n${BRAND_LINE}\n\n${FOOTER_BODY}`;
 
+// Welcome-only card inviting the buyer to the free assessment (copy: async-visit-copy.md, "Welcome email — assessment invitation").
+const ASSESS_URL = 'https://my4mlife.com/assessment?src=push-patch-buyer';
+const ASSESS_HEAD = 'Your free MindSpan assessment';
+const ASSESS_BODY = "As a Push Patch customer, you're invited to take our free 20-question MindSpan assessment. It shows where your brain health stands today, and when you finish you get the book, the Logbook and our app, all free.";
+const ASSESS_TEXT = `${ASSESS_HEAD}\n${ASSESS_BODY}\nTake the assessment: ${ASSESS_URL}`;
+const ASSESS_HTML = `<p><strong>${esc(ASSESS_HEAD)}</strong><br>${esc(ASSESS_BODY)}</p>` +
+  `<p><a href="${esc(ASSESS_URL)}" style="display:inline-block;padding:10px 20px;background:#1a1a1a;color:#ffffff;text-decoration:none;border-radius:4px;">Take the assessment</a></p>`;
+
 const toHtml = (text: string): string => text.split('\n\n').map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('');
 const mail = (to: string, subject: string, text: string, html: string = toHtml(text)) => send({ to, subject, text, html, from: 'support' });
 
@@ -26,9 +34,10 @@ export function sendWelcome(to: string, firstName: string, sku: string): Promise
     `3. Wear. Wear it for 12 hours, then remove it: wet it with warm soapy water and peel slowly. Wait at least 24 hours before using the same spot again. Use one patch a week for six weeks.\n\n` +
     `Follow the insert in your kit for the exact amount of water. Full step-by-step instructions, with a photo for each step: https://my4mlife.com/go/push-patch#wear\n\n` +
     `Do not use the patch if you have epilepsy or seizures, a pacemaker, or metal implants near the patch site, are pregnant, or have a recent wound, skin graft or scar at the patch site. If any of these apply to you now, or change later, do not apply a patch and write to us first.\n\n` +
+    `${ASSESS_TEXT}\n\n` +
     `Questions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nWelcome aboard.\n\nThe My4MLife team\n\n${WELCOME_FOOTER}`;
   // HTML shows "My4MLife" as the link; plain text shows the URL.
-  const html = toHtml(text).replace(esc(`My4MLife (${BRAND_URL})`), `<a href="${esc(BRAND_URL)}">My4MLife</a>`);
+  const html = toHtml(text.replace(`${ASSESS_TEXT}\n\n`, '')).replace('<p>Questions?', `${ASSESS_HTML}<p>Questions?`).replace(esc(`My4MLife (${BRAND_URL})`), `<a href="${esc(BRAND_URL)}">My4MLife</a>`);
   return mail(to, 'Welcome — your Push Patch is approved', text, html);
 }
 
