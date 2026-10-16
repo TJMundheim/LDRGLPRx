@@ -7,6 +7,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@my4mlife/push-patch-checkout": "workspace:*",
     "@my4mlife/stripe-client": "workspace:*",
     "stripe": "^17.0.0"
   },

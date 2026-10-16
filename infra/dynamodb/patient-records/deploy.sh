@@ -51,4 +51,20 @@ $AWS dynamodb update-continuous-backups \
   >/dev/null
 log "PITR confirmed ON for $TABLE."
 
+# ── Ensure TTL is ON for attribute `ttl` (pending push-patch intakes expire) ──
+TTL_STATUS=$($AWS dynamodb describe-time-to-live \
+  --table-name "$TABLE" \
+  --query 'TimeToLiveDescription.TimeToLiveStatus' \
+  --output text)
+if [[ "$TTL_STATUS" == "ENABLED" || "$TTL_STATUS" == "ENABLING" ]]; then
+  log "TTL already $TTL_STATUS on $TABLE (attribute: ttl) — skipping."
+else
+  log "TTL is $TTL_STATUS on $TABLE — enabling on attribute ttl..."
+  $AWS dynamodb update-time-to-live \
+    --table-name "$TABLE" \
+    --time-to-live-specification Enabled=true,AttributeName=ttl \
+    >/dev/null
+  log "TTL enablement requested for $TABLE (attribute: ttl)."
+fi
+
 log "Done. $TABLE is ready in $REGION."

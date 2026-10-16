@@ -18,6 +18,8 @@ ORDERS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Orders"
 SUBSCRIPTIONS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Subscriptions"
 TOUCHPOINTS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Touchpoints"
 EMAIL_SENDER_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-email-sender"
+PUSH_PATCH_INTAKE_FN="my4mlife-push-patch-intake"
+PUSH_PATCH_INTAKE_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:${PUSH_PATCH_INTAKE_FN}"
 
 LAMBDA_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -82,7 +84,7 @@ aws iam put-role-policy \
         \"Resource\":\"${RETRY_STATE_ARN}\"},
       {\"Effect\":\"Allow\",\"Action\":[\"dynamodb:PutItem\",\"dynamodb:UpdateItem\"],
         \"Resource\":[\"${CONTACT_ARN}\",\"${ORDERS_ARN}\",\"${SUBSCRIPTIONS_ARN}\",\"${TOUCHPOINTS_ARN}\"]},
-      {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"${EMAIL_SENDER_ARN}\"}
+      {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":[\"${EMAIL_SENDER_ARN}\",\"${PUSH_PATCH_INTAKE_ARN}\"]}
     ]
   }"
 
@@ -95,7 +97,7 @@ LAMBDA_ARN_FULL="arn:aws:lambda:${REGION}:${ACCOUNT}:function:${FUNCTION_NAME}"
 EXISTING=$(aws lambda get-function --function-name "${FUNCTION_NAME}" \
   --region "${REGION}" --query 'Configuration.FunctionArn' --output text 2>/dev/null || echo "")
 
-ENV_VARS="Variables={STRIPE_MODE=test,PUSH_PATCH_FULFILLMENT_EMAIL=drtj@my4mlife.com,DLQ_URL=${DLQ_URL},PERMANENT_FAILURES_URL=${PF_URL},RETRY_STATE_TABLE=RetryState,SCHEDULER_ROLE_ARN=${SCHEDULER_ROLE_ARN},LAMBDA_ARN=${LAMBDA_ARN_FULL}}"
+ENV_VARS="Variables={STRIPE_MODE=test,PUSH_PATCH_FULFILLMENT_EMAIL=drtj@my4mlife.com,PUSH_PATCH_INTAKE_FN=${PUSH_PATCH_INTAKE_FN},DLQ_URL=${DLQ_URL},PERMANENT_FAILURES_URL=${PF_URL},RETRY_STATE_TABLE=RetryState,SCHEDULER_ROLE_ARN=${SCHEDULER_ROLE_ARN},LAMBDA_ARN=${LAMBDA_ARN_FULL}}"
 
 if [ -z "${EXISTING}" ]; then
   aws lambda create-function \
@@ -117,6 +119,7 @@ else
   aws lambda update-function-configuration \
     --function-name "${FUNCTION_NAME}" \
     --environment "${ENV_VARS}" \
+    --timeout 30 \
     --region "${REGION}"
   echo "Updated Lambda"
 fi

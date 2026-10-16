@@ -15,6 +15,8 @@ TOUCHPOINTS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/Touchpoints"
 DIGITAL_BUCKET_ARN="arn:aws:s3:::my4mlife-digital-fulfillment/*"
 EMAIL_SENDER_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-email-sender"
 PROTEGE_SIGNUP_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-protege-signup"
+PUSH_PATCH_INTAKE_FN="my4mlife-push-patch-intake"
+PUSH_PATCH_INTAKE_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:${PUSH_PATCH_INTAKE_FN}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LAMBDA_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
@@ -56,7 +58,7 @@ POLICY=$(cat <<EOF
     {
       "Effect": "Allow",
       "Action": "lambda:InvokeFunction",
-      "Resource": ["${EMAIL_SENDER_ARN}", "${PROTEGE_SIGNUP_ARN}"]
+      "Resource": ["${EMAIL_SENDER_ARN}", "${PROTEGE_SIGNUP_ARN}", "${PUSH_PATCH_INTAKE_ARN}"]
     },
     {
       "Effect": "Allow",
@@ -77,7 +79,7 @@ aws iam put-role-policy \
 ROLE_ARN="arn:aws:iam::${ACCOUNT}:role/${ROLE_NAME}"
 
 # ── Lambda (idempotent) ───────────────────────────────────────────────────────
-ENV_VARS='{"Variables":{"STRIPE_MODE":"test","PUSH_PATCH_FULFILLMENT_EMAIL":"drtj@my4mlife.com"}}'
+ENV_VARS='{"Variables":{"STRIPE_MODE":"test","PUSH_PATCH_FULFILLMENT_EMAIL":"drtj@my4mlife.com","PUSH_PATCH_INTAKE_FN":"my4mlife-push-patch-intake"}}'
 
 if aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION}" &>/dev/null; then
   echo "Updating Lambda function code..."
@@ -90,6 +92,7 @@ if aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION
   aws lambda update-function-configuration \
     --function-name "${FUNCTION_NAME}" \
     --environment "${ENV_VARS}" \
+    --timeout 90 \
     --region "${REGION}" \
    
 else
@@ -101,6 +104,7 @@ else
     --handler "${HANDLER}" \
     --zip-file "fileb://${LAMBDA_DIR}/dist/handler.zip" \
     --environment "${ENV_VARS}" \
+    --timeout 90 \
     --region "${REGION}" \
    
 fi

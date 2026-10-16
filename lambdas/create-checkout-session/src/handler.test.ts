@@ -28,7 +28,7 @@ vi.mock('@aws-sdk/client-dynamodb', () => ({
 }));
 
 // push-patch-prices.json is generated later by infra/scripts/stripe-push-patch-prices.mjs — fake IDs here.
-vi.mock('./push-patch-prices.json', () => {
+vi.mock('../../_shared/push-patch-checkout/src/push-patch-prices.json', () => {
   const data = {
     test: {
       'push-patch-wolverine': 'price_test_wolverine',
@@ -43,7 +43,7 @@ vi.mock('./push-patch-prices.json', () => {
 });
 
 import { handler } from './handler.js';
-import { resetTestPriceCache } from './test-price.js';
+import { resetTestPriceCache } from '@my4mlife/push-patch-checkout';
 
 const ADMIN_PASSWORD = 'secret123';
 

@@ -183,6 +183,19 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@24.12.4)(jsdom@29.1.1)(terser@5.48.0)
 
+  lambdas/_shared/push-patch-checkout:
+    dependencies:
+      '@aws-sdk/client-ssm':
+        specifier: ^3.1141.0
+        version: 3.1141.0
+    devDependencies:
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@24.12.4)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/_shared/push-patch-decision-core:
     dependencies:
       '@aws-sdk/client-dynamodb':
@@ -556,6 +569,9 @@ importers:
 
   lambdas/create-checkout-session:
     dependencies:
+      '@my4mlife/push-patch-checkout':
+        specifier: workspace:*
+        version: link:../_shared/push-patch-checkout
       '@my4mlife/stripe-client':
         specifier: workspace:*
         version: link:../_shared/stripe-client

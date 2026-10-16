@@ -16,7 +16,7 @@ const Stripe = require('stripe');
 const { SecretsManagerClient, GetSecretValueCommand } = require('@aws-sdk/client-secrets-manager');
 
 const API_VERSION = '2025-02-24.acacia';
-const OUT = path.join(root, 'lambdas/create-checkout-session/src/push-patch-prices.json');
+const OUT = path.join(root, 'lambdas/_shared/push-patch-checkout/src/push-patch-prices.json');
 
 // Copy of the P1-A catalog (website/src/data/pushPatch.ts). Keep in sync.
 const BLENDS = [

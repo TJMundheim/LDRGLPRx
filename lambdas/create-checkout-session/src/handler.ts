@@ -2,9 +2,7 @@ import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
-import { evaluateScreening } from './screening';
-import { isPushPatchSku, parseWear, pushPatchEntry } from './push-patch';
-import { resolveTestPrice } from './test-price';
+import { evaluateScreening, isPushPatchSku, parseWear, pushPatchEntry, resolveTestPrice } from '@my4mlife/push-patch-checkout';
 
 const REGION = 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
