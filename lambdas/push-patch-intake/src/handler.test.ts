@@ -244,14 +244,15 @@ describe('400 validation', () => {
 const getEvt = (qs: Record<string, string> | undefined = { session_id: SESSION_ID }, origin?: string) =>
   ({ headers: origin ? { origin } : {}, queryStringParameters: qs, requestContext: { http: { method: 'GET' } } }) as any;
 
-describe('GET ship-to', () => {
-  it('returns ONLY { shipTo } from the paid session shipping details, with CORS for GET', async () => {
+describe('GET status + legacy ship-to', () => {
+  it('a legacy session (no encounter, no pending) is needs-form with the Stripe shipTo, with CORS for GET', async () => {
     const res: any = await handler(getEvt(undefined, 'https://my4mlife.com'));
     expect(res.statusCode).toBe(200);
-    expect(JSON.parse(res.body)).toEqual({ shipTo: STRIPE_SHIP_TO });
+    expect(JSON.parse(res.body)).toEqual({ status: 'needs-form', shipTo: STRIPE_SHIP_TO });
     expect(res.headers['Access-Control-Allow-Methods']).toContain('GET');
     expect(sessionRetrieveMock.mock.calls[0][0]).toBe(SESSION_ID);
-    nothingHappened();
+    expect(ddbSendMock.mock.calls.every((c) => c[0].constructor.name === 'GetCommand')).toBe(true);
+    expect(lambdaSendMock).not.toHaveBeenCalled();
   });
 
   it('returns 402 when unpaid or not a push-patch session', async () => {
@@ -262,11 +263,13 @@ describe('GET ship-to', () => {
     nothingHappened();
   });
 
-  it('returns 400 without session_id and 404 when Stripe holds no shipping address', async () => {
+  it('returns 400 without session_id and needs-form without shipTo when Stripe holds no shipping address', async () => {
     expect(((await handler(getEvt({}))) as any).statusCode).toBe(400);
     expect(sessionRetrieveMock).not.toHaveBeenCalled();
     sessionRetrieveMock.mockResolvedValue({ ...SESSION, shipping_details: null });
-    expect(((await handler(getEvt())) as any).statusCode).toBe(404);
+    const res: any = await handler(getEvt());
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body)).toEqual({ status: 'needs-form' });
   });
 });
 

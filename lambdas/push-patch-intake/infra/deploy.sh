@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # deploy.sh — build, provision IAM role + HMAC key (if missing), create/update the
-# push-patch-intake Lambda, wire GET + POST + OPTIONS /api/push-patch-intake.
+# push-patch-intake Lambda, wire GET + POST + OPTIONS /api/push-patch-intake and
+# POST + OPTIONS /api/push-patch-pre-intake (pay-last: health form before Stripe).
+# The same Lambda also serves {mode:'finalize'} direct invokes from my4mlife-order-handler and
+# my4mlife-stripe-events-retry. Same account: their own IAM policies (infra of those Lambdas) grant
+# lambda:InvokeFunction on this function, so no resource policy is added here.
 # Idempotent. Run from any directory. Throttle lives in infra/api-throttling.sh.
 set -euo pipefail
 
@@ -23,6 +27,8 @@ PROVIDER_EMAIL_PARAM="/my4mlife/provider/email"        # owned by provider-hando
 HMAC_PARAM="push-patch-decision-hmac-key"              # shared with push-patch-decision
 STRIPE_SECRET_ID="all-stripe-keys"
 ROUTE_PATH="/api/push-patch-intake"
+PRE_ROUTE_PATH="/api/push-patch-pre-intake"
+TEST_TOKEN_PARAM="/my4mlife/push-patch/test-token"     # private $2 test-price token (managed by infra/scripts/push-patch-test-token.sh)
 DECISION_BASE_URL="https://$API_ID.execute-api.$REGION.amazonaws.com"   # my4mlife.com has no /api/* proxy
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -77,7 +83,7 @@ INLINE_POLICY=$(cat <<POLICY
     },
     {
       "Effect": "Allow",
-      "Action": ["dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:DeleteItem"],
+      "Action": ["dynamodb:GetItem","dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:DeleteItem"],
       "Resource": "arn:aws:dynamodb:$REGION:$AWS_ACCOUNT_ID:table/$PATIENT_RECORDS_TABLE"
     },
     {
@@ -103,8 +109,15 @@ INLINE_POLICY=$(cat <<POLICY
       "Action": ["ssm:GetParameter"],
       "Resource": [
         "arn:aws:ssm:$REGION:$AWS_ACCOUNT_ID:parameter$PROVIDER_EMAIL_PARAM",
-        "arn:aws:ssm:$REGION:$AWS_ACCOUNT_ID:parameter/$HMAC_PARAM"
+        "arn:aws:ssm:$REGION:$AWS_ACCOUNT_ID:parameter/$HMAC_PARAM",
+        "arn:aws:ssm:$REGION:$AWS_ACCOUNT_ID:parameter$TEST_TOKEN_PARAM"
       ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["kms:Decrypt"],
+      "Resource": "*",
+      "Condition": { "StringEquals": { "kms:ViaService": "ssm.$REGION.amazonaws.com" } }
     },
     {
       "Effect": "Allow",
@@ -158,8 +171,8 @@ fi
 rm -f "$ENV_FILE"
 $AWS lambda wait function-active --function-name "$FUNCTION_NAME"
 
-# ── 5. HTTP API routes: GET (ship-to) + POST + OPTIONS (CORS preflight; the handler sets the
-#       my4mlife.com origin allow-list headers itself) ─────────────────────────
+# ── 5. HTTP API routes: GET (order status) + POST + OPTIONS (CORS preflight; the handler sets the
+#       my4mlife.com origin allow-list headers itself); pre-intake is POST + OPTIONS ──────────
 LAMBDA_ARN="arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$FUNCTION_NAME"
 
 $AWS lambda add-permission \
@@ -169,10 +182,16 @@ $AWS lambda add-permission \
   --principal "apigateway.amazonaws.com" \
   --source-arn "arn:aws:execute-api:$REGION:$AWS_ACCOUNT_ID:$API_ID/*/*$ROUTE_PATH" \
   2>/dev/null || true
+$AWS lambda add-permission \
+  --function-name "$FUNCTION_NAME" \
+  --statement-id "apigateway-push-patch-pre-intake" \
+  --action "lambda:InvokeFunction" \
+  --principal "apigateway.amazonaws.com" \
+  --source-arn "arn:aws:execute-api:$REGION:$AWS_ACCOUNT_ID:$API_ID/*/*$PRE_ROUTE_PATH" \
+  2>/dev/null || true
 
 INTEGRATION_ID=""
-for METHOD in GET POST OPTIONS; do
-  ROUTE_KEY="$METHOD $ROUTE_PATH"
+for ROUTE_KEY in "GET $ROUTE_PATH" "POST $ROUTE_PATH" "OPTIONS $ROUTE_PATH" "POST $PRE_ROUTE_PATH" "OPTIONS $PRE_ROUTE_PATH"; do
   EXISTING_ROUTE=$($AWS apigatewayv2 get-routes --api-id "$API_ID" \
     --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId | [0]" --output text)
   if [[ "$EXISTING_ROUTE" != "None" && -n "$EXISTING_ROUTE" ]]; then
@@ -180,12 +199,16 @@ for METHOD in GET POST OPTIONS; do
     continue
   fi
   if [[ -z "$INTEGRATION_ID" ]]; then
-    INTEGRATION_ID=$($AWS apigatewayv2 create-integration \
-      --api-id "$API_ID" \
-      --integration-type AWS_PROXY \
-      --integration-uri "$LAMBDA_ARN" \
-      --payload-format-version "2.0" \
-      --query "IntegrationId" --output text)
+    INTEGRATION_ID=$($AWS apigatewayv2 get-integrations --api-id "$API_ID" \
+      --query "Items[?IntegrationUri=='$LAMBDA_ARN'].IntegrationId | [0]" --output text)
+    if [[ "$INTEGRATION_ID" == "None" || -z "$INTEGRATION_ID" ]]; then
+      INTEGRATION_ID=$($AWS apigatewayv2 create-integration \
+        --api-id "$API_ID" \
+        --integration-type AWS_PROXY \
+        --integration-uri "$LAMBDA_ARN" \
+        --payload-format-version "2.0" \
+        --query "IntegrationId" --output text)
+    fi
   fi
   $AWS apigatewayv2 create-route \
     --api-id "$API_ID" \
@@ -195,4 +218,4 @@ for METHOD in GET POST OPTIONS; do
 done
 
 log "Run infra/api-throttling.sh to apply the route throttle."
-log "Done. Endpoint: https://$API_ID.execute-api.$REGION.amazonaws.com$ROUTE_PATH"
+log "Done. Endpoints: https://$API_ID.execute-api.$REGION.amazonaws.com$ROUTE_PATH and $PRE_ROUTE_PATH"

@@ -1179,6 +1179,9 @@ importers:
       '@my4mlife/patient-record':
         specifier: workspace:*
         version: link:../_shared/patient-record
+      '@my4mlife/push-patch-checkout':
+        specifier: workspace:*
+        version: link:../_shared/push-patch-checkout
       '@my4mlife/stripe-client':
         specifier: workspace:*
         version: link:../_shared/stripe-client

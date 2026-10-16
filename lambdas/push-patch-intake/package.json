@@ -15,6 +15,7 @@
     "@my4mlife/contact-id": "workspace:*",
     "@my4mlife/legal-consents": "workspace:*",
     "@my4mlife/patient-record": "workspace:*",
+    "@my4mlife/push-patch-checkout": "workspace:*",
     "@my4mlife/stripe-client": "workspace:*",
     "stripe": "^17.0.0",
     "@my4mlife/contact-upsert": "workspace:*"

@@ -1,7 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
-import type { PushPatchBody } from './validate';
+import type { HealthFields } from './validate';
 import { buildRecordUpdates } from './upsert';
 import type { StoredScreening } from './screening';
 import type { ShipTo, StripeShipping } from './ship';
@@ -68,23 +68,31 @@ export async function deleteEncounter(contactId: string, encounterId: string): P
   }
 }
 
+/** True once the Encounter for this session exists (the intake was submitted, by either path). */
+export async function encounterExists(contactId: string, sessionId: string): Promise<boolean> {
+  const r = await ddb.send(new GetCommand({
+    TableName: TABLE, Key: { contactId, sk: encounterSk(encounterIdFor(sessionId)) }, ConsistentRead: true,
+  }));
+  return !!r.Item;
+}
+
 /** Upsert the root PatientRecord without removing existing data: nested SETs only (see upsert.ts). */
 export async function upsertRecord(a: {
-  contactId: string; session: PaidSession; body: PushPatchBody; shipTo: ShipTo; screening: StoredScreening; ts: string;
+  contactId: string; name: string; email: string; body: HealthFields; shipTo: ShipTo; screening: StoredScreening;
+  ts: string; consentAt: string;
 }): Promise<void> {
-  const { contactId, session, body, shipTo, screening, ts } = a;
-  const [first = '', ...rest] = (session.customer_details?.name ?? '').trim().split(/\s+/);
+  const { contactId, name, email, body, shipTo, screening, ts, consentAt } = a;
+  const [first = '', ...rest] = name.trim().split(/\s+/);
   const updates = buildRecordUpdates({
     demographics: {
-      firstName: first, lastName: rest.join(' '),
-      email: (session.customer_details?.email ?? '').trim().toLowerCase(),
+      firstName: first, lastName: rest.join(' '), email: email.trim().toLowerCase(),
       phone: body.phone, dob: body.dob, sex: body.sex,
       state: shipTo.state,
     },
     history: { medications: body.medications, allergies: body.allergies, conditions: body.conditions },
     screening,
     consentKey: CONSENT_KEY,
-    consent: { version: CONSENT_KEY, agreed: true, name: body.consentName, at: ts },
+    consent: { version: CONSENT_KEY, agreed: true, name: body.consentName, at: consentAt },
     ts,
   });
   for (const u of updates) await ddb.send(new UpdateCommand({ TableName: TABLE, Key: { contactId, sk: RECORD_SK }, ...u }));

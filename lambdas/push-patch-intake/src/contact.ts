@@ -11,11 +11,11 @@ const realPhone = (p: string): string | undefined => {
 };
 
 /**
- * Record the (already paid) Push Patch buyer on the shared Contact list: email,
+ * Record the Push Patch buyer (`pre`: unpaid lead from the pre-payment form; default: paid customer) on the shared Contact list: email,
  * name and phone ONLY. DOB, sex, meds, conditions, allergies, shipping and
  * screening never reach this call. Never throws: failure must not fail the intake.
  */
-export async function captureContact(a: { email: string; fullName: string; phone: string }): Promise<void> {
+export async function captureContact(a: { email: string; fullName: string; phone: string; pre?: boolean }): Promise<void> {
   const [first = '', ...rest] = a.fullName.trim().split(/\s+/);
   const lastName = rest.join(' ');
   const phone = realPhone(a.phone);
@@ -25,10 +25,10 @@ export async function captureContact(a: { email: string; fullName: string; phone
       ...(first ? { firstName: first } : {}),
       ...(lastName ? { lastName } : {}),
       ...(phone ? { phone } : {}),
-      source: 'push-patch-intake',
+      source: a.pre ? 'push-patch-form' : 'push-patch-intake',
       tags: ['push-patch'],
-      stage: 'customer',
-      event: { type: 'push-patch-intake' },
+      stage: a.pre ? 'lead' : 'customer',
+      event: { type: a.pre ? 'push-patch-form' : 'push-patch-intake' },
     });
   } catch (e) {
     console.warn('[push-patch-intake] contact upsert failed', { error: (e as Error)?.name ?? 'Error' });

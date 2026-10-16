@@ -1,32 +1,35 @@
-// GET  /api/push-patch-intake?session_id= — the Stripe ship-to, for the buyer to confirm.
-// POST /api/push-patch-intake — post-purchase async visit intake.
-// Gate on a paid push-patch Stripe session -> encounter (idempotent) -> record
-// + consent -> packet -> ONE provider email with one-tap Approve/Decline.
+// Router for the push-patch-intake Lambda.
+//  {mode:'finalize'} (direct invoke by order-handler)  -> finalize.ts, returns { result }
+//  GET  /api/push-patch-intake?session_id=             -> status.ts (complete | processing | needs-form)
+//  POST /api/push-patch-pre-intake                     -> pre-intake.ts (health form + signature BEFORE payment)
+//  POST /api/push-patch-intake                         -> legacy post-payment intake (paid session -> submit.ts)
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { resolveContactId } from '@my4mlife/contact-id';
 import { validateBody } from './validate';
-import { parseScreening } from './screening';
 import { reply, paidSession } from './http';
-import { resolveShipTo, stripeShipTo } from './ship';
-import {
-  encounterIdFor, createEncounter, deleteEncounter, upsertRecord,
-} from './record';
-import { captureContact } from './contact';
-import { markIntakeSubmitted } from './marker';
-import { recordConsents, sendSignedCopy } from './consent';
-import { generatePacket, sendProviderReview } from './provider-email';
+import { resolveShipTo } from './ship';
+import { encounterIdFor } from './record';
+import { submitIntake } from './submit';
+import { finalize } from './finalize';
+import { orderStatus } from './status';
+import { preIntake } from './pre-intake';
 
-export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
+type FinalizeEvent = { mode: 'finalize'; sessionId: string; intakeId: string };
+const isFinalize = (e: unknown): e is FinalizeEvent => (e as FinalizeEvent)?.mode === 'finalize';
+
+export const handler = async (event: APIGatewayProxyEventV2 | FinalizeEvent): Promise<APIGatewayProxyResultV2 | { result: string }> => {
+  if (isFinalize(event)) return finalize(event.sessionId, event.intakeId);
   const origin = event.headers?.['origin'] ?? event.headers?.['Origin'];
-  if (event.requestContext?.http?.method === 'OPTIONS') return reply(204, {}, origin);
-  if (event.requestContext?.http?.method === 'GET') {
+  const method = event.requestContext?.http?.method;
+  if (method === 'OPTIONS') return reply(204, {}, origin);
+  if (method === 'GET') {
     const id = event.queryStringParameters?.['session_id'];
     if (!id) return reply(400, { error: 'session_id required' }, origin);
     const p = await paidSession(id);
-    if (!p) return reply(402, { error: 'payment not found for this session' }, origin);
-    const shipTo = stripeShipTo(p.session.shipping_details);
-    return shipTo ? reply(200, { shipTo }, origin) : reply(404, { error: 'no shipping address on this order' }, origin);
+    return p ? reply(200, await orderStatus(p.session), origin) : reply(402, { error: 'payment not found for this session' }, origin);
   }
+  const path = event.rawPath ?? event.requestContext?.http?.path ?? '';
+  if (path.endsWith('/push-patch-pre-intake')) return preIntake(event, origin);
   if (!event.body) return reply(400, { error: 'missing body' }, origin);
 
   let raw: unknown;
@@ -43,58 +46,15 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
 
   // Same resolution as order-handler-core (metadata.contactId first) so the pending marker key matches.
   const contactId = resolveContactId({ metadataContactId: session.metadata?.['contactId'], email: session.customer_details?.email })!;
-  const encounterId = encounterIdFor(session.id);
-  const ts = new Date().toISOString();
-  const screening = parseScreening(session.metadata);
-  const pi = session.payment_intent;
-  const paymentIntentId = typeof pi === 'string' ? pi : (pi?.id ?? '');
-
-  let created = false;
-  try {
-    if ((await createEncounter({
-      contactId, encounterId, sku, sessionId: session.id, paymentIntentId, shipTo, ts,
-      amountCents: session.amount_total, currency: session.currency,
-      testOrder: session.metadata?.['test_price'] === 'true',
-    })) === 'duplicate') {
-      return reply(200, { ok: true, alreadySubmitted: true, encounterId }, origin);
-    }
-    created = true;
-    await upsertRecord({ contactId, session, body, shipTo, screening, ts });
-  } catch (e) {
-    console.error('[push-patch-intake] record write failed', { sessionId: session.id, error: String(e) });
-    if (created) await deleteEncounter(contactId, encounterId);
-    return reply(500, { error: 'could not save your submission' }, origin);
-  }
-
   const h = event.headers ?? {};
-  // Consents first so the packet and provider email can show them; a failed write never blocks the hand-off.
-  const consentLine = await recordConsents({
-    contactId, encounterId, typedName: body.consentName, at: ts,
-    ip: event.requestContext?.http?.sourceIp, userAgent: h['user-agent'] ?? h['User-Agent'] ?? event.requestContext?.http?.userAgent,
+  const out = await submitIntake({
+    contactId, session, sku, shipTo, body,
+    name: session.customer_details?.name ?? '', email: session.customer_details?.email ?? '',
+    consentAt: new Date().toISOString(), ip: event.requestContext?.http?.sourceIp,
+    userAgent: h['user-agent'] ?? h['User-Agent'] ?? event.requestContext?.http?.userAgent, stampMarker: true,
   });
-  try {
-    const packetUrl = await generatePacket(contactId, encounterId);
-    await sendProviderReview({
-      contactId, encounterId, sku, packetUrl, consentLine,
-      patientName: session.customer_details?.name ?? '',
-      screening,
-      testOrder: session.metadata?.['test_price'] === 'true',
-    });
-  } catch (e) {
-    console.error('[push-patch-intake] provider hand-off failed', { sessionId: session.id, error: String(e) });
-    await deleteEncounter(contactId, encounterId);
-    return reply(502, { error: 'could not reach the reviewing physician; please resubmit' }, origin);
-  }
-
-  await markIntakeSubmitted(contactId, session.id, ts);
-  await captureContact({
-    email: (session.customer_details?.email ?? '').trim().toLowerCase(),
-    fullName: session.customer_details?.name ?? '',
-    phone: body.phone,
-  });
-  await sendSignedCopy({
-    typedName: body.consentName, at: ts,
-    email: (session.customer_details?.email ?? '').trim().toLowerCase(), name: session.customer_details?.name ?? '',
-  });
-  return reply(200, { ok: true, encounterId }, origin);
+  if (out === 'already') return reply(200, { ok: true, alreadySubmitted: true, encounterId: encounterIdFor(session.id) }, origin);
+  if (out === 'record-failed') return reply(500, { error: 'could not save your submission' }, origin);
+  if (out === 'handoff-failed') return reply(502, { error: 'could not reach the reviewing physician; please resubmit' }, origin);
+  return reply(200, { ok: true, encounterId: encounterIdFor(session.id) }, origin);
 };
