@@ -169,10 +169,18 @@ const US_STATES: [string, string][] = [
           <p class="pp-help">Read the full <a href="/consent" target="_blank" rel="noopener">Medical &amp; Telehealth Consent</a> and the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
           {/* TJ CONFIRM: /consent still carries GLP-1 and compounded-medication language; decide whether to link it */}
 
+          <div class="pp-field pp-check-field">
+            <label class="pp-check" for="f-privacy">
+              <input type="checkbox" id="f-privacy" name="privacyAck" required aria-describedby="e-privacy" />
+              <span>I acknowledge the <a href="/legal/privacy-notice" target="_blank" rel="noopener">Notice of Privacy Practices</a> and sign the <a href="/legal/authorization" target="_blank" rel="noopener">Authorization</a> to share my health information with our network's licensed physicians and pharmacy partner.</span>
+            </label>
+            <p class="pp-err" id="e-privacy" role="alert"></p>
+          </div>
+
           <div class="pp-field">
             <label for="f-consent">Type your full legal name to sign</label>
             <input type="text" id="f-consent" name="consentName" autocomplete="name" required aria-describedby="h-consent e-consent" />
-            <p class="pp-help" id="h-consent">This works as your signature. Today's date is recorded automatically.</p>
+            <p class="pp-help" id="h-consent">This works as your signature for the consent, the privacy notice and the authorization. Today's date is recorded automatically.</p>
             <p class="pp-err" id="e-consent" role="alert"></p>
           </div>
 
@@ -273,7 +281,7 @@ const US_STATES: [string, string][] = [
   function validate() {
     var ok = true, first = null;
     function bad(id, msg, focusEl) { setErr(id, msg); ok = false; if (!first) first = focusEl; }
-    ['dob','sex','phone','medications','allergies','conditions','consent','s-name','s-line1','s-city','s-state','s-zip','ship'].forEach(function (k) { setErr('e-' + k, ''); });
+    ['dob','sex','phone','medications','allergies','conditions','privacy','consent','s-name','s-line1','s-city','s-state','s-zip','ship'].forEach(function (k) { setErr('e-' + k, ''); });
     setErr('e-form', '');
 
     var d = dob.value;
@@ -298,6 +306,7 @@ const US_STATES: [string, string][] = [
       if (!$('s-state').value) bad('e-s-state', 'Select a state.', $('s-state'));
       if (!/^\d{5}(-?\d{4})?$/.test($('s-zip').value.trim())) bad('e-s-zip', 'Enter a 5-digit ZIP code.', $('s-zip'));
     }
+    if (!$('f-privacy').checked) bad('e-privacy', 'Please check this box to continue.', $('f-privacy'));
     if (!$('f-consent').value.trim()) bad('e-consent', 'Type your full legal name to continue.', $('f-consent'));
     if (first && first.focus) first.focus();
     return ok;
@@ -316,6 +325,7 @@ const US_STATES: [string, string][] = [
       allergies: lines($('f-allergies').value),
       conditions: lines($('f-conditions').value),
       consentName: $('f-consent').value.trim(),
+      privacyAck: true,
       shipping: shipMode() === 'confirm' ? { confirmed: true } : { confirmed: false, address: {
         name: $('s-name').value.trim(), line1: $('s-line1').value.trim(), line2: $('s-line2').value.trim(),
         city: $('s-city').value.trim(), state: $('s-state').value, postalCode: $('s-zip').value.trim()
@@ -395,6 +405,10 @@ const US_STATES: [string, string][] = [
 .pp-field textarea { resize: vertical; min-height: 4rem; }
 .pp-field input:focus-visible, .pp-field select:focus-visible, .pp-field textarea:focus-visible,
 .pp-consent:focus-visible, .pp-radio input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pp-field .pp-check { display: flex; font-weight: 400; margin: 0; align-items: flex-start; gap: 0.7rem; min-height: 44px; cursor: pointer; font-size: 0.95rem; line-height: 1.5; color: var(--on-ink); }
+.pp-check input { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.2rem; accent-color: var(--accent); }
+.pp-check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pp-check a { color: var(--accent); }
 .pp-help { font-size: 0.8rem; line-height: 1.5; color: var(--on-ink-muted); margin: 0.4rem 0 0; }
 .pp-help-top { margin: 0 0 1.5rem; }
 .pp-err { font-size: 0.85rem; color: #fca5a5; margin: 0.4rem 0 0; min-height: 0; }

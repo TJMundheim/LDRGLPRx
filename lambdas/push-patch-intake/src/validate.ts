@@ -9,6 +9,7 @@ export interface PushPatchBody {
   allergies: string[];
   conditions: string[];
   consentName: string;
+  privacyAck: true;
   shipping: Shipping;
 }
 
@@ -51,7 +52,8 @@ export function validateBody(raw: unknown): ValidationResult {
   }
   const consentName = str(r.consentName);
   if (!consentName) return { ok: false, error: 'consentName required' };
+  if (r.privacyAck !== true) return { ok: false, error: 'privacyAck required' };
   const shipping = parseShipping(r.shipping);
   if (!shipping) return { ok: false, error: 'shipping must be confirmed or a valid US address' };
-  return { ok: true, body: { sessionId, dob, sex, phone, medications, allergies, conditions, consentName, shipping } };
+  return { ok: true, body: { sessionId, dob, sex, phone, medications, allergies, conditions, consentName, privacyAck: true, shipping } };
 }

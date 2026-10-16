@@ -39,6 +39,8 @@ vi.mock('@my4mlife/contact-upsert', () => ({
 }));
 
 import { deriveContactId } from '@my4mlife/contact-id';
+import { LEGAL_VERSION, copyEmailHtml } from '@my4mlife/legal-consents';
+import { auditSk, CONSENT_NPP_V1, CONSENT_PHI_AUTH_V1 } from '@my4mlife/patient-record';
 import { handler } from './handler';
 import { verifyToken } from './sign';
 
@@ -52,6 +54,8 @@ const SESSION_ID = 'cs_test_123';
 const SKU = 'push-patch-nad-ghk';
 const EMAIL = 'jane@example.com';
 const CONSENT_NAME = 'Jane Q Doe';
+const UA = 'TestBrowser/1.0';
+const IP = '203.0.113.7';
 
 const SESSION = {
   id: SESSION_ID,
@@ -80,6 +84,7 @@ const VALID_BODY = {
   allergies: [],
   conditions: ['hypothyroidism'],
   consentName: CONSENT_NAME,
+  privacyAck: true,
   shipping: { confirmed: true },
 };
 
@@ -87,7 +92,7 @@ const STRIPE_SHIP_TO = { name: 'Jane Doe', line1: '1 Main St', line2: '', city: 
 const CORRECTED = { name: 'Jane Doe', line1: '9 Oak Ave', line2: 'Apt 4', city: 'Denver', state: 'co', postalCode: '80202-1234' };
 
 const REQUIRED_FIELDS = [
-  'sessionId', 'dob', 'sex', 'phone', 'medications', 'allergies', 'conditions', 'consentName', 'shipping',
+  'sessionId', 'dob', 'sex', 'phone', 'medications', 'allergies', 'conditions', 'consentName', 'privacyAck', 'shipping',
 ];
 const SCREEN_RECORD = {
   version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: [],
@@ -99,8 +104,8 @@ const withScreen = (meta: Record<string, string>) => ({ ...SESSION, metadata: { 
 function evt(body: unknown, method = 'POST', origin?: string) {
   return {
     body: typeof body === 'string' ? body : JSON.stringify(body),
-    headers: origin ? { origin } : {},
-    requestContext: { http: { method } },
+    headers: { ...(origin ? { origin } : {}), 'user-agent': UA },
+    requestContext: { http: { method, sourceIp: IP } },
   } as any;
 }
 
@@ -112,7 +117,11 @@ const valuesOf = (i: any): any[] => [
   ...Object.values(i.ExpressionAttributeValues ?? {}),
   ...Object.values(i.Item ?? {}),
 ];
-const recordWrites = () => ddbInputs().filter((i) => skOf(i) === 'record');
+// Consent-sign writes (bootstrap + NPP/PHI-auth SET) are asserted separately; recordWrites() is the intake upsert only.
+const isConsentSignWrite = (i: any) => i.ExpressionAttributeNames?.['#npp'] !== undefined
+  || i.UpdateExpression === 'SET #c = if_not_exists(#c, :empty)';
+const consentSignWrites = () => ddbInputs().filter((i) => skOf(i) === 'record' && isConsentSignWrite(i));
+const recordWrites = () => ddbInputs().filter((i) => skOf(i) === 'record' && !isConsentSignWrite(i));
 /** The nested-field SET (second record write). */
 const recordWrite = () => recordWrites()[recordWrites().length - 1];
 /** Resolve a nested-SET expression into { 'demographics.firstName': value, ... }. */
@@ -128,7 +137,11 @@ const encounterWrite = () => ddbInputs().find((i) => String(skOf(i)).startsWith(
 const fnOf = (call: any[]): string => call[0].input.FunctionName;
 const payloadOf = (call: any[]) => JSON.parse(Buffer.from(call[0].input.Payload).toString('utf8'));
 const packetCalls = () => lambdaSendMock.mock.calls.filter((c) => fnOf(c).includes('export-clinical-packet'));
-const emailCalls = () => lambdaSendMock.mock.calls.filter((c) => fnOf(c).includes('email-sender'));
+const allEmailCalls = () => lambdaSendMock.mock.calls.filter((c) => fnOf(c).includes('email-sender'));
+/** The provider-review email (to the SSM provider address). */
+const emailCalls = () => allEmailCalls().filter((c) => payloadOf(c).to === PROVIDER);
+/** The signed-copy email to the patient. */
+const copyCalls = () => allEmailCalls().filter((c) => payloadOf(c).to === EMAIL);
 
 const conditionalFailure = () => Object.assign(new Error('conditional'), { name: 'ConditionalCheckFailedException' });
 
@@ -201,6 +214,14 @@ describe('400 validation', () => {
     const res: any = await handler(evt(body));
     expect(res.statusCode).toBe(400);
     expect(JSON.parse(res.body).error).toEqual(expect.any(String));
+    expect(sessionRetrieveMock).not.toHaveBeenCalled();
+    nothingHappened();
+  });
+
+  it.each([false, 'true', 1, null])('returns 400 "privacyAck required" when privacyAck is %j, before Stripe or any write', async (v) => {
+    const res: any = await handler(evt({ ...VALID_BODY, privacyAck: v }));
+    expect(res.statusCode).toBe(400);
+    expect(JSON.parse(res.body).error).toBe('privacyAck required');
     expect(sessionRetrieveMock).not.toHaveBeenCalled();
     nothingHappened();
   });
@@ -410,8 +431,8 @@ describe('success: PatientRecord and Encounter', () => {
       const V = i.ExpressionAttributeValues, N = i.ExpressionAttributeNames ?? {};
       for (const asg of String(i.UpdateExpression).replace(/^SET /, '').split(/, (?=[#\w]+(?:\.[#\w]+)? = )/)) {
         const [lhs, rhs] = asg.split(' = ');
-        const ine = rhs.match(/^if_not_exists\((\w+), (:\w+)\)$/);
-        if (ine) { existing[ine[1]] ??= structuredClone(V[ine[2]]); continue; }
+        const ine = rhs.match(/^if_not_exists\(([#\w]+), (:\w+)\)$/);
+        if (ine) { existing[N[ine[1]] ?? ine[1]] ??= structuredClone(V[ine[2]]); continue; }
         const path = lhs.split('.').map((p) => N[p] ?? p);
         let o = existing;
         for (const seg of path.slice(0, -1)) o = o[seg];   // throws if a parent map is missing, like DynamoDB
@@ -425,6 +446,8 @@ describe('success: PatientRecord and Encounter', () => {
     expect(existing.screeningAnswers).toEqual({ whyNow: 'energy', pushPatch: SCREEN_RECORD });
     expect(existing.consents['consent-protege-v1']).toEqual({ agreed: true });
     expect(existing.consents['consent-telehealth-push-patch-v1']).toMatchObject({ agreed: true });
+    expect(typeof existing.consents[CONSENT_NPP_V1]).toBe('string');
+    expect(typeof existing.consents[CONSENT_PHI_AUTH_V1]).toBe('string');
   });
 
   it('creates the Encounter with lane, sku, sessionId, paymentIntentId and state sent-to-provider', async () => {
@@ -883,3 +906,138 @@ describe('Contact capture (email/name only)', () => {
     expect(upsertContactMock).not.toHaveBeenCalled();
   });
 });
+
+// ── Signature covers NPP + Authorization ──────────────────────────────────────
+
+describe('privacy notice + authorization signature', () => {
+  const AT = NOW;
+  const consentSet = () => consentSignWrites().find((i) => i.ExpressionAttributeNames?.['#npp'] !== undefined);
+  const auditPut = () => ddbInputs().find((i) => i.Item?.action === 'consent.signed');
+
+  it('bootstraps the consents map, then writes NPP + PHI-auth as JSON strings in the stored shape', async () => {
+    const res: any = await handler(evt(VALID_BODY));
+    expect(res.statusCode).toBe(200);
+    const writes = consentSignWrites();
+    expect(writes).toHaveLength(2);
+    expect(writes[0].UpdateExpression).toBe('SET #c = if_not_exists(#c, :empty)');
+    expect(writes[0].ExpressionAttributeNames).toEqual({ '#c': 'consents' });
+    expect(writes[0].ExpressionAttributeValues).toEqual({ ':empty': {} });
+    const w = consentSet();
+    expect(w.Key).toEqual({ contactId: deriveContactId(EMAIL), sk: 'record' });
+    expect(w.UpdateExpression).toBe('SET #c.#npp = :npp, #c.#phi = :phi, updatedAt = :ts');
+    expect(w.ExpressionAttributeNames['#c']).toBe('consents');
+    expect(w.ExpressionAttributeValues[':ts']).toBe(AT);
+    const npp = w.ExpressionAttributeNames['#npp'];
+    const phi = w.ExpressionAttributeNames['#phi'];
+    expect(npp).not.toBe(phi);
+    expect(typeof w.ExpressionAttributeValues[':npp']).toBe('string');
+    expect(JSON.parse(w.ExpressionAttributeValues[':npp'])).toEqual({
+      version: npp, legalVersion: LEGAL_VERSION, at: AT, typedName: CONSENT_NAME, ip: IP, userAgent: UA,
+    });
+    expect(JSON.parse(w.ExpressionAttributeValues[':phi'])).toEqual({
+      version: phi, legalVersion: LEGAL_VERSION, at: AT, typedName: CONSENT_NAME, ip: IP, userAgent: UA,
+    });
+  });
+
+  it('writes the consent.signed audit item with detail {npp:true, phiAuth:true}', async () => {
+    await handler(evt(VALID_BODY));
+    const a = auditPut();
+    expect(a).toBeDefined();
+    expect(a.Item).toMatchObject({
+      contactId: deriveContactId(EMAIL), at: AT, encounterId: `pp-${SESSION_ID}`,
+      action: 'consent.signed', detail: { npp: true, phiAuth: true },
+    });
+    expect(a.Item.sk).toBe(auditSk(AT, 0));
+  });
+
+  it('writes consents only after the provider hand-off, and not at all on a duplicate or 502', async () => {
+    const order: string[] = [];
+    ddbSendMock.mockImplementation(async (cmd: any) => { if (isConsentSignWrite(cmd.input)) order.push('consent'); return {}; });
+    lambdaSendMock.mockImplementation(async (cmd: any) => {
+      const fn: string = cmd.input.FunctionName;
+      if (fn.includes('export-clinical-packet')) return { Payload: Buffer.from(JSON.stringify({ ok: true, summaryUrl: PACKET_URL })) };
+      order.push(payloadOf([cmd]).to === PROVIDER ? 'provider' : 'copy');
+      return {};
+    });
+    await handler(evt(VALID_BODY));
+    expect(order.indexOf('provider')).toBeLessThan(order.indexOf('consent'));
+
+    ddbSendMock.mockReset(); ddbSendMock.mockResolvedValue({});
+    lambdaSendMock.mockImplementation(async () => ({ FunctionError: 'Unhandled', Payload: Buffer.from('{}') }));
+    expect(((await handler(evt(VALID_BODY))) as any).statusCode).toBe(502);
+    expect(consentSignWrites()).toHaveLength(0);
+
+    ddbSendMock.mockReset();
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (String(cmd.input.Item?.sk).startsWith('encounter#')) throw conditionalFailure();
+      return {};
+    });
+    await handler(evt(VALID_BODY));
+    expect(consentSignWrites()).toHaveLength(0);
+  });
+
+  it('omits ip / userAgent from the stored consent when the request carries none', async () => {
+    await handler({ body: JSON.stringify(VALID_BODY), headers: {}, requestContext: { http: { method: 'POST' } } } as any);
+    const s = JSON.parse(consentSet().ExpressionAttributeValues[':npp']);
+    expect(s.ip).toBeUndefined();
+    expect(s.userAgent).toBeUndefined();
+    expect(s.typedName).toBe(CONSENT_NAME);
+  });
+
+  it('emails the signed copy to the patient from support with the specified subject', async () => {
+    await handler(evt(VALID_BODY));
+    expect(copyCalls()).toHaveLength(1);
+    const p = payloadOf(copyCalls()[0]);
+    expect(p).toMatchObject({
+      kind: 'info', from: 'support', to: EMAIL, subject: 'Your signed privacy notice and authorization',
+    });
+    expect(p.html).toBe(copyEmailHtml('Jane Doe', CONSENT_NAME, AT));
+    expect(p.html).toContain('Notice of Privacy Practices');
+    expect(p.html).toContain(CONSENT_NAME);
+    expect(p.text).toEqual(expect.any(String));
+  });
+
+  it('a copy-email failure (FunctionError or throw) does not fail the intake and logs the error name only', async () => {
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    for (const mode of ['functionError', 'throw']) {
+      lambdaSendMock.mockImplementation(async (cmd: any) => {
+        if (cmd.input.FunctionName.includes('export-clinical-packet')) {
+          return { Payload: Buffer.from(JSON.stringify({ ok: true, summaryUrl: PACKET_URL })) };
+        }
+        if (payloadOf([cmd]).to === EMAIL) {
+          if (mode === 'throw') throw Object.assign(new Error('boom jane@example.com'), { name: 'ThrottlingException' });
+          return { FunctionError: 'Unhandled' };
+        }
+        return {};
+      });
+      const res: any = await handler(evt(VALID_BODY));
+      expect(res.statusCode).toBe(200);
+      expect(JSON.parse(res.body).ok).toBe(true);
+    }
+    expect(JSON.stringify(err.mock.calls)).not.toContain('jane@example.com');
+    expect(JSON.stringify(err.mock.calls)).toContain('ThrottlingException');
+    expect(deleteCalls()).toHaveLength(0);
+    err.mockRestore();
+  });
+
+  it('sends no copy email when payment is not found (402)', async () => {
+    sessionRetrieveMock.mockResolvedValue({ ...SESSION, payment_status: 'unpaid' });
+    await handler(evt(VALID_BODY));
+    expect(copyCalls()).toHaveLength(0);
+  });
+
+  it('a consent write failure does not fail the intake (provider already notified) and is logged without PII', async () => {
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    ddbSendMock.mockImplementation(async (cmd: any) => {
+      if (isConsentSignWrite(cmd.input)) throw Object.assign(new Error('jane@example.com'), { name: 'ProvisionedThroughputExceededException' });
+      return {};
+    });
+    const res: any = await handler(evt(VALID_BODY));
+    expect(res.statusCode).toBe(200);
+    expect(emailCalls()).toHaveLength(1);
+    expect(JSON.stringify(err.mock.calls)).not.toContain('jane@example.com');
+    err.mockRestore();
+  });
+});
+
+const deleteCalls = () => ddbSendMock.mock.calls.map((c) => c[0]).filter((c) => c.constructor.name === 'DeleteCommand');

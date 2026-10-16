@@ -13,6 +13,7 @@ import {
 } from './record';
 import { captureContact } from './contact';
 import { markIntakeSubmitted } from './marker';
+import { signAndSendCopy } from './consent';
 import { generatePacket, sendProviderReview } from './provider-email';
 
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
@@ -84,6 +85,12 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
     email: (session.customer_details?.email ?? '').trim().toLowerCase(),
     fullName: session.customer_details?.name ?? '',
     phone: body.phone,
+  });
+  const h = event.headers ?? {};
+  await signAndSendCopy({
+    contactId, encounterId, typedName: body.consentName, at: ts,
+    ip: event.requestContext?.http?.sourceIp, userAgent: h['user-agent'] ?? h['User-Agent'] ?? event.requestContext?.http?.userAgent,
+    email: (session.customer_details?.email ?? '').trim().toLowerCase(), name: session.customer_details?.name ?? '',
   });
   return reply(200, { ok: true, encounterId }, origin);
 };

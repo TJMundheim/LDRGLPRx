@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
+    "@my4mlife/legal-consents": "workspace:*",
     "astro": "^6.1.8"
   },
   "devDependencies": {

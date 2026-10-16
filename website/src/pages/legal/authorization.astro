@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { PATIENT_AUTH_HTML, LEGAL_EFFECTIVE, DISCLOSE_TO } from '@my4mlife/legal-consents';
+
+const title = 'Authorization to Share Health Information — My4MLife';
+const description = 'Patient authorization for use and disclosure of protected health information at My4MLife.';
+const canonical = 'https://www.my4mlife.com/legal/authorization';
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow">
+  <section class="legal-doc">
+    <div class="legal-wrap">
+      <h1>Authorization to Share Health Information</h1>
+      <p class="legal-eff">Effective {LEGAL_EFFECTIVE}</p>
+      <p><strong>Disclose to:</strong> {DISCLOSE_TO}</p>
+      <div class="legal-body" set:html={PATIENT_AUTH_HTML} />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-doc { padding: 7rem 1rem 4rem; }
+  .legal-wrap { max-width: 760px; margin: 0 auto; line-height: 1.7; }
+  .legal-wrap h1 { margin: 0 0 0.5rem; }
+  .legal-eff { color: #5a6472; margin: 0 0 2rem; }
+  .legal-body :global(h4) { margin: 1.75rem 0 0.5rem; }
+  .legal-body :global(p), .legal-body :global(ul) { margin: 0 0 1rem; }
+  .legal-body :global(ul) { padding-left: 1.25rem; }
+</style>
