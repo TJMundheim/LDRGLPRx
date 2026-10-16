@@ -6,6 +6,7 @@ import { DynamoDBDocumentClient, UpdateCommand, PutCommand, DeleteCommand } from
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+import { sendOrderReceivedEmail } from './order-received-email.js';
 
 const REGION = 'us-east-2';
 const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
@@ -306,8 +307,9 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
     }
   }
 
-  // 4c. Genesis Push Patch: post-purchase async visit. No order email at
-  // payment — write a pending marker the intake/decision flow picks up.
+  // 4c. Genesis Push Patch: post-purchase async visit. Write a pending marker
+  // the intake/decision flow picks up; when the marker is NEWLY written, send
+  // the instant "finish your questionnaire" email (never on replay).
   // Idempotent via attribute_not_exists(sk); never fails the order.
   if (skuId.startsWith('push-patch-')) {
     try {
@@ -327,6 +329,9 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
         },
         ConditionExpression: 'attribute_not_exists(sk)',
       }));
+      if (email) {
+        await sendOrderReceivedEmail(lambda, EMAIL_SENDER_FN, { to: email, sessionId: session.id, firstName: contactFirstName });
+      }
     } catch (err: unknown) {
       if ((err as { name?: string }).name !== 'ConditionalCheckFailedException') {
         console.error('[order-handler] push-patch pending marker write failed', { orderId: session.id, error: String(err) });

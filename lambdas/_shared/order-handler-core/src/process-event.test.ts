@@ -342,15 +342,62 @@ describe('processEvent', () => {
       else process.env.PUSH_PATCH_FULFILLMENT_EMAIL = savedEnv;
     });
 
-    it('(p1) sends NO email to PUSH_PATCH_FULFILLMENT_EMAIL on payment', async () => {
+    it('(p1) sends NO email to PUSH_PATCH_FULFILLMENT_EMAIL on payment (only the buyer order-received email)', async () => {
       await run();
       expect(payloadsOf().some((p: any) => p.to === 'fulfillment@example.com')).toBe(false);
-      expect(mockLambdaSend).not.toHaveBeenCalled();
+      expect(payloadsOf().map((p: any) => p.to)).toEqual(['test@example.com']);
     });
 
     it('(p2) sends no order email to the drtj@my4mlife.com fallback when env is unset', async () => {
       delete process.env.PUSH_PATCH_FULFILLMENT_EMAIL;
       await run();
+      expect(payloadsOf().some((p: any) => /my4mlife\.com$/.test(p.to))).toBe(false);
+    });
+
+    it('(p2a) sends the order-received email exactly once on a NEW marker', async () => {
+      await run();
+      expect(mockLambdaSend).toHaveBeenCalledTimes(1);
+      const input = (mockLambdaSend.mock.calls[0][0] as any).input;
+      expect(input.FunctionName).toBe('my4mlife-email-sender');
+      expect(payloadsOf()[0]).toMatchObject({
+        kind: 'info',
+        from: 'support',
+        to: 'test@example.com',
+        subject: 'Your Push Patch order is in \u2014 one 2-minute step left',
+      });
+    });
+
+    it('(p2b) html links to the intake page with the session id, greets by first name, and has no PHI/tagline', async () => {
+      mockSessionRetrieve.mockResolvedValue({ ...patchSession, customer_details: { email: 'test@example.com', name: 'Jane Q Doe' } });
+      await run();
+      const { html } = payloadsOf()[0];
+      expect(html).toContain('https://www.my4mlife.com/go/push-patch/thank-you?session_id=cs_test_patch123');
+      expect(html).toContain('Finish your questionnaire');
+      expect(html).toContain('Hi Jane,');
+      expect(html).toContain('licensed physicians');
+      expect(html).not.toMatch(/identity|dignity/i);
+      // no PHI / shipping / product detail
+      for (const bad of ['742 Evergreen', 'Austin', '78701', 'KPV', 'NAD', 'GHK', 'wear', '12h', 'Jane Doe', 'pi_test_patch123']) {
+        expect(html).not.toContain(bad);
+      }
+    });
+
+    it("(p2c) falls back to 'Hi there,' with no name", async () => {
+      await run();
+      expect(payloadsOf()[0].html).toContain('Hi there,');
+    });
+
+    it('(p2d) send failure (rejection or FunctionError) does not throw and the marker is still written', async () => {
+      mockLambdaSend.mockRejectedValueOnce(new Error('SES down'));
+      await expect(run()).resolves.toBeUndefined();
+      mockLambdaSend.mockResolvedValueOnce({ FunctionError: 'Unhandled' });
+      await expect(run()).resolves.toBeUndefined();
+      expect(pendingPuts()).toHaveLength(2);
+    });
+
+    it('(p2e) no buyer email: no send, no throw', async () => {
+      mockSessionRetrieve.mockResolvedValue({ ...patchSession, customer: 'cus_1', customer_details: {}, metadata: { ...patchSession.metadata, contactId: 'c_known' } });
+      await expect(run()).resolves.toBeUndefined();
       expect(mockLambdaSend).not.toHaveBeenCalled();
     });
 
@@ -384,7 +431,7 @@ describe('processEvent', () => {
       expect(puts[0].ConditionExpression).toBe('attribute_not_exists(sk)');
     });
 
-    it('(p5) replay is idempotent: marker conditional-fails the second time, no throw, no email', async () => {
+    it('(p5) replay is idempotent: marker conditional-fails the second time, no throw, no second email', async () => {
       const seen = new Set<string>();
       mockSend.mockImplementation(async (cmd: { input?: { TableName?: string; Item?: Record<string, unknown> } }) => {
         const inp = cmd.input;
@@ -404,7 +451,7 @@ describe('processEvent', () => {
       await expect(run()).resolves.toBeUndefined();
       expect(pendingPuts()).toHaveLength(2); // attempted twice; second was rejected by the condition
       expect([...seen].filter((k) => k.startsWith('PUSH_PATCH_PENDING#'))).toEqual(['PUSH_PATCH_PENDING#cs_test_patch123']);
-      expect(mockLambdaSend).not.toHaveBeenCalled();
+      expect(mockLambdaSend).toHaveBeenCalledTimes(1); // only the first (new-marker) run sends; replay does not
     });
 
     it('(p6) non-patch SKU writes no PUSH_PATCH_PENDING# row', async () => {
@@ -417,7 +464,7 @@ describe('processEvent', () => {
       await run();
       for (const p of payloadsOf()) {
         expect(p.subject ?? '').not.toMatch(/Biome NS Ultra|Gut Repair/i);
-        expect(p.to).not.toBe('test@example.com');
+        expect(p.to).not.toBe('drtj@my4mlife.com');
       }
     });
   });

@@ -248,6 +248,34 @@ No-PHI check for P2-C: the email contains only first name, blend name, a link an
 
 ---
 
+## Order-received email (2026-10-15)
+
+Sent instantly at payment by `order-handler-core` (once per order, never on webhook replays). It tells the buyer the one remaining step before the physician review. The 30-minute and 24-hour reminders in section 4 still follow if the questionnaire is not finished.
+
+**From:** My4MLife `<support@my4mlife.com>`
+
+**Subject:** Your Push Patch order is in — one 2-minute step left
+
+**Body:**
+
+Hi {{firstName or "there"}},
+
+Thank you for your order. One step is left before it can ship: a short health questionnaire so one of our network's licensed physicians can review it. It takes about 2 minutes.
+
+**Finish your questionnaire:** https://www.my4mlife.com/go/push-patch/thank-you?session_id={{sessionId}}
+
+Review happens within an hour during business hours, 9 a.m.–5 p.m. Central. If you are not cleared, your payment is refunded within 10 business days.
+
+If you've already finished, you can ignore this email. Questions? Reply here.
+
+The My4MLife team
+
+**Footer:** same as section 4 (My4MLife line plus the FDA statement), no identity/dignity tagline.
+
+No-PHI check: only first name, a session link and generic process text. No product, address, condition or screening content.
+
+---
+
 ## 5. Single source of truth for process wording
 
 Reuse these exact lines everywhere to keep the promise consistent:
