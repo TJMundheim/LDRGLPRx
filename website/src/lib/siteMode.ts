@@ -24,3 +24,9 @@ export const consultHref = (lane?: string, sex?: 'female' | 'male'): string => {
   const qs = params.toString();
   return qs ? `/consult?${qs}` : '/consult';
 };
+
+// Drafts awaiting TJ approval (Beasley partner band, founder coaching band and
+// /coaching page, Running From Excuses block on /pillars/motivate). Normal
+// builds hide them; build with PUBLIC_SHOW_DRAFTS=1 to preview.
+// Spec: docs/plan/beasley-reciprocal-and-coaching-2026-10-17.md
+export const SHOW_DRAFTS = import.meta.env.PUBLIC_SHOW_DRAFTS === '1';

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CoachingPage from '../components/CoachingPage.astro';
+import { SHOW_DRAFTS } from '../lib/siteMode';
+
+// DRAFT awaiting TJ approval. Without PUBLIC_SHOW_DRAFTS=1 this route is a
+// noindex stub that bounces to "/", so a normal deploy exposes nothing.
+const canonical = 'https://www.my4mlife.com/coaching';
+---
+{SHOW_DRAFTS ? (
+  <BaseLayout
+    title="The Captain's Table — One-on-One with Dr. TJ | My4MLife"
+    description="Four seats at a time. Dr. TJ comes to your home for four days, then talks with you every day for the rest of the month."
+    canonical={canonical}
+    robots="index, follow"
+  >
+    <CoachingPage />
+  </BaseLayout>
+) : (
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>My4MLife</title>
+      <meta name="robots" content="noindex, nofollow" />
+      <meta http-equiv="refresh" content="0; url=/" />
+      <link rel="canonical" href="https://www.my4mlife.com/" />
+    </head>
+    <body></body>
+  </html>
+)}

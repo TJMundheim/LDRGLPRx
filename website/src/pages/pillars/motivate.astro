@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SHOW_DRAFTS } from '../../lib/siteMode';
 ---
 <BaseLayout
   title="Motivate — The 4M Framework | My4MLife"
@@ -115,6 +116,30 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </figure>
   </div>
 </section>
+
+<!-- ===== DRAFT (SHOW_DRAFTS): PARTNER · RANDALL BEASLEY ===== -->
+{SHOW_DRAFTS && (
+<section class="pillar-section pillar-section--light partner-block" aria-labelledby="partner-heading">
+  <div class="container partner-inner">
+    <p class="partner-eyebrow">Partner &middot; Randall Beasley</p>
+    <h2 id="partner-heading">Running From Excuses</h2>
+    <div class="partner-copy">
+      <p>My work starts with the body and the brain: what you eat, how you sleep, what you are exposed to, and what medicine can do. My best friend of thirty years, Randall Beasley, works on what has to come first: the decision to stop making excuses. His book is part memoir and part roadmap. He lost his business and his health, and he rebuilt both with a simple framework, one honest decision at a time.</p>
+      <p>In the 4Ms, that is Motivate. We send people back and forth, each to the one best equipped to help. If the thing holding you back is the decision itself, start with Randall.</p>
+    </div>
+    <ul class="partner-formats">
+      <li><a href="https://www.amazon.com/dp/B0HH9LTSY8" target="_blank" rel="noopener"><span class="partner-format-name">Kindle</span><span class="partner-format-price">$7.99</span></a></li>
+      <li><a href="https://www.amazon.com/dp/B0HH9Q67QD" target="_blank" rel="noopener"><span class="partner-format-name">Paperback</span><span class="partner-format-price">$17.99</span></a></li>
+      <li><a href="https://www.amazon.com/dp/B0HH9MKT6K" target="_blank" rel="noopener"><span class="partner-format-name">Companion Workbook</span><span class="partner-format-price">$16.99</span></a></li>
+    </ul>
+    <p class="partner-line">Read it alongside <em>Begin with the End in Mind</em>: his book is the why, ours is the how.</p>
+    <div class="partner-actions">
+      <a href="https://randallbeasley.com/#coaching" target="_blank" rel="noopener" class="cta-btn cta-btn--outline">Coaching with Randall</a>
+    </div>
+    <p class="partner-fine">Randall's coaching is not medical care. Medical care through My4MLife is provided by our network's licensed physicians.</p>
+  </div>
+</section>
+)}
 
 <!-- ===== CTAs ===== -->
 <section class="pillar-section pillar-cta-section">
@@ -316,5 +341,47 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .pillar-hero { padding: 7rem 0 4rem; }
   .pillar-hero h1 { font-size: 2.8rem; }
   .subtopic-grid { grid-template-columns: 1fr; }
+}
+.partner-inner { max-width: 760px; }
+.partner-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  margin-bottom: 0.8rem;
+}
+.partner-inner h2 { font-style: italic; margin-bottom: 1.2rem; }
+.partner-copy p { margin-bottom: 1.1rem; color: var(--text); line-height: 1.8; }
+.partner-formats {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  margin: 1.6rem 0 1.4rem;
+  padding: 0;
+}
+.partner-formats a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  height: 100%;
+  background: white;
+  border: 1px solid var(--border);
+  border-top: 3px solid #d4af5a;
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.partner-formats a:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+.partner-format-name { font-weight: 700; font-size: 0.92rem; color: var(--primary); }
+.partner-format-price { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--dark); }
+.partner-line { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark); margin-bottom: 1.4rem; }
+.partner-actions { margin-bottom: 1.2rem; }
+.partner-fine { font-size: 0.78rem; color: var(--text-light); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 1rem; }
+@media (max-width: 600px) {
+  .partner-formats { grid-template-columns: 1fr; }
+  .partner-actions .cta-btn { width: 100%; justify-content: center; }
 }
 </style>
