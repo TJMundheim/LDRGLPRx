@@ -62,3 +62,33 @@ describe('info sender identity', () => {
     expect(p.get('h:Reply-To')).toBeNull();
   });
 });
+
+describe('form confirmation routing', () => {
+  const form = async (formId: string, fields: Record<string, unknown>) => {
+    await handler({ kind: 'form', formId, fields }, {} as any, () => {});
+    return fetchMock.mock.calls.map((c) => new URLSearchParams(c[1].body as string));
+  };
+
+  it('coaching-application: internal relay unchanged, confirmation from Dr. TJ with Reply-To, not generic', async () => {
+    const [relay, conf, ...rest] = await form('coaching-application', { email: 'sam@x.com', firstName: 'Sam', goals: ['Energy'], start: 'Next month' });
+    expect(rest).toHaveLength(0);
+    expect(relay.get('from')).toBe('My4MLife <info@my4mlife.com>');
+    expect(relay.get('to')).toBe('tj@x.com');
+    expect(relay.get('subject')).toBe('[Form: coaching-application] from sam@x.com');
+    expect(conf.get('from')).toBe('Dr. TJ <drtj@my4mlife.com>');
+    expect(conf.get('h:Reply-To')).toBe('drtj@my4mlife.com');
+    expect(conf.get('to')).toBe('sam@x.com');
+    expect(conf.get('subject')).toBe("Your application for The Captain's Table");
+    expect(conf.get('html')).toContain('Hi Sam,');
+    expect(conf.get('text')).toContain('You said energy matter');
+    expect(conf.get('html')).not.toContain('My4MLife care team');
+  });
+
+  it('other formIds keep the generic confirmation from the info address', async () => {
+    const [relay, conf] = await form('contact', { email: 'sam@x.com' });
+    expect(relay.get('to')).toBe('tj@x.com');
+    expect(conf.get('from')).toBe('My4MLife <info@my4mlife.com>');
+    expect(conf.get('h:Reply-To')).toBeNull();
+    expect(conf.get('subject')).toBe("We've received your message — My4MLife");
+  });
+});
