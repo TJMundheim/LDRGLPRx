@@ -9,7 +9,7 @@ export interface ScreeningAnswers {
   /** v1: metalImplant + woundOrScar. v2: woundOrScar only (the implant question was merged into suitableArea). */
   placement: { metalImplant?: boolean; woundOrScar: boolean };
   suitableArea: boolean;
-  /** v1: six answers. v2: five (no metalImplant). Knockouts/placement: true = answered Yes. suitableArea: true = Yes (area available). */
+  /** v1: six answers. v2: five (no metalImplant). Knockouts/placement: true = answered Yes (a knockout is Yes only when it is NOT in `denied`). suitableArea: true = Yes (area available). */
   answers: { seizures: boolean; pacemaker: boolean; pregnant: boolean; metalImplant?: boolean; woundOrScar: boolean; suitableArea: boolean };
 }
 export type StoredScreening = ScreeningAnswers | ScreeningNone;
@@ -35,6 +35,7 @@ export function parseScreening(meta: Record<string, string> | null | undefined):
   const m = meta ?? {};
   if (!m['screen_v']) return { version: 'none' };
   const placement = pairs(m['screen_placement']);
+  // screen_denied = the knockout questions the patient DENIED (answered No); a cleared patient denies all of them.
   const denied = (m['screen_denied'] ?? '').split(',').map((x) => x.trim()).filter(Boolean);
   const v1 = m['screen_v'] === 'pp-screen-v1';
   const woundOrScar = isYes(placement, 'woundOrScar');
@@ -46,7 +47,7 @@ export function parseScreening(meta: Record<string, string> | null | undefined):
     denied,
     placement: { ...metal, woundOrScar },
     suitableArea,
-    answers: { seizures: denied.includes('seizures'), pacemaker: denied.includes('pacemaker'), pregnant: denied.includes('pregnant'),
+    answers: { seizures: !denied.includes('seizures'), pacemaker: !denied.includes('pacemaker'), pregnant: !denied.includes('pregnant'),
       ...metal, woundOrScar, suitableArea },
   };
 }

@@ -155,6 +155,18 @@ describe('finalize: happy path', () => {
     expect(payload(providerEmails()[0]).subject).toContain('J. Doe');
   });
 
+  it('a cleared patient (screen_denied = all three knockouts) is stored and emailed as No to seizures/pacemaker/pregnant', async () => {
+    await run();
+    const stored = inputs().map((i) => i.ExpressionAttributeValues).filter(Boolean)
+      .flatMap((v) => Object.values(v)).find((v: any) => v && v.version === 'pp-screen-v2') as any;
+    expect(stored.answers).toEqual({ seizures: false, pacemaker: false, pregnant: false, woundOrScar: false, suitableArea: true });
+    const text = payload(providerEmails()[0]).text as string;
+    for (const l of ['Epilepsy or seizures: No', 'Pacemaker or implanted electronic device: No', 'Pregnant or could be pregnant: No',
+      'Suitable clean, low-hair skin area away from any metal implant: Yes', 'Open wound, recent graft or scar where the patch may be worn: No']) {
+      expect(text).toContain(l);
+    }
+  });
+
   it('deletes the pending item on success', async () => {
     await run();
     expect(pendingDeletes()).toHaveLength(1);

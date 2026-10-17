@@ -65,7 +65,7 @@ const SESSION = {
   currency: 'usd',
   metadata: {
     skuIds: SKU, wear: '12h',
-    screen_v: 'pp-screen-v1', screen_at: '2026-10-02T12:00:00.000Z', screen_denied: '',
+    screen_v: 'pp-screen-v1', screen_at: '2026-10-02T12:00:00.000Z', screen_denied: 'seizures,pacemaker,pregnant',
     screen_placement: 'metalImplant:no,woundOrScar:no', screen_area: 'yes',
   },
   customer_details: { email: 'Jane@Example.com', name: 'Jane Doe', phone: '+15559990000' },
@@ -95,7 +95,7 @@ const REQUIRED_FIELDS = [
   'sessionId', 'dob', 'sex', 'phone', 'medications', 'allergies', 'conditions', 'consentName', 'privacyAck', 'shipping',
 ];
 const SCREEN_RECORD = {
-  version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: [],
+  version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: ['seizures', 'pacemaker', 'pregnant'],
   placement: { metalImplant: false, woundOrScar: false }, suitableArea: true,
   answers: { seizures: false, pacemaker: false, pregnant: false, metalImplant: false, woundOrScar: false, suitableArea: true },
 };
@@ -708,7 +708,7 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
     expect(nestedSets(recordWrite())['screeningAnswers.pushPatch']).toEqual({
       version: 'pp-screen-v1', at: '2026-10-02T12:00:00.000Z', denied: ['seizures', 'pacemaker'],
       placement: { metalImplant: true, woundOrScar: false }, suitableArea: true,
-      answers: { seizures: true, pacemaker: true, pregnant: false, metalImplant: true, woundOrScar: false, suitableArea: true },
+      answers: { seizures: false, pacemaker: false, pregnant: true, metalImplant: true, woundOrScar: false, suitableArea: true },
     });
   });
 
@@ -730,7 +730,7 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
     await run({ screen_denied: 'seizures,pacemaker,pregnant', screen_placement: 'metalImplant:yes,woundOrScar:no' });
     const p = payloadOf(emailCalls()[0]);
     const want = [
-      'Epilepsy or seizures: Yes', 'Pacemaker or implanted electronic device: Yes', 'Pregnant or could be pregnant: Yes',
+      'Epilepsy or seizures: No', 'Pacemaker or implanted electronic device: No', 'Pregnant or could be pregnant: No',
       'Metal implant where the patch may be worn: Yes (told to choose another area)',
       'Open wound, recent graft or scar where the patch may be worn: No',
       'Suitable clean, low-hair skin area available: Yes',
@@ -778,7 +778,7 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
       expect(stored).toEqual({
         version: 'pp-screen-v2', at: '2026-10-02T12:00:00.000Z', denied: ['seizures'],
         placement: { woundOrScar: true }, suitableArea: true,
-        answers: { seizures: true, pacemaker: false, pregnant: false, woundOrScar: true, suitableArea: true },
+        answers: { seizures: false, pacemaker: true, pregnant: true, woundOrScar: true, suitableArea: true },
       });
       expect(stored.answers).not.toHaveProperty('metalImplant');
     });
@@ -787,7 +787,7 @@ describe('pre-payment safety screen (from Stripe session metadata)', () => {
       await run(V2);
       const p = payloadOf(emailCalls()[0]);
       const want = [
-        'Epilepsy or seizures: Yes', 'Pacemaker or implanted electronic device: Yes', 'Pregnant or could be pregnant: Yes',
+        'Epilepsy or seizures: No', 'Pacemaker or implanted electronic device: No', 'Pregnant or could be pregnant: No',
         'Suitable clean, low-hair skin area away from any metal implant: Yes',
         'Open wound, recent graft or scar where the patch may be worn: Yes (told to choose another area)',
         'Screen version pp-screen-v2, completed Oct 2, 2026, 7:00 AM CDT',

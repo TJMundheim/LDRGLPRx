@@ -29,8 +29,10 @@ export function screeningRows(raw: unknown): { rows: Row[]; footer: string } {
   const s = raw as PushPatchScreen;
   if (!s.version || s.version === 'none') return { rows: [], footer: 'No pre-payment screening on this order (placed before the safety check existed).' };
   // Records stored before `answers` existed: derive from denied / placement / suitableArea.
+  // `denied` = the knockout questions the patient DENIED (answered No), so a knockout is Yes only when it is NOT denied.
+  const denied = s.denied ?? [];
   const a: Answers = s.answers ?? {
-    ...Object.fromEntries((s.denied ?? []).map((d) => [d, true])), ...s.placement, suitableArea: s.suitableArea,
+    ...Object.fromEntries(SAFETY.map(([k]) => [k, !denied.includes(k)])), ...s.placement, suitableArea: s.suitableArea,
   };
   const rows = (s.version === 'pp-screen-v1' ? QUESTIONS_V1 : QUESTIONS_V2).map(([k, label]): Row => [label, `${a[k] ? 'Yes' : 'No'}${PLACEMENT.has(k) && a[k] ? ' (told to choose another area)' : ''}`]);
   const when = s.at && !Number.isNaN(Date.parse(s.at)) ? `, completed ${central(s.at)}` : '';

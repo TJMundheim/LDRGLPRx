@@ -202,12 +202,27 @@ describe('renderSummary', () => {
     expect(html).toContain('Screen version pp-screen-v2, completed Oct 2, 2026, 7:00 AM CDT');
   });
 
-  it('falls back to denied/placement for records stored before the answers block existed', () => {
+  it('cleared patient (denied every knockout, answers all false) shows No to seizures/pacemaker/pregnant', () => {
+    const html = pk({ pushPatch: { version: 'pp-screen-v2', at: '2026-10-16T14:00:00.000Z', denied: ['seizures', 'pacemaker', 'pregnant'],
+      placement: { woundOrScar: false }, suitableArea: true,
+      answers: { seizures: false, pacemaker: false, pregnant: false, woundOrScar: false, suitableArea: true } } });
+    expect(html).toMatch(/Epilepsy or seizures<\/th><td>No</);
+    expect(html).toMatch(/Pacemaker or implanted electronic device<\/th><td>No</);
+    expect(html).toMatch(/Pregnant or could be pregnant<\/th><td>No</);
+    expect(html).toMatch(/Suitable clean, low-hair skin area away from any metal implant<\/th><td>Yes</);
+    expect(html).toMatch(/Open wound, recent graft or scar where the patch may be worn<\/th><td>No</);
+  });
+
+  it('falls back to denied/placement for records stored before the answers block existed (denied = answered No)', () => {
     const { answers, ...old } = PP;
-    const html = pk({ pushPatch: { ...old, denied: ['pacemaker'], suitableArea: false } });
-    expect(html).toMatch(/Pacemaker or implanted electronic device<\/th><td>Yes/);
+    const html = pk({ pushPatch: { ...old, denied: ['seizures', 'pacemaker', 'pregnant'], suitableArea: false } });
     expect(html).toMatch(/Epilepsy or seizures<\/th><td>No/);
+    expect(html).toMatch(/Pacemaker or implanted electronic device<\/th><td>No/);
+    expect(html).toMatch(/Pregnant or could be pregnant<\/th><td>No/);
     expect(html).toMatch(/Suitable clean, low-hair skin area available<\/th><td>No/);
+    const partial = pk({ pushPatch: { ...old, denied: ['pacemaker'] } });
+    expect(partial).toMatch(/Pacemaker or implanted electronic device<\/th><td>No/);
+    expect(partial).toMatch(/Epilepsy or seizures<\/th><td>Yes/);
   });
 
   it('never prints an empty Screening Answers block when only pushPatch exists', () => {
