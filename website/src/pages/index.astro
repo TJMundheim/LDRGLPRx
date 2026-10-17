@@ -185,7 +185,8 @@ const treatments = [
     <p class="hp-eyebrow hp-eyebrow--gold">One-on-one with Dr. TJ &middot; The Captain&rsquo;s Table</p>
     <h2 class="hp-seats-heading" id="hp-seats-heading">Four seats. Your home. Your whole life.</h2>
     <p class="hp-seats-copy">I take on no more than four people at a time, and I come to you twice in your first month. First, four days in your home, Sunday through Wednesday: we test, we clear the pantry, set up your home, and build your workout and your morning routine. Then a call every day. At the end of the month I come back for three days to see what thirty days of change has done, and to deliver your regenerative therapy in person.</p>
-    <p class="hp-seats-price"><span class="hp-seats-amt">$35,000</span> for the first month. Travel included.</p>
+    <p class="hp-seats-price"><span class="hp-seats-amt">$50,000</span> for the first month. Travel included.</p>
+    <p class="hp-seats-cap">Two new seats open each month. Never more than four people at a time.</p>
     <a href="/coaching" class="hp-btn hp-btn--accent" onclick="window.posthog && posthog.capture('hp_coaching_apply_click')">Apply for a seat</a>
     <p class="hp-seats-note">By application only.</p>
   </div>
@@ -717,6 +718,12 @@ const treatments = [
 .hp-seats-price {
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 0.6rem;
+}
+.hp-seats-cap {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.78);
   margin: 0 0 1.75rem;
 }

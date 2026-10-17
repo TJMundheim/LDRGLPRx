@@ -12,21 +12,33 @@ const START: Record<string, string> = {
 };
 const START_DEFAULT = `${CALL}. No pressure on timing. We'll start with a conversation.`;
 
+const GOALS: Record<string, string> = {
+  'focus and memory': 'mental sharpness', hormones: 'hormone balance', gut: 'gut health',
+};
+const SPACES: Record<string, string> = {
+  'home gym': 'a home gym', sauna: 'a sauna', 'cold plunge': 'a cold plunge', 'swimming pool': 'a pool',
+  'walking trails or outdoor space': 'outdoor space to walk', garden: 'a garden',
+  'red-light therapy': 'red-light therapy', 'standing desk or home office': 'a home office',
+};
+const PRONOUNS: Record<string, string> = { my: 'your', mine: 'yours', myself: 'yourself', me: 'you' };
+const you = (s: string) => s.replace(/\b(my|mine|myself|me)\b/gi, (w) => PRONOUNS[w.toLowerCase()]);
+const phrase = (map: Record<string, string>) => (s: string) => map[s.toLowerCase()] ?? s.toLowerCase();
+
 const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
 const list = (v: unknown): string[] =>
   (Array.isArray(v) ? v : typeof v === 'string' ? v.split(',') : []).map(str).filter(Boolean);
 const join = (a: string[]) => (a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`);
 
 export function composeCoachingConfirmation(f: Fields): { subject: string; html: string; text: string } {
-  const name = str(f.firstName), whoFor = str(f.whoFor);
-  const goals = list(f.goals).slice(0, 3).map((g) => g.toLowerCase());
-  const spaces = list(f.homeSpaces).filter((s) => s.toLowerCase() !== 'none of these yet').map((s) => s.toLowerCase());
+  const name = str(f.firstName), whoFor = you(str(f.whoFor));
+  const goals = list(f.goals).slice(0, 3).map(phrase(GOALS));
+  const spaces = list(f.homeSpaces).filter((s) => s.toLowerCase() !== 'none of these yet').map(phrase(SPACES));
   const lines: Array<(e: (s: string) => string) => string | null> = [
     (e) => `Hi ${e(name)},`.replace('Hi ,', 'Hi,'),
     () => "Thank you for applying for a seat at The Captain's Table. I read every application myself.",
     (e) => whoFor ? `You told me you're doing this for ${e(whoFor)}. Keep that face in mind. That's where we'll start.` : null,
-    (e) => goals.length ? `You said ${e(join(goals))} matter most to you right now. Those are exactly what the first four days in your home are built to change.` : null,
-    (e) => spaces.length ? `And you have ${e(join(spaces))} at home. We'll put ${spaces.length === 1 ? 'it' : 'them'} to work.` : null,
+    (e) => goals.length ? `You said ${e(join(goals))} ${goals.length === 1 ? 'matters' : 'matter'} most to you right now. ${goals.length === 1 ? 'That is exactly what' : 'Those are exactly what'} the first four days in your home are built to change.` : null,
+    (e) => spaces.length ? `And you already have ${e(join(spaces))}. We'll put ${spaces.length === 1 ? 'it' : 'them'} to work.` : null,
     () => START[str(f.start).toLowerCase()] ?? START_DEFAULT,
     () => 'Dr. TJ',
   ];

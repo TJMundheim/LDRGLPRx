@@ -20,9 +20,17 @@ const visitOne = [
 const criteria = [
   'You are ready to change how you live, not just what you take.',
   'You will do the daily calls and the work between them.',
-  'You and your household are open to me being in your home, ideally staying in your guest room.',
+  'You and your household are open to me spending time in your home.',
   'You can commit the first month in full.',
 ];
+const radioGroups = {
+  household: { name: 'household', id: 'cc-household', legend: 'Who lives in your home?', opts: ['Just me', 'Spouse or partner', 'Spouse or partner and kids', 'Other'] },
+  partner: { name: 'partnerOnBoard', id: 'cc-partner', legend: 'Is your spouse or partner on board with this?', opts: ['Yes', 'Not yet', 'Not applicable'] },
+  calls: { name: 'dailyCalls', id: 'cc-calls', legend: 'Will you do a call with Dr. TJ every day for the first month?', opts: ['Yes', 'No'] },
+  commit: { name: 'commit', id: 'cc-commit', legend: 'The first month is $50,000. Are you prepared to commit?', opts: ['Yes', "I'd like to discuss"] },
+};
+const spaces = ['Home gym', 'Sauna', 'Cold plunge', 'Swimming pool', 'Walking trails or outdoor space', 'Garden', 'Red-light therapy', 'Standing desk or home office', 'None of these yet'];
+const goalOpts = ['Energy', 'Weight', 'Sleep', 'Focus and memory', 'Strength', 'Hormones', 'Gut', 'Daily habits'];
 ---
 <section class="cc-hero">
   <div class="container cc-hero-inner">
@@ -69,13 +77,6 @@ const criteria = [
   </div>
 </section>
 
-<section class="cc-section cc-section--soft">
-  <div class="container cc-narrow">
-    <h2>Why I stay in your home</h2>
-    <p class="cc-after">The fastest way to change a life is to see it as it is lived. When I can, I stay in your guest room during visits, so I see the real morning, the real kitchen, the real evening. If that is not comfortable at first, we start without it; many people are ready by the second visit.</p>
-  </div>
-</section>
-
 <section class="cc-section">
   <div class="container cc-narrow">
     <h2>Who this is for</h2>
@@ -89,77 +90,159 @@ const criteria = [
 <section class="cc-price">
   <div class="container cc-narrow cc-price-inner">
     <h2>Price</h2>
-    <p class="cc-amount"><span>$35,000</span> for the first month. Travel included.</p>
+    <p class="cc-amount"><span>$50,000</span> for the first month. Travel included.</p>
+    <p class="cc-seats-note cc-capacity">Two new seats open each month. Never more than four people at a time.</p>
     <p class="cc-includes">Includes both visits, all testing and labs, daily calls, and your regenerative therapy.</p>
     <p class="cc-seats-note">Seats are limited to four at a time. If the table is full, you'll be first in line for the next opening.</p>
+  </div>
+</section>
+
+<section class="cc-section cc-section--soft" id="reserving">
+  <div class="container cc-narrow">
+    <h2>Reserving your seat</h2>
+    <p class="cc-after cc-reserve-lead">Your seat is reserved when you choose a start date and pay in full.</p>
+    <ul class="cc-list">
+      <li>More than 30 days before your start date: 90% refund.</li>
+      <li>15 to 30 days before: 85% refund.</li>
+      <li>14 days or fewer: 80% refund.</li>
+      <li>After your start date: no refund, with one exception. If you decide after the first four days not to continue, you receive $15,000 back.</li>
+      <li>If Dr. TJ has to cancel, you receive a full refund for anything not yet delivered.</li>
+    </ul>
   </div>
 </section>
 
 <section class="cc-section" id="apply">
   <div class="container cc-form-wrap">
     <h2>Apply for a seat</h2>
+    <p class="cc-form-intro">About 5 minutes. <span class="cc-req" aria-hidden="true">*</span> marks a required question. We do not ask any health questions here.</p>
     <form id="coaching-form" novalidate>
-      <div class="cc-row">
-        <div class="cc-field">
-          <label for="cc-first">First name</label>
-          <input type="text" id="cc-first" name="firstName" autocomplete="given-name" required />
-          <span class="cc-err" data-for="cc-first" role="alert"></span>
+      <fieldset class="cc-group">
+        <legend class="cc-group-title">About you</legend>
+        <div class="cc-row">
+          <div class="cc-field" data-field="cc-first">
+            <label for="cc-first">First name <span class="cc-req" aria-hidden="true">*</span></label>
+            <input type="text" id="cc-first" name="firstName" autocomplete="given-name" aria-required="true" />
+            <span class="cc-err" data-for="cc-first" role="alert"></span>
+          </div>
+          <div class="cc-field" data-field="cc-last">
+            <label for="cc-last">Last name <span class="cc-req" aria-hidden="true">*</span></label>
+            <input type="text" id="cc-last" name="lastName" autocomplete="family-name" aria-required="true" />
+            <span class="cc-err" data-for="cc-last" role="alert"></span>
+          </div>
         </div>
-        <div class="cc-field">
-          <label for="cc-last">Last name</label>
-          <input type="text" id="cc-last" name="lastName" autocomplete="family-name" required />
-          <span class="cc-err" data-for="cc-last" role="alert"></span>
+        <div class="cc-row">
+          <div class="cc-field" data-field="cc-email">
+            <label for="cc-email">Email <span class="cc-req" aria-hidden="true">*</span></label>
+            <input type="email" id="cc-email" name="email" autocomplete="email" aria-required="true" />
+            <span class="cc-err" data-for="cc-email" role="alert"></span>
+          </div>
+          <div class="cc-field" data-field="cc-phone">
+            <label for="cc-phone">Mobile phone <span class="cc-req" aria-hidden="true">*</span></label>
+            <input type="tel" id="cc-phone" name="phone" autocomplete="tel" inputmode="tel" aria-required="true" />
+            <span class="cc-err" data-for="cc-phone" role="alert"></span>
+          </div>
         </div>
-      </div>
-      <div class="cc-row">
-        <div class="cc-field">
-          <label for="cc-email">Email</label>
-          <input type="email" id="cc-email" name="email" autocomplete="email" required />
-          <span class="cc-err" data-for="cc-email" role="alert"></span>
+        <div class="cc-field" data-field="cc-city">
+          <label for="cc-city">City and state <span class="cc-req" aria-hidden="true">*</span></label>
+          <input type="text" id="cc-city" name="location" autocomplete="address-level2" aria-required="true" />
+          <span class="cc-err" data-for="cc-city" role="alert"></span>
         </div>
-        <div class="cc-field">
-          <label for="cc-phone">Mobile phone</label>
-          <input type="tel" id="cc-phone" name="phone" autocomplete="tel" inputmode="tel" required />
-          <span class="cc-err" data-for="cc-phone" role="alert"></span>
-        </div>
-      </div>
-      <div class="cc-field">
-        <label for="cc-city">City and state</label>
-        <input type="text" id="cc-city" name="location" autocomplete="address-level2" required />
-        <span class="cc-err" data-for="cc-city" role="alert"></span>
-      </div>
-      <div class="cc-field">
-        <label for="cc-change">What do you most want to change?</label>
-        <textarea id="cc-change" name="change" rows="4" required></textarea>
-        <span class="cc-err" data-for="cc-change" role="alert"></span>
-      </div>
-      <div class="cc-field">
-        <label for="cc-start">When would you like to start?</label>
-        <select id="cc-start" name="start" required>
-          <option value="">Select one</option>
-          <option>Next month</option>
-          <option>Within 3 months</option>
-          <option>Just exploring</option>
-        </select>
-        <span class="cc-err" data-for="cc-start" role="alert"></span>
-      </div>
-      <fieldset class="cc-field cc-radios" id="cc-guest" aria-describedby="cc-guest-err">
-        <legend>Would your household be comfortable with Dr. TJ staying in your guest room during visits?</legend>
-        <label class="cc-radio"><input type="radio" name="guestRoom" value="Yes" required /> <span>Yes</span></label>
-        <label class="cc-radio"><input type="radio" name="guestRoom" value="After the first visit" /> <span>After the first visit</span></label>
-        <label class="cc-radio"><input type="radio" name="guestRoom" value="No, I prefer he stays nearby" /> <span>No &mdash; prefer he stays nearby</span></label>
-        <span class="cc-err" id="cc-guest-err" data-for="cc-guest" role="alert"></span>
+        {[radioGroups.household, radioGroups.partner].map((g) => (
+          <fieldset class="cc-field cc-radios" id={g.id} data-field={g.id} data-radio={g.name}>
+            <legend>{g.legend} <span class="cc-req" aria-hidden="true">*</span></legend>
+            <div class="cc-opts">
+              {g.opts.map((o) => (
+                <label class="cc-opt"><input type="radio" name={g.name} value={o} /> <span>{o}</span></label>
+              ))}
+            </div>
+            <span class="cc-err" data-for={g.id} role="alert"></span>
+          </fieldset>
+        ))}
       </fieldset>
-      <div class="cc-field">
-        <label for="cc-why">Why now?</label>
-        <textarea id="cc-why" name="whyNow" rows="4" required></textarea>
-        <span class="cc-err" data-for="cc-why" role="alert"></span>
-      </div>
+
+      <fieldset class="cc-group">
+        <legend class="cc-group-title">Your home</legend>
+        <fieldset class="cc-field cc-radios" id="cc-spaces" data-field="cc-spaces">
+          <legend>Which of these do you have at home?</legend>
+          <div class="cc-opts cc-opts--grid">
+            {spaces.map((o) => (
+              <label class="cc-opt"><input type="checkbox" name="homeSpaces" value={o} /> <span>{o}</span></label>
+            ))}
+          </div>
+        </fieldset>
+        <div class="cc-field" data-field="cc-other">
+          <label for="cc-other">Anything else at home that could help?</label>
+          <input type="text" id="cc-other" name="homeOther" autocomplete="off" />
+        </div>
+      </fieldset>
+
+      <fieldset class="cc-group">
+        <legend class="cc-group-title">Your why</legend>
+        <div class="cc-field" data-field="cc-whofor">
+          <label for="cc-whofor">Who are you doing this for? <span class="cc-req" aria-hidden="true">*</span></label>
+          <p class="cc-help" id="cc-whofor-help">Name the person and your relationship to them.</p>
+          <input type="text" id="cc-whofor" name="whoFor" maxlength="80" autocomplete="off" aria-required="true" aria-describedby="cc-whofor-help" />
+          <span class="cc-err" data-for="cc-whofor" role="alert"></span>
+        </div>
+        <fieldset class="cc-field cc-radios" id="cc-goals" data-field="cc-goals">
+          <legend>What do you most want to change? <span class="cc-req" aria-hidden="true">*</span></legend>
+          <p class="cc-help cc-pickup" id="cc-goals-note">Pick up to 3. <span id="cc-goals-count">0 of 3 selected.</span></p>
+          <div class="cc-opts cc-opts--grid">
+            {goalOpts.map((o) => (
+              <label class="cc-opt"><input type="checkbox" name="goals" value={o} /> <span>{o}</span></label>
+            ))}
+          </div>
+          <span class="cc-err" data-for="cc-goals" role="alert"></span>
+        </fieldset>
+        <div class="cc-field" data-field="cc-why">
+          <label for="cc-why">Why now? <span class="cc-req" aria-hidden="true">*</span></label>
+          <textarea id="cc-why" name="whyNow" rows="4" aria-required="true"></textarea>
+          <span class="cc-err" data-for="cc-why" role="alert"></span>
+        </div>
+      </fieldset>
+
+      <fieldset class="cc-group">
+        <legend class="cc-group-title">Your commitment</legend>
+        <fieldset class="cc-field cc-radios" id={radioGroups.calls.id} data-field={radioGroups.calls.id} data-radio={radioGroups.calls.name}>
+          <legend>{radioGroups.calls.legend} <span class="cc-req" aria-hidden="true">*</span></legend>
+          <div class="cc-opts">
+            {radioGroups.calls.opts.map((o) => (
+              <label class="cc-opt"><input type="radio" name={radioGroups.calls.name} value={o} /> <span>{o}</span></label>
+            ))}
+          </div>
+          <span class="cc-err" data-for={radioGroups.calls.id} role="alert"></span>
+        </fieldset>
+        <div class="cc-field" data-field="cc-start">
+          <label for="cc-start">When would you like to start? <span class="cc-req" aria-hidden="true">*</span></label>
+          <select id="cc-start" name="start" aria-required="true">
+            <option value="">Select one</option>
+            <option>Next month</option>
+            <option>Within 3 months</option>
+            <option>Just exploring</option>
+          </select>
+          <span class="cc-err" data-for="cc-start" role="alert"></span>
+        </div>
+        <fieldset class="cc-field cc-radios" id={radioGroups.commit.id} data-field={radioGroups.commit.id} data-radio={radioGroups.commit.name}>
+          <legend>{radioGroups.commit.legend} <span class="cc-req" aria-hidden="true">*</span></legend>
+          <div class="cc-opts">
+            {radioGroups.commit.opts.map((o) => (
+              <label class="cc-opt"><input type="radio" name={radioGroups.commit.name} value={o} /> <span>{o}</span></label>
+            ))}
+          </div>
+          <span class="cc-err" data-for={radioGroups.commit.id} role="alert"></span>
+        </fieldset>
+        <div class="cc-field" data-field="cc-heard">
+          <label for="cc-heard">How did you hear about The Captain's Table?</label>
+          <input type="text" id="cc-heard" name="heardFrom" autocomplete="off" />
+        </div>
+      </fieldset>
+
+      <p class="cc-missing" id="cc-missing" role="alert"></p>
       <button type="submit" class="cc-btn cc-btn--accent cc-submit" id="cc-submit">Send my application</button>
       <p class="cc-form-error" id="cc-form-error" role="alert" hidden></p>
     </form>
     <div class="cc-success" id="cc-success" role="status" hidden>
-      <h3>Thank you for applying. I read every application myself and will reach out personally within two business days. &mdash; Dr. TJ</h3>
+      <h3>Thank you for applying. I read every application myself and will reach out personally within two business days. A confirmation is on its way to your inbox. &mdash; Dr. TJ</h3>
     </div>
   </div>
 </section>
@@ -191,33 +274,75 @@ const criteria = [
   if (form) {
     const submit = document.getElementById('cc-submit') as HTMLButtonElement;
     const formError = document.getElementById('cc-form-error') as HTMLElement;
+    const missing = document.getElementById('cc-missing') as HTMLElement;
     const success = document.getElementById('cc-success') as HTMLElement;
     const val = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
-    const guestVal = () => (form.querySelector<HTMLInputElement>('input[name="guestRoom"]:checked')?.value ?? '');
+    const radioVal = (name: string) => form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? '';
+    const checkedVals = (name: string) =>
+      Array.from(form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)).map((i) => i.value);
+
+    // "Pick up to 3": once three are chosen, the rest are disabled until one is unchecked.
+    const goalBoxes = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="goals"]'));
+    const goalCount = document.getElementById('cc-goals-count') as HTMLElement;
+    const syncGoals = () => {
+      const n = goalBoxes.filter((b) => b.checked).length;
+      goalBoxes.forEach((b) => {
+        b.disabled = n >= 3 && !b.checked;
+        b.closest('.cc-opt')?.classList.toggle('cc-opt--off', b.disabled);
+      });
+      goalCount.textContent = `${n} of 3 selected.`;
+    };
+    goalBoxes.forEach((b) => b.addEventListener('change', syncGoals));
+    syncGoals();
 
     const setErr = (id: string, msg: string) => {
       const el = form.querySelector<HTMLElement>(`.cc-err[data-for="${id}"]`);
       if (el) el.textContent = msg;
-      const target = document.getElementById(id);
-      target?.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      const box = form.querySelector<HTMLElement>(`[data-field="${id}"]`);
+      box?.classList.toggle('cc-bad', !!msg);
+      document.getElementById(id)?.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    };
+    const clearAll = () => {
+      form.querySelectorAll<HTMLElement>('[data-field]').forEach((f) => setErr(f.dataset.field as string, ''));
+      missing.textContent = '';
+    };
+    // Editing any answer clears the "still missing" message.
+    form.addEventListener('input', () => { missing.textContent = ''; });
+    form.addEventListener('change', () => { missing.textContent = ''; });
+
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const goTo = (id: string) => {
+      const box = form.querySelector<HTMLElement>(`[data-field="${id}"]`) ?? document.getElementById(id);
+      const focusEl = document.getElementById(id)?.matches('input,select,textarea')
+        ? (document.getElementById(id) as HTMLElement)
+        : box?.querySelector<HTMLElement>('input:not(:disabled)');
+      box?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      try { focusEl?.focus({ preventScroll: true }); } catch (_) { focusEl?.focus(); }
     };
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       formError.hidden = true;
+      clearAll();
 
       const email = val('cc-email');
       const phone = toE164(val('cc-phone'));
+      const goals = checkedVals('goals');
+      // Listed in page order so the first failure is the first one on screen.
       const checks: Array<[string, string]> = [
         ['cc-first', val('cc-first') ? '' : 'Please enter your first name.'],
         ['cc-last', val('cc-last') ? '' : 'Please enter your last name.'],
         ['cc-email', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? '' : 'Please enter a valid email address.'],
         ['cc-phone', phone ? '' : 'Please enter a valid mobile phone number.'],
         ['cc-city', val('cc-city') ? '' : 'Please enter your city and state.'],
-        ['cc-change', val('cc-change') ? '' : 'Please tell us what you most want to change.'],
-        ['cc-start', val('cc-start') ? '' : 'Please choose when you would like to start.'],
-        ['cc-guest', guestVal() ? '' : 'Please choose one.'],
+        ['cc-household', radioVal('household') ? '' : 'Please choose who lives in your home.'],
+        ['cc-partner', radioVal('partnerOnBoard') ? '' : 'Please choose one.'],
+        ['cc-whofor', val('cc-whofor') ? '' : 'Please name the person you are doing this for.'],
+        ['cc-goals', goals.length >= 1 && goals.length <= 3 ? '' : 'Please choose between 1 and 3.'],
         ['cc-why', val('cc-why') ? '' : 'Please tell us why now.'],
+        ['cc-calls', radioVal('dailyCalls') ? '' : 'Please choose one.'],
+        ['cc-start', val('cc-start') ? '' : 'Please choose when you would like to start.'],
+        ['cc-commit', radioVal('commit') ? '' : 'Please choose one.'],
       ];
       let firstBad: string | null = null;
       for (const [id, msg] of checks) {
@@ -225,22 +350,28 @@ const criteria = [
         if (msg && !firstBad) firstBad = id;
       }
       if (firstBad) {
-        if (firstBad === 'cc-guest') form.querySelector<HTMLInputElement>('input[name="guestRoom"]')?.focus();
-        else document.getElementById(firstBad)?.focus();
+        missing.textContent = "A few answers are still missing. We've taken you to the first one.";
+        goTo(firstBad);
         return;
       }
 
       const fields = {
         firstName: val('cc-first'),
         lastName: val('cc-last'),
-        name: `${val('cc-first')} ${val('cc-last')}`,
         email,
         phone: phone as string,
         location: val('cc-city'),
-        change: val('cc-change'),
-        start: val('cc-start'),
-        guestRoom: guestVal(),
+        household: radioVal('household'),
+        partnerOnBoard: radioVal('partnerOnBoard'),
+        homeSpaces: checkedVals('homeSpaces'),
+        homeOther: val('cc-other'),
+        whoFor: val('cc-whofor'),
+        goals,
         whyNow: val('cc-why'),
+        dailyCalls: radioVal('dailyCalls'),
+        start: val('cc-start'),
+        commit: radioVal('commit'),
+        heardFrom: val('cc-heard'),
       };
 
       submit.disabled = true;
@@ -266,7 +397,7 @@ const criteria = [
       }
       form.hidden = true;
       success.hidden = false;
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      success.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
       (window as any).posthog?.capture?.('coaching_application_submitted');
     });
   }
@@ -372,6 +503,7 @@ const criteria = [
 .cc-step-desc { color: var(--text-light); font-size: 0.95rem; }
 
 .cc-two { display: grid; grid-template-columns: 1fr; gap: 2.5rem; max-width: 960px; }
+.cc-reserve-lead { font-weight: 600; margin-bottom: 1rem; }
 .cc-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
 .cc-list li { position: relative; padding-left: 1.5rem; line-height: 1.6; color: var(--text); }
 .cc-list li::before {
@@ -423,10 +555,24 @@ const criteria = [
 }
 .cc-field input:focus, .cc-field select:focus, .cc-field textarea:focus { border-color: var(--accent); background: #fff; }
 .cc-field [aria-invalid="true"] { border-color: #e74c3c; }
+.cc-form-intro { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; margin: -0.6rem 0 1.75rem; }
+.cc-req { color: #c0392b; font-weight: 700; }
+.cc-group { border: 0; padding: 0; margin: 0 0 2rem; min-width: 0; }
+.cc-group-title { display: block; width: 100%; padding: 0 0 0.6rem; margin: 0 0 1.1rem; border-bottom: 2px solid #d4af5a; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--dark); }
+.cc-field input, .cc-field select { min-height: 44px; }
+.cc-help { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; margin: -0.1rem 0 0.5rem; }
+.cc-pickup { font-weight: 600; color: var(--dark); }
+.cc-pickup span { font-weight: 400; color: var(--text-light); }
 .cc-radios { border: 0; padding: 0; min-width: 0; }
 .cc-radios legend { display: block; padding: 0; font-size: 0.85rem; font-weight: 600; color: var(--dark); margin-bottom: 0.6rem; line-height: 1.5; }
-.cc-radios .cc-radio { display: flex; align-items: center; gap: 0.7rem; font-size: 1rem; font-weight: 400; color: var(--text); margin: 0 0 0.5rem; padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-soft); cursor: pointer; }
-.cc-radios .cc-radio input { width: 1.15rem; height: 1.15rem; padding: 0; margin: 0; flex: 0 0 auto; accent-color: var(--accent); }
+.cc-opts { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+.cc-radios .cc-opt { display: flex; align-items: center; gap: 0.7rem; min-height: 44px; font-size: 1rem; font-weight: 400; color: var(--text); margin: 0; padding: 0.6rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-soft); cursor: pointer; }
+.cc-radios .cc-opt input { width: 1.15rem; height: 1.15rem; min-height: 0; padding: 0; margin: 0; flex: 0 0 auto; accent-color: var(--accent); }
+.cc-radios .cc-opt--off { opacity: 0.45; cursor: not-allowed; }
+.cc-field.cc-bad .cc-opt, .cc-field.cc-bad input[type="text"], .cc-field.cc-bad input[type="email"], .cc-field.cc-bad input[type="tel"] { border-color: #e74c3c; }
+.cc-missing { margin: 0 0 0.9rem; padding: 0.7rem 0.9rem; font-size: 1rem; line-height: 1.4; font-weight: 700; color: #c0392b; text-align: center; background: rgba(231, 76, 60, 0.08); border: 1px solid #e74c3c; border-radius: 8px; }
+.cc-missing:empty { display: none; }
+.cc-capacity { font-weight: 600; color: rgba(255, 255, 255, 0.92); margin-bottom: 1.2rem; }
 .cc-field textarea { resize: vertical; min-height: 120px; }
 .cc-err { display: block; min-height: 0; color: #c0392b; font-size: 0.82rem; margin-top: 0.3rem; }
 .cc-err:empty { display: none; }
@@ -440,6 +586,7 @@ const criteria = [
 @media (min-width: 640px) {
   .cc-row { grid-template-columns: 1fr 1fr; gap: 1rem; }
   .cc-steps { grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; }
+  .cc-opts--grid { grid-template-columns: 1fr 1fr; }
 }
 @media (min-width: 900px) {
   .cc-hero { padding: 10rem 0 5.5rem; }
