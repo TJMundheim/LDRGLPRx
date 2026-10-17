@@ -2,18 +2,26 @@
 // /coaching page body (DRAFT — rendered only when SHOW_DRAFTS; see pages/coaching.astro).
 // Copy source: docs/plan/beasley-reciprocal-and-coaching-2026-10-17.md
 const steps = [
-  { t: 'Apply', d: '2 minutes.' },
-  { t: 'A private call with Dr. TJ', d: 'To see if it is a fit.' },
-  { t: 'Your four days', d: 'Sunday through Wednesday at your home.' },
-  { t: 'Daily calls', d: 'For the rest of the first month.' },
+  { t: 'Apply', d: '5 minutes. This is by application only.' },
+  { t: 'A private call with Dr. TJ', d: 'To see if it is a fit, for both of us.' },
+  { t: 'Visit one: four days in your home', d: 'Sunday through Wednesday.' },
+  { t: 'A call every day', d: 'For the rest of the month.' },
+  { t: 'Visit two: three days in your home', d: 'Sunday through Tuesday, at the end of your first 30 days.' },
 ];
-const during = [
+const visitOne = [
+  'Genetic testing for how your body handles medications (PGx) and nutrients (NGx), plus a comprehensive lab panel',
   'Kitchen and pantry reset: out with the insulting foods, in with a stocked week',
   'Home environment set-up: light, sleep, air, water',
   'A workout program built for your body and your schedule',
   'Your morning routine, practiced until it sticks',
   "Cooking the week's meals together",
   'The book and the Logbook applied to your actual life',
+];
+const criteria = [
+  'You are ready to change how you live, not just what you take.',
+  'You will do the daily calls and the work between them.',
+  'You and your household are open to me being in your home, ideally staying in your guest room.',
+  'You can commit the first month in full.',
 ];
 ---
 <section class="cc-hero">
@@ -42,22 +50,47 @@ const during = [
 <section class="cc-section cc-section--soft">
   <div class="container cc-two">
     <div>
-      <h2>During the four days</h2>
+      <h2>Visit one: four days (Sunday&ndash;Wednesday)</h2>
       <ul class="cc-list">
-        {during.map((d) => <li>{d}</li>)}
+        {visitOne.map((d) => <li>{d}</li>)}
       </ul>
     </div>
     <div>
-      <h2>After the visit</h2>
-      <p class="cc-after">A call every day for the rest of the month, and the My4MLife app, Logbook and weekly Zooms.</p>
+      <h2>Between visits</h2>
+      <p class="cc-after">A call every day; the My4MLife app, Logbook and weekly Zooms.</p>
     </div>
+  </div>
+</section>
+
+<section class="cc-section">
+  <div class="container cc-narrow">
+    <h2>Visit two: three days (Sunday&ndash;Tuesday, end of month one)</h2>
+    <p class="cc-after">We review your results and your labs together and work on whatever is still in the way at home; then your full-dose regenerative therapy (Genesis RPA), delivered by nasal atomizer, with Dr. TJ there to walk you through it. Approved by one of our network's licensed physicians, like every treatment we offer.</p>
+  </div>
+</section>
+
+<section class="cc-section cc-section--soft">
+  <div class="container cc-narrow">
+    <h2>Why I stay in your home</h2>
+    <p class="cc-after">The fastest way to change a life is to see it as it is lived. When I can, I stay in your guest room during visits, so I see the real morning, the real kitchen, the real evening. If that is not comfortable at first, we start without it; many people are ready by the second visit.</p>
+  </div>
+</section>
+
+<section class="cc-section">
+  <div class="container cc-narrow">
+    <h2>Who this is for</h2>
+    <ul class="cc-list">
+      {criteria.map((d) => <li>{d}</li>)}
+    </ul>
+    <p class="cc-pull">Being able to pay is not enough. I choose people who are ready.</p>
   </div>
 </section>
 
 <section class="cc-price">
   <div class="container cc-narrow cc-price-inner">
     <h2>Price</h2>
-    <p class="cc-amount"><span>$20,000</span> for the first month.</p>
+    <p class="cc-amount"><span>$35,000</span> for the first month. Travel included.</p>
+    <p class="cc-includes">Includes both visits, all testing and labs, daily calls, and your regenerative therapy.</p>
     <p class="cc-seats-note">Seats are limited to four at a time. If the table is full, you'll be first in line for the next opening.</p>
   </div>
 </section>
@@ -110,18 +143,30 @@ const during = [
         </select>
         <span class="cc-err" data-for="cc-start" role="alert"></span>
       </div>
-      <button type="submit" class="cc-btn cc-btn--accent cc-submit" id="cc-submit">Apply for a seat</button>
+      <fieldset class="cc-field cc-radios" id="cc-guest" aria-describedby="cc-guest-err">
+        <legend>Would your household be comfortable with Dr. TJ staying in your guest room during visits?</legend>
+        <label class="cc-radio"><input type="radio" name="guestRoom" value="Yes" required /> <span>Yes</span></label>
+        <label class="cc-radio"><input type="radio" name="guestRoom" value="After the first visit" /> <span>After the first visit</span></label>
+        <label class="cc-radio"><input type="radio" name="guestRoom" value="No, I prefer he stays nearby" /> <span>No &mdash; prefer he stays nearby</span></label>
+        <span class="cc-err" id="cc-guest-err" data-for="cc-guest" role="alert"></span>
+      </fieldset>
+      <div class="cc-field">
+        <label for="cc-why">Why now?</label>
+        <textarea id="cc-why" name="whyNow" rows="4" required></textarea>
+        <span class="cc-err" data-for="cc-why" role="alert"></span>
+      </div>
+      <button type="submit" class="cc-btn cc-btn--accent cc-submit" id="cc-submit">Send my application</button>
       <p class="cc-form-error" id="cc-form-error" role="alert" hidden></p>
     </form>
     <div class="cc-success" id="cc-success" role="status" hidden>
-      <h3>Thank you. Dr. TJ will personally reach out within two business days.</h3>
+      <h3>Thank you for applying. I read every application myself and will reach out personally within two business days. &mdash; Dr. TJ</h3>
     </div>
   </div>
 </section>
 
 <section class="cc-fine">
   <div class="container cc-narrow">
-    <p>Coaching is lifestyle and education, not medical care. Any prescription goes through our network's licensed physicians.</p>
+    <p>Coaching is lifestyle and education. Testing, labs and any prescription or regenerative therapy are ordered and approved by our network's licensed physicians.</p>
   </div>
 </section>
 
@@ -148,11 +193,13 @@ const during = [
     const formError = document.getElementById('cc-form-error') as HTMLElement;
     const success = document.getElementById('cc-success') as HTMLElement;
     const val = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
+    const guestVal = () => (form.querySelector<HTMLInputElement>('input[name="guestRoom"]:checked')?.value ?? '');
 
     const setErr = (id: string, msg: string) => {
       const el = form.querySelector<HTMLElement>(`.cc-err[data-for="${id}"]`);
       if (el) el.textContent = msg;
-      document.getElementById(id)?.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      const target = document.getElementById(id);
+      target?.setAttribute('aria-invalid', msg ? 'true' : 'false');
     };
 
     form.addEventListener('submit', async (e) => {
@@ -169,6 +216,8 @@ const during = [
         ['cc-city', val('cc-city') ? '' : 'Please enter your city and state.'],
         ['cc-change', val('cc-change') ? '' : 'Please tell us what you most want to change.'],
         ['cc-start', val('cc-start') ? '' : 'Please choose when you would like to start.'],
+        ['cc-guest', guestVal() ? '' : 'Please choose one.'],
+        ['cc-why', val('cc-why') ? '' : 'Please tell us why now.'],
       ];
       let firstBad: string | null = null;
       for (const [id, msg] of checks) {
@@ -176,7 +225,8 @@ const during = [
         if (msg && !firstBad) firstBad = id;
       }
       if (firstBad) {
-        document.getElementById(firstBad)?.focus();
+        if (firstBad === 'cc-guest') form.querySelector<HTMLInputElement>('input[name="guestRoom"]')?.focus();
+        else document.getElementById(firstBad)?.focus();
         return;
       }
 
@@ -189,6 +239,8 @@ const during = [
         location: val('cc-city'),
         change: val('cc-change'),
         start: val('cc-start'),
+        guestRoom: guestVal(),
+        whyNow: val('cc-why'),
       };
 
       submit.disabled = true;
@@ -332,7 +384,8 @@ const during = [
   border-radius: 50%;
   background: var(--accent);
 }
-.cc-after { line-height: 1.7; color: var(--text); }
+.cc-after { line-height: 1.7; color: var(--text); margin: 0; }
+.cc-pull { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; line-height: 1.5; color: var(--dark); margin: 1.75rem 0 0; }
 
 .cc-price {
   background: linear-gradient(160deg, #102842 0%, #0a1628 100%);
@@ -349,6 +402,7 @@ const during = [
   line-height: 1.1;
   color: rgba(212, 175, 90, 0.98);
 }
+.cc-includes { color: rgba(255, 255, 255, 0.82); line-height: 1.7; max-width: 32rem; margin: 0 auto 1rem; }
 .cc-seats-note { color: rgba(255, 255, 255, 0.78); line-height: 1.7; max-width: 32rem; margin: 0 auto; }
 
 .cc-form-wrap { max-width: 680px; }
@@ -369,6 +423,10 @@ const during = [
 }
 .cc-field input:focus, .cc-field select:focus, .cc-field textarea:focus { border-color: var(--accent); background: #fff; }
 .cc-field [aria-invalid="true"] { border-color: #e74c3c; }
+.cc-radios { border: 0; padding: 0; min-width: 0; }
+.cc-radios legend { display: block; padding: 0; font-size: 0.85rem; font-weight: 600; color: var(--dark); margin-bottom: 0.6rem; line-height: 1.5; }
+.cc-radios .cc-radio { display: flex; align-items: center; gap: 0.7rem; font-size: 1rem; font-weight: 400; color: var(--text); margin: 0 0 0.5rem; padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-soft); cursor: pointer; }
+.cc-radios .cc-radio input { width: 1.15rem; height: 1.15rem; padding: 0; margin: 0; flex: 0 0 auto; accent-color: var(--accent); }
 .cc-field textarea { resize: vertical; min-height: 120px; }
 .cc-err { display: block; min-height: 0; color: #c0392b; font-size: 0.82rem; margin-top: 0.3rem; }
 .cc-err:empty { display: none; }
