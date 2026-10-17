@@ -30,3 +30,6 @@ export const consultHref = (lane?: string, sex?: 'female' | 'male'): string => {
 // builds hide them; build with PUBLIC_SHOW_DRAFTS=1 to preview.
 // Spec: docs/plan/beasley-reciprocal-and-coaching-2026-10-17.md
 export const SHOW_DRAFTS = import.meta.env.PUBLIC_SHOW_DRAFTS === '1';
+
+// Randall Beasley partner section (Running From Excuses) — approved by TJ 2026-10-17, live.
+export const SHOW_BEASLEY_PARTNER = true;

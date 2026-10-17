@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import '../styles/door.css';
 import TrustBand from '../components/TrustBand.astro';
-import { COORDINATOR_MODE, SHOW_DRAFTS, consultHref } from '../lib/siteMode';
+import { COORDINATOR_MODE, SHOW_DRAFTS, SHOW_BEASLEY_PARTNER, consultHref } from '../lib/siteMode';
 
 const title = COORDINATOR_MODE
   ? "My4MLife — Protect your mind. The right treatment, chosen with you."
@@ -155,8 +155,8 @@ const treatments = [
   </div>
 </section>
 
-<!-- ===== DRAFT (SHOW_DRAFTS): PARTNER · RANDALL BEASLEY ===== -->
-{SHOW_DRAFTS && (
+<!-- ===== PARTNER · RANDALL BEASLEY (live 2026-10-17) ===== -->
+{SHOW_BEASLEY_PARTNER && (
 <section class="hp-partner" aria-labelledby="hp-partner-heading">
   <div class="container hp-partner-inner">
     <div class="hp-partner-lead">
