@@ -33,3 +33,6 @@ export const SHOW_DRAFTS = import.meta.env.PUBLIC_SHOW_DRAFTS === '1';
 
 // Randall Beasley partner section (Running From Excuses) — approved by TJ 2026-10-17, live.
 export const SHOW_BEASLEY_PARTNER = true;
+
+// The Captain's Table (/coaching + homepage band) — approved by TJ 2026-10-17, live.
+export const SHOW_COACHING = true;

@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import '../styles/door.css';
 import TrustBand from '../components/TrustBand.astro';
-import { COORDINATOR_MODE, SHOW_DRAFTS, SHOW_BEASLEY_PARTNER, consultHref } from '../lib/siteMode';
+import { COORDINATOR_MODE, SHOW_BEASLEY_PARTNER, SHOW_COACHING, consultHref } from '../lib/siteMode';
 
 const title = COORDINATOR_MODE
   ? "My4MLife — Protect your mind. The right treatment, chosen with you."
@@ -177,8 +177,8 @@ const treatments = [
 </section>
 )}
 
-<!-- ===== DRAFT (SHOW_DRAFTS): ONE-ON-ONE WITH DR. TJ ===== -->
-{SHOW_DRAFTS && (
+<!-- ===== ONE-ON-ONE WITH DR. TJ · THE CAPTAIN'S TABLE (live 2026-10-17) ===== -->
+{SHOW_COACHING && (
 <section class="hp-seats" aria-labelledby="hp-seats-heading">
   <div class="container hp-seats-inner">
     <div class="hp-seats-dots" aria-hidden="true"><span></span><span></span><span></span><span></span></div>

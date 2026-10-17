@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CoachingPage from '../components/CoachingPage.astro';
-import { SHOW_DRAFTS } from '../lib/siteMode';
+import { SHOW_COACHING } from '../lib/siteMode';
 
-// DRAFT awaiting TJ approval. Without PUBLIC_SHOW_DRAFTS=1 this route is a
+// Live 2026-10-17 (TJ approved). If SHOW_COACHING is ever false this route is a
 // noindex stub that bounces to "/", so a normal deploy exposes nothing.
 const canonical = 'https://www.my4mlife.com/coaching';
 ---
-{SHOW_DRAFTS ? (
+{SHOW_COACHING ? (
   <BaseLayout
     title="The Captain's Table — One-on-One with Dr. TJ | My4MLife"
     description="Four seats at a time, by application only. Dr. TJ comes to your home twice in your first month and talks with you every day in between."
