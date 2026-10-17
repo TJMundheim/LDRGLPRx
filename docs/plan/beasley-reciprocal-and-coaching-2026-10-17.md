@@ -75,3 +75,30 @@ Name confirmed by TJ: **The Captain's Table**. Price **$35,000 for the first mon
 
 ### Still open for TJ
 Refunds/cancellation; what month two onward looks like; filming (Keto Cattle Baron) with written consent; Randall's Amazon links plain (no tag); personal confirmation email to applicants instead of the generic one.
+
+## 4. REVISION 2026-10-17 evening (TJ approved) — The Captain's Table v3: $50K, application-driven confirmation, refund terms, capacity
+
+**Price:** $50,000 for the first month. Travel included. (Replace every $35,000.)
+**Capacity copy:** "Two new seats open each month. Never more than four people at a time." (homepage band under the price line + /coaching price block). Headline "Four seats. Your home. Your whole life." stays.
+
+**Application (replaces the form; ~5 minutes; NO health questions — medical history comes later through the secure intake once accepted)**
+About you: First name*, Last name*, Email*, Mobile phone*, City and state*; "Who lives in your home?"* (Just me / Spouse or partner / Spouse or partner and kids / Other); "Is your spouse or partner on board with this?"* (Yes / Not yet / Not applicable).
+Your home: "Which of these do you have at home?" (checkboxes, optional): Home gym · Sauna · Cold plunge · Swimming pool · Walking trails or outdoor space · Garden · Red-light therapy · Standing desk or home office · None of these yet; "Anything else at home that could help?" (short text, optional).
+Your why: "Who are you doing this for?"* help: "Name the person and your relationship to them." (short text, max 80 chars); "What do you most want to change?"* pick up to 3: Energy · Weight · Sleep · Focus and memory · Strength · Hormones · Gut · Daily habits; "Why now?"* (textarea).
+Your commitment: "Will you do a call with Dr. TJ every day for the first month?"* (Yes / No); guest-room question* (Yes / After the first visit / No — prefer he stays nearby); "When would you like to start?"* (Next month / Within 3 months / Just exploring); "The first month is $50,000. Are you prepared to commit?"* (Yes / I'd like to discuss); "How did you hear about The Captain's Table?" (optional short text).
+Submit: "Send my application". On success: "Thank you for applying. I read every application myself and will reach out personally within two business days. A confirmation is on its way to your inbox. — Dr. TJ"
+
+**Customized confirmation email** (email-sender, formId `coaching-application`, sent from Dr. TJ <drtj@my4mlife.com>, Reply-To drtj@; NOT the generic confirmation). Built from answers (all values HTML-escaped; missing/blank → that sentence omitted):
+- Subject: Your application for The Captain's Table
+- "Hi {firstName},"
+- "Thank you for applying for a seat at The Captain's Table. I read every application myself."
+- If whoFor: "You told me you're doing this for {whoFor}. Keep that face in mind. That's where we'll start."
+- If goals (1–3): "You said {goals joined 'a, b and c', lowercased} matter most to you right now. Those are exactly what the first four days in your home are built to change."
+- If home spaces chosen (excluding "None of these yet"): "And you have {spaces joined, lowercased} at home. We'll put {it|them} to work." 
+- Start: Next month → "I'll reach out personally within two business days to set up a private call. You mentioned starting next month, so we'll talk dates on that call." · Within 3 months → "... You mentioned starting within the next three months, so we'll talk dates on that call." · Just exploring → "I'll reach out personally within two business days. No pressure on timing. We'll start with a conversation."
+- "Dr. TJ"
+- Footer line (italic): "Don't lose your identity and your dignity while you still have a choice."
+The internal form email to TJ's inbox keeps listing all fields as today.
+
+**Refund terms** (new "Reserving your seat" block on /coaching, after the price):
+"Your seat is reserved when you choose a start date and pay in full." · More than 30 days before your start date: 90% refund · 15 to 30 days before: 85% refund · 14 days or fewer: 80% refund · After your start date: no refund, with one exception: if you decide after the first four days not to continue, you receive $15,000 back. · If Dr. TJ has to cancel, you receive a full refund for anything not yet delivered.
