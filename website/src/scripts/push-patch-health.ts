@@ -44,8 +44,8 @@ export function setDobMax(): void {
   dob.max = t.toISOString().slice(0, 10);
 }
 
-/** Validates every health field present in the DOM. Shows errors, focuses the first bad field, returns ok. */
-export function validateHealth(): boolean {
+/** Validates every health field present in the DOM. Shows errors, returns ok. The first bad field is focused, or handed to opts.onFirst (the dialog uses it to scroll and focus without a page jump). */
+export function validateHealth(opts?: { onFirst?: (f: HTMLElement) => void }): boolean {
   clearHealthErrors();
   let ok = true;
   let first: Field | null = null;
@@ -81,7 +81,8 @@ export function validateHealth(): boolean {
   if (!(el('f-privacy') as HTMLInputElement | null)?.checked) bad('privacy', 'Please check this box to continue.');
   if (!val('f-consent').trim()) bad('consent', 'Type your full legal name to continue.');
 
-  (first as Field | null)?.focus();
+  const f = first as Field | null;
+  if (f) { if (opts?.onFirst) opts.onFirst(f); else f.focus(); }
   return ok;
 }
 

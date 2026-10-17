@@ -403,9 +403,11 @@ const SCREEN_CLIENT = {
         <div class="pp-modal-scroll">
           <h2 id="pp-health-title" class="pp-health-title" tabindex="-1">Your health questions</h2>
           <p class="pp-health-intro">About 2 minutes. After you pay, one of our network's licensed physicians reviews your answers within an hour during business hours, 9 a.m. to 5 p.m. Central. If you are not cleared, your payment is refunded within 10 business days.</p>
+          <p class="pp-health-count">9 short questions, then your signature.</p>
           <HealthForm identity={true} />
         </div>
-        <div class="pp-modal-foot">
+        <div class="pp-modal-foot pp-modal-foot-flow">
+          <p class="pp-health-missing" id="pp-health-missing" role="alert"></p>
           <p class="pp-health-err" id="pp-health-err" role="alert"></p>
           <button type="submit" class="pp-cta pp-modal-go" id="pp-health-go">Continue to payment</button>
           <button type="button" class="pp-modal-link" id="pp-health-back">Back to safety check</button>
@@ -443,6 +445,7 @@ const SCREEN_CLIENT = {
   var health = document.getElementById('pp-screen-health');
   var healthBtn = document.getElementById('pp-health-go');
   var healthErr = document.getElementById('pp-health-err');
+  var healthMissing = document.getElementById('pp-health-missing');
   var healthTitle = document.getElementById('pp-health-title');
   var screenTitle = document.getElementById('pp-screen-title');
   var BUSY_LABEL = 'Opening secure checkout…';
@@ -518,6 +521,7 @@ const SCREEN_CLIENT = {
     health.reset();
     if (window.PPHealth) window.PPHealth.clearHealthErrors();
     healthErr.textContent = '';
+    healthMissing.textContent = '';
     setHealthBusy(false);
     var flagged = detail.querySelectorAll('.pp-q-missing, .pp-q-miss');
     for (var k = 0; k < flagged.length; k++) { if (flagged[k].classList.contains('pp-q-miss')) flagged[k].hidden = true; else flagged[k].classList.remove('pp-q-missing'); }
@@ -590,6 +594,11 @@ const SCREEN_CLIENT = {
     healthTitle.focus();
   }
 
+  // Editing any field clears the "still missing" message.
+  function clearMissing() { healthMissing.textContent = ''; }
+  health.addEventListener('input', clearMissing);
+  health.addEventListener('change', clearMissing);
+
   document.getElementById('pp-health-back').addEventListener('click', function () {
     if (busy) return;
     healthErr.textContent = '';
@@ -603,8 +612,16 @@ const SCREEN_CLIENT = {
     ev.preventDefault();
     if (busy || !cur || !cur.answers) return;
     healthErr.textContent = '';
+    healthMissing.textContent = '';
     var H = window.PPHealth;
-    if (!H || !H.validateHealth()) return;
+    // On a failed check, center the first bad field in the dialog (the scroll container) and focus it without a page jump.
+    if (!H || !H.validateHealth({ onFirst: function (f) {
+      healthMissing.textContent = "A few answers are still missing. We've taken you to the first one.";
+      var fr = f.getBoundingClientRect(), dr = dlg.getBoundingClientRect();
+      var target = dlg.scrollTop + (fr.top - dr.top) - (dlg.clientHeight - fr.height) / 2;
+      dlg.scrollTop = Math.max(0, target);
+      try { f.focus({ preventScroll: true }); } catch (e) { f.focus(); }
+    } })) return;
     var payload = H.collectHealth();
     payload.skuId = cur.skuId;
     payload.screening = { version: C.version, answers: cur.answers };
@@ -868,6 +885,10 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-health-intro { margin: 0 0 1.1rem; font-size: 0.95rem; line-height: 1.55; color: var(--on-ink); }
 .pp-health-err { margin: 0 0 0.7rem; font-size: 0.9rem; line-height: 1.45; font-weight: 600; color: #fca5a5; text-align: center; }
 .pp-health-err:empty { display: none; }
+.pp-modal-foot.pp-modal-foot-flow { position: static; }
+.pp-health-count { margin: 0 0 1.1rem; font-size: 0.8rem; line-height: 1.5; color: var(--on-ink-muted); }
+.pp-health-missing { margin: 0 0 0.8rem; padding: 0.7rem 0.9rem; font-size: 1.05rem; line-height: 1.4; font-weight: 700; color: #fecaca; text-align: center; background: rgba(248, 113, 113, 0.14); border: 1px solid #f87171; border-radius: 8px; }
+.pp-health-missing:empty { display: none; }
 .pp-modal-stop { padding: 0 1.1rem 1.3rem; }
 .pp-modal-stop p { font-size: 1rem; line-height: 1.6; color: var(--on-ink); margin: 0 0 1.2rem; }
 .pp-modal-stop strong { color: #ffffff; }
