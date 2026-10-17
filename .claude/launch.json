@@ -4,20 +4,51 @@
     {
       "name": "cover-preview",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", "-l", "7771", "/Users/thomasmundheim/Desktop/Development/LDRGLPRx/docs/book/cover"],
+      "runtimeArgs": [
+        "serve",
+        "-l",
+        "7771",
+        "/Users/thomasmundheim/Desktop/Development/LDRGLPRx/docs/book/cover"
+      ],
       "port": 7771
     },
     {
       "name": "website",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["-C", "website", "run", "dev"],
+      "runtimeArgs": [
+        "-C",
+        "website",
+        "run",
+        "dev"
+      ],
       "port": 4321
     },
     {
       "name": "clientportal",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["-C", "apps/clientportal", "run", "dev"],
+      "runtimeArgs": [
+        "-C",
+        "apps/clientportal",
+        "run",
+        "dev"
+      ],
       "port": 5173
+    },
+    {
+      "name": "website-drafts",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "PUBLIC_SHOW_DRAFTS=1",
+        "pnpm",
+        "-C",
+        "website",
+        "exec",
+        "astro",
+        "dev",
+        "--port",
+        "4322"
+      ],
+      "port": 4322
     }
   ]
 }
