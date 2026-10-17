@@ -141,3 +141,83 @@ describe('(f) on failure with attemptCount >= 5', () => {
     expect(schedulerSend).not.toHaveBeenCalled();
   });
 });
+
+describe('(g) Scheduler-invoked retry (plain payload, no Records)', () => {
+  const payload = (over: object = {}) => ({ id: 'evt_sched', type: 'checkout.session.completed', livemode: false, attemptCount: 1, ...over });
+
+  it('reprocesses the event, clears RetryState, and does not touch the DLQ', async () => {
+    orderProcessEvent.mockResolvedValueOnce(undefined);
+    await handler(payload() as any, {} as any, vi.fn());
+    expect(orderProcessEvent).toHaveBeenCalledWith({ id: 'evt_sched', type: 'checkout.session.completed', livemode: false });
+    expect(ddbSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'DeleteItem' }));
+    expect(sqsSend).not.toHaveBeenCalled(); // no receiptHandle -> no DeleteMessage
+  });
+
+  it('on failure with attemptCount < 5 schedules the next rung using the ladder', async () => {
+    orderProcessEvent.mockRejectedValueOnce(new Error('still failing'));
+    await handler(payload({ attemptCount: 2 }) as any, {} as any, vi.fn());
+    expect(schedulerSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'CreateSchedule', Name: 'stripe-retry-evt_sched-3' }));
+    expect(sqsSend).not.toHaveBeenCalled();
+  });
+
+  it('on failure at attemptCount 5 sends to permanent-failures and nothing else on SQS', async () => {
+    orderProcessEvent.mockRejectedValueOnce(new Error('gave up'));
+    await handler(payload({ attemptCount: 5 }) as any, {} as any, vi.fn());
+    expect(sqsSend).toHaveBeenCalledTimes(1);
+    expect(sqsSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'SendMessage' }));
+    expect(schedulerSend).not.toHaveBeenCalled();
+  });
+});
+
+describe('(h) SQS body shapes (DLQ is fed raw EventBridge envelopes)', () => {
+  const envelope = (detail: object = {}) => ({
+    version: '0', id: 'eb-uuid-1', 'detail-type': 'Stripe Event', source: 'aws.partner/stripe.com/x',
+    account: '123', time: '2026-10-17T00:00:00Z', region: 'us-east-2', resources: [],
+    detail: { id: 'evt_env', object: 'event', type: 'checkout.session.completed', livemode: true, data: { object: {} }, ...detail },
+  });
+
+  it('normalizes an EventBridge envelope to the Stripe event id/type/livemode and processes it', async () => {
+    orderProcessEvent.mockResolvedValueOnce(undefined);
+    await handler(makeSqsEvent(envelope()) as any, {} as any, vi.fn());
+    expect(orderProcessEvent).toHaveBeenCalledWith({ id: 'evt_env', type: 'checkout.session.completed', livemode: true });
+    expect(ddbSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'DeleteItem' }));
+    expect(sqsSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'DeleteMessage', ReceiptHandle: 'rh-test-123' }));
+  });
+
+  it('starts envelope retries at attemptCount 0 (schedules rung 1 on failure)', async () => {
+    orderProcessEvent.mockRejectedValueOnce(new Error('boom'));
+    await handler(makeSqsEvent(envelope()) as any, {} as any, vi.fn());
+    expect(schedulerSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'CreateSchedule', Name: 'stripe-retry-evt_env-1' }));
+  });
+
+  it('still accepts the flat {id,type,livemode,attemptCount} body', async () => {
+    refundProcessEvent.mockResolvedValueOnce(undefined);
+    await handler(makeSqsEvent({ id: 'evt_flat', type: 'charge.refunded', livemode: false, attemptCount: 3 }) as any, {} as any, vi.fn());
+    expect(refundProcessEvent).toHaveBeenCalledWith({ id: 'evt_flat', type: 'charge.refunded', livemode: false });
+  });
+
+  it.each([
+    ['non-JSON text', 'not json {{'],
+    ['JSON null', 'null'],
+    ['JSON array', '[1,2]'],
+    ['empty object', '{}'],
+    ['envelope with no detail.type', JSON.stringify({ id: 'eb', detail: { id: 'evt_x' } })],
+  ])('garbage body (%s) goes to permanent-failures, is deleted from DLQ, and does not throw', async (_n, body) => {
+    const ev = { Records: [{ body, receiptHandle: 'rh-garbage' }] };
+    await expect(handler(ev as any, {} as any, vi.fn())).resolves.not.toThrow();
+    expect(orderProcessEvent).not.toHaveBeenCalled();
+    expect(sqsSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'SendMessage' }));
+    expect(sqsSend).toHaveBeenCalledWith(expect.objectContaining({ _cmd: 'DeleteMessage', ReceiptHandle: 'rh-garbage' }));
+    expect(schedulerSend).not.toHaveBeenCalled();
+  });
+
+  it('one garbage record does not stop the rest of the batch', async () => {
+    orderProcessEvent.mockResolvedValueOnce(undefined);
+    const ev = { Records: [
+      { body: 'garbage', receiptHandle: 'rh-1' },
+      { body: JSON.stringify(envelope()), receiptHandle: 'rh-2' },
+    ] };
+    await handler(ev as any, {} as any, vi.fn());
+    expect(orderProcessEvent).toHaveBeenCalledTimes(1);
+  });
+});
