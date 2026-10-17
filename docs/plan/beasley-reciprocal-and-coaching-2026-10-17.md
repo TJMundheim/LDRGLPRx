@@ -43,3 +43,35 @@ Name (TJ to confirm): **The Captain's Table** (from the 2026-07-14 draft; fits t
 4. Payment: paid in full before the visit? Refund if you cancel / if they cancel?
 5. Filming: may the visit include a Keto Cattle Baron episode in their kitchen (the July draft had this)? Only with their written consent.
 6. Amazon links to Randall's book: plain links (no My4MLife affiliate tag) — OK?
+
+
+## 3. REVISION 2026-10-17 (TJ) — The Captain's Table v2 (supersedes section 2 copy where different)
+Name confirmed by TJ: **The Captain's Table**. Price **$35,000 for the first month, travel included** (Dr. TJ pays his own travel). By application only — commitment, not just ability to pay.
+
+**Homepage band**
+- Eyebrow: ONE-ON-ONE WITH DR. TJ · THE CAPTAIN'S TABLE
+- Heading: Four seats. Your home. Your whole life.
+- Body: I take on no more than four people at a time, and I come to you twice in your first month. First, four days in your home, Sunday through Wednesday: we test, we clear the pantry, set up your home, and build your workout and your morning routine. Then a call every day. At the end of the month I come back for three days to see what thirty days of change has done, and to deliver your regenerative therapy in person.
+- Price line: $35,000 for the first month. Travel included.
+- Button: "Apply for a seat" → /coaching
+- Small line under button: By application only.
+
+**/coaching page**
+- Hero: THE CAPTAIN'S TABLE · "Four seats. Your home. Your whole life." · tagline · "Apply for a seat"
+- What happens (in order):
+  1. Apply (5 minutes). This is by application only.
+  2. A private call with Dr. TJ to see if it is a fit, for both of us.
+  3. Visit one: four days in your home, Sunday through Wednesday.
+  4. A call every day for the rest of the month.
+  5. Visit two: three days in your home, Sunday through Tuesday, at the end of your first 30 days.
+- Visit one — four days (Sunday–Wednesday): genetic testing for how your body handles medications (PGx) and nutrients (NGx), plus a comprehensive lab panel; kitchen and pantry reset (out with the insulting foods, in with a stocked week); home environment set-up (light, sleep, air, water); a workout program built for your body and your schedule; your morning routine, practiced until it sticks; cooking the week's meals together; the book and the Logbook applied to your actual life.
+- Between visits: a call every day; the My4MLife app, Logbook and weekly Zooms.
+- Visit two — three days (Sunday–Tuesday, end of month one): we review your results and your labs together and work on whatever is still in the way at home; then your full-dose regenerative therapy (Genesis RPA), delivered by nasal atomizer, with Dr. TJ there to walk you through it. Approved by one of our network's licensed physicians, like every treatment we offer.
+- "Why I stay in your home": The fastest way to change a life is to see it as it is lived. When I can, I stay in your guest room during visits, so I see the real morning, the real kitchen, the real evening. If that is not comfortable at first, we start without it; many people are ready by the second visit.
+- "Who this is for" (application criteria): You are ready to change how you live, not just what you take. You will do the daily calls and the work between them. You and your household are open to me being in your home, ideally staying in your guest room. You can commit the first month in full. — "Being able to pay is not enough. I choose people who are ready."
+- Price: $35,000 for the first month. Travel included. Includes both visits, all testing and labs, daily calls, and your regenerative therapy. "Seats are limited to four at a time. If the table is full, you'll be first in line for the next opening."
+- Application form: existing fields + new required question "Would your household be comfortable with Dr. TJ staying in your guest room during visits?" (Yes / After the first visit / No — prefer he stays nearby) + "Why now?" (textarea, required). Submit text: "Send my application". Success: "Thank you for applying. I read every application myself and will reach out personally within two business days. — Dr. TJ"
+- Fine print: Coaching is lifestyle and education. Testing, labs and any prescription or regenerative therapy are ordered and approved by our network's licensed physicians.
+
+### Still open for TJ
+Refunds/cancellation; what month two onward looks like; filming (Keto Cattle Baron) with written consent; Randall's Amazon links plain (no tag); personal confirmation email to applicants instead of the generic one.
