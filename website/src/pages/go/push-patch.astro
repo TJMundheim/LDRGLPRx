@@ -373,7 +373,7 @@ const SCREEN_CLIENT = {
 
       <form id="pp-screen-detail" class="pp-modal-form" novalidate>
         <div class="pp-modal-scroll">
-          <p class="pp-modal-intro">Answer all {SAFETY_ITEMS.length + WEAR_ITEMS.length} questions. It takes about 30 seconds.</p>
+          <p class="pp-modal-intro">Answer all {SAFETY_ITEMS.length + WEAR_ITEMS.length} questions. It takes about 30 seconds. <span class="pp-modal-count" id="pp-screen-count" aria-live="polite"></span></p>
           {SCREEN.siteNote && <p class="pp-modal-note">{SCREEN.siteNote}</p>}
           {[{ title: 'Safety questions', items: SAFETY_ITEMS, start: 1 }, { title: "Where you'll wear it", items: WEAR_ITEMS, start: SAFETY_ITEMS.length + 1 }].map((g) => (
             <div class="pp-qgroup" role="group" aria-label={g.title}>
@@ -391,9 +391,8 @@ const SCREEN_CLIENT = {
             </div>
           ))}
         </div>
-        <div class="pp-modal-foot">
+        <div class="pp-modal-foot pp-modal-foot-flow">
           <p class="pp-modal-confirm">By continuing, I confirm my answers are accurate.</p>
-          <p class="pp-modal-count" id="pp-screen-count" aria-live="polite"></p>
           <button type="submit" class="pp-cta pp-modal-go" id="pp-screen-go">Continue</button>
         </div>
       </form>
@@ -515,6 +514,27 @@ const SCREEN_CLIENT = {
     }
   }
 
+  // Auto-advance: after a question is answered for the first time, if the NEXT unanswered question
+  // is (even partly) below the visible area of the dialog, scroll the dialog just far enough to show it.
+  // Never moves focus; instant when the user prefers reduced motion.
+  function advanceFrom(fs) {
+    var all = detail.querySelectorAll('.pp-q'), next = null, seen = false;
+    for (var i = 0; i < all.length; i++) {
+      if (all[i] === fs) { seen = true; continue; }
+      if (seen && !all[i].querySelector('input:checked')) { next = all[i]; break; }
+    }
+    // Last gap filled: bring the Continue button into view instead.
+    if (!next && answeredCount().n === answeredCount().total) next = goBtn;
+    if (!next) return;
+    var nr = next.getBoundingClientRect(), dr = dlg.getBoundingClientRect();
+    var over = nr.bottom - (dr.bottom - 16);
+    if (over <= 0) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var top = Math.min(dlg.scrollTop + over, dlg.scrollTop + (nr.top - dr.top) - 72);
+    try { dlg.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' }); }
+    catch (e) { dlg.scrollTop = Math.max(0, top); }
+  }
+
   function openModal(btn) {
     cur = { btn: btn, skuId: btn.getAttribute('data-sku'), label: btn.getAttribute('data-label') };
     detail.reset();
@@ -523,6 +543,8 @@ const SCREEN_CLIENT = {
     healthErr.textContent = '';
     healthMissing.textContent = '';
     setHealthBusy(false);
+    var fsAll = detail.querySelectorAll('.pp-q');
+    for (var q = 0; q < fsAll.length; q++) delete fsAll[q].dataset.answered;
     var flagged = detail.querySelectorAll('.pp-q-missing, .pp-q-miss');
     for (var k = 0; k < flagged.length; k++) { if (flagged[k].classList.contains('pp-q-miss')) flagged[k].hidden = true; else flagged[k].classList.remove('pp-q-missing'); }
     syncGo();
@@ -584,6 +606,7 @@ const SCREEN_CLIENT = {
     fs.classList.remove('pp-q-missing');
     var mm = fs.querySelector('.pp-q-miss'); if (mm) mm.hidden = true;
     syncGo();
+    if (!fs.dataset.answered) { fs.dataset.answered = '1'; advanceFrom(fs); }
   });
 
   // Safety check passed: ask the health questions in the same dialog (no payment yet).
@@ -839,7 +862,7 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-error[hidden] { display: none; }
 
 /* Pre-payment safety check modal */
-.pp-modal { border: 1px solid var(--ink-line); border-radius: 12px; padding: 0; background: var(--ink-2); color: var(--on-ink); width: min(30rem, calc(100vw - 1.5rem)); max-height: calc(100vh - 2rem); max-height: calc(100dvh - 2rem); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; margin: auto; }
+.pp-modal { border: 1px solid var(--ink-line); border-radius: 12px; padding: 0; background: var(--ink-2); color: var(--on-ink); width: min(36rem, calc(100vw - 1.5rem)); max-height: calc(100vh - 2rem); max-height: calc(100dvh - 2rem); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; margin: auto; }
 .pp-modal[open] { display: block; }
 .pp-modal::backdrop { background: rgba(5, 10, 20, 0.78); }
 .pp-modal-box { position: relative; padding: 1.4rem 0 0; }
@@ -848,7 +871,7 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 @media (min-width: 480px) { .pp-modal h2 { margin-left: 1.6rem; } }
 .pp-modal-x { position: absolute; top: 0.6rem; right: 0.6rem; width: 2.5rem; height: 2.5rem; border: none; background: transparent; color: var(--on-ink-muted); font-size: 1.7rem; line-height: 1; cursor: pointer; border-radius: 8px; }
 .pp-modal-x:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
-.pp-modal-note { font-size: 0.92rem; line-height: 1.55; color: var(--on-ink); margin: 0 0 1.1rem; padding: 0.7rem 0.9rem; border-left: 3px solid var(--accent); background: rgba(34, 211, 238, 0.1); border-radius: 0 8px 8px 0; }
+.pp-modal-note { font-size: 0.95rem; line-height: 1.4; color: var(--on-ink); margin: 0 0 0.6rem; padding: 0.4rem 0.75rem; border-left: 3px solid var(--accent); background: rgba(34, 211, 238, 0.1); border-radius: 0 8px 8px 0; }
 .pp-modal .pp-modal-go { display: block; width: 100%; text-align: center; box-sizing: border-box; }
 .pp-modal-link { display: block; width: 100%; margin: 0.9rem 0 0; padding: 0.5rem; background: none; border: none; color: var(--accent); font: inherit; font-size: 0.92rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; text-align: center; }
 .pp-modal-link:hover { color: #67e8f9; }
@@ -859,23 +882,30 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-modal-scroll { padding: 0 1.1rem 0.6rem; }
 .pp-modal-foot { position: sticky; bottom: 0; z-index: 1; padding: 0.8rem 1.1rem calc(1.1rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--ink-line); background: var(--ink-2); }
 @media (min-width: 480px) { .pp-modal-scroll { padding: 0 1.6rem 0.6rem; } .pp-modal-foot { padding: 0.9rem 1.6rem 1.3rem; } }
-.pp-modal-confirm { margin: 0 0 0.7rem; font-size: 0.88rem; line-height: 1.45; color: var(--on-ink-muted); text-align: center; }
+.pp-modal-confirm { margin: 0 0 0.6rem; font-size: 0.9rem; line-height: 1.45; color: var(--on-ink-muted); text-align: center; }
 .pp-modal .pp-modal-go:disabled { opacity: 0.45; cursor: not-allowed; }
-.pp-modal-count { margin: 0 0 0.6rem; font-size: 0.85rem; text-align: center; color: var(--on-ink-muted); }
+.pp-modal-count { display: block; margin: 0.15rem 0 0; font-size: 0.95rem; font-weight: 700; color: var(--on-ink-muted); }
 .pp-modal-count.pp-done { color: var(--accent); }
 .pp-q.pp-q-missing { border-color: #f87171; box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.35); }
-.pp-modal-intro { margin: 0 0 0.8rem; font-size: 0.95rem; font-weight: 600; color: #ffffff; }
+.pp-modal-intro { margin: 0 0 0.5rem; font-size: 0.95rem; line-height: 1.4; font-weight: 600; color: #ffffff; }
 .pp-q-num { font-weight: 800; color: var(--accent); margin-right: 0.2rem; }
 .pp-q-miss { margin: 0.4rem 0 0; font-size: 0.88rem; font-weight: 600; color: #fca5a5; }
 .pp-q-miss[hidden] { display: none; }
 .pp-modal .pp-modal-go:disabled:hover { background: var(--accent); }
-.pp-qgroup { display: flex; flex-direction: column; gap: 0.7rem; margin: 0 0 1.2rem; }
-.pp-qgroup-title { margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-.pp-q { margin: 0; padding: 0.8rem 0.9rem; border: 1px solid var(--ink-line); border-radius: 8px; min-width: 0; }
-.pp-q legend { padding: 0 0.3rem; font-size: 0.92rem; font-weight: 500; line-height: 1.45; color: var(--on-ink); letter-spacing: 0; }
-.pp-q-opts { display: flex; gap: 1.4rem; margin-top: 0.4rem; }
-.pp-q-opts label { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.5rem; font-size: 0.95rem; color: #ffffff; cursor: pointer; }
+.pp-qgroup { display: flex; flex-direction: column; gap: 0.4rem; margin: 0 0 0.6rem; }
+.pp-qgroup-title { margin: 0; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.pp-q { margin: 0; padding: 0.35rem 0.8rem 0.1rem; border: 1px solid var(--ink-line); border-radius: 8px; min-width: 0; }
+.pp-q legend { padding: 0 0.3rem; font-size: 0.95rem; font-weight: 500; line-height: 1.35; color: var(--on-ink); letter-spacing: 0; }
+.pp-q-opts { display: flex; gap: 1.4rem; margin-top: 0; }
+.pp-q-opts label { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.75rem; font-size: 1rem; color: #ffffff; cursor: pointer; }
 .pp-q-opts input { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+/* Wide screens: the Yes / No pair sits beside the question text so all five questions fit without scrolling. Phones keep it stacked. */
+@media (min-width: 480px) {
+  .pp-q { display: flow-root; padding: 0.3rem 0.9rem; }
+  .pp-q legend { float: left; width: calc(100% - 9rem); padding: 0; margin: 0.35rem 0; }
+  .pp-q-opts { float: right; gap: 1.1rem; }
+  .pp-q-note, .pp-q-miss { clear: both; }
+}
 .pp-q-note { margin: 0.4rem 0 0; padding: 0.55rem 0.75rem; border-left: 3px solid var(--accent); background: rgba(34, 211, 238, 0.1); border-radius: 0 6px 6px 0; font-size: 0.88rem; line-height: 1.5; color: var(--on-ink); }
 .pp-q-note[hidden] { display: none; }
 .pp-modal .pp-error[hidden] { display: none; }
