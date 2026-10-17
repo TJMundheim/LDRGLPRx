@@ -167,7 +167,7 @@ log "Wiring HTTP API route POST /api/chat..."
 ROUTE_KEY="POST /api/chat"
 
 EXISTING_ROUTE=$($AWS apigatewayv2 get-routes --api-id "$API_ID" \
-  --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId | [0]" --output text)
+  --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId | [0]" --output text | tr '\t' '\n' | grep -v -e '^None$' -e '^$' | head -n 1 || true)
 
 if [[ "$EXISTING_ROUTE" != "None" && -n "$EXISTING_ROUTE" ]]; then
   log "Route already exists ($EXISTING_ROUTE). Skipping."

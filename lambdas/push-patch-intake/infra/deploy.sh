@@ -193,14 +193,14 @@ $AWS lambda add-permission \
 INTEGRATION_ID=""
 for ROUTE_KEY in "GET $ROUTE_PATH" "POST $ROUTE_PATH" "OPTIONS $ROUTE_PATH" "POST $PRE_ROUTE_PATH" "OPTIONS $PRE_ROUTE_PATH"; do
   EXISTING_ROUTE=$($AWS apigatewayv2 get-routes --api-id "$API_ID" \
-    --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId | [0]" --output text)
+    --query "Items[?RouteKey=='$ROUTE_KEY'].RouteId | [0]" --output text | tr '\t' '\n' | grep -v -e '^None$' -e '^$' | head -n 1 || true)
   if [[ "$EXISTING_ROUTE" != "None" && -n "$EXISTING_ROUTE" ]]; then
     log "Route $ROUTE_KEY already exists ($EXISTING_ROUTE). Skipping."
     continue
   fi
   if [[ -z "$INTEGRATION_ID" ]]; then
     INTEGRATION_ID=$($AWS apigatewayv2 get-integrations --api-id "$API_ID" \
-      --query "Items[?IntegrationUri=='$LAMBDA_ARN'].IntegrationId | [0]" --output text)
+      --query "Items[?IntegrationUri=='$LAMBDA_ARN'].IntegrationId | [0]" --output text | tr '\t' '\n' | grep -v -e '^None$' -e '^$' | head -n 1 || true)
     if [[ "$INTEGRATION_ID" == "None" || -z "$INTEGRATION_ID" ]]; then
       INTEGRATION_ID=$($AWS apigatewayv2 create-integration \
         --api-id "$API_ID" \

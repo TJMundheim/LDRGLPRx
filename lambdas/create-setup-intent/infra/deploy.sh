@@ -103,7 +103,7 @@ aws lambda add-permission --function-name "$FUNCTION_NAME" --region "$REGION" \
 
 # Ensure single integration for this function
 INTEG_ID=$(aws apigatewayv2 get-integrations --api-id "$HTTP_API_ID" --region "$REGION" \
-  --query "Items[?IntegrationUri=='${FN_ARN}'].IntegrationId | [0]" --output text)
+  --query "Items[?IntegrationUri=='${FN_ARN}'].IntegrationId | [0]" --output text | tr '\t' '\n' | grep -v -e '^None$' -e '^$' | head -n 1 || true)
 if [ -z "$INTEG_ID" ] || [ "$INTEG_ID" = "None" ]; then
   INTEG_ID=$(aws apigatewayv2 create-integration --api-id "$HTTP_API_ID" --region "$REGION" \
     --integration-type AWS_PROXY --integration-uri "$FN_ARN" \
@@ -112,7 +112,7 @@ fi
 
 for r in "POST /api/create-setup-intent" "OPTIONS /api/create-setup-intent"; do
   ROUTE_ID=$(aws apigatewayv2 get-routes --api-id "$HTTP_API_ID" --region "$REGION" \
-    --query "Items[?RouteKey=='${r}'].RouteId | [0]" --output text)
+    --query "Items[?RouteKey=='${r}'].RouteId | [0]" --output text | tr '\t' '\n' | grep -v -e '^None$' -e '^$' | head -n 1 || true)
   if [ -z "$ROUTE_ID" ] || [ "$ROUTE_ID" = "None" ]; then
     aws apigatewayv2 create-route --api-id "$HTTP_API_ID" --region "$REGION" \
       --route-key "$r" --target "integrations/${INTEG_ID}" >/dev/null
