@@ -60,14 +60,20 @@ describe('buildPushPatchSessionParams', () => {
     expect(buildPushPatchSessionParams(base)!.metadata).not.toHaveProperty('test_price');
   });
 
-  it('asks for promotional-email consent via Stripe consent_collection', () => {
-    expect(buildPushPatchSessionParams(base)!.consent_collection).toEqual({ promotions: 'auto' });
+  it('asks for promotional-email consent only when STRIPE_PROMO_CONSENT=on', () => {
+    expect(buildPushPatchSessionParams(base)!).not.toHaveProperty('consent_collection');
+    process.env['STRIPE_PROMO_CONSENT'] = 'on';
+    try {
+      expect(buildPushPatchSessionParams(base)!.consent_collection).toEqual({ promotions: 'auto' });
+    } finally {
+      delete process.env['STRIPE_PROMO_CONSENT'];
+    }
   });
 
-  it('keeps the existing top-level params unchanged (only consent_collection is added)', () => {
+  it('keeps the existing top-level params unchanged (consent_collection off by default)', () => {
     const p = buildPushPatchSessionParams({ ...base, email: 'a@b.co' })!;
     expect(Object.keys(p).sort()).toEqual([
-      'cancel_url', 'consent_collection', 'customer_email', 'line_items', 'metadata', 'mode',
+      'cancel_url', 'customer_email', 'line_items', 'metadata', 'mode',
       'payment_intent_data', 'phone_number_collection', 'shipping_address_collection', 'success_url',
     ]);
   });
