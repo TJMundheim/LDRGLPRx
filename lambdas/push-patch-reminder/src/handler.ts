@@ -1,8 +1,9 @@
 import { findDue, claim, release } from './pending';
 import { sendReminder } from './email';
 import { refundSweep, type RefundResult } from './refund';
+import { sweepAbandoned, defaultDeps, type AbandonedResult } from './abandoned';
 
-export interface SweepResult { scanned: number; sent: number; skipped: number; failed: number; refunds: RefundResult }
+export interface SweepResult { scanned: number; sent: number; skipped: number; failed: number; refunds: RefundResult; abandoned?: AbandonedResult }
 
 /** EventBridge every 15 min. Logs counts and session ids only (never email or health data). */
 export const handler = async (): Promise<SweepResult> => {
@@ -25,6 +26,10 @@ export const handler = async (): Promise<SweepResult> => {
   }
   // Refund-pending reminders to TJ: independent of the patient reminders; a failure here must not mask them.
   try { res.refunds = await refundSweep(); } catch { res.refunds.failed++; console.error('[push-patch-reminder] refund sweep failed'); }
+  // Abandoned-intake nudge: disabled unless ABANDONED_CART_ENABLED === 'true'; independent of the sweeps above.
+  if (process.env['ABANDONED_CART_ENABLED'] === 'true') {
+    try { res.abandoned = await sweepAbandoned(defaultDeps()); } catch { console.error('[push-patch-reminder] abandoned sweep failed'); }
+  }
   console.log('[push-patch-reminder] sweep', res);
   return res;
 };

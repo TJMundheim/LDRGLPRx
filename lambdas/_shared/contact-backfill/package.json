@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "backfill": "esbuild src/cli.ts --bundle --platform=node --format=esm --outfile=dist/cli.mjs && node dist/cli.mjs"
+    "backfill": "esbuild src/cli.ts --bundle --platform=node --format=esm --banner:js=\"import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);\" --outfile=dist/cli.mjs && node dist/cli.mjs"
   },
   "dependencies": {
     "@my4mlife/contact-id": "workspace:*",

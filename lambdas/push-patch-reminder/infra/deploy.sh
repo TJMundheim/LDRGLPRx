@@ -5,6 +5,7 @@
 # (max 2 reminders), claims each conditionally, invokes email-sender (kind 'info', from 'support').
 # Also scans PatientRecords for declined push-patch encounters with refundStatus 'pending' for 7+
 # business days and emails TJ once (refundReminderSentAt guard).
+# Optional (ABANDONED_CART_ENABLED=true): nudges unpaid pending-intake# rows once, 60 min to 7 days after signing.
 set -euo pipefail
 
 FUNCTION_NAME="my4mlife-push-patch-reminder"
@@ -21,7 +22,10 @@ ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
 EMAIL_SENDER_FN="${EMAIL_SENDER_FN:-my4mlife-email-sender}"
 INTAKE_BASE_URL="${INTAKE_BASE_URL:-https://www.my4mlife.com/go/push-patch/thank-you}"
 PATIENT_RECORDS_TABLE="${PATIENT_RECORDS_TABLE:-PatientRecords}"
-ENV_JSON="{\"Variables\":{\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\",\"INTAKE_BASE_URL\":\"${INTAKE_BASE_URL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\"}}"
+# Abandoned-intake nudge email: DISABLED until TJ approves docs/launch/push-patch/abandoned-cart-copy.md.
+# To enable, change this to true and redeploy.
+ABANDONED_CART_ENABLED=false
+ENV_JSON="{\"Variables\":{\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\",\"INTAKE_BASE_URL\":\"${INTAKE_BASE_URL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\",\"ABANDONED_CART_ENABLED\":\"${ABANDONED_CART_ENABLED}\"}}"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
@@ -48,13 +52,13 @@ POLICY_DOC=$(cat <<EOF
     {
       "Sid": "DDBTouchpoints",
       "Effect": "Allow",
-      "Action": ["dynamodb:Scan", "dynamodb:UpdateItem"],
+      "Action": ["dynamodb:Scan", "dynamodb:Query", "dynamodb:UpdateItem"],
       "Resource": "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/Touchpoints"
     },
     {
       "Sid": "DDBPatientRecords",
       "Effect": "Allow",
-      "Action": ["dynamodb:Scan", "dynamodb:GetItem", "dynamodb:UpdateItem"],
+      "Action": ["dynamodb:Scan", "dynamodb:Query", "dynamodb:GetItem", "dynamodb:UpdateItem"],
       "Resource": "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/${PATIENT_RECORDS_TABLE}"
     },
     {

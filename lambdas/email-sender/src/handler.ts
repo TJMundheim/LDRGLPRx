@@ -2,6 +2,7 @@ import type { Handler } from 'aws-lambda';
 import { mailgunSend, type Attachment } from './mailgun';
 import { formHtml, verifyHtml, confirmation, CONFIRM_FROM_KEY, NO_CONFIRM, CUST_EMAIL_RE } from './templates';
 import { composeCoachingConfirmation } from './coaching-confirmation';
+import { captureFormContact, contactDdb } from './form-contact';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
@@ -31,7 +32,6 @@ const SUPPORT_ADDR = 'support@my4mlife.com';
 const DRTJ_ADDR = 'drtj@my4mlife.com';
 const DRTJ_FROM = `Dr. TJ <${DRTJ_ADDR}>`;
 const SUPPORT_FROM = `My4MLife Support <${SUPPORT_ADDR}>`;
-
 async function mailgun(from: string, to: string, subject: string, html: string, text?: string, cc?: string, attachments?: Attachment[], replyTo?: string) {
   const { key } = await secrets();
   return mailgunSend({ key, domain: DOMAIN, from, to, subject, html, text, cc, attachments, replyTo });
@@ -46,6 +46,7 @@ async function send(p: SendPayload) {
   if (p.kind === 'form') {
     const to = recipients['default'];
     if (!to) throw new Error('no default form recipient');
+    await captureFormContact(contactDdb(), p); // never throws; the form email still sends
     const custEmail = typeof (p.fields as any)?.email === 'string' ? (p.fields as any).email.trim() : '';
     const fromEmail = custEmail ? ` from ${custEmail}` : '';
     // 1) Internal lead notification (critical path).

@@ -23,6 +23,7 @@ export interface PushPatchSessionParams {
   metadata: Record<string, string>;
   phone_number_collection?: { enabled: true };
   shipping_address_collection: { allowed_countries: ['US'] };
+  consent_collection: { promotions: 'auto' };
 }
 
 // Stripe Checkout params for a Push Patch order. Returns null when the sku has no price for the mode.
@@ -50,5 +51,6 @@ export function buildPushPatchSessionParams(i: PushPatchSessionInput): PushPatch
     },
     phone_number_collection: i.phone ? undefined : { enabled: true },
     shipping_address_collection: { allowed_countries: ['US'] },
+    consent_collection: { promotions: 'auto' },
   };
 }

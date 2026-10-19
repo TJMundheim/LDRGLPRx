@@ -1,6 +1,7 @@
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { resolveContactId, deriveContactId } from '@my4mlife/contact-id';
 import { upsertContact } from '@my4mlife/contact-upsert';
+import { marketingConsentFrom } from './consent.js';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, UpdateCommand, PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
@@ -172,6 +173,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   // to upsert and the small update below falls back to the resolved id.
   const contactKey = email ? deriveContactId(email) : contactId;
   if (email) {
+    const marketingConsent = marketingConsentFrom(session.consent);
     await upsertContact(ddb, {
       email,
       ...(contactFirstName ? { firstName: contactFirstName } : {}),
@@ -181,6 +183,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       ...(purchasedSku ? { skus: [purchasedSku] } : {}),
       ...(isNewOrder ? { amountUSD } : {}),
       ...(stripeCustomerId ? { stripeCustomerId } : {}),
+      ...(marketingConsent ? { marketingConsent } : {}),
       stage: 'customer',
       event: { type: 'purchase' },
     });

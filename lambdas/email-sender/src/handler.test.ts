@@ -10,11 +10,16 @@ const SECRETS: Record<string, string> = {
   'form-recipients': JSON.stringify({ default: 'tj@x.com' }),
 };
 
+const capture = vi.fn();
+vi.mock('./form-contact', () => ({ captureFormContact: (...a: unknown[]) => capture(...a), contactDdb: () => ({}) }));
+
 import { handler } from './handler';
 
 const fetchMock = vi.fn();
 beforeEach(() => {
   fetchMock.mockReset();
+  capture.mockReset();
+  capture.mockResolvedValue(undefined);
   fetchMock.mockResolvedValue({ ok: true, json: async () => ({ id: '<id-1>' }), text: async () => '' });
   vi.stubGlobal('fetch', fetchMock);
 });
@@ -90,5 +95,18 @@ describe('form confirmation routing', () => {
     expect(conf.get('from')).toBe('My4MLife <info@my4mlife.com>');
     expect(conf.get('h:Reply-To')).toBeNull();
     expect(conf.get('subject')).toBe("We've received your message — My4MLife");
+  });
+});
+
+describe('form contact capture wiring', () => {
+  it('captures the form before sending, and the notification still sends', async () => {
+    await handler({ kind: 'form', formId: 'contact', fields: { email: 'sam@x.com' } }, {} as any, () => {});
+    expect(capture).toHaveBeenCalledTimes(1);
+    expect(capture.mock.calls[0][1]).toMatchObject({ formId: 'contact' });
+    expect(fetchMock).toHaveBeenCalled();
+  });
+  it('does not capture for info/verification sends', async () => {
+    await handler({ kind: 'info', to: 'a@b.com', subject: 's', html: 'h' }, {} as any, () => {});
+    expect(capture).not.toHaveBeenCalled();
   });
 });

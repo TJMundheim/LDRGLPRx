@@ -525,6 +525,31 @@ describe('processEvent', () => {
       expect(u.UpdateExpression).not.toContain('lifetimeValueUSD');
     });
 
+    describe('Stripe promo consent -> marketingConsent', () => {
+      const withConsent = (consent: unknown) => mockSessionRetrieve.mockResolvedValue({ ...baseSession, consent });
+
+      it("(c8) consent.promotions 'opt_in' passes marketingConsent opted_in from stripe-checkout", async () => {
+        withConsent({ promotions: 'opt_in', terms_of_service: null });
+        await run();
+        expect(upsertArg().marketingConsent).toEqual({ status: 'opted_in', source: 'stripe-checkout' });
+      });
+
+      it("(c9) consent.promotions 'opt_out' passes marketingConsent opted_out", async () => {
+        withConsent({ promotions: 'opt_out' });
+        await run();
+        expect(upsertArg().marketingConsent).toEqual({ status: 'opted_out', source: 'stripe-checkout' });
+      });
+
+      it('(c10) absent or null consent carries no marketingConsent key at all', async () => {
+        for (const consent of [undefined, null, {}, { promotions: null }]) {
+          mockUpsert.mockClear();
+          withConsent(consent);
+          await run();
+          expect(upsertArg()).not.toHaveProperty('marketingConsent');
+        }
+      });
+    });
+
     it('(c5) upsert failure still fails the event (retry), like the old Contact write', async () => {
       mockUpsert.mockRejectedValueOnce(new Error('ddb down'));
       await expect(run()).rejects.toThrow(/ddb down/);

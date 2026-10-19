@@ -59,4 +59,16 @@ describe('buildPushPatchSessionParams', () => {
     expect(p.metadata.test_price).toBe('true');
     expect(buildPushPatchSessionParams(base)!.metadata).not.toHaveProperty('test_price');
   });
+
+  it('asks for promotional-email consent via Stripe consent_collection', () => {
+    expect(buildPushPatchSessionParams(base)!.consent_collection).toEqual({ promotions: 'auto' });
+  });
+
+  it('keeps the existing top-level params unchanged (only consent_collection is added)', () => {
+    const p = buildPushPatchSessionParams({ ...base, email: 'a@b.co' })!;
+    expect(Object.keys(p).sort()).toEqual([
+      'cancel_url', 'consent_collection', 'customer_email', 'line_items', 'metadata', 'mode',
+      'payment_intent_data', 'phone_number_collection', 'shipping_address_collection', 'success_url',
+    ]);
+  });
 });
