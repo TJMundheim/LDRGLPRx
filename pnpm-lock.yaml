@@ -61,6 +61,43 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1
 
+  lambdas/_shared/contact-backfill:
+    dependencies:
+      '@aws-sdk/client-cognito-identity-provider':
+        specifier: ^3.700.0
+        version: 3.1065.0
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/client-secrets-manager':
+        specifier: ^3.700.0
+        version: 3.1053.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
+      '@my4mlife/contact-id':
+        specifier: workspace:*
+        version: link:../contact-id
+      '@my4mlife/contact-upsert':
+        specifier: workspace:*
+        version: link:../contact-upsert
+      stripe:
+        specifier: ^17.4.0
+        version: 17.7.0
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.19.19
+      esbuild:
+        specifier: ^0.25.3
+        version: 0.25.12
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.19.19)(jsdom@29.1.1)(terser@5.48.0)
+
   lambdas/_shared/contact-id:
     dependencies:
       uuid:
@@ -678,9 +715,18 @@ importers:
 
   lambdas/email-sender:
     dependencies:
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0
       '@aws-sdk/client-secrets-manager':
         specifier: ^3.700.0
         version: 3.1053.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.700.0
+        version: 3.1053.0(@aws-sdk/client-dynamodb@3.1053.0)
+      '@my4mlife/contact-upsert':
+        specifier: workspace:*
+        version: link:../_shared/contact-upsert
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.149
