@@ -24,7 +24,7 @@ INTAKE_BASE_URL="${INTAKE_BASE_URL:-https://www.my4mlife.com/go/push-patch/thank
 PATIENT_RECORDS_TABLE="${PATIENT_RECORDS_TABLE:-PatientRecords}"
 # Abandoned-intake nudge email: DISABLED until TJ approves docs/launch/push-patch/abandoned-cart-copy.md.
 # To enable, change this to true and redeploy.
-ABANDONED_CART_ENABLED=false
+ABANDONED_CART_ENABLED=true  # TJ approved copy 2026-10-19
 ENV_JSON="{\"Variables\":{\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\",\"INTAKE_BASE_URL\":\"${INTAKE_BASE_URL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\",\"ABANDONED_CART_ENABLED\":\"${ABANDONED_CART_ENABLED}\"}}"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

@@ -1,6 +1,6 @@
 # Push Patch abandoned-intake nudge: copy for approval
 
-**Status: AWAITING TJ APPROVAL - disabled.** Nothing is sent. The code ships with `ABANDONED_CART_ENABLED=false`.
+**Status: APPROVED by TJ 2026-10-19 — LIVE.** Enabled via `ABANDONED_CART_ENABLED=true` in lambdas/push-patch-reminder/infra/deploy.sh (set false and redeploy to turn off).
 
 ## Subject
 
