@@ -442,7 +442,9 @@ const robots = "index, follow";
 </script>
 
 <script>
-  import { submitLead, setFormError, LEAD_CAPTURE_ERROR } from '../scripts/lead-capture';
+  import { submitLead, setFormError, attachHoneypot, LEAD_CAPTURE_ERROR } from '../scripts/lead-capture';
+
+  attachHoneypot(document.getElementById('email-form'));
 
   (window as any).submitEmail = async function (e: Event) {
     e.preventDefault();
@@ -453,7 +455,7 @@ const robots = "index, follow";
     if (!email) return;
     button.disabled = true;
     setFormError(form, null);
-    const ok = await submitLead(email, 'bmi-calculator');
+    const ok = await submitLead(email, 'bmi-calculator', form);
     button.disabled = false;
     if (!ok) {
       setFormError(form, LEAD_CAPTURE_ERROR);

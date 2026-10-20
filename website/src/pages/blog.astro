@@ -185,16 +185,6 @@ const robots = "index, follow";
           <a href="/blog/am-i-eligible-for-glp1" class="read-full">Read full article <i class="fas fa-arrow-right"></i></a>
         </article>
 
-        <!-- Newsletter -->
-        <div class="newsletter-section">
-          <h3>Stay Informed</h3>
-          <p>Join the My4MLife newsletter for brain health research, longevity frameworks, and 4M program updates.</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); handleNewsletter(this);">
-            <input type="email" placeholder="Enter your email address" required />
-            <button type="submit">Subscribe</button>
-          </form>
-        </div>
-
       </div>
 
       <aside class="blog-sidebar">
@@ -263,11 +253,6 @@ const robots = "index, follow";
   });
 </script>
 
-
-<script>
-  import { bindNewsletter } from '../scripts/lead-capture';
-  bindNewsletter('blog');
-</script>
 
 </BaseLayout>
 
@@ -558,49 +543,6 @@ const robots = "index, follow";
       font-size: 0.75rem;
     }
 
-    /* Newsletter bottom */
-    .newsletter-section {
-      background: white;
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
-      margin-top: 1rem;
-    }
-    .newsletter-section h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
-    .newsletter-section p {
-      color: var(--text-light); font-size: 0.95rem;
-      margin-bottom: 1.4rem;
-    }
-    .newsletter-form {
-      display: flex; gap: 0.5rem;
-      max-width: 460px; margin: 0 auto;
-    }
-    .newsletter-form input[type="email"] {
-      flex: 1;
-      padding: 0.8rem 1.1rem;
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem; outline: none;
-      transition: border-color 0.2s;
-    }
-    .newsletter-form input[type="email"]:focus {
-      border-color: var(--accent);
-    }
-    .newsletter-form button {
-      padding: 0.8rem 1.5rem;
-      border-radius: 50px;
-      background: var(--accent); color: white;
-      border: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem; font-weight: 600;
-      cursor: pointer; transition: all 0.25s;
-      white-space: nowrap;
-    }
-    .newsletter-form button:hover { background: var(--accent-dark); }
-
     /* ===== FOOTER ===== */
     .footer {
       background: var(--dark);
@@ -684,7 +626,6 @@ const robots = "index, follow";
       .blog-sidebar { grid-template-columns: 1fr; }
       .preview-card { padding: 1.5rem; }
       .preview-card h2 { font-size: 1.3rem; }
-      .newsletter-form { flex-direction: column; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { justify-content: center; text-align: center; }
     }

@@ -124,14 +124,6 @@ const robots = "index, follow";
             <a href="/consult" class="btn btn-outline" style="font-size: 0.82rem; padding: 0.5rem 1.2rem;">Book Your 4M Consult <i class="fas fa-arrow-right"></i></a>
           </div>
         </div>
-        <div class="newsletter-inline">
-          <h4><i class="fas fa-envelope"></i> Get more articles like this</h4>
-          <p>Join the My4MLife newsletter for the latest on metabolic health, cognitive longevity, and the 4M protocol.</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); handleNewsletter(this);">
-            <input type="email" placeholder="Enter your email address" required />
-            <button type="submit">Subscribe</button>
-          </form>
-        </div>
       </article>
 
       <div class="related-articles">
@@ -179,10 +171,5 @@ const robots = "index, follow";
   }
 </script>
 
-
-<script>
-  import { bindNewsletter } from '../../scripts/lead-capture';
-  bindNewsletter('am-i-eligible-for-glp1');
-</script>
 
 </ArticleLayout>

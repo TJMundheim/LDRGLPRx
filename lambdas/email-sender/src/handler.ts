@@ -8,7 +8,6 @@ import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-sec
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const DOMAIN = process.env.MAILGUN_DOMAIN ?? 'my4mlife.com';
 const sm = new SecretsManagerClient({ region: REGION });
-
 type Cache = { key: string; addrs: Record<string, string>; recipients: Record<string, string> };
 let cache: Cache | null = null;
 async function secrets(): Promise<Cache> {
@@ -42,6 +41,7 @@ type SendPayload =
   | { kind: 'form'; formId: string; fields: Record<string, unknown> };
 
 async function send(p: SendPayload) {
+  if (p.kind === 'form' && String(p.formId).startsWith('email-capture:')) return { skipped: true }; // lead-capture is the store
   const { addrs, recipients } = await secrets();
   if (p.kind === 'form') {
     const to = recipients['default'];

@@ -254,7 +254,7 @@ const goalOpts = ['Energy', 'Weight', 'Sleep', 'Focus and memory', 'Strength', '
 </section>
 
 <script>
-  import { submitLead, LEAD_CAPTURE_ERROR } from '../scripts/lead-capture';
+  import { submitLead, attachHoneypot, LEAD_CAPTURE_ERROR } from '../scripts/lead-capture';
 
   const API_BASE: string =
     (import.meta as any).env?.PUBLIC_LEAD_CAPTURE_API_URL ??
@@ -272,6 +272,7 @@ const goalOpts = ['Energy', 'Weight', 'Sleep', 'Focus and memory', 'Strength', '
 
   const form = document.getElementById('coaching-form') as HTMLFormElement | null;
   if (form) {
+    attachHoneypot(form);
     const submit = document.getElementById('cc-submit') as HTMLButtonElement;
     const formError = document.getElementById('cc-form-error') as HTMLElement;
     const missing = document.getElementById('cc-missing') as HTMLElement;
@@ -387,7 +388,7 @@ const goalOpts = ['Energy', 'Weight', 'Sleep', 'Focus and memory', 'Strength', '
           return false;
         }
       })();
-      const [relayOk] = await Promise.all([relay, submitLead(email, 'coaching-application')]);
+      const [relayOk] = await Promise.all([relay, submitLead(email, 'coaching-application', form)]);
       submit.disabled = false;
 
       if (!relayOk) {

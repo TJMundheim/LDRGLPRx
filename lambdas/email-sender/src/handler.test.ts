@@ -110,3 +110,24 @@ describe('form contact capture wiring', () => {
     expect(capture).not.toHaveBeenCalled();
   });
 });
+
+describe('newsletter signups send no email', () => {
+  it.each(['email-capture:footer', 'email-capture:blog', 'email-capture:'])('formId %s is skipped: no mailgun call, no capture', async (formId) => {
+    const out = await handler({ kind: 'form', formId, fields: { email: 'victim@x.com', source: 'footer' } }, {} as any, () => {});
+    expect(out).toEqual({ skipped: true });
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(capture).not.toHaveBeenCalled();
+  });
+  it('skips over the public HTTP route too (200 with skipped)', async () => {
+    const res: any = await handler({ requestContext: {}, body: JSON.stringify({ kind: 'form', formId: 'email-capture:footer', fields: { email: 'v@x.com' } }) }, {} as any, () => {});
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body)).toEqual({ skipped: true });
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(capture).not.toHaveBeenCalled();
+  });
+  it('other formIds are unaffected', async () => {
+    await handler({ kind: 'form', formId: 'contact', fields: { email: 'sam@x.com' } }, {} as any, () => {});
+    expect(fetchMock).toHaveBeenCalled();
+    expect(capture).toHaveBeenCalled();
+  });
+});

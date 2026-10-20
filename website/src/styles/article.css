@@ -454,65 +454,6 @@ h1, h2, h3, h4 {
   border-color: var(--primary);
 }
 
-/* Newsletter inline */
-.newsletter-inline {
-  background: var(--bg-soft);
-  border-top: 1px solid var(--border);
-  padding: 2rem 2.5rem;
-}
-
-.newsletter-inline h4 {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--dark);
-  margin-bottom: 0.4rem;
-}
-
-.newsletter-inline p {
-  font-size: 0.85rem;
-  color: var(--text-light);
-  margin-bottom: 1rem;
-}
-
-.newsletter-form {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.newsletter-form input[type="email"] {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 50px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.88rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.newsletter-form input[type="email"]:focus {
-  border-color: var(--accent);
-}
-
-.newsletter-form button {
-  padding: 0.7rem 1.4rem;
-  border-radius: 50px;
-  background: var(--accent);
-  color: white;
-  border: none;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s;
-  white-space: nowrap;
-}
-
-.newsletter-form button:hover {
-  background: var(--accent-dark);
-}
-
 /* Related Articles */
 .related-articles {
   margin-top: 3rem;
@@ -699,12 +640,6 @@ h1, h2, h3, h4 {
   .article-header { padding: 1.8rem 1.5rem 0; }
   .article-body { padding: 1.2rem 1.5rem 1.8rem; }
   .article-footer { padding: 1.2rem 1.5rem; }
-  .newsletter-inline { padding: 1.5rem; }
-
-  .newsletter-form {
-    flex-direction: column;
-  }
-
   .comparison-table {
     font-size: 0.8rem;
   }

@@ -1,6 +1,3 @@
----
-import EmailCapture from './EmailCapture.astro';
----
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -15,9 +12,6 @@ import EmailCapture from './EmailCapture.astro';
         <p class="footer-claim">The brain-healthspan platform. Begin with the end in mind.</p>
         <p class="footer-claim">Don&rsquo;t lose your identity and your dignity while you still have a choice.</p>
         <p>Doctor-guided health education and protocol design. The 4M system for optimal cognitive aging — built by an assembled team of clinicians and protocol designers under Dr. TJ's guidance, with one goal: long-term brain function.</p>
-        <div class="footer-ec">
-          <EmailCapture source="footer" dark={true} buttonLabel="Stay informed" />
-        </div>
       </div>
 
       <!-- (b) Explore -->
@@ -125,7 +119,6 @@ import EmailCapture from './EmailCapture.astro';
     text-transform: uppercase;
   }
   .footer-brand p { font-size: 0.88rem; line-height: 1.7; max-width: 300px; color: rgba(245,241,232,0.7); }
-  .footer-ec { margin-top: 1.2rem; max-width: 300px; }
   .footer-col h4 {
     color: #f5f1e8;
     font-family: 'Inter', sans-serif;

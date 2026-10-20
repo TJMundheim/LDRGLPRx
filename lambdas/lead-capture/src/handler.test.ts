@@ -12,8 +12,11 @@ vi.mock('@aws-sdk/client-dynamodb', () => ({
 
 import { handler } from './handler';
 
+// Legit browser submits always carry t (ms since render) and an empty honeypot.
 const evt = (body: any, extra: any = {}) =>
-  ({ body: JSON.stringify(body), headers: {}, requestContext: {}, ...extra }) as any;
+  ({ body: JSON.stringify({ t: 5000, hp: '', ...body }), headers: {}, requestContext: {}, ...extra }) as any;
+// Raw body, no defaults, for bot-rule tests.
+const raw = (body: any) => ({ body: JSON.stringify(body), headers: {}, requestContext: {} }) as any;
 
 beforeEach(() => {
   upsertMock.mockReset();
@@ -87,5 +90,47 @@ describe('lead-capture handler', () => {
     const res: any = await handler(evt({ email: 'a@b.co' }));
     expect(res.statusCode).toBe(500);
     expect(JSON.parse(res.body)).toEqual({ error: 'write failed' });
+  });
+});
+
+describe('bot block', () => {
+  let logSpy: ReturnType<typeof vi.spyOn>;
+  beforeEach(() => { logSpy = vi.spyOn(console, 'log').mockImplementation(() => {}); });
+
+  const blocked = async (body: any, reason: string) => {
+    const res: any = await handler(raw(body));
+    expect(res.statusCode).toBe(200);
+    expect(JSON.parse(res.body)).toEqual({ ok: true });
+    expect(upsertMock).not.toHaveBeenCalled();
+    const lines = logSpy.mock.calls.map((c) => c.join(' ')).filter((l) => l.includes('bot-blocked'));
+    expect(lines).toEqual([`[lead-capture] bot-blocked ${reason}`]);
+    expect(lines[0]).not.toContain('@');
+  };
+
+  it('non-empty honeypot: 200, no write, logged', async () => {
+    await blocked({ email: 'victim@example.com', source: 'footer', hp: 'http://spam', t: 9000 }, 'honeypot');
+  });
+  it('missing t: 200, no write, logged', async () => {
+    await blocked({ email: 'victim@example.com', source: 'footer', hp: '' }, 'no-timing');
+  });
+  it('non-numeric t: 200, no write, logged', async () => {
+    await blocked({ email: 'victim@example.com', t: '9000' }, 'no-timing');
+  });
+  it('t under 3000ms: 200, no write, logged', async () => {
+    await blocked({ email: 'victim@example.com', t: 2999 }, 'too-fast');
+  });
+  it('t of exactly 3000ms writes', async () => {
+    const res: any = await handler(raw({ email: 'ok@example.com', t: 3000 }));
+    expect(res.statusCode).toBe(200);
+    expect(upsertMock).toHaveBeenCalledTimes(1);
+  });
+  it('happy path with empty honeypot still writes', async () => {
+    const res: any = await handler(evt({ email: 'ok@example.com', source: 'footer' }));
+    expect(res.statusCode).toBe(200);
+    expect(upsertMock).toHaveBeenCalledTimes(1);
+  });
+  it('malformed email is still a 400 (validation before bot check does not mask real errors)', async () => {
+    const res: any = await handler(evt({ email: 'nope' }));
+    expect(res.statusCode).toBe(400);
   });
 });

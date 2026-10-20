@@ -31,9 +31,18 @@ function reply(statusCode: number, body: unknown, origin?: string): APIGatewayPr
   return { statusCode, headers: corsFor(origin), body: JSON.stringify(body) };
 }
 
+const MIN_FILL_MS = 3000;
+
+function botCheck(body: any): string | null {
+  if (typeof body.hp === 'string' && body.hp !== '') return 'honeypot';
+  if (typeof body.t !== 'number' || !Number.isFinite(body.t)) return 'no-timing';
+  if (body.t < MIN_FILL_MS) return 'too-fast';
+  return null;
+}
+
 /**
  * Newsletter / lead capture — POST /api/lead-capture
- * Body: { email, source?, firstName? }
+ * Body: { email, source?, firstName?, hp?, t? } — hp = honeypot value, t = ms from page render to submit
  *
  * Delegates to the shared additive Contact upsert (@my4mlife/contact-upsert):
  * identity fields are if_not_exists, stage 'lead' is set only on new rows (an
@@ -53,6 +62,13 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   if (!emailRaw || typeof emailRaw !== 'string') return reply(400, { error: 'email required' }, origin);
   const email = emailRaw.trim().toLowerCase();
   if (!EMAIL_RE.test(email) || email.length > 254) return reply(400, { error: 'malformed email' }, origin);
+
+  // Bot block: honeypot filled, or timing missing/too fast. Answer like success, write nothing.
+  const botReason = botCheck(body);
+  if (botReason) {
+    console.log(`[lead-capture] bot-blocked ${botReason}`);
+    return reply(200, { ok: true }, origin);
+  }
 
   const source: string =
     (typeof body.source === 'string' ? body.source.slice(0, 100) : '') || 'newsletter';
