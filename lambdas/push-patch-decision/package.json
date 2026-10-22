@@ -15,7 +15,8 @@
     "@my4mlife/push-patch-decision-core": "workspace:*",
     "@my4mlife/stripe-client": "workspace:*",
     "pdf-lib": "^1.17.1",
-    "stripe": "^17.0.0"
+    "stripe": "^17.0.0",
+    "@my4mlife/provider-roster": "workspace:*"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.149",
