@@ -21,7 +21,23 @@ vi.mock('@aws-sdk/client-ssm', () => ({
 const retrieve = vi.fn();
 vi.mock('@my4mlife/stripe-client', () => ({ getStripeClient: async () => ({ checkout: { sessions: { retrieve } } }) }));
 
+const loadRoster = vi.fn();
+vi.mock('@my4mlife/provider-roster', () => ({
+  loadRoster: (...a: any[]) => loadRoster(...a),
+  resolveProvider: (r: any[], id?: string) => r.find((p) => p.id === id) ?? r.find((p) => p.default),
+}));
+
 import { decide, resetPracticeCache } from './index';
+import { PDFDocument } from 'pdf-lib';
+
+const ROSTER = [
+  { id: 'molina', name: 'Oscar Molina', credentials: 'MD', inbox: 'a@x.com', default: true },
+  { id: 'lee', name: 'Ann Lee', credentials: 'DO', inbox: 'b@x.com' },
+];
+const orderPdf = async () => {
+  const m = emails().find((e) => e.attachments?.length);
+  return (await PDFDocument.load(Buffer.from(m.attachments[0].contentBase64, 'base64'))).getForm().getTextField('clinician').getText();
+};
 
 const ARGS = { contactId: 'c1', encounterId: 'pp-cs_1', decidedBy: 'admin:tj' };
 const enc = (state: string, lane = 'push-patch') => ({ lane, state, sku: 'push-patch-bpc-nad-ghk', sessionId: 'cs_1' });
@@ -35,6 +51,7 @@ const emails = () => lambdaSend.mock.calls.map((c) => JSON.parse(Buffer.from(c[0
 
 beforeEach(() => {
   vi.clearAllMocks(); resetPracticeCache();
+  loadRoster.mockResolvedValue(ROSTER);
   ssmSend.mockRejectedValue(Object.assign(new Error('nf'), { name: 'ParameterNotFound' }));
   lambdaSend.mockResolvedValue({ StatusCode: 200 });
   retrieve.mockResolvedValue({ metadata: {}, shipping_details: { name: 'Jane Doe', address: { line1: '1 A St', city: 'Austin', state: 'TX', postal_code: '78701' } } });
@@ -50,6 +67,41 @@ describe('decide (shared by physician link + admin app)', () => {
     expect(u[1].UpdateExpression).toMatch(/genesisOrderSentAt/);
     expect(emails().map((m) => m.subject).join('|')).toMatch(/Welcome/);
     expect(emails()).toHaveLength(2);
+  });
+
+  it('approve with providerId: clinician field and encounter stamp carry the chosen provider', async () => {
+    seed('sent-to-provider');
+    await decide({ ...ARGS, action: 'approve', providerId: 'lee' });
+    const claim = updates()[0];
+    expect(claim.UpdateExpression).toMatch(/signedByProviderId = :signedByProviderId/);
+    expect(claim.UpdateExpression).toMatch(/signedByName = :signedByName/);
+    expect(claim.ExpressionAttributeValues).toMatchObject({ ':signedByProviderId': 'lee', ':signedByName': 'Ann Lee' });
+    expect(await orderPdf()).toBe('Ann Lee');
+  });
+
+  it('approve without providerId: default provider is stamped and signs', async () => {
+    seed('sent-to-provider');
+    await decide({ ...ARGS, action: 'approve' });
+    expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':signedByProviderId': 'molina', ':signedByName': 'Oscar Molina' });
+    expect(await orderPdf()).toBe('Oscar Molina');
+  });
+
+  it('roster rejects: approve still succeeds, no clinicianName, no signedBy stamp (existing missing-config path)', async () => {
+    seed('sent-to-provider');
+    loadRoster.mockRejectedValue(new Error('no clinician and no providers'));
+    expect(await decide({ ...ARGS, action: 'approve', providerId: 'lee' })).toEqual({ kind: 'approved', mailOk: true });
+    const claim = updates()[0];
+    expect(claim.UpdateExpression).not.toMatch(/signedBy/);
+    expect(Object.keys(claim.ExpressionAttributeValues).join()).not.toMatch(/signedBy/);
+    expect(await orderPdf()).toBeFalsy(); // practice SSM is missing in this test: clinician stays blank, order goes to TJ only
+    expect(emails().find((e) => e.attachments?.length).subject).toMatch(/ACTION NEEDED/);
+  });
+
+  it('decline ignores the roster and providerId: no signedBy fields', async () => {
+    seed('sent-to-provider');
+    await decide({ ...ARGS, action: 'decline', providerId: 'lee' });
+    expect(loadRoster).not.toHaveBeenCalled();
+    expect(updates()[0].UpdateExpression).not.toMatch(/signedBy/);
   });
 
   it('decline: declined + pending refund + decidedBy; one patient email; no Stripe, no genesisOrderSentAt', async () => {

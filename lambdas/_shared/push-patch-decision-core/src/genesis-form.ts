@@ -5,9 +5,11 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { Practice } from './genesis-config';
+import { signatureLine, type SignOpts } from './genesis-signature';
 import { layoutAccountBlock, fixLabelTypos } from './genesis-layout';
 
 export type { Practice };
+export { signatureLine, type SignOpts };
 export const TEMPLATE = 'genesis-order-form-2026.pdf';
 // Blend sku → qty field on the form (verified by rendering the template).
 export const QTY_FIELD: Record<string, string> = {
@@ -22,19 +24,11 @@ const PUSH_PAGE = 4;
 const SIG_LABEL = 'Provider signature:', SIG_X = 14.19, SIG_Y = 14;
 const SMALL_FONT: Record<string, number> = { shipping: 7, rpa_notes1: 8, rpa_notes2: 7 };
 
-export interface SignOpts { signedAt?: string; lead?: string } // lead = practice.physician_signature
-
-// "Electronically signed — <clinician> · Oct 3, 2026" (Central time). Clinician is the same value as the `clinician` field.
-export function signatureLine(fields: Record<string, string>, signedAt?: string, lead?: string): string {
-  const when = signedAt ? new Date(signedAt) : new Date();
-  const date = when.toLocaleDateString('en-US', { timeZone: 'America/Chicago', month: 'short', day: 'numeric', year: 'numeric' });
-  return `${lead || 'Electronically signed'} — ${fields['clinician'] ?? ''} · ${date}`;
-}
-
 export interface OrderInput {
   sku: string; sessionId: string; name: string; phone: string;
   ship?: { name?: string | null; address?: Record<string, string | null> | null } | null;
   signedAt?: string; // ISO approval time, drawn in the provider signature line (default: now)
+  clinicianName?: string; // chosen signing provider; overrides practice.clinician (the signature line follows)
 }
 
 export function buildFields(o: OrderInput, p: Partial<Practice>): Record<string, string> {
@@ -48,7 +42,7 @@ export function buildFields(o: OrderInput, p: Partial<Practice>): Record<string,
     patient_name: o.ship?.name || o.name, shipping, rpa_notes1: `My4MLife order ${o.sessionId} · 12-hour`, rpa_notes2: billing,
   };
   const set = (k: string, v?: string) => { if (v) f[k] = v; };
-  set('clinician', p.clinician); set('practice', p.practice); set('practice_phone', p.practice_phone);
+  set('clinician', o.clinicianName || p.clinician); set('practice', p.practice); set('practice_phone', p.practice_phone);
   set('email', p.payment_email); set('placer', p.placer);
   set('placer_phone', p.placer_phone); set('salesrep', p.salesrep);
   if (QTY_FIELD[o.sku]) f[QTY_FIELD[o.sku]] = '1';

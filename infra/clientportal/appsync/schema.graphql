@@ -507,6 +507,14 @@ type PushPatchDecisionResult {
   error: String
 }
 
+# Roster entry for the "Signing as" picker. The review inbox is deliberately absent.
+type PushPatchProvider {
+  id: ID!
+  name: String!
+  credentials: String!
+  default: Boolean!
+}
+
 # ─── PatientRecords (admin-only; PatientRecords table PK=contactId SK=sk) ────
 
 type PatientRecordAdmin {
@@ -638,6 +646,8 @@ type Query {
     @aws_auth(cognito_groups: ["Admins"])
   adminListUsers(limit: Int, nextToken: String): UserProfileConnection!
     @aws_auth(cognito_groups: ["Admins"])
+  pushPatchProviders: [PushPatchProvider!]!
+    @aws_auth(cognito_groups: ["Admins"])
   adminListOutcomes(
     userId: ID
     limit: Int
@@ -697,7 +707,7 @@ type Mutation {
     @aws_auth(cognito_groups: ["Admins"])
   refundEncounterAdmin(contactId: ID!, encounterId: ID!): EncounterRefundResult
     @aws_auth(cognito_groups: ["Admins"])
-  decidePushPatchAdmin(contactId: ID!, encounterId: ID!, action: String!): PushPatchDecisionResult
+  decidePushPatchAdmin(contactId: ID!, encounterId: ID!, action: String!, providerId: ID): PushPatchDecisionResult
     @aws_auth(cognito_groups: ["Admins"])
   exportClinicalPacketAdmin(contactId: ID!, encounterId: ID!): PacketResultAdmin
     @aws_auth(cognito_groups: ["Admins"])

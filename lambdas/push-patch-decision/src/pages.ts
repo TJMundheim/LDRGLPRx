@@ -10,14 +10,30 @@ export const page = (title: string, body: string): string =>
   `button{margin-top:20px;width:100%;padding:18px 16px;border:0;border-radius:10px;color:#fff;font:700 19px Arial,sans-serif;cursor:pointer}` +
   `</style></head><body><main><h1>${title}</h1><p>${body}</p></main></body></html>`;
 
+type Prov = { id: string; name: string; credentials: string; default?: boolean };
+const ENT: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const esc = (s: string): string => s.replace(/[&<>"']/g, (c) => ENT[c]!);
+const label = (p: Prov): string => esc(p.credentials ? `${p.name}, ${p.credentials}` : p.name);
+// "Signing as" picker: select for 2+ providers, read-only line + hidden input for one, nothing for none.
+const picker = (roster: Prov[]): string => {
+  if (roster.length === 0) return '';
+  if (roster.length === 1) {
+    return `<p>Signing as: ${label(roster[0]!)}</p><input type="hidden" name="provider" value="${esc(roster[0]!.id)}">`;
+  }
+  const def = roster.find((p) => p.default) ?? roster[0]!;
+  const opts = roster.map((p) => `<option value="${esc(p.id)}"${p === def ? ' selected' : ''}>${label(p)}</option>`).join('');
+  return `<p><label>Signing as <select name="provider">${opts}</select></label></p>`;
+};
+
 // Step 1 of 2: GET renders this; only the form POST acts. The token is base64url but is escaped anyway.
-const confirm = (action: 'approve' | 'decline', token: string): string => {
+const confirm = (action: 'approve' | 'decline', token: string, roster: Prov[] = []): string => {
   const t = token.replace(/[^A-Za-z0-9_-]/g, '');
   const [label, bg, note] = action === 'approve'
     ? ['Confirm approve', '#1b7f3b', 'Approving sends the patient the welcome email and forwards the order.']
     : ['Confirm decline', '#b00020', 'Declining queues a refund for admin approval and sends the patient the not-cleared email. Nothing is sent to the pharmacy.'];
   return page(action === 'approve' ? 'Approve this order?' : 'Decline this order?',
     `${note}</p><form method="post" action=""><input type="hidden" name="t" value="${t}">` +
+    `${action === 'approve' ? picker(roster) : ''}` +
     `<button type="submit" style="background:${bg}">${label}</button></form><p>`);
 };
 
@@ -28,6 +44,7 @@ export const pages = {
   declined: () => page('Declined', 'A refund is queued for admin approval.'),
   declinedMailFailed: () => page('Declined', 'A refund is queued for admin approval, but the patient email failed to send. Notify the coordinator.'),
   decided: (state: string) => page('Already decided', `Current state: ${state.replace(/[^a-z-]/gi, '')}`),
+  badProvider: () => page('Provider not recognized', 'Nothing was changed. Reload the link and choose a provider from the list.'),
   invalid: () => page('Link invalid', 'This link is not valid. Use the buttons in the original review email.'),
   error: () => page('Something went wrong', 'Nothing was changed. Try again, or contact the coordinator.'),
 };

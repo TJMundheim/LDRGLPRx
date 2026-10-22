@@ -5,6 +5,7 @@
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import { verifyToken } from './sign';
 import { decide } from '@my4mlife/push-patch-decision-core';
+import { loadRoster } from '@my4mlife/provider-roster';
 import { pages } from './pages';
 
 type Res = { statusCode: number; headers: Record<string, string>; body: string };
@@ -31,16 +32,26 @@ async function hmacKey(): Promise<string> {
   return secret;
 }
 
-function formToken(e: Evt): string | undefined {
-  if (!e.body) return undefined;
-  const raw = e.isBase64Encoded ? Buffer.from(e.body, 'base64').toString('utf8') : e.body;
-  return new URLSearchParams(raw).get('t') ?? undefined;
+function formParams(e: Evt): URLSearchParams {
+  if (!e.body) return new URLSearchParams();
+  return new URLSearchParams(e.isBase64Encoded ? Buffer.from(e.body, 'base64').toString('utf8') : e.body);
 }
+
+// A roster outage must never block a decision: callers treat undefined as "no roster, use the default".
+const rosterOrUndefined = async () => {
+  try {
+    return await loadRoster();
+  } catch (e) {
+    console.error('provider roster unavailable', (e as Error).name);
+    return undefined;
+  }
+};
 
 export const handler = async (event: Evt): Promise<Res> => {
   try {
     const isPost = event.requestContext?.http?.method === 'POST';
-    const token = isPost ? formToken(event) : event.queryStringParameters?.['t'];
+    const form = isPost ? formParams(event) : undefined;
+    const token = form ? (form.get('t') ?? undefined) : event.queryStringParameters?.['t'];
     if (!token) return html(403, pages.invalid());
     const key = await hmacKey();
     let claim;
@@ -49,8 +60,18 @@ export const handler = async (event: Evt): Promise<Res> => {
     } catch {
       return html(403, pages.invalid());
     }
-    if (!isPost) return html(200, pages.confirm(claim.action, token));
-    const out = await decide({ ...claim, decidedBy: 'physician-link' });
+    const approve = claim.action === 'approve';
+    if (!form) return html(200, pages.confirm(claim.action, token, approve ? ((await rosterOrUndefined()) ?? []) : []));
+    let providerId: string | undefined;
+    if (approve) {
+      providerId = form.get('provider') || undefined; // absent → decide() falls back to the default provider
+      if (providerId) {
+        const roster = await rosterOrUndefined();
+        if (!roster) providerId = undefined;
+        else if (!roster.some((p) => p.id === providerId)) return html(400, pages.badProvider());
+      }
+    }
+    const out = await decide({ ...claim, decidedBy: 'physician-link', ...(providerId ? { providerId } : {}) });
     if (out.kind === 'not-found') return html(403, pages.invalid());
     if (out.kind === 'already-decided') return html(200, pages.decided(out.state));
     if (out.kind === 'approved') return html(200, out.mailOk ? pages.approved() : pages.approvedMailFailed());

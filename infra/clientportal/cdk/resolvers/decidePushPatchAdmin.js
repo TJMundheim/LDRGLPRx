@@ -9,7 +9,7 @@ function isAdmin(ctx) {
 
 export function request(ctx) {
   if (!isAdmin(ctx)) util.unauthorized();
-  return { operation: 'Invoke', payload: { arguments: ctx.arguments, identity: ctx.identity } };
+  return { operation: 'Invoke', payload: { fieldName: ctx.info.fieldName, arguments: ctx.arguments, identity: ctx.identity } };
 }
 
 export function response(ctx) {

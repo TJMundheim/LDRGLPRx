@@ -84,7 +84,7 @@ describe('decidePushPatchAdmin wiring', () => {
 
   it('declares an Admins-only mutation + result type in the schema', () => {
     const schema = read('../../appsync/schema.graphql');
-    expect(schema).toMatch(/decidePushPatchAdmin\(contactId: ID!, encounterId: ID!, action: String!\): PushPatchDecisionResult\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
+    expect(schema).toMatch(/decidePushPatchAdmin\(contactId: ID!, encounterId: ID!, action: String!, providerId: ID\): PushPatchDecisionResult\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
     expect(schema).toMatch(/type PushPatchDecisionResult \{/);
   });
 
@@ -100,5 +100,37 @@ describe('decidePushPatchAdmin wiring', () => {
     const src = read('../resolvers/decidePushPatchAdmin.js');
     expect(src).toMatch(/if \(!isAdmin\(ctx\)\) util\.unauthorized\(\)/);
     expect(src).toMatch(/operation: 'Invoke'/);
+  });
+});
+
+describe('pushPatchProviders wiring', () => {
+  const read = (rel: string) => readFileSync(join(__dirname, rel), 'utf8');
+
+  it('is wired in api-stack.ts on the same decide-admin Lambda data source', () => {
+    const src = read('../lib/api-stack.ts');
+    expect(src).toMatch(/typeName: 'Query',\s+fieldName: 'pushPatchProviders',\s+dataSource: dsDecidePushPatch/);
+    expect(src).toMatch(/code\('pushPatchProviders\.js'\)/);
+  });
+
+  it('declares an Admins-only query returning PushPatchProvider without an inbox', () => {
+    const schema = read('../../appsync/schema.graphql');
+    expect(schema).toMatch(/pushPatchProviders: \[PushPatchProvider!\]!\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
+    const t = schema.slice(schema.indexOf('type PushPatchProvider {'));
+    const body = t.slice(0, t.indexOf('}'));
+    for (const f of ['id: ID!', 'name: String!', 'credentials: String!', 'default: Boolean!']) expect(body).toContain(f);
+    expect(body).not.toMatch(/inbox/i);
+  });
+
+  it('resolver rejects non-admins before invoking the Lambda', () => {
+    const src = read('../resolvers/pushPatchProviders.js');
+    expect(src).toMatch(/if \(!isAdmin\(ctx\)\) util\.unauthorized\(\)/);
+    expect(src).toMatch(/operation: 'Invoke'/);
+  });
+});
+
+describe('push patch resolvers forward fieldName to the shared Lambda', () => {
+  it.each(['decidePushPatchAdmin.js', 'pushPatchProviders.js'])('%s payload carries ctx.info.fieldName', (f) => {
+    const src = readFileSync(join(__dirname, '../resolvers', f), 'utf8');
+    expect(src).toMatch(/payload: \{[^}]*fieldName: ctx\.info\.fieldName[^}]*\}/);
   });
 });

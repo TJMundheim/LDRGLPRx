@@ -26,6 +26,7 @@ import {
   updateEncounterStateAdmin,
   refundEncounterAdmin,
   decidePushPatchAdmin,
+  listPushPatchProviders,
 } from './operations.js';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -214,9 +215,27 @@ describe('decidePushPatchAdmin', () => {
     mockRequest.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'script-written', mailOk: true } });
     const res = await decidePushPatchAdmin({ contactId: 'c1', encounterId: 'pp-1', action: 'approve' });
     const [{ query, variables }] = mockRequest.mock.calls[0] as [{ query: string; variables: unknown }][];
-    expect(query).toMatch(/decidePushPatchAdmin\(contactId: \$contactId, encounterId: \$encounterId, action: \$action\)/);
+    expect(query).toMatch(/decidePushPatchAdmin\(contactId: \$contactId, encounterId: \$encounterId, action: \$action, providerId: \$providerId\)/);
+    expect(query).toMatch(/\$providerId: ID\b/);
     expect(variables).toEqual({ contactId: 'c1', encounterId: 'pp-1', action: 'approve' });
     expect(res.decidePushPatchAdmin.ok).toBe(true);
+  });
+
+  it('includes providerId in the variables when given', async () => {
+    mockRequest.mockResolvedValue({ decidePushPatchAdmin: { ok: true } });
+    await decidePushPatchAdmin({ contactId: 'c1', encounterId: 'pp-1', action: 'approve', providerId: 'molina' });
+    const { variables } = mockRequest.mock.calls[0]![0] as { variables: unknown };
+    expect(variables).toEqual({ contactId: 'c1', encounterId: 'pp-1', action: 'approve', providerId: 'molina' });
+  });
+
+  it('listPushPatchProviders queries id name credentials default (never the inbox)', async () => {
+    const rows = [{ id: 'molina', name: 'Oscar Molina', credentials: 'MD', default: true }];
+    mockRequest.mockResolvedValue({ pushPatchProviders: rows });
+    const res = await listPushPatchProviders();
+    const { query } = mockRequest.mock.calls[0]![0] as { query: string };
+    expect(query).toMatch(/pushPatchProviders \{ id name credentials default \}/);
+    expect(query).not.toMatch(/inbox/);
+    expect(res.pushPatchProviders).toEqual(rows);
   });
 
   it('requests the decision fields on the encounter list query', async () => {

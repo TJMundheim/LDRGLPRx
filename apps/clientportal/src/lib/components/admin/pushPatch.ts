@@ -1,5 +1,5 @@
 // Pure helpers for the Push Patch admin panel (PushPatchPanel.svelte).
-import type { EncounterAdmin } from '../../api/operations.js';
+import type { EncounterAdmin, PushPatchProvider } from '../../api/operations.js';
 
 export const stateLabel = (state: string): string =>
   state === 'sent-to-provider' ? 'Awaiting physician review'
@@ -21,6 +21,9 @@ export const when = (iso: string): string => {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? iso : d.toLocaleString();
 };
+
+export const providerLabel = (p: Pick<PushPatchProvider, 'name' | 'credentials'>): string =>
+  p.credentials ? `${p.name}, ${p.credentials}` : p.name;
 
 export const CONFIRM = {
   approve: "Approve this order? This emails the patient's welcome and sends the order to the pharmacy.",

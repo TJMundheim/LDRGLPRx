@@ -620,18 +620,42 @@ export type PushPatchDecisionResult = {
 };
 
 export async function decidePushPatchAdmin(
-  input: { contactId: string; encounterId: string; action: 'approve' | 'decline' },
+  input: { contactId: string; encounterId: string; action: 'approve' | 'decline'; providerId?: string },
   opts?: ClientOptions,
 ): Promise<{ decidePushPatchAdmin: PushPatchDecisionResult }> {
   return client(opts)<{ decidePushPatchAdmin: PushPatchDecisionResult }>({
     query: `
-      mutation DecidePushPatchAdmin($contactId: ID!, $encounterId: ID!, $action: String!) {
-        decidePushPatchAdmin(contactId: $contactId, encounterId: $encounterId, action: $action) {
+      mutation DecidePushPatchAdmin($contactId: ID!, $encounterId: ID!, $action: String!, $providerId: ID) {
+        decidePushPatchAdmin(contactId: $contactId, encounterId: $encounterId, action: $action, providerId: $providerId) {
           ok state mailOk code error
         }
       }
     `,
-    variables: { contactId: input.contactId, encounterId: input.encounterId, action: input.action },
+    variables: {
+      contactId: input.contactId, encounterId: input.encounterId, action: input.action,
+      ...(input.providerId ? { providerId: input.providerId } : {}),
+    },
+  });
+}
+
+// ─── PushPatchProviders ───────────────────────────────────────────────────────
+
+export type PushPatchProvider = {
+  id: string;
+  name: string;
+  credentials: string;
+  default: boolean;
+};
+
+export async function listPushPatchProviders(
+  opts?: ClientOptions,
+): Promise<{ pushPatchProviders: PushPatchProvider[] }> {
+  return client(opts)<{ pushPatchProviders: PushPatchProvider[] }>({
+    query: `
+      query PushPatchProviders {
+        pushPatchProviders { id name credentials default }
+      }
+    `,
   });
 }
 

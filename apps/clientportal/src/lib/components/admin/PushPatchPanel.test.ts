@@ -2,8 +2,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/svelte';
 
 const decide = vi.fn();
+const providers = vi.fn();
 vi.mock('../../api/operations.js', () => ({
   decidePushPatchAdmin: (...a: unknown[]) => decide(...a),
+  listPushPatchProviders: (...a: unknown[]) => providers(...a),
   refundEncounterAdmin: vi.fn(),
 }));
 
@@ -15,7 +17,11 @@ const enc = (o: Record<string, unknown> = {}) => ({
 }) as any;
 const mount = (e = enc(), onchanged = vi.fn()) => { render(PushPatchPanel, { contactId: 'c1', enc: e, name: 'Pat Lee', onchanged }); return onchanged; };
 
-beforeEach(() => vi.clearAllMocks());
+const MOLINA = { id: 'molina', name: 'Oscar Molina', credentials: 'MD', default: true };
+const SMITH = { id: 'smith', name: 'Jane Smith', credentials: 'DO', default: false };
+const roster = (...p: unknown[]) => providers.mockResolvedValue({ pushPatchProviders: p });
+
+beforeEach(() => { vi.clearAllMocks(); roster(MOLINA, SMITH); });
 
 describe('PushPatchPanel', () => {
   it('renders nothing for non push-patch encounters', () => {
@@ -58,7 +64,70 @@ describe('PushPatchPanel', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
     await fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
     await waitFor(() => expect(onchanged).toHaveBeenCalled());
+    expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'pp-1', action: 'approve', providerId: 'molina' });
+  });
+
+  it('approve confirm shows a "Signing as" select with the default preselected', async () => {
+    mount();
+    await fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
+    const sel = (await screen.findByLabelText('Signing as')) as HTMLSelectElement;
+    expect(sel.tagName).toBe('SELECT');
+    expect(Array.from(sel.options).map((o) => o.textContent?.trim())).toEqual(['Oscar Molina, MD', 'Jane Smith, DO']);
+    expect(sel.value).toBe('molina');
+  });
+
+  it('preselects the default even when it is not first', async () => {
+    roster({ ...SMITH }, { ...MOLINA, default: false }, { id: 'lee', name: 'Ann Lee', credentials: 'MD', default: true });
+    mount();
+    await fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
+    expect(((await screen.findByLabelText('Signing as')) as HTMLSelectElement).value).toBe('lee');
+  });
+
+  it('approving as another provider passes that providerId', async () => {
+    decide.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'script-written', mailOk: true } });
+    const onchanged = mount();
+    await fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
+    await fireEvent.change(await screen.findByLabelText('Signing as'), { target: { value: 'smith' } });
+    await fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
+    await waitFor(() => expect(onchanged).toHaveBeenCalled());
+    expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'pp-1', action: 'approve', providerId: 'smith' });
+  });
+
+  it('a single provider shows read-only text, no select, and still passes its id', async () => {
+    roster(MOLINA);
+    decide.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'script-written', mailOk: true } });
+    const onchanged = mount();
+    await fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
+    expect(await screen.findByText('Signing as: Oscar Molina, MD')).toBeTruthy();
+    expect(screen.queryByRole('combobox')).toBeNull();
+    await fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
+    await waitFor(() => expect(onchanged).toHaveBeenCalled());
+    expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'pp-1', action: 'approve', providerId: 'molina' });
+  });
+
+  it('if the provider list fails to load, approve still works with no providerId and nothing alarming shows', async () => {
+    providers.mockRejectedValue(new Error('boom'));
+    decide.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'script-written', mailOk: true } });
+    const onchanged = mount();
+    await fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
+    await waitFor(() => expect(providers).toHaveBeenCalled());
+    expect(screen.queryByRole('combobox')).toBeNull();
+    expect(screen.queryByText(/Signing as/)).toBeNull();
+    expect(screen.queryByText(/boom/)).toBeNull();
+    await fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
+    await waitFor(() => expect(onchanged).toHaveBeenCalled());
     expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'pp-1', action: 'approve' });
+  });
+
+  it('decline shows no picker, does not load providers, and sends no providerId', async () => {
+    decide.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'declined', mailOk: true } });
+    const onchanged = mount();
+    await fireEvent.click(screen.getByRole('button', { name: 'Decline' }));
+    expect(screen.queryByLabelText('Signing as')).toBeNull();
+    expect(providers).not.toHaveBeenCalled();
+    await fireEvent.click(screen.getByRole('button', { name: 'Confirm decline' }));
+    await waitFor(() => expect(onchanged).toHaveBeenCalled());
+    expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'pp-1', action: 'decline' });
   });
 
   it('Decline confirms with the refund promise, then calls the mutation with action decline', async () => {

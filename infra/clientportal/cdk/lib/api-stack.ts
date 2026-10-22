@@ -346,6 +346,14 @@ export class ApiStack extends cdk.Stack {
       runtime: JS_RUNTIME,
       code: code('decidePushPatchAdmin.js'),
     });
+    new appsync.Resolver(this, 'PushPatchProvidersResolver', {
+      api: this.api,
+      typeName: 'Query',
+      fieldName: 'pushPatchProviders',
+      dataSource: dsDecidePushPatch,
+      runtime: JS_RUNTIME,
+      code: code('pushPatchProviders.js'),
+    });
 
     new cdk.CfnOutput(this, 'graphqlUrl', { value: this.api.graphqlUrl });
     new cdk.CfnOutput(this, 'apiId', { value: this.api.apiId });

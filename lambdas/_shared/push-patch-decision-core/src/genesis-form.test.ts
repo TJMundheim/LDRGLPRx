@@ -82,6 +82,19 @@ describe('buildFields', () => {
   });
 });
 
+describe('clinicianName override', () => {
+  it('overrides practice.clinician in the clinician field; absent/empty keeps the practice value', () => {
+    expect(buildFields({ ...ORDER, clinicianName: 'Dr. Second Doc' }, PRACTICE).clinician).toBe('Dr. Second Doc');
+    expect(buildFields({ ...ORDER, clinicianName: '' }, PRACTICE).clinician).toBe('Dr. Test Clinician');
+    expect(buildFields(ORDER, PRACTICE).clinician).toBe('Dr. Test Clinician');
+  });
+  it('the signature line follows the override', async () => {
+    const bytes = await fillOrderForm(buildFields({ ...ORDER, clinicianName: 'Dr. Second Doc' }, PRACTICE), { signedAt: '2026-10-03T15:00:00Z' });
+    expect(await hasText(bytes, 'Electronically signed \x97 Dr. Second Doc \xb7 Oct 3, 2026')).toBe(true);
+    expect(await hasText(bytes, 'Dr. Test Clinician')).toBe(false);
+  });
+});
+
 describe('signatureLine', () => {
   const f = { clinician: 'Dr. Test Clinician' };
   it('uses the clinician field value and the Central-time date', () => {

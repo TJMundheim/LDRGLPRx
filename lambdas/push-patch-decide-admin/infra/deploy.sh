@@ -22,6 +22,7 @@ EMAIL_SENDER_FN="my4mlife-email-sender"
 # to orders@novobioalliance.com (the code default) and redeploy BOTH.
 GENESIS_ORDER_EMAIL="orders@novobioalliance.com"   # LIVE 2026-10-06 (Genesis COO approved the form); drtj@my4mlife.com is cc'd on every order
 PRACTICE_PARAM="/my4mlife/genesis/practice"
+PROVIDERS_PARAM="/my4mlife/providers"   # provider roster (infra/scripts/provider-roster-config.sh)
 STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT}:secret:all-stripe-keys-*"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -53,7 +54,7 @@ POLICY=$(cat <<JSON
     { "Effect": "Allow", "Action": "lambda:InvokeFunction",
       "Resource": "arn:aws:lambda:${REGION}:${ACCOUNT}:function:${EMAIL_SENDER_FN}" },
     { "Effect": "Allow", "Action": "ssm:GetParameter",
-      "Resource": "arn:aws:ssm:${REGION}:${ACCOUNT}:parameter${PRACTICE_PARAM}" },
+      "Resource": ["arn:aws:ssm:${REGION}:${ACCOUNT}:parameter${PRACTICE_PARAM}", "arn:aws:ssm:${REGION}:${ACCOUNT}:parameter${PROVIDERS_PARAM}"] },
     { "Effect": "Allow", "Action": "secretsmanager:GetSecretValue", "Resource": "${STRIPE_KEYS_ARN}" }
   ]
 }

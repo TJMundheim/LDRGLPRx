@@ -7,6 +7,7 @@ import { getStripeClient } from '@my4mlife/stripe-client';
 import { sendWelcome, sendDeclined } from './emails';
 import { sendGenesisOrder } from './genesis-order';
 import { addBusinessDays } from './business-days';
+import { pickProvider } from './signing-provider';
 import { resolveShip, type OrderInput } from './genesis-form';
 
 export type Outcome =
@@ -55,7 +56,7 @@ const allOk = async (jobs: Promise<void>[]): Promise<boolean> =>
   (await Promise.allSettled(jobs)).every((r) => r.status === 'fulfilled');
 
 // decidedBy: 'physician-link' (emailed token) or 'admin:<username>' (admin app); recorded on the encounter.
-export type DecideArgs = { contactId: string; encounterId: string; action: 'approve' | 'decline'; decidedBy: string };
+export type DecideArgs = { contactId: string; encounterId: string; action: 'approve' | 'decline'; decidedBy: string; providerId?: string };
 
 export async function decide(a: DecideArgs): Promise<Outcome> {
   const get = async (sk: string) => (await ddb.send(new GetCommand({ TableName: TABLE, Key: { contactId: a.contactId, sk } }))).Item;
@@ -68,11 +69,12 @@ export async function decide(a: DecideArgs): Promise<Outcome> {
   if (a.action === 'approve') {
     const stripe = await getStripeClient();
     const session = await stripe.checkout.sessions.retrieve(enc.sessionId, {});
-    if (!(await transition(a.contactId, a.encounterId, 'script-written', { decidedBy: a.decidedBy }))) return { kind: 'already-decided', state: 'decided' };
+    const prov = await pickProvider(a.providerId); // before the claim: a roster failure leaves the encounter undecided
+    if (!(await transition(a.contactId, a.encounterId, 'script-written', { decidedBy: a.decidedBy, ...(prov && { signedByProviderId: prov.id, signedByName: prov.name }) }))) return { kind: 'already-decided', state: 'decided' };
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
-      sendGenesisOrder({ signedAt: new Date().toISOString(), testOrder: session.metadata?.test_price === 'true', sku, sessionId: enc.sessionId, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
+      sendGenesisOrder({ signedAt: new Date().toISOString(), testOrder: session.metadata?.test_price === 'true', sku, sessionId: enc.sessionId, clinicianName: prov?.name, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
         .then((o) => stampGenesisSent(a.contactId, a.encounterId, o.to, o.toGenesis)),
     ]);
     return { kind: 'approved', mailOk };

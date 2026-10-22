@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { decidePushPatchAdmin, type EncounterAdmin } from '../../api/operations.js';
+  import { decidePushPatchAdmin, listPushPatchProviders, type EncounterAdmin, type PushPatchProvider } from '../../api/operations.js';
   import PushPatchRefund from './PushPatchRefund.svelte';
   import { isPushPatch } from './refund.js';
-  import { stateLabel, canDecide, paidLabel, decidedByLabel, when, CONFIRM } from './pushPatch.js';
+  import { stateLabel, canDecide, paidLabel, decidedByLabel, when, providerLabel, CONFIRM } from './pushPatch.js';
 
   let { contactId, enc, name, onchanged }: {
     contactId: string; enc: EncounterAdmin; name: string; onchanged: () => void | Promise<void>;
@@ -12,11 +12,29 @@
   let busy = $state(false);
   let error = $state('');
   let notice = $state('');
+  let providers = $state<PushPatchProvider[]>([]);
+  let providerId = $state('');
+  let loading: Promise<void> | null = null;
+
+  // Roster is best-effort: on any failure the picker is simply absent and the server default signs.
+  function loadProviders(): Promise<void> {
+    return (loading ??= (async () => {
+      try {
+        const list = (await listPushPatchProviders()).pushPatchProviders ?? [];
+        providers = list;
+        providerId = (list.find((p) => p.default) ?? list[0])?.id ?? '';
+      } catch { providers = []; providerId = ''; }
+    })());
+  }
+
+  function startApprove() { pending = 'approve'; void loadProviders(); }
 
   async function decide(action: 'approve' | 'decline') {
     busy = true; error = ''; notice = '';
     try {
-      const r = (await decidePushPatchAdmin({ contactId, encounterId: enc.encounterId, action })).decidePushPatchAdmin;
+      if (action === 'approve') await loadProviders();
+      const withProvider = action === 'approve' && providerId ? { providerId } : {};
+      const r = (await decidePushPatchAdmin({ contactId, encounterId: enc.encounterId, action, ...withProvider })).decidePushPatchAdmin;
       if (r.ok) {
         pending = null;
         if (r.mailOk === false) notice = 'Decision recorded, but an email failed to send. Notify the patient or coordinator.';
@@ -45,12 +63,20 @@
     {#if canDecide(enc)}
       {#if pending === null}
         <div class="pp-acts">
-          <button class="gbtn" onclick={() => (pending = 'approve')}>Approve</button>
+          <button class="gbtn" onclick={startApprove}>Approve</button>
           <button class="obtn dec" onclick={() => (pending = 'decline')}>Decline</button>
         </div>
       {:else}
         <div class="confirm" class:warn={pending === 'decline'}>
           <p class="cl">{CONFIRM[pending]}</p>
+          {#if pending === 'approve' && providers.length === 1}
+            <p class="signing">Signing as: {providerLabel(providers[0])}</p>
+          {:else if pending === 'approve' && providers.length > 1}
+            <label class="signing" for="pp-signing-{enc.encounterId}">Signing as</label>
+            <select id="pp-signing-{enc.encounterId}" class="psel" bind:value={providerId} disabled={busy}>
+              {#each providers as p (p.id)}<option value={p.id}>{providerLabel(p)}</option>{/each}
+            </select>
+          {/if}
           <div class="cacts">
             <button class="gbtn" disabled={busy} onclick={() => decide(pending!)}>
               {busy ? 'Saving…' : pending === 'approve' ? 'Confirm approve' : 'Confirm decline'}
@@ -76,6 +102,8 @@
   .confirm { border: 1px solid var(--mc-gold); border-radius: 11px; padding: 12px 14px; }
   .confirm.warn { border-color: var(--mc-warn-bright); }
   .cl { margin: 0; font-size: 0.8rem; color: var(--mc-ink); font-weight: 600; }
+  .signing { display: block; margin: 8px 0 0; font-size: 0.78rem; color: var(--mc-ink); }
+  .psel { margin-top: 4px; padding: 6px 8px; font-size: 0.78rem; border: 1px solid var(--mc-line); border-radius: 8px; background: var(--mc-bg); color: var(--mc-ink); }
   .gbtn { background: var(--mc-gold); border: none; border-radius: 8px; color: var(--mc-on-gold); padding: 8px 18px; font-size: 0.78rem; font-weight: 700; }
   .obtn { background: transparent; border: 1px solid var(--mc-line); border-radius: 8px; color: var(--mc-muted); padding: 7px 14px; font-size: 0.75rem; font-weight: 600; }
   .obtn.dec { color: var(--mc-crit-bright); border-color: var(--mc-crit-bright); }
