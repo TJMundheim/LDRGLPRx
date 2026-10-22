@@ -8,6 +8,7 @@ import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { handlePushPatchOrder } from './push-patch-order.js';
+import { resolvePromo } from './promo.js';
 
 const REGION = 'us-east-2';
 const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
@@ -126,6 +127,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   }
 
   const amountUSD = (session.amount_total ?? 0) / 100;
+  const promo = await resolvePromo(stripe, session);
 
   // 1. Orders insert FIRST — keyed by session ID, idempotent via condition.
   // We use the success of this insert as the "this is a new order" signal so
@@ -142,6 +144,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
           amountUSD,
           currency: session.currency,
           paymentStatus: session.payment_status,
+          ...(promo ?? {}),
           mode,
           createdAt: now,
         },
@@ -183,6 +186,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
       ...(purchasedSku ? { skus: [purchasedSku] } : {}),
       ...(isNewOrder ? { amountUSD } : {}),
       ...(stripeCustomerId ? { stripeCustomerId } : {}),
+      ...(promo ? { tags: [`promo:${promo.promoCode}`] } : {}),
       ...(marketingConsent ? { marketingConsent } : {}),
       stage: 'customer',
       event: { type: 'purchase' },
@@ -313,7 +317,7 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   // 4c. Genesis Push Patch: finalize (pay-last flow) or legacy pending marker.
   // A finalize failure throws so the Stripe retry chain covers it. See push-patch-order.ts.
   if (skuId.startsWith('push-patch-')) {
-    await handlePushPatchOrder({ ddb, lambda, emailFn: EMAIL_SENDER_FN, session, contactId, skuId, email, firstName: contactFirstName });
+    await handlePushPatchOrder({ ddb, lambda, emailFn: EMAIL_SENDER_FN, session, contactId, skuId, email, firstName: contactFirstName, promoCode: promo?.promoCode });
   }
 
   // 5. Protégé membership grant — idempotent across retries via its own marker

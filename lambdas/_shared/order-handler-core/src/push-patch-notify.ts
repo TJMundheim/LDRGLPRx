@@ -1,3 +1,4 @@
+import { promoLine, type Promo } from './promo.js';
 // Fulfillment email for Genesis Push Patch orders (direct-buy, ships from Genesis).
 // Catalog is an embedded copy of website/src/data/pushPatch.ts — keep in sync.
 const BLENDS: Record<string, { name: string; formula: string }> = {
@@ -25,6 +26,7 @@ type PatchSession = {
 export async function notifyPushPatchOrder(
   session: PatchSession,
   deps: { send: (payload: Record<string, unknown>) => Promise<void> },
+  promo?: Promo,
 ): Promise<void> {
   const skuId = (session.metadata?.['skuIds'] ?? '').split(',')[0]?.trim() ?? '';
   const blend = BLENDS[skuId] ?? { name: skuId || 'Unknown blend', formula: '(unknown — check Stripe)' };
@@ -41,7 +43,7 @@ export async function notifyPushPatchOrder(
     to: process.env['PUSH_PATCH_FULFILLMENT_EMAIL'] ?? 'drtj@my4mlife.com',
     subject: `New Push Patch order — ${blend.name} (${wear})`,
     html: `<p><strong>New Push Patch order — fulfill via Genesis</strong></p>
-<p>Blend: ${esc(blend.name)}<br>Formula: ${esc(blend.formula)}<br>Wear time: ${esc(wear)}<br>Quantity: 6 patches (6 weeks)<br>Amount: ${amount}<br>Order/session: ${esc(session.id)}</p>
+<p>Blend: ${esc(blend.name)}<br>Formula: ${esc(blend.formula)}<br>Wear time: ${esc(wear)}<br>Quantity: 6 patches (6 weeks)<br>Amount: ${amount}<br>${promo ? `${promoLine(promo)}<br>` : ''}Order/session: ${esc(session.id)}</p>
 <p>Customer: ${esc(cd?.name ?? '')} ${esc(cd?.email ?? '')} ${esc(cd?.phone ?? '')}</p>
 <p><strong>Ship to:</strong><br>${address || '(no shipping address on session — check Stripe dashboard)'}</p>`,
   });

@@ -24,6 +24,7 @@ export interface PushPatchSessionParams {
   phone_number_collection?: { enabled: true };
   shipping_address_collection: { allowed_countries: ['US'] };
   consent_collection?: { promotions: 'auto' };
+  allow_promotion_codes?: true;
 }
 
 // Stripe Checkout params for a Push Patch order. Returns null when the sku has no price for the mode.
@@ -53,5 +54,7 @@ export function buildPushPatchSessionParams(i: PushPatchSessionInput): PushPatch
     shipping_address_collection: { allowed_countries: ['US'] },
     // Stripe rejects this until its promo-consent terms are accepted in the dashboard (settings/checkout).
     ...(process.env['STRIPE_PROMO_CONSENT'] === 'on' ? { consent_collection: { promotions: 'auto' as const } } : {}),
+    // Promotion-code box on Checkout; stays off until the code names exist.
+    ...(process.env['STRIPE_PROMO_CODES'] === 'on' ? { allow_promotion_codes: true as const } : {}),
   };
 }

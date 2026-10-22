@@ -12,6 +12,7 @@ type Args = {
   skuId: string;
   email: string;
   firstName: string | undefined;
+  promoCode?: string | undefined;
 };
 
 /** Sync-invoke push-patch-intake finalize. Returns its result; any failure throws (Stripe retry). */
@@ -57,6 +58,7 @@ export async function handlePushPatchOrder(a: Args): Promise<void> {
         createdAt: createdAt.toISOString(),
         intakeDue: new Date(createdAt.getTime() + 30 * 60 * 1000).toISOString(),
         remindersSent: 0,
+        ...(a.promoCode ? { promoCode: a.promoCode } : {}),
         ...(finalized ? { intakeSubmittedAt: createdAt.toISOString() } : {}),
       },
       ConditionExpression: 'attribute_not_exists(sk)',

@@ -51,6 +51,15 @@ describe('handlePushPatchOrder', () => {
     expect(payload(calls('email-fn')[0]).subject).toBe('Your Push Patch order is in');
   });
 
+  it('promoCode is stored on the pending marker only when provided', async () => {
+    lambdaSend.mockResolvedValue({});
+    await handlePushPatchOrder({ ...base({ metadata: {} }), promoCode: 'WOLFPACK' });
+    expect(markers()[0].Item.promoCode).toBe('WOLFPACK');
+    ddbSend.mockClear();
+    await handlePushPatchOrder(base({ metadata: {} }));
+    expect(markers()[0].Item).not.toHaveProperty('promoCode');
+  });
+
   it('PUSH_PATCH_INTAKE_FN overrides the function name', async () => {
     process.env.PUSH_PATCH_INTAKE_FN = 'custom-intake';
     lambdaSend.mockResolvedValueOnce(reply({ result: 'ok' })).mockResolvedValue({});

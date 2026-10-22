@@ -70,6 +70,30 @@ describe('buildPushPatchSessionParams', () => {
     }
   });
 
+  it('allows promotion codes only when STRIPE_PROMO_CODES=on', () => {
+    expect(buildPushPatchSessionParams(base)!).not.toHaveProperty('allow_promotion_codes');
+    process.env['STRIPE_PROMO_CODES'] = 'off';
+    try {
+      expect(buildPushPatchSessionParams(base)!).not.toHaveProperty('allow_promotion_codes');
+      process.env['STRIPE_PROMO_CODES'] = 'on';
+      expect(buildPushPatchSessionParams(base)!.allow_promotion_codes).toBe(true);
+    } finally {
+      delete process.env['STRIPE_PROMO_CODES'];
+    }
+  });
+
+  it('promo codes flag leaves consent_collection unaffected', () => {
+    process.env['STRIPE_PROMO_CODES'] = 'on';
+    try {
+      expect(buildPushPatchSessionParams(base)!).not.toHaveProperty('consent_collection');
+      process.env['STRIPE_PROMO_CONSENT'] = 'on';
+      expect(buildPushPatchSessionParams(base)!.consent_collection).toEqual({ promotions: 'auto' });
+    } finally {
+      delete process.env['STRIPE_PROMO_CODES'];
+      delete process.env['STRIPE_PROMO_CONSENT'];
+    }
+  });
+
   it('keeps the existing top-level params unchanged (consent_collection off by default)', () => {
     const p = buildPushPatchSessionParams({ ...base, email: 'a@b.co' })!;
     expect(Object.keys(p).sort()).toEqual([

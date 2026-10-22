@@ -576,4 +576,51 @@ describe('processEvent', () => {
       expect(JSON.parse(JSON.parse(invoke.Payload.toString()).body).phone).toBe('+15125550999');
     });
   });
+  describe('promotion code attribution', () => {
+    const run = () => processEvent({ id: 'evt_pc', type: 'checkout.session.completed', livemode: false });
+    const promoRetrieve = vi.fn();
+    const promoSession = {
+      ...baseSession,
+      id: 'cs_test_promo',
+      amount_total: 50000,
+      payment_intent: 'pi_promo',
+      metadata: { skuIds: 'push-patch-kpv-nad-ghk' },
+      discounts: [{ coupon: 'cpn_1', promotion_code: 'promo_abc' }],
+      total_details: { amount_discount: 15000 },
+    };
+    const ordersItem = () => mockSend.mock.calls.map(([c]) => c?.input).find((i) => i?.TableName === 'Orders')?.Item;
+    const pendingItem = () => mockSend.mock.calls.map(([c]) => c?.input).find((i) => i?.Item?.sk?.startsWith?.('PUSH_PATCH_PENDING#'))?.Item;
+
+    beforeEach(() => {
+      promoRetrieve.mockReset().mockResolvedValue({ code: 'wolfpack' });
+      (mockStripe as any).promotionCodes = { retrieve: promoRetrieve };
+      mockSessionRetrieve.mockResolvedValue(promoSession);
+    });
+    afterEach(() => { delete (mockStripe as any).promotionCodes; });
+
+    it('stores promoCode + discountUSD on the Orders item, tags the Contact, marks the pending touchpoint', async () => {
+      await run();
+      expect(promoRetrieve).toHaveBeenCalledWith('promo_abc');
+      expect(ordersItem()).toMatchObject({ amountUSD: 500, promoCode: 'WOLFPACK', discountUSD: 150 });
+      expect(mockUpsert.mock.calls[0][1].tags).toEqual(['promo:WOLFPACK']);
+      expect(pendingItem()?.promoCode).toBe('WOLFPACK');
+    });
+
+    it('retrieve failure still records the order, falling back to the promo id', async () => {
+      promoRetrieve.mockRejectedValue(new Error('stripe down'));
+      await run();
+      expect(ordersItem()).toMatchObject({ promoCode: 'promo_abc', discountUSD: 150 });
+      expect(mockUpsert.mock.calls[0][1].tags).toEqual(['promo:promo_abc']);
+    });
+
+    it('no discount: Orders item, upsert input and pending marker carry no promo fields', async () => {
+      mockSessionRetrieve.mockResolvedValue({ ...promoSession, discounts: [], total_details: { amount_discount: 0 } });
+      await run();
+      expect(promoRetrieve).not.toHaveBeenCalled();
+      expect(ordersItem()).not.toHaveProperty('promoCode');
+      expect(ordersItem()).not.toHaveProperty('discountUSD');
+      expect(mockUpsert.mock.calls[0][1]).not.toHaveProperty('tags');
+      expect(pendingItem()).not.toHaveProperty('promoCode');
+    });
+  });
 });
