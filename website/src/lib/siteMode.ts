@@ -36,3 +36,10 @@ export const SHOW_BEASLEY_PARTNER = true;
 
 // The Captain's Table (/coaching + homepage band) — approved by TJ 2026-10-17, live.
 export const SHOW_COACHING = true;
+
+// Push Patch "What the testing showed" study section on /go/push-patch.
+// OFF until TJ approves (docs/plan/overnight-2026-10-22.md). To go live set
+// PP_STUDY_APPROVED = true. To preview without editing: build with
+// PUBLIC_SHOW_PP_STUDY=1.
+const PP_STUDY_APPROVED = false;
+export const SHOW_PP_STUDY = PP_STUDY_APPROVED || import.meta.env.PUBLIC_SHOW_PP_STUDY === '1';

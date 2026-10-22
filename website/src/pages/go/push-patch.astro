@@ -13,6 +13,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PUSH_PATCH_BLENDS } from '../../data/pushPatch';
 import { SCREENING, SCREENING_VERSION } from '../../data/screening';
 import HealthForm from '../../components/push-patch/HealthForm.astro';
+import { SHOW_PP_STUDY } from '../../lib/siteMode';
 
 const title = 'Push Patch — Needle-Free Peptides Through the Skin — My4MLife';
 const description = 'A weekly iontophoresis patch that delivers peptide and NAD+ blends through the skin over 12 hours. No needles, no pills, no IV chair.';
@@ -240,6 +241,29 @@ const SCREEN_CLIENT = {
       <p class="pp-fine">Full instructions are printed in every kit. Follow the insert in your kit for the exact amount of water.</p>
     </div>
   </section>
+
+  {/* WHAT THE TESTING SHOWED — hidden unless SHOW_PP_STUDY (src/lib/siteMode.ts). Facts: docs/plan/overnight-2026-10-22.md Context. Manufacturer's testing only. */}
+  {SHOW_PP_STUDY && (
+    <section class="pp-sec pp-dark" id="testing">
+      <div class="pp-wrap">
+        <p class="pp-eyebrow">The testing</p>
+        <h2>What the testing showed</h2>
+        <div class="pp-stats pp-study-stats">
+          <div class="pp-stat">
+            <strong>94%</strong>
+            <span class="pp-study-claim">average drop in hs-CRP (inflammation) in 7 days with KPV + NAD+<sup><a href="#testing-note">*</a></sup></span>
+            <span>hs-CRP is a blood marker of inflammation. In the manufacturer's testing, hs-CRP dropped, and 95% of participants ended under 1 mg/L.</span>
+          </div>
+          <div class="pp-stat">
+            <strong>More energy per breath</strong>
+            <span class="pp-study-claim">Mitochondrial efficiency up by day 15 and day 30 with NAD+ 1300<sup><a href="#testing-note">*</a></sup></span>
+            <span>Mitochondria are the part of your cells that make energy. In the manufacturer's testing, they made more energy from the same oxygen, in both sexes.</span>
+          </div>
+        </div>
+        <p class="pp-fine pp-fine-dark" id="testing-note">*From the manufacturer's internal testing (Push Patch, LLC). KPV + NAD+ study: 120 participants over 7 days. NAD+ 1300 mg study: 30 participants over 30 days. Results vary. Study doses were not stated; results are not a claim about a specific blend.</p>
+      </div>
+    </section>
+  )}
 
   {/* BLEND PICKER */}
   <section class="pp-sec pp-light" id="blends">
@@ -812,6 +836,13 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-stat strong { font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; color: var(--accent-deep); font-variant-numeric: tabular-nums; }
 .pp-stat span { font-size: 0.92rem; line-height: 1.5; color: var(--muted); }
 .pp-trust { margin: 1.2rem 0 0; max-width: 68ch; padding: 0.9rem 1.1rem; border-left: 3px solid var(--accent); background: rgba(255,255,255,0.05); border-radius: 0 8px 8px 0; font-size: 0.92rem; line-height: 1.6; color: var(--on-ink-muted); }
+
+/* Study section (dark variant of the stat cards) */
+.pp-study-stats .pp-stat { background: var(--ink-2); border-color: var(--ink-line); border-top-color: var(--accent); }
+.pp-study-stats .pp-stat strong { color: var(--accent); }
+.pp-study-stats .pp-stat span { color: var(--on-ink-muted); }
+.pp-study-stats .pp-stat .pp-study-claim { color: #ffffff; font-weight: 700; font-size: 1rem; }
+.pp-study-stats .pp-stat sup a { color: var(--accent); text-decoration: none; font-weight: 700; margin-left: 0.15em; }
 
 .pp-curve { margin: 0.9rem 0 0; padding: 1rem 0.8rem 0.8rem; background: var(--ink-2); border: 1px solid var(--ink-line); border-radius: 10px; }
 .pp-curve svg { width: 100%; height: auto; display: block; }
