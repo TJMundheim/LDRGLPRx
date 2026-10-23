@@ -117,6 +117,7 @@ if aws lambda get-function --function-name "$FUNCTION_NAME" --region "$REGION" >
 
   echo "→ Updating function configuration…"
   aws lambda update-function-configuration \
+    --runtime nodejs24.x \
     --function-name "$FUNCTION_NAME" \
     --environment "$ENV_VARS" \
     --timeout 30 \
@@ -127,7 +128,7 @@ else
   sleep 8
   aws lambda create-function \
     --function-name "$FUNCTION_NAME" \
-    --runtime nodejs20.x \
+    --runtime nodejs24.x \
     --role "$ROLE_ARN" \
     --handler handler.handler \
     --zip-file "fileb://$ZIP_PATH" \

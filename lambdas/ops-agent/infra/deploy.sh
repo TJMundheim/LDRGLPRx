@@ -5,7 +5,7 @@ set -euo pipefail
 FUNCTION_NAME="my4mlife-ops-agent"
 ROLE_NAME="my4mlife-ops-agent-role"
 REGION="us-east-2"
-RUNTIME="nodejs20.x"
+RUNTIME="nodejs24.x"
 HANDLER="handler.handler"
 TIMEOUT=300
 MEMORY=1024

@@ -31,8 +31,8 @@ export class AuthStack extends cdk.Stack {
       new NodejsFunction(this, name, {
         entry: path.join(lambdaDir, file),
         handler: 'handler',
-        runtime: Runtime.NODEJS_20_X,
-        bundling: { target: 'node20', minify: false, sourceMap: true },
+        runtime: Runtime.NODEJS_24_X,
+        bundling: { target: 'node24', minify: false, sourceMap: true },
       });
 
     const defineAuthChallenge = mkFn(

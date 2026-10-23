@@ -20,7 +20,7 @@ echo "==> Build create-auth-challenge"
 cd "$ROOT/cdk"
 pnpm install --frozen-lockfile >/dev/null
 pnpm exec esbuild "$SRC" \
-  --bundle --platform=node --target=node20 --format=cjs \
+  --bundle --platform=node --target=node24 --format=cjs \
   --outfile="$BUILD/index.js" --external:@aws-sdk/*
 cd "$BUILD" && zip -q -FS index.zip index.js && cd "$ROOT"
 

@@ -89,6 +89,7 @@ if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; th
     --zip-file "fileb://$SCRIPT_DIR/dist/handler.zip" >/dev/null
   $AWS lambda wait function-updated --function-name "$FUNCTION_NAME"
   $AWS lambda update-function-configuration \
+    --runtime nodejs24.x \
     --function-name "$FUNCTION_NAME" \
     --environment "$ENV_VARS" \
     --timeout 10 --memory-size 256 >/dev/null
@@ -96,7 +97,7 @@ if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; th
 else
   $AWS lambda create-function \
     --function-name "$FUNCTION_NAME" \
-    --runtime nodejs20.x \
+    --runtime nodejs24.x \
     --role "$ROLE_ARN" \
     --handler handler.handler \
     --zip-file "fileb://$SCRIPT_DIR/dist/handler.zip" \

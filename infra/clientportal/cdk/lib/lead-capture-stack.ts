@@ -24,8 +24,8 @@ export class LeadCaptureStack extends cdk.Stack {
     const sendAppLink = new NodejsFunction(this, 'SendAppLinkFn', {
       entry: path.join(__dirname, '..', 'lambdas', 'lead-capture', 'send-app-link.ts'),
       handler: 'handler',
-      runtime: Runtime.NODEJS_20_X,
-      bundling: { target: 'node20', minify: false, sourceMap: true },
+      runtime: Runtime.NODEJS_24_X,
+      bundling: { target: 'node24', minify: false, sourceMap: true },
       timeout: cdk.Duration.seconds(15),
     });
 
@@ -51,8 +51,8 @@ export class LeadCaptureStack extends cdk.Stack {
     const requestOtp = new NodejsFunction(this, 'RequestOtpFn', {
       entry: path.join(__dirname, '..', 'lambdas', 'auth', 'request-otp.ts'),
       handler: 'handler',
-      runtime: Runtime.NODEJS_20_X,
-      bundling: { target: 'node20', minify: false, sourceMap: true },
+      runtime: Runtime.NODEJS_24_X,
+      bundling: { target: 'node24', minify: false, sourceMap: true },
       timeout: cdk.Duration.seconds(15),
       environment: {
         USER_POOL_ID,

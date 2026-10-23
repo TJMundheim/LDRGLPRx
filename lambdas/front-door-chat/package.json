@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/* --loader:.json=json",
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node24 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/* --loader:.json=json",
     "test": "vitest run",
     "build-index": "node scripts/build-index.mjs"
   },

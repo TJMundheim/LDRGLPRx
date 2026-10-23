@@ -27,7 +27,7 @@ LAMBDA_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 echo "Building ${FUNCTION_NAME}..."
 mkdir -p "${LAMBDA_DIR}/dist"
 npx esbuild "${LAMBDA_DIR}/src/handler.ts" \
-  --bundle --platform=node --target=node20 --format=cjs \
+  --bundle --platform=node --target=node24 --format=cjs \
   --outfile="${LAMBDA_DIR}/dist/handler.js" \
   --external:@aws-sdk/\*
 cd "${LAMBDA_DIR}/dist" && zip -q handler.zip handler.js && cd -
@@ -113,7 +113,7 @@ ENV_VARS="Variables={STRIPE_MODE=test,PUSH_PATCH_FULFILLMENT_EMAIL=drtj@my4mlife
 if [ -z "${EXISTING}" ]; then
   aws lambda create-function \
     --function-name "${FUNCTION_NAME}" \
-    --runtime nodejs20.x \
+    --runtime nodejs24.x \
     --role "${ROLE_ARN}" \
     --handler handler.handler \
     --zip-file "fileb://${LAMBDA_DIR}/dist/handler.zip" \
@@ -128,6 +128,7 @@ else
     --region "${REGION}"
   aws lambda wait function-updated --function-name "${FUNCTION_NAME}" --region "${REGION}"
   aws lambda update-function-configuration \
+    --runtime nodejs24.x \
     --function-name "${FUNCTION_NAME}" \
     --environment "${ENV_VARS}" \
     --timeout "${FUNCTION_TIMEOUT}" \

@@ -98,6 +98,7 @@ if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; th
   # Wait for update to complete before updating config
   $AWS lambda wait function-updated --function-name "$FUNCTION_NAME"
   $AWS lambda update-function-configuration \
+    --runtime nodejs24.x \
     --function-name "$FUNCTION_NAME" \
     --environment "$ENV_VARS" >/dev/null
   log "Lambda updated."
@@ -106,7 +107,7 @@ else
   sleep 8
   $AWS lambda create-function \
     --function-name "$FUNCTION_NAME" \
-    --runtime nodejs20.x \
+    --runtime nodejs24.x \
     --role "$ROLE_ARN" \
     --handler handler.handler \
     --zip-file "fileb://$SCRIPT_DIR/dist/handler.zip" \

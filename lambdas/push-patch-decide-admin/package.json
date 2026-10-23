@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/* && cp ../_shared/push-patch-decision-core/assets/genesis-order-form-2026.pdf dist/",
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node24 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/* && cp ../_shared/push-patch-decision-core/assets/genesis-order-form-2026.pdf dist/",
     "test": "vitest run"
   },
   "dependencies": {

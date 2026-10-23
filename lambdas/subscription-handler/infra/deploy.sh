@@ -7,7 +7,7 @@ set -euo pipefail
 FUNCTION_NAME="my4mlife-subscription-handler"
 ROLE_NAME="my4mlife-subscription-handler-role"
 REGION="us-east-2"
-RUNTIME="nodejs20.x"
+RUNTIME="nodejs24.x"
 HANDLER="handler.handler"
 TIMEOUT=15
 MEMORY=256

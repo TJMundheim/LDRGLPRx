@@ -50,8 +50,8 @@ class LeadCaptureStack extends cdk.Stack {
         const sendAppLink = new aws_lambda_nodejs_1.NodejsFunction(this, 'SendAppLinkFn', {
             entry: path.join(__dirname, '..', 'lambdas', 'lead-capture', 'send-app-link.ts'),
             handler: 'handler',
-            runtime: aws_lambda_1.Runtime.NODEJS_20_X,
-            bundling: { target: 'node20', minify: false, sourceMap: true },
+            runtime: aws_lambda_1.Runtime.NODEJS_24_X,
+            bundling: { target: 'node24', minify: false, sourceMap: true },
             timeout: cdk.Duration.seconds(15),
         });
         sendAppLink.addToRolePolicy(new iam.PolicyStatement({
@@ -70,8 +70,8 @@ class LeadCaptureStack extends cdk.Stack {
         const requestOtp = new aws_lambda_nodejs_1.NodejsFunction(this, 'RequestOtpFn', {
             entry: path.join(__dirname, '..', 'lambdas', 'auth', 'request-otp.ts'),
             handler: 'handler',
-            runtime: aws_lambda_1.Runtime.NODEJS_20_X,
-            bundling: { target: 'node20', minify: false, sourceMap: true },
+            runtime: aws_lambda_1.Runtime.NODEJS_24_X,
+            bundling: { target: 'node24', minify: false, sourceMap: true },
             timeout: cdk.Duration.seconds(15),
             environment: {
                 USER_POOL_ID,

@@ -5,7 +5,7 @@ set -euo pipefail
 FUNCTION_NAME="my4mlife-zoom-ops"
 ROLE_NAME="my4mlife-zoom-ops-role"
 REGION="us-east-2"
-RUNTIME="nodejs20.x"
+RUNTIME="nodejs24.x"
 HANDLER="handler.handler"
 TIMEOUT=30
 MEMORY=256

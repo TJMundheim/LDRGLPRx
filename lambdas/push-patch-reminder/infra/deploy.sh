@@ -11,7 +11,7 @@ set -euo pipefail
 FUNCTION_NAME="my4mlife-push-patch-reminder"
 ROLE_NAME="my4mlife-push-patch-reminder-role"
 REGION="us-east-2"
-RUNTIME="nodejs20.x"
+RUNTIME="nodejs24.x"
 HANDLER="handler.handler"
 TIMEOUT=60
 MEMORY=256

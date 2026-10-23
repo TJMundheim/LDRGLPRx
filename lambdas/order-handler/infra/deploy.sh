@@ -5,7 +5,7 @@ FUNCTION_NAME="my4mlife-order-handler"
 REGION="us-east-2"
 ACCOUNT="879696522760"
 ROLE_NAME="${FUNCTION_NAME}-role"
-RUNTIME="nodejs20.x"
+RUNTIME="nodejs24.x"
 HANDLER="handler.handler"
 
 STRIPE_KEYS_ARN="arn:aws:secretsmanager:${REGION}:${ACCOUNT}:secret:all-stripe-keys-*"
@@ -90,6 +90,7 @@ if aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION
    
   aws lambda wait function-updated --function-name "${FUNCTION_NAME}" --region "${REGION}"
   aws lambda update-function-configuration \
+    --runtime "${RUNTIME}" \
     --function-name "${FUNCTION_NAME}" \
     --environment "${ENV_VARS}" \
     --timeout 90 \

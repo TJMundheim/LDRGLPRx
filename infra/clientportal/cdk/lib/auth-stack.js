@@ -56,8 +56,8 @@ class AuthStack extends cdk.Stack {
         const mkFn = (name, file) => new aws_lambda_nodejs_1.NodejsFunction(this, name, {
             entry: path.join(lambdaDir, file),
             handler: 'handler',
-            runtime: aws_lambda_1.Runtime.NODEJS_20_X,
-            bundling: { target: 'node20', minify: false, sourceMap: true },
+            runtime: aws_lambda_1.Runtime.NODEJS_24_X,
+            bundling: { target: 'node24', minify: false, sourceMap: true },
         });
         const defineAuthChallenge = mkFn('DefineAuthChallengeFn', 'define-auth-challenge.ts');
         const createAuthChallenge = mkFn('CreateAuthChallengeFn', 'create-auth-challenge.ts');
