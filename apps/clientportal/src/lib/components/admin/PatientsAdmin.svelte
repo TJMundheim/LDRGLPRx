@@ -26,6 +26,7 @@
   } from './patientBrief.js';
   import PushPatchPanel from './PushPatchPanel.svelte';
   import { isPushPatch } from './refund.js';
+  import { sortEncountersNewestFirst, latestEncounter } from './encounterOrder.js';
   import { parseConsents, consentChecklist, providerReady, cardOnFileRow, consentAction, type ConsentsMap } from './consents.js';
 
   /** Treatment lanes offered at consent time. Mirrors the lanes.ts module in the consent Lambdas. */
@@ -703,7 +704,7 @@
         {#each items as p (p.contactId)}
           {@const name = patientName(p)}
           {@const email = patientEmail(p)}
-          {@const enc = (p.encounters ?? [])[0]}
+          {@const enc = latestEncounter(p.encounters)}
           {@const age = waitingAge(enc)}
           <tr class="prow" class:sel={expandedId === p.contactId} onclick={() => expand(p.contactId)}>
             <td>
@@ -731,7 +732,7 @@
                   {@const checklist = consentChecklist(consentsMap)}
                   {@const ready = providerReady(consentsMap)}
                   {@const cardRow = cardOnFileRow(detail.cardOnFile)}
-                  {@const latestEnc = (detail.encounters ?? [])[0]}
+                  {@const latestEnc = latestEncounter(detail.encounters)}
                   {@const csend = getConsentSendState(detail.contactId)}
                   {@const action = consentAction(ready, cardRow.onFile, hasRequestedConsent(detail))}
 
@@ -825,7 +826,7 @@
                   </div>
 
                   <!-- Encounters -->
-                  {#each detail.encounters ?? [] as enc2 (enc2.encounterId)}
+                  {#each sortEncountersNewestFirst(detail.encounters) as enc2 (enc2.encounterId)}
                     {@const pp = isPushPatch(enc2)}
                     {@const nexts = nextStates(enc2.state)}
                     {@const cform = getChargeForm(enc2)}

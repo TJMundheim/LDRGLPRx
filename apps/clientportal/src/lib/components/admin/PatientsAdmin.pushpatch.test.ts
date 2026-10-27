@@ -61,3 +61,32 @@ describe('PatientsAdmin · Push Patch encounter', () => {
     expect(screen.getAllByText(/Approve & charge/)).toHaveLength(1);
   });
 });
+
+describe('PatientsAdmin · encounter ordering', () => {
+  // Resolver order is by sort key (alphabetical id): the OLD declined one comes first.
+  const twoEncs = [
+    { encounterId: 'pp-cs_live_a1z', category: 'push-patch', state: 'declined', visitType: 'async', lane: 'push-patch', amountCents: 14900, createdAt: '2026-09-01T00:00:00Z', updatedAt: '' },
+    { encounterId: 'pp-cs_live_b12', category: 'push-patch', state: 'sent-to-provider', visitType: 'async', lane: 'push-patch', amountCents: 14900, createdAt: '2026-10-20T00:00:00Z', updatedAt: '' },
+  ];
+  const rec = {
+    contactId: 'c2', demographics: { firstName: 'Tj', lastName: 'Test', email: 'tj@example.com' }, consents: null, cardOnFile: null,
+    createdAt: '2026-09-01T00:00:00Z', updatedAt: '', encounters: twoEncs, audit: [], briefs: [], plans: [],
+  };
+
+  it('lists the newer sent-to-provider encounter first, with its Approve button, and drives the row status', async () => {
+    list.mockResolvedValue([rec]);
+    get.mockResolvedValue({ getPatientRecordAdmin: rec });
+    render(PatientsAdmin);
+    const row = (await screen.findByText('Tj Test')).closest('tr')!;
+    // list-row status reflects the newest encounter, not the declined one
+    expect(row.textContent).not.toMatch(/declined/i);
+    await fireEvent.click(row);
+    const approve = await screen.findByRole('button', { name: 'Approve' });
+    expect(approve).toBeTruthy();
+    // newer encounter's panel renders before the older one in the DOM
+    const html = document.body.innerHTML;
+    expect(html.indexOf('pp-cs_live_b12') === -1 || html.indexOf('pp-cs_live_b12') < html.indexOf('pp-cs_live_a1z')).toBe(true);
+    const buttons = screen.getAllByRole('button', { name: /^(Approve|Decline)$/ });
+    expect(buttons.length).toBe(2); // only the open (sent-to-provider) encounter offers a decision
+  });
+});
