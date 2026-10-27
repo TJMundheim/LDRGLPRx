@@ -17,7 +17,7 @@ JSON=$(cat <<'EOF'
   "clinician": "Oscar Molina",
   "practice": "My4MLife",
   "practice_phone": "817-995-3103",
-  "payment_email":"drtj@my4mlife.com",
+  "payment_email": "info@my4mlife.com",
   "billing": "6406 Lago Vista Drive, Benbrook, TX 76132",
   "placer": "TJ Mundheim",
   "placer_phone": "817-995-3103",
