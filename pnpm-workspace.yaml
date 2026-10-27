@@ -3,3 +3,10 @@ packages:
   - 'lambdas/_shared/*'
   - 'apps/*'
   - 'website'
+
+# Security overrides (audit 2026-10-27): pinned to patched versions of transitive deps.
+# Remove each entry once the parent package ships a fixed range.
+overrides:
+  zod: ^4.6.7              # @astrojs/sitemap pins ^4.3.6 (resolved 4.4.3); GHSA fixed >=4.6.6
+  qs: '~6.16.1'              # stripe@17 depends on qs ^6.11.0; fixed >=6.16.0
+  source-map-js: ^1.2.2    # astro > magicast; fixed >=1.2.2
