@@ -23,7 +23,7 @@ COORDINATOR_EMAIL="drtj@my4mlife.com"
 # Provider inbox — infrastructure as code. This script OWNS the value; never
 # edit the parameter in the console.
 PROVIDER_EMAIL_PARAM="/my4mlife/provider/email"
-PROVIDER_EMAIL="${PROVIDER_EMAIL:-drtj@mdspecialtygroup.com}"
+PROVIDER_EMAIL="${PROVIDER_EMAIL:-drtj@my4mlife.com}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AWS="aws --region $REGION"

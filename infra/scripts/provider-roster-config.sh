@@ -23,7 +23,7 @@ JSON=$(cat <<'EOF'
       "id": "molina",
       "name": "Oscar Molina",
       "credentials": "MD",
-      "inbox": "drtj@mdspecialtygroup.com",
+      "inbox": "drtj@my4mlife.com",
       "default": true
     }
   ]
