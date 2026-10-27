@@ -17,7 +17,8 @@ interface SESReceiptEvent {
   Records: Array<{
     ses: {
       mail: { messageId: string; commonHeaders: { subject?: string } };
-      receipt: { action: { bucketName: string; objectKey: string } };
+      // SES invokes via a LambdaAction (no bucket/key); S3-shaped actions carry them.
+      receipt: { action: { type?: string; functionArn?: string; invocationType?: string; bucketName?: string; objectKey?: string } };
     };
   }>;
 }
@@ -25,7 +26,14 @@ interface SESReceiptEvent {
 export const handler = async (event: SESReceiptEvent): Promise<void> => {
   for (const record of event.Records) {
     const { mail, receipt } = record.ses;
-    const obj = await s3.send(new GetObjectCommand({ Bucket: receipt.action.bucketName, Key: receipt.action.objectKey }));
+    const { bucketName, objectKey } = receipt.action;
+    const Bucket = bucketName && objectKey ? bucketName : process.env.INBOUND_BUCKET;
+    const Key = bucketName && objectKey ? objectKey : `${process.env.INBOUND_PREFIX ?? 'mail/'}${mail.messageId}`;
+    if (!Bucket) {
+      console.error('inbound-handler: INBOUND_BUCKET not set and event has no S3 location; cannot fetch email');
+      return;
+    }
+    const obj = await s3.send(new GetObjectCommand({ Bucket, Key }));
     const raw = await obj.Body!.transformToString();
     const inbound = await parseInbound(raw, mail.messageId);
 
