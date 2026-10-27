@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import {
-    listPatientRecordsAdmin,
+    listPatientRecordsAdminAll,
     getPatientRecordAdmin,
     updateEncounterStateAdmin,
     chargeEncounterAdmin,
@@ -503,8 +503,8 @@
     loading = true;
     error = '';
     try {
-      const res = await listPatientRecordsAdmin(100);
-      const list = [...(res.listPatientRecordsAdmin ?? [])].sort((a, b) =>
+      const res = await listPatientRecordsAdminAll();
+      const list = [...(res ?? [])].sort((a, b) =>
         (b.createdAt ?? '').localeCompare(a.createdAt ?? ''),
       );
       items = list;

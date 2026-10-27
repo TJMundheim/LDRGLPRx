@@ -22,6 +22,7 @@ vi.mock('./client.js', () => ({
 
 import {
   listPatientRecordsAdmin,
+  listPatientRecordsAdminAll,
   getPatientRecordAdmin,
   updateEncounterStateAdmin,
   refundEncounterAdmin,
@@ -108,6 +109,43 @@ describe('listPatientRecordsAdmin', () => {
 
     const result = await listPatientRecordsAdmin();
     expect(result.listPatientRecordsAdmin).toEqual([]);
+  });
+});
+
+describe('listPatientRecordsAdminAll', () => {
+  beforeEach(() => {
+    mockRequest.mockReset();
+  });
+
+  const page = (ids: string[], nextToken: string | null) => ({
+    listPatientRecordsAdminPage: { items: ids.map((id) => ({ ...RAW_RECORD, contactId: id })), nextToken },
+  });
+
+  it('concatenates pages and stops when nextToken is null', async () => {
+    mockRequest
+      .mockResolvedValueOnce(page(['a', 'b'], 'tok1'))
+      .mockResolvedValueOnce(page(['c'], 'tok2'))
+      .mockResolvedValueOnce(page(['d'], null));
+    const all = await listPatientRecordsAdminAll();
+    expect(all.map((r) => r.contactId)).toEqual(['a', 'b', 'c', 'd']);
+    expect(mockRequest).toHaveBeenCalledTimes(3);
+    expect(mockRequest.mock.calls[0][0].query).toMatch(/listPatientRecordsAdminPage/);
+    expect(mockRequest.mock.calls[0][0].variables.nextToken ?? null).toBeNull();
+    expect(mockRequest.mock.calls[1][0].variables.nextToken).toBe('tok1');
+    expect(mockRequest.mock.calls[2][0].variables.nextToken).toBe('tok2');
+  });
+
+  it('parses records like listPatientRecordsAdmin does', async () => {
+    mockRequest.mockResolvedValueOnce(page(['a'], null));
+    const [rec] = await listPatientRecordsAdminAll();
+    expect(rec.demographics).toEqual({ age: 45, sex: 'M' });
+  });
+
+  it('caps at 20 pages', async () => {
+    mockRequest.mockResolvedValue(page(['x'], 'more'));
+    const all = await listPatientRecordsAdminAll();
+    expect(mockRequest).toHaveBeenCalledTimes(20);
+    expect(all).toHaveLength(20);
   });
 });
 

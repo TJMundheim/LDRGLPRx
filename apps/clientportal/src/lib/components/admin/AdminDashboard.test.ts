@@ -37,9 +37,7 @@ vi.mock('../../api/operations.js', () => ({
   listEventsAdmin: vi.fn().mockResolvedValue({
     listEventsAdmin: [],
   }),
-  listPatientRecordsAdmin: vi.fn().mockResolvedValue({
-    listPatientRecordsAdmin: [],
-  }),
+  listPatientRecordsAdminAll: vi.fn().mockResolvedValue([]),
 }));
 
 import AdminDashboard from './AdminDashboard.svelte';
@@ -61,9 +59,7 @@ beforeEach(() => {
   (ops.listEventsAdmin as ReturnType<typeof vi.fn>).mockResolvedValue({
     listEventsAdmin: [],
   });
-  (ops.listPatientRecordsAdmin as ReturnType<typeof vi.fn>).mockResolvedValue({
-    listPatientRecordsAdmin: [],
-  });
+  (ops.listPatientRecordsAdminAll as ReturnType<typeof vi.fn>).mockResolvedValue([]);
 });
 
 describe('AdminDashboard group gating', () => {

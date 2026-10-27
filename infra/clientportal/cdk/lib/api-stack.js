@@ -197,6 +197,7 @@ class ApiStack extends cdk.Stack {
         unitResolver('RecordAdherenceResolver', 'Mutation', 'recordAdherence', dsAdherence, 'recordAdherence.js');
         unitResolver('ListMyAdherenceResolver', 'Query', 'listMyAdherence', dsAdherence, 'listMyAdherence.js');
         unitResolver('ListPatientRecordsAdminResolver', 'Query', 'listPatientRecordsAdmin', dsPatientRecords, 'listPatientRecordsAdmin.js');
+        unitResolver('ListPatientRecordsAdminPageResolver', 'Query', 'listPatientRecordsAdminPage', dsPatientRecords, 'listPatientRecordsAdminPage.js');
         unitResolver('GetPatientRecordAdminResolver', 'Query', 'getPatientRecordAdmin', dsPatientRecords, 'getPatientRecordAdmin.js');
         unitResolver('UpdateEncounterStateAdminResolver', 'Mutation', 'updateEncounterStateAdmin', dsPatientRecords, 'updateEncounterStateAdmin.js');
         // ─── ChargeEncounterAdmin — Lambda data source ────────────────────────────

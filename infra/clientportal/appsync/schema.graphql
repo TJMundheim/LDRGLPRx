@@ -517,6 +517,11 @@ type PushPatchProvider {
 
 # ─── PatientRecords (admin-only; PatientRecords table PK=contactId SK=sk) ────
 
+type PatientRecordAdminPage {
+  items: [PatientRecordAdmin!]!
+  nextToken: String
+}
+
 type PatientRecordAdmin {
   contactId: ID!
   demographics: AWSJSON
@@ -665,6 +670,8 @@ type Query {
   listEventsAdmin(limit: Int): [Event!]!
     @aws_auth(cognito_groups: ["Admins"])
   listPatientRecordsAdmin(limit: Int): [PatientRecordAdmin!]!
+    @aws_auth(cognito_groups: ["Admins"])
+  listPatientRecordsAdminPage(limit: Int, nextToken: String): PatientRecordAdminPage!
     @aws_auth(cognito_groups: ["Admins"])
   getPatientRecordAdmin(contactId: ID!): PatientRecordAdmin
     @aws_auth(cognito_groups: ["Admins"])

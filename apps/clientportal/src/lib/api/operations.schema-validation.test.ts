@@ -27,6 +27,7 @@ vi.mock('./client.js', () => ({
 
 import {
   listPatientRecordsAdmin,
+  listPatientRecordsAdminAll,
   getPatientRecordAdmin,
   updateEncounterStateAdmin,
 } from './operations.js';
@@ -81,6 +82,12 @@ describe('EMR admin operations validate against the deployed AppSync schema', ()
 
   it('listPatientRecordsAdmin is a valid document', async () => {
     const query = await captureQuery(() => listPatientRecordsAdmin(50));
+    const errors = validate(schema, parse(query));
+    expect(errors.map((e) => e.message)).toEqual([]);
+  });
+
+  it('listPatientRecordsAdminAll is a valid document', async () => {
+    const query = await captureQuery(() => listPatientRecordsAdminAll());
     const errors = validate(schema, parse(query));
     expect(errors.map((e) => e.message)).toEqual([]);
   });

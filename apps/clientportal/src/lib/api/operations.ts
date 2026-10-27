@@ -513,6 +513,37 @@ export async function listPatientRecordsAdmin(
   return { listPatientRecordsAdmin: raw.listPatientRecordsAdmin.map(parsePatientRecord) };
 }
 
+const MAX_ADMIN_PAGES = 20;
+
+/**
+ * Every patient record, paged. The server scan applies its page limit BEFORE the
+ * sk='record' filter, so a single page can omit records; loop on nextToken until
+ * it is null (capped at MAX_ADMIN_PAGES as a runaway guard).
+ */
+export async function listPatientRecordsAdminAll(opts?: ClientOptions): Promise<PatientRecordAdmin[]> {
+  const out: PatientRecordAdmin[] = [];
+  let nextToken: string | null = null;
+  for (let i = 0; i < MAX_ADMIN_PAGES; i++) {
+    const raw: { listPatientRecordsAdminPage: { items: PatientRecordAdmin[]; nextToken: string | null } } =
+      await client(opts)({
+        query: `
+          query ListPatientRecordsAdminPage($nextToken: String) {
+            listPatientRecordsAdminPage(nextToken: $nextToken) {
+              items { ${PATIENT_RECORD_FIELDS} }
+              nextToken
+            }
+          }
+        `,
+        variables: { nextToken },
+      });
+    const page = raw.listPatientRecordsAdminPage;
+    out.push(...(page.items ?? []).map(parsePatientRecord));
+    nextToken = page.nextToken ?? null;
+    if (!nextToken) break;
+  }
+  return out;
+}
+
 export async function getPatientRecordAdmin(
   contactId: string,
   opts?: ClientOptions,

@@ -6,7 +6,7 @@ const list = vi.fn();
 const get = vi.fn();
 const decide = vi.fn();
 vi.mock('../../api/operations.js', () => ({
-  listPatientRecordsAdmin: (...a: unknown[]) => list(...a),
+  listPatientRecordsAdminAll: (...a: unknown[]) => list(...a),
   getPatientRecordAdmin: (...a: unknown[]) => get(...a),
   decidePushPatchAdmin: (...a: unknown[]) => decide(...a),
   refundEncounterAdmin: vi.fn(), updateEncounterStateAdmin: vi.fn(), chargeEncounterAdmin: vi.fn(),
@@ -27,7 +27,7 @@ const record = (ppState: string) => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
-  list.mockResolvedValue({ listPatientRecordsAdmin: [record('sent-to-provider')] });
+  list.mockResolvedValue([record('sent-to-provider')]);
   get.mockResolvedValue({ getPatientRecordAdmin: record('sent-to-provider') });
 });
 

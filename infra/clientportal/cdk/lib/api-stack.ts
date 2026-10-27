@@ -216,6 +216,7 @@ export class ApiStack extends cdk.Stack {
     unitResolver('RecordAdherenceResolver', 'Mutation', 'recordAdherence', dsAdherence, 'recordAdherence.js');
     unitResolver('ListMyAdherenceResolver', 'Query', 'listMyAdherence', dsAdherence, 'listMyAdherence.js');
     unitResolver('ListPatientRecordsAdminResolver', 'Query', 'listPatientRecordsAdmin', dsPatientRecords, 'listPatientRecordsAdmin.js');
+    unitResolver('ListPatientRecordsAdminPageResolver', 'Query', 'listPatientRecordsAdminPage', dsPatientRecords, 'listPatientRecordsAdminPage.js');
     unitResolver('GetPatientRecordAdminResolver', 'Query', 'getPatientRecordAdmin', dsPatientRecords, 'getPatientRecordAdmin.js');
     // updateEncounterStateAdmin — pipeline: fetch the record's consents first
     // (APPSYNC_JS unit resolvers can only touch one item), then gate the
