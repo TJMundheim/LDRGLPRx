@@ -1,3 +1,4 @@
+> SUPERSEDED 2026-10-28: PUSHPATCH deactivated. Use oct2026-promo-copy-2026-10-28.md.
 # Push Patch PUSHPATCH promo copy — LinkedIn, Facebook, countdown, email, video
 _Drafted 2026-10-22 for TJ to review before the 2026-10-23 push. Post from your own accounts. Nothing here has been sent or posted. Every link is tagged so the sales report shows which platform and which angle produced each order._
 
