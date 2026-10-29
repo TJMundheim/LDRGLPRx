@@ -4,7 +4,7 @@
 // Near-standalone (hideChrome) with its own clinical/tech look (TJ direction 2026-09-30) — deliberately NOT the site theme:
 // deep-slate sections, one cyan accent, Inter for headings (no Playfair).
 // Audience: peptide users with needle fatigue + people who never started because
-// of needles. Technical product voice; Dr. TJ is not mentioned on this page.
+// of needles. Technical product voice; Dr. TJ appears only in the "Text Dr. TJ" button (PP_V2).
 // Copy source: docs/launch/push-patch/lp-copy.md. Every {/* TJ CONFIRM */} comment
 // below marks text awaiting TJ approval (Astro comments, so they never ship).
 // This page intentionally ignores COORDINATOR_MODE: it sells direct, no consult door.
@@ -43,7 +43,7 @@ const COMPARE = [
 ];
 
 // "Prescribed version" top-of-page (SHOW_PP_V2, src/lib/siteMode.ts). Draft awaiting TJ approval.
-// TODO-TJ-CONFIRM: TJ must approve publishing this phone number before PP_V2_APPROVED goes true.
+// TJ approved publishing this number 2026-10-29: TJ must approve publishing this phone number before PP_V2_APPROVED goes true.
 const PP_SMS_NUMBER_E164 = '+18179953103';
 const PP_SMS_NUMBER_DISPLAY = '817-995-3103';
 const PP_SMS_BODY = 'Hi Dr. TJ, I have a question about the Push Patch.';
@@ -139,7 +139,7 @@ const SCREEN_CLIENT = {
           </ul>
           <div class="pp-ctas">
             <a class="pp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_hero')">Choose your blend</a>
-            {/* TODO-TJ-CONFIRM: publishing 817-995-3103 (sms: link + desktop text) needs TJ approval */}
+            {/* TJ approved publishing this number 2026-10-29: publishing 817-995-3103 (sms: link + desktop text) needs TJ approval */}
             <a class="pp-cta pp-cta-2" href={PP_SMS_HREF} onclick="window.posthog && posthog.capture('lp_patch_cta_text_tj')">Questions first? Text Dr. TJ</a>
           </div>
           <p class="pp-textnum">or text {PP_SMS_NUMBER_DISPLAY}</p>

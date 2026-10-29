@@ -49,5 +49,5 @@ export const SHOW_PP_STUDY = PP_STUDY_APPROVED || import.meta.env.PUBLIC_SHOW_PP
 // OFF until TJ approves. To go live set PP_V2_APPROVED = true. To preview without
 // editing: build with PUBLIC_PP_V2=1. Also needs TJ to approve publishing the SMS
 // number (search TODO-TJ-CONFIRM in src/pages/go/push-patch.astro).
-const PP_V2_APPROVED = false;
+const PP_V2_APPROVED = true;
 export const SHOW_PP_V2 = PP_V2_APPROVED || import.meta.env.PUBLIC_PP_V2 === '1';
