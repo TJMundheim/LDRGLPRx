@@ -14,7 +14,7 @@ import { PUSH_PATCH_BLENDS } from '../../data/pushPatch';
 import { SCREENING, SCREENING_VERSION } from '../../data/screening';
 import HealthForm from '../../components/push-patch/HealthForm.astro';
 import PromoBanner from '../../components/PromoBanner.astro';
-import { SHOW_PP_STUDY } from '../../lib/siteMode';
+import { SHOW_PP_STUDY, SHOW_PP_V2 } from '../../lib/siteMode';
 
 const title = 'Push Patch — Needle-Free Peptides Through the Skin — My4MLife';
 const description = 'A weekly iontophoresis patch that delivers peptide and NAD+ blends through the skin over 12 hours. No needles, no pills, no IV chair.';
@@ -40,6 +40,21 @@ const COMPARE = [
   { row: 'Delivery curve', inj: 'Fast spike, then cleared, often within hours', patch: 'Steady release over 12 hours' },
   { row: 'Route', inj: 'Under the skin, through a needle', patch: 'Through the skin, moved by a small electrical charge' },
   { row: 'Setup', inj: 'Syringes, needles, a sharps container', patch: 'Mix the blend, wet the pad, apply like kinesiology tape, wear' },
+];
+
+// "Prescribed version" top-of-page (SHOW_PP_V2, src/lib/siteMode.ts). Draft awaiting TJ approval.
+// TODO-TJ-CONFIRM: TJ must approve publishing this phone number before PP_V2_APPROVED goes true.
+const PP_SMS_NUMBER_E164 = '+18179953103';
+const PP_SMS_NUMBER_DISPLAY = '817-995-3103';
+const PP_SMS_BODY = 'Hi Dr. TJ, I have a question about the Push Patch.';
+const PP_SMS_HREF = `sms:${PP_SMS_NUMBER_E164}?&body=${encodeURIComponent(PP_SMS_BODY)}`;
+
+// Research peptides vs. the Push Patch (describes the sourcing/review model only; no brand names, no safety claims).
+const VS_ROWS = [
+  { row: 'Where it comes from', other: 'Unknown online seller', patch: 'Sold only through physicians. The manufacturer lab-tests every ingredient.' },
+  { row: "Who checks it's right for you", other: 'You', patch: "One of our network's licensed physicians reviews your health form" },
+  { row: 'How you take it', other: 'Needle, syringes, sharps', patch: 'Press-on patch, once a week' },
+  { row: "What's in it", other: 'Label claims', patch: 'Certificates of analysis for each ingredient' },
 ];
 
 // Real Genesis product photos supplied by TJ 2026-09-30. No lifestyle placeholder
@@ -113,19 +128,39 @@ const SCREEN_CLIENT = {
   {/* HERO */}
   <section class="pp-hero">
     <div class="pp-wrap">
-      <h1>Stop sticking yourself. <span>Same peptides. No needle. One patch a week.</span></h1>
-      <div class="pp-proof">
-        <p class="pp-proof-line">An injection spikes and clears, often in under an hour. The patch keeps delivering for 12.</p>
-      </div>
-      {/* TJ CONFIRM: sub-line speaks to both audiences (needle fatigue + never started because of needles) */}
-      <p class="pp-sub">Done with syringes, sharps containers and bracing for the morning stick? Or are needles the reason you've never started? The Push Patch delivers peptide and NAD+ blends through your skin, steadily, over 12 hours.</p>
-      <a class="pp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_hero')">Choose your blend</a>
-      <ul class="pp-chips">
-        <li>No needles</li>
-        <li>No pills</li>
-        <li>No IV chair</li>
-        <li>One patch a week</li>
-      </ul>
+      {SHOW_PP_V2 ? (
+        <>
+          <h1>The prescribed version.</h1>
+          <p class="pp-sub">Same peptides and NAD+ you've been reading about — reviewed by a licensed physician, lab-tested, and delivered with no needle.</p>
+          <ul class="pp-chips pp-chips-v2">
+            <li>Physician-reviewed</li>
+            <li>Lab-tested ingredients</li>
+            <li>No needle, one patch a week</li>
+          </ul>
+          <div class="pp-ctas">
+            <a class="pp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_hero')">Choose your blend</a>
+            {/* TODO-TJ-CONFIRM: publishing 817-995-3103 (sms: link + desktop text) needs TJ approval */}
+            <a class="pp-cta pp-cta-2" href={PP_SMS_HREF} onclick="window.posthog && posthog.capture('lp_patch_cta_text_tj')">Questions first? Text Dr. TJ</a>
+          </div>
+          <p class="pp-textnum">or text {PP_SMS_NUMBER_DISPLAY}</p>
+        </>
+      ) : (
+        <>
+        <h1>Stop sticking yourself. <span>Same peptides. No needle. One patch a week.</span></h1>
+        <div class="pp-proof">
+          <p class="pp-proof-line">An injection spikes and clears, often in under an hour. The patch keeps delivering for 12.</p>
+        </div>
+        {/* TJ CONFIRM: sub-line speaks to both audiences (needle fatigue + never started because of needles) */}
+        <p class="pp-sub">Done with syringes, sharps containers and bracing for the morning stick? Or are needles the reason you've never started? The Push Patch delivers peptide and NAD+ blends through your skin, steadily, over 12 hours.</p>
+        <a class="pp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_hero')">Choose your blend</a>
+        <ul class="pp-chips">
+          <li>No needles</li>
+          <li>No pills</li>
+          <li>No IV chair</li>
+          <li>One patch a week</li>
+        </ul>
+        </>
+      )}
       <p class="pp-by">Brought to you by <span class="pp-by-mark">My<b>4M</b>Life</span></p>
       {/* TJ CONFIRM: permission to publish Push Patch LLC AUC figures */}
       <div class="pp-hero-row">
@@ -160,6 +195,26 @@ const SCREEN_CLIENT = {
       </div>
     </div>
   </section>
+
+  {/* RESEARCH PEPTIDES VS. PUSH PATCH — hidden unless SHOW_PP_V2 (src/lib/siteMode.ts). Draft awaiting TJ approval. Sourcing/review contrast only. */}
+  {SHOW_PP_V2 && (
+    <section class="pp-sec pp-light" id="prescribed">
+      <div class="pp-wrap">
+        <p class="pp-eyebrow">The difference</p>
+        <h2>Research peptides vs. the Push Patch</h2>
+        <div class="pp-vs">
+          <div class="pp-vs-head" aria-hidden="true"><span>Research peptides sold online</span><span class="pp-vs-head-patch">Push Patch</span></div>
+          {VS_ROWS.map((r) => (
+            <div class="pp-vs-row">
+              <h3 class="pp-vs-label">{r.row}</h3>
+              <div class="pp-vs-cell"><span class="pp-vs-tag">Research peptides sold online</span>{r.other}</div>
+              <div class="pp-vs-cell pp-vs-cell-patch"><span class="pp-vs-tag">Push Patch</span>{r.patch}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   {/* PAIN POINTS — written for people who have self-injected peptides for months */}
   <section class="pp-sec pp-light" id="routine">
@@ -994,4 +1049,28 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-disclaimer { font-size: 0.74rem; line-height: 1.6; max-width: 640px; margin: 0 auto; color: var(--on-ink-muted); }
 .pp-legal { font-size: 0.78rem; margin: 1rem 0 0; color: var(--on-ink-muted); }
 .pp-legal a { color: var(--on-ink-muted); }
+/* Prescribed-version hero + comparison (SHOW_PP_V2) */
+.pp-chips-v2 { margin: 0 auto 1.8rem; }
+.pp-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center; margin: 0 auto 0.6rem; }
+.pp-cta-2 { background: transparent; color: var(--on-ink); border: 1.5px solid var(--on-ink-muted); }
+.pp-cta-2:hover { background: var(--ink-2); border-color: var(--accent); }
+.pp-textnum { display: none; font-size: 0.85rem; color: var(--on-ink-muted); margin: 0 0 1.4rem; }
+@media (min-width: 721px) { .pp-textnum { display: block; } }
+@media (max-width: 480px) { .pp-ctas .pp-cta { width: 100%; text-align: center; box-sizing: border-box; } }
+.pp-vs { margin-top: 1.4rem; display: grid; gap: 1.1rem; }
+.pp-vs-head { display: none; }
+.pp-vs-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.45rem; }
+.pp-vs-row { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+.pp-vs-row > .pp-vs-label { grid-column: 1 / -1; }
+.pp-vs-cell { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 0.85rem 1rem; font-size: 0.95rem; line-height: 1.45; color: var(--muted); overflow-wrap: break-word; }
+.pp-vs-cell-patch { background: var(--accent-wash); border-color: var(--accent-deep); color: var(--text); font-weight: 600; }
+.pp-vs-tag { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.pp-vs-cell-patch .pp-vs-tag { color: var(--accent-deep); }
+@media (min-width: 720px) {
+  .pp-vs { gap: 0.9rem; }
+  .pp-vs-head { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding: 0 0.2rem; }
+  .pp-vs-head-patch { color: var(--accent-deep); }
+  .pp-vs-row { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .pp-vs-tag { display: none; }
+}
 </style>

@@ -43,3 +43,11 @@ export const SHOW_COACHING = true;
 // PUBLIC_SHOW_PP_STUDY=1.
 const PP_STUDY_APPROVED = false;
 export const SHOW_PP_STUDY = PP_STUDY_APPROVED || import.meta.env.PUBLIC_SHOW_PP_STUDY === '1';
+
+// Push Patch "prescribed version" repositioning of the top of /go/push-patch (hero +
+// "Research peptides vs. the Push Patch" section + "Text Dr. TJ" second path).
+// OFF until TJ approves. To go live set PP_V2_APPROVED = true. To preview without
+// editing: build with PUBLIC_PP_V2=1. Also needs TJ to approve publishing the SMS
+// number (search TODO-TJ-CONFIRM in src/pages/go/push-patch.astro).
+const PP_V2_APPROVED = false;
+export const SHOW_PP_V2 = PP_V2_APPROVED || import.meta.env.PUBLIC_PP_V2 === '1';
