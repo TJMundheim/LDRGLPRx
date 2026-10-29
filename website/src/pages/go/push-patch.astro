@@ -13,6 +13,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { PUSH_PATCH_BLENDS } from '../../data/pushPatch';
 import { SCREENING, SCREENING_VERSION } from '../../data/screening';
 import HealthForm from '../../components/push-patch/HealthForm.astro';
+import PromoBanner from '../../components/PromoBanner.astro';
 import { SHOW_PP_STUDY } from '../../lib/siteMode';
 
 const title = 'Push Patch — Needle-Free Peptides Through the Skin — My4MLife';
@@ -93,6 +94,16 @@ const SCREEN_CLIENT = {
 </Fragment>
 
 <div class="pp">
+
+  {/* October offer (OCT2026, Stripe promo). Self-expires after 2026-10-31 23:59:59 CT: not rendered at build past the
+      deadline, and hidden client-side if the page was built earlier. Remove after the offer ends. */}
+  <PromoBanner
+    code="OCT2026"
+    headline="October special: $250 off any Push Patch blend"
+    detail={'Use code {code} at checkout (tap "Add promotion code"). Ends October 31 at 11:59 p.m. CT.'}
+    prices="NAD+ blends $650 → $400 · Glutathione Radiance $550 → $300"
+    endsAtIso="2026-11-01T04:59:59Z"
+  />
 
   <header class="pp-top">
     <a class="pp-mark" href="/">My<b>4M</b>Life</a>

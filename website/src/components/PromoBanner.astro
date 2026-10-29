@@ -1,0 +1,91 @@
+---
+// Compact offer banner for landing pages. Auto-expires two ways:
+//  (a) build time: renders nothing once the build clock is past endsAtIso;
+//  (b) client side: the inline script below hides it if Date.now() is past endsAtIso,
+//      so a page built before the deadline stops showing it afterwards.
+// `detail` may contain {code}, which is replaced with the emphasized code pill.
+// Inherits the host page's CSS variables (--accent, --ink) with fallbacks.
+interface Props {
+  code: string;
+  headline: string;
+  detail: string;
+  prices?: string;
+  endsAtIso: string;
+}
+const { code, headline, detail, prices, endsAtIso } = Astro.props;
+const expired = Date.now() > Date.parse(endsAtIso);
+const [detailBefore, ...detailRest] = detail.split('{code}');
+const detailAfter = detailRest.join('{code}');
+const hasCodeSlot = detailRest.length > 0;
+---
+{!expired && (
+  <aside class="promo" data-promo data-ends={endsAtIso} aria-label="Current offer">
+    <div class="promo-in">
+      <p class="promo-head">{headline}</p>
+      <p class="promo-detail">
+        {hasCodeSlot ? <>{detailBefore}<span class="promo-code">{code}</span>{detailAfter}</> : detail}
+      </p>
+      {prices && <p class="promo-prices">{prices.split(' · ').map((x, i) => <>{i > 0 && ' · '}<span class="nb">{x}</span></>)}</p>}
+      <button type="button" class="promo-copy" data-promo-copy={code} aria-live="polite">Copy code</button>
+    </div>
+  </aside>
+)}
+{!expired && (
+  <script is:inline>
+  (function () {
+    // Pure check (exercised by src/components/promoBanner.test.ts, which evals this script).
+    function promoExpired(endsAtIso, nowMs) {
+      var end = Date.parse(endsAtIso);
+      return !isNaN(end) && nowMs > end;
+    }
+    function copyText(text, done) {
+      function fallback() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text; ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          var ok = document.execCommand && document.execCommand('copy');
+          document.body.removeChild(ta);
+          done(!!ok);
+        } catch (e) { done(false); }
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+        } else { fallback(); }
+      } catch (e) { fallback(); }
+    }
+    var els = document.querySelectorAll('[data-promo]');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (promoExpired(el.getAttribute('data-ends'), Date.now())) { el.hidden = true; continue; }
+      var btn = el.querySelector('[data-promo-copy]');
+      if (!btn) continue;
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          copyText(btn.getAttribute('data-promo-copy'), function (ok) {
+            btn.textContent = ok ? 'Copied' : 'Select the code to copy';
+            setTimeout(function () { btn.textContent = 'Copy code'; }, 2000);
+          });
+        });
+      })(btn);
+    }
+  })();
+  </script>
+)}
+
+<style>
+.promo { background: var(--accent, #22d3ee); color: #05121c; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+.promo[hidden] { display: none; }
+.promo-in { max-width: 920px; margin: 0 auto; padding: 0.7rem 1rem; text-align: center; box-sizing: border-box; }
+@media (min-width: 640px) { .promo-in { padding: 0.8rem 1.5rem; } }
+.promo-head { margin: 0 0 0.25rem; font-size: 1.02rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; text-wrap: balance; }
+.promo-detail { margin: 0; font-size: 0.88rem; line-height: 1.5; font-weight: 500; }
+.promo-prices { margin: 0.2rem 0 0; font-size: 0.78rem; line-height: 1.4; font-weight: 600; opacity: 0.85; }
+.nb { white-space: nowrap; }
+.promo-code { display: inline-block; padding: 0.05rem 0.55rem; margin: 0 0.1rem; background: var(--ink, #0b1220); color: var(--accent, #22d3ee); border-radius: 999px; font-weight: 800; letter-spacing: 0.06em; font-size: 0.92em; }
+.promo-copy { margin-top: 0.5rem; font: inherit; font-size: 0.78rem; font-weight: 700; padding: 0.4rem 0.95rem; min-height: 2.1rem; border-radius: 6px; border: 1.5px solid var(--ink, #0b1220); background: transparent; color: var(--ink, #0b1220); cursor: pointer; }
+.promo-copy:hover { background: var(--ink, #0b1220); color: var(--accent, #22d3ee); }
+.promo-copy:focus-visible { outline: 3px solid #ffffff; outline-offset: 2px; }
+</style>
