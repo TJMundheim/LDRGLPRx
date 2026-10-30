@@ -2147,6 +2147,58 @@ Three peptides are worth knowing by name, because they show up in the Muscle-pil
 
 Coach-led. Not self-prescribed. The peptide market online is a wasteland of unregulated compounds and bad protocols. Every peptide protocol in the My4MLife system runs through a licensed telemedicine practice with compounded-pharmacy fulfillment, under a clinician who has examined your labs. That is the Two Paths to Act principle on the Muscle pillar: foundational supplements like the creatine + L-citrulline + beetroot + electrolyte blend on the OTC path, peptides on the Rx path, always with a clinician between you and the molecule.
 
+## Delivery Is Half the Prescription: The Push Patch
+
+Everything I just told you assumes the molecule actually gets where it is going. Most of the time, it doesn't. Before you spend a dollar on a peptide or on NAD+, I want you to understand the delivery problem, because the route a molecule takes into your body decides how much of what you paid for your cells ever see.
+
+There have been three ways to get these molecules in. Each one loses most of its value on the way.
+
+**The pill.** Your stomach is built to take proteins apart. Peptides are small proteins. Stomach acid and digestive enzymes break most of them down before they can be absorbed, and whatever survives goes to the liver first, which clears a good share of it before it ever reaches general circulation. There is one exception, and you met it in Chapter 5: when the target is the gut lining itself, swallowing the peptide puts it exactly where it needs to work. For everything else — and for NAD+ — a pill is a poor road.
+
+**The injection.** A needle skips the gut, but it creates a different problem: spike and crash. Many of these molecules are cleared from the bloodstream fast. BPC-157 has a half-life of roughly three hours. KPV, an anti-inflammatory peptide, is gone in about thirty minutes. So you get a sharp peak an hour or two after the shot, and then your tissue spends most of the day at or near zero. You are paying for a full day and getting a couple of hours.
+
+**The IV.** A drip delivers a big dose in one sitting. It also means two to four hours in a chair, a clinic visit every week, and — with NAD+ in particular — the flushing, nausea, and discomfort that make a lot of people quit after the second session. And once the bag is empty, the same clearance clock starts. A large dose once a week is still a spike once a week.
+
+**The measure that matters is the area under the curve.** Picture a graph of how much of the molecule is in your system, hour by hour. A shot draws a tall, thin spike. The total area under that line — dose multiplied by time — is what your cells actually experience. Think of watering a garden: you can dump a bucket on it once, and most of it runs off, or you can lay a soaker hose and let it seep in all night. Same water. Very different garden.
+
+### How the patch works
+
+The Push Patch is the soaker hose.
+
+It uses a method called iontophoresis. The patch has two pads, one positively charged and one negatively charged, powered by a tiny built-in electrical current. The molecules in the patch carry an electrical charge, and like charges repel — so the current pushes them through the skin and into circulation. The same current temporarily opens the skin's outer barrier just enough to let them through. No needle. No gut. No first pass through the liver.
+
+And it is slow on purpose. One patch delivers continuously over twelve to fourteen hours. You put it on in the evening and take it off in the morning. Instead of a spike that is gone by lunch, your tissue sees a steady level all night — the hours your body does most of its repair anyway.
+
+### Why NAD+ is the headline
+
+NAD+ is the molecule every mitochondrion in your body uses to turn food and oxygen into usable energy. It also powers the enzymes that repair DNA and keep cells resilient under stress. Your levels fall steadily with age, and they fall faster under the chronic insults this book keeps naming — poor sleep, alcohol, visceral fat, inflammation. Your brain is about two percent of your body weight and burns roughly twenty percent of your energy. When the energy supply runs low, the most energy-hungry organ feels it first.
+
+That is why I care so much about how NAD+ gets in, and why the delivery numbers stopped me when I first saw them. In the manufacturer's measurements of total exposure over time — that area under the curve — the 1,300 mg NAD+ patch delivered:
+
+- **276 percent more NAD+ exposure at the cellular level than daily 50 mg injections.**
+- **163 percent more than a 500 mg IV once a week.**
+
+Read those twice. More total NAD+ reaching your cells than a shot every single day, and more than a weekly drip — without a needle, without a chair, without the nausea.
+
+The other peptides behave the same way. The manufacturer's numbers show the patch delivering more than double the total exposure of daily BPC-157 injections, and many times the exposure of daily KPV shots, because the patch keeps them in circulation for twelve hours instead of one. I won't walk you through every blend here. The principle is the point: the same molecule, delivered slowly, does more.
+
+### What the testing showed
+
+Exposure is one thing. Effect is the question that matters. Two of the manufacturer's internal human studies looked at effect.
+
+**Cellular energy.** Thirty people wore the 1,300 mg NAD+ patch for twelve hours at a time over thirty days. Their mitochondrial efficiency — how much energy their cells produced for each unit of oxygen used — rose measurably by day fifteen and again by day thirty, in both sexes, with less oxidative stress along the way. Put plainly: their cells made more energy and less exhaust. That is not a feeling. It was measured.
+
+**Inflammation.** A hundred and twenty people were followed for seven days, with hs-CRP — the blood marker for systemic inflammation on the Your Numbers page at the back of this book — measured before and after. NAD+ alone lowered hs-CRP by an average of 82.8 percent in a week. Paired with KPV, the average drop was 94 percent, and 95 percent of participants finished below 1 mg/L, the low-risk range. The combination started working in about two days, versus just under five for NAD+ alone.
+
+Now the honest part, because I won't sell you a number I haven't qualified. These are the manufacturer's own studies. They are internal, the groups are small, and they have not been published as independent, peer-reviewed trials. Your results may differ. I'm giving you the numbers exactly as measured because they are strong enough that I'd rather you see them and weigh them than hear a vaguer version from someone else. What they tell me is consistent with everything I understand about the biology: a slow, steady supply beats a spike.
+
+### How it runs
+
+The Push Patch is a prescription. A licensed physician in our network reviews your health history before anything ships, decides whether it is right for you, and decides which blend. Some blends pair NAD+ with recovery peptides, some with gut or metabolic support, one with a skin-and-glow formula. You don't have to know which before you start — that is the physician's job. One patch, worn overnight, typically once a week, delivered to your door. To start, go to www.my4mlife.com.
+
+Delivery is half the prescription. The right molecule by the wrong road is the wrong prescription.
+
+
 ## Eliminate the Insulting Behaviors
 
 The Mitigate frame applies here too. Before you add the protocol, stop hurting yourself first. Then add what works.
@@ -2566,6 +2618,8 @@ I position it honestly with my patients: Cerebrolysin is the most aggressive non
 **BPC-157.** You met BPC-157 in the Mitigate chapter on the gut. It belongs there primarily — BPC-157 was originally characterized for its astonishing effects on GI mucosal repair, and the gut-brain axis is the primary reason a cognitive chapter has to mention it. But it has its own direct cognitive footprint as well: modulation of neuroinflammation, dopaminergic and serotonergic balance, and emerging neuroprotective findings in preclinical models. For patients whose gut is the cognitive bottleneck — and many people over fifty fall into this category whether they realize it or not — BPC-157, either oral via the prescription gut-barrier peptide protocol or as injection, is one of the highest-leverage peptides in the stack.
 
 **Ipamorelin.** A growth hormone secretagogue. Ipamorelin's cognitive benefit is indirect but real: it deepens slow-wave sleep and gently raises endogenous IGF-1, both of which contribute to overnight neural repair and consolidation. The patients who run Ipamorelin sleep deeper and wake sharper. It is not a cognitive peptide in the strict sense, but it is a cognitive multiplier through the sleep and repair channel.
+
+**NAD+.** Not a peptide, but it belongs in this layer. NAD+ is the fuel line for every mitochondrion in your brain, and the brain is the most energy-hungry organ you own. Levels fall with age, and they fall faster under chronic insult. How you deliver it decides whether it does anything: by mouth, little of it arrives; by injection or IV, it arrives in a spike and is cleared. In Chapter 13 I walked you through the needle-free transdermal patch that delivers it slowly overnight, and the measured gains in cellular energy that came with it. For the cognitive stack, it is the energy floor the rest of the peptide layer runs on.
 
 **Methylene blue, dihexa, NSI-189 — the experimental tier.** I'll name these because the readers of this book are sophisticated enough to have heard the names, and I'd rather give you the honest framing than have you assemble it from forums. Methylene blue has interesting mitochondrial and memory-consolidation data at low doses, with real downside risk at higher doses and unsettled dose-response data in humans. Dihexa is a remarkable peptide on paper — hepatocyte growth factor activity, synaptogenesis claims — but the human evidence is essentially nonexistent and the safety data is still being built. NSI-189 had a checkered clinical history and a story that did not pan out the way early enthusiasts hoped.
 
