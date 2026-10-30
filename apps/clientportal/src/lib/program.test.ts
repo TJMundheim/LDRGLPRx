@@ -15,6 +15,7 @@ import {
   programCumulativePct,
   programMindspanScore,
   weeklyPctSeries,
+  memberWeek,
 } from './program';
 
 // Wed 2026-07-08 — mid-week reference date
@@ -157,3 +158,16 @@ describe('weeklyAggregate (TJ 2026-07-08)', () => {
     expect(counts[1]).toBeNull();
   });
 })
+
+describe('memberWeek — the calendar alone paces the program (TJ 2026-10-30)', () => {
+  it('a Sep 21 signup is on Week 6 on Oct 30 (no call tick needed)', () => {
+    expect(memberWeek('2026-09-21T15:00:00Z', new Date(2026, 9, 30))).toBe(6);
+  });
+  it('signup week is Week 1; caps at the last program week', () => {
+    expect(memberWeek('2026-09-21T15:00:00Z', new Date(2026, 8, 24))).toBe(1);
+    expect(memberWeek('2025-01-06T15:00:00Z', new Date(2026, 9, 30))).toBe(PROGRAM_WEEKS);
+  });
+  it('missing createdAt falls back to Week 1', () => {
+    expect(memberWeek(null, new Date(2026, 9, 30))).toBe(1);
+  });
+});

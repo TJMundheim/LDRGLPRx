@@ -15,7 +15,7 @@
   import Toast from './lib/toast/Toast.svelte';
   import MissionControl from './lib/components/MissionControl.svelte';
   import VoiceLog from './lib/components/VoiceLog.svelte';
-  import { programAnchor, calendarWeek } from './lib/program';
+  import { memberWeek } from './lib/program';
   import { purchaseState, loadPurchaseFlag } from './lib/auth/purchase.svelte';
   import { consumeAuditParam } from './lib/auth/auditRecap';
   import NudgeStack from './lib/components/nudge/NudgeStack.svelte';
@@ -128,7 +128,7 @@
   let toastMsg = $state('');
   let toastShow = $state(false);
   // Program week + today's date for VoiceLog. Week mirrors MissionControl's
-  // derivation (signup-anchored calendar week, capped by weekUnlocked).
+  // derivation (signup-anchored calendar week; the calendar alone paces it).
   let programWeek = $state(1);
   const todayStr = (() => {
     const d = new Date();
@@ -670,11 +670,7 @@
         if (profile) {
           hasActiveSubscription = !!profile.hasActiveSubscription;
           try {
-            const anchor = programAnchor((profile as any).createdAt ?? null, new Date());
-            programWeek = Math.min(
-              calendarWeek(anchor, new Date()),
-              Math.max(1, (profile as any).weekUnlocked ?? 1),
-            );
+            programWeek = memberWeek((profile as any).createdAt ?? null, new Date());
           } catch { programWeek = 1; }
           stripeCustomerId = profile.stripeCustomerId ?? null;
           // Surface eating-window + bonus toggle for modal + settings.

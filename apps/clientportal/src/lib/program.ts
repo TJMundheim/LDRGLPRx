@@ -103,6 +103,13 @@ export function calendarWeek(anchor: Date, now: Date): number {
   return Math.min(PROGRAM_WEEKS, Math.max(1, weeks));
 }
 
+/** The member's program week. The calendar alone paces it (TJ 2026-10-30):
+ * every Monday after the signup week is a new week; the cohort-call tick no
+ * longer gates progression (members got stuck when they forgot to tick it). */
+export function memberWeek(createdAt: string | Date | null | undefined, now: Date): number {
+  return calendarWeek(programAnchor(createdAt, now), now);
+}
+
 export interface EntryLike {
   dateActionId: string;
   value?: number | null;

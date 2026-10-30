@@ -21,7 +21,7 @@
   import { riskLoadFromScores, adherencePctForWindow } from '../mindspan.js';
   import { SCORED_CATEGORY_COUNT } from '../data/audit.js';
   import {
-    MOVES, PROGRAM_WEEKS, moveForWeek, programAnchor, calendarWeek, startOfWeekMon,
+    MOVES, PROGRAM_WEEKS, moveForWeek, programAnchor, calendarWeek, memberWeek, startOfWeekMon,
     moveProgress, movesCompleted, programCumulativePct,
     programMindspanScore, weeklyPctSeries, weeklyAggregate,
   } from '../program.js';
@@ -50,14 +50,11 @@
   let weeklyEvent = $state<Event | null>(null);
   let saving = $state<Record<string, boolean>>({});
 
-  // Program clock anchors to the SIGNUP week (can't drift on early attests);
-  // weekUnlocked (Zoom attest) gates progression, the calendar paces it.
+  // Program clock anchors to the SIGNUP week; the calendar alone paces it
+  // (TJ 2026-10-30). The cohort-call tick is recorded but no longer gates.
   const anchor = $derived(programAnchor(profile?.createdAt ?? null, now));
   const signupDate = $derived(profile?.createdAt ? new Date(profile.createdAt as string) : undefined);
-  const currentWeek = $derived(Math.min(
-    calendarWeek(anchor, now),
-    Math.max(1, profile?.weekUnlocked ?? 1),
-  ));
+  const currentWeek = $derived(memberWeek(profile?.createdAt ?? null, now));
   const move = $derived(moveForWeek(currentWeek));
   function weekStartOf(w: number): Date { return addDays(anchor, (w - 1) * 7); }
   // The member always works on THEIR current program week — grid, Move, and
@@ -255,7 +252,6 @@
       const res = await upsertMyProfile({
         weeklyZoomAttestedAt: new Date().toISOString(),
         weeklyZoomAttestedEventId: weeklyEvent?.eventId ?? null,
-        weekUnlocked: Math.min(PROGRAM_WEEKS, currentWeek + 1),
       } as any);
       const data = (res as any)?.data?.upsertMyProfile ?? (res as any)?.upsertMyProfile;
       if (data) profile = data;
@@ -283,7 +279,7 @@
       ]);
       entries = ((adh as any)?.data?.listMyAdherence ?? (adh as any)?.listMyAdherence ?? []) as AdherenceEntry[];
       const evList = ((evs as any)?.data?.upcomingEvents ?? (evs as any)?.upcomingEvents ?? []) as Event[];
-      const wkStart = weekStartOf(Math.min(calendarWeek(anchorMon, new Date()), Math.max(1, (profile as any)?.weekUnlocked ?? 1)));
+      const wkStart = weekStartOf(calendarWeek(anchorMon, new Date()));
       weeklyEvent = evList.find(e => {
         if (e.type !== 'zoom-weekly') return false;
         const t = new Date(e.startsAt).getTime();
@@ -468,12 +464,12 @@
         <div class="zm">Wednesday evening — link arrives by email</div>
       {/if}
       {#if weeklyZoomAttested}
-        <div class="attested">✓ Attended. Week {Math.min(PROGRAM_WEEKS, currentWeek + 1)}'s Move appears here Monday morning — same tape, one new Move.</div>
+        <div class="attested">✓ Attended. {currentWeek < PROGRAM_WEEKS ? `Week ${currentWeek + 1}'s Move appears here Monday morning — same tape, one new Move.` : 'Final week — see you on the call.'}</div>
       {:else}
         <label class="attest-row">
           <input type="checkbox" checked={false} disabled={!!saving['__zoom']}
             onchange={(e) => { if ((e.currentTarget as HTMLInputElement).checked) { attestZoom(); } else { (e.currentTarget as HTMLInputElement).checked = false; } }} />
-          I attended live or watched the recording <span class="attest-why">(this is what advances you to Week {Math.min(PROGRAM_WEEKS, currentWeek + 1)})</span>
+          I attended live or watched the recording
         </label>
       {/if}
     </div>
