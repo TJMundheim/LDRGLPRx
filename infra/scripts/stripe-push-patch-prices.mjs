@@ -20,7 +20,7 @@ const OUT = path.join(root, 'lambdas/_shared/push-patch-checkout/src/push-patch-
 
 // Copy of the P1-A catalog (website/src/data/pushPatch.ts). Keep in sync.
 const BLENDS = [
-  ['push-patch-nad-ghk', 'NAD+ Restore', 'NAD+ 1300 mg / GHK-Cu 5 mg', 650],
+  ['push-patch-nad-ghk', 'NAD+ Restore', 'NAD+ 1300 mg / GHK-Cu 5 mg', 700],
   ['push-patch-bpc-nad-ghk', 'Repair', 'BPC-157 2000 mcg / NAD+ 250 mg / GHK-Cu 5 mg', 650],
   ['push-patch-kpv-nad-ghk', 'Calm Gut', 'KPV 10 mg / NAD+ 250 mg / GHK-Cu 5 mg', 650],
   ['push-patch-nad-motsc-ghk', 'Metabolic', 'NAD+ 1300 mg / MOTS-c 5 mg / GHK-Cu 5 mg', 795],

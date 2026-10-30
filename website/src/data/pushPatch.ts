@@ -23,7 +23,7 @@ export const PUSH_PATCH_BLENDS: PushPatchBlend[] = [
     name: 'NAD+ Restore',
     formula: 'NAD+ 1300 mg / GHK-Cu 5 mg',
     ingredients: ['NAD+ 1300 mg', 'GHK-Cu 5 mg'],
-    priceUsd: 650,
+    priceUsd: 700,
     hasNad: true,
     patches: 6,
     weeks: 6,
