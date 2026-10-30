@@ -23,7 +23,7 @@ const BLENDS = [
   ['push-patch-nad-ghk', 'NAD+ Restore', 'NAD+ 1300 mg / GHK-Cu 5 mg', 650],
   ['push-patch-bpc-nad-ghk', 'Repair', 'BPC-157 2000 mcg / NAD+ 250 mg / GHK-Cu 5 mg', 650],
   ['push-patch-kpv-nad-ghk', 'Calm Gut', 'KPV 10 mg / NAD+ 250 mg / GHK-Cu 5 mg', 650],
-  ['push-patch-nad-motsc-ghk', 'Metabolic', 'NAD+ 1300 mg / MOTS-c 5 mg / GHK-Cu 5 mg', 650],
+  ['push-patch-nad-motsc-ghk', 'Metabolic', 'NAD+ 1300 mg / MOTS-c 5 mg / GHK-Cu 5 mg', 795],
   ['push-patch-enhanced-glow', 'Enhanced Glow', 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 15 mg', 650],
   ['push-patch-wolverine', 'Wolverine', 'NAD+ 250 mg / TB-500 2 mg / BPC-157 2000 mcg / GHK-Cu 5 mg', 650],
   ['push-patch-glutathione-ghk', 'Glutathione Radiance', 'Glutathione 500 mg / GHK-Cu 5 mg', 550],
@@ -59,6 +59,23 @@ for (const mode of ['test', 'live']) {
       } else {
         console.log(`${tag}: WOULD rename product ${found.id} "${found.name}" -> "${catalogName}"`);
       }
+    }
+    if (existing && existing.unit_amount !== b.priceUsd * 100) {
+      // Reprice: Stripe prices are immutable, so create a new one and move the lookup_key to it.
+      // The old price stays (not archived) but is no longer referenced.
+      if (!apply) {
+        console.log(`${tag}: WOULD reprice ${existing.id} ${existing.unit_amount} -> ${b.priceUsd * 100} (new price, lookup_key transferred)`);
+        result[mode][b.skuId] = existing.id;
+      } else {
+        const price = await stripe.prices.create({
+          product: existing.product, currency: 'usd', unit_amount: b.priceUsd * 100,
+          lookup_key: b.skuId, transfer_lookup_key: true, metadata: { skuId: b.skuId },
+        });
+        result[mode][b.skuId] = price.id;
+        console.log(`${tag}: REPRICED ${existing.id} -> ${price.id} ($${b.priceUsd})`);
+      }
+      planned++;
+      continue;
     }
     if (existing) {
       result[mode][b.skuId] = existing.id;
