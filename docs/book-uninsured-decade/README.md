@@ -1,6 +1,6 @@
 # The Uninsured Decade — money-door book (TITLE LOCKED 2026-09-08)
 
-Raised 2026-09-07. Third door in the Hims/Hers pattern: men's flagship / employer door / **money door** for the executive male earner who makes the household financial decisions.
+Raised 2026-09-07. Third door in the Hims/Hers pattern: flagship / employer door / **money door** for whoever holds the household's documents and makes its care and financial decisions — either sex (gender-neutral since 2026-10-31; originally framed for the executive male earner).
 
 Frame: Medicare pays $0 for custodial care, private LTC insurance market has collapsed, so cognitive decline is the one catastrophic risk you cannot insure against. The 4M protocol (~10 hrs/month, ~$10K/yr all-in) is the premium paid in hours. Expected-value honest: lowers risk, never guarantees.
 
@@ -13,7 +13,7 @@ Source material: source/motivate-section-cost-of-cognitive-decline-2026-07.md (C
 ## Locked 2026-09-08 (TJ)
 - Title: **The Uninsured Decade**.
 - Honesty spine approved: the book states plainly that dementia-cost avoidance alone does not break even; insurance is a ruin-avoidance trade, not an ROI; ledger tips via compounding disease-risk reduction + right tail + premium is mostly existing spend.
-- Gender: all gatekeeper-facing materials (pitch, speaker sheet, talk, leave-behind, calculator) NEUTRAL; the book addresses "the one who reads the statements," Dr. TJ's male seat stays as author voice; canary material sex-specific for both.
+- Gender: **SUPERSEDED 2026-10-31 (TJ, per Marla — estate attorney writing the foreword):** the book is gender-neutral in tone. Reader = whoever holds the documents and makes the decisions, of either sex — very often the wife or partner, and in many households she decides alone because her husband is the one declining. Spouse/partner language; no "your wife" defaults; Bill & Cindy rebalanced so Cindy holds the folder and makes the decisions. Dr. TJ's first-person (male) voice and life details stay; sex-specific statistics stay exactly as written (42% / 35% men / 48% women / ~66% couple); canary material stays sex-specific for both. Never a mechanical men→people swap. Change log: gender-pass-2026-10-31.md. (Prior 2026-09-08 rule, kept for gatekeeper materials: pitch, speaker sheet, talk, leave-behind, calculator all NEUTRAL.)
 - Channels first: estate planning councils + FPA DFW (pitch now for spring) in parallel with C12 chapters + individual advisor dinners (October).
 
 ## Locked 2026-09-08 (2)

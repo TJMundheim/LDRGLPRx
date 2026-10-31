@@ -48,7 +48,7 @@ Printed in the United States of America
 
 This is a book about money before it is a book about health. That is deliberate.
 
-It is for the person in the household who reads the statements. Who carries the umbrella policy, the key-man coverage, the term life he has never needed and pays for anyway, because that is what the responsible one does — buys down risk for people who are not thinking about risk. In my experience that is usually a man in his fifties or sixties, and I write from that seat. It is not always. If it is you, this book is for you.
+It is for the person in the household who reads the statements. Who carries the umbrella policy, the key-man coverage, the term life that has never paid a dollar and gets renewed anyway, because that is what the responsible one does — buys down risk for people who are not thinking about risk. In my experience that seat is held at least as often by a woman as by a man. I am a man, and I write from my own chair; but this book is written to whoever holds the pen. If that is you, it is for you.
 
 You will not find inspiration in here. No transformation stories, no promises that a supplement will save you. What you will find is an exposure your plan does not cover, priced out with sources, and one honest way to reduce the odds — with the odds stated as odds, never as a guarantee.
 
@@ -80,7 +80,7 @@ That is the standard. Hold me to it.
 
 Somewhere in your house there is a folder, or a portal login, that holds every policy you own.
 
-You did that. Not your wife, not your accountant — you. Over thirty years you built a lattice of coverage under your family so that nothing that could happen to you would land on them as a bill. And not alone: the person who put this book in your hands is the one who protects that folder. Keep them close through every page of this one.
+You did that. Not your accountant, not the carrier — you, or the two of you at a kitchen table. Over thirty years you built a lattice of coverage under your family so that nothing that could happen to you would land on them as a bill. And not alone: the person who put this book in your hands is the one who protects that folder. Keep them close through every page of this one.
 
 Which policy in it pays for memory care?
 
@@ -117,13 +117,21 @@ You insured the fire. You did not insure the likelier thing. Not out of careless
 
 Self-pay, then spouse-pay, then impoverishment. That is the actual coverage structure on the largest exposure in your retirement.
 
+## Who holds the pen
+
+One more thing about that folder, because I would be lying to you by omission if I left it out. I am a man, and I write from that chair. But when I look at the households who actually do this work — and when I listen to the estate attorneys who sit across the table from them — the person holding the folder is very often not the husband. It is the wife, or the partner. She keeps the documents. She knows the advisor by first name. She is the one who signs the forms. And in a great many households she ends up making every one of these decisions alone, because her husband is the one whose mind is going, and he can no longer sit at that table with her.
+
+She is not only the one deciding. She carries the higher lifetime risk herself — 48% against his 35%, from the same study.
+
+So if that is you, this book was not written to your husband with you copied on it. It is written to whoever holds the pen.
+
 ## Bill
 
-Bill is seventy-one, a composite of a hundred versions of the same man. He sold his share of a mechanical contracting business at sixty-eight, plays doubles on Tuesdays and Thursdays, and has been married to Cindy for forty-four years.
+Bill is seventy-one, a composite of a hundred versions of the same man. He sold his share of a mechanical contracting business at sixty-eight, plays doubles on Tuesdays and Thursdays, and has been married to Cindy for forty-four years. Cindy kept the books for that business for twenty-six of them, and the household's for all forty-four. When the advisor calls, the call is for her.
 
 Two years ago he tore his rotator cuff reaching for a low forehand. Repaired, five months of physical therapy, back on the court by spring, a few thousand out of pocket; Medicare and the supplement absorbed the rest, exactly as designed. That is what a covered risk looks like from the inside: expensive, disruptive, and then it ends, and the balance sheet closes back up over the wound.
 
-A rotator cuff changes your tennis game. Cognitive decline changes who pays the bills, who drives, who remembers which grandchild is which — and hands Cindy a job she never applied for: nurse, accountant, guardian, and eventually the only one in the marriage who remembers the marriage.
+A rotator cuff changes your tennis game. Cognitive decline changes who pays the bills, who drives, who remembers which grandchild is which — and hands Cindy a job she never applied for: nurse, guardian, sole signature on every decision the two of them used to make together, and eventually the only one in the marriage who remembers the marriage.
 
 The shoulder was insured. The memory is not.
 
@@ -176,7 +184,7 @@ All of that is legal and financial work, not health work, and none of it is do-i
 
 Around the year 2000, more than a hundred carriers sold standalone long-term-care insurance in the United States. Today fewer than a dozen actively write new standalone policies [Am. Academy of Actuaries]. That is not a market correction. That is an evacuation.
 
-Most of these contracts are guaranteed renewable but not premium-guaranteed: the carrier cannot cancel you, but it can ask your state insurance department to raise the rate on the entire class — and it has, repeatedly. Genworth received a 68.5% average approved increase in a 2026 Nebraska filing; in 2022 it raised rates on more than two thousand policyholders by an average of 97%, with individual increases from 79% to 173%; a 161% request was denied in Massachusetts as "unjust, unfair and inequitable" [S&P Global; state filings, 2022–2026]. John Hancock secured increases across more than ten states in a single 2026 quarter, on blocks already carrying 15% in 2012–15 and 43.8% phased from 2020 [S&P Global; longtermcaredesk.com, 2026]. Stack those and a seventy-year-old may be paying two or three times what he signed up for at fifty-eight, at exactly the point when his income is fixed.
+Most of these contracts are guaranteed renewable but not premium-guaranteed: the carrier cannot cancel you, but it can ask your state insurance department to raise the rate on the entire class — and it has, repeatedly. Genworth received a 68.5% average approved increase in a 2026 Nebraska filing; in 2022 it raised rates on more than two thousand policyholders by an average of 97%, with individual increases from 79% to 173%; a 161% request was denied in Massachusetts as "unjust, unfair and inequitable" [S&P Global; state filings, 2022–2026]. John Hancock secured increases across more than ten states in a single 2026 quarter, on blocks already carrying 15% in 2012–15 and 43.8% phased from 2020 [S&P Global; longtermcaredesk.com, 2026]. Stack those and a policyholder at seventy may be paying two or three times the premium signed for at fifty-eight, at exactly the point when the household's income is fixed.
 
 That is the trap in one line. **The event that makes you want the policy is the event that makes you uninsurable for it.**
 
@@ -207,7 +215,7 @@ A half-million-dollar number invites the suspicion that somebody built it backwa
 
 ## Why the ledger is shaped like that
 
-In years one through three, the household is buying *things*. Medication copays. A grab bar. An attorney's time to get the powers of attorney signed while Bill still can. A bad year financially, not a catastrophic one — which is exactly why nobody restructures anything, and why the first three years give a false read on the whole decade.
+In years one through three, the household is buying *things*. Medication copays. A grab bar. An attorney's time — Cindy makes the call — to get the powers of attorney signed while Bill still can. A bad year financially, not a catastrophic one — which is exactly why nobody restructures anything, and why the first three years give a false read on the whole decade.
 
 In years four through six, the household starts buying *hours*. This is the phase change. Somewhere in there is a specific week where Cindy admits she cannot leave the house to go to the grocery store, and the household starts paying $35 an hour for someone else to be in the room. Twenty hours a week is one shift a weekday and costs $36,400 a year; every additional hour is another $1,820 a year, forever. Care is the one purchase in American life with essentially no economies of scale.
 
@@ -223,7 +231,7 @@ Bill and Cindy are a median household with a median course of disease, and this 
 
 ## The one that isn't on the statement
 
-In 2025, roughly 13 million Americans provided more than **19 billion hours** of unpaid dementia care, valued at over **$446 billion** [Alz. Assoc. 2026]. Divide that down to one household and it is a person working an unpaid second full-time job for a decade — on call at three in the morning, with no version where she gives notice. If you priced Cindy's hours at the same $35 an hour the agency charges, the ten-year number above roughly doubles.
+In 2025, roughly 13 million Americans provided more than **19 billion hours** of unpaid dementia care, valued at over **$446 billion** [Alz. Assoc. 2026]. Divide that down to one household and it is Cindy, working an unpaid second full-time job for a decade — on call at three in the morning, with no version where she gives notice. If you priced Cindy's hours at the same $35 an hour the agency charges, the ten-year number above roughly doubles.
 
 This is where most books about this subject would move on to solutions. I am not going to, because the financial case is not the case. The largest cost in this decade is not on the ledger and it is not paid by Bill.
 
@@ -245,7 +253,7 @@ The rest of the picture is consistent. Family caregivers report chronic conditio
 
 ## The decade, from her side of it
 
-Year two, Cindy is still calling it *helping*. She has taken over the bills, and she drives to the club now because Bill got turned around once, and she has framed it as wanting the time together. Year four, the calendar on the refrigerator has three colors of ink on it and none of them are hers. She goes to the wedding and leaves before the reception, because three hours away is a project and six is not possible — and the invitations thin out, not because anyone decided anything, but because she has said no eleven times.
+Year two, Cindy is still calling it *helping*. She drives to the club now because Bill got turned around once, and she has framed it as wanting the time together. The decisions the two of them used to make at the kitchen table, she now makes alone, and signs for both of them. Year four, the calendar on the refrigerator has three colors of ink on it and none of them are hers. She goes to the wedding and leaves before the reception, because three hours away is a project and six is not possible — and the invitations thin out, not because anyone decided anything, but because she has said no eleven times.
 
 Year six, she is not sleeping. He is up at two, and then at four, and she is listening for him even in the hours he is down. She has a cardiology follow-up she moves twice and then lets go. The aide comes four hours a weekday, enough to get to the grocery store and back and not enough to get to a gym, and she has not lifted anything heavier than a laundry basket in four years. Her daughter says *Mom, you have to take care of yourself*, and Cindy says *I know*, which is true, and does nothing about it, which is also true.
 
@@ -255,9 +263,11 @@ Year eight, he is in the facility and she is there every afternoon, and she has 
 
 ## Who this book is actually for
 
-If you are the person who reads the statements, you have spent thirty years buying down risk on her behalf. That is what the umbrella policy was. That is what the term life was — you were never going to see a dollar of it. You bought it so that the worst version of your absence did not land on her as a bill.
+If you are the person who reads the statements, you have spent thirty years buying down risk on behalf of the person across the table. That is what the umbrella policy was. That is what the term life was — you were never going to see a dollar of it. You bought it so that the worst version of your absence did not land on the one you love as a bill.
 
-The uninsured decade is the one exposure where that instinct runs short of instruments. Coverage, where you can get it, funds part of the bill; no contract lowers the odds of the decade itself. And if it goes unaddressed, the outcome is the precise thing you spent three decades insuring against: the worst version of what happens to you, landing on her — not as a check she cashes, but as a decade she spends. That is the whole argument of this book. Everything after this is arithmetic and logistics.
+The uninsured decade is the one exposure where that instinct runs short of instruments. Coverage, where you can get it, funds part of the bill; no contract lowers the odds of the decade itself. And if it goes unaddressed, the outcome is the precise thing you spent three decades insuring against: the worst version of what happens to one of you, landing on the other — not as a check to cash, but as a decade to spend.
+
+And if you are the Cindy in your house — the one who already keeps the folder, and can already see which chair you may end up in — read this chapter twice. The decade lands on whichever of you is left holding the pen, and at two in three for a couple, you do not get to choose which chair. That is the whole argument of this book. Everything after this is arithmetic and logistics.
 
 ---
 
@@ -275,7 +285,7 @@ The first is the one you have been reading about for four chapters. It is contin
 
 The second payout is not contingent, and it does not wait.
 
-It starts inside about six weeks. It is paid in sleep that goes unbroken, in the fact that you can pick up a grandchild without doing the calculation first, in an afternoon at four o'clock that does not require a decision about coffee. It is paid in a waistband, a lab report, an erection, a walk up a jetway with a bag over your shoulder.
+It starts inside about six weeks. It is paid in sleep that goes unbroken, in the fact that you can pick up a grandchild without doing the calculation first, in an afternoon at four o'clock that does not require a decision about coffee. It is paid in a waistband, a lab report, a sex life that did not quietly end, a walk up a jetway with a bag over your shoulder.
 
 You do not have to develop dementia to collect it. You do not have to *avoid* dementia to collect it. It pays on the premium itself.
 
@@ -321,7 +331,7 @@ And it is why the line on the cover of my first book belongs in this one too. Do
 
 # Chapter 6 — Ten Hours and $675
 
-Ask someone in their fifties why they are not doing this and the answer is never the money. It is time — a genuine constraint, not an excuse. So let's find the actual number, because it is not the number in his head. The number in his head was set by a magazine article in 1998.
+Ask someone in their fifties why they are not doing this and the answer is never the money. It is time — a genuine constraint, not an excuse. So let's find the actual number, because it is not the one most people carry around. That one was set by a magazine article in 1998.
 
 **Two strength sessions a week, forty-five minutes each.** Not five. Two. Compound movements — a push, a pull, a hinge, a squat, a carry — loaded heavily enough that the last two repetitions are genuinely difficult, which is the entire active ingredient and the part almost everybody leaves out. Two sessions done seriously beat five done conversationally.
 
@@ -352,7 +362,7 @@ Three notes. **The trainer line is optional and the largest single item** — dr
 
 So: **roughly $8,000 to $10,000 a year for the lifestyle-only version**, and **roughly $15,000 to $18,000 a year if a prescription therapy is part of it.**
 
-Now subtract what you are already spending. Most households in this income band already carry a gym membership, frequently unused. You are buying food regardless, so the grocery line is only the quality delta, and it drops as restaurant meals drop. Most men over fifty already have a shelf of supplements bought without a plan and mostly not taken. Run the mid column with that subtraction and the genuinely new money is three to five thousand a year, not eight. The rest is reallocation — the same dollars, aimed. The money is not missing. It is unmanaged.
+Now subtract what you are already spending. Most households in this income band already carry a gym membership, frequently unused. You are buying food regardless, so the grocery line is only the quality delta, and it drops as restaurant meals drop. Most households already have a shelf of supplements bought without a plan and mostly not taken. Run the mid column with that subtraction and the genuinely new money is three to five thousand a year, not eight. The rest is reallocation — the same dollars, aimed. The money is not missing. It is unmanaged.
 
 ## The premium against the face value
 
@@ -477,7 +487,7 @@ When a muscle contracts under real load, it secretes signaling proteins into the
 
 ## The quiet loss, which is the real exposure
 
-Past fifty, without resistance training, the average person loses roughly one percent of their muscle mass a year, accelerating toward two percent in later decades [Wilkinson et al., Ageing Res. Rev. 2018]. Quietly. Painlessly. Invisibly under a sport coat. Run that forward from fifty to seventy and it is a third or more of the lean tissue you are carrying right now.
+Past fifty, without resistance training, the average person loses roughly one percent of their muscle mass a year, accelerating toward two percent in later decades [Wilkinson et al., Ageing Res. Rev. 2018]. Quietly. Painlessly. Invisibly under good clothes. Run that forward from fifty to seventy and it is a third or more of the lean tissue you are carrying right now.
 
 Muscle is not decoration. It is where glucose goes after a meal, which is most of what stands between you and the metabolic road in the next chapter. It is the scaffolding that decides whether a fall at seventy-eight is an inconvenience or the beginning of the end. And it is cognitive reserve: two people can carry similar amounts of underlying pathology and function very differently, and the differences travel with things like this.
 
@@ -507,7 +517,7 @@ The framing I use everywhere else: **eliminate the insulting behavior.** Stop hu
 
 Nearly every road to a dementia diagnosis runs through somewhere else first, and the somewhere else is a set of numbers you can already read. The Lancet Commission's fourteen modifiable risk factors are, honestly read, mostly a cardiometabolic list [Lancet Commission 2024]. And Chapter 7 gave you the hazard ratios — 1.70, 1.72, and 1.90 for type 2 diabetes diagnosed progressively earlier, and 3.05 for obesity together with diabetes before fifty [Qi et al., PLOS ONE 2024]. Roughly a tripling, from two conditions both largely addressed by the nine hours in the last chapter.
 
-So the four gauges here are not exotic, and your physician already draws three of them. **A1c** — Bill's came back at 5.9 at fifty-five and somebody said *borderline*, and he heard *fine*, and nobody ever mentioned it again. Know the number and the direction it has moved over three draws, not one. **LDL and the rest of the lipid panel**, on the Commission's list as of the 2024 update. **Blood pressure**, the single most modifiable item on that list and the one most likely to be sitting untreated at 148 over 90 in a man who describes himself as healthy. And **waist**, which nobody's chart records. Four gauges, a baseline column, and a column twelve weeks later.
+So the four gauges here are not exotic, and your physician already draws three of them. **A1c** — Bill's came back at 5.9 at fifty-five and somebody said *borderline*, and he heard *fine*, and nobody ever mentioned it again. Know the number and the direction it has moved over three draws, not one. **LDL and the rest of the lipid panel**, on the Commission's list as of the 2024 update. **Blood pressure**, the single most modifiable item on that list and the one most likely to be sitting untreated at 148 over 90 behind the words *I feel fine*. And **waist**, which nobody's chart records. Four gauges, a baseline column, and a column twelve weeks later.
 
 ## The two insults, honestly
 
@@ -521,7 +531,7 @@ So the four gauges here are not exotic, and your physician already draws three o
 
 The arteries that produce an erection are roughly one to two millimeters across. The coronary arteries are three to four. The same process that ends in a heart attack — the softening of the single layer of cells lining every vessel you own — narrows the smallest vessels first, because they have the least margin. Which is why erectile difficulty frequently precedes overt cardiovascular symptoms, commonly by two to three years and sometimes longer [Montorsi et al., Eur. Urol. 2003; Thompson et al., JAMA 2005].
 
-That is not an embarrassment. That is a stress test your own body ran and reported the results of, years early, for free. And the brain is on the same chassis — more vascular surface area per gram than any organ you own, the same endothelial function, the same inflammatory load, the same insulin resistance. Men who tell me their erections have softened over two years almost always tell me, in the next breath, about the word they could not find in a meeting. They believe those are two problems. They are one fire in two rooms.
+That is not an embarrassment. That is a stress test your own body ran and reported the results of, years early, for free. And the brain is on the same chassis — more vascular surface area per gram than any organ you own, the same endothelial function, the same inflammatory load, the same insulin resistance. Men who tell me their erections have softened over two years almost always tell me, in the next breath, about the word they could not find in a meeting. They believe those are two problems. They are one fire in two rooms. If you are reading this section on your husband's behalf rather than your own, you may have seen both rooms before he did.
 
 ### For the woman reading this
 
@@ -534,6 +544,8 @@ And roughly two-thirds of Alzheimer's cases in this country are in women [Alz. A
 The environmental piece belongs here because it is the same shape: subtraction, and it does not hurt, which is why nobody does it. The EPA's 1989 Report to Congress measured indoor air as two to five times more polluted than outdoor air, and separate research puts the average American's time indoors at roughly eighty-seven percent [EPA 1989; Klepeis et al., JEAEE 2001]; fine particulate matter is one of the Commission's fourteen [Lancet Commission 2024]. A HEPA-plus-carbon filter in the bedroom and a countertop reverse-osmosis unit for the water is the floor. A few hundred dollars each, once. Cheap bets with plausible mechanisms on a risk no policy can lower are exactly the bets your whole career says you should be taking.
 
 ## What the blank line looks like
+
+Leave this line blank and you keep filing claims against yourself, quietly, every week. The A1c drifts from 5.9 to 6.4 over three draws that each got called *borderline*. The blood pressure nobody rechecked stays where it was. The nightly pour stays at ten. The canary — his or hers — gets explained away as stress, age, or a bad year, and the hormone picture underneath it never gets drawn. The bedroom air and the tap water stay exactly what they were. None of it costs you anything this year, which is precisely why it never gets fixed, and every one of those items is on the Commission's list of things that move the arc in Chapter 3. This is the cheapest line on the schedule. Subtraction has no invoice. It only has a bill that arrives later.
 
 ---
 
@@ -549,9 +561,9 @@ Three load-bearing components. A named person. A sentence about who you are. And
 
 Here is the question, and it is not the one you expect. Not *why are you doing this.* **Who are you doing this for?**
 
-Name one. Your wife. Your daughter. Your son. Your mother, who you are already watching. Or yourself, at seventy-eight, in specific detail — still the one people call when something has to be decided. One person. One face. Someone you can picture in a room.
+Name one. Your husband. Your wife. Your daughter. Your son. Your mother, who you are already watching. Or yourself, at seventy-eight, in specific detail — still the one people call when something has to be decided. One person. One face. Someone you can picture in a room.
 
-There is a second reason for the question, which you have already read. Chapter 4 told you who actually pays for the uninsured decade. Not you — the person who did not get diagnosed: a 63% higher four-year mortality among strained spousal caregivers [Schulz & Beach, *JAMA* 1999], chronic conditions at nearly twice the rate of non-caregivers, a decade of ranking herself last inside a set of decisions where every call was correct [Family Caregiver Alliance]. So when I ask who you are doing this for, I am not running an exercise on you. I am asking you to notice that you already know the answer, and that it is sitting one chair over.
+There is a second reason for the question, which you have already read. Chapter 4 told you who actually pays for the uninsured decade. Not the one who gets the diagnosis — the one who does not: a 63% higher four-year mortality among strained spousal caregivers [Schulz & Beach, *JAMA* 1999], chronic conditions at nearly twice the rate of non-caregivers, a decade of coming last on their own list inside a set of decisions where every call was correct [Family Caregiver Alliance]. So when I ask who you are doing this for, I am not running an exercise on you. I am asking you to notice that you already know the answer, and that it is sitting one chair over.
 
 There is also evidence that having an answer matters on its own. In a long-running cohort of older adults, people scoring high on a validated measure of purpose in life were roughly two and a half times less likely to develop Alzheimer's over the follow-up window than those scoring low, controlling for age, education, depression, and baseline cognition [Boyle et al., *Arch. Gen. Psychiatry* 2010]. I file that under physiology, not inspiration. It behaves epidemiologically like a modifiable risk factor — and it is the only line item that costs nothing.
 
@@ -581,7 +593,7 @@ That assumption is what this entire book has been auditing.
 
 So state it. Not the funeral — that is the wrong end for this exercise. The end that decides everything is the decade before it. Here is a draft you can steal and edit:
 
-*The last ten years, sharp. On my feet. In my own house. Making my own decisions, and still the one people call when something has to be decided. And my wife's last decade spent as my wife, not as my nurse.*
+*The last ten years, sharp. On my feet. In my own house. Making my own decisions, and still the one people call when something has to be decided. And the one I married spends that decade as my partner, not as my nurse.*
 
 Then notice the thing that took me an embarrassingly long time to see myself. The destination is a mind. Not the money the mind manages. Not the body that carries it around. Not the house, which is only in the sentence because being in your own house at eighty-four requires that you can still be trusted to run a stove. Every item in that paragraph is downstream of one organ, and it is the organ nobody built a policy for.
 
@@ -593,19 +605,21 @@ Chapter 11 gave you the machinery. This is where you run it. One person — not 
 
 *I am doing this for: _____________________.*
 
-## Bill, at fifty-five
+## Bill and Cindy, at fifty-five
 
 If the word has already been said in an office in a building with a parking garage, then the arithmetic in Part I is not a forecast for you — it is an invoice. Ask a licensed clinician, in an actual evaluation, what medical support is available to a household already past the diagnosis, and read Chapter 4 again, because the second patient in your house is the only person in the marriage not being cared for.
 
-But most of you are Bill at fifty-five. Thirty pounds up. An A1c somebody called borderline, which you heard as fine. Sleeping badly and calling it a personality trait. A knee you never had looked at, and a Thursday. There is nothing wrong with you that anyone has put a name to. That is precisely the problem: nothing has a name yet, which is the only window in which any of this works.
+But most of you are Bill and Cindy at fifty-five, and either chair at that table can turn out to be Bill's. Thirty pounds up. An A1c somebody called borderline, which got heard as fine. Sleeping badly and calling it a personality trait. A knee nobody had looked at, and a Thursday. There is nothing wrong with either of you that anyone has put a name to. That is precisely the problem: nothing has a name yet, which is the only window in which any of this works.
 
-Cindy tried twice. Once in the car coming home from a wedding, and once in the kitchen on a Sunday, and both times she chose the other thing, because you had a business and a bad shoulder and a hundred reasons to hear it as criticism. She was not being timid. She was being married to you, which is a job that involves a great deal of judgment about which Tuesday is the right Tuesday.
+In the story, Cindy tried twice. Once in the car coming home from a wedding, and once in the kitchen on a Sunday, and both times she let it go, because Bill had a business and a bad shoulder and a hundred reasons to hear it as criticism. She was not being timid. She was being married, which is a job that involves a great deal of judgment about which Tuesday is the right Tuesday.
 
-She never got a third try in that story. In yours, she just did — because somebody handed you this book, or left it on the counter, or mailed it to you without a note.
+She never got a third try in that story. In yours, somebody just did — because this book was handed to you, or left on the counter, or mailed without a note. Or because you are the one who keeps the folder in your house, and you bought it yourself.
 
-So finish the conversation, since you are the one holding it. Do not promise her anything; you have made promises about your health before and you both remember how they went. Say the smaller, truer thing instead:
+Either way, you are the one holding it, so finish the conversation. If it was handed to you, do not promise anything; you have made promises about your health before and you both remember how they went. Say the smaller, truer thing instead:
 
 *I read it. I'm going to take the seven-minute assessment tonight, and I'll show you what it says.*
+
+If you are the one who did the handing — or the one who has been carrying the folder alone — take it yourself first. The risk in this book belongs to both chairs at that table, and for a woman the lifetime number is the larger one. Then put your result on the table, and ask for the other.
 
 That is the whole conversation. It is not dramatic. It never is.
 
@@ -623,7 +637,7 @@ Coverage does not begin when you decide to buy it. It begins when the first prem
 
 **Week 4 — The household ledger, and the advisor meeting.** This is the week most people let slide. Do not. Run your own number at **my4mlife.com/go/uninsured-decade** — your age, your spouse's, your state, roughly where you sit financially — and print the sheet. Then sit down with your spouse. Then book an hour with the advisor, attorney, or CPA who handed you this book. Bring the printout and the coverage inventory from Chapter 1, and review four things with them: what the plan assumes about a long custodial-care event, what LTC or hybrid coverage is available and appropriate, the survivor's position if it lands, and whether the powers of attorney and healthcare directives are current and signed. That is their half, it is the half with legal deadlines on it, and it is not a conversation to have after a diagnosis. Yours is the schedule in Part III. Then show up to one Zoom.
 
-**Day 30.** Here is what will not have happened: you will not have lost thirty pounds, your A1c has not moved much, nobody at work will comment. Here is what will have happened, in most people. **You will be sleeping.** Not perfectly, but consolidated — you go down, and the next thing is the alarm, not the ceiling at one-forty and again at four. It is almost always the first thing to move, and almost always what convinces a skeptical man that the rest of this is real, because it is not a number somebody handed him. It is his own Tuesday, arriving different. That is the dividend, arriving early, on a premium you have been paying for one month. The other payout — the ledger that never gets written — you will never be able to prove you collected.
+**Day 30.** Here is what will not have happened: you will not have lost thirty pounds, your A1c has not moved much, nobody at work will comment. Here is what will have happened, in most people. **You will be sleeping.** Not perfectly, but consolidated — you go down, and the next thing is the alarm, not the ceiling at one-forty and again at four. It is almost always the first thing to move, and almost always what convinces the skeptic in the house that the rest of this is real, because it is not a number somebody handed over. It is your own Tuesday, arriving different. That is the dividend, arriving early, on a premium you have been paying for one month. The other payout — the ledger that never gets written — you will never be able to prove you collected.
 
 ## The 30-Day Ledger
 
@@ -659,7 +673,7 @@ Coverage does not begin when you decide to buy it. It begins when the first prem
 
 # Signing
 
-Every policy you have ever bought was signed at a table by a version of you who did not know whether he would need it. That is what a signature is for: a decision made in advance, by the person who is thinking clearly, on behalf of the person who will not be. You did it at thirty-four with the term life, at forty-one with the disability, at fifty-two with the buy-sell, and every time you were signing on behalf of somebody who was not in the room.
+Every policy you have ever bought was signed at a table by a version of you who did not know whether it would ever be needed. That is what a signature is for: a decision made in advance, by the person who is thinking clearly, on behalf of the person who will not be. You did it at thirty-four with the term life, at forty-one with the disability, at fifty-two with the buy-sell, and every time you were signing on behalf of somebody who was not in the room.
 
 This one is the same act. The only difference is that the person you are signing on behalf of is you, at seventy-eight, and there is no carrier on the other side of the table to countersign it. There is no policy number. There is no folder to put it in. There is a name, a sentence, and a Tuesday morning that is either going to happen this week or not.
 
