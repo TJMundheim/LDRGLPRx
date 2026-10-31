@@ -105,3 +105,31 @@ Weekly scoreboard (I pull it): contacts, consults, orders, revenue, best-perform
 - Before/after photos are real, consented and labeled "results vary".
 
 We give them the magic pill honestly; we never fake it.
+
+## Addendum (2026-10-31): Mind Check with ConnectedMind + mental-health support
+
+**Why:** depression and social isolation are on the Lancet list of 14 modifiable dementia risk factors. Mental health is also a mass-market door, and it costs us nothing.
+
+**Christian's ConnectedMind** (connectedmind.me) is a primary-care-grade screen. An 8-question, roughly 1-minute screen covers depression, anxiety, ADHD, bipolar disorder, substance use and somatic symptoms, and follow-up modules run automatically.
+
+**Already built:**
+- The assessment results page has a ConnectedMind module, hidden until we have a consumer URL (`CONNECTEDMIND_URL` in website/src/pages/assessment.astro).
+- When the mood score is 3 or higher, or the reader is already diagnosed, the module shows prominently. Otherwise it shows as a quiet link.
+- A 988 Suicide & Crisis Lifeline line was added to the module on 2026-10-31.
+
+**Go-live steps:**
+1. Christian provides the unique public login or URL.
+2. We set `CONNECTEDMIND_URL`.
+3. Deploy (one line).
+
+**Also offer it as its own free hook:** "Free 1-minute Mind Check", added as rung 0 of the ladder next to the Brain Check. Use it in posts and in talks.
+
+**Mental-health care partner (no revenue, by design):**
+- My4MLife takes no money from referrals. That's correct and also keeps us clear of fee-splitting and kickback problems.
+- **Fastest start, no contract:** the results page links to national services that take insurance:
+  - therapy: Headway, Grow Therapy, Rula, or Alma (pick 1–2);
+  - medication management: Talkiatry (psychiatry, insurance);
+  - one cash option: BetterHelp-type services.
+  Verify each one's current coverage and states before linking.
+- **Later:** a formal "preferred partner" agreement with one firm (shared intake handoff, so a care coordinator can warm-transfer). Still no money exchanged.
+- **Always:** 988 on any mental-health surface. Results are "take this to your doctor", not a diagnosis.
