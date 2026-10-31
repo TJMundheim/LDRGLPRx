@@ -3,6 +3,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { COORDINATOR_MODE, consultHref } from '../../../lib/siteMode';
 
 const LANE = 'peptides';
+// Coordinator mode: the unlinked direct-buy questionnaire redirects to the free call (audit 2026-11-01).
+if (COORDINATOR_MODE) return Astro.redirect(consultHref(LANE));
 
 const title = 'Peptides — Care Coordinator Intake | My4MLife';
 const description = 'Brief intake for the My4MLife Peptides program. Save a card on file — no charge today. You are only charged after your physician determines your protocol and you approve it.';

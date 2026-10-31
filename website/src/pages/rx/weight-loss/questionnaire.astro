@@ -3,6 +3,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { COORDINATOR_MODE, consultHref } from '../../../lib/siteMode';
 
 const LANE = 'weight-loss';
+// Coordinator mode: the unlinked direct-buy questionnaire redirects to the free call (audit 2026-11-01).
+if (COORDINATOR_MODE) return Astro.redirect(consultHref(LANE));
 
 const title = 'GLP-1 Weight Loss — Health Questionnaire | My4MLife';
 const description = 'Complete your health questionnaire for the My4MLife GLP-1 weight-loss program. Physician review. Card on file but no charge until approved.';
@@ -158,15 +160,6 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
           </div>
         </label>
 
-        <label class="q-med-card q-med-card-top">
-          <input type="radio" name="medication" value="glp3-retatrutide" data-q="medication" data-price="price_1ThWfVBSbDAyoIVyuoOE6bPu">
-          <div class="q-med-body">
-            <p class="q-med-tier">GLP-3 Program</p>
-            <h3>Retatrutide</h3>
-            <p class="q-med-tag">Triple agonist — GLP-1 + GIP + glucagon. The most aggressive metabolic effect available.</p>
-            <p class="q-med-price">$299<span>/month</span></p>
-          </div>
-        </label>
       </div>
     </section>
 
@@ -401,7 +394,6 @@ const canonical = 'https://www.my4mlife.com/rx/weight-loss/questionnaire';
     var labels = {
       'glp1-semaglutide': 'GLP-1 Program — Semaglutide — $199/mo',
       'glp2-tirzepatide': 'GLP-2 Program — Tirzepatide — $249/mo',
-      'glp3-retatrutide': 'GLP-3 Program — Retatrutide — $299/mo',
     };
     var program = '';
     program += row('Program', labels[payload.medication] || payload.medication);

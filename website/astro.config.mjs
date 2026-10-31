@@ -11,6 +11,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // Unlinked direct-buy questionnaires stay out of search (audit 2026-11-01).
+      filter: (page) => !/\/rx\/[^/]+\/questionnaire\/?$/.test(page),
     }),
   ],
 });

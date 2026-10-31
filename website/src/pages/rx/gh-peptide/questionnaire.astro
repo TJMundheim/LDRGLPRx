@@ -3,6 +3,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { COORDINATOR_MODE, consultHref } from '../../../lib/siteMode';
 
 const LANE = 'gh-peptide';
+// Coordinator mode: the unlinked direct-buy questionnaire redirects to the free call (audit 2026-11-01).
+if (COORDINATOR_MODE) return Astro.redirect(consultHref(LANE));
 
 const title = 'Growth-Hormone Peptide — Health Questionnaire | My4MLife';
 const description = 'Complete your health questionnaire for the My4MLife growth-hormone peptide program. Physician review. Card on file but no charge until approved.';

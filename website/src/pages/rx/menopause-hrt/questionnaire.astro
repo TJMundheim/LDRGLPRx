@@ -3,6 +3,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { COORDINATOR_MODE, consultHref } from '../../../lib/siteMode';
 
 const LANE = 'menopause-hrt';
+// Coordinator mode: the unlinked direct-buy questionnaire redirects to the free call (audit 2026-11-01).
+if (COORDINATOR_MODE) return Astro.redirect(consultHref(LANE));
 
 const title = 'Menopause & HRT for Women — Health Questionnaire | My4MLife';
 const description = 'Complete your health questionnaire for the My4MLife Menopause & HRT program. Physician review. Telemedicine intake for women.';

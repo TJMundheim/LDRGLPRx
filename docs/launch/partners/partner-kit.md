@@ -46,7 +46,7 @@ _For IV bars, med spas and facial/cosmetic spas. Written 2026-10-31 from docs/pl
 > | **Option A (recommended)** | **$100 off** | **$100** |
 > | Option B | $50 off | $150 |
 >
-> **Most partners choose $100 off — it sells more.** A $100-off price clears the "let me think about it" line at the counter.
+> **We recommend $100 off — it sells more.** A $100-off price clears the "let me think about it" line at the counter.
 >
 > **Getting paid.** We pay monthly by ACH for every approved, paid order placed with your code. You'll need a W-9 on file, and you'll get a 1099. If the physician declines an order, the client is refunded and no commission is paid on it.
 >
@@ -56,7 +56,7 @@ _For IV bars, med spas and facial/cosmetic spas. Written 2026-10-31 from docs/pl
 
 ## 2. 30-second front-desk staff script
 
-**For the manager, before the first shift.** Tell the team which offer you chose, then fill in `{OFFER}` below. Option A is clients get $100 off and you earn $100. Option B is clients get $50 off and you earn $150. Most partners choose $100 off — it sells more. Staff never discuss the commission with clients.
+**For the manager, before the first shift.** Tell the team which offer you chose, then fill in `{OFFER}` below. Option A is clients get $100 off and you earn $100. Option B is clients get $50 off and you earn $150. We recommend $100 off — it sells more. If a client asks, staff say plainly that the spa earns a referral fee (FTC rules require the disclosure; our materials include it).
 
 **The script** (about 30 seconds; use it at checkout or at the end of a drip or facial)
 
@@ -164,7 +164,7 @@ Nothing. There's no fee, no inventory and no minimum.
 
 **What do I earn?**
 You earn $100–$150 per approved, paid order, depending on the client offer you choose:
-- **Option A (recommended):** your clients get **$100 off** and you earn **$100** per order. Most partners choose $100 off — it sells more.
+- **Option A (recommended):** your clients get **$100 off** and you earn **$100** per order. We recommend $100 off — it sells more.
 - **Option B:** your clients get **$50 off** and you earn **$150** per order.
 
 Either way, it's $200 per order that you split between your client and yourself.
@@ -242,7 +242,7 @@ Print counter-card.pdf (4×6) at any print shop, or ask us and we'll send a set 
 >
 > I'm Dr. TJ with My4MLife, here in Fort Worth. We offer the Push Patch, a once-a-week overnight patch that delivers peptides and NAD+ through the skin, with no needle.
 > Your clients order on their phone with your code, a licensed physician in our network reviews every order, and it ships to their door. There's no inventory and no provider needed on your side.
-> You choose the client offer, and most partners choose $100 off for their clients while earning $100 per order. Or give $50 off and earn $150.
+> You choose the client offer, and we recommend $100 off for their clients while earning $100 per order. Or give $50 off and earn $150.
 > Keep the drip. The patch is for the days in between.
 > Could I drop off a counter card this week and show you in five minutes? — Dr. TJ, My4MLife
 
@@ -256,7 +256,7 @@ _If they're interested: leave the counter card and point them to my4mlife.com/pa
 
 ### 8c. Decisions TJ must make before launch
 
-1. **"Most partners choose $100 off — it sells more."** There are no partners yet, so this is a prediction, not a track record. It runs in Section 1, Section 2, the FAQ and email line 3. Keep it, or say "We recommend $100 off — it sells more" until there is data.
+1. **"We recommend $100 off — it sells more."** There are no partners yet, so this is a prediction, not a track record. It runs in Section 1, Section 2, the FAQ and email line 3. Keep it, or say "We recommend $100 off — it sells more" until there is data.
 2. **Wear time.** This kit says "about 12 hours, overnight", as briefed. The live /go/push-patch page and the pouch label say 12 hours. Pick one, and the kit and page should match.
 3. **AUC figures.** The live page carries a "TJ CONFIRM: permission to publish Push Patch LLC AUC figures" note. The kit uses the same figures and attribution, so the same confirmation applies.
 4. **Reorders and auto-ship.** Decide whether partners earn on the first order only or on auto-ship renewals too. The coupon is "once", so clients get the discount on the first order only.
