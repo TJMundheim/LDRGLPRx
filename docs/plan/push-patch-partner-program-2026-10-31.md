@@ -1,5 +1,8 @@
 # Plan: Push Patch partner program for IV bars, med spas and facial spas (2026-10-31)
 
+## Terms (final, TJ 2026-10-31)
+Partner chooses: **clients $100 off → partner earns $100** (recommended default; preselected) or **clients $50 off → partner earns $150** (partner keeps the difference). Our share is the same either way (~$102–$260 per order). Live coupons: $50 LVUV9Bho, $100 hb0vxxCm. Script: `partner <CODE> --name --email --client-discount 50|100` (commission defaults 150/100).
+
 ## Context
 TJ approved an affiliate channel. IV bars, med spas and cosmetic/facial spas promote the Push Patch to their existing clients and earn **$100 per paid, approved order**; each partner chooses at sign-up whether their clients get **$50 or $100 off** (TJ 2026-10-31). Margin check (TJ's 20% discount confirmed on every blend): we keep ~$102 (Glutathione, $100 off) to ~$260 (Metabolic) per order after cost, $35 shipping, Stripe fees and commission. Partners handle no product and need no provider relationship. Checkout, physician review and auto-ship run through our platform. Attribution uses one Stripe promotion code per partner, on a new $50 or $100 coupon (the same pattern as JUJITSU/KYLAM). Partners are approved by TJ before a code is issued. A declined order is refunded, so no commission is owed on it. Monthly payouts are made by hand to start (ACH + W-9 → 1099). Main only, no worktrees.
 

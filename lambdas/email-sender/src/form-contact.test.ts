@@ -9,7 +9,7 @@ const ddb = { send: vi.fn() };
 beforeEach(() => { upsert.mockReset(); upsert.mockResolvedValue(undefined); });
 
 describe('captureFormContact', () => {
-  it.each(['coaching-application', 'contact', 'referral', 'request-app-homepage'])(
+  it.each(['coaching-application', 'partner-application', 'contact', 'referral', 'request-app-homepage'])(
     'allowlisted %s with a valid email makes one lead upsert',
     async (formId) => {
       const fields = formId === 'referral' ? { referrerEmail: 'a@b.com' } : { email: 'a@b.com' };
@@ -28,6 +28,11 @@ describe('captureFormContact', () => {
     });
     const input = upsert.mock.calls[0][1];
     expect(input).toEqual({ email: 'pat@x.com', source: 'form:coaching-application', stage: 'lead', firstName: 'Pat', lastName: 'Lee', tags: ['captains-table'] });
+  });
+
+  it('partner-application: contact name split, push-patch-partner tag, no business/phone/website fields', async () => {
+    await captureFormContact(ddb, { formId: 'partner-application', fields: { name: 'Dana Reyes', email: 'd@glow.com', phone: '+15125550100', businessName: 'Glow', website: 'glow.com' } });
+    expect(upsert.mock.calls[0][1]).toEqual({ email: 'd@glow.com', source: 'form:partner-application', stage: 'lead', firstName: 'Dana', lastName: 'Reyes', tags: ['push-patch-partner'] });
   });
 
   it('splits a single "name" into first and last on the first space', async () => {

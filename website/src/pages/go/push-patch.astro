@@ -106,6 +106,15 @@ const SCREEN_CLIENT = {
     } catch (e) {}
   })();
   </script>
+  {/* Partner ?ref=CODE: kept for this tab only; the discount is applied server-side at checkout. */}
+  <script is:inline>
+  (function () {
+    try {
+      var r = (new URL(location.href).searchParams.get('ref') || '').trim().toUpperCase();
+      if (/^[A-Z0-9-]{2,30}$/.test(r)) sessionStorage.setItem('pp-ref', r);
+    } catch (e) {}
+  })();
+  </script>
 </Fragment>
 
 <div class="pp">
@@ -739,6 +748,7 @@ const SCREEN_CLIENT = {
     payload.skuId = cur.skuId;
     payload.screening = { version: C.version, answers: cur.answers };
     payload.testToken = window.__ppT || undefined;
+    try { payload.ref = sessionStorage.getItem('pp-ref') || undefined; } catch (e) {}
     setHealthBusy(true);
     track('lp_patch_checkout', { skuId: cur.skuId });
 

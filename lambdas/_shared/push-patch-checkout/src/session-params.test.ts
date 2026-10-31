@@ -94,6 +94,38 @@ describe('buildPushPatchSessionParams', () => {
     }
   });
 
+  it('a partner promotion code becomes discounts and omits allow_promotion_codes (flag on or off)', () => {
+    const input = { ...base, promotionCodeId: 'promo_abc', partnerRef: 'GLOWSPA' };
+    const off = buildPushPatchSessionParams(input)!;
+    expect(off.discounts).toEqual([{ promotion_code: 'promo_abc' }]);
+    expect(off).not.toHaveProperty('allow_promotion_codes');
+    process.env['STRIPE_PROMO_CODES'] = 'on';
+    try {
+      const on = buildPushPatchSessionParams(input)!;
+      expect(on.discounts).toEqual([{ promotion_code: 'promo_abc' }]);
+      expect(on).not.toHaveProperty('allow_promotion_codes');
+    } finally {
+      delete process.env['STRIPE_PROMO_CODES'];
+    }
+  });
+
+  it('partnerRef rides in metadata only when given', () => {
+    expect(buildPushPatchSessionParams({ ...base, promotionCodeId: 'promo_abc', partnerRef: 'GLOWSPA' })!.metadata.partnerRef).toBe('GLOWSPA');
+    expect(buildPushPatchSessionParams(base)!.metadata).not.toHaveProperty('partnerRef');
+  });
+
+  it('without a promotion code id the params carry no discounts and keep the flag behavior', () => {
+    expect(buildPushPatchSessionParams(base)!).not.toHaveProperty('discounts');
+    process.env['STRIPE_PROMO_CODES'] = 'on';
+    try {
+      const p = buildPushPatchSessionParams(base)!;
+      expect(p.allow_promotion_codes).toBe(true);
+      expect(p).not.toHaveProperty('discounts');
+    } finally {
+      delete process.env['STRIPE_PROMO_CODES'];
+    }
+  });
+
   it('keeps the existing top-level params unchanged (consent_collection off by default)', () => {
     const p = buildPushPatchSessionParams({ ...base, email: 'a@b.co' })!;
     expect(Object.keys(p).sort()).toEqual([

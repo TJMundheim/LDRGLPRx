@@ -18,8 +18,9 @@ vi.mock('@aws-sdk/client-ssm', () => ({
   GetParameterCommand: class GetParameterCommand { input: any; constructor(input: any) { this.input = input; } },
 }));
 const sessionCreateMock = vi.fn();
+const promoListMock = vi.fn();
 vi.mock('@my4mlife/stripe-client', () => ({
-  getStripeClient: vi.fn(async () => ({ checkout: { sessions: { create: sessionCreateMock } } })),
+  getStripeClient: vi.fn(async () => ({ checkout: { sessions: { create: sessionCreateMock } }, promotionCodes: { list: promoListMock } })),
 }));
 const upsertContactMock = vi.fn();
 vi.mock('@my4mlife/contact-upsert', () => ({ upsertContact: (...a: any[]) => upsertContactMock(...a) }));
@@ -63,6 +64,7 @@ beforeEach(() => {
   upsertContactMock.mockReset(); upsertContactMock.mockResolvedValue(undefined);
   sessionCreateMock.mockReset(); sessionCreateMock.mockResolvedValue({ url: 'https://checkout.stripe.com/c/pay/x', id: 'cs_1' });
   testPriceMock.mockReset(); testPriceMock.mockResolvedValue(null);
+  promoListMock.mockReset(); promoListMock.mockResolvedValue({ data: [] });
   noPrice = false;
 });
 afterEach(() => vi.useRealTimers());
@@ -162,6 +164,53 @@ describe('POST /api/push-patch-pre-intake: success', () => {
   it('a Contact upsert failure does not fail the request', async () => {
     upsertContactMock.mockRejectedValue(new Error('down'));
     expect((await call()).statusCode).toBe(200);
+  });
+});
+
+describe('POST /api/push-patch-pre-intake: partner ref', () => {
+  const partner = (over: any = {}) => ({ data: [{ id: 'promo_p1', code: 'GLOWSPA', active: true, metadata: { partner: 'true' }, ...over }] });
+  const params = () => sessionCreateMock.mock.calls[0][0];
+
+  it('applies a partner code from ref (trimmed, uppercased) as discounts, with partnerRef metadata', async () => {
+    promoListMock.mockResolvedValue(partner());
+    expect((await call({ ...BODY, ref: ' glowspa ' })).statusCode).toBe(200);
+    expect(promoListMock).toHaveBeenCalledWith({ code: 'GLOWSPA', active: true, limit: 1 });
+    expect(params().discounts).toEqual([{ promotion_code: 'promo_p1' }]);
+    expect(params()).not.toHaveProperty('allow_promotion_codes');
+    expect(params().metadata.partnerRef).toBe('GLOWSPA');
+  });
+
+  it('ignores a non-partner code (OCT2026) even if it exists', async () => {
+    process.env['STRIPE_PROMO_CODES'] = 'on';
+    try {
+      promoListMock.mockResolvedValue(partner({ code: 'OCT2026', metadata: {} }));
+      await call({ ...BODY, ref: 'OCT2026' });
+      expect(params()).not.toHaveProperty('discounts');
+      expect(params().allow_promotion_codes).toBe(true);
+      expect(params().metadata).not.toHaveProperty('partnerRef');
+    } finally { delete process.env['STRIPE_PROMO_CODES']; }
+  });
+
+  it('no match, bad format, non-string: no lookup or no discount, still 200', async () => {
+    expect((await call({ ...BODY, ref: 'NOPE' })).statusCode).toBe(200);
+    expect(params()).not.toHaveProperty('discounts');
+    promoListMock.mockClear();
+    for (const ref of ['a', 'has space', 'x'.repeat(31), 'bad!code', 42, {}, '']) {
+      expect((await call({ ...BODY, ref })).statusCode).toBe(200);
+    }
+    expect(promoListMock).not.toHaveBeenCalled();
+  });
+
+  it('a lookup error never fails the request and applies no discount', async () => {
+    promoListMock.mockRejectedValue(new Error('stripe down'));
+    expect((await call({ ...BODY, ref: 'GLOWSPA' })).statusCode).toBe(200);
+    expect(params()).not.toHaveProperty('discounts');
+  });
+
+  it('does not store ref in the pending intake item', async () => {
+    promoListMock.mockResolvedValue(partner());
+    await call({ ...BODY, ref: 'GLOWSPA' });
+    expect(JSON.stringify(puts())).not.toMatch(/GLOWSPA/);
   });
 });
 

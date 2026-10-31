@@ -89,6 +89,25 @@ describe('form confirmation routing', () => {
     expect(conf.get('html')).not.toContain('My4MLife care team');
   });
 
+  it('partner-application: relay to drtj inbox, personalized confirmation from Dr. TJ, contact captured', async () => {
+    const [relay, conf, ...rest] = await form('partner-application', { email: 'd@glow.com', name: 'Dana Reyes', businessName: 'Glow IV Bar', discount: '$100', hp: '', t: 9000 });
+    expect(rest).toHaveLength(0);
+    expect(relay.get('to')).toBe('tj@x.com');
+    expect(relay.get('subject')).toBe('[Form: partner-application] from d@glow.com');
+    expect(conf.get('from')).toBe('Dr. TJ <drtj@my4mlife.com>');
+    expect(conf.get('h:Reply-To')).toBe('drtj@my4mlife.com');
+    expect(conf.get('to')).toBe('d@glow.com');
+    expect(conf.get('subject')).toBe('Your Push Patch partner application');
+    expect(conf.get('text')).toContain('Glow IV Bar');
+    expect(capture).toHaveBeenCalledTimes(1);
+  });
+
+  it('partner-application: bot submissions (honeypot or too fast) send nothing and capture nothing', async () => {
+    expect(await form('partner-application', { email: 'b@bot.com', hp: 'spam', t: 9000 })).toHaveLength(0);
+    expect(await form('partner-application', { email: 'b@bot.com', hp: '', t: 500 })).toHaveLength(0);
+    expect(capture).not.toHaveBeenCalled();
+  });
+
   it('other formIds keep the generic confirmation from the info address', async () => {
     const [relay, conf] = await form('contact', { email: 'sam@x.com' });
     expect(relay.get('to')).toBe('tj@x.com');

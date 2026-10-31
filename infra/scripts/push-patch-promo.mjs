@@ -5,6 +5,10 @@
 //                                                     [--note "who it's for"] [--mode live|test] [--apply]
 //   node infra/scripts/push-patch-promo.mjs list    [--mode live|test]
 //   node infra/scripts/push-patch-promo.mjs report  [--since YYYY-MM-DD] [--mode live|test]
+// Partner program (details in push-patch-partner.mjs):
+//   partner-coupon [--mode] [--apply]                      create/find the $50 + $100 partner coupons
+//   partner CODE --name "Biz" --email e --client-discount 50|100 [--commission 100] [--note] [--mode] [--apply]
+//   payouts [--since YYYY-MM-DD] [--until YYYY-MM-DD] [--mode]   commission owed per partner (read-only)
 // Dry run by default (read/list calls only); --apply writes. --mode defaults to test.
 // Never deletes or archives. Keys: Secrets Manager `all-stripe-keys` (us-east-2); never printed.
 import { createRequire } from 'node:module';
@@ -33,7 +37,7 @@ const die = (m) => { console.error(m); process.exit(2); };
 const mode = flagVal('--mode') ?? 'test';
 if (!['live', 'test'].includes(mode)) die('--mode must be live or test');
 const apply = has('--apply');
-if (!['coupon', 'code', 'list', 'report'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report [--mode live|test] [--apply]');
+if (!['coupon', 'code', 'list', 'report', 'partner-coupon', 'partner', 'payouts'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report|partner-coupon|partner CODE|payouts [--mode live|test] [--apply]');
 
 const secret = await new SecretsManagerClient({ region: 'us-east-2' }).send(new GetSecretValueCommand({ SecretId: 'all-stripe-keys' }));
 const key = JSON.parse(secret.SecretString)[`stripe-${mode}-secret`];
@@ -141,4 +145,7 @@ if (cmd === 'coupon') {
   console.log(['CODE', 'ORDERS', 'REFUNDED', 'GROSS', 'DISCOUNT', 'NET'].join('\t'));
   for (const [c, r] of [...rows].sort()) console.log([c, r.orders, r.refunded, usd(r.gross), usd(r.discount), usd(r.gross - r.discount - r.partial)].join('\t'));
   if (!rows.size) console.log('(no paid orders used a code)');
+} else {
+  const { run } = await import('./push-patch-partner.mjs');
+  await run({ stripe, tag, apply, die, usd, fmt, flagVal, has, argv, cmd, chicagoTime, pushPatchProducts });
 }

@@ -2,6 +2,8 @@ import type { Handler } from 'aws-lambda';
 import { mailgunSend, type Attachment } from './mailgun';
 import { formHtml, verifyHtml, confirmation, CONFIRM_FROM_KEY, NO_CONFIRM, CUST_EMAIL_RE } from './templates';
 import { composeCoachingConfirmation } from './coaching-confirmation';
+import { composePartnerConfirmation } from './partner-confirmation';
+import { isBot } from './bot-check';
 import { captureFormContact, contactDdb } from './form-contact';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 
@@ -42,6 +44,7 @@ type SendPayload =
 
 async function send(p: SendPayload) {
   if (p.kind === 'form' && String(p.formId).startsWith('email-capture:')) return { skipped: true }; // lead-capture is the store
+  if (p.kind === 'form' && p.formId === 'partner-application' && isBot(p.fields)) return { skipped: true }; // honeypot / too fast
   const { addrs, recipients } = await secrets();
   if (p.kind === 'form') {
     const to = recipients['default'];
@@ -57,6 +60,9 @@ async function send(p: SendPayload) {
       try {
         if (p.formId === 'coaching-application') {
           const c = composeCoachingConfirmation(p.fields);
+          confirmId = await mailgun(DRTJ_FROM, custEmail, c.subject, c.html, c.text, undefined, undefined, DRTJ_ADDR);
+        } else if (p.formId === 'partner-application') {
+          const c = composePartnerConfirmation(p.fields);
           confirmId = await mailgun(DRTJ_FROM, custEmail, c.subject, c.html, c.text, undefined, undefined, DRTJ_ADDR);
         } else {
           const c = confirmation(p.formId);

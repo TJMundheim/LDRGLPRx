@@ -11,6 +11,9 @@ export interface PushPatchSessionInput {
   firstName?: string;
   phone?: string;
   testPrice?: TestPriceData | null;
+  /** Partner promotion code id (auto-applied from ?ref=); replaces the promo-code box. */
+  promotionCodeId?: string;
+  partnerRef?: string;
 }
 
 export interface PushPatchSessionParams {
@@ -25,6 +28,7 @@ export interface PushPatchSessionParams {
   shipping_address_collection: { allowed_countries: ['US'] };
   consent_collection?: { promotions: 'auto' };
   allow_promotion_codes?: true;
+  discounts?: Array<{ promotion_code: string }>;
 }
 
 // Stripe Checkout params for a Push Patch order. Returns null when the sku has no price for the mode.
@@ -48,13 +52,16 @@ export function buildPushPatchSessionParams(i: PushPatchSessionInput): PushPatch
       ...(i.testPrice ? { test_price: 'true' } : {}),
       ...(i.firstName ? { firstName: i.firstName } : {}),
       ...(i.phone ? { phone: i.phone } : {}),
+      ...(i.partnerRef ? { partnerRef: i.partnerRef } : {}),
       isDemo: String(i.mode === 'test'),
     },
     phone_number_collection: i.phone ? undefined : { enabled: true },
     shipping_address_collection: { allowed_countries: ['US'] },
     // Stripe rejects this until its promo-consent terms are accepted in the dashboard (settings/checkout).
     ...(process.env['STRIPE_PROMO_CONSENT'] === 'on' ? { consent_collection: { promotions: 'auto' as const } } : {}),
-    // Promotion-code box on Checkout; stays off until the code names exist.
-    ...(process.env['STRIPE_PROMO_CODES'] === 'on' ? { allow_promotion_codes: true as const } : {}),
+    // Stripe rejects `discounts` together with `allow_promotion_codes`: a partner code replaces the box.
+    ...(i.promotionCodeId
+      ? { discounts: [{ promotion_code: i.promotionCodeId }] }
+      : process.env['STRIPE_PROMO_CODES'] === 'on' ? { allow_promotion_codes: true as const } : {}),
   };
 }

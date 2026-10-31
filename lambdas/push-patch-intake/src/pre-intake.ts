@@ -9,6 +9,7 @@ import { validatePreIntake } from './validate';
 import { putPending } from './pending';
 import { captureContact } from './contact';
 import { reply } from './http';
+import { lookupPartnerPromo } from './partner-ref';
 
 export async function preIntake(event: APIGatewayProxyEventV2, origin?: string): Promise<APIGatewayProxyResultV2> {
   if (!event.body) return reply(400, { error: 'missing body' }, origin);
@@ -21,11 +22,12 @@ export async function preIntake(event: APIGatewayProxyEventV2, origin?: string):
   const screened = evaluateScreening(screening);
   if (!screened.ok) return reply(screened.reason === 'not eligible' ? 403 : 400, { error: screened.reason }, origin);
 
+  const partner = await lookupPartnerPromo(getStripeClient, (raw as { ref?: unknown }).ref);
   const contactId = deriveContactId(email);
   const intakeId = randomUUID();
   const params = buildPushPatchSessionParams({
     skuId, mode: process.env['STRIPE_MODE'] === 'live' ? 'live' : 'test', contactId, intakeId, screenMeta: screened.metadata,
-    email, firstName, phone: health.phone, testPrice: await resolveTestPrice(skuId, testToken),
+    email, firstName, phone: health.phone, testPrice: await resolveTestPrice(skuId, testToken), ...partner,
   });
   if (!params) return reply(503, { error: 'product not yet available' }, origin);
 
