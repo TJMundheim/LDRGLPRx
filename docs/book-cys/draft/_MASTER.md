@@ -6,7 +6,7 @@
 
 <div style="margin-top:2.2in;">
 <p style="text-align:center; font-weight:700;">Also by Dr. TJ Mundheim</p>
-<p style="text-align:center; font-style:italic;">Begin with the End in Mind:<br>Don't Lose Your Identity and Your Dignity<br>While You Still Have a Choice</p>
+<p style="text-align:center; font-style:italic;">Begin with the End in Mind</p>
 <p style="text-align:center;">— and the free 12-week program, app, and weekly live calls at my4mlife.com</p>
 </div>
 
@@ -17,7 +17,8 @@
 ## You'll never count a calorie. You'll count to 32 instead.
 
 **Dr. TJ Mundheim**
-*Author of "Begin with the End in Mind" · Founder · My4MLife*
+
+Author of *Begin with the End in Mind* · Founder of My4MLife
 
 ---
 
@@ -28,6 +29,8 @@
 ---
 
 <div style="page-break-before: always;"></div>
+
+<div class="copyright" markdown="1">
 
 *Count Yourself Skinny: You'll Never Count a Calorie. You'll Count to 32 Instead.*
 
@@ -41,18 +44,18 @@ No part of this publication may be reproduced, distributed, stored in a retrieva
 
 **Medical Disclaimer.** This book is for educational and informational purposes only and is not intended as medical advice, diagnosis, or treatment. The author is a Doctor of Chiropractic, NBCE-certified since 1994; he is not a medical physician and does not provide medical care through this book or the My4MLife platform. Always consult a qualified licensed clinician before changing your diet, eating schedule, or activity level — particularly if you take medication, are pregnant, have diabetes, or have a history of disordered eating — and never disregard or delay seeking professional medical advice because of something you have read here. The author and publisher disclaim any liability arising directly or indirectly from the use or application of the contents of this book.
 
-Scientific references and source materials for the claims in this book are maintained and updated at [my4mlife.com/science](https://my4mlife.com/science).
+Sources for the research cited in this book are listed in the Sources section at the back.
 
 First Edition, 2026
 
-<!-- When ISBNs are purchased (Bowker) or assigned (KDP), add them here:
-ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
-
-Printed in the United States of America
+<!-- ISBN PLACEHOLDER (TJ decides): KDP does not require the ISBN on the copyright page.
+If TJ takes the free KDP ISBN, leave this as is (KDP prints it in the back-cover barcode).
+If TJ buys his own (Bowker, imprint = My4MLife Press), add a visible line here and re-render:
+ISBN 979-8-XXXXXXX-XX-X (paperback) -->
 
 10 9 8 7 6 5 4 3 2 1
 
----
+</div>
 
 # Who This Book Is For
 
@@ -91,7 +94,16 @@ This book is education, not prescription. Nothing in these pages replaces a lice
 12. **The Streak** — the count that makes it permanent
 13. **What Comes After Skinny** — the bigger question
 
-*Then: the counts on one page, your 12-week Count Log, the questions people actually ask, and the science behind every number.*
+**At the back of the book**
+
+- The Counts on One Page
+- Your 12-Week Count Log
+- Questions People Actually Ask
+- The Science, Briefly
+- Sources
+- Week 13 and Forever
+- Give the Count Away
+- About the Author
 
 # 1. The Idea
 
@@ -148,7 +160,7 @@ Notice what you're not doing: you're not changing *what* you eat yet. Just *when
 
 Forget, for a moment, everything you've heard about 10,000 steps.
 
-That number was born as a marketing slogan for a 1960s Japanese pedometer. The actual research is far friendlier. Large studies pooling tens of thousands of adults found that **the health benefits of walking begin at roughly 2,500 steps a day** — about a mile and a quarter, twenty-odd minutes, total, in an entire day. From there, every additional 500 steps measurably lowers the risk of dying of heart disease.
+That number was born as a marketing slogan for a 1960s Japanese pedometer. The actual research is far friendlier. A large analysis pooling more than 225,000 adults found that **the health benefits of walking begin at roughly 2,500 steps a day** — about a mile and a quarter, twenty-odd minutes, total, in an entire day. From there, every additional 500 steps measurably lowers the risk of dying of heart disease.
 
 And here's the beautiful part: **the curve is steepest at the bottom.** Going from 2,000 steps to 4,000 buys you more protection than going from 10,000 to 12,000. The person with the most to gain from this chapter is the person currently walking the least. If that's you, you are not behind — you're standing in front of the biggest bargain in all of health science.
 
@@ -244,7 +256,7 @@ There's no food list in this book, but there is a cart strategy, and it's counta
 
 **The chew test, applied in advance.** Standing in front of a package, ask one question: *will this survive 32 chews?* Foods that will — meat, vegetables, nuts, apples, real bread — are almost automatically the foods that were going to end up in the "eat more of this" chapter of every diet book ever written. Foods that won't are the ones the 32 was designed to protect you from. You're not memorizing a list. You're carrying a filter.
 
-**Buy the week's mornings.** Whatever makes the morning walk easier, stock it: the coffee you look forward to, a full fruit bowl for the first meal after. The cart's job isn't just avoiding trouble — it's provisioning the stack.
+**Buy the week's mornings.** Whatever makes the morning walk easier, stock it: the coffee you look forward to, and the eggs, fish, or meat you'll break the fast with when you walk back in. The cart's job isn't just avoiding trouble — it's provisioning the stack.
 
 > **Next trip:** Walk the perimeter first, pick your two aisles before you enter, and shop fed.
 
@@ -256,15 +268,15 @@ Everything in this book compresses into a single daily act: **the morning walk, 
 
 Count what just happened:
 
-1. **Steps** — 2,500 or more, banked before the day can interfere. ✓
-2. **Morning light** — your ten minutes happened automatically. ✓
-3. **Hours** — you extended last night's fast; you walked in a fasted state, when your body preferentially spends stored fat. ✓
-4. **Tonight's sleep** — set eight hours in advance by that light. ✓
-5. **Water** — glass one before you left, glass two when you return. ✓
+1. **Steps** — 2,500 or more, banked before the day can interfere. ☑
+2. **Morning light** — your ten minutes happened automatically. ☑
+3. **Hours** — you extended last night's fast; you walked in a fasted state, when your body preferentially spends stored fat. ☑
+4. **Tonight's sleep** — scheduled this morning: the light that hit your eyes on the walk sets tonight's melatonin. ☑
+5. **Water** — glass one before you left, glass two when you return. ☑
 
-Then eat your first meal the way you now eat every meal: one bite, fork down, 32 chews. By 9 a.m. you have executed the entire program. Total cost: about twenty-five minutes and zero dollars.
+Then eat your first meal the way you now eat every meal: one bite, fork down, 32 chews. Make it protein-first — eggs, fish, meat, or Greek yogurt before anything else on the plate. The target is thirty to forty grams, and you won't weigh it: four or five eggs, or a palm-and-a-half of chicken or fish, gets you there. By 9 a.m. you have executed the entire program. Total cost: about twenty-five minutes and zero dollars.
 
-This is why the stack beats the checklist. You are not maintaining seven habits — you are keeping one appointment with yourself each morning, and the habits ride along for free.
+This is why the stack beats the checklist. You are not maintaining six habits — you are keeping one appointment with yourself each morning, and the habits ride along for free.
 
 > **Tomorrow's count:** Shoes by the door tonight. Out the door within an hour of waking. Twenty minutes. Five boxes.
 
@@ -297,6 +309,8 @@ You've counted yourself skinny. When you're ready to go further:
 **Start with the free assessment at [my4mlife.com/assessment](https://my4mlife.com/assessment).**
 
 It takes a few minutes, and it will tell you — specifically, for your body and your situation — what to do next.
+
+*Don't lose your identity and your dignity while you still have a choice.*
 
 Until then: fork down. Chew. Count.
 
@@ -396,7 +410,7 @@ ______________________________________________________________________
 
 ## Week 2
 
-**This week's focus: the space.** Stretch the overnight hours toward 12 without strain.
+**This week's focus: the space.** Make 12 overnight hours automatic — same last bite, same first bite, every day.
 
 | Count | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
 |---|---|---|---|---|---|---|---|
@@ -566,6 +580,7 @@ ______________________________________________________________________
 | 3 hours before bed | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Steps: 5,000+ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 min morning light | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 2 glasses before noon | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 7+ hours last night | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Hit my counts today** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
@@ -606,6 +621,7 @@ ______________________________________________________________________
 | 3 hours before bed | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Steps: 5,000+ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 min morning light | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 2 glasses before noon | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 7+ hours last night | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Hit my counts today** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
@@ -646,6 +662,7 @@ ______________________________________________________________________
 | 3 hours before bed | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Steps: 5–8,000 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 min morning light | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 2 glasses before noon | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 7+ hours last night | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Hit my counts today** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
@@ -686,6 +703,7 @@ ______________________________________________________________________
 | 3 hours before bed | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Steps: 5–8,000 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 min morning light | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 2 glasses before noon | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 7+ hours last night | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Hit my counts today** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
@@ -726,6 +744,7 @@ ______________________________________________________________________
 | 3 hours before bed | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Steps: 8,000+ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 min morning light | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 2 glasses before noon | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 7+ hours last night | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Hit my counts today** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
@@ -756,7 +775,7 @@ ______________________________________________________________________
 
 ## Week 11
 
-**This week's focus: the maintenance question.** Which counts will you keep forever? (Hint: the answer the research gives is "the walk and the 32.")
+**This week's focus: the maintenance question.** Which counts will you keep forever? (Hint: Week 13 and Forever, at the back of this book, makes the case for two — the walk and the 32.)
 
 | Count | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
 |---|---|---|---|---|---|---|---|
@@ -766,6 +785,7 @@ ______________________________________________________________________
 | 3 hours before bed | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Steps: 8,000+ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 min morning light | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 2 glasses before noon | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 7+ hours last night | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Hit my counts today** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
@@ -806,6 +826,7 @@ ______________________________________________________________________
 | 3 hours before bed | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Steps: 8,000+ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 min morning light | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 2 glasses before noon | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 7+ hours last night | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **Hit my counts today** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 
@@ -838,6 +859,7 @@ ______________________________________________________________________
 | Chews per bite | ________ | ________ | ________ |
 | Overnight hours | ________ | ________ | ________ |
 | Steps per day | ________ | ________ | ________ |
+| Mornings outside per week | ________ | ________ | ________ |
 | Nights of 7+ hours | ________ | ________ | ________ |
 
 **What I know now that I didn't know twelve weeks ago:**
@@ -853,8 +875,6 @@ ______________________________________________________________________
 &nbsp;
 
 You counted yourself skinny. The next question — how to keep this mind sharp for the rest of your life — is waiting at **[my4mlife.com/assessment](https://my4mlife.com/assessment)**.
-
-Don't lose your identity and your dignity while you still have a choice.
 
 # Questions People Actually Ask
 
@@ -886,7 +906,7 @@ For *this* program — getting the scale moving and collecting the biggest healt
 Slower than a crash diet, faster than you think, and — this is the point — without the rebound. The trial data on chewing alone shows a 10–15 percent reduction in intake; stack the space, the steps, and the sleep and most people see the trend line bend within three to four weeks. If the line hasn't moved by week six, tighten the two counts most people fudge: the overnight hours (be honest about the 9 p.m. snack) and the 32 (be honest about bites 20 through 31).
 
 **What should I actually eat?**
-Anything you're willing to chew 32 times. That's not a dodge — it's the design. This book deliberately doesn't give you a food list, because food lists are where diets go to die. Chew everything, eat in your window, and watch your preferences quietly change on their own. When you're ready for the full nutrition picture — protein targets, what to put on the plate and why — that's the next book and the free program behind it.
+Anything you're willing to chew 32 times. That's not a dodge — it's the design. This book deliberately doesn't give you a food list, because food lists are where diets go to die. Chew everything, eat in your window, and watch your preferences quietly change on their own. The one food habit worth borrowing now is protein-first when you break the fast (Chapter 11). When you're ready for the full nutrition picture — what to put on the plate and why — that's my other book, *Begin with the End in Mind*, and the free program behind it.
 
 **I have diabetes / take medication / am pregnant / have a history of disordered eating. Can I do this?**
 Talk to your clinician first — specifically about the hours count, which changes when your body receives food and can interact with medication timing, blood-sugar management, and pregnancy. The chewing, the steps, the light, and the sleep counts are safe for nearly everyone. If you have an eating-disorder history, please treat this entire book as something to discuss with your care team before starting; counting of any kind may not be the right tool for you, and that's okay.
@@ -895,14 +915,14 @@ Talk to your clinician first — specifically about the hours count, which chang
 It's not over; it's Tuesday. The streak rule is "never miss twice," and when you've already missed twice, the rule becomes "start a new streak today, at the very next meal." One bite, fork down, 32. You're back. The people who succeed at this aren't the ones who never fall off — they're the ones who restart without holding a funeral first.
 
 **Why should I trust a chiropractor about weight loss?**
-Fair question — ask it of everyone who wants your health attention. My answer: thirty years in clinical practice watching what actually makes people healthier, a career built on assembling specialists rather than pretending one credential covers everything, and — most relevant here — a book that asks you to buy nothing and puts its references at my4mlife.com/science where you can check every claim. The counts stand on published research, not on my title.
+Fair question — ask it of everyone who wants your health attention. My answer: thirty years in clinical practice watching what actually makes people healthier, a career built on assembling specialists rather than pretending one credential covers everything, and — most relevant here — a book that asks you to buy nothing and prints its sources at the back, where you can check every claim. The counts stand on published research, not on my title.
 
-**My spouse wants to do this with me. Anything different for women?**
-Nothing in this book checks your driver's license or your chromosomes. Steps, chewing, light, sleep, and meal spacing work the same way in every body. Do it together — the data on habit programs is unambiguous that a partner roughly doubles your odds of finishing twelve weeks.
+**My partner wants to do this with me. Is anything different for women?**
+Almost nothing. Chewing, steps, light, sleep, and water work the same way in every body. The one count where physiology can differ is the hours: some women find longer overnight fasts land differently across the menstrual cycle, in perimenopause, or while trying to conceive. If that's you, live at 12 hours a little longer before you climb, and let your body vote at 14 and 16. (Pregnancy is a talk-to-your-clinician case — see above.) Then do it together: people who start a program with a partner are consistently more likely to finish it and to keep the results.
 
 # The Science, Briefly
 
-*A plain-language tour of the research behind each count. Full citations live at [my4mlife.com/science](https://my4mlife.com/science) — and are updated as new studies land.*
+*A plain-language tour of the research behind each count. The key studies are listed in the Sources that follow.*
 
 ### The chew (Chapter 2)
 
@@ -918,7 +938,7 @@ A large pooled analysis in the *European Journal of Preventive Cardiology* (over
 
 ### The light (Chapter 5)
 
-Morning outdoor light is the primary signal that sets the circadian clock, which in turn schedules cortisol, melatonin, and the appetite hormones. Intervention studies show that shifting light exposure earlier moves sleep onset earlier and lengthens sleep — on the order of falling asleep 20–30 minutes faster. Outdoor illumination runs from roughly 10,000 lux on a gray day to 100,000 in full sun; a bright indoor room is typically a few hundred. That gap is why "through a window" doesn't cut it.
+Morning outdoor light is the primary signal that sets the circadian clock, which in turn schedules cortisol, melatonin, and the appetite hormones. Intervention studies show that shifting light exposure earlier moves sleep onset earlier and lengthens sleep — on the order of falling asleep 20–30 minutes faster. Outdoor illumination runs from a few thousand lux on a gray day to 100,000 in full sun; a bright indoor room is typically a few hundred. That gap is why "through a window" doesn't cut it.
 
 ### The nights (Chapter 6)
 
@@ -932,7 +952,24 @@ The most cited trial gave adults about a pint of water before meals; over twelve
 
 Habit-formation research puts the median time to automaticity around 66 days — squarely inside twelve weeks. "Never miss twice" comes from the same literature: single lapses have almost no effect on eventual habit formation, but consecutive misses predict abandonment. And the weekly (not daily) weigh-in matches trial evidence that regular self-weighing improves outcomes while daily weighing amplifies noise-driven discouragement. The 12-week horizon isn't marketing; it's roughly how long the average human needs for counting to stop feeling like counting.
 
+# Sources
 
+*The key studies behind each count, in the order the counts appear.*
+
+<ol class="sources">
+<li><strong>The chew.</strong> Zhu Y, Hollis JH. Increasing the number of chews before swallowing reduces meal size in normal-weight, overweight, and obese adults. <em>Journal of the Academy of Nutrition and Dietetics.</em> 2014;114(6):926–931.</li>
+<li><strong>The chew.</strong> Ohkuma T, et al. Association between eating rate and obesity: a systematic review and meta-analysis. <em>International Journal of Obesity.</em> 2015;39(11):1589–1596.</li>
+<li><strong>The space.</strong> Sutton EF, et al. Early time-restricted feeding improves insulin sensitivity, blood pressure, and oxidative stress even without weight loss in men with prediabetes. <em>Cell Metabolism.</em> 2018;27(6):1212–1221.</li>
+<li><strong>The steps.</strong> Banach M, et al. The association between daily step count and all-cause and cardiovascular mortality: a meta-analysis. <em>European Journal of Preventive Cardiology.</em> 2023;30(18):1975–1985.</li>
+<li><strong>The steps.</strong> Tudor-Locke C, Bassett DR. How many steps/day are enough? Preliminary pedometer indices for public health. <em>Sports Medicine.</em> 2004;34(1):1–8.</li>
+<li><strong>The light.</strong> Wright KP, et al. Entrainment of the human circadian clock to the natural light-dark cycle. <em>Current Biology.</em> 2013;23(16):1554–1558.</li>
+<li><strong>The light.</strong> Figueiro MG, et al. The impact of daytime light exposures on sleep and mood in office workers. <em>Sleep Health.</em> 2017;3(3):204–215.</li>
+<li><strong>The nights.</strong> Spiegel K, Tasali E, Penev P, Van Cauter E. Sleep curtailment in healthy young men is associated with decreased leptin levels, elevated ghrelin levels, and increased hunger and appetite. <em>Annals of Internal Medicine.</em> 2004;141(11):846–850.</li>
+<li><strong>The nights.</strong> Taheri S, et al. Short sleep duration is associated with reduced leptin, elevated ghrelin, and increased body mass index. <em>PLoS Medicine.</em> 2004;1(3):e62.</li>
+<li><strong>The water.</strong> Dennis EA, et al. Water consumption increases weight loss during a hypocaloric diet intervention in middle-aged and older adults. <em>Obesity.</em> 2010;18(2):300–307.</li>
+<li><strong>The streak.</strong> Lally P, van Jaarsveld CHM, Potts HWW, Wardle J. How are habits formed: modelling habit formation in the real world. <em>European Journal of Social Psychology.</em> 2010;40(6):998–1009.</li>
+<li><strong>Doing it together.</strong> Wing RR, Jeffery RW. Benefits of recruiting participants with friends and increasing social support for weight loss and maintenance. <em>Journal of Consulting and Clinical Psychology.</em> 1999;67(1):132–138.</li>
+</ol>
 
 # Week 13 and Forever
 
@@ -953,7 +990,7 @@ The counts spread the way they were taught: one person, one meal, one "why is yo
 
 - **Hand this copy to someone.** You have the counts memorized now; you don't need the paper.
 - **The one-page summary is free to photograph and share.** Refrigerators, break rooms, church bulletin boards — go ahead.
-- **Doing it with someone doubles the odds you both finish.** Buy one for the person who'll walk with you.
+- **Doing it with someone makes you both more likely to finish.** Buy one for the person who'll walk with you.
 
 For bulk copies — teams, clinics, churches, workplaces — write to **support@my4mlife.com**.
 
@@ -1017,9 +1054,9 @@ ______________________________________________________________________
 ______________________________________________________________________
 
 
-## About the Author
+# About the Author
 
-**Dr. TJ Mundheim** is the founder of My4MLife. A former Texas Tech track-and-field record-holder turned chiropractor, he has spent thirty years assembling teams of varied specialists under one roof to deliver outcomes no single discipline can — and testing every protocol on himself first. His larger work on cognitive longevity, *Begin with the End in Mind*, and the free program built around it live at [my4mlife.com](https://my4mlife.com).
+**Dr. TJ** is the founder of My4MLife. A former Texas Tech track-and-field record-holder turned chiropractor, he has spent thirty years assembling teams of varied specialists under one roof to deliver outcomes no single discipline can — and testing every protocol on himself first. His larger work on cognitive longevity, *Begin with the End in Mind*, and the free program built around it live at [my4mlife.com](https://my4mlife.com).
 
 This book is the doorway. Everything in it is free to do, starting at your next meal.
 

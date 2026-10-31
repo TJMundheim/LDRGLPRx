@@ -58,6 +58,9 @@ h1::after {
   border-radius: 2px;
 }
 
+/* Contain the drop cap so a one-line opening paragraph doesn't indent the next one */
+h1 + p { display: flow-root; }
+
 /* Gold drop cap opening each chapter */
 h1 + p::first-letter {
   float: left;
@@ -70,14 +73,14 @@ h1 + p::first-letter {
 }
 
 /* The first h1 (title page) shouldn't force a page break before */
-body > h1:first-of-type {
+.sec-count-yourself-skinny > h1 {
   page-break-before: avoid;
   font-size: 42pt;
   margin-top: 1in;
 }
 
 /* Title page should not get a chapter drop cap */
-body > h1:first-of-type + p::first-letter {
+.sec-count-yourself-skinny > h1 + p::first-letter {
   float: none;
   font-size: inherit;
   line-height: inherit;
@@ -214,8 +217,8 @@ h2[id^="week-"], h2[id^="before-week"], h2[id^="after-week"] {
   page-break-before: always;
   border-bottom: none;
   text-align: center;
-  font-size: 22pt;
-  margin-top: 0.6em;
+  font-size: 21pt;
+  margin-top: 0;
 }
 h2[id^="week-"]::after, h2[id^="before-week"]::after, h2[id^="after-week"]::after {
   content: "";
@@ -227,34 +230,90 @@ h2[id^="week-"]::after, h2[id^="before-week"]::after, h2[id^="after-week"]::afte
   border-radius: 2px;
 }
 h2[id^="week-"] ~ table td, h2[id^="before-week"] ~ table td {
-  padding: 13px 7px;
+  padding: 6px 7px;
 }
 h2[id^="week-"] + p, h2[id^="before-week"] + p, h2[id^="after-week"] + p {
   text-align: center;
   font-style: italic;
-  margin: 0.4em auto 1.2em;
+  margin: 0.4em auto 0.8em;
   max-width: 4.6in;
 }
 
-/* Daily-notes h3 gets its own page (right-hand page of each week's spread) */
-h3[id^="this-week-s-daily-notes"] {
+/* Daily-notes h3 gets its own page (second page of each week's spread) */
+h3[id^="this-weeks-daily-notes"] {
   page-break-before: always;
   text-align: center;
   font-size: 16pt;
   margin-top: 0.8em;
 }
-/* Write-in lines breathe */
-h3[id^="this-week-s-daily-notes"] ~ p strong {
+/* Write-in blanks (made from typed underscores by preprocess()) */
+.fill {
   display: inline-block;
-  width: 0.55in;
+  width: 1.15in;
+  border-bottom: 1px solid #777;
+  height: 1.1em;
+  vertical-align: baseline;
+  margin-left: 0.2em;
 }
-h3[id^="this-week-s-daily-notes"] ~ p {
-  margin-bottom: 1.5em;
-  text-align: left;
+p .fill { width: 0.7in; }
+td .fill { width: 1.1in; }
+td:not(:first-child) .fill { width: 0.75in; }
+h2[id^="after-week"] + table td:first-child { min-width: 1.3in; }
+h2[id^="week-"] ~ table td:first-child { white-space: nowrap; }
+/* A prompt line ("The win this week:") gets a full-width writing line beneath it */
+p.writein { text-align: left; margin: 0.7em 0 0.5em; }
+p.writein .fill.grow { display: block; width: 100%; height: 1.5em; margin: 0; }
+/* Daily notes: label and line share the row, spaced to fill the page */
+p.writein.daily, p.writein.row { display: flex; align-items: baseline; gap: 0.4em; }
+p.writein.daily { margin: 0 0 0.6in; }
+p.writein.row { margin: 0.35em 0; }
+p.writein.daily strong { flex: 0 0 0.5in; }
+p.writein.daily .fill.grow, p.writein.row .fill.grow { flex: 1; width: auto; height: 1.1em; }
+.writeline {
+  border-bottom: 1px solid #777;
+  height: 0.34in;
+}
+.sec-notes .writeline { height: 0.38in; }
+.writeline + p { margin-top: 1.2em; }
+/* Never hyphenate or split a web address */
+a { hyphens: none; white-space: nowrap; }
+
+/* FAQ: each question on its own line */
+.sec-questions-people-actually-ask p > strong:first-child { display: block; margin-top: 0.6em; }
+
+/* Front matter (half-title, also-by, title, copyright): no folios */
+@page front {
+  @bottom-center { content: none; }
+}
+section.front { page: front; }
+
+.copyright p { font-size: 8.6pt; line-height: 1.45; margin-bottom: 0.7em; text-align: left; }
+
+/* Table of contents with page numbers */
+.sec-what-youll-count li { display: flex; align-items: baseline; gap: 0.5em; }
+.sec-what-youll-count .toc-t { flex: 1; }
+.sec-what-youll-count .toc-p { min-width: 1.6em; text-align: right; font-variant-numeric: tabular-nums; }
+.sec-what-youll-count ul, .sec-what-youll-count ol { list-style: none; margin-left: 0; }
+.sec-what-youll-count ol { counter-reset: ch; }
+.sec-what-youll-count ol li { counter-increment: ch; }
+.sec-what-youll-count ol li::before { content: counter(ch) "."; flex: 0 0 1.4em; color: #A6841C; font-weight: 700; }
+.sec-what-youll-count li { font-size: 10.5pt; line-height: 1.38; margin: 0.22em 0; }
+.sec-what-youll-count > h1 { margin-top: 0.4em; }
+.sec-what-youll-count p { margin: 0.6em 0 0.2em; }
+.blank-page { page-break-before: always; }
+
+/* Title page: centered, no rule under the subtitle */
+.sec-count-yourself-skinny > h2 { border-bottom: none; text-align: center; font-size: 15pt; font-style: italic; font-weight: 400; }
+.sec-count-yourself-skinny > p { text-align: center; }
+
+/* No drop cap on an all-italic intro line (Science, Sources) */
+h1 + p:has(> em:only-child)::first-letter {
+  float: none; font-size: inherit; line-height: inherit; font-weight: inherit; color: inherit; padding: 0;
 }
 
-/* FAQ + science: give each question/count room */
-h1[id^="questions-people"] ~ p strong:first-child { display: block; margin-top: 0.6em; }
+/* Sources */
+ol.sources { font-size: 9pt; line-height: 1.45; margin-left: 1.2em; }
+ol.sources li { margin: 0 0 0.45em; text-align: left; }
 
 /* Science appendix: one count per page */
 h3[id^="the-chew-chapter"], h3[id^="the-space-chapter"], h3[id^="the-steps-chapter"],
@@ -275,7 +334,7 @@ code {
 </style>
 </head>
 <body>
-<div style="text-align:center; margin-top:2.6in; font-family:Georgia,serif;">
+<section class="sec-prelude front"><div style="text-align:center; margin-top:2.6in; font-family:Georgia,serif;">
 <div style="font-size:26pt; font-weight:700;">Count Yourself Skinny</div>
 </div>
 
@@ -283,37 +342,40 @@ code {
 
 <div style="margin-top:2.2in;">
 <p style="text-align:center; font-weight:700;">Also by Dr. TJ Mundheim</p>
-<p style="text-align:center; font-style:italic;">Begin with the End in Mind:<br>Don't Lose Your Identity and Your Dignity<br>While You Still Have a Choice</p>
+<p style="text-align:center; font-style:italic;">Begin with the End in Mind</p>
 <p style="text-align:center;">— and the free 12-week program, app, and weekly live calls at my4mlife.com</p>
 </div>
 
 <div style="page-break-before: always;"></div>
 
-<h1 id="count-yourself-skinny">Count Yourself Skinny</h1>
+</section>
+<section class="sec-count-yourself-skinny front"><h1 id="count-yourself-skinny">Count Yourself Skinny</h1>
 <h2 id="youll-never-count-a-calorie-youll-count-to-32-instead">You&rsquo;ll never count a calorie. You&rsquo;ll count to 32 instead.</h2>
-<p><strong>Dr. TJ Mundheim</strong>
-<em>Author of &ldquo;Begin with the End in Mind&rdquo; · Founder · My4MLife</em></p>
+<p><strong>Dr. TJ Mundheim</strong></p>
+<p>Author of <em>Begin with the End in Mind</em> · Founder of My4MLife</p>
 <hr>
 <p><em>A My4MLife Field Guide</em></p>
 <p><a href="https://my4mlife.com">my4mlife.com</a> · <a href="https://my4mlife.com/assessment">my4mlife.com/assessment</a></p>
 <hr>
 <div style="page-break-before: always;"></div>
 
+<div class="copyright">
 <p><em>Count Yourself Skinny: You&rsquo;ll Never Count a Calorie. You&rsquo;ll Count to 32 Instead.</em></p>
 <p>Copyright © 2026 by TJ Mundheim. All rights reserved.</p>
 <p>Published by <strong>My4MLife Press</strong>, an imprint of My4MLife.</p>
 <p>No part of this publication may be reproduced, distributed, stored in a retrieval system, or transmitted in any form or by any means — electronic, mechanical, photocopying, recording, scanning, or otherwise — without the prior written permission of the publisher, except for brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law. For permission requests, contact the publisher at support@my4mlife.com.</p>
 <p><strong>My4MLife</strong>, <strong>Count Yourself Skinny</strong>, and <strong>Begin with the End in Mind</strong> are trademarks of My4MLife. All other trademarks are the property of their respective owners.</p>
 <p><strong>Medical Disclaimer.</strong> This book is for educational and informational purposes only and is not intended as medical advice, diagnosis, or treatment. The author is a Doctor of Chiropractic, NBCE-certified since 1994; he is not a medical physician and does not provide medical care through this book or the My4MLife platform. Always consult a qualified licensed clinician before changing your diet, eating schedule, or activity level — particularly if you take medication, are pregnant, have diabetes, or have a history of disordered eating — and never disregard or delay seeking professional medical advice because of something you have read here. The author and publisher disclaim any liability arising directly or indirectly from the use or application of the contents of this book.</p>
-<p>Scientific references and source materials for the claims in this book are maintained and updated at <a href="https://my4mlife.com/science">my4mlife.com/science</a>.</p>
+<p>Sources for the research cited in this book are listed in the Sources section at the back.</p>
 <p>First Edition, 2026</p>
-<!-- When ISBNs are purchased (Bowker) or assigned (KDP), add them here:
-ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
-
-<p>Printed in the United States of America</p>
+<!-- ISBN PLACEHOLDER (TJ decides): KDP does not require the ISBN on the copyright page.
+If TJ takes the free KDP ISBN, leave this as is (KDP prints it in the back-cover barcode).
+If TJ buys his own (Bowker, imprint = My4MLife Press), add a visible line here and re-render:
+ISBN 979-8-XXXXXXX-XX-X (paperback) -->
 <p>10 9 8 7 6 5 4 3 2 1</p>
-<hr>
-<h1 id="who-this-book-is-for">Who This Book Is For</h1>
+</div>
+</section>
+<section class="sec-who-this-book-is-for"><h1 id="who-this-book-is-for">Who This Book Is For</h1>
 <p>Everyone.</p>
 <p>My last book, <em>Begin with the End in Mind</em>, was written for people ready to commit to a full program — a voyage. This one is written for the other 90 percent of us: the people who don&rsquo;t want a program. Who have tried counting calories and quit. Who own a gym membership they don&rsquo;t use and a food scale still in the box.</p>
 <p>If you can count to 32, you can do everything in this book. There is nothing to buy, nothing to weigh, nothing to give up, and no food you&rsquo;re forbidden to eat.</p>
@@ -323,24 +385,37 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <h3 id="a-note-before-you-begin">A note before you begin</h3>
 <p>This book is education, not prescription. Nothing in these pages replaces a licensed clinician&rsquo;s judgment about your specific situation. If you have a medical condition — especially diabetes, an eating disorder history, or anything affecting how and when you should eat — talk to your clinician before changing your eating schedule.</p>
 <hr>
-<h1 id="what-youll-count">What You&rsquo;ll Count</h1>
+</section>
+<section class="sec-what-youll-count"><h1 id="what-youll-count">What You&rsquo;ll Count</h1>
 <ol>
-<li><strong>The Idea</strong> — why easy numbers beat invisible ones</li>
-<li><strong>Count to 32: The Chew</strong> — the rule that starts at your next meal</li>
-<li><strong>Count the Hours</strong> — the space between meals</li>
-<li><strong>Count Your Steps</strong> — the friendliest curve in health science</li>
-<li><strong>Count Ten Minutes</strong> — morning light</li>
-<li><strong>Count Your Nights</strong> — where the skinny is made</li>
-<li><strong>Count Before Noon</strong> — water first</li>
-<li><strong>What You&rsquo;ll Never Count</strong> — the promise on the cover</li>
-<li><strong>Eating Out Without Falling Off</strong> — the counts travel</li>
-<li><strong>The Grocery Cart</strong> — shop the walls, count the aisles</li>
-<li><strong>One Walk, Five Boxes</strong> — the whole program in twenty-five minutes</li>
-<li><strong>The Streak</strong> — the count that makes it permanent</li>
-<li><strong>What Comes After Skinny</strong> — the bigger question</li>
+<li><span class="toc-t"><strong>The Idea</strong> — why easy numbers beat invisible ones</span><span class="toc-p">9</span></li>
+<li><span class="toc-t"><strong>Count to 32: The Chew</strong> — the rule that starts at your next meal</span><span class="toc-p">11</span></li>
+<li><span class="toc-t"><strong>Count the Hours</strong> — the space between meals</span><span class="toc-p">13</span></li>
+<li><span class="toc-t"><strong>Count Your Steps</strong> — the friendliest curve in health science</span><span class="toc-p">15</span></li>
+<li><span class="toc-t"><strong>Count Ten Minutes</strong> — morning light</span><span class="toc-p">17</span></li>
+<li><span class="toc-t"><strong>Count Your Nights</strong> — where the skinny is made</span><span class="toc-p">19</span></li>
+<li><span class="toc-t"><strong>Count Before Noon</strong> — water first</span><span class="toc-p">21</span></li>
+<li><span class="toc-t"><strong>What You&rsquo;ll Never Count</strong> — the promise on the cover</span><span class="toc-p">22</span></li>
+<li><span class="toc-t"><strong>Eating Out Without Falling Off</strong> — the counts travel</span><span class="toc-p">24</span></li>
+<li><span class="toc-t"><strong>The Grocery Cart</strong> — shop the walls, count the aisles</span><span class="toc-p">26</span></li>
+<li><span class="toc-t"><strong>One Walk, Five Boxes</strong> — the whole program in twenty-five minutes</span><span class="toc-p">28</span></li>
+<li><span class="toc-t"><strong>The Streak</strong> — the count that makes it permanent</span><span class="toc-p">30</span></li>
+<li><span class="toc-t"><strong>What Comes After Skinny</strong> — the bigger question</span><span class="toc-p">32</span></li>
 </ol>
-<p><em>Then: the counts on one page, your 12-week Count Log, the questions people actually ask, and the science behind every number.</em></p>
-<h1 id="1-the-idea">1. The Idea</h1>
+<p><strong>At the back of the book</strong></p>
+<ul>
+<li><span class="toc-t">The Counts on One Page</span><span class="toc-p">34</span></li>
+<li><span class="toc-t">Your 12-Week Count Log</span><span class="toc-p">36</span></li>
+<li><span class="toc-t">Questions People Actually Ask</span><span class="toc-p">63</span></li>
+<li><span class="toc-t">The Science, Briefly</span><span class="toc-p">68</span></li>
+<li><span class="toc-t">Sources</span><span class="toc-p">76</span></li>
+<li><span class="toc-t">Week 13 and Forever</span><span class="toc-p">78</span></li>
+<li><span class="toc-t">Give the Count Away</span><span class="toc-p">79</span></li>
+<li><span class="toc-t">About the Author</span><span class="toc-p">81</span></li>
+</ul>
+</section>
+<section class="front blank-page"><p>&nbsp;</p></section>
+<section class="sec-1-the-idea"><h1 id="1-the-idea">1. The Idea</h1>
 <p>Here is the entire book in one paragraph:</p>
 <p>Naturally skinny people are not counting calories. Most of them couldn&rsquo;t tell you what a macro is. But watch one eat. One bite goes in. The fork goes down. They chew — a long time. They talk. They stop when they&rsquo;re comfortable, not when the plate is empty. They walk places without calling it exercise. They eat at roughly the same times and don&rsquo;t graze in between. <strong>Their body composition isn&rsquo;t the result of arithmetic on food labels. It&rsquo;s the result of mechanics — small, repeated, countable behaviors.</strong></p>
 <p>The diet industry has spent fifty years asking you to count the hardest possible thing: calories. Calories are invisible. They require labels, apps, scales, math at every meal, and willpower at every decision. That&rsquo;s why calorie counting has an enormous dropout rate — not because people are weak, but because the method is exhausting.</p>
@@ -348,7 +423,8 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <p>And here&rsquo;s what the research shows about small numbers: <strong>the biggest health returns come at the bottom of the curve.</strong> The first 2,500 steps beat the last 2,500. The first ten minutes of morning light do most of the job. Going from zero to something is worth more than going from good to great. You do not need to be an athlete to collect most of the prize. You need to start counting.</p>
 <p>Why does this matter beyond the mirror? Because body composition — most simply, whether your BMI sits in the healthy range — shows up in virtually every healthspan equation there is. Carrying less excess weight means lower odds of diabetes, heart disease, joint failure, and cognitive decline. Getting skinny isn&rsquo;t vanity. It&rsquo;s the single most leveraged health project most people will ever undertake. And it turns out to be countable.</p>
 <p>One more thing about the word on the cover. Skinny isn&rsquo;t just where you&rsquo;re going — it&rsquo;s how you&rsquo;re getting there. Look at what this program asks of you: no calorie math, no food scale, no gym membership, no forbidden-food list, no six-day-a-week anything. We took the entire bloated process of getting healthy and skinnied <em>it</em> down to a handful of numbers you can count on your fingers. <strong>The diet industry got fat. This book got skinny. So will you.</strong></p>
-<h1 id="2-count-to-32-the-chew">2. Count to 32: The Chew</h1>
+</section>
+<section class="sec-2-count-to-32-the-chew"><h1 id="2-count-to-32-the-chew">2. Count to 32: The Chew</h1>
 <p>Start here, because it costs nothing and starts at your very next meal.</p>
 <p>The rule: <strong>take one bite, put the fork down, and chew that bite 32 times before you swallow.</strong></p>
 <p>Thirty-two is an old number — a British prime minister famously prescribed one chew per tooth, 150 years ago. It sounded like folk wisdom until modern researchers put it to the test. In a randomized trial, adults who increased their chewing by 50 percent ate about 10 percent less food at the same meal. Those who doubled their chews ate about 15 percent less. Same food. Same table. Same appetite. They simply chewed more — and their bodies asked for less.</p>
@@ -359,7 +435,8 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Tonight&rsquo;s count:</strong> At your very next meal, count one bite out loud in your head — all 32 — with the fork on the table. One bite. That&rsquo;s the whole assignment.</p>
 </blockquote>
-<h1 id="3-count-the-hours-the-space-between-meals">3. Count the Hours: The Space Between Meals</h1>
+</section>
+<section class="sec-3-count-the-hours-the-space-between-meals"><h1 id="3-count-the-hours-the-space-between-meals">3. Count the Hours: The Space Between Meals</h1>
 <p>The second count is the hours between your last bite at night and your first bite the next day.</p>
 <p>Every time you eat, insulin rises — that&rsquo;s its job, moving fuel out of your blood. But insulin is also the storage hormone: while it&rsquo;s elevated, your body is in save mode, not spend mode. Snacking and grazing keep insulin raised almost all your waking hours, which means your body rarely gets a turn to burn what it stored.</p>
 <p>The fix is spacing, and it&rsquo;s counted in hours:</p>
@@ -373,9 +450,10 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Tonight&rsquo;s count:</strong> Note the time of your last bite tonight. Add 12. That&rsquo;s breakfast. You&rsquo;ve started.</p>
 </blockquote>
-<h1 id="4-count-your-steps">4. Count Your Steps</h1>
+</section>
+<section class="sec-4-count-your-steps"><h1 id="4-count-your-steps">4. Count Your Steps</h1>
 <p>Forget, for a moment, everything you&rsquo;ve heard about 10,000 steps.</p>
-<p>That number was born as a marketing slogan for a 1960s Japanese pedometer. The actual research is far friendlier. Large studies pooling tens of thousands of adults found that <strong>the health benefits of walking begin at roughly 2,500 steps a day</strong> — about a mile and a quarter, twenty-odd minutes, total, in an entire day. From there, every additional 500 steps measurably lowers the risk of dying of heart disease.</p>
+<p>That number was born as a marketing slogan for a 1960s Japanese pedometer. The actual research is far friendlier. A large analysis pooling more than 225,000 adults found that <strong>the health benefits of walking begin at roughly 2,500 steps a day</strong> — about a mile and a quarter, twenty-odd minutes, total, in an entire day. From there, every additional 500 steps measurably lowers the risk of dying of heart disease.</p>
 <p>And here&rsquo;s the beautiful part: <strong>the curve is steepest at the bottom.</strong> Going from 2,000 steps to 4,000 buys you more protection than going from 10,000 to 12,000. The person with the most to gain from this chapter is the person currently walking the least. If that&rsquo;s you, you are not behind — you&rsquo;re standing in front of the biggest bargain in all of health science.</p>
 <p>So here&rsquo;s the ladder. Climb at your own pace and stop wherever life allows:</p>
 <ul>
@@ -388,7 +466,8 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Tonight&rsquo;s count:</strong> Open your phone&rsquo;s health app and read yesterday&rsquo;s steps. Don&rsquo;t judge the number — just learn it. Tomorrow, beat it by 500.</p>
 </blockquote>
-<h1 id="5-count-ten-minutes-morning-light">5. Count Ten Minutes: Morning Light</h1>
+</section>
+<section class="sec-5-count-ten-minutes-morning-light"><h1 id="5-count-ten-minutes-morning-light">5. Count Ten Minutes: Morning Light</h1>
 <p>This is the count almost nobody knows about, and it may be the highest-leverage ten minutes of your day.</p>
 <p>Your body runs on a master clock, and that clock is set by light — specifically, bright outdoor light early in the day. Get it, and your hormones sequence correctly: cortisol peaks in the morning to wake you, melatonin rises at night to sleep you, appetite hormones behave. Miss it, and the whole orchestra plays out of tune — including the hormones that decide how hungry you feel.</p>
 <p>The dose is almost embarrassingly small: <strong>about ten minutes outside, within an hour of waking.</strong> Five minutes on a bright day; closer to twenty when it&rsquo;s heavily overcast. Studies show people who get their morning light fall asleep faster at night — up to half an hour faster — and sleep longer.</p>
@@ -401,7 +480,8 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Tomorrow&rsquo;s count:</strong> Coffee goes outside with you. Ten minutes, no sunglasses, within an hour of waking.</p>
 </blockquote>
-<h1 id="6-count-your-nights">6. Count Your Nights</h1>
+</section>
+<section class="sec-6-count-your-nights"><h1 id="6-count-your-nights">6. Count Your Nights</h1>
 <p>Sleep is where the skinny is made, and it comes with the simplest count in the book: <strong>nights of at least 7 hours, counted per week. Shoot for 7 out of 7.</strong></p>
 <p>Short sleep is an appetite amplifier. After even one bad night, the hormone that makes you hungry rises and the hormone that makes you feel full drops — and your cravings tilt hard toward exactly the foods you&rsquo;re trying to eat less of. People who chronically sleep short carry more weight, and it is not a character flaw. It&rsquo;s chemistry. You cannot out-discipline a sleep-deprived appetite.</p>
 <p>The good news: three counts you&rsquo;ve already learned are secretly sleep protocols. Morning light sets tonight&rsquo;s melatonin. A 3-hour gap between dinner and bed keeps digestion from wrecking deep sleep. Daily steps are among the best-documented sleep aids in existence. Do the day right and the night mostly takes care of itself.</p>
@@ -409,14 +489,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Tonight&rsquo;s count:</strong> Count backward 7½ hours from your alarm. That&rsquo;s lights out. Set a bedtime alarm for 30 minutes before it.</p>
 </blockquote>
-<h1 id="7-count-before-noon-water-first">7. Count Before Noon: Water First</h1>
+</section>
+<section class="sec-7-count-before-noon-water-first"><h1 id="7-count-before-noon-water-first">7. Count Before Noon: Water First</h1>
 <p>The shortest chapter, for the simplest count: <strong>two glasses of water before noon, the first one before your coffee.</strong></p>
 <p>Thirst is a shape-shifter — it frequently shows up dressed as hunger, especially mid-morning and mid-afternoon. People who front-load water eat less without trying, partly because they&rsquo;ve answered the body&rsquo;s actual question before reaching for a snack.</p>
 <p>You don&rsquo;t need a gallon jug with motivational markings. Two glasses, counted, before noon. Done.</p>
 <blockquote>
 <p><strong>Tomorrow&rsquo;s count:</strong> Put a glass next to the coffee maker tonight. It goes down first.</p>
 </blockquote>
-<h1 id="8-what-youll-never-count">8. What You&rsquo;ll Never Count</h1>
+</section>
+<section class="sec-8-what-youll-never-count"><h1 id="8-what-youll-never-count">8. What You&rsquo;ll Never Count</h1>
 <p>This chapter is the promise on the cover, so let&rsquo;s make it explicit. On this program you will never count:</p>
 <ul>
 <li><strong>Calories.</strong> Not one, not ever. The counts in this book shrink your intake automatically; the arithmetic happens without you.</li>
@@ -430,7 +512,8 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Tonight&rsquo;s count:</strong> Zero. Put the food scale in a drawer. Delete the calorie app. Enjoy it.</p>
 </blockquote>
-<h1 id="9-eating-out-without-falling-off">9. Eating Out Without Falling Off</h1>
+</section>
+<section class="sec-9-eating-out-without-falling-off"><h1 id="9-eating-out-without-falling-off">9. Eating Out Without Falling Off</h1>
 <p>Restaurants are where diets go to die, because diets ask you to negotiate with a menu. The counts don&rsquo;t care about the menu. They travel with you.</p>
 <p><strong>The 32 is your armor.</strong> Order whatever you actually want — then eat it one bite at a time, fork down, 32 chews. Two things happen. First, the twenty-minute fullness signal arrives while food is still on the plate, and for maybe the first time in your life you&rsquo;ll leave restaurant food behind without willpower. Second, you&rsquo;ll discover that half of what restaurants serve isn&rsquo;t worth 32 chews — bread service and fried sides mostly dissolve by chew fifteen, and food that disappears before you can chew it was engineered to be swallowed, not tasted.</p>
 <p><strong>Order first.</strong> Decide before the menu performs for you: at a sit-down place, a protein and a vegetable is always on the menu even when it isn&rsquo;t printed. Order first among your tablemates and you&rsquo;ll order what you walked in intending to eat, not what the table&rsquo;s momentum suggests.</p>
@@ -440,32 +523,35 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Next restaurant:</strong> Order first. Chew the bread once — 32 — and decide if it&rsquo;s actually good.</p>
 </blockquote>
-<h1 id="10-the-grocery-cart">10. The Grocery Cart</h1>
+</section>
+<section class="sec-10-the-grocery-cart"><h1 id="10-the-grocery-cart">10. The Grocery Cart</h1>
 <p>There&rsquo;s no food list in this book, but there is a cart strategy, and it&rsquo;s countable like everything else.</p>
 <p><strong>Shop the walls, count the aisles.</strong> Fresh food lives on the perimeter of nearly every grocery store — produce, meat, dairy, eggs. The center aisles are where food goes to be engineered: softened, sweetened, and processed specifically so it can be eaten fast. Here&rsquo;s the count: <strong>two aisles.</strong> Walk the whole perimeter, then allow yourself two center aisles per trip, chosen on purpose (coffee and olive oil are in those aisles too — this isn&rsquo;t a purity test).</p>
 <p><strong>Never shop hungry — and now you never have to.</strong> You have a fast clock and an eating window. Put grocery trips inside the window, after a meal. A fed shopper and a fasting shopper buy measurably different carts, and the difference is almost entirely in the swallow-fast foods.</p>
 <p><strong>The chew test, applied in advance.</strong> Standing in front of a package, ask one question: <em>will this survive 32 chews?</em> Foods that will — meat, vegetables, nuts, apples, real bread — are almost automatically the foods that were going to end up in the &ldquo;eat more of this&rdquo; chapter of every diet book ever written. Foods that won&rsquo;t are the ones the 32 was designed to protect you from. You&rsquo;re not memorizing a list. You&rsquo;re carrying a filter.</p>
-<p><strong>Buy the week&rsquo;s mornings.</strong> Whatever makes the morning walk easier, stock it: the coffee you look forward to, a full fruit bowl for the first meal after. The cart&rsquo;s job isn&rsquo;t just avoiding trouble — it&rsquo;s provisioning the stack.</p>
+<p><strong>Buy the week&rsquo;s mornings.</strong> Whatever makes the morning walk easier, stock it: the coffee you look forward to, and the eggs, fish, or meat you&rsquo;ll break the fast with when you walk back in. The cart&rsquo;s job isn&rsquo;t just avoiding trouble — it&rsquo;s provisioning the stack.</p>
 <blockquote>
 <p><strong>Next trip:</strong> Walk the perimeter first, pick your two aisles before you enter, and shop fed.</p>
 </blockquote>
-<h1 id="11-one-walk-five-boxes">11. One Walk, Five Boxes</h1>
+</section>
+<section class="sec-11-one-walk-five-boxes"><h1 id="11-one-walk-five-boxes">11. One Walk, Five Boxes</h1>
 <p>Now stack them.</p>
 <p>Everything in this book compresses into a single daily act: <strong>the morning walk, taken before breakfast.</strong> Out the door within an hour of waking, twenty to thirty minutes, then come home and eat.</p>
 <p>Count what just happened:</p>
 <ol>
-<li><strong>Steps</strong> — 2,500 or more, banked before the day can interfere. ✓</li>
-<li><strong>Morning light</strong> — your ten minutes happened automatically. ✓</li>
-<li><strong>Hours</strong> — you extended last night&rsquo;s fast; you walked in a fasted state, when your body preferentially spends stored fat. ✓</li>
-<li><strong>Tonight&rsquo;s sleep</strong> — set eight hours in advance by that light. ✓</li>
-<li><strong>Water</strong> — glass one before you left, glass two when you return. ✓</li>
+<li><strong>Steps</strong> — 2,500 or more, banked before the day can interfere. ☑</li>
+<li><strong>Morning light</strong> — your ten minutes happened automatically. ☑</li>
+<li><strong>Hours</strong> — you extended last night&rsquo;s fast; you walked in a fasted state, when your body preferentially spends stored fat. ☑</li>
+<li><strong>Tonight&rsquo;s sleep</strong> — scheduled this morning: the light that hit your eyes on the walk sets tonight&rsquo;s melatonin. ☑</li>
+<li><strong>Water</strong> — glass one before you left, glass two when you return. ☑</li>
 </ol>
-<p>Then eat your first meal the way you now eat every meal: one bite, fork down, 32 chews. By 9 a.m. you have executed the entire program. Total cost: about twenty-five minutes and zero dollars.</p>
-<p>This is why the stack beats the checklist. You are not maintaining seven habits — you are keeping one appointment with yourself each morning, and the habits ride along for free.</p>
+<p>Then eat your first meal the way you now eat every meal: one bite, fork down, 32 chews. Make it protein-first — eggs, fish, meat, or Greek yogurt before anything else on the plate. The target is thirty to forty grams, and you won&rsquo;t weigh it: four or five eggs, or a palm-and-a-half of chicken or fish, gets you there. By 9 a.m. you have executed the entire program. Total cost: about twenty-five minutes and zero dollars.</p>
+<p>This is why the stack beats the checklist. You are not maintaining six habits — you are keeping one appointment with yourself each morning, and the habits ride along for free.</p>
 <blockquote>
 <p><strong>Tomorrow&rsquo;s count:</strong> Shoes by the door tonight. Out the door within an hour of waking. Twenty minutes. Five boxes.</p>
 </blockquote>
-<h1 id="12-the-streak">12. The Streak</h1>
+</section>
+<section class="sec-12-the-streak"><h1 id="12-the-streak">12. The Streak</h1>
 <p>The final count is the one that makes the others permanent: <strong>days in a row.</strong></p>
 <p>Each evening, ask one yes-or-no question: <em>did I hit my counts today?</em> The morning walk. The 32. The hours. The nights. If yes, the streak grows by one. That&rsquo;s the entire tracking system — one integer.</p>
 <p>Rules for the streak:</p>
@@ -478,16 +564,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <blockquote>
 <p><strong>Tonight&rsquo;s count:</strong> Day one starts today, not Monday. Answer the question tonight: did I hit my counts?</p>
 </blockquote>
-<h1 id="13-what-comes-after-skinny">13. What Comes After Skinny</h1>
+</section>
+<section class="sec-13-what-comes-after-skinny"><h1 id="13-what-comes-after-skinny">13. What Comes After Skinny</h1>
 <p>Somewhere in those twelve weeks, something will shift. The scale, yes — but also the mornings, the sleep, the way your head feels at 3 p.m. And you may find yourself asking a bigger question than &ldquo;how do I get skinny?&rdquo;</p>
 <p>The question is: <em>how do I keep this mind sharp for the rest of my life?</em></p>
 <p>That question has an answer, and it&rsquo;s bigger than one book of counts. It involves your gut, your hormones, your muscle, your environment, and a framework I&rsquo;ve spent years building with a team assembled for exactly this purpose. I wrote a whole book about it — <em>Begin with the End in Mind</em> — and built a free program around it, with a companion app, live weekly calls, and a step-by-step twelve-week voyage.</p>
 <p>You&rsquo;ve counted yourself skinny. When you&rsquo;re ready to go further:</p>
 <p><strong>Start with the free assessment at <a href="https://my4mlife.com/assessment">my4mlife.com/assessment</a>.</strong></p>
 <p>It takes a few minutes, and it will tell you — specifically, for your body and your situation — what to do next.</p>
+<p><em>Don&rsquo;t lose your identity and your dignity while you still have a choice.</em></p>
 <p>Until then: fork down. Chew. Count.</p>
 <p><strong>— Dr. TJ</strong></p>
-<h1 id="the-counts-on-one-page">The Counts on One Page</h1>
+</section>
+<section class="sec-the-counts-on-one-page"><h1 id="the-counts-on-one-page">The Counts on One Page</h1>
 <p>Tear this out. Photograph it. Stick it on the refrigerator. This is the entire program.</p>
 <table>
 <thead>
@@ -547,7 +636,8 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </table>
 <p><strong>The stack:</strong> one morning walk before breakfast checks five boxes at once — steps, light, extended fast, tonight&rsquo;s sleep, and both glasses of water (one before, one after).</p>
 <p><strong>The promise:</strong> you will never count calories, macros, points, grams, money, reps, or forbidden foods.</p>
-<h1 id="your-12-week-count-log">Your 12-Week Count Log</h1>
+</section>
+<section class="sec-your-12-week-count-log"><h1 id="your-12-week-count-log">Your 12-Week Count Log</h1>
 <p>You could track this program on a sticky note — it&rsquo;s one yes-or-no question a day. But twelve weeks of sticky notes blow away, and a trend you can <em>see</em> is the strongest motivator ever discovered. So the rest of this book is your log.</p>
 <p>Three rules before Week 1:</p>
 <ol>
@@ -567,38 +657,37 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <tbody>
 <tr>
 <td>Date</td>
-<td><strong><em>_</em></strong><strong><em>_</em></strong></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Weight (same scale you&rsquo;ll use weekly)</td>
-<td><strong><em>_</em></strong><strong><em>_</em></strong></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Typical chews per bite (count one bite at your next meal)</td>
-<td><strong><em>_</em></strong><strong><em>_</em></strong></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Typical hours between dinner and breakfast</td>
-<td><strong><em>_</em></strong><strong><em>_</em></strong></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Steps yesterday (check your phone)</td>
-<td><strong><em>_</em></strong><strong><em>_</em></strong></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Mornings outside in the last week</td>
-<td><strong><em>_</em></strong><strong><em>_</em></strong></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Nights of 7+ hours sleep in the last week</td>
-<td><strong><em>_</em></strong><strong><em>_</em></strong></td>
+<td><span class="fill"></span></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Why I&rsquo;m doing this</strong> (one sentence — who do you want to be skinny <em>for</em>?):</p>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
+<div class="writeline"></div>
+
 <h2 id="week-1">Week 1</h2>
 <p><strong>This week&rsquo;s focus: the 32.</strong> Just master the chew. Everything else is extra credit.</p>
 <table>
@@ -697,20 +786,21 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week</strong> (one line): <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week</strong> (one line): <span class="fill grow"></span></p>
+<p class="writein"><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-2">Week 2</h2>
-<p><strong>This week&rsquo;s focus: the space.</strong> Stretch the overnight hours toward 12 without strain.</p>
+<p><strong>This week&rsquo;s focus: the space.</strong> Make 12 overnight hours automatic — same last bite, same first bite, every day.</p>
 <table>
 <thead>
 <tr>
@@ -807,18 +897,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_1">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-3">Week 3</h2>
 <p><strong>This week&rsquo;s focus: the walk.</strong> Make the morning walk the anchor — five boxes, one act.</p>
 <table>
@@ -917,18 +1008,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_2">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-4">Week 4</h2>
 <p><strong>This week&rsquo;s focus: protect the streak.</strong> The first month closes. If you miss a day, guard the next one like it&rsquo;s the whole program.</p>
 <table>
@@ -1027,18 +1119,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>One month down. Compare today&rsquo;s weigh-in to your starting line:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>One month down. Compare today&rsquo;s weigh-in to your starting line:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_3">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-5">Week 5</h2>
 <p><strong>This week&rsquo;s focus: stretch to 14.</strong> If 12 overnight hours feels like nothing, push dinner earlier or breakfast later.</p>
 <table>
@@ -1137,18 +1230,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_4">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-6">Week 6</h2>
 <p><strong>This week&rsquo;s focus: the 3-hour rule.</strong> Last bite to lights out: three full hours, every night this week.</p>
 <table>
@@ -1226,6 +1320,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <td>☐</td>
 </tr>
 <tr>
+<td>2 glasses before noon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
 <td>7+ hours last night</td>
 <td>☐</td>
 <td>☐</td>
@@ -1247,18 +1351,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>Halfway. Total change from your starting line:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>Halfway. Total change from your starting line:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_5">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-7">Week 7</h2>
 <p><strong>This week&rsquo;s focus: taste.</strong> You&rsquo;ve slowed down enough to notice food again. Notice which foods stop being worth 32 chews.</p>
 <table>
@@ -1336,6 +1441,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <td>☐</td>
 </tr>
 <tr>
+<td>2 glasses before noon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
 <td>7+ hours last night</td>
 <td>☐</td>
 <td>☐</td>
@@ -1357,18 +1472,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_6">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-8">Week 8</h2>
 <p><strong>This week&rsquo;s focus: two months strong.</strong> The counts should feel less like rules and more like reflexes. If one still fights you, make it the only focus this week.</p>
 <table>
@@ -1446,6 +1562,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <td>☐</td>
 </tr>
 <tr>
+<td>2 glasses before noon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
 <td>7+ hours last night</td>
 <td>☐</td>
 <td>☐</td>
@@ -1467,18 +1593,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>Two months down. Total change from your starting line:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>Two months down. Total change from your starting line:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_7">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-9">Week 9</h2>
 <p><strong>This week&rsquo;s focus: the 16 experiment.</strong> Try a 16-hour space on two or three days — not every day. See how your body votes.</p>
 <table>
@@ -1556,6 +1683,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <td>☐</td>
 </tr>
 <tr>
+<td>2 glasses before noon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
 <td>7+ hours last night</td>
 <td>☐</td>
 <td>☐</td>
@@ -1577,18 +1714,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The hardest moment, and what I&rsquo;ll do differently:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_8">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-10">Week 10</h2>
 <p><strong>This week&rsquo;s focus: someone else.</strong> The program is now visible on you. Invite one person to Week 1. Teaching the 32 locks it in for life.</p>
 <table>
@@ -1666,6 +1804,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <td>☐</td>
 </tr>
 <tr>
+<td>2 glasses before noon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
 <td>7+ hours last night</td>
 <td>☐</td>
 <td>☐</td>
@@ -1687,20 +1835,21 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>Who I invited, and how it went:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>Who I invited, and how it went:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_9">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-11">Week 11</h2>
-<p><strong>This week&rsquo;s focus: the maintenance question.</strong> Which counts will you keep forever? (Hint: the answer the research gives is &ldquo;the walk and the 32.&rdquo;)</p>
+<p><strong>This week&rsquo;s focus: the maintenance question.</strong> Which counts will you keep forever? (Hint: Week 13 and Forever, at the back of this book, makes the case for two — the walk and the 32.)</p>
 <table>
 <thead>
 <tr>
@@ -1776,6 +1925,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <td>☐</td>
 </tr>
 <tr>
+<td>2 glasses before noon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
 <td>7+ hours last night</td>
 <td>☐</td>
 <td>☐</td>
@@ -1797,18 +1956,19 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Weekly weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Streak at week&rsquo;s end:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
-<p><strong>The win this week:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
-<p><strong>The counts I&rsquo;m keeping for life:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>____</p>
+<p class="writein row"><strong>Weekly weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Streak at week&rsquo;s end:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The win this week:</strong> <span class="fill grow"></span></p>
+<p class="writein"><strong>The counts I&rsquo;m keeping for life:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_10">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="week-12">Week 12</h2>
 <p><strong>This week&rsquo;s focus: finish loud.</strong> Seven for seven. Then turn back to your starting line and read what you wrote.</p>
 <table>
@@ -1886,6 +2046,16 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <td>☐</td>
 </tr>
 <tr>
+<td>2 glasses before noon</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+<td>☐</td>
+</tr>
+<tr>
 <td>7+ hours last night</td>
 <td>☐</td>
 <td>☐</td>
@@ -1907,16 +2077,17 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 </tr>
 </tbody>
 </table>
-<p><strong>Final weigh-in:</strong> <strong><em>_</em></strong><strong><em>_</em></strong> <strong>Longest streak of the twelve weeks:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></p>
+<p class="writein row"><strong>Final weigh-in:</strong> <span class="fill grow"></span></p>
+<p class="writein row"><strong>Longest streak of the twelve weeks:</strong> <span class="fill grow"></span></p>
 <h3 id="this-weeks-daily-notes_11">This week&rsquo;s daily notes</h3>
 <p><em>One honest line a day — what you ate slowest, where the day fought back, what you noticed.</em></p>
-<p><strong>Mon</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Tue</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Wed</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Thu</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Fri</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sat</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
-<p><strong>Sun</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>______</p>
+<p class="writein daily"><strong>Mon</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Tue</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Wed</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Thu</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Fri</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sat</strong> <span class="fill grow"></span></p>
+<p class="writein daily"><strong>Sun</strong> <span class="fill grow"></span></p>
 <h2 id="after-week-12-your-finish-line">After Week 12: Your Finish Line</h2>
 <table>
 <thead>
@@ -1930,44 +2101,50 @@ ISBN: 979-8-XXXXXXXXX-X (paperback) / (hardcover) / (e-book) -->
 <tbody>
 <tr>
 <td>Weight</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Chews per bite</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Overnight hours</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Steps per day</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
+</tr>
+<tr>
+<td>Mornings outside per week</td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
 </tr>
 <tr>
 <td>Nights of 7+ hours</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
-<td><strong><em>_</em></strong>_</td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
+<td><span class="fill"></span></td>
 </tr>
 </tbody>
 </table>
 <p><strong>What I know now that I didn&rsquo;t know twelve weeks ago:</strong></p>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
 <p>You counted yourself skinny. The next question — how to keep this mind sharp for the rest of your life — is waiting at <strong><a href="https://my4mlife.com/assessment">my4mlife.com/assessment</a></strong>.</p>
-<h1 id="questions-people-actually-ask">Questions People Actually Ask</h1>
+</section>
+<section class="sec-questions-people-actually-ask"><h1 id="questions-people-actually-ask">Questions People Actually Ask</h1>
 <p><strong>Isn&rsquo;t &ldquo;skinny&rdquo; an unhealthy word? Shouldn&rsquo;t this book say &ldquo;strong&rdquo; or &ldquo;well&rdquo;?</strong>
 I chose it on purpose, for two reasons. First, honesty. The wellness industry retired the word, but when people close the bathroom door and talk to the mirror, &ldquo;skinny&rdquo; is still the word they actually use — and I&rsquo;d rather meet you at the word you use than at the word a marketing department approved. Second, this book means it twice. Skinny the body, yes. But mostly, skinny the <em>process</em>: this program is what&rsquo;s left when you strip dieting of everything that makes people quit — the counting of invisible things, the weighing, the buying, the forbidding. We skinnied the method down to numbers you can count on your fingers. If the cover made you mad enough to open the book and read this far — good. The argument the cover started, the program finishes.</p>
 <p><strong>Do I really have to chew everything 32 times? What about soup? Yogurt? A smoothie?</strong>
@@ -1987,17 +2164,18 @@ For <em>this</em> program — getting the scale moving and collecting the bigges
 <p><strong>How fast will I lose weight?</strong>
 Slower than a crash diet, faster than you think, and — this is the point — without the rebound. The trial data on chewing alone shows a 10–15 percent reduction in intake; stack the space, the steps, and the sleep and most people see the trend line bend within three to four weeks. If the line hasn&rsquo;t moved by week six, tighten the two counts most people fudge: the overnight hours (be honest about the 9 p.m. snack) and the 32 (be honest about bites 20 through 31).</p>
 <p><strong>What should I actually eat?</strong>
-Anything you&rsquo;re willing to chew 32 times. That&rsquo;s not a dodge — it&rsquo;s the design. This book deliberately doesn&rsquo;t give you a food list, because food lists are where diets go to die. Chew everything, eat in your window, and watch your preferences quietly change on their own. When you&rsquo;re ready for the full nutrition picture — protein targets, what to put on the plate and why — that&rsquo;s the next book and the free program behind it.</p>
+Anything you&rsquo;re willing to chew 32 times. That&rsquo;s not a dodge — it&rsquo;s the design. This book deliberately doesn&rsquo;t give you a food list, because food lists are where diets go to die. Chew everything, eat in your window, and watch your preferences quietly change on their own. The one food habit worth borrowing now is protein-first when you break the fast (Chapter 11). When you&rsquo;re ready for the full nutrition picture — what to put on the plate and why — that&rsquo;s my other book, <em>Begin with the End in Mind</em>, and the free program behind it.</p>
 <p><strong>I have diabetes / take medication / am pregnant / have a history of disordered eating. Can I do this?</strong>
 Talk to your clinician first — specifically about the hours count, which changes when your body receives food and can interact with medication timing, blood-sugar management, and pregnancy. The chewing, the steps, the light, and the sleep counts are safe for nearly everyone. If you have an eating-disorder history, please treat this entire book as something to discuss with your care team before starting; counting of any kind may not be the right tool for you, and that&rsquo;s okay.</p>
 <p><strong>I missed three days on vacation. Is it over?</strong>
 It&rsquo;s not over; it&rsquo;s Tuesday. The streak rule is &ldquo;never miss twice,&rdquo; and when you&rsquo;ve already missed twice, the rule becomes &ldquo;start a new streak today, at the very next meal.&rdquo; One bite, fork down, 32. You&rsquo;re back. The people who succeed at this aren&rsquo;t the ones who never fall off — they&rsquo;re the ones who restart without holding a funeral first.</p>
 <p><strong>Why should I trust a chiropractor about weight loss?</strong>
-Fair question — ask it of everyone who wants your health attention. My answer: thirty years in clinical practice watching what actually makes people healthier, a career built on assembling specialists rather than pretending one credential covers everything, and — most relevant here — a book that asks you to buy nothing and puts its references at my4mlife.com/science where you can check every claim. The counts stand on published research, not on my title.</p>
-<p><strong>My spouse wants to do this with me. Anything different for women?</strong>
-Nothing in this book checks your driver&rsquo;s license or your chromosomes. Steps, chewing, light, sleep, and meal spacing work the same way in every body. Do it together — the data on habit programs is unambiguous that a partner roughly doubles your odds of finishing twelve weeks.</p>
-<h1 id="the-science-briefly">The Science, Briefly</h1>
-<p><em>A plain-language tour of the research behind each count. Full citations live at <a href="https://my4mlife.com/science">my4mlife.com/science</a> — and are updated as new studies land.</em></p>
+Fair question — ask it of everyone who wants your health attention. My answer: thirty years in clinical practice watching what actually makes people healthier, a career built on assembling specialists rather than pretending one credential covers everything, and — most relevant here — a book that asks you to buy nothing and prints its sources at the back, where you can check every claim. The counts stand on published research, not on my title.</p>
+<p><strong>My partner wants to do this with me. Is anything different for women?</strong>
+Almost nothing. Chewing, steps, light, sleep, and water work the same way in every body. The one count where physiology can differ is the hours: some women find longer overnight fasts land differently across the menstrual cycle, in perimenopause, or while trying to conceive. If that&rsquo;s you, live at 12 hours a little longer before you climb, and let your body vote at 14 and 16. (Pregnancy is a talk-to-your-clinician case — see above.) Then do it together: people who start a program with a partner are consistently more likely to finish it and to keep the results.</p>
+</section>
+<section class="sec-the-science-briefly"><h1 id="the-science-briefly">The Science, Briefly</h1>
+<p><em>A plain-language tour of the research behind each count. The key studies are listed in the Sources that follow.</em></p>
 <h3 id="the-chew-chapter-2">The chew (Chapter 2)</h3>
 <p>The headline study is a randomized controlled trial from Iowa State University: when adults increased chews per bite by 50 percent, meal intake dropped about 10 percent; doubling chews dropped it about 15 percent — with no instruction to eat less. Complementary work shows fast eaters have markedly higher obesity rates, and that &ldquo;big bites, few chews, short meals&rdquo; is a measurable, correctable pattern. Honest caveat, printed in Chapter 2 and repeated here: in some older-adult studies, slower eating improved the <em>pattern</em> without always shrinking the meal — which is why chewing is one lever in a stack of six, not a miracle.</p>
 <h3 id="the-space-chapter-3">The space (Chapter 3)</h3>
@@ -2005,14 +2183,33 @@ Nothing in this book checks your driver&rsquo;s license or your chromosomes. Ste
 <h3 id="the-steps-chapter-4">The steps (Chapter 4)</h3>
 <p>A large pooled analysis in the <em>European Journal of Preventive Cardiology</em> (over 225,000 adults) found all-cause mortality benefits beginning around 3,000–4,000 steps per day and cardiovascular benefits starting near 2,300 — with the steepest risk reduction at the low end of the curve. Every additional ~500–1,000 daily steps bought measurable additional protection, with benefits continuing (but flattening) up past 10,000. The famous 10,000 number itself traces to a 1960s Japanese pedometer marketing campaign — the science is kinder to beginners than the slogan ever was.</p>
 <h3 id="the-light-chapter-5">The light (Chapter 5)</h3>
-<p>Morning outdoor light is the primary signal that sets the circadian clock, which in turn schedules cortisol, melatonin, and the appetite hormones. Intervention studies show that shifting light exposure earlier moves sleep onset earlier and lengthens sleep — on the order of falling asleep 20–30 minutes faster. Outdoor illumination runs from roughly 10,000 lux on a gray day to 100,000 in full sun; a bright indoor room is typically a few hundred. That gap is why &ldquo;through a window&rdquo; doesn&rsquo;t cut it.</p>
+<p>Morning outdoor light is the primary signal that sets the circadian clock, which in turn schedules cortisol, melatonin, and the appetite hormones. Intervention studies show that shifting light exposure earlier moves sleep onset earlier and lengthens sleep — on the order of falling asleep 20–30 minutes faster. Outdoor illumination runs from a few thousand lux on a gray day to 100,000 in full sun; a bright indoor room is typically a few hundred. That gap is why &ldquo;through a window&rdquo; doesn&rsquo;t cut it.</p>
 <h3 id="the-nights-chapter-6">The nights (Chapter 6)</h3>
 <p>Sleep restriction studies read like a recipe for weight gain: after short sleep, ghrelin (the hunger hormone) rises, leptin (the fullness hormone) falls, and food cravings shift toward calorie-dense options — an effect visible after a single bad night and compounding across a week. Epidemiologically, chronic short sleepers carry meaningfully higher obesity risk. No supplement on any shelf moves appetite hormones as much as the seventh hour of sleep does.</p>
 <h3 id="the-water-chapter-7">The water (Chapter 7)</h3>
 <p>The most cited trial gave adults about a pint of water before meals; over twelve weeks the water group lost roughly 40 percent more weight than controls. Thirst-hunger confusion is real and well documented, particularly in people who&rsquo;ve spent years grazing. Two glasses before noon is deliberately modest — a floor designed to be countable, not a hydration religion.</p>
 <h3 id="the-streak-chapters-1112">The streak (Chapters 11–12)</h3>
 <p>Habit-formation research puts the median time to automaticity around 66 days — squarely inside twelve weeks. &ldquo;Never miss twice&rdquo; comes from the same literature: single lapses have almost no effect on eventual habit formation, but consecutive misses predict abandonment. And the weekly (not daily) weigh-in matches trial evidence that regular self-weighing improves outcomes while daily weighing amplifies noise-driven discouragement. The 12-week horizon isn&rsquo;t marketing; it&rsquo;s roughly how long the average human needs for counting to stop feeling like counting.</p>
-<h1 id="week-13-and-forever">Week 13 and Forever</h1>
+</section>
+<section class="sec-sources"><h1 id="sources">Sources</h1>
+<p><em>The key studies behind each count, in the order the counts appear.</em></p>
+<ol class="sources">
+<li><strong>The chew.</strong> Zhu Y, Hollis JH. Increasing the number of chews before swallowing reduces meal size in normal-weight, overweight, and obese adults. <em>Journal of the Academy of Nutrition and Dietetics.</em> 2014;114(6):926–931.</li>
+<li><strong>The chew.</strong> Ohkuma T, et al. Association between eating rate and obesity: a systematic review and meta-analysis. <em>International Journal of Obesity.</em> 2015;39(11):1589–1596.</li>
+<li><strong>The space.</strong> Sutton EF, et al. Early time-restricted feeding improves insulin sensitivity, blood pressure, and oxidative stress even without weight loss in men with prediabetes. <em>Cell Metabolism.</em> 2018;27(6):1212–1221.</li>
+<li><strong>The steps.</strong> Banach M, et al. The association between daily step count and all-cause and cardiovascular mortality: a meta-analysis. <em>European Journal of Preventive Cardiology.</em> 2023;30(18):1975–1985.</li>
+<li><strong>The steps.</strong> Tudor-Locke C, Bassett DR. How many steps/day are enough? Preliminary pedometer indices for public health. <em>Sports Medicine.</em> 2004;34(1):1–8.</li>
+<li><strong>The light.</strong> Wright KP, et al. Entrainment of the human circadian clock to the natural light-dark cycle. <em>Current Biology.</em> 2013;23(16):1554–1558.</li>
+<li><strong>The light.</strong> Figueiro MG, et al. The impact of daytime light exposures on sleep and mood in office workers. <em>Sleep Health.</em> 2017;3(3):204–215.</li>
+<li><strong>The nights.</strong> Spiegel K, Tasali E, Penev P, Van Cauter E. Sleep curtailment in healthy young men is associated with decreased leptin levels, elevated ghrelin levels, and increased hunger and appetite. <em>Annals of Internal Medicine.</em> 2004;141(11):846–850.</li>
+<li><strong>The nights.</strong> Taheri S, et al. Short sleep duration is associated with reduced leptin, elevated ghrelin, and increased body mass index. <em>PLoS Medicine.</em> 2004;1(3):e62.</li>
+<li><strong>The water.</strong> Dennis EA, et al. Water consumption increases weight loss during a hypocaloric diet intervention in middle-aged and older adults. <em>Obesity.</em> 2010;18(2):300–307.</li>
+<li><strong>The streak.</strong> Lally P, van Jaarsveld CHM, Potts HWW, Wardle J. How are habits formed: modelling habit formation in the real world. <em>European Journal of Social Psychology.</em> 2010;40(6):998–1009.</li>
+<li><strong>Doing it together.</strong> Wing RR, Jeffery RW. Benefits of recruiting participants with friends and increasing social support for weight loss and maintenance. <em>Journal of Consulting and Clinical Psychology.</em> 1999;67(1):132–138.</li>
+</ol>
+
+</section>
+<section class="sec-week-13-and-forever"><h1 id="week-13-and-forever">Week 13 and Forever</h1>
 <p>There is no Week 13 log, on purpose. By now the counts either live in you or they don&rsquo;t — and if you finished the log, they do.</p>
 <p>The maintenance program is two counts, kept for life:</p>
 <ol>
@@ -2020,48 +2217,51 @@ Nothing in this book checks your driver&rsquo;s license or your chromosomes. Ste
 <li><strong>The 32.</strong> Every meal, every table, forever. It&rsquo;s free, it&rsquo;s invisible, and it&rsquo;s the reason the food scale stays in the drawer.</li>
 </ol>
 <p>Keep the weekly weigh-in — same scale, same morning — as your smoke alarm. If the trend line drifts three weeks running, you know exactly which counts slipped, and you know they&rsquo;re all waiting where you left them: at the very next meal, and out the front door tomorrow morning.</p>
-<h1 id="give-the-count-away">Give the Count Away</h1>
+</section>
+<section class="sec-give-the-count-away"><h1 id="give-the-count-away">Give the Count Away</h1>
 <p>This book was priced and sized to be given away — that&rsquo;s the design, not an accident.</p>
 <p>The counts spread the way they were taught: one person, one meal, one &ldquo;why is your fork down?&rdquo; at a time. If this book moved your scale:</p>
 <ul>
 <li><strong>Hand this copy to someone.</strong> You have the counts memorized now; you don&rsquo;t need the paper.</li>
 <li><strong>The one-page summary is free to photograph and share.</strong> Refrigerators, break rooms, church bulletin boards — go ahead.</li>
-<li><strong>Doing it with someone doubles the odds you both finish.</strong> Buy one for the person who&rsquo;ll walk with you.</li>
+<li><strong>Doing it with someone makes you both more likely to finish.</strong> Buy one for the person who&rsquo;ll walk with you.</li>
 </ul>
 <p>For bulk copies — teams, clinics, churches, workplaces — write to <strong>support@my4mlife.com</strong>.</p>
-<h1 id="notes">Notes</h1>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<p>&nbsp;</p>
-<hr>
-<h2 id="about-the-author">About the Author</h2>
-<p><strong>Dr. TJ Mundheim</strong> is the founder of My4MLife. A former Texas Tech track-and-field record-holder turned chiropractor, he has spent thirty years assembling teams of varied specialists under one roof to deliver outcomes no single discipline can — and testing every protocol on himself first. His larger work on cognitive longevity, <em>Begin with the End in Mind</em>, and the free program built around it live at <a href="https://my4mlife.com">my4mlife.com</a>.</p>
+</section>
+<section class="sec-notes"><h1 id="notes">Notes</h1>
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+<div class="writeline"></div>
+
+</section>
+<section class="sec-about-the-author"><h1 id="about-the-author">About the Author</h1>
+<p><strong>Dr. TJ</strong> is the founder of My4MLife. A former Texas Tech track-and-field record-holder turned chiropractor, he has spent thirty years assembling teams of varied specialists under one roof to deliver outcomes no single discipline can — and testing every protocol on himself first. His larger work on cognitive longevity, <em>Begin with the End in Mind</em>, and the free program built around it live at <a href="https://my4mlife.com">my4mlife.com</a>.</p>
 <p>This book is the doorway. Everything in it is free to do, starting at your next meal.</p>
 <hr>
-<p><em>This book is for educational purposes only and is not medical advice. Consult a licensed clinician before beginning any change to diet, fasting schedule, or exercise, particularly if you take medication, are pregnant, have diabetes, or have a history of disordered eating.</em></p>
+<p><em>This book is for educational purposes only and is not medical advice. Consult a licensed clinician before beginning any change to diet, fasting schedule, or exercise, particularly if you take medication, are pregnant, have diabetes, or have a history of disordered eating.</em></p></section>
 </body>
 </html>

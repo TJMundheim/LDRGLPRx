@@ -1,22 +1,110 @@
 #!/usr/bin/env python3
-"""Render the assembled master.md to a styled HTML for Chrome PDF conversion."""
-import markdown
-import sys
-import re
-import pathlib
+"""Render docs/book-cys/draft/_MASTER.md to a print-ready 6x9 PDF.
 
-ROOT = pathlib.Path('/Users/thomasmundheim/Development/LDRGLPRx/docs/book-cys')
+  python3 render.py                     # HTML only  -> draft/_MASTER.html
+  python3 render.py --pdf OUT.pdf       # HTML + headless-Chrome PDF
+  python3 render.py --pdf OUT.pdf --bw  # grayscale palette for a black-and-white KDP interior
+
+With --pdf, if PyMuPDF (`fitz`) is importable, a second pass reads the PDF outline
+and writes real page numbers into the table of contents. Needs: `markdown`; Chrome.
+"""
+import argparse
+import markdown
+import pathlib
+import re
+import subprocess
+
+ROOT = pathlib.Path(__file__).resolve().parent
 md_path = ROOT / 'draft' / '_MASTER.md'
 html_path = ROOT / 'draft' / '_MASTER.html'
+CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+
+ap = argparse.ArgumentParser()
+ap.add_argument('--pdf', help='write a PDF here via headless Chrome')
+ap.add_argument('--bw', action='store_true', help='grayscale palette (B&W interior)')
+args = ap.parse_args()
 
 md_text = md_path.read_text(encoding='utf-8')
 
-# Convert markdown → HTML
-html_body = markdown.markdown(
-    md_text,
-    extensions=['extra', 'sane_lists', 'smarty', 'toc'],
-    output_format='html5',
-)
+
+def preprocess(text):
+    """Turn typed underscore blanks into real write-in rules.
+
+    Raw underscore runs collide with Markdown emphasis (they rendered as tiny
+    bold fragments in v2), and a line of underscores alone becomes an <hr>.
+    """
+    out = []
+    for line in text.split('\n'):
+        stripped = line.strip()
+        if stripped == '&nbsp;':
+            continue  # spacing now comes from .writeline
+        if re.fullmatch(r'_{10,}', stripped):
+            out.append('<div class="writeline"></div>')
+            continue
+        runs = re.findall(r'_{4,}', line)
+        pairs = re.findall(r'(\*\*[^*]+\*\*)\s*_{4,}', line)
+        if len(pairs) >= 2 and re.fullmatch(r'(\s*\*\*[^*]+\*\*\s*_{4,}\s*)+', line):
+            # "**Weekly weigh-in:** ___ **Streak at week's end:** ___" -> one row each
+            for label in pairs:
+                out += [label + ' <span class="fill grow"></span>', '{: .writein .row }', '']
+            continue
+        if stripped.startswith('**') and len(runs) == 1 and re.search(r'_{4,}\s*$', line):
+            cls = '.writein'
+            if re.match(r'\*\*(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\*\*', stripped):
+                cls += ' .daily'
+            out.append(re.sub(r'\s*_{4,}\s*$', ' <span class="fill grow"></span>', line))
+            out.append('{: ' + cls + ' }')
+            continue
+        out.append(re.sub(r'_{4,}', '<span class="fill"></span>', line))
+    return '\n'.join(out)
+
+
+def build_body(toc_pages=None):
+    body = markdown.markdown(
+        preprocess(md_text),
+        extensions=['extra', 'sane_lists', 'smarty', 'toc'],
+        output_format='html5',
+    )
+    # Wrap each h1 and what follows in <section class="sec-ID"> so CSS can be scoped
+    # per chapter (the flat body made sibling selectors leak across the book).
+    parts = re.split(r'(?=<h1 id=")', body)
+    wrapped = ['<section class="sec-prelude front">' + parts[0] + '</section>']
+    for part in parts[1:]:
+        sid = re.match(r'<h1 id="([^"]+)"', part).group(1)
+        extra = ' front' if sid == 'count-yourself-skinny' else ''
+        wrapped.append(f'<section class="sec-{sid}{extra}">' + part + '</section>')
+        if sid == 'what-youll-count':
+            # Blank, unnumbered verso so Chapter 1 opens on a right-hand page
+            wrapped.append('<section class="front blank-page"><p>&nbsp;</p></section>')
+    body = '\n'.join(wrapped)
+    if toc_pages:
+        body = add_toc_numbers(body, toc_pages)
+    return body
+
+
+def add_toc_numbers(body, pages):
+    start = body.index('<section class="sec-what-youll-count">')
+    end = body.index('</section>', start)
+    toc = body[start:end]
+    chap = iter(range(1, 100))
+
+    def li(m):
+        inner = m.group(1)
+        text = re.sub(r'<[^>]+>', '', inner)
+        if '—' in text:  # numbered chapter entry
+            n = next(chap)
+            pg = next((v for k, v in pages.items() if k.startswith(f'{n}.')), None)
+        else:
+            pg = pages.get(re.sub(r'\s+', '', text))
+        if pg is None:
+            return m.group(0)
+        return f'<li><span class="toc-t">{inner}</span><span class="toc-p">{pg}</span></li>'
+
+    toc = re.sub(r'<li>(.*?)</li>', li, toc, flags=re.S)
+    return body[:start] + toc + body[end:]
+
+
+html_body = build_body()
 
 # ── Chapter emblems ──────────────────────────────────────────────────────────
 # Small, colorful hand-drawn SVG illustrations injected above each chapter title.
@@ -83,6 +171,9 @@ h1::after {
   border-radius: 2px;
 }
 
+/* Contain the drop cap so a one-line opening paragraph doesn't indent the next one */
+h1 + p { display: flow-root; }
+
 /* Gold drop cap opening each chapter */
 h1 + p::first-letter {
   float: left;
@@ -95,14 +186,14 @@ h1 + p::first-letter {
 }
 
 /* The first h1 (title page) shouldn't force a page break before */
-body > h1:first-of-type {
+.sec-count-yourself-skinny > h1 {
   page-break-before: avoid;
   font-size: 42pt;
   margin-top: 1in;
 }
 
 /* Title page should not get a chapter drop cap */
-body > h1:first-of-type + p::first-letter {
+.sec-count-yourself-skinny > h1 + p::first-letter {
   float: none;
   font-size: inherit;
   line-height: inherit;
@@ -239,8 +330,8 @@ h2[id^="week-"], h2[id^="before-week"], h2[id^="after-week"] {
   page-break-before: always;
   border-bottom: none;
   text-align: center;
-  font-size: 22pt;
-  margin-top: 0.6em;
+  font-size: 21pt;
+  margin-top: 0;
 }
 h2[id^="week-"]::after, h2[id^="before-week"]::after, h2[id^="after-week"]::after {
   content: "";
@@ -252,34 +343,90 @@ h2[id^="week-"]::after, h2[id^="before-week"]::after, h2[id^="after-week"]::afte
   border-radius: 2px;
 }
 h2[id^="week-"] ~ table td, h2[id^="before-week"] ~ table td {
-  padding: 13px 7px;
+  padding: 6px 7px;
 }
 h2[id^="week-"] + p, h2[id^="before-week"] + p, h2[id^="after-week"] + p {
   text-align: center;
   font-style: italic;
-  margin: 0.4em auto 1.2em;
+  margin: 0.4em auto 0.8em;
   max-width: 4.6in;
 }
 
-/* Daily-notes h3 gets its own page (right-hand page of each week's spread) */
-h3[id^="this-week-s-daily-notes"] {
+/* Daily-notes h3 gets its own page (second page of each week's spread) */
+h3[id^="this-weeks-daily-notes"] {
   page-break-before: always;
   text-align: center;
   font-size: 16pt;
   margin-top: 0.8em;
 }
-/* Write-in lines breathe */
-h3[id^="this-week-s-daily-notes"] ~ p strong {
+/* Write-in blanks (made from typed underscores by preprocess()) */
+.fill {
   display: inline-block;
-  width: 0.55in;
+  width: 1.15in;
+  border-bottom: 1px solid #777;
+  height: 1.1em;
+  vertical-align: baseline;
+  margin-left: 0.2em;
 }
-h3[id^="this-week-s-daily-notes"] ~ p {
-  margin-bottom: 1.5em;
-  text-align: left;
+p .fill { width: 0.7in; }
+td .fill { width: 1.1in; }
+td:not(:first-child) .fill { width: 0.75in; }
+h2[id^="after-week"] + table td:first-child { min-width: 1.3in; }
+h2[id^="week-"] ~ table td:first-child { white-space: nowrap; }
+/* A prompt line ("The win this week:") gets a full-width writing line beneath it */
+p.writein { text-align: left; margin: 0.7em 0 0.5em; }
+p.writein .fill.grow { display: block; width: 100%; height: 1.5em; margin: 0; }
+/* Daily notes: label and line share the row, spaced to fill the page */
+p.writein.daily, p.writein.row { display: flex; align-items: baseline; gap: 0.4em; }
+p.writein.daily { margin: 0 0 0.6in; }
+p.writein.row { margin: 0.35em 0; }
+p.writein.daily strong { flex: 0 0 0.5in; }
+p.writein.daily .fill.grow, p.writein.row .fill.grow { flex: 1; width: auto; height: 1.1em; }
+.writeline {
+  border-bottom: 1px solid #777;
+  height: 0.34in;
+}
+.sec-notes .writeline { height: 0.38in; }
+.writeline + p { margin-top: 1.2em; }
+/* Never hyphenate or split a web address */
+a { hyphens: none; white-space: nowrap; }
+
+/* FAQ: each question on its own line */
+.sec-questions-people-actually-ask p > strong:first-child { display: block; margin-top: 0.6em; }
+
+/* Front matter (half-title, also-by, title, copyright): no folios */
+@page front {
+  @bottom-center { content: none; }
+}
+section.front { page: front; }
+
+.copyright p { font-size: 8.6pt; line-height: 1.45; margin-bottom: 0.7em; text-align: left; }
+
+/* Table of contents with page numbers */
+.sec-what-youll-count li { display: flex; align-items: baseline; gap: 0.5em; }
+.sec-what-youll-count .toc-t { flex: 1; }
+.sec-what-youll-count .toc-p { min-width: 1.6em; text-align: right; font-variant-numeric: tabular-nums; }
+.sec-what-youll-count ul, .sec-what-youll-count ol { list-style: none; margin-left: 0; }
+.sec-what-youll-count ol { counter-reset: ch; }
+.sec-what-youll-count ol li { counter-increment: ch; }
+.sec-what-youll-count ol li::before { content: counter(ch) "."; flex: 0 0 1.4em; color: #A6841C; font-weight: 700; }
+.sec-what-youll-count li { font-size: 10.5pt; line-height: 1.38; margin: 0.22em 0; }
+.sec-what-youll-count > h1 { margin-top: 0.4em; }
+.sec-what-youll-count p { margin: 0.6em 0 0.2em; }
+.blank-page { page-break-before: always; }
+
+/* Title page: centered, no rule under the subtitle */
+.sec-count-yourself-skinny > h2 { border-bottom: none; text-align: center; font-size: 15pt; font-style: italic; font-weight: 400; }
+.sec-count-yourself-skinny > p { text-align: center; }
+
+/* No drop cap on an all-italic intro line (Science, Sources) */
+h1 + p:has(> em:only-child)::first-letter {
+  float: none; font-size: inherit; line-height: inherit; font-weight: inherit; color: inherit; padding: 0;
 }
 
-/* FAQ + science: give each question/count room */
-h1[id^="questions-people"] ~ p strong:first-child { display: block; margin-top: 0.6em; }
+/* Sources */
+ol.sources { font-size: 9pt; line-height: 1.45; margin-left: 1.2em; }
+ol.sources li { margin: 0 0 0.45em; text-align: left; }
 
 /* Science appendix: one count per page */
 h3[id^="the-chew-chapter"], h3[id^="the-space-chapter"], h3[id^="the-steps-chapter"],
@@ -299,7 +446,15 @@ code {
 }
 """
 
-html_doc = f"""<!DOCTYPE html>
+if args.bw:
+    for a, b in [('#2B50C8', '#111111'), ('#A6841C', '#111111'), ('#d4af5a', '#8a8a8a'),
+                 ('#f3e8c8', '#e4e4e4'), ('#fbf7ec', '#f1f1f1'), ('#1a3656', '#111111'),
+                 ('#0a1628', '#111111'), ('#1a1a1a', '#000000'), ('#888', '#555')]:
+        CSS = CSS.replace(a, b)
+
+
+def write_html(body):
+    html_doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -307,10 +462,35 @@ html_doc = f"""<!DOCTYPE html>
 <style>{CSS}</style>
 </head>
 <body>
-{html_body}
+{body}
 </body>
 </html>
 """
+    html_path.write_text(html_doc, encoding='utf-8')
+    print(f"Wrote {html_path}")
 
-html_path.write_text(html_doc, encoding='utf-8')
-print(f"Wrote {html_path}")
+
+def chrome_pdf(out):
+    subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--no-pdf-header-footer',
+                    '--generate-pdf-document-outline', f'--print-to-pdf={out}',
+                    html_path.as_uri()], check=True, capture_output=True)
+    print(f"Wrote {out}")
+
+
+write_html(html_body)
+if args.pdf:
+    chrome_pdf(args.pdf)
+    try:
+        import fitz  # PyMuPDF
+    except ImportError:
+        fitz = None
+        print('PyMuPDF not available: table of contents left without page numbers')
+    if fitz:
+        doc = fitz.open(args.pdf)
+        pages = {}
+        for _lvl, title, pg in doc.get_toc():
+            # Chrome drops the space where a heading wrapped, so compare without whitespace
+            pages.setdefault(re.sub(r'\s+', '', title), pg)
+        doc.close()
+        write_html(build_body(pages))
+        chrome_pdf(args.pdf)
