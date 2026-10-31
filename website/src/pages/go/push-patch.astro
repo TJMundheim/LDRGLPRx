@@ -106,12 +106,15 @@ const SCREEN_CLIENT = {
     } catch (e) {}
   })();
   </script>
-  {/* Partner ?ref=CODE: kept for this tab only; the discount is applied server-side at checkout. */}
+  {/* Partner ?ref=CODE: last touch wins, kept 90 days in localStorage (and this tab's sessionStorage); the discount is applied server-side at checkout. */}
   <script is:inline>
   (function () {
     try {
       var r = (new URL(location.href).searchParams.get('ref') || '').trim().toUpperCase();
-      if (/^[A-Z0-9-]{2,30}$/.test(r)) sessionStorage.setItem('pp-ref', r);
+      if (!/^[A-Z0-9-]{2,30}$/.test(r)) return;
+      var v = JSON.stringify({ ref: r, exp: Date.now() + 90 * 864e5 });
+      try { localStorage.setItem('pp-ref', v); } catch (e) {}
+      try { sessionStorage.setItem('pp-ref', v); } catch (e) {}
     } catch (e) {}
   })();
   </script>
@@ -748,7 +751,13 @@ const SCREEN_CLIENT = {
     payload.skuId = cur.skuId;
     payload.screening = { version: C.version, answers: cur.answers };
     payload.testToken = window.__ppT || undefined;
-    try { payload.ref = sessionStorage.getItem('pp-ref') || undefined; } catch (e) {}
+    (function () {
+      var ok = function (raw) { try { var o = JSON.parse(raw); return o && o.exp > Date.now() && /^[A-Z0-9-]{2,30}$/.test(o.ref) ? o.ref : ''; } catch (e) { return ''; } };
+      var ls = '', ss = '';
+      try { ls = ok(localStorage.getItem('pp-ref')); } catch (e) {}
+      try { ss = ok(sessionStorage.getItem('pp-ref')); } catch (e) {}
+      payload.ref = ls || ss || undefined;
+    })();
     setHealthBusy(true);
     track('lp_patch_checkout', { skuId: cur.skuId });
 

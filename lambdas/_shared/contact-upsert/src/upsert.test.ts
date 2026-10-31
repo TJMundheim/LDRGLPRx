@@ -177,6 +177,18 @@ describe('identity fields are write-once (if_not_exists only)', () => {
   });
 });
 
+describe('partnerCode is first-partner-wins (if_not_exists)', () => {
+  it('sets partnerCode via if_not_exists when passed', async () => {
+    await run({ ...FULL, partnerCode: 'GLOWSPA' });
+    expect(setRhs(first(), 'partnerCode')).toMatch(/if_not_exists\(\s*partnerCode\s*,/);
+    expect(setValue(first(), 'partnerCode')).toBe('GLOWSPA');
+  });
+  it('omits partnerCode when not passed', async () => {
+    await run(FULL);
+    expect(setRhs(first(), 'partnerCode')).toBeUndefined();
+  });
+});
+
 describe('placeholder phones are ignored', () => {
   it.each(['+10000000000', '0000000000', '+0000000000', '12345', ''])('omits phone %j', async (phone) => {
     await run({ email: 'a@b.co', phone });

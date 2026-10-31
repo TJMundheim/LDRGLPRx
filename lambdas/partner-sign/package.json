@@ -1,0 +1,25 @@
+{
+  "name": "@ldrglprx/partner-sign",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "prebuild": "node scripts/check-agreement.mjs",
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node24 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/* --alias:agreement-md=../../docs/legal/My_4M_Life_Partner_Agreement.md --loader:.md=text",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.700.0",
+    "@aws-sdk/lib-dynamodb": "^3.700.0",
+    "@aws-sdk/client-lambda": "^3.700.0",
+    "@my4mlife/stripe-client": "workspace:*",
+    "stripe": "^17.0.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.700.0",
+    "@types/aws-lambda": "^8.10.149",
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

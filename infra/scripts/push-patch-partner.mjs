@@ -1,9 +1,10 @@
-// Partner-program subcommands for push-patch-promo.mjs: partner-coupon, partner, payouts.
+// Partner-program subcommands for push-patch-promo.mjs: partner-coupon, partner, payouts (+ statements, connect-onboard, payouts --pay in sibling modules).
 // Pure helpers are exported for tests; run(ctx) does the Stripe work (dry run unless ctx.apply).
 export const COUPONS = [
   { key: 'push-patch-partner-50', name: 'Push Patch partner $50 off', cents: 5000 },
   { key: 'push-patch-partner-100', name: 'Push Patch partner $100 off', cents: 10000 },
 ];
+import { isPayable } from './push-patch-partner-month.mjs';
 const CODE = /^[A-Z0-9-]{2,30}$/;
 export const parseRef = (s) => { const c = String(s ?? '').trim().toUpperCase(); return CODE.test(c) ? c : undefined; };
 
@@ -13,10 +14,7 @@ const promoId = (d) => (typeof d.promotion_code === 'string' ? d.promotion_code 
 export function summarizePayouts(partnerCodes, sessions) {
   const rows = new Map(partnerCodes.map((p) => [p.id, { business: p.metadata?.business ?? '-', code: p.code, orders: 0, gross: 0, commission: 0, per: Number(p.metadata?.commission ?? 100) * 100 }]));
   for (const s of sessions) {
-    if (s.status !== 'complete' || s.payment_status !== 'paid') continue;
-    const ch = s.payment_intent?.latest_charge;
-    const refunded = ch && typeof ch === 'object' ? ch.amount_refunded ?? 0 : 0;
-    if (ch?.refunded || (s.amount_total > 0 && refunded >= s.amount_total)) continue;
+    if (!isPayable(s)) continue;
     const r = (s.discounts ?? []).map((d) => rows.get(promoId(d))).find(Boolean);
     if (!r) continue;
     r.orders++; r.gross += s.amount_total ?? 0; r.commission += r.per;
@@ -26,6 +24,9 @@ export function summarizePayouts(partnerCodes, sessions) {
 
 export async function run(c) {
   const { stripe, tag, apply, die, usd, flagVal, has, argv, cmd, chicagoTime, fmt } = c;
+  if (cmd === 'statements') return (await import('./push-patch-partner-statements.mjs')).runStatements(c);
+  if (cmd === 'connect-onboard') return (await import('./push-patch-partner-connect.mjs')).runOnboard(c);
+  if (cmd === 'payouts' && has('--pay')) return (await import('./push-patch-partner-connect.mjs')).runPay(c);
   const findCoupon = async (key) => {
     for await (const x of stripe.coupons.list({ limit: 100, expand: ['data.applies_to'] })) if (x.metadata?.key === key) return x;
   };

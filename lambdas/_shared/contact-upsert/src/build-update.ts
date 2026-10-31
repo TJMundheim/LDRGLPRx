@@ -43,6 +43,7 @@ export function buildUpdate(input: ContactUpsertInput, email: string, now: strin
   if (str(input.lastName)) setOnce('lastName', input.lastName.trim());
   if (phone) setOnce('phone', phone);
   if (str(input.stripeCustomerId)) setOnce('stripeCustomerId', input.stripeCustomerId);
+  if (str(input.partnerCode)) setOnce('partnerCode', input.partnerCode); // first partner wins
   setOnce('lifecycleStage', 'lead');
   if (input.protege === true) setOnce('protegeSince', now);
   setAlways('updatedAt', now);

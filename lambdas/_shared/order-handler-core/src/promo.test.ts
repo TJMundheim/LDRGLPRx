@@ -42,6 +42,31 @@ describe('resolvePromo', () => {
   });
 });
 
+describe('resolvePromo partner attribution', () => {
+  const partner = { code: 'glowspa', metadata: { partner: 'true', commission: '150' } };
+  it('adds partnerCode + partnerCommissionUSD when the code has metadata.partner=true', async () => {
+    retrieve.mockResolvedValue(partner);
+    expect(await resolvePromo(stripe, withDiscount())).toEqual({ promoCode: 'GLOWSPA', discountUSD: 150, partnerCode: 'GLOWSPA', partnerCommissionUSD: 150 });
+  });
+  it('uses metadata on an expanded promotion_code object', async () => {
+    const s = withDiscount({ discounts: [{ coupon: 'c', promotion_code: { id: 'promo_1', ...partner } }] });
+    expect(await resolvePromo(stripe, s)).toMatchObject({ partnerCode: 'GLOWSPA', partnerCommissionUSD: 150 });
+    expect(retrieve).not.toHaveBeenCalled();
+  });
+  it('non-partner codes (or partner != "true") carry no partner fields', async () => {
+    retrieve.mockResolvedValue({ code: 'x', metadata: { partner: 'false', commission: '100' } });
+    expect(await resolvePromo(stripe, withDiscount())).toEqual({ promoCode: 'X', discountUSD: 150 });
+  });
+  it('a non-numeric commission yields 0, never NaN', async () => {
+    retrieve.mockResolvedValue({ code: 'x', metadata: { partner: 'true', commission: 'abc' } });
+    expect(await resolvePromo(stripe, withDiscount())).toMatchObject({ partnerCode: 'X', partnerCommissionUSD: 0 });
+  });
+  it('retrieve failure yields no partner fields and does not throw', async () => {
+    retrieve.mockRejectedValue(new Error('down'));
+    expect(await resolvePromo(stripe, withDiscount())).toEqual({ promoCode: 'promo_1', discountUSD: 150 });
+  });
+});
+
 describe('promoLine', () => {
   it('formats the internal-email line, empty without a promo', () => {
     expect(promoLine({ promoCode: 'WOLFPACK', discountUSD: 150 })).toBe('Promo code: WOLFPACK (&minus;$150.00)');

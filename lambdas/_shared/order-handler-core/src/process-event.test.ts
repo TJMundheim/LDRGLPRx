@@ -613,6 +613,23 @@ describe('processEvent', () => {
       expect(mockUpsert.mock.calls[0][1].tags).toEqual(['promo:promo_abc']);
     });
 
+    it('partner code: Orders gets partnerCode + commission; Contact upsert gets partnerCode and partner: tag', async () => {
+      promoRetrieve.mockResolvedValue({ code: 'glowspa', metadata: { partner: 'true', commission: '150' } });
+      await run();
+      expect(ordersItem()).toMatchObject({ promoCode: 'GLOWSPA', partnerCode: 'GLOWSPA', partnerCommissionUSD: 150 });
+      const input = mockUpsert.mock.calls[0][1];
+      expect(input.partnerCode).toBe('GLOWSPA');
+      expect(input.tags).toEqual(['promo:GLOWSPA', 'partner:GLOWSPA']);
+      expect(pendingItem()).not.toHaveProperty('partnerCode');
+    });
+
+    it('non-partner code: no partner fields on Orders or the upsert', async () => {
+      await run();
+      expect(ordersItem()).not.toHaveProperty('partnerCode');
+      expect(ordersItem()).not.toHaveProperty('partnerCommissionUSD');
+      expect(mockUpsert.mock.calls[0][1]).not.toHaveProperty('partnerCode');
+    });
+
     it('no discount: Orders item, upsert input and pending marker carry no promo fields', async () => {
       mockSessionRetrieve.mockResolvedValue({ ...promoSession, discounts: [], total_details: { amount_discount: 0 } });
       await run();

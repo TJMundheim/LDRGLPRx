@@ -9,6 +9,9 @@
 //   partner-coupon [--mode] [--apply]                      create/find the $50 + $100 partner coupons
 //   partner CODE --name "Biz" --email e --client-discount 50|100 [--commission 100] [--note] [--mode] [--apply]
 //   payouts [--since YYYY-MM-DD] [--until YYYY-MM-DD] [--mode]   commission owed per partner (read-only)
+//   statements --month YYYY-MM [--send] [--mode]           per-partner statement emails (preview; --send emails; no client identities)
+//   connect-onboard CODE [--mode] [--apply]                Stripe Connect Express account + onboarding link (exit 3 if Connect is off)
+//   payouts --month YYYY-MM --pay [--mode] [--apply]       Stripe transfers per partner with a Connect account (dry run by default)
 // Dry run by default (read/list calls only); --apply writes. --mode defaults to test.
 // Never deletes or archives. Keys: Secrets Manager `all-stripe-keys` (us-east-2); never printed.
 import { createRequire } from 'node:module';
@@ -37,7 +40,7 @@ const die = (m) => { console.error(m); process.exit(2); };
 const mode = flagVal('--mode') ?? 'test';
 if (!['live', 'test'].includes(mode)) die('--mode must be live or test');
 const apply = has('--apply');
-if (!['coupon', 'code', 'list', 'report', 'partner-coupon', 'partner', 'payouts'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report|partner-coupon|partner CODE|payouts [--mode live|test] [--apply]');
+if (!['coupon', 'code', 'list', 'report', 'partner-coupon', 'partner', 'payouts', 'statements', 'connect-onboard'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report|partner-coupon|partner CODE|payouts|statements|connect-onboard CODE [--mode live|test] [--apply]');
 
 const secret = await new SecretsManagerClient({ region: 'us-east-2' }).send(new GetSecretValueCommand({ SecretId: 'all-stripe-keys' }));
 const key = JSON.parse(secret.SecretString)[`stripe-${mode}-secret`];
@@ -147,5 +150,5 @@ if (cmd === 'coupon') {
   if (!rows.size) console.log('(no paid orders used a code)');
 } else {
   const { run } = await import('./push-patch-partner.mjs');
-  await run({ stripe, tag, apply, die, usd, fmt, flagVal, has, argv, cmd, chicagoTime, pushPatchProducts });
+  await run({ stripe, tag, apply, die, usd, fmt, flagVal, has, argv, cmd, chicagoTime, pushPatchProducts, root });
 }
