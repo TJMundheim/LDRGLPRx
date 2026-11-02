@@ -27,7 +27,7 @@ No part of this publication may be reproduced, distributed, stored in a retrieva
 
 **Medical Disclaimer.** This book is for educational and informational purposes only and is not intended as medical advice, diagnosis, or treatment. The author is a Doctor of Chiropractic, NBCE-certified since 1994; he is not a medical physician and does not provide medical care through this book or the My4MLife platform. Medical care, diagnosis, and prescriptions referenced in these pages are provided exclusively by independent licensed medical practices. Always consult a qualified licensed clinician before beginning any new health protocol, supplement, or medication, and never disregard or delay seeking professional medical advice because of something you have read here. The author and publisher disclaim any liability arising directly or indirectly from the use or application of the contents of this book.
 
-Scientific references and source materials for the claims in this book are maintained and updated at [my4mlife.com/science](https://my4mlife.com/science).
+Scientific references and source materials for the claims in this book are available on request at support@my4mlife.com.
 
 First Edition, 2026
 
@@ -3050,6 +3050,20 @@ I am not going to spend three paragraphs softening this part. If a diagnosis is 
 
 Take the assessment. Answer the already-diagnosed question honestly. Let the system route you. Do not wait.
 
+## For the Reader Who Wants It Done With You
+
+There is a third kind of reader, and I know you, because I have sat across the table from you for thirty years.
+
+You have read every page. You agree with all of it. And you know yourself well enough to know that agreeing is not doing. Your calendar belongs to other people. Your kitchen was stocked by habit, not by design. You have bought good intentions before. What you want is not another program. You want someone to come and set the course with you — in your house, at your table, in your pantry, on your morning walk — until the new way of living is simply the way you live.
+
+A few times a year, I do exactly that, for a small number of households. We call it the **Captain's Table**. On a ship, the captain invites a handful of guests to dine at his table for the crossing. That is the idea here.
+
+I come to your home for four days. We run the deep testing — comprehensive labs and the genetic panels that tell us how your body actually handles food, medication, and stress. We clear the pantry and restock it. We set the bedroom up for sleep and check the house for light, air, and water. We build your strength routine and your morning routine, and we cook the meals together until you can run them without me. Then I am on the phone with you every day for the rest of the month, and I come back at day thirty to read the numbers and set the next leg of the voyage, with any medical piece handled by licensed physicians in our network.
+
+It is by application, because being able to pay for it is not enough. It has to be the right household, ready to change, at the right time. The seats are few — I start only two new households a month — because I keep running this protocol on myself, and I intend to keep leading it by example.
+
+If that is you, apply at **my4mlife.com/coaching**. We will talk it through on a call, and I will tell you honestly whether it is the right fit or whether the free path in this chapter will get you there.
+
 ## Final Words
 
 I started this book by telling you that the person your spouse married, the parent your kids recognize, the operator who walks into a room and reads it — that person is the asset. Everything else is the delivery system.
@@ -3245,7 +3259,7 @@ Every protocol in this book is one he runs himself. My4MLife is not a clinic; it
 
 **You do not have to finish this book to begin. You have to take one step — tonight.**
 
-### Take the free 5-minute 4M Assessment → my4mlife.com/assessment
+### Take the free 4M Assessment (about 7 minutes) → my4mlife.com/assessment
 
 It surfaces your top three mitigating factors — the places the insulting behavior is doing the most damage to *your* physiology right now — and routes you to the path forward for each. It tells you where to start Monday morning. It also sets your **MindSpan Score**, your baseline brain-healthspan number, which then updates daily in the app as you run the protocol.
 
@@ -3258,6 +3272,8 @@ Completing it makes you a **Protégé. Free. No card, no catch.** That includes:
 The protocol works whether or not you ever buy a product. The products accelerate it; they don't replace it.
 
 **Already diagnosed** — with mild cognitive impairment, dementia, Alzheimer's, or Parkinson's, or reading on behalf of someone you love who is? Answer the already-diagnosed question at the end of the assessment honestly and the system routes you straight to the **regenerative medicine protocol**, with nationwide mobile delivery — the team comes to you. It is time-sensitive. Do not wait.
+
+**Want it done with you?** For a small number of households each year, I come to your home and set the course with you — the testing, the kitchen, the house, the training, and a daily call for the rest of the month. It is called the **Captain's Table**, and it is by application: **my4mlife.com/coaching**.
 
 Questions: support@my4mlife.com
 

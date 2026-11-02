@@ -31,7 +31,7 @@ No part of this publication may be reproduced, distributed, stored in a retrieva
 
 **Financial Disclaimer.** This book is not financial, tax, insurance, or legal advice. Nothing here is a recommendation to buy, drop, or alter any insurance policy. Consult your own advisors.
 
-Scientific references and source materials for the claims in this book are maintained and updated at [my4mlife.com/science](https://my4mlife.com/science).
+Scientific references and source materials for the claims in this book are listed in the Sources section at the back of this book.
 
 First Edition, 2026
 
@@ -64,7 +64,7 @@ The numbers are not wrong. Every figure in this book carries its source and its 
 
 I am going to ask you to make a decision about money, so I owe you a clean audit trail.
 
-**Every figure in this book carries a source and a year, in the text, where you read it** — not in an endnote you will never flip to. Where a widely quoted number rests on stale data I say so in the sentence. Where two respectable models disagree, I do not average them; I take the more conservative one and say that I did. The full citation list is in the back, and the working version lives at my4mlife.com/science.
+**Every figure in this book carries a source and a year, in the text, where you read it** — not in an endnote you will never flip to. Where a widely quoted number rests on stale data I say so in the sentence. Where two respectable models disagree, I do not average them; I take the more conservative one and say that I did. The full citation list is in the back.
 
 **Bill and Cindy are a composite**, assembled out of the arc that shows up over and over in the national data. Every dollar figure attached to them comes from a published survey of what that care costs. The tennis league is invented. The invoice is not.
 
@@ -669,6 +669,17 @@ Coverage does not begin when you decide to buy it. It begins when the first prem
 >
 > **What it does not buy:** immunity. Nothing in this book prevents, treats, cures, or reverses dementia, and no one who tells you otherwise is doing math. It lowers the odds. That is the only sentence I have sold you, it is the same one I started with, and it is the last one.
 
+
+## If you would rather not run it alone
+
+Some households read this far, agree with every line, and know themselves well enough to know that agreeing is not doing. Calendars that belong to other people. A kitchen stocked by habit. A history of good intentions. For a small number of those households each year, I do the first month with them, in person.
+
+It is called the **Captain's Table**. I come to your home for four days: comprehensive labs and genetic testing, the pantry cleared and restocked, the bedroom set up for sleep, the house checked for light, air, and water, the strength and morning routines built, and the meals cooked together until you can run them without me. Then a daily call for the rest of the month, and a return visit at day thirty to read the numbers, with any medical piece handled by independent licensed physicians.
+
+It does not replace anything your advisor, attorney, or CPA does. They fund and structure the risk. This works the other side of the ledger — the odds — faster, for the household that wants it done with them rather than handed to them. It carries the same honest limit as everything else in this book: it lowers odds; it does not promise an outcome. Some households should have both. Ask your advisor.
+
+It is by application, and the seats are few. If it is you, apply at **my4mlife.com/coaching**. We will talk it through on a call, and I will tell you honestly if the free path in this chapter will get you there instead.
+
 ---
 
 # Signing
@@ -705,7 +716,7 @@ Twenty questions. About seven minutes. Free, and there is nothing to buy at the 
 
 **What happens next.** Your full results arrive by email, along with what comes with being a Protégé, at no charge: the **app**, which runs the four-month program week by week; **The Logbook**; a copy of ***Begin with the End in Mind***, the full-length book behind the framework in Part III; and **weekly Zooms** with other people running the same schedule.
 
-If a licensed clinician needs to be involved — labs, hormone support, anything requiring a prescriber — that is a separate conversation at **my4mlife.com/consult**, with an independent licensed medical practice, after an actual evaluation. If you want your own household's ten-year number instead of the national median in Chapter 3, run it at **my4mlife.com/go/uninsured-decade** and print the sheet for your advisor. To be clear: the assessment is the health-span half; the money half stays with the advisor who handed you this book.
+If a licensed clinician needs to be involved — labs, hormone support, anything requiring a prescriber — that is a separate conversation at **my4mlife.com/consult**, with an independent licensed medical practice, after an actual evaluation. If you want your own household's ten-year number instead of the national median in Chapter 3, run it at **my4mlife.com/go/uninsured-decade** and print the sheet for your advisor. To be clear: the assessment is the health-span half; the money half stays with the advisor who handed you this book. And if your household would rather have the first month done with you, in your home, read *If you would rather not run it alone* at the end of Chapter 13, or go to **my4mlife.com/coaching**.
 
 Take the assessment tonight. The rest can wait until the weekend. That one cannot, because it is the only line on the schedule that has to happen first.
 
@@ -724,7 +735,7 @@ my4mlife.com · my4mlife.com/assessment
 ---
 # Sources {.sources}
 
-Every figure above is keyed to one of the following. Full citations, access dates, and the working updated version are maintained at my4mlife.com/science.
+Every figure above is keyed to one of the following. Full citations and access dates follow.
 
 - **[Alz. Assoc. 2026]** — Alzheimer's Association, *2026 Alzheimer's Disease Facts and Figures*. Lifetime cost of care $405,262 (2024 dollars), 70% family-borne; 19+ billion unpaid hours in 2025 valued at $446.3B; roughly two-thirds of US Alzheimer's cases are in women. *Its own Alzheimer's-only lifetime-risk figure (~1 in 5 women, ~1 in 10 men) is superseded in this book by the larger, all-cause-dementia [Fang et al., Nat. Med. 2025] figure below — use that one, not this one, for any lifetime-risk statement.* alz.org/alzheimers-dementia/facts-figures
 - **[Fang et al., Nat. Med. 2025]** — Fang M, Coresh J, et al., "Lifetime risk and projected burden of dementia," *Nature Medicine*, published 13 Jan 2025. ARIC cohort, >15,000 people followed dementia-free from age 55. Lifetime risk of dementia after 55: 42% overall (95% CI 41–43%), 35% men, 48% women; higher in APOE ε4 carriers and Black adults (~45–60%); projected new U.S. cases/yr rise from 514,000 (2020) to ~1 million (2060). For a couple, P(at least one) = 1 − (0.65 × 0.52) ≈ 66%. **Caveat: all-cause dementia including mild late-life cases — broader than "Alzheimer's requiring full-time memory care." The $405,262 lifetime-cost figure applies to those who go on to develop it, not further-discounted for severity.** nature.com/articles/s41591-024-03340-9; PubMed 39806070
