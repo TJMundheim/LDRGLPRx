@@ -121,7 +121,7 @@
       { id: 'strength', label: 'Strength', cap: 4, isMove: move.actionId === 'strength' },
       { id: 'morning-routine', label: 'Morning routine', cap: 7, isMove: move.actionId === 'morning-routine' },
     ];
-    if (!move.standing) rows.push({ id: move.actionId, label: 'The Move', cap: move.target, isMove: true });
+    if (!move.standing) rows.push({ id: move.actionId, label: move.gridLabel ?? 'The Move', cap: move.target, isMove: true });
     return rows;
   });
   const dayLetters = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];

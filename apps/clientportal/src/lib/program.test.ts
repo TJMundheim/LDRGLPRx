@@ -171,3 +171,15 @@ describe('memberWeek — the calendar alone paces the program (TJ 2026-10-30)', 
     expect(memberWeek(null, new Date(2026, 9, 30))).toBe(1);
   });
 });
+
+describe('one-off Moves name themselves in the weekly grid (TJ 2026-11-02)', () => {
+  it('every non-standing Move has a short label that is not the generic "The Move"', () => {
+    for (const m of MOVES.filter(m => !m.standing)) {
+      expect(m.gridLabel, `week ${m.week}`).toBeTruthy();
+      expect(m.gridLabel).not.toBe('The Move');
+    }
+  });
+  it('week 7 reads as the intensity day', () => {
+    expect(moveForWeek(7).gridLabel).toBe('Intensity day');
+  });
+});

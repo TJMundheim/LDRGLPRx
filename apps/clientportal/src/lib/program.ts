@@ -31,6 +31,8 @@ export interface ProgramMove {
   target: number;
   /** true when the Move rides a standing tape row (no extra tap row needed) */
   standing: boolean;
+  /** short row name in the weekly grid for one-off Moves (no standing row to ride) */
+  gridLabel?: string;
 }
 
 export const PROGRAM_WEEKS = 12;
@@ -39,15 +41,15 @@ export const MOVES: ProgramMove[] = [
   { week: 1,  month: 1, theme: 'MITIGATE', title: 'Start Biome NS Ultra — with your first meal, every day', actionId: 'biome-ns-ultra', target: 7, standing: true },
   { week: 2,  month: 1, theme: 'MITIGATE', title: 'Hold the 9–6 eating window 5 of 7 days', actionId: 'eating-window', target: 5, standing: true },
   { week: 3,  month: 1, theme: 'MITIGATE', title: 'Protein-first 30–40g at every fast-break', actionId: 'protein-breakfast', target: 7, standing: true },
-  { week: 4,  month: 1, theme: 'MITIGATE', title: 'Pantry purge — zero seed oils in the house', actionId: 'move-pantry-purge', target: 1, standing: false },
+  { week: 4,  month: 1, theme: 'MITIGATE', title: 'Pantry purge — zero seed oils in the house', actionId: 'move-pantry-purge', target: 1, standing: false, gridLabel: 'Pantry purge' },
   { week: 5,  month: 2, theme: 'MUSCLE', title: 'Strength ×3 — log the lifts', actionId: 'strength', target: 3, standing: true },
   { week: 6,  month: 2, theme: 'MUSCLE', title: 'Fasted dawn walk ×5', actionId: 'fasted-walk', target: 5, standing: true },
-  { week: 7,  month: 2, theme: 'MUSCLE', title: 'Add one intensity day — hills or sprints', actionId: 'move-intensity', target: 1, standing: false },
-  { week: 8,  month: 2, theme: 'MUSCLE', title: 'Sleep week — 3-hour cutoff + cold dark room', actionId: 'move-sleep-protocol', target: 5, standing: false },
-  { week: 9,  month: 3, theme: 'MOTIVATE → MIND', title: 'Name your face — write who you are doing this for', actionId: 'move-name-your-face', target: 1, standing: false },
-  { week: 10, month: 3, theme: 'MOTIVATE → MIND', title: 'Heat or cold exposure ×2', actionId: 'move-heat-cold', target: 2, standing: false },
-  { week: 11, month: 3, theme: 'MOTIVATE → MIND', title: 'Book your labs — measure, don’t guess', actionId: 'move-book-labs', target: 1, standing: false },
-  { week: 12, month: 3, theme: 'MOTIVATE → MIND', title: 'Retake the assessment — new MindSpan baseline', actionId: 'move-retake-assessment', target: 1, standing: false },
+  { week: 7,  month: 2, theme: 'MUSCLE', title: 'Add one intensity day — hills or sprints', actionId: 'move-intensity', target: 1, standing: false, gridLabel: 'Intensity day' },
+  { week: 8,  month: 2, theme: 'MUSCLE', title: 'Sleep week — 3-hour cutoff + cold dark room', actionId: 'move-sleep-protocol', target: 5, standing: false, gridLabel: 'Sleep week' },
+  { week: 9,  month: 3, theme: 'MOTIVATE → MIND', title: 'Name your face — write who you are doing this for', actionId: 'move-name-your-face', target: 1, standing: false, gridLabel: 'Name your face' },
+  { week: 10, month: 3, theme: 'MOTIVATE → MIND', title: 'Heat or cold exposure ×2', actionId: 'move-heat-cold', target: 2, standing: false, gridLabel: 'Heat or cold' },
+  { week: 11, month: 3, theme: 'MOTIVATE → MIND', title: 'Book your labs — measure, don’t guess', actionId: 'move-book-labs', target: 1, standing: false, gridLabel: 'Book your labs' },
+  { week: 12, month: 3, theme: 'MOTIVATE → MIND', title: 'Retake the assessment — new MindSpan baseline', actionId: 'move-retake-assessment', target: 1, standing: false, gridLabel: 'Retake assessment' },
 ];
 
 export function moveForWeek(week: number): ProgramMove {
