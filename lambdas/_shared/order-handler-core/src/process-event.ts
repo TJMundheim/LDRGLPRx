@@ -30,10 +30,10 @@ const PROTEGE_MEMBERSHIP_SKUS: Record<string, { welcomeVariant: 'standard' | 'ap
 type DigitalAsset = { name: string; s3Key: string; subjectLine: string; bodyIntro: string };
 const DIGITAL_PRODUCTS: Record<string, DigitalAsset> = {
   'cohort-workbook': {
-    name: 'Cohort Workbook',
+    name: 'The Logbook',
     s3Key: 'cohort-workbook-v1.pdf',
-    subjectLine: 'Your My4MLife Cohort Workbook is ready to download',
-    bodyIntro: 'Thanks for purchasing the My4MLife Cohort Workbook. Your download link is below — valid for 7 days. If you need a fresh link after that, just reply to this email and we will send one.',
+    subjectLine: 'Your My4MLife Logbook is ready to download',
+    bodyIntro: 'Thanks for purchasing the My4MLife Logbook. Your download link is below — valid for 7 days. If you need a fresh link after that, just reply to this email and we will send one.',
   },
   'begin-with-the-end-in-mind': {
     name: 'Begin with the End in Mind',

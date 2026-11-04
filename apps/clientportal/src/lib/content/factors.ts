@@ -204,7 +204,7 @@ export const factors: Factor[] = [
          {n:'Calm app',u:'https://calm.com'}] },
   { n:'10', name:'Excess body fat', tag:null, pillarId:'muscle',
     sub:'Significant visceral or abdominal fat — waist over 40 in, or body fat over 25%',
-    imm:['Measure your waist at the navel right now and record that number in your workbook',
+    imm:['Measure your waist at the navel right now and record that number in your Logbook',
          'Calculate your protein target: target bodyweight (lbs) × 0.9 = daily grams',
          'Cut one ultra-processed food from your daily routine starting today'],
     tools:['Visceral fat is metabolically active — it produces cytokines that cross the blood-brain barrier',

@@ -180,7 +180,7 @@ describe('processEvent', () => {
     const payload = JSON.parse(invokeInput.Payload.toString());
     expect(payload.to).toBe('test@example.com');
     expect(payload.kind).toBe('info');
-    expect(payload.subject).toMatch(/Cohort Workbook/i);
+    expect(payload.subject).toMatch(/Logbook/i);
     expect(payload.html).toContain('https://signed.example/cohort-workbook-v1.pdf');
     expect(payload.html).toContain('Hi TJ');
   });

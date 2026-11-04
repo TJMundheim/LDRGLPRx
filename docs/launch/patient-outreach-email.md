@@ -22,7 +22,7 @@ _TJ — this is the email you send to your 30 years of patient relationships ann
 >
 > After 30 years of practice — and a lot of watching the same pattern repeat in men our age — I launched a platform called **My4MLife**. The idea is simple: most men in their 50s and 60s are getting medicine that treats one symptom at a time. The actual problem is upstream, it is integrated, and the endpoint that matters is your brain in your last decade. Not your waistline, not your testosterone, not any single number. The mind you walk into your granddaughter's wedding with.
 >
-> I built My4MLife around that — a four-pillar framework, a free workbook, and direct access to me when it matters. No subscription trap. No exaggerated promises. Just the integrated picture I wish more men had been handed at 50.
+> I built My4MLife around that — a four-pillar framework, a free Logbook, and direct access to me when it matters. No subscription trap. No exaggerated promises. Just the integrated picture I wish more men had been handed at 50.
 >
 > If you're curious, the lowest-friction starting point is an 8-question audit. It takes about three minutes:
 >
