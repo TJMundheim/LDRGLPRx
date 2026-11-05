@@ -122,15 +122,27 @@ const SCREEN_CLIENT = {
 
 <div class="pp">
 
-  {/* October offer (OCT2026, Stripe promo). Self-expires after 2026-10-31 23:59:59 CT: not rendered at build past the
+  {/* Year-end offer (YEAREND, Stripe promo). Self-expires after 2026-12-31 23:59:59 CT: not rendered at build past the
       deadline, and hidden client-side if the page was built earlier. Remove after the offer ends. */}
   <PromoBanner
-    code="OCT2026"
-    headline="October special: $250 off any Push Patch blend"
-    detail={'Use code {code} at checkout (tap "Add promotion code"). Ends October 31 at 11:59 p.m. CT.'}
-    prices="NAD+ Restore $700 → $450 · Metabolic $795 → $545 · other NAD+ blends $650 → $400 · Glutathione Radiance $550 → $300"
-    endsAtIso="2026-11-01T04:59:59Z"
+    code="YEAREND"
+    headline="Year-end special: $150 off any Push Patch blend"
+    detail={'Use code {code} at checkout (tap "Add promotion code"). Ends December 31 at 11:59 p.m. CT.'}
+    prices="NAD+ Restore $700 → $550 · Metabolic $795 → $645 · other NAD+ blends $650 → $500 · Glutathione Radiance $550 → $400"
+    endsAtIso="2027-01-01T05:59:59Z"
   />
+  {/* Partner visitors have their code applied automatically and get no code box at checkout, so this offer can't apply to them. */}
+  <script is:inline>
+  (function () {
+    var live = function (raw) { try { var o = JSON.parse(raw); return !!(o && o.exp > Date.now() && o.ref); } catch (e) { return false; } };
+    var has = false;
+    try { has = live(localStorage.getItem('pp-ref')); } catch (e) {}
+    try { has = has || live(sessionStorage.getItem('pp-ref')); } catch (e) {}
+    if (!has) return;
+    var els = document.querySelectorAll('[data-promo]');
+    for (var i = 0; i < els.length; i++) els[i].hidden = true;
+  })();
+  </script>
 
   <header class="pp-top">
     <a class="pp-mark" href="/">My<b>4M</b>Life</a>
