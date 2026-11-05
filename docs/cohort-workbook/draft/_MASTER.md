@@ -31,7 +31,7 @@ The logbook covers **Month 1** — the first four weeks of the My4MLife cohort p
 
 - **Part 1 — Your Why.** Before any protocol, you name the face you're doing this for and write your why. This page comes first because the protocol that you actually run beats the protocol that was theoretically better — and the protocol that you actually run is the one you run for a specific named person.
 - **Part 2 — The 4M Framework.** A two-page anchor on Mind, Muscle, Mitigate, Motivate. Refer back to this any time the work starts to feel like a pile of tasks instead of a system.
-- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a Wednesday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the canaries — the ED canary for men, the perimenopause/menopause canary for women. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
+- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a weekly Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the canaries — the ED canary for men, the perimenopause/menopause canary for women. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
 - **Part 7 — The Stack Reference.** One page per product. The full My4MLife stack — every OTC, every Rx tier, every dose, every pairing — in one place. Return here any time you forget why you're taking something.
 - **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The person who layers this on a broken foundation gets the bill, not the benefit.
 - **Part 9 — Resources & Next Steps.** The 20-question MindSpan assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
@@ -583,7 +583,7 @@ Then you do it again. And again. The person who runs the loop longest wins.
 | **Mind** | The destination — cognitive healthspan | Every reflection · Sunday review |
 | **Muscle** | The engine — strength, nutrition, fuel | Lift days · protein-first meals |
 | **Mitigate** | Eliminate the insulting behavior | Daily stack · sleep window · gut · hormones audit |
-| **Motivate** | Sustain the work · close the loop | Wednesday Zoom · accountability target · the why |
+| **Motivate** | Sustain the work · close the loop | Weekly Zoom · accountability target · the why |
 
 ---
 
@@ -613,7 +613,7 @@ Here is the entire week, in plain language:
 
 Plus two touchpoints that hold the week together:
 
-- **The Wednesday Zoom.** Show up live or watch the recording. Attendance is the single mechanism that unlocks Week 2.
+- **The weekly Zoom.** It is scheduled based on demand. If your schedule does not allow you to attend, the recording is available to you. Attendance is the single mechanism that unlocks Week 2.
 - **The Sunday reflection.** Four pages, one per pillar, at the back of this part. Do it Sunday evening with a cup of tea, not Monday morning in a panic.
 
 There is no optional advanced layer this week. No cold plunges, no breathwork stacks, no zone-2 protocols. If you are tempted to add something, don't. The temptation to add is the same temptation that has made every previous attempt fail. *Stop hurting yourself first. Then add what works.*
@@ -635,7 +635,7 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 | **AM — empty stomach, 30 min before food** | Gut-barrier probiotic (the gut-brain seal) | 1 scoop in 8 oz water | Gut-brain seal. The foundation of every other pillar. |
 | **With breakfast (~9 AM)** | Vitamin D + K2 + boron + astaxanthin stack | 1 serving | D3 + K2 + boron + astaxanthin. Daily floor nutrients. |
 | **Training days: around the fasted lift · Non-training days: with breakfast** | Creatine monohydrate | 5 g | Training days: half a scoop of electrolytes + 5 g creatine in 16 oz water before the fasted lift, other half after. Non-training days: 5 g with breakfast. |
-| **Training days — half before the lift, half after** | Electrolyte powder (zero-calorie, low-sodium; see my4mlife.com for the one we use) | 1 scoop split in 16 oz water | Carries the creatine, holds hydration through a fasted lift, and blunts appetite if you want to push the fast further into the day. |
+| **Training days — half before the lift, half after** | Electrolyte powder (zero-sugar, low-sodium; see my4mlife.com for the one we use) | 1 scoop split in 16 oz water | Carries the creatine, holds hydration through a fasted lift, and blunts appetite if you want to push the fast further into the day. |
 | **With your highest-fat meal of the day** | Omega-3 + ubiquinol CoQ10 softgel | 2 softgels | EPA/DHA + ubiquinol CoQ10. Cardio-neuro. Take with fat for absorption. |
 | **30–60 min before lights out** | Sleep-support formula | 1 serving | Sleep onset + architecture. |
 | **Evening (around 9 PM)** | Magnesium L-threonate | 1.5–2 g | The only magnesium form that crosses into the hippocampus. |
@@ -898,7 +898,7 @@ _________________________________________________________________
 
 ---
 
-## 3.5 — Wednesday Zoom Prep Page
+## 3.5 — Weekly Zoom Prep Page
 
 > *Show up to the Zoom even on the weeks you fell off. Especially those weeks.*
 
@@ -1030,7 +1030,7 @@ _________________________________________________________________
 
 ### Motivate
 
-What sustains the work — and what closes the loop. Motivate is the pillar nobody pays enough attention to until they fall off. This week, Motivate looked like showing up on Wednesday's Zoom and naming the face you're doing this for. Identity and accountability are not soft skills. They are the structural enablers that determine whether you do this for seven days or fifty-two weeks.
+What sustains the work — and what closes the loop. Motivate is the pillar nobody pays enough attention to until they fall off. This week, Motivate looked like showing up to the weekly Zoom and naming the face you're doing this for. Identity and accountability are not soft skills. They are the structural enablers that determine whether you do this for seven days or fifty-two weeks.
 
 **1. Whose face did I picture this week when I didn't want to do the work?**
 
@@ -1038,7 +1038,7 @@ _________________________________________________________________
 
 _________________________________________________________________
 
-**2. Did I show up to the Wednesday Zoom — live or recording? If not, why?**
+**2. Did I show up to the weekly Zoom — live or recording? If not, why?**
 
 _________________________________________________________________
 
@@ -1077,7 +1077,7 @@ _________________________________________________________________
 | Magnesium L-threonate (evening) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Wednesday Zoom attended | | | ☐ | | | | |
+| Weekly Zoom attended | | | ☐ | | | | |
 | Sunday reflection done | | | | | | | ☐ |
 
 **Weekly target:  _______ / 79**
@@ -1115,7 +1115,7 @@ Three sessions this week. A / B / A pattern. Compound lifts only. Leave one rep 
 
 We're also tightening sleep architecture. The 60 minutes before bed are the single highest-leverage window most people waste. You're going to install a real wind-down this week.
 
-Same daily check-in. Same Wednesday Zoom. Same end-of-week 4M reflection. New trackers for the lift and the wind-down.
+Same daily check-in. Same weekly Zoom. Same end-of-week 4M reflection. New trackers for the lift and the wind-down.
 
 ---
 
@@ -1161,7 +1161,7 @@ No static stretching cold. Move first, stretch later (or not at all).
 Walk. Outside if you can. Don't sit down sweaty. Let the heart rate come down on its feet.
 
 **Pre-workout (optional):** Creatine + L-citrulline + beetroot + electrolyte blend (pre-workout), 20-30 min before training, with water. See my4mlife.com for the specific product we currently recommend.
-**Electrolytes on training days:** half a scoop of electrolyte powder (zero-calorie, low-sodium; see my4mlife.com for the one we use) with 5 g creatine in 16 oz water before the fasted lift, the other half after. It also blunts appetite if you want to push the fast further into the day. Non-training days: creatine with breakfast as before.
+**Electrolytes on training days:** half a scoop of electrolyte powder (zero-sugar, low-sodium; see my4mlife.com for the one we use) with 5 g creatine in 16 oz water before the fasted lift, the other half after. It also blunts appetite if you want to push the fast further into the day. Non-training days: creatine with breakfast as before.
 **Post-workout:** 30–40g protein within 60 minutes. This is your protein-first feeding window opener — train fasted, then break the fast with protein after. If your workout ends around 10 AM, that's when the window opens.
 
 > *Recovery is where adaptation happens. Leave one rep in the tank.*
@@ -1302,7 +1302,7 @@ One page per day. Print seven. Lift boxes only activate on lift days.
 
 ---
 
-## 4.6 — Wednesday Zoom Prep Page
+## 4.6 — Weekly Zoom Prep Page
 
 Bring this filled in. Five minutes before the call.
 
@@ -2180,9 +2180,9 @@ Consult booked or OTC reassessment date set: ☐
 
 ---
 
-## 5.6 — Wednesday Zoom Prep Page
+## 5.6 — Weekly Zoom Prep Page
 
-Bring this page to the Wednesday cohort Zoom. Write the answers before you log on. You do not have to read them aloud — you have to write them.
+Bring this page to the weekly cohort Zoom. Write the answers before you log on. You do not have to read them aloud — you have to write them.
 
 ---
 
@@ -2601,7 +2601,7 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 
 ---
 
-## 6.4 — Wednesday Zoom Prep
+## 6.4 — Weekly Zoom Prep
 
 Bring honest answers. Not polished ones.
 
@@ -2868,7 +2868,7 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Resistance OR Zone 2 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | One insult avoided | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 
-**Wednesday Zoom attended:** ☐
+**Weekly Zoom attended:** ☐
 
 **Week 4 score: ____ / 63**
 
@@ -2965,7 +2965,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Dose:** 5g daily (no loading phase needed at our age)
 **What it is:** Pure creatine monohydrate. Not HCL, not buffered, not "advanced." Monohydrate. The form that has 700+ trials behind it.
 **Why it's in the stack:** This is the single most-evidenced cognitive supplement for people 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
-**What it pairs with:** Resistance training (non-negotiable). Electrolyte powder (zero-calorie, low-sodium; see my4mlife.com for the one we use) on training days — half a scoop with your 5 g of creatine in 16 oz water before the fasted lift, the other half after; it also blunts appetite if you want to push the fast further into the day. Non-training days: 5 g with breakfast. Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
+**What it pairs with:** Resistance training (non-negotiable). Electrolyte powder (zero-sugar, low-sodium; see my4mlife.com for the one we use) on training days — half a scoop with your 5 g of creatine in 16 oz water before the fasted lift, the other half after; it also blunts appetite if you want to push the fast further into the day. Non-training days: 5 g with breakfast. Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
 **What to watch for in the first 30 days:** 1-2 pounds of water weight in the first 10 days — that's intracellular hydration, not fat. Strength on compound lifts goes up within 2-3 weeks. Mental clarity under sleep deprivation is the tell that it's reached your brain.
 
 > *If you take exactly one supplement from this stack, take this one.*
@@ -3022,7 +3022,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Why it's in the stack:** Mitochondrial ATP plus endothelial nitric oxide in one scoop. Citrulline and beetroot raise NO and blood flow to working muscle and brain. The added creatine layer stacks on top of your daily 5g for training days. Electrolytes prevent the cramps and dizziness that derail older lifters mid-set.
 **What it pairs with:** Daily creatine (additive on training days). Resistance training (the entire point). Omega-3 + CoQ10 softgel (endothelial health amplifies citrulline's effect).
 **What to watch for in the first 30 days:** Better pumps and longer training tolerance in week 1. Lower perceived exertion on cardio. Pre-workout brain clarity — citrulline + beetroot reach the brain too.
-**Until the blend is in your hands:** a plain zero-calorie, low-sodium electrolyte powder covers the electrolyte part of this on its own — half a scoop with your creatine before the fasted lift, the other half after.
+**Until the blend is in your hands:** a plain zero-sugar, low-sodium electrolyte powder covers the electrolyte part of this on its own — half a scoop with your creatine before the fasted lift, the other half after.
 **Two Paths note:** No Rx upgrade. Situational foundation.
 
 ---
@@ -3785,7 +3785,7 @@ Every Rx path begins inside the app. Tap *Rx Consults* and pick the lane. Labs y
 
 The cohort runs on a weekly rhythm. Three touchpoints. None of them optional if you want the work to stick.
 
-- **Wednesday Zoom — 7:00 PM CT** — Live with Dr. TJ. Cohort Q&A, protocol updates, case discussions. Recording posted to the app within 24 hours. If you can't attend live, drop your question in the app thread and watch the replay.
+- **Weekly Zoom — scheduled based on demand** — Live with Dr. TJ. Cohort Q&A, protocol updates, case discussions. If your schedule doesn't allow you to attend, the recording is available to you. Email your question to support@my4mlife.com and watch the replay.
 - **Sunday Reflection — solo** — On paper, in the app, or in the logbook. Twenty minutes. The reflection prompts are in Part 7.
 - **Weekly Adherence Scorecard** — The tear-out page from Part 6. Tape it to your bathroom mirror or screenshot it for your phone lock-screen. Score yourself at end of week.
 
@@ -3819,7 +3819,7 @@ The people who fill this in are the ones who finish the program.
 | **The book — *Begin with the End in Mind*** | Protégé welcome gift in the app, or standalone purchase at https://my4mlife.com/book |
 | **Regenerative therapies** | See my4mlife.com for the current regenerative protocol and nationwide mobile delivery details |
 | **The blog — long-form articles** | https://my4mlife.com/blog |
-| **Weekly Zoom links** | Sent via the app + email each Tuesday |
+| **Weekly Zoom links** | Sent by email before each call |
 | **Product reorder & subscription management** | Inside the app — *Stack* → *Manage* |
 | **Rx Consult booking** | Inside the app — *Rx Consults* |
 
@@ -3923,7 +3923,7 @@ I don't say that as a participation trophy. I say it because most people who buy
 
 The people who finish Month 1 are not the people who started it. The person who started had a vague sense that things were sliding. The person finishing has data, a stack, a face they're doing this for, and 30 days of evidence that they can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
 
-You are not doing this alone. The cohort runs alongside you. Wednesday nights I'm on the Zoom. Sunday nights you reflect. The other people in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
+You are not doing this alone. The cohort runs alongside you. I'm on the weekly Zoom. Sunday nights you reflect. The other people in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
 
 *Begin with the end in mind.*
 
@@ -3931,7 +3931,7 @@ You are not doing this alone. The cohort runs alongside you. Wednesday nights I'
 
 *Mind is the destination.*
 
-I'll see you on the Zoom Wednesday. Bring a question.
+I'll see you on the next Zoom. Bring a question.
 
 — Dr. TJ
 

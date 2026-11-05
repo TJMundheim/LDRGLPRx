@@ -347,7 +347,7 @@
           <div>
             <div class="mtag">Week {currentWeek} · The Move</div>
             <div class="mtitle2">{move.title}</div>
-            <div class="mco">Your whole cohort is on this Move this week — it comes up on Wednesday's call.</div>
+            <div class="mco">Your whole cohort is on this Move this week — it comes up on this week's Zoom.</div>
           </div>
         </div>
 
@@ -461,7 +461,7 @@
           <a class="zbtn" href={(weeklyEvent as any).recordingUrl} target="_blank" rel="noreferrer">Watch recording</a>
         {/if}
       {:else}
-        <div class="zm">Wednesday evening — link arrives by email</div>
+        <div class="zm">Weekly Zoom, scheduled based on demand; recording available if you can't attend</div>
       {/if}
       {#if weeklyZoomAttested}
         <div class="attested">✓ Attended. {currentWeek < PROGRAM_WEEKS ? `Week ${currentWeek + 1}'s Move appears here Monday morning — same tape, one new Move.` : 'Final week — see you on the call.'}</div>

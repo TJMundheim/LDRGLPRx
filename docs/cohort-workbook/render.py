@@ -31,7 +31,7 @@ CSS = """
 }
 
 @page :first {
-  margin: 0;
+  margin: 0.7in 0.65in 0.85in 0.65in;
 }
 
 body {

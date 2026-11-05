@@ -2154,7 +2154,7 @@ function renderWeekNutritionSection(W: Workbook, w: 1 | 2 | 3 | 4): string {
 
     <!-- RECOMMENDED RECIPE CHECK -->
     <div style="font-size:11px;color:${C.muted};line-height:1.55;margin-bottom:10px">
-      Your recommended recipes, shopping list, and a prep video arrive by email a few days before each Sunday Zoom.
+      Your recommended recipes, shopping list, and a prep video arrive by email a few days before each week's Zoom.
     </div>
     ${habitWeekRow(W, w, 'recipe', 'Did you use at least one recommended recipe (with the recommended ingredients) today?', 'mf', wc.ac)}
 

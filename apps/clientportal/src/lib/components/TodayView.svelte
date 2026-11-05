@@ -5,7 +5,7 @@
    * Two modes selected by day-of-week + Zoom attest state:
    *   - WEEKDAY (Mon-Sat, or Sun before 5pm): MindSpan hero + status tiles +
    *     daily/this-week action rows.
-   *   - SCOREBOARD (Sun >= 5pm, OR Wed Zoom has passed and not yet attested):
+   *   - SCOREBOARD (Sun >= 5pm, OR this week's Zoom has passed and not yet attested):
    *     weekly summary with prominent attest button.
    *
    * MindSpan Score v1 (lib/mindspan.ts): adherence + audit risk load + streak.
@@ -125,13 +125,13 @@
   const weeklyZoomAttested = $derived(!!profile?.weeklyZoomAttestedAt
     && new Date(profile.weeklyZoomAttestedAt).getTime() >= weekStart.getTime());
 
-  const wedZoomPassed = $derived.by(() => {
+  const weeklyZoomPassed = $derived.by(() => {
     if (!weeklyEvent) return false;
     return new Date(weeklyEvent.startsAt).getTime() < now.getTime();
   });
 
   const scoreboardMode = $derived(
-    (isSunday && isAfter5pm) || (wedZoomPassed && !weeklyZoomAttested)
+    (isSunday && isAfter5pm) || (weeklyZoomPassed && !weeklyZoomAttested)
   );
 
   // ── MindSpan ────────────────────────────────────────────────────────────────
@@ -512,7 +512,7 @@
               <a class="zbtn" href={(weeklyEvent as any).recordingUrl} target="_blank" rel="noreferrer">Watch recording</a>
             {/if}
           {:else}
-            <div class="zm">Wednesday evening — link arrives by email</div>
+            <div class="zm">Weekly Zoom, scheduled based on demand; recording available if you can't attend</div>
           {/if}
           {#if !zoomDone}
             <label class="attest-row">

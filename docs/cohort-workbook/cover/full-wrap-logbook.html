@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The My4MLife Logbook — Month 1 — Full-Wrap Paperback 7.5×9.25</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /*
+   * PAPERBACK GEOMETRY — 7.5 x 9.25 trim, 156 pages, white paper (B&W interior)
+   * Spine  = 156 x 0.002252 = 0.3513in
+   * Width  = 0.125 + 7.5 + 0.3513 + 7.5 + 0.125 = 15.6013in
+   * Height = 9.25 + 0.25 = 9.5in
+   * Back   0.125 -> 7.625 | Spine 7.625 -> 7.9763 | Front 7.9763 -> 15.4763
+   * Barcode zone 2.0 x 1.2in bottom-right of back panel, kept clear.
+   */
+  @page { size: 15.6013in 9.5in; margin: 0; }
+  html, body { width: 15.6013in; height: 9.5in; overflow: hidden; background: #1a2f5e; }
+  .canvas { position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 25% 40%, rgba(212,175,90,.08) 0%, rgba(212,175,90,0) 55%),
+      radial-gradient(ellipse at 75% 30%, rgba(212,175,90,.06) 0%, rgba(212,175,90,0) 50%),
+      linear-gradient(168deg, #1a2f5e 0%, #243c7c 35%, #2b4894 60%, #1c3464 100%); }
+
+  /* BACK */
+  .back { position: absolute; top: 0; left: 0.125in; width: 7.5in; height: 9.5in; }
+  .back-content { position: absolute; top: 0.6in; left: 0.5in; right: 0.5in; bottom: 0.5in;
+    display: flex; flex-direction: column; font-family: 'Inter', sans-serif; color: #f5ecd1; }
+  .back-brand { font-size: 0.1in; font-weight: 600; letter-spacing: 0.32em; color: #d4af5a;
+    text-transform: uppercase; text-align: center; }
+  .back-brand-rule { width: 1in; height: 1px; margin: 0.1in auto 0.22in;
+    background: linear-gradient(90deg, transparent, #d4af5a, transparent); }
+  .back-headline { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.27in;
+    line-height: 1.18; text-align: center; margin-bottom: 0.28in; }
+  .back-lede { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.15in;
+    line-height: 1.45; text-align: center; color: rgba(243,232,200,.92); margin-bottom: 0.26in; }
+  .back-desc { font-size: 0.135in; line-height: 1.65; color: rgba(243,232,200,.92); }
+  .back-desc p { margin-bottom: 0.18in; }
+  .back-desc strong { color: #d4af5a; font-weight: 600; }
+  .back-footer { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between;
+    border-top: 1px solid rgba(212,175,90,.25); padding-top: 0.14in; }
+  .footer-left { display: flex; flex-direction: column; gap: 0.06in; padding-bottom: 0.02in; }
+  .footer-word { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.2in; color: #d4af5a; }
+  .footer-url { font-size: 0.11in; letter-spacing: 0.08em; color: rgba(243,232,200,.85); }
+  .footer-cat { font-size: 0.07in; letter-spacing: 0.14em; color: rgba(243,232,200,.55); text-transform: uppercase; }
+  /* barcode clear zone, 2in x 1.2in white */
+  .barcode { width: 2in; height: 1.2in; background: #fff; flex-shrink: 0; }
+
+  /* SPINE */
+  .spine { position: absolute; top: 0; left: 7.625in; width: 0.3513in; height: 9.5in; overflow: hidden; }
+  .spine-safe { position: absolute; top: 0.5in; bottom: 0.45in; left: 0.0763in; right: 0.0763in;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+  .spine-text { writing-mode: vertical-rl; display: flex; align-items: center; white-space: nowrap;
+    flex: 1; justify-content: center; }
+  .spine-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.17in; color: #f5ecd1; }
+  .spine-title .m { color: #d4af5a; font-style: italic; font-weight: 600; font-size: 0.13in; margin-left: 0.14in; }
+  .spine-sep { width: 1px; height: 0.3in; background: rgba(212,175,90,.6); margin: 0 0; flex-shrink: 0; }
+  .spine-author { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.1in; letter-spacing: 0.12em;
+    color: rgba(245,236,209,.88); text-transform: uppercase; }
+  .spine-emblem { margin-top: 0.1in; flex-shrink: 0; }
+
+  /* FRONT */
+  .front { position: absolute; top: 0; left: 7.9763in; width: 7.5in; height: 9.5in; }
+  .front-frame { position: absolute; top: 0.6in; left: 0.3in; right: 0.5in; bottom: 0.6in; border: 1.5px solid rgba(212,175,90,.55); }
+  .front-frame2 { position: absolute; top: 0.69in; left: 0.39in; right: 0.59in; bottom: 0.69in; border: 1px solid rgba(212,175,90,.28); }
+  .corner { position: absolute; width: 0.17in; height: 0.17in; border: 1.5px solid #d4af5a; }
+  .c-tl { top: 0.52in; left: 0.22in; border-right: none; border-bottom: none; }
+  .c-tr { top: 0.52in; right: 0.42in; border-left: none; border-bottom: none; }
+  .c-bl { bottom: 0.52in; left: 0.22in; border-right: none; border-top: none; }
+  .c-br { bottom: 0.52in; right: 0.42in; border-left: none; border-top: none; }
+  .front-content { position: absolute; top: 0.7in; left: 0.4in; right: 0.6in; bottom: 0.7in;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    text-align: center; font-family: 'Inter', sans-serif; color: #f5ecd1; padding: 0.3in 0.2in 0.25in; }
+  .front-top { display: flex; flex-direction: column; align-items: center; }
+  .front-eyebrow { font-size: 0.1in; font-weight: 600; letter-spacing: 0.36em; color: #d4af5a; text-transform: uppercase; }
+  .front-eyebrow-rule { width: 1in; height: 1px; margin: 0.08in 0 0;
+    background: linear-gradient(90deg, transparent, #d4af5a, transparent); }
+  .front-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.7in; line-height: 1.04;
+    letter-spacing: -0.012em; text-shadow: 0 2px 10px rgba(0,0,0,.4); margin-top: 0.3in; }
+  .front-month { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 0.42in;
+    color: #d4af5a; margin-top: 0.2in; }
+  .front-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.155in; line-height: 1.4;
+    color: rgba(245,236,209,.95); margin-top: 0.26in; }
+  .front-bottom { display: flex; flex-direction: column; align-items: center; }
+  .front-hook { font-size: 0.1in; line-height: 1.6; color: rgba(245,236,209,.85); max-width: 4.6in; }
+  .front-byline { margin-top: 0.2in; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.2in; }
+  .front-byline-sub { font-weight: 500; font-size: 0.078in; letter-spacing: 0.22em; color: rgba(245,236,209,.8);
+    text-transform: uppercase; margin-top: 0.05in; }
+</style>
+</head>
+<body>
+<div class="canvas"></div>
+
+<div class="back"><div class="back-content">
+  <div class="back-brand">My4MLife</div>
+  <div class="back-brand-rule"></div>
+  <div class="back-headline">Don't lose your identity<br>and your dignity<br>while you still have a choice.</div>
+  <div class="back-lede">This is not a book to read.<br>It is a logbook to run.</div>
+  <div class="back-desc">
+    <p><strong>The My4MLife Logbook</strong> is the write-in companion to <em>Begin with the End in Mind</em>: the first four weeks of the protocol, laid out one page at a time. You start by naming the face you are doing this for, writing your why, and setting your baseline.</p>
+    <p>Then you run the month. Each week has daily check-ins, a Wednesday Zoom prep page, an end-of-week reflection, and an adherence scorecard, with strength-session logs, a hormone and sexual-function self-audit, and a full eliminate-the-insulting-behavior audit along the way.</p>
+    <p>A stack reference at the back explains every item you are asked to take and why. Keep a pen in your hand. The order is the order on purpose.</p>
+  </div>
+  <div class="back-footer">
+    <div class="footer-left">
+      <div class="footer-word">My4MLife</div>
+      <div class="footer-url">my4mlife.com</div>
+      <div class="footer-cat">Health &middot; Healthy Aging &middot; Journal</div>
+    </div>
+    <div class="barcode"></div>
+  </div>
+</div></div>
+
+<div class="spine"><div class="spine-safe">
+  <div class="spine-text">
+    <span class="spine-title">The My4MLife Logbook<span class="m">Month 1</span></span>
+    <span class="spine-sep" style="margin:0.18in 0"></span>
+    <span class="spine-author">Dr. TJ Mundheim</span>
+  </div>
+  <div class="spine-emblem">
+    <svg width="22" height="23" viewBox="0 0 120 124" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="44" r="31" fill="none" stroke="#d4af5a" stroke-width="2.5"/>
+      <line x1="11" y1="44" x2="29" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+      <line x1="91" y1="44" x2="109" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+      <circle cx="60" cy="13" r="9.5" fill="#ecd092"/><circle cx="60" cy="75" r="7" fill="#d4af5a"/>
+      <circle cx="29" cy="44" r="7" fill="#d4af5a"/><circle cx="91" cy="44" r="7" fill="#d4af5a"/>
+      <line x1="60" y1="82" x2="60" y2="94" stroke="#d4af5a" stroke-width="2.5"/>
+      <text x="60" y="120" text-anchor="middle" font-family="Playfair Display, serif" font-weight="800" font-size="36" fill="#d4af5a">4M</text>
+    </svg>
+  </div>
+</div></div>
+
+<div class="front">
+  <div class="front-frame"></div><div class="front-frame2"></div>
+  <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+  <div class="front-content">
+    <div class="front-top">
+      <div class="front-eyebrow">Begin with the end in mind</div>
+      <div class="front-eyebrow-rule"></div>
+      <div class="front-title">The My4MLife<br>Logbook</div>
+      <div class="front-month">Month 1</div>
+      <div class="front-tagline">Don't lose your identity and your dignity<br>while you still have a choice.</div>
+    </div>
+    <div class="front-emblem">
+      <svg width="190" height="196" viewBox="0 0 120 124" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="44" r="31" fill="none" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="11" y1="44" x2="29" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <line x1="91" y1="44" x2="109" y2="44" stroke="#d4af5a" stroke-width="2.5"/>
+        <circle cx="60" cy="13" r="9.5" fill="#ecd092"/><circle cx="60" cy="75" r="7" fill="#d4af5a"/>
+        <circle cx="29" cy="44" r="7" fill="#d4af5a"/><circle cx="91" cy="44" r="7" fill="#d4af5a"/>
+        <line x1="60" y1="82" x2="60" y2="94" stroke="#d4af5a" stroke-width="2.5"/>
+        <text x="60" y="120" text-anchor="middle" font-family="Playfair Display, serif" font-weight="800" font-size="36" fill="#d4af5a">4M</text>
+      </svg>
+    </div>
+    <div class="front-bottom">
+      <div class="front-hook">The write-in companion to <em>Begin with the End in Mind</em>. Four weeks, one page a day.</div>
+      <div class="front-byline">Dr. TJ Mundheim</div>
+      <div class="front-byline-sub">Founder &middot; My4MLife</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
