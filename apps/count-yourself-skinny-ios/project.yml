@@ -36,7 +36,10 @@ targets:
   CountYourselfSkinnyTests:
     type: bundle.unit-test
     platform: iOS
-    sources: [Tests]
+    sources:
+      - Tests
+      - path: CountYourselfSkinny.storekit
+        buildPhase: resources
     dependencies:
       - target: CountYourselfSkinny
     settings:

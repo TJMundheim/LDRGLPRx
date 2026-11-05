@@ -15,6 +15,8 @@
 		13641C3F7A0D29A48F004C29 /* MealSessionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4FE87C8DF46194DBB43E3 /* MealSessionModelTests.swift */; };
 		14861BE24E8CD41866E4423F /* CYSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81891C89EE9C8E98A218319 /* CYSApp.swift */; };
 		177DCF1D6250AF804962C87E /* BitePacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6848E3ABF2142727B13C8B16 /* BitePacerView.swift */; };
+		2911BA106E846F183581D58D /* CountYourselfSkinny.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 8FCC12634015A4C78482C495 /* CountYourselfSkinny.storekit */; };
+		38B8987895D365A40DA3EE8E /* ProStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D985915242B0E66D374A09FE /* ProStoreTests.swift */; };
 		429AE91B1FD790C614AA8915 /* Calibrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7713CC390707092F517F0 /* Calibrator.swift */; };
 		431F3AB1FED7B0A552CCBAC7 /* TrendsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CAE2675539062054646164C /* TrendsCalculator.swift */; };
 		46EE4994F13138C13CD5F80D /* CalibrationFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D588C380ED8CC83DDCB77D /* CalibrationFlowTests.swift */; };
@@ -45,6 +47,7 @@
 		E08DEBCCE5428B756F574B14 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E844A82B97BD06802C7EB66 /* HomeView.swift */; };
 		E215B0C3207660324D4001E2 /* ProStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9764FBDFB69D515537547 /* ProStore.swift */; };
 		EB99A3A278FBA7FD2E05A635 /* LightTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5FE895B3E1D9E0A2C0D1C0 /* LightTimerView.swift */; };
+		F50642E3CD7EAC47A915EE1F /* PlanText.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DC33D43FE6739283CD7D4 /* PlanText.swift */; };
 		F6B36DEE2716E2709CCC741F /* ScreenAwake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D077FE8A707A994777F1F1D /* ScreenAwake.swift */; };
 		FE2F26F6EF6069A7A65D4C0F /* WeighInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900F4E0D312DE72864D4F94A /* WeighInView.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +88,7 @@
 		85D9764FBDFB69D515537547 /* ProStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStore.swift; sourceTree = "<group>"; };
 		8BF25C83EA8D67E7D7F4B3F5 /* CountYourselfSkinny.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CountYourselfSkinny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CAE2675539062054646164C /* TrendsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsCalculator.swift; sourceTree = "<group>"; };
+		8FCC12634015A4C78482C495 /* CountYourselfSkinny.storekit */ = {isa = PBXFileReference; path = CountYourselfSkinny.storekit; sourceTree = "<group>"; };
 		900F4E0D312DE72864D4F94A /* WeighInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeighInView.swift; sourceTree = "<group>"; };
 		934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStoreTests.swift; sourceTree = "<group>"; };
 		95B4D6209FCAA0DABDFC7AB6 /* MealStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealStore.swift; sourceTree = "<group>"; };
@@ -100,10 +104,12 @@
 		C4A9ECA52B6CF161A42035A7 /* ChimePlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChimePlayerTests.swift; sourceTree = "<group>"; };
 		C6B5D40DD1A3606E924C64C1 /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
 		D81891C89EE9C8E98A218319 /* CYSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CYSApp.swift; sourceTree = "<group>"; };
+		D985915242B0E66D374A09FE /* ProStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStoreTests.swift; sourceTree = "<group>"; };
 		DAD76D05FDE27399C7E4BF1D /* MealSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSessionModel.swift; sourceTree = "<group>"; };
 		E3C21D48D582BF6C91074A77 /* CalibrationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationFlow.swift; sourceTree = "<group>"; };
 		E8FC99EFE121C42DC59C547D /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
 		FBDE20D0CB7A7F6989334AB7 /* MorningModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorningModeView.swift; sourceTree = "<group>"; };
+		FD7DC33D43FE6739283CD7D4 /* PlanText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -137,6 +143,7 @@
 				BFB4FE87C8DF46194DBB43E3 /* MealSessionModelTests.swift */,
 				04FCFCBD53252091B04B37A1 /* MealStoreTests.swift */,
 				5F6CD9A12D034786FF4BBDE5 /* ProPretendTests.swift */,
+				D985915242B0E66D374A09FE /* ProStoreTests.swift */,
 				AC2B5C38C043D55D56ADC4B4 /* StreakEngineTests.swift */,
 				985674EE3A4856CE6AD5D27F /* SyntheticChew.swift */,
 				1FAAFF267E2EFCA213B48370 /* TrendsCalculatorTests.swift */,
@@ -148,6 +155,7 @@
 		551179443066B70E34CBECBF /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				FD7DC33D43FE6739283CD7D4 /* PlanText.swift */,
 				85D9764FBDFB69D515537547 /* ProStore.swift */,
 			);
 			path = Store;
@@ -165,6 +173,7 @@
 		6FA93258C4BAE2ADCFF60772 = {
 			isa = PBXGroup;
 			children = (
+				8FCC12634015A4C78482C495 /* CountYourselfSkinny.storekit */,
 				C7424D035AB3B6E4C0601CAA /* Sources */,
 				0C2EF1ECB1462D5570E3E3BB /* Tests */,
 				5F3EE2A2EF5521D68416E291 /* Products */,
@@ -239,6 +248,7 @@
 			buildConfigurationList = D418B4675CEFCFD9837978D1 /* Build configuration list for PBXNativeTarget "CountYourselfSkinnyTests" */;
 			buildPhases = (
 				9662F00B1963F03573C95F87 /* Sources */,
+				5E644D3B575187705D99BC73 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -288,6 +298,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5E644D3B575187705D99BC73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2911BA106E846F183581D58D /* CountYourselfSkinny.storekit in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D9A784DF503822B03F1C84E9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -313,6 +331,7 @@
 				13641C3F7A0D29A48F004C29 /* MealSessionModelTests.swift in Sources */,
 				8EC49726A5F973AEC30BE6E1 /* MealStoreTests.swift in Sources */,
 				D53A57AAB54EF40FFA30EB00 /* ProPretendTests.swift in Sources */,
+				38B8987895D365A40DA3EE8E /* ProStoreTests.swift in Sources */,
 				92F0ED683216E6D67F0F6195 /* StreakEngineTests.swift in Sources */,
 				D969215F9EFA454B81746ECB /* SyntheticChew.swift in Sources */,
 				5BEA8892D01BBC794DA5E111 /* TrendsCalculatorTests.swift in Sources */,
@@ -343,6 +362,7 @@
 				B6464F8A1C66D77A27442D98 /* MealView.swift in Sources */,
 				DB4FA7BFAC25260DDF5E408A /* MorningModeView.swift in Sources */,
 				7E117745A55D3D0DDABD6BD3 /* PaywallView.swift in Sources */,
+				F50642E3CD7EAC47A915EE1F /* PlanText.swift in Sources */,
 				E215B0C3207660324D4001E2 /* ProStore.swift in Sources */,
 				F6B36DEE2716E2709CCC741F /* ScreenAwake.swift in Sources */,
 				B4FE5D087FA8F42BDE2AD87F /* StreakEngine.swift in Sources */,

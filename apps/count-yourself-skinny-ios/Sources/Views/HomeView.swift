@@ -90,7 +90,7 @@ struct HomeView: View {
                 #endif
                 if !pro.isPro {
                     Section {
-                        Button("Unlock Pro: chew counting and trends") { showPaywall = true }
+                        Button("Get Pro: chew counting and trends") { showPaywall = true }
                     }
                 }
             }
