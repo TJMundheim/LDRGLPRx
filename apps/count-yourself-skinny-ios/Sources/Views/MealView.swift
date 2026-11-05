@@ -11,6 +11,8 @@ final class MealController: ObservableObject {
     @Published private(set) var chewsInBite = 0
     @Published private(set) var bites = 0
     @Published private(set) var availability: MealAvailability
+    /// The meal this run saved, if it saved one. The screen reads it to decide on the paywall.
+    private(set) var lastSaved: MealRecord?
 
     private let sensor: any ChewSensing
     private let chime: any ChimePlaying
@@ -25,7 +27,7 @@ final class MealController: ObservableObject {
     init(sensor: (any ChewSensing)? = nil, chime: any ChimePlaying = ChimePlayer(),
          meals: MealStore = MealStore(), calibration: CalibrationStore = CalibrationStore(),
          now: @escaping () -> Date = Date.init) {
-        let sensor = sensor ?? ChewDetector()
+        let sensor = sensor ?? makeChewSensor()
         self.sensor = sensor
         self.chime = chime
         self.meals = meals
@@ -52,6 +54,7 @@ final class MealController: ObservableObject {
         sensor.sensitivity = calibration.kOrDefault
         model = MealSessionModel(start: now())
         chewsInBite = 0; bites = 0
+        lastSaved = nil
         lastSample = now()
         sensor.onSample = { [weak self] _, _ in
             guard let self else { return }
@@ -105,7 +108,7 @@ final class MealController: ObservableObject {
     func finish() {
         guard phase == .running, let m = model else { return }
         let record = m.finish(at: now())
-        if let record { meals.save(record); Analytics.shared.track(.mealCompleted) }
+        if let record { meals.save(record); lastSaved = record; Analytics.shared.track(.mealCompleted) }
         halt()
         phase = .finished(record.map(MealSessionModel.summary(for:)) ?? MealSessionModel.shortMealSummary)
     }
@@ -134,7 +137,11 @@ final class MealController: ObservableObject {
 }
 
 struct MealView: View {
+    /// Back button mid-meal saved the free meal, so this screen is gone. Home shows the paywall.
+    var leftFreeMeal: () -> Void = {}
+    @EnvironmentObject var pro: ProStore
     @StateObject private var c = MealController()
+    @State private var showPaywall = false
     @State private var showCalibration = false
     @State private var startAfterCalibration = false
     @Environment(\.scenePhase) private var scenePhase
@@ -150,10 +157,18 @@ struct MealView: View {
         .padding(28)
         .navigationTitle("Count my chews")
         .navigationBarTitleDisplayMode(.inline)
-        .onDisappear { c.leave() }
+        .onDisappear {
+            let wasRunning = c.phase == .running
+            c.leave()
+            if wasRunning, FreeMealRule.endedFreeMeal(c.lastSaved, isPro: pro.isPro) { leftFreeMeal() }
+        }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { c.returnedToForeground() }
         }
+        .onChange(of: c.phase) { _, phase in
+            if case .finished = phase, FreeMealRule.endedFreeMeal(c.lastSaved, isPro: pro.isPro) { showPaywall = true }
+        }
+        .sheet(isPresented: $showPaywall) { PaywallView() }
         .sheet(isPresented: $showCalibration, onDismiss: {
             if startAfterCalibration { startAfterCalibration = false; c.start() }
         }) { CalibrationView() }
@@ -168,6 +183,9 @@ struct MealView: View {
             case .idle:
                 Image(systemName: "airpods.pro").font(.system(size: 56))
                 Text("Put in your AirPods, take a bite, and start.").font(.title3).multilineTextAlignment(.center)
+                if !pro.isPro {
+                    Text("Your first counted meal is free.").font(.callout).foregroundStyle(.secondary)
+                }
                 Button("Start meal") {
                     if c.needsCalibration { startAfterCalibration = true; showCalibration = true }
                     else { c.start() }
@@ -183,7 +201,14 @@ struct MealView: View {
             case .finished(let summary):
                 Text("Meal done").font(.title2.bold())
                 Text(summary).font(.callout).multilineTextAlignment(.center)
-                Button("Another meal") { c.again() }.buttonStyle(.bordered)
+                if FreeMealRule.canCount(isPro: pro.isPro, meals: MealStore().load()) {
+                    if !pro.isPro {
+                        Text("Your free meal is still there.").font(.callout).foregroundStyle(.secondary)
+                    }
+                    Button("Another meal") { c.again() }.buttonStyle(.bordered)
+                } else {
+                    Button("See Pro") { showPaywall = true }.buttonStyle(.bordered)
+                }
             }
         }
     }

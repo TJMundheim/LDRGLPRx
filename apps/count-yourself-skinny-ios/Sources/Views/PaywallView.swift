@@ -9,6 +9,7 @@ struct PaywallView: View {
 
     private let terms = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
     private let privacy = URL(string: "https://www.my4mlife.com/legal/count-yourself-skinny-privacy")!
+    private var copy: PaywallCopy { FreeMealRule.paywallCopy(meals: MealStore().load()) }
 
     var body: some View {
         ScrollView {
@@ -16,8 +17,16 @@ struct PaywallView: View {
                 Image(systemName: "airpods.pro")
                     .font(.system(size: 56))
                     .accessibilityHidden(true)
-                Text("Your earbuds can count your chews.")
+                Text(copy.title)
                     .font(.title2.bold())
+                    .multilineTextAlignment(.center)
+                if let result = copy.result {
+                    Text(result)
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                }
+                Text(copy.note)
+                    .font(.callout)
                     .multilineTextAlignment(.center)
                 VStack(alignment: .leading, spacing: 10) {
                     Label("Automatic chew counting through AirPods", systemImage: "checkmark")
@@ -53,8 +62,6 @@ struct PaywallView: View {
                     Link("Privacy Policy", destination: privacy)
                 }
                 .font(.footnote)
-                Button("Have an offer code?") { Task { await redeem() } }
-                    .font(.footnote)
                 Button("Not now") { dismiss() }
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -64,7 +71,7 @@ struct PaywallView: View {
         .onAppear { Analytics.shared.track(.paywallView) }
         .task { if pro.loadState == .failed { await pro.loadProducts() } }
         .onChange(of: pro.isPro) { _, isPro in
-            if isPro { dismiss() }   // an offer code or an Ask to Buy approval lands here
+            if isPro { dismiss() }   // a code redeemed in the App Store or an Ask to Buy approval lands here
         }
     }
 
@@ -82,21 +89,28 @@ struct PaywallView: View {
             }
         case .loaded:
             VStack(spacing: 10) {
+                // Yearly comes first and leads: the store orders the products.
                 ForEach(pro.products, id: \.id) { product in
-                    Button { Task { await buy(product) } } label: {
-                        VStack(spacing: 2) {
-                            Text("\(product.displayName) — \(product.displayPrice)")
-                                .font(.headline)
-                            Text(PlanText.line(for: product, eligible: pro.trialEligible.contains(product.id)))
-                                .font(.caption)
-                        }
-                        .frame(maxWidth: .infinity)
+                    if product.id == pro.products.first?.id {
+                        planButton(product).buttonStyle(.borderedProminent)
+                    } else {
+                        planButton(product).buttonStyle(.bordered)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(busy)
                 }
             }
         }
+    }
+
+    private func planButton(_ product: Product) -> some View {
+        let row = PlanText.row(for: product, eligible: pro.trialEligible.contains(product.id))
+        return Button { Task { await buy(product) } } label: {
+            VStack(spacing: 2) {
+                Text(row.billed).font(.title3.bold())
+                Text(row.detail).font(.caption)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .disabled(busy)
     }
 
     private func buy(_ product: Product) async {
@@ -113,15 +127,5 @@ struct PaywallView: View {
         let outcome = await pro.restore()
         message = outcome.message
         if outcome == .restored { dismiss() }
-    }
-
-    private func redeem() async {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-        do {
-            try await AppStore.presentOfferCodeRedeemSheet(in: scene)
-            message = nil
-        } catch {
-            message = "We couldn't open the code screen. Please try again."
-        }
     }
 }

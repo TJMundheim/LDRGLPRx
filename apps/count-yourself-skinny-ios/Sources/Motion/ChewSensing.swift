@@ -17,6 +17,15 @@ protocol ChewSensing: AnyObject {
     func reset()
 }
 
+/// The sensor a screen uses when no test has handed it one.
+@MainActor
+func makeChewSensor() -> any ChewSensing {
+    #if DEBUG
+    if UserDefaults.standard.bool(forKey: SimulatedChewSensor.launchKey) { return SimulatedChewSensor() }
+    #endif
+    return ChewDetector()
+}
+
 protocol ChimePlaying: AnyObject {
     func prepare()
     func play()

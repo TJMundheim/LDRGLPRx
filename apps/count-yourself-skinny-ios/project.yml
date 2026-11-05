@@ -7,7 +7,13 @@ targets:
   CountYourselfSkinny:
     type: application
     platform: iOS
-    sources: [Sources]
+    sources:
+      - Sources
+      # The share card's font and its license. One copy in the repo, shared with the icon script.
+      - path: ../../docs/design/cys/fonts/Anton-Regular.ttf
+        buildPhase: resources
+      - path: ../../docs/design/cys/fonts/OFL.txt
+        buildPhase: resources
     info:
       path: Sources/Info.plist
       properties:
@@ -17,9 +23,11 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UILaunchScreen: {}
+        UIAppFonts: [Anton-Regular.ttf]
         ITSAppUsesNonExemptEncryption: false
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSMotionUsageDescription: "Motion access lets your AirPods count chews during meals. Chew motion is processed on your phone and never leaves it."
+        NSPhotoLibraryAddUsageDescription: "Lets you save your chew number card to Photos when you choose Save Image."
         NSHealthShareUsageDescription: "Step count is read from Health to fill in your daily steps automatically."
     settings:
       base:

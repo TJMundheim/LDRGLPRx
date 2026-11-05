@@ -16,6 +16,20 @@ final class AboutContentTests: XCTestCase {
         XCTAssertEqual(AboutContent.identityLine,
             "Don't lose your identity and your dignity while you still have a choice.")
     }
+    func testSafetyStepSaysWhoItIsNotForAndWhoToAsk() {
+        XCTAssertEqual(AboutContent.safetyAge, "This app is for adults 18 and over.")
+        XCTAssertEqual(AboutContent.safetyEatingDisorder,
+            "It isn't for anyone with a current or past eating disorder. If that's you, please talk to your own physician or an eating disorder specialist instead.")
+        XCTAssertEqual(AboutContent.safetyPacing, "A chew count is a pacing tool, not a score. More isn't better.")
+        XCTAssertEqual(AboutContent.safetyStop, "If counting makes eating stressful, stop counting and talk to your own physician.")
+    }
+    func testUsageNoticeIsPlainAboutWhatLeavesThePhone() {
+        XCTAssertEqual(AboutContent.usageTitle, "Share anonymous usage events")
+        XCTAssertEqual(AboutContent.usageBody,
+            "Event names like \"app opened\" and \"meal completed\", with a random ID made on this phone. Never your counts, weight, steps or email. The app works the same either way.")
+        XCTAssertEqual(AboutContent.fontCredit,
+            "The share card uses the Anton font, copyright 2020 The Anton Project Authors, under the SIL Open Font License 1.1.")
+    }
     func testLinks() {
         XCTAssertEqual(AboutContent.assessment.absoluteString, "https://www.my4mlife.com/assessment")
         XCTAssertEqual(AboutContent.privacy.absoluteString, "https://www.my4mlife.com/legal/count-yourself-skinny-privacy")

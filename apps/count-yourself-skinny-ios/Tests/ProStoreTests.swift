@@ -42,17 +42,27 @@ final class ProStoreTests: XCTestCase {
         return s
     }
 
-    func testBothProductsLoadWithSevenDayTrial() async throws {
+    func testBothProductsLoadWithNoIntroOffer() async throws {
         let s = await loadedStore()
         XCTAssertEqual(s.loadState, .loaded)
         XCTAssertEqual(Set(s.products.map(\.id)), ["cys.pro.monthly", "cys.pro.yearly"])
-        for p in s.products {
-            let offer = try XCTUnwrap(p.subscription?.introductoryOffer, p.id)
-            XCTAssertEqual(offer.paymentMode, .freeTrial)
-            XCTAssertEqual(offer.period.unit, .week)
-            XCTAssertEqual(offer.period.value, 1)
-            XCTAssertTrue(s.trialEligible.contains(p.id), "fresh account is eligible")
-        }
+        for p in s.products { XCTAssertNil(p.subscription?.introductoryOffer, p.id) }
+        XCTAssertTrue(s.trialEligible.isEmpty, "no offer, so nothing to be eligible for")
+    }
+
+    func testYearlyIsListedFirst() async throws {
+        let s = await loadedStore()
+        XCTAssertEqual(s.products.map(\.id), ["cys.pro.yearly", "cys.pro.monthly"])
+    }
+
+    func testPlanRowsReadTheRealProducts() async throws {
+        let s = await loadedStore()
+        let yearly = PlanText.row(for: try XCTUnwrap(s.products.first { $0.id == "cys.pro.yearly" }), eligible: false)
+        XCTAssertEqual(yearly.billed, "$4.99 a year")
+        XCTAssertEqual(yearly.detail, "Pro Yearly, about 42¢ a month")
+        let monthly = PlanText.row(for: try XCTUnwrap(s.products.first { $0.id == "cys.pro.monthly" }), eligible: false)
+        XCTAssertEqual(monthly.billed, "$0.99 a month")
+        XCTAssertEqual(monthly.detail, "Pro Monthly")
     }
 
     func testPurchaseSetsProAndExpiryClearsIt() async throws {
@@ -63,8 +73,8 @@ final class ProStoreTests: XCTestCase {
         XCTAssertEqual(outcome, .success)
         XCTAssertTrue(s.isPro)
         try session.expireSubscription(productIdentifier: "cys.pro.monthly")
-        // expireSubscription doesn't touch currentEntitlements' cache, which keeps the +7 day
-        // entry until a sync. The lapse test below covers the path with no sync.
+        // expireSubscription doesn't touch currentEntitlements' cache, which keeps the entry
+        // until a sync. The lapse test below covers the path with no sync.
         try await AppStore.sync()
         await s.refreshEntitlement()
         XCTAssertFalse(s.isPro)
@@ -164,18 +174,49 @@ final class PurchaseOutcomeMappingTests: XCTestCase {
 }
 
 final class PlanTextTests: XCTestCase {
+    private let us = Locale(identifier: "en_US")
+
+    func testBilledAmountNamesThePeriod() {
+        XCTAssertEqual(PlanText.billed(price: "$0.99", unit: .month, value: 1), "$0.99 a month")
+        XCTAssertEqual(PlanText.billed(price: "$4.99", unit: .year, value: 1), "$4.99 a year")
+        XCTAssertEqual(PlanText.billed(price: "$5.00", unit: .month, value: 3), "$5.00 every 3 months")
+    }
+
     func testTrialWordingOnlyWhenEligible() {
-        let trial = PlanText.line(price: "$2.99", unit: .month, value: 1, trialDays: 7, eligible: true)
-        XCTAssertEqual(trial, "7 days free, then $2.99 per month.")
-        XCTAssertEqual(PlanText.line(price: "$2.99", unit: .month, value: 1, trialDays: 7, eligible: false), "$2.99 per month.")
-        XCTAssertEqual(PlanText.line(price: "$19.99", unit: .year, value: 1, trialDays: nil, eligible: true), "$19.99 per year.")
-        XCTAssertEqual(PlanText.line(price: "$5.00", unit: .month, value: 3, trialDays: nil, eligible: false), "$5.00 every 3 months.")
+        XCTAssertEqual(PlanText.trial(days: 7, eligible: true), "first 7 days free")
+        XCTAssertNil(PlanText.trial(days: 7, eligible: false))
+        XCTAssertNil(PlanText.trial(days: nil, eligible: true))
+    }
+
+    private func perMonth(_ price: String, _ unit: Product.SubscriptionPeriod.Unit = .year, _ value: Int = 1,
+                          code: String = "USD") -> String? {
+        PlanText.perMonth(price: Decimal(string: price)!, unit: unit, value: value, currencyCode: code, locale: us)
+    }
+
+    /// Computed from the price, so a price change in App Store Connect can't leave it wrong.
+    func testPerMonthLineIsComputed() {
+        XCTAssertEqual(perMonth("4.99"), "about 42¢ a month")
+        XCTAssertEqual(perMonth("9.99"), "about 83¢ a month")
+        XCTAssertEqual(perMonth("2.99"), "about 25¢ a month")
+        XCTAssertEqual(perMonth("19.99"), "about $1.67 a month")
+        XCTAssertEqual(perMonth("12.00"), "about $1.00 a month")
+        XCTAssertEqual(perMonth("3.00", .month, 6), "about 50¢ a month")
+    }
+
+    func testOtherCurrenciesUseTheirOwnSymbol() {
+        XCTAssertEqual(perMonth("4.99", code: "EUR"), "about €0.42 a month")
+    }
+
+    func testAMonthlyPlanHasNoPerMonthLine() {
+        XCTAssertNil(perMonth("0.99", .month, 1))
+        XCTAssertNil(perMonth("0.99", .week, 1))
+        XCTAssertNil(perMonth("0.99", .day, 7))
     }
 }
 
 /// Always runs: proves the .storekit file declares what the paywall depends on.
 final class StoreKitConfigFileTests: XCTestCase {
-    func testFileDeclaresBothProductsWithSevenDayFreeTrial() throws {
+    func testFileDeclaresBothProductsWithNoIntroOffer() throws {
         let url = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "CountYourselfSkinny", withExtension: "storekit"))
         let json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
         let groups = try XCTUnwrap(json["subscriptionGroups"] as? [[String: Any]])
@@ -183,12 +224,10 @@ final class StoreKitConfigFileTests: XCTestCase {
         let subs = groups.flatMap { $0["subscriptions"] as? [[String: Any]] ?? [] }
         XCTAssertEqual(Set(subs.compactMap { $0["productID"] as? String }), ["cys.pro.monthly", "cys.pro.yearly"])
         for s in subs {
-            let offer = try XCTUnwrap(s["introductoryOffer"] as? [String: Any])
-            XCTAssertEqual(offer["paymentMode"] as? String, "free")
-            XCTAssertEqual(offer["subscriptionPeriod"] as? String, "P1W")
+            XCTAssertTrue(s["introductoryOffer"] is NSNull, "the first counted meal is free instead of a trial")
         }
         let prices = Dictionary(uniqueKeysWithValues: subs.map { ($0["productID"] as! String, $0["displayPrice"] as! String) })
-        XCTAssertEqual(prices["cys.pro.monthly"], "2.99")
-        XCTAssertEqual(prices["cys.pro.yearly"], "19.99")
+        XCTAssertEqual(prices["cys.pro.monthly"], "0.99")
+        XCTAssertEqual(prices["cys.pro.yearly"], "4.99")
     }
 }

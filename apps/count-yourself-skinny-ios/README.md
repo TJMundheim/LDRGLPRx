@@ -5,15 +5,21 @@ chew detection requires `CMHeadphoneMotionManager` (AirPods motion), which only
 exists natively on iOS. Master plan: `docs/plan/count-yourself-skinny-master-plan-2026-08-09.md`.
 
 ## What's in 1.0.0
+**First run** (shown once, two screens): the safety step, then "Share anonymous usage events?" Yes or No.
+Analytics sends nothing until Yes, and About has a toggle. Then a one-time Home card offers the Chew Number test.
+
 **Free:** the streak (one yes/no a day, never miss twice), Bite Pacer (haptic count to 32, no earbuds),
-steps (read-only from Apple Health), fast clock, First Light timer, water, weekly weigh-in with a
-trend line, Morning mode ("One Walk, Five Boxes").
+the Chew Number test (one bite, tap per chew or AirPods, with a share card), steps (read-only from Apple Health),
+fast clock, First Light timer, water, weekly weigh-in with a trend line, Morning mode ("One Walk, Five Boxes").
+**The first AirPods-counted meal is free too** (`FreeMealRule`), then the paywall appears with that meal's result.
 
-**Pro** (`cys.pro.monthly` $2.99, `cys.pro.yearly` $19.99, each with a 7-day free trial): chew counting
-through AirPods, a chime at 32, 2-minute calibration, weekly trends.
+**Pro** (`cys.pro.yearly` $4.99 listed first, `cys.pro.monthly` $0.99, no intro offer): chew counting
+through AirPods after the free meal, a chime at 32, 2-minute calibration, weekly trends.
 
-All counts stay on the phone. No account. The only things that leave it are usage events and an email
-the user chooses to type. See "Privacy label" below.
+All counts stay on the phone. No account. The only things that leave it are usage events, if the user says yes, an
+email the user chooses to type, and a share card the user chooses to send. See "Privacy label" below.
+
+Not built: on-camera mode (candidate 3 in `docs/plan/cys-zero-budget-launch-plan-2026-11-05.md`).
 
 The version lives in `project.yml` only (`MARKETING_VERSION`, `CURRENT_PROJECT_VERSION`).
 `Sources/Info.plist` is generated from it.
@@ -51,6 +57,11 @@ new simulators with Xcode 27:
 
 Without `-collect-test-diagnostics never`, a failing run sits in `simctl diagnose` for about 10 minutes after the
 tests end.
+
+UI tests use launch arguments. `-cys.firstRun.done YES -cys.chewNumber.offerAnswered YES` skips the first run and the
+one-time card (plain UserDefaults overrides). Two more work in Debug builds only, behind `#if DEBUG`:
+`-cys.uiTestReset YES` wipes saved data at launch, and `-cys.simulateChews YES` swaps in a fake sensor, so a whole
+meal runs on a simulator.
 
 ---
 
@@ -208,12 +219,14 @@ when the app quits — export before either.
 
 ### Subscriptions
 - [ ] One group, "Count Yourself Skinny Pro"
-- [ ] `cys.pro.monthly`: $2.99 a month, 7-day free trial, display name and review screenshot
-- [ ] `cys.pro.yearly`: $19.99 a year, 7-day free trial, display name and review screenshot
+- [ ] `cys.pro.yearly`: $4.99 a year, no introductory offer, display name and review screenshot
+- [ ] `cys.pro.monthly`: $0.99 a month, no introductory offer, display name and review screenshot
 - [ ] Attach both to the first version for review, or the reviewer's paywall can't load plans
-- [ ] Offer-code campaign for the book: 1 free month. The button "Have an offer code?" is on the
-      paywall, but `docs/book-cys/draft/_MASTER.md` prints no code yet. Add the code to the book, or remove
-      the button before submitting
+- [ ] Display names stay "Pro Yearly" and "Pro Monthly": the paywall shows them under the billed price
+- [ ] Territories: US only at launch
+- [ ] No offer-code button in the app. A code for the book (a later printing, per
+      `docs/plan/cys-pricing-and-go-no-go-2026-11-05.md`) goes through Apple's redemption link, which needs no app change.
+      Fallback from the same doc: a free trial set in App Store Connect shows on the paywall with no code change
 
 ### Listing
 - [ ] Privacy Policy URL: `https://www.my4mlife.com/legal/count-yourself-skinny-privacy`. **It returns 404
@@ -229,6 +242,8 @@ when the app quits — export before either.
 - [ ] Featuring nomination at launch
 
 ### Privacy label (matches `Sources/PrivacyInfo.xcprivacy`)
+Answer for the case where the user says yes to usage events. A no sends none of the analytics rows below.
+
 | Data type | Purpose | Linked to user | Tracking |
 |---|---|---|---|
 | Identifiers: Device ID (the random analytics ID) | Analytics | Yes | No |
@@ -250,17 +265,26 @@ same project as the website). If you leave it off, IP is stored, and the label m
 > Count Yourself Skinny is a habit counter from the book of the same name. Everything on the home screen works
 > free, with no account and no AirPods.
 >
-> Pro needs AirPods because it reads their motion through CMHeadphoneMotionManager to count chews. Without
-> AirPods you can still reach every Pro screen with a sandbox account:
-> 1. Tap "Count my chews" or "Trends", then subscribe in the paywall.
+> On first launch you'll see two screens: a safety note (tap Continue), then a choice about anonymous usage events
+> (Yes or No; either way the app works the same, and About has a toggle). The home screen then offers the free Chew
+> Number test: tap "Find my number", then "Tap to count". It needs no AirPods, and the result has a share card the user
+> can choose to send.
+>
+> Chew counting needs AirPods because it reads their motion through CMHeadphoneMotionManager. The first meal counted
+> by AirPods is free, so a new user can try it before paying. After it saves, the paywall appears with that meal's
+> result. A meal under 30 seconds, or one where nothing was counted, doesn't use up the free meal.
+>
+> To see the paywall right away, without AirPods: tap "Trends" or "Get Pro: chew counting and trends" on the home screen.
+> Without AirPods you can still reach every Pro screen with a sandbox account:
+> 1. Tap "Trends", then subscribe in the paywall.
 > 2. Trends opens to its empty state, because the chart fills from meals.
 > 3. Count my chews: tap Start meal. The tuning screen opens the first time. Tap Start, allow Motion if asked,
 >    and it reports "No AirPods found" after a few seconds. Tap "Skip for now". The meal screen then shows
 >    "No AirPods found", and points to the free Bite Pacer.
 >
-> The attached video shows counting, the chime at 32 and Trends on a real iPhone with AirPods.
-> Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer is
-> under the home screen's About row and in About.
+> The attached video shows the free meal, the chime at 32, the paywall that follows, and Trends on a real iPhone with
+> AirPods. Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer
+> is on the first screen, under the home screen's About row and in About.
 
 - [ ] Record that video on a real device and attach it. Apple asks for one when a feature needs hardware
 
@@ -275,9 +299,13 @@ same project as the website). If you leave it off, IP is stored, and the label m
 - [ ] Screen stays on during a meal and sleeps normally afterwards
 - [ ] Real steps from Health on the home screen and in Morning mode. Needs a Release or TestFlight build on a paid
       team: Debug has no HealthKit
-- [ ] Sandbox: buy, cancel from the real sheet, restore, Ask to Buy, offer code, Manage Subscription. Against the
-      local `.storekit` file on an iOS 27 simulator, the plan rows render with price and trial and `ProStoreTests`
-      run purchase, expiry, restore, Ask to Buy and unverified. A real cancel can't be simulated there
+- [ ] Sandbox: buy, cancel from the real sheet, restore, Ask to Buy, a code redeemed in the App Store, Manage
+      Subscription. Against the local `.storekit` file on an iOS 27 simulator, the plan rows render with the prices and
+      `ProStoreTests` run purchase, expiry, restore, Ask to Buy and unverified. A real cancel can't be simulated there
       (`.generic(.userCancelled)` arrives as `StoreKitError.unknown`), so only its mapping is tested
-- [ ] One email through About reaches the Contact list. One event reaches PostHog from a TestFlight build
-      (Debug and simulator builds never send)
+- [ ] The free meal with real AirPods: it saves, the paywall follows with the result, and a meal with AirPods out
+      leaves it unspent. On a simulator this has only run against a simulated sensor
+- [ ] Chew Number with "Use my AirPods": the Motion alert, chews counting, and the fall back to tapping
+- [ ] Share card through the real share sheet to Messages and to Photos
+- [ ] One email through About reaches the Contact list. With usage events on, one event reaches PostHog from a
+      TestFlight build, and with them off, none does (Debug and simulator builds never send)

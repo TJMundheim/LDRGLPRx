@@ -14,11 +14,15 @@ enum AnalyticsEvent: String, CaseIterable {
     case contactSubmitted = "contact_submitted"
     case nextDoorShown = "next_door_shown"
     case nextDoorTapped = "next_door_tapped"
+    case chewNumberDone = "chew_number_done"
+    case shareTapped = "share_tapped"
 }
 
 /// PostHog capture over plain URLSession, keyed to a random ID kept on the phone. Failures are silent.
 struct Analytics {
     static let idKey = "cys.analytics.id"
+    /// Off until the first-run question is answered. About can change it.
+    static let consentKey = "cys.analytics.consent"
     static let shared = Analytics()
 
     /// Public PostHog client key (same one the website ships).
@@ -50,6 +54,8 @@ struct Analytics {
         self.sending = sending
     }
 
+    var consented: Bool { defaults.bool(forKey: Self.consentKey) }
+
     /// Random UUID, made once and kept.
     var distinctID: String {
         if let id = defaults.string(forKey: Self.idKey) { return id }
@@ -73,12 +79,12 @@ struct Analytics {
     }
 
     func track(_ event: AnalyticsEvent) {
-        guard sending else { return }
+        guard sending, consented else { return }
         Task.detached(priority: .utility) { await send(event) }
     }
 
     func send(_ event: AnalyticsEvent) async {
-        guard sending,
+        guard sending, consented,
               let body = try? JSONSerialization.data(withJSONObject: payload(for: event)) else { return }
         var req = URLRequest(url: Self.endpoint, timeoutInterval: 10)
         req.httpMethod = "POST"

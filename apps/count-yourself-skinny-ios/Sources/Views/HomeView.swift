@@ -11,6 +11,11 @@ struct HomeView: View {
     @State private var confirmLastBite = false
     @State private var showMeal = false
     @State private var showTrends = false
+    @State private var showChewNumber = false
+    @State private var chewOfferPending = ChewNumberStore().offerPending
+    @State private var chewResults = ChewNumberStore().load()
+
+    private var freeMealLeft: Bool { !pro.isPro && !FreeMealRule.isUsed(meals: MealStore().load()) }
 
     var body: some View {
         NavigationStack {
@@ -32,6 +37,20 @@ struct HomeView: View {
                         )
                         .onAppear {
                             if store.markNextDoorShown() { Analytics.shared.track(.nextDoorShown) }
+                        }
+                    }
+                }
+                Section {
+                    if chewOfferPending {
+                        ChewNumberOfferCard(
+                            take: { answerChewOffer(); showChewNumber = true },
+                            notNow: { answerChewOffer() }
+                        )
+                    } else {
+                        CounterRow(icon: "number", title: ChewNumberCopy.title,
+                                   subtitle: "One bite, about a minute. Free.",
+                                   value: chewResults.latest.map(String.init) ?? "", tint: .red) {
+                            showChewNumber = true
                         }
                     }
                 }
@@ -87,13 +106,13 @@ struct HomeView: View {
                 Section {
                     CounterRow(icon: "airpods.pro", title: "Count my chews",
                                subtitle: "Your AirPods count to 32 for you",
-                               value: pro.isPro ? "" : "Pro", tint: .orange) {
-                        if pro.isPro { showMeal = true } else { showPaywall = true }
+                               value: pro.isPro ? "" : (freeMealLeft ? "Free meal" : "Pro"), tint: .orange) {
+                        if pro.isPro || freeMealLeft { showMeal = true } else { showPaywall = true }
                     }
                     CounterRow(icon: "chart.line.uptrend.xyaxis", title: "Trends",
                                subtitle: "Chews per meal and eating pace, by week",
                                value: pro.isPro ? "" : "Pro", tint: .indigo) {
-                        if pro.isPro { showTrends = true } else { showPaywall = true }
+                        if FreeMealRule.canSeeTrends(isPro: pro.isPro) { showTrends = true } else { showPaywall = true }
                     }
                 }
                 Section {
@@ -118,11 +137,12 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("Count Yourself Skinny")
-            .navigationDestination(isPresented: $showMeal) { MealView() }
+            .navigationDestination(isPresented: $showMeal) { MealView(leftFreeMeal: { showPaywall = true }) }
             .navigationDestination(isPresented: $showTrends) { TrendsView() }
             .sheet(isPresented: $showPacer) { BitePacerView() }
             .sheet(isPresented: $showPaywall) { PaywallView() }
             .sheet(isPresented: $showLight) { LightTimerView() }
+            .sheet(isPresented: $showChewNumber, onDismiss: { chewResults = ChewNumberStore().load() }) { ChewNumberView() }
             .confirmationDialog("Log last bite now?", isPresented: $confirmLastBite, titleVisibility: .visible) {
                 Button("Log last bite now") { store.tapLastBite() }
                 Button("Cancel", role: .cancel) { }
@@ -135,6 +155,35 @@ struct HomeView: View {
                 store.rollover()
             }
         }
+    }
+
+    private func answerChewOffer() {
+        ChewNumberStore().markOfferAnswered()
+        chewOfferPending = false
+    }
+}
+
+/// Offered once after the first run. The Home row takes over whatever the answer.
+struct ChewNumberOfferCard: View {
+    let take: () -> Void
+    let notNow: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(ChewNumberCopy.title).font(.headline)
+            Text(ChewNumberCopy.offer).font(.callout)
+            // Non-default styles, or a List row would fire both buttons on one tap.
+            Button(action: take) {
+                Text("Find my number").frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            Button("Not now", action: notNow)
+                .buttonStyle(.borderless)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
+        }
+        .padding(.vertical, 4)
     }
 }
 

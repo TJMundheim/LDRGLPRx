@@ -26,6 +26,12 @@
 	<string>Step count is read from Health to fill in your daily steps automatically.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Motion access lets your AirPods count chews during meals. Chew motion is processed on your phone and never leaves it.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Lets you save your chew number card to Photos when you choose Save Image.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Anton-Regular.ttf</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>

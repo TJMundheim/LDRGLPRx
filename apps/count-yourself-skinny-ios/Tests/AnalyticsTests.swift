@@ -24,7 +24,8 @@ final class AnalyticsTests: XCTestCase {
                        ["app_open", "paywall_view", "purchase_started", "purchase_success",
                         "restore_tapped", "calibration_completed", "meal_completed",
                         "trends_viewed", "contact_submitted",
-                        "next_door_shown", "next_door_tapped"])
+                        "next_door_shown", "next_door_tapped",
+                        "chew_number_done", "share_tapped"])
     }
 
     func testPayloadHasOnlyAllowedKeys() {
@@ -73,9 +74,58 @@ final class AnalyticsTests: XCTestCase {
         XCTAssertTrue(StubURLProtocol.requests.isEmpty)
     }
 
+    func testNothingIsSentBeforeTheQuestionIsAnswered() async {
+        StubURLProtocol.handler = { _ in (200, Data()) }
+        let a = make(sending: true)
+        XCTAssertFalse(a.consented)
+        await a.send(.appOpen)
+        a.track(.appOpen)
+        try? await Task.sleep(for: .milliseconds(200))
+        XCTAssertTrue(StubURLProtocol.requests.isEmpty)
+        XCTAssertNil(defaults.string(forKey: Analytics.idKey), "no ID is even made until yes")
+    }
+
+    func testNoMeansNothingIsSent() async {
+        StubURLProtocol.handler = { _ in (200, Data()) }
+        let a = make(sending: true)
+        defaults.set(false, forKey: Analytics.consentKey)
+        await a.send(.appOpen)
+        a.track(.appOpen)
+        try? await Task.sleep(for: .milliseconds(200))
+        XCTAssertTrue(StubURLProtocol.requests.isEmpty)
+    }
+
+    func testYesSendsAndChangingToNoStops() async {
+        StubURLProtocol.handler = { _ in (200, Data()) }
+        let a = make(sending: true)
+        defaults.set(true, forKey: Analytics.consentKey)
+        await a.send(.appOpen)
+        XCTAssertEqual(StubURLProtocol.requests.count, 1)
+        defaults.set(false, forKey: Analytics.consentKey)
+        await a.send(.appOpen)
+        XCTAssertEqual(StubURLProtocol.requests.count, 1, "the About toggle takes effect at once")
+    }
+
+    func testTrackGoesThroughTheSameGate() async {
+        StubURLProtocol.handler = { _ in (200, Data()) }
+        let a = make(sending: true)
+        defaults.set(true, forKey: Analytics.consentKey)
+        a.track(.appOpen)
+        for _ in 0..<40 where StubURLProtocol.requests.isEmpty { try? await Task.sleep(for: .milliseconds(50)) }
+        XCTAssertEqual(StubURLProtocol.requests.count, 1)
+    }
+
+    func testDebugAndSimulatorBuildsStaySilentEvenAfterYes() {
+        defaults.set(true, forKey: Analytics.consentKey)
+        let a = Analytics(session: StubURLProtocol.session(), defaults: defaults, appVersion: "1.0.0")
+        a.track(.appOpen)
+        XCTAssertTrue(StubURLProtocol.requests.isEmpty)
+    }
+
     func testSendingPostsJSONToPostHog() async throws {
         StubURLProtocol.handler = { _ in (200, Data()) }
         let a = make(sending: true)
+        defaults.set(true, forKey: Analytics.consentKey)
         await a.send(.paywallView)
         XCTAssertEqual(StubURLProtocol.requests.count, 1)
         let r = StubURLProtocol.requests[0]
@@ -88,6 +138,7 @@ final class AnalyticsTests: XCTestCase {
     func testNetworkFailureIsSilent() async {
         StubURLProtocol.handler = { _ in throw URLError(.timedOut) }
         let a = make(sending: true)
+        defaults.set(true, forKey: Analytics.consentKey)
         await a.send(.appOpen)   // must not throw or crash
         StubURLProtocol.handler = { _ in (500, Data()) }
         await a.send(.appOpen)

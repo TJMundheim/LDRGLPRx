@@ -83,6 +83,73 @@ final class MealControllerTests: XCTestCase {
         assertAllReleased()
     }
 
+    func testFinishOffersTheSavedMealToTheScreen() {
+        let c = make()
+        c.start()
+        chews(40)
+        clock += 60
+        c.finish()
+        XCTAssertEqual(c.lastSaved?.chews, 40)
+        XCTAssertEqual(c.lastSaved, saved.first)
+        XCTAssertTrue(FreeMealRule.endedFreeMeal(c.lastSaved, isPro: false))
+        XCTAssertTrue(FreeMealRule.isUsed(meals: saved))
+    }
+
+    func testUnderThirtySecondsLeavesTheFreeMeal() {
+        let c = make()
+        c.start()
+        chews(5)
+        clock += 29
+        c.finish()
+        XCTAssertNil(c.lastSaved)
+        XCTAssertFalse(FreeMealRule.endedFreeMeal(c.lastSaved, isPro: false))
+        XCTAssertFalse(FreeMealRule.isUsed(meals: saved))
+    }
+
+    func testNoAirPodsLeavesTheFreeMeal() {
+        let c = make()
+        c.start()
+        clock += MealAvailability.stallSeconds
+        c.checkStall()
+        XCTAssertEqual(c.availability, .notConnected)
+        XCTAssertNil(c.lastSaved)
+        XCTAssertFalse(FreeMealRule.isUsed(meals: saved))
+    }
+
+    func testAMealThatCountedNothingLeavesTheFreeMeal() {
+        let c = make()
+        c.start()
+        clock += 1
+        sample()
+        clock += 60
+        sample()
+        c.finish()
+        XCTAssertEqual(c.lastSaved?.chews, 0)
+        XCTAssertFalse(FreeMealRule.endedFreeMeal(c.lastSaved, isPro: false))
+        XCTAssertFalse(FreeMealRule.isUsed(meals: saved))
+    }
+
+    func testLeavingMidMealStillSpendsItAndSaysSo() {
+        let c = make()
+        c.start()
+        chews(64)
+        clock += 120
+        c.leave()
+        XCTAssertTrue(FreeMealRule.endedFreeMeal(c.lastSaved, isPro: false))
+    }
+
+    func testStartingAgainForgetsTheLastMeal() {
+        let c = make()
+        c.start()
+        chews(40)
+        clock += 60
+        c.finish()
+        c.again()
+        c.start()
+        defer { c.halt() }
+        XCTAssertNil(c.lastSaved)
+    }
+
     /// Back button mid-meal: a long meal must not vanish.
     func testLeavingMidMealSavesItAndReleases() {
         let c = make()

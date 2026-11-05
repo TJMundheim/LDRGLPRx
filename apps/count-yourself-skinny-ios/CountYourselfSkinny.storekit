@@ -17,15 +17,11 @@
         {
           "adHocOffers": [],
           "codeOffers": [],
-          "displayPrice": "2.99",
+          "displayPrice": "0.99",
           "familyShareable": false,
           "groupNumber": 1,
           "internalID": "6740000001A",
-          "introductoryOffer": {
-            "internalID": "6740000001B",
-            "paymentMode": "free",
-            "subscriptionPeriod": "P1W"
-          },
+          "introductoryOffer": null,
           "localizations": [
             {
               "description": "Pro Monthly",
@@ -42,15 +38,11 @@
         {
           "adHocOffers": [],
           "codeOffers": [],
-          "displayPrice": "19.99",
+          "displayPrice": "4.99",
           "familyShareable": false,
           "groupNumber": 1,
           "internalID": "6740000002A",
-          "introductoryOffer": {
-            "internalID": "6740000002B",
-            "paymentMode": "free",
-            "subscriptionPeriod": "P1W"
-          },
+          "introductoryOffer": null,
           "localizations": [
             {
               "description": "Pro Yearly",

@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 @testable import CountYourselfSkinny
 
 /// Reads what actually shipped in the app bundle, not what a config file says.
@@ -28,6 +29,15 @@ final class BundleConfigTests: XCTestCase {
         XCTAssertNotNil(info["NSHealthShareUsageDescription"])
         XCTAssertNil(info["NSHealthUpdateUsageDescription"], "steps are read-only")
         XCTAssertNotNil(info["NSMotionUsageDescription"])
+        XCTAssertNotNil(info["NSPhotoLibraryAddUsageDescription"], "Save Image in the share sheet needs it")
+        XCTAssertNil(info["NSPhotoLibraryUsageDescription"], "the app never reads Photos")
+    }
+
+    /// The share card's font and its license ship in the app.
+    func testAntonIsRegisteredAndItsLicenseIsBundled() throws {
+        XCTAssertNotNil(UIFont(name: ChewNumberCard.fontName, size: 20), "UIAppFonts in project.yml")
+        let license = try XCTUnwrap(Bundle.main.url(forResource: "OFL", withExtension: "txt"))
+        XCTAssertTrue(try String(contentsOf: license, encoding: .utf8).contains("SIL Open Font License"))
     }
 
     private func manifest() throws -> [String: Any] {

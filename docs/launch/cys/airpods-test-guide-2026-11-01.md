@@ -1,6 +1,6 @@
 # Chew Lab test guide — your iPhone + your AirPods
 
-For: Dr. TJ. Date: 2026-11-01, updated 2026-11-04. Time needed: about 30 minutes to install (first time), then one meal.
+For: Dr. TJ. Date: 2026-11-01, updated 2026-11-04 (first-run screens, free meal). Time needed: about 30 minutes to install (first time), then one meal.
 
 This test build installs with a free Apple ID, before paid enrollment. **Apple Health is switched off in it.** The Steps row stays at 0 and says "No steps yet. If Health access is off, turn it on in Settings > Health." That is expected. You don't need to change anything in Settings. Steps come back in the App Store build.
 
@@ -36,6 +36,10 @@ You do this on the Mac.
 10. It will fail to open the first time with an "Untrusted Developer" message. That is normal. On the iPhone: **Settings → General → VPN & Device Management** → under **Developer App** tap your Apple ID email → **Trust** → **Trust** again.
 11. Open **Count Skinny** from the iPhone home screen (or press Run again). That is the short name under the icon. Inside, the app's title still reads Count Yourself Skinny.
     - It will not ask about Health in this build.
+12. The first time it opens, you get two screens, once each:
+    - **Before you start.** Read it and tap **Continue**.
+    - **Share anonymous usage events?** Tap **No** or **Yes**. Nothing is sent from this test build either way. You can change it later under **About**.
+13. The home screen shows a card, **What's your chew number?** Tap **Not now** for this test. The row stays on the home screen for later.
 
 **Good to know:** apps installed with a free Apple ID **stop opening after 7 days**. If that happens, plug in the phone and press Run again in Xcode.
 
@@ -83,15 +87,20 @@ Write down anything odd: "talking while chewing," "turned head to look at TV," "
 
 **Test C: the screen customers will use (added 2026-11-04; do it after you've sent the recording in section 5)**
 
-1. Go back to the home screen. In the **Developer** section, switch **Pretend Pro** on. It stands in for a subscription and turns itself off each time the app restarts.
+This is the free meal a new customer gets. Leave **Pretend Pro** off until step 6.
+
+1. Go back to the home screen. **Count my chews** should say **Free meal** on the right.
 2. Tap **Count my chews**, then the small **Tune to me** link under **Start meal**. The **Tune it to you** screen takes about 2 minutes. Have some food or gum ready, and tap **Start**. Sit still for 20 seconds, then chew in time with the buzz for three rounds of 32. When it says **Done**, tap **Save**. If it says **That didn't work**, tap **Try Again** once. If that fails too, write down what it said and tap **Skip for now**.
-3. Leave the app, start some music on the iPhone, and come back. Tap **Start meal** and eat for a few minutes.
+3. Leave the app, start some music on the iPhone, and come back. Tap **Start meal** and eat for a few minutes (at least 30 seconds, or it isn't saved).
 4. Check these and write down yes or no:
    - Did the count roughly match your own?
    - At 32, did you hear a chime in your AirPods?
    - Did the music keep playing through the chime?
    - Did the screen stay on without touching it?
-5. Tap **Finish**. The screen says **Meal done** with a summary. Does it look right? Then tap the back arrow at the top left and tap **Trends**: does your meal show up? Meals under 30 seconds aren't counted.
+5. Tap **Finish**. A screen slides up that says **That was your free meal.** with your meal's numbers and the prices. Do the numbers look right? Don't buy anything. Tap **Not now** at the bottom (scroll down if you don't see it). Behind it is **Meal done** with the same summary and a **See Pro** button.
+6. Tap the back arrow at the top left. **Count my chews** now says **Pro**. In the **Developer** section, switch **Pretend Pro** on. It stands in for a subscription and turns itself off each time the app restarts. Tap **Trends**: does your meal show up? Meals under 30 seconds aren't counted.
+
+The free meal is used up once a meal is saved with at least one chew counted. To get it back for another try, delete the app from the iPhone and press Run in Xcode again. You'll see the two first-run screens again.
 
 ## 5. Send me the recording
 
@@ -142,4 +151,4 @@ Also write: which AirPods you used, the **Threshold k** number, and whether the 
 | **Count seems way too high or too low** | Normal for a first test. That is the point of the CSV. Write down which and send it. You can try Threshold k lower (more sensitive) or higher (stricter), and note the k value you used. |
 
 ---
-*Source for every label and step above: `apps/count-yourself-skinny-ios/README.md`, `project.yml`, `Sources/Views/HomeView.swift`, `Sources/Views/ChewLabView.swift`, `Sources/Views/MealView.swift`, `Sources/Views/CalibrationView.swift`, `Sources/Motion/ChewDetector.swift`. Deployment target iOS 17.0; Debug bundle id `com.my4mlife.countyourselfskinny.dev`; no HealthKit in Debug; no signing team preset. Chew Lab labels are checked by `UITests/CYSUITests.swift`. Xcode's own menus and iPhone Settings paths were not checked against a live screen.*
+*Source for every label and step above: `apps/count-yourself-skinny-ios/README.md`, `project.yml`, `Sources/Views/HomeView.swift`, `Sources/Views/FirstRunView.swift`, `Sources/Views/PaywallView.swift`, `Sources/Views/ChewLabView.swift`, `Sources/Views/MealView.swift`, `Sources/Views/CalibrationView.swift`, `Sources/Motion/ChewDetector.swift`. Deployment target iOS 17.0; Debug bundle id `com.my4mlife.countyourselfskinny.dev`; no HealthKit in Debug; no signing team preset. Chew Lab, first-run, free-meal and paywall labels are checked by `UITests/CYSUITests.swift`, the free meal against a simulated sensor. Xcode's own menus and iPhone Settings paths were not checked against a live screen.*

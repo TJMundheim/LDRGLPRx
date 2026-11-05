@@ -32,9 +32,9 @@ enum RestoreOutcome: Equatable {
 
 /// StoreKit 2 subscription store — Pro monetizes from day one (TJ directive 2026-08-19).
 /// Products (create in App Store Connect):
-///   cys.pro.monthly  $2.99/mo, 7-day free trial
-///   cys.pro.yearly   $19.99/yr, 7-day free trial
-/// Book offer code (1 free month) configured as an App Store offer code campaign.
+///   cys.pro.yearly   $4.99/yr, no trial
+///   cys.pro.monthly  $0.99/mo, no trial
+/// The first counted meal is free instead of a trial: see FreeMealRule.
 @MainActor
 final class ProStore: ObservableObject {
     @Published private var entitled = false
@@ -51,10 +51,12 @@ final class ProStore: ObservableObject {
     #endif
     @Published private(set) var products: [Product] = []
     @Published private(set) var loadState: ProLoadState = .loading
-    /// Product ids that still qualify for the free trial.
+    /// Product ids that still qualify for a free trial. Empty today: this is what lets a trial
+    /// come back from App Store Connect alone, which is the pricing plan's fallback.
     @Published private(set) var trialEligible: Set<String> = []
 
-    private let ids = ["cys.pro.monthly", "cys.pro.yearly"]
+    /// In paywall order: yearly first.
+    private let ids = ["cys.pro.yearly", "cys.pro.monthly"]
     private var updates: Task<Void, Never>?
 
     init(observeStoreKit: Bool = true) {
@@ -72,10 +74,10 @@ final class ProStore: ObservableObject {
         do {
             let found = try await Product.products(for: ids)
             guard !found.isEmpty else { loadState = .failed; return }
-            products = found.sorted { $0.price < $1.price }
+            products = found.sorted { (ids.firstIndex(of: $0.id) ?? 0) < (ids.firstIndex(of: $1.id) ?? 0) }
             var eligible: Set<String> = []
-            for p in products where await p.subscription?.isEligibleForIntroOffer == true {
-                eligible.insert(p.id)
+            for p in products where p.subscription?.introductoryOffer != nil {
+                if await p.subscription?.isEligibleForIntroOffer == true { eligible.insert(p.id) }
             }
             trialEligible = eligible
             loadState = .loaded
