@@ -83,7 +83,7 @@ final class MealController: ObservableObject {
     func finish() {
         guard phase == .running, let m = model else { return }
         let record = m.finish(at: Date())
-        if let record { meals.save(record) }
+        if let record { meals.save(record); Analytics.shared.track(.mealCompleted) }
         halt()
         phase = .finished(record.map(MealSessionModel.summary(for:)) ?? MealSessionModel.shortMealSummary)
     }

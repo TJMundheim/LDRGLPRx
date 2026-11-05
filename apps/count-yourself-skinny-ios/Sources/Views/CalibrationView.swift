@@ -77,7 +77,10 @@ final class CalibrationController: ObservableObject {
         begin()
     }
 
-    func save() { flow.save(to: calibration) }
+    func save() {
+        flow.save(to: calibration)
+        if flow.phase == .saved { Analytics.shared.track(.calibrationCompleted) }
+    }
 
     func skip() {
         end()

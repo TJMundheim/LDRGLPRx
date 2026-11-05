@@ -27,7 +27,7 @@ struct TrendsView: View {
         }
         .navigationTitle("Trends")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { weeks = TrendsCalculator.weeks(from: MealStore().load()) }
+        .onAppear { Analytics.shared.track(.trendsViewed); weeks = TrendsCalculator.weeks(from: MealStore().load()) }
     }
 
     private func chart(_ title: String, unit: String, values: [(Date, Double?)]) -> some View {

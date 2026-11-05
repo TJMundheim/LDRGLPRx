@@ -78,6 +78,9 @@ struct HomeView: View {
                         if pro.isPro { showTrends = true } else { showPaywall = true }
                     }
                 }
+                Section {
+                    NavigationLink("About") { AboutView() }
+                }
                 #if DEBUG
                 Section {
                     NavigationLink("Chew Lab — AirPods prototype") { ChewLabView() }

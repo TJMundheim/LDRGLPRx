@@ -12,7 +12,7 @@ struct CYSApp: App {
                 .environmentObject(store)
                 .environmentObject(pro)
                 .onChange(of: scenePhase) { _, phase in
-                    if phase == .active { store.rollover() }
+                    if phase == .active { store.rollover(); Analytics.shared.track(.appOpen) }
                 }
         }
     }

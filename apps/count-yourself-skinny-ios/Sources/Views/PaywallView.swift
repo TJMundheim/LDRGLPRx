@@ -61,6 +61,7 @@ struct PaywallView: View {
             }
             .padding(24)
         }
+        .onAppear { Analytics.shared.track(.paywallView) }
     }
 
     @ViewBuilder private var plans: some View {
@@ -96,13 +97,15 @@ struct PaywallView: View {
 
     private func buy(_ product: Product) async {
         busy = true; defer { busy = false }
+        Analytics.shared.track(.purchaseStarted)
         let outcome = await pro.purchase(product)
         message = outcome.message
-        if outcome == .success { dismiss() }
+        if outcome == .success { Analytics.shared.track(.purchaseSuccess); dismiss() }
     }
 
     private func restore() async {
         busy = true; defer { busy = false }
+        Analytics.shared.track(.restoreTapped)
         let outcome = await pro.restore()
         message = outcome.message
         if outcome == .restored { dismiss() }
