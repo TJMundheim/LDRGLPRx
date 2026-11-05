@@ -28,45 +28,7 @@ final class ChewDetector: NSObject, ObservableObject {
 
     // MARK: - Tuning constants
 
-    enum Tuning {
-        /// How much vertical head acceleration (g) is folded into the rotation-rate
-        /// scalar (rad/s). Chewing shows up in both; rotation dominates, so this is
-        /// a modest boost rather than an equal weighting.
-        static let accelGain: Double = 2.0
-
-        /// High-pass corner. Below this is posture, head turns, walking sway.
-        static let highPassCutoffHz: Double = 0.8
-
-        /// Low-pass corner. Above this is speech, footfall, sensor noise.
-        static let lowPassCutoffHz: Double = 2.5
-
-        /// Fastest credible chew: 0.35 s ⇒ 2.86 Hz ceiling.
-        static let minInterPeakInterval: TimeInterval = 0.35
-
-        /// Rolling window for the noise-floor (MAD) estimate.
-        static let noiseWindow: TimeInterval = 3.0
-
-        /// MAD → sigma scale factor for a normal distribution.
-        static let madToSigma: Double = 1.4826
-
-        /// Default threshold multiplier. Peak must exceed `k × noiseFloor`.
-        static let defaultK: Double = 2.5
-
-        /// Absolute amplitude gate so a motionless head counts nothing.
-        static let minPeakAmplitude: Double = 0.015
-
-        /// Chews shown per bite before the heavy haptic + auto-reset.
-        static let chewsPerBite: Int = 32
-
-        /// Live sparkline depth (~8 s at 25 Hz).
-        static let signalWindow: Int = 200
-
-        /// A chew rate older than this reads as "stopped eating".
-        static let rateStaleAfter: TimeInterval = 5.0
-
-        /// Sampling assumption used only when a timestamp delta looks implausible.
-        static let nominalDt: TimeInterval = 1.0 / 25.0
-    }
+    typealias Tuning = ChewTuning
 
     // MARK: - Published state
 
@@ -90,7 +52,7 @@ final class ChewDetector: NSObject, ObservableObject {
     @Published private(set) var threshold: Double = 0
 
     /// Threshold multiplier *k*. Lower = more sensitive. Slider range 1.5–4.0.
-    @Published var sensitivity: Double = Tuning.defaultK
+    @Published var sensitivity: Double
 
     @Published var isRecording = false
     @Published private(set) var samplesRecorded = 0
@@ -118,29 +80,19 @@ final class ChewDetector: NSObject, ObservableObject {
     private let lightHaptic = UIImpactFeedbackGenerator(style: .light)
     private let heavyHaptic = UIImpactFeedbackGenerator(style: .heavy)
 
-    /// EMA state
-    private var baseline: Double = 0        // 0.8 Hz low-pass = the DC/drift term
-    private var bandPassed: Double = 0      // 2.5 Hz low-pass of (raw − baseline)
-    private var primed = false
-
-    /// Three-point peak detector state
-    private var prev2: Double = 0
-    private var prev1: Double = 0
-    private var prev1Time: TimeInterval = 0
-    private var lastPeakTime: TimeInterval = -.greatestFiniteMagnitude
-
-    /// Rolling window for the MAD noise floor: (time, value)
-    private var noiseWindowBuf: [(t: TimeInterval, v: Double)] = []
+    private var core = ChewSignalCore()
+    private let calibration: CalibrationStore
 
     /// Recent chew times, for chews/min.
     private var chewTimes: [TimeInterval] = []
 
-    private var lastSampleTime: TimeInterval?
     private var sessionStart = Date()
 
     // MARK: - Lifecycle
 
-    override init() {
+    init(calibration: CalibrationStore = CalibrationStore()) {
+        self.calibration = calibration
+        self.sensitivity = calibration.kOrDefault
         super.init()
         isAvailable = manager.isDeviceMotionAvailable
         manager.delegate = self
@@ -186,14 +138,8 @@ final class ChewDetector: NSObject, ObservableObject {
         chewRatePerMin = 0
         signal.removeAll(keepingCapacity: true)
         threshold = 0
-        baseline = 0
-        bandPassed = 0
-        primed = false
-        prev1 = 0; prev2 = 0; prev1Time = 0
-        lastPeakTime = -.greatestFiniteMagnitude
-        noiseWindowBuf.removeAll(keepingCapacity: true)
+        core = ChewSignalCore()
         chewTimes.removeAll(keepingCapacity: true)
-        lastSampleTime = nil
         recording.removeAll(keepingCapacity: false)
         samplesRecorded = 0
         sessionStart = Date()
@@ -203,46 +149,17 @@ final class ChewDetector: NSObject, ObservableObject {
 
     private func ingest(_ motion: CMDeviceMotion) {
         let t = motion.timestamp
-        let dt = clampedDt(from: t)
-        lastSampleTime = t
-
         let r = motion.rotationRate
         let a = motion.userAcceleration
         let att = motion.attitude
 
-        // 1. scalar
-        let rotMag = (r.x * r.x + r.y * r.y + r.z * r.z).squareRoot()
-        let raw = rotMag + Tuning.accelGain * abs(a.y)
-
-        // 2. band-pass — EMA high-pass then EMA low-pass
-        if !primed {
-            baseline = raw
-            bandPassed = 0
-            primed = true
-        } else {
-            baseline += emaAlpha(dt: dt, cutoffHz: Tuning.highPassCutoffHz) * (raw - baseline)
-            let highPassed = raw - baseline
-            bandPassed += emaAlpha(dt: dt, cutoffHz: Tuning.lowPassCutoffHz) * (highPassed - bandPassed)
-        }
-        let value = bandPassed
-
-        // 3/4. noise floor + peak
-        pushNoise(t: t, v: value)
-        let floor = noiseFloor()
-        let thr = max(Tuning.minPeakAmplitude, sensitivity * floor)
+        let raw = ChewSignalCore.scalar(rotX: r.x, rotY: r.y, rotZ: r.z, accelY: a.y)
+        let out = core.ingest(scalar: raw, t: t, k: sensitivity)
+        let value = out.filtered
+        let thr = out.threshold
         threshold = thr
-
-        var chewFlag = false
-        // Three-point local maximum, evaluated on the *previous* sample.
-        if prev1 > prev2, prev1 >= value, prev1 > thr,
-           prev1Time - lastPeakTime >= Tuning.minInterPeakInterval {
-            lastPeakTime = prev1Time
-            chewFlag = true
-            registerChew(at: prev1Time)
-        }
-        prev2 = prev1
-        prev1 = value
-        prev1Time = t
+        let chewFlag = out.chew
+        if let ct = out.chewTime { registerChew(at: ct) }
 
         // live sparkline
         signal.append(value)
@@ -262,47 +179,6 @@ final class ChewDetector: NSObject, ObservableObject {
             ))
             samplesRecorded = recording.count
         }
-    }
-
-    /// `dt` from device timestamps, guarded against gaps (headphones dropping out)
-    /// and against a zero delta, either of which would blow up the EMA alpha.
-    private func clampedDt(from t: TimeInterval) -> TimeInterval {
-        guard let last = lastSampleTime else { return Tuning.nominalDt }
-        let dt = t - last
-        guard dt > 0.0005, dt < 0.5 else { return Tuning.nominalDt }
-        return dt
-    }
-
-    /// Single-pole EMA coefficient for a given corner frequency: `α = dt / (dt + RC)`,
-    /// `RC = 1 / (2π·fc)`.
-    private func emaAlpha(dt: TimeInterval, cutoffHz: Double) -> Double {
-        let rc = 1.0 / (2.0 * Double.pi * cutoffHz)
-        return dt / (dt + rc)
-    }
-
-    private func pushNoise(t: TimeInterval, v: Double) {
-        noiseWindowBuf.append((t, v))
-        let cutoff = t - Tuning.noiseWindow
-        if let firstKept = noiseWindowBuf.firstIndex(where: { $0.t >= cutoff }), firstKept > 0 {
-            noiseWindowBuf.removeFirst(firstKept)
-        }
-    }
-
-    /// Robust sigma of the band-passed signal: `1.4826 × median(|x − median(x)|)`.
-    /// Median-based so the chew peaks themselves barely move the floor.
-    private func noiseFloor() -> Double {
-        guard noiseWindowBuf.count >= 8 else { return .greatestFiniteMagnitude }
-        let values = noiseWindowBuf.map(\.v)
-        let med = median(values)
-        let deviations = values.map { abs($0 - med) }
-        return Tuning.madToSigma * median(deviations)
-    }
-
-    private func median(_ xs: [Double]) -> Double {
-        guard !xs.isEmpty else { return 0 }
-        let sorted = xs.sorted()
-        let mid = sorted.count / 2
-        return sorted.count.isMultiple(of: 2) ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid]
     }
 
     private func registerChew(at t: TimeInterval) {

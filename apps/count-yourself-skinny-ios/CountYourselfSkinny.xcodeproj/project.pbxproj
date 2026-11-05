@@ -12,10 +12,13 @@
 		109A69E10978B021BBC460F9 /* LightSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E88049605F0BFB79035194 /* LightSession.swift */; };
 		14861BE24E8CD41866E4423F /* CYSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81891C89EE9C8E98A218319 /* CYSApp.swift */; };
 		177DCF1D6250AF804962C87E /* BitePacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6848E3ABF2142727B13C8B16 /* BitePacerView.swift */; };
+		429AE91B1FD790C614AA8915 /* Calibrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7713CC390707092F517F0 /* Calibrator.swift */; };
+		4DFE1A2BC3B1D397CDB3876C /* ChewSignalCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012576C11DAA44B7022263E7 /* ChewSignalCoreTests.swift */; };
 		506F75FC0D1915C418830D7B /* CountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298B263977474FD2BAF2371B /* CountStore.swift */; };
 		62F7FB4DB7C4A5F2DBC22607 /* CountStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */; };
 		69CF5411EEEA7B92CDC20E56 /* ChewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */; };
 		7E117745A55D3D0DDABD6BD3 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD2339A63C90A5A67C9EF8E /* PaywallView.swift */; };
+		89C11C29AAE971A4EE86A14A /* ChewSignalCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE54BB2E8BBB1D5416AAD22 /* ChewSignalCore.swift */; };
 		8BD8B2FCBB4125392D291D43 /* WeighInScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB8A5F028AC411F3B633FFB /* WeighInScheduleTests.swift */; };
 		92F0ED683216E6D67F0F6195 /* StreakEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B5C38C043D55D56ADC4B4 /* StreakEngineTests.swift */; };
 		9705AE1AF8C7CD5E76A5A0EF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */; };
@@ -39,13 +42,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		012576C11DAA44B7022263E7 /* ChewSignalCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewSignalCoreTests.swift; sourceTree = "<group>"; };
 		1E844A82B97BD06802C7EB66 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		298B263977474FD2BAF2371B /* CountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStore.swift; sourceTree = "<group>"; };
 		34BEE83876151CF59722280F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3FD2339A63C90A5A67C9EF8E /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		463B4CCACF377CBC57DE0DD0 /* StreakEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakEngine.swift; sourceTree = "<group>"; };
 		5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewDetector.swift; sourceTree = "<group>"; };
+		5DE54BB2E8BBB1D5416AAD22 /* ChewSignalCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewSignalCore.swift; sourceTree = "<group>"; };
 		6848E3ABF2142727B13C8B16 /* BitePacerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitePacerView.swift; sourceTree = "<group>"; };
+		6EE7713CC390707092F517F0 /* Calibrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibrator.swift; sourceTree = "<group>"; };
 		71C576596B337925DBD96944 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7BEFE6C14CAF26B9CD8DBE23 /* CountYourselfSkinny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountYourselfSkinny.entitlements; sourceTree = "<group>"; };
@@ -82,6 +88,7 @@
 		0C2EF1ECB1462D5570E3E3BB /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				012576C11DAA44B7022263E7 /* ChewSignalCoreTests.swift */,
 				934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */,
 				BB732F857EBB96BE61E4B5F2 /* LightSessionTests.swift */,
 				AC2B5C38C043D55D56ADC4B4 /* StreakEngineTests.swift */,
@@ -119,7 +126,9 @@
 		742E469DEC019101E80A80DE /* Motion */ = {
 			isa = PBXGroup;
 			children = (
+				6EE7713CC390707092F517F0 /* Calibrator.swift */,
 				5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */,
+				5DE54BB2E8BBB1D5416AAD22 /* ChewSignalCore.swift */,
 			);
 			path = Motion;
 			sourceTree = "<group>";
@@ -241,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DFE1A2BC3B1D397CDB3876C /* ChewSignalCoreTests.swift in Sources */,
 				62F7FB4DB7C4A5F2DBC22607 /* CountStoreTests.swift in Sources */,
 				0A1E0A88705ED1A3D2B4C0FF /* LightSessionTests.swift in Sources */,
 				92F0ED683216E6D67F0F6195 /* StreakEngineTests.swift in Sources */,
@@ -254,8 +264,10 @@
 			files = (
 				177DCF1D6250AF804962C87E /* BitePacerView.swift in Sources */,
 				14861BE24E8CD41866E4423F /* CYSApp.swift in Sources */,
+				429AE91B1FD790C614AA8915 /* Calibrator.swift in Sources */,
 				69CF5411EEEA7B92CDC20E56 /* ChewDetector.swift in Sources */,
 				D1357561AFA78C6FAE4653DA /* ChewLabView.swift in Sources */,
+				89C11C29AAE971A4EE86A14A /* ChewSignalCore.swift in Sources */,
 				506F75FC0D1915C418830D7B /* CountStore.swift in Sources */,
 				E08DEBCCE5428B756F574B14 /* HomeView.swift in Sources */,
 				109A69E10978B021BBC460F9 /* LightSession.swift in Sources */,
