@@ -34,3 +34,21 @@ Read this book with your spouse or partner, if you have one. Then do both halves
 [Attorney at Law, The Mundheim Firm, PLLC · Colleyville, Texas]
 
 *[This foreword reflects my personal views. It is not legal or medical advice, and reading it does not create an attorney-client relationship. Laws vary by state. Marla: use your own preferred wording.]*
+
+---
+
+# A Word About Marla
+
+*From Dr. TJ, on the page right after the foreword. It's about Marla, so she should see it too. [Brackets] are for TJ to confirm.*
+
+---
+
+Marla told you she is my sister-in-law, so discount what I am about to say however you like. Then go ask the people who have no reason to flatter her.
+
+She would never write this about herself, so I will. Among her peers, Marla is held in the highest regard, both for her skill and for her ethics. For [more than twenty-six] years she has brought the same care to clients with substantial estates and to clients with almost nothing to protect. She is the attorney I would send my own family to.
+
+She also did not do me any favors. When she read my first draft, she told me I had written it for the wrong half of the table. She was right, and the book you are holding is better for it.
+
+She told you the line she cannot cross: she can prepare a family for incapacity, but she cannot lower the odds of it. That is the half I have spent thirty years working on. So let's start with the money, the way she would, because the bill is where most families first find out how exposed they are.
+
+**— Dr. TJ**
