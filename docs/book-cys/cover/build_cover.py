@@ -14,16 +14,18 @@ IX = FX + 0.4                          # inner text left (0.4in inside trim)
 TW = 5.2                               # headline width
 imp = fitz.Font(fontfile='/Users/thomasmundheim/Development/LDRGLPRx/docs/design/cys/fonts/Anton-Regular.ttf')
 def size_for(txt, width): return width / imp.text_length(txt, fontsize=1)
-CAP = 0.79
-def line(txt, base, sy, fill, width=TW):
+CAP = 0.86                             # Anton capital height per em, measured by rendering 'H'
+def line(txt, base, height, fill, width=TW):
+    """One justified line: fits the width, then scales vertically to an exact cap height (inches)."""
     s = size_for(txt, width)
-    return (f'<text transform="translate({IX:.3f},{base:.3f}) scale(1,{sy})" font-size="{s:.4f}" fill="{fill}">{txt}</text>', s*CAP*sy)
-y = 2.72
+    sy = height / (s * CAP)
+    return (f'<text transform="translate({IX:.3f},{base:.3f}) scale(1,{sy:.4f})" font-size="{s:.4f}" fill="{fill}">{txt}</text>', height)
+TOP, GAP, H1, H2, H3 = 2.72, 0.2, 1.05, 0.80, 2.80
 parts = []
-t, h1 = line('COUNT', y + 1.05, 0.72, '#fff');            parts.append(t)
-t, h2 = line('YOURSELF', y + 1.05 + 0.22 + 0.80, 0.72, '#fff'); parts.append(t)
-sk_base = y + 1.05 + 0.22 + 0.80 + 0.22 + 2.80
-t, h3 = line('SKINNY', sk_base, 1.95, '#FFD400');        parts.append(t)
+b1 = TOP + H1; b2 = b1 + GAP + H2; b3 = b2 + GAP + H3
+t, h1 = line('COUNT', b1, H1, '#fff');          parts.append(t)
+t, h2 = line('YOURSELF', b2, H2, '#fff');       parts.append(t)
+t, h3 = line('SKINNY', b3, H3, '#FFD400');      parts.append(t)
 s32 = 2.3
 parts.append(f'<text x="{IX-0.04:.3f}" y="2.35" font-size="{s32}" fill="#111">32</text>')
 for i, tx in enumerate(['CHEWS PER BITE.', 'NO CALORIE MATH.', 'NO FOOD SCALE.']):
