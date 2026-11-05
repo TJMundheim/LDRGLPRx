@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Count Yourself Skinny Privacy Policy — My4MLife';
+const description = 'Privacy policy for the Count Yourself Skinny iPhone app from My4MLife.';
+const canonical = 'https://www.my4mlife.com/legal/count-yourself-skinny-privacy';
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow">
+  <section class="legal-doc">
+    <div class="legal-wrap">
+      <h1>Count Yourself Skinny Privacy Policy</h1>
+      <p class="legal-eff">Effective November 4, 2026</p>
+      <div class="legal-body">
+        <h4>Your data stays on your phone</h4>
+        <p>Your counts, streak, meals, chew counts and weigh-ins are stored on your phone only. There is no account. Deleting the app deletes them.</p>
+
+        <h4>AirPods motion data</h4>
+        <p>Chew counting uses AirPods motion data, processed on your phone. It isn't recorded or sent anywhere.</p>
+
+        <h4>Apple Health steps</h4>
+        <p>With your permission, the app reads your step count from Apple Health. Access is read-only. Steps stay on your phone and aren't used for advertising or shared.</p>
+
+        <h4>Anonymous usage events</h4>
+        <p>The app sends anonymous usage events, such as "app opened" or "paywall viewed," to our analytics provider, PostHog. These use a random ID generated on your phone. They contain no health numbers, no name and no email.</p>
+
+        <h4>Email</h4>
+        <p>We collect your email only if you choose to type it in, so we can send you updates from My4MLife. You can unsubscribe anytime using the link in any email.</p>
+
+        <h4>Subscriptions and payments</h4>
+        <p>Apple handles subscriptions and payments. We never see your card details.</p>
+
+        <h4>Selling data and age</h4>
+        <p>We don't sell data. The app is not intended for children under 18.</p>
+
+        <h4>Not medical advice</h4>
+        <p>Count Yourself Skinny is an educational tool, not medical advice. This app isn't part of the My4MLife clinical or telehealth service.</p>
+
+        <h4>Contact and changes</h4>
+        <p>Questions? Email <a href="mailto:privacy@my4mlife.com">privacy@my4mlife.com</a>. If this policy changes, we will post the update on this page.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-doc { padding: 7rem 1rem 4rem; }
+  .legal-wrap { max-width: 760px; margin: 0 auto; line-height: 1.7; }
+  .legal-wrap h1 { margin: 0 0 0.5rem; }
+  .legal-eff { color: #5a6472; margin: 0 0 2rem; }
+  .legal-body :global(h4) { margin: 1.75rem 0 0.5rem; }
+  .legal-body :global(p), .legal-body :global(ul) { margin: 0 0 1rem; }
+</style>

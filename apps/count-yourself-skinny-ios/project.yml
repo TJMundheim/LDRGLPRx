@@ -13,7 +13,9 @@ targets:
       properties:
         CFBundleDisplayName: Count Yourself Skinny
         UILaunchScreen: {}
-        NSMotionUsageDescription: "Motion access lets your AirPods count chews during meals. Nothing is recorded and nothing leaves your phone."
+        ITSAppUsesNonExemptEncryption: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSMotionUsageDescription: "Motion access lets your AirPods count chews during meals. Chew motion is processed on your phone and never leaves it."
         NSHealthShareUsageDescription: "Step count is read from Health to fill in your daily steps automatically."
     entitlements:
       path: Sources/CountYourselfSkinny.entitlements
@@ -22,10 +24,32 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny
-        MARKETING_VERSION: "0.1.0"
+        MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: 1
         # Personal-team device builds: TJ picks his own Apple ID team in Xcode
         # (Signing & Capabilities → Team). Left empty on purpose so the checked-in
         # project doesn't pin a team id.
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: ""
+  CountYourselfSkinnyTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: CountYourselfSkinny
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny.tests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  CountYourselfSkinny:
+    build:
+      targets:
+        CountYourselfSkinny: all
+    run:
+      storeKitConfiguration: CountYourselfSkinny.storekit
+    test:
+      storeKitConfiguration: CountYourselfSkinny.storekit
+      targets: [CountYourselfSkinnyTests]

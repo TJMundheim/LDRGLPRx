@@ -7,28 +7,49 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0836FD20EC3C9BD899837B4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71C576596B337925DBD96944 /* Assets.xcassets */; };
 		14861BE24E8CD41866E4423F /* CYSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81891C89EE9C8E98A218319 /* CYSApp.swift */; };
 		177DCF1D6250AF804962C87E /* BitePacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6848E3ABF2142727B13C8B16 /* BitePacerView.swift */; };
 		506F75FC0D1915C418830D7B /* CountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298B263977474FD2BAF2371B /* CountStore.swift */; };
+		62F7FB4DB7C4A5F2DBC22607 /* CountStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */; };
 		69CF5411EEEA7B92CDC20E56 /* ChewDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */; };
 		7E117745A55D3D0DDABD6BD3 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD2339A63C90A5A67C9EF8E /* PaywallView.swift */; };
+		92F0ED683216E6D67F0F6195 /* StreakEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B5C38C043D55D56ADC4B4 /* StreakEngineTests.swift */; };
+		9705AE1AF8C7CD5E76A5A0EF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */; };
+		B4FE5D087FA8F42BDE2AD87F /* StreakEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463B4CCACF377CBC57DE0DD0 /* StreakEngine.swift */; };
 		D1357561AFA78C6FAE4653DA /* ChewLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBB737822DCA5E07A65FFC3 /* ChewLabView.swift */; };
 		DB4FA7BFAC25260DDF5E408A /* MorningModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDE20D0CB7A7F6989334AB7 /* MorningModeView.swift */; };
 		E08DEBCCE5428B756F574B14 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E844A82B97BD06802C7EB66 /* HomeView.swift */; };
 		E215B0C3207660324D4001E2 /* ProStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9764FBDFB69D515537547 /* ProStore.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8055AE25DE2B250E565076D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 429DE1473203212C6A95609B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7033B3FB3213743035BA2BF4;
+			remoteInfo = CountYourselfSkinny;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1E844A82B97BD06802C7EB66 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		298B263977474FD2BAF2371B /* CountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStore.swift; sourceTree = "<group>"; };
 		34BEE83876151CF59722280F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3FD2339A63C90A5A67C9EF8E /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		463B4CCACF377CBC57DE0DD0 /* StreakEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakEngine.swift; sourceTree = "<group>"; };
 		5A0FAC7C7EF90B7C763DDA09 /* ChewDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewDetector.swift; sourceTree = "<group>"; };
 		6848E3ABF2142727B13C8B16 /* BitePacerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitePacerView.swift; sourceTree = "<group>"; };
+		71C576596B337925DBD96944 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7BEFE6C14CAF26B9CD8DBE23 /* CountYourselfSkinny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountYourselfSkinny.entitlements; sourceTree = "<group>"; };
 		7EBB737822DCA5E07A65FFC3 /* ChewLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewLabView.swift; sourceTree = "<group>"; };
 		85D9764FBDFB69D515537547 /* ProStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStore.swift; sourceTree = "<group>"; };
 		8BF25C83EA8D67E7D7F4B3F5 /* CountYourselfSkinny.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CountYourselfSkinny.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStoreTests.swift; sourceTree = "<group>"; };
+		A72D74C4033792FFBADED1E1 /* CountYourselfSkinnyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CountYourselfSkinnyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC2B5C38C043D55D56ADC4B4 /* StreakEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakEngineTests.swift; sourceTree = "<group>"; };
 		D81891C89EE9C8E98A218319 /* CYSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CYSApp.swift; sourceTree = "<group>"; };
 		FBDE20D0CB7A7F6989334AB7 /* MorningModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorningModeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -46,6 +67,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		0C2EF1ECB1462D5570E3E3BB /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */,
+				AC2B5C38C043D55D56ADC4B4 /* StreakEngineTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		551179443066B70E34CBECBF /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				8BF25C83EA8D67E7D7F4B3F5 /* CountYourselfSkinny.app */,
+				A72D74C4033792FFBADED1E1 /* CountYourselfSkinnyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				C7424D035AB3B6E4C0601CAA /* Sources */,
+				0C2EF1ECB1462D5570E3E3BB /* Tests */,
 				5F3EE2A2EF5521D68416E291 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				298B263977474FD2BAF2371B /* CountStore.swift */,
+				463B4CCACF377CBC57DE0DD0 /* StreakEngine.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -89,9 +122,11 @@
 		C7424D035AB3B6E4C0601CAA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				71C576596B337925DBD96944 /* Assets.xcassets */,
 				7BEFE6C14CAF26B9CD8DBE23 /* CountYourselfSkinny.entitlements */,
 				D81891C89EE9C8E98A218319 /* CYSApp.swift */,
 				34BEE83876151CF59722280F /* Info.plist */,
+				7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */,
 				87B530CF3B3100425B7B4107 /* Models */,
 				742E469DEC019101E80A80DE /* Motion */,
 				551179443066B70E34CBECBF /* Store */,
@@ -108,6 +143,7 @@
 			buildConfigurationList = 881EC3D6D84EA880582A0B22 /* Build configuration list for PBXNativeTarget "CountYourselfSkinny" */;
 			buildPhases = (
 				B763A9287D4686E28B0E7672 /* Sources */,
+				D9A784DF503822B03F1C84E9 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -119,6 +155,24 @@
 			productName = CountYourselfSkinny;
 			productReference = 8BF25C83EA8D67E7D7F4B3F5 /* CountYourselfSkinny.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E212386AB376F8A44708122A /* CountYourselfSkinnyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D418B4675CEFCFD9837978D1 /* Build configuration list for PBXNativeTarget "CountYourselfSkinnyTests" */;
+			buildPhases = (
+				9662F00B1963F03573C95F87 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0413F21167AB967AF23206F5 /* PBXTargetDependency */,
+			);
+			name = CountYourselfSkinnyTests;
+			packageProductDependencies = (
+			);
+			productName = CountYourselfSkinnyTests;
+			productReference = A72D74C4033792FFBADED1E1 /* CountYourselfSkinnyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -150,11 +204,33 @@
 			projectRoot = "";
 			targets = (
 				7033B3FB3213743035BA2BF4 /* CountYourselfSkinny */,
+				E212386AB376F8A44708122A /* CountYourselfSkinnyTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		D9A784DF503822B03F1C84E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0836FD20EC3C9BD899837B4D /* Assets.xcassets in Resources */,
+				9705AE1AF8C7CD5E76A5A0EF /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		9662F00B1963F03573C95F87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62F7FB4DB7C4A5F2DBC22607 /* CountStoreTests.swift in Sources */,
+				92F0ED683216E6D67F0F6195 /* StreakEngineTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B763A9287D4686E28B0E7672 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,10 +244,19 @@
 				DB4FA7BFAC25260DDF5E408A /* MorningModeView.swift in Sources */,
 				7E117745A55D3D0DDABD6BD3 /* PaywallView.swift in Sources */,
 				E215B0C3207660324D4001E2 /* ProStore.swift in Sources */,
+				B4FE5D087FA8F42BDE2AD87F /* StreakEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0413F21167AB967AF23206F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7033B3FB3213743035BA2BF4 /* CountYourselfSkinny */;
+			targetProxy = 8055AE25DE2B250E565076D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1CD5711F92BAED537C024504 /* Debug */ = {
@@ -188,10 +273,44 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.my4mlife.countyourselfskinny;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		29346FBD472861789FFE59E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.my4mlife.countyourselfskinny.tests;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountYourselfSkinny.app/CountYourselfSkinny";
+			};
+			name = Release;
+		};
+		3A60C66B6D325A758EB63B57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.my4mlife.countyourselfskinny.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountYourselfSkinny.app/CountYourselfSkinny";
 			};
 			name = Debug;
 		};
@@ -265,10 +384,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.my4mlife.countyourselfskinny;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -352,6 +471,15 @@
 			buildConfigurations = (
 				1CD5711F92BAED537C024504 /* Debug */,
 				AF8FBB6CD1B4DF9E50FCC82E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D418B4675CEFCFD9837978D1 /* Build configuration list for PBXNativeTarget "CountYourselfSkinnyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A60C66B6D325A758EB63B57 /* Debug */,
+				29346FBD472861789FFE59E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
