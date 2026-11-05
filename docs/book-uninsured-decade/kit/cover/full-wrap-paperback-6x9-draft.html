@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<title>The Uninsured Decade: full-wrap cover draft (86 pages)</title>
+<style>
+/* Geometry: 86 pages x 0.002252 = 0.1937 in spine. Page 12.4437 x 9.25 in.
+   Back 0.125 to 6.125; spine 6.125 to 6.3187; front 6.3187 to 12.3187.
+   Barcode: KDP places it at the lower right of the back panel. That zone stays empty. */
+* { margin:0; padding:0; box-sizing:border-box; }
+@page { size:12.4437in 9.25in; margin:0; }
+:root { --paper:#F2EDE1; --ink:#16202E; --soft:#4F5864; --ox:#7A1F1F; --rule:#16202E; }
+html,body { width:12.4437in; height:9.25in; overflow:hidden; background:var(--paper); -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.panel { position:absolute; top:0.125in; width:6.0in; height:9.0in; color:var(--ink); }
+.serif { font-family:'Baskerville','Times New Roman',serif; }
+.sans { font-family:'Optima','Helvetica Neue',sans-serif; }
+
+/* FRONT */
+#front { left:6.3187in; }
+.kicker { position:absolute; top:.56in; left:.62in; right:.62in; font-size:8.6pt; letter-spacing:.24em; text-transform:uppercase; color:var(--soft); }
+.ledger { position:absolute; top:.92in; left:.62in; right:.62in; }
+.ledger .head, .ledger .row { display:flex; justify-content:space-between; align-items:baseline; }
+.ledger .head { border-top:1.6pt solid var(--rule); border-bottom:.5pt solid var(--rule); padding:.055in 0 .05in; font-size:7.6pt; letter-spacing:.17em; text-transform:uppercase; color:var(--soft); }
+.ledger .row { border-bottom:.35pt solid #8d9096; padding:.062in 0 .056in; font-size:11.2pt; }
+.ledger .row span:last-child { font-size:10pt; color:var(--soft); font-style:italic; }
+.ledger .last { border-bottom:1.6pt solid var(--rule); color:var(--ox); font-weight:600; padding-top:.075in; }
+.blank { display:inline-block; width:1.34in; border-bottom:1.1pt solid var(--ox); height:.1in; }
+.title { position:absolute; top:3.42in; left:.585in; right:.3in; }
+.title .the { font-style:italic; font-size:31pt; line-height:1; margin-left:.05in; }
+.title .big { font-size:71.5pt; line-height:.99; font-weight:600; letter-spacing:-.012em; }
+.oxrule { position:absolute; top:6.06in; left:.62in; width:.8in; border-top:2pt solid var(--ox); }
+.sub { position:absolute; top:6.22in; left:.62in; right:.62in; font-style:italic; font-size:16pt; line-height:1.27; }
+.by { position:absolute; bottom:.56in; left:.62in; right:.62in; }
+.by .a { font-size:19pt; font-weight:600; letter-spacing:.01em; }
+.by .f { font-size:9.4pt; letter-spacing:.035em; color:var(--soft); margin-top:.05in; }
+
+/* SPINE */
+#spine { position:absolute; top:0.125in; left:6.125in; width:0.1937in; height:9.0in; }
+#spine .t { position:absolute; left:-0.0036in; width:0.1937in; line-height:0.1937in; writing-mode:vertical-rl; font-size:5.8pt; font-weight:600; letter-spacing:.13em; text-transform:uppercase; color:var(--ink); white-space:nowrap; }
+
+/* BACK */
+#back { left:0.125in; }
+.bk { position:absolute; top:.56in; left:.56in; right:.56in; }
+.bk h2 { font-weight:600; font-size:21pt; line-height:1.14; margin-bottom:.15in; }
+.bk p { font-size:11pt; line-height:1.4; margin-bottom:.1in; }
+.bk .topline { border-top:1.6pt solid var(--rule); margin-bottom:.15in; }
+.bk .lab { font-size:7.8pt; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); margin:.14in 0 .05in; border-top:.5pt solid var(--rule); padding-top:.08in; }
+.bk ul { list-style:none; }
+.bk li { font-size:10.8pt; line-height:1.34; padding:.022in 0 .022in .14in; text-indent:-.14in; }
+.bk li::before { content:"\2013\00a0"; color:var(--ox); }
+.bk p.tag { font-style:italic; font-size:14pt; line-height:1.28; color:var(--ox); margin:.14in 0 0; }
+.foot { position:absolute; bottom:.42in; left:.56in; width:3.0in; font-size:7.7pt; line-height:1.34; color:var(--soft); }
+.foot b { color:var(--ink); font-weight:600; letter-spacing:.02em; }
+</style></head><body>
+
+<section class="panel" id="back">
+  <div class="bk">
+    <div class="topline"></div>
+    <h2 class="serif">Which policy in your folder pays for memory care?</h2>
+    <p class="serif">You spent thirty years building coverage so that nothing could land on your family as a bill. Then read the fine print on this line. Medicare doesn't cover custodial care if it's the only care you need. Where a policy or hybrid rider fits your plan, it funds part of the risk. No contract lowers the odds.</p>
+    <p class="serif">This is a book about money before it is a book about health, and it is written to whoever holds the pen.</p>
+    <div class="lab sans">Inside</div>
+    <ul class="serif">
+      <li>A ten-year ledger for one household, priced line by line, with sources and dates</li>
+      <li>What Medicare, Medicaid, and a thinned-out insurance market leave on the table, and why your advisor's review matters more now</li>
+      <li>The odds stated as odds, including the math that does not break even</li>
+      <li>A 30-day plan that ends with an hour across the table from your advisor, attorney, or CPA</li>
+    </ul>
+    <p class="serif" style="margin-top:.13in">Nothing here prevents, treats, cures, or reverses dementia. The work may lower the odds. Your professionals fund and structure the risk. You need both.</p>
+    <p class="tag serif">Don't lose your identity and your dignity while you still have a choice.</p>
+  </div>
+  <div class="foot sans">
+    <b>Dr. TJ</b> is a health-span educator with more than thirty years in clinical practice. He does not provide medical care through this book.<br><br>
+    Foreword by an estate planning attorney who discloses, in her first lines, that she is the author's sister-in-law.<br><br>
+    Educational only. Not medical, legal, tax, insurance, or financial advice.<br>
+    <b>My4MLife Press</b> &middot; my4mlife.com
+  </div>
+</section>
+
+<section id="spine" class="sans">
+  <div class="t" style="top:.62in">The Uninsured Decade</div>
+  <div class="t" style="bottom:.62in">Dr. TJ Mundheim</div>
+</section>
+
+<section class="panel" id="front">
+  <div class="kicker sans">A My4MLife Field Guide</div>
+  <div class="ledger serif">
+    <div class="head sans"><span>The risk</span><span>Who writes the check</span></div>
+    <div class="row"><span>The house burns</span><span>Carrier</span></div>
+    <div class="row"><span>A wreck, at fault</span><span>Carrier</span></div>
+    <div class="row"><span>You die early</span><span>Carrier</span></div>
+    <div class="row"><span>You can't work</span><span>Carrier</span></div>
+    <div class="row"><span>A stay in the hospital</span><span>Carrier</span></div>
+    <div class="row last"><span>Ten years of memory care</span><span class="blank"></span></div>
+  </div>
+  <div class="title serif">
+    <div class="the">The</div>
+    <div class="big">Uninsured</div>
+    <div class="big">Decade</div>
+  </div>
+  <div class="oxrule"></div>
+  <div class="sub serif">The one catastrophic risk you cannot buy a policy against, and the premium you can still pay</div>
+  <div class="by">
+    <div class="a serif">Dr. TJ Mundheim</div>
+    <div class="f sans">Foreword by Marla Morgan Mundheim, Attorney at Law</div>
+  </div>
+</section>
+</body></html>
