@@ -62,12 +62,36 @@ transmitted unless the user taps Export.
      head turns, walking sway
    - low-pass at **2.5 Hz** — kills speech, footfall, sensor noise
 3. **Peaks** — three-point local maxima, minimum inter-peak interval **0.35 s**
-   (a 2.86 Hz ceiling — faster than any real chew)
-4. **Gate** — a peak counts only if it exceeds `k × noiseFloor`, where the floor is
-   a robust sigma (`1.4826 × MAD`) over the last **3.0 s** of the band-passed signal.
-   Median-based, so the chew peaks themselves barely move the floor. A peak must
-   also clear an absolute floor of **0.015** so a motionless head can't manufacture
-   chews from quantisation noise.
+   (a 2.86 Hz ceiling — faster than any real chew). The signal must also return through
+   zero between counted peaks, so ripple on one slow hump can't count twice
+4. **Gate** — a peak counts only if it clears all three of:
+   - an absolute floor of **0.015**, so a still head can't manufacture chews from
+     quantisation noise
+   - **`k × 0.2` of a peak envelope** (follows the largest recent peak, decays with a
+     2.0 s time constant), so the gate is relative to this chewer: it rejects ripple
+     between chews and follows someone who starts chewing harder or softer
+   - a **power split**: blocked while power above the 2.5 Hz low-pass corner exceeds
+     `2.5 / k` times power below it (each smoothed over 1.0 s). A pure tone's ratio is
+     `(f / 2.5)²`, so this measures how fast the motion is, whatever its size. White noise
+     and speech-rate motion (3–6 Hz) put most of their power above the corner
+
+   While the power split blocks, the exported `threshold` sits at or above every recent peak.
+
+   **Why noise isn't measured in the chew band.** The first version used
+   `k × 1.4826 × MAD` of the last 3 s of the band-passed signal. During a meal, that
+   window is full of chewing: MAD of a steady oscillation of amplitude A is about 0.707A,
+   so the floor sat at about 1.05A and steady chewing counted zero at every k. A longer
+   "quiet period" window doesn't rescue it, because an uninterrupted meal has no quiet
+   period, and a sine's peaks (1.41σ) can't be split from noise peaks (up to 3σ) on
+   amplitude alone.
+
+   **Known blind spots** (pinned as expected failures in `Tests/ChewSignalCoreTests.swift`):
+   - irregular motion that really is in the chew band counts as chewing, since nothing
+     checks regularity
+   - speech with word-length pauses leaks energy below the corner and partly gets through
+   - the scalar is a magnitude, so a chew that swings a rotation axis both ways is
+     rectified to twice its rate. Slow chews then double-count and faster ones get
+     blocked as too fast. Whether real chewing does this is the first question for a CSV
 
 ### Constants (all in `ChewDetector.Tuning`)
 
@@ -77,9 +101,11 @@ transmitted unless the user taps Export.
 | `highPassCutoffHz` | 0.8 | below = posture / head turns |
 | `lowPassCutoffHz` | 2.5 | above = speech / footfall / noise |
 | `minInterPeakInterval` | 0.35 s | 2.86 Hz chew ceiling |
-| `noiseWindow` | 3.0 s | rolling MAD window |
-| `madToSigma` | 1.4826 | MAD → sigma for a normal distribution |
-| `defaultK` | 2.5 | threshold multiplier; slider range 1.5–4.0 |
+| `envelopeDecay` | 2.0 s | how fast the gate follows a chewer who goes quiet |
+| `envelopeFractionPerK` | 0.2 | share of the envelope a peak must reach: 30% at k 1.5, 50% at 2.5, 80% at 4.0 |
+| `powerTimeConstant` | 1.0 s | smoothing of the power above and below the corner |
+| `fastMotionLimit` | 2.5 | power ratio limit is this ÷ k: 1.67 at k 1.5, 1.0 at 2.5, 0.63 at 4.0 |
+| `defaultK` | 2.5 | scales both relative gates; slider range 1.5–4.0 |
 | `minPeakAmplitude` | 0.015 | absolute gate against a still head |
 | `chewsPerBite` | 32 | heavy haptic + bite auto-reset |
 | `signalWindow` | 200 | sparkline depth (~8 s at 25 Hz) |
@@ -87,7 +113,8 @@ transmitted unless the user taps Export.
 
 The **Threshold k** slider (1.5–4.0) is the live knob: lower counts more chews *and*
 more noise, higher is stricter. `defaultK = 2.5` is a starting guess, not a finding —
-it is exactly what the CSV captures are meant to settle.
+it is exactly what the CSV captures are meant to settle. The constants have only been
+exercised on synthetic waveforms; none of them is a measurement of real chewing.
 
 Haptics: light tick per chew, heavy tick at 32 then the bite counter auto-resets.
 Session total and bite count keep accumulating until **Reset counts**.
@@ -141,7 +168,7 @@ t,pitch,roll,yaw,rot_x,rot_y,rot_z,acc_x,acc_y,acc_z,filtered,threshold,chew
 ```
 
 `t` is seconds from the first sample, `filtered` is the band-passed scalar,
-`threshold` is the adaptive gate at that instant, and `chew` is 1 on the sample the
+`threshold` is the gate at that instant, and `chew` is 1 on the sample the
 detector counted. Raw attitude / rotation / acceleration are all preserved, so the
 whole filter chain can be re-derived and re-tuned offline against the same capture.
 

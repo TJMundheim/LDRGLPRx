@@ -8,18 +8,25 @@ import UIKit
 /// translation of the skull. `CMHeadphoneMotionManager` streams that at ~25 Hz from
 /// AirPods (Pro/Max/3rd-gen and later). Human chewing is a remarkably stable
 /// 0.9–1.8 Hz oscillation, so we don't need ML: band-pass the motion into the chew
-/// band and count peaks against a rolling noise floor.
+/// band and count peaks against a gate that follows the chewer's own recent peaks.
 ///
 /// Pipeline (all on-device, nothing leaves the phone unless the user taps Export):
 ///
 ///   1. Scalar   `s = |rotationRate| + accelGain * |userAcceleration.y|`
 ///   2. Band-pass  EMA high-pass at 0.8 Hz (kills head-turn / posture drift)
 ///                 then EMA low-pass at 2.5 Hz (kills footfall, speech, sensor noise)
-///   3. Peaks     three-point local maxima, min inter-peak interval 0.35 s (≤ 2.86 Hz)
-///   4. Gate      peak must exceed `k × noiseFloor`, where noiseFloor is a robust
-///                sigma estimate (1.4826 × MAD) over the last 3 s of the band-passed
-///                signal, and must also clear a small absolute floor so a perfectly
-///                still head can't manufacture chews out of quantisation noise.
+///   3. Peaks     three-point local maxima, min inter-peak interval 0.35 s (≤ 2.86 Hz),
+///                and the signal must return through zero between counted peaks
+///   4. Gate      a peak must clear all of: a small absolute floor (0.015), so a still
+///                head counts nothing; `k × 0.2` of a peak envelope decaying over 2 s, so
+///                the gate follows this chewer; and a power split, blocked while power
+///                above the 2.5 Hz corner exceeds `2.5 / k` times power below it (1 s
+///                smoothing), which rejects speech-rate motion and white noise.
+///                Noise isn't estimated from the chew band: during a meal, that band
+///                holds the chewing, and a floor measured there counts nothing.
+///
+/// None of this has met a real meal. It has only been run on synthetic waveforms, so
+/// `defaultK` is a starting guess and the CSV export is how it gets settled.
 ///
 /// Everything tunable is a constant in `Tuning` below and echoed in the README so the
 /// numbers we ship can be argued with against real CSV captures.
@@ -51,7 +58,7 @@ final class ChewDetector: NSObject, ObservableObject {
     /// Current adaptive threshold, drawn on the sparkline.
     @Published private(set) var threshold: Double = 0
 
-    /// Threshold multiplier *k*. Lower = more sensitive. Slider range 1.5–4.0.
+    /// Gate setting *k*, scaling both relative gates. Lower = more sensitive. Slider range 1.5–4.0.
     @Published var sensitivity: Double
 
     @Published var isRecording = false

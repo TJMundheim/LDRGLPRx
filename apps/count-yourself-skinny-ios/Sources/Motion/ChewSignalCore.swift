@@ -13,13 +13,21 @@ enum ChewTuning {
     static let lowPassCutoffHz: Double = 2.5
     /// Fastest credible chew: 0.35 s ⇒ 2.86 Hz ceiling.
     static let minInterPeakInterval: TimeInterval = 0.35
-    /// Rolling window for the noise-floor (MAD) estimate.
-    static let noiseWindow: TimeInterval = 3.0
-    /// MAD → sigma scale factor for a normal distribution.
-    static let madToSigma: Double = 1.4826
-    /// Default threshold multiplier. Peak must exceed `k × noiseFloor`.
+    /// Decay of the peak envelope. Sets how fast the gate follows a chewer who goes quiet.
+    static let envelopeDecay: TimeInterval = 2.0
+    /// Fraction of the envelope a peak must reach, per unit of k (k 2.5 ⇒ 50%, 4.0 ⇒ 80%).
+    static let envelopeFractionPerK: Double = 0.2
+    /// Smoothing of the power split above and below the low-pass corner.
+    static let powerTimeConstant: TimeInterval = 1.0
+    /// Peaks are blocked while power above the corner exceeds `fastMotionLimit / k` times
+    /// power below it. A pure tone's ratio is (f / corner)², so k 2.5 blocks motion
+    /// centred above the 2.5 Hz corner; lower k tolerates faster motion.
+    static let fastMotionLimit: Double = 2.5
+    /// The one tunable: scales both relative gates. Lower = more sensitive. A starting
+    /// guess, not a finding; real meal captures are meant to settle it.
     static let defaultK: Double = 2.5
-    /// Absolute amplitude gate so a motionless head counts nothing.
+    /// Absolute amplitude gate so a motionless head counts nothing, and all that stands
+    /// in for noise when the envelope has decayed away.
     static let minPeakAmplitude: Double = 0.015
     /// Chews shown per bite before the heavy haptic + auto-reset.
     static let chewsPerBite: Int = 32
@@ -31,15 +39,32 @@ enum ChewTuning {
     static let nominalDt: TimeInterval = 1.0 / 25.0
 }
 
-/// Pure chew signal chain: EMA band-pass, MAD noise floor, three-point peak,
-/// minimum inter-peak interval, absolute floor. No CoreMotion, no UIKit.
+/// Pure chew signal chain: EMA band-pass, three-point peak, minimum inter-peak interval,
+/// one count per swing through zero, then a gate of three parts. No CoreMotion, no UIKit.
+/// O(1) per sample, no buffers.
+///
+/// The gate never estimates noise from the chew band, because during a meal the chew band
+/// holds the chewing. A sigma-style floor over that window sits at about 1.05 × a steady
+/// chew's own peak and counts nothing, at any k. Instead a peak must clear all of:
+///
+/// - `minPeakAmplitude`: fixed, so a still head counts nothing.
+/// - `k × 0.2 × envelope`: the envelope follows the largest recent peak and decays, so the
+///   gate is relative to this chewer and rejects ripple between chews.
+/// - power split: blocked while power above the low-pass corner outweighs power below it
+///   by more than `fastMotionLimit / k`. White noise and speech-rate motion put most of
+///   their power above the corner; chewing doesn't. It is a measure of how fast the motion
+///   is, so a louder signal doesn't change it.
+///
+/// Only checked against made-up waveforms so far. Motion that really is in the chew band
+/// and irregular passes all three, since nothing here looks at regularity.
 struct ChewSignalCore {
     typealias Tuning = ChewTuning
 
     struct Sample: Equatable {
         /// Band-passed value for this sample.
         let filtered: Double
-        /// Adaptive threshold in force for this sample.
+        /// Gate in force for this sample. While motion is too fast to be chewing, it sits
+        /// at or above every recent peak, so no peak can clear it.
         let threshold: Double
         /// True when a chew peak was confirmed on this call.
         let chew: Bool
@@ -54,7 +79,10 @@ struct ChewSignalCore {
     private var prev1: Double = 0
     private var prev1Time: TimeInterval = 0
     private var lastPeakTime: TimeInterval = -.greatestFiniteMagnitude
-    private var noiseWindowBuf: [(t: TimeInterval, v: Double)] = []
+    private var armed = true
+    private var abovePower: Double = 0
+    private var belowPower: Double = 0
+    private var envelope: Double = 0
     private var lastSampleTime: TimeInterval?
 
     init() {}
@@ -69,6 +97,7 @@ struct ChewSignalCore {
         let dt = clampedDt(from: t)
         lastSampleTime = t
 
+        var above = 0.0
         if !primed {
             baseline = raw
             bandPassed = 0
@@ -77,17 +106,29 @@ struct ChewSignalCore {
             baseline += Self.emaAlpha(dt: dt, cutoffHz: Tuning.highPassCutoffHz) * (raw - baseline)
             let highPassed = raw - baseline
             bandPassed += Self.emaAlpha(dt: dt, cutoffHz: Tuning.lowPassCutoffHz) * (highPassed - bandPassed)
+            above = highPassed - bandPassed
         }
         let value = bandPassed
 
-        pushNoise(t: t, v: value)
-        let thr = max(Tuning.minPeakAmplitude, k * noiseFloor())
+        let smoothing = 1 - exp(-dt / Tuning.powerTimeConstant)
+        abovePower += smoothing * (above * above - abovePower)
+        belowPower += smoothing * (value * value - belowPower)
+        envelope = max(value, envelope * exp(-dt / Tuning.envelopeDecay))
+
+        var thr = max(Tuning.minPeakAmplitude, k * Tuning.envelopeFractionPerK * envelope)
+        // Too fast to be chewing: lift the gate above anything a peak could be right now.
+        if abovePower * k > Tuning.fastMotionLimit * belowPower { thr = max(thr, envelope, prev1) }
+
+        // One chew per swing: the signal must come back through zero before the next one,
+        // so ripple on top of one slow hump can't count twice.
+        if value <= 0 { armed = true }
 
         var chew = false
         var chewTime: TimeInterval?
         // Three-point local maximum, evaluated on the previous sample.
-        if prev1 > prev2, prev1 >= value, prev1 > thr,
+        if armed, prev1 > prev2, prev1 >= value, prev1 > thr,
            prev1Time - lastPeakTime >= Tuning.minInterPeakInterval {
+            armed = false
             lastPeakTime = prev1Time
             chew = true
             chewTime = prev1Time
@@ -109,28 +150,5 @@ struct ChewSignalCore {
     private static func emaAlpha(dt: TimeInterval, cutoffHz: Double) -> Double {
         let rc = 1.0 / (2.0 * Double.pi * cutoffHz)
         return dt / (dt + rc)
-    }
-
-    private mutating func pushNoise(t: TimeInterval, v: Double) {
-        noiseWindowBuf.append((t, v))
-        let cutoff = t - Tuning.noiseWindow
-        if let firstKept = noiseWindowBuf.firstIndex(where: { $0.t >= cutoff }), firstKept > 0 {
-            noiseWindowBuf.removeFirst(firstKept)
-        }
-    }
-
-    /// Robust sigma: `1.4826 × median(|x − median(x)|)`.
-    private func noiseFloor() -> Double {
-        guard noiseWindowBuf.count >= 8 else { return .greatestFiniteMagnitude }
-        let values = noiseWindowBuf.map(\.v)
-        let med = Self.median(values)
-        return Tuning.madToSigma * Self.median(values.map { abs($0 - med) })
-    }
-
-    private static func median(_ xs: [Double]) -> Double {
-        guard !xs.isEmpty else { return 0 }
-        let sorted = xs.sorted()
-        let mid = sorted.count / 2
-        return sorted.count.isMultiple(of: 2) ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid]
     }
 }

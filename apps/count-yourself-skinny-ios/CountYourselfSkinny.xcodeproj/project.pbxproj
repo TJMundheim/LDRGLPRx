@@ -24,6 +24,7 @@
 		9705AE1AF8C7CD5E76A5A0EF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */; };
 		B4FE5D087FA8F42BDE2AD87F /* StreakEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463B4CCACF377CBC57DE0DD0 /* StreakEngine.swift */; };
 		D1357561AFA78C6FAE4653DA /* ChewLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBB737822DCA5E07A65FFC3 /* ChewLabView.swift */; };
+		D969215F9EFA454B81746ECB /* SyntheticChew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985674EE3A4856CE6AD5D27F /* SyntheticChew.swift */; };
 		DB4FA7BFAC25260DDF5E408A /* MorningModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDE20D0CB7A7F6989334AB7 /* MorningModeView.swift */; };
 		E08DEBCCE5428B756F574B14 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E844A82B97BD06802C7EB66 /* HomeView.swift */; };
 		E215B0C3207660324D4001E2 /* ProStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9764FBDFB69D515537547 /* ProStore.swift */; };
@@ -60,6 +61,7 @@
 		8BF25C83EA8D67E7D7F4B3F5 /* CountYourselfSkinny.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CountYourselfSkinny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		900F4E0D312DE72864D4F94A /* WeighInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeighInView.swift; sourceTree = "<group>"; };
 		934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStoreTests.swift; sourceTree = "<group>"; };
+		985674EE3A4856CE6AD5D27F /* SyntheticChew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntheticChew.swift; sourceTree = "<group>"; };
 		9DB8A5F028AC411F3B633FFB /* WeighInScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeighInScheduleTests.swift; sourceTree = "<group>"; };
 		A5E88049605F0BFB79035194 /* LightSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightSession.swift; sourceTree = "<group>"; };
 		A72D74C4033792FFBADED1E1 /* CountYourselfSkinnyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CountYourselfSkinnyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +94,7 @@
 				934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */,
 				BB732F857EBB96BE61E4B5F2 /* LightSessionTests.swift */,
 				AC2B5C38C043D55D56ADC4B4 /* StreakEngineTests.swift */,
+				985674EE3A4856CE6AD5D27F /* SyntheticChew.swift */,
 				9DB8A5F028AC411F3B633FFB /* WeighInScheduleTests.swift */,
 			);
 			path = Tests;
@@ -254,6 +257,7 @@
 				62F7FB4DB7C4A5F2DBC22607 /* CountStoreTests.swift in Sources */,
 				0A1E0A88705ED1A3D2B4C0FF /* LightSessionTests.swift in Sources */,
 				92F0ED683216E6D67F0F6195 /* StreakEngineTests.swift in Sources */,
+				D969215F9EFA454B81746ECB /* SyntheticChew.swift in Sources */,
 				8BD8B2FCBB4125392D291D43 /* WeighInScheduleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,134 +1,247 @@
 import XCTest
 @testable import CountYourselfSkinny
 
-/// Deterministic synthetic signals at 25 Hz. These check the signal chain against
-/// a made-up waveform, NOT real chewing; the detector has not been validated on a meal.
-enum SyntheticChew {
-    /// Seeded LCG so runs are identical everywhere.
-    struct RNG {
-        var state: UInt64
-        mutating func next() -> Double {   // uniform in [-1, 1)
-            state = state &* 6364136223846793005 &+ 1442695040888963407
-            return Double(state >> 11) / Double(1 << 53) * 2 - 1
-        }
-    }
-
-    enum Shape { case pulse, sine }
-
-    static let rate = 25.0
-    static let base = 0.3
-    static let noise = 0.01
-
-    /// (scalar, t) samples. Realistic timestamps: 40 ms nominal with a little jitter.
-    static func make(
-        seconds: Double, chewHz: Double?, amp: Double = 0.12, shape: Shape = .pulse,
-        swell: (start: Double, length: Double, amp: Double)? = nil,
-        gap: (start: Double, length: Double)? = nil, seed: UInt64 = 42
-    ) -> (samples: [(scalar: Double, t: TimeInterval)], truth: Int) {
-        var rng = RNG(state: seed)
-        var out: [(scalar: Double, t: TimeInterval)] = []
-        let n = Int(seconds * rate)
-        var tOff = 1000.0   // arbitrary device-clock origin
-        var truth = 0
-        var nextChew = 0.5
-        var chewAmps: [Double] = []
-        for i in 0..<n {
-            let nominal = Double(i) / rate
-            var t = tOff + nominal + 0.002 * rng.next()
-            if let g = gap, nominal >= g.start, nominal < g.start + g.length { continue }
-            if let g = gap, nominal >= g.start + g.length, tOff == 1000.0 { tOff = 1000.0 }
-            t = max(t, (out.last?.t ?? 0) + 0.001)
-            var v = base + noise * rng.next()
-            if let hz = chewHz {
-                switch shape {
-                case .sine:
-                    v += amp * 0.5 * (1 + sin(2 * .pi * hz * nominal))
-                    if i > 0, sin(2 * .pi * hz * (nominal - 1 / rate)) < 0, sin(2 * .pi * hz * nominal) >= 0 { truth += 1 }
-                case .pulse:
-                    // Gaussian bump per chew, amplitude varying +-20%.
-                    while nominal > nextChew + 1.0 { nextChew += 1 / hz }
-                    var k = 0.0
-                    var c = nextChew - 1 / hz
-                    while c < nominal + 0.5 {
-                        if c >= 0.5 {
-                            let idx = Int(((c - 0.5) * hz).rounded())
-                            while chewAmps.count <= idx { chewAmps.append(1 + 0.2 * rng.next()) }
-                            let d = nominal - c
-                            k += chewAmps[idx] * exp(-d * d / (2 * 0.06 * 0.06))
-                        }
-                        c += 1 / hz
-                    }
-                    v += amp * k
-                }
-            }
-            if let s = swell, nominal >= s.start, nominal < s.start + s.length {
-                v += s.amp * 0.5 * (1 - cos(2 * .pi * (nominal - s.start) / s.length))
-            }
-            out.append((v, t))
-        }
-        if shape == .pulse, let hz = chewHz {
-            var c = 0.5
-            while c < seconds - 0.2 { truth += 1; c += 1 / hz }
-        }
-        return (out, truth)
-    }
-
-    static func count(_ s: [(scalar: Double, t: TimeInterval)], k: Double = ChewTuning.defaultK) -> Int {
-        Calibrator.count(s, k: k)
-    }
-}
-
+/// All of these run against `SyntheticChew`: made-up waveforms, not meals. Each case runs
+/// across several seeds and asserts on the worst one. CHEWCASE lines carry the numbers.
 final class ChewSignalCoreTests: XCTestCase {
+    private typealias Seg = SyntheticChew.Segment
+    private static let chewRates = [0.9, 1.1, 1.6]
 
-    private func check(hz: Double, file: StaticString = #filePath, line: UInt = #line) {
-        let (s, truth) = SyntheticChew.make(seconds: 60, chewHz: hz)
-        let n = SyntheticChew.count(s)
-        print("CHEWCASE pulse \(hz) Hz truth=\(truth) counted=\(n)")
-        XCTAssertEqual(Double(n), Double(truth), accuracy: Double(truth) * 0.10,
-                       "\(hz) Hz: counted \(n) vs truth \(truth)", file: file, line: line)
-    }
-
-    func testChewing1_1Hz() { check(hz: 1.1) }
-    func testChewing0_9Hz() { check(hz: 0.9) }
-    /// KNOWN LIMIT, not a loosened target: with the shipped Tuning constants a 1.6 Hz
-    /// synthetic pulse train undercounts by more than 10%. Marked as an expected failure
-    /// so the suite is honest; strict, so it flags the day the detector is retuned.
-    /// Needs a real meal capture before anyone changes constants.
-    func testChewing1_6Hz() {
-        XCTExpectFailure("1.6 Hz synthetic undercount > 10% with current Tuning", options: .init()) {
-            check(hz: 1.6)
+    private func describe(_ shape: SyntheticChew.Shape) -> String {
+        switch shape {
+        case .sine: return "sine"
+        case .pulse: return "pulse"
+        case .doublePulse: return "doublePulse"
+        case .alternating: return "alternating"
         }
     }
 
-    func testSineVariantReportedForInformation() {
-        for hz in [0.9, 1.1, 1.6] {
-            let (s, truth) = SyntheticChew.make(seconds: 60, chewHz: hz, shape: .sine)
-            print("CHEWCASE sine \(hz) Hz truth=\(truth) counted=\(SyntheticChew.count(s))")
+    /// Whole-session count within `tolerance` of truth on every seed.
+    private func assertCounts(
+        _ label: String, _ segments: [Seg], tolerance: Double,
+        file: StaticString = #filePath, line: UInt = #line
+    ) {
+        var counted: [Int] = []
+        var truth = 0
+        for seed in SyntheticChew.seeds {
+            let session = SyntheticChew.session(segments, seed: seed)
+            truth = session.truth
+            let n = SyntheticChew.count(session.samples)
+            counted.append(n)
+            XCTAssertEqual(Double(n), Double(truth), accuracy: Double(truth) * tolerance,
+                           "\(label) seed \(seed): counted \(n) vs truth \(truth)", file: file, line: line)
+        }
+        print("CHEWCASE \(label) truth=\(truth) counted=\(counted)")
+    }
+
+    private func chews(
+        in range: (start: TimeInterval, end: TimeInterval), _ times: [TimeInterval]
+    ) -> Int {
+        times.filter { $0 >= range.start && $0 < range.end }.count
+    }
+
+    // MARK: - Steady chewing: within 10%
+
+    func testSineChewingWithinTenPercent() { steadyChewing(.sine) }
+    func testPulseChewingWithinTenPercent() { steadyChewing(.pulse) }
+
+    private func steadyChewing(_ shape: SyntheticChew.Shape, file: StaticString = #filePath, line: UInt = #line) {
+        for hz in Self.chewRates {
+            assertCounts("\(describe(shape)) \(hz) Hz", [.chew(seconds: 60, hz: hz, amp: 0.12, shape: shape)],
+                         tolerance: 0.10, file: file, line: line)
         }
     }
+
+    // MARK: - Amplitude steps: within 15%
+
+    func testQuietChewerBecomesVigorous() { amplitudeStep(from: 0.06, to: 0.18) }
+    func testVigorousChewerBecomesQuiet() { amplitudeStep(from: 0.18, to: 0.06) }
+
+    private func amplitudeStep(from a: Double, to b: Double, file: StaticString = #filePath, line: UInt = #line) {
+        for shape in [SyntheticChew.Shape.sine, .pulse] {
+            for hz in Self.chewRates {
+                assertCounts("step \(a)->\(b) \(describe(shape)) \(hz) Hz",
+                             [.chew(seconds: 30, hz: hz, amp: a, shape: shape),
+                              .chew(seconds: 30, hz: hz, amp: b, shape: shape)],
+                             tolerance: 0.15, file: file, line: line)
+            }
+        }
+    }
+
+    // MARK: - Not chewing
 
     func testStillHeadCountsNothing() {
-        let (s, _) = SyntheticChew.make(seconds: 60, chewHz: nil)
-        XCTAssertEqual(SyntheticChew.count(s), 0)
+        for seed in SyntheticChew.seeds {
+            let (s, _) = SyntheticChew.make(seconds: 60, chewHz: nil, seed: seed)
+            XCTAssertEqual(SyntheticChew.count(s), 0, "seed \(seed)")
+        }
     }
 
+    /// 200 seeds, not 5: noise ripple on the turn's slow hump only reaches 3 on some draws.
     func testSlowHeadTurnUnderThreeChews() {
-        let (s, _) = SyntheticChew.make(seconds: 30, chewHz: nil, swell: (10, 3.3, 0.5))
-        let n = SyntheticChew.count(s)
-        print("CHEWCASE headturn counted=\(n)")
-        XCTAssertLessThan(n, 3)
+        var counted: [Int: Int] = [:]
+        for seed in (1...200).map({ UInt64($0) * 37 }) {
+            let (s, _) = SyntheticChew.make(seconds: 30, chewHz: nil, swell: (10, 3.3, 0.5), seed: seed)
+            let n = SyntheticChew.count(s)
+            counted[n, default: 0] += 1
+            XCTAssertLessThan(n, 3, "seed \(seed)")
+        }
+        print("CHEWCASE headturn seeds-by-count=\(counted.sorted { $0.key < $1.key })")
     }
 
     func testDropoutGapDoesNotBurst() {
-        let (clean, truth) = SyntheticChew.make(seconds: 60, chewHz: 1.1)
-        let (gapped, _) = SyntheticChew.make(seconds: 60, chewHz: 1.1, gap: (30, 2))
-        let a = SyntheticChew.count(clean), b = SyntheticChew.count(gapped)
-        print("CHEWCASE gap clean=\(a) gapped=\(b) truth=\(truth)")
-        XCTAssertLessThanOrEqual(b, truth + 2)
-        XCTAssertGreaterThan(b, a - 4 - 3)
-        // timestamps really do skip 2 s
-        let jumps = zip(gapped, gapped.dropFirst()).filter { $1.t - $0.t > 1.5 }
-        XCTAssertEqual(jumps.count, 1)
+        for shape in [SyntheticChew.Shape.sine, .pulse] {
+            var report: [String] = []
+            for seed in SyntheticChew.seeds {
+                let (clean, truth) = SyntheticChew.make(seconds: 60, chewHz: 1.1, shape: shape, seed: seed)
+                let (gapped, _) = SyntheticChew.make(seconds: 60, chewHz: 1.1, shape: shape, gap: (30, 2), seed: seed)
+                let a = SyntheticChew.count(clean), b = SyntheticChew.count(gapped)
+                report.append("\(a)/\(b)")
+                XCTAssertLessThanOrEqual(b, truth + 2, "seed \(seed)")
+                XCTAssertGreaterThan(b, a - 4 - 3, "seed \(seed)")
+                // timestamps really do skip 2 s
+                let jumps = zip(gapped, gapped.dropFirst()).filter { $1.t - $0.t > 1.5 }
+                XCTAssertEqual(jumps.count, 1)
+                // No burst: the three seconds after the gap hold no more than the true rate allows.
+                let resume = SyntheticChew.origin + 32
+                let after = chews(in: (resume, resume + 3), SyntheticChew.chewTimes(gapped))
+                XCTAssertLessThanOrEqual(after, 5, "\(describe(shape)) seed \(seed)")
+            }
+            print("CHEWCASE gap \(describe(shape)) clean/gapped=\(report)")
+        }
+    }
+
+    func testStillnessAfterChewingHasNoPhantomsAndCountingResumes() {
+        for shape in [SyntheticChew.Shape.sine, .pulse] {
+            var report: [String] = []
+            for seed in SyntheticChew.seeds {
+                let session = SyntheticChew.session(
+                    [.chew(seconds: 30, hz: 1.1, amp: 0.12, shape: shape),
+                     .still(seconds: 20),
+                     .chew(seconds: 30, hz: 1.1, amp: 0.12, shape: shape)], seed: seed)
+                let times = SyntheticChew.chewTimes(session.samples)
+                let still = session.segments[1], resumed = session.segments[2]
+                // The last chew can peak right at the boundary; give the filter 0.5 s to let go.
+                let phantoms = chews(in: (still.start + 0.5, still.end), times)
+                let after = chews(in: (resumed.start, resumed.end + 1), times)
+                report.append("still=\(phantoms) resumed=\(after)/\(resumed.truth)")
+                XCTAssertEqual(phantoms, 0, "\(describe(shape)) seed \(seed)")
+                XCTAssertEqual(Double(after), Double(resumed.truth), accuracy: Double(resumed.truth) * 0.15,
+                               "\(describe(shape)) seed \(seed)")
+            }
+            print("CHEWCASE still-then-resume \(describe(shape)) \(report)")
+        }
+    }
+
+    // MARK: - Speech
+
+    /// Under 20% of a same-length chewing session, taken at the slowest target rate
+    /// (the fewest true chews, so the strictest limit).
+    private var speechLimit: Double {
+        0.2 * Double(SyntheticChew.make(seconds: 20, chewHz: 0.9).truth)
+    }
+
+    func testSpeechBurstCountsUnderTwentyPercentOfChewing() {
+        for amp in [0.06, 0.12, 0.24] {
+            var counted: [Int] = []
+            for seed in SyntheticChew.seeds {
+                let s = SyntheticChew.session([.speech(seconds: 20, amp: amp, pauses: false)], seed: seed)
+                let n = SyntheticChew.count(s.samples)
+                counted.append(n)
+                XCTAssertLessThan(Double(n), speechLimit, "amp \(amp) seed \(seed)")
+            }
+            print("CHEWCASE speech amp=\(amp) limit<\(speechLimit) counted=\(counted)")
+        }
+    }
+
+    func testSpeechBetweenChewingIsRejectedAndChewingResumes() {
+        for shape in [SyntheticChew.Shape.sine, .pulse] {
+            var report: [String] = []
+            for seed in SyntheticChew.seeds {
+                let session = SyntheticChew.session(
+                    [.chew(seconds: 20, hz: 1.1, amp: 0.12, shape: shape),
+                     .speech(seconds: 20, amp: 0.12, pauses: false),
+                     .chew(seconds: 20, hz: 1.1, amp: 0.12, shape: shape)], seed: seed)
+                let times = SyntheticChew.chewTimes(session.samples)
+                let speech = session.segments[1], resumed = session.segments[2]
+                let talking = chews(in: (speech.start, speech.end), times)
+                let after = chews(in: (resumed.start, resumed.end + 1), times)
+                report.append("speech=\(talking) resumed=\(after)/\(resumed.truth)")
+                XCTAssertLessThan(Double(talking), speechLimit, "\(describe(shape)) seed \(seed)")
+                XCTAssertEqual(Double(after), Double(resumed.truth), accuracy: Double(resumed.truth) * 0.15,
+                               "\(describe(shape)) seed \(seed)")
+            }
+            print("CHEWCASE chew-speech-chew \(describe(shape)) limit<\(speechLimit) \(report)")
+        }
+    }
+
+    // MARK: - Known limits
+
+    // Expected failures, strict, so they flag the day the behaviour changes. These are not
+    // targets the detector was asked to meet; they are places it is known to be wrong.
+
+    /// Word-length pauses put speech energy below the corner, so it partly gets through.
+    func testKnownLimitSpeechWithPauses() {
+        var counted: [Int] = []
+        XCTExpectFailure("speech grouped into words leaks through the power split") {
+            for seed in SyntheticChew.seeds {
+                let s = SyntheticChew.session([.speech(seconds: 20, amp: 0.12, pauses: true)], seed: seed)
+                let n = SyntheticChew.count(s.samples)
+                counted.append(n)
+                XCTAssertLessThan(Double(n), speechLimit, "seed \(seed)")
+            }
+        }
+        print("CHEWCASE known-limit speech with pauses limit<\(speechLimit) counted=\(counted)")
+    }
+
+    /// Nothing checks regularity, so in-band fidgeting reads as chewing.
+    func testKnownLimitInBandFidgetCountsAsChewing() {
+        let n = SyntheticChew.count(SyntheticChew.inBandFidget(seconds: 60))
+        print("CHEWCASE known-limit in-band fidget 60 s counted=\(n)")
+        XCTExpectFailure("irregular motion inside the chew band passes every gate") {
+            XCTAssertLessThan(n, 3)
+        }
+    }
+
+    /// `scalar()` is a magnitude, so a signed swing arrives at twice its rate: slow chews
+    /// double, faster ones land above the corner and get blocked. Every synthetic target
+    /// above adds chewing after `scalar()` and so can't see this. Whether real chewing
+    /// looks like this is unknown until a meal CSV shows it.
+    func testKnownLimitSignedSwingIsRectifiedToTwiceItsRate() {
+        for hz in Self.chewRates {
+            let (s, truth) = SyntheticChew.signedPitch(seconds: 60, hz: hz)
+            let n = SyntheticChew.count(s)
+            print("CHEWCASE known-limit signed swing \(hz) Hz truth=\(truth) counted=\(n)")
+            XCTExpectFailure("rectified chew counted at the wrong rate") {
+                XCTAssertEqual(Double(n), Double(truth), accuracy: Double(truth) * 0.10)
+            }
+        }
+    }
+
+    // MARK: - k and plumbing
+
+    /// Lower k must mean more sensitive, on any input, at every sample.
+    func testThresholdRisesWithK() {
+        let session = SyntheticChew.session(
+            [.chew(seconds: 15, hz: 1.1, amp: 0.12, shape: .pulse), .still(seconds: 5),
+             .speech(seconds: 10, amp: 0.12, pauses: false), .chew(seconds: 15, hz: 1.6, amp: 0.06, shape: .sine)])
+        var lower: [Double]?
+        for k in Calibrator.kValues {
+            var core = ChewSignalCore()
+            let thresholds = session.samples.map { core.ingest(scalar: $0.scalar, t: $0.t, k: k).threshold }
+            if let lower {
+                for (a, b) in zip(lower, thresholds) { XCTAssertLessThanOrEqual(a, b, "k \(k)") }
+            }
+            lower = thresholds
+        }
+    }
+
+    /// The threshold ends up in the CSV and on the sparkline, so it must stay a real number.
+    func testThresholdIsAlwaysFinite() {
+        var core = ChewSignalCore()
+        for (scalar, t) in SyntheticChew.make(seconds: 5, chewHz: 1.1).samples {
+            XCTAssertTrue(core.ingest(scalar: scalar, t: t, k: 2.5).threshold.isFinite)
+        }
     }
 
     func testScalarFormula() {
@@ -218,6 +331,37 @@ final class CalibratorTests: XCTestCase {
         guard case .calibrated(let ok) = r, case .calibrated(let p) = plain else { return XCTFail("\(r)") }
         XCTAssertLessThan(Calibrator.count(restless, k: ok.k), 3)
         XCTAssertGreaterThanOrEqual(ok.k, p.k)
+    }
+}
+
+extension CalibratorTests {
+    /// Default k is badly wrong for this user, the sweep finds one that isn't.
+    private func assertRescued(
+        _ label: String, shape: SyntheticChew.Shape, amp: Double = 0.12,
+        file: StaticString = #filePath, line: UInt = #line
+    ) -> Double? {
+        let (s, truth) = SyntheticChew.make(seconds: 60, chewHz: 1.1, amp: amp, shape: shape)
+        let atDefault = SyntheticChew.count(s)
+        let byK = Calibrator.kValues.map { "\($0):\(Calibrator.count(s, k: $0))" }
+        guard case .calibrated(let ok) = Calibrator.calibrate(capture: .init(samples: s, knownChews: truth)) else {
+            XCTFail("\(label): not calibrated", file: file, line: line)
+            return nil
+        }
+        print("CHEWCASE rescue \(label) truth=\(truth) default=\(atDefault) chosenK=\(ok.k) counted=\(ok.counted) err=\(ok.errorPercent)% sweep=\(byK)")
+        XCTAssertGreaterThan(Double(abs(atDefault - truth)) / Double(truth), 0.25,
+                             "\(label): fixture must be wrong at the default k", file: file, line: line)
+        XCTAssertLessThanOrEqual(ok.errorPercent, 10, "\(label)", file: file, line: line)
+        return ok.k
+    }
+
+    func testRescuesUserWhoNeedsStricterK() {
+        let k = assertRescued("double-peak chewer", shape: .doublePulse(secondary: 0.6))
+        XCTAssertGreaterThan(k ?? 0, ChewTuning.defaultK)
+    }
+
+    func testRescuesUserWhoNeedsMoreSensitiveK() {
+        let k = assertRescued("side-to-side chewer", shape: .alternating(weak: 0.3), amp: 0.24)
+        XCTAssertLessThan(k ?? .infinity, ChewTuning.defaultK)
     }
 }
 
