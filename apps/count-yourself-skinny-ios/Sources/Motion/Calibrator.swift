@@ -83,4 +83,13 @@ struct CalibrationStore {
     }
 
     var kOrDefault: Double { k ?? ChewTuning.defaultK }
+
+    static let skippedKey = "cys.chew.calibrationSkipped"
+    /// True once the user chose to skip, so the first meal doesn't ask again.
+    var skipped: Bool {
+        get { defaults.bool(forKey: Self.skippedKey) }
+        nonmutating set { defaults.set(newValue, forKey: Self.skippedKey) }
+    }
+    /// The first meal runs calibration only when nothing is saved and it wasn't skipped.
+    var needsFirstRun: Bool { k == nil && !skipped }
 }

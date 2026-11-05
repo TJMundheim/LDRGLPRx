@@ -95,6 +95,12 @@ final class ChewDetector: NSObject, ObservableObject {
 
     private var sessionStart = Date()
 
+    /// Raw (scalar, t) samples as they arrive, before any filtering. Calibration replays
+    /// these through `Calibrator`. Observing only; detection never reads this.
+    var onSample: ((Double, TimeInterval) -> Void)?
+    /// Called with the time of each counted chew.
+    var onChew: ((TimeInterval) -> Void)?
+
     // MARK: - Lifecycle
 
     init(calibration: CalibrationStore = CalibrationStore()) {
@@ -161,12 +167,13 @@ final class ChewDetector: NSObject, ObservableObject {
         let att = motion.attitude
 
         let raw = ChewSignalCore.scalar(rotX: r.x, rotY: r.y, rotZ: r.z, accelY: a.y)
+        onSample?(raw, t)
         let out = core.ingest(scalar: raw, t: t, k: sensitivity)
         let value = out.filtered
         let thr = out.threshold
         threshold = thr
         let chewFlag = out.chew
-        if let ct = out.chewTime { registerChew(at: ct) }
+        if let ct = out.chewTime { registerChew(at: ct); onChew?(ct) }
 
         // live sparkline
         signal.append(value)

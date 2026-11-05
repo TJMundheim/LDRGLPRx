@@ -8,13 +8,25 @@ import StoreKit
 /// Book offer code (1 free month) configured as an App Store offer code campaign.
 @MainActor
 final class ProStore: ObservableObject {
-    @Published var isPro = false
+    @Published private var entitled = false
+    var isPro: Bool {
+        #if DEBUG
+        return entitled || pretendPro
+        #else
+        return entitled
+        #endif
+    }
+    #if DEBUG
+    /// Developer builds only: lets Dr. TJ's phone test reach Pro screens. Never saved.
+    @Published var pretendPro = false
+    #endif
     @Published var products: [Product] = []
 
     private let ids = ["cys.pro.monthly", "cys.pro.yearly"]
     private var updates: Task<Void, Never>?
 
-    init() {
+    init(observeStoreKit: Bool = true) {
+        guard observeStoreKit else { return }
         updates = Task { await observeTransactions() }
         Task {
             await loadProducts()
@@ -39,11 +51,11 @@ final class ProStore: ObservableObject {
     func refreshEntitlement() async {
         for await entitlement in Transaction.currentEntitlements {
             if case .verified(let t) = entitlement, ids.contains(t.productID) {
-                isPro = true
+                entitled = true
                 return
             }
         }
-        isPro = false
+        entitled = false
     }
 
     private func observeTransactions() async {

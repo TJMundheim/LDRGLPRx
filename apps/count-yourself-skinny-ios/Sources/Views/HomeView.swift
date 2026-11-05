@@ -8,6 +8,8 @@ struct HomeView: View {
     @State private var showPaywall = false
     @State private var showLight = false
     @State private var confirmLastBite = false
+    @State private var showMeal = false
+    @State private var showTrends = false
 
     var body: some View {
         NavigationStack {
@@ -65,21 +67,36 @@ struct HomeView: View {
                     }
                 }
                 Section {
-                    NavigationLink("Chew Lab — AirPods prototype") {
-                        ChewLabView()
+                    CounterRow(icon: "airpods.pro", title: "Count my chews",
+                               subtitle: "Your AirPods count to 32 for you",
+                               value: pro.isPro ? "" : "Pro", tint: .orange) {
+                        if pro.isPro { showMeal = true } else { showPaywall = true }
                     }
-                } header: {
-                    Text("Prototype")
-                } footer: {
-                    Text("v1.5 bench for AirPods chew detection. Open to everyone while we tune it.")
+                    CounterRow(icon: "chart.line.uptrend.xyaxis", title: "Trends",
+                               subtitle: "Chews per bite and per minute, by week",
+                               value: pro.isPro ? "" : "Pro", tint: .indigo) {
+                        if pro.isPro { showTrends = true } else { showPaywall = true }
+                    }
                 }
+                #if DEBUG
+                Section {
+                    NavigationLink("Chew Lab — AirPods prototype") { ChewLabView() }
+                    Toggle("Pretend Pro", isOn: $pro.pretendPro)
+                } header: {
+                    Text("Developer")
+                } footer: {
+                    Text("Debug builds only. Pretend Pro resets on every launch.")
+                }
+                #endif
                 if !pro.isPro {
                     Section {
-                        Button("Unlock AirPods chew counting — Pro") { showPaywall = true }
+                        Button("Unlock Pro: chew counting and trends") { showPaywall = true }
                     }
                 }
             }
             .navigationTitle("Count Yourself Skinny")
+            .navigationDestination(isPresented: $showMeal) { MealView() }
+            .navigationDestination(isPresented: $showTrends) { TrendsView() }
             .sheet(isPresented: $showPacer) { BitePacerView() }
             .sheet(isPresented: $showPaywall) { PaywallView() }
             .sheet(isPresented: $showLight) { LightTimerView() }
