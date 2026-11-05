@@ -43,36 +43,31 @@ final class TrendsCalculatorTests: XCTestCase {
     }
 
     func testAverages() {
-        // week: 300 chews/10 bites in 10 min, 100 chews/5 bites in 5 min
-        // pooled: 400/15 bites = 26.667 per bite; 400 chews / 15 min = 26.667 per min
+        // week: 300 chews in 10 min, 100 chews in 5 min
+        // pooled: 400 chews / 2 meals = 200 per meal; 15 min / 2 = 7.5 min per meal; 400 / 15 = 26.667 per min
         let rows = TrendsCalculator.weeks(from: [
             meal(2, mins: 10, chews: 300, bites: 10),
             meal(3, mins: 5, chews: 100, bites: 5),
         ], calendar: cal)
-        XCTAssertEqual(rows[0].averageChewsPerBite!, 400.0 / 15.0, accuracy: 0.001)
-        XCTAssertEqual(rows[0].averageChewsPerMinute!, 400.0 / 15.0, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageChewsPerMeal, 200, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageMinutesPerMeal, 7.5, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageChewsPerMinute, 400.0 / 15.0, accuracy: 0.001)
     }
 
-    func testChewsPerMinuteDiffersFromPerBite() {
+    func testPaceDiffersFromChewsPerMeal() {
         let rows = TrendsCalculator.weeks(from: [meal(2, mins: 20, chews: 400, bites: 10)], calendar: cal)
-        XCTAssertEqual(rows[0].averageChewsPerBite!, 40, accuracy: 0.001)
-        XCTAssertEqual(rows[0].averageChewsPerMinute!, 20, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageChewsPerMeal, 400, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageMinutesPerMeal, 20, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageChewsPerMinute, 20, accuracy: 0.001)
     }
 
-    func testZeroBitesGivesNilPerBiteWithoutCrashing() {
-        let rows = TrendsCalculator.weeks(from: [meal(2, mins: 10, chews: 200, bites: 0)], calendar: cal)
-        XCTAssertEqual(rows.count, 1)
-        XCTAssertNil(rows[0].averageChewsPerBite)
-        XCTAssertEqual(rows[0].averageChewsPerMinute!, 20, accuracy: 0.001)
-    }
-
-    func testZeroBiteMealDoesNotPolluteBiteAverage() {
+    func testZeroBitesMealStillCounts() {
         let rows = TrendsCalculator.weeks(from: [
-            meal(2, chews: 300, bites: 10),
-            meal(3, chews: 500, bites: 0),
+            meal(2, mins: 10, chews: 300, bites: 10),
+            meal(3, mins: 10, chews: 500, bites: 0),
         ], calendar: cal)
-        XCTAssertEqual(rows[0].averageChewsPerBite!, 30, accuracy: 0.001)
         XCTAssertEqual(rows[0].mealCount, 2)
+        XCTAssertEqual(rows[0].averageChewsPerMeal, 400, accuracy: 0.001)
     }
 
     func testIgnoresMealsUnder30Seconds() {
@@ -80,7 +75,8 @@ final class TrendsCalculatorTests: XCTestCase {
         let exact = meal(2, mins: 0.5, chews: 40, bites: 4)
         let rows = TrendsCalculator.weeks(from: [short, exact], calendar: cal)
         XCTAssertEqual(rows[0].mealCount, 1)
-        XCTAssertEqual(rows[0].averageChewsPerBite!, 10, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageChewsPerMeal, 40, accuracy: 0.001)
+        XCTAssertEqual(rows[0].averageMinutesPerMeal, 0.5, accuracy: 0.001)
     }
 
     func testOnlyShortMealsGivesEmpty() {
@@ -90,32 +86,24 @@ final class TrendsCalculatorTests: XCTestCase {
 
     func testChangeLatestVsPrevious() {
         let rows = TrendsCalculator.weeks(from: [
-            meal(2, mins: 10, chews: 200, bites: 10),   // 20/bite, 20/min
-            meal(9, mins: 10, chews: 300, bites: 10),   // 30/bite, 30/min
+            meal(2, mins: 10, chews: 200, bites: 6),   // 200/meal, 10 min, 20/min
+            meal(9, mins: 15, chews: 450, bites: 14),  // 450/meal, 15 min, 30/min
         ], calendar: cal)
         let c = TrendsCalculator.change(from: rows)!
-        XCTAssertEqual(c.chewsPerBite!, 10, accuracy: 0.001)
-        XCTAssertEqual(c.chewsPerMinute!, 10, accuracy: 0.001)
+        XCTAssertEqual(c.chewsPerMeal, 250, accuracy: 0.001)
+        XCTAssertEqual(c.minutesPerMeal, 5, accuracy: 0.001)
+        XCTAssertEqual(c.chewsPerMinute, 10, accuracy: 0.001)
     }
 
     func testChangeUsesLatestTwoWeeksEvenWithGap() {
         let rows = TrendsCalculator.weeks(from: [
-            meal(2, chews: 100, bites: 10), meal(16, chews: 300, bites: 10), meal(23, chews: 250, bites: 10),
+            meal(2, chews: 100, bites: 3), meal(16, chews: 300, bites: 9), meal(23, chews: 250, bites: 7),
         ], calendar: cal)
-        XCTAssertEqual(TrendsCalculator.change(from: rows)!.chewsPerBite!, -5, accuracy: 0.001)
+        XCTAssertEqual(TrendsCalculator.change(from: rows)!.chewsPerMeal, -50, accuracy: 0.001)
     }
 
     func testChangeNilWithSingleWeek() {
-        let rows = TrendsCalculator.weeks(from: [meal(2, chews: 100, bites: 10)], calendar: cal)
+        let rows = TrendsCalculator.weeks(from: [meal(2, chews: 100, bites: 3)], calendar: cal)
         XCTAssertNil(TrendsCalculator.change(from: rows))
-    }
-
-    func testChangeNilFieldWhenEitherWeekLacksBites() {
-        let rows = TrendsCalculator.weeks(from: [
-            meal(2, chews: 100, bites: 0), meal(9, chews: 300, bites: 10),
-        ], calendar: cal)
-        let c = TrendsCalculator.change(from: rows)!
-        XCTAssertNil(c.chewsPerBite)
-        XCTAssertNotNil(c.chewsPerMinute)
     }
 }

@@ -191,7 +191,7 @@ when the app quits — export before either.
 - [ ] `cys.pro.monthly`: $2.99 a month, 7-day free trial, display name and review screenshot
 - [ ] `cys.pro.yearly`: $19.99 a year, 7-day free trial, display name and review screenshot
 - [ ] Attach both to the first version for review, or the reviewer's paywall can't load plans
-- [ ] Offer-code campaign for the book: 1 free month. The button "Have a code from the book?" is on the
+- [ ] Offer-code campaign for the book: 1 free month. The button "Have an offer code?" is on the
       paywall, but `docs/book-cys/draft/_MASTER.md` prints no code yet. Add the code to the book, or remove
       the button before submitting
 

@@ -75,7 +75,7 @@ struct HomeView: View {
                         if pro.isPro { showMeal = true } else { showPaywall = true }
                     }
                     CounterRow(icon: "chart.line.uptrend.xyaxis", title: "Trends",
-                               subtitle: "Chews per bite and per minute, by week",
+                               subtitle: "Chews per meal and eating pace, by week",
                                value: pro.isPro ? "" : "Pro", tint: .indigo) {
                         if pro.isPro { showTrends = true } else { showPaywall = true }
                     }

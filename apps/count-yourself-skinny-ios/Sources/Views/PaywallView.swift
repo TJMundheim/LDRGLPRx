@@ -22,7 +22,7 @@ struct PaywallView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Label("Automatic chew counting through AirPods", systemImage: "checkmark")
                     Label("A chime at 32, right in your ear", systemImage: "checkmark")
-                    Label("Weekly trends for chews per bite and eating pace", systemImage: "checkmark")
+                    Label("Weekly trends: chews per meal and eating pace", systemImage: "checkmark")
                     Label("Your chew motion stays on your phone.", systemImage: "lock")
                 }
                 .font(.callout)
@@ -53,7 +53,7 @@ struct PaywallView: View {
                     Link("Privacy Policy", destination: privacy)
                 }
                 .font(.footnote)
-                Button("Have a code from the book?") { Task { await redeem() } }
+                Button("Have an offer code?") { Task { await redeem() } }
                     .font(.footnote)
                 Button("Not now") { dismiss() }
                     .font(.footnote)

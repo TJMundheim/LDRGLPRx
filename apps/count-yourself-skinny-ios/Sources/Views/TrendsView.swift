@@ -17,8 +17,15 @@ struct TrendsView: View {
                 .padding(32)
             } else {
                 VStack(alignment: .leading, spacing: 28) {
-                    chart("Chews per bite", unit: "chews", values: weeks.map { ($0.weekStart, $0.averageChewsPerBite) })
-                    chart("Chews per minute", unit: "per min", values: weeks.map { ($0.weekStart, $0.averageChewsPerMinute) })
+                    chart("Chews per meal", unit: "chews", values: weeks.map { ($0.weekStart, $0.averageChewsPerMeal) })
+                    chart("Eating pace", unit: "chews per min", values: weeks.map { ($0.weekStart, $0.averageChewsPerMinute) })
+                    if let last = weeks.last {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Minutes per meal").font(.headline)
+                            Text(String(format: "%.1f min this week", last.averageMinutesPerMeal))
+                                .font(.title3.bold())
+                        }
+                    }
                     Text("Counts are estimates. Slower, steadier chewing is the goal, not a perfect number.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
@@ -30,8 +37,8 @@ struct TrendsView: View {
         .onAppear { Analytics.shared.track(.trendsViewed); weeks = TrendsCalculator.weeks(from: MealStore().load()) }
     }
 
-    private func chart(_ title: String, unit: String, values: [(Date, Double?)]) -> some View {
-        let points = values.compactMap { d, v in v.map { (d, $0) } }
+    private func chart(_ title: String, unit: String, values: [(Date, Double)]) -> some View {
+        let points = values
         return VStack(alignment: .leading, spacing: 8) {
             Text(title).font(.headline)
             if let last = points.last {

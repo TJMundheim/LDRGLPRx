@@ -3,18 +3,19 @@ import Foundation
 struct WeekTrend: Equatable {
     let weekStart: Date
     let mealCount: Int
-    /// nil when the week has no meal with a completed bite.
-    let averageChewsPerBite: Double?
-    let averageChewsPerMinute: Double?
+    let averageChewsPerMeal: Double
+    let averageMinutesPerMeal: Double
+    let averageChewsPerMinute: Double
 }
 
 struct TrendChange: Equatable {
-    /// Latest week minus previous week; nil when either side is missing.
-    let chewsPerBite: Double?
-    let chewsPerMinute: Double?
+    /// Latest week minus previous week.
+    let chewsPerMeal: Double
+    let minutesPerMeal: Double
+    let chewsPerMinute: Double
 }
 
-/// Pure weekly roll-up. Averages are pooled (total chews over total bites or minutes).
+/// Pure weekly roll-up. Averages are pooled (total chews or minutes over meal count; chews per minute is total chews over total minutes).
 enum TrendsCalculator {
     static let minimumMealSeconds: TimeInterval = 30
 
@@ -26,14 +27,14 @@ enum TrendsCalculator {
         }
         return grouped.keys.sorted().map { week in
             let group = grouped[week]!
-            let withBites = group.filter { $0.bites > 0 }
-            let bites = withBites.reduce(0) { $0 + $1.bites }
             let minutes = group.reduce(0) { $0 + $1.duration } / 60
+            let chews = Double(group.reduce(0) { $0 + $1.chews })
             return WeekTrend(
                 weekStart: week,
                 mealCount: group.count,
-                averageChewsPerBite: bites > 0 ? Double(withBites.reduce(0) { $0 + $1.chews }) / Double(bites) : nil,
-                averageChewsPerMinute: minutes > 0 ? Double(group.reduce(0) { $0 + $1.chews }) / minutes : nil
+                averageChewsPerMeal: chews / Double(group.count),
+                averageMinutesPerMeal: minutes / Double(group.count),
+                averageChewsPerMinute: chews / minutes
             )
         }
     }
@@ -42,11 +43,8 @@ enum TrendsCalculator {
     static func change(from rows: [WeekTrend]) -> TrendChange? {
         guard rows.count >= 2 else { return nil }
         let a = rows[rows.count - 2], b = rows[rows.count - 1]
-        func diff(_ x: Double?, _ y: Double?) -> Double? {
-            guard let x, let y else { return nil }
-            return y - x
-        }
-        return TrendChange(chewsPerBite: diff(a.averageChewsPerBite, b.averageChewsPerBite),
-                           chewsPerMinute: diff(a.averageChewsPerMinute, b.averageChewsPerMinute))
+        return TrendChange(chewsPerMeal: b.averageChewsPerMeal - a.averageChewsPerMeal,
+                           minutesPerMeal: b.averageMinutesPerMeal - a.averageMinutesPerMeal,
+                           chewsPerMinute: b.averageChewsPerMinute - a.averageChewsPerMinute)
     }
 }
