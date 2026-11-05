@@ -2355,7 +2355,7 @@ Underneath that field, the helper line says: *If no one is on the other end of t
 
 Once the face is named, the Logbook walks you through the "why" — four sentences, your own voice, present tense — and then the identity statement. Both fields are stored. Both fields surface back to you on the dashboard, in the weekly Zoom check-in, and in any nudge the AI concierge sends. When the concierge sees a missed week, it does not say *get back on track.* It says: *you told us you were doing this for Sarah. Let's get you back on track for her.* The named face is the recurring throughline of every touchpoint in the system. That is by design. That is the architecture of a "why" that survives February.
 
-Every Monday on the weekly Zoom with me, we open with the same check-in. *Who are you doing this for? Has that person changed since last week?* It is not a formality. Life moves. The Protégé whose mother passed in October is doing this for a different reason in November than in September. The one whose grandson was born in March is doing this for a different reason in April. The system honors that. The system updates with it.
+Every week on the Zoom with me, we open with the same check-in. *Who are you doing this for? Has that person changed since last week?* It is not a formality. Life moves. The Protégé whose mother passed in October is doing this for a different reason in November than in September. The one whose grandson was born in March is doing this for a different reason in April. The system honors that. The system updates with it.
 
 Inside the cohort, your accountability target is known to the people around you. They use the name. They ask after the person. Anyone alone in this work loses. Someone inside a cohort that knows their spouse's name and what they are rebuilding for does not lose, because their peers will not let them.
 
@@ -2723,15 +2723,15 @@ Lunch is at twelve-thirty at the deli near his office. Roast turkey, rare roast 
 
 By four he is reviewing a term sheet his junior broker drafted. He marks it up, sends it back, calls his wife to tell her he will be home for dinner.
 
-## Wednesday — The Zoom
+## The Zoom
 
-Seven p.m. Eastern, every Wednesday. He sits at the kitchen island with his laptop and a glass of water. His wife is reading in the next room. She has heard most of these by now, not because he asks her to, but because the wall is thin and she is curious.
+Once a week. He sits at the kitchen island with his laptop and a glass of water. His wife is reading in the next room. She has heard most of these by now, not because he asks her to, but because the wall is thin and she is curious.
 
 Dr. TJ comes on at one minute past. There are about sixty Protégés on the call tonight, faces in a grid. James knows three of them by name — one is a guy who runs a steel fabrication shop two states over, another is a retired colonel who joined a week after James did, the third is a dentist in Phoenix who asks the best questions.
 
 Tonight's topic is hormones, week three of a four-week hormone sequence. James has been on TRT for two and a half weeks; his levels at consult came back at three-eighteen total, free T below the reference range, SHBG elevated. Dr. TJ walks the room through the difference between resolving a deficiency and chasing a number. He uses the word *deficiency* the way a clinician uses it — meaning a measured shortfall against a physiologic reference, not a marketing pitch. He talks for about twelve minutes. Then he opens the room.
 
-The accountability moment is not a confession. It is a scoreboard. The app shows, at the start of every Wednesday Zoom, your trailing seven-day adherence. James's reads ninety-one percent. He missed one strength session — he traveled Saturday and could not get to a gym — and one protein breakfast on Sunday because his wife made pancakes for the grandkids and he ate two. He is not embarrassed by either. He logged them honest. Dr. TJ saw the screen share roll past and said, *That's a real week. Don't fix what doesn't need fixing.*
+The accountability moment is not a confession. It is a scoreboard. The app shows, at the start of every weekly Zoom, your trailing seven-day adherence. James's reads ninety-one percent. He missed one strength session — he traveled Saturday and could not get to a gym — and one protein breakfast on Sunday because his wife made pancakes for the grandkids and he ate two. He is not embarrassed by either. He logged them honest. Dr. TJ saw the screen share roll past and said, *That's a real week. Don't fix what doesn't need fixing.*
 
 The accountability is in the showing up, in the truthful log, and in the fact that sixty other people are doing exactly what he is doing — one of them the steel fabricator who is going to text him Thursday to ask how the lift went.
 
@@ -2803,7 +2803,7 @@ His libido came back before any lab confirmed his testosterone had moved. That i
 
 He has lost about six pounds, all of it from his waist. His pants fit different. He bought one new belt and threw the old one out. Visceral fat — the metabolically active fat that wraps the organs and feeds neuroinflammation — is the fat that comes off first on this protocol. It is also the fat that matters most for the brain.
 
-His wife looked at him last Wednesday across the kitchen island, while he was finishing his Zoom and she was finishing her book, and she looked at him the way she used to look at him in nineteen ninety-eight. He saw it. She knew he saw it. Neither of them said anything. It is not the sort of thing you talk about. It is the sort of thing you notice, and let stand, and quietly build on.
+His wife looked at him last week across the kitchen island, while he was finishing his Zoom and she was finishing her book, and she looked at him the way she used to look at him in nineteen ninety-eight. He saw it. She knew he saw it. Neither of them said anything. It is not the sort of thing you talk about. It is the sort of thing you notice, and let stand, and quietly build on.
 
 None of this is dramatic. There was no moment of transformation. There was no before-and-after photo. There is no day he can point to and say, *this is when it turned.*
 
@@ -2859,9 +2859,9 @@ And there is the other part, the part that made her a believer somewhere in week
 
 Lunch at twelve-thirty, grilled chicken and a large salad, the chicken first. Forty grams. She used to eat a handful of almonds at eleven and a granola bar at three and call it discipline. The afternoon is different when the protein comes first. The two-thirty collapse she had scheduled into her life for a decade is simply not there anymore.
 
-### Wednesday — The Zoom
+### The Zoom
 
-Seven p.m. Eastern. She takes it at the kitchen table with a glass of water. Marcus is grading papers across from her with headphones in. Her son comes through twice for food and does not ask what she is watching, which is its own kind of teenage mercy.
+That evening. She takes it at the kitchen table with a glass of water. Marcus is grading papers across from her with headphones in. Her son comes through twice for food and does not ask what she is watching, which is its own kind of teenage mercy.
 
 There are sixty or so faces in the grid. She knows a handful by now: a woman who runs a dental practice in Tucson, a retired colonel, a man who owns a steel shop and is very funny about his own squat form. Tonight is hormones, week three of the hormone sequence, and Dr. TJ spends the first twelve minutes on the difference between treating a number and treating a person. He is careful about the women's side of it. He says the transition is not a deficiency to be corrected back to twenty-five and it is not something to be endured in silence either, and that the decision about hormone therapy belongs to a woman and the prescriber who is looking at her labs and her history, not to the internet and not to whatever her mother was told in 1998.
 
@@ -2937,7 +2937,7 @@ James and Elena are running this protocol because someone showed them the system
 
 Their lanes are not the same. His ran through testosterone and a GLP-1; hers ran through the hormone transition and her sleep. They are the same loop. The order of the work does not change, and neither does the reason for it.
 
-You are holding that same system right now. The audit is the same audit. The app is the same app. The Wednesday Zoom is the same Zoom. The gut-barrier probiotic is the same canister.
+You are holding that same system right now. The audit is the same audit. The app is the same app. The weekly Zoom is the same Zoom. The gut-barrier probiotic is the same canister.
 
 The only variable left is whether you start.
 
@@ -3028,7 +3028,7 @@ What comes with Protégé membership, at no cost:
 
 The **My4MLife app** in your pocket. The Logbook every cohort runs — the same logbook the members paying for the full program use — lives on your phone. The daily view tells you what to eat, when to eat it, what to lift, when to sleep, when to walk. The thirty-to-forty-gram protein rule. The 9 AM to 6 PM eating window. The Monday-morning starting line, laid out so you don't have to design it yourself.
 
-**Weekly Zooms with me.** Live. Not a recording. You can ask the question. I run them because the people who run the protocol in a room with others running the protocol finish the protocol. The ones who try to run it alone, in their head, mostly don't.
+**Weekly Zooms with me.** Scheduled based on demand; if your schedule doesn't allow you to attend, the recording is available to you. You can ask the question. I run them because the people who run the protocol in a room with others running the protocol finish the protocol. The ones who try to run it alone, in their head, mostly don't.
 
 The **cohort**. Other people your age, in your decade, running the same protocol on the same week you are. The accountability that no supplement and no app can manufacture on its own. The face on the screen who's three weeks ahead of you, and the one who's three weeks behind, and the simple, unsentimental fact that you all signed up for the same thing.
 
