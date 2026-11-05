@@ -29,13 +29,13 @@ struct CYSApp: App {
                 .environmentObject(store)
                 .environmentObject(pro)
                 .onChange(of: scenePhase) { _, phase in
-                    // Home asks for Health when it appears, so no system prompt covers the first run.
+                    // Steps only refresh once the user has asked for them (tapped Steps or started the walk).
                     guard phase == .active, firstRunDone else { return }
                     store.rollover()
                     store.creditWalk()
                     Analytics.shared.track(.appOpen)
                     Task {
-                        await store.requestSteps()
+                        await store.refreshSteps()
                         await pro.refreshEntitlement()   // a lapsed subscription sends no update
                     }
                 }

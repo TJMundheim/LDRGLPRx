@@ -152,14 +152,14 @@ Count Yourself Skinny is a habit counter from the book of the same name. Everyth
 
 On first launch you'll see two screens: a safety note (tap Continue), then a choice about usage events (Yes or No; either way the app works the same, and About has a toggle). The home screen then offers the free Chew Number test: tap "Find my number", then "Tap to count". It needs no AirPods, and the result has a share card the user can choose to send.
 
-Chew counting needs AirPods because it reads their motion through CMHeadphoneMotionManager. The first meal counted by AirPods is free, so a new user can try it before paying. After it saves, the paywall appears with that meal's result. A meal under 30 seconds, or one where nothing was counted, doesn't use up the free meal.
+Chew counting needs AirPods because it reads their motion through CMHeadphoneMotionManager. The first meal counted by AirPods is free, so a new user can try it before paying. After it saves, the paywall appears with that meal's result. The free meal is used up only by a saved meal with at least one completed round of 32 chews. A meal under 30 seconds, one where nothing was counted, or a false chew or talking that never reaches 32 doesn't use it up. The app asks for Apple Health only when the user taps Steps or starts the morning walk, never at first launch.
 
 To see the paywall right away, without AirPods: tap "Trends" or "Get Pro: chew counting and trends" on the home screen. Without AirPods you can still reach every Pro screen with a sandbox account:
 1. Tap "Trends", then subscribe in the paywall.
 2. Trends opens to its empty state, because the chart fills from meals.
 3. Count my chews: tap Start meal. The tuning screen opens the first time. Tap Start, allow Motion if asked, and it reports "No AirPods found" after a few seconds. Tap "Skip for now". The meal screen then shows "No AirPods found", and points to the free Bite Pacer.
 
-The attached video shows the free meal, the chime at 32 and the paywall that follows on a real iPhone with AirPods, then Trends opening the paywall. Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer is on the first screen, under the home screen's About row and in About.
+The attached video shows the free meal, the chime at 32 and the paywall that follows on a real iPhone with AirPods, then Trends opening the paywall. Steps come read-only from Apple Health, and the permission prompt appears only after the user taps Steps or starts the morning walk. Health data, motion and weigh-ins stay on the device. The disclaimer is on the first screen, under the home screen's About row and in About.
 
 Subscriptions: cys.pro.yearly ($4.99 a year) and cys.pro.monthly ($0.99 a month), one group, no introductory offer. Both are attached to this version.
 ```
@@ -168,7 +168,7 @@ Subscriptions: cys.pro.yearly ($4.99 a year) and cys.pro.monthly ($0.99 a month)
 Six files in `screenshots/`, each 1320 x 2868 (iPhone 6.9-inch, accepted by App Store Connect, no alpha). Upload in this order to the "iPhone 6.9-inch Display" slot:
 1. `01-no-calories.png` 2. `02-count-to-32.png` 3. `03-airpods.png` 4. `04-chew-number.png` 5. `05-weekly.png` 6. `06-first-meal-free.png`
 
-Real Debug-build screens on a simulator with the clock at 9:41. Two honest limits: the Home screen shows "0 / 2,500" steps with a help line because the Debug build has no Apple Health permission, and the meal and trends screens use sample data. Retake those two from a TestFlight build on a real iPhone if you want real steps in the picture (see the README in the app folder; the generator is `make_screenshots.py`).
+Real Debug-build screens on a simulator with the clock at 9:41. Two honest limits: the Home screen shows "0 / 2,500" steps with the old help line ("Settings > Health") because the Debug build has no Apple Health permission and the raw capture predates the change (the app now says "Tap to connect steps" before the first tap, and the help line names Settings > Privacy & Security > Health; screenshot 01 was not regenerated because that needs a fresh 9:41 Pro Max simulator capture), and the meal and trends screens use sample data. Retake those two from a TestFlight build on a real iPhone if you want real steps in the picture (see the README in the app folder; the generator is `make_screenshots.py`).
 
 ## Character counts (checked by `check_limits.py`)
 | Box | Characters | Limit |

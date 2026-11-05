@@ -129,6 +129,18 @@ final class MealControllerTests: XCTestCase {
         XCTAssertFalse(FreeMealRule.isUsed(meals: saved))
     }
 
+    func testAFalseChewMealIsSavedButLeavesTheFreeMeal() {
+        let c = make()
+        c.start()
+        chews(10)
+        clock += 120
+        c.finish()
+        XCTAssertEqual(c.lastSaved?.chews, 10)
+        XCTAssertEqual(c.lastSaved?.bites, 0)
+        XCTAssertFalse(FreeMealRule.endedFreeMeal(c.lastSaved, isPro: false))
+        XCTAssertFalse(FreeMealRule.isUsed(meals: saved))
+    }
+
     func testLeavingMidMealStillSpendsItAndSaysSo() {
         let c = make()
         c.start()

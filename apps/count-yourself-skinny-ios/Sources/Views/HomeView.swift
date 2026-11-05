@@ -15,7 +15,10 @@ struct HomeView: View {
     @State private var chewOfferPending = ChewNumberStore().offerPending
     @State private var chewResults = ChewNumberStore().load()
 
-    private var freeMealLeft: Bool { !pro.isPro && !FreeMealRule.isUsed(meals: MealStore().load()) }
+    /// The meal log changes on other screens, so Home re-reads it whenever they close.
+    @State private var mealLogUsed = FreeMealRule.isUsed(meals: MealStore().load())
+    private var freeMealLeft: Bool { !pro.isPro && !mealLogUsed }
+    private func refreshMealLog() { mealLogUsed = FreeMealRule.isUsed(meals: MealStore().load()) }
 
     var body: some View {
         NavigationStack {
@@ -58,8 +61,10 @@ struct HomeView: View {
                     CounterRow(icon: "fork.knife", title: "Bite Pacer",
                                value: "32 chews", tint: .orange) { showPacer = true }
                     CounterRow(icon: "figure.walk", title: "Steps",
-                               subtitle: store.stepsNeedHelp
-                                   ? "No steps yet. If Health access is off, turn it on in Settings > Health."
+                               subtitle: !store.healthAsked
+                                   ? "Tap to connect steps"
+                                   : store.stepsNeedHelp
+                                   ? "No steps yet. If Health access is off, turn it on in Settings > Privacy & Security > Health."
                                    : "From Apple Health. Floor: 2,500. Tap to refresh.",
                                value: "\(store.steps.formatted()) / 2,500", tint: .green) {
                         Task { await store.requestSteps() }
@@ -149,7 +154,10 @@ struct HomeView: View {
             } message: {
                 Text(AboutContent.fastNote)
             }
-            .task { await store.requestSteps() }
+            .task { await store.refreshSteps() }
+            .onAppear { refreshMealLog() }
+            .onChange(of: showMeal) { _, _ in refreshMealLog() }
+            .onChange(of: showPaywall) { _, _ in refreshMealLog() }
             // Fires at midnight and on clock or time zone changes, for a phone left on this screen.
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
                 store.rollover()

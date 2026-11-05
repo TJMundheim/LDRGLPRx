@@ -18,7 +18,7 @@ struct MorningModeView: View {
         .navigationTitle("One Walk, Five Boxes")
         .safeAreaInset(edge: .bottom) {
             Button(store.walk == nil ? "Start the walk" : "Finish — eat breakfast") {
-                if store.walk == nil { store.startWalk() } else { store.finishWalk() }
+                if store.walk == nil { store.startWalk(); Task { await store.requestSteps() } } else { store.finishWalk() }
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
@@ -26,11 +26,11 @@ struct MorningModeView: View {
         }
         .task {
             store.creditWalk()
-            await store.requestSteps()
+            await store.refreshSteps()
             while await Tick.wait(15) { store.creditWalk() }
         }
         .task {
-            while await Tick.wait(60) { await store.requestSteps() }
+            while await Tick.wait(60) { await store.refreshSteps() }
         }
         .onChange(of: scenePhase) { _, _ in store.creditWalk() }
         .onDisappear { store.creditWalk() }

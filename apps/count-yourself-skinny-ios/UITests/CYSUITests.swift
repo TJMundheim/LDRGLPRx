@@ -233,6 +233,18 @@ final class CYSUITests: XCTestCase {
         keep("home-chew-number-row")
     }
 
+    /// Debug never calls HealthKit, so this checks the wording only; the real prompt is a Release check.
+    func testStepsRowAsksNothingUntilTapped() {
+        app.launchArguments = skipFirstRun + newInstall
+        app.launch()
+        let steps = row("Steps")
+        scroll(to: steps)
+        XCTAssertTrue(steps.label.contains("Tap to connect steps"), steps.label)
+        XCTAssertFalse(steps.label.contains("No steps yet"), steps.label)
+        steps.tap()
+        XCTAssertTrue(steps.label.contains("Settings > Privacy & Security > Health"), steps.label)
+    }
+
     func testNoAirPodsLeavesTheFreeMealAndTrendsStaysPro() {
         app.launchArguments = skipFirstRun + newInstall
         app.launch()

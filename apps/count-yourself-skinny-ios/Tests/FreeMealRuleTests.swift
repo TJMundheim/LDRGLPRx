@@ -27,6 +27,22 @@ final class FreeMealRuleTests: XCTestCase {
         XCTAssertTrue(FreeMealRule.canCount(isPro: false, meals: meals))
     }
 
+    func testAFalseChewOrTalkingDoesNotSpendIt() {
+        let talking = MealRecord(id: UUID(), start: t0, end: t0.addingTimeInterval(600), chews: 20, bites: 0)
+        XCTAssertFalse(FreeMealRule.isUsed(meals: [talking]), "no completed 32-chew round")
+        XCTAssertTrue(FreeMealRule.canCount(isPro: false, meals: [talking]))
+        XCTAssertFalse(FreeMealRule.endedFreeMeal(talking, isPro: false))
+        XCTAssertNil(FreeMealRule.paywallCopy(meals: [talking]).result)
+        XCTAssertEqual(FreeMealRule.paywallCopy(meals: [talking]).note,
+                       "Your first counted meal is free, with no subscription. Start it from Count my chews on the home screen.")
+    }
+
+    func testOneCompletedRoundSpendsIt() {
+        let one = MealRecord(id: UUID(), start: t0, end: t0.addingTimeInterval(600), chews: 33, bites: 1)
+        XCTAssertTrue(FreeMealRule.isUsed(meals: [one]))
+        XCTAssertTrue(FreeMealRule.endedFreeMeal(one, isPro: false))
+    }
+
     func testProIsAlwaysAllowed() {
         XCTAssertTrue(FreeMealRule.canCount(isPro: true, meals: []))
         XCTAssertTrue(FreeMealRule.canCount(isPro: true, meals: [meal(chews: 96), meal(chews: 40, at: 100)]))
@@ -67,6 +83,7 @@ final class FreeMealRuleTests: XCTestCase {
         let copy = FreeMealRule.paywallCopy(meals: [meal(chews: 96), meal(chews: 64, at: 86_400)])
         XCTAssertEqual(copy.title, "Your earbuds can count your chews.")
         XCTAssertNil(copy.result)
-        XCTAssertEqual(copy.note, "Pro keeps counting every meal after this one.")
+        XCTAssertEqual(copy.note, "Pro keeps counting every meal.")
+        XCTAssertFalse(copy.note.contains("this one"))
     }
 }

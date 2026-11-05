@@ -2,7 +2,7 @@
 
 For: Dr. TJ. Date: 2026-11-01, updated 2026-11-04 (first-run screens, free meal). Time needed: about 30 minutes to install (first time), then three lunches you'd eat anyway.
 
-This test build installs with a free Apple ID, before paid enrollment. **Apple Health is switched off in it.** The Steps row stays at 0 and says "No steps yet. If Health access is off, turn it on in Settings > Health." That is expected. You don't need to change anything in Settings. Steps come back in the App Store build.
+This test build installs with a free Apple ID, before paid enrollment. **Apple Health is switched off in it.** The Steps row says "Tap to connect steps"; after you tap it, it stays at 0 and says "No steps yet. If Health access is off, turn it on in Settings > Privacy & Security > Health." That is expected. You don't need to change anything in Settings. Steps come back in the App Store build.
 
 What you are testing: the Count Yourself Skinny app listens to your AirPods' head-motion sensors and counts your chews. You will check whether its count matches yours, then send the recorded data back so it can be tuned.
 
@@ -110,7 +110,7 @@ This is the free meal a new customer gets. Leave **Pretend Pro** off until step 
 5. Tap **Finish**. A screen slides up that says **That was your free meal.** with your meal's numbers and the prices. Do the numbers look right? Don't buy anything. Tap **Not now** at the bottom (scroll down if you don't see it). Behind it is **Meal done** with the same summary and a **See Pro** button.
 6. Tap the back arrow at the top left. **Count my chews** now says **Pro**. In the **Developer** section, switch **Pretend Pro** on. It stands in for a subscription and turns itself off each time the app restarts. Tap **Trends**: does your meal show up? Meals under 30 seconds aren't counted.
 
-The free meal is used up once a meal is saved with at least one chew counted. To get it back for another try, delete the app from the iPhone and press Run in Xcode again. You'll see the two first-run screens again.
+The free meal is used up once a meal is saved with at least one completed round of 32 chews. A false chew, or talking, that never reaches 32 does not use it. To get it back for another try, delete the app from the iPhone and press Run in Xcode again. You'll see the two first-run screens again.
 
 ## 5. Send me the recording
 
@@ -166,7 +166,7 @@ Also write: which AirPods you used, the **Threshold k** number, and whether the 
 | **Xcode shows "Signing for CountYourselfSkinny requires a development team"** | Section 2, step 5: choose **(Personal Team)** in the Team drop-down. If the list is empty, sign in at Xcode → Settings → Accounts. |
 | **Red error about the bundle identifier** | Add your initials to the bundle identifier (section 2, step 5). |
 | **Red error mentioning "HealthKit"** | Check you are on the **Debug** tab (section 2, step 4). Debug has no HealthKit, so the error should only appear under **Release**, where you can ignore it. If it blocks **Run** on your iPhone, tell me exactly what it says. |
-| **Steps stays at 0 and says "No steps yet"** | Expected. Apple Health is off in this test build. |
+| **Steps says "Tap to connect steps", then stays at 0 with "No steps yet"** | Expected. Apple Health is off in this test build, and the app only asks for Health when you tap Steps or start the morning walk. |
 | **Xcode says you have reached a limit of apps or App IDs** | A free Apple ID allows only a few of its own apps on one iPhone, and a limited number of new identifiers per week. Delete another app you installed from Xcode, or wait the number of days it says. |
 | **The Team drop-down went blank** | It does this after the project is regenerated. Pick your **(Personal Team)** again (section 2, step 5). |
 | **App stopped opening after about a week** | Free Apple ID installs expire after 7 days. Plug in and press Run again. |

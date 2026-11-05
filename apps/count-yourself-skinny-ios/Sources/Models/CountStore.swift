@@ -18,6 +18,8 @@ final class CountStore: ObservableObject {
     @Published private(set) var weighIns: [WeighIn] = [] // weekly, trend line only
     /// Set after a steps refresh that returned nothing, so the screen can say why.
     @Published private(set) var stepsNeedHelp = false
+    /// True once the user has tapped Steps or started the morning walk. Health is never asked before.
+    @Published private(set) var healthAsked = false
     /// The morning walk in progress. Kept here so leaving the screen doesn't lose it.
     @Published private(set) var walk: LightSession?
     /// The Home card that points to the Brain Check. See NextDoorRule.
@@ -55,6 +57,7 @@ final class CountStore: ObservableObject {
         self.now = now
         self.calendar = calendar
         self.healthEntitled = healthEntitled
+        self.healthAsked = defaults.bool(forKey: Self.healthAskedKey)
         self.counts = DayCounts(for: now(), calendar: calendar)
         self.nextDoor = NextDoorRule(firstUse: now())
         load()
@@ -159,13 +162,27 @@ final class CountStore: ObservableObject {
     /// Reads today's steps. Health hides whether read access was denied, so "nothing came back"
     /// is the signal to show the one-line help.
     func requestSteps() async {
+        healthAsked = true
+        defaults.set(true, forKey: Self.healthAskedKey)
+        await readSteps(ask: true)
+    }
+
+    /// Foreground and timer refresh: does nothing until the user has asked for steps.
+    func refreshSteps() async {
+        guard healthAsked else { return }
+        await readSteps(ask: false)
+    }
+
+    static let healthAskedKey = "healthAsked"
+
+    private func readSteps(ask: Bool) async {
         rollover()
         guard healthEntitled, HKHealthStore.isHealthDataAvailable(),
               let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             stepsNeedHelp = true
             return
         }
-        try? await healthStore.requestAuthorization(toShare: [], read: [stepType])
+        if ask { try? await healthStore.requestAuthorization(toShare: [], read: [stepType]) }
         let start = calendar.startOfDay(for: now())
         let predicate = HKQuery.predicateForSamples(withStart: start, end: now())
         let store = healthStore

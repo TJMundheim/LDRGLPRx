@@ -10,8 +10,9 @@ struct PaywallCopy: Equatable {
 /// One AirPods-counted meal is free, so people see the count work before they pay.
 ///
 /// The meal log is the only record: the free meal is spent once a saved meal has at least one
-/// counted chew. So AirPods that never connect, a meal under 30 seconds (neither is saved) and
-/// a meal where nothing was counted all leave it unspent, and deleting the app resets it.
+/// completed 32-chew round (`bites >= 1`). So AirPods that never connect, a meal under 30 seconds
+/// (neither is saved), a meal where nothing was counted, and a false chew or talking that never
+/// reached 32 all leave it unspent, and deleting the app resets it.
 enum FreeMealRule {
     static func isUsed(meals: [MealRecord]) -> Bool {
         meals.contains(where: counted)
@@ -32,15 +33,16 @@ enum FreeMealRule {
     static func paywallCopy(meals: [MealRecord]) -> PaywallCopy {
         let title = "Your earbuds can count your chews."
         let keepCounting = "Pro keeps counting every meal after this one."
+        let neutral = "Pro keeps counting every meal."
         let countedMeals = meals.filter(counted)
         guard let only = countedMeals.first else {
             return PaywallCopy(title: title, result: nil,
                                note: "Your first counted meal is free, with no subscription. Start it from Count my chews on the home screen.")
         }
-        // More than one counted meal means a subscription has lapsed, so this wasn't their free meal.
-        guard countedMeals.count == 1 else { return PaywallCopy(title: title, result: nil, note: keepCounting) }
+        // More than one counted meal means a subscription has lapsed: no "free meal" or "this one" wording.
+        guard countedMeals.count == 1 else { return PaywallCopy(title: title, result: nil, note: neutral) }
         return PaywallCopy(title: "That was your free meal.", result: MealSessionModel.summary(for: only), note: keepCounting)
     }
 
-    private static func counted(_ meal: MealRecord) -> Bool { meal.chews > 0 }
+    private static func counted(_ meal: MealRecord) -> Bool { meal.bites >= 1 }
 }

@@ -75,6 +75,34 @@ final class CountStoreTests: XCTestCase {
         XCTAssertEqual(s.steps, 0)
     }
 
+    private func healthStore(entitled: Bool = false) -> CountStore {
+        CountStore(defaults: defaults, now: { [unowned self] in self.clock }, calendar: cal, healthEntitled: entitled)
+    }
+
+    func testHealthIsNotAskedUntilAUserAction() async {
+        let s = healthStore()
+        XCTAssertFalse(s.healthAsked)
+        await s.refreshSteps()
+        XCTAssertFalse(s.healthAsked, "a background refresh never asks")
+        XCTAssertFalse(s.stepsNeedHelp, "and shows no error before Health is asked")
+    }
+
+    func testTappingStepsMarksHealthAskedAndItSurvivesRelaunch() async {
+        let s = healthStore()
+        await s.requestSteps()
+        XCTAssertTrue(s.healthAsked)
+        XCTAssertTrue(s.stepsNeedHelp, "Debug has no Health, so the help line shows after the tap")
+        XCTAssertTrue(healthStore().healthAsked)
+    }
+
+    func testRefreshAfterAskedStillWorksWithoutTheEntitlement() async {
+        let s = healthStore()
+        await s.requestSteps()
+        await s.refreshSteps()
+        XCTAssertTrue(s.stepsNeedHelp)
+        XCTAssertEqual(s.steps, 0)
+    }
+
     func testAnswerTodayBuildsStreak() {
         let s = makeStore()
         XCTAssertNil(s.todayAnswer)
