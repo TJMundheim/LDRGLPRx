@@ -44,7 +44,7 @@
   .footer-url { font-size: 0.11in; letter-spacing: 0.08em; color: rgba(243,232,200,.85); }
   .footer-cat { font-size: 0.07in; letter-spacing: 0.14em; color: rgba(243,232,200,.55); text-transform: uppercase; }
   /* barcode clear zone, 2in x 1.2in white */
-  .barcode { width: 2in; height: 1.2in; background: #fff; flex-shrink: 0; }
+  .barcode { width: 2in; height: 1.2in; background: transparent; /* KDP prints its own barcode box */ flex-shrink: 0; }
 
   /* SPINE */
   .spine { position: absolute; top: 0; left: 7.625in; width: 0.3581in; height: 9.5in; overflow: hidden; }
@@ -53,7 +53,7 @@
   .spine-text { writing-mode: vertical-rl; display: flex; align-items: center; white-space: nowrap;
     flex: 1; justify-content: center; }
   .spine-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.17in; color: #f5ecd1; }
-  .spine-title .m { color: #d4af5a; font-style: italic; font-weight: 600; font-size: 0.13in; margin-left: 0.14in; }
+  .spine-title .m { color: #d4af5a; font-style: italic; font-weight: 600; font-size: 0.13in; margin-top: 0.16in; display: inline-block; }
   .spine-sep { width: 1px; height: 0.3in; background: rgba(212,175,90,.6); margin: 0 0; flex-shrink: 0; }
   .spine-author { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.1in; letter-spacing: 0.12em;
     color: rgba(245,236,209,.88); text-transform: uppercase; }
@@ -76,7 +76,7 @@
   .front-eyebrow-rule { width: 1in; height: 1px; margin: 0.08in 0 0;
     background: linear-gradient(90deg, transparent, #d4af5a, transparent); }
   .front-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.7in; line-height: 1.04;
-    letter-spacing: -0.012em; text-shadow: 0 2px 10px rgba(0,0,0,.4); margin-top: 0.3in; }
+    letter-spacing: -0.012em; margin-top: 0.3in; }
   .front-month { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; font-size: 0.42in;
     color: #d4af5a; margin-top: 0.2in; }
   .front-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.155in; line-height: 1.4;
