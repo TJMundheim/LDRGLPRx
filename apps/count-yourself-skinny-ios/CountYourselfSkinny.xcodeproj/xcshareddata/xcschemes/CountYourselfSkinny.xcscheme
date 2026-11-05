@@ -50,6 +50,17 @@
                ReferencedContainer = "container:CountYourselfSkinny.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3D1ECF54BAEE0D6B9A4FCDB9"
+               BuildableName = "CountYourselfSkinnyUITests.xctest"
+               BlueprintName = "CountYourselfSkinnyUITests"
+               ReferencedContainer = "container:CountYourselfSkinny.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

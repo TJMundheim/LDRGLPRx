@@ -11,6 +11,18 @@ final class BundleConfigTests: XCTestCase {
         XCTAssertFalse((info["CFBundleVersion"] as? String ?? "$").contains("$"))
     }
 
+    func testShortNameUnderTheIcon() {
+        XCTAssertEqual(Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String, "Count Skinny")
+    }
+
+    func testDebugBuildIsTheFreeAppleIDBuild() {
+        #if DEBUG
+        XCTAssertEqual(Bundle.main.bundleIdentifier, "com.my4mlife.countyourselfskinny.dev",
+                       "a personal team must never claim the App Store id")
+        XCTAssertFalse(CountStore.defaultHealthEntitled, "Debug has no HealthKit entitlement, so it must not call HealthKit")
+        #endif
+    }
+
     func testUsageStringsSayWhyAndNothingAboutUpdatingHealth() {
         let info = Bundle.main.infoDictionary ?? [:]
         XCTAssertNotNil(info["NSHealthShareUsageDescription"])

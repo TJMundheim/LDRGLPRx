@@ -27,6 +27,54 @@ final class CountStoreTests: XCTestCase {
         CountStore(defaults: defaults, now: { [unowned self] in self.clock }, calendar: cal)
     }
 
+    func answerYes(days: Int) -> CountStore {
+        let s = makeStore()
+        for _ in 0..<days {
+            s.answerToday(hit: true)
+            clock = cal.date(byAdding: .day, value: 1, to: clock)!
+        }
+        s.rollover()
+        return s
+    }
+
+    func testNextDoorStaysHiddenForANewUser() {
+        XCTAssertFalse(makeStore().showNextDoor)
+    }
+
+    func testNextDoorAppearsAtThirtyDays() {
+        let s = answerYes(days: 29)
+        XCTAssertEqual(s.streak, 29)
+        XCTAssertFalse(s.showNextDoor)
+        s.answerToday(hit: true)
+        XCTAssertEqual(s.streak, 30)
+        XCTAssertTrue(s.showNextDoor)
+    }
+
+    func testNextDoorDismissalAndFirstUseSurviveARelaunch() {
+        let s = makeStore()   // first use is today
+        clock = cal.date(byAdding: .day, value: 84, to: clock)!
+        s.rollover()
+        XCTAssertTrue(s.showNextDoor)
+        XCTAssertTrue(makeStore().showNextDoor, "first use was saved")
+        s.dismissNextDoor()
+        XCTAssertFalse(s.showNextDoor)
+        XCTAssertFalse(makeStore().showNextDoor, "dismissal was saved")
+    }
+
+    func testNextDoorShownCountsOncePerMilestoneAcrossRelaunches() {
+        let s = answerYes(days: 30)
+        XCTAssertTrue(s.markNextDoorShown())
+        XCTAssertFalse(s.markNextDoorShown())
+        XCTAssertFalse(makeStore().markNextDoorShown())
+    }
+
+    func testStepsWithoutTheHealthEntitlementShowTheHelpLineAndNeverAsk() async {
+        let s = CountStore(defaults: defaults, now: { [unowned self] in self.clock }, calendar: cal, healthEntitled: false)
+        await s.requestSteps()
+        XCTAssertTrue(s.stepsNeedHelp)
+        XCTAssertEqual(s.steps, 0)
+    }
+
     func testAnswerTodayBuildsStreak() {
         let s = makeStore()
         XCTAssertNil(s.todayAnswer)

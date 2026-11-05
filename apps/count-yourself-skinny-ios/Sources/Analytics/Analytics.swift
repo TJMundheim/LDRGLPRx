@@ -12,6 +12,8 @@ enum AnalyticsEvent: String, CaseIterable {
     case mealCompleted = "meal_completed"
     case trendsViewed = "trends_viewed"
     case contactSubmitted = "contact_submitted"
+    case nextDoorShown = "next_door_shown"
+    case nextDoorTapped = "next_door_tapped"
 }
 
 /// PostHog capture over plain URLSession, keyed to a random ID kept on the phone. Failures are silent.

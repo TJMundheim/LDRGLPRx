@@ -29,8 +29,28 @@ xcodebuild -project CountYourselfSkinny.xcodeproj -scheme CountYourselfSkinny \
   -configuration Debug -destination "id=<SIM-UDID>" \
   -derivedDataPath build -skipMacroValidation build
 xcrun simctl install <SIM-UDID> build/Build/Products/Debug-iphonesimulator/CountYourselfSkinny.app
-xcrun simctl launch  <SIM-UDID> com.my4mlife.countyourselfskinny
+xcrun simctl launch  <SIM-UDID> com.my4mlife.countyourselfskinny.dev
 ```
+
+Debug and Release differ on purpose (`project.yml`): Debug is the build a free Apple ID can install, so it has
+no HealthKit entitlement, never calls HealthKit (the Steps row shows its help line), and has its own bundle id
+`com.my4mlife.countyourselfskinny.dev`, so a personal team never claims the App Store id. Release has both.
+
+Tests:
+```bash
+xcodebuild test -project CountYourselfSkinny.xcodeproj -scheme CountYourselfSkinny \
+  -destination "platform=iOS Simulator,id=<IOS-27-SIM-UDID>" \
+  -derivedDataPath build/dd27 -skipMacroValidation -collect-test-diagnostics never
+```
+Check the skip count, not just the exit status. The `ProStoreTests` skip (exit 0) in two cases, both reproduced on
+new simulators with Xcode 27:
+- **The first run after the app is installed on a simulator.** Run again and they all run. Because of this, any new
+  simulator or fresh install needs two runs. The app touching StoreKit is not the cause: keeping the test host away
+  from StoreKit loads products in the first run, but its purchase then stops at an Apple Account sign-in and hangs.
+- **Every run on an iOS 26.5 simulator** (`SKInternalErrorDomain` 3, reboot doesn't help). Use an iOS 27 runtime.
+
+Without `-collect-test-diagnostics never`, a failing run sits in `simctl diagnose` for about 10 minutes after the
+tests end.
 
 ---
 
@@ -138,8 +158,8 @@ Signing is set to `CODE_SIGN_STYLE = Automatic` with an intentionally empty
 2. Select the **CountYourselfSkinny** target → **Signing & Capabilities** →
    **Team** → your personal Apple ID team. (If it isn't listed:
    Xcode → Settings → Accounts → **+** → Apple ID.)
-   Leave "Automatically manage signing" checked. Bundle id stays
-   `com.my4mlife.countyourselfskinny`.
+   Leave "Automatically manage signing" checked. The Debug bundle id stays
+   `com.my4mlife.countyourselfskinny.dev`.
 3. Plug the iPhone in with a cable. On the phone, tap **Trust This Computer** and
    enter the passcode.
 4. Pick the iPhone in Xcode's run destination menu and press **Run** (⌘R).
@@ -253,9 +273,11 @@ same project as the website). If you leave it off, IP is stored, and the label m
 - [ ] Don't Allow shows "Motion access is off", and Open Settings works
 - [ ] Lock the phone mid-meal and come back: the meal continues. Take the AirPods out: it saves and shows the summary
 - [ ] Screen stays on during a meal and sleeps normally afterwards
-- [ ] Real steps from Health on the home screen and in Morning mode
-- [ ] Sandbox: plan rows render with price and trial (**never yet seen on screen**), buy, cancel, restore, expiry,
-      Ask to Buy, offer code, Manage Subscription. The StoreKit tests skip on this Mac because the test service can't
-      be reached, so purchase code has compiled but never run
+- [ ] Real steps from Health on the home screen and in Morning mode. Needs a Release or TestFlight build on a paid
+      team: Debug has no HealthKit
+- [ ] Sandbox: buy, cancel from the real sheet, restore, Ask to Buy, offer code, Manage Subscription. Against the
+      local `.storekit` file on an iOS 27 simulator, the plan rows render with price and trial and `ProStoreTests`
+      run purchase, expiry, restore, Ask to Buy and unverified. A real cancel can't be simulated there
+      (`.generic(.userCancelled)` arrives as `StoreKitError.unknown`), so only its mapping is tested
 - [ ] One email through About reaches the Contact list. One event reaches PostHog from a TestFlight build
       (Debug and simulator builds never send)

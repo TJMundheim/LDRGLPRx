@@ -21,12 +21,13 @@ final class ProStoreTests: XCTestCase {
         session.clearTransactions()
         session.disableDialogs = true
         session.askToBuyEnabled = false
-        // If the StoreKit test service can't be reached (seen on Xcode 27 beta against the
-        // iOS 26.5 simulator runtime: SKInternalErrorDomain 3, storekitd serves real App Store),
-        // products never load. Skip loudly rather than fake a pass; the file itself is still
-        // checked by StoreKitConfigFileTests, which always runs.
+        // Two environments load no products, seen on Xcode 27 and reproduced on new simulators:
+        //   1. The first test run after the app is installed on an iOS 27 simulator. The next run works.
+        //   2. Every run on an iOS 26.5 simulator (SKInternalErrorDomain 3, even after a reboot).
+        // Skip loudly rather than fake a pass; the file itself is still checked by
+        // StoreKitConfigFileTests, which always runs.
         let probe = (try? await Product.products(for: ["cys.pro.monthly"])) ?? []
-        try XCTSkipIf(probe.isEmpty, "StoreKitTest service unreachable in this environment; StoreKit behaviour NOT verified")
+        try XCTSkipIf(probe.isEmpty, "No StoreKitTest products. First run since install on this simulator? Run the tests again. iOS 26.5 simulators never work with Xcode 27. StoreKit behaviour NOT verified.")
     }
 
     override func tearDown() async throws {
@@ -62,8 +63,28 @@ final class ProStoreTests: XCTestCase {
         XCTAssertEqual(outcome, .success)
         XCTAssertTrue(s.isPro)
         try session.expireSubscription(productIdentifier: "cys.pro.monthly")
+        // expireSubscription doesn't touch currentEntitlements' cache, which keeps the +7 day
+        // entry until a sync. The lapse test below covers the path with no sync.
+        try await AppStore.sync()
         await s.refreshEntitlement()
         XCTAssertFalse(s.isPro)
+    }
+
+    /// The case a real customer hits: renewal off, period runs out, nothing is pushed to the app.
+    func testPeriodRunningOutClearsProOnTheNextRefresh() async throws {
+        session.timeRate = .oneRenewalEveryTwoSeconds
+        let s = await loadedStore()
+        let monthly = try XCTUnwrap(s.products.first { $0.id == "cys.pro.monthly" })
+        let outcome = await s.purchase(monthly)
+        XCTAssertEqual(outcome, .success)
+        XCTAssertTrue(s.isPro)
+        let transaction = try XCTUnwrap(session.allTransactions().first)
+        try session.disableAutoRenewForTransaction(identifier: transaction.identifier)
+        for _ in 0..<50 where s.isPro {
+            try await Task.sleep(for: .milliseconds(200))
+            await s.refreshEntitlement()
+        }
+        XCTAssertFalse(s.isPro, "still Pro 10 seconds after a 2 second period")
     }
 
     func testRestoreAfterClearingLocalState() async throws {
@@ -83,13 +104,12 @@ final class ProStoreTests: XCTestCase {
         XCTAssertFalse(s.isPro)
     }
 
-    func testUserCancelLeavesStateAndShowsNoError() async throws {
+    func testPurchaseErrorShowsAMessageAndNoPro() async throws {
         let s = await loadedStore()
         let monthly = try XCTUnwrap(s.products.first)
-        try await session.setSimulatedError(.generic(.userCancelled), forAPI: .purchase)
+        try await session.setSimulatedError(.generic(.networkError(URLError(.notConnectedToInternet))), forAPI: .purchase)
         let outcome = await s.purchase(monthly)
-        XCTAssertEqual(outcome, .cancelled)
-        XCTAssertNil(outcome.message, "cancel shows nothing")
+        XCTAssertEqual(outcome, .failed("The purchase didn't go through. Please try again."))
         XCTAssertFalse(s.isPro)
     }
 
@@ -122,6 +142,24 @@ final class ProStoreTests: XCTestCase {
         let outcome = await s.purchase(monthly)
         if case .failed = outcome {} else { XCTFail("expected failed, got \(outcome)") }
         XCTAssertFalse(s.isPro)
+    }
+}
+
+/// A real cancel can't be driven through SKTestSession: `.generic(.userCancelled)` comes back
+/// as StoreKitError.unknown (ASDServerErrorDomain 907), not as what a cancelled sheet returns.
+/// So the mapping is tested directly.
+final class PurchaseOutcomeMappingTests: XCTestCase {
+    func testCancelInEitherFormIsSilent() {
+        XCTAssertEqual(ProStore.outcome(of: Product.PurchaseResult.userCancelled), .cancelled)
+        XCTAssertEqual(ProStore.outcome(of: StoreKitError.userCancelled), .cancelled)
+        XCTAssertNil(PurchaseOutcome.cancelled.message, "cancel shows nothing")
+    }
+    func testPendingIsPending() {
+        XCTAssertEqual(ProStore.outcome(of: Product.PurchaseResult.pending), .pending)
+    }
+    func testAnyOtherErrorIsAMessage() {
+        XCTAssertEqual(ProStore.outcome(of: StoreKitError.unknown), .failed("The purchase didn't go through. Please try again."))
+        XCTAssertEqual(ProStore.outcome(of: URLError(.notConnectedToInternet)), .failed("The purchase didn't go through. Please try again."))
     }
 }
 

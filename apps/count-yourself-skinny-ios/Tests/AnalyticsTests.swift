@@ -23,7 +23,8 @@ final class AnalyticsTests: XCTestCase {
         XCTAssertEqual(Set(AnalyticsEvent.allCases.map(\.rawValue)),
                        ["app_open", "paywall_view", "purchase_started", "purchase_success",
                         "restore_tapped", "calibration_completed", "meal_completed",
-                        "trends_viewed", "contact_submitted"])
+                        "trends_viewed", "contact_submitted",
+                        "next_door_shown", "next_door_tapped"])
     }
 
     func testPayloadHasOnlyAllowedKeys() {

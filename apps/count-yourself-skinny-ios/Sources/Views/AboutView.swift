@@ -10,6 +10,10 @@ enum AboutContent {
     static let assessment = URL(string: "https://www.my4mlife.com/assessment")!
     static let privacy = URL(string: "https://www.my4mlife.com/legal/count-yourself-skinny-privacy")!
     static let terms = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+    static let nextDoorHeading = "What comes after skinny?"
+    static let nextDoorBody = "Keeping your mind sharp is the long game, and the free Brain Check takes about 7 minutes to show you where to start."
+    static let nextDoorButton = "Take the Brain Check"
+    static let nextDoorLink = URL(string: "https://www.my4mlife.com/assessment?src=cys-app")!
 
     static func versionText(short: String?, build: String?) -> String {
         guard let short else { return "Version unknown" }

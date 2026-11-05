@@ -1,6 +1,8 @@
 # Chew Lab test guide — your iPhone + your AirPods
 
-For: Dr. TJ. Date: 2026-11-01. Time needed: about 30 minutes to install (first time), then one meal.
+For: Dr. TJ. Date: 2026-11-01, updated 2026-11-04. Time needed: about 30 minutes to install (first time), then one meal.
+
+This test build installs with a free Apple ID, before paid enrollment. **Apple Health is switched off in it.** The Steps row stays at 0 and says "No steps yet. If Health access is off, turn it on in Settings > Health." That is expected. You don't need to change anything in Settings. Steps come back in the App Store build.
 
 What you are testing: the Count Yourself Skinny app listens to your AirPods' head-motion sensors and counts your chews. You will check whether its count matches yours, then send the recorded data back so it can be tuned.
 
@@ -22,19 +24,22 @@ You do this on the Mac.
    - Full path: `/Users/thomasmundheim/Development/LDRGLPRx/apps/count-yourself-skinny-ios/CountYourselfSkinny.xcodeproj`
 2. **Sign in with your Apple ID** (skip if already signed in): top menu **Xcode → Settings… → Accounts**, click **+** at the bottom left, choose **Apple ID**, sign in.
 3. In Xcode's left sidebar click the blue **CountYourselfSkinny** project icon at the very top. In the middle, under **Targets**, click **CountYourselfSkinny**. Click the **Signing & Capabilities** tab.
-4. **Team:** no team is pre-selected (it is left blank on purpose). Click the **Team** drop-down and choose your name followed by **(Personal Team)**. Leave **Automatically manage signing** checked. Leave the Bundle Identifier as is: `com.my4mlife.countyourselfskinny`.
-   - If Xcode shows a red "bundle identifier is not available" or "failed to register" message: change the Bundle Identifier by adding your initials at the end, for example `com.my4mlife.countyourselfskinny.tj`. This is only for this test.
-5. **Plug in the iPhone** with the cable. Unlock it. When it asks **Trust This Computer?** tap **Trust** and enter your iPhone passcode.
-6. **Turn on Developer Mode on the iPhone** (iOS 16 and newer requires this):
+4. Just under the tabs you will see a small row: **All**, **Debug**, **Release**. Click **Debug**. That is the build you are installing. Ignore anything shown under **Release**, including HealthKit or any red error there.
+5. **Team:** no team is pre-selected (it is left blank on purpose). Click the **Team** drop-down and choose your name followed by **(Personal Team)**. Leave **Automatically manage signing** checked. Leave the Bundle Identifier as is: `com.my4mlife.countyourselfskinny.dev`. The `.dev` ending keeps this test separate from the App Store name.
+   - If Xcode shows a red "bundle identifier is not available" or "failed to register" message: change the Bundle Identifier by adding your initials at the end, for example `com.my4mlife.countyourselfskinny.dev.tj`. This is only for this test.
+6. **Plug in the iPhone** with the cable. Unlock it. When it asks **Trust This Computer?** tap **Trust** and enter your iPhone passcode.
+7. **Turn on Developer Mode on the iPhone** (iOS 16 and newer requires this):
    Settings → Privacy & Security → scroll to the bottom → **Developer Mode** → switch on → tap **Restart** → after it restarts, unlock and tap **Turn On** → enter passcode.
-   - The Developer Mode line only appears after the iPhone has been plugged in and Xcode has seen it. If you don't see it, finish step 7 first (the first Run attempt will make it appear), turn it on, then press Run again.
-7. At the top center of the Xcode window there is a device menu next to the name "CountYourselfSkinny". Click it and pick **your iPhone** (not a "Simulator" iPhone).
-8. Press the **Run** button (the ▶ triangle at top left, or press **⌘R**). Wait for "Build Succeeded". The app installs on your phone. The first build takes a couple of minutes.
-9. It will fail to open the first time with an "Untrusted Developer" message. That is normal. On the iPhone: **Settings → General → VPN & Device Management** → under **Developer App** tap your Apple ID email → **Trust** → **Trust** again.
-10. Open **Count Yourself Skinny** from the iPhone home screen (or press Run again).
-    - It may ask permission to read Steps from Health. You can tap **Allow** or **Don't Allow**; it does not matter for this test.
+   - The Developer Mode line only appears after the iPhone has been plugged in and Xcode has seen it. If you don't see it, finish step 8 first (the first Run attempt will make it appear), turn it on, then press Run again.
+8. At the top center of the Xcode window there is a device menu next to the name "CountYourselfSkinny". Click it and pick **your iPhone** (not a "Simulator" iPhone).
+9. Press the **Run** button (the ▶ triangle at top left, or press **⌘R**). Wait for "Build Succeeded". The app installs on your phone. The first build takes a couple of minutes.
+10. It will fail to open the first time with an "Untrusted Developer" message. That is normal. On the iPhone: **Settings → General → VPN & Device Management** → under **Developer App** tap your Apple ID email → **Trust** → **Trust** again.
+11. Open **Count Skinny** from the iPhone home screen (or press Run again). That is the short name under the icon. Inside, the app's title still reads Count Yourself Skinny.
+    - It will not ask about Health in this build.
 
 **Good to know:** apps installed with a free Apple ID **stop opening after 7 days**. If that happens, plug in the phone and press Run again in Xcode.
+
+You won't see the "What comes after skinny?" card on the home screen during this test. It stays hidden until a 30-day streak or 12 weeks of use.
 
 ## 3. Open Chew Lab
 
@@ -51,7 +56,7 @@ You do this on the Mac.
    - A **Signal** line graph with a dashed orange line (the line that a movement has to rise above to count as a chew).
    - Each chew gives a light tap on the phone if "Haptic tick on each chew" is on. (If you hold the phone, you will feel it. For the test you can switch that off.)
 7. The button now says **Stop**. Tap **Stop** when finished.
-8. **Threshold k** slider: leave it in the middle (2.50) for the first tests. Lower counts more chews (and more false ones); higher is stricter.
+8. **Threshold k** slider: leave it where it starts (2.50) for the first tests. Lower counts more chews (and more false ones); higher is stricter.
 
 **Keep the app open and the screen on while testing.** Leaving the Chew Lab screen stops counting. For the meal, set the phone down on the table, screen up, and temporarily set Settings → Display & Brightness → Auto-Lock → **Never** (put it back to your usual setting afterwards).
 
@@ -79,14 +84,14 @@ Write down anything odd: "talking while chewing," "turned head to look at TV," "
 **Test C: the screen customers will use (added 2026-11-04; do it after you've sent the recording in section 5)**
 
 1. Go back to the home screen. In the **Developer** section, switch **Pretend Pro** on. It stands in for a subscription and turns itself off each time the app restarts.
-2. Tap **Count my chews**. The first time, it offers a calibration of about 2 minutes: hold still, then chew along with the beat for three rounds of 32. Have some food or gum ready, and tap **Start**. If you get an error, tap **Try Again** once, write down what it said, and move on.
-3. Start some music on the iPhone, then tap **Start meal** and eat for a few minutes.
+2. Tap **Count my chews**, then the small **Tune to me** link under **Start meal**. The **Tune it to you** screen takes about 2 minutes. Have some food or gum ready, and tap **Start**. Sit still for 20 seconds, then chew in time with the buzz for three rounds of 32. When it says **Done**, tap **Save**. If it says **That didn't work**, tap **Try Again** once. If that fails too, write down what it said and tap **Skip for now**.
+3. Leave the app, start some music on the iPhone, and come back. Tap **Start meal** and eat for a few minutes.
 4. Check these and write down yes or no:
    - Did the count roughly match your own?
    - At 32, did you hear a chime in your AirPods?
    - Did the music keep playing through the chime?
    - Did the screen stay on without touching it?
-5. Tap **Finish**. Does the summary look right? Then go back and tap **Trends**: does your meal show up?
+5. Tap **Finish**. The screen says **Meal done** with a summary. Does it look right? Then tap the back arrow at the top left and tap **Trends**: does your meal show up? Meals under 30 seconds aren't counted.
 
 ## 5. Send me the recording
 
@@ -98,7 +103,7 @@ Do this right after the meal, before leaving Chew Lab and before tapping Reset c
    - **Mail** → type `drtj@my4mlife.com` as the To address → Send. (Or choose AirDrop to your Mac and email it from there.)
    - **AirDrop** → tap your Mac (the Mac needs to be awake with AirDrop set to "Everyone" or "Contacts only") → find the file in the Mac's Downloads folder.
 4. The file is named like `chewlab-2026-11-01T18-30-00Z.csv`. In the email, include your notes from section 6.
-5. If you get a pop-up "Nothing to export": turn on **Record session** and chew for a bit first.
+5. If **Export CSV** is greyed out, nothing was recorded: turn on **Record session**, tap **Start**, and chew for a bit first.
 
 ## 6. What to write down
 
@@ -123,14 +128,18 @@ Also write: which AirPods you used, the **Threshold k** number, and whether the 
 
 | Problem | Fix |
 |---|---|
-| **Samples recorded stays at 0 / count never moves / says "AirPods not connected" after Start** | Check the AirPods are in your ears and connected to **this** iPhone (Control Center → AirPods shown). Put them in, tap **Stop** then **Start**. Make sure you allowed Motion: Settings → Count Yourself Skinny → turn **Motion & Fitness** on. Check your AirPods model is on the list in section 1; older AirPods don't send motion. |
-| **"Not supported on this device/simulator"** | You picked a Simulator, not your real iPhone, in Xcode's device menu (section 2, step 7). Choose your iPhone and press Run again. |
-| **"Untrusted Developer" when opening the app** | iPhone: Settings → General → VPN & Device Management → your Apple ID → **Trust** (section 2, step 9). |
-| **Xcode says "Developer Mode disabled" or the iPhone isn't listed** | Turn on Settings → Privacy & Security → **Developer Mode** and restart the iPhone (section 2, step 6). Unplug and replug the cable and unlock the phone. |
-| **Xcode shows "Signing for CountYourselfSkinny requires a development team"** | Section 2, step 4: choose **(Personal Team)** in the Team drop-down. If the list is empty, sign in at Xcode → Settings → Accounts. |
-| **Red error about the bundle identifier or "HealthKit" capability** | Add your initials to the bundle identifier (section 2, step 4). If the error mentions HealthKit and will not go away, tell me; I will remove HealthKit for the test build. |
+| **Samples recorded stays at 0 / count never moves / says "AirPods not connected" after Start** | Check the AirPods are in your ears and connected to **this** iPhone (Control Center → AirPods shown). Put them in, tap **Stop** then **Start**. Make sure you allowed Motion: Settings → Apps → Count Skinny (on older iOS, Settings → Count Skinny) → turn **Motion & Fitness** on. Check your AirPods model is on the list in section 1; older AirPods don't send motion. |
+| **"Not supported on this device/simulator"** | You picked a Simulator, not your real iPhone, in Xcode's device menu (section 2, step 8). Choose your iPhone and press Run again. |
+| **"Untrusted Developer" when opening the app** | iPhone: Settings → General → VPN & Device Management → your Apple ID → **Trust** (section 2, step 10). |
+| **Xcode says "Developer Mode disabled" or the iPhone isn't listed** | Turn on Settings → Privacy & Security → **Developer Mode** and restart the iPhone (section 2, step 7). Unplug and replug the cable and unlock the phone. |
+| **Xcode shows "Signing for CountYourselfSkinny requires a development team"** | Section 2, step 5: choose **(Personal Team)** in the Team drop-down. If the list is empty, sign in at Xcode → Settings → Accounts. |
+| **Red error about the bundle identifier** | Add your initials to the bundle identifier (section 2, step 5). |
+| **Red error mentioning "HealthKit"** | Check you are on the **Debug** tab (section 2, step 4). Debug has no HealthKit, so the error should only appear under **Release**, where you can ignore it. If it blocks **Run** on your iPhone, tell me exactly what it says. |
+| **Steps stays at 0 and says "No steps yet"** | Expected. Apple Health is off in this test build. |
+| **Xcode says you have reached a limit of apps or App IDs** | A free Apple ID allows only a few of its own apps on one iPhone, and a limited number of new identifiers per week. Delete another app you installed from Xcode, or wait the number of days it says. |
+| **The Team drop-down went blank** | It does this after the project is regenerated. Pick your **(Personal Team)** again (section 2, step 5). |
 | **App stopped opening after about a week** | Free Apple ID installs expire after 7 days. Plug in and press Run again. |
 | **Count seems way too high or too low** | Normal for a first test. That is the point of the CSV. Write down which and send it. You can try Threshold k lower (more sensitive) or higher (stricter), and note the k value you used. |
 
 ---
-*Source for every label and step above: `apps/count-yourself-skinny-ios/README.md`, `project.yml`, `Sources/Views/HomeView.swift`, `Sources/Views/ChewLabView.swift`, `Sources/Motion/ChewDetector.swift`. Deployment target iOS 17.0; bundle id `com.my4mlife.countyourselfskinny`; no signing team preset.*
+*Source for every label and step above: `apps/count-yourself-skinny-ios/README.md`, `project.yml`, `Sources/Views/HomeView.swift`, `Sources/Views/ChewLabView.swift`, `Sources/Views/MealView.swift`, `Sources/Views/CalibrationView.swift`, `Sources/Motion/ChewDetector.swift`. Deployment target iOS 17.0; Debug bundle id `com.my4mlife.countyourselfskinny.dev`; no HealthKit in Debug; no signing team preset. Chew Lab labels are checked by `UITests/CYSUITests.swift`. Xcode's own menus and iPhone Settings paths were not checked against a live screen.*

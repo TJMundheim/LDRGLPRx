@@ -87,25 +87,36 @@ final class ProStore: ObservableObject {
 
     func purchase(_ product: Product) async -> PurchaseOutcome {
         do {
-            switch try await product.purchase() {
-            case .success(.verified(let transaction)):
+            let result = try await product.purchase()
+            if case .success(.verified(let transaction)) = result {
                 await transaction.finish()
                 await refreshEntitlement()
-                return .success
-            case .success(.unverified):
-                return .failed("We couldn't verify that purchase. Please try again.")
-            case .pending:
-                return .pending
-            case .userCancelled:
-                return .cancelled
-            @unknown default:
-                return .failed("The purchase didn't go through. Please try again.")
             }
-        } catch StoreKitError.userCancelled {
-            return .cancelled
+            return Self.outcome(of: result)
         } catch {
+            return Self.outcome(of: error)
+        }
+    }
+
+    /// Every result but a verified success, which `purchase` handles because it has work to do.
+    nonisolated static func outcome(of result: Product.PurchaseResult) -> PurchaseOutcome {
+        switch result {
+        case .success(.verified):
+            return .success
+        case .success(.unverified):
+            return .failed("We couldn't verify that purchase. Please try again.")
+        case .pending:
+            return .pending
+        case .userCancelled:
+            return .cancelled
+        @unknown default:
             return .failed("The purchase didn't go through. Please try again.")
         }
+    }
+
+    nonisolated static func outcome(of error: Error) -> PurchaseOutcome {
+        if case StoreKitError.userCancelled = error { return .cancelled }
+        return .failed("The purchase didn't go through. Please try again.")
     }
 
     func restore() async -> RestoreOutcome {

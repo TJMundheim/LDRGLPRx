@@ -20,6 +20,8 @@ final class CountStore: ObservableObject {
     @Published private(set) var stepsNeedHelp = false
     /// The morning walk in progress. Kept here so leaving the screen doesn't lose it.
     @Published private(set) var walk: LightSession?
+    /// The Home card that points to the Brain Check. See NextDoorRule.
+    @Published private(set) var showNextDoor = false
 
     struct WeighIn: Codable, Identifiable {
         var id: Date { date }
@@ -33,13 +35,28 @@ final class CountStore: ObservableObject {
     private let calendar: Calendar
     private var engine = StreakEngine()
     private var counts: DayCounts
+    private var nextDoor: NextDoorRule
     private var loading = false
+    private let healthEntitled: Bool
 
-    init(defaults: UserDefaults = .standard, now: @escaping () -> Date = Date.init, calendar: Calendar = .current) {
+    /// Debug is the build a free Apple ID can install, and it has no HealthKit entitlement
+    /// (see project.yml), so it never calls HealthKit.
+    nonisolated static var defaultHealthEntitled: Bool {
+        #if DEBUG
+        return false
+        #else
+        return true
+        #endif
+    }
+
+    init(defaults: UserDefaults = .standard, now: @escaping () -> Date = Date.init, calendar: Calendar = .current,
+         healthEntitled: Bool = CountStore.defaultHealthEntitled) {
         self.defaults = defaults
         self.now = now
         self.calendar = calendar
+        self.healthEntitled = healthEntitled
         self.counts = DayCounts(for: now(), calendar: calendar)
+        self.nextDoor = NextDoorRule(firstUse: now())
         load()
         rollover()
     }
@@ -71,6 +88,20 @@ final class CountStore: ObservableObject {
         engine.answer(hit, on: now(), calendar: calendar)
         publish()
         save()
+    }
+
+    // MARK: next door card
+    func dismissNextDoor() {
+        nextDoor.dismiss(streak: engine.streak, longest: engine.longest, now: now(), calendar: calendar)
+        publish()
+        save()
+    }
+
+    /// True once per milestone, for the analytics event.
+    func markNextDoorShown() -> Bool {
+        let first = nextDoor.markShown(streak: engine.streak, longest: engine.longest, now: now(), calendar: calendar)
+        save()
+        return first
     }
 
     // MARK: water + light (always roll the day over first; the app may have stayed open past midnight)
@@ -129,7 +160,7 @@ final class CountStore: ObservableObject {
     /// is the signal to show the one-line help.
     func requestSteps() async {
         rollover()
-        guard HKHealthStore.isHealthDataAvailable(),
+        guard healthEntitled, HKHealthStore.isHealthDataAvailable(),
               let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             stepsNeedHelp = true
             return
@@ -159,6 +190,7 @@ final class CountStore: ObservableObject {
         missedYesterday = engine.missedYesterday(today: now(), calendar: calendar)
         waterBeforeNoon = counts.water
         lightMinutesToday = counts.lightMinutes
+        showNextDoor = nextDoor.shows(streak: engine.streak, longest: engine.longest, now: now(), calendar: calendar)
     }
 
     private func load() {
@@ -169,6 +201,8 @@ final class CountStore: ObservableObject {
            let decoded = try? JSONDecoder().decode(StreakEngine.self, from: data) { engine = decoded }
         if let data = defaults.data(forKey: "dayCounts"),
            let decoded = try? JSONDecoder().decode(DayCounts.self, from: data) { counts = decoded }
+        if let data = defaults.data(forKey: "nextDoor"),
+           let decoded = try? JSONDecoder().decode(NextDoorRule.self, from: data) { nextDoor = decoded }
         if let data = defaults.data(forKey: "weighIns"),
            let decoded = try? JSONDecoder().decode([WeighIn].self, from: data) { weighIns = decoded }
     }
@@ -178,6 +212,7 @@ final class CountStore: ObservableObject {
         defaults.set(lastBite, forKey: "lastBite")
         if let data = try? JSONEncoder().encode(engine) { defaults.set(data, forKey: "streakEngine") }
         if let data = try? JSONEncoder().encode(counts) { defaults.set(data, forKey: "dayCounts") }
+        if let data = try? JSONEncoder().encode(nextDoor) { defaults.set(data, forKey: "nextDoor") }
         if let data = try? JSONEncoder().encode(weighIns) { defaults.set(data, forKey: "weighIns") }
     }
 }

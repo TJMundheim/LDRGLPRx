@@ -4,6 +4,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var store: CountStore
     @EnvironmentObject var pro: ProStore
+    @Environment(\.openURL) private var openURL
     @State private var showPacer = false
     @State private var showPaywall = false
     @State private var showLight = false
@@ -18,6 +19,21 @@ struct HomeView: View {
                     StreakCard(streak: store.streak, longest: store.longestStreak,
                                todayAnswer: store.todayAnswer, missedYesterday: store.missedYesterday,
                                answer: { store.answerToday(hit: $0) })
+                }
+                if store.showNextDoor {
+                    Section {
+                        NextDoorCard(
+                            take: {
+                                Analytics.shared.track(.nextDoorTapped)
+                                store.dismissNextDoor()
+                                openURL(AboutContent.nextDoorLink)
+                            },
+                            notNow: { store.dismissNextDoor() }
+                        )
+                        .onAppear {
+                            if store.markNextDoorShown() { Analytics.shared.track(.nextDoorShown) }
+                        }
+                    }
                 }
                 Section("Today's counts") {
                     CounterRow(icon: "fork.knife", title: "Bite Pacer",
@@ -119,6 +135,31 @@ struct HomeView: View {
                 store.rollover()
             }
         }
+    }
+}
+
+/// The handoff to My4MLife. NextDoorRule decides when it shows; this only shows it.
+struct NextDoorCard: View {
+    let take: () -> Void
+    let notNow: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(AboutContent.nextDoorHeading).font(.headline)
+            Text(AboutContent.nextDoorBody).font(.callout)
+            Text(AboutContent.identityLine).font(.footnote).foregroundStyle(.secondary)
+            // Non-default styles, or a List row would fire both buttons on one tap.
+            Button(action: take) {
+                Text(AboutContent.nextDoorButton).frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            Button("Not now", action: notNow)
+                .buttonStyle(.borderless)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
+        }
+        .padding(.vertical, 4)
     }
 }
 

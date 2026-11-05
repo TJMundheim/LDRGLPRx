@@ -11,7 +11,8 @@ targets:
     info:
       path: Sources/Info.plist
       properties:
-        CFBundleDisplayName: Count Yourself Skinny
+        # The short name under the icon. The App Store name stays "Count Yourself Skinny".
+        CFBundleDisplayName: Count Skinny
         # The version lives in MARKETING_VERSION and CURRENT_PROJECT_VERSION below, nowhere else.
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
@@ -20,10 +21,6 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSMotionUsageDescription: "Motion access lets your AirPods count chews during meals. Chew motion is processed on your phone and never leaves it."
         NSHealthShareUsageDescription: "Step count is read from Health to fill in your daily steps automatically."
-    entitlements:
-      path: Sources/CountYourselfSkinny.entitlements
-      properties:
-        com.apple.developer.healthkit: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny
@@ -36,6 +33,14 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: ""
+      configs:
+        # Debug is the build Dr. TJ installs with a free Apple ID: no HealthKit entitlement,
+        # and its own bundle id, so a personal team never claims the App Store id.
+        Debug:
+          CODE_SIGN_ENTITLEMENTS: Sources/CountYourselfSkinny.Debug.entitlements
+          PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny.dev
+        Release:
+          CODE_SIGN_ENTITLEMENTS: Sources/CountYourselfSkinny.entitlements
   CountYourselfSkinnyTests:
     type: bundle.unit-test
     platform: iOS
@@ -49,6 +54,16 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny.tests
         GENERATE_INFOPLIST_FILE: YES
+  CountYourselfSkinnyUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: CountYourselfSkinny
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.my4mlife.countyourselfskinny.uitests
+        GENERATE_INFOPLIST_FILE: YES
 schemes:
   CountYourselfSkinny:
     build:
@@ -58,4 +73,4 @@ schemes:
       storeKitConfiguration: CountYourselfSkinny.storekit
     test:
       storeKitConfiguration: CountYourselfSkinny.storekit
-      targets: [CountYourselfSkinnyTests]
+      targets: [CountYourselfSkinnyTests, CountYourselfSkinnyUITests]
