@@ -16,7 +16,7 @@ struct BitePacerView: View {
             Text("\(chew)")
                 .font(.system(size: 120, weight: .bold)).monospacedDigit()
                 .contentTransition(.numericText())
-            Button(running ? "Pause" : (chew >= target ? "Next bite" : "Start bite")) {
+            Button(running ? "Pause" : (chew >= target ? "Next bite" : (chew > 0 ? "Resume" : "Start bite"))) {
                 if chew >= target { chew = 0 }
                 running.toggle()
             }
@@ -27,7 +27,7 @@ struct BitePacerView: View {
         .task(id: running) {
             guard running else { return }
             while running && chew < target {
-                try? await Task.sleep(for: .seconds(cadence))
+                guard await Tick.wait(cadence) else { return }   // cancelled: pause or dismiss
                 chew += 1
                 UIImpactFeedbackGenerator(style: chew == target ? .heavy : .light).impactOccurred()
                 if chew >= target { running = false }

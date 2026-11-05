@@ -47,6 +47,7 @@ struct WeighInView: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Weigh-in")
         .navigationBarTitleDisplayMode(.inline)
     }

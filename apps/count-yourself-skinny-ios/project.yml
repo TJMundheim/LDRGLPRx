@@ -12,6 +12,9 @@ targets:
       path: Sources/Info.plist
       properties:
         CFBundleDisplayName: Count Yourself Skinny
+        # The version lives in MARKETING_VERSION and CURRENT_PROJECT_VERSION below, nowhere else.
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UILaunchScreen: {}
         ITSAppUsesNonExemptEncryption: false
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]

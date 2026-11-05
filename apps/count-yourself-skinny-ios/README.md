@@ -4,17 +4,19 @@ Native SwiftUI, **approved exception** to the Vite-PWA house rule (2026-08-19, T
 chew detection requires `CMHeadphoneMotionManager` (AirPods motion), which only
 exists natively on iOS. Master plan: `docs/plan/count-yourself-skinny-master-plan-2026-08-09.md`.
 
-## v1 scope (this scaffold)
-- Home: streak + five counters (Bite Pacer, Steps/HealthKit, Fast clock, First Light, Water)
-- Bite Pacer: haptic 32-chew cadence — works with no earbuds, day one
-- Morning mode: "One Walk, Five Boxes"
-- Pro subscription via StoreKit 2 (`cys.pro.monthly` $2.99, `cys.pro.yearly` $19.99,
-  book offer-code redemption wired) — monetized at launch
-- Local-first, no PHI, no account (Cognito link + PostHog come before App Store submission)
+## What's in 1.0.0
+**Free:** the streak (one yes/no a day, never miss twice), Bite Pacer (haptic count to 32, no earbuds),
+steps (read-only from Apple Health), fast clock, First Light timer, water, weekly weigh-in with a
+trend line, Morning mode ("One Walk, Five Boxes").
 
-## v1.5 (the marquee)
-- `CMHeadphoneMotionManager` chew detection (1–2 Hz periodicity, on-device only) — **prototype shipped**, see below
-- 2-minute calibration onboarding; trends screen — not built yet
+**Pro** (`cys.pro.monthly` $2.99, `cys.pro.yearly` $19.99, each with a 7-day free trial): chew counting
+through AirPods, a chime at 32, 2-minute calibration, weekly trends.
+
+All counts stay on the phone. No account. The only things that leave it are usage events and an email
+the user chooses to type. See "Privacy label" below.
+
+The version lives in `project.yml` only (`MARKETING_VERSION`, `CURRENT_PROJECT_VERSION`).
+`Sources/Info.plist` is generated from it.
 
 ## Build
 ```bash
@@ -32,10 +34,11 @@ xcrun simctl launch  <SIM-UDID> com.my4mlife.countyourselfskinny
 
 ---
 
-## Chew Lab prototype (v1.5)
+## Chew Lab (Debug only)
 
-Home → **Prototype → Chew Lab — AirPods prototype**. Open to everyone, not gated
-behind Pro, while we tune it.
+Home → **Developer → Chew Lab** in Debug builds only, next to the **Pretend Pro** toggle.
+Neither exists in Release: both are behind `#if DEBUG`, so TestFlight and App Store builds
+don't have them. Testing Pro on a Release build means a sandbox purchase.
 
 Two jobs:
 1. Count chews live, so we can see whether the count is believable at the table.
@@ -48,8 +51,7 @@ Files: `Sources/Motion/ChewDetector.swift`, `Sources/Views/ChewLabView.swift`.
 Chewing moves the mandible, which couples into small pitch rotations and vertical
 translation of the skull. `CMHeadphoneMotionManager` streams that at ~25 Hz from
 AirPods Pro, AirPods (3rd gen or later) and AirPods Max. Human chewing is a stable
-0.9–1.8 Hz oscillation, so band-passing into the chew band and counting peaks is
-enough for a prototype. Everything runs on-device; nothing is written to disk or
+0.9–1.8 Hz oscillation, so the detector band-passes into the chew band and counts peaks. Everything runs on-device; nothing is written to disk or
 transmitted unless the user taps Export.
 
 ### Pipeline
@@ -145,8 +147,9 @@ Signing is set to `CODE_SIGN_STYLE = Automatic` with an intentionally empty
    Management → Developer App →** your Apple ID **→ Trust**. Then launch the app
    from the home screen.
 6. Approve the motion permission prompt on first entry to Chew Lab
-   (`NSMotionUsageDescription` is already in `project.yml` / `Info.plist`).
+   (`NSMotionUsageDescription` is set in `project.yml`).
 
+Regenerating with xcodegen clears the team, so pick it again after any regenerate.
 Free personal teams expire the provisioning profile after **7 days** — re-run from
 Xcode to refresh it.
 
@@ -175,8 +178,84 @@ whole filter chain can be re-derived and re-tuned offline against the same captu
 **Recorded samples live in memory only.** They are dropped on **Reset counts** and
 when the app quits — export before either.
 
-## App Store Connect checklist (monetize out of the box)
-- [ ] Products: cys.pro.monthly ($2.99, 7-day trial), cys.pro.yearly ($19.99, 7-day trial)
-- [ ] Offer-code campaign "BOOK" — 1 free month (printed in the book's back matter)
-- [ ] Featuring nomination at launch (novel CMHeadphoneMotionManager health use-case)
-- [ ] Privacy nutrition label: no data collected (v1, pre-account)
+## App Store Connect checklist
+
+### Account and build
+- [ ] Apple Developer Program enrollment (a personal free team can't archive for the App Store)
+- [ ] App ID `com.my4mlife.countyourselfskinny` with the HealthKit capability
+- [ ] Team set in Xcode, archive the Release configuration, upload with a released (not beta) Xcode
+- [ ] Final icon in `Sources/Assets.xcassets` (being redesigned)
+
+### Subscriptions
+- [ ] One group, "Count Yourself Skinny Pro"
+- [ ] `cys.pro.monthly`: $2.99 a month, 7-day free trial, display name and review screenshot
+- [ ] `cys.pro.yearly`: $19.99 a year, 7-day free trial, display name and review screenshot
+- [ ] Attach both to the first version for review, or the reviewer's paywall can't load plans
+- [ ] Offer-code campaign for the book: 1 free month. The button "Have a code from the book?" is on the
+      paywall, but `docs/book-cys/draft/_MASTER.md` prints no code yet. Add the code to the book, or remove
+      the button before submitting
+
+### Listing
+- [ ] Privacy Policy URL: `https://www.my4mlife.com/legal/count-yourself-skinny-privacy`. **It returns 404
+      until the website is deployed.** The paywall and About both link to it
+- [ ] Terms: Apple's standard EULA, and put this link in the description:
+      `https://www.apple.com/legal/internet-services/itunes/dev/stdeula/`
+- [ ] Support URL (required)
+- [ ] Description says the app reads steps from Apple Health (guideline 2.5.1)
+- [ ] Description says chew counting needs AirPods Pro, AirPods (3rd generation or later) or AirPods Max
+- [ ] Age rating: answer the health and wellness questions honestly. The privacy page says the app isn't for
+      children under 18, so set 18+ or change that sentence
+- [ ] `privacy@my4mlife.com` receives mail
+- [ ] Featuring nomination at launch
+
+### Privacy label (matches `Sources/PrivacyInfo.xcprivacy`)
+| Data type | Purpose | Linked to user | Tracking |
+|---|---|---|---|
+| Identifiers: Device ID (the random analytics ID) | Analytics | Yes | No |
+| Usage Data: Product Interaction (event names) | Analytics | Yes | No |
+| Purchases: Purchase History (`purchase_started`, `purchase_success` events) | Analytics | Yes | No |
+| Contact Info: Email Address (only if typed in) | Developer's Advertising or Marketing | Yes | No |
+
+Why "linked": Apple counts data as linked unless identifiers are stripped before collection. Every event
+carries the same random ID until the app is deleted, so it isn't stripped.
+
+Not collected, because it never leaves the phone: Health and Fitness (steps, weigh-ins, chews, meals, streak)
+and motion data.
+
+The app sets `$geoip_disable` on every event, so PostHog derives no location from it. PostHog still receives the
+IP address. Turn on "Discard client IP data" in the PostHog project (Settings > Project > General; it's the
+same project as the website). If you leave it off, IP is stored, and the label must also cover it.
+
+### App Review notes (paste this)
+> Count Yourself Skinny is a habit counter from the book of the same name. Everything on the home screen works
+> free, with no account and no AirPods.
+>
+> Pro needs AirPods because it reads their motion through CMHeadphoneMotionManager to count chews. Without
+> AirPods you can still reach every Pro screen with a sandbox account:
+> 1. Tap "Count my chews" or "Trends", then subscribe in the paywall.
+> 2. Trends opens to its empty state, because the chart fills from meals.
+> 3. Count my chews: tap Start meal. The tuning screen opens the first time. Tap Start, allow Motion if asked,
+>    and it reports "No AirPods found" after a few seconds. Tap "Skip for now". The meal screen then shows
+>    "No AirPods found", and points to the free Bite Pacer.
+>
+> The attached video shows counting, the chime at 32 and Trends on a real iPhone with AirPods.
+> Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer is
+> under the home screen's About row and in About.
+
+- [ ] Record that video on a real device and attach it. Apple asks for one when a feature needs hardware
+
+### Only testable on a real iPhone (none of this has run)
+- [ ] **AirPods on a real meal: does the count hold up?** This decides whether Pro ships paid. The detector has only
+      met synthetic waveforms
+- [ ] Chime is audible in the AirPods over music, and music recovers after Finish
+- [ ] First-run Motion alert: does it appear with no AirPods in? The app waits 20 seconds for an answer before saying
+      "No AirPods found"
+- [ ] Don't Allow shows "Motion access is off", and Open Settings works
+- [ ] Lock the phone mid-meal and come back: the meal continues. Take the AirPods out: it saves and shows the summary
+- [ ] Screen stays on during a meal and sleeps normally afterwards
+- [ ] Real steps from Health on the home screen and in Morning mode
+- [ ] Sandbox: plan rows render with price and trial (**never yet seen on screen**), buy, cancel, restore, expiry,
+      Ask to Buy, offer code, Manage Subscription. The StoreKit tests skip on this Mac because the test service can't
+      be reached, so purchase code has compiled but never run
+- [ ] One email through About reaches the Contact list. One event reaches PostHog from a TestFlight build
+      (Debug and simulator builds never send)

@@ -10,46 +10,67 @@ final class CalibrationController: ObservableObject {
     @Published private(set) var beat = 0
     @Published private(set) var problem: MealAvailability?
 
-    let detector = ChewDetector()
+    private let sensor: any ChewSensing
     private let calibration: CalibrationStore
+    private let now: () -> Date
+    private let autoplay: Bool
     private var run: Task<Void, Never>?
+    private var started = Date()
     private var lastSample: Date?
     private let haptic = UIImpactFeedbackGenerator(style: .light)
 
-    init(calibration: CalibrationStore = CalibrationStore()) {
+    /// `autoplay: false` lets a test step the clock itself instead of waiting two minutes.
+    init(sensor: (any ChewSensing)? = nil, calibration: CalibrationStore = CalibrationStore(),
+         now: @escaping () -> Date = Date.init, autoplay: Bool = true) {
+        let sensor = sensor ?? ChewDetector()
+        self.sensor = sensor
         self.calibration = calibration
-        detector.hapticsEnabled = false
+        self.now = now
+        self.autoplay = autoplay
+        sensor.hapticsEnabled = false
     }
 
     func begin() {
         problem = nil
         if flow.phase == .intro { flow.begin() }
-        guard detector.isAvailable else { problem = .unsupported; return }
-        detector.reset()
+        let a = MealAvailability.evaluate(isAvailable: sensor.isAvailable, permission: sensor.permission,
+                                          isRunning: false, secondsWithoutSample: 0)
+        guard a == .ready else { problem = a; return }
+        sensor.reset()
         lastSample = nil
-        detector.onSample = { [weak self] scalar, t in
+        started = now()
+        sensor.onSample = { [weak self] scalar, t in
             guard let self else { return }
-            self.lastSample = Date()
+            self.lastSample = self.now()
             self.flow.ingest(scalar: scalar, t: t)
         }
-        detector.start()
+        sensor.start()
         ScreenAwake.hold()
         haptic.prepare()
         secondsLeft = Int(CalibrationFlow.stillSeconds)
-        run = Task { await self.play() }
+        if autoplay { run = Task { await self.play() } }
+    }
+
+    /// One second of the still period. Returns false when the run has stopped on a problem.
+    /// The countdown waits for the first sample, so the permission alert isn't "sitting still".
+    func stillTick() -> Bool {
+        guard lastSample != nil else {
+            let a = MealAvailability.evaluate(isAvailable: sensor.isAvailable, permission: sensor.permission,
+                                              isRunning: true, secondsWithoutSample: now().timeIntervalSince(started))
+            if a != .ready {
+                problem = a
+                end()
+                return false
+            }
+            return true
+        }
+        secondsLeft -= 1
+        return true
     }
 
     private func play() async {
-        let started = Date()
         while secondsLeft > 0 {
-            try? await Task.sleep(for: .seconds(1))
-            if Task.isCancelled { return }
-            if lastSample == nil, Date().timeIntervalSince(started) >= MealAvailability.stallSeconds {
-                problem = .notConnected
-                end()
-                return
-            }
-            secondsLeft -= 1
+            guard await Tick.wait(1), stillTick() else { return }
         }
         flow.advance()
         while case .round(let n) = flow.phase {
@@ -91,8 +112,8 @@ final class CalibrationController: ObservableObject {
     func end() {
         run?.cancel()
         run = nil
-        detector.stop()
-        detector.onSample = nil
+        sensor.stop()
+        sensor.onSample = nil
         ScreenAwake.release()
     }
 }
@@ -154,12 +175,14 @@ struct CalibrationView: View {
 
     @ViewBuilder
     private func problemView(_ p: MealAvailability) -> some View {
-        title(p == .unsupported ? "This iPhone can't do it" : "No AirPods found",
-              p == .unsupported
+        title(MotionHelp.title(p), p == .unsupported
               ? "Headphone motion isn't available here. You can skip, and the Bite Pacer still counts to 32."
-              : "Put in AirPods Pro, AirPods Max or AirPods (3rd generation) or later, then try again.")
+              : MotionHelp.detail(p))
         if p == .notConnected {
             Button("Try Again") { c.begin() }.buttonStyle(.borderedProminent).controlSize(.large)
+        }
+        if p == .denied, let settings = MotionHelp.settingsURL {
+            Link("Open Settings", destination: settings).buttonStyle(.bordered)
         }
     }
 

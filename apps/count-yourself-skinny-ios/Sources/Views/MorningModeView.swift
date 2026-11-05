@@ -1,36 +1,39 @@
 import SwiftUI
 
-/// "One Walk, Five Boxes" — the signature demo screen (master plan §3).
-/// Steps, light minutes, and fast hours tick simultaneously during the fasted walk.
+/// "One Walk, Five Boxes": steps, light, hours, sleep and water, all from one walk before breakfast.
 struct MorningModeView: View {
     @EnvironmentObject var store: CountStore
-    @State private var walkStart: Date?
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
-        List {
-            box("figure.walk", "Steps", "\(store.steps) / 2,500", store.steps >= 2500)
-            box("sun.max", "Morning light", "\(store.lightMinutesToday) / 10 min", store.lightMinutesToday >= 10)
-            box("clock", "Fast extended", String(format: "%.1f h", store.fastHours), store.fastHours >= 12)
-            box("moon.zzz", "Tonight's sleep", "set by this light", walkStart != nil)
-            box("drop", "Water", "\(store.waterBeforeNoon) / 2", store.waterBeforeNoon >= 2)
+        TimelineView(.periodic(from: .now, by: 30)) { _ in
+            List {
+                box("figure.walk", "Steps", "\(store.steps.formatted()) / 2,500", store.steps >= 2500)
+                box("sun.max", "Morning light", "\(store.lightMinutesToday) / 10 min", store.lightMinutesToday >= 10)
+                box("clock", "Fast extended", FastClock.label(hours: store.fastHours), (store.fastHours ?? 0) >= 12)
+                box("moon.zzz", "Tonight's sleep", "set by this light", store.lightMinutesToday >= 10)
+                box("drop", "Water", "\(store.waterBeforeNoon) / 2", store.waterBeforeNoon >= 2)
+            }
         }
         .navigationTitle("One Walk, Five Boxes")
         .safeAreaInset(edge: .bottom) {
-            Button(walkStart == nil ? "Start the walk" : "Finish — eat breakfast") {
-                if walkStart == nil { walkStart = .now } else { walkStart = nil }
+            Button(store.walk == nil ? "Start the walk" : "Finish — eat breakfast") {
+                if store.walk == nil { store.startWalk() } else { store.finishWalk() }
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
             .padding()
         }
         .task {
-            // tick light minutes while walk is running
-            while true {
-                try? await Task.sleep(for: .seconds(60))
-                if walkStart != nil { store.creditLight(minutes: 1) }
-                await store.requestSteps()
-            }
+            store.creditWalk()
+            await store.requestSteps()
+            while await Tick.wait(15) { store.creditWalk() }
         }
+        .task {
+            while await Tick.wait(60) { await store.requestSteps() }
+        }
+        .onChange(of: scenePhase) { _, _ in store.creditWalk() }
+        .onDisappear { store.creditWalk() }
     }
 
     private func box(_ icon: String, _ title: String, _ value: String, _ done: Bool) -> some View {

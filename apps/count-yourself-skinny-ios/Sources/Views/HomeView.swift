@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// One home screen, five live counters + streak (master plan §3 v1 scope).
+/// One home screen: the streak and the daily counters.
 struct HomeView: View {
     @EnvironmentObject var store: CountStore
     @EnvironmentObject var pro: ProStore
@@ -24,15 +24,17 @@ struct HomeView: View {
                                value: "32 chews", tint: .orange) { showPacer = true }
                     CounterRow(icon: "figure.walk", title: "Steps",
                                subtitle: store.stepsNeedHelp
-                                   ? "No steps from Health yet. Allow it in Settings > Health."
-                                   : "Floor: 2,500. Tap to refresh.",
+                                   ? "No steps yet. If Health access is off, turn it on in Settings > Health."
+                                   : "From Apple Health. Floor: 2,500. Tap to refresh.",
                                value: "\(store.steps.formatted()) / 2,500", tint: .green) {
                         Task { await store.requestSteps() }
                     }
-                    CounterRow(icon: "clock", title: "Fast clock",
-                               subtitle: "Tap at your last bite",
-                               value: String(format: "%.1f h", store.fastHours), tint: .blue) {
-                        confirmLastBite = true
+                    TimelineView(.periodic(from: .now, by: 60)) { _ in
+                        CounterRow(icon: "clock", title: "Fast clock",
+                                   subtitle: "Tap at your last bite",
+                                   value: FastClock.label(hours: store.fastHours), tint: .blue) {
+                            confirmLastBite = true
+                        }
                     }
                     CounterRow(icon: "sun.max", title: "First Light",
                                subtitle: "10 minutes outside. Tap to start the timer.",
@@ -80,6 +82,8 @@ struct HomeView: View {
                 }
                 Section {
                     NavigationLink("About") { AboutView() }
+                } footer: {
+                    Text(AboutContent.homeFootnote)
                 }
                 #if DEBUG
                 Section {
@@ -106,8 +110,14 @@ struct HomeView: View {
             .confirmationDialog("Log last bite now?", isPresented: $confirmLastBite, titleVisibility: .visible) {
                 Button("Log last bite now") { store.tapLastBite() }
                 Button("Cancel", role: .cancel) { }
+            } message: {
+                Text(AboutContent.fastNote)
             }
             .task { await store.requestSteps() }
+            // Fires at midnight and on clock or time zone changes, for a phone left on this screen.
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                store.rollover()
+            }
         }
     }
 }

@@ -62,6 +62,10 @@ struct PaywallView: View {
             .padding(24)
         }
         .onAppear { Analytics.shared.track(.paywallView) }
+        .task { if pro.loadState == .failed { await pro.loadProducts() } }
+        .onChange(of: pro.isPro) { _, isPro in
+            if isPro { dismiss() }   // an offer code or an Ask to Buy approval lands here
+        }
     }
 
     @ViewBuilder private var plans: some View {

@@ -2,7 +2,7 @@
 import SwiftUI
 import UIKit
 
-/// v1.5 prototype bench for AirPods chew detection.
+/// Debug-only bench for AirPods chew detection.
 ///
 /// Two jobs: prove the count is real in the moment, and capture raw motion to CSV so
 /// the algorithm can be argued with offline against real meals.

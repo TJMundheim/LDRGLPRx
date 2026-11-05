@@ -45,15 +45,21 @@ enum MealAvailability: Equatable {
     case ready
     /// This iPhone can't read headphone motion at all.
     case unsupported
+    /// Motion access was turned down, so nothing will arrive whatever is in the ears.
+    case denied
     /// Started, but no motion has arrived: AirPods missing, out of range or not supported.
     case notConnected
 
     static let stallSeconds: TimeInterval = 3
+    /// The first-run permission alert can sit on screen. With no AirPods it may never come.
+    static let permissionPatienceSeconds: TimeInterval = 20
 
-    static func evaluate(isAvailable: Bool, isConnected: Bool, isRunning: Bool,
+    static func evaluate(isAvailable: Bool, permission: MotionPermission, isRunning: Bool,
                          secondsWithoutSample: TimeInterval) -> MealAvailability {
         guard isAvailable else { return .unsupported }
-        if isRunning && secondsWithoutSample >= stallSeconds { return .notConnected }
+        if permission == .denied { return .denied }
+        let limit = permission == .notDetermined ? permissionPatienceSeconds : stallSeconds
+        if isRunning && secondsWithoutSample >= limit { return .notConnected }
         return .ready
     }
 }

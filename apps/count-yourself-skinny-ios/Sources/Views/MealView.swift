@@ -12,42 +12,63 @@ final class MealController: ObservableObject {
     @Published private(set) var bites = 0
     @Published private(set) var availability: MealAvailability
 
-    let detector = ChewDetector()
-    private let chime = ChimePlayer()
+    private let sensor: any ChewSensing
+    private let chime: any ChimePlaying
     private let heavy = UIImpactFeedbackGenerator(style: .heavy)
     private let meals: MealStore
     private let calibration: CalibrationStore
+    private let now: () -> Date
     private var model: MealSessionModel?
     private var watchdog: Task<Void, Never>?
     private var lastSample = Date()
 
-    init(meals: MealStore = MealStore(), calibration: CalibrationStore = CalibrationStore()) {
+    init(sensor: (any ChewSensing)? = nil, chime: any ChimePlaying = ChimePlayer(),
+         meals: MealStore = MealStore(), calibration: CalibrationStore = CalibrationStore(),
+         now: @escaping () -> Date = Date.init) {
+        let sensor = sensor ?? ChewDetector()
+        self.sensor = sensor
+        self.chime = chime
         self.meals = meals
         self.calibration = calibration
-        availability = .ready
-        detector.hapticsEnabled = false
-        availability = MealAvailability.evaluate(isAvailable: detector.isAvailable, isConnected: false,
+        self.now = now
+        sensor.hapticsEnabled = false
+        availability = MealAvailability.evaluate(isAvailable: sensor.isAvailable, permission: sensor.permission,
                                                  isRunning: false, secondsWithoutSample: 0)
     }
 
     var needsCalibration: Bool { calibration.needsFirstRun }
 
+    /// A finished meal's summary always wins, even when AirPods dropping is what finished it.
+    var showsBlockedScreen: Bool {
+        if case .finished = phase { return false }
+        return availability != .ready
+    }
+
     func start() {
-        guard detector.isAvailable, phase != .running else { return }
-        detector.reset()
-        detector.sensitivity = calibration.kOrDefault
-        model = MealSessionModel(start: Date())
+        guard phase != .running else { return }
+        availability = evaluate(isRunning: false, gap: 0)
+        guard availability == .ready else { return }
+        sensor.reset()
+        sensor.sensitivity = calibration.kOrDefault
+        model = MealSessionModel(start: now())
         chewsInBite = 0; bites = 0
-        lastSample = Date()
-        detector.onSample = { [weak self] _, _ in self?.lastSample = Date() }
-        detector.onChew = { [weak self] _ in self?.chewed() }
+        lastSample = now()
+        sensor.onSample = { [weak self] _, _ in
+            guard let self else { return }
+            self.lastSample = self.now()
+        }
+        sensor.onChew = { [weak self] _ in self?.chewed() }
         chime.prepare()
         heavy.prepare()
-        detector.start()
+        sensor.start()
         ScreenAwake.hold()
-        availability = .ready
         phase = .running
-        watchdog = Task { await self.watch() }
+        watchdog = Task { [weak self] in
+            while await Tick.wait(1) {
+                guard let self else { return }
+                self.checkStall()
+            }
+        }
     }
 
     private func chewed() {
@@ -63,39 +84,49 @@ final class MealController: ObservableObject {
         }
     }
 
-    /// Checks once a second that motion is still arriving.
-    private func watch() async {
-        while !Task.isCancelled {
-            try? await Task.sleep(for: .seconds(1))
-            if Task.isCancelled { return }
-            let a = MealAvailability.evaluate(isAvailable: detector.isAvailable, isConnected: detector.isConnected,
-                                              isRunning: true, secondsWithoutSample: Date().timeIntervalSince(lastSample))
-            if a == .notConnected {
-                // Keep what was counted if the meal was long enough.
-                if bites > 0 || (model?.totalChews ?? 0) > 0 { finish() }
-                else { halt() }
-                availability = .notConnected
-                return
-            }
-        }
+    private func evaluate(isRunning: Bool, gap: TimeInterval) -> MealAvailability {
+        MealAvailability.evaluate(isAvailable: sensor.isAvailable, permission: sensor.permission,
+                                  isRunning: isRunning, secondsWithoutSample: gap)
     }
+
+    /// Checks that motion is still arriving. Runs once a second during a meal.
+    func checkStall() {
+        guard phase == .running else { return }
+        let a = evaluate(isRunning: true, gap: now().timeIntervalSince(lastSample))
+        guard a != .ready else { return }
+        // Keep what was counted if the meal was long enough.
+        if (model?.totalChews ?? 0) > 0 { finish() } else { halt() }
+        availability = a
+    }
+
+    /// Motion pauses while the app is in the background, so that gap says nothing about AirPods.
+    func returnedToForeground() { lastSample = now() }
 
     func finish() {
         guard phase == .running, let m = model else { return }
-        let record = m.finish(at: Date())
+        let record = m.finish(at: now())
         if let record { meals.save(record); Analytics.shared.track(.mealCompleted) }
         halt()
         phase = .finished(record.map(MealSessionModel.summary(for:)) ?? MealSessionModel.shortMealSummary)
     }
 
-    func again() { phase = .idle; availability = .ready }
+    /// The screen is going away: keep a meal in progress, then release everything.
+    func leave() {
+        finish()
+        halt()
+    }
+
+    func again() {
+        phase = .idle
+        availability = evaluate(isRunning: false, gap: 0)
+    }
 
     /// Stops sensing and restores the screen timer and audio session. Safe to call twice.
     func halt() {
         watchdog?.cancel(); watchdog = nil
-        detector.stop()
-        detector.onSample = nil
-        detector.onChew = nil
+        sensor.stop()
+        sensor.onSample = nil
+        sensor.onChew = nil
         chime.stop()
         ScreenAwake.release()
         if phase == .running { phase = .idle }
@@ -106,6 +137,7 @@ struct MealView: View {
     @StateObject private var c = MealController()
     @State private var showCalibration = false
     @State private var startAfterCalibration = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         VStack(spacing: 24) {
@@ -118,7 +150,10 @@ struct MealView: View {
         .padding(28)
         .navigationTitle("Count my chews")
         .navigationBarTitleDisplayMode(.inline)
-        .onDisappear { c.halt() }
+        .onDisappear { c.leave() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { c.returnedToForeground() }
+        }
         .sheet(isPresented: $showCalibration, onDismiss: {
             if startAfterCalibration { startAfterCalibration = false; c.start() }
         }) { CalibrationView() }
@@ -126,7 +161,7 @@ struct MealView: View {
 
     @ViewBuilder
     private var main: some View {
-        if c.availability != .ready {
+        if c.showsBlockedScreen {
             blocked
         } else {
             switch c.phase {
@@ -156,17 +191,42 @@ struct MealView: View {
     private var blocked: some View {
         VStack(spacing: 14) {
             Image(systemName: "airpods.pro").font(.system(size: 56)).foregroundStyle(.secondary)
-            Text(c.availability == .unsupported ? "This iPhone can't read headphone motion" : "No AirPods found")
+            Text(MotionHelp.title(c.availability))
                 .font(.title3.bold()).multilineTextAlignment(.center)
-            Text(c.availability == .unsupported
-                 ? "Counting needs AirPods Pro, AirPods Max or AirPods (3rd generation) or later, and an iPhone that can read their motion."
-                 : "Put in AirPods Pro, AirPods Max or AirPods (3rd generation) or later, and make sure they're connected.")
+            Text(MotionHelp.detail(c.availability))
                 .font(.callout).foregroundStyle(.secondary).multilineTextAlignment(.center)
             Text("The free Bite Pacer still counts to 32 with a buzz. Find it on the home screen.")
                 .font(.callout).multilineTextAlignment(.center)
             if c.availability == .notConnected {
                 Button("Try Again") { c.again() }.buttonStyle(.bordered)
             }
+            if c.availability == .denied, let settings = MotionHelp.settingsURL {
+                Link("Open Settings", destination: settings).buttonStyle(.bordered)
+            }
+        }
+    }
+}
+
+/// The one set of words for why chew counting can't run.
+enum MotionHelp {
+    static let settingsURL = URL(string: UIApplication.openSettingsURLString)
+
+    static func title(_ a: MealAvailability) -> String {
+        switch a {
+        case .unsupported: "This iPhone can't read headphone motion"
+        case .denied: "Motion access is off"
+        case .notConnected, .ready: "No AirPods found"
+        }
+    }
+
+    static func detail(_ a: MealAvailability) -> String {
+        switch a {
+        case .unsupported:
+            "Counting needs AirPods Pro, AirPods Max or AirPods (3rd generation) or later, and an iPhone that can read their motion."
+        case .denied:
+            "Chew counting reads your AirPods' motion, on your phone only. Turn on Motion & Fitness for this app in Settings."
+        case .notConnected, .ready:
+            "Put in AirPods Pro, AirPods Max or AirPods (3rd generation) or later, and make sure they're connected."
         }
     }
 }

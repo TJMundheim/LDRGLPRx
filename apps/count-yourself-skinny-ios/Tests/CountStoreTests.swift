@@ -180,3 +180,67 @@ extension CountStoreTests {
         XCTAssertEqual(s.daysUntilNextWeighIn, 5)
     }
 }
+
+// MARK: review fixes
+extension CountStoreTests {
+    /// Yesterday's steps must not sit under "Today's counts" until someone taps refresh.
+    func testNewDayZeroesSteps() {
+        let s = makeStore()
+        s.steps = 3000
+        clock = d(2, 22); s.rollover()
+        XCTAssertEqual(s.steps, 3000)
+        clock = d(3, 7); s.rollover()
+        XCTAssertEqual(s.steps, 0)
+    }
+
+    func testLightNeverPassesTheDailyTen() {
+        let s = makeStore()
+        s.creditLight(minutes: 8)
+        s.creditLight(minutes: 8)
+        XCTAssertEqual(s.lightMinutesToday, 10)
+        s.creditLight(minutes: 2000)
+        XCTAssertEqual(s.lightMinutesToday, 10)
+    }
+
+    func testFastHoursStopAt24() {
+        let s = makeStore()
+        XCTAssertNil(s.fastHours)
+        s.tapLastBite()
+        clock = d(2, 20)
+        XCTAssertEqual(s.fastHours, 12)
+        clock = d(3, 8)
+        XCTAssertNil(s.fastHours)
+    }
+
+    /// The walk's light counts from dates: the phone is in a pocket, the app is suspended.
+    func testWalkCreditsLightFromDatesAcrossABackgroundGap() {
+        let s = makeStore()
+        s.startWalk()
+        XCTAssertNotNil(s.walk)
+        clock = d(2, 8).addingTimeInterval(4 * 60)
+        s.creditWalk()
+        XCTAssertEqual(s.lightMinutesToday, 4)
+        s.creditWalk()
+        XCTAssertEqual(s.lightMinutesToday, 4, "no double credit")
+    }
+
+    func testAWalkCreditsAtMostTenAndFinishingClearsIt() {
+        let s = makeStore()
+        s.startWalk()
+        clock = d(2, 8).addingTimeInterval(30 * 60)
+        s.finishWalk()
+        XCTAssertEqual(s.lightMinutesToday, 10)
+        XCTAssertNil(s.walk)
+        s.finishWalk()
+        XCTAssertEqual(s.lightMinutesToday, 10)
+    }
+
+    func testStartingAWalkTwiceKeepsTheFirstStart() {
+        let s = makeStore()
+        s.startWalk()
+        clock = d(2, 8).addingTimeInterval(3 * 60)
+        s.startWalk()
+        s.creditWalk()
+        XCTAssertEqual(s.lightMinutesToday, 3)
+    }
+}

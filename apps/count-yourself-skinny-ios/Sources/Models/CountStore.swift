@@ -1,8 +1,7 @@
 import Foundation
 import HealthKit
 
-/// Local-first store for the daily counts + streak.
-/// No PHI, no account required; optional Cognito link comes later (funnel spec §3).
+/// Local store for the daily counts and streak. No account; nothing here leaves the phone.
 @MainActor
 final class CountStore: ObservableObject {
     // Today's counts
@@ -19,6 +18,8 @@ final class CountStore: ObservableObject {
     @Published private(set) var weighIns: [WeighIn] = [] // weekly, trend line only
     /// Set after a steps refresh that returned nothing, so the screen can say why.
     @Published private(set) var stepsNeedHelp = false
+    /// The morning walk in progress. Kept here so leaving the screen doesn't lose it.
+    @Published private(set) var walk: LightSession?
 
     struct WeighIn: Codable, Identifiable {
         var id: Date { date }
@@ -44,10 +45,7 @@ final class CountStore: ObservableObject {
     }
 
     // MARK: fast clock
-    var fastHours: Double {
-        guard let lastBite else { return 0 }
-        return now().timeIntervalSince(lastBite) / 3600
-    }
+    var fastHours: Double? { FastClock.activeHours(lastBite: lastBite, now: now()) }
     func tapLastBite() {
         rollover()
         lastBite = now()
@@ -59,9 +57,10 @@ final class CountStore: ObservableObject {
     /// Call at launch and whenever the app returns to the foreground.
     func rollover() {
         let t = now()
+        let newDay = counts.day != calendar.startOfDay(for: t)
         counts.roll(to: t, calendar: calendar)
         engine.catchUp(today: t, calendar: calendar)
-        if counts.day != calendar.startOfDay(for: t) { counts = DayCounts(for: t, calendar: calendar) }
+        if newDay { steps = 0; stepsNeedHelp = false }
         publish()
         save()
     }
@@ -84,7 +83,29 @@ final class CountStore: ObservableObject {
     func creditLight(minutes: Int) {
         guard minutes > 0 else { return }
         rollover()
-        lightMinutesToday += minutes
+        lightMinutesToday = min(Int(LightSession.target / 60), lightMinutesToday + minutes)
+    }
+
+    // MARK: morning walk (light counted from dates: the phone is in a pocket, the app suspended)
+    func startWalk() {
+        guard walk == nil else { return }
+        var session = LightSession()
+        session.start(at: now())
+        walk = session
+    }
+
+    func creditWalk() {
+        guard var session = walk else { return }
+        let due = session.minutesDue(at: now())
+        guard due > 0 else { return }
+        creditLight(minutes: due)
+        session.markCredited(due)
+        walk = session
+    }
+
+    func finishWalk() {
+        creditWalk()
+        walk = nil
     }
 
     // MARK: weigh-in (weekly; a weigh-in inside the last 6 days is corrected, not added)
@@ -128,7 +149,7 @@ final class CountStore: ObservableObject {
         stepsNeedHelp = count == 0
     }
 
-    // MARK: persistence (UserDefaults for v1 skeleton; SwiftData when schema settles)
+    // MARK: persistence (UserDefaults)
     private func publish() {
         loading = true
         defer { loading = false }

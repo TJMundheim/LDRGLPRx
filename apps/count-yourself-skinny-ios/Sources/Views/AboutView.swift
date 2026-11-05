@@ -2,7 +2,9 @@ import SwiftUI
 import StoreKit
 
 enum AboutContent {
-    static let disclaimer = "Count Yourself Skinny is an educational tool. It isn't medical advice and doesn't diagnose or treat anything. Talk to your own physician before changing how you eat or fast, especially if you're pregnant, have diabetes, or take medication."
+    static let disclaimer = "Count Yourself Skinny is an educational tool. It isn't medical advice and doesn't diagnose or treat anything. Talk to your own physician before changing how you eat or fast, especially if you're pregnant, have diabetes, take medication, or have a history of disordered eating."
+    static let fastNote = "Start at 12 hours. The book's ladder stops at 16. If you're pregnant, have diabetes, take medication, or have a history of disordered eating, talk to your physician first."
+    static let homeFootnote = "An educational tool, not medical advice. Talk to your physician before changing how you eat or fast."
     static let consent = "Enter your email to get updates and offers from My4MLife. Unsubscribe anytime. We never ask for this to use the app."
     static let identityLine = "Don't lose your identity and your dignity while you still have a choice."
     static let assessment = URL(string: "https://www.my4mlife.com/assessment")!
@@ -10,7 +12,7 @@ enum AboutContent {
     static let terms = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
 
     static func versionText(short: String?, build: String?) -> String {
-        guard let short else { return "Version 1.0.0" }
+        guard let short else { return "Version unknown" }
         guard let build else { return "Version \(short)" }
         return "Version \(short) (\(build))"
     }

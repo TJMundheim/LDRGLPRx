@@ -12,7 +12,14 @@ struct CYSApp: App {
                 .environmentObject(store)
                 .environmentObject(pro)
                 .onChange(of: scenePhase) { _, phase in
-                    if phase == .active { store.rollover(); Analytics.shared.track(.appOpen) }
+                    guard phase == .active else { return }
+                    store.rollover()
+                    store.creditWalk()
+                    Analytics.shared.track(.appOpen)
+                    Task {
+                        await store.requestSteps()
+                        await pro.refreshEntitlement()   // a lapsed subscription sends no update
+                    }
                 }
         }
     }

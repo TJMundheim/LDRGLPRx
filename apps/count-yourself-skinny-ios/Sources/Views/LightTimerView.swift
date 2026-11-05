@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 /// First Light: 10 minutes outside. Time comes from dates, so it keeps counting in the background.
 struct LightTimerView: View {
@@ -18,15 +19,16 @@ struct LightTimerView: View {
                         .font(.system(size: 72, weight: .bold)).monospacedDigit()
                     Text(session.isFinished(at: context.date)
                          ? "Done. Ten minutes of light banked."
-                         : "Outside, eyes open, no sunglasses. Minutes are credited as they finish.")
+                         : "Outside, eyes open to the day, no sunglasses. Never stare at the sun. Minutes are credited as they finish.")
                         .multilineTextAlignment(.center).foregroundStyle(.secondary).padding(.horizontal)
                     Text("Today: \(store.lightMinutesToday)/10 min").monospacedDigit()
-                    Button(session.isRunning ? "Pause" : (session.elapsed(at: context.date) > 0 ? "Resume" : "Start")) {
-                        if session.isRunning { session.pause(at: .now) } else { session.start(at: .now) }
-                        credit()
+                    if !session.isFinished(at: context.date) {
+                        Button(session.isRunning ? "Pause" : (session.elapsed(at: context.date) > 0 ? "Resume" : "Start")) {
+                            if session.isRunning { session.pause(at: .now) } else { session.start(at: .now) }
+                            credit()
+                        }
+                        .buttonStyle(.borderedProminent).controlSize(.large)
                     }
-                    .buttonStyle(.borderedProminent).controlSize(.large)
-                    .disabled(session.isFinished(at: context.date))
                     Spacer()
                 }
             }

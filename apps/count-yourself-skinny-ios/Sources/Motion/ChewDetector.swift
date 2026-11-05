@@ -2,7 +2,7 @@ import Foundation
 import CoreMotion
 import UIKit
 
-/// v1.5 marquee prototype — real-time chew detection from AirPods head motion.
+/// Real-time chew detection from AirPods head motion.
 ///
 /// Chewing moves the mandible, which couples into small pitch rotations and vertical
 /// translation of the skull. `CMHeadphoneMotionManager` streams that at ~25 Hz from
@@ -10,7 +10,7 @@ import UIKit
 /// 0.9–1.8 Hz oscillation, so we don't need ML: band-pass the motion into the chew
 /// band and count peaks against a gate that follows the chewer's own recent peaks.
 ///
-/// Pipeline (all on-device, nothing leaves the phone unless the user taps Export):
+/// Pipeline (all on-device; nothing leaves the phone):
 ///
 ///   1. Scalar   `s = |rotationRate| + accelGain * |userAcceleration.y|`
 ///   2. Band-pass  EMA high-pass at 0.8 Hz (kills head-turn / posture drift)
@@ -26,12 +26,12 @@ import UIKit
 ///                holds the chewing, and a floor measured there counts nothing.
 ///
 /// None of this has met a real meal. It has only been run on synthetic waveforms, so
-/// `defaultK` is a starting guess and the CSV export is how it gets settled.
+/// `defaultK` is a starting guess and a Debug-only CSV export is how it gets settled.
 ///
 /// Everything tunable is a constant in `Tuning` below and echoed in the README so the
 /// numbers we ship can be argued with against real CSV captures.
 @MainActor
-final class ChewDetector: NSObject, ObservableObject {
+final class ChewDetector: NSObject, ObservableObject, ChewSensing {
 
     // MARK: - Tuning constants
 
@@ -61,14 +61,26 @@ final class ChewDetector: NSObject, ObservableObject {
     /// Gate setting *k*, scaling both relative gates. Lower = more sensitive. Slider range 1.5–4.0.
     @Published var sensitivity: Double
 
+    #if DEBUG
     @Published var isRecording = false
     @Published private(set) var samplesRecorded = 0
+    #endif
     @Published var hapticsEnabled = true
 
     /// Set when `startDeviceMotionUpdates` hands back an error.
     @Published private(set) var lastError: String?
 
-    // MARK: - Recording
+    /// Motion permission as CoreMotion reports it right now.
+    var permission: MotionPermission {
+        switch CMHeadphoneMotionManager.authorizationStatus() {
+        case .authorized: .allowed
+        case .notDetermined: .notDetermined
+        default: .denied
+        }
+    }
+
+    #if DEBUG
+    // MARK: - Recording (Chew Lab only)
 
     struct RawSample {
         let t: TimeInterval
@@ -80,6 +92,7 @@ final class ChewDetector: NSObject, ObservableObject {
         let chewFlag: Bool
     }
     private var recording: [RawSample] = []
+    #endif
 
     // MARK: - Private
 
@@ -142,8 +155,7 @@ final class ChewDetector: NSObject, ObservableObject {
         chewRatePerMin = 0
     }
 
-    /// Clears counts, filter state and the live sparkline. Recorded samples are
-    /// cleared too — export before you reset.
+    /// Clears counts, filter state and the live sparkline, and in Debug the recorded samples.
     func reset() {
         chewCount = 0
         sessionChewTotal = 0
@@ -153,8 +165,10 @@ final class ChewDetector: NSObject, ObservableObject {
         threshold = 0
         core = ChewSignalCore()
         chewTimes.removeAll(keepingCapacity: true)
+        #if DEBUG
         recording.removeAll(keepingCapacity: false)
         samplesRecorded = 0
+        #endif
         sessionStart = Date()
     }
 
@@ -164,7 +178,6 @@ final class ChewDetector: NSObject, ObservableObject {
         let t = motion.timestamp
         let r = motion.rotationRate
         let a = motion.userAcceleration
-        let att = motion.attitude
 
         let raw = ChewSignalCore.scalar(rotX: r.x, rotY: r.y, rotZ: r.z, accelY: a.y)
         onSample?(raw, t)
@@ -172,7 +185,6 @@ final class ChewDetector: NSObject, ObservableObject {
         let value = out.filtered
         let thr = out.threshold
         threshold = thr
-        let chewFlag = out.chew
         if let ct = out.chewTime { registerChew(at: ct); onChew?(ct) }
 
         // live sparkline
@@ -183,16 +195,19 @@ final class ChewDetector: NSObject, ObservableObject {
 
         updateRate(now: t)
 
+        #if DEBUG
         if isRecording {
+            let att = motion.attitude
             recording.append(RawSample(
                 t: t,
                 pitch: att.pitch, roll: att.roll, yaw: att.yaw,
                 rx: r.x, ry: r.y, rz: r.z,
                 ax: a.x, ay: a.y, az: a.z,
-                filtered: value, threshold: thr, chewFlag: chewFlag
+                filtered: value, threshold: thr, chewFlag: out.chew
             ))
             samplesRecorded = recording.count
         }
+        #endif
     }
 
     private func registerChew(at t: TimeInterval) {
@@ -228,7 +243,8 @@ final class ChewDetector: NSObject, ObservableObject {
         chewRatePerMin = 60.0 * Double(window.count - 1) / (lastInWindow - first)
     }
 
-    // MARK: - Export
+    #if DEBUG
+    // MARK: - Export (Chew Lab only)
 
     /// Writes the recorded session to a CSV in the temporary directory and returns
     /// its URL. Returns nil if nothing has been recorded.
@@ -258,10 +274,7 @@ final class ChewDetector: NSObject, ObservableObject {
         }
     }
 
-    func clearRecording() {
-        recording.removeAll(keepingCapacity: false)
-        samplesRecorded = 0
-    }
+    #endif
 }
 
 // MARK: - Connection tracking

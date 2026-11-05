@@ -34,10 +34,11 @@ final class AnalyticsTests: XCTestCase {
             XCTAssertEqual(p["event"] as? String, e.rawValue)
             XCTAssertEqual(p["api_key"] as? String, "phc_qZQbqDfKqxUFtSpb79Ex967RkMHdmx7axp8mzFABEYbY")
             let props = p["properties"] as! [String: Any]
-            XCTAssertEqual(Set(props.keys), ["$lib", "app_version", "$process_person_profile"])
+            XCTAssertEqual(Set(props.keys), ["$lib", "app_version", "$process_person_profile", "$geoip_disable"])
             XCTAssertEqual(props["$lib"] as? String, "cys-ios")
             XCTAssertEqual(props["app_version"] as? String, "1.0.0")
             XCTAssertEqual(props["$process_person_profile"] as? Bool, false)
+            XCTAssertEqual(props["$geoip_disable"] as? Bool, true, "no location is derived from the IP address")
         }
     }
 
@@ -51,7 +52,7 @@ final class AnalyticsTests: XCTestCase {
                 XCTAssertFalse(text.replacingOccurrences(of: e.rawValue, with: "").contains(word), word)
             }
             let props = a.payload(for: e)["properties"] as! [String: Any]
-            for (k, v) in props where k != "$process_person_profile" {
+            for (k, v) in props where k != "$process_person_profile" && k != "$geoip_disable" {
                 XCTAssertTrue(v is String, "\(k) must be a string")
             }
         }
@@ -65,7 +66,7 @@ final class AnalyticsTests: XCTestCase {
         XCTAssertNotEqual(make().distinctID, a)
     }
 
-    func testDefaultsDoNotSendUnderXCTest() {
+    func testDebugAndSimulatorBuildsDoNotSendByDefault() {
         let a = Analytics(session: StubURLProtocol.session(), defaults: defaults, appVersion: "1.0.0")
         a.track(.appOpen)
         XCTAssertTrue(StubURLProtocol.requests.isEmpty)

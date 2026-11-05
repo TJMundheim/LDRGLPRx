@@ -74,21 +74,28 @@ final class MealSessionModelTests: XCTestCase {
 }
 
 final class MealAvailabilityTests: XCTestCase {
+    func eval(available: Bool = true, permission: MotionPermission = .allowed, running: Bool = true, gap: TimeInterval = 0) -> MealAvailability {
+        MealAvailability.evaluate(isAvailable: available, permission: permission, isRunning: running, secondsWithoutSample: gap)
+    }
     func testUnsupportedDeviceWins() {
-        XCTAssertEqual(MealAvailability.evaluate(isAvailable: false, isConnected: true, isRunning: true, secondsWithoutSample: 0), .unsupported)
+        XCTAssertEqual(eval(available: false, permission: .denied), .unsupported)
     }
     func testIdleSupportedIsReady() {
-        XCTAssertEqual(MealAvailability.evaluate(isAvailable: true, isConnected: false, isRunning: false, secondsWithoutSample: 0), .ready)
+        XCTAssertEqual(eval(running: false), .ready)
+        XCTAssertEqual(eval(permission: .notDetermined, running: false), .ready)
+    }
+    func testDeniedIsNotMistakenForMissingAirPods() {
+        XCTAssertEqual(eval(permission: .denied, running: false), .denied)
+        XCTAssertEqual(eval(permission: .denied, gap: 10), .denied)
     }
     func testRunningStaysReadyWhileWaitingBriefly() {
-        XCTAssertEqual(MealAvailability.evaluate(isAvailable: true, isConnected: false, isRunning: true, secondsWithoutSample: 2), .ready)
+        XCTAssertEqual(eval(gap: 2), .ready)
     }
     func testRunningWithNoSamplesAfterThreeSecondsIsNotConnected() {
-        XCTAssertEqual(MealAvailability.evaluate(isAvailable: true, isConnected: false, isRunning: true, secondsWithoutSample: 3), .notConnected)
+        XCTAssertEqual(eval(gap: 3), .notConnected)
     }
-    func testSamplesFlowingMeansReadyEvenIfFlagLags() {
-        XCTAssertEqual(MealAvailability.evaluate(isAvailable: true, isConnected: true, isRunning: true, secondsWithoutSample: 3), .notConnected,
-                       "connected flag alone does not prove data; no samples for 3 s is a stall")
-        XCTAssertEqual(MealAvailability.evaluate(isAvailable: true, isConnected: true, isRunning: true, secondsWithoutSample: 0.1), .ready)
+    func testAnUnansweredPermissionAlertGetsLonger() {
+        XCTAssertEqual(eval(permission: .notDetermined, gap: 19), .ready)
+        XCTAssertEqual(eval(permission: .notDetermined, gap: 20), .notConnected)
     }
 }

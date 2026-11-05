@@ -14,7 +14,7 @@ enum AnalyticsEvent: String, CaseIterable {
     case contactSubmitted = "contact_submitted"
 }
 
-/// Anonymous PostHog capture over plain URLSession. Failures are silent.
+/// PostHog capture over plain URLSession, keyed to a random ID kept on the phone. Failures are silent.
 struct Analytics {
     static let idKey = "cys.analytics.id"
     static let shared = Analytics()
@@ -28,12 +28,13 @@ struct Analytics {
     private let appVersion: String
     private let sending: Bool
 
-    /// Debug builds and test runs never send.
+    /// Only a Release build on a real device sends. Debug builds, test runs and every
+    /// simulator run stay silent, so nobody's testing lands in the live numbers.
     static var defaultSending: Bool {
-        #if DEBUG
+        #if DEBUG || targetEnvironment(simulator)
         return false
         #else
-        return NSClassFromString("XCTestCase") == nil
+        return true
         #endif
     }
 
@@ -64,6 +65,7 @@ struct Analytics {
                 "$lib": "cys-ios",
                 "app_version": appVersion,
                 "$process_person_profile": false,
+                "$geoip_disable": true,
             ] as [String: Any],
         ]
     }

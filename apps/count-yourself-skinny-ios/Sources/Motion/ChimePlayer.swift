@@ -2,7 +2,7 @@ import AVFoundation
 
 /// Plays the chime over whatever else is playing (music keeps going), through connected AirPods.
 /// Needs no background mode. Every failure is silent.
-final class ChimePlayer {
+final class ChimePlayer: ChimePlaying {
     private var player: AVAudioPlayer?
     private var sessionActive = false
 
