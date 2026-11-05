@@ -38,7 +38,7 @@ You do this on the Mac.
 
 ## 3. Open Chew Lab
 
-1. On the app's home screen, scroll to the section headed **Prototype**.
+1. On the app's home screen, scroll to the section headed **Developer**. (It only exists in this test build. App Store customers never see it.)
 2. Tap **Chew Lab — AirPods prototype**.
 3. Put your AirPods in your ears (both). Make sure they are connected to this iPhone (the little AirPods pop-up appears or they show in Control Center).
 4. At the top of the Chew Lab screen you will see one of:
@@ -75,6 +75,18 @@ You do this on the Mac.
 4. Compare: how many bites did you take versus what the **bites** number says (the app counts one bite per 32 chews, so it is a rough guide, and the **session total** number tells you the total chews it counted).
 
 Write down anything odd: "talking while chewing," "turned head to look at TV," "drank water," "laughed."
+
+**Test C: the screen customers will use (added 2026-11-04; do it after you've sent the recording in section 5)**
+
+1. Go back to the home screen. In the **Developer** section, switch **Pretend Pro** on. It stands in for a subscription and turns itself off each time the app restarts.
+2. Tap **Count my chews**. The first time, it offers a calibration of about 2 minutes: hold still, then chew along with the beat for three rounds of 32. Have some food or gum ready, and tap **Start**. If you get an error, tap **Try Again** once, write down what it said, and move on.
+3. Start some music on the iPhone, then tap **Start meal** and eat for a few minutes.
+4. Check these and write down yes or no:
+   - Did the count roughly match your own?
+   - At 32, did you hear a chime in your AirPods?
+   - Did the music keep playing through the chime?
+   - Did the screen stay on without touching it?
+5. Tap **Finish**. Does the summary look right? Then go back and tap **Trends**: does your meal show up?
 
 ## 5. Send me the recording
 
