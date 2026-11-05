@@ -8,15 +8,17 @@ final class CountStore: ObservableObject {
     // Today's counts
     @Published var steps: Int = 0
     @Published var lastBite: Date?          // fast clock anchor
-    @Published var lightMinutesToday: Int = 0 { didSet { counts.lightMinutes = lightMinutesToday; save() } }
-    @Published var waterBeforeNoon: Int = 0 { didSet { counts.water = waterBeforeNoon; save() } } // glasses, target 2
+    @Published private(set) var lightMinutesToday: Int = 0 { didSet { counts.lightMinutes = lightMinutesToday; save() } }
+    @Published private(set) var waterBeforeNoon: Int = 0 { didSet { counts.water = waterBeforeNoon; save() } } // glasses, target 2
     @Published private(set) var streak: Int = 0
     @Published private(set) var longestStreak: Int = 0
     /// Today's yes/no, nil until answered.
     @Published private(set) var todayAnswer: Bool?
     /// True when yesterday was not a yes: drives the "Never miss twice" prompt.
     @Published private(set) var missedYesterday: Bool = false
-    @Published var weighIns: [WeighIn] = [] // weekly, trend line only
+    @Published private(set) var weighIns: [WeighIn] = [] // weekly, trend line only
+    /// Set after a steps refresh that returned nothing, so the screen can say why.
+    @Published private(set) var stepsNeedHelp = false
 
     struct WeighIn: Codable, Identifiable {
         var id: Date { date }
@@ -47,6 +49,7 @@ final class CountStore: ObservableObject {
         return now().timeIntervalSince(lastBite) / 3600
     }
     func tapLastBite() {
+        rollover()
         lastBite = now()
         save()
     }
@@ -71,23 +74,58 @@ final class CountStore: ObservableObject {
         save()
     }
 
+    // MARK: water + light (always roll the day over first; the app may have stayed open past midnight)
+    /// Adds a glass up to 2; tapping at 2 resets to 0 (the undo for a mistaken tap).
+    func tapWater() {
+        rollover()
+        waterBeforeNoon = waterBeforeNoon >= 2 ? 0 : waterBeforeNoon + 1
+    }
+
+    func creditLight(minutes: Int) {
+        guard minutes > 0 else { return }
+        rollover()
+        lightMinutesToday += minutes
+    }
+
+    // MARK: weigh-in (weekly; a weigh-in inside the last 6 days is corrected, not added)
+    var daysUntilNextWeighIn: Int {
+        WeighInSchedule.daysUntilDue(last: weighIns.last?.date, now: now(), calendar: calendar)
+    }
+
     func logWeighIn(pounds: Double) {
-        weighIns.append(WeighIn(date: now(), pounds: pounds))
+        rollover()
+        let entry = WeighIn(date: now(), pounds: pounds)
+        if daysUntilNextWeighIn > 0, let last = weighIns.last {
+            // a correction keeps the original date so the weekly rhythm doesn't slide
+            weighIns[weighIns.count - 1] = WeighIn(date: last.date, pounds: pounds)
+        }
+        else { weighIns.append(entry) }
         save()
     }
 
     // MARK: HealthKit steps (read-only)
+    /// Reads today's steps. Health hides whether read access was denied, so "nothing came back"
+    /// is the signal to show the one-line help.
     func requestSteps() async {
+        rollover()
         guard HKHealthStore.isHealthDataAvailable(),
-              let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else { return }
+              let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
+            stepsNeedHelp = true
+            return
+        }
         try? await healthStore.requestAuthorization(toShare: [], read: [stepType])
         let start = calendar.startOfDay(for: now())
         let predicate = HKQuery.predicateForSamples(withStart: start, end: now())
-        let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, stats, _ in
-            let count = Int(stats?.sumQuantity()?.doubleValue(for: .count()) ?? 0)
-            Task { @MainActor in self.steps = count }
+        let store = healthStore
+        let count: Int = await withCheckedContinuation { cont in
+            let query = HKStatisticsQuery(quantityType: stepType, quantitySamplePredicate: predicate,
+                                          options: .cumulativeSum) { _, stats, _ in
+                cont.resume(returning: Int(stats?.sumQuantity()?.doubleValue(for: .count()) ?? 0))
+            }
+            store.execute(query)
         }
-        healthStore.execute(query)
+        steps = count
+        stepsNeedHelp = count == 0
     }
 
     // MARK: persistence (UserDefaults for v1 skeleton; SwiftData when schema settles)

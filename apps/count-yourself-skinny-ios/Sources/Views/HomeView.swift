@@ -6,27 +6,57 @@ struct HomeView: View {
     @EnvironmentObject var pro: ProStore
     @State private var showPacer = false
     @State private var showPaywall = false
+    @State private var showLight = false
+    @State private var confirmLastBite = false
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    StreakCard(streak: store.streak)
+                    StreakCard(streak: store.streak, longest: store.longestStreak,
+                               todayAnswer: store.todayAnswer, missedYesterday: store.missedYesterday,
+                               answer: { store.answerToday(hit: $0) })
                 }
                 Section("Today's counts") {
                     CounterRow(icon: "fork.knife", title: "Bite Pacer",
                                value: "32 chews", tint: .orange) { showPacer = true }
                     CounterRow(icon: "figure.walk", title: "Steps",
-                               value: "\(store.steps)", tint: .green) { }
+                               subtitle: store.stepsNeedHelp
+                                   ? "No steps from Health yet. Allow it in Settings > Health."
+                                   : "Floor: 2,500. Tap to refresh.",
+                               value: "\(store.steps.formatted()) / 2,500", tint: .green) {
+                        Task { await store.requestSteps() }
+                    }
                     CounterRow(icon: "clock", title: "Fast clock",
+                               subtitle: "Tap at your last bite",
                                value: String(format: "%.1f h", store.fastHours), tint: .blue) {
-                        store.tapLastBite()
+                        confirmLastBite = true
                     }
                     CounterRow(icon: "sun.max", title: "First Light",
-                               value: "\(store.lightMinutesToday)/10 min", tint: .yellow) { }
+                               subtitle: "10 minutes outside. Tap to start the timer.",
+                               value: "\(store.lightMinutesToday)/10 min", tint: .yellow) { showLight = true }
                     CounterRow(icon: "drop", title: "Water before noon",
+                               subtitle: store.waterBeforeNoon >= 2
+                                   ? "Tap again to reset to 0."
+                                   : "First glass before coffee. Tap for a glass.",
                                value: "\(store.waterBeforeNoon)/2", tint: .cyan) {
-                        store.waterBeforeNoon = min(2, store.waterBeforeNoon + 1)
+                        store.tapWater()
+                    }
+                    NavigationLink {
+                        WeighInView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "scalemass").foregroundStyle(.purple).frame(width: 28)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Weigh-in")
+                                Text("Once a week. Same scale, same morning.")
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            if let w = store.weighIns.last {
+                                Text(String(format: "%.1f lb", w.pounds)).monospacedDigit().foregroundStyle(.secondary)
+                            }
+                        }
                     }
                 }
                 Section {
@@ -52,6 +82,11 @@ struct HomeView: View {
             .navigationTitle("Count Yourself Skinny")
             .sheet(isPresented: $showPacer) { BitePacerView() }
             .sheet(isPresented: $showPaywall) { PaywallView() }
+            .sheet(isPresented: $showLight) { LightTimerView() }
+            .confirmationDialog("Log last bite now?", isPresented: $confirmLastBite, titleVisibility: .visible) {
+                Button("Log last bite now") { store.tapLastBite() }
+                Button("Cancel", role: .cancel) { }
+            }
             .task { await store.requestSteps() }
         }
     }
@@ -59,14 +94,26 @@ struct HomeView: View {
 
 struct CounterRow: View {
     let icon: String, title: String, value: String
+    var subtitle: String?
     let tint: Color
     let action: () -> Void
+
+    init(icon: String, title: String, subtitle: String? = nil, value: String, tint: Color,
+         action: @escaping () -> Void) {
+        self.icon = icon; self.title = title; self.subtitle = subtitle
+        self.value = value; self.tint = tint; self.action = action
+    }
 
     var body: some View {
         Button(action: action) {
             HStack {
                 Image(systemName: icon).foregroundStyle(tint).frame(width: 28)
-                Text(title)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                    if let subtitle {
+                        Text(subtitle).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
                 Spacer()
                 Text(value).monospacedDigit().foregroundStyle(.secondary)
             }
@@ -76,15 +123,49 @@ struct CounterRow: View {
     }
 }
 
+/// The evening question and the streak. Logic lives in StreakEngine; this only shows it.
 struct StreakCard: View {
     let streak: Int
+    let longest: Int
+    let todayAnswer: Bool?
+    let missedYesterday: Bool
+    let answer: (Bool) -> Void
+
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 8) {
             Text("\(streak)").font(.system(size: 56, weight: .bold)).monospacedDigit()
             Text(streak == 1 ? "day in a row" : "days in a row").foregroundStyle(.secondary)
-            Text("Never miss twice.").font(.caption).foregroundStyle(.tertiary)
+            if longest > 0 {
+                Text("Longest: \(longest)").font(.caption).foregroundStyle(.secondary)
+            }
+            if missedYesterday && todayAnswer != true {
+                Text("Never miss twice.").font(.headline).foregroundStyle(.orange)
+            }
+            Divider()
+            Text("Did you hit your counts today?").font(.headline)
+            HStack(spacing: 12) {
+                answerButton("Yes", hit: true)
+                answerButton("No", hit: false)
+            }
+            if let todayAnswer {
+                Text(todayAnswer ? "Logged: yes. Tap No to change it." : "Logged: no. Tap Yes to change it.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            Text("A shrunk day still counts.").font(.footnote).foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
+    }
+
+    @ViewBuilder
+    private func answerButton(_ title: String, hit: Bool) -> some View {
+        let chosen = todayAnswer == hit
+        Button { answer(hit) } label: {
+            Text(title).frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(chosen ? (hit ? .green : .gray) : .secondary.opacity(0.35))
+        .foregroundStyle(chosen ? Color.white : Color.primary)
+        .accessibilityValue(chosen ? "selected" : "")
     }
 }

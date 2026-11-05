@@ -27,7 +27,7 @@ struct MorningModeView: View {
             // tick light minutes while walk is running
             while true {
                 try? await Task.sleep(for: .seconds(60))
-                if walkStart != nil { store.lightMinutesToday += 1 }
+                if walkStart != nil { store.creditLight(minutes: 1) }
                 await store.requestSteps()
             }
         }

@@ -40,8 +40,8 @@ final class CountStoreTests: XCTestCase {
 
     func testRolloverZeroesCountsAndClearsAnswer() {
         let s = makeStore()
-        s.waterBeforeNoon = 2
-        s.lightMinutesToday = 10
+        s.tapWater(); s.tapWater()
+        s.creditLight(minutes: 10)
         s.answerToday(hit: true)
         clock = d(3, 7)
         s.rollover()
@@ -66,8 +66,8 @@ final class CountStoreTests: XCTestCase {
     func testPersistsAcrossRelaunch() {
         let s = makeStore()
         s.answerToday(hit: true)
-        s.waterBeforeNoon = 1
-        s.lightMinutesToday = 7
+        s.tapWater()
+        s.creditLight(minutes: 7)
         s.tapLastBite()
         s.logWeighIn(pounds: 201.5)
         clock = d(2, 12)
@@ -85,7 +85,7 @@ final class CountStoreTests: XCTestCase {
     func testRelaunchNextDayZeroesCountsKeepsStreak() {
         let s = makeStore()
         s.answerToday(hit: true)
-        s.waterBeforeNoon = 2
+        s.tapWater(); s.tapWater()
         clock = d(3, 8)
         let t = makeStore()
         XCTAssertEqual(t.waterBeforeNoon, 0)
@@ -100,5 +100,83 @@ final class CountStoreTests: XCTestCase {
         let t = makeStore()
         XCTAssertEqual(t.streak, 0)
         XCTAssertEqual(t.longestStreak, 1)
+    }
+}
+
+// MARK: P3 free-tier behaviour
+extension CountStoreTests {
+    func testFreshInstallDoesNotSayMissedYesterday() {
+        let s = makeStore()
+        XCTAssertFalse(s.missedYesterday)
+        clock = d(2, 21)
+        s.rollover()
+        XCTAssertFalse(s.missedYesterday)
+        XCTAssertEqual(s.longestStreak, 0)
+    }
+
+    func testFirstLaunchDaysAfterInstallDoesNotScold() {
+        let s = makeStore()
+        clock = d(5, 8)
+        s.rollover()
+        XCTAssertFalse(s.missedYesterday)
+    }
+
+    func testWaterTapAddsThenResetsAtTwo() {
+        let s = makeStore()
+        s.tapWater(); XCTAssertEqual(s.waterBeforeNoon, 1)
+        s.tapWater(); XCTAssertEqual(s.waterBeforeNoon, 2)
+        s.tapWater(); XCTAssertEqual(s.waterBeforeNoon, 0)
+    }
+
+    func testWaterTapAfterMidnightRollsOverFirst() {
+        let s = makeStore()
+        s.tapWater(); s.tapWater()
+        clock = d(3, 7)
+        s.tapWater()
+        XCTAssertEqual(s.waterBeforeNoon, 1)
+    }
+
+    func testLightCreditAfterMidnightRollsOverFirst() {
+        let s = makeStore()
+        s.creditLight(minutes: 8)
+        clock = d(3, 7)
+        s.creditLight(minutes: 3)
+        XCTAssertEqual(s.lightMinutesToday, 3)
+    }
+
+    func testLightCreditAccumulatesAndPersists() {
+        let s = makeStore()
+        s.creditLight(minutes: 4)
+        s.creditLight(minutes: 2)
+        XCTAssertEqual(makeStore().lightMinutesToday, 6)
+    }
+
+    func testAnswerAfterMidnightWithAppOpen() {
+        let s = makeStore()
+        s.answerToday(hit: true)
+        clock = d(3, 21)
+        s.answerToday(hit: true)
+        XCTAssertEqual(s.streak, 2)
+        XCTAssertEqual(s.longestStreak, 2)
+    }
+
+    func testWeighInWithinSixDaysCorrectsInsteadOfAdding() {
+        let s = makeStore()
+        s.logWeighIn(pounds: 200)
+        clock = d(4, 8)
+        s.logWeighIn(pounds: 199)
+        XCTAssertEqual(s.weighIns.count, 1)
+        XCTAssertEqual(s.weighIns.first?.pounds, 199)
+        clock = d(9, 8)
+        s.logWeighIn(pounds: 197)
+        XCTAssertEqual(s.weighIns.count, 2)
+    }
+
+    func testDaysUntilNextWeighIn() {
+        let s = makeStore()
+        XCTAssertEqual(s.daysUntilNextWeighIn, 0)
+        s.logWeighIn(pounds: 200)
+        clock = d(4, 8)
+        XCTAssertEqual(s.daysUntilNextWeighIn, 5)
     }
 }
