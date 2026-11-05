@@ -1,8 +1,14 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-11-01 · START HERE block below, then dated changelog
+# Last updated: 2026-11-04 · START HERE block below, then dated changelog
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
+
+## ⚡ 2026-11-04 — KDP v26, CYS READINESS, UD CO-AUTHOR PLAN
+- **KDP:** v26 submitted on the $16.99 B&W paperback (TEZSQJ95P92), in review. Kindle (A2R21RB73TG6UD) and hardcover (ASAFBM0FEAM) are still on v25 and locked in review; TJ approved v26, so upload once each clears. Files: Desktop `KDP-UPLOAD — kindle-ebook-v26.docx`, `hardcover-8.25x11-interior-v26.pdf`, `hardcover-8.25x11-COVER-v26.pdf`. Logbook 224JXEPHDN0 in review.
+- **CYS app is NOT submittable as is:** the paywall sells automatic chew counting, an in-ear chime and trends. Chime and trends aren't built, Chew Lab is an ungated prototype, and `isPro` only hides the upsell. Also missing: Restore Purchases, terms/privacy links, app icon, privacy manifest, analytics, contact capture. Version 0.1.0. Apple Developer not enrolled; no signing identity.
+- **CYS launch gaps beyond the app:** no book cover or price (docs/book-cys/readiness-2026-10-31.md), no CYS web page, book doesn't mention the app.
+- **UD v2 co-author strategy:** docs/plan/uninsured-decade-v2-advisor-coauthor-2026-11-04.md (agent research, not yet reviewed by TJ; nothing sent, book unchanged).
 
 
 
