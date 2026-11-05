@@ -5,7 +5,7 @@ chew detection requires `CMHeadphoneMotionManager` (AirPods motion), which only
 exists natively on iOS. Master plan: `docs/plan/count-yourself-skinny-master-plan-2026-08-09.md`.
 
 ## What's in 1.0.0
-**First run** (shown once, two screens): the safety step, then "Share anonymous usage events?" Yes or No.
+**First run** (shown once, two screens): the safety step, then "Share usage events?" Yes or No.
 Analytics sends nothing until Yes, and About has a toggle. Then a one-time Home card offers the Chew Number test.
 
 **Free:** the streak (one yes/no a day, never miss twice), Bite Pacer (haptic count to 32, no earbuds),
@@ -214,8 +214,7 @@ when the app quits — export before either.
 ### Account and build
 - [ ] Apple Developer Program enrollment (a personal free team can't archive for the App Store)
 - [ ] App ID `com.my4mlife.countyourselfskinny` with the HealthKit capability
-- [ ] Team set in Xcode, archive the Release configuration, upload with a released (not beta) Xcode
-- [ ] Final icon in `Sources/Assets.xcassets` (being redesigned)
+- [ ] Team set in Xcode on the Release row, archive the Release configuration, upload with a released (not beta) Xcode
 
 ### Subscriptions
 - [ ] One group, "Count Yourself Skinny Pro"
@@ -229,11 +228,11 @@ when the app quits — export before either.
       Fallback from the same doc: a free trial set in App Store Connect shows on the paywall with no code change
 
 ### Listing
-- [ ] Privacy Policy URL: `https://www.my4mlife.com/legal/count-yourself-skinny-privacy`. **It returns 404
-      until the website is deployed.** The paywall and About both link to it
+- [ ] Privacy Policy URL: `https://www.my4mlife.com/legal/count-yourself-skinny-privacy` (live). The paywall and
+      About both link to it
 - [ ] Terms: Apple's standard EULA, and put this link in the description:
       `https://www.apple.com/legal/internet-services/itunes/dev/stdeula/`
-- [ ] Support URL (required)
+- [ ] Support URL: `https://www.my4mlife.com/legal/count-yourself-skinny-support` (live)
 - [ ] Description says the app reads steps from Apple Health (guideline 2.5.1)
 - [ ] Description says chew counting needs AirPods Pro, AirPods (3rd generation or later) or AirPods Max
 - [ ] Age rating: answer the health and wellness questions honestly. The privacy page says the app isn't for
@@ -262,10 +261,10 @@ IP address. Turn on "Discard client IP data" in the PostHog project (Settings > 
 same project as the website). If you leave it off, IP is stored, and the label must also cover it.
 
 ### App Review notes (paste this)
-> Count Yourself Skinny is a habit counter from the book of the same name. Everything on the home screen works
-> free, with no account and no AirPods.
+> Count Yourself Skinny is a habit counter from the book of the same name. Everything on the home screen except
+> "Count my chews" and "Trends" works free, with no account and no AirPods.
 >
-> On first launch you'll see two screens: a safety note (tap Continue), then a choice about anonymous usage events
+> On first launch you'll see two screens: a safety note (tap Continue), then a choice about usage events
 > (Yes or No; either way the app works the same, and About has a toggle). The home screen then offers the free Chew
 > Number test: tap "Find my number", then "Tap to count". It needs no AirPods, and the result has a share card the user
 > can choose to send.
@@ -282,8 +281,8 @@ same project as the website). If you leave it off, IP is stored, and the label m
 >    and it reports "No AirPods found" after a few seconds. Tap "Skip for now". The meal screen then shows
 >    "No AirPods found", and points to the free Bite Pacer.
 >
-> The attached video shows the free meal, the chime at 32, the paywall that follows, and Trends on a real iPhone with
-> AirPods. Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer
+> The attached video shows the free meal, the chime at 32 and the paywall that follows on a real iPhone with AirPods,
+> then Trends opening the paywall. Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer
 > is on the first screen, under the home screen's About row and in About.
 
 - [ ] Record that video on a real device and attach it. Apple asks for one when a feature needs hardware

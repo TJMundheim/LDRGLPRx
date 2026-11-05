@@ -4,6 +4,8 @@
 
 **Companion doc:** [pricing and go/no-go](cys-pricing-and-go-no-go-2026-11-05.md), written in parallel. This plan uses its price ($0.99 a month, $4.99 a year, no Apple trial, first chew-counted meal free), its gates, and its Jan 31 "spear" decision, and it does not repeat its Apple rules review.
 
+**Status note, added by the final review (Nov 4, night).** Section 3's status column predates the app work. Already done: new prices, free first meal, code button removed, first-run safety step, 18+ wording, usage-data question, day-30 card, privacy and support pages live, Chew Number test and share card (section 5, candidates 1 and 2). Candidate 3 isn't built. **Open and urgent: the share card prints "my4mlife.com", which has no page about the app, so anyone it reaches hits a dead end.** The domain has to be bought and the card changed before the 1.0 build goes to Apple, because after that a change means a new review. Also see the pricing doc's status note on Gate 2 and the Jan 31 test.
+
 **The short version**
 - **Bet on one dare: "What's your chew number?"** It takes one bite, costs nothing, and needs no app. The AirPods demo is the on-camera proof that gets us on TV and in the tech press. It is not what most people will use.
 - **The public launch is Monday, January 4, 2027.** The book goes on sale by about Nov 27 and the app by about Dec 8, so both collect ratings and reviews first. The first public videos go up Jan 1.

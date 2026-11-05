@@ -1,6 +1,22 @@
 # Count Yourself Skinny: pricing and go/no-go (2026-11-05)
 
-For Dr. TJ. Research checked on Nov 4, 2026. Nothing here has been sent, published, committed or changed in the app.
+For Dr. TJ. Research checked on Nov 4, 2026. When this was written, nothing had been sent, published or changed in the app. See the status note below for what has changed since.
+
+## Status note, added by the final review (Nov 4, night)
+
+The app work moved ahead of this schedule. Read the tables below with these in mind.
+
+**Already done, so skip these rows and dates:** $0.99/$4.99 prices, free first meal, code button removed, first-run safety step, usage-data question with an off switch, 18+ wording, day-30 Brain Check card (streak or 12 weeks only, never weight), icon, privacy and support pages live. The purchase code now runs against Apple's local test store on a simulator; a real sandbox purchase still hasn't happened. The "Nov 9 to 20" Claude row and the "App README" row near the end are done. Taps to the assessment are now tracked from the Home card and the About link (`next_door_tapped`), and the two links carry their own `src`.
+
+**Still true:** the count has never met a real chew. Nothing else matters until Gate 1.
+
+**Four corrections to the logic:**
+1. **Gate 1 needs a method.** "Within 20% of a hand count" can't be done on a whole lunch. The AirPods guide now has the method: 5 hand-counted bites per lunch, plus real bites times your average, across three lunches.
+2. **Gate 2 has no instrument yet.** The TestFlight build has no Chew Lab and no CSV, so testers can only compare their own count with the big number, and a failure gives Claude nothing to tune. Claude needs to write a one-page tester sheet before Nov 23, and external TestFlight testers need Apple's beta review first.
+3. **Test 3 of the spear decision can't mostly be met by Jan 31.** The Brain Check card appears at a 30-day streak or 12 weeks. Someone who installs on Jan 4 can't see it before Feb 3. By Jan 31 only the About screen's link and email box can move that number. Either judge test 3 later (around Mar 1) or count only December installers.
+4. **A failed Gate 1 isn't only "stop."** This doc says to keep the book and Bite Pacer; the launch plan says the dare survives on the free pacer. That still means shipping the app, with counting and the paywall taken out. Small, but it's unplanned work.
+
+**The D-U-N-S clock has no fallback date in the table below.** `docs/launch/cys/app-store-kit/tj-steps.md` Part 0 now sets one: Dec 1.
 
 ## The answer
 

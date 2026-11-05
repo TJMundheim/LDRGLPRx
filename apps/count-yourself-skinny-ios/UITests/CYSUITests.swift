@@ -58,6 +58,20 @@ final class CYSUITests: XCTestCase {
         XCTAssertFalse(card.waitForExistence(timeout: 2))
     }
 
+    func testAboutLinkOpensTheAssessment() {
+        app.launchArguments = skipFirstRun
+        app.launch()
+        let about = app.buttons["About"]
+        scroll(to: about)
+        about.tap()
+        let link = app.buttons["What comes after skinny?"]
+        scroll(to: link)
+        link.tap()
+        let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+        XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 15))
+        app.activate()
+    }
+
     private func row(_ title: String) -> XCUIElement {
         app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", title)).firstMatch
     }
@@ -104,7 +118,7 @@ final class CYSUITests: XCTestCase {
         keep("first-run-1-safety")
         app.buttons["Continue"].tap()
 
-        XCTAssertTrue(app.staticTexts["Share anonymous usage events?"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Share usage events?"].waitForExistence(timeout: 5))
         let no = app.buttons["No"], yes = app.buttons["Yes"]
         XCTAssertTrue(no.exists)
         XCTAssertTrue(yes.exists)
@@ -124,7 +138,7 @@ final class CYSUITests: XCTestCase {
         let about = app.buttons["About"]
         scroll(to: about)
         about.tap()
-        let toggle = app.switches["Share anonymous usage events"]
+        let toggle = app.switches["Share usage events"]
         scroll(to: toggle)
         XCTAssertEqual(toggle.value as? String, "0")
         keep("about-usage-toggle")
@@ -153,7 +167,7 @@ final class CYSUITests: XCTestCase {
         let about = app.buttons["About"]
         scroll(to: about)
         about.tap()
-        let toggle = app.switches["Share anonymous usage events"]
+        let toggle = app.switches["Share usage events"]
         scroll(to: toggle)
         XCTAssertEqual(toggle.value as? String, "1")
     }

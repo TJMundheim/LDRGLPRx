@@ -24,14 +24,16 @@ final class AboutContentTests: XCTestCase {
         XCTAssertEqual(AboutContent.safetyStop, "If counting makes eating stressful, stop counting and talk to your own physician.")
     }
     func testUsageNoticeIsPlainAboutWhatLeavesThePhone() {
-        XCTAssertEqual(AboutContent.usageTitle, "Share anonymous usage events")
+        XCTAssertEqual(AboutContent.usageTitle, "Share usage events",
+                       "not \"anonymous\": every event carries the same random ID, and the App Store label says linked")
         XCTAssertEqual(AboutContent.usageBody,
             "Event names like \"app opened\" and \"meal completed\", with a random ID made on this phone. Never your counts, weight, steps or email. The app works the same either way.")
         XCTAssertEqual(AboutContent.fontCredit,
             "The share card uses the Anton font, copyright 2020 The Anton Project Authors, under the SIL Open Font License 1.1.")
     }
     func testLinks() {
-        XCTAssertEqual(AboutContent.assessment.absoluteString, "https://www.my4mlife.com/assessment")
+        XCTAssertEqual(AboutContent.assessment.absoluteString, "https://www.my4mlife.com/assessment?src=cys-app-about",
+                       "an order that starts here has to trace back to the app, apart from the Home card")
         XCTAssertEqual(AboutContent.privacy.absoluteString, "https://www.my4mlife.com/legal/count-yourself-skinny-privacy")
         XCTAssertEqual(AboutContent.terms.absoluteString, "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")
     }

@@ -10,11 +10,11 @@ enum AboutContent {
     static let safetyEatingDisorder = "It isn't for anyone with a current or past eating disorder. If that's you, please talk to your own physician or an eating disorder specialist instead."
     static let safetyPacing = "A chew count is a pacing tool, not a score. More isn't better."
     static let safetyStop = "If counting makes eating stressful, stop counting and talk to your own physician."
-    static let usageTitle = "Share anonymous usage events"
+    static let usageTitle = "Share usage events"
     static let usageBody = "Event names like \"app opened\" and \"meal completed\", with a random ID made on this phone. Never your counts, weight, steps or email. The app works the same either way."
     static let fontCredit = "The share card uses the Anton font, copyright 2020 The Anton Project Authors, under the SIL Open Font License 1.1."
     static let identityLine = "Don't lose your identity and your dignity while you still have a choice."
-    static let assessment = URL(string: "https://www.my4mlife.com/assessment")!
+    static let assessment = URL(string: "https://www.my4mlife.com/assessment?src=cys-app-about")!
     static let privacy = URL(string: "https://www.my4mlife.com/legal/count-yourself-skinny-privacy")!
     static let terms = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
     static let nextDoorHeading = "What comes after skinny?"
@@ -31,6 +31,7 @@ enum AboutContent {
 
 struct AboutView: View {
     @EnvironmentObject var pro: ProStore
+    @Environment(\.openURL) private var openURL
     @State private var email = ""
     @State private var form = ContactForm(appeared: Date())
     @State private var sending = false
@@ -94,7 +95,11 @@ struct AboutView: View {
                 Text(AboutContent.consent)
             }
             Section {
-                Link("What comes after skinny?", destination: AboutContent.assessment)
+                // Counted with the Home card: both are the tap across to My4MLife.
+                Button("What comes after skinny?") {
+                    Analytics.shared.track(.nextDoorTapped)
+                    openURL(AboutContent.assessment)
+                }
                 Text(AboutContent.identityLine).font(.footnote).foregroundStyle(.secondary)
             }
             Section { Text(versionText).foregroundStyle(.secondary) }

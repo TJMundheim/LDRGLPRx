@@ -37,8 +37,8 @@ You'll never count a calorie. You'll count to 32 instead.
 Count Yourself Skinny is the companion app to the book of the same name. It turns a few simple numbers into one daily habit: chews, hours, steps, morning light, water and a streak that forgives one bad day.
 
 START FREE, NO ACCOUNT
-Everything on the home screen works free, with no account and no earbuds:
-- Chew Number test: take one bite, count your chews, and find out your own number in about a minute. Share the card with a friend and dare them to beat it.
+All of this works free, with no account and no earbuds:
+- Chew Number test: take one bite, count your chews, and find out your own number in about a minute. Share the card with a friend and ask what theirs is.
 - Bite Pacer: a gentle buzz that keeps time to 32 chews, so you can feel what slow actually is.
 - The streak: one yes or no a day. Never miss twice.
 - Fast clock: tap at your last bite and see the hours since.
@@ -59,7 +59,7 @@ PRO
 Pro is $4.99 a year or $0.99 a month. There is no trial, because your first counted meal is already free. Payment is charged to your Apple Account at confirmation of purchase. The subscription renews automatically unless it is canceled at least 24 hours before the end of the current period. Your account is charged for renewal within 24 hours before the end of the current period. You can manage or cancel your subscription any time in your Apple Account settings.
 
 YOUR DATA STAYS ON YOUR PHONE
-Your counts, chews, meals, weigh-ins and streak are stored on your iPhone, not on a server. There is no account to make. Chew motion is processed on the device and never leaves it. Anonymous usage events are sent only if you say yes at the start, and you can turn them off any time in About.
+Your counts, chews, meals, weigh-ins and streak are stored on your iPhone, not on a server. There is no account to make. Chew motion is processed on the device and never leaves it. Usage events, tied to a random ID, are sent only if you say yes at the start, and you can turn them off any time in About.
 
 HONEST NOTES
 A chew count is an estimate, and talking at the table can fool it. It is a pacing tool, not a score: more is not better. This app is for adults. It is not for anyone with a current or past eating disorder. If counting makes eating stressful, stop counting and talk to your own physician. The app is educational and is not medical advice. Talk with your own physician before changing when you eat, especially if you take medication, have diabetes, or are pregnant.
@@ -80,7 +80,7 @@ The first release. Find your chew number in one bite, count to 32 with the Bite 
 ```
 2026 My4MLife
 ```
-TJ ANSWERS: confirm the exact legal name Apple should show (the person or company that holds the developer account). Apple adds the symbol itself for some fields; type the year and name only.
+TJ ANSWERS: confirm the exact legal name Apple should show (the person or company that holds the developer account). If you enroll as the LLC, use its exact registered name here instead of My4MLife. Apple adds the symbol itself for some fields; type the year and name only.
 
 ## 2. Categories
 - **Primary:** Health & Fitness
@@ -148,9 +148,9 @@ Fields: sign-in required = **No** (no account exists). Contact: TJ's name, phone
 
 ### Notes (paste)
 ```
-Count Yourself Skinny is a habit counter from the book of the same name. Everything on the home screen works free, with no account and no AirPods.
+Count Yourself Skinny is a habit counter from the book of the same name. Everything on the home screen except "Count my chews" and "Trends" works free, with no account and no AirPods.
 
-On first launch you'll see two screens: a safety note (tap Continue), then a choice about anonymous usage events (Yes or No; either way the app works the same, and About has a toggle). The home screen then offers the free Chew Number test: tap "Find my number", then "Tap to count". It needs no AirPods, and the result has a share card the user can choose to send.
+On first launch you'll see two screens: a safety note (tap Continue), then a choice about usage events (Yes or No; either way the app works the same, and About has a toggle). The home screen then offers the free Chew Number test: tap "Find my number", then "Tap to count". It needs no AirPods, and the result has a share card the user can choose to send.
 
 Chew counting needs AirPods because it reads their motion through CMHeadphoneMotionManager. The first meal counted by AirPods is free, so a new user can try it before paying. After it saves, the paywall appears with that meal's result. A meal under 30 seconds, or one where nothing was counted, doesn't use up the free meal.
 
@@ -159,7 +159,7 @@ To see the paywall right away, without AirPods: tap "Trends" or "Get Pro: chew c
 2. Trends opens to its empty state, because the chart fills from meals.
 3. Count my chews: tap Start meal. The tuning screen opens the first time. Tap Start, allow Motion if asked, and it reports "No AirPods found" after a few seconds. Tap "Skip for now". The meal screen then shows "No AirPods found", and points to the free Bite Pacer.
 
-The attached video shows the free meal, the chime at 32, the paywall that follows, and Trends on a real iPhone with AirPods. Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer is on the first screen, under the home screen's About row and in About.
+The attached video shows the free meal, the chime at 32 and the paywall that follows on a real iPhone with AirPods, then Trends opening the paywall. Steps come read-only from Apple Health. Health data, motion and weigh-ins stay on the device. The disclaimer is on the first screen, under the home screen's About row and in About.
 
 Subscriptions: cys.pro.yearly ($4.99 a year) and cys.pro.monthly ($0.99 a month), one group, no introductory offer. Both are attached to this version.
 ```
@@ -177,9 +177,9 @@ Real Debug-build screens on a simulator with the clock at 9:41. Two honest limit
 | Subtitle | 25 | 30 |
 | Promotional text | 162 | 170 |
 | Keywords | 98 | 100 |
-| Description | 3,165 | 4,000 |
+| Description | 3,157 | 4,000 |
 | What's New | 158 | 4,000 |
-| Review notes | 1,881 | 4,000 |
+| Review notes | 1,932 | 4,000 |
 | Subscription display names | 10 and 11 | 30 |
 | Subscription descriptions | 31 and 31 | 45 |
 

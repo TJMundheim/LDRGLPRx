@@ -79,6 +79,14 @@ final class TrendsCalculatorTests: XCTestCase {
         XCTAssertEqual(rows[0].averageMinutesPerMeal, 0.5, accuracy: 0.001)
     }
 
+    func testMealsThatCountedNothingAreIgnored() {
+        let rows = TrendsCalculator.weeks(from: [meal(2, chews: 0, bites: 0), meal(3, chews: 200, bites: 6)], calendar: cal)
+        XCTAssertEqual(rows.count, 1)
+        XCTAssertEqual(rows[0].mealCount, 1, "AirPods that counted nothing say nothing about the meal")
+        XCTAssertEqual(rows[0].averageChewsPerMeal, 200, accuracy: 0.001)
+        XCTAssertTrue(TrendsCalculator.weeks(from: [meal(2, chews: 0, bites: 0)], calendar: cal).isEmpty)
+    }
+
     func testOnlyShortMealsGivesEmpty() {
         let short = meal(2, mins: 0.1, chews: 5, bites: 1)
         XCTAssertTrue(TrendsCalculator.weeks(from: [short], calendar: cal).isEmpty)

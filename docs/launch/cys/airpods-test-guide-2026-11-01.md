@@ -1,6 +1,6 @@
 # Chew Lab test guide — your iPhone + your AirPods
 
-For: Dr. TJ. Date: 2026-11-01, updated 2026-11-04 (first-run screens, free meal). Time needed: about 30 minutes to install (first time), then one meal.
+For: Dr. TJ. Date: 2026-11-01, updated 2026-11-04 (first-run screens, free meal). Time needed: about 30 minutes to install (first time), then three lunches you'd eat anyway.
 
 This test build installs with a free Apple ID, before paid enrollment. **Apple Health is switched off in it.** The Steps row stays at 0 and says "No steps yet. If Health access is off, turn it on in Settings > Health." That is expected. You don't need to change anything in Settings. Steps come back in the App Store build.
 
@@ -38,7 +38,7 @@ You do this on the Mac.
     - It will not ask about Health in this build.
 12. The first time it opens, you get two screens, once each:
     - **Before you start.** Read it and tap **Continue**.
-    - **Share anonymous usage events?** Tap **No** or **Yes**. Nothing is sent from this test build either way. You can change it later under **About**.
+    - **Share usage events?** Tap **No** or **Yes**. Nothing is sent from this test build either way. You can change it later under **About**.
 13. The home screen shows a card, **What's your chew number?** Tap **Not now** for this test. The row stays on the home screen for later.
 
 **Good to know:** apps installed with a free Apple ID **stop opening after 7 days**. If that happens, plug in the phone and press Run again in Xcode.
@@ -85,6 +85,16 @@ You won't see the "What comes after skinny?" card on the home screen during this
 
 Write down anything odd: "talking while chewing," "turned head to look at TV," "drank water," "laughed."
 
+**The three lunches that decide Gate 1** (added 2026-11-04; the pricing doc's pass mark is "within 20% of a hand count on 2 of 3 meals")
+
+Nobody can hand-count a whole lunch, so count a sample. Do Test B three times, each with its own CSV: one quiet lunch, one where you talk, one with TV or music on. In each lunch:
+
+1. Pick **5 bites** spread through the meal. Before each one, read **session total** and write it down. Chew normally, counting in your head. When you swallow, read **session total** again. Write your count next to the two numbers.
+2. Count your **real bites** for the whole meal, roughly.
+3. At the end write down the final **session total**, and tap **Stop**. Export the CSV (section 5).
+
+Claude scores two things for each lunch. Do the 5 bites match your count within 20%? And is the final session total within 20% of (real bites x your average chews on those 5 bites)? The second one is what catches false counts from talking between bites. A lunch passes only if both hold.
+
 **Test C: the screen customers will use (added 2026-11-04; do it after you've sent the recording in section 5)**
 
 This is the free meal a new customer gets. Leave **Pretend Pro** off until step 6.
@@ -130,6 +140,18 @@ Meal test:
 | Total real bites | App "session total" | App "bites" | Start time | Anything odd |
 |---|---|---|---|---|
 | | | | | |
+
+The three lunches (one table per lunch: quiet, talking, TV or music):
+
+| Sampled bite | Session total before | Session total after | My count | Notes |
+|---|---|---|---|---|
+| 1 | | | | |
+| 2 | | | | |
+| 3 | | | | |
+| 4 | | | | |
+| 5 | | | | |
+
+Real bites this lunch: ____ Final session total: ____
 
 Also write: which AirPods you used, the **Threshold k** number, and whether the green "AirPods connected" showed.
 

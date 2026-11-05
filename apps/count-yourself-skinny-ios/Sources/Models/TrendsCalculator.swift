@@ -19,9 +19,9 @@ struct TrendChange: Equatable {
 enum TrendsCalculator {
     static let minimumMealSeconds: TimeInterval = 30
 
-    /// Oldest week first. Meals under 30 seconds are ignored.
+    /// Oldest week first. Meals under 30 seconds, and meals where nothing was counted, are ignored.
     static func weeks(from meals: [MealRecord], calendar: Calendar = .current) -> [WeekTrend] {
-        let valid = meals.filter { $0.duration >= minimumMealSeconds }
+        let valid = meals.filter { $0.duration >= minimumMealSeconds && $0.chews > 0 }
         let grouped = Dictionary(grouping: valid) {
             calendar.dateInterval(of: .weekOfYear, for: $0.start)?.start ?? calendar.startOfDay(for: $0.start)
         }
