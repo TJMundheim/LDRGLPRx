@@ -18,6 +18,8 @@
     getMyProfile,
   } from '../api/operations.js';
   import type { AdherenceEntry, Event, UserProfile } from '../api/generated.js';
+  import { factorLabel } from '../factorLabels.js';
+  import { who, normalizeSex } from '../sex.js';
   import { riskLoadFromScores, adherencePctForWindow } from '../mindspan.js';
   import { SCORED_CATEGORY_COUNT } from '../data/audit.js';
   import {
@@ -71,12 +73,6 @@
   }
 
   // ── risk (audit factor scores) ──
-  const FACTOR_LABELS: Record<string, string> = {
-    gut: 'Gut', 'gut-microbiome': 'Gut', sleep: 'Sleep', weight: 'Weight',
-    'weight-body-fat': 'Weight', nutrition: 'Nutrition', ed: 'ED', hormones: 'Hormones',
-    environment: 'Environment', cognitive: 'Cognitive', 'already-diagnosed': 'Diagnosis',
-    alcohol: 'Alcohol', stress: 'Stress',
-  };
   const auditScores: Record<string, number> | null = (() => {
     try {
       const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('audit-v1') : null;
@@ -94,7 +90,7 @@
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3)
       .map(([k, v]) => ({
-        label: FACTOR_LABELS[k] ?? k.replace(/-/g, ' '),
+        label: factorLabel(k),
         hot: v >= 3,
         status: v >= 3 ? 'highest priority' : v >= 2 ? 'working on it' : 'on track',
       }));
@@ -114,11 +110,11 @@
   // ── week grid (tappable for the whole current week — backfill allowed) ──
   const GRID_ROWS = $derived.by(() => {
     const rows: Array<{ id: string; label: string; cap: number; isMove: boolean }> = [
-      { id: 'biome-ns-ultra', label: 'Biome NS Ultra', cap: 7, isMove: move.actionId === 'biome-ns-ultra' },
+      { id: 'biome-ns-ultra', label: 'Gut protocol', cap: 7, isMove: move.actionId === 'biome-ns-ultra' },
       { id: 'eating-window', label: 'Eating window', cap: 5, isMove: move.actionId === 'eating-window' },
       { id: 'protein-breakfast', label: 'Protein-first', cap: 7, isMove: move.actionId === 'protein-breakfast' },
       { id: 'fasted-walk', label: 'Fasted walk', cap: 2, isMove: move.actionId === 'fasted-walk' },
-      { id: 'strength', label: 'Strength', cap: 4, isMove: move.actionId === 'strength' },
+      { id: 'strength', label: 'Strength', cap: 3, isMove: move.actionId === 'strength' },
       { id: 'morning-routine', label: 'Morning routine', cap: 7, isMove: move.actionId === 'morning-routine' },
     ];
     if (!move.standing) rows.push({ id: move.actionId, label: move.gridLabel ?? 'The Move', cap: move.target, isMove: true });
@@ -154,12 +150,18 @@
     return dotRow(actionId).filter(Boolean).length;
   }
   const weekBars = $derived(weeklyPctSeries(entries, now, currentWeek, anchor, signupDate));
+  const canary = $derived.by(() => {
+    const w = who(profile?.sex);
+    if (w.showMensTrack && w.showWomensTrack) return 'the ED canary for men, the perimenopause and menopause canary for women';
+    return w.showWomensTrack ? 'your perimenopause and menopause canary' : 'your ED canary';
+  });
+  function openWeek3(): void { (window as any).portalAction?.('goTo', 'w3'); }
   function pastMove(w: number) { return moveProgress(entries, MOVES[w - 1], weekStartOf(w), signupDate); }
 
   // ── weekly measurements — logged daily, averaged per program week, charted
   //    across all 12 weeks (TJ 2026-07-08). Stored as Adherence rows
   //    `measure-<id>` with a numeric value; one reading per metric per day. ──
-  const VITAL_METRICS: Array<[string, string, string]> = [
+  const BASE_VITALS: Array<[string, string, string]> = [
     ['sys', 'Systolic', 'mmHg'],
     ['dia', 'Diastolic', 'mmHg'],
     ['pulse', 'Pulse', 'bpm'],
@@ -167,6 +169,11 @@
     ['weight', 'Weight', 'lbs'],
     ['waist', 'Waist', 'in'],
   ];
+  const VITAL_METRICS = $derived<Array<[string, string, string]>>(
+    normalizeSex(profile?.sex) === 'female'
+      ? [...BASE_VITALS, ['hot-flashes', 'Hot flashes', 'per day'], ['night-wakes', 'Night wakes', 'per night']]
+      : BASE_VITALS,
+  );
   function todayValue(metric: string): string {
     const e = entries.find(x => entryAction(x) === `measure-${metric}` && entryDate(x) === today);
     return e && typeof e.value === 'number' ? String(e.value) : '';
@@ -350,6 +357,13 @@
             <div class="mco">Your whole cohort is on this Move this week — it comes up on this week's Zoom.</div>
           </div>
         </div>
+        {#if currentWeek === 3}
+          <div class="zoomcard" style="margin:0 0 12px">
+            <div class="zt">Week 3 is the hormones week</div>
+            <div class="zm">Ten honest markers for {canary}, your lab lane, and one decision: start with a free care coordinator call, or set a 90-day date.</div>
+            <button class="zbtn" style="border:none;cursor:pointer" onclick={openWeek3}>Open the self-audit</button>
+          </div>
+        {/if}
 
         <div class="gridcard">
           <table>

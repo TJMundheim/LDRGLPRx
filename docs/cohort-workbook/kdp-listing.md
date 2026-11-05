@@ -5,9 +5,9 @@
 **Series:** none
 **Author:** Dr. TJ Mundheim
 **Language:** English
-**Trim / interior:** 7.5 x 9.25 in, black & white, white paper, 156 pages, no bleed
+**Trim / interior:** 7.5 x 9.25 in, black & white, white paper, 159 pages, no bleed
 **Content flags:** No AI-generated-content disclosure changes needed beyond what KDP asks at upload (answer honestly per KDP's current definition). Not public domain. Not a series.
-**Low-content?** No. The interior is about 156 pages of original text, instructions and structured write-in pages, so it should be listed as regular (not low-content) with its own ISBN (free KDP ISBN is fine). Caution: KDP's reviewers sometimes label heavily blank/tracker-style books as low-content. This one is text-dense, so no action is expected, but if KDP asks, the answer is that it is a protocol guide with exercises, not a blank journal.
+**Low-content?** No. The interior is about 159 pages of original text, instructions and structured write-in pages, so it should be listed as regular (not low-content) with its own ISBN (free KDP ISBN is fine). Caution: KDP's reviewers sometimes label heavily blank/tracker-style books as low-content. This one is text-dense, so no action is expected, but if KDP asks, the answer is that it is a protocol guide with exercises, not a blank journal.
 
 ## Description (1,228 chars incl. tags, plain HTML allowed by KDP)
 
@@ -45,5 +45,5 @@
 
 - Adult content: no. Reading age: leave blank.
 - Print options: black & white interior, white paper, matte or glossy cover (matte matches the navy-and-gold design), trim 7.5 x 9.25 in (custom size), no bleed.
-- Suggested list price: set after KDP shows the print cost for 156 pages at this trim.
-- Files: KDP-UPLOAD — logbook-bw-interior-v11.pdf, KDP-UPLOAD — logbook-bw-COVER-v11.pdf
+- Suggested list price: set after KDP shows the print cost for 159 pages at this trim.
+- Files: KDP-UPLOAD — logbook-bw-interior-v12.pdf, KDP-UPLOAD — logbook-bw-COVER-v12.pdf

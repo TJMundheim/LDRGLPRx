@@ -40,8 +40,8 @@ describe('program ladder', () => {
     expect(moveForWeek(99).week).toBe(12);
   });
 
-  it('slot model totals 312', () => {
-    expect(TOTAL_PROGRAM_SLOTS).toBe(312);
+  it('slot model totals 300', () => {
+    expect(TOTAL_PROGRAM_SLOTS).toBe(300);
   });
 });
 
@@ -80,7 +80,7 @@ describe('program-paced scoring (v2)', () => {
       }
     }
     const cum = programCumulativePct(entries, NOW, 1);
-    expect(cum).toBeLessThanOrEqual(5); // 9 of 312
+    expect(cum).toBeLessThanOrEqual(5); // 9 of 300
     const score = programMindspanScore({
       cumulativePct: cum,
       rollingPct: 43, // 9 of 21 rolling slots

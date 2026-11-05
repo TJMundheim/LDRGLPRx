@@ -335,7 +335,7 @@
     </div>
 
     <div class="attest-card">
-      <p class="orient">Week 2 unlocks when you attest you watched — live or the recording.</p>
+      <p class="orient">Week 2 opens Monday on its own. Watch the Zoom live or the recording.</p>
       {#if weeklyEvent}
         <p class="meta">{weeklyEvent.title} — {fmtEvent(weeklyEvent)}</p>
         {#if (weeklyEvent as any).recordingUrl}

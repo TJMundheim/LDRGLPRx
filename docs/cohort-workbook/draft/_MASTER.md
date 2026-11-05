@@ -36,6 +36,19 @@ The logbook covers **Month 1** — the first four weeks of the My4MLife cohort p
 - **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The person who layers this on a broken foundation gets the bill, not the benefit.
 - **Part 9 — Resources & Next Steps.** The 20-question MindSpan assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
 
+### How this logbook fits the app
+
+This logbook gives you the month's work, week by week. The app adds one thing on top: a single **Move** the whole cohort tracks together, for twelve weeks. Neither replaces the other. In Month 1:
+
+| Week | This logbook | The app's Move |
+|---|---|---|
+| 1 | Foundation | Start your gut protocol, with your first meal, every day |
+| 2 | Add the Lift | Hold the 9–6 eating window 5 of 7 days |
+| 3 | Hormones and the Canaries | Protein-first, 30–40g at every fast-break |
+| 4 | Mitigate, Synthesize, Recommit | Pantry purge: zero seed oils in the house |
+
+Everything you run here stays in place while the Move changes. The retake in Part 9 is your day-30 read; the app asks for a formal retake in Week 12.
+
 ### Before you start
 
 Read Part 1 with a pen in your hand. Do not skim. Do not "fill it in later." The exercises in Part 1 are short on purpose so that the only excuse for not doing them is that you are choosing not to. Write the face. Write the why. Write the baseline. Then turn the page.
@@ -86,7 +99,7 @@ I'm going to ask you to put the logbook down for ten minutes and look at a face.
 
 Not your own face in the mirror. Somebody else's face. Your spouse or partner. One of your kids — by name. Your aging father in the chair he doesn't get out of anymore. The grandchild who isn't born yet. Your own younger self at twenty-two. One specific human being whose life is materially worse if your mind goes before your body does.
 
-I've been doing this work long enough to tell you what separates the people who finish a four-month cohort from the ones who quit in week three. It isn't IQ. It isn't income. It isn't how clean the protocol is or how expensive the stack is. It's whether they could name, on day one, who they were doing this for.
+I've been doing this work long enough to tell you what separates the people who finish a twelve-week cohort from the ones who quit in week three. It isn't IQ. It isn't income. It isn't how clean the protocol is or how expensive the stack is. It's whether they could name, on day one, who they were doing this for.
 
 Here is the lock-in phrase for this entire logbook. Write it down. Read it back:
 
@@ -94,7 +107,7 @@ Here is the lock-in phrase for this entire logbook. Write it down. Read it back:
 
 The people who run it have a face. The ones who don't, drift.
 
-That's why Part 1 is not about gut repair, or testosterone, or sleep architecture, or resistance training, or any of the things you came here to fix. Part 1 is about you naming — in your own handwriting, on this page, today — the human being whose presence in your life makes the next four months non-negotiable.
+That's why Part 1 is not about gut repair, or hormones, or sleep architecture, or resistance training, or any of the things you came here to fix. Part 1 is about you naming — in your own handwriting, on this page, today — the human being whose presence in your life makes the next twelve weeks non-negotiable.
 
 If you skip this section and jump to the protocol, the protocol will not hold. I have watched this happen for years. Someone buys the stack, reads the chapters, runs week one beautifully, hits a bad Tuesday in week two, and quits. They quit because there was no face on the other side of the quitting. The quitting cost them nothing.
 
@@ -146,7 +159,7 @@ Now that you have the face, write the why. In your own handwriting. 150 to 300 w
 
 Use the prompts below as scaffolding. You don't have to answer every one in order. You don't have to use them at all if your why comes out cleanly without them. But if you stall, walk down the list.
 
-When you are done, sign it and date it. Re-read it once a week for the next four months. Photograph it. Tape a copy to your bathroom mirror. This is the contract between today's version of you and the version of you who is going to want to quit in week six.
+When you are done, sign it and date it. Re-read it once a week for the next twelve weeks. Photograph it. Tape a copy to your bathroom mirror. This is the contract between today's version of you and the version of you who is going to want to quit in week six.
 
 **Prompts to draw from:**
 
@@ -195,7 +208,7 @@ _______________________________________________
 
 _______________________________________________
 
-Signed: ______________________________   Date: ____________
+Signed: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   Date: \_\_\_\_\_\_\_\_\_\_\_\_
 
 ---
 
@@ -203,26 +216,27 @@ Signed: ______________________________   Date: ____________
 
 A why without a target is a wish. We are going to give your why three measurable outcomes, dated six months out from today.
 
-The rules: each outcome must be (a) specific, (b) measurable with a number or a 1-10 score, and (c) something you can verify on the date without anybody else's permission. Not "feel better." Not "be healthier." A number. A score. A waist size. A weight. A lift. A morning erection frequency. A sleep score. A cognitive clarity rating you write down today and re-rate in 180 days.
+The rules: each outcome must be (a) specific, (b) measurable with a number or a 1-10 score, and (c) something you can verify on the date without anybody else's permission. Not "feel better." Not "be healthier." A number. A score. A waist size. A weight. A lift. A morning erection frequency. Nights broken by sweats or a 3 AM wake-up. A sleep score. A cognitive clarity rating you write down today and re-rate in 180 days.
 
 Pick from the menu below or write your own. Three is the cap. People who write ten targets hit zero. People who write three hit two.
 
 **Sample target categories (pick any three or write your own):**
 
-- Body weight (lb): ____ today → ____ in 6 months
-- Waist circumference at navel (in): ____ today → ____ in 6 months
-- Morning erection frequency (per week, honest): ____ today → ____ in 6 months
-- Libido (1-10, honest): ____ today → ____ in 6 months
-- Sleep score (1-10, or wearable score): ____ today → ____ in 6 months
-- Cognitive clarity (1-10, honest): ____ today → ____ in 6 months
-- Resting heart rate (bpm): ____ today → ____ in 6 months
-- Heaviest compound lift (squat / hinge / press, lb): ____ today → ____ in 6 months
-- Alcoholic drinks per week: ____ today → ____ in 6 months
-- Mood / drive (1-10, honest): ____ today → ____ in 6 months
+- Body weight (lb): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Waist circumference at navel (in): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Morning erection frequency (per week, honest): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Hot flashes or night sweats (days per week, honest): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Libido (1-10, honest): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Sleep score (1-10, or wearable score): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Cognitive clarity (1-10, honest): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Resting heart rate (bpm): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Heaviest compound lift (squat / hinge / press, lb): \_\_\_\_ today → \_\_\_\_ in 6 months
+- Alcoholic drinks per week: \_\_\_\_ today → \_\_\_\_ in 6 months
+- Mood / drive (1-10, honest): \_\_\_\_ today → \_\_\_\_ in 6 months
 
 **My three locked targets — six months from today:**
 
-Today's date: ____________   Target date: ____________
+Today's date: \_\_\_\_\_\_\_\_\_\_\_\_   Target date: \_\_\_\_\_\_\_\_\_\_\_\_
 
 **Target 1 (metric + today's number + 6-month number):**
 
@@ -246,7 +260,7 @@ _______________________________________________
 
 ## Exercise 4 — Starting baseline self-assessment
 
-The last piece of Part 1 is the honest snapshot. We need a baseline. Without a baseline you cannot tell, four months from now, whether the work worked.
+The last piece of Part 1 is the honest snapshot. We need a baseline. Without a baseline you cannot tell, twelve weeks from now, whether the work worked.
 
 This mirrors the 20-category structure of the MindSpan Assessment, question for question, so your day-one baseline lines up with the retake in Part 9. Rate each category 0 to 5 — where 0 means *no issue at all in this area* and 5 means *daily problem affecting my life*. Then in one line, name the most current, most specific symptom in that category. Not the textbook description. Yours.
 
@@ -475,13 +489,15 @@ _______________________________________________
 
 ### Personal physiology baselines
 
-Five numbers. Take them today. Re-take them at the end of Month 1, Month 2, Month 3, and Month 4.
+Six numbers the app charts, plus two only you can keep. Take them today, before Week 1. Then once a week: same day, same conditions. Log the first six on your app home screen so the chart builds.
 
-| Baseline | Today | Month 1 | Month 2 | Month 3 | Month 4 |
+| Measure | Baseline | Wk 1 | Wk 2 | Wk 3 | Wk 4 |
 | --- | --- | --- | --- | --- | --- |
 | Body weight (lb) | ____ | ____ | ____ | ____ | ____ |
 | Waist at navel (in) | ____ | ____ | ____ | ____ | ____ |
-| Resting heart rate (bpm, AM) | ____ | ____ | ____ | ____ | ____ |
+| Blood pressure (sys / dia) | ____ | ____ | ____ | ____ | ____ |
+| Resting pulse (bpm, AM) | ____ | ____ | ____ | ____ | ____ |
+| SpO₂ (%) | ____ | ____ | ____ | ____ | ____ |
 | Average sleep (hr/night, last 7 nights) | ____ | ____ | ____ | ____ | ____ |
 | Alcoholic drinks per week (honest) | ____ | ____ | ____ | ____ | ____ |
 
@@ -501,7 +517,7 @@ Date of today's baseline: ____________
 >
 > *The protocol that you run beats the protocol that was theoretically better. And the protocol that you run is the one you run for a specific named person.*
 >
-> Signed: ______________________   Date: ____________
+> Signed: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   Date: \_\_\_\_\_\_\_\_\_\_\_\_
 
 ---
 
@@ -604,16 +620,16 @@ Week 1 is not about heroics. It is about laying down the architecture — the sa
 
 Here is the entire week, in plain language:
 
-- **Morning sun + walk.** Eight to fifteen minutes within the first hour of waking. Eyes toward the sun, sunglasses off, no food yet. Two times this week, minimum.
-- **Protein-first breakfast.** Thirty grams of lean protein, thirty minutes before any other macro enters your mouth. Two times this week, minimum. Aim for more.
-- **Eating window 9 AM to 6 PM.** Daily. First bite at nine or after. Last bite by six. Water, black coffee, and tea outside the window are fine. *Until you reach your ideal body weight, low body fat, and low visceral fat: train fasted in the morning — fasted morning walking in particular is a powerful accelerator. Break the fast after training with 30–40g of lean protein. If your workout ends around 10 AM, that's when the window opens. If you want to further regulate cortisol before sleep, experiment with moving your last bite earlier — around 4 or 5 PM — once the 9–6 window is consistent.*
+- **Morning sun + walk.** Eight to fifteen minutes within the first hour of waking. Eyes toward the sun, sunglasses off, no food yet. Two times this week, minimum. Daily is better; the tracker has a box for it.
+- **Protein-first breakfast.** Thirty to forty grams of lean protein at every fast-break, thirty minutes before any other macro enters your mouth. Every day. Your daily target is one gram per pound of your ideal body weight.
+- **Eating window 9 AM to 6 PM.** Aim for every day; five of seven is the floor the app scores. A breakfast with the kids or grandkids doesn't break the program; walk thirty minutes after. First bite at nine or after. Last bite by six. Water, black coffee, and tea outside the window are fine. *Until you reach your ideal body weight, low body fat, and low visceral fat: train fasted in the morning — fasted morning walking in particular is a powerful accelerator. Break the fast after training with 30–40g of lean protein. If your workout ends around 10 AM, that's when the window opens. If you want to further regulate cortisol before sleep, experiment with moving your last bite earlier — around 4 or 5 PM — once the 9–6 window is consistent.*
 - **Lights out by 10:30 PM.** Daily. Backwards-plan your evening from this. Screens down by 9:45. Mag L-threonate at 9.
-- **The daily stack.** Six products. See the card in §3.2. Anchored on the gut-barrier probiotic in the morning. Non-negotiable.
+- **The daily stack.** Six products. See the card in §3.2. Anchored on the gut-barrier probiotic with your first meal. Non-negotiable.
 - **Two strength sessions.** Compound lifts. Squat, hinge, push, pull, carry. Recovery-prioritized. Leave one rep in the tank.
 
 Plus two touchpoints that hold the week together:
 
-- **The weekly Zoom.** It is scheduled based on demand. If your schedule does not allow you to attend, the recording is available to you. Attendance is the single mechanism that unlocks Week 2.
+- **The weekly Zoom.** It is scheduled based on demand. If your schedule does not allow you to attend, the recording is available to you. The calendar moves you to Week 2 on its own either way. The Zoom is what keeps you from running it alone.
 - **The Sunday reflection.** Four pages, one per pillar, at the back of this part. Do it Sunday evening with a cup of tea, not Monday morning in a panic.
 
 There is no optional advanced layer this week. No cold plunges, no breathwork stacks, no zone-2 protocols. If you are tempted to add something, don't. The temptation to add is the same temptation that has made every previous attempt fail. *Stop hurting yourself first. Then add what works.*
@@ -632,7 +648,7 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 
 | When | Product | Dose | Why |
 |---|---|---|---|
-| **AM — empty stomach, 30 min before food** | Gut-barrier probiotic (the gut-brain seal) | 1 scoop in 8 oz water | Gut-brain seal. The foundation of every other pillar. |
+| **With or right after your first meal** | Gut-barrier probiotic (the gut-brain seal) | As labeled; see my4mlife.com/stack | Gut-brain seal. The foundation of every other pillar. |
 | **With breakfast (~9 AM)** | Vitamin D + K2 + boron + astaxanthin stack | 1 serving | D3 + K2 + boron + astaxanthin. Daily floor nutrients. |
 | **Training days: around the fasted lift · Non-training days: with breakfast** | Creatine monohydrate | 5 g | Training days: half a scoop of electrolytes + 5 g creatine in 16 oz water before the fasted lift, other half after. Non-training days: 5 g with breakfast. |
 | **Training days — half before the lift, half after** | Electrolyte powder (zero-sugar, low-sodium; see my4mlife.com for the one we use) | 1 scoop split in 16 oz water | Carries the creatine, holds hydration through a fasted lift, and blunts appetite if you want to push the fast further into the day. |
@@ -659,7 +675,7 @@ Your job for the next seven days is to prove to yourself that you can do six sim
 
 | Supplement | Done |
 |---|---|
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
@@ -689,7 +705,7 @@ _________________________________________________________________
 
 | Supplement | Done |
 |---|---|
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
@@ -719,7 +735,7 @@ _________________________________________________________________
 
 | Supplement | Done |
 |---|---|
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
@@ -749,7 +765,7 @@ _________________________________________________________________
 
 | Supplement | Done |
 |---|---|
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
@@ -779,7 +795,7 @@ _________________________________________________________________
 
 | Supplement | Done |
 |---|---|
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
@@ -809,7 +825,7 @@ _________________________________________________________________
 
 | Supplement | Done |
 |---|---|
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
@@ -839,7 +855,7 @@ _________________________________________________________________
 
 | Supplement | Done |
 |---|---|
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
 | D3 + K2 stack (breakfast) | ☐ |
 | Creatine 5 g (+ electrolytes around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel (fat meal) | ☐ |
@@ -864,7 +880,7 @@ _________________________________________________________________
 
 ### Session 1
 
-**Date:** _______________   **Start time:** _______   **End time:** _______
+**Date:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   **Start time:** \_\_\_\_\_\_\_   **End time:** \_\_\_\_\_\_\_
 
 | Movement | Sets × Reps × Weight | Notes |
 |---|---|---|
@@ -874,7 +890,7 @@ _________________________________________________________________
 | | | |
 | | | |
 
-**How I felt going in (0–10):** _____   **How I felt walking out (0–10):** _____
+**How I felt going in (0–10):** \_\_\_\_\_   **How I felt walking out (0–10):** \_\_\_\_\_
 
 **One thing to change next session:** ___________________________________
 
@@ -882,7 +898,7 @@ _________________________________________________________________
 
 ### Session 2
 
-**Date:** _______________   **Start time:** _______   **End time:** _______
+**Date:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_   **Start time:** \_\_\_\_\_\_\_   **End time:** \_\_\_\_\_\_\_
 
 | Movement | Sets × Reps × Weight | Notes |
 |---|---|---|
@@ -892,7 +908,7 @@ _________________________________________________________________
 | | | |
 | | | |
 
-**How I felt going in (0–10):** _____   **How I felt walking out (0–10):** _____
+**How I felt going in (0–10):** \_\_\_\_\_   **How I felt walking out (0–10):** \_\_\_\_\_
 
 **One thing to change next session:** ___________________________________
 
@@ -1000,7 +1016,7 @@ _________________________________________________________________
 
 ### Mitigate
 
-Stop hurting yourself first. Then add what works. This week's Mitigate work centered on the gut — the gut-barrier probiotic (the gut-brain seal) every morning on an empty stomach — and on closing your eating window by 6 PM so your gut, liver, and pancreas got real rest. Mitigate is the pillar where you remove the chronic insults driving neuroinflammation. You can't out-supplement a leaking gut or a 10 PM snack.
+Stop hurting yourself first. Then add what works. This week's Mitigate work centered on the gut — the gut-barrier probiotic (the gut-brain seal) every day with your first meal — and on closing your eating window by 6 PM so your gut, liver, and pancreas got real rest. Mitigate is the pillar where you remove the chronic insults driving neuroinflammation. You can't out-supplement a leaking gut or a 10 PM snack.
 
 **1. What insulting behavior did I notice myself doing this week — and did I stop it?**
 
@@ -1070,7 +1086,7 @@ _________________________________________________________________
 | Protein-first breakfast (30–40g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Eating window closed by 6 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out by 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Gut-barrier probiotic (AM) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | D3 + K2 stack + creatine (+ electrolytes around the lift on training days) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Omega-3 + CoQ10 softgel (with fat meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Sleep-support formula (pre-bed) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
@@ -1082,7 +1098,7 @@ _________________________________________________________________
 
 **Weekly target:  _______ / 79**
 
-**MindSpan Score this week:  ____**  (from your app home screen)
+**Protocol Score this week:  ____**  (the ring on your app home screen; higher is better)
 
 ---
 
@@ -1103,11 +1119,11 @@ _________________________________________________________________
 
 Week 1 built the architecture. Week 2 starts the engine.
 
-You kept everything from Week 1 — morning sun and walk, 30–40g protein-first, 9 AM to 6 PM eating window, the gut-barrier probiotic / D3+K2 stack / omega-3+CoQ10 softgel / sleep-support formula / Mag L-threonate stack, lights out by 10:30. None of that goes away. It's the foundation. We don't trade Week 1 for Week 2 — we stack Week 2 on top.
+You kept everything from Week 1 — morning sun and walk, 30–40g protein-first, 9 AM to 6 PM eating window, the gut-barrier probiotic / D3+K2 stack / creatine / omega-3+CoQ10 softgel / sleep-support formula / Mag L-threonate stack, lights out by 10:30. None of that goes away. It's the foundation. We don't trade Week 1 for Week 2 — we stack Week 2 on top.
 
 What we add this week is the lift.
 
-Here's what most people in your decade don't understand: by 50, you are almost certainly sarcopenic. You've been losing 1-2% of lean muscle per year since your mid-30s, and it accelerates after 50. You don't see it because the scale doesn't move much — fat fills in where muscle leaves. The mirror lies politely. The bloodwork doesn't.
+Here's what most people in your decade don't understand: by midlife, sarcopenia has already started. You've been losing 1-2% of lean muscle per year since your mid-30s, and it accelerates from here. You don't see it because the scale doesn't move much — fat fills in where muscle leaves. The mirror lies politely. The bloodwork doesn't.
 
 Sarcopenia is not a falls-and-fractures problem. It's a cognitive risk factor. Compound resistance training releases myokines — irisin, BDNF-adjacent signaling molecules, cathepsin B — that cross the blood-brain barrier and stimulate neurogenesis in the hippocampus. The same hippocampus that shrinks first in Alzheimer's. When I say *resistance training is neuroprotection*, I mean it literally. The squat is a memory drug. The deadlift is a mood drug. The carry is a cognition drug.
 
@@ -1172,7 +1188,7 @@ Walk. Outside if you can. Don't sit down sweaty. Let the heart rate come down on
 
 Print one of these for each session. Three per week.
 
-### Session ___  ·  Date: __________  ·  A / B (circle one)
+### Session \_\_\_  ·  Date: \_\_\_\_\_\_\_\_\_\_  ·  A / B (circle one)
 
 **Warmup completed:** ☐ Yes  ☐ Partial  ☐ Skipped
 
@@ -1195,7 +1211,7 @@ _____________________________________________________________________
 
 ---
 
-### Session ___  ·  Date: __________  ·  A / B (circle one)
+### Session \_\_\_  ·  Date: \_\_\_\_\_\_\_\_\_\_  ·  A / B (circle one)
 
 **Warmup completed:** ☐ Yes  ☐ Partial  ☐ Skipped
 
@@ -1216,7 +1232,7 @@ _____________________________________________________________________
 
 ---
 
-### Session ___  ·  Date: __________  ·  A / B (circle one)
+### Session \_\_\_  ·  Date: \_\_\_\_\_\_\_\_\_\_  ·  A / B (circle one)
 
 **Warmup completed:** ☐ Yes  ☐ Partial  ☐ Skipped
 
@@ -1245,7 +1261,7 @@ Most people sabotage sleep in the last hour of the day and then blame the supple
 
 ### The 9:30 PM wind-down — six rules
 
-1. **No screens.** Phone down, TV off, laptop closed. If something is unavoidable, TrueDark or red-spectrum glasses only. Blue light past 9 PM suppresses melatonin for hours.
+1. **No screens.** Phone down, TV off, laptop closed. If something is unavoidable, red-spectrum glasses only. Blue light past 9 PM suppresses melatonin for hours.
 2. **No food.** Eating window closed at 6 PM. Late calories spike insulin and core temperature — both wreck deep sleep.
 3. **No work, no email, no news.** The cortisol spike from one unread message lasts longer than the message takes to read.
 4. **Dim ambient light.** One warm lamp. Overheads off. Your brain reads bright overhead light as noon.
@@ -1279,9 +1295,9 @@ One page per day. Print seven. Lift boxes only activate on lift days.
 **Morning**
 - ☐ Out of bed by 6:30
 - ☐ Sun + walk (8-15 min, no sunglasses)
-- ☐ Gut-barrier probiotic on empty stomach, 8oz water
+- ☐ Gut-barrier probiotic with first meal
 - ☐ 30–40g protein-first to open the eating window (after training if you trained fasted)
-- ☐ D3 + K2 stack with breakfast
+- ☐ D3 + K2 stack with breakfast; creatine with breakfast, or around the lift on training days
 - ☐ Omega-3 + CoQ10 softgel with largest fat-containing meal
 
 **Strength (if lift day)**
@@ -1296,7 +1312,7 @@ One page per day. Print seven. Lift boxes only activate on lift days.
 - ☐ Lights out by 10:30
 
 **Daily ratings (0-10)**
-- Energy: _____   Mood: _____   Focus: _____   Hunger control: _____
+- Energy: \_\_\_\_\_   Mood: \_\_\_\_\_   Focus: \_\_\_\_\_   Hunger control: \_\_\_\_\_
 
 **One sentence on today:** ____________________________________________
 
@@ -1383,11 +1399,11 @@ _______________________________________________
 
 _______________________________________________
 
-**Protein-first hits this week:** _____ / 21 feeding-window opens
+**Protein-first hits this week:** _____ / 7 fast-breaks
 
 **Soreness pattern (where, how long):** _______________________________________
 
-**Energy after lifts vs. before (0-10 shift):** Before _____  →  After _____
+**Energy after lifts vs. before (0-10 shift):** Before \_\_\_\_\_  →  After \_\_\_\_\_
 
 ---
 
@@ -1397,7 +1413,7 @@ _______________________________________________
 
 **9:30 PM wind-down ran clean:** _____ / 7 nights
 
-**Best "felt rested" score this week:** _____   **Worst:** _____
+**Best "felt rested" score this week:** \_\_\_\_\_   **Worst:** \_\_\_\_\_
 
 **One insulting behavior I caught myself doing — and stopped:**
 
@@ -1442,7 +1458,7 @@ _______________________________________________
 | Sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Protein-first (30–40g) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 9-6 eating window | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| AM stack (gut-barrier probiotic + D3+K2 stack + omega-3+CoQ10 softgel) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Daily stack (gut-barrier probiotic + D3+K2 stack + creatine + omega-3+CoQ10 softgel) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 9:30 wind-down | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Mag L-threonate + sleep-support formula | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out by 10:30 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
@@ -1453,7 +1469,7 @@ _______________________________________________
 
 **Week 2 score:** _____ / 52 boxes
 
-**MindSpan Score this week:  ____**  (from your app home screen)
+**Protocol Score this week:  ____**  (the ring on your app home screen; higher is better)
 
 ---
 
@@ -1484,7 +1500,7 @@ Erectile dysfunction is not a separate problem. It is the first visible warning 
 
 That's the canary. ED is the warning. The mine is your whole vascular and hormonal system, and your brain runs on the same plumbing.
 
-This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window (train fasted, break the fast with 30–40g protein after), morning sun, the gut-barrier probiotic, the D3+K2 stack, the omega-3+CoQ10 softgel, the sleep-support formula, Magtein, the lifts, the lights-out at 10:30. None of that changes.
+This week we do not start a new protocol. Everything from Week 1 and Week 2 stays in place — the protein-first rule, the 9 AM-6 PM eating window (train fasted, break the fast with 30–40g protein after), morning sun, the gut-barrier probiotic, the D3+K2 stack, creatine, the omega-3+CoQ10 softgel, the sleep-support formula, magnesium L-threonate, the lifts, the lights-out at 10:30. None of that changes.
 
 ### For women — the perimenopause canary
 
@@ -1562,6 +1578,10 @@ How many days do you need to feel normal after a hard workout, a long travel day
 
 Days needed: ______
 
+*(0 = days to feel normal, 10 = next day)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
 Five years ago this number was: ______
 
 What's different now:
@@ -1616,7 +1636,7 @@ _______________________________________________
 
 `0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
 
-Waist size 5 years ago: ______   Waist size today: ______
+Waist size 5 years ago: \_\_\_\_\_\_   Waist size today: \_\_\_\_\_\_
 
 ---
 
@@ -1665,11 +1685,14 @@ Walk each domain. Answer in writing. End each domain with a single decision chec
 Have you had a full hormone panel in the last 12 months?
 ☐ Yes    ☐ No    ☐ Never
 
-Last total testosterone: ______ ng/dL    Date: ____________
+Already on testosterone? ☐ Yes ☐ No  Since: ______
 
-Last free testosterone: ______           SHBG: ______
+Last total testosterone: \_\_\_\_\_\_ ng/dL    Date: \_\_\_\_\_\_\_\_\_\_\_\_
 
-Last estradiol (E2): ______              Last DHEA-S: ______
+Last free testosterone: \_\_\_\_\_\_           SHBG: \_\_\_\_\_\_
+
+Last estradiol (E2): \_\_\_\_\_\_              Last DHEA-S: \_\_\_\_\_\_
+
 
 If you wrote "never" or "I don't know" on any line above, circle it. That is the gap.
 
@@ -1679,11 +1702,11 @@ If you wrote "never" or "I don't know" on any line above, circle it. That is the
 
 ### Domain 2 — Cardiovascular
 
-Resting blood pressure (last reading): ______ / ______
+Resting blood pressure (last reading): \_\_\_\_\_\_ / \_\_\_\_\_\_
 
-Last lipid panel — Total chol: ______  LDL: ______  HDL: ______  Triglycerides: ______
+Last lipid panel — Total chol: \_\_\_\_\_\_  LDL: \_\_\_\_\_\_  HDL: \_\_\_\_\_\_  Triglycerides: \_\_\_\_\_\_
 
-Last fasting insulin: ______    Last HbA1c: ______
+Last fasting insulin: \_\_\_\_\_\_    Last HbA1c: \_\_\_\_\_\_
 
 Do you snore? ☐ Yes ☐ No    Witnessed apnea? ☐ Yes ☐ No    Daytime sleepiness? ☐ Yes ☐ No
 
@@ -1716,7 +1739,7 @@ _______________________________________________
 
 ### Domain 4 — Quality of Life
 
-Intimacy frequency now: ______ / month   Five years ago: ______ / month
+Intimacy frequency now: \_\_\_\_\_\_ / month   Five years ago: \_\_\_\_\_\_ / month
 
 Confidence in your own body (0-10): ______
 
@@ -1734,11 +1757,11 @@ _______________________________________________
 
 **Domain tally:**
 
-Yes: ______    Mild: ______    No: ______
+Yes: \_\_\_\_\_\_    Mild: \_\_\_\_\_\_    No: \_\_\_\_\_\_
 
 ---
 
-**The one decision this month.** You either engage the Rx consult layer now — the **Testosterone & ED lane**, booked through the care coordinator at my4mlife.com — or you stay OTC and reassess with this same worksheet in 90 days. Both are legitimate. Defaulting is not.
+**The one decision this month.** You either engage the Rx consult layer now — the **Testosterone & ED lane**, booked through a free call with the care coordinator at my4mlife.com/consult — or you stay OTC and reassess with this same worksheet in 90 days. Both are legitimate. Defaulting is not.
 
 ☐ Engaging the Rx consult layer this month — Testosterone & ED lane. Date booked: ____________
 
@@ -1830,7 +1853,7 @@ _______________________________________________
 
 `0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
 
-Waist size 5 years ago: ______   Waist size today: ______
+Waist size 5 years ago: \_\_\_\_\_\_   Waist size today: \_\_\_\_\_\_
 
 Did anything about how you eat or move actually change? ☐ Yes  ☐ No
 
@@ -1874,6 +1897,10 @@ If not — date of last period: ____________
 
 *Note: perimenopause frequently begins while cycles are still perfectly regular. A normal cycle does not rule this out.*
 
+*(0 = markedly changed, 10 = unchanged. Past your last period? Rate how settled things are. No cycle to read — hysterectomy, ablation, a hormonal IUD? Note it above and score this one 5.)*
+
+`0 — 1 — 2 — 3 — 4 — 5 — 6 — 7 — 8 — 9 — 10`
+
 ---
 
 **10. Joint aches, skin, hair, and urinary or genitourinary changes.**
@@ -1908,11 +1935,13 @@ Same four fires, same structure. Walk each domain. Answer in writing. End each d
 Have you had a full hormone panel in the last 12 months?
 ☐ Yes    ☐ No    ☐ Never
 
-Last estradiol (E2): ______    Last progesterone: ______    Last FSH: ______
+Already on hormone therapy? ☐ Yes ☐ No  Since: ______
 
-Last total testosterone: ______    Free testosterone: ______    SHBG: ______
+Last estradiol (E2): \_\_\_\_\_\_    Last progesterone: \_\_\_\_\_\_    Last FSH: \_\_\_\_\_\_
 
-Last TSH: ______    AM cortisol: ______    DHEA-S: ______
+Last total testosterone: \_\_\_\_\_\_    Free testosterone: \_\_\_\_\_\_    SHBG: \_\_\_\_\_\_
+
+Last TSH: \_\_\_\_\_\_    AM cortisol: \_\_\_\_\_\_    DHEA-S: \_\_\_\_\_\_
 
 *One number in isolation tells you nothing here. Estradiol swings erratically in perimenopause — that is the point, not the exception.*
 
@@ -1924,11 +1953,11 @@ If you wrote "never" or "I don't know" on any line above, circle it. That is the
 
 ### Domain 2 — Cardiovascular
 
-Resting blood pressure (last reading): ______ / ______
+Resting blood pressure (last reading): \_\_\_\_\_\_ / \_\_\_\_\_\_
 
-Last lipid panel — Total chol: ______  LDL: ______  HDL: ______  Triglycerides: ______
+Last lipid panel — Total chol: \_\_\_\_\_\_  LDL: \_\_\_\_\_\_  HDL: \_\_\_\_\_\_  Triglycerides: \_\_\_\_\_\_
 
-Last fasting glucose: ______    Last HbA1c: ______    Last hs-CRP: ______
+Last fasting glucose: \_\_\_\_\_\_    Last HbA1c: \_\_\_\_\_\_    Last hs-CRP: \_\_\_\_\_\_
 
 Sleep-apnea screen — exhausted after eight hours in bed? ☐ Yes ☐ No
 Morning headache? ☐ Yes ☐ No    Insomnia treated as anxiety? ☐ Yes ☐ No
@@ -1967,7 +1996,7 @@ _______________________________________________
 
 Confidence in your own competence at work or at home (0-10): ______
 
-Intimacy frequency now: ______ / month   Five years ago: ______ / month
+Intimacy frequency now: \_\_\_\_\_\_ / month   Five years ago: \_\_\_\_\_\_ / month
 
 Has physical discomfort — not desire — become part of why?  ☐ Yes   ☐ No   ☐ Both
 
@@ -1989,11 +2018,11 @@ _______________________________________________
 
 **Domain tally:**
 
-Yes: ______    Mild: ______    No: ______
+Yes: \_\_\_\_\_\_    Mild: \_\_\_\_\_\_    No: \_\_\_\_\_\_
 
 ---
 
-**The one decision this month.** You either engage the Rx consult layer now — the **Menopause & HRT lane**, booked through the care coordinator at my4mlife.com — or you stay OTC and reassess with this same worksheet in 90 days. Both are legitimate. Defaulting is not.
+**The one decision this month.** You either engage the Rx consult layer now — the **Menopause & HRT lane**, booked through a free call with the care coordinator at my4mlife.com/consult — or you stay OTC and reassess with this same worksheet in 90 days. Both are legitimate. Defaulting is not.
 
 ☐ Engaging the Rx consult layer this month — Menopause & HRT lane. Date booked: ____________
 
@@ -2012,10 +2041,10 @@ Use your domain tally — from §5.3 if you ran the men's track, from §5.3b if 
 ---
 
 **If 3 or 4 domains flagged "Yes" →**
-Schedule a **full hormone consult**, booked through the care coordinator at my4mlife.com.
+Schedule a **full hormone consult**, booked through a free call with the care coordinator at my4mlife.com/consult.
 
 - *Men:* total + free T, SHBG, estradiol, DHEA-S, full cardio markers (lipid, fasting insulin, HbA1c, hs-CRP, homocysteine), GLP-1 candidacy review. This is the TRT + cardio + metabolic consult lane.
-- *Women:* estradiol, progesterone, FSH, total + free T, SHBG, TSH, AM cortisol, DHEA-S, paired with the same cardio and metabolic markers and a real sleep evaluation. This is the menopause / hormone-therapy consult lane — a live encounter with a licensed prescriber who can discuss hormone therapy where indicated, low-dose testosterone where indicated, and non-hormonal options where hormones are not the right call. Nobody should leave with nothing.
+- *Women:* estradiol, progesterone, FSH, total + free T, SHBG, TSH, AM cortisol, DHEA-S, paired with the same cardio and metabolic markers and a real sleep evaluation. This is the menopause / hormone-therapy consult lane. Start with a free care coordinator call at my4mlife.com/consult; the coordinator takes your history and labs and lines up the next step. Nobody should leave with nothing.
 
 My decision: ☐ Scheduling this week. Date booked: ____________
 
@@ -2035,7 +2064,7 @@ My decision: ☐ Scheduling this week. Date booked: ____________
 ---
 
 **If all domains are "Mild" or "No" →**
-Continue the **OTC foundation stack** — gut-barrier probiotic, D3+K2 stack, omega-3+CoQ10 softgel, sleep-support formula, Magtein, and the pre-workout creatine+citrulline+beetroot blend on training days. Hold the line on protein-first (30–40g, post-training to open the eating window), the eating window, lifts, sleep, sun. Reassess in 90 days using this same worksheet. See my4mlife.com for the specific products we currently recommend.
+Continue the **OTC foundation stack** — gut-barrier probiotic, D3+K2 stack, creatine, omega-3+CoQ10 softgel, sleep-support formula, magnesium L-threonate, and the pre-workout creatine+citrulline+beetroot blend on training days. Hold the line on protein-first (30–40g, post-training to open the eating window), the eating window, lifts, sleep, sun. Reassess in 90 days using this same worksheet. See my4mlife.com for the specific products we currently recommend.
 
 My decision: ☐ Staying OTC. Reassessment date (90 days out): ____________
 
@@ -2057,13 +2086,13 @@ Keep every Week 1 and Week 2 behavior in place. Check the box at the end of each
 | Behavior | Done |
 |---|---|
 | Morning sun + walk, 8-15 min, no sunglasses | ☐ |
-| Gut-barrier probiotic — AM, empty stomach, 8oz water | ☐ |
+| Gut-barrier probiotic — with first meal | ☐ |
 | 30–40g protein-first at first meal (after training if trained fasted) | ☐ |
 | Eating window 9 AM – 6 PM | ☐ |
-| D3 + K2 stack with breakfast | ☐ |
+| D3 + K2 stack + creatine with breakfast (creatine around the lift on training days) | ☐ |
 | Omega-3 + CoQ10 softgel with largest fat meal | ☐ |
 | Resistance training (if scheduled today) | ☐ |
-| Magtein 1.5-2g evening | ☐ |
+| Magnesium L-threonate 1.5-2g evening | ☐ |
 | Sleep-support formula 30-60 min before lights out | ☐ |
 | Lights out by 10:30 PM | ☐ |
 
@@ -2076,13 +2105,13 @@ Audit work today (5 min on §5.2/§5.3 or §5.2b/§5.3b): ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Gut-barrier probiotic AM | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ |
 | 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| D3 + K2 stack | ☐ |
+| D3 + K2 stack + creatine | ☐ |
 | Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
-| Magtein PM | ☐ |
+| Mag L-threonate PM | ☐ |
 | Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
@@ -2095,13 +2124,13 @@ Audit work today: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Gut-barrier probiotic AM | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ |
 | 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| D3 + K2 stack | ☐ |
+| D3 + K2 stack + creatine | ☐ |
 | Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
-| Magtein PM | ☐ |
+| Mag L-threonate PM | ☐ |
 | Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 | **Cohort Zoom attended** | ☐ |
@@ -2113,13 +2142,13 @@ Audit work today: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Gut-barrier probiotic AM | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ |
 | 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| D3 + K2 stack | ☐ |
+| D3 + K2 stack + creatine | ☐ |
 | Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
-| Magtein PM | ☐ |
+| Mag L-threonate PM | ☐ |
 | Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
@@ -2132,13 +2161,13 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Gut-barrier probiotic AM | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ |
 | 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| D3 + K2 stack | ☐ |
+| D3 + K2 stack + creatine | ☐ |
 | Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
-| Magtein PM | ☐ |
+| Mag L-threonate PM | ☐ |
 | Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
@@ -2149,13 +2178,13 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Gut-barrier probiotic AM | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ |
 | 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| D3 + K2 stack | ☐ |
+| D3 + K2 stack + creatine | ☐ |
 | Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
-| Magtein PM | ☐ |
+| Mag L-threonate PM | ☐ |
 | Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 
@@ -2166,13 +2195,13 @@ Consult booked or OTC reassessment date set: ☐
 | Behavior | Done |
 |---|---|
 | Morning sun + walk | ☐ |
-| Gut-barrier probiotic AM | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ |
 | 30–40g protein-first | ☐ |
 | Eating window held | ☐ |
-| D3 + K2 stack | ☐ |
+| D3 + K2 stack + creatine | ☐ |
 | Omega-3 + CoQ10 softgel | ☐ |
 | Lift / move | ☐ |
-| Magtein PM | ☐ |
+| Mag L-threonate PM | ☐ |
 | Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
 | **End-of-Week 4M Reflection completed** (§5.7) | ☐ |
@@ -2251,7 +2280,7 @@ _______________________________________________
 
 Testosterone, estradiol, growth hormone, IGF-1 — these are the substrate of every muscle fiber, every recovery cycle, every rep that actually adds tissue. Your audit ratings on recovery, training response, and visceral fat are direct readouts on this substrate.
 
-My recovery rating (§5.2 #4 / §5.2b #5): ______    Five years ago: ______
+My recovery rating (§5.2 #4), or my 3 PM energy (§5.2b #5): \_\_\_\_\_\_    Five years ago: \_\_\_\_\_\_
 
 My training response rating (§5.2 #7 / §5.2b #7): ______
 
@@ -2261,7 +2290,7 @@ If these numbers are not where I want them, the upstream lever this month is:
 
 ☐ Lift harder and more often (compound lifts, 2-3x/week)
 ☐ Get the protein in (30–40g first, every feeding window opener)
-☐ Sleep — most testosterone is made between 11 PM and 3 AM, and fragmented sleep degrades every hormone in the panel
+☐ Sleep — fragmented sleep degrades every hormone in the panel. In men, most testosterone is made between 11 PM and 3 AM; in women, the 2–3 AM wake-up is often the transition itself.
 ☐ Engage the Rx consult — full hormone panel (TRT track for men, menopause / hormone-therapy track for women)
 
 The one I commit to this week:
@@ -2329,13 +2358,13 @@ _______________________________________________
 | Behavior | M | T | W | T | F | S | S |
 |---|---|---|---|---|---|---|---|
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Gut-barrier probiotic AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Gut-barrier probiotic (first meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 30–40g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Eating window 9-6 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| D3 + K2 stack | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| D3 + K2 stack + creatine | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Omega-3 + CoQ10 softgel | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Resistance training (2-3x) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Magtein PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| Mag L-threonate PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Sleep-support formula | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Cohort Zoom attended | | | ☐ | | | | |
@@ -2353,7 +2382,7 @@ _______________________________________________
 
 **Days hit 8+ behaviors:** ______ / 7
 
-**MindSpan Score this week:  ____**  (from your app home screen)
+**Protocol Score this week:  ____**  (the ring on your app home screen; higher is better)
 
 **My one-line note to next week's me:**
 
@@ -2490,8 +2519,8 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Morning sun + walk (8-15 min, no sunglasses) | ☐ |
 | 30–40g protein-first at first meal | ☐ |
 | 9 AM – 6 PM eating window held | ☐ |
-| Gut-barrier probiotic (AM, empty stomach) | ☐ |
-| D3 + K2 stack + omega-3 + CoQ10 softgel (with meal) | ☐ |
+| Gut-barrier probiotic (with first meal) | ☐ |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel (with meal) | ☐ |
 | Magnesium L-threonate (evening) | ☐ |
 | Sleep-support formula + lights out by 10:30 PM | ☐ |
 | Resistance training OR Zone 2 walk | ☐ |
@@ -2509,13 +2538,13 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
 | Gut-barrier probiotic | ☐ |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
 | Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
-**Hurt:** _______________________________________  **Helped:** _______________________________________
+**Hurt:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  **Helped:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ### Wednesday
 
@@ -2525,14 +2554,14 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
 | Gut-barrier probiotic | ☐ |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
 | Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 | Cohort Zoom attended | ☐ |
 
-**Hurt:** _______________________________________  **Helped:** _______________________________________
+**Hurt:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  **Helped:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ### Thursday
 
@@ -2542,13 +2571,13 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
 | Gut-barrier probiotic | ☐ |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
 | Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
-**Hurt:** _______________________________________  **Helped:** _______________________________________
+**Hurt:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  **Helped:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ### Friday
 
@@ -2558,13 +2587,13 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
 | Gut-barrier probiotic | ☐ |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
 | Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
-**Hurt:** _______________________________________  **Helped:** _______________________________________
+**Hurt:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  **Helped:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ### Saturday
 
@@ -2574,13 +2603,13 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
 | Gut-barrier probiotic | ☐ |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
 | Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 
-**Hurt:** _______________________________________  **Helped:** _______________________________________
+**Hurt:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  **Helped:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ### Sunday
 
@@ -2590,14 +2619,14 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | 30–40g protein-first | ☐ |
 | 9 AM – 6 PM window | ☐ |
 | Gut-barrier probiotic | ☐ |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | ☐ |
 | Magnesium L-threonate | ☐ |
 | Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
 | Sunday synthesis review (§6.5) | ☐ |
 
-**Hurt:** _______________________________________  **Helped:** _______________________________________
+**Hurt:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  **Helped:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ---
 
@@ -2639,20 +2668,28 @@ The deepest reflection in the logbook. Block 60 minutes. Pen, coffee, no phone.
 
 Pull your Part 1 baseline. Rate each again today on the same 0-5 scale. Write the delta.
 
-**Audit categories (0 = wrecked, 5 = excellent)**
+**Audit categories (0 = no issue, 5 = daily and affecting my life. Same scale as Part 1; a lower Day 30 is the win.)**
 
 | Category | Day 1 | Day 30 | Delta |
 |---|---|---|---|
-| Sleep quality | __ | __ | __ |
-| Energy on waking | __ | __ | __ |
-| Cognitive clarity | __ | __ | __ |
-| Mood / emotional regulation | __ | __ | __ |
-| Gut comfort | __ | __ | __ |
-| Strength / training consistency | __ | __ | __ |
-| Body composition | __ | __ | __ |
-| Libido / sexual function | __ | __ | __ |
-| Stress recovery | __ | __ | __ |
-| Sense of purpose | __ | __ | __ |
+| Cognitive / brain fog | __ | __ | __ |
+| Sleep | __ | __ | __ |
+| Mood | __ | __ | __ |
+| Gut health | __ | __ | __ |
+| Movement & strength | __ | __ | __ |
+| Weight | __ | __ | __ |
+| Alcohol | __ | __ | __ |
+| Hormones | __ | __ | __ |
+| Sexual function | __ | __ | __ |
+| Purpose & accountability | __ | __ | __ |
+
+**Your canary, re-rated.** Go back to §5.2 or §5.2b. Copy your three lowest markers and rate them again today.
+
+| Marker | Week 3 | Day 30 | Delta |
+|---|---|---|---|
+| ____________ | __ | __ | __ |
+| ____________ | __ | __ | __ |
+| ____________ | __ | __ | __ |
 
 **Physiology baselines**
 
@@ -2661,6 +2698,7 @@ Pull your Part 1 baseline. Rate each again today on the same 0-5 scale. Write th
 | Weight | __ | __ | __ |
 | Waist (at navel) | __ | __ | __ |
 | Resting HR | __ | __ | __ |
+| Blood pressure | __ | __ | __ |
 | Avg sleep hours | __ | __ | __ |
 | Avg drinks/week | __ | __ | __ |
 
@@ -2784,7 +2822,7 @@ One page per pillar, in locked order. Longer than the weekly versions. Sit with 
 
 ### Mind — what we're protecting
 
-Mind is the destination. Mind is also where the cycle starts. Four weeks ago you wrote about the person you want to be at 85 — sharp, present, knowing the names of grandchildren you may not have met yet.
+Mind is the destination. Mind is also where the cycle starts. Four weeks ago you named a face. The person you want to be at 85 is sharp, present, knowing the names of grandchildren you may not have met yet.
 
 > **What does my Mind feel like today versus 30 days ago?**
 >
@@ -2806,7 +2844,7 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 
 > *Strong body, sharp mind. Resistance training is neuroprotection.*
 
-> **My training consistency this month (sessions completed / sessions planned):**  ____ / ____
+> **My training consistency this month (sessions completed / sessions planned):**  \_\_\_\_ / \_\_\_\_
 
 > **The lift, food, or stack that produced the biggest shift in how I feel:**
 >
@@ -2861,8 +2899,8 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Morning sun + walk | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | 30–40g protein-first | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | 9 AM – 6 PM window | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| Gut-barrier probiotic AM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| Gut-barrier probiotic (first meal) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | Magnesium L-threonate PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | Sleep-support formula + 10:30 lights out | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | Resistance OR Zone 2 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
@@ -2872,7 +2910,7 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 
 **Week 4 score: ____ / 63**
 
-**MindSpan Score this week:  ____**  (from your app home screen)
+**Protocol Score this week:  ____**  (the ring on your app home screen; higher is better)
 
 ### Page 2 — Month 1 Summary Scorecard
 
@@ -2883,8 +2921,8 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Morning sun + walk | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | 30–40g protein-first | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | 9 AM – 6 PM window | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| Gut-barrier probiotic AM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| D3 + K2 stack + omega-3 + CoQ10 softgel | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| Gut-barrier probiotic (first meal) | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
+| D3 + K2 stack + creatine + omega-3 + CoQ10 softgel | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Magnesium L-threonate PM | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Sleep-support formula + 10:30 lights out | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Resistance OR Zone 2 | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
@@ -2933,12 +2971,12 @@ What follows is one page per product, in the order you'd actually add them. Then
 ## Gut-Barrier Probiotic (the gut-brain seal)
 
 **Tier:** OTC daily foundation
-**When:** Morning, empty stomach, 8oz water, 30 minutes before first food
-**Dose:** 1 scoop daily
-**What it is:** Gut-brain seal powder. L-glutamine + DGL + berberine + aloe + curcumin + zinc carnosine + vitamin A + vitamin D3. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most people over 50 — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
+**When:** With or immediately after your first meal of the day
+**Dose:** As labeled
+**What it is:** The gut-brain seal, your daily over-the-counter gut-barrier step. See my4mlife.com/stack for the specific product we currently recommend.
+**Why it's in the stack:** This is the anchor. The gut lining is where neuroinflammation starts for most people in midlife — leaky barrier, endotoxin translocation, vagal-nerve signaling junk that ends up looking like brain fog, mood drift, and sleep fragmentation. This formula seals the barrier, calms the local inflammation, and quiets the upstream input to the brain. Nothing else in the stack works as well on a leaky gut.
 **What it pairs with:** Everything. Specifically amplifies the D3+K2 stack (fat-soluble absorption), the omega-3+CoQ10 softgel (anti-inflammatory synergy), and any nootropic peptide (cleaner substrate to act on).
-**What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3. Some people report a mild detox-style headache in the first 3 days — usually berberine pulling biofilm. Drink more water and push through.
+**What to watch for in the first 30 days:** Bowel regularity normalizes in 7-14 days. Bloating and post-meal fog drop noticeably by week 3.
 **Two Paths note:** Pairs with our proprietary compounded gut-barrier prescription (physician-written to your needs) on top — same anchor, deeper repair. See my4mlife.com.
 
 > *The gut-brain seal that protects cognitive longevity.*
@@ -2951,7 +2989,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** With protein-first breakfast
 **Dose:** 1 capsule daily
 **What it is:** D3 (cholecalciferol) + K2 (MK-7) + boron + astaxanthin. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** Four fat-soluble defenders that nearly everyone over 50 is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
+**Why it's in the stack:** Four fat-soluble defenders that nearly everyone in midlife is under-dosed on. D3 runs immune, mood, and hormonal signaling. K2 routes calcium to bone instead of artery wall — the missing partner that makes D3 safe at clinical doses. Boron supports free testosterone and bone matrix. Astaxanthin is the most powerful lipid-phase antioxidant we have access to, and it crosses the blood-brain barrier. Together they form a daily structural defense layer.
 **What it pairs with:** Omega-3 + CoQ10 softgel (shared fat-soluble absorption window, mitochondrial synergy). Gut-barrier probiotic (sealed gut means D3/K2 actually get absorbed).
 **What to watch for in the first 30 days:** Subtle but real — mood floor lifts, recovery from training improves, skin tone shifts. If you're starting from a deficient D level, expect the biggest change at the 6-8 week mark when serum levels normalize.
 **Two Paths note:** No Rx upgrade. This is foundation only.
@@ -2961,10 +2999,10 @@ What follows is one page per product, in the order you'd actually add them. Then
 ## Creatine Monohydrate
 
 **Tier:** OTC daily foundation
-**When:** With breakfast, year-round, no cycling
-**Dose:** 5g daily (no loading phase needed at our age)
+**When:** Around the lift on training days, with breakfast otherwise. Year-round, no cycling.
+**Dose:** 5g daily (no loading phase needed)
 **What it is:** Pure creatine monohydrate. Not HCL, not buffered, not "advanced." Monohydrate. The form that has 700+ trials behind it.
-**Why it's in the stack:** This is the single most-evidenced cognitive supplement for people 50+. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
+**Why it's in the stack:** This is the single most-evidenced cognitive supplement in midlife. It's not a muscle supplement that happens to help the brain — it's a brain supplement that also happens to build muscle. Creatine refuels ATP in neurons under metabolic stress, which is exactly what an aging brain runs into during cognitive load, sleep loss, and recovery from exercise.
 **What it pairs with:** Resistance training (non-negotiable). Electrolyte powder (zero-sugar, low-sodium; see my4mlife.com for the one we use) on training days — half a scoop with your 5 g of creatine in 16 oz water before the fasted lift, the other half after; it also blunts appetite if you want to push the fast further into the day. Non-training days: 5 g with breakfast. Pre-workout creatine+citrulline+beetroot blend on training days (stacked NO + ATP support). Omega-3 + CoQ10 softgel (the cardio-neuro-energetic trio: omega membranes + ubiquinol mitochondria + creatine ATP).
 **What to watch for in the first 30 days:** 1-2 pounds of water weight in the first 10 days — that's intracellular hydration, not fat. Strength on compound lifts goes up within 2-3 weeks. Mental clarity under sleep deprivation is the tell that it's reached your brain.
 
@@ -2979,7 +3017,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **Tier:** OTC daily foundation
 **When:** With the largest fat-containing meal of the day
 **Dose:** 2 softgels daily
-**What it is:** EPA 1200 mg + DHA 800 mg in triglyceride (TG) form, IFOS 5-star certified for purity and oxidation. Plus Kaneka QH® ubiquinol 200 mg — the reduced, bioavailable form of CoQ10. (Cardio-neuro axis coverage — the two systems share a membrane.) See my4mlife.com for the specific product we currently recommend.
+**What it is:** EPA 1200 mg + DHA 800 mg in triglyceride (TG) form, IFOS 5-star certified for purity and oxidation. Plus ubiquinol 200 mg — the reduced, bioavailable form of CoQ10. (Cardio-neuro axis coverage — the two systems share a membrane.) See my4mlife.com for the specific product we currently recommend.
 **Why it's in the stack:** Two jobs in one capsule. The omega side rebuilds neuronal membrane fluidity and damps systemic inflammation — DHA is literally a structural lipid in your brain. The ubiquinol side restores mitochondrial electron-transport-chain efficiency, which collapses with age and with any statin exposure. Together they cover the cardio-neuro axis at the membrane + energy level.
 **What it pairs with:** D3+K2 stack (fat-soluble absorption window). Creatine (full ATP-restoration trio). Any GLP-1 protocol (counters the lipid-quality drop common on aggressive fat-loss phases).
 **What to watch for in the first 30 days:** Joint stiffness eases by week 2. Blood pressure drifts down a few points in the responsive. If you've been on a statin, expect the biggest energy/cognition lift to come from the ubiquinol side at the 4-6 week mark.
@@ -2993,19 +3031,19 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** 30-60 minutes before lights out (lights out by 10:30 PM)
 **Dose:** 1 serving nightly
 **What it is:** Sleep-architecture support — non-melatonin-led formula designed to deepen slow-wave and REM without the next-morning hangover or the receptor-downregulation problem of chronic high-dose melatonin. See my4mlife.com for the specific product we currently recommend.
-**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most people over 50 are not sleep-deprived in hours — they're sleep-deprived in architecture. This formula exists to fix the architecture so the hours you do sleep actually count.
-**What it pairs with:** Magnesium L-threonate (Magtein) — taken together they form the sleep stack. Lights-out-by-10:30 protocol. Morning sun anchor (sleep is set in the morning, not the evening).
+**Why it's in the stack:** Sleep is where the glymphatic system clears the brain. No clearance, no cognitive longevity. Most people in midlife are not sleep-deprived in hours — they're sleep-deprived in architecture. This formula exists to fix the architecture so the hours you do sleep actually count.
+**What it pairs with:** Magnesium L-threonate — taken together they form the sleep stack. Lights-out-by-10:30 protocol. Morning sun anchor (sleep is set in the morning, not the evening).
 **What to watch for in the first 30 days:** First week is the tell. Fewer 3 AM wake-ups. Dreams come back (a sign REM is recovering). Morning HRV trends up if you wear a tracker.
 **Two Paths note:** Pairs with a nattokinase prescription for the circulation/clotting tier — different mechanism, same sleep-and-cardiovascular protective intent.
 
 ---
 
-## Magnesium L-Threonate (Magtein)
+## Magnesium L-Threonate
 
 **Tier:** OTC daily foundation
 **When:** Evening, 1-2 hours before bed
-**Dose:** 1.5-2 g of Magtein (delivers ~144-192 mg elemental magnesium)
-**What it is:** The patented Magtein form of magnesium-L-threonate. This matters: it is the only magnesium form with demonstrated hippocampal bioavailability. Glycinate, citrate, and oxide do not cross into the brain the way threonate does.
+**Dose:** 1.5-2 g (delivers ~144-192 mg elemental magnesium)
+**What it is:** Magnesium L-threonate. This matters: it is the only magnesium form with demonstrated hippocampal bioavailability. Glycinate, citrate, and oxide do not cross into the brain the way threonate does.
 **Why it's in the stack:** Hippocampal magnesium drives synaptic density — the physical infrastructure of memory. Restoring it has been shown to improve working memory and executive function in older adults. This is the magnesium that targets the brain. Use other forms for bowels and muscle if you want; use threonate for the mind.
 **What it pairs with:** Sleep-support formula (the sleep stack). Lion's mane (synaptic-density synergy). Any nootropic peptide cycle.
 **What to watch for in the first 30 days:** Calmer evenings. Sharper word-finding. The "where did I put my keys" frequency drops. Real effect builds over 8-12 weeks — this is a remodeling supplement, not a stimulant.
@@ -3043,10 +3081,10 @@ What follows is one page per product, in the order you'd actually add them. Then
 ## Prescription Gut-Barrier Protocol (proprietary compounded Rx)
 
 **Tier:** Rx single-active add-on (compounded via licensed telemed partner)
-**When:** Morning, on top of the OTC gut-barrier probiotic
+**When:** Per prescription, on top of the OTC gut-barrier probiotic
 **Dose:** Per prescription
 **What it is:** A proprietary compounded gut-barrier prescription, written by a physician to your individual needs. Pairs on top of the OTC anchor. See my4mlife.com for the current Rx gut protocol.
-**Why it's in the stack:** When the OTC seal is doing its job but you have a longer history of insult — NSAID years, antibiotic courses, alcohol decades, prior ulcer, chronic reflux — BPC-157 adds a regenerative repair signal that the OTC tier can't reach. This is the deeper-tier gut repair lane.
+**Why it's in the stack:** When the OTC seal is doing its job but you have a longer history of insult — NSAID years, antibiotic courses, alcohol decades, prior ulcer, chronic reflux — the prescription adds a deeper repair signal that the OTC tier can't reach. This is the deeper-tier gut repair lane.
 **What it pairs with:** Gut-barrier probiotic (the anchor pair — never run Rx without the OTC base). D3+K2 stack (D3 amplifies barrier repair).
 **What to watch for in the first 30 days:** Reflux and post-meal discomfort drop sharply. Stool quality improves further. Energy and mood floor lifts as endotoxin load drops.
 **Two Paths note:** This *is* the Rx path for the gut anchor.
@@ -3059,7 +3097,7 @@ What follows is one page per product, in the order you'd actually add them. Then
 **When:** Evening, alongside the sleep-support formula
 **Dose:** Per prescription
 **What it is:** Nattokinase, compounded. See my4mlife.com for the current sleep Rx protocol.
-**Why it's in the stack:** Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in people 50+ with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
+**Why it's in the stack:** Fibrinolytic support — addresses the circulation/clotting tier that becomes a real concern in people with vascular risk factors, post-COVID profiles, or family history of stroke. Sleep and clean cerebral circulation are both required for glymphatic clearance.
 **What it pairs with:** Sleep-support formula (architecture). Omega-3 + CoQ10 softgel (vascular health). D3+K2 stack (K2 calcification management).
 **What to watch for in the first 30 days:** Subtler than the gut Rx. Track HRV and morning resting heart rate. Look for steadier readings, not a single dramatic shift.
 **Two Paths note:** This is the Rx path for circulation. Not a sedative.
@@ -3142,11 +3180,12 @@ One page. Tape it inside the cabinet where the bottles live.
 
 | Stack pair | Why they amplify |
 |---|---|
-| **Gut-barrier probiotic ↔ Prescription gut-barrier peptide (BPC-157)** | Anchor pair. OTC seals the barrier; Rx drives regenerative repair on top. Never run Rx without the OTC base. |
+| **Gut-barrier probiotic ↔ Prescription gut-barrier protocol** | Anchor pair. OTC seals the barrier; Rx drives regenerative repair on top. Never run Rx without the OTC base. |
 | **D3+K2+boron stack + Omega-3+CoQ10 softgel** | Mitochondrial + membrane support. Fat-soluble absorption window shared. D3/K2/astaxanthin + EPA/DHA/ubiquinol = the structural defense layer. |
 | **Creatine + Resistance Training + Pre-workout citrulline+beetroot blend** | The muscle stack. Daily creatine builds the baseline ATP pool; lifting demands it; the pre-workout blend stacks NO + ATP + electrolytes on training days. |
 | **Magnesium L-Threonate + Sleep-support formula** | The sleep stack. Threonate drives hippocampal synaptic density; the sleep formula drives architecture. Lights out by 10:30. |
 | **Cerebrolysin + Gut-barrier probiotic + D3+K2 stack** | The cognitive optimization stack. Clean gut + fat-soluble defense + neurotrophic Rx. Peptides work best on a clean substrate. |
+| **Menopause hormone therapy + Lifting + Protein-First** | Same foundation, different alarm. Bone and lean mass run the same equation; the first step is a free care coordinator call, and the plan is individualized. |
 | **TRT + Lifting + Protein-First** | Hormonal foundation. TRT without lifting is a liability; lifting without protein is futile; the three together are the muscle-mind axis. |
 | **GLP-1 + Protein-First (30–40g) + Lifting + Omega-3+CoQ10 softgel** | Metabolic foundation. Appetite drops; protein and lifting preserve lean mass; omega+ubiquinol protect cardio during fast fat loss. |
 | **Sleep-support formula + Nattokinase Rx + Omega-3+CoQ10 softgel** | Cerebrovascular nighttime stack. Architecture + fibrinolysis + membrane health. The glymphatic clearance trio. |
@@ -3185,7 +3224,7 @@ Russian ACTH-derivative nasal peptide. Strong on focus, mood, executive function
 The anxiolytic + pro-cognitive counterpart to Semax. Calm-focus without sedation. Nasal, daily as needed.
 
 ### BPC-157
-Gut + soft tissue + neuroinflammation modulation. Oral for gut-brain axis work; IM for soft-tissue recovery. The same molecule that anchors the prescription gut-barrier peptide protocol; here it's used for cognitive purpose.
+Gut + soft tissue + neuroinflammation modulation. Oral for gut-brain axis work; IM for soft-tissue recovery. Here it's used for cognitive purpose.
 
 ### Ipamorelin
 GH secretagogue. Indirectly cognitive via deeper sleep architecture and IGF-1 support. Evening dose, sub-Q.
@@ -3214,13 +3253,13 @@ Check honestly:
 
 ## 8.2 — Brain Training
 
-Be honest about evidence: most consumer "brain training" apps don't transfer to real cognitive function. Lumosity settled with the FTC over its claims. Most brain games make you better at the games and not much else.
+Be honest about evidence: most consumer "brain training" apps don't transfer to real cognitive function. Most brain games make you better at the games and not much else.
 
 Three approaches have actual evidence:
 
 **Dual N-back.** Free implementations exist (BrainScale and others). 20 minutes per day, 4–6 weeks, shows working-memory and fluid-intelligence improvements in many studies. Cheap, modest but real effect.
 
-**BrainHQ (Posit Science).** Paid. The most-evidenced consumer brain-training product. If you're going to pay for a brain-training app, this is the one.
+**A clinically studied brain-training program.** Paid. See my4mlife.com for the one we currently recommend.
 
 **Novel skill acquisition.** Learning a new language, learning an instrument, learning a new sport, learning to dance — the highest-evidence form of "brain training" in the literature. Real cognitive demand under conditions of slow mastery. Run one for the rest of your life.
 
@@ -3228,7 +3267,7 @@ Pick **one** for the next 90 days. Just one.
 
 > **My chosen training (next 90 days):** ___________________________________
 >
-> **Frequency target:** ____ sessions per week, ____ minutes per session
+> **Frequency target:** \_\_\_\_ sessions per week, \_\_\_\_ minutes per session
 
 ### 30-day brain training tracker
 
@@ -3269,9 +3308,9 @@ Pick **one** for the next 90 days. Just one.
 
 ## 8.3 — Biofeedback
 
-**HRV training.** The single most-evidenced consumer biofeedback intervention. Slow-paced breathing (roughly 6 breaths per minute) trains vagal tone over weeks. Polar, Whoop, Oura, or any HRV tool with biofeedback mode works. **Five minutes per day. Daily.** Add it to the morning sun walk or wind-down routine.
+**HRV training.** The single most-evidenced consumer biofeedback intervention. Slow-paced breathing (roughly 6 breaths per minute) trains vagal tone over weeks. Any HRV tool with biofeedback mode works. **Five minutes per day. Daily.** Add it to the morning sun walk or wind-down routine.
 
-**Muse-style EEG meditation aid.** Real-time feedback during meditation. Worth running for anyone who has always struggled with meditation; the wearable gives feedback the cushion never did.
+**EEG meditation aid.** Real-time feedback during meditation. Worth running for anyone who has always struggled with meditation; the wearable gives feedback the cushion never did.
 
 **Clinical neurofeedback.** qEEG-guided protocols available at neurofeedback clinics. Strongest evidence for ADHD and post-concussion; emerging for general cognitive optimization. The right move if you've plateaued or you're recovering from a concussion or significant head trauma.
 
@@ -3316,11 +3355,11 @@ Pick **one** for the next 90 days. Just one.
 
 The hormetic tier. Stress the system briefly and deliberately, recover, adapt.
 
-**Sauna.** 15–20 minutes at 170–190°F, 3–4 times per week. Heat shock proteins, cardiovascular adaptation, mental clarity. Brand: HigherDose for home, any commercial sauna otherwise.
+**Sauna.** 15–20 minutes at 170–190°F, 3–4 times per week. Heat shock proteins, cardiovascular adaptation, mental clarity. A home infrared sauna or any commercial sauna.
 
-**Cold plunge or shower.** 2–5 minutes, post-workout or AM. Norepinephrine spike, mood lift, brown fat activation. Brand: Polar Recovery for home plunges, or just turn the shower to cold for the last two minutes.
+**Cold plunge or shower.** 2–5 minutes, post-workout or AM. Norepinephrine spike, mood lift, brown fat activation. A home cold-plunge unit, or just turn the shower to cold for the last two minutes.
 
-**Grounding.** Barefoot earth contact, 10–20 minutes per day. Walk in the grass. Stand barefoot on dirt. The cheapest intervention in this entire logbook. Brand: Earthing for grounding mats if outdoor contact isn't accessible.
+**Grounding.** Barefoot earth contact, 10–20 minutes per day. Walk in the grass. Stand barefoot on dirt. The cheapest intervention in this entire logbook. A grounding mat if outdoor contact isn't accessible.
 
 > One of these per day. Rotate. Don't try to do all three every day — you'll quit by week two.
 
@@ -3332,15 +3371,15 @@ Quick yes / no checklist. Aim for all six.
 
 ☐ Morning sunlight 8–15 minutes within 30–60 minutes of waking
 
-☐ Red-spectrum / dim lighting after sundown (or TrueDark glasses if exposed to screens)
+☐ Red-spectrum / dim lighting after sundown (or red-spectrum glasses if exposed to screens)
 
-☐ Air filtration in bedroom (AirDoctor or equivalent — HEPA + VOC)
+☐ Air filtration in bedroom (HEPA + VOC)
 
-☐ Reverse-osmosis water with remineralization (AquaTru or similar)
+☐ Reverse-osmosis water with remineralization
 
 ☐ EMF hygiene in bedroom (router off at night, phone in airplane mode)
 
-☐ TrueDark glasses if you're at screens after 8 PM
+☐ Red-spectrum glasses if you're at screens after 8 PM
 
 > Most people optimize their gym before they optimize their bedroom. The bedroom delivers more cognitive return.
 
@@ -3357,6 +3396,7 @@ The labs every Protégé should run every 6–12 months. Bring these to your Rx 
 - Estradiol (sensitive assay)
 - LH, FSH
 - DHEA-S
+- Progesterone (women)
 
 **Thyroid**
 - TSH
@@ -3384,9 +3424,9 @@ The labs every Protégé should run every 6–12 months. Bring these to your Rx 
 
 **Optional / advanced**
 - NMR LipoProfile
-- Boston Heart panel
-- Cleerly coronary CT (if vascular risk)
-- Galleri or comparable cancer screen (annual after 50)
+- Advanced cardiovascular panel
+- Coronary CT angiography (if vascular risk)
+- Multi-cancer blood screen
 
 ---
 
@@ -3647,7 +3687,7 @@ Your score: 0 — 1 — 2 — 3 — 4 — 5
 ---
 
 **Q17 — Hormones**
-*My hormones feel off — persistent fatigue, low drive, mood swings, poor recovery, or loss of muscle despite trying.*
+*My hormones feel off — persistent fatigue, low drive, mood swings, poor recovery, or loss of muscle despite trying; for women, also cycle changes, hot flashes, or night sweats.*
 
 Score guide:
 0 = Energy, libido, mood, and recovery all feel optimal
@@ -3769,15 +3809,15 @@ The OTC stack and the lifestyle protocols carry most people a long way. Some nee
 
 | If your audit flagged… | Engage… | Expected workflow |
 |---|---|---|
-| **Hormones** (low-T symptoms in men, perimenopause/menopause symptoms in women, Q8 ≥ 3) | Hormone consult via the care coordinator — labs + coach-led titration. TRT track for men; menopause / hormone-therapy track for women, including non-hormonal options | Full hormone panel first — clinician reviews — Rx if labs, symptoms, and history align |
-| **Weight** (Q3 ≥ 3, metabolic markers) | GLP-1 telemed consult — semaglutide / tirzepatide / retatrutide candidacy | Intake — labs reviewed — telemed visit — compounded pharmacy ships monthly |
-| **Gut** (Q1 ≥ 3, chronic GI, food sensitivities) | Prescription gut-barrier consult — proprietary compounded Rx, physician-written | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
+| **Hormones** (low-T symptoms in men, perimenopause/menopause symptoms in women, Q17 or Q18 ≥ 3) | Hormone consult: start with a free care coordinator call at my4mlife.com/consult — labs + coach-led titration. TRT track for men; menopause / hormone-therapy track for women, including non-hormonal options | Full hormone panel first — clinician reviews — Rx if labs, symptoms, and history align |
+| **Weight** (Q8 ≥ 3, metabolic markers) | GLP-1 telemed consult — semaglutide / tirzepatide / retatrutide candidacy | Intake — labs reviewed — telemed visit — compounded pharmacy ships monthly |
+| **Gut** (Q16 ≥ 3, chronic GI, food sensitivities) | Prescription gut-barrier consult — proprietary compounded Rx, physician-written | Symptom intake — telemed visit — compounded oral Rx ships in 7-10 days |
 | **Sleep** (Q2 ≥ 3, clotting/circulation factors) | Sleep Rx consult — nattokinase circulation tier | Sleep intake — coag and lipid review — Rx if indicated |
-| **Cognitive optimization** (Q7 ≥ 3, no diagnosis) | Nootropic peptide consult — Cerebrolysin / Semax / Selank | Cognitive intake — telemed visit — peptide protocol mailed |
-| **Already-diagnosed cognitive decline** (Q9 ≥ 3) | **Regenerative therapies consult (TIME-SENSITIVE)** | Regenerative protocol intake — records reviewed — nationwide mobile delivery scheduled |
+| **Cognitive optimization** (Q1 ≥ 3, no diagnosis) | Nootropic peptide consult — Cerebrolysin / Semax / Selank | Cognitive intake — telemed visit — peptide protocol mailed |
+| **Already-diagnosed cognitive decline** (a Yes on the final question) | **Regenerative therapies consult (TIME-SENSITIVE)** | Regenerative protocol intake — records reviewed — nationwide mobile delivery scheduled |
 | **Acute or chronic pain** | BPC-157 + TB-500 peptide consult | Pain intake — telemed visit — injectable peptide protocol mailed |
 
-Every Rx path begins inside the app. Tap *Rx Consults* and pick the lane. Labs you've had in the last 90 days carry forward.
+Every Rx path begins with a free call with the care coordinator at my4mlife.com/consult. Pick your lane on the form, and bring any labs from the last 90 days.
 
 ---
 
@@ -3785,9 +3825,9 @@ Every Rx path begins inside the app. Tap *Rx Consults* and pick the lane. Labs y
 
 The cohort runs on a weekly rhythm. Three touchpoints. None of them optional if you want the work to stick.
 
-- **Weekly Zoom — scheduled based on demand** — Live with Dr. TJ. Cohort Q&A, protocol updates, case discussions. If your schedule doesn't allow you to attend, the recording is available to you. Email your question to support@my4mlife.com and watch the replay.
-- **Sunday Reflection — solo** — On paper, in the app, or in the logbook. Twenty minutes. The reflection prompts are in Part 7.
-- **Weekly Adherence Scorecard** — The tear-out page from Part 6. Tape it to your bathroom mirror or screenshot it for your phone lock-screen. Score yourself at end of week.
+- **Weekly Zoom — scheduled based on demand** — Live with Dr. TJ. Cohort Q&A, protocol updates, case discussions. When a recording is posted, it appears on your app home screen. If your schedule doesn't allow you to attend, email your question to support@my4mlife.com and watch the replay.
+- **Sunday Reflection — solo** — On paper, in the app, or in the logbook. Twenty minutes. The reflection prompts are at the end of each week.
+- **Weekly Adherence Scorecard** — The tear-out page at the end of each week. Tape it to your bathroom mirror or screenshot it for your phone lock-screen. Score yourself at end of week.
 
 ### 12-Week Zoom Log
 
@@ -3816,19 +3856,19 @@ The people who fill this in are the ones who finish the program.
 |---|---|
 | **The My4MLife app** | https://app.my4mlife.com — sign in with your email, OTP code |
 | **The free 4M Assessment** | https://my4mlife.com/assessment |
-| **The book — *Begin with the End in Mind*** | Protégé welcome gift in the app, or standalone purchase at https://my4mlife.com/book |
+| **The book — *Begin with the End in Mind*** | Protégé welcome gift by email, or standalone purchase at https://my4mlife.com/book |
 | **Regenerative therapies** | See my4mlife.com for the current regenerative protocol and nationwide mobile delivery details |
 | **The blog — long-form articles** | https://my4mlife.com/blog |
 | **Weekly Zoom links** | Sent by email before each call |
-| **Product reorder & subscription management** | Inside the app — *Stack* → *Manage* |
-| **Rx Consult booking** | Inside the app — *Rx Consults* |
+| **The current products** | https://my4mlife.com/stack |
+| **Rx Consult booking** | https://my4mlife.com/consult |
 
 ### Support
 
 - **General questions** — support@my4mlife.com
 - **Billing / orders** — billing@my4mlife.com
-- **Rx / clinical** — through the app messaging only (HIPAA)
-- **Cohort + Zoom** — posted weekly in the app community
+- **Rx / clinical** — through your care coordinator at my4mlife.com/consult (HIPAA)
+- **Cohort + Zoom** — sent by email each week
 
 ---
 

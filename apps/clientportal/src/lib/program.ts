@@ -38,7 +38,7 @@ export interface ProgramMove {
 export const PROGRAM_WEEKS = 12;
 
 export const MOVES: ProgramMove[] = [
-  { week: 1,  month: 1, theme: 'MITIGATE', title: 'Start Biome NS Ultra — with your first meal, every day', actionId: 'biome-ns-ultra', target: 7, standing: true },
+  { week: 1,  month: 1, theme: 'MITIGATE', title: 'Start your gut protocol — with your first meal, every day', actionId: 'biome-ns-ultra', target: 7, standing: true },
   { week: 2,  month: 1, theme: 'MITIGATE', title: 'Hold the 9–6 eating window 5 of 7 days', actionId: 'eating-window', target: 5, standing: true },
   { week: 3,  month: 1, theme: 'MITIGATE', title: 'Protein-first 30–40g at every fast-break', actionId: 'protein-breakfast', target: 7, standing: true },
   { week: 4,  month: 1, theme: 'MITIGATE', title: 'Pantry purge — zero seed oils in the house', actionId: 'move-pantry-purge', target: 1, standing: false, gridLabel: 'Pantry purge' },
@@ -46,7 +46,7 @@ export const MOVES: ProgramMove[] = [
   { week: 6,  month: 2, theme: 'MUSCLE', title: 'Fasted dawn walk ×5', actionId: 'fasted-walk', target: 5, standing: true },
   { week: 7,  month: 2, theme: 'MUSCLE', title: 'Add one intensity day — hills or sprints', actionId: 'move-intensity', target: 1, standing: false, gridLabel: 'Intensity day' },
   { week: 8,  month: 2, theme: 'MUSCLE', title: 'Sleep week — 3-hour cutoff + cold dark room', actionId: 'move-sleep-protocol', target: 5, standing: false, gridLabel: 'Sleep week' },
-  { week: 9,  month: 3, theme: 'MOTIVATE → MIND', title: 'Name your face — write who you are doing this for', actionId: 'move-name-your-face', target: 1, standing: false, gridLabel: 'Name your face' },
+  { week: 9,  month: 3, theme: 'MOTIVATE → MIND', title: 'Say it to their face — read your why to the person you named', actionId: 'move-name-your-face', target: 1, standing: false, gridLabel: 'Read your why' },
   { week: 10, month: 3, theme: 'MOTIVATE → MIND', title: 'Heat or cold exposure ×2', actionId: 'move-heat-cold', target: 2, standing: false, gridLabel: 'Heat or cold' },
   { week: 11, month: 3, theme: 'MOTIVATE → MIND', title: 'Book your labs — measure, don’t guess', actionId: 'move-book-labs', target: 1, standing: false, gridLabel: 'Book your labs' },
   { week: 12, month: 3, theme: 'MOTIVATE → MIND', title: 'Retake the assessment — new MindSpan baseline', actionId: 'move-retake-assessment', target: 1, standing: false, gridLabel: 'Retake assessment' },
@@ -180,11 +180,11 @@ export function movesCompleted(entries: EntryLike[], now: Date, currentWeek: num
 }
 
 // Program slot model (TJ 2026-07-06): 2 dailies × 84 days + (window 5 +
-// walks 2 + strength 4) × 12 weeks + 12 Moves. The eating window allows two
-// off-days (breakfast with the grandkids — walk 30 min after); strength 3–4×.
+// walks 2 + strength 3) × 12 weeks + 12 Moves. The eating window allows two
+// off-days (breakfast with the grandkids — walk 30 min after); strength 2–3×.
 const DAILY_IDS = ['biome-ns-ultra', 'protein-breakfast'];
-const WEEKLY_TARGETS: Array<[string, number]> = [['eating-window', 5], ['fasted-walk', 2], ['strength', 4]];
-export const TOTAL_PROGRAM_SLOTS = 2 * 7 * PROGRAM_WEEKS + 11 * PROGRAM_WEEKS + PROGRAM_WEEKS; // 312
+const WEEKLY_TARGETS: Array<[string, number]> = [['eating-window', 5], ['fasted-walk', 2], ['strength', 3]];
+export const TOTAL_PROGRAM_SLOTS = 2 * 7 * PROGRAM_WEEKS + 10 * PROGRAM_WEEKS + PROGRAM_WEEKS; // 300
 
 /**
  * Percent (0-100) of the WHOLE program completed so far. The denominator is
@@ -291,7 +291,7 @@ export function weeklyPctSeries(entries: EntryLike[], now: Date, currentWeek: nu
     for (const id of DAILY_IDS) hits += daysHitInWeek(entries, id, ws);
     for (const [id, cap] of WEEKLY_TARGETS) hits += Math.min(daysHitInWeek(entries, id, ws), cap);
     if (moveProgress(entries, MOVES[w - 1], ws, signupDate).complete) hits += 1;
-    out.push(Math.round((100 * hits) / (2 * 7 + 11 + 1)));
+    out.push(Math.round((100 * hits) / (2 * 7 + 10 + 1)));
   }
   return out;
 }

@@ -7,15 +7,15 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   /*
-   * PAPERBACK GEOMETRY — 7.5 x 9.25 trim, 156 pages, white paper (B&W interior)
-   * Spine  = 156 x 0.002252 = 0.3513in
-   * Width  = 0.125 + 7.5 + 0.3513 + 7.5 + 0.125 = 15.6013in
+   * PAPERBACK GEOMETRY — 7.5 x 9.25 trim, 159 pages, white paper (B&W interior)
+   * Spine  = 159 x 0.002252 = 0.3581in
+   * Width  = 0.125 + 7.5 + 0.3581 + 7.5 + 0.125 = 15.6081in
    * Height = 9.25 + 0.25 = 9.5in
-   * Back   0.125 -> 7.625 | Spine 7.625 -> 7.9763 | Front 7.9763 -> 15.4763
+   * Back   0.125 -> 7.625 | Spine 7.625 -> 7.9831 | Front 7.9831 -> 15.4831
    * Barcode zone 2.0 x 1.2in bottom-right of back panel, kept clear.
    */
-  @page { size: 15.6013in 9.5in; margin: 0; }
-  html, body { width: 15.6013in; height: 9.5in; overflow: hidden; background: #1a2f5e; }
+  @page { size: 15.6081in 9.5in; margin: 0; }
+  html, body { width: 15.6081in; height: 9.5in; overflow: hidden; background: #1a2f5e; }
   .canvas { position: absolute; inset: 0;
     background:
       radial-gradient(ellipse at 25% 40%, rgba(212,175,90,.08) 0%, rgba(212,175,90,0) 55%),
@@ -47,8 +47,8 @@
   .barcode { width: 2in; height: 1.2in; background: #fff; flex-shrink: 0; }
 
   /* SPINE */
-  .spine { position: absolute; top: 0; left: 7.625in; width: 0.3513in; height: 9.5in; overflow: hidden; }
-  .spine-safe { position: absolute; top: 0.5in; bottom: 0.45in; left: 0.0763in; right: 0.0763in;
+  .spine { position: absolute; top: 0; left: 7.625in; width: 0.3581in; height: 9.5in; overflow: hidden; }
+  .spine-safe { position: absolute; top: 0.5in; bottom: 0.45in; left: 0.0797in; right: 0.0797in;
     display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
   .spine-text { writing-mode: vertical-rl; display: flex; align-items: center; white-space: nowrap;
     flex: 1; justify-content: center; }
@@ -60,7 +60,7 @@
   .spine-emblem { margin-top: 0.1in; flex-shrink: 0; }
 
   /* FRONT */
-  .front { position: absolute; top: 0; left: 7.9763in; width: 7.5in; height: 9.5in; }
+  .front { position: absolute; top: 0; left: 7.9831in; width: 7.5in; height: 9.5in; }
   .front-frame { position: absolute; top: 0.6in; left: 0.3in; right: 0.5in; bottom: 0.6in; border: 1.5px solid rgba(212,175,90,.55); }
   .front-frame2 { position: absolute; top: 0.69in; left: 0.39in; right: 0.59in; bottom: 0.69in; border: 1px solid rgba(212,175,90,.28); }
   .corner { position: absolute; width: 0.17in; height: 0.17in; border: 1.5px solid #d4af5a; }
@@ -98,7 +98,7 @@
   <div class="back-lede">This is not a book to read.<br>It is a logbook to run.</div>
   <div class="back-desc">
     <p><strong>The My4MLife Logbook</strong> is the write-in companion to <em>Begin with the End in Mind</em>: the first four weeks of the protocol, laid out one page at a time. You start by naming the face you are doing this for, writing your why, and setting your baseline.</p>
-    <p>Then you run the month. Each week has daily check-ins, a Wednesday Zoom prep page, an end-of-week reflection, and an adherence scorecard, with strength-session logs, a hormone and sexual-function self-audit, and a full eliminate-the-insulting-behavior audit along the way.</p>
+    <p>Then you run the month. Each week has daily check-ins, a weekly Zoom prep page, an end-of-week reflection, and an adherence scorecard, with strength-session logs, a hormone and sexual-function self-audit, and a full eliminate-the-insulting-behavior audit along the way.</p>
     <p>A stack reference at the back explains every item you are asked to take and why. Keep a pen in your hand. The order is the order on purpose.</p>
   </div>
   <div class="back-footer">

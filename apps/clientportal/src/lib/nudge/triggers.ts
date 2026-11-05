@@ -156,7 +156,7 @@ const WEEK_COPY: Record<number, { title: string; actionLabel: string; actionHref
     actionHref: '#week3',
   },
   3: {
-    title: 'Week 3 down. The mind work this week is what most people skip — and it\'s where 4M earns its name.',
+    title: 'Week 3 down. You audited the canary and made the call. Most people never do, and it\'s where 4M earns its name.',
     actionLabel: 'Start Week 4 →',
     actionHref: '#week4',
   },

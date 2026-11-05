@@ -56,7 +56,7 @@ export class LogParseError extends Error {
 
 /** The 5 standing actions, every week. */
 const STANDING: LogAction[] = [
-  { id: 'biome-ns-ultra', label: 'Biome NS Ultra' },
+  { id: 'biome-ns-ultra', label: 'Gut protocol' },
   { id: 'eating-window', label: 'Eating window' },
   { id: 'protein-breakfast', label: 'Protein-first' },
   { id: 'strength', label: 'Strength' },

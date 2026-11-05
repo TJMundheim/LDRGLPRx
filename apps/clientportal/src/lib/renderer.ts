@@ -689,7 +689,6 @@ function vitalsTracker(W: Workbook): string {
   </div>`;
 }
 function renderDash(W: Workbook): string {
-  const m = mornings(W), c = colds(W);
   // Use intake audit data (localStorage audit-v1) for dashboard stats
   const auditScores = loadAuditScores();
   const auditTotal200 = auditScores ? auditTotals(auditScores).total : null;
@@ -726,10 +725,8 @@ function renderDash(W: Workbook): string {
   </div>
 
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">MINDSPAN SCORE /50</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditTotal200 !== null ? auditTotal200 : '—'}</div><div class="stat-lbl">MINDSPAN SCORE /100</div></div>
     <div class="stat-card"><div class="stat-num" style="color:${C.gold}">${auditBand ? auditBand.label : '—'}</div><div class="stat-lbl">RISK BAND</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:${C.info}">${m}</div><div class="stat-lbl">MORNINGS DONE</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:${C.info}">${c}</div><div class="stat-lbl">COLD SHOWERS</div></div>
   </div>
 
   ${auditBand && auditTotal200 !== null ? `<div class="card" style="background:${auditBand.bg};border-color:${auditBand.color}55;margin-bottom:16px">
@@ -741,7 +738,7 @@ function renderDash(W: Workbook): string {
             : auditTotal200 <= 30 ? 'Multiple factors working against you. Targeted action yields rapid results.'
               : 'This program was built for you. Major gains are available very quickly.'}
         </div>
-        <div style="font-size:11px;color:${C.muted};margin-top:4px">${auditCategoryCount} of 10 categories scored</div>
+        <div style="font-size:11px;color:${C.muted};margin-top:4px">${auditCategoryCount} of 20 categories scored</div>
       </div>
       <div style="font-size:52px;font-weight:700;color:${auditBand.color};line-height:1">${auditTotal200}</div>
     </div>
@@ -926,7 +923,7 @@ function renderW1(ctx: RenderContext): string {
     ${pillarHeader('M4', 'MOTIVATE — Foundation', C.info, 'Why are you here? Lock in your reason before anything else.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      <div style="font-size:12px;color:${C.muted};padding:6px 0">Attend (or watch the recording of) this week's Protégé Zoom, then <strong>attest on the dashboard</strong> — that's what unlocks next week. (Removed a duplicate log here 2026-07-07.)</div>
+      <div style="font-size:12px;color:${C.muted};padding:6px 0">Attend (or watch the recording of) this week's Protégé Zoom, then <strong>tick it on the dashboard</strong>. Next week opens Monday on its own.</div>
     </div>
     <div style="margin-top:6px;margin-bottom:14px">
       <div style="font-size:12.5px;font-weight:700;color:${C.ink};margin-bottom:8px">What is driving you?</div>
@@ -958,7 +955,7 @@ function renderW1(ctx: RenderContext): string {
     ${pillarHeader('M1', 'MITIGATE — Week 1 Deep Focus', C.gold, 'Review your assessment results. Gut first — what you remove matters more than what you add.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      <div style="font-size:12px;color:${C.muted};padding:6px 0">Log Biome NS Ultra and your eating window on the <strong>dashboard tape</strong> — one tap per day, it feeds your MindSpan Score directly.</div>
+      <div style="font-size:12px;color:${C.muted};padding:6px 0">Log your gut protocol and your eating window on the <strong>dashboard tape</strong> — one tap per day, it feeds your MindSpan Score directly.</div>
     </div>
     <div style="font-size:12px;font-weight:600;color:${C.gold};margin-bottom:12px;font-style:italic">
       Your MindSpan assessment was completed during intake. Review your scores on the dashboard.
@@ -978,7 +975,7 @@ function renderW1(ctx: RenderContext): string {
           const isPriority = fromAudit ? PRIORITY_TIER_IDS.includes(
             AUDIT_CATEGORIES.find(c => c.label === fromAudit.label)?.id ?? ''
           ) : false;
-          const auditPrefill = fromAudit ? `${fromAudit.label} (${fromAudit.score}/10)` : '';
+          const auditPrefill = fromAudit ? `${fromAudit.label}` : '';
           const displayVal = W.priorities[i] || auditPrefill || '—';
           const label = ['Highest score — fastest results', 'Second priority', 'Third priority'][i];
           return `<div style="margin-bottom:10px;padding:10px 12px;background:${C.goldTint};border:1.5px solid ${C.line};border-radius:8px">
@@ -1001,7 +998,7 @@ function renderW1(ctx: RenderContext): string {
     ${pillarHeader('M2', 'MUSCLE — Establish Your Baseline', C.crit, 'Record where you are starting.')}
     <div class="w1-active">
       <div class="w1-active-label">This week</div>
-      <div style="font-size:12px;color:${C.muted};padding:6px 0">Log each strength session on the <strong>dashboard tape</strong> (3–4× this week). Form: countertop push-ups 3×10 + supported air squats 3×10.</div>
+      <div style="font-size:12px;color:${C.muted};padding:6px 0">Log each strength session on the <strong>dashboard tape</strong> (2 this week, 3 from Week 2). Form: the Logbook's compound lifts. New to lifting? Start with countertop push-ups 3×10 + supported air squats 3×10.</div>
     </div>
     <div class="card-title">Body Composition — Week 1 Baseline</div>
     ${(() => {
@@ -1091,7 +1088,7 @@ function renderW1(ctx: RenderContext): string {
 // Audit category id → factor.name in factors.ts. Used to carry the audit
 // top 3 forward into Week 2's MITIGATE picker. Categories without a direct
 // factor in the catalog stay blank — user picks manually.
-const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
+export const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
   // Complete map (TJ 2026-07-07; extended 2026-07-13 for the 20-question
   // assessment): every audit category auto-fills the Mitigate pickers — the
   // member's top 3 are fixed for Month 1, no manual selection.
@@ -1103,8 +1100,8 @@ const AUDIT_ID_TO_FACTOR_NAME: Record<string, string> = {
   'alcohol': 'Alcohol consumption',
   'already-diagnosed': 'Cognitive disengagement',
   'environment': 'Sunlight & vitamin D',
-  'erectile-dysfunction': 'Physical inactivity & injuries',
-  'hormone-balance': 'Excess body fat',
+  'erectile-dysfunction': 'Hormones & the canaries',
+  'hormone-balance': 'Hormones & the canaries',
   // 20-question additions (nearest factor in the catalog):
   // Combined item (TJ 2026-07-14): maps to the dental factor — it's the
   // actionable Mitigate protocol of the three (hearing/vision are referrals).
@@ -1234,8 +1231,8 @@ function renderW2(W: Workbook): string {
           ${factorNameSelect(selectedName, `weekReflections.w2_factor${n}_name`)}
         </div>
         <div>
-          <label for="w2-f${n}-score">Week 1 score (0–10) you gave it</label>
-          <input id="w2-f${n}-score" type="number" min="0" max="10" placeholder="0–10"
+          <label for="w2-f${n}-score">Week 1 score (0–5) you gave it</label>
+          <input id="w2-f${n}-score" type="number" min="0" max="5" placeholder="0–5"
             value="${esc(displayScore)}"
             oninput="portalField('weekReflections.w2_factor${n}_score',this.value)">
         </div>
@@ -1263,10 +1260,10 @@ function renderW2(W: Workbook): string {
     <div style="background:var(--mc-crit-tint);border:1px solid color-mix(in srgb, var(--mc-crit) 30%, transparent);border-radius:9px;padding:12px 14px;margin-bottom:14px">
       <div style="font-size:10px;font-weight:700;color:${C.crit};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
       <div style="font-size:12.5px;color:${C.muted};line-height:1.6">
-        <strong>Movement starts now.</strong> The KOT beginner playlist (Ben Patrick / Knees Over Toes Guy)
-        is your gym-free foundation. 3 sessions this week.
+        <strong>The lift goes in.</strong> 3 sessions this week, A / B / A, from the Logbook.
+        No gym? The KOT beginner playlist (Ben Patrick / Knees Over Toes Guy) is your gym-free foundation.
         Protein target must be hit at least 5 out of 7 days.
-        Eating window: still 14:10 (first meal after 9am, last before 7pm).
+        Eating window: still 9 AM to 6 PM, with your first bite after your morning training or walk.
       </div>
     </div>
 
@@ -1287,7 +1284,7 @@ function renderW2(W: Workbook): string {
             oninput="portalField('weekReflections.w2_protein_days',this.value)">
         </div>
         <div>
-          <label for="w2-fasting-days">Days I held 14:10 eating window (out of 7)</label>
+          <label for="w2-fasting-days">Days I held the 9–6 eating window (out of 7)</label>
           <input id="w2-fasting-days" type="number" min="0" max="7" placeholder="0–7"
             value="${g('w2_fasting_days')}"
             oninput="portalField('weekReflections.w2_fasting_days',this.value)">
@@ -1304,7 +1301,7 @@ function renderW2(W: Workbook): string {
       <!-- fastingDailyTracker removed 2026-07-06: eating window logs on the Mission Control tape -->
     </div>
 
-    ${pillarActionBox(C.crit, `3 KOT sessions. Hit protein 5 of 7 days. Hold your 14:10 window.
+    ${pillarActionBox(C.crit, `3 strength sessions. Hit protein 5 of 7 days. Hold your 9–6 window 5 of 7.
       These three numbers are the only scorecard that matters this week.
       <a class="res-pill" href="https://www.youtube.com/c/TheKneesovertoesguy"
         target="_blank" style="margin-left:8px">KOT Playlist ↗</a>`)}
@@ -1326,7 +1323,7 @@ function renderW2(W: Workbook): string {
 
     <div style="margin-bottom:12px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">WEEK 2 SUPPLEMENT COMPLIANCE</div>
-      ${['Biome NS Ultra'].map((name, i) => {
+      ${['Gut protocol'].map((name, i) => {
         const key = `w2s${i}`;
         const resp = W.supplements[key]?.response ?? '';
         return `<div style="display:flex;justify-content:space-between;align-items:center;
@@ -1350,7 +1347,7 @@ function renderW2(W: Workbook): string {
         oninput="portalField('weekReflections.w2_mind_obs',this.value)">${g('w2_mind_obs')}</textarea>
     </div>
 
-    ${pillarActionBox(C.info, `<strong>Biome NS Ultra continues every day</strong> — it anchors Month 1.
+    ${pillarActionBox(C.info, `<strong>Your gut protocol continues every day</strong> — it anchors Month 1.
       Score your cognitive triad (focus / memory / mood) on Sunday.
       Read at least 10 pages of <em>Begin with the End in Mind</em> each day — check off each day in the Cognitive Training section below.`)}
   </div>
@@ -1363,7 +1360,7 @@ function renderW2(W: Workbook): string {
     <div class="card-title">Week 2 Reflection — All 4 Pillars</div>
     ${[['w2_motivate_ref', 'MOTIVATE: Did sharing your WHY make it feel more real?'],
        ['w2_mitigate_ref', 'MITIGATE: Which factor action was hardest to start?'],
-       ['w2_muscle_ref', 'MUSCLE: How did your body feel after your first KOT sessions?'],
+       ['w2_muscle_ref', 'MUSCLE: How did your body feel after your first full week of lifting?'],
        ['w2_mind_ref', 'MIND: Any early signals from supplements or sleep quality change?']
     ].map(([k, l]) => `
       <div style="margin-bottom:12px">
@@ -1401,14 +1398,14 @@ const MENS_MARKERS: string[] = [
 const WOMENS_MARKERS: string[] = [
   'Sleep continuity — waking at 2 or 3 AM (0 = most nights, 10 = sleep through)',
   'Hot flashes or night sweats (0 = daily and disruptive, 10 = none)',
-  'Cycle change — length, flow, PMS, or time since the last period (0 = markedly changed, 10 = unchanged)',
+  'Cycle change — length, flow, PMS (0 = markedly changed, 10 = unchanged). Past your last period, rate how settled things are. No cycle to read? Score it 5.',
   'Mood — fuse length and flatness (0 = short fuse, anxious in the body; 10 = grounded)',
   'Brain fog — word-finding and recall compared to 5 years ago (5 = the same)',
   'Libido and comfort with intimacy compared to 5 years ago (5 = the same)',
   'Joint aches, skin, hair, urinary or genitourinary change (0 = several new, 10 = none)',
   'Where the weight sits — midsection shift (0 = significant new midsection fat, 10 = unchanged or leaner)',
   'Energy at 3 PM',
-  'Memory slips — names, the word mid-sentence, walking into a room (0 = daily, 10 = rare)',
+  'Muscle and strength response to training (0 = absent, 10 = visible response within weeks)',
 ];
 
 const MENS_LABS: [string, string][] = [
@@ -1492,10 +1489,10 @@ function decisionBox(W: Workbook, prefix: string, consultHref: string, laneLabel
     <div style="font-size:12px;color:${C.muted};line-height:1.6;margin-bottom:10px">
       This is a decision week, not a new-protocol week. Everything from Weeks 1 and 2 stays exactly as it is.
     </div>
-    ${opt('consult', `Engage the Rx consult layer — ${esc(laneLabel)}`)}
+    ${opt('consult', `Start with a free care coordinator call — ${esc(laneLabel)}`)}
     ${opt('otc', 'Stay on the OTC foundation and reassess in 90 days with this same page')}
     <a class="res-pill" href="${consultHref}" target="_blank" rel="noopener"
-      style="margin-top:4px;display:inline-block">Book the ${esc(laneLabel)} consult ↗</a>
+      style="margin-top:4px;display:inline-block">Start with a free care coordinator call — ${esc(laneLabel)} ↗</a>
     <div style="margin-top:10px">
       <label for="${prefix}_decision_note">Date booked, or reassessment date 90 days out</label>
       <input id="${prefix}_decision_note" placeholder="Put a date on it — a decision without a date is a wish."
@@ -1573,7 +1570,7 @@ function renderW3Hormones(W: Workbook, sex?: Sex | null): string {
 
   const womens = canaryTrack(W, {
     prefix: 'w3_peri',
-    title: 'THE PERIMENOPAUSE CANARY — HORMONE SELF-AUDIT',
+    title: 'THE PERIMENOPAUSE CANARY — PERIMENOPAUSE + MENOPAUSE SELF-AUDIT',
     intro: `The first signal is a cluster, not a single event: sleep that stopped holding at two or three in the morning,
       a shorter fuse where enthusiasm used to be, word-finding lapses that frighten you more than you admit, and weight
       that relocates to the middle on the same food and the same training. Perimenopause often begins in the early forties
@@ -1589,7 +1586,10 @@ function renderW3Hormones(W: Workbook, sex?: Sex | null): string {
     laneLabel: 'Menopause & HRT lane',
   });
 
+  const pointer = w.showMensTrack && w.showWomensTrack
+    ? `<div style="font-size:12px;color:${C.muted};margin:0 0 10px">Two tracks below. Run the one that is yours.</div>` : '';
   return `${intro}
+  ${pointer}
   ${w.showMensTrack ? mens : ''}
   ${w.showWomensTrack ? womens : ''}`;
 }
@@ -1617,14 +1617,15 @@ function renderW3(W: Workbook, sex?: Sex | null): string {
 
   ${proteinTargetLine(W)}
 
+  ${renderW3Hormones(W, sex)}
+
   <!-- vitals entry lives on the dashboard (single instrument, 2026-07-06) -->
 
   <div class="card" style="background:var(--mc-info-tint);border:1px solid var(--mc-info-line)">
     <div style="font-size:14px;font-weight:700;color:${C.info};margin-bottom:6px">All 4 Pillars — Mid-Month Deep Work</div>
     <div style="font-size:12.5px;color:${C.ink};line-height:1.7">
-      Two weeks in. This is where it gets real. Deep focus this week is <strong>Mind</strong> —
-      we introduce the full 7-supplement brain stack.
-      Every other pillar gets a mid-month check-in and upgraded actions.
+      Two weeks in. This is where it gets real. Your self-audit is above. This is a decision week, not a new-protocol week.
+      Every other pillar gets a mid-month check-in below.
     </div>
   </div>
 
@@ -1675,8 +1676,8 @@ function renderW3(W: Workbook, sex?: Sex | null): string {
           ${factorNameSelect(selectedName, `weekReflections.w3_factor${n}_name`)}
         </div>
         <div>
-          <label for="w3-f${n}-rescore">Re-score this factor (0–10)</label>
-          <input id="w3-f${n}-rescore" type="number" min="0" max="10" placeholder="Better than Week 1?"
+          <label for="w3-f${n}-rescore">Re-score this factor (0–5)</label>
+          <input id="w3-f${n}-rescore" type="number" min="0" max="5" placeholder="Better than Week 1?"
             value="${g(`w3_factor${n}_rescore`)}"
             oninput="portalField('weekReflections.w3_factor${n}_rescore',this.value)">
         </div>
@@ -1721,17 +1722,17 @@ function renderW3(W: Workbook, sex?: Sex | null): string {
 
     <!-- fastingDailyTracker removed 2026-07-06: eating window logs on the Mission Control tape -->
 
-    ${pillarActionBox(C.crit, '4 sessions this week. Hold the 14:10 window — first meal after 9am, last before 7pm. Month 1 stays at 14:10; we do not progress the fasting window this month.')}
+    ${pillarActionBox(C.crit, '3 sessions this week. Hold the 9–6 window. Month 1 stays at 9–6; we do not progress the eating window this month.')}
   </div>
 
   <!-- MIND W3 DEEP FOCUS -->
   <div class="card" style="border-left:4px solid ${C.info}">
-    <div class="card-title" style="color:${C.info}">M3 — MIND: Week 3 Deep Focus — Consistency</div>
+    <div class="card-title" style="color:${C.info}">M3 — MIND: Stay Consistent</div>
 
     <div style="background:var(--mc-info-tint);border:1px solid var(--mc-info-line);border-radius:9px;padding:12px 14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ THIS WEEK'S DEEP FOCUS</div>
+      <div style="font-size:10px;font-weight:700;color:${C.info};letter-spacing:.07em;margin-bottom:5px">⭐ KEEP RUNNING</div>
       <div style="font-size:12.5px;color:${C.ink};line-height:1.6">
-        Three weeks in — <strong>Biome NS Ultra with your first meal, no gaps</strong>. The gut-brain seal is built by consistency, not intensity. Keep the daily reading habit going and score your cognitive triad on Sunday.
+        Three weeks in — <strong>Your gut protocol with your first meal, no gaps</strong>. The gut-brain seal is built by consistency, not intensity. Keep the daily reading habit going and score your cognitive triad on Sunday.
       </div>
     </div>
 
@@ -1770,10 +1771,9 @@ function renderW3(W: Workbook, sex?: Sex | null): string {
         oninput="portalField('weekReflections.w3_cog_changes',this.value)">${g('w3_cog_changes')}</textarea>
     </div>
 
-    ${pillarActionBox(C.info, `<strong>Biome NS Ultra with your first meal, every day — no additions this month.</strong> Keep your daily 10-page reading habit going.`)}
+    ${pillarActionBox(C.info, `<strong>Your gut protocol with your first meal, every day.</strong> Keep your daily 10-page reading habit going.`)}
   </div>
 
-  ${renderW3Hormones(W, sex)}
 
   ${renderWeekCogTraining(W, 3)}
 
@@ -1784,7 +1784,7 @@ function renderW3(W: Workbook, sex?: Sex | null): string {
     ${[['w3_motivate_ref', 'MOTIVATE: How has your sense of identity shifted in 3 weeks?'],
        ['w3_mitigate_ref', 'MITIGATE: Which factor showed the most improvement?'],
        ['w3_muscle_ref', 'MUSCLE: Am I stronger or more capable than Week 1?'],
-       ['w3_mind_ref', 'MIND: What is my body telling me about the new supplements?']
+       ['w3_mind_ref', 'MIND: What did the audit tell me about my mind?']
     ].map(([k, l]) => `
       <div style="margin-bottom:12px">
         <label for="ref-${k}">${l}</label>
@@ -1807,7 +1807,7 @@ function renderW4(W: Workbook, sex?: Sex | null): string {
     </div>`;
 
   const metrics: [string, string][] = [
-    ['Mitigate MindSpan Score (/50)', 'audit'],
+    ['MindSpan Score (/100)', 'audit'],
     ['Morning energy (1–10)', 'energy'],
     ['Afternoon focus (1–10)', 'focus'],
     ['Sleep quality (1–10)', 'sleep'],
@@ -1863,7 +1863,7 @@ function renderW4(W: Workbook, sex?: Sex | null): string {
     <div style="margin-bottom:14px">
       <div class="card-title" style="font-size:10px;margin-bottom:8px">MONTH 2 COMMITMENT</div>
       ${[['training', 'Training plan — 3 days/week + Zone 2'],
-         ['nutrition', 'Nutrition focus (holding 14:10 eating window through Month 1)'],
+         ['nutrition', 'Nutrition focus (holding the 9–6 eating window through Month 1)'],
          ['supplements', 'Supplements to continue or add in Month 2'],
          ['cognitive', 'Cognitive practice — daily reading schedule (10+ pages/day)'],
          ['accountability', 'Accountability partner and weekly check-in plan']
@@ -1927,13 +1927,13 @@ function renderW4(W: Workbook, sex?: Sex | null): string {
           const color = delta === null ? C.muted : (delta < 0 ? C.goodBright : delta > 0 ? C.crit : C.muted);
           return `<div style="padding:6px 8px;background:${bg};color:${C.ink}">${esc(cat.label)}</div>
             <div style="padding:6px 8px;background:${bg};text-align:center;color:${C.muted}">${w1 !== null ? w1 : '—'}</div>
-            <div style="padding:6px 8px;background:${bg};text-align:center"><input type="number" style="width:44px;text-align:center" min="0" max="10" value="${esc(String(w4 !== null ? w4 : ''))}" placeholder="—" oninput="portalField('w4audit.${cat.id}',this.value)"></div>
+            <div style="padding:6px 8px;background:${bg};text-align:center"><input type="number" style="width:44px;text-align:center" min="0" max="5" value="${esc(String(w4 !== null ? w4 : ''))}" placeholder="—" oninput="portalField('w4audit.${cat.id}',this.value)"></div>
             <div style="padding:6px 8px;background:${bg};text-align:center;color:${color};font-weight:700">${delta === null ? '—' : (delta > 0 ? '+' : '') + delta}</div>`;
         }).join('')}
       </div>
       </div>
       <div style="margin-top:10px;font-size:11px;color:${C.muted}">
-        Score 0–10 per category. &nbsp; <strong>0 = fully addressed</strong> &nbsp;·&nbsp; <strong>10 = major risk still present</strong> &nbsp;·&nbsp; Lower Week 4 score = improvement.
+        Score 0–5 per category, the same scale as your assessment. &nbsp; <strong>0 = no issue</strong> &nbsp;·&nbsp; <strong>5 = daily and affecting my life</strong> &nbsp;·&nbsp; Lower Week 4 score = improvement.
       </div>
     </div>`;
     })()}
@@ -2111,12 +2111,12 @@ const weekNutrData: Record<1 | 2 | 3 | 4, { fastingCue: string; suppTagline: str
     suppNames: ['Biome NS Ultra', 'SleepRestore'],
   },
   2: {
-    fastingCue: 'Hold your 14:10 window. Push your last meal 15 minutes earlier every 2 days — you are building the habit before we tighten the window next month.',
+    fastingCue: 'Hold your 9–6 window. Break the fast with 30–40g of lean protein after your morning training or walk.',
     suppTagline: 'Continue your stack. This week add ArmorVita with your largest meal — fat-soluble vitamins need dietary fat to absorb.',
     suppNames: ['Biome NS Ultra', 'SleepRestore', 'ArmorVita'],
   },
   3: {
-    fastingCue: 'Tighten your eating window slightly. Aim for your first meal closer to 10–10:30am this week. You are preparing your metabolism for the Month 2 progression to 16:8.',
+    fastingCue: 'Hold your 9–6 window. Once it is consistent, you can experiment with moving your last bite earlier, around 4 or 5 PM, to further regulate cortisol before sleep.',
     suppTagline: 'Continue your stack. Week 3 completes your Month 1 protocol — add NeuroBridge with breakfast to activate your methylation cycle.',
     suppNames: ['Biome NS Ultra', 'SleepRestore', 'ArmorVita', 'NeuroBridge'],
   },
@@ -2208,14 +2208,14 @@ function renderSupplementsPanel(W: Workbook): string {
  */
 function stackElectrolyteNote(): string {
   return `<div style="margin-top:14px;padding:12px 14px;background:${C.panel2};border:1px solid ${C.line};border-radius:9px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:${C.ink};margin-bottom:5px">ELECTROLYTES — ULTIMA REPLENISHER (GRAPE)</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:${C.ink};margin-bottom:5px">ELECTROLYTES — DR. BERG ZERO SUGAR HYDRATION (LEMONADE)</div>
     <div style="font-size:11.5px;color:${C.muted};line-height:1.65">
       Training days: half a scoop with 5 g creatine in 16 oz of water before the fasted lift, the other half after.
       It also blunts appetite if you want to push the fast further into the day.
       Non-training days: creatine with breakfast as before.
     </div>
     <div style="font-size:11px;color:${C.muted};line-height:1.6;margin-top:6px">
-      Zero calories, zero sugar, 55 mg sodium, potassium and magnesium citrates, stevia leaf.
+      Zero sugar, stevia-leaf sweetened.
     </div>
   </div>`;
 }

@@ -60,8 +60,6 @@
     <div class="sb-stats-title">LOGBOOK PROGRESS</div>
     <div class="sb-stat">{stats.audit}</div>
     <div class="sb-stat">{stats.score}</div>
-    <div class="sb-stat">{stats.morn}</div>
-    <div class="sb-stat">{stats.cold}</div>
   </div>
   <ManageSubscriptionButton {hasActiveSubscription} {stripeCustomerId} />
   <div class="discovery-nav settings-nav">
