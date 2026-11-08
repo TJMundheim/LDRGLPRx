@@ -4,7 +4,7 @@
 //   node infra/scripts/push-patch-promo.mjs code WORD [--expires YYYY-MM-DD] [--max N] [--first-order]
 //                                                     [--note "who it's for"] [--mode live|test] [--apply]
 //   node infra/scripts/push-patch-promo.mjs list    [--mode live|test]
-//   node infra/scripts/push-patch-promo.mjs report  [--since YYYY-MM-DD] [--mode live|test]
+//   node infra/scripts/push-patch-promo.mjs report  [--since YYYY-MM-DD] [--code WORD] [--mode live|test]   (all codes, any coupon)
 // Partner program (details in push-patch-partner.mjs):
 //   partner-coupon [--mode] [--apply]                      create/find the $50 + $100 partner coupons
 //   partner CODE --name "Biz" --email e --client-discount 50|100 [--commission 100] [--note] [--mode] [--apply]
@@ -125,10 +125,12 @@ if (cmd === 'coupon') {
   for (const p of codes) console.log([p.code, p.active, fmt(p.expires_at), p.max_redemptions ?? '-', p.times_redeemed, p.metadata?.note ?? ''].join('\t'));
   console.log(`${codes.length} code(s).`);
 } else if (cmd === 'report') {
+  // Every promotion code in the account (all coupons: $150, $200, partner, one-offs). --code WORD narrows to one code.
+  const only = has('--code') ? String(flagVal('--code') ?? '').toUpperCase() : undefined;
   const coupon = await findCoupon();
-  if (!coupon) { console.log(`${tag} coupon ${COUPON_KEY} not found in ${mode}. Nothing to report.`); process.exit(0); }
-  const gte = has('--since') ? chicagoTime(flagVal('--since'), '00:00:00', '--since') : coupon.created;
-  const byId = new Map((await allCodes(coupon)).map((p) => [p.id, p.code]));
+  const gte = has('--since') ? chicagoTime(flagVal('--since'), '00:00:00', '--since') : (coupon?.created ?? chicagoTime('2026-10-01', '00:00:00', '--since'));
+  const byId = new Map();
+  for await (const p of stripe.promotionCodes.list({ limit: 100 })) if (!only || p.code.toUpperCase() === only) byId.set(p.id, p.code);
   const rows = new Map();
   const sessions = stripe.checkout.sessions.list({ created: { gte }, limit: 100, expand: ['data.payment_intent.latest_charge'] });
   for await (const s of sessions) {
