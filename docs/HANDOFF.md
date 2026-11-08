@@ -12,7 +12,7 @@
 - **CYS waiting on TJ:** Apple Developer enrollment as My 4Mlife LLC (D-U-N-S; steps in docs/launch/cys/app-store-kit/tj-steps.md Part 0); real-meal test, three lunches (docs/launch/cys/airpods-test-guide-2026-11-01.md, including Test C); buy countyourselfskinny.com so the share card can stop pointing at my4mlife.com before the 1.0 archive; PostHog "Discard client IP data". Icon picked, iOS 27 simulator installed, privacy and support pages live.
 - **CYS launch gaps beyond the app:** book cover is a draft and price undecided (docs/book-cys/tj-decisions.md), no CYS web page, book doesn't mention the app or print an offer code.
 - **Push Patch code YEAREND (TJ 2026-11-05):** $150 off any blend, live, coupon CUyv5ITP, ends 2026-12-31 23:59:59 CT. Banner live on /go/push-patch, hidden for partner-link visitors (no code box at their checkout). It beats the $100 partner client discount.
-- **Push Patch code TEAMCADE (2026-11-08):** Cade's family, first affiliate, no commission yet; $200 off any blend (coupon aYRmdi1u), 10 uses, ends 2026-12-31 23:59:59 CT. Amount and limits were Claude's pick; TJ to confirm.
+- **Push Patch code TEAMCADE (2026-11-08):** Cade's family, first affiliate, no commission yet; $200 off any blend (coupon aYRmdi1u), unlimited uses, ends 2026-11-30 23:59:59 CT (TJ confirmed).
 - **Partner agreement:** names "My 4M Life", not the LLC; raise with the attorney before partners sign.
 - **UD v2 co-author strategy:** docs/plan/uninsured-decade-v2-advisor-coauthor-2026-11-04.md (agent research, not yet reviewed by TJ; nothing sent, book unchanged).
 
