@@ -11,12 +11,12 @@ KDP locks title, subtitle, primary author, and ISBN after publishing, with a 72-
 | Field | Entry | Note |
 |---|---|---|
 | **Title** | The Uninsured Decade | Locked 2026-09-08 |
-| **Subtitle** | The One Catastrophic Risk You Cannot Buy a Policy Against, and the Premium You Can Still Pay | **TJ decides.** Patch list item E2 explains why this wording conflicts with the book's own text. The alternate is "The One Catastrophic Risk No Policy Can Lower, and the Premium You Can Still Pay." It must match the cover and the title page exactly, so the comma replaces the em dash on lines 3 and 20 of `_MASTER.md`. |
+| **Subtitle** | The One Catastrophic Risk No Policy Can Lower, and the Premium You Can Still Pay | **Decided by TJ (patch list E2).** Matches the title page, the copyright page, and `kit/cover/build_cover.py`. |
 | **Primary author** | Dr. TJ Mundheim | Same as the title page and the flagship paperback. The flagship Kindle lists "TJ Mundheim." Pick one form so both books land on one author page. |
-| **Contributor** | Marla Morgan Mundheim, role: Foreword | Only with her written OK and her confirmed professional name. |
+| **Contributor** | Marla Mundheim, role: Foreword | Only with her written OK and her confirmed professional name. |
 | **Edition** | 1 | |
-| **Imprint** | My4MLife Press | Shows only with an owned ISBN. A free KDP ISBN displays "Independently published." |
-| **ISBN** | Owned, one per format | **TJ decides** (patch list S1). Bowker lists $125 for one (MyIdentifiers page, checked). A 10-pack at $295 is reported by third parties only, so confirm at myidentifiers.com. |
+| **Imprint** | Leave blank in KDP | **Decided by TJ (patch list S1): free KDP ISBN, none purchased.** KDP lists the publisher as "Independently published" in the catalog. The copyright page still reads "Published by My4MLife Press, an imprint of My4MLife." |
+| **ISBN** | Free KDP-assigned ISBN (paperback); Kindle uses an ASIN | After KDP assigns it, add it to the ISBN comment on the copyright page in `_MASTER.md`. It cannot be used outside KDP. |
 | **Language** | English | |
 | **Series** | None | |
 | **Adult content** | No | Reading age: leave blank. |
@@ -46,7 +46,7 @@ Marla's line stays out until she approves it.
 ```
 
 **With Marla's approval, add after the third paragraph:**
-`<p>With a foreword by Marla Morgan Mundheim, an estate planning attorney in Texas, who discloses in her first lines that she is the author's sister-in-law.</p>`
+`<p>With a foreword by Marla Mundheim, an estate planning attorney in Texas, who discloses in her first lines that she is the author's sister-in-law.</p>`
 
 The sentence "this book will help you find the right questions for the first meeting" is only true if the advisor-questions page ships (patch list S3). If it does not, end that paragraph at "so ask your advisor."
 

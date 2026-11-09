@@ -19,8 +19,8 @@ from PIL import Image
 HERE = pathlib.Path(__file__).resolve().parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
-SUBTITLE = "The one catastrophic risk you cannot buy a policy against, and the premium you can still pay"
-FOREWORD = "Foreword by Marla Morgan Mundheim, Attorney at Law"  # needs Marla's written OK
+SUBTITLE = "The one catastrophic risk no policy can lower, and the premium you can still pay"
+FOREWORD = "Foreword by Marla Mundheim, Attorney at Law"  # needs Marla's written OK
 AUTHOR = "Dr. TJ Mundheim"
 
 ap = argparse.ArgumentParser()
@@ -126,7 +126,7 @@ html,body {{ width:{W}in; height:{H}in; overflow:hidden; background:var(--paper)
     <div class="row"><span>You die early</span><span>Carrier</span></div>
     <div class="row"><span>You can't work</span><span>Carrier</span></div>
     <div class="row"><span>A stay in the hospital</span><span>Carrier</span></div>
-    <div class="row last"><span>Ten years of memory care</span><span class="blank"></span></div>
+    <div class="row last"><span>Ten years of dementia care</span><span class="blank"></span></div>
   </div>
   <div class="title serif">
     <div class="the">The</div>

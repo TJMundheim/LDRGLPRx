@@ -4,6 +4,7 @@ import markdown
 import sys
 import re
 import pathlib
+import html as htmllib
 
 ROOT = pathlib.Path('/Users/thomasmundheim/Development/LDRGLPRx/docs/book-uninsured-decade')
 md_path = ROOT / 'draft' / '_MASTER.md'
@@ -18,6 +19,37 @@ html_body = markdown.markdown(
     output_format='html5',
 )
 
+
+# ── Table of contents ────────────────────────────────────────────────────────
+# The master holds a "# Contents" heading and a <!-- toc:list --> marker. The list is built
+# here from the real h1 headings, so it cannot drift from the book. Page numbers are left
+# empty; kit/render_bw.py --pdf fills them from the printed PDF (data-t is the match key).
+def toc_key(text):
+    text = htmllib.unescape(re.sub(r'<[^>]+>', '', text))
+    text = text.replace('\u2019', "'").replace('\u2018', "'").replace('\u201c', '"').replace('\u201d', '"')
+    return re.sub(r'\s+', '', text)
+
+def build_toc(body):
+    items = []
+    for m in re.finditer(r'<h1([^>]*)>(.*?)</h1>', body, flags=re.S):
+        attrs, inner = m.group(1), m.group(2)
+        idm = re.search(r'id="([^"]+)"', attrs)
+        if not idm or idm.group(1) in ('the-uninsured-decade', 'contents'):
+            continue
+        cls = 'toc-part' if 'class="part' in attrs else ('toc-ch' if re.match(r'\s*Chapter \d', re.sub(r'<[^>]+>', '', inner)) else 'toc-front')
+        items.append(f'<li class="{cls}" data-t="{htmllib.escape(toc_key(inner))}"><span class="toc-t">{inner}</span>'
+                     f'<span class="toc-d"></span><span class="toc-p"></span></li>')
+    return '<nav class="toc"><ul>' + ''.join(items) + '</ul></nav>'
+
+if '<!-- toc:list -->' in html_body:
+    html_body = html_body.replace('<!-- toc:list -->', build_toc(html_body))
+
+# Copyright page: small type so it holds one page (wrapper added here so the markdown stays plain).
+html_body = re.sub(r'(<p><em>The Uninsured Decade: .*?)(<!-- toc:start -->)', r'<div class="copyright">\1</div>\2', html_body, count=1, flags=re.S)
+
+# Foreword: Marla's signature must never be left alone on a page, so her last paragraph is held with it.
+html_body = html_body.replace('<p>Read this book with your spouse or partner,', '<p class="keep-next">Read this book with your spouse or partner,', 1)
+
 # ── Chapter emblems ──────────────────────────────────────────────────────────
 # Small, colorful hand-drawn SVG illustrations injected above each chapter title.
 # Keyed by the toc-generated h1 id prefix (chapter-1- … chapter-18-).
@@ -29,6 +61,31 @@ for _slug, _svg in EMBLEMS.items():
         html_body = html_body[:_idx] + '<div class="chap-emblem">' + _svg + '</div>' + html_body[_idx:]
 
 CSS = """
+
+/* The Part III schedule table may split between rows rather than strand its opening page */
+h1[id^="chapter-8-"] + p + table { page-break-inside: auto; }
+h1[id^="chapter-8-"] + p + table tr { page-break-inside: avoid; }
+
+p.keep-next { page-break-after: avoid; break-after: avoid; page-break-inside: avoid; break-inside: avoid; }
+/* Two short front sections share a page instead of stranding a few lines */
+h1#a-note-on-the-numbers { page-break-before: avoid; margin-top: 1.2em; }
+
+/* Back-matter page: smaller heading so the whole page holds one sheet */
+h1#if-you-would-rather-not-run-it-alone { font-size: 22pt; margin-top: 0.4em; }
+h1, h2, h3, h4 { hyphens: manual; }
+
+/* Copyright page */
+.copyright p { font-size: 8.8pt; line-height: 1.45; margin-bottom: 0.65em; text-align: left; hyphens: manual; }
+
+/* Contents page */
+h1.contents { font-size: 22pt; margin: 0 0 0.3em; }
+nav.toc ul { list-style: none; margin: 0.4em 0 0; padding: 0; }
+nav.toc li { display: flex; align-items: baseline; gap: 0.4em; margin: 0; padding: 0.12em 0; font-size: 9.5pt; line-height: 1.3; }
+nav.toc li.toc-part { font-weight: 700; margin-top: 0.5em; }
+nav.toc li.toc-ch { padding-left: 1.2em; }
+nav.toc .toc-t { flex: 0 1 auto; }
+nav.toc .toc-d { flex: 1 1 auto; border-bottom: 1px dotted #888; min-width: 1em; transform: translateY(-0.2em); }
+nav.toc .toc-p { min-width: 1.8em; text-align: right; font-variant-numeric: tabular-nums; }
 /* Part kicker shares the page with its first chapter */
 h1.part { page-break-before: always; page-break-after: avoid; font-size: 13pt; letter-spacing: 0.12em; text-transform: uppercase; color: #8a6d1f; margin: 0 0 0.6em; }
 h1.part::after { display: none; }
@@ -313,7 +370,7 @@ html_doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Count Yourself Skinny</title>
+<title>The Uninsured Decade</title>
 <style>{CSS}</style>
 </head>
 <body>

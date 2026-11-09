@@ -18,6 +18,8 @@ ap.add_argument('-o', '--out', required=True)
 args = ap.parse_args()
 
 t = (ROOT / 'draft' / '_MASTER.md').read_text(encoding='utf-8')
+# The printed Contents page has no place in a reflowable ebook (Kindle builds its own navigation).
+t = re.sub(r'<!-- toc:start -->.*?<!-- toc:end -->\s*', '', t, flags=re.S)
 t = re.sub(r'\s*\{\.[a-z-]+\}\s*$', '', t, flags=re.M)         # attribute tags on headings
 t = re.sub(r'^>\s*###\s+(.*)$', r'> **\1**', t, flags=re.M)     # heading inside a callout
 t = re.sub(r'^>\s*$', '', t, flags=re.M)                        # empty quote lines

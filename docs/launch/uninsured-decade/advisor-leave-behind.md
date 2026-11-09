@@ -20,7 +20,7 @@ _Drafted 2026-09-08. One-page client handout an advisor gives out at the end of 
 
 ## The $0 line
 
-**Medicare pays $0 toward custodial or memory care.** Its own coverage rule states plainly: "Medicare doesn't cover custodial care if it's the only care you need." *(medicare.gov/coverage/long-term-care; 42 CFR §411.400)*
+**Medicare pays $0 toward custodial or memory care.** Its own coverage rule states plainly: "Medicare doesn't cover custodial care if it's the only care you need." *(medicare.gov/coverage/nursing-home-care; 42 CFR §411.15(g); 42 U.S.C. §1395y(a)(9))*
 
 ## The long-term-care insurance market
 

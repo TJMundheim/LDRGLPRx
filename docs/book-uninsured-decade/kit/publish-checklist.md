@@ -34,11 +34,16 @@
 cd /Users/thomasmundheim/Development/LDRGLPRx/docs/book-uninsured-decade
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 python3 render.py                # refreshes draft/_MASTER.html from _MASTER.md
-python3 kit/render_bw.py         # writes kit/_MASTER-bw.html
-"$CHROME" --headless=new --no-pdf-header-footer \
+python3 kit/render_bw.py         # writes kit/_MASTER-bw.html (Contents page numbers empty)
+"$CHROME" --headless=new --no-pdf-header-footer --generate-pdf-document-outline \
   --print-to-pdf="kit/uninsured-decade-bw-interior-v5.pdf" \
   "file://$PWD/kit/_MASTER-bw.html"
-python3 kit/build_kindle_docx.py -o kit/uninsured-decade-kindle-v5.docx
+# second pass: read the real page numbers from that PDF into the Contents page, then print again
+python3 kit/render_bw.py --pdf kit/uninsured-decade-bw-interior-v5.pdf
+"$CHROME" --headless=new --no-pdf-header-footer --generate-pdf-document-outline \
+  --print-to-pdf="kit/uninsured-decade-bw-interior-v5.pdf" \
+  "file://$PWD/kit/_MASTER-bw.html"
+python3 kit/build_kindle_docx.py -o kit/uninsured-decade-kindle-v5.docx   # drops the Contents page and strips comments
 ```
 - [ ] **9. Get the page count and check the interior:**
 ```bash
