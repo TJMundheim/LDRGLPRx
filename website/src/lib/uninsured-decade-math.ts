@@ -150,7 +150,9 @@ export function spendDownYears(netWorthBand: NetWorthBand, stateAbbr: string, on
   const midpoint = NET_WORTH_BAND_MIDPOINTS[netWorthBand];
   const years = round2(midpoint / annualPrivatePayCost);
   const isOpenEnded = netWorthBand === '5m+' || years >= SPEND_DOWN_OPEN_ENDED_FLOOR_YEARS;
-  const display = isOpenEnded ? `${SPEND_DOWN_OPEN_ENDED_FLOOR_YEARS}+ years` : `${Math.round(years)} years`;
+  const rounded = Math.round(years);
+  const finite = rounded < 1 ? 'Under 1 year' : rounded === 1 ? '1 year' : `${rounded} years`;
+  const display = isOpenEnded ? `${SPEND_DOWN_OPEN_ENDED_FLOOR_YEARS}+ years` : finite;
   return { years, display, isOpenEnded };
 }
 

@@ -280,6 +280,18 @@ describe('exercise hours', () => {
 // ---- Net worth / spend-down (unchanged defaults + item 5 with onset inflation) ----
 
 describe('spendDownYears', () => {
+  it('says "1 year", singular, when the rounded result is one', () => {
+    const result = spendDownYears('250k-500k', 'NY', 62);
+    expect(Math.round(result.years)).toBe(1);
+    expect(result.display).toBe('1 year');
+  });
+
+  it('says "Under 1 year" instead of "0 years"', () => {
+    const result = spendDownYears('<250k', 'NY', 62);
+    expect(Math.round(result.years)).toBe(0);
+    expect(result.display).toBe('Under 1 year');
+  });
+
   it('the top net-worth band always renders "10+ years" regardless of state', () => {
     for (const abbr of ['TX', 'OR', 'MS']) {
       const result = spendDownYears('5m+', abbr);
@@ -292,7 +304,7 @@ describe('spendDownYears', () => {
     const result = spendDownYears('<250k', 'OR');
     expect(result.isOpenEnded).toBe(false);
     expect(result.years).toBeLessThan(5);
-    expect(result.display).toMatch(/^\d+ years$/);
+    expect(result.display).toMatch(/^\d+ years?$/);
   });
 
   it('any raw computed value of 10+ years is floored to the "10+ years" display even off the top band', () => {

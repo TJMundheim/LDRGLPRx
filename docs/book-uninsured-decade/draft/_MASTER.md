@@ -145,7 +145,7 @@ I am going to ask you to make a decision about money, so I owe you a clean audit
 
 **Bill and Cindy are a composite**, assembled out of the arc that shows up over and over in the national data. Every dollar figure attached to them comes from a published survey of what that care costs. The tennis league is invented. The invoice is not.
 
-**One number I will not give you is your number.** The ten-year ledger in Chapter 3 is one household at national-median prices, on a long course of the disease. If you want your own figure, my4mlife.com has a calculator that runs this arithmetic on your household instead of a composite one.
+**One number I will not give you is your number.** The ten-year ledger in Chapter 3 is one household at national-median prices, on a long course of the disease. If you want your own figure, the calculator at my4mlife.com/go/uninsured-decade runs this arithmetic on your household.
 
 That is the standard. Hold me to it.
 
@@ -198,7 +198,7 @@ You insured the fire. You did not insure the likelier thing. Not out of careless
 
 Self-pay, then spouse-pay, then impoverishment. That is the actual coverage structure on the largest exposure in your retirement.
 
-## Who holds the pen
+## Who holds the pen {.page-top}
 
 <!-- voice:health -->
 
@@ -780,7 +780,7 @@ Coverage does not begin when you decide to buy it. It begins when the first prem
 
 <!-- voice:money-legal -->
 
-**Week 4 — The household ledger, and the advisor meeting.** This is the week most people let slide. Do not. Run your own number at **my4mlife.com/go/uninsured-decade** — your age, your spouse's, your state, roughly where you sit financially — and print the sheet. Then sit down with your spouse. Then book an hour with your advisor, attorney, or CPA, or the one you are about to find. If one of them handed you this book, start there. Bring the printout and the coverage inventory from Chapter 1, and review four things with them: what the plan assumes about a long custodial-care event, what LTC or hybrid coverage is available and appropriate, the survivor's position if it lands, and whether the powers of attorney and healthcare directives are current and signed. That is their half, it is the half with legal deadlines on it, and it is not a conversation to have after a diagnosis. Yours is the schedule in Part III. Then show up to one Zoom.
+**Week 4 — The household ledger, and the advisor meeting.** This is the week most people let slide. Do not. Run your own number at **my4mlife.com/go/uninsured-decade** — your age, your spouse's, your state, roughly where you sit financially — and print the sheet. A note before you print it: the calculator prices care in your state in the future dollars of your likely onset year and uses the $8,100-a-year basket, so your sheet can come out better than the table in Chapter 7, which uses today's national dollars and a $10,000 premium. Neither is wrong. Read it the way Chapter 7 told you to: an expectation, not a return. Then sit down with your spouse. Then book an hour with your advisor, attorney, or CPA, or the one you are about to find. If one of them handed you this book, start there. Bring the printout and the coverage inventory from Chapter 1, and review four things with them: what the plan assumes about a long custodial-care event, what LTC or hybrid coverage is available and appropriate, the survivor's position if it lands, and whether the powers of attorney and healthcare directives are current and signed. That is their half, it is the half with legal deadlines on it, and it is not a conversation to have after a diagnosis. Yours is the schedule in Part III. Then show up to one Zoom.
 
 <!-- voice:health -->
 

@@ -205,6 +205,8 @@ h2 {
 }
 
 /* Chapter h1s break before; section h2s don't */
+h2.page-top { page-break-before: always; margin-top: 0; }
+
 h2 + h3, h1 + h2 {
   page-break-before: avoid;
 }
