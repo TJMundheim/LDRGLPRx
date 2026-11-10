@@ -1,8 +1,8 @@
 ---
-// DRAFT, unpublished (leading underscore = not routed). Landing page for readers of the book
-// who type the printed address. One CTA: email (+ optional name) -> free printable Count Log.
-// Posts to the existing /api/lead-capture endpoint via the shared lead-capture helpers.
-// The PDF is NOT in public/ yet; it is added only after the owner approves this page.
+// Live (TJ approved 2026-11-10). Landing page for readers of Count Yourself Skinny who type the
+// address printed in the book. One CTA: email (+ optional name) -> free printable Count Log.
+// Posts to the existing /api/lead-capture endpoint (source cys-book).
+// PDF: public/downloads/count-log-week-13-on.pdf, built by docs/book-cys/free-offer/build_log.py.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MedicalDisclaimer from '../../components/MedicalDisclaimer.astro';
 
@@ -10,7 +10,7 @@ const title = 'Your Free Count Log, Week 13 On | Count Yourself Skinny';
 const description = 'A free printable Count Log for Week 13 onward, for readers of Count Yourself Skinny.';
 const canonical = 'https://www.my4mlife.com/go/count-yourself-skinny';
 ---
-<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,nofollow" hideChrome={true}>
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow" hideChrome={true}>
 
 <div class="cys">
   <header class="cys-top"><span class="cys-mark">COUNT YOURSELF SKINNY</span></header>

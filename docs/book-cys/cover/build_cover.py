@@ -4,7 +4,7 @@ Fonts: Anton (SIL OFL, docs/design/cys/fonts) + Arial (macOS). Needs Chrome, PyM
 import pathlib, subprocess, fitz
 D = pathlib.Path(__file__).resolve().parent
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-PAGES_BILLED = 82                      # 81 interior + 1 blank KDP adds
+PAGES_BILLED = 82                      # v4: 82 interior pages (v3 was 81 + 1 KDP blank)
 SPINE = round(PAGES_BILLED * 0.002252, 3)   # white paper, KDP formula
 BLEED, TRIM_W, TRIM_H = 0.125, 6.0, 9.0
 W = round(BLEED + TRIM_W + SPINE + TRIM_W + BLEED, 3)
@@ -38,7 +38,7 @@ svg = f'<svg class="art" viewBox="0 0 {W} {H}" width="{W}in" height="{H}in" xmln
 BX = BLEED + 0.4
 html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Count Yourself Skinny - Full Wrap Paperback 6x9</title>
 <style>
-/* GEOMETRY: 6x9 trim, 0.125in bleed, {PAGES_BILLED} billed pages (81 + KDP blank), white paper.
+/* GEOMETRY: 6x9 trim, 0.125in bleed, {PAGES_BILLED} billed pages (v3 was 81 + 1 KDP blank), white paper.
    Spine = {PAGES_BILLED} x 0.002252 = {SPINE}in (blank, no spine text).
    Wrap = {BLEED} + {TRIM_W} + {SPINE} + {TRIM_W} + {BLEED} = {W}in x {H}in.
    Back trim: {BLEED}-{BLEED+TRIM_W}; spine: {BLEED+TRIM_W}-{FX:.3f}; front: {FX:.3f}-{FX+TRIM_W:.3f}. */
@@ -49,10 +49,15 @@ html,body{{width:{W}in;height:{H}in;background:#E8352B;overflow:hidden}}
 @font-face{{font-family:Anton;src:url("file:///Users/thomasmundheim/Development/LDRGLPRx/docs/design/cys/fonts/Anton-Regular.ttf")}}
 .back{{position:absolute;left:{BX}in;top:0.6in;width:5.0in;font-family:Arial,sans-serif;color:#fff}}
 .quote{{font-family:Anton;color:#FFD400;font-size:0.5in;line-height:1.05;white-space:nowrap;text-transform:uppercase}}
-.rule{{width:1.2in;height:0.06in;background:#fff;margin:0.32in 0}}
+.rule{{width:1.2in;height:0.06in;background:#fff;margin:0.22in 0}}
 .hook{{font-weight:700;font-size:17pt;line-height:1.25;margin-bottom:0.16in}}
-.blurb{{font-size:13pt;line-height:1.45;margin-bottom:0.18in;width:4.9in}}
+.blurb{{font-size:13pt;line-height:1.45;margin-bottom:0.12in;width:4.9in}}
 .url{{position:absolute;left:{BX}in;top:8.55in;font-family:Arial;font-weight:700;font-size:9pt;letter-spacing:.04em;color:#fff}}
+.photo{{position:absolute;left:{BX}in;top:5.3in;width:2.6in;height:2.6in;background:#fff;padding:0.04in}}
+.photo img{{display:block;width:100%;height:100%;object-fit:cover}}
+.cap{{position:absolute;left:{BX+2.6+0.2:.3f}in;top:5.3in;width:2.4in;font-family:Arial,sans-serif;color:#fff;white-space:nowrap}}
+.cap b{{display:block;font-size:12pt;line-height:1.3}}
+.cap span{{display:block;font-size:10pt;line-height:1.3}}
 </style></head><body>
 {svg}
 <div class="back">
@@ -63,6 +68,8 @@ html,body{{width:{W}in;height:{H}in;background:#E8352B;overflow:hidden}}
 <p class="blurb">A 12-week Count Log is built right into the book, so every page you fill is proof you showed up.</p>
 <p class="blurb">No food scale. No forbidden foods. Nothing to buy. If you can count to 32, you can do this.</p>
 </div>
+<div class="photo"><img src="file:///Users/thomasmundheim/Development/LDRGLPRx/website/public/images/founder/founder-tj.jpg" alt=""></div>
+<div class="cap"><b>Dr. TJ Mundheim</b><span>30+ years in clinical practice</span></div>
 <div class="url">my4mlife.com</div>
 </body></html>'''
 (D/'full-cover-paperback-6x9.html').write_text(html)

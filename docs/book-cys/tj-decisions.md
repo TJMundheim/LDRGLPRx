@@ -1,5 +1,17 @@
 # TJ decisions: Count Yourself Skinny paperback
 
+## TJ's answers, 2026-11-10
+
+- 1a protein sentence: keep. 1b women's FAQ answer: keep. 1c Sources page: keep (citations checked 2026-11-09, see citation-check-2026-11-09.md). 1d "Printed in the USA": stays removed.
+- 2a and 2b science claims: replaced by the stronger corrections in proposed-edits-2026-11-09.md; all 48 edits approved.
+- The nine other promise lines listed in proposed-edits: leave as is (TJ's call).
+- "Weekly live calls": dropped from the book. Program length: keep "12-week".
+- Free Week 13 Count Log page: add it, and publish the signup page at my4mlife.com/go/count-yourself-skinny first.
+- Welcome email: later. The page hands over the download directly.
+- 3 chiropractor FAQ: keep as is (TJ left it unanswered, so it defaults to the recommendation).
+- 4 ink: black-and-white. 5 ISBN: free KDP ISBN. 6 price: $12.99.
+- 7 cover: approved. Subtitle: blank (locks at publish).
+
 Each item is one yes/no. My recommendation is first. The manuscript has not been edited.
 
 ## 1. Four added lines: keep or strike

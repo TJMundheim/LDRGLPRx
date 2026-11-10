@@ -5,9 +5,9 @@
 **Series:** none
 **Author:** Dr. TJ Mundheim (same name as the flagship, so Amazon links both books on one author page)
 **Language:** English
-**Trim / interior:** 6 x 9 in, black and white, white paper, 81 pages (KDP bills 82), no bleed on the interior
+**Trim / interior:** 6 x 9 in, black and white, white paper, 82 pages (v4), no bleed on the interior
 **Cover:** matte (recommended, reads cleaner with flat red); full wrap file `docs/book-cys/cover/full-cover-paperback-6x9.pdf`
-**Interior file:** `docs/book-cys/Count-Yourself-Skinny-v3-bw.pdf`
+**Interior file:** `docs/book-cys/Count-Yourself-Skinny-v4-bw.pdf`
 **Low-content?** No. It is a text book (13 chapters, FAQ, Science, Sources) with a 12-week write-in log. If KDP asks, the answer is that it is a program book with a built-in log, not a blank journal.
 **Adult content:** no. **Reading age:** leave blank.
 **Public domain:** no. **Pre-order:** no.
@@ -83,5 +83,5 @@ Floor: KDP will not let the list fall below print cost / 0.60, about $3.84 at th
 
 ## Files for upload
 
-- Interior: `docs/book-cys/Count-Yourself-Skinny-v3-bw.pdf`
+- Interior: `docs/book-cys/Count-Yourself-Skinny-v4-bw.pdf`
 - Cover: `docs/book-cys/cover/full-cover-paperback-6x9.pdf` (12.43 x 9.25 in; see cover note in the report for the spine check against KDP's cover calculator)

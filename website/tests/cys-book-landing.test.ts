@@ -1,12 +1,12 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 
 const src = readFileSync(
-  new URL('../src/pages/go/_draft-count-yourself-skinny.astro', import.meta.url),
+  new URL('../src/pages/go/count-yourself-skinny.astro', import.meta.url),
   'utf8',
 );
 
-describe('cys-book landing page (draft)', () => {
+describe('cys-book landing page', () => {
   it('posts to the existing lead-capture endpoint with the shared bot fields', () => {
     expect(src).toMatch(/\/api\/lead-capture/);
     expect(src).toMatch(/scripts\/lead-capture/);
@@ -39,5 +39,9 @@ describe('cys-book landing page (draft)', () => {
     expect(src).toMatch(/eating disorder|disordered eating/i);
     expect(src).not.toMatch(/\bapp\b|iphone|airpods/i);
     expect(src).not.toMatch(/identity and your dignity|begin with the end/i);
+  });
+
+  it('ships the free Count Log PDF in public downloads', () => {
+    expect(existsSync(new URL('../public/downloads/count-log-week-13-on.pdf', import.meta.url))).toBe(true);
   });
 });
