@@ -41,6 +41,11 @@ describe('cys-book landing page', () => {
     expect(src).not.toMatch(/identity and your dignity|begin with the end/i);
   });
 
+  it('omits the sitewide telehealth disclaimer (TJ 2026-11-10: the book sells nothing)', () => {
+    expect(src).not.toMatch(/MedicalDisclaimer/);
+    expect(src).not.toMatch(/GLP-1|telehealth|compounded/i);
+  });
+
   it('ships the free Count Log PDF in public downloads', () => {
     expect(existsSync(new URL('../public/downloads/count-log-week-13-on.pdf', import.meta.url))).toBe(true);
   });

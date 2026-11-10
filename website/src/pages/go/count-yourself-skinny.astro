@@ -4,7 +4,8 @@
 // Posts to the existing /api/lead-capture endpoint (source cys-book).
 // PDF: public/downloads/count-log-week-13-on.pdf, built by docs/book-cys/free-offer/build_log.py.
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import MedicalDisclaimer from '../../components/MedicalDisclaimer.astro';
+// The sitewide medical-services disclaimer is left off this page on purpose (TJ 2026-11-10): the
+// book sells nothing. The page's own educational and disordered-eating lines stay.
 
 const title = 'Your Free Count Log, Week 13 On | Count Yourself Skinny';
 const description = 'A free printable Count Log for Week 13 onward, for readers of Count Yourself Skinny.';
@@ -37,7 +38,6 @@ const canonical = 'https://www.my4mlife.com/go/count-yourself-skinny';
   <footer class="cys-foot">
     <p class="cys-fine">Count Yourself Skinny is an educational resource, not medical advice. Talk with your physician before changing how you eat. Results vary and nothing here is a promise of any outcome.</p>
     <p class="cys-fine">If you have, or have had, an eating disorder or disordered eating, or if counting of any kind makes food stressful, skip the counts and talk with a qualified professional first.</p>
-    <MedicalDisclaimer />
     <p class="cys-fine"><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/">my4mlife.com</a></p>
   </footer>
 </div>
