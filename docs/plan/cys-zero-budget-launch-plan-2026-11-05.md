@@ -130,7 +130,7 @@ TJ asked whether we can do real-estate-guide-style free racks. **Not now, and no
 
 | Item | Status | Owner | By |
 |---|---|---|---|
-| Apple Developer account as My 4Mlife LLC, with D-U-N-S. [Apple: up to 5 business days plus 2](https://developer.apple.com/support/D-U-N-S/). (P) | **Not done, and this is the clock** | TJ, 30 min | Start Nov 6 |
+| Apple Developer account as My4MLIFE LLC, with D-U-N-S. [Apple: up to 5 business days plus 2](https://developer.apple.com/support/D-U-N-S/). (P) | **Not done, and this is the clock** | TJ, 30 min | Start Nov 6 |
 | Domains. **WHOIS shows countyourselfskinny.com, countto32.com and chewnumber.com unregistered** as of today. (P adds .app.) | Open since September | TJ, 10 min, about $12 each (a business cost, not marketing) | **This week** |
 | Paid Apps Agreement, tax, bank, [Small Business Program at 15%](https://developer.apple.com/app-store/small-business-program/). Enroll before first sale. (P) | Not done | TJ with Claude | Nov 21 |
 | New prices, free first meal, offer-code button removed. Config still says $2.99 and $19.99. (P) | Not done | Claude, on TJ's OK | Nov 20 |
