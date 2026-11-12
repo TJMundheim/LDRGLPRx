@@ -12,8 +12,8 @@ describe('pullup challenge page', () => {
       'Entries with edited, cut, or cropped videos are disqualified.',
       'Full body in frame, head to feet. Feet off the ground for every rep.',
       'One winner in each division, men\'s and women\'s: a six-week Push Patch package of the winner\'s choice (a $550+ value each).',
-      'This promotion is in no way sponsored, endorsed or administered by, or associated with, Meta Platforms, Inc., Facebook or Instagram. By entering, each entrant fully releases Meta Platforms, Inc., Facebook and Instagram from any and all liability in connection with this promotion. Questions about the challenge go to my4Mlife, not to Meta.',
-      'Sponsor: My4MLIFE LLC, operating as my4Mlife, 1205 Hall Johnson Rd, Colleyville, TX 76034.',
+      'This promotion is in no way sponsored, endorsed or administered by, or associated with, Meta Platforms, Inc., Facebook or Instagram. By entering, each entrant fully releases Meta Platforms, Inc., Facebook and Instagram from any and all liability in connection with this promotion. Questions about the challenge go to My4MLife, not to Meta.',
+      'Sponsor: My4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034.',
     ]) expect(src).toContain(s);
   });
 
@@ -85,11 +85,11 @@ describe('pullup challenge page', () => {
     for (const tag of src.match(/<input[^>]*type="checkbox"[^>]*>/g) ?? []) {
       expect(tag).not.toMatch(/\bchecked\b/);
     }
-    expect(src).toContain('By checking this box, you agree to receive recurring automated marketing text messages from my4Mlife at the number provided. Consent is not a condition of entry or purchase. Msg &amp; data rates may apply. Msg frequency varies. Reply STOP to cancel, HELP for help.');
-    expect(src).toContain('By checking this box, you agree to receive marketing emails from my4Mlife. Consent is not a condition of entry. Unsubscribe anytime.');
+    expect(src).toContain('By checking this box, you agree to receive recurring automated marketing text messages from My4MLife at the number provided. Consent is not a condition of entry or purchase. Msg &amp; data rates may apply. Msg frequency varies. Reply STOP to cancel, HELP for help.');
+    expect(src).toContain('By checking this box, you agree to receive marketing emails from My4MLife. Consent is not a condition of entry. Unsubscribe anytime.');
     expect(src).toContain('Entering is not consent to marketing.');
-    expect(src).toContain('Text me updates and offers from my4Mlife');
-    expect(src).toContain('Email me updates and offers from my4Mlife');
+    expect(src).toContain('Text me updates and offers from My4MLife');
+    expect(src).toContain('Email me updates and offers from My4MLife');
   });
 
   it('has the required 18+ rules checkbox', () => {
