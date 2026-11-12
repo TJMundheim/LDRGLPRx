@@ -187,7 +187,7 @@ describe('handler gating', () => {
 
 describe('waiting sweep gating', () => {
   const waitScans = () => cmds('ScanCommand').filter((c) => String(c.input.FilterExpression).includes('waitEmailSentAt'));
-  afterEach(() => { delete process.env['WAITING_EMAIL_ENABLED']; });
+  afterEach(() => { delete process.env['WAITING_EMAIL_ENABLED']; delete process.env['WAITING_EMAIL_SINCE']; });
 
   it('skips the while-you-wait sweep unless WAITING_EMAIL_ENABLED === "true"', async () => {
     route([]);
@@ -199,7 +199,7 @@ describe('waiting sweep gating', () => {
   });
 
   it('runs it when WAITING_EMAIL_ENABLED === "true"', async () => {
-    process.env['WAITING_EMAIL_ENABLED'] = 'true';
+    process.env['WAITING_EMAIL_ENABLED'] = 'true'; process.env['WAITING_EMAIL_SINCE'] = '2026-11-01T00:00:00Z';
     route([]);
     await handler();
     expect(waitScans()).toHaveLength(1);

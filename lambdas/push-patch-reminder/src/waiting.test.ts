@@ -34,8 +34,31 @@ function route(rows: unknown[], update: () => unknown = () => ({})) {
   });
 }
 
-beforeEach(() => { ddbSend.mockReset(); lambdaSend.mockReset(); lambdaSend.mockResolvedValue({ StatusCode: 200 }); });
-afterEach(() => vi.restoreAllMocks());
+beforeEach(() => { process.env['WAITING_EMAIL_SINCE'] = '2026-11-01T00:00:00Z'; ddbSend.mockReset(); lambdaSend.mockReset(); lambdaSend.mockResolvedValue({ StatusCode: 200 }); });
+afterEach(() => { vi.restoreAllMocks(); delete process.env['WAITING_EMAIL_SINCE']; });
+
+describe('sweepWaiting cutoff', () => {
+  it('does not send for orders approved before the cutoff', async () => {
+    process.env['WAITING_EMAIL_SINCE'] = '2026-11-12T00:00:00Z';
+    route([enc({ decidedAt: hoursAgo(49) })]);
+    expect((await sweepWaiting(deps, NOW)).sent).toBe(0);
+    expect(lambdaSend).not.toHaveBeenCalled();
+  });
+  it('sends for orders approved after the cutoff and older than 48h', async () => {
+    process.env['WAITING_EMAIL_SINCE'] = '2026-11-10T00:00:00Z';
+    route([enc({ decidedAt: hoursAgo(49) })]);
+    expect((await sweepWaiting(deps, NOW)).sent).toBe(1);
+  });
+  it.each([['missing', undefined], ['invalid', 'not-a-date']])('sends nothing when cutoff is %s', async (_n, v) => {
+    if (v === undefined) delete process.env['WAITING_EMAIL_SINCE']; else process.env['WAITING_EMAIL_SINCE'] = v;
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {});
+    route([enc()]);
+    expect((await sweepWaiting(deps, NOW)).sent).toBe(0);
+    expect(ddbSend).not.toHaveBeenCalled();
+    expect(lambdaSend).not.toHaveBeenCalled();
+    expect(log.mock.calls.flat().join(' ')).toContain('waiting: no-cutoff');
+  });
+});
 
 describe('sweepWaiting', () => {
   it('does not send at 47 hours', async () => {

@@ -13,7 +13,7 @@ interface Enc { contactId: string; sk: string; sku?: string; decidedAt?: string;
 
 const isCondFail = (e: unknown) => (e as { name?: string }).name === 'ConditionalCheckFailedException';
 
-async function findCandidates({ ddb }: AbandonedDeps, now: Date): Promise<Enc[]> {
+async function findCandidates({ ddb }: AbandonedDeps, now: Date, since: number): Promise<Enc[]> {
   const out: Enc[] = [];
   let key: Record<string, unknown> | undefined;
   do {
@@ -21,7 +21,7 @@ async function findCandidates({ ddb }: AbandonedDeps, now: Date): Promise<Enc[]>
       TableName: TABLE,
       FilterExpression: 'begins_with(sk, :p) AND #s = :s AND decidedAt BETWEEN :from AND :to AND attribute_not_exists(trackingNumber) AND attribute_not_exists(waitEmailSentAt) AND (attribute_not_exists(testOrder) OR testOrder = :f)',
       ExpressionAttributeNames: { '#s': 'state' },
-      ExpressionAttributeValues: { ':p': 'encounter#pp-', ':s': 'script-written', ':f': false, ':from': new Date(now.getTime() - MAX_AGE_MS).toISOString(), ':to': new Date(now.getTime() - MIN_AGE_MS).toISOString() },
+      ExpressionAttributeValues: { ':p': 'encounter#pp-', ':s': 'script-written', ':f': false, ':from': new Date(Math.max(now.getTime() - MAX_AGE_MS, since)).toISOString(), ':to': new Date(now.getTime() - MIN_AGE_MS).toISOString() },
       ProjectionExpression: 'contactId, sk, sku, decidedAt, trackingNumber, waitEmailSentAt, testOrder',
       ...(key ? { ExclusiveStartKey: key } : {}),
     }));
@@ -31,18 +31,24 @@ async function findCandidates({ ddb }: AbandonedDeps, now: Date): Promise<Enc[]>
   return out;
 }
 
-const eligible = (e: Enc, now: Date): boolean => {
-  const age = now.getTime() - Date.parse(e.decidedAt ?? '');
-  return age >= MIN_AGE_MS && age <= MAX_AGE_MS && !e.trackingNumber && !e.waitEmailSentAt && !e.testOrder;
+const eligible = (e: Enc, now: Date, since: number): boolean => {
+  const at = Date.parse(e.decidedAt ?? '');
+  const age = now.getTime() - at;
+  return at >= since && age >= MIN_AGE_MS && age <= MAX_AGE_MS && !e.trackingNumber && !e.waitEmailSentAt && !e.testOrder;
 };
 
 /** "While you wait" email, 48h to 10d after approval, until a tracking number lands. Stamp FIRST, then send:
  *  a crash can skip an email but never double-send. Logs counts and sk only (no names, emails, tracking). */
 export async function sweepWaiting(deps: AbandonedDeps, now: Date = new Date()): Promise<WaitingResult> {
-  const found = await findCandidates(deps, now);
+  const since = Date.parse(process.env['WAITING_EMAIL_SINCE'] ?? '');
+  if (Number.isNaN(since)) {
+    console.log('[push-patch-reminder] waiting: no-cutoff');
+    return { scanned: 0, sent: 0, skipped: 0, failed: 0 };
+  }
+  const found = await findCandidates(deps, now, since);
   const res: WaitingResult = { scanned: found.length, sent: 0, skipped: 0, failed: 0 };
   for (const e of found) {
-    if (!eligible(e, now)) { res.skipped++; continue; }
+    if (!eligible(e, now, since)) { res.skipped++; continue; }
     try {
       const rec = (await deps.ddb.send(new GetCommand({ TableName: TABLE, Key: { contactId: e.contactId, sk: 'record' } })))?.Item;
       const demo = rec?.demographics ?? {};

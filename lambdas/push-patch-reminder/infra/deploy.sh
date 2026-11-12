@@ -25,8 +25,9 @@ PATIENT_RECORDS_TABLE="${PATIENT_RECORDS_TABLE:-PatientRecords}"
 # Abandoned-intake nudge email: DISABLED until TJ approves docs/launch/push-patch/abandoned-cart-copy.md.
 # To enable, change this to true and redeploy.
 ABANDONED_CART_ENABLED=true  # TJ approved copy 2026-10-19
-WAITING_EMAIL_ENABLED=false  # "while you wait" shipping email: set true only after TJ approves the copy
-ENV_JSON="{\"Variables\":{\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\",\"INTAKE_BASE_URL\":\"${INTAKE_BASE_URL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\",\"ABANDONED_CART_ENABLED\":\"${ABANDONED_CART_ENABLED}\",\"WAITING_EMAIL_ENABLED\":\"${WAITING_EMAIL_ENABLED}\"}}"
+WAITING_EMAIL_ENABLED=true  # "while you wait" shipping email: owner approved the copy
+WAITING_EMAIL_SINCE="2026-11-12T19:45:00Z"  # go-live: only orders approved at/after this moment qualify
+ENV_JSON="{\"Variables\":{\"EMAIL_SENDER_FN\":\"${EMAIL_SENDER_FN}\",\"INTAKE_BASE_URL\":\"${INTAKE_BASE_URL}\",\"PATIENT_RECORDS_TABLE\":\"${PATIENT_RECORDS_TABLE}\",\"ABANDONED_CART_ENABLED\":\"${ABANDONED_CART_ENABLED}\",\"WAITING_EMAIL_ENABLED\":\"${WAITING_EMAIL_ENABLED}\",\"WAITING_EMAIL_SINCE\":\"${WAITING_EMAIL_SINCE}\"}}"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
