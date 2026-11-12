@@ -138,6 +138,8 @@ What to count: **32 chews per bite. Fork down between bites.**
 
 What you'll notice within a week: meals take longer, portions shrink on their own, and food — strangely — tastes better, because it's actually in your mouth long enough to taste.
 
+**Your gut hears the chew.** Chewing real food sends word down the vagus nerve, the line from brain to gut, that a meal is coming. Big studies link trouble chewing with later memory and thinking decline. A link, not proof, and about ability, not the count. The gut and the mind are on the same line.
+
 One honest note: chewing alone won't transform you. In a companion study of older adults, chewing more slowed people down but didn't change how much they ate. It's one lever in a stack. But it's the lever that trains the master skill behind every other chapter — slowing down on purpose.
 
 > **Tonight's count:** At your very next meal, count one bite out loud in your head — all 32 — with the fork on the table. One bite. That's the whole assignment.
@@ -305,11 +307,16 @@ Somewhere in those twelve weeks, something will shift. The scale, yes — but al
 
 The question is: *how do I keep this mind sharp for the rest of my life?*
 
-That question has an answer, and it's bigger than one book of counts. It involves your gut, your hormones, your muscle, your environment, and a framework I've spent years building with a team assembled for exactly this purpose. I wrote a whole book about it — *Begin with the End in Mind* — and built the free My4MLife program around it, with its own member app and a step-by-step twelve-week voyage.
+That question has an answer, and it's bigger than one book of counts. It involves your gut, your hormones, your muscle, your environment, and a framework I've spent years building with a team assembled for exactly this purpose. The gut is the far end of the line you met in Chapter 2, and it's where we start: with the gut, to protect the mind. I wrote a whole book about it — *Begin with the End in Mind* — and built the free My4MLife program around it, with its own member app and a step-by-step twelve-week voyage.
+
+<div markdown="1" style="break-inside: avoid; page-break-inside: avoid; text-align: left;">
 
 You've counted yourself skinny. When you're ready to go further:
 
 **Start with the free assessment at [my4mlife.com/assessment](https://my4mlife.com/assessment).**
+{: style="text-align: left;" }
+
+</div>
 
 It takes a few minutes, and it will tell you — specifically, for your body and your situation — what to do next.
 
@@ -929,6 +936,8 @@ Almost nothing. Steps, light, sleep, and water appear to work for most adults. T
 
 The headline study is a small randomized trial from Iowa State University: when 45 adults increased chews per bite by 50 percent, intake at a single lab lunch dropped about 10 percent; doubling chews dropped it about 15 percent — with no instruction to eat less. A separate review found fast eaters are about twice as likely to have obesity, though that's a link, and slowing down hasn't been proven to fix it. Honest caveat, printed in Chapter 2 and repeated here: in a companion study of 18 older adults, chewing more slowed their eating but did not change how much they ate — which is why chewing is one lever in a stack of six, not a miracle.
 
+The gut notes in Chapter 2 rest on smaller, earlier studies. When 12 adults chewed real food and spat it out (sham feeding), a marker of vagus-nerve signaling rose; chewing gum didn't do it. At Iowa State, sham feeding shifted insulin and the gut hormone ghrelin in 10 men within minutes. In a Duke trial, 41 volunteers were asked to chew each bite 30 to 40 times for five days; stool particle size didn't change. In the same paper's lab work, smaller food particles changed what gut bacteria made. A Korean study followed 7,568 adults for 10 years; those who found hard foods uncomfortable to chew had about 28 percent higher odds of cognitive impairment. In Singapore, 973 older adults followed for six years had about 43 percent higher odds if chewing was hard. Both rest on self-report, and the authors warn against reading cause and effect.
+
 ### The space (Chapter 3)
 
 Eating within a shorter daily window is being studied actively, and the results are mixed. The idea is simple: eating raises insulin; insulin is the storage signal; a longer non-eating stretch gives the body more hours in "spend" mode. In one small study, eight men with prediabetes who ate within an early 6-hour window had better insulin sensitivity and blood pressure, even though the study held their weight steady on purpose. But a larger 12-week trial of a 16-hour overnight fast found people lost no more weight than those eating regular meals. So the hours are one lever in a stack, not a magic window. I like them because they're free and easy to count. The 3-hours-before-bed count is my own rule of thumb, not a finding from these studies.
@@ -961,6 +970,11 @@ In one study, 96 volunteers practiced a new daily habit for 12 weeks. Among thos
 <li><strong>The chew.</strong> Zhu Y, Hollis JH. Increasing the number of chews before swallowing reduces meal size in normal-weight, overweight, and obese adults. <em>Journal of the Academy of Nutrition and Dietetics.</em> 2014;114(6):926–931.</li>
 <li><strong>The chew.</strong> Ohkuma T, et al. Association between eating rate and obesity: a systematic review and meta-analysis. <em>International Journal of Obesity.</em> 2015;39(11):1589–1596.</li>
 <li><strong>The chew.</strong> Zhu Y, Hollis JH. Chewing thoroughly reduces eating rate and postprandial food palatability but does not influence meal size in older adults. <em>Physiology &amp; Behavior.</em> 2014;123:62–66.</li>
+<li><strong>The gut.</strong> Teff KL. Cephalic phase pancreatic polypeptide responses to liquid and solid stimuli in humans. <em>Physiology &amp; Behavior.</em> 2010;99(3):317–323.</li>
+<li><strong>The gut.</strong> Zhu Y, et al. Modified sham feeding of foods with different macronutrient compositions differentially influences cephalic change of insulin, ghrelin, and NMR-based metabolomic profiles. <em>Physiology &amp; Behavior.</em> 2014;135:135–142.</li>
+<li><strong>The gut.</strong> Letourneau J, et al. Interplay between particle size and microbial ecology in the gut microbiome. <em>The ISME Journal.</em> 2024;18(1):wrae168.</li>
+<li><strong>The mind.</strong> Kim MS, Han DH. Does reduced chewing ability efficiency influence cognitive function? Results of a 10-year national cohort study. <em>Medicine.</em> 2022;101(25):e29270.</li>
+<li><strong>The mind.</strong> Nascimento GG, et al. Chewing disability is associated with cognitive impairment among older adults: a population-based cohort study. <em>Journals of Gerontology, Series A.</em> 2024;79(5):glae074.</li>
 <li><strong>The space.</strong> Sutton EF, et al. Early time-restricted feeding improves insulin sensitivity, blood pressure, and oxidative stress even without weight loss in men with prediabetes. <em>Cell Metabolism.</em> 2018;27(6):1212–1221.e3.</li>
 <li><strong>The space.</strong> Lowe DA, et al. Effects of time-restricted eating on weight loss and other metabolic parameters in women and men with overweight and obesity: the TREAT randomized clinical trial. <em>JAMA Internal Medicine.</em> 2020;180(11):1491–1499.</li>
 <li><strong>The steps.</strong> Banach M, et al. The association between daily step count and all-cause and cardiovascular mortality: a meta-analysis. <em>European Journal of Preventive Cardiology.</em> 2023;30(18):1975–1985.</li>
