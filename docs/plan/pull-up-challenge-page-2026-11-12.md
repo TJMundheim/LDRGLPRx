@@ -36,7 +36,7 @@ Edit `website/src/pages/privacy.astro` (and `docs/legal` source, if one exists):
 ✓ DONE WHEN: the diff covers all three; `pnpm build` passes.
 
 ### [P2] TJ caption flags  [no-delegate: TJ]
-The three flags: "one rep short of failure" conflicts with the true-max rule; "man among boys" reads men-only; stray "Instinct" at the end.
+The flags: "man among boys" reads men-only; stray "Instinct" at the end. (TJ is reshooting his starting video as a true max, 2026-11-12.)
 
 ### [REVIEW]  [sequential — runs last]
 model: opus

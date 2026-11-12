@@ -8,7 +8,7 @@ Source: `brief-2026-11-12.md`, Parts 1 to 4 (TJ's wording, verbatim). Nothing he
 2. Each division has a host who competes under the same formula. TJ hosts the men's. [HER NAME] ([HER @HANDLE]) hosts the women's.
 3. You're scored only within your division: men against men and TJ, women against women and [HER NAME]. If a division's host beats that division's top challenger, no prize is awarded in that division.
 4. The form gets one required field, "Division: Men's / Women's". Entrants pick the division that matches their sex, and an entry in the wrong division is moved to the right one.
-5. Caption: "one rep short of failure on purpose" becomes a true max ([N] reps), one line invites women to the women's division, and the stray word "Instinct" is removed.
+5. Caption: the first line reports a true max ([N] reps), one line invites women to the women's division, and the stray word "Instinct" is removed.
 
 Unchanged: dates, prize value per package, the formula, video requirements, the Meta release, and the rest of the posting steps.
 
@@ -248,7 +248,7 @@ Same math for me. I am 59 and about 235 lb, so my multiplier is 1.29. If I go fr
 
 **Current**
 ```
-I'm 59, coming back from a torn pec, and I just did 5 perfect pull-ups, one rep short of failure on purpose.
+I'm 59, coming back from a torn pec, and I just did [N] perfect pull-ups, true max.
 
 I'm often referred to as a man among boys. If you want my title, come take it.
 
@@ -265,7 +265,7 @@ Instinct
 
 **Proposed (marked)**
 ```
-I'm 59, coming back from a torn pec, and I just did [-5-][+[N]+] perfect pull-ups, [-one rep short of failure on purpose-][+true max+].
+I'm 59, coming back from a torn pec, and I just did [N] perfect pull-ups, true max.
 
 I'm often referred to as a man among boys. If you want my title, come take it.
 
