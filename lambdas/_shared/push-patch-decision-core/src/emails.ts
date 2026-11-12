@@ -10,7 +10,7 @@ const BRAND_LINE = `Push Patch is brought to you by My4MLife (${BRAND_URL}), whe
 const FOOTER_BODY =
   'These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.\n\n' +
   'You received this email because you placed a Push Patch order at my4mlife.com. Your health information is handled under our Privacy Policy: https://my4mlife.com/privacy';
-const FOOTER = `My4MLife\n\n${FOOTER_BODY}`;
+export const FOOTER = `My4MLife\n\n${FOOTER_BODY}`;
 const WELCOME_FOOTER = `My4MLife\n${TAGLINE}\n${BRAND_LINE}\n\n${FOOTER_BODY}`;
 
 // Welcome-only card inviting the buyer to the free assessment (copy: async-visit-copy.md, "Welcome email — assessment invitation").

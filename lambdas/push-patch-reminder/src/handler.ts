@@ -1,6 +1,7 @@
 import { findDue, claim, release } from './pending';
 import { sendReminder } from './email';
 import { refundSweep, type RefundResult } from './refund';
+import { sweepWaiting } from './waiting';
 import { sweepAbandoned, defaultDeps, type AbandonedResult } from './abandoned';
 
 export interface SweepResult { scanned: number; sent: number; skipped: number; failed: number; refunds: RefundResult; abandoned?: AbandonedResult }
@@ -29,6 +30,10 @@ export const handler = async (): Promise<SweepResult> => {
   // Abandoned-intake nudge: disabled unless ABANDONED_CART_ENABLED === 'true'; independent of the sweeps above.
   if (process.env['ABANDONED_CART_ENABLED'] === 'true') {
     try { res.abandoned = await sweepAbandoned(defaultDeps()); } catch { console.error('[push-patch-reminder] abandoned sweep failed'); }
+  }
+  // "While you wait" emails (48h-10d after approval, no tracking yet): off unless WAITING_EMAIL_ENABLED === 'true' (TJ copy approval).
+  if (process.env['WAITING_EMAIL_ENABLED'] === 'true') {
+    try { await sweepWaiting(defaultDeps()); } catch { console.error('[push-patch-reminder] waiting sweep failed'); }
   }
   console.log('[push-patch-reminder] sweep', res);
   return res;
