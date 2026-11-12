@@ -5,62 +5,54 @@ const src = readFileSync(new URL('../src/pages/pullup.astro', import.meta.url), 
 const raw = src;
 
 describe('pullup challenge page', () => {
-  it('has verbatim rule sentences from across the sections', () => {
+  it('has verbatim PART 2 rule sentences from across the sections', () => {
     for (const s of [
       'Score = (final max reps - starting max reps) x bodyweight in pounds x age multiplier',
       'Age multiplier: add 1% for every year over 30, with no cap.',
       'Entries with edited, cut, or cropped videos are disqualified.',
       'Full body in frame, head to feet. Feet off the ground for every rep.',
-      'One winner in each division, men\'s and women\'s: a six-week Push Patch package of the winner\'s choice (a $550+ value each).',
+      'Start from a dead hang with arms fully extended. Pull up until your chin is clearly above the bar. Hold that position with your chin above the bar while bringing your feet above the bar, as demonstrated in my video, then return to full arm extension. A rep counts only when you complete the full movement. Reps that do not meet the standard do not count.',
+      'Women do not have to beat my score.',
+      'As a math example only, going from 5 to 15 valid reps would score 10 x 235 x 1.29 = about 3,032.',
+      'Tie on adjusted score within a division: the entry whose final video was entered first wins.',
+      'Up to two entrant prizes may be awarded, one in each division.',
       'This promotion is in no way sponsored, endorsed or administered by, or associated with, Meta Platforms, Inc., Facebook or Instagram. By entering, each entrant fully releases Meta Platforms, Inc., Facebook and Instagram from any and all liability in connection with this promotion. Questions about the challenge go to My4MLife, not to Meta.',
       'Sponsor: My4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034.',
     ]) expect(src).toContain(s);
   });
 
-  it('has headline, short version and no leftover placeholders', () => {
+  it('has headline, PART 2 intro and the live page link', () => {
     expect(src).toContain('Push Patch Pull-Up Challenge');
-    expect(src).toContain('Most improved pull-ups in each division wins a six-week Push Patch package.');
+    expect(src).toContain('Start videos due Nov 25.');
+    expect(src).toContain('Two divisions, the same age- and bodyweight-adjusted improvement formula.');
+    expect(src).toContain('That is the whole idea. Everything below is the fine print that keeps it fair.');
     expect(src).not.toContain('[link coming]');
     expect(src).toContain('https://my4mlife.com/pullup');
   });
 
-  it('has the approved two-division sentences', () => {
+  it('has the PART 2 division sentences', () => {
     for (const s of [
-      'Two divisions, men\'s and women\'s. Most improved pull-ups in each division wins a six-week Push Patch package. Film your max set, post it, train, film again. In the men\'s division, beat my adjusted score and the patches are yours; if nobody does, I keep them.',
-      'Most improved in each division wins a six-week Push Patch package of their choice.',
-      'I am competing too in the men\'s division, under the same formula and the same age bonus as everyone else. If my adjusted score beats the top men\'s challenger\'s, I keep the men\'s patches. The women\'s division has no host to beat: the most improved woman wins.',
-      'Posting it on Facebook too is encouraged, but never required.',
-      'bodyweight, choose your division (men\'s or women\'s, the one that matches your sex), and paste the link to your public Instagram post. One entry per person.',
-      'Each division\'s winner is scored on the formula below',
-      'bodyweight, pick your division, and paste the link. That is a complete entry.',
-      'There are two divisions, men\'s and women\'s, and you are scored only against your own division: men against men and me, women against women.',
-      'which beats the 40 year old in the same division.',
-      'Beat that in the men\'s division and the patches are yours.',
-      'If my adjusted score beats the top men\'s challenger, I keep the patches. That is the game.',
-      'The women\'s division has no host to beat: the most improved woman wins her package. If a guest host joins the women\'s side later, she competes for show only and cannot affect the women\'s prize.',
-      'Enter the division that matches your sex. An entry in the wrong division is moved to the correct division and scored there.',
-      'If my adjusted score beats the top men\'s challenger\'s, no prize is awarded in the men\'s division and I keep the patches. That is the game.',
-      'Each division\'s winner is contacted at the email or phone number from their entry',
-      'If a winner does not respond, or is disqualified, the next-highest score in that division is contacted.',
-      'judged on the posted formula and video requirements, with one winner per division (men\'s and women\'s), not a random drawing.',
+      'Women compete only against the other women in the women\'s division, not against me.',
+      'I am competing in my division under the same formula and age bonus.',
+      'Both divisions use this exact formula.',
+      'The women\'s division is scored separately.',
+      'That does not affect the separate women\'s prize. Women compete only against the other women.',
+      'the next-highest score in the same division is contacted, subject to the host-score condition in my division.',
+      'Each division is scored separately using the formula below.',
     ]) expect(src).toContain(s);
   });
 
-  it('has no women\'s host placeholders, object, tag sentence or example', () => {
-    expect(src).not.toContain('[HER');
-    expect(src).not.toContain('WOMENS_HOST');
-    expect(src).not.toContain('[link coming]');
-    expect(src).not.toContain('Same math for [');
-    expect(src).not.toContain('welcome to tag');
-    expect(src).not.toContain('who hosts the women');
-    expect(src).toContain('no host to beat');
-  });
-
-  it('no longer has the old single-winner wording', () => {
-    expect(src).not.toContain('If my adjusted score beats the top challenger\'s, no prize is awarded and I keep the patches.');
-    expect(src).not.toContain('Beat my adjusted score and the patches are yours; if nobody does, I keep them.');
-    expect(src).not.toContain('One winner: a six-week');
-    expect(src).not.toContain('If my adjusted score beats the top challenger, I keep the patches.');
+  it('has none of the removed old rule text', () => {
+    for (const s of [
+      'Two divisions, men\'s and women\'s. Most improved',
+      'no host to beat',
+      'Enter the division that matches your sex',
+      'One winner in each division',
+      'If a guest host joins',
+      'HOW I COMPETE',
+      '[link coming]',
+      'the one that matches your sex',
+    ]) expect(src).not.toContain(s);
   });
 
   it('has a required Division radio group after bodyweight, before the Instagram link', () => {
@@ -70,8 +62,8 @@ describe('pullup challenge page', () => {
     expect(radios.some((r) => /value="men"/.test(r))).toBe(true);
     expect(radios.some((r) => /value="women"/.test(r))).toBe(true);
     expect(raw).toMatch(/<legend>Division<\/legend>/);
-    expect(raw).toContain("Men's</label>");
-    expect(raw).toContain("Women's</label>");
+    expect(raw).toContain("Men's division (compete against Dr. TJ)</label>");
+    expect(raw).toContain("Women's division</label>");
     const i = raw.indexOf('name="bodyweightLb"'), d = raw.indexOf('name="division"'), ig = raw.indexOf('name="instagramUrl"');
     expect(i).toBeGreaterThan(0);
     expect(d).toBeGreaterThan(i);

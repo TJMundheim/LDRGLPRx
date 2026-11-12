@@ -1,10 +1,10 @@
 ---
 // Push Patch Pull-Up Challenge landing page (route /pullup). Discoverable: normal chrome, indexable.
-// Rules text is copied from docs/launch/pull-up-challenge/brief-2026-11-12.md (Part 3) with the approved two-divisions redline (two-divisions-redline-2026-11-12.md, approved 2026-11-12) applied. Do not edit rules wording.
+// Rules text is copied verbatim from docs/launch/pull-up-challenge/amendment-2026-11-12-pm.md (PART 2). Do not edit rules wording.
 // Posts to /api/pullup-challenge-entry (consentVersion pullup-v1). Entering is not marketing consent.
 import BaseLayout from '../layouts/BaseLayout.astro';
 const title = 'Push Patch Pull-Up Challenge | My4MLife';
-const description = 'Most improved pull-ups wins a six-week Push Patch package. Film your max set, post it, train, film again. Start videos due Nov 25, 2026; finals due Jan 5, 2027.';
+const description = 'Two divisions, the same age- and bodyweight-adjusted improvement formula. Women compete against the other women for their own six-week Push Patch package. Film your max set, post it, train, film again. Start videos due Nov 25, 2026; finals due Jan 5, 2027.';
 const canonical = 'https://www.my4mlife.com/pullup';
 ---
 <BaseLayout title={title} description={description} canonical={canonical}>
@@ -13,14 +13,17 @@ const canonical = 'https://www.my4mlife.com/pullup';
   <section class="pu-hero">
     <h1>Push Patch Pull-Up Challenge</h1>
     <p class="pu-due">Start videos due Nov 25.</p>
-    <p class="pu-lead">Two divisions, men's and women's. Most improved pull-ups in each division wins a six-week Push Patch package. Film your max set, post it, train, film again. In the men's division, beat my adjusted score and the patches are yours; if nobody does, I keep them.</p>
+    <p class="pu-lead">Two divisions, the same age- and bodyweight-adjusted improvement formula. Women compete against the other women for their own six-week Push Patch package, not against me. In my division, beat my adjusted score and the patches are yours; if nobody does, I keep them. Film your max set, post it, train, film again. The short version is right below; the full rules follow.</p>
+    <h2 class="pu-short-h">THE SHORT VERSION</h2>
     <ul class="pu-short">
     <li>Film your maximum pull-ups. Post the video publicly on your own Instagram, tag @drtjmundheim, add #PushPatchPullUpChallenge and #contest, and enter it on the challenge page by Wednesday, November 25, 2026. Posting it on Facebook too is welcome, but Instagram is the one that counts. The sooner you enter, the more training time you get.</li>
     <li>Train through the holidays. Film your final max set, post it publicly the same way, and enter it on the challenge page by Tuesday, January 5, 2027.</li>
-    <li>Most improved in each division wins a six-week Push Patch package of their choice. Improvement is adjusted for bodyweight and age, with no ceiling on the age adjustment, so anyone can win at any age.</li>
-    <li>I am competing too in the men's division, under the same formula and the same age bonus as everyone else. If my adjusted score beats the top men's challenger's, I keep the men's patches. The women's division has no host to beat: the most improved woman wins.</li>
+    <li>Women compete only against the other women in the women's division, not against me. The women's winner gets a separate six-week Push Patch package of her choice. Both divisions use the same improvement formula, adjusted for bodyweight and age, with no ceiling on the age adjustment.</li>
+    <li>Every counted rep starts from a dead hang, reaches chin above the bar, holds that chin-above-bar position while the feet come above the bar, then returns to full arm extension, as demonstrated in my video.</li>
+    <li>I am competing in my division under the same formula and age bonus. If my adjusted score beats the top challenger's in my division, I keep that division's patches. This does not affect the women's prize.</li>
     <li>Push Patch is a prescription product, so the winner completes a free telemedicine visit and needs prescription approval first.</li>
     </ul>
+    <p>That is the whole idea. Everything below is the fine print that keeps it fair.</p>
   </section>
 
   <section class="pu-formwrap" id="enter" aria-labelledby="pu-enter-h">
@@ -43,8 +46,8 @@ const canonical = 'https://www.my4mlife.com/pullup';
 
       <fieldset class="pu-round">
         <legend>Division</legend>
-        <label class="pu-opt"><input type="radio" name="division" value="men" required /> Men's</label>
-        <label class="pu-opt"><input type="radio" name="division" value="women" required /> Women's</label>
+        <label class="pu-opt"><input type="radio" name="division" value="men" required /> Men's division (compete against Dr. TJ)</label>
+        <label class="pu-opt"><input type="radio" name="division" value="women" required /> Women's division</label>
       </fieldset>
 
       <label for="pu-ig">Link to your public Instagram post</label>
@@ -77,11 +80,11 @@ const canonical = 'https://www.my4mlife.com/pullup';
   <h3>HOW TO ENTER</h3>
   <ol>
     <li>Film your starting video following the video requirements below.</li>
-    <li>Post it on your own Instagram page. The post must be public, it must tag @drtjmundheim, and the caption must include the hashtags #PushPatchPullUpChallenge and #contest. Posting it on Facebook too is encouraged, but never required.</li>
-    <li>Enter on the challenge page at my4mlife.com <a href="https://my4mlife.com/pullup">https://my4mlife.com/pullup</a>. Give your name, email, phone number, age, and bodyweight, choose your division (men's or women's, the one that matches your sex), and paste the link to your public Instagram post. One entry per person. Entries close at 11:59 PM CT on Wednesday, November 25, 2026. The sooner you post and enter, the more training time you get.</li>
+    <li>Post it on your own Instagram page. The post must be public, it must tag @drtjmundheim, and the caption must include the hashtags #PushPatchPullUpChallenge and #contest. Posting it on Facebook too is encouraged, but never required. Step-by-step posting instructions are in the next section.</li>
+    <li>Enter on the challenge page at my4mlife.com <a href="https://my4mlife.com/pullup">https://my4mlife.com/pullup</a>. Give your name, email, phone number, age, bodyweight, and division, and paste the link to your public Instagram post. One entry per person. Entries close at 11:59 PM CT on Wednesday, November 25, 2026. The sooner you post and enter, the more training time you get.</li>
     <li>Train. The challenge window runs through January 5.</li>
     <li>Film your final video at the same bar from the same angle. Post it publicly on Instagram the same way, and enter the post link on the challenge page by 11:59 PM CT on Tuesday, January 5, 2027.</li>
-    <li>Each division's winner is scored on the formula below, contacted within a week of the final deadline, and has 7 days to claim the prize.</li>
+    <li>Each division is scored separately using the formula below. Each eligible winner is contacted within a week of the final deadline and has 7 days to claim the prize.</li>
   </ol>
   <p>Posting publicly is the point: your post is how the challenge spreads, and the link you send is how your entry is verified. Instagram is the required platform because Facebook's own promotion rules do not allow contests to run through personal timelines, so Facebook posts are a bonus, never an entry requirement. No purchase necessary to enter or win. You never need to like or follow any page, or share or repost anyone else's post. Your own entry video is the only thing you post.</p>
   <h3>POSTING, STEP BY STEP</h3>
@@ -90,7 +93,7 @@ const canonical = 'https://www.my4mlife.com/pullup';
     <li>Instagram: open the app, tap the + to make a new post, and pick your video. In the caption, type @drtjmundheim and tap the account when it pops up, then type #PushPatchPullUpChallenge and #contest. If your Instagram account is set to private, your post cannot be verified. Tap Share.</li>
     <li>Facebook (optional, for extra reach): open the app and tap "What's on your mind?" to start a post. Add your video with the photo/video button. In the text, type @drtjmundheim and pick the page when it pops up, then type #PushPatchPullUpChallenge and #contest. Set the audience to Public (the audience selector under your name, pick the globe). Tap Post.</li>
     <li>Get the link to your Instagram post: open your post, tap the share or three-dots menu, and tap Copy Link.</li>
-    <li>Then go to the challenge page <a href="https://my4mlife.com/pullup">https://my4mlife.com/pullup</a>, fill in your name, email, phone number, age, and bodyweight, pick your division, and paste the link. That is a complete entry.</li>
+    <li>Then go to the challenge page <a href="https://my4mlife.com/pullup">https://my4mlife.com/pullup</a>, fill in your name, email, phone number, age, bodyweight, and division, and paste the link. That is a complete entry.</li>
   </ul>
   <p>Stuck on any step? Reply to any challenge post or DM the My4MLife page and we will walk you through it.</p>
   <h3>VIDEO REQUIREMENTS</h3>
@@ -98,27 +101,25 @@ const canonical = 'https://www.my4mlife.com/pullup';
   <ul>
     <li>Full body in frame, head to feet. Feet off the ground for every rep.</li>
     <li>One continuous take, no cuts or edits. Phone propped up, not held.</li>
-    <li>Start from a dead hang with arms fully extended. Each rep counts only if your chin goes clearly over the bar and you return to full extension. Reps that do not meet the standard do not count.</li>
+    <li>Start from a dead hang with arms fully extended. Pull up until your chin is clearly above the bar. Hold that position with your chin above the bar while bringing your feet above the bar, as demonstrated in my video, then return to full arm extension. A rep counts only when you complete the full movement. Reps that do not meet the standard do not count.</li>
     <li>The set ends at true max effort: your last rep is visibly slow or you drop off the bar. A set that ends fast and clean looks like holding back, and holding back on the starting video is grounds for disqualification.</li>
     <li>The starting video must show a visible date, like a phone clock or a newspaper, filmed in the same take.</li>
     <li>The final video must be filmed at the same bar from the same camera angle.</li>
   </ul>
   <h3>SCORING</h3>
   <p>Score = (final max reps - starting max reps) x bodyweight in pounds x age multiplier</p>
-  <p>There are two divisions, men's and women's, and you are scored only against your own division: men against men and me, women against women.</p>
   <ul>
     <li>Only improvement counts, so a beginner and a veteran compete on the same footing.</li>
+    <li>Both divisions use this exact formula. Women are ranked only against the other women in the women's division, not against me or the entrants in my division.</li>
     <li>Bodyweight rewards the work of moving more weight. Use your honest starting weight.</li>
     <li>Age multiplier: add 1% for every year over 30, with no cap. Age 40 is 1.10, age 60 is 1.30, age 70 is 1.40, and it keeps going. Age 30 and under is 1.00. The idea is inspired by masters track and field age grading, which adjusts for age all the way to 100 because the decline after 50 and 60 is real. This formula does not use the official masters tables.</li>
     <li>Height is not a factor. Bodyweight already captures most of it, and every added factor makes the contest harder to defend.</li>
-    <li>Tie on adjusted score: the entry whose final video was entered first wins.</li>
+    <li>Tie on adjusted score within a division: the entry whose final video was entered first wins.</li>
   </ul>
-  <p>Example: a 200 lb, 40 year old who goes from 3 to 10 reps scores 7 x 200 x 1.10 = 1,540. A 150 lb, 25 year old who goes from 5 to 12 scores 7 x 150 x 1.00 = 1,050. And a 190 lb, 65 year old who goes from 4 to 11 scores 7 x 190 x 1.35 = 1,796, which beats the 40 year old in the same division. That is the point of the age multiplier: an older entrant who puts in the work can win it.</p>
-  <p>Same math for me. I am 59 and about 235 lb, so my multiplier is 1.29. If I go from 5 to 15 reps, I score 10 x 235 x 1.29 = about 3,032. Beat that in the men's division and the patches are yours.</p>
+  <p>Example: a 200 lb, 40 year old who goes from 3 to 10 reps scores 7 x 200 x 1.10 = 1,540. A 150 lb, 25 year old who goes from 5 to 12 scores 7 x 150 x 1.00 = 1,050. And a 190 lb, 65 year old who goes from 4 to 11 scores 7 x 190 x 1.35 = 1,796, which beats the 40 year old. That is the point of the age multiplier: an older entrant who puts in the work can win it.</p>
+  <p>Same math for me in my division. I am 59 and about 235 lb, so my multiplier is 1.29. As a math example only, going from 5 to 15 valid reps would score 10 x 235 x 1.29 = about 3,032. My official starting count must come from a video meeting the full rep standard above. This example is not a verified starting count. The women's division is scored separately.</p>
   <aside class="pu-callout" aria-label="How I compete">
-  <h3>HOW I COMPETE</h3>
-  <p>I am competing under the exact same rules as everyone else: same formula, same video requirements, same age bonus. No separate math for the host. I am 59 and still overcoming injuries, so the age adjustment matters to me too. We are not playing customer tennis here. I hope a lot of you challenge me, but it has to be fair to me as well. If my adjusted score beats the top men's challenger, I keep the patches. That is the game.</p>
-  <p>The women's division has no host to beat: the most improved woman wins her package. If a guest host joins the women's side later, she competes for show only and cannot affect the women's prize.</p>
+  <p>I am competing in my division under the same formula, video requirements and age bonus. No separate math for the host. I am 59 and still overcoming injuries, so the age adjustment matters to me too. We are not playing customer tennis here. I hope a lot of you challenge me, but it has to be fair to me as well. If my adjusted score beats the top challenger in my division, I keep that division's patches. That does not affect the separate women's prize. Women compete only against the other women.</p>
   </aside>
   <h3>KEEPING IT FAIR</h3>
   <p>The whole contest depends on honest starting videos, so sandbagging is taken seriously.</p>
@@ -128,23 +129,23 @@ const canonical = 'https://www.my4mlife.com/pullup';
     <li>Entries with edited, cut, or cropped videos are disqualified.</li>
     <li>Entries whose public Instagram post cannot be found or viewed (deleted post, private account, missing tag or hashtags) cannot be verified and will not be scored.</li>
     <li>One entry per person. Duplicate entries are disqualified.</li>
-    <li>Enter the division that matches your sex. An entry in the wrong division is moved to the correct division and scored there.</li>
     <li>All judging calls are final and made by me under these posted rules.</li>
   </ul>
   <h3>THE PRIZE</h3>
   <ul>
-    <li>One winner in each division, men's and women's: a six-week Push Patch package of the winner's choice (a $550+ value each).</li>
+    <li>Women's division: the highest adjusted improvement score among the women wins a separate six-week Push Patch package of the winner's choice (a $550+ value). Women do not have to beat my score.</li>
+    <li>My division: a six-week Push Patch package of the winner's choice (a $550+ value), subject to the host-score condition below. Up to two entrant prizes may be awarded, one in each division.</li>
     <li>Push Patch is a prescription product. The winner completes the free telemedicine visit that comes with every order and must be approved for a prescription by the provider. If the provider does not approve the prescription, the prize cannot be awarded and there is no cash alternative.</li>
-    <li>If my adjusted score beats the top men's challenger's, no prize is awarded in the men's division and I keep the patches. That is the game.</li>
-    <li>Each division's winner is contacted at the email or phone number from their entry within a week of the final deadline and has 7 days to respond and claim the prize. If a winner does not respond, or is disqualified, the next-highest score in that division is contacted.</li>
-    <li>Before the prize is awarded, the winner confirms their age and bodyweight with a short signed statement and a quick video weigh-in, so the scoring stays honest.</li>
+    <li>If my adjusted score beats the top challenger's in my division, no prize is awarded in my division and I keep those patches. The women's prize is separate and is not affected by my score.</li>
+    <li>Each eligible division winner is contacted at the email or phone number from their entry within a week of the final deadline and has 7 days to respond and claim the prize. If that winner does not respond, or is disqualified, the next-highest score in the same division is contacted, subject to the host-score condition in my division.</li>
+    <li>Before each prize is awarded, its winner confirms their age and bodyweight with a short signed statement and a quick video weigh-in, so the scoring stays honest.</li>
   </ul>
   <h3>THE FINE PRINT</h3>
   <ul>
     <li>No purchase necessary to enter or win. A purchase does not improve your chances.</li>
     <li>Sponsor: My4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034.</li>
     <li>Open to legal residents of the United States, 18 or older. One entry per person. Void where prohibited by law.</li>
-    <li>This is a skill contest judged on the posted formula and video requirements, with one winner per division (men's and women's), not a random drawing.</li>
+    <li>This is a skill contest judged on the posted formula and video requirements, not a random drawing.</li>
     <li>Eligibility, scoring, and disqualification decisions are made by the sponsor and are final.</li>
     <li>Check with your doctor before starting any exercise program. You participate at your own risk. Stop if you feel pain. The sponsor is not responsible for injuries.</li>
     <li>By entering, you agree that your videos may be reposted and used to promote the challenge and Push Patch, and that the winner's first name, home state, and entry videos may be announced publicly.</li>
