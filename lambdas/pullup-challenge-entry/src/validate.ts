@@ -3,7 +3,7 @@ const s = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0
 
 export interface Entry {
   name: string; email: string; phone: string; age: number; bodyweightLb: number; instagramUrl: string;
-  round: 'start' | 'final'; smsOptIn: boolean; emailOptIn: boolean; consentVersion: string;
+  round: 'start' | 'final'; division: 'men' | 'women'; smsOptIn: boolean; emailOptIn: boolean; consentVersion: string;
 }
 
 export function normalizePhone(raw: string): string | null {
@@ -37,6 +37,7 @@ export function validate(b: any): Entry | string {
   if (!Number.isFinite(bodyweightLb) || bodyweightLb < 60 || bodyweightLb > 600) return 'Please enter your bodyweight in pounds (60-600).';
   if (!validInstagram(instagramUrl)) return 'Please enter the https link to your public Instagram post.';
   if (b.round !== 'start' && b.round !== 'final') return 'Please choose start or final.';
+  if (b.division !== 'men' && b.division !== 'women') return "Please choose your division, men's or women's.";
   if (b.rulesAccepted !== true) return 'You must agree to the rules to enter.';
-  return { name, email, phone, age, bodyweightLb, instagramUrl, round: b.round, smsOptIn: b.smsOptIn === true, emailOptIn: b.emailOptIn === true, consentVersion };
+  return { name, email, phone, age, bodyweightLb, instagramUrl, round: b.round, division: b.division, smsOptIn: b.smsOptIn === true, emailOptIn: b.emailOptIn === true, consentVersion };
 }

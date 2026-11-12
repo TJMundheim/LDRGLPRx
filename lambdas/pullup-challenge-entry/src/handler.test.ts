@@ -21,7 +21,7 @@ import { handler } from './handler';
 
 const valid = {
   name: 'Jane Doe', email: 'Jane@Example.com', phone: '(817) 555-0142', age: 34, bodyweightLb: 165.5,
-  instagramUrl: 'https://www.instagram.com/p/ABC123/', round: 'start', rulesAccepted: true,
+  instagramUrl: 'https://www.instagram.com/p/ABC123/', round: 'start', division: 'women', rulesAccepted: true,
   smsOptIn: false, emailOptIn: false, consentVersion: 'pullup-v1', hp: '', t: 6000,
 };
 const evt = (over: any = {}) =>
@@ -48,7 +48,7 @@ describe('pullup-challenge-entry', () => {
     expect(put.input.Item).toMatchObject({
       email: 'jane@example.com', sk: 'round#start', name: 'Jane Doe', phone: '+18175550142', age: 34,
       bodyweightLb: 165.5, instagramUrl: valid.instagramUrl, consentVersion: 'pullup-v1',
-      smsOptIn: false, emailOptIn: false, sourceIp: '1.2.3.4',
+      smsOptIn: false, emailOptIn: false, sourceIp: '1.2.3.4', division: 'women',
     });
     expect(put.input.Item.submittedAt).toMatch(/^\d{4}-\d\d-\d\dT/);
     expect(upsertMock).toHaveBeenCalledTimes(1);
@@ -58,8 +58,27 @@ describe('pullup-challenge-entry', () => {
     expect(JSON.stringify(input)).not.toMatch(/165|instagram|34/);
     expect(cmds('Update')).toHaveLength(0);
     const payload = JSON.parse(Buffer.from(invokeMock.mock.calls[0][0].input.Payload).toString());
-    expect(payload).toMatchObject({ kind: 'info', from: 'drtj', to: 'drtj@my4mlife.com', subject: 'Pull-Up Challenge entry: Jane D (start)' });
+    expect(payload).toMatchObject({ kind: 'info', from: 'drtj', to: 'drtj@my4mlife.com', subject: 'Pull-Up Challenge entry: Jane D (start, women\'s)' });
     expect(payload.text).toContain('instagram.com/p/ABC123');
+    expect(payload.text).toContain("Division: women's");
+  });
+
+  it('men division is stored and appears in the notice', async () => {
+    const res: any = await handler(evt({ division: 'men' }));
+    expect(res.statusCode).toBe(200);
+    expect(cmds('Put')[0].input.Item).toMatchObject({ division: 'men', sk: 'round#start' });
+    const payload = JSON.parse(Buffer.from(invokeMock.mock.calls[0][0].input.Payload).toString());
+    expect(payload.subject).toBe("Pull-Up Challenge entry: Jane D (start, men's)");
+    expect(payload.text).toContain("Division: men's");
+  });
+
+  it('one entry per person per round: key does not include division', async () => {
+    await handler(evt({ division: 'men' }));
+    const { Key, Item, ConditionExpression } = cmds('Put')[0].input;
+    expect(Item.email).toBe('jane@example.com');
+    expect(Item.sk).toBe('round#start');
+    expect(ConditionExpression).toBe('attribute_not_exists(email)');
+    expect(Key).toBeUndefined();
   });
 
   it('email box checked writes opted_in marketingConsent with version', async () => {
@@ -101,6 +120,10 @@ describe('pullup-challenge-entry', () => {
     ['short phone', { phone: '12345' }],
     ['bodyweight low', { bodyweightLb: 50 }],
     ['bad round', { round: 'middle' }],
+    ['missing division', { division: undefined }],
+    ['empty division', { division: '' }],
+    ['invalid division', { division: 'coed' }],
+    ['wrong-case division', { division: 'Men' }],
     ['missing name', { name: '' }],
     ['fractional age', { age: 30.5 }],
   ])('400 on %s', async (_n, over) => {

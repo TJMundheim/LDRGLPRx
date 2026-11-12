@@ -9,7 +9,7 @@ const DUPLICATE_MSG = 'You already entered this round. Reply to any challenge po
 
 /**
  * Pull-Up Challenge entry — POST /api/pullup-challenge-entry
- * Body: { name, email, phone, age, bodyweightLb, instagramUrl, round, rulesAccepted, smsOptIn, emailOptIn, consentVersion, hp?, t? }
+ * Body: { name, email, phone, age, bodyweightLb, instagramUrl, round, division ('men'|'women'), rulesAccepted, smsOptIn, emailOptIn, consentVersion, hp?, t? }
  * Entry data (age, bodyweight, Instagram) lives only in PullUpChallengeEntries; Contact gets identity + explicit consent only.
  * Logs outcome codes only: never email, phone or name.
  */

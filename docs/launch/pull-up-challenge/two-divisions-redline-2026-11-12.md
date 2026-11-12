@@ -269,7 +269,7 @@ I'm 59, coming back from a torn pec, and I just did [N] perfect pull-ups, true m
 
 I'm often referred to as a man among boys. If you want my title, come take it.
 
-[+Ladies, you have your own division, hosted by [HER @HANDLE], with its own Push Patch package. Come take hers.+]
+[+Ladies, you have your own division with its own Push Patch package, and no host to beat. The most improved woman wins.+]
 
 Think you're better? Stop talking and get on the bar. Most improved [+in each division+] wins a 6-week Push Patch package, a $550+ value. Your excuses are weaker than your grip. Prove me wrong.
 
@@ -288,7 +288,7 @@ I'm 59, coming back from a torn pec, and I just did [N] perfect pull-ups, true m
 
 I'm often referred to as a man among boys. If you want my title, come take it.
 
-Ladies, you have your own division, hosted by [HER @HANDLE], with its own Push Patch package. Come take hers.
+Ladies, you have your own division with its own Push Patch package, and no host to beat. The most improved woman wins.
 
 Think you're better? Stop talking and get on the bar. Most improved in each division wins a 6-week Push Patch package, a $550+ value. Your excuses are weaker than your grip. Prove me wrong.
 
@@ -300,3 +300,18 @@ Prize subject to prescription approval, free telemedicine visit included. No pur
 ```
 
 Caption notes: "perfect" is kept for voice. If you'd rather not pair it with a grinding true-max set, drop it. The legal lines are unchanged.
+
+---
+
+## Decision 2026-11-12 (TJ): publish today, both divisions open, no women's host
+
+The page and Lambda apply this redline with these exact replacements. There is no women's host, no WOMENS_HOST object, no women's example math, and no [HER ...] placeholder anywhere.
+
+- **Short version intro:** "Two divisions, men's and women's. Most improved pull-ups in each division wins a six-week Push Patch package. Film your max set, post it, train, film again. In the men's division, beat my adjusted score and the patches are yours; if nobody does, I keep them."
+- **Short version bullet 4:** "I am competing too in the men's division, under the same formula and the same age bonus as everyone else. If my adjusted score beats the top men's challenger's, I keep the men's patches. The women's division has no host to beat: the most improved woman wins."
+- **HOW TO ENTER step 2:** original step 2, unchanged (no women's-host tag sentence).
+- **SCORING divisions sentence:** "There are two divisions, men's and women's, and you are scored only against your own division: men against men and me, women against women."
+- **SCORING host examples:** only TJ's, with "in the men's division"; no women's host example.
+- **HOW I COMPETE:** keeps "top men's challenger"; the women's-host paragraph is replaced with: "The women's division has no host to beat: the most improved woman wins her package. If a guest host joins the women's side later, she competes for show only and cannot affect the women's prize."
+- **THE PRIZE host rule:** "If my adjusted score beats the top men's challenger's, no prize is awarded in the men's division and I keep the patches. That is the game."
+- **PART 4 clean caption, ladies line:** "Ladies, you have your own division with its own Push Patch package, and no host to beat. The most improved woman wins."
