@@ -41,21 +41,16 @@ Time: about 5 minutes of clicking, then up to an hour for Google to apply it.
      `tracking@inbox.my4mlife.com`, and click **Save**. The address should now be listed.
    - Leave every other option in section 2 unchanged.
 
-8. **Section "3. Options", only copy mail from Novo.** Find **Add expression** (or "If
-   ALL of the following match the message"). Click **Add**, then:
-   - Choose **Advanced content match**.
-   - Location: **Headers + Body** is fine, but better pick **Sender header**.
-   - Match type: **Contains text**.
-   - Content: `orders@novobioalliance.com`
-   - Click **Save**.
-   You should see this one condition listed. If you skip it, the rule copies every email
-   to the addresses in step 9, so do not skip it.
+8. **Section "3. Options", only copy mail from Novo.** (Routing has no "Add expression";
+   that lives in Content compliance. Corrected 2026-11-12 from TJ's live walkthrough.)
+   Click **Show options** if section 3 is collapsed, then find **Envelope filter**:
+   - Tick **Only affect specific envelope senders**.
+   - Choose **Single email address** and type `orders@novobioalliance.com`.
+   Novo's envelope sender (Return-Path) is exactly that address, checked on a real
+   2026-11-10 tracking email. Do not skip this, or every inbound email gets copied.
 
-9. **Envelope recipients, limit to two addresses.** Scroll to **Envelope recipient** (may
-   read "Only affect specific envelope recipients"). Tick it, then:
-   - Choose **Single recipient**, type `info@my4mlife.com`, click **Save**.
-   - Click **Add** again, choose **Single recipient**, type `drtj@my4mlife.com`, save.
-   Both addresses should be listed.
+9. **Leave "Only affect specific envelope recipients" unticked.** The sender filter is
+   enough; if Novo copies both info@ and drtj@, the tracking Lambda ignores the duplicate.
 
 10. **Save the rule.** Click the blue **Save** button at the bottom. You should land back on
     the Routing page with "Novo tracking copy" listed as "Enabled" or "Locally applied".
