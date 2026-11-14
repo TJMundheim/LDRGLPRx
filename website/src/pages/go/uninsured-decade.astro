@@ -180,28 +180,16 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 
 <script>
   import {
-    stageCostsAtOnset,
-    tenYearTotal,
-    householdOnsetAge,
-    onsetYear,
     spendDownYears,
     spendDownYearsBand,
     tenYearPremium,
-    premiumLedger,
-    hoursToAddPerMonth,
-    isExerciseAtTarget,
     expectedValue,
     ageBand,
-    NET_WORTH_BAND_MIDPOINTS,
-    LIFETIME_DEMENTIA_RISK_SINGLE,
     LIFETIME_DEMENTIA_RISK_COUPLE,
     type NetWorthBand,
   } from '../../lib/uninsured-decade-math';
+  import { buildReport, money, type UdInputs, type UdReport } from '../../lib/uninsured-decade-report';
   import { COST_OF_CARE_BY_STATE } from '../../data/cost-of-care-by-state';
-
-  function money(n: number): string {
-    return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-  }
 
   // ── src attribution passthrough ──
   var params = new URLSearchParams(window.location.search);
@@ -253,29 +241,25 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
   // ── RRR slider ──
   var rrrInput = document.getElementById('ud-rrr') as HTMLInputElement;
   var rrrVal = document.getElementById('ud-rrr-val') as HTMLElement;
-  var lastResult: { total: number; stateAbbr: string; netWorthBand: NetWorthBand; isCouple: boolean } | null = null;
+  var lastInputs: UdInputs | null = null;
 
   rrrInput.addEventListener('input', function () {
     rrrVal.textContent = rrrInput.value + '%';
-    if (lastResult) renderExpectedValue(lastResult.total, lastResult.isCouple);
+    if (lastInputs) renderExpectedValue(buildReport({ ...lastInputs, rrrPct: Number(rrrInput.value) }));
   });
 
-  function renderExpectedValue(total: number, isCouple: boolean) {
-    var rrr = Number(rrrInput.value) / 100;
-    var premium = tenYearPremium();
-    var lifetimeProbability = isCouple ? LIFETIME_DEMENTIA_RISK_COUPLE : LIFETIME_DEMENTIA_RISK_SINGLE;
-    var ev = expectedValue(total, rrr, lifetimeProbability, premium);
+  function renderExpectedValue(r: UdReport) {
+    var ev = r.ev;
     document.getElementById('ud-expected-row')!.textContent = money(ev.expectedSavings);
     var honestEl = document.getElementById('ud-honest-math')!;
+    var cut = r.evVerdict.indexOf('. ') + 1;
     honestEl.innerHTML =
       'Unmitigated expected cost (probability-weighted): <strong>' + money(ev.unmitigatedExpectedCost) + '</strong>. ' +
-      'With a ' + rrrInput.value + '% assumed risk reduction: <strong>' + money(ev.mitigatedExpectedCost) + '</strong>. ' +
-      'Expected savings: <strong>' + money(ev.expectedSavings) + '</strong> against a ' + money(premium) + ' ten-year premium — the full basket, the honest comparison. ' +
-      (ev.breaksEven
-        ? '<strong>At these inputs the expected savings exceed the premium.</strong> Read that carefully: the premium is money you will certainly spend; the savings are an expectation spread across odds you cannot see in advance. Nobody should buy this on the arithmetic alone.'
-        : '<strong>At these inputs the expected savings fall short of the premium on dementia alone.</strong> That is the honest number. The case rests on what the math below cannot count.');
+      'With a ' + r.rrrPct + '% assumed risk reduction: <strong>' + money(ev.mitigatedExpectedCost) + '</strong>. ' +
+      'Expected savings: <strong>' + money(ev.expectedSavings) + '</strong> against a ' + money(r.fullPremium) + ' ten-year premium — the full basket, the honest comparison. ' +
+      '<strong>' + r.evVerdict.slice(0, cut) + '</strong>' + r.evVerdict.slice(cut);
     var whoEl = document.getElementById('ud-honest-who');
-    if (whoEl) whoEl.textContent = isCouple ? 'the two of you' : 'you';
+    if (whoEl) whoEl.textContent = r.isCouple ? 'the two of you' : 'you';
   }
 
   function svgBarChart(bill: number, premium: number): string {
@@ -308,32 +292,24 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     var monthlySpend = Number((document.getElementById('ud-spend') as HTMLInputElement).value) || 0;
     var exerciseHours = Number((document.getElementById('ud-exercise') as HTMLInputElement).value) || 0;
 
-    var onsetDrivingAge = householdOnsetAge(age, spouseAge);
-    var onset = onsetYear(onsetDrivingAge);
-
-    var costs = stageCostsAtOnset(stateAbbr, age, spouseAge);
-    var bill = costs.total;
-    var fullPremium = tenYearPremium();
-    var ledger = premiumLedger(monthlySpend);
-    var spendDown = spendDownYears(netWorthBand, stateAbbr, onsetDrivingAge);
-    var hoursToAdd = hoursToAddPerMonth(exerciseHours);
-    var atTarget = isExerciseAtTarget(exerciseHours);
+    lastInputs = {
+      age: age, spouseAge: spouseAge, stateAbbr: stateAbbr, netWorthBand: netWorthBand,
+      monthlySpend: monthlySpend, exerciseHours: exerciseHours, rrrPct: Number(rrrInput.value),
+    };
+    var r = buildReport(lastInputs);
+    var costs = r.stages;
+    var bill = r.bill;
+    var ledger = r.ledger;
 
     document.getElementById('ud-bill')!.textContent = money(bill);
-    document.getElementById('ud-state-name')!.textContent = stateRow ? stateRow.state : stateAbbr;
-    document.getElementById('ud-onset-year')!.textContent = String(onset);
+    document.getElementById('ud-state-name')!.textContent = r.stateName;
+    document.getElementById('ud-onset-year')!.textContent = String(r.onsetYear);
     document.getElementById('ud-premium')!.textContent = money(ledger.newMoneyTenYear);
-    document.getElementById('ud-spenddown')!.textContent = spendDown.display;
+    document.getElementById('ud-spenddown')!.textContent = r.spendDownDisplay;
 
-    document.getElementById('ud-bill-why')!.textContent = onsetDrivingAge >= 70
-      ? 'Onset is modeled as starting now (age ' + onsetDrivingAge + '), so this is in today’s dollars.'
-      : 'Modeled onset is 70; at ' + onsetDrivingAge + ', that’s ' + (onset - new Date().getFullYear()) + ((onset - new Date().getFullYear()) === 1 ? ' year' : ' years') + ' out, so this is inflated 4%/yr to ' + onset + ' dollars.';
-    document.getElementById('ud-premium-why')!.textContent = ledger.newMoneyTenYear === 0
-      ? 'You’re already spending at or above the full basket — no new money required.'
-      : 'The full basket is ' + money(ledger.fullBasketTenYear) + '; you’re already spending ' + money(ledger.alreadySpendingTenYear) + ', so ' + money(ledger.newMoneyTenYear) + ' is new.';
-    document.getElementById('ud-spenddown-why')!.textContent = onsetDrivingAge >= 70
-      ? 'Based on today’s annual private-pay cost in ' + (stateRow ? stateRow.state : stateAbbr) + '.'
-      : 'Based on the ' + onset + '-dollar annual private-pay cost, consistent with The Bill above.';
+    document.getElementById('ud-bill-why')!.textContent = r.billWhy;
+    document.getElementById('ud-premium-why')!.textContent = r.premiumWhy;
+    document.getElementById('ud-spenddown-why')!.textContent = r.spendDownWhy;
 
     document.getElementById('ud-stage1')!.textContent = money(costs.stage1);
     document.getElementById('ud-stage2')!.textContent = money(costs.stage2);
@@ -342,15 +318,12 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     document.getElementById('ud-premium-full-row')!.textContent = money(ledger.fullBasketTenYear);
     document.getElementById('ud-already-spending-row')!.textContent = money(ledger.alreadySpendingTenYear);
     document.getElementById('ud-new-money-row')!.textContent = money(ledger.newMoneyTenYear);
-    document.getElementById('ud-hours-row')!.textContent = atTarget ? '0' : hoursToAdd.toFixed(1);
-    document.getElementById('ud-hours-note')!.textContent = atTarget
-      ? 'You’re already paying the hours; the ledger below is about the dollars.'
-      : 'Target: 10 hrs/mo (~2.3 hrs/wk)';
+    document.getElementById('ud-hours-row')!.textContent = r.atTarget ? '0' : r.hoursToAdd.toFixed(1);
+    document.getElementById('ud-hours-note')!.textContent = r.hoursNote;
 
-    document.getElementById('ud-chart')!.innerHTML = svgBarChart(bill, fullPremium);
+    document.getElementById('ud-chart')!.innerHTML = svgBarChart(bill, r.fullPremium);
 
-    lastResult = { total: bill, stateAbbr: stateAbbr, netWorthBand: netWorthBand, isCouple: isCouple };
-    renderExpectedValue(bill, isCouple);
+    renderExpectedValue(r);
 
     var resultsSection = document.getElementById('ud-results') as HTMLElement;
     resultsSection.hidden = false;
@@ -361,7 +334,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
       state: stateAbbr,
       netWorthBand: netWorthBand,
       ageBand: ageBand(age),
-      spendDownYearsBand: spendDownYearsBand(spendDown),
+      spendDownYearsBand: spendDownYearsBand(spendDownYears(netWorthBand, stateAbbr, r.onsetDrivingAge)),
     });
   });
 
