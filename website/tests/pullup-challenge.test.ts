@@ -165,4 +165,16 @@ describe('pullup challenge page', () => {
       expect(script).not.toMatch(/mine > b\.score/);
     });
   });
+  it('offers the optional Instagram collaborator invite in the right places', () => {
+    const step = 'Optional, but it helps the challenge spread: invite me as a collaborator. On the share screen, tap Tag people, then Invite collaborator, and search drtjmundheim. When I accept, your video shows on my page too, and both of our followers see it. Your entry counts either way.';
+    const short = 'Optional: invite @drtjmundheim as a collaborator so your video shows on my page too.';
+    expect(src).toContain(step);
+    expect(src).toContain(short);
+    const ig = src.indexOf('Instagram: open the app, tap the +');
+    const fb = src.indexOf('Facebook (optional, for extra reach)');
+    const at = src.indexOf(step);
+    expect(ig).toBeGreaterThan(-1);
+    expect(at).toBeGreaterThan(ig);
+    expect(at).toBeLessThan(fb);
+  });
 });
