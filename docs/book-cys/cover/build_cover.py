@@ -49,15 +49,20 @@ html,body{{width:{W}in;height:{H}in;background:#E8352B;overflow:hidden}}
 @font-face{{font-family:Anton;src:url("file:///Users/thomasmundheim/Development/LDRGLPRx/docs/design/cys/fonts/Anton-Regular.ttf")}}
 .back{{position:absolute;left:{BX}in;top:0.6in;width:5.0in;font-family:Arial,sans-serif;color:#fff}}
 .quote{{font-family:Anton;color:#FFD400;font-size:0.5in;line-height:1.05;white-space:nowrap;text-transform:uppercase}}
-.rule{{width:1.2in;height:0.06in;background:#fff;margin:0.22in 0}}
-.hook{{font-weight:700;font-size:17pt;line-height:1.25;margin-bottom:0.16in}}
-.blurb{{font-size:13pt;line-height:1.45;margin-bottom:0.12in;width:4.9in}}
+.rule{{width:1.2in;height:0.06in;background:#fff;margin:0.18in 0}}
+.hook{{font-weight:700;font-size:17pt;line-height:1.25;margin-bottom:0.12in}}
+.blurb{{font-size:13pt;line-height:1.38;margin-bottom:0.09in;width:4.9in}}
 .url{{position:absolute;left:{BX}in;top:8.55in;font-family:Arial;font-weight:700;font-size:9pt;letter-spacing:.04em;color:#fff}}
-.photo{{position:absolute;left:{BX}in;top:5.3in;width:2.6in;height:2.6in;background:#fff;padding:0.04in}}
+.photo{{position:absolute;left:{BX}in;top:5.0in;width:3.0in;height:3.0in;background:#fff;padding:0.04in}}
 .photo img{{display:block;width:100%;height:100%;object-fit:cover}}
-.cap{{position:absolute;left:{BX+2.6+0.2:.3f}in;top:5.3in;width:2.4in;font-family:Arial,sans-serif;color:#fff;white-space:nowrap}}
-.cap b{{display:block;font-size:12pt;line-height:1.3}}
-.cap span{{display:block;font-size:10pt;line-height:1.3}}
+.card{{position:absolute;left:{BX+3.0+0.2:.3f}in;top:5.0in;width:2.0in;font-family:Arial,sans-serif;color:#fff;font-size:9pt;line-height:1.28}}
+.card .nm{{font-family:Anton;color:#FFD400;font-size:17pt;line-height:1.1;letter-spacing:.01em;white-space:nowrap}}
+.card .aka{{font-family:Anton;color:#fff;font-size:11.5pt;line-height:1.15;letter-spacing:.01em;white-space:nowrap;margin-bottom:0.09in}}
+.card p{{margin:0}}
+.card .inv{{margin-top:0.08in;hyphens:none}}
+.card .st{{margin-top:0.11in;border-top:0.02in solid #FFD400;padding-top:0.06in}}
+.card .st div{{display:flex;justify-content:space-between;white-space:nowrap;line-height:1.5}}
+.card .st b{{color:#FFD400;font-weight:700}}
 </style></head><body>
 {svg}
 <div class="back">
@@ -69,7 +74,11 @@ html,body{{width:{W}in;height:{H}in;background:#E8352B;overflow:hidden}}
 <p class="blurb">No food scale. No forbidden foods. Nothing to buy. If you can count to 32, you can do this.</p>
 </div>
 <div class="photo"><img src="file:///Users/thomasmundheim/Development/LDRGLPRx/website/public/images/founder/founder-tj.jpg" alt=""></div>
-<div class="cap"><b>Dr. TJ Mundheim</b><span>30+ years in clinical practice</span></div>
+<div class="card"><div class="nm">DR. TJ MUNDHEIM</div><div class="aka">a.k.a. THE KETO CATTLE BARON</div>
+<p>Author &middot; Wellness speaker &middot; Weight-loss expert</p>
+<p>Masters track &amp; field decathlete &middot; Bodybuilder</p>
+<p class="inv">Inventor of the Dr. TJ Complex <span style="white-space:nowrap">Pull-Up:</span> great for rehabbing cranky rear shoulders and for showing off to girls and small children.</p>
+<div class="st"><div><span>Years in clinical practice:</span><b>30+</b></div><div><span>Chews per bite:</span><b>32</b></div><div><span>Calories counted this year:</span><b>0</b></div></div></div>
 <div class="url">my4mlife.com</div>
 </body></html>'''
 (D/'full-cover-paperback-6x9.html').write_text(html)
