@@ -15,6 +15,7 @@ vi.mock('@aws-sdk/client-lambda', () => ({
 }));
 
 import { handler } from './handler';
+import { buildEmail } from './email';
 import { buildReport, money } from '../../../website/src/lib/uninsured-decade-report';
 
 const valid = {
@@ -73,6 +74,10 @@ describe('ud-calculator-report handler', () => {
     ['rrr above 50', { rrrPct: 51 }],
     ['firstName empty', { firstName: '' }],
     ['firstName 41 chars', { firstName: 'a'.repeat(41) }],
+    ['firstName with a domain', { firstName: 'Win at evil.com' }],
+    ['firstName with a URL', { firstName: 'http://x' }],
+    ['firstName with digits', { firstName: 'Call 5551234' }],
+    ['firstName with a newline', { firstName: 'Jane\nBcc: x' }],
     ['bad email', { email: 'not-an-email' }],
     ['bad advisor email', { advisorEmail: 'nope' }],
     ['advisor equals own email', { advisorEmail: 'jane@example.com' }],
@@ -88,6 +93,27 @@ describe('ud-calculator-report handler', () => {
     const res: any = await handler(evt({ spouseAge: undefined, age: 45, monthlySpend: 0, exerciseHours: 40, rrrPct: 0 }));
     expect(res.statusCode).toBe(200);
     expect(invokeMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('accepts page-valid fractional inputs (exercise 2.5, spend 425) and real-world names', async () => {
+    for (const firstName of ["Mary-Kate O'Neil", 'José', 'J.R.', 'St. John']) {
+      invokeMock.mockClear();
+      const res: any = await handler(evt({ exerciseHours: 2.5, monthlySpend: 425, firstName }));
+      expect(res.statusCode).toBe(200);
+      expect(invokeMock).toHaveBeenCalledTimes(1);
+    }
+  });
+
+  it('buildEmail inserts the first name literally (no $& / $` replacement-pattern expansion) and escapes it in html', () => {
+    const p = buildEmail(buildReport({ age: 62, stateAbbr: 'TX', netWorthBand: '500k-1m', monthlySpend: 400, exerciseHours: 3, rrrPct: 30 }), "Jo$&$'$`", false);
+    expect(p.subject).toBe("Jo$&$'$`, your Uninsured Decade report");
+    expect(p.text.startsWith("Hi Jo$&$'$`,")).toBe(true);
+    expect(p.html).toContain('Hi Jo$&amp;$&#39;$`,');
+  });
+
+  it('client consentVersion is stored only when it is a short slug', async () => {
+    await handler(evt({ emailOptIn: true, consentVersion: '<script>alert(1)</script>' }));
+    expect(upsertMock.mock.calls[0][1].marketingConsent.version).toBe('ud-calc-v1');
   });
 
   it('valid: one email-sender invoke with attachment, no cc, and the server-computed Bill', async () => {

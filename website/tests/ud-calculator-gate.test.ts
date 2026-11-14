@@ -86,3 +86,16 @@ describe('uninsured-decade calculator soft gate', () => {
     }
   });
 });
+
+describe('ud calculator gate: review regressions', () => {
+  it('fill timer never falls back to 0 (a restored unlock would resend as "too fast" and be silently dropped)', () => {
+    expect(page).toMatch(/t:\s*Date\.now\(\)\s*-\s*\(gateShownAt\s*\|\|\s*pageLoadedAt\)/);
+    expect(page).not.toMatch(/t:\s*gateShownAt\s*\?[^,]*:\s*0/);
+  });
+  it('spend input max matches the server bound (100000)', () => {
+    expect(tagFor('ud-spend')).toContain('max="100000"');
+  });
+  it('a 400 shows the server message, not always the name/email line', () => {
+    expect(page).toContain('out.error || ERR_LINE');
+  });
+});

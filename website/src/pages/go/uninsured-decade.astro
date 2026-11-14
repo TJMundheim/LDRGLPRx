@@ -68,7 +68,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 
       <div class="ud-field">
         <label for="ud-spend">Current monthly out-of-pocket health spend</label>
-        <input type="number" id="ud-spend" name="monthlySpend" min="0" step="10" placeholder="$" value="400" />
+        <input type="number" id="ud-spend" name="monthlySpend" min="0" max="100000" step="10" placeholder="$" value="400" />
         <p class="ud-fine">Supplements, gym, concierge care, etc. — used only to frame what you're already spending, not in the cost math below.</p>
       </div>
 
@@ -321,7 +321,6 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 
     var age = Number((document.getElementById('ud-age') as HTMLInputElement).value) || 62;
     var stateAbbr = stateSelect.value || 'TX';
-    var stateRow = COST_OF_CARE_BY_STATE.find(function (r) { return r.abbr === stateAbbr; });
     var netWorthBand = (document.getElementById('ud-networth') as HTMLSelectElement).value as NetWorthBand;
     var isCouple = !noSpouseBox.checked && spouseAgeInput.value !== '';
     var spouseAge = isCouple ? Number(spouseAgeInput.value) : undefined;
@@ -396,6 +395,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
   var FALLBACK_LINE = 'We couldn\u2019t email your report just now. Your full breakdown is unlocked below. Use "Print this for your advisor" to save it as a PDF.';
   var unlocked = false;
   var gateShownAt = 0;
+  var pageLoadedAt = Date.now(); // fill-timer fallback when the gate was never shown (unlock restored from sessionStorage)
   var gateViewed = false;
   var identity: { firstName: string; email: string } | null = null;
 
@@ -421,21 +421,25 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
       age: i.age, stateAbbr: i.stateAbbr, netWorthBand: i.netWorthBand,
       monthlySpend: i.monthlySpend, exerciseHours: i.exerciseHours, rrrPct: Number(rrrInput.value),
       firstName: first, email: email, emailOptIn: optIn, consentVersion: 'ud-calc-v1',
-      src: src, hp: hpInput.value, t: gateShownAt ? Date.now() - gateShownAt : 0,
+      src: src, hp: hpInput.value, t: Date.now() - (gateShownAt || pageLoadedAt),
     };
     if (i.spouseAge !== undefined) body.spouseAge = i.spouseAge;
     if (advisor) body.advisorEmail = advisor;
     return body;
   }
 
-  // Returns HTTP status, or 0 on network error.
-  async function send(body: Record<string, unknown>): Promise<number> {
+  // Returns HTTP status (0 on network error) and, on 400, the server's plain-language message.
+  async function send(body: Record<string, unknown>): Promise<{ status: number; error: string }> {
     try {
       var res = await fetch(API_BASE + '/api/ud-calculator-report', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
       });
-      return res.status;
-    } catch (_) { return 0; }
+      var error = '';
+      if (res.status === 400) {
+        try { var j = await res.json(); if (j && typeof j.error === 'string') error = j.error; } catch (_) { /* not JSON */ }
+      }
+      return { status: res.status, error: error };
+    } catch (_) { return { status: 0, error: '' }; }
   }
 
   gateForm.addEventListener('submit', async function (e) {
@@ -449,9 +453,10 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     if (!gateShownAt) gateShownAt = Date.now();
     gateBtn.disabled = true;
     var optIn = optinInput.checked;
-    var status = await send(payload(first, email, advisor, optIn));
+    var out = await send(payload(first, email, advisor, optIn));
+    var status = out.status;
     gateBtn.disabled = false;
-    if (status === 400) { gateErr.textContent = ERR_LINE; gateErr.hidden = false; return; }
+    if (status === 400) { gateErr.textContent = out.error || ERR_LINE; gateErr.hidden = false; return; }
     identity = { firstName: first, email: email };
     try { sessionStorage.setItem(SS_KEY, JSON.stringify(identity)); } catch (_) { /* storage unavailable */ }
     ph('calc_unlock', { src: src, advisor: !!advisor, optIn: !!optIn });
@@ -461,7 +466,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
   resendBtn.addEventListener('click', async function () {
     if (!identity || !lastInputs) return;
     resendBtn.disabled = true;
-    var status = await send(payload(identity.firstName, identity.email, '', false));
+    var status = (await send(payload(identity.firstName, identity.email, '', false))).status;
     resendBtn.disabled = false;
     sendNote.textContent = status === 200 ? 'Sent. Check your inbox for the updated report.' : FALLBACK_LINE;
     sendNote.hidden = false;

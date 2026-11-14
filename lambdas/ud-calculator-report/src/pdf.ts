@@ -14,10 +14,25 @@ export function clean(s: string): string {
   return s.replace(/[‘’ʼ]/g, "'").replace(/[“”]/g, '"').replace(/[–—−]/g, '-')
     .replace(/≥/g, '>=').replace(/≤/g, '<=').replace(/…/g, '...').replace(/·|•/g, '-')
     .replace(/[   ]/g, ' ').replace(/×/g, 'x').replace(/≈/g, '~')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // José -> Jose rather than Jos
     .replace(/[^\x20-\x7E]/g, '');
 }
 
+/**
+ * Width as pdf-lib actually draws it. font.widthOfTextAtSize applies AFM kerning pairs (Ta, Yo, r,),
+ * but drawText emits a plain Tj with no kerning, so measuring with it under-reports and the next word
+ * lands on the space. Summing single glyphs gives the unkerned advance.
+ */
+export function textWidth(font: PDFFont, s: string, size: number): number {
+  let w = 0;
+  for (const ch of s) w += font.widthOfTextAtSize(ch, size);
+  return w;
+}
+
 type Seg = { t: string; bold?: boolean };
+
+/** Same formatting as the page's ledger row (#ud-hours-row): '0' at target, else one decimal. */
+export const hoursDisplay = (r: UdReport): string => (r.atTarget ? '0' : r.hoursToAdd.toFixed(1));
 
 export async function renderReportPdf(r: UdReport, firstName: string, inputs: UdInputs): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
@@ -35,7 +50,7 @@ export async function renderReportPdf(r: UdReport, firstName: string, inputs: Ud
     let cur: Word[] = [], used = 0, space = false;
     for (const s of segs) for (const tok of clean(s.t).match(/\S+|\s+/g) ?? []) {
       if (/^\s/.test(tok)) { space = true; continue; }
-      const font = f(s.bold), ww = font.widthOfTextAtSize(tok, size), gapW = font.widthOfTextAtSize(' ', size);
+      const ww = textWidth(f(s.bold), tok, size), gapW = textWidth(reg, ' ', size);
       const gap = cur.length > 0 && space;
       if (gap && used + gapW + ww > width) { lines.push(cur); cur = []; used = 0; }
       const g = cur.length > 0 && gap;
@@ -46,16 +61,21 @@ export async function renderReportPdf(r: UdReport, firstName: string, inputs: Ud
     if (cur.length) lines.push(cur);
     return lines;
   };
-  const lineWidth = (ln: Word[], size: number) => ln.reduce((a, w) => a + f(w.bold).widthOfTextAtSize(w.t, size) + (w.gap ? reg.widthOfTextAtSize(' ', size) : 0), 0);
+  /** Merge a line's words into same-font runs with real spaces, so text extraction and copy/paste keep word gaps. */
+  const runs = (ln: Word[]) => ln.reduce<{ t: string; bold: boolean }[]>((acc, w) => {
+    const last = acc[acc.length - 1], piece = (w.gap ? ' ' : '') + w.t;
+    if (last && last.bold === w.bold) last.t += piece; else acc.push({ t: piece, bold: w.bold });
+    return acc;
+  }, []);
+  const lineWidth = (ln: Word[], size: number) => runs(ln).reduce((a, r) => a + textWidth(f(r.bold), r.t, size), 0);
   const drawLines = (lines: Word[][], x: number, size: number, lh: number, color = INK, align: 'l' | 'c' = 'l', width = CW) => {
     for (const ln of lines) {
       need(lh);
       y -= lh;
       let cx = align === 'c' ? x + (width - lineWidth(ln, size)) / 2 : x;
-      for (const w of ln) {
-        if (w.gap) cx += reg.widthOfTextAtSize(' ', size);
-        page.drawText(w.t, { x: cx, y, size, font: f(w.bold), color });
-        cx += f(w.bold).widthOfTextAtSize(w.t, size);
+      for (const r of runs(ln)) {
+        page.drawText(r.t, { x: cx, y, size, font: f(r.bold), color });
+        cx += textWidth(f(r.bold), r.t, size);
       }
     }
   };
@@ -111,7 +131,7 @@ export async function renderReportPdf(r: UdReport, firstName: string, inputs: Ud
     ['The Premium - full basket (10 years)', money(r.ledger.fullBasketTenYear), '4M protocol basket, $675/mo ($81,000 over 10 yrs)'],
     ['Already spending (10 years)', money(r.ledger.alreadySpendingTenYear), 'Your reported current monthly health spend x 120'],
     ['New money (10 years)', money(r.ledger.newMoneyTenYear), 'The actual new spend the basket requires'],
-    ['Hours to add per month', String(r.hoursToAdd), r.hoursNote],
+    ['Hours to add per month', hoursDisplay(r), r.hoursNote],
     ['Expected savings, dementia-cost avoidance only [assumption, not a guarantee]', money(r.ev.expectedSavings), 'Compared against the full basket - the honest premium'],
   ];
   tableRows.forEach((row, i) => {
@@ -180,7 +200,7 @@ export async function renderReportPdf(r: UdReport, firstName: string, inputs: Ud
   pages.forEach((p, i) => {
     p.drawText(FOOT, { x: M, y: 28, size: 8, font: reg, color: MUTED });
     const label = `Page ${i + 1} of ${pages.length}`;
-    p.drawText(label, { x: W - M - reg.widthOfTextAtSize(label, 8), y: 28, size: 8, font: reg, color: MUTED });
+    p.drawText(label, { x: W - M - textWidth(reg, label, 8), y: 28, size: 8, font: reg, color: MUTED });
   });
   return doc.save();
 }

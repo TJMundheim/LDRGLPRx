@@ -18,7 +18,7 @@ LIMITS=(
   "POST /api/send-app-link|1|3"
   "POST /api/contact-form|2|5"
   "POST /api/lead-capture|2|5"
-  "POST /api/ud-calculator-report|1|3"
+  "POST /api/ud-calculator-report|2|5"
   "POST /api/create-setup-intent|2|5"
   "POST /api/create-checkout-session|2|5"
   "POST /api/customer-portal-session|2|5"

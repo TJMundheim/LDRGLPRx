@@ -11,6 +11,8 @@ const FOOTER = 'You received this because you requested your report at my4mlife.
 
 /** Subject, HTML and plain text, built only from the server-computed report and the validated first name. */
 export function buildEmail(r: UdReport, firstName: string, withAdvisor: boolean) {
+  // Function replacer: a string replacer would expand $&, $` and $' patterns typed into the name.
+  const name = (s: string) => s.replace(/\{n\}/g, () => firstName);
   const paras = [
     `Hi {n},`,
     `Your Uninsured Decade report is attached. For ${r.stateName}, the illustrative 10-year cost of care, in ${r.onsetYear} dollars, comes to ${money(r.bill)}. The PDF shows how that number is built, line by line.`,
@@ -18,9 +20,9 @@ export function buildEmail(r: UdReport, firstName: string, withAdvisor: boolean)
     "If you'd like to look at the part that is in your control, you can start here:",
   ];
   const lead = withAdvisor ? [ADVISOR_LINE] : [];
-  const text = [...lead, ...paras].map((p) => p.replace(/\{n\}/g, firstName)).join('\n\n')
+  const text = [...lead, ...paras].map(name).join('\n\n')
     + `\n\nGet your free MindSpan assessment\n${LINK}\n\n${TAGLINE}\n\nDr. TJ\n\n${FOOTER}`;
-  const p = (s: string) => `<p style="margin:0 0 14px">${esc(s.replace(/\{n\}/g, firstName))}</p>`;
+  const p = (s: string) => `<p style="margin:0 0 14px">${esc(name(s))}</p>`;
   const html = `<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;color:#1a1a1a;max-width:560px">`
     + [...lead, ...paras].map(p).join('')
     + `<p style="margin:0 0 14px"><a href="${LINK}" style="color:#0b5d4a;font-weight:bold">Get your free MindSpan assessment</a></p>`

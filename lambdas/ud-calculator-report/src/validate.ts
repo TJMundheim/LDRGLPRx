@@ -3,6 +3,11 @@ import { NET_WORTH_BAND_LABELS, type NetWorthBand } from '../../../website/src/l
 import type { UdInputs } from '../../../website/src/lib/uninsured-decade-report';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Letters (any script), spaces, apostrophes, hyphens, periods. No digits, @, slashes or control chars, and no
+// "word.word" run, so the one free-text field cannot carry a URL or domain into the email, subject, or PDF.
+const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M}' .\u2019-]*$/u;
+const DOMAINISH_RE = /\.\p{L}{2,}/u;
+const CONSENT_RE = /^[a-z0-9][a-z0-9-]{0,39}$/;
 const STATES = new Set(COST_OF_CARE_BY_STATE.map((r) => r.abbr));
 const str = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 const num = (v: unknown, lo: number, hi: number, int = false): v is number =>
@@ -15,7 +20,7 @@ export interface Request {
 /** Returns a Request, or a plain-language error message. Only validated fields ever leave this function. */
 export function validate(b: any): Request | string {
   const firstName = str(b.firstName, 41), email = str(b.email, 254).toLowerCase();
-  if (!firstName || firstName.length > 40 || !EMAIL_RE.test(email)) return 'Please check your first name and email, then try again.';
+  if (!firstName || firstName.length > 40 || !NAME_RE.test(firstName) || DOMAINISH_RE.test(firstName) || !EMAIL_RE.test(email)) return 'Please check your first name and email, then try again.';
   const rawAdvisor = str(b.advisorEmail, 254).toLowerCase();
   if (rawAdvisor && (!EMAIL_RE.test(rawAdvisor) || rawAdvisor === email)) return 'Please check the advisor email and try again.';
 
@@ -33,6 +38,6 @@ export function validate(b: any): Request | string {
       monthlySpend: b.monthlySpend, exerciseHours: b.exerciseHours, rrrPct: b.rrrPct,
     },
     firstName, email, ...(rawAdvisor ? { advisorEmail: rawAdvisor } : {}),
-    emailOptIn: b.emailOptIn === true, consentVersion: str(b.consentVersion, 60) || 'ud-calc-v1',
+    emailOptIn: b.emailOptIn === true, consentVersion: CONSENT_RE.test(str(b.consentVersion, 40)) ? str(b.consentVersion, 40) : 'ud-calc-v1',
   };
 }

@@ -10,7 +10,7 @@
 - **Server recomputes** every number from raw inputs with the shared math (`website/src/lib/uninsured-decade-math.ts`); the client never sends text that ends up in the email, so the route can't relay arbitrary content.
 - **Advisor copy = CC on the same email** (requester visible on it; advisor address never stored, never logged, never written to Contact). Endorse-the-professional-partner rule on every line.
 - **Contact:** identity + source + event only (`{type:'ud-calculator-report'}`), no age/state/net worth/spend. Logs: outcome codes only, never email/name.
-- **Throttle:** add `POST /api/ud-calculator-report|1|3` to infra/api-throttling.sh.
+- **Throttle:** add `POST /api/ud-calculator-report|2|5` to infra/api-throttling.sh.
 - Gender-neutral copy; "Dr. TJ" only; identity/dignity tagline in email + PDF; no "coming soon".
 
 ## Shared interface (all tasks code to this)
