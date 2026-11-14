@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ageMultiplier, pointsPerRep, pullupScore, repsToPass, formatScore, formatAmount, workedLine, compareScore, standingText } from './pullup-score';
+import { ageMultiplier, pointsPerRep, pullupScore, repsToPass, formatScore, formatAmount, workedLine, compareScore, standingText, repLadder, baselineText } from './pullup-score';
 
 describe('ageMultiplier', () => {
   it('is 1 at 30 and under, +1% per year over 30, no cap', () => {
@@ -109,5 +109,46 @@ describe('standing vs a benchmark', () => {
     // 200 lb age 40, 3 -> 9 = 1320; 1540 needs final 11 (8 reps): 2 more.
     expect(standingText({ start: 3, final: 9, bodyweightLb: 200, age: 40 }, 1540)).toBe('Add 2 more reps to pass it.');
     expect(standingText({ start: 3, final: 10, bodyweightLb: 199, age: 40 }, 1540)).toBe('Add 1 more rep to pass it.');
+  });
+});
+
+describe('repLadder', () => {
+  const L = (start: number, final: number, bodyweightLb = 235, age = 59) => repLadder({ start, final, bodyweightLb, age });
+  it('matches the 235/59 5->20 example with exact scores', () => {
+    expect(L(5, 20)).toEqual([
+      { reps: 5, added: 0, score: 0 },
+      { reps: 10, added: 5, score: 1515.75 },
+      { reps: 15, added: 10, score: 3031.5 },
+      { reps: 20, added: 15, score: 4547.25 },
+    ]);
+  });
+  it('lists every rep when 6 or fewer were added', () => {
+    expect(L(3, 9, 200, 40).map((r) => r.added)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+    expect(L(4, 5, 187.5, 47).map((r) => r.reps)).toEqual([4, 5]);
+    expect(L(4, 5, 187.5, 47)[1].score).toBe(187.5 * 1.17);
+    expect(L(0, 6).length).toBe(7);
+  });
+  it('uses milestones of 5 when that gives 6 or fewer middle rows, never duplicating the final row', () => {
+    expect(L(3, 10, 200, 40).map((r) => r.reps)).toEqual([3, 8, 10]);
+    expect(L(0, 7).map((r) => r.added)).toEqual([0, 5, 7]);
+    expect(L(0, 10).map((r) => r.added)).toEqual([0, 5, 10]);
+    expect(L(0, 35).map((r) => r.added)).toEqual([0, 5, 10, 15, 20, 25, 30, 35]);
+  });
+  it('widens the step to a multiple of 5 when 5 would give more than 6 middle rows', () => {
+    expect(L(0, 40, 150, 25).map((r) => r.added)).toEqual([0, 10, 20, 30, 40]);
+    expect(L(0, 36).map((r) => r.added)).toEqual([0, 10, 20, 30, 36]);
+    expect(L(0, 200).map((r) => r.added).slice(0, 3)).toEqual([0, 35, 70]);
+  });
+  it('is empty unless final is above start', () => {
+    expect(L(5, 5)).toEqual([]);
+    expect(L(8, 5)).toEqual([]);
+  });
+});
+
+describe('baselineText', () => {
+  it('states the zero baseline', () => {
+    expect(baselineText(5)).toBe('At your starting 5 reps, your score is 0. Only reps you add count.');
+    expect(baselineText(1)).toBe('At your starting 1 rep, your score is 0. Only reps you add count.');
+    expect(baselineText(0)).toBe('Starting from 0 reps, your score is 0. Only reps you add count.');
   });
 });

@@ -125,6 +125,15 @@ describe('pullup challenge page', () => {
         'Only improvement counts. Your final count has to be higher than your starting count.',
         'more rep', 'to pass it', 'You tie it.']) expect(src + lib).toContain(s);
     });
+    it('has a baseline line and a rep ladder table inside the calculator', () => {
+      expect(calc).toContain('id="pc-baseline"');
+      expect(calc).toContain('id="pc-ladder"');
+      expect(calc).toMatch(/<table[\s\S]*<th[^>]*>Reps<\/th>[\s\S]*<th[^>]*>Added<\/th>[\s\S]*<th[^>]*>Score<\/th>/);
+      expect(calc).toContain('Your rep ladder');
+      const script = src.slice(src.indexOf('// pu-calc:start'), src.indexOf('// pu-calc:end'));
+      expect(script).toContain('baselineText(');
+      expect(script).toContain('repLadder(');
+    });
     it('does no network calls and fires one propertyless PostHog event', () => {
       const script = src.slice(src.indexOf('// pu-calc:start'), src.indexOf('// pu-calc:end'));
       expect(script.length).toBeGreaterThan(50);

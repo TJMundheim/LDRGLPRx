@@ -132,10 +132,18 @@ const canonical = 'https://www.my4mlife.com/pullup';
       <input id="pc-final" type="number" inputmode="numeric" min="0" max="200" step="1" placeholder="e.g. 10" autocomplete="off" />
     </div>
     <p id="pc-msg" class="pu-calc-msg" role="status" aria-live="polite" hidden></p>
+    <p id="pc-baseline" class="pu-calc-baseline" hidden></p>
     <div id="pc-out" hidden>
       <p id="pc-mult"></p>
       <p id="pc-per"></p>
       <p id="pc-score" class="pu-calc-score" aria-live="polite"></p>
+      <div id="pc-ladder">
+        <h4>Your rep ladder</h4>
+        <table class="pu-ladder">
+          <thead><tr><th scope="col">Reps</th><th scope="col">Added</th><th scope="col">Score</th></tr></thead>
+          <tbody id="pc-ladder-body"></tbody>
+        </table>
+      </div>
       <h4>Where you stand</h4>
       <ul id="pc-stand"></ul>
     </div>
@@ -183,7 +191,7 @@ const canonical = 'https://www.my4mlife.com/pullup';
 
 <script>
   // pu-calc:start
-  import { ageMultiplier, pointsPerRep, formatScore, formatAmount, workedLine, standingText } from '../lib/pullup-score';
+  import { ageMultiplier, pointsPerRep, formatScore, formatAmount, workedLine, standingText, repLadder, baselineText } from '../lib/pullup-score';
 
   const BENCHMARKS = [
     { label: 'The 40-year-old example', score: 1540 },
@@ -204,23 +212,38 @@ const canonical = 'https://www.my4mlife.com/pullup';
   };
 
   function renderCalc() {
-    const msg = $('pc-msg'), out = $('pc-out');
+    const msg = $('pc-msg'), out = $('pc-out'), base = $('pc-baseline');
     const bw = num(inp('pc-bw').value, 60, 600, false), age = num(inp('pc-age').value, 18, 120, true);
     const start = num(inp('pc-start').value, 0, 200, true), final = num(inp('pc-final').value, 0, 200, true);
     const vals = [bw, age, start, final];
     const show = (t: string | null) => { msg.textContent = t ?? ''; msg.hidden = !t; };
     out.hidden = true;
+    base.hidden = true;
     if (vals.some((v) => v === null)) return show(null);
     if (vals.some((v) => Number.isNaN(v))) {
       return show('Check your numbers: bodyweight 60 to 600 lb, age 18 to 120 in whole years, and reps 0 to 200 in whole reps.');
     }
     if (!calcFired) { calcFired = true; (window as any).posthog && (window as any).posthog.capture('pullup_calc_used'); }
     const i = { start: start!, final: final!, bodyweightLb: bw!, age: age! };
+    base.textContent = baselineText(i.start);
+    base.hidden = false;
     if (i.final <= i.start) return show('Only improvement counts. Your final count has to be higher than your starting count.');
     show(null);
     $('pc-mult').textContent = `Your age multiplier: ${ageMultiplier(i.age).toFixed(2)}`;
     $('pc-per').textContent = `Each rep you add is worth ${formatAmount(pointsPerRep(i.bodyweightLb, i.age))} points`;
     $('pc-score').textContent = workedLine(i);
+    const body = $('pc-ladder-body');
+    body.textContent = '';
+    for (const [n, r] of repLadder(i).entries()) {
+      const tr = document.createElement('tr');
+      const tag = n === 0 ? ' (start)' : r.added === i.final - i.start ? ' (goal)' : '';
+      for (const t of [`${r.reps}${tag}`, String(r.added), formatScore(r.score)]) {
+        const td = document.createElement('td');
+        td.textContent = t;
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
     const list = $('pc-stand');
     list.textContent = '';
     for (const b of BENCHMARKS) {
@@ -343,6 +366,12 @@ const canonical = 'https://www.my4mlife.com/pullup';
 .pu-calc-grid input { font-size: 1.1rem; padding: 0.9rem; min-height: 52px; border: 2px solid #1f2d3d; border-radius: 6px; width: 100%; box-sizing: border-box; background: #fff; }
 .pu-calc-msg { color: #a01818; font-weight: 700; margin: 0.75rem 0 0; }
 .pu-calc-score { font-weight: 800; font-size: 1.2rem; }
+.pu-calc-baseline { font-weight: 700; margin: 0.75rem 0 0; }
+.pu-ladder { width: 100%; border-collapse: collapse; background: #fff; border: 2px solid #1f2d3d; font-size: 1rem; }
+.pu-ladder th, .pu-ladder td { padding: 0.45rem 0.5rem; border-bottom: 1px solid #d8d2bf; text-align: right; }
+.pu-ladder th:first-child, .pu-ladder td:first-child { text-align: left; }
+.pu-ladder th { background: #1f2d3d; color: #fff; }
+.pu-ladder tbody tr:last-child td { font-weight: 800; border-bottom: 0; }
 .pu-calc h4 { margin: 1rem 0 0.4rem; }
 .pu-calc ul { padding-left: 1.2rem; margin: 0; }
 .pu-calc li { margin-bottom: 0.5rem; }

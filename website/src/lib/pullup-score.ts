@@ -62,3 +62,26 @@ export function standingText(i: ScoreInput, benchmark: number): string {
   const add = `Add ${more} more rep${more === 1 ? '' : 's'} to pass it.`;
   return s === 'tie' ? `You tie it. ${add}` : add;
 }
+
+export interface LadderRow { reps: number; added: number; score: number }
+
+/** Milestone table from the starting count to the final count. Scores are exact (unrounded). */
+export function repLadder({ start, final, bodyweightLb, age }: ScoreInput): LadderRow[] {
+  const added = final - start;
+  if (added <= 0) return [];
+  const row = (a: number): LadderRow => ({ reps: start + a, added: a, score: pullupScore({ start, final: start + a, bodyweightLb, age }) });
+  let step = 1;
+  if (added > 6) {
+    step = Math.floor((added - 1) / 5) <= 6 ? 5 : Math.ceil(Math.ceil(added / 6) / 5) * 5;
+  }
+  const rows = [row(0)];
+  for (let a = step; a < added; a += step) rows.push(row(a));
+  rows.push(row(added));
+  return rows;
+}
+
+/** Zero-baseline sentence: only added reps score. */
+export const baselineText = (start: number): string =>
+  start === 0
+    ? 'Starting from 0 reps, your score is 0. Only reps you add count.'
+    : `At your starting ${start} rep${start === 1 ? '' : 's'}, your score is 0. Only reps you add count.`;
