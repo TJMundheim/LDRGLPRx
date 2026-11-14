@@ -7,6 +7,7 @@
 <div style="margin-top:2.2in;">
 <p style="text-align:center; font-weight:700;">Also by Dr. TJ Mundheim</p>
 <p style="text-align:center; font-style:italic;">Begin with the End in Mind</p>
+<p style="text-align:center; font-style:italic;">The Uninsured Decade</p>
 <p style="text-align:center;">— and the free 12-week My4MLife program and its member app, at my4mlife.com</p>
 </div>
 
@@ -18,7 +19,7 @@
 
 **Dr. TJ Mundheim**
 
-Author of *Begin with the End in Mind* · Founder of My4MLife
+Author of *Begin with the End in Mind* and *The&nbsp;Uninsured&nbsp;Decade* · Founder of My4MLife
 
 ---
 
