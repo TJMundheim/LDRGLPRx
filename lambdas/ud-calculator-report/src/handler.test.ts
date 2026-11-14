@@ -101,7 +101,7 @@ describe('ud-calculator-report handler', () => {
     expect(p.cc).toBeUndefined();
     expect(p.attachments).toHaveLength(1);
     expect(p.attachments[0]).toMatchObject({ filename: 'Uninsured-Decade-Jane.pdf', contentType: 'application/pdf' });
-    expect(typeof p.attachments[0].content ?? p.attachments[0].contentBase64 ?? p.attachments[0].data).toBe('string');
+    expect(typeof (p.attachments[0].content ?? p.attachments[0].contentBase64 ?? p.attachments[0].data)).toBe('string');
     const bill = money(buildReport({ age: 62, spouseAge: 60, stateAbbr: 'TX', netWorthBand: '500k-1m', monthlySpend: 400, exerciseHours: 3, rrrPct: 30 }).bill);
     expect(p.html).toContain(bill);
     expect(p.text).toContain(bill);

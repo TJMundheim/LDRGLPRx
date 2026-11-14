@@ -4,7 +4,8 @@
 // docs/plan/uninsured-decade-calculator-and-talk-spec-2026-09-07.md PART A.
 // GENDER-NEUTRAL throughout — this page is seen by advisors, spouses, mixed rooms.
 // Single CTA: free MindSpan assessment, ?src= attribution passthrough.
-// No product sold here. No PII collected — only banded PostHog events.
+// No product sold here. Soft gate: The Bill is free; the full breakdown unlocks after first name + email (POST /api/ud-calculator-report).
+// Calculator inputs are never stored; PostHog events carry banded values only, never name/email.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MedicalDisclaimer from '../../components/MedicalDisclaimer.astro';
 
@@ -26,7 +27,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     <p class="ud-kicker">The Uninsured Decade</p>
     <h1>Medicare pays $0 toward custodial care.<br/>Here's what a decade of decline could actually cost — in your state.</h1>
     <p class="ud-punch">A policy can help fund this risk — that's a conversation for the advisor who sent you here. It can't lower the risk itself. That's what underwriting is: know the number, and know what's in your control.</p>
-    <p class="ud-cta-sub">Answer six questions below. No name, no email — just the math.</p>
+    <p class="ud-cta-sub">Answer six questions to see The Bill. Add your first name and email to unlock the full breakdown and get it as a PDF you can review with your advisor.</p>
   </section>
 
   <!-- FORM -->
@@ -83,13 +84,46 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
   <!-- RESULTS -->
   <section class="ud-block ud-results" id="ud-results" hidden>
     <h2>Your numbers</h2>
-    <div class="ud-big-numbers">
+    <div class="ud-big-numbers ud-bill-only">
       <div class="ud-big-card ud-big-bill">
         <p class="ud-big-tag">The Bill</p>
         <p class="ud-big-num" id="ud-bill">—</p>
         <p class="ud-big-sub">Illustrative 10-year staged care cost, adjusted to <span id="ud-state-name">your state</span>, in <span id="ud-onset-year">—</span> dollars</p>
         <p class="ud-why" id="ud-bill-why">—</p>
       </div>
+    </div>
+
+    <form id="ud-gate" class="ud-gate" autocomplete="off" novalidate>
+      <h3>Unlock your full breakdown</h3>
+      <p class="ud-gate-why">We'll email you a personalized PDF of the full ledger, so you have it to review with the professionals who help you plan.</p>
+      <div class="ud-gate-fields">
+        <div class="ud-field">
+          <label for="ud-gate-first">First name</label>
+          <input type="text" id="ud-gate-first" name="firstName" maxlength="40" autocomplete="given-name" required />
+        </div>
+        <div class="ud-field">
+          <label for="ud-gate-email">Email</label>
+          <input type="email" id="ud-gate-email" name="email" autocomplete="email" required />
+        </div>
+      </div>
+      <div class="ud-field ud-gate-advisor-wrap">
+        <label for="ud-gate-advisor">Send a copy to my financial advisor (optional)</label>
+        <input type="email" id="ud-gate-advisor" name="advisorEmail" placeholder="Advisor's email" aria-label="Advisor's email" autocomplete="off" />
+        <p class="ud-fine">We send the copy once, with you on it. We don't keep your advisor's email address.</p>
+      </div>
+      <label class="ud-checkbox ud-gate-optin-label">
+        <input type="checkbox" id="ud-gate-optin" name="emailOptIn" />
+        Email me occasional notes from Dr. TJ
+      </label>
+      <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" class="ud-hp" />
+      <p class="ud-gate-error" id="ud-gate-error" role="alert" hidden></p>
+      <button type="submit" class="ud-cta" id="ud-gate-btn">Unlock and email my report</button>
+      <p class="ud-fine ud-gate-fine">We use your first name and email to send this report. We don't store your age, state, net worth, or spending. Opting in is optional and you can unsubscribe any time. See our <a href="/privacy">Privacy</a> page.</p>
+    </form>
+
+    <div id="ud-locked" hidden>
+    <p class="ud-gate-note" id="ud-send-note" hidden></p>
+    <div class="ud-big-numbers ud-big-two">
       <div class="ud-big-card ud-big-premium">
         <p class="ud-big-tag">The Premium — new money</p>
         <p class="ud-big-num" id="ud-premium">—</p>
@@ -157,6 +191,8 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
     <div class="ud-actions">
       <a class="ud-cta" id="ud-cta-assessment" href="/assessment" onclick="window.posthog && posthog.capture('calc_cta_click', { src: window.__udSrc })">Get your free MindSpan assessment &rarr;</a>
       <button type="button" class="ud-cta ud-cta-ghost" id="ud-print-btn">Print this for your advisor</button>
+    </div>
+    <p class="ud-resend-wrap"><button type="button" class="ud-resend" id="ud-resend-btn">Email me the updated report</button></p>
     </div>
   </section>
 
@@ -327,6 +363,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 
     var resultsSection = document.getElementById('ud-results') as HTMLElement;
     resultsSection.hidden = false;
+    if (unlocked) { setUnlocked(null); } else { markGateShown(); }
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     window.posthog && (window as any).posthog.capture('calc_complete', {
@@ -337,6 +374,114 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
       spendDownYearsBand: spendDownYearsBand(spendDownYears(netWorthBand, stateAbbr, r.onsetDrivingAge)),
     });
   });
+
+  // ── soft gate ──
+  var API_BASE: string =
+    (import.meta as any).env?.PUBLIC_LEAD_CAPTURE_API_URL ??
+    'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+  var SS_KEY = 'ud-calc-unlock';
+  var gateForm = document.getElementById('ud-gate') as HTMLFormElement;
+  var lockedEl = document.getElementById('ud-locked') as HTMLElement;
+  var gateErr = document.getElementById('ud-gate-error') as HTMLElement;
+  var gateBtn = document.getElementById('ud-gate-btn') as HTMLButtonElement;
+  var sendNote = document.getElementById('ud-send-note') as HTMLElement;
+  var resendBtn = document.getElementById('ud-resend-btn') as HTMLButtonElement;
+  var firstInput = document.getElementById('ud-gate-first') as HTMLInputElement;
+  var emailInput = document.getElementById('ud-gate-email') as HTMLInputElement;
+  var advisorInput = document.getElementById('ud-gate-advisor') as HTMLInputElement;
+  var optinInput = document.getElementById('ud-gate-optin') as HTMLInputElement;
+  var hpInput = gateForm.querySelector('input[name="hp"]') as HTMLInputElement;
+  var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  var ERR_LINE = 'Please check your first name and email, then try again.';
+  var FALLBACK_LINE = 'We couldn\u2019t email your report just now. Your full breakdown is unlocked below. Use "Print this for your advisor" to save it as a PDF.';
+  var unlocked = false;
+  var gateShownAt = 0;
+  var gateViewed = false;
+  var identity: { firstName: string; email: string } | null = null;
+
+  function ph(ev: string, props: Record<string, unknown>) { (window as any).posthog && (window as any).posthog.capture(ev, props); }
+  function markGateShown() {
+    if (!gateShownAt) gateShownAt = Date.now();
+    if (!gateViewed) { gateViewed = true; ph('calc_gate_view', { src: src }); }
+  }
+  gateForm.addEventListener('focusin', function () { if (!gateShownAt) gateShownAt = Date.now(); });
+
+  function setUnlocked(note: string | null) {
+    unlocked = true;
+    lockedEl.hidden = false;
+    gateForm.hidden = true;
+    resendBtn.hidden = false;
+    sendNote.textContent = note || '';
+    sendNote.hidden = !note;
+  }
+
+  function payload(first: string, email: string, advisor: string, optIn: boolean) {
+    var i = lastInputs!;
+    var body: Record<string, unknown> = {
+      age: i.age, stateAbbr: i.stateAbbr, netWorthBand: i.netWorthBand,
+      monthlySpend: i.monthlySpend, exerciseHours: i.exerciseHours, rrrPct: Number(rrrInput.value),
+      firstName: first, email: email, emailOptIn: optIn, consentVersion: 'ud-calc-v1',
+      src: src, hp: hpInput.value, t: gateShownAt ? Date.now() - gateShownAt : 0,
+    };
+    if (i.spouseAge !== undefined) body.spouseAge = i.spouseAge;
+    if (advisor) body.advisorEmail = advisor;
+    return body;
+  }
+
+  // Returns HTTP status, or 0 on network error.
+  async function send(body: Record<string, unknown>): Promise<number> {
+    try {
+      var res = await fetch(API_BASE + '/api/ud-calculator-report', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      });
+      return res.status;
+    } catch (_) { return 0; }
+  }
+
+  gateForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!lastInputs) return;
+    var first = firstInput.value.trim(), email = emailInput.value.trim(), advisor = advisorInput.value.trim();
+    gateErr.hidden = true;
+    if (!first || !EMAIL_RE.test(email) || (advisor && !EMAIL_RE.test(advisor))) {
+      gateErr.textContent = ERR_LINE; gateErr.hidden = false; return;
+    }
+    if (!gateShownAt) gateShownAt = Date.now();
+    gateBtn.disabled = true;
+    var optIn = optinInput.checked;
+    var status = await send(payload(first, email, advisor, optIn));
+    gateBtn.disabled = false;
+    if (status === 400) { gateErr.textContent = ERR_LINE; gateErr.hidden = false; return; }
+    identity = { firstName: first, email: email };
+    try { sessionStorage.setItem(SS_KEY, JSON.stringify(identity)); } catch (_) { /* storage unavailable */ }
+    ph('calc_unlock', { src: src, advisor: !!advisor, optIn: !!optIn });
+    setUnlocked(status === 200 ? null : FALLBACK_LINE);
+  });
+
+  resendBtn.addEventListener('click', async function () {
+    if (!identity || !lastInputs) return;
+    resendBtn.disabled = true;
+    var status = await send(payload(identity.firstName, identity.email, '', false));
+    resendBtn.disabled = false;
+    sendNote.textContent = status === 200 ? 'Sent. Check your inbox for the updated report.' : FALLBACK_LINE;
+    sendNote.hidden = false;
+  });
+
+  // Recalculating within the session keeps the page unlocked.
+  try {
+    var saved = sessionStorage.getItem(SS_KEY);
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      if (parsed && parsed.firstName && parsed.email) {
+        identity = { firstName: String(parsed.firstName), email: String(parsed.email) };
+        firstInput.value = identity.firstName; emailInput.value = identity.email;
+        gateForm.hidden = true; // gate stays out of the way; locked content shows after first calculate
+        unlocked = true;
+      }
+    }
+  } catch (_) { /* ignore */ }
+  resendBtn.hidden = true;
+  if (unlocked) { lockedEl.hidden = true; }
 
   // ── print for advisor ──
   var printBtn = document.getElementById('ud-print-btn');
@@ -386,6 +531,25 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 
 /* RESULTS */
 .ud-big-numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.ud-big-numbers.ud-bill-only { grid-template-columns: minmax(0, 420px); justify-content: center; margin-bottom: 1.5rem; }
+.ud-big-numbers.ud-big-two { grid-template-columns: repeat(2, 1fr); }
+.ud-gate { background: #fff; border: 1px solid #e8e2d4; border-top: 3px solid #d4af5a; border-radius: 12px; padding: 1.6rem 1.4rem; margin: 0 auto 2rem; max-width: 560px; display: flex; flex-direction: column; gap: 1rem; position: relative; }
+.ud-gate[hidden], #ud-locked[hidden] { display: none; }
+.ud-gate h3 { font-size: 1.25rem; color: #0a1f44; margin: 0; }
+.ud-gate-why { font-size: 0.92rem; line-height: 1.55; color: #3d4a5e; margin: 0; }
+.ud-gate-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.ud-gate .ud-field input { font-size: 1rem; padding: 0.6rem 0.7rem; border: 1px solid #d8d2c0; border-radius: 8px; font-family: 'Inter', sans-serif; background: #fdfcf9; }
+.ud-gate .ud-cta { align-self: flex-start; }
+.ud-gate .ud-cta:disabled { opacity: 0.6; cursor: wait; }
+.ud-gate-error { color: #c0442e; font-size: 0.88rem; font-weight: 600; margin: 0; }
+.ud-gate-error[hidden], .ud-gate-note[hidden] { display: none; }
+.ud-gate-note { background: #f6f3ea; border: 1px solid #e8e2d4; border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.88rem; color: #3d4a5e; margin: 0 0 1.5rem; line-height: 1.5; }
+.ud-hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+.ud-resend-wrap { text-align: center; margin: 1rem 0 0; }
+.ud-resend { background: none; border: none; color: #8a6d1f; font-size: 0.85rem; text-decoration: underline; cursor: pointer; font-family: 'Inter', sans-serif; padding: 0.4rem; }
+.ud-resend[hidden] { display: none; }
+.ud-resend:disabled { opacity: 0.6; }
+@media (max-width: 620px) { .ud-gate-fields { grid-template-columns: 1fr; } .ud-gate .ud-field input { font-size: 16px; } }
 .ud-big-card { background: #fff; border: 1px solid #e8e2d4; border-radius: 12px; padding: 1.4rem 1.2rem; text-align: center; }
 .ud-big-bill { border-top: 3px solid #c0442e; }
 .ud-big-premium { border-top: 3px solid #d4af5a; }
@@ -394,7 +558,7 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 .ud-big-num { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; color: #0a1f44; margin: 0 0 0.5rem; font-variant-numeric: tabular-nums; }
 .ud-big-sub { font-size: 0.78rem; color: #6b7280; line-height: 1.45; margin: 0; }
 .ud-why { font-size: 0.74rem; color: #8a6d1f; line-height: 1.4; margin: 0.5rem 0 0; font-style: italic; }
-@media (max-width: 680px) { .ud-big-numbers { grid-template-columns: 1fr; } }
+@media (max-width: 680px) { .ud-big-numbers, .ud-big-numbers.ud-big-two { grid-template-columns: 1fr; } .ud-big-numbers.ud-bill-only { grid-template-columns: 1fr; } }
 
 .ud-chart-wrap { max-width: 340px; margin: 0 auto 2rem; }
 .ud-chart-wrap svg { width: 100%; height: auto; display: block; }
@@ -436,7 +600,9 @@ const canonical = 'https://www.my4mlife.com/go/uninsured-decade';
 @media print {
   .ud-top, .ud-hero, .ud-form-block, .ud-actions, .ud-context, .ud-chart-wrap { display: none !important; }
   .ud-results { display: block !important; }
-  .ud-big-numbers { grid-template-columns: repeat(3, 1fr) !important; }
+  .ud-big-numbers.ud-big-two { grid-template-columns: repeat(2, 1fr) !important; }
+  .ud-gate, .ud-resend-wrap, .ud-gate-note { display: none !important; }
+  #ud-locked[hidden] { display: none !important; }
   .ud-cta, button { display: none !important; }
   .ud-print-footer { display: block !important; font-size: 0.7rem; color: #555; margin-top: 1rem; text-align: center; }
   body { background: #fff; }

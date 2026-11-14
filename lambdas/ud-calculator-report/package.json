@@ -5,7 +5,8 @@
   "scripts": {
     "build": "esbuild src/handler.ts --bundle --platform=node --target=node24 --format=cjs --outfile=dist/handler.js --external:@aws-sdk/*",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "preview": "esbuild scripts/preview.ts --bundle --platform=node --format=cjs --outfile=dist/preview.cjs --log-level=warning && node dist/preview.cjs"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.700.0",

@@ -10,5 +10,5 @@
     "rootDir": "../..",
     "types": ["node"]
   },
-  "include": ["src", "../../website/src/lib/uninsured-decade-report.ts", "../../website/src/lib/uninsured-decade-math.ts"]
+  "include": ["src", "scripts", "../../website/src/lib/uninsured-decade-report.ts", "../../website/src/lib/uninsured-decade-math.ts"]
 }
