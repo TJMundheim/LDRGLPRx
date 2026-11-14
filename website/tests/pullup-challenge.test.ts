@@ -109,4 +109,26 @@ describe('pullup challenge page', () => {
     expect(src).not.toMatch(/hideChrome/);
     expect(src).toContain('https://www.my4mlife.com/pullup');
   });
+
+  describe('score calculator', () => {
+    const calc = src.slice(src.indexOf('id="pu-calc"'), src.indexOf('aria-label="How I compete"'));
+    it('sits after the SCORING examples and before the host callout', () => {
+      const i = src.indexOf('id="pu-calc"');
+      expect(i).toBeGreaterThan(src.indexOf('The women\'s division is scored separately.</p>'));
+      expect(i).toBeLessThan(src.indexOf('aria-label="How I compete"'));
+    });
+    it('has the four labeled numeric inputs and required copy', () => {
+      for (const s of ['Figure your score', 'Bodyweight (lb)', 'Age', 'Starting max reps', 'Final or goal reps',
+        'inputmode="numeric"', 'Nothing you type here is sent or saved.']) expect(calc).toContain(s);
+      for (const s of ["Dr. TJ's math example (men's division; not his official score)",
+        'Only improvement counts. Your final count has to be higher than your starting count.',
+        'more rep', 'to pass it']) expect(src).toContain(s);
+    });
+    it('does no network calls and fires one propertyless PostHog event', () => {
+      const script = src.slice(src.indexOf('// pu-calc:start'), src.indexOf('// pu-calc:end'));
+      expect(script.length).toBeGreaterThan(50);
+      expect(script).not.toMatch(/fetch\(|XMLHttpRequest|sendBeacon/);
+      expect(script).toContain("posthog.capture('pullup_calc_used')");
+    });
+  });
 });

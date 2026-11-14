@@ -118,6 +118,28 @@ const canonical = 'https://www.my4mlife.com/pullup';
   </ul>
   <p>Example: a 200 lb, 40 year old who goes from 3 to 10 reps scores 7 x 200 x 1.10 = 1,540. A 150 lb, 25 year old who goes from 5 to 12 scores 7 x 150 x 1.00 = 1,050. And a 190 lb, 65 year old who goes from 4 to 11 scores 7 x 190 x 1.35 = 1,796, which beats the 40 year old. That is the point of the age multiplier: an older entrant who puts in the work can win it.</p>
   <p>Same math for me in my division. I am 59 and about 235 lb, so my multiplier is 1.29. As a math example only, going from 5 to 15 valid reps would score 10 x 235 x 1.29 = about 3,032. My official starting count must come from a video meeting the full rep standard above. This example is not a verified starting count. The women's division is scored separately.</p>
+  <section id="pu-calc" class="pu-calc" aria-labelledby="pu-calc-h">
+    <h3 id="pu-calc-h">Figure your score</h3>
+    <p class="pu-calc-note">This calculator runs on your phone. Nothing you type here is sent or saved.</p>
+    <div class="pu-calc-grid">
+      <label for="pc-bw">Bodyweight (lb)</label>
+      <input id="pc-bw" type="number" inputmode="numeric" min="60" max="600" step="1" placeholder="e.g. 200" autocomplete="off" />
+      <label for="pc-age">Age</label>
+      <input id="pc-age" type="number" inputmode="numeric" min="18" max="120" step="1" placeholder="e.g. 40" autocomplete="off" />
+      <label for="pc-start">Starting max reps</label>
+      <input id="pc-start" type="number" inputmode="numeric" min="0" max="200" step="1" placeholder="e.g. 3" autocomplete="off" />
+      <label for="pc-final">Final or goal reps</label>
+      <input id="pc-final" type="number" inputmode="numeric" min="0" max="200" step="1" placeholder="e.g. 10" autocomplete="off" />
+    </div>
+    <p id="pc-msg" class="pu-calc-msg" role="status" aria-live="polite" hidden></p>
+    <div id="pc-out" hidden>
+      <p id="pc-mult"></p>
+      <p id="pc-per"></p>
+      <p id="pc-score" class="pu-calc-score"></p>
+      <h4>Where you stand</h4>
+      <ul id="pc-stand"></ul>
+    </div>
+  </section>
   <aside class="pu-callout" aria-label="How I compete">
   <p>I am competing in my division under the same formula, video requirements and age bonus. No separate math for the host. I am 59 and still overcoming injuries, so the age adjustment matters to me too. We are not playing customer tennis here. I hope a lot of you challenge me, but it has to be fair to me as well. If my adjusted score beats the top challenger in my division, I keep that division's patches. That does not affect the separate women's prize. Women compete only against the other women.</p>
   </aside>
@@ -158,6 +180,60 @@ const canonical = 'https://www.my4mlife.com/pullup';
 </main>
 
 </BaseLayout>
+
+<script>
+  // pu-calc:start
+  import { ageMultiplier, pointsPerRep, pullupScore, repsToPass, formatScore, workedLine } from '../lib/pullup-score';
+
+  const BENCHMARKS = [
+    { label: 'The 40-year-old example', score: 1540 },
+    { label: 'The 25-year-old example', score: 1050 },
+    { label: 'The 65-year-old example', score: 1795.5 },
+    { label: "Dr. TJ's math example (men's division; not his official score)", score: 3031.5 },
+  ];
+  const $ = (id: string) => document.getElementById(id) as HTMLElement;
+  const inp = (id: string) => $(id) as HTMLInputElement;
+  const calcRoot = document.getElementById('pu-calc');
+  let calcFired = false;
+
+  const whole = (v: string, lo: number, hi: number): number | null => {
+    if (v.trim() === '') return null;
+    const n = Number(v);
+    return Number.isInteger(n) && n >= lo && n <= hi ? n : NaN;
+  };
+
+  function renderCalc() {
+    const msg = $('pc-msg'), out = $('pc-out');
+    const bw = whole(inp('pc-bw').value, 60, 600), age = whole(inp('pc-age').value, 18, 120);
+    const start = whole(inp('pc-start').value, 0, 200), final = whole(inp('pc-final').value, 0, 200);
+    const vals = [bw, age, start, final];
+    const show = (t: string | null) => { msg.textContent = t ?? ''; msg.hidden = !t; };
+    out.hidden = true;
+    if (vals.some((v) => v === null)) return show(null);
+    if (vals.some((v) => Number.isNaN(v))) {
+      return show('Check your numbers: bodyweight 60 to 600 lb, age 18 to 120, and reps 0 to 200, all whole numbers.');
+    }
+    if (!calcFired) { calcFired = true; (window as any).posthog && (window as any).posthog.capture('pullup_calc_used'); }
+    const i = { start: start!, final: final!, bodyweightLb: bw!, age: age! };
+    if (i.final <= i.start) return show('Only improvement counts. Your final count has to be higher than your starting count.');
+    show(null);
+    $('pc-mult').textContent = `Your age multiplier: ${ageMultiplier(i.age).toFixed(2)}`;
+    $('pc-per').textContent = `Each rep you add is worth ${formatScore(pointsPerRep(i.bodyweightLb, i.age))} points`;
+    $('pc-score').textContent = workedLine(i);
+    const mine = pullupScore(i);
+    const list = $('pc-stand');
+    list.textContent = '';
+    for (const b of BENCHMARKS) {
+      const li = document.createElement('li');
+      const more = repsToPass(b.score, i.bodyweightLb, i.age, i.start) - i.final;
+      li.textContent = `${b.label}: ${formatScore(b.score)}. ` + (mine > b.score ? 'You beat it.' : `Add ${more} more rep${more === 1 ? '' : 's'} to pass it.`);
+      list.appendChild(li);
+    }
+    out.hidden = false;
+  }
+  calcRoot?.addEventListener('input', renderCalc);
+  // pu-calc:end
+</script>
 
 <script>
   import { attachHoneypot, botFields } from '../scripts/lead-capture';
@@ -261,4 +337,14 @@ const canonical = 'https://www.my4mlife.com/pullup';
 .pu-rules ul, .pu-rules ol { padding-left: 1.4rem; }
 .pu-callout { background: #fff4d6; border-left: 6px solid #c98a00; border-radius: 6px; padding: 0.5rem 1rem 0.75rem; margin: 1.5rem 0; }
 .pu-callout h3 { margin-top: 0.5rem; }
+.pu-calc { background: #f6f3ea; border: 2px solid #1f2d3d; border-radius: 10px; padding: 0.25rem 1rem 1rem; margin: 1.5rem 0; }
+.pu-calc-note { font-size: 0.9rem; margin: 0 0 0.75rem; }
+.pu-calc-grid { display: flex; flex-direction: column; gap: 0.4rem; }
+.pu-calc-grid label { font-weight: 700; margin-top: 0.4rem; }
+.pu-calc-grid input { font-size: 1.1rem; padding: 0.9rem; min-height: 52px; border: 2px solid #1f2d3d; border-radius: 6px; width: 100%; box-sizing: border-box; background: #fff; }
+.pu-calc-msg { color: #a01818; font-weight: 700; margin: 0.75rem 0 0; }
+.pu-calc-score { font-weight: 800; font-size: 1.2rem; }
+.pu-calc h4 { margin: 1rem 0 0.4rem; }
+.pu-calc ul { padding-left: 1.2rem; margin: 0; }
+.pu-calc li { margin-bottom: 0.5rem; }
 </style>
