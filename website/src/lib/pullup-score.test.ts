@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ageMultiplier, pullupScore, repsToPass, formatScore, workedLine } from './pullup-score';
+import { ageMultiplier, pointsPerRep, pullupScore, repsToPass, formatScore, formatAmount, workedLine, compareScore, standingText } from './pullup-score';
 
 describe('ageMultiplier', () => {
   it('is 1 at 30 and under, +1% per year over 30, no cap', () => {
@@ -10,6 +10,14 @@ describe('ageMultiplier', () => {
     expect(ageMultiplier(59)).toBe(1.29);
     expect(ageMultiplier(65)).toBe(1.35);
     expect(ageMultiplier(100)).toBe(1.7);
+    expect(ageMultiplier(120)).toBe(1.9);
+  });
+  it('matches the rules text examples and ignores partial years', () => {
+    expect(ageMultiplier(60)).toBe(1.3);
+    expect(ageMultiplier(70)).toBe(1.4);
+    expect(ageMultiplier(31)).toBe(1.01);
+    expect(ageMultiplier(30.9)).toBe(1);
+    expect(ageMultiplier(40.5)).toBe(1.1);
   });
 });
 
@@ -57,5 +65,49 @@ describe('repsToPass', () => {
   it('rounds up when the target is not an exact multiple', () => {
     // 150 lb, age 25: 150 per rep; 1000 needs 7 reps (1050 > 1000).
     expect(repsToPass(1000, 150, 25, 0)).toBe(7);
+  });
+});
+
+describe('decimal bodyweight', () => {
+  it('scores a decimal bodyweight exactly', () => {
+    // 3 x 187.5 x 1.17 = 658.125
+    expect(pullupScore({ start: 0, final: 3, bodyweightLb: 187.5, age: 47 })).toBe(658.125);
+    expect(pointsPerRep(187.5, 47)).toBe(219.375);
+    expect(pullupScore({ start: 2, final: 9, bodyweightLb: 200.25, age: 40 })).toBe(1541.925);
+  });
+  it('prints the bodyweight and points per rep sensibly', () => {
+    expect(workedLine({ start: 0, final: 3, bodyweightLb: 187.5, age: 47 })).toBe('Score: 3 x 187.5 x 1.17 = 658');
+    expect(formatAmount(219.375)).toBe('219.38');
+    expect(formatAmount(256.5)).toBe('256.5');
+    expect(formatAmount(220)).toBe('220');
+    expect(formatAmount(pointsPerRep(235, 59))).toBe('303.15');
+  });
+  it('repsToPass stays exact with a decimal bodyweight', () => {
+    // 100.5 lb, age 30: 100.5 per rep; 10 reps = 1005 ties 1005, 11 passes.
+    expect(repsToPass(1005, 100.5, 30, 0)).toBe(11);
+    expect(repsToPass(1004.99, 100.5, 30, 0)).toBe(10);
+  });
+});
+
+describe('standing vs a benchmark', () => {
+  it('compares exact values (1795.5 is not rounded up to 1,796 for the comparison)', () => {
+    expect(compareScore(1795.5, 1795.5)).toBe('tie');
+    expect(compareScore(1796, 1795.5)).toBe('beat');
+    expect(compareScore(1795.4, 1795.5)).toBe('below');
+  });
+  it('tells someone who exactly ties the 65-year-old example that they tie, then how to pass', () => {
+    const i = { start: 4, final: 11, bodyweightLb: 190, age: 65 };
+    expect(standingText(i, 1795.5)).toBe('You tie it. Add 1 more rep to pass it.');
+    expect(standingText({ start: 5, final: 15, bodyweightLb: 235, age: 59 }, 3031.5)).toBe('You tie it. Add 1 more rep to pass it.');
+  });
+  it('says "by less than a point" when the rounded numbers print the same', () => {
+    // 7 x 190.04 x 1.35 = 1795.878 -> prints 1,796, same as the example's 1,796.
+    expect(standingText({ start: 4, final: 11, bodyweightLb: 190.04, age: 65 }, 1795.5)).toBe('You beat it by less than a point.');
+    expect(standingText({ start: 3, final: 11, bodyweightLb: 200, age: 40 }, 1540)).toBe('You beat it.');
+  });
+  it('uses singular and plural correctly', () => {
+    // 200 lb age 40, 3 -> 9 = 1320; 1540 needs final 11 (8 reps): 2 more.
+    expect(standingText({ start: 3, final: 9, bodyweightLb: 200, age: 40 }, 1540)).toBe('Add 2 more reps to pass it.');
+    expect(standingText({ start: 3, final: 10, bodyweightLb: 199, age: 40 }, 1540)).toBe('Add 1 more rep to pass it.');
   });
 });

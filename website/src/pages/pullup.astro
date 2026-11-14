@@ -120,10 +120,10 @@ const canonical = 'https://www.my4mlife.com/pullup';
   <p>Same math for me in my division. I am 59 and about 235 lb, so my multiplier is 1.29. As a math example only, going from 5 to 15 valid reps would score 10 x 235 x 1.29 = about 3,032. My official starting count must come from a video meeting the full rep standard above. This example is not a verified starting count. The women's division is scored separately.</p>
   <section id="pu-calc" class="pu-calc" aria-labelledby="pu-calc-h">
     <h3 id="pu-calc-h">Figure your score</h3>
-    <p class="pu-calc-note">This calculator runs on your phone. Nothing you type here is sent or saved.</p>
+    <p class="pu-calc-note">This calculator runs on your device. Nothing you type here is sent or saved.</p>
     <div class="pu-calc-grid">
       <label for="pc-bw">Bodyweight (lb)</label>
-      <input id="pc-bw" type="number" inputmode="numeric" min="60" max="600" step="1" placeholder="e.g. 200" autocomplete="off" />
+      <input id="pc-bw" type="number" inputmode="decimal" min="60" max="600" step="any" placeholder="e.g. 187.5" autocomplete="off" />
       <label for="pc-age">Age</label>
       <input id="pc-age" type="number" inputmode="numeric" min="18" max="120" step="1" placeholder="e.g. 40" autocomplete="off" />
       <label for="pc-start">Starting max reps</label>
@@ -135,7 +135,7 @@ const canonical = 'https://www.my4mlife.com/pullup';
     <div id="pc-out" hidden>
       <p id="pc-mult"></p>
       <p id="pc-per"></p>
-      <p id="pc-score" class="pu-calc-score"></p>
+      <p id="pc-score" class="pu-calc-score" aria-live="polite"></p>
       <h4>Where you stand</h4>
       <ul id="pc-stand"></ul>
     </div>
@@ -183,7 +183,7 @@ const canonical = 'https://www.my4mlife.com/pullup';
 
 <script>
   // pu-calc:start
-  import { ageMultiplier, pointsPerRep, pullupScore, repsToPass, formatScore, workedLine } from '../lib/pullup-score';
+  import { ageMultiplier, pointsPerRep, formatScore, formatAmount, workedLine, standingText } from '../lib/pullup-score';
 
   const BENCHMARKS = [
     { label: 'The 40-year-old example', score: 1540 },
@@ -196,37 +196,36 @@ const canonical = 'https://www.my4mlife.com/pullup';
   const calcRoot = document.getElementById('pu-calc');
   let calcFired = false;
 
-  const whole = (v: string, lo: number, hi: number): number | null => {
+  // null = not filled in yet; NaN = out of range (or not whole when whole is required).
+  const num = (v: string, lo: number, hi: number, wholeOnly: boolean): number | null => {
     if (v.trim() === '') return null;
     const n = Number(v);
-    return Number.isInteger(n) && n >= lo && n <= hi ? n : NaN;
+    return Number.isFinite(n) && (!wholeOnly || Number.isInteger(n)) && n >= lo && n <= hi ? n : NaN;
   };
 
   function renderCalc() {
     const msg = $('pc-msg'), out = $('pc-out');
-    const bw = whole(inp('pc-bw').value, 60, 600), age = whole(inp('pc-age').value, 18, 120);
-    const start = whole(inp('pc-start').value, 0, 200), final = whole(inp('pc-final').value, 0, 200);
+    const bw = num(inp('pc-bw').value, 60, 600, false), age = num(inp('pc-age').value, 18, 120, true);
+    const start = num(inp('pc-start').value, 0, 200, true), final = num(inp('pc-final').value, 0, 200, true);
     const vals = [bw, age, start, final];
     const show = (t: string | null) => { msg.textContent = t ?? ''; msg.hidden = !t; };
     out.hidden = true;
     if (vals.some((v) => v === null)) return show(null);
     if (vals.some((v) => Number.isNaN(v))) {
-      return show('Check your numbers: bodyweight 60 to 600 lb, age 18 to 120, and reps 0 to 200, all whole numbers.');
+      return show('Check your numbers: bodyweight 60 to 600 lb, age 18 to 120 in whole years, and reps 0 to 200 in whole reps.');
     }
     if (!calcFired) { calcFired = true; (window as any).posthog && (window as any).posthog.capture('pullup_calc_used'); }
     const i = { start: start!, final: final!, bodyweightLb: bw!, age: age! };
     if (i.final <= i.start) return show('Only improvement counts. Your final count has to be higher than your starting count.');
     show(null);
     $('pc-mult').textContent = `Your age multiplier: ${ageMultiplier(i.age).toFixed(2)}`;
-    $('pc-per').textContent = `Each rep you add is worth ${formatScore(pointsPerRep(i.bodyweightLb, i.age))} points`;
+    $('pc-per').textContent = `Each rep you add is worth ${formatAmount(pointsPerRep(i.bodyweightLb, i.age))} points`;
     $('pc-score').textContent = workedLine(i);
-    const mine = pullupScore(i);
     const list = $('pc-stand');
     list.textContent = '';
     for (const b of BENCHMARKS) {
       const li = document.createElement('li');
-      const more = repsToPass(b.score, i.bodyweightLb, i.age, i.start) - i.final;
-      li.textContent = `${b.label}: ${formatScore(b.score)}. ` + (mine > b.score ? 'You beat it.' : `Add ${more} more rep${more === 1 ? '' : 's'} to pass it.`);
+      li.textContent = `${b.label}: ${formatScore(b.score)}. ${standingText(i, b.score)}`;
       list.appendChild(li);
     }
     out.hidden = false;

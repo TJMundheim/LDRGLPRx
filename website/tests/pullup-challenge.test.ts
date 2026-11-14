@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 
 const src = readFileSync(new URL('../src/pages/pullup.astro', import.meta.url), 'utf8');
 const raw = src;
+const lib = readFileSync(new URL('../src/lib/pullup-score.ts', import.meta.url), 'utf8');
 
 describe('pullup challenge page', () => {
   it('has verbatim PART 2 rule sentences from across the sections', () => {
@@ -122,13 +123,37 @@ describe('pullup challenge page', () => {
         'inputmode="numeric"', 'Nothing you type here is sent or saved.']) expect(calc).toContain(s);
       for (const s of ["Dr. TJ's math example (men's division; not his official score)",
         'Only improvement counts. Your final count has to be higher than your starting count.',
-        'more rep', 'to pass it']) expect(src).toContain(s);
+        'more rep', 'to pass it', 'You tie it.']) expect(src + lib).toContain(s);
     });
     it('does no network calls and fires one propertyless PostHog event', () => {
       const script = src.slice(src.indexOf('// pu-calc:start'), src.indexOf('// pu-calc:end'));
       expect(script.length).toBeGreaterThan(50);
       expect(script).not.toMatch(/fetch\(|XMLHttpRequest|sendBeacon/);
       expect(script).toContain("posthog.capture('pullup_calc_used')");
+      expect(script).not.toMatch(/capture\('pullup_calc_used',/);
+    });
+    it('accepts a decimal bodyweight; age and reps stay whole numbers', () => {
+      const bw = calc.match(/<input id="pc-bw"[^>]*>/)?.[0] ?? '';
+      expect(bw).toContain('inputmode="decimal"');
+      expect(bw).toContain('step="any"');
+      for (const id of ['pc-age', 'pc-start', 'pc-final']) {
+        const tag = calc.match(new RegExp(`<input id="${id}"[^>]*>`))?.[0] ?? '';
+        expect(tag).toContain('step="1"');
+        expect(tag).toContain('inputmode="numeric"');
+      }
+      expect(src).toContain("num(inp('pc-bw').value, 60, 600, false)");
+    });
+    it('has unique element ids and every calculator input has a label', () => {
+      const ids = (src.match(/\bid="[^"]+"/g) ?? []).map((m) => m.slice(4, -1));
+      expect(new Set(ids).size).toBe(ids.length);
+      for (const id of (calc.match(/<input id="([^"]+)"/g) ?? []).map((m) => m.slice(11, -1))) {
+        expect(calc).toContain(`<label for="${id}">`);
+      }
+    });
+    it('reports ties from the shared lib instead of its own comparison', () => {
+      const script = src.slice(src.indexOf('// pu-calc:start'), src.indexOf('// pu-calc:end'));
+      expect(script).toContain('standingText(i, b.score)');
+      expect(script).not.toMatch(/mine > b\.score/);
     });
   });
 });
