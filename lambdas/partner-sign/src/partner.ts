@@ -3,7 +3,7 @@ import { getStripeClient } from '@my4mlife/stripe-client';
 
 export interface Partner {
   code: string; business: string; email: string;
-  clientDiscount: string; commission: string; connectOnboardingUrl?: string;
+  clientDiscount: string; commission: string; link?: string; connectOnboardingUrl?: string;
 }
 
 const mode = (): 'live' | 'test' => (process.env.PARTNER_STRIPE_MODE === 'test' ? 'test' : 'live');
@@ -16,7 +16,7 @@ export async function lookupPartner(code: string, email: string): Promise<Partne
   if (m.partner !== 'true' || !m.email || m.email.toLowerCase() !== email.toLowerCase()) return undefined;
   return {
     code, business: m.business ?? '', email: m.email,
-    clientDiscount: m.clientDiscount ?? '', commission: m.commission ?? '',
+    clientDiscount: m.clientDiscount ?? '', commission: m.commission ?? '', link: m.link || undefined,
     connectOnboardingUrl: m.connectOnboardingUrl || undefined,
   };
 }

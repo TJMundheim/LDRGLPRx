@@ -11,7 +11,7 @@ export interface PushPatchSessionInput {
   firstName?: string;
   phone?: string;
   testPrice?: TestPriceData | null;
-  /** Partner promotion code id (auto-applied from ?ref=); replaces the promo-code box. */
+  /** Partner promotion code id (auto-applied from ?ref=); replaces the promo-code box. Absent for no-discount partners. */
   promotionCodeId?: string;
   partnerRef?: string;
 }
@@ -62,6 +62,8 @@ export function buildPushPatchSessionParams(i: PushPatchSessionInput): PushPatch
     // Stripe rejects `discounts` together with `allow_promotion_codes`: a partner code replaces the box.
     ...(i.promotionCodeId
       ? { discounts: [{ promotion_code: i.promotionCodeId }] }
-      : process.env['STRIPE_PROMO_CODES'] === 'on' ? { allow_promotion_codes: true as const } : {}),
+      : i.partnerRef
+        ? {} // no-discount partner: attribution only, no code box
+        : process.env['STRIPE_PROMO_CODES'] === 'on' ? { allow_promotion_codes: true as const } : {}),
   };
 }

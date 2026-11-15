@@ -30,10 +30,16 @@ export function isPayable(s) {
 export const parseBlends = (src) => Object.fromEntries([...src.matchAll(/skuId:\s*'([^']+)',\s*name:\s*'([^']+)'/g)].map((m) => [m[1], m[2]]));
 export const loadBlendNames = (root) => parseBlends(readFileSync(`${root}/website/src/data/pushPatch.ts`, 'utf8'));
 
+/** A session counts for a partner by its discount promotion code, or (clientDiscount '0' partners only) by metadata.partnerRef. */
+export function creditsPartner(partner, s) {
+  if ((s.discounts ?? []).some((d) => promoId(d) === partner.id)) return true;
+  return partner.metadata?.clientDiscount === '0' && !!partner.code && s.metadata?.partnerRef === partner.code;
+}
+
 export function monthRows(partner, sessions, names) {
   const per = Number(partner.metadata?.commission ?? 100) * 100;
   return sessions
-    .filter((s) => isPayable(s) && (s.discounts ?? []).some((d) => promoId(d) === partner.id))
+    .filter((s) => isPayable(s) && creditsPartner(partner, s))
     .sort((a, b) => a.created - b.created)
     .map((s) => ({
       date: new Date(s.created * 1000).toLocaleDateString('sv-SE', { timeZone: TZ }),

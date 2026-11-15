@@ -92,6 +92,23 @@ describe('GET', () => {
   });
 });
 
+describe('no-discount partner (CPT)', () => {
+  const CPT = { partner: 'true', business: 'Colleyville Physical Therapy', email: EMAIL, clientDiscount: '0', commission: '200', link: 'https://www.my4mlife.com/cpt' };
+  it('says full price, never $0, and shows the metadata link', async () => {
+    promoList.mockResolvedValue({ data: [{ code: 'CPT', metadata: CPT }] });
+    const r = await handler(ev('GET', { t: makeToken('test-secret', 'CPT', EMAIL, sec + 3600) }));
+    expect(r.body).toContain('full price');
+    expect(r.body).not.toContain('$0');
+    expect(r.body).toContain('https://www.my4mlife.com/cpt');
+    expect(r.body).toContain('$200');
+  });
+  it('defaults the link for discount partners', async () => {
+    const r = await handler(ev('GET'));
+    expect(r.body).toContain('https://my4mlife.com/go/push-patch?ref=GLOW');
+    expect(r.body).toContain('$50 off the client&#39;s first Push Patch order'.replace('&#39;', "'"));
+  });
+});
+
 describe('POST', () => {
   it.each([
     ['signature mismatch', { typedSignature: 'Janet Doe' }, 'must match'],
@@ -115,7 +132,7 @@ describe('POST', () => {
     expect(put.input.TableName).toBe('PartnerAgreements');
     expect(put.input.ConditionExpression).toBe('attribute_not_exists(code)');
     expect(put.input.Item).toMatchObject({
-      code: 'GLOW', version: 'PA-2026-10', legalName: 'Jane Doe', title: 'Owner', business: 'Glow Spa',
+      code: 'GLOW', version: 'PA-2026-11', legalName: 'Jane Doe', title: 'Owner', business: 'Glow Spa',
       email: EMAIL, signedAt: NOW.toISOString(), ip: '203.0.113.9', userAgent: 'TestAgent/1.0',
     });
     expect(put.input.Item.docSha256).toMatch(/^[0-9a-f]{64}$/);

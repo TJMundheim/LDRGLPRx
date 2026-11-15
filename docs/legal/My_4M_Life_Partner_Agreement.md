@@ -1,22 +1,22 @@
 # Push Patch Partner Agreement
 
-**My 4M Life and {{BUSINESS}} (Partner)**
-Version PA-2026-10 · Effective Date: {{EFFECTIVE_DATE}}
+**My4MLIFE LLC and {{BUSINESS}} (Partner)**
+Version PA-2026-11 · Effective Date: {{EFFECTIVE_DATE}}
 
-This Partner Agreement (this "Agreement") is between My 4M Life ("My 4M Life," "we," or "us") and {{BUSINESS}} ("Partner" or "you"). It explains how you share the Push Patch with your clients, how you get paid, and what each of us agrees to. We have kept it short and plain on purpose.
+This Partner Agreement (this "Agreement") is between My4MLIFE LLC ("My4MLife," "we," or "us") and {{BUSINESS}} ("Partner" or "you"). It explains how you share the Push Patch with your clients, how you get paid, and what each of us agrees to. We have kept it short and plain on purpose.
 
 ## 1. The Program
 
-The Push Patch is a prescription product. Every order is reviewed by a licensed physician in My 4M Life's network, who may decline it. My 4M Life handles checkout, physician review, fulfillment and shipping. You tell your clients about the Push Patch and give them your link or code. You never handle the product, and you never handle your clients' health information.
+The Push Patch is a prescription product. Every order is reviewed by a licensed physician in My4MLife's network, who may decline it. My4MLife handles checkout, physician review, fulfillment and shipping. You tell your clients about the Push Patch and give them your link or code. You never handle the product, and you never handle your clients' health information.
 
 ## 2. Your Link, Code and Client Offer
 
 - **Partner code:** {{PARTNER_CODE}}
-- **Your link:** https://my4mlife.com/go/push-patch?ref={{PARTNER_CODE}}
-- **Client offer:** {{CLIENT_OFFER}} the client's first Push Patch order
+- **Your link:** {{PARTNER_LINK}}
+- **Client offer:** {{CLIENT_OFFER}}
 - **Your commission:** {{COMMISSION}} per qualifying order
 
-The client offer is applied automatically when a client uses your link or enters your code at checkout.
+{{OFFER_NOTE}}
 
 ## 3. Commission
 
@@ -33,18 +33,18 @@ Each order is credited to the partner whose link or code is on the paid order. S
 
 ## 5. Getting Paid
 
-We pay commissions monthly, by the 15th, for the prior calendar month. There is no minimum payout. Payments are made through Stripe. Before your first payout, you complete Stripe's secure onboarding, which includes your W-9 and bank details. Your tax ID goes to Stripe, and My 4M Life never stores it.
+We pay commissions monthly, by the 15th, for the prior calendar month. There is no minimum payout. Payments are made through Stripe. Before your first payout, you complete Stripe's secure onboarding, which includes your W-9 and bank details. Your tax ID goes to Stripe, and My4MLife never stores it.
 
 ## 6. How You Promote the Push Patch
 
 You agree to:
 
-- use only marketing materials and wording that My 4M Life provides or approves in writing;
+- use only marketing materials and wording that My4MLife provides or approves in writing;
 - let clients know you earn a commission when you recommend the Push Patch (an FTC rule for endorsements);
 - make no medical, treatment or cure claims, and give no medical advice about the Push Patch (send clinical questions to us);
 - not collect, store or pass along any client health information for this program;
 - send no spam: follow CAN-SPAM for email and the TCPA for texts and calls, and contact only people who have agreed to hear from you;
-- not run paid ads (search, social or otherwise) that use the My 4M Life or Push Patch names or trademarks without our written OK;
+- not run paid ads (search, social or otherwise) that use the My4MLife or Push Patch names or trademarks without our written OK;
 - offer no discount beyond your client offer, and no cash, gift or other reward to clients for ordering; and
 - follow all laws that apply to your business and your promotion of the program.
 
@@ -66,7 +66,7 @@ Each of us will keep private any non-public information the other shares under t
 
 ## 11. Limitation of Liability
 
-Neither of us is liable to the other for indirect, incidental, special or consequential damages, or for lost profits. My 4M Life's total liability under this Agreement is limited to the commissions owed to you under it.
+Neither of us is liable to the other for indirect, incidental, special or consequential damages, or for lost profits. My4MLife's total liability under this Agreement is limited to the commissions owed to you under it.
 
 ## 12. General
 
@@ -86,11 +86,11 @@ Title: {{SIGNER_TITLE}}
 Business: {{BUSINESS}}
 Date: ______________________________
 
-**MY 4M LIFE**
+**MY4MLIFE LLC**
 
 Signature: ______________________________
 Name: Dr. TJ
 Title: Founder
 Date: ______________________________
 
-*My 4M Life's counter-signature is applied when your application is accepted.*
+*My4MLife's counter-signature is applied when your application is accepted.*

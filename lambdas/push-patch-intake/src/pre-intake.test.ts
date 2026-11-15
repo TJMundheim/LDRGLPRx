@@ -180,6 +180,24 @@ describe('POST /api/push-patch-pre-intake: partner ref', () => {
     expect(params().metadata.partnerRef).toBe('GLOWSPA');
   });
 
+  it('a clientDiscount 0 partner (CPT) yields partnerRef only: no discounts, no code box even with promo codes on', async () => {
+    process.env['STRIPE_PROMO_CODES'] = 'on';
+    try {
+      promoListMock.mockResolvedValue(partner({ code: 'CPT', metadata: { partner: 'true', clientDiscount: '0', commission: '200' } }));
+      expect((await call({ ...BODY, ref: 'cpt' })).statusCode).toBe(200);
+      expect(params()).not.toHaveProperty('discounts');
+      expect(params()).not.toHaveProperty('allow_promotion_codes');
+      expect(params().metadata.partnerRef).toBe('CPT');
+    } finally { delete process.env['STRIPE_PROMO_CODES']; }
+  });
+
+  it.each(['50', '100', undefined])('a partner with clientDiscount %s still applies its promotion code', async (cd) => {
+    promoListMock.mockResolvedValue(partner(cd === undefined ? {} : { metadata: { partner: 'true', clientDiscount: cd } }));
+    await call({ ...BODY, ref: 'GLOWSPA' });
+    expect(params().discounts).toEqual([{ promotion_code: 'promo_p1' }]);
+    expect(params().metadata.partnerRef).toBe('GLOWSPA');
+  });
+
   it('ignores a non-partner code (OCT2026) even if it exists', async () => {
     process.env['STRIPE_PROMO_CODES'] = 'on';
     try {

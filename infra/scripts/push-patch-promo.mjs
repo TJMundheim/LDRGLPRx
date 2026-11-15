@@ -10,7 +10,7 @@
 //   (--coupon attaches the code to that existing Stripe coupon instead of the $150 one)
 // Partner program (details in push-patch-partner.mjs):
 //   partner-coupon [--mode] [--apply]                      create/find the $50 + $100 partner coupons
-//   partner CODE --name "Biz" --email e --client-discount 50|100 [--commission 100] [--note] [--mode] [--apply]
+//   partner CODE --name "Biz" --email e --client-discount 0|50|100 [--commission 100] [--link URL] [--note]  (0 = no client offer; --commission required) [--mode] [--apply]
 //   payouts [--since YYYY-MM-DD] [--until YYYY-MM-DD] [--mode]   commission owed per partner (read-only)
 //   statements --month YYYY-MM [--send] [--mode]           per-partner statement emails (preview; --send emails; no client identities)
 //   connect-onboard CODE [--mode] [--apply]                Stripe Connect Express account + onboarding link (exit 3 if Connect is off)

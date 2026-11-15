@@ -4,7 +4,7 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const f = resolve(dirname(fileURLToPath(import.meta.url)), '../../../docs/legal/My_4M_Life_Partner_Agreement.md');
-const KNOWN = ['BUSINESS', 'SIGNER_NAME', 'SIGNER_TITLE', 'PARTNER_CODE', 'CLIENT_OFFER', 'COMMISSION', 'EFFECTIVE_DATE'];
+const KNOWN = ['BUSINESS', 'SIGNER_NAME', 'SIGNER_TITLE', 'PARTNER_CODE', 'CLIENT_OFFER', 'OFFER_NOTE', 'PARTNER_LINK', 'COMMISSION', 'EFFECTIVE_DATE'];
 const fail = (m) => { console.error(`BUILD FAILED: ${m}`); process.exit(1); };
 
 if (!existsSync(f)) fail(`${f} is missing. The partner agreement must exist before partner-sign can be built.`);

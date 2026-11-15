@@ -4,7 +4,7 @@ export const COUPONS = [
   { key: 'push-patch-partner-50', name: 'Push Patch partner $50 off', cents: 5000 },
   { key: 'push-patch-partner-100', name: 'Push Patch partner $100 off', cents: 10000 },
 ];
-import { isPayable } from './push-patch-partner-month.mjs';
+import { isPayable, creditsPartner } from './push-patch-partner-month.mjs';
 const CODE = /^[A-Z0-9-]{2,30}$/;
 export const parseRef = (s) => { const c = String(s ?? '').trim().toUpperCase(); return CODE.test(c) ? c : undefined; };
 
@@ -15,11 +15,23 @@ export function summarizePayouts(partnerCodes, sessions) {
   const rows = new Map(partnerCodes.map((p) => [p.id, { business: p.metadata?.business ?? '-', code: p.code, orders: 0, gross: 0, commission: 0, per: Number(p.metadata?.commission ?? 100) * 100 }]));
   for (const s of sessions) {
     if (!isPayable(s)) continue;
-    const r = (s.discounts ?? []).map((d) => rows.get(promoId(d))).find(Boolean);
+    const r = (s.discounts ?? []).map((d) => rows.get(promoId(d))).find(Boolean)
+      ?? partnerCodes.filter((p) => creditsPartner(p, s)).map((p) => rows.get(p.id)).find(Boolean);
     if (!r) continue;
     r.orders++; r.gross += s.amount_total ?? 0; r.commission += r.per;
   }
   return [...rows.values()].map(({ per, ...r }) => r);
+}
+
+/** Promotion-code params for a partner. clientDiscount '0' = no client offer: the code sits on the $50 coupon but can never meet its minimum_amount. */
+export function partnerCodeParams({ code, business, email, clientDiscount, commission, couponId, link, note }) {
+  if (!['0', '50', '100'].includes(clientDiscount)) throw new Error('--client-discount must be 0, 50 or 100');
+  const none = clientDiscount === '0';
+  const comm = commission ?? (none ? undefined : clientDiscount === '50' ? '150' : '100'); // TJ 2026-10-31: partner keeps the difference: $50 off earns $150
+  if (none && !/^[1-9]\d*$/.test(String(comm ?? ''))) throw new Error('--commission (positive whole dollars) is required with --client-discount 0');
+  if (!/^\d+$/.test(String(comm))) throw new Error('--commission must be whole dollars');
+  const metadata = { partner: 'true', business, email, commission: String(comm), clientDiscount, ...(none ? { link: link ?? `https://www.my4mlife.com/go/push-patch?ref=${code}` } : {}), ...(note ? { note } : {}) };
+  return { coupon: couponId, code, ...(none ? { restrictions: { minimum_amount: 99999999, minimum_amount_currency: 'usd' } } : {}), metadata };
 }
 
 export async function run(c) {
@@ -42,17 +54,17 @@ export async function run(c) {
   } else if (cmd === 'partner') {
     const code = parseRef(argv[1]?.startsWith('--') ? '' : argv[1]);
     const business = flagVal('--name'), email = flagVal('--email'), disc = flagVal('--client-discount');
-    const commission = flagVal('--commission') ?? (disc === '50' ? '150' : '100'); // TJ 2026-10-31: partner keeps the difference — $50 off earns $150
-    if (!code || !business || !email || !['50', '100'].includes(disc)) die('Usage: partner <CODE> --name "<Business>" --email <e> --client-discount 50|100 [--commission 100] [--note "..."]');
-    if (!/^\d+$/.test(commission)) die('--commission must be whole dollars');
-    const coupon = await findCoupon(`push-patch-partner-${disc}`);
-    if (!coupon) die(`${tag} coupon push-patch-partner-${disc} not found; run "partner-coupon --apply" first.`);
+    if (!code || !business || !email || !['0', '50', '100'].includes(disc)) die('Usage: partner <CODE> --name "<Business>" --email <e> --client-discount 0|50|100 [--commission 100] [--link URL] [--note "..."]  (0 requires --commission)');
+    const build = (couponId) => partnerCodeParams({ code, business, email, clientDiscount: disc, commission: flagVal('--commission'), couponId, link: flagVal('--link'), note: flagVal('--note') });
+    try { build('x'); } catch (e) { die(e.message); }
+    const ckey = `push-patch-partner-${disc === '0' ? '50' : disc}`;
+    const coupon = await findCoupon(ckey);
+    if (!coupon) die(`${tag} coupon ${ckey} not found; run "partner-coupon --apply" first.`);
     const dupes = (await stripe.promotionCodes.list({ code, limit: 10 })).data;
     if (dupes.length) die(`${tag} REFUSED: code ${code} already exists (${dupes.map((d) => `${d.id} active=${d.active}`).join(', ')}).`);
-    const metadata = { partner: 'true', business, email, commission, clientDiscount: disc, ...(flagVal('--note') ? { note: flagVal('--note') } : {}) };
-    const params = { coupon: coupon.id, code, metadata };
+    const params = build(coupon.id), commission = params.metadata.commission;
     if (!apply) console.log(`${tag} WOULD create partner code ${code}:\n${JSON.stringify(params, null, 2)}`);
-    else { const p = await stripe.promotionCodes.create(params); console.log(`${tag} CREATED ${p.code} (${p.id}) active=${p.active} client $${disc} off, partner earns $${commission}`); }
+    else { const p = await stripe.promotionCodes.create(params); console.log(`${tag} CREATED ${p.code} (${p.id}) active=${p.active} client ${disc === '0' ? 'pays full price' : `$${disc} off`}, partner earns $${commission}`); }
   } else {
     const partners = [];
     for await (const p of stripe.promotionCodes.list({ limit: 100 })) if (p.metadata?.partner === 'true') partners.push(p);
@@ -60,10 +72,11 @@ export async function run(c) {
     if (has('--since')) created.gte = chicagoTime(flagVal('--since'), '00:00:00', '--since');
     if (has('--until')) created.lte = chicagoTime(flagVal('--until'), '23:59:59', '--until');
     const ids = new Set(partners.map((p) => p.id));
+    const refs = new Set(partners.filter((p) => p.metadata?.clientDiscount === '0').map((p) => p.code));
     const hits = [];
     if (partners.length) {
       for await (const s of stripe.checkout.sessions.list({ ...(Object.keys(created).length ? { created } : {}), limit: 100, expand: ['data.payment_intent.latest_charge'] })) {
-        if ((s.discounts ?? []).some((d) => ids.has(promoId(d)))) hits.push(s);
+        if ((s.discounts ?? []).some((d) => ids.has(promoId(d))) || (s.metadata?.partnerRef && refs.has(s.metadata.partnerRef))) hits.push(s);
       }
     }
     console.log(`${tag} partner payouts${has('--since') ? ` since ${flagVal('--since')}` : ''}${has('--until') ? ` until ${flagVal('--until')}` : ''} (paid, fully refunded excluded)`);

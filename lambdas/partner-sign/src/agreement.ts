@@ -12,7 +12,7 @@ export function parseVersion(text: string): string {
   return m[1];
 }
 
-export type Vars = Record<'BUSINESS' | 'SIGNER_NAME' | 'SIGNER_TITLE' | 'PARTNER_CODE' | 'CLIENT_OFFER' | 'COMMISSION' | 'EFFECTIVE_DATE', string>;
+export type Vars = Record<'BUSINESS' | 'SIGNER_NAME' | 'SIGNER_TITLE' | 'PARTNER_CODE' | 'CLIENT_OFFER' | 'OFFER_NOTE' | 'PARTNER_LINK' | 'COMMISSION' | 'EFFECTIVE_DATE', string>;
 
 export function fillAgreement(text: string, vars: Vars): string {
   const out = text.replace(/\{\{(\w+)\}\}/g, (m, k: string) => (k in vars ? vars[k as keyof Vars] : m));

@@ -5,12 +5,12 @@ import { createHash } from 'node:crypto';
 
 const vars = {
   BUSINESS: 'Glow Spa', SIGNER_NAME: 'Jane Doe', SIGNER_TITLE: 'Owner', PARTNER_CODE: 'GLOW',
-  CLIENT_OFFER: '$50 off', COMMISSION: '$150', EFFECTIVE_DATE: 'October 31, 2026',
+  CLIENT_OFFER: '$50 off', PARTNER_LINK: 'https://my4mlife.com/go/push-patch?ref=GLOW', OFFER_NOTE: 'Note.', COMMISSION: '$150', EFFECTIVE_DATE: 'October 31, 2026',
 };
 
 describe('agreement', () => {
   it('parses the version', () => {
-    expect(parseVersion(md)).toBe('PA-2026-10');
+    expect(parseVersion(md)).toBe('PA-2026-11');
     expect(() => parseVersion('no version here')).toThrow();
   });
   it('fills every placeholder', () => {

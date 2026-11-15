@@ -17,10 +17,19 @@ interface FnUrlEvent {
 }
 const html = (statusCode: number, body: string) => ({ statusCode, headers: { 'content-type': 'text/html; charset=utf-8' }, body });
 
-const vars = (p: Partner, v: { name: string; title: string; business: string; at: string }): Vars => ({
-  BUSINESS: v.business, SIGNER_NAME: v.name, SIGNER_TITLE: v.title, PARTNER_CODE: p.code,
-  CLIENT_OFFER: `$${p.clientDiscount} off`, COMMISSION: `$${p.commission}`, EFFECTIVE_DATE: longDate(v.at),
-});
+const OFFER_NOTE_DISCOUNT = 'The client offer is applied automatically when a client uses your link or enters your code at checkout.';
+const OFFER_NOTE_NONE = 'Orders placed through your link are credited to you automatically. There is no client discount or code to enter. Wherever this Agreement says "link or code," it means your link; your partner code identifies you in our records.';
+
+export const partnerVars = (p: Partner, v: { name: string; title: string; business: string; at: string }): Vars => {
+  const none = p.clientDiscount === '0';
+  return {
+    BUSINESS: v.business, SIGNER_NAME: v.name, SIGNER_TITLE: v.title, PARTNER_CODE: p.code,
+    CLIENT_OFFER: none ? 'None. Your clients pay full price.' : `$${p.clientDiscount} off the client's first Push Patch order`,
+    OFFER_NOTE: none ? OFFER_NOTE_NONE : OFFER_NOTE_DISCOUNT,
+    PARTNER_LINK: p.link ?? `https://my4mlife.com/go/push-patch?ref=${p.code}`,
+    COMMISSION: `$${p.commission}`, EFFECTIVE_DATE: longDate(v.at),
+  };
+};
 const BLANK = '__________';
 
 export const handler = async (event: FnUrlEvent) => {
@@ -36,7 +45,7 @@ export const handler = async (event: FnUrlEvent) => {
   const query = new URLSearchParams({ t }).toString();
   const at = new Date().toISOString();
   const preview = (name: string, title: string, business: string) =>
-    toHtml(fillAgreement(AGREEMENT_MD, vars(partner, { name: name || BLANK, title: title || BLANK, business, at })));
+    toHtml(fillAgreement(AGREEMENT_MD, partnerVars(partner, { name: name || BLANK, title: title || BLANK, business, at })));
 
   if (method !== 'POST') return html(200, renderForm({ docHtml: preview('', '', partner.business), business: partner.business, query }));
 
@@ -44,7 +53,7 @@ export const handler = async (event: FnUrlEvent) => {
   const error = validateForm(f);
   if (error) return html(400, renderForm({ docHtml: preview(f.legalName, f.title, f.business || partner.business), business: f.business, query, error, legalName: f.legalName, title: f.title }));
 
-  const filled = fillAgreement(AGREEMENT_MD, vars(partner, { name: f.legalName, title: f.title, business: f.business, at }));
+  const filled = fillAgreement(AGREEMENT_MD, partnerVars(partner, { name: f.legalName, title: f.title, business: f.business, at }));
   const ok = await putSigned({
     code: claims.code, version: parseVersion(AGREEMENT_MD), docSha256: sha256(filled), legalName: f.legalName,
     title: f.title, business: f.business, email: partner.email, signedAt: at,
