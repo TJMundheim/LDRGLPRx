@@ -43,10 +43,12 @@ describe('PushPatchLanding partner mode', () => {
     expect(comp).toContain('DRAFT — Rochelle to approve');
     expect(comp).toContain('TODO: Colleyville PT logo when TJ sends it');
   });
-  it('renders /consult links only when there is no partner', () => {
-    const lines = comp.split('\n').filter((l) => l.includes('href="/consult"'));
-    expect(lines.length).toBeGreaterThan(0);
-    expect(comp).toMatch(/!partner\s*\?/);
+  it('uses the care coordinator CTA (no SMS) for both partner and non-partner', () => {
+    expect(comp).toContain('Have more questions? Schedule a care coordinator call');
+    expect(comp).toContain('/consult?src=${PP_COORD_SRC}');
+    expect(comp).toContain("partner ? 'cpt' : 'push-patch'");
+    expect(comp).toContain('pp_coordinator_click');
+    expect(comp).not.toMatch(/Text Dr\. TJ|PP_SMS|sms:/);
     expect(comp).not.toContain('PromoBanner');
   });
   it('titles the partner page "Push Patch · <partner> × My4MLife" and keeps the default title otherwise', () => {

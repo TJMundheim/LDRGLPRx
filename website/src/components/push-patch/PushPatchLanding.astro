@@ -4,7 +4,7 @@
 // Near-standalone (hideChrome) with its own clinical/tech look (TJ direction 2026-09-30) — deliberately NOT the site theme:
 // deep-slate sections, one cyan accent, Inter for headings (no Playfair).
 // Audience: peptide users with needle fatigue + people who never started because
-// of needles. Technical product voice; Dr. TJ appears only in the "Text Dr. TJ" button (PP_V2).
+// of needles. Technical product voice; Dr. TJ is not named in CTAs; questions go to the care coordinator.
 // Copy source: docs/launch/push-patch/lp-copy.md. Every {/* TJ CONFIRM */} comment
 // below marks text awaiting TJ approval (Astro comments, so they never ship).
 // This page intentionally ignores COORDINATOR_MODE: it sells direct, no consult door.
@@ -49,11 +49,10 @@ const COMPARE = [
 ];
 
 // "Prescribed version" top-of-page (SHOW_PP_V2, src/lib/siteMode.ts). Draft awaiting TJ approval.
-// TJ approved publishing this number 2026-10-29: TJ must approve publishing this phone number before PP_V2_APPROVED goes true.
-const PP_SMS_NUMBER_E164 = '+18179953103';
-const PP_SMS_NUMBER_DISPLAY = '817-995-3103';
-const PP_SMS_BODY = 'Hi Dr. TJ, I have a question about the Push Patch.';
-const PP_SMS_HREF = `sms:${PP_SMS_NUMBER_E164}?&body=${encodeURIComponent(PP_SMS_BODY)}`;
+// Care coordinator intake. consult.astro does not record src itself; the param keeps the source visible in the URL/analytics.
+const PP_COORD_SRC = partner ? 'cpt' : 'push-patch';
+const PP_COORD_HREF = `/consult?src=${PP_COORD_SRC}`;
+const PP_COORD_LABEL = 'Have more questions? Schedule a care coordinator call';
 
 // Research peptides vs. the Push Patch (describes the sourcing/review model only; no brand names, no safety claims).
 const VS_ROWS = [
@@ -172,10 +171,8 @@ const SCREEN_CLIENT = {
           </ul>
           <div class="pp-ctas">
             <a class="pp-cta" href="#blends" onclick="window.posthog && posthog.capture('lp_patch_cta_hero')">Choose your blend</a>
-            {/* TJ approved publishing this number 2026-10-29: publishing 817-995-3103 (sms: link + desktop text) needs TJ approval */}
-            <a class="pp-cta pp-cta-2" href={PP_SMS_HREF} onclick="window.posthog && posthog.capture('lp_patch_cta_text_tj')">Questions first? Text Dr. TJ</a>
+            <a class="pp-cta pp-cta-2" href={PP_COORD_HREF} data-pp-coord="hero" onclick={`window.posthog && posthog.capture('pp_coordinator_click', {src: 'hero', page: '${PP_COORD_SRC}'})`}>{PP_COORD_LABEL}</a>
           </div>
-          <p class="pp-textnum">or text {PP_SMS_NUMBER_DISPLAY}</p>
         </>
       ) : (
         <>
@@ -464,11 +461,7 @@ const SCREEN_CLIENT = {
         <details>
           <summary>I have a question before I order. Who do I ask?</summary>
           {/* TJ CONFIRM: /consult currently runs in coordinator mode and begins an intake; confirm it is the right door for a pre-purchase question or use a plain email address */}
-          {!partner ? (
-            <p>Start with our care coordinator at <a href="/consult">/consult</a>. They can help you choose a blend and answer questions about wear.</p>
-          ) : (
-            <p>Text Dr. TJ at <a href={PP_SMS_HREF}>{PP_SMS_NUMBER_DISPLAY}</a>. He can help you choose a blend and answer questions about wear.</p>
-          )}
+          <p>Start with our care coordinator at <a href={PP_COORD_HREF} data-pp-coord="faq" onclick={`window.posthog && posthog.capture('pp_coordinator_click', {src: 'faq', page: '${PP_COORD_SRC}'})`}>/consult</a>. They can help you choose a blend and answer questions about wear.</p>
         </details>
       </div>
     </div>
@@ -542,11 +535,7 @@ const SCREEN_CLIENT = {
 
       <div id="pp-screen-stop" class="pp-modal-stop" role="alert" hidden>
         <p><strong>The Push Patch isn't the right fit for you right now.</strong> Our care coordinators can walk you through other options.</p>
-        {!partner ? (
-          <a class="pp-cta pp-modal-go" href="/consult">Talk to a care coordinator</a>
-        ) : (
-          <a class="pp-cta pp-modal-go" href={PP_SMS_HREF}>Text Dr. TJ</a>
-        )}
+        <a class="pp-cta pp-modal-go" href={PP_COORD_HREF} data-pp-coord="screen-stop" onclick={`window.posthog && posthog.capture('pp_coordinator_click', {src: 'screen-stop', page: '${PP_COORD_SRC}'})`}>Talk to a care coordinator</a>
         <button type="button" class="pp-modal-link" id="pp-screen-back">Change my answers</button>
       </div>
     </div>
@@ -1109,8 +1098,6 @@ button.pp-cta:disabled { opacity: 0.6; cursor: default; }
 .pp-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center; margin: 0 auto 0.6rem; }
 .pp-cta-2 { background: transparent; color: var(--on-ink); border: 1.5px solid var(--on-ink-muted); }
 .pp-cta-2:hover { background: var(--ink-2); border-color: var(--accent); }
-.pp-textnum { display: none; font-size: 0.85rem; color: var(--on-ink-muted); margin: 0 0 1.4rem; }
-@media (min-width: 721px) { .pp-textnum { display: block; } }
 @media (max-width: 480px) { .pp-ctas .pp-cta { width: 100%; text-align: center; box-sizing: border-box; } }
 .pp-vs { margin-top: 1.4rem; display: grid; gap: 1.1rem; }
 .pp-vs-head { display: none; }
