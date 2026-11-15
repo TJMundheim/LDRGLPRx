@@ -16,5 +16,25 @@
     "push-patch-enhanced-glow": "price_1ULVAPBSbDAyoIVyRnBvfwWv",
     "push-patch-wolverine": "price_1ULVAQBSbDAyoIVyBPNRpdr6",
     "push-patch-glutathione-ghk": "price_1ULVARBSbDAyoIVyvOuxrMmT"
+  },
+  "refill": {
+    "test": {
+      "push-patch-nad-ghk": "price_1Uc8yfBSbDAyoIVy1zQgIv8b",
+      "push-patch-bpc-nad-ghk": "price_1Uc8ygBSbDAyoIVyrbPLOKZc",
+      "push-patch-kpv-nad-ghk": "price_1Uc8ygBSbDAyoIVy6cGduI3b",
+      "push-patch-nad-motsc-ghk": "price_1Uc8yhBSbDAyoIVyd36oZoSc",
+      "push-patch-enhanced-glow": "price_1Uc8yhBSbDAyoIVyGNHalP85",
+      "push-patch-wolverine": "price_1Uc8yiBSbDAyoIVys98aWd3P",
+      "push-patch-glutathione-ghk": "price_1Uc8yjBSbDAyoIVyZWWOGvbG"
+    },
+    "live": {
+      "push-patch-nad-ghk": "price_1Uc8yzBSbDAyoIVya8pcLAeg",
+      "push-patch-bpc-nad-ghk": "price_1Uc8yzBSbDAyoIVyZHf4hYW9",
+      "push-patch-kpv-nad-ghk": "price_1Uc8z0BSbDAyoIVy8I42noLR",
+      "push-patch-nad-motsc-ghk": "price_1Uc8z0BSbDAyoIVyyo6Wnc6V",
+      "push-patch-enhanced-glow": "price_1Uc8z1BSbDAyoIVyRe6yzzAm",
+      "push-patch-wolverine": "price_1Uc8z1BSbDAyoIVyMxz9W8O6",
+      "push-patch-glutathione-ghk": "price_1Uc8z2BSbDAyoIVyeRzwiKy6"
+    }
   }
 }
