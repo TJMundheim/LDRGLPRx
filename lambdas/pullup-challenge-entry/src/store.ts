@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import type { Entry } from './validate';
 
 export const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? 'us-east-2' }));
@@ -22,4 +22,14 @@ export async function saveEntry(e: Entry, sourceIp: string | undefined): Promise
     if (err?.name === 'ConditionalCheckFailedException') return 'duplicate';
     throw err;
   }
+}
+
+/** Records the issued promo code on the entry row. */
+export async function saveCode(e: Entry, code: string, promoId: string): Promise<void> {
+  await ddb.send(new UpdateCommand({
+    TableName: TABLE,
+    Key: { email: e.email, sk: `round#${e.round}` },
+    UpdateExpression: 'SET promoCode = :c, promoId = :p, codeIssuedAt = :t',
+    ExpressionAttributeValues: { ':c': code, ':p': promoId, ':t': new Date().toISOString() },
+  }));
 }

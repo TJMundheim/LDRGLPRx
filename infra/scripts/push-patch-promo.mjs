@@ -6,6 +6,7 @@
 //   node infra/scripts/push-patch-promo.mjs list    [--mode live|test]
 //   node infra/scripts/push-patch-promo.mjs deactivate WORD [--mode live|test] [--apply]   (switch a code off; reversible)
 //   node infra/scripts/push-patch-promo.mjs report  [--since YYYY-MM-DD] [--code WORD] [--mode live|test]   (all codes, any coupon)
+//   node infra/scripts/push-patch-promo.mjs pullup-coupon [--mode live|test] [--apply]   (Pull-Up Challenge 50% coupon 'pullup-50'; --apply also writes its id to SSM /my4mlife/pullup/coupon-id-<mode>)
 // Partner program (details in push-patch-partner.mjs):
 //   partner-coupon [--mode] [--apply]                      create/find the $50 + $100 partner coupons
 //   partner CODE --name "Biz" --email e --client-discount 50|100 [--commission 100] [--note] [--mode] [--apply]
@@ -24,6 +25,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const require = createRequire(path.join(root, 'lambdas/_shared/stripe-client/') + 'package.json');
 const Stripe = require('stripe');
 const { SecretsManagerClient, GetSecretValueCommand } = require('@aws-sdk/client-secrets-manager');
+// client-ssm is not a dependency of stripe-client; resolve it from a workspace package that has it.
+const { SSMClient, PutParameterCommand } = createRequire(path.join(root, 'lambdas/create-checkout-session/') + 'package.json')('@aws-sdk/client-ssm');
 
 const API_VERSION = '2025-02-24.acacia';
 const COUPON_KEY = 'push-patch-150';
@@ -41,7 +44,7 @@ const die = (m) => { console.error(m); process.exit(2); };
 const mode = flagVal('--mode') ?? 'test';
 if (!['live', 'test'].includes(mode)) die('--mode must be live or test');
 const apply = has('--apply');
-if (!['coupon', 'code', 'list', 'report', 'deactivate', 'partner-coupon', 'partner', 'payouts', 'statements', 'connect-onboard'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report|deactivate WORD|partner-coupon|partner CODE|payouts|statements|connect-onboard CODE [--mode live|test] [--apply]');
+if (!['coupon', 'code', 'list', 'report', 'deactivate', 'pullup-coupon', 'partner-coupon', 'partner', 'payouts', 'statements', 'connect-onboard'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report|deactivate WORD|pullup-coupon|partner-coupon|partner CODE|payouts|statements|connect-onboard CODE [--mode live|test] [--apply]');
 
 const secret = await new SecretsManagerClient({ region: 'us-east-2' }).send(new GetSecretValueCommand({ SecretId: 'all-stripe-keys' }));
 const key = JSON.parse(secret.SecretString)[`stripe-${mode}-secret`];
@@ -81,7 +84,7 @@ async function allCodes(coupon) {
   return out;
 }
 
-const describe = (c) => `${c.id} "${c.name}" ${usd(c.amount_off)} ${c.currency?.toUpperCase()} ${c.duration} products=${(c.applies_to?.products ?? []).length}`;
+const describe = (c) => `${c.id} "${c.name}" ${c.percent_off ? `${c.percent_off}%` : `${usd(c.amount_off)} ${c.currency?.toUpperCase()}`} ${c.duration} products=${(c.applies_to?.products ?? []).length}`;
 
 if (cmd === 'coupon') {
   const products = await pushPatchProducts();
@@ -130,6 +133,9 @@ if (cmd === 'coupon') {
   if (!word) die('deactivate needs a WORD: deactivate <WORD> [--mode live|test] [--apply]');
   const { runDeactivate } = await import('./push-patch-promo-deactivate.mjs');
   process.exit(await runDeactivate({ stripe, tag, apply, word, fmt }));
+} else if (cmd === 'pullup-coupon') {
+  const { runPullupCoupon } = await import('./push-patch-promo-pullup.mjs');
+  await runPullupCoupon({ stripe, ssm: new SSMClient({ region: 'us-east-2' }), makeSsmCommand: (i) => new PutParameterCommand(i), mode, tag, apply, products: await pushPatchProducts(), describe });
 } else if (cmd === 'report') {
   // Every promotion code in the account (all coupons: $150, $200, partner, one-offs). --code WORD narrows to one code.
   const only = has('--code') ? String(flagVal('--code') ?? '').toUpperCase() : undefined;

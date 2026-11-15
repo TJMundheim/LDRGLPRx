@@ -1212,6 +1212,9 @@ importers:
       '@my4mlife/contact-upsert':
         specifier: workspace:*
         version: link:../_shared/contact-upsert
+      '@my4mlife/stripe-client':
+        specifier: workspace:*
+        version: link:../_shared/stripe-client
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.149

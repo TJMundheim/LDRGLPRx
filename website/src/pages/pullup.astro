@@ -1,36 +1,43 @@
 ---
-// Push Patch Pull-Up Challenge landing page (route /pullup). Discoverable: normal chrome, indexable.
-// Rules text is copied verbatim from docs/launch/pull-up-challenge/amendment-2026-11-12-pm.md (PART 2). Do not edit rules wording.
-// Posts to /api/pullup-challenge-entry (consentVersion pullup-v1). Entering is not marketing consent.
+// Peptide Pull-Up Challenge landing page (route /pullup). Discoverable: normal chrome, indexable.
+// Rules written 2026-11-15 per TJ (replaces the old Push Patch contest; no divisions, no scoring, no prize).
+// Posts to /api/pullup-challenge-entry (consentVersion pullup-v2). Entering is not marketing consent.
+// Plan: docs/plan/peptide-pullup-challenge-2026-11-15.md
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SHOW_PULLUP } from '../lib/siteMode';
 if (!SHOW_PULLUP) return Astro.redirect('/rx/peptides');
-const title = 'Push Patch Pull-Up Challenge | My4MLife';
-const description = 'Two divisions, the same age- and bodyweight-adjusted improvement formula. Women compete against the other women for their own six-week Push Patch package. Film your max set, post it, train, film again. Start videos due Nov 25, 2026; finals due Jan 5, 2027.';
+const title = 'Peptide Pull-Up Challenge | My4MLife';
+const description = 'Everyone can do this. Film your starting point, post it, and get 50% off a peptide order. Come back in January with your after video and get a second 50% code.';
 const canonical = 'https://www.my4mlife.com/pullup';
+const coordHref = '/consult?lane=peptides&src=pullup';
 ---
 <BaseLayout title={title} description={description} canonical={canonical}>
 
 <main class="pu">
   <section class="pu-hero">
-    <h1>Push Patch Pull-Up Challenge</h1>
-    <p class="pu-due">Start videos due Nov 25.</p>
-    <p class="pu-lead">Two divisions, the same age- and bodyweight-adjusted improvement formula. Women compete against the other women for their own six-week Push Patch package, not against me. In my division, beat my adjusted score and the patches are yours; if nobody does, I keep them. Film your max set, post it, train, film again. The short version is right below; the full rules follow.</p>
+    <h1>Peptide Pull-Up Challenge</h1>
+    <p class="pu-due">Day-one videos due December 15.</p>
+    <p class="pu-lead">Everyone can do this. You're not competing against anyone but yourself. Film your starting point, post it, and get 50% off a peptide order. Come back in January with your after video and get a second 50% code.</p>
     <h2 class="pu-short-h">THE SHORT VERSION</h2>
     <ul class="pu-short">
-    <li>Film your maximum pull-ups. Post the video publicly on your own Instagram, tag @drtjmundheim, add #PushPatchPullUpChallenge and #contest, and enter it on the challenge page by Wednesday, November 25, 2026. Posting it on Facebook too is welcome, but Instagram is the one that counts. The sooner you enter, the more training time you get. Optional: invite @drtjmundheim as a collaborator so your video shows on my page too.</li>
-    <li>Train through the holidays. Film your final max set, post it publicly the same way, and enter it on the challenge page by Tuesday, January 5, 2027.</li>
-    <li>Women compete only against the other women in the women's division, not against me. The women's winner gets a separate six-week Push Patch package of her choice. Both divisions use the same improvement formula, adjusted for bodyweight and age, with no ceiling on the age adjustment.</li>
-    <li>Every counted rep starts from a dead hang, reaches chin above the bar, holds that chin-above-bar position while the feet come above the bar, then returns to full arm extension, as demonstrated in my video.</li>
-    <li>I am competing in my division under the same formula and age bonus. If my adjusted score beats the top challenger's in my division, I keep that division's patches. This does not affect the women's prize.</li>
-    <li>Push Patch is a prescription product, so the winner completes a free telemedicine visit and needs prescription approval first.</li>
+      <li>Post your day-one video by December 15, 2026 and enter it below. You get a code for 50% off one peptide order (Push Patch included).</li>
+      <li>Not sure what you need? A free care coordinator call and a free telemedicine visit come with it, and the provider decides what's right for you.</li>
+      <li>Train through the holidays.</li>
+      <li>Post your after video January 1 to 7, 2027 and enter it. You get a second 50% code.</li>
+      <li>Optional: invite @drtjmundheim as a collaborator so your video shows on my page too.</li>
     </ul>
-    <p>That is the whole idea. Everything below is the fine print that keeps it fair.</p>
+    <h3>THE REP</h3>
+    <p>Start from a dead hang, pull until your nose is above the bar, and lower under control. Can't do one yet? Use a band, jump up off the ground, step off a box, or get a spotter. Any help is fine, and the help can change between your videos. Band-assisted on day one and one unassisted rep in January is exactly the kind of progress I want to see. Improvement can be more reps, less help, or both. Film the whole set from the side or the front, with the bar visible.</p>
+    <h3>WHAT YOU GET</h3>
+    <p>Each accepted video earns one code: 50% off one peptide order, single use, good for 90 days. Use it at <a href="/go/push-patch">Push Patch checkout</a> (tap "Add promotion code"), or tell your care coordinator on your free call (<a href="/consult?lane=peptides&amp;src=pullup">book it here</a>). Your code shows on screen right after you enter, and we email it to you too.</p>
+    <p>Day-one videos: now through December 15, 2026 at 11:59 PM CT. After videos: January 1 through January 7, 2027 at 11:59 PM CT.</p>
   </section>
 
   <section class="pu-formwrap" id="enter" aria-labelledby="pu-enter-h">
     <h2 id="pu-enter-h">Enter the challenge</h2>
     <form id="pu-form" novalidate>
+      <div class="pu-hp" aria-hidden="true"><label for="pu-hp">Leave this empty</label><input id="pu-hp" name="hp" type="text" tabindex="-1" autocomplete="off" /></div>
+
       <label for="pu-name">Name</label>
       <input id="pu-name" name="name" type="text" autocomplete="name" maxlength="120" required />
 
@@ -40,28 +47,17 @@ const canonical = 'https://www.my4mlife.com/pullup';
       <label for="pu-phone">Phone</label>
       <input id="pu-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" required />
 
-      <label for="pu-age">Age</label>
-      <input id="pu-age" name="age" type="number" inputmode="numeric" min="18" max="120" step="1" required />
-
-      <label for="pu-weight">Bodyweight (lb)</label>
-      <input id="pu-weight" name="bodyweightLb" type="number" inputmode="decimal" min="60" max="600" required />
-
-      <fieldset class="pu-round">
-        <legend>Division</legend>
-        <label class="pu-opt"><input type="radio" name="division" value="men" required /> Men's division (compete against Dr. TJ)</label>
-        <label class="pu-opt"><input type="radio" name="division" value="women" required /> Women's division</label>
-      </fieldset>
-
       <label for="pu-ig">Link to your public Instagram post</label>
       <input id="pu-ig" name="instagramUrl" type="url" inputmode="url" placeholder="https://www.instagram.com/..." maxlength="500" required />
 
       <fieldset class="pu-round">
         <legend>Which video is this?</legend>
-        <label class="pu-opt"><input type="radio" name="round" value="start" required /> Starting video</label>
-        <label class="pu-opt"><input type="radio" name="round" value="final" required /> Final video</label>
+        <label class="pu-opt"><input type="radio" name="round" value="start" required /> My day-one video</label>
+        <label class="pu-opt"><input type="radio" name="round" value="final" required /> My January after video</label>
       </fieldset>
 
-      <label class="pu-opt pu-check"><input type="checkbox" name="rulesAccepted" required /> I am 18 or older, a legal resident of the United States, and I have read and agree to the rules.</label>
+      <label class="pu-opt pu-check"><input type="checkbox" name="adult" required /> I am 18 or older</label>
+      <label class="pu-opt pu-check"><input type="checkbox" name="rulesAccepted" required /> I live in the United States and I have read and agree to the rules.</label>
 
       <div class="pu-consent">
         <label class="pu-opt pu-check"><input type="checkbox" name="smsOptIn" /> Text me updates and offers from My4MLife</label>
@@ -74,118 +70,62 @@ const canonical = 'https://www.my4mlife.com/pullup';
       <button type="submit">Submit my entry</button>
       <p class="pu-fine pu-center">Entering is not consent to marketing.</p>
     </form>
-    <div class="pu-done" id="pu-done" role="status" hidden><p id="pu-done-msg"></p></div>
+    <div class="pu-done" id="pu-done" role="status" hidden>
+      <p id="pu-done-msg"></p>
+      <div id="pu-code-wrap" hidden>
+        <p>Your 50% off code:</p>
+        <div class="pu-code-box">
+          <div id="pu-code"></div>
+          <button type="button" id="pu-copy">Copy code</button>
+        </div>
+        <p>Check your email too. We sent it there.</p>
+        <p>Use it at Push Patch checkout, or tell your care coordinator on your free call.</p>
+        <a class="pu-cta" href={coordHref}>Book my free care coordinator call</a>
+      </div>
+    </div>
   </section>
 
   <section class="pu-rules" aria-labelledby="pu-rules-h">
     <h2 id="pu-rules-h">Full rules</h2>
   <h3>HOW TO ENTER</h3>
   <ol>
-    <li>Film your starting video following the video requirements below.</li>
-    <li>Post it on your own Instagram page. The post must be public, it must tag @drtjmundheim, and the caption must include the hashtags #PushPatchPullUpChallenge and #contest. Posting it on Facebook too is encouraged, but never required. Step-by-step posting instructions are in the next section.</li>
-    <li>Enter on the challenge page at my4mlife.com <a href="https://my4mlife.com/pullup">https://my4mlife.com/pullup</a>. Give your name, email, phone number, age, bodyweight, and division, and paste the link to your public Instagram post. One entry per person. Entries close at 11:59 PM CT on Wednesday, November 25, 2026. The sooner you post and enter, the more training time you get.</li>
-    <li>Train. The challenge window runs through January 5.</li>
-    <li>Film your final video at the same bar from the same angle. Post it publicly on Instagram the same way, and enter the post link on the challenge page by 11:59 PM CT on Tuesday, January 5, 2027.</li>
-    <li>Each division is scored separately using the formula below. Each eligible winner is contacted within a week of the final deadline and has 7 days to claim the prize.</li>
+    <li>Film your day-one video following the video notes below.</li>
+    <li>Post it on your own Instagram page. The post must be public, tag @drtjmundheim, and include the hashtag #PeptidePullUpChallenge in the caption. Step-by-step posting instructions are next.</li>
+    <li>Enter on this page: your name, email, phone number, and the link to your public Instagram post. Day-one videos are accepted through 11:59 PM CT on December 15, 2026.</li>
+    <li>Train through the holidays.</li>
+    <li>Film your after video, post it publicly the same way, and enter the post link on this page between January 1 and 11:59 PM CT on January 7, 2027.</li>
   </ol>
-  <p>Posting publicly is the point: your post is how the challenge spreads, and the link you send is how your entry is verified. Instagram is the required platform because Facebook's own promotion rules do not allow contests to run through personal timelines, so Facebook posts are a bonus, never an entry requirement. No purchase necessary to enter or win. You never need to like or follow any page, or share or repost anyone else's post. Your own entry video is the only thing you post.</p>
+  <p>Posting publicly is the point: your post is how the challenge spreads, and the link you send is how your entry is checked. You never need to like or follow any page, or share anyone else's post.</p>
   <h3>POSTING, STEP BY STEP</h3>
-  <p>Never posted a video before? Here is exactly how. If your account or the post is private, the judges cannot see it, so the public setting matters.</p>
+  <p>Never posted a video before? Here is exactly how. If your account or the post is private, we cannot see it, so the public setting matters.</p>
   <ul>
-    <li>Instagram: open the app, tap the + to make a new post, and pick your video. In the caption, type @drtjmundheim and tap the account when it pops up, then type #PushPatchPullUpChallenge and #contest. If your Instagram account is set to private, your post cannot be verified. Tap Share.</li>
+    <li>Instagram: open the app, tap the + to make a new post, and pick your video. In the caption, type @drtjmundheim and tap the account when it pops up, then type #PeptidePullUpChallenge. If your Instagram account is set to private, your post cannot be checked. Tap Share.</li>
     <li>Optional, but it helps the challenge spread: invite me as a collaborator. On the share screen, tap Tag people, then Invite collaborator, and search drtjmundheim. When I accept, your video shows on my page too, and both of our followers see it. Your entry counts either way.</li>
-    <li>Facebook (optional, for extra reach): open the app and tap "What's on your mind?" to start a post. Add your video with the photo/video button. In the text, type @drtjmundheim and pick the page when it pops up, then type #PushPatchPullUpChallenge and #contest. Set the audience to Public (the audience selector under your name, pick the globe). Tap Post.</li>
     <li>Get the link to your Instagram post: open your post, tap the share or three-dots menu, and tap Copy Link.</li>
-    <li>Then go to the challenge page <a href="https://my4mlife.com/pullup">https://my4mlife.com/pullup</a>, fill in your name, email, phone number, age, bodyweight, and division, and paste the link. That is a complete entry.</li>
+    <li>Then come back to this page, fill in the form, and paste the link. That is a complete entry.</li>
   </ul>
-  <p>Stuck on any step? Reply to any challenge post or DM the My4MLife page and we will walk you through it.</p>
-  <h3>VIDEO REQUIREMENTS</h3>
-  <p>Both videos, starting and final, follow the same rules.</p>
+  <p>Stuck on any step? DM the My4MLife page and we will walk you through it.</p>
+  <h3>VIDEO NOTES</h3>
   <ul>
-    <li>Full body in frame, head to feet. Feet off the ground for every rep.</li>
-    <li>One continuous take, no cuts or edits. Phone propped up, not held.</li>
-    <li>Start from a dead hang with arms fully extended. Pull up until your chin is clearly above the bar. Hold that position with your chin above the bar while bringing your feet above the bar, as demonstrated in my video, then return to full arm extension. A rep counts only when you complete the full movement. Reps that do not meet the standard do not count.</li>
-    <li>The set ends at true max effort: your last rep is visibly slow or you drop off the bar. A set that ends fast and clean looks like holding back, and holding back on the starting video is grounds for disqualification.</li>
-    <li>The starting video must show a visible date, like a phone clock or a newspaper, filmed in the same take.</li>
-    <li>The final video must be filmed at the same bar from the same camera angle.</li>
-  </ul>
-  <h3>SCORING</h3>
-  <p>Score = (final max reps - starting max reps) x bodyweight in pounds x age multiplier</p>
-  <ul>
-    <li>Only improvement counts, so a beginner and a veteran compete on the same footing.</li>
-    <li>Both divisions use this exact formula. Women are ranked only against the other women in the women's division, not against me or the entrants in my division.</li>
-    <li>Bodyweight rewards the work of moving more weight. Use your honest starting weight.</li>
-    <li>Age multiplier: add 1% for every year over 30, with no cap. Age 40 is 1.10, age 60 is 1.30, age 70 is 1.40, and it keeps going. Age 30 and under is 1.00. The idea is inspired by masters track and field age grading, which adjusts for age all the way to 100 because the decline after 50 and 60 is real. This formula does not use the official masters tables.</li>
-    <li>Height is not a factor. Bodyweight already captures most of it, and every added factor makes the contest harder to defend.</li>
-    <li>Tie on adjusted score within a division: the entry whose final video was entered first wins.</li>
-  </ul>
-  <p>Example: a 200 lb, 40 year old who goes from 3 to 10 reps scores 7 x 200 x 1.10 = 1,540. A 150 lb, 25 year old who goes from 5 to 12 scores 7 x 150 x 1.00 = 1,050. And a 190 lb, 65 year old who goes from 4 to 11 scores 7 x 190 x 1.35 = 1,796, which beats the 40 year old. That is the point of the age multiplier: an older entrant who puts in the work can win it.</p>
-  <p>Same math for me in my division. I am 59 and about 235 lb, so my multiplier is 1.29. As a math example only, going from 5 to 15 valid reps would score 10 x 235 x 1.29 = about 3,032. My official starting count must come from a video meeting the full rep standard above. This example is not a verified starting count. The women's division is scored separately.</p>
-  <section id="pu-calc" class="pu-calc" aria-labelledby="pu-calc-h">
-    <h3 id="pu-calc-h">Figure your score</h3>
-    <p class="pu-calc-note">This calculator runs on your device. Nothing you type here is sent or saved.</p>
-    <div class="pu-calc-grid">
-      <label for="pc-bw">Bodyweight (lb)</label>
-      <input id="pc-bw" type="number" inputmode="decimal" min="60" max="600" step="any" placeholder="e.g. 187.5" autocomplete="off" />
-      <label for="pc-age">Age</label>
-      <input id="pc-age" type="number" inputmode="numeric" min="18" max="120" step="1" placeholder="e.g. 40" autocomplete="off" />
-      <label for="pc-start">Starting max reps</label>
-      <input id="pc-start" type="number" inputmode="numeric" min="0" max="200" step="1" placeholder="e.g. 3" autocomplete="off" />
-      <label for="pc-final">Final or goal reps</label>
-      <input id="pc-final" type="number" inputmode="numeric" min="0" max="200" step="1" placeholder="e.g. 10" autocomplete="off" />
-    </div>
-    <p id="pc-msg" class="pu-calc-msg" role="status" aria-live="polite" hidden></p>
-    <p id="pc-baseline" class="pu-calc-baseline" hidden></p>
-    <div id="pc-out" hidden>
-      <p id="pc-mult"></p>
-      <p id="pc-per"></p>
-      <p id="pc-score" class="pu-calc-score" aria-live="polite"></p>
-      <div id="pc-ladder">
-        <h4>Your rep ladder</h4>
-        <table class="pu-ladder">
-          <thead><tr><th scope="col">Reps</th><th scope="col">Added</th><th scope="col">Score</th></tr></thead>
-          <tbody id="pc-ladder-body"></tbody>
-        </table>
-      </div>
-      <h4>Where you stand</h4>
-      <ul id="pc-stand"></ul>
-    </div>
-  </section>
-  <aside class="pu-callout" aria-label="How I compete">
-  <p>I am competing in my division under the same formula, video requirements and age bonus. No separate math for the host. I am 59 and still overcoming injuries, so the age adjustment matters to me too. We are not playing customer tennis here. I hope a lot of you challenge me, but it has to be fair to me as well. If my adjusted score beats the top challenger in my division, I keep that division's patches. That does not affect the separate women's prize. Women compete only against the other women.</p>
-  </aside>
-  <h3>KEEPING IT FAIR</h3>
-  <p>The whole contest depends on honest starting videos, so sandbagging is taken seriously.</p>
-  <ul>
-    <li>If a starting video does not show a true max effort, the entry can be assigned a higher starting number based on what the video shows, or disqualified.</li>
-    <li>A starting count that is far below what the video suggests you can do will not be scored as filmed. There is no benefit to faking a weak start.</li>
-    <li>Entries with edited, cut, or cropped videos are disqualified.</li>
-    <li>Entries whose public Instagram post cannot be found or viewed (deleted post, private account, missing tag or hashtags) cannot be verified and will not be scored.</li>
-    <li>One entry per person. Duplicate entries are disqualified.</li>
-    <li>All judging calls are final and made by me under these posted rules.</li>
-  </ul>
-  <h3>THE PRIZE</h3>
-  <ul>
-    <li>Women's division: the highest adjusted improvement score among the women wins a separate six-week Push Patch package of the winner's choice (a $550+ value). Women do not have to beat my score.</li>
-    <li>My division: a six-week Push Patch package of the winner's choice (a $550+ value), subject to the host-score condition below. Up to two entrant prizes may be awarded, one in each division.</li>
-    <li>Push Patch is a prescription product. The winner completes the free telemedicine visit that comes with every order and must be approved for a prescription by the provider. If the provider does not approve the prescription, the prize cannot be awarded and there is no cash alternative.</li>
-    <li>If my adjusted score beats the top challenger's in my division, no prize is awarded in my division and I keep those patches. The women's prize is separate and is not affected by my score.</li>
-    <li>Each eligible division winner is contacted at the email or phone number from their entry within a week of the final deadline and has 7 days to respond and claim the prize. If that winner does not respond, or is disqualified, the next-highest score in the same division is contacted, subject to the host-score condition in my division.</li>
-    <li>Before each prize is awarded, its winner confirms their age and bodyweight with a short signed statement and a quick video weigh-in, so the scoring stays honest.</li>
+    <li>Start from a dead hang, pull until your nose is above the bar, lower under control.</li>
+    <li>Film the whole set, side or front view, with the bar visible.</li>
+    <li>Help is fine (band, jump, box, spotter) and can change between videos.</li>
+    <li>Keep the same bar if you can, so your progress is easy to see.</li>
   </ul>
   <h3>THE FINE PRINT</h3>
   <ul>
-    <li>No purchase necessary to enter or win. A purchase does not improve your chances.</li>
     <li>Sponsor: My4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034.</li>
-    <li>Open to legal residents of the United States, 18 or older. One entry per person. Void where prohibited by law.</li>
-    <li>This is a skill contest judged on the posted formula and video requirements, not a random drawing.</li>
-    <li>Eligibility, scoring, and disqualification decisions are made by the sponsor and are final.</li>
+    <li>Open to people 18 or older who live in the United States. One entry per video round per person. Void where prohibited by law.</li>
+    <li>Each accepted video earns one code for 50% off one peptide order. Codes are single use, have no cash value, are good for 90 days, allow one code per order, and cannot be combined with other codes.</li>
+    <li>Prescription products require a provider's review, and the provider decides what is right for you. The discount applies only to what is prescribed.</li>
+    <li>We may remove entries whose video does not show a real attempt.</li>
     <li>Check with your doctor before starting any exercise program. You participate at your own risk. Stop if you feel pain. The sponsor is not responsible for injuries.</li>
-    <li>By entering, you agree that your videos may be reposted and used to promote the challenge and Push Patch, and that the winner's first name, home state, and entry videos may be announced publicly.</li>
-    <li>The winner is responsible for any taxes on the prize.</li>
-    <li>The sponsor may cancel, change, or end the challenge if something outside its control affects it, with notice on the challenge page.</li>
-    <li>This promotion is in no way sponsored, endorsed or administered by, or associated with, Meta Platforms, Inc., Facebook or Instagram. By entering, each entrant fully releases Meta Platforms, Inc., Facebook and Instagram from any and all liability in connection with this promotion. Questions about the challenge go to My4MLife, not to Meta.</li>
+    <li>By entering, you agree that your videos may be reposted and used to promote this challenge.</li>
+    <li>Entering is not marketing consent. The text and email opt-ins are optional and unchecked.</li>
+    <li>The sponsor may cancel, change, or end the challenge if something outside its control affects it, with notice on this page.</li>
+    <li>This challenge is in no way sponsored, endorsed or administered by, or associated with, Meta Platforms, Inc., Facebook or Instagram. By entering, each entrant fully releases Meta Platforms, Inc., Facebook and Instagram from any and all liability in connection with this challenge. Questions about the challenge go to My4MLife, not to Meta.</li>
   </ul>
+    <p class="pu-tag">Don't lose your identity and your dignity while you still have a choice.</p>
     <p class="pu-fine"><a href="/privacy">Privacy Policy</a></p>
   </section>
 </main>
@@ -193,75 +133,7 @@ const canonical = 'https://www.my4mlife.com/pullup';
 </BaseLayout>
 
 <script>
-  // pu-calc:start
-  import { ageMultiplier, pointsPerRep, formatScore, formatAmount, workedLine, standingText, repLadder, baselineText } from '../lib/pullup-score';
-
-  const BENCHMARKS = [
-    { label: 'The 40-year-old example', score: 1540 },
-    { label: 'The 25-year-old example', score: 1050 },
-    { label: 'The 65-year-old example', score: 1795.5 },
-    { label: "Dr. TJ's math example (men's division; not his official score)", score: 3031.5 },
-  ];
-  const $ = (id: string) => document.getElementById(id) as HTMLElement;
-  const inp = (id: string) => $(id) as HTMLInputElement;
-  const calcRoot = document.getElementById('pu-calc');
-  let calcFired = false;
-
-  // null = not filled in yet; NaN = out of range (or not whole when whole is required).
-  const num = (v: string, lo: number, hi: number, wholeOnly: boolean): number | null => {
-    if (v.trim() === '') return null;
-    const n = Number(v);
-    return Number.isFinite(n) && (!wholeOnly || Number.isInteger(n)) && n >= lo && n <= hi ? n : NaN;
-  };
-
-  function renderCalc() {
-    const msg = $('pc-msg'), out = $('pc-out'), base = $('pc-baseline');
-    const bw = num(inp('pc-bw').value, 60, 600, false), age = num(inp('pc-age').value, 18, 120, true);
-    const start = num(inp('pc-start').value, 0, 200, true), final = num(inp('pc-final').value, 0, 200, true);
-    const vals = [bw, age, start, final];
-    const show = (t: string | null) => { msg.textContent = t ?? ''; msg.hidden = !t; };
-    out.hidden = true;
-    base.hidden = true;
-    if (vals.some((v) => v === null)) return show(null);
-    if (vals.some((v) => Number.isNaN(v))) {
-      return show('Check your numbers: bodyweight 60 to 600 lb, age 18 to 120 in whole years, and reps 0 to 200 in whole reps.');
-    }
-    if (!calcFired) { calcFired = true; (window as any).posthog && (window as any).posthog.capture('pullup_calc_used'); }
-    const i = { start: start!, final: final!, bodyweightLb: bw!, age: age! };
-    base.textContent = baselineText(i.start);
-    base.hidden = false;
-    if (i.final <= i.start) return show('Only improvement counts. Your final count has to be higher than your starting count.');
-    show(null);
-    $('pc-mult').textContent = `Your age multiplier: ${ageMultiplier(i.age).toFixed(2)}`;
-    $('pc-per').textContent = `Each rep you add is worth ${formatAmount(pointsPerRep(i.bodyweightLb, i.age))} points`;
-    $('pc-score').textContent = workedLine(i);
-    const body = $('pc-ladder-body');
-    body.textContent = '';
-    for (const [n, r] of repLadder(i).entries()) {
-      const tr = document.createElement('tr');
-      const tag = n === 0 ? ' (start)' : r.added === i.final - i.start ? ' (goal)' : '';
-      for (const t of [`${r.reps}${tag}`, String(r.added), formatScore(r.score)]) {
-        const td = document.createElement('td');
-        td.textContent = t;
-        tr.appendChild(td);
-      }
-      body.appendChild(tr);
-    }
-    const list = $('pc-stand');
-    list.textContent = '';
-    for (const b of BENCHMARKS) {
-      const li = document.createElement('li');
-      li.textContent = `${b.label}: ${formatScore(b.score)}. ${standingText(i, b.score)}`;
-      list.appendChild(li);
-    }
-    out.hidden = false;
-  }
-  calcRoot?.addEventListener('input', renderCalc);
-  // pu-calc:end
-</script>
-
-<script>
-  import { attachHoneypot, botFields } from '../scripts/lead-capture';
+  const renderedAt = Date.now();
 
   const API_BASE: string =
     (import.meta as any).env?.PUBLIC_LEAD_CAPTURE_API_URL ??
@@ -274,8 +146,23 @@ const canonical = 'https://www.my4mlife.com/pullup';
   const val = (n: string) => (form!.elements.namedItem(n) as HTMLInputElement).value.trim();
   const checked = (n: string) => (form!.elements.namedItem(n) as HTMLInputElement).checked;
 
+  const copyBtn = document.getElementById('pu-copy') as HTMLButtonElement | null;
+  copyBtn?.addEventListener('click', async () => {
+    const codeEl = document.getElementById('pu-code') as HTMLElement;
+    try {
+      await navigator.clipboard.writeText(codeEl.textContent ?? '');
+      copyBtn.textContent = 'Copied';
+    } catch (_) {
+      const r = document.createRange();
+      r.selectNodeContents(codeEl);
+      const s = window.getSelection();
+      s?.removeAllRanges();
+      s?.addRange(r);
+      copyBtn.textContent = 'Press and hold to copy';
+    }
+  });
+
   if (form) {
-    attachHoneypot(form);
     let started = false;
     form.addEventListener('input', () => { if (!started) { started = true; ph('pullup_form_started'); } }, { once: false });
     form.addEventListener('submit', async (e) => {
@@ -283,49 +170,56 @@ const canonical = 'https://www.my4mlife.com/pullup';
       const name = val('name'), email = val('email'), phone = val('phone');
       // The Lambda requires an https instagram.com URL; accept a pasted link without the scheme.
       const instagramUrl = val('instagramUrl').replace(/^http:\/\//i, 'https://').replace(/^(?!https:\/\/)/i, 'https://');
-      const age = Number(val('age')), bodyweightLb = Number(val('bodyweightLb'));
       const roundEl = form.querySelector<HTMLInputElement>('input[name="round"]:checked');
       if (!name) return setErr('Please enter your name.');
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return setErr('Please enter a valid email address.');
       const digits = phone.replace(/\D/g, '');
       if (!(digits.length === 10 || (digits.length === 11 && digits[0] === '1'))) return setErr('Please enter a 10-digit US phone number.');
-      if (!Number.isInteger(age) || age < 18 || age > 120) return setErr('Please enter your age in whole years (18 or older).');
-      if (!Number.isFinite(bodyweightLb) || bodyweightLb < 60 || bodyweightLb > 600) return setErr('Bodyweight must be between 60 and 600 lb.');
       if (!instagramUrl.toLowerCase().includes('instagram.com')) return setErr('Please paste the link to your Instagram post (it should contain instagram.com).');
-      if (!roundEl) return setErr('Please choose Starting video or Final video.');
-      const divisionEl = form.querySelector<HTMLInputElement>('input[name="division"]:checked');
-      if (!divisionEl) return setErr("Please choose your division, men's or women's.");
-      const division = divisionEl.value === 'women' ? 'women' : 'men';
-      if (!checked('rulesAccepted')) return setErr('Please confirm you are 18 or older, a legal U.S. resident, and agree to the rules.');
+      if (!roundEl) return setErr('Please choose your day-one video or your January after video.');
+      if (!checked('adult')) return setErr('Please confirm you are 18 or older.');
+      if (!checked('rulesAccepted')) return setErr('Please confirm you live in the United States and agree to the rules.');
       const round = roundEl.value === 'final' ? 'final' : 'start';
       const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
       button.disabled = true;
       setErr(null);
       let ok = false;
       let serverMsg: string | null = null;
+      let code: string | null = null;
       try {
         const res = await fetch(`${API_BASE}/api/pullup-challenge-entry`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            name, email, phone, age, bodyweightLb, instagramUrl, round, division,
+            name, email, phone, instagramUrl, round,
+            adult: true,
             rulesAccepted: true,
             smsOptIn: checked('smsOptIn'),
             emailOptIn: checked('emailOptIn'),
-            consentVersion: 'pullup-v1',
-            ...botFields(form),
+            consentVersion: 'pullup-v2',
+            hp: val('hp'),
+            t: Date.now() - renderedAt,
           }),
         });
         ok = res.ok;
         // 400 (validation) and 409 (already entered this round) carry a plain-language { error }.
-        if (!ok) serverMsg = await res.json().then((j) => (typeof j?.error === 'string' ? j.error : null), () => null);
+        const j = await res.json().catch(() => null);
+        if (ok) code = typeof j?.code === 'string' && j.code ? j.code : null;
+        else serverMsg = typeof j?.error === 'string' ? j.error : null;
       } catch (_) { ok = false; }
       button.disabled = false;
       if (!ok) { setErr(serverMsg ?? "That didn't go through. Please try again."); ph('pullup_entry_failed', { round }); return; }
-      ph('pullup_entry_submitted', { round, sms_opt_in: checked('smsOptIn'), email_opt_in: checked('emailOptIn') });
-      document.getElementById('pu-done-msg')!.textContent = round === 'start'
-        ? "You're entered. Train hard. Your final video is due by 11:59 PM CT on Tuesday, January 5, 2027."
-        : 'Your final video was received. Thank you for competing.';
+      ph('pullup_entry_submitted', { round });
+      const msg = document.getElementById('pu-done-msg')!;
+      if (code) {
+        msg.textContent = round === 'start'
+          ? "You're in. Train hard, and post your after video January 1 to 7, 2027."
+          : "You're in. Thank you for showing your progress.";
+        document.getElementById('pu-code')!.textContent = code;
+        (document.getElementById('pu-code-wrap') as HTMLElement).hidden = false;
+      } else {
+        msg.textContent = "You're in. Your code is on its way by email.";
+      }
       form.hidden = true;
       (document.getElementById('pu-done') as HTMLElement).hidden = false;
     });
@@ -344,7 +238,7 @@ const canonical = 'https://www.my4mlife.com/pullup';
 .pu-formwrap h2 { margin-top: 0.25rem; }
 #pu-form { display: flex; flex-direction: column; gap: 0.5rem; }
 #pu-form > label:not(.pu-opt) { font-weight: 700; margin-top: 0.5rem; }
-#pu-form input[type="text"], #pu-form input[type="email"], #pu-form input[type="tel"], #pu-form input[type="number"], #pu-form input[type="url"] { font-size: 1.1rem; padding: 0.9rem; min-height: 52px; border: 2px solid #1f2d3d; border-radius: 6px; width: 100%; box-sizing: border-box; background: #fff; }
+#pu-form input[type="text"], #pu-form input[type="email"], #pu-form input[type="tel"], #pu-form input[type="url"] { font-size: 1.1rem; padding: 0.9rem; min-height: 52px; border: 2px solid #1f2d3d; border-radius: 6px; width: 100%; box-sizing: border-box; background: #fff; }
 .pu-round { border: 0; padding: 0; margin: 0.75rem 0 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .pu-round legend { font-weight: 700; margin-bottom: 0.3rem; padding: 0; }
 .pu-opt { display: flex; gap: 0.75rem; align-items: flex-start; min-height: 48px; padding: 0.4rem 0; cursor: pointer; }
@@ -360,22 +254,10 @@ const canonical = 'https://www.my4mlife.com/pullup';
 .pu-done { font-weight: 700; font-size: 1.15rem; }
 .pu-rules p, .pu-rules li { margin: 0 0 0.6rem; }
 .pu-rules ul, .pu-rules ol { padding-left: 1.4rem; }
-.pu-callout { background: #fff4d6; border-left: 6px solid #c98a00; border-radius: 6px; padding: 0.5rem 1rem 0.75rem; margin: 1.5rem 0; }
-.pu-callout h3 { margin-top: 0.5rem; }
-.pu-calc { background: #f6f3ea; border: 2px solid #1f2d3d; border-radius: 10px; padding: 0.25rem 1rem 1rem; margin: 1.5rem 0; }
-.pu-calc-note { font-size: 0.9rem; margin: 0 0 0.75rem; }
-.pu-calc-grid { display: flex; flex-direction: column; gap: 0.4rem; }
-.pu-calc-grid label { font-weight: 700; margin-top: 0.4rem; }
-.pu-calc-grid input { font-size: 1.1rem; padding: 0.9rem; min-height: 52px; border: 2px solid #1f2d3d; border-radius: 6px; width: 100%; box-sizing: border-box; background: #fff; }
-.pu-calc-msg { color: #a01818; font-weight: 700; margin: 0.75rem 0 0; }
-.pu-calc-score { font-weight: 800; font-size: 1.2rem; }
-.pu-calc-baseline { font-weight: 700; margin: 0.75rem 0 0; }
-.pu-ladder { width: 100%; border-collapse: collapse; background: #fff; border: 2px solid #1f2d3d; font-size: 1rem; }
-.pu-ladder th, .pu-ladder td { padding: 0.45rem 0.5rem; border-bottom: 1px solid #d8d2bf; text-align: right; }
-.pu-ladder th:first-child, .pu-ladder td:first-child { text-align: left; }
-.pu-ladder th { background: #1f2d3d; color: #fff; }
-.pu-ladder tbody tr:last-child td { font-weight: 800; border-bottom: 0; }
-.pu-calc h4 { margin: 1rem 0 0.4rem; }
-.pu-calc ul { padding-left: 1.2rem; margin: 0; }
-.pu-calc li { margin-bottom: 0.5rem; }
+.pu-code-box { display: flex; flex-direction: column; gap: 0.6rem; align-items: stretch; margin: 0.75rem 0; }
+#pu-code { font-family: ui-monospace, Menlo, monospace; font-size: 1.5rem; font-weight: 800; letter-spacing: 0.04em; background: #fff; border: 2px dashed #1f2d3d; border-radius: 8px; padding: 0.9rem; text-align: center; word-break: break-all; user-select: all; }
+#pu-copy { background: #1f2d3d; color: #fff; font-weight: 700; font-size: 1.1rem; min-height: 52px; border: 0; border-radius: 8px; cursor: pointer; }
+.pu-cta { display: inline-block; background: #c98a00; color: #1f2d3d; font-weight: 700; padding: 0.9rem 1.2rem; border-radius: 8px; text-decoration: none; min-height: 48px; box-sizing: border-box; }
+.pu-tag { font-weight: 700; font-style: italic; margin-top: 2rem; }
+.pu-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 </style>

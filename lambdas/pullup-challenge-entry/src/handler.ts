@@ -1,7 +1,9 @@
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { reply, botCheck } from './http';
 import { validate } from './validate';
-import { saveEntry } from './store';
+import { saveEntry, saveCode } from './store';
+import { issueCode } from './reward';
+import { sendEntrantCode } from './email';
 import { upsertEntryContact } from './contact';
 import { notifyTJ } from './notify';
 
@@ -9,8 +11,8 @@ const DUPLICATE_MSG = 'You already entered this round. Reply to any challenge po
 
 /**
  * Pull-Up Challenge entry — POST /api/pullup-challenge-entry
- * Body: { name, email, phone, age, bodyweightLb, instagramUrl, round, division ('men'|'women'), rulesAccepted, smsOptIn, emailOptIn, consentVersion, hp?, t? }
- * Entry data (age, bodyweight, Instagram) lives only in PullUpChallengeEntries; Contact gets identity + explicit consent only.
+ * Body: { name, email, phone, instagramUrl, round, adult, rulesAccepted, smsOptIn, emailOptIn, consentVersion, hp?, t? }
+ * Entry data (Instagram link) lives only in PullUpChallengeEntries; Contact gets identity + explicit consent only.
  * Logs outcome codes only: never email, phone or name.
  */
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
@@ -25,7 +27,8 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   const bot = botCheck(body);
   if (bot) { console.log(`[pullup-entry] bot-blocked ${bot}`); return reply(200, { ok: true }, origin); }
 
-  const entry = validate(body);
+  const now = new Date();
+  const entry = validate(body, now);
   if (typeof entry === 'string') { console.log('[pullup-entry] invalid'); return reply(400, { error: entry }, origin); }
 
   try {
@@ -37,7 +40,14 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
   console.log(`[pullup-entry] stored ${entry.round}`);
 
   // The entry is saved; the rest is best effort and must not fail the request.
+  let code: string | null = null;
+  try {
+    const issued = await issueCode(entry.round, now);
+    code = issued.code;
+    try { await saveCode(entry, issued.code, issued.promoId); } catch { console.error('[pullup-entry] save-code-failed'); }
+  } catch { console.error('[pullup-entry] code-failed'); }
   try { await upsertEntryContact(entry); } catch { console.error('[pullup-entry] contact-failed'); }
-  try { await notifyTJ(entry); } catch { console.error('[pullup-entry] notify-failed'); }
-  return reply(200, { ok: true }, origin);
+  if (code) { try { await sendEntrantCode(entry, code, now); } catch { console.error('[pullup-entry] entrant-email-failed'); } }
+  try { await notifyTJ(entry, code); } catch { console.error('[pullup-entry] notify-failed'); }
+  return reply(200, code ? { ok: true, code } : { ok: true }, origin);
 };

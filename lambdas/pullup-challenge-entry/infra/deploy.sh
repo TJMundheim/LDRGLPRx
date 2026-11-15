@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy.sh — table, IAM role, Lambda, HTTP API route. Idempotent. (Pattern: lambdas/lead-capture/infra/deploy.sh)
+# deploy.sh — SSM coupon lookup, table, IAM role, Lambda, HTTP API route. Idempotent. (Pattern: lambdas/lead-capture/infra/deploy.sh)
 set -euo pipefail
 
 FUNCTION_NAME="my4mlife-pullup-challenge-entry"
@@ -10,11 +10,21 @@ ENTRIES_TABLE="PullUpChallengeEntries"
 CONTACT_TABLE="Contact"
 EMAIL_SENDER_FN="my4mlife-email-sender"
 API_ID="v9svm8ds74"
+STRIPE_KEYS_ARN="arn:aws:secretsmanager:$REGION:$AWS_ACCOUNT_ID:secret:all-stripe-keys-*"
+COUPON_PARAM="/my4mlife/pullup/coupon-id-live"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AWS="aws --region $REGION"
 
 log() { echo "==> $*"; }
+
+# ── 0. Coupon id (read at deploy time; the Lambda has no ssm permission) ─────
+PULLUP_COUPON_ID=$($AWS ssm get-parameter --name "$COUPON_PARAM" --query Parameter.Value --output text 2>/dev/null || true)
+if [[ -z "$PULLUP_COUPON_ID" || "$PULLUP_COUPON_ID" == "None" ]]; then
+  echo "ERROR: SSM parameter $COUPON_PARAM is missing." >&2
+  echo "Run this first, then re-run deploy: node infra/scripts/push-patch-promo.mjs pullup-coupon --mode live --apply" >&2
+  exit 1
+fi
 
 # ── 1. Build ──────────────────────────────────────────────────────────────────
 log "Installing dependencies..."
@@ -69,6 +79,11 @@ INLINE_POLICY=$(cat <<EOF
     },
     {
       "Effect": "Allow",
+      "Action": "secretsmanager:GetSecretValue",
+      "Resource": "$STRIPE_KEYS_ARN"
+    },
+    {
+      "Effect": "Allow",
       "Action": ["lambda:InvokeFunction"],
       "Resource": "arn:aws:lambda:$REGION:$AWS_ACCOUNT_ID:function:$EMAIL_SENDER_FN"
     }
@@ -82,14 +97,14 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 
 # ── 4. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
-ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,ENTRIES_TABLE=$ENTRIES_TABLE,EMAIL_SENDER_FN=$EMAIL_SENDER_FN}"
+ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,ENTRIES_TABLE=$ENTRIES_TABLE,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,PULLUP_COUPON_ID=$PULLUP_COUPON_ID,STRIPE_MODE=live}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code --function-name "$FUNCTION_NAME" \
     --zip-file "fileb://$SCRIPT_DIR/dist/handler.zip" >/dev/null
   $AWS lambda wait function-updated --function-name "$FUNCTION_NAME"
   $AWS lambda update-function-configuration --runtime nodejs24.x \
-    --function-name "$FUNCTION_NAME" --environment "$ENV_VARS" >/dev/null
+    --function-name "$FUNCTION_NAME" --environment "$ENV_VARS" --timeout 15 >/dev/null
   log "Lambda updated."
 else
   sleep 8

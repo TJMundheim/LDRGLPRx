@@ -52,7 +52,9 @@ export const SHOW_PP_STUDY = PP_STUDY_APPROVED || import.meta.env.PUBLIC_SHOW_PP
 const PP_V2_APPROVED = true;
 export const SHOW_PP_V2 = PP_V2_APPROVED || import.meta.env.PUBLIC_PP_V2 === '1';
 
-// Old Push Patch Pull-Up Challenge taken down 2026-11-15 by TJ; page is being rebuilt as the
-// Peptide Pull-Up Challenge. Flip to true when the new page is approved.
+// Peptide Pull-Up Challenge (/pullup). Replaces the old Push Patch Pull-Up Challenge taken down
+// 2026-11-15. OFF until TJ approves. To go live set PULLUP_APPROVED = true. To preview without
+// editing: build with PUBLIC_SHOW_PULLUP=1.
 // While false, /pullup redirects to /rx/peptides and is excluded from the sitemap.
-export const SHOW_PULLUP = false;
+const PULLUP_APPROVED = false;
+export const SHOW_PULLUP = PULLUP_APPROVED || import.meta.env.PUBLIC_SHOW_PULLUP === '1';
