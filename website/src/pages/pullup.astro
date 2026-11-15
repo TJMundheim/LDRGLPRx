@@ -3,6 +3,8 @@
 // Rules text is copied verbatim from docs/launch/pull-up-challenge/amendment-2026-11-12-pm.md (PART 2). Do not edit rules wording.
 // Posts to /api/pullup-challenge-entry (consentVersion pullup-v1). Entering is not marketing consent.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SHOW_PULLUP } from '../lib/siteMode';
+if (!SHOW_PULLUP) return Astro.redirect('/rx/peptides');
 const title = 'Push Patch Pull-Up Challenge | My4MLife';
 const description = 'Two divisions, the same age- and bodyweight-adjusted improvement formula. Women compete against the other women for their own six-week Push Patch package. Film your max set, post it, train, film again. Start videos due Nov 25, 2026; finals due Jan 5, 2027.';
 const canonical = 'https://www.my4mlife.com/pullup';

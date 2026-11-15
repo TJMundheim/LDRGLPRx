@@ -178,3 +178,11 @@ describe('pullup challenge page', () => {
     expect(at).toBeLessThan(fb);
   });
 });
+
+describe('pullup takedown flag', () => {
+  it('redirects to /rx/peptides while SHOW_PULLUP is false', () => {
+    const mode = readFileSync(new URL('../src/lib/siteMode.ts', import.meta.url), 'utf8');
+    expect(mode).toMatch(/export const SHOW_PULLUP = false;/);
+    expect(src).toContain("if (!SHOW_PULLUP) return Astro.redirect('/rx/peptides');");
+  });
+});

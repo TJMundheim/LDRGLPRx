@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { SHOW_PULLUP } from './src/lib/siteMode.ts';
 
 export default defineConfig({
   site: 'https://www.my4mlife.com',
@@ -12,7 +13,9 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Unlinked direct-buy questionnaires stay out of search (audit 2026-11-01).
-      filter: (page) => !/\/rx\/[^/]+\/questionnaire\/?$/.test(page),
+      // /pullup is hidden (redirects) while SHOW_PULLUP is false (see src/lib/siteMode.ts).
+      filter: (page) =>
+        !/\/rx\/[^/]+\/questionnaire\/?$/.test(page) && (SHOW_PULLUP || !/\/pullup\/?$/.test(page)),
     }),
   ],
 });

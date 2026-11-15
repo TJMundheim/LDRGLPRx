@@ -51,3 +51,8 @@ export const SHOW_PP_STUDY = PP_STUDY_APPROVED || import.meta.env.PUBLIC_SHOW_PP
 // number (search TODO-TJ-CONFIRM in src/pages/go/push-patch.astro).
 const PP_V2_APPROVED = true;
 export const SHOW_PP_V2 = PP_V2_APPROVED || import.meta.env.PUBLIC_PP_V2 === '1';
+
+// Old Push Patch Pull-Up Challenge taken down 2026-11-15 by TJ; page is being rebuilt as the
+// Peptide Pull-Up Challenge. Flip to true when the new page is approved.
+// While false, /pullup redirects to /rx/peptides and is excluded from the sitemap.
+export const SHOW_PULLUP = false;

@@ -4,6 +4,7 @@
 //   node infra/scripts/push-patch-promo.mjs code WORD [--expires YYYY-MM-DD] [--max N] [--first-order]
 //                                                     [--note "who it's for"] [--mode live|test] [--apply]
 //   node infra/scripts/push-patch-promo.mjs list    [--mode live|test]
+//   node infra/scripts/push-patch-promo.mjs deactivate WORD [--mode live|test] [--apply]   (switch a code off; reversible)
 //   node infra/scripts/push-patch-promo.mjs report  [--since YYYY-MM-DD] [--code WORD] [--mode live|test]   (all codes, any coupon)
 // Partner program (details in push-patch-partner.mjs):
 //   partner-coupon [--mode] [--apply]                      create/find the $50 + $100 partner coupons
@@ -13,7 +14,7 @@
 //   connect-onboard CODE [--mode] [--apply]                Stripe Connect Express account + onboarding link (exit 3 if Connect is off)
 //   payouts --month YYYY-MM --pay [--mode] [--apply]       Stripe transfers per partner with a Connect account (dry run by default)
 // Dry run by default (read/list calls only); --apply writes. --mode defaults to test.
-// Never deletes or archives. Keys: Secrets Manager `all-stripe-keys` (us-east-2); never printed.
+// Never deletes or archives. `deactivate` sets a promotion code active=false (reversible: re-activate in the Stripe dashboard); the coupon is untouched. Keys: Secrets Manager `all-stripe-keys` (us-east-2); never printed.
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
@@ -40,7 +41,7 @@ const die = (m) => { console.error(m); process.exit(2); };
 const mode = flagVal('--mode') ?? 'test';
 if (!['live', 'test'].includes(mode)) die('--mode must be live or test');
 const apply = has('--apply');
-if (!['coupon', 'code', 'list', 'report', 'partner-coupon', 'partner', 'payouts', 'statements', 'connect-onboard'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report|partner-coupon|partner CODE|payouts|statements|connect-onboard CODE [--mode live|test] [--apply]');
+if (!['coupon', 'code', 'list', 'report', 'deactivate', 'partner-coupon', 'partner', 'payouts', 'statements', 'connect-onboard'].includes(cmd)) die('Usage: push-patch-promo.mjs coupon|code WORD|list|report|deactivate WORD|partner-coupon|partner CODE|payouts|statements|connect-onboard CODE [--mode live|test] [--apply]');
 
 const secret = await new SecretsManagerClient({ region: 'us-east-2' }).send(new GetSecretValueCommand({ SecretId: 'all-stripe-keys' }));
 const key = JSON.parse(secret.SecretString)[`stripe-${mode}-secret`];
@@ -124,6 +125,11 @@ if (cmd === 'coupon') {
   console.log(['CODE', 'ACTIVE', 'EXPIRES', 'MAX', 'REDEEMED', 'NOTE'].join('\t'));
   for (const p of codes) console.log([p.code, p.active, fmt(p.expires_at), p.max_redemptions ?? '-', p.times_redeemed, p.metadata?.note ?? ''].join('\t'));
   console.log(`${codes.length} code(s).`);
+} else if (cmd === 'deactivate') {
+  const word = argv[1]?.startsWith('--') ? undefined : argv[1];
+  if (!word) die('deactivate needs a WORD: deactivate <WORD> [--mode live|test] [--apply]');
+  const { runDeactivate } = await import('./push-patch-promo-deactivate.mjs');
+  process.exit(await runDeactivate({ stripe, tag, apply, word, fmt }));
 } else if (cmd === 'report') {
   // Every promotion code in the account (all coupons: $150, $200, partner, one-offs). --code WORD narrows to one code.
   const only = has('--code') ? String(flagVal('--code') ?? '').toUpperCase() : undefined;
