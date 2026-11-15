@@ -1,8 +1,16 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-11-14 · START HERE block below, then dated changelog
+# Last updated: 2026-11-15 · START HERE block below, then dated changelog
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
+
+## ⚡ 2026-11-15 — UNINSURED DECADE + COUNT YOURSELF SKINNY PAPERBACKS SUBMITTED TO KDP (In review)
+- **TJ 2026-11-14/15:** Marla signed off on UD in person; TJ said publish both now (holiday gift copies). Claude set up and published both in TJ's Chrome with his explicit "Yes, publish both".
+- **UD paperback** (KDP id G22EHN22BQJ): title "The Uninsured Decade", subtitle "The One Catastrophic Risk No Policy Can Lower, and the Premium You Can Still Pay", author Dr. TJ Mundheim (no Marla contributor on the listing per TJ; her foreword credit is printed on the cover). **$14.99** (60% → $6.69; print $2.30 confirmed), free KDP ISBN **979-8-14259-411-2**, B&W white 6x9 matte no-bleed, 87pp, interior kit/uninsured-decade-bw-interior-v5.pdf, cover kit/cover/full-wrap-paperback-6x9-draft.pdf. Categories: Retirement Planning / Alzheimer's Disease / Eldercare. Description + 7 keywords from kit/kdp-listing.md (Marla line omitted). Expanded Distribution ON ($3.70). Worldwide.
+- **CYS paperback** (KDP id 0NCM2FG00QF): "Count Yourself Skinny", no subtitle, Dr. TJ Mundheim. **$12.99** ($5.49; ED $2.90), free ISBN **979-8-14259-541-6**, v6 interior (82pp) + 3in-photo stat-card cover. Categories: Weight Loss / Self-Help Motivational / Exercise & Fitness Walking. ED ON. Worldwide.
+- **AI disclosure (both):** Texts = some sections, minimal or no editing (Claude); Images none; Translations none (TJ confirmed by publishing after review).
+- Previewer: both clean (only removed link annotations); barcodes clear of artwork.
+- **Next:** (1) when each goes Live (≤72h) → TJ orders author copies (gifts, Marla's practice) — ~$2.30 + shipping, 1–2 wks; (2) UD Kindle ($4.99, KDP Select OFF; kit/uninsured-decade-kindle-v5.docx + kit/cover/ebook-cover-draft.jpg) — TJ said do it now, not started; (3) CYS Kindle not built; (4) Author Central: link both to the author page; (5) add ISBNs to copyright pages at next reprint (optional).
 
 ## ⚡ 2026-11-14 — PULL-UP SCORE CALCULATOR LIVE (my4mlife.com/pullup#pu-calc)
 - TJ: let people plug in weight, age and pull-ups to see where they stand. Plan docs/plan/pullup-score-calculator-2026-11-14.md. "Figure your score" box on /pullup after the SCORING examples (website/src/lib/pullup-score.ts, client-side only, nothing sent/saved; PostHog `pullup_calc_used` no properties). Shows multiplier, points per rep, worked score line, and "Where you stand" vs the page's three examples + Dr. TJ's labeled math example (3,032), with reps needed to pass; exact tie says so. Decimal bodyweight OK. Opus-reviewed; TJ demo 11-14 → added baseline line ("At your starting 5 reps, your score is 0") + rep ladder table; 149 website tests green. **DEPLOYED 2026-11-14 (TJ: "Yes, publish it").**
