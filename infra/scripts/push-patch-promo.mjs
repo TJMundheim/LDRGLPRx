@@ -2,11 +2,12 @@
 // Push Patch promo admin: one $150-off Coupon (Push Patch products only) + many Promotion Codes.
 //   node infra/scripts/push-patch-promo.mjs coupon  [--mode live|test] [--apply]
 //   node infra/scripts/push-patch-promo.mjs code WORD [--expires YYYY-MM-DD] [--max N] [--first-order]
-//                                                     [--note "who it's for"] [--mode live|test] [--apply]
+//                                                     [--coupon COUPON_ID] [--note "who it's for"] [--mode live|test] [--apply]
 //   node infra/scripts/push-patch-promo.mjs list    [--mode live|test]
 //   node infra/scripts/push-patch-promo.mjs deactivate WORD [--mode live|test] [--apply]   (switch a code off; reversible)
 //   node infra/scripts/push-patch-promo.mjs report  [--since YYYY-MM-DD] [--code WORD] [--mode live|test]   (all codes, any coupon)
 //   node infra/scripts/push-patch-promo.mjs pullup-coupon [--mode live|test] [--apply]   (Pull-Up Challenge 50% coupon 'pullup-50'; --apply also writes its id to SSM /my4mlife/pullup/coupon-id-<mode>)
+//   (--coupon attaches the code to that existing Stripe coupon instead of the $150 one)
 // Partner program (details in push-patch-partner.mjs):
 //   partner-coupon [--mode] [--apply]                      create/find the $50 + $100 partner coupons
 //   partner CODE --name "Biz" --email e --client-discount 50|100 [--commission 100] [--note] [--mode] [--apply]
@@ -20,6 +21,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { couponProblem } from './push-patch-promo-coupon.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const require = createRequire(path.join(root, 'lambdas/_shared/stripe-client/') + 'package.json');
@@ -100,11 +102,23 @@ if (cmd === 'coupon') {
   }
 } else if (cmd === 'code') {
   const word = argv[1]?.startsWith('--') ? undefined : argv[1];
-  if (!word || !/^[A-Za-z0-9]{3,30}$/.test(word)) die('code needs a WORD (3-30 letters/digits): code <WORD> [--expires YYYY-MM-DD] [--max N] [--first-order] [--note "..."]');
+  if (!word || !/^[A-Za-z0-9]{3,30}$/.test(word)) die('code needs a WORD (3-30 letters/digits): code <WORD> [--expires YYYY-MM-DD] [--max N] [--first-order] [--coupon COUPON_ID] [--note "..."]');
   const code = word.toUpperCase();
-  const coupon = await findCoupon();
+  let coupon;
+  if (has('--coupon')) {
+    const id = flagVal('--coupon');
+    if (!id || id.startsWith('--')) die('--coupon needs a COUPON_ID');
+    coupon = await stripe.coupons.retrieve(id, { expand: ['applies_to'] }).catch(() => undefined);
+    const problem = couponProblem(coupon, id);
+    if (problem) die(`${tag} ${problem} in ${mode}.`);
+    console.log(`${tag} using coupon ${describe(coupon)}`);
+  } else coupon = await findCoupon();
   if (!coupon) die(`${tag} coupon ${COUPON_KEY} not found in ${mode}; run "coupon --apply" first.`);
-  const dupes = (await stripe.promotionCodes.list({ code, limit: 10 })).data;
+  // Stripe requires codes to be unique among ACTIVE promotion codes only; a deactivated word can be reused.
+  const all = (await stripe.promotionCodes.list({ code, limit: 10 })).data;
+  const inactive = all.filter((d) => !d.active);
+  if (inactive.length) console.log(`${tag} note: inactive code(s) with this word: ${inactive.map((d) => d.id).join(', ')}`);
+  const dupes = all.filter((d) => d.active);
   if (dupes.length) die(`${tag} REFUSED: code ${code} already exists (${dupes.map((d) => `${d.id} active=${d.active}`).join(', ')}).`);
   const params = { coupon: coupon.id, code };
   if (flagVal('--note')) params.metadata = { note: flagVal('--note') };
