@@ -137,19 +137,51 @@ const treatments = [
     <p class="hp-free-copy">Take the free MindSpan assessment and you get the book <em>Begin with the End in Mind</em>, the <em>Logbook</em>, and the Prot&eacute;g&eacute; app.</p>
     <a href="/assessment" class="btn-secondary" onclick="window.posthog && posthog.capture('hp_free_assessment')">Take the free assessment &rarr;</a>
 
-    <div class="hp-free-book">
-      <img src="/images/book/cover-front.png" alt="Begin with the End in Mind book cover" class="hp-free-book-cover" loading="lazy" />
-      <div class="hp-free-book-text">
-        <p class="hp-free-book-title"><em>Begin with the End in Mind</em></p>
-        <p class="hp-free-book-tagline">Don't lose your identity and your dignity while you still have a choice.</p>
-        <p class="hp-free-book-copy">Dr. TJ's field guide. Free when you complete the assessment, or own it now:</p>
-        <p class="hp-free-book-links">
-          <a href="https://www.amazon.com/dp/B0H7FJRHXC" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'kindle'})">Kindle</a>
-          <span class="hp-free-book-sep">&middot;</span>
-          <a href="https://www.amazon.com/dp/B0HCXZQBKY" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'paperback'})">Paperback</a>
-          <span class="hp-free-book-sep">&middot;</span>
-          <a href="https://www.amazon.com/dp/B0H75TYF1G" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'hardcover'})">Hardcover</a>
-        </p>
+    <div class="hp-free-books">
+      <div class="hp-free-book">
+        <img src="/images/book/cover-front.png" alt="Begin with the End in Mind book cover" class="hp-free-book-cover" loading="lazy" />
+        <div class="hp-free-book-text">
+          <p class="hp-free-book-title"><em>Begin with the End in Mind</em></p>
+          <p class="hp-free-book-tagline">Don't lose your identity and your dignity while you still have a choice.</p>
+          <p class="hp-free-book-copy">Dr. TJ's field guide. Free when you complete the assessment, or own it now:</p>
+          <p class="hp-free-book-links">
+            <a href="https://www.amazon.com/dp/B0H7FJRHXC" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'kindle'})">Kindle</a>
+            <span class="hp-free-book-sep">&middot;</span>
+            <a href="https://www.amazon.com/dp/B0HCXZQBKY" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'paperback'})">Paperback</a>
+            <span class="hp-free-book-sep">&middot;</span>
+            <a href="https://www.amazon.com/dp/B0H75TYF1G" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {format:'hardcover'})">Hardcover</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- TODO: add paperback link when UD paperback is live on Amazon -->
+      <div class="hp-free-book">
+        <img src="/images/books/uninsured-decade-cover.jpg" alt="The Uninsured Decade book cover" class="hp-free-book-cover" loading="lazy" />
+        <div class="hp-free-book-text">
+          <p class="hp-free-book-title"><em>The Uninsured Decade</em></p>
+          <p class="hp-free-book-tagline">by Dr. TJ Mundheim</p>
+          <p class="hp-free-book-copy">The one catastrophic risk no policy can lower, and the premium you can still pay.</p>
+          <p class="hp-free-book-links">
+            <a href="https://www.amazon.com/dp/B0HRS43K48" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {book:'uninsured-decade', format:'kindle'})">Kindle</a>
+            <span class="hp-free-book-sep">&middot;</span>
+            <a href="/go/uninsured-decade" class="hp-free-book-minor">Free calculator</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- TODO: add Kindle link when CYS Kindle ASIN is known -->
+      <div class="hp-free-book">
+        <img src="/images/books/count-yourself-skinny-cover.jpg" alt="Count Yourself Skinny book cover" class="hp-free-book-cover" loading="lazy" />
+        <div class="hp-free-book-text">
+          <p class="hp-free-book-title"><em>Count Yourself Skinny</em></p>
+          <p class="hp-free-book-tagline">by Dr. TJ Mundheim</p>
+          <p class="hp-free-book-copy">Chew more, eat less, and count your way thinner. A fun little book.</p>
+          <p class="hp-free-book-links">
+            <a href="https://www.amazon.com/dp/B0HRS79T35" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {book:'count-yourself-skinny', format:'paperback'})">Paperback</a>
+            <span class="hp-free-book-sep">&middot;</span>
+            <a href="/go/count-yourself-skinny" class="hp-free-book-minor">Free Count Log</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -483,16 +515,23 @@ const treatments = [
 }
 
 /* ===== SECONDARY FREE BAND — book row ===== */
-.hp-free-book {
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-  max-width: 480px;
+.hp-free-books {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem 1.5rem;
+  max-width: 1000px;
   margin: 2rem auto 0;
   padding-top: 1.75rem;
   border-top: 1px solid var(--border);
+}
+.hp-free-book {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  min-width: 0;
   text-align: left;
 }
+.hp-free-book-minor { font-weight: 500; }
 .hp-free-book-cover {
   width: 100%;
   max-width: 110px;
@@ -541,9 +580,13 @@ const treatments = [
   color: var(--text-light);
   margin: 0 0.35rem;
 }
+@media (max-width: 899px) {
+  .hp-free-books { grid-template-columns: 1fr; max-width: 480px; }
+}
 @media (max-width: 639px) {
   .hp-free-book {
     flex-direction: column;
+    align-items: center;
     text-align: center;
   }
   .hp-free-book-cover { max-width: 90px; }
