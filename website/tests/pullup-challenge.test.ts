@@ -114,9 +114,9 @@ describe('score calculator retired', () => {
 });
 
 describe('pullup takedown flag', () => {
-  it('redirects to /rx/peptides while not approved, with a preview override', () => {
+  it('is live (TJ approved 2026-11-15) and keeps the redirect switch for a future takedown', () => {
     const mode = readFileSync(new URL('../src/lib/siteMode.ts', import.meta.url), 'utf8');
-    expect(mode).toMatch(/const PULLUP_APPROVED = false;/);
+    expect(mode).toMatch(/const PULLUP_APPROVED = true;/);
     expect(mode).toMatch(/export const SHOW_PULLUP = PULLUP_APPROVED \|\| [^;]*PUBLIC_SHOW_PULLUP[^;]*;/);
     expect(raw).toContain("if (!SHOW_PULLUP) return Astro.redirect('/rx/peptides');");
   });

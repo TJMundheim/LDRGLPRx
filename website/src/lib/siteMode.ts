@@ -53,8 +53,8 @@ const PP_V2_APPROVED = true;
 export const SHOW_PP_V2 = PP_V2_APPROVED || import.meta.env.PUBLIC_PP_V2 === '1';
 
 // Peptide Pull-Up Challenge (/pullup). Replaces the old Push Patch Pull-Up Challenge taken down
-// 2026-11-15. OFF until TJ approves. To go live set PULLUP_APPROVED = true. To preview without
+// 2026-11-15. TJ approved and LIVE 2026-11-15. Set PULLUP_APPROVED = false to take it down again. To preview without
 // editing: build with PUBLIC_SHOW_PULLUP=1.
 // While false, /pullup redirects to /rx/peptides and is excluded from the sitemap.
-const PULLUP_APPROVED = false;
+const PULLUP_APPROVED = true;
 export const SHOW_PULLUP = PULLUP_APPROVED || import.meta.env.PUBLIC_SHOW_PULLUP === '1';
