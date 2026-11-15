@@ -64,8 +64,9 @@ export function sendRefillShipped(a: { to: string; firstName: string; blendName:
   return mail(a.to, 'Your next Push Patch box is on its way', text);
 }
 
-export function sendRefillNotice(a: { name: string; blendName: string; refillNumber: number; refillsAuthorized: number; ref: string }): Promise<void> {
-  return tjMail(`Push Patch refill: ${a.name}`, `Refill sent: ${a.name}, ${a.blendName}, refill ${a.refillNumber} of ${a.refillsAuthorized} (${a.ref}).`);
+export function sendRefillNotice(a: { name: string; blendName: string; refillNumber: number; refillsAuthorized: number; ref: string; shipToUpdatedAt?: string }): Promise<void> {
+  const upd = a.shipToUpdatedAt ? ` Shipping address updated ${a.shipToUpdatedAt.slice(0, 10)}.` : '';
+  return tjMail(`Push Patch refill: ${a.name}`, `Refill sent: ${a.name}, ${a.blendName}, refill ${a.refillNumber} of ${a.refillsAuthorized} (${a.ref}).${upd}`);
 }
 
 export function sendRefillPaymentFailed(a: { to: string; firstName: string; hostedInvoiceUrl: string }): Promise<void> {
@@ -86,7 +87,7 @@ export function sendRefillReminder(a: { to: string; firstName: string; blendName
   const intro = a.n === 1
     ? `Your last box shipped about 5 weeks ago, so you're about a week from running out.`
     : `Just a reminder: your last box shipped about 6 weeks ago, so your ${a.blendName} Push Patch set should be about used up.`;
-  const tail = `No health questions to repeat. Just confirm nothing has changed and check out. Prefer it automatic? Choose auto-ship on the next screen.`;
+  const tail = `Just confirm your health and shipping address haven't changed, then check out. Prefer it automatic? Choose auto-ship on the next screen.`;
   const text = `Hi ${a.firstName},\n\n${intro}\n\nReorder in one click: ${a.link}\n\n${tail}\n\nQuestions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
   const button = `<p><a href="${esc(a.link)}" style="display:inline-block;padding:12px 24px;background:#1a1a1a;color:#ffffff;text-decoration:none;border-radius:4px;">Reorder in one click</a></p>`;
   const html = toHtml(text.replace(`Reorder in one click: ${a.link}\n\n`, '')).replace(`<p>${esc(tail)}`, `${button}<p>${esc(tail)}`);

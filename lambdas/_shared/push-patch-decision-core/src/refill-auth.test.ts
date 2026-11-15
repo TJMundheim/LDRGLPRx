@@ -8,7 +8,7 @@ vi.mock('@aws-sdk/lib-dynamodb', () => ({
 }));
 vi.mock('@aws-sdk/client-dynamodb', () => ({ DynamoDBClient: class { constructor(_: any) {} } }));
 
-import { buildRefillAuth, grantRefills, getRefillAuth, claimRefillSlot, setRefillAuthFields, partnerRefFromSession, recordShipment } from './refill-auth';
+import { buildRefillAuth, grantRefills, getRefillAuth, claimRefillSlot, setRefillAuthFields, setRefillShipTo, partnerRefFromSession, recordShipment } from './refill-auth';
 
 const NOW = new Date('2026-11-15T12:00:00.000Z');
 const mk = (o: any = {}) => buildRefillAuth({ refills: 3, sku: 'push-patch-nad-ghk', authorizedBy: 'admin:tj', now: NOW, ...o });
@@ -112,6 +112,20 @@ describe('setRefillAuthFields', () => {
   it('no-ops on empty', async () => { await setRefillAuthFields('c1', 'e', {}); expect(ddbSend).not.toHaveBeenCalled(); });
   it('refuses to touch refillsUsed', async () => {
     await expect(setRefillAuthFields('c1', 'e', { refillsUsed: 0 })).rejects.toThrow();
+  });
+});
+
+describe('setRefillShipTo', () => {
+  const st = { name: 'Paul M', line1: '1 Main', line2: '', city: 'Austin', state: 'TX', postalCode: '78701' };
+  it('stores shipTo + timestamp on refillAuth, conditional on refillAuth existing', async () => {
+    ddbSend.mockResolvedValueOnce({});
+    await setRefillShipTo('c1', 'e', st);
+    const u = ddbSend.mock.calls[0][0].input;
+    expect(u.Key).toEqual({ contactId: 'c1', sk: 'encounter#e' });
+    expect(u.UpdateExpression).toContain('refillAuth.shipTo = :st');
+    expect(u.UpdateExpression).toContain('refillAuth.shipToUpdatedAt = :now');
+    expect(u.ConditionExpression).toContain('attribute_exists(refillAuth)');
+    expect(u.ExpressionAttributeValues[':st']).toEqual(st);
   });
 });
 

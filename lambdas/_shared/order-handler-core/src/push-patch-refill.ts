@@ -89,7 +89,7 @@ async function fulfill(d: RefillDeps, r: Ref): Promise<void> {
     claimed = true; // the Orders row now stays: a retry must not claim a second slot
     const base = { contactId: r.contactId, sk: `encounter#${encounterId}`, encounterId, lane: 'push-patch', category: 'push-patch',
       visitType: 'async', sku: r.sku, refillOf: r.parentId, sessionId: r.id, paymentIntentId: r.paymentIntentId,
-      shipTo: found?.encounter?.shipTo, createdAt: now.toISOString(), updatedAt: now.toISOString() };
+      shipTo: found?.auth.shipTo ?? found?.encounter?.shipTo, createdAt: now.toISOString(), updatedAt: now.toISOString() };
 
     if (!claim.ok) {
       outcome = 'routed';
@@ -100,7 +100,7 @@ async function fulfill(d: RefillDeps, r: Ref): Promise<void> {
       console.log('[refill] routed-to-provider', { reason: claim.reason });
     } else {
       await d.ddb.send(new PutCommand({ TableName: 'PatientRecords', Item: { ...base, state: 'script-written', refillNumber: claim.refillNumber }, ConditionExpression: 'attribute_not_exists(sk)' }));
-      outcome = await ship(d, r, encounterId, claim, found?.encounter, subId);
+      outcome = await ship(d, r, encounterId, claim, found?.encounter, subId, found?.auth.shipTo, found?.auth.shipToUpdatedAt);
     }
   } catch (e) {
     if (!claimed) { try { await d.ddb.send(new DeleteCommand({ TableName: 'Orders', Key: { orderId: r.id } })); } catch { /* best effort */ } throw e; }
@@ -120,10 +120,11 @@ async function fulfill(d: RefillDeps, r: Ref): Promise<void> {
   } catch { console.error('[refill] ltv-upsert-failed'); }
 }
 
-async function ship(d: RefillDeps, r: Ref, encounterId: string, claim: { refillNumber: number; auth: any }, parent: any, subId?: string): Promise<string> {
+async function ship(d: RefillDeps, r: Ref, encounterId: string, claim: { refillNumber: number; auth: any }, parent: any, subId?: string, newShipTo?: any, shipToUpdatedAt?: string): Promise<string> {
   const info = await contactInfo(d, r.contactId, r.email);
   const name = `${info.firstName} ${info.lastName}`.trim();
-  const shipTo = resolveShip(parent?.shipTo, undefined);
+  const shipTo = resolveShip(newShipTo ?? parent?.shipTo, undefined); // patient-updated address wins; never logged
+  // TJ notice flags an updated address whenever refillAuth.shipTo exists (simple; the date lets TJ judge freshness).
   if (!shipTo?.address?.line1) {
     console.error('[refill] no-ship-to');
     await tjMail(d, `[ACTION NEEDED] Push Patch refill NOT sent to Genesis (${r.id})`, `Refill ${claim.refillNumber} was paid but the original order has no ship-to address on file. Contact ${r.contactId}, encounter ${encounterId}. Send the order manually.`);
@@ -150,7 +151,7 @@ async function ship(d: RefillDeps, r: Ref, encounterId: string, claim: { refillN
   const blendName = blendFor(r.sku).name;
   await Promise.allSettled([
     info.email ? sendRefillShipped({ to: info.email, firstName: info.firstName || 'there', blendName, refillNumber: claim.refillNumber, refillsAuthorized: claim.auth.refillsAuthorized, ...(next ? { nextChargeDate: next } : {}) }) : Promise.resolve(),
-    sendRefillNotice({ name: name || r.contactId, blendName, refillNumber: claim.refillNumber, refillsAuthorized: claim.auth.refillsAuthorized, ref: r.id }),
+    sendRefillNotice({ name: name || r.contactId, blendName, refillNumber: claim.refillNumber, refillsAuthorized: claim.auth.refillsAuthorized, ref: r.id, ...(newShipTo && shipToUpdatedAt ? { shipToUpdatedAt } : {}) }),
   ]);
   console.log('[refill] shipped', { refillNumber: claim.refillNumber });
   return 'shipped';

@@ -5,7 +5,10 @@ import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-
 export interface RefillAuth { refillsAuthorized: number; refillsUsed: number; sku: string; intervalWeeks: 6;
   expiresAt: string; authorizedBy: string; signedByProviderId?: string; authorizedAt: string; partnerRef?: string;
   mode: 'auto' | 'on-demand'; subscriptionId?: string; status: 'active' | 'paused' | 'exhausted' | 'cancelled';
-  lastShippedAt?: string; remindersSent?: number; reReviewSentAt?: string }
+  lastShippedAt?: string; remindersSent?: number; reReviewSentAt?: string;
+  shipTo?: RefillShipTo; shipToUpdatedAt?: string }
+// Same shape as the parent encounter's shipTo, so resolveShip() reads it directly.
+export interface RefillShipTo { name: string; line1: string; line2: string; city: string; state: string; postalCode: string }
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? 'us-east-2' }));
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
@@ -89,6 +92,17 @@ export async function setRefillAuthFields(contactId: string, encounterId: string
     ConditionExpression: 'attribute_exists(refillAuth)',
     ExpressionAttributeNames: Object.fromEntries(entries.map(([k]) => [`#${k}`, k])),
     ExpressionAttributeValues: { ':updatedAt': new Date().toISOString(), ...Object.fromEntries(entries.map(([k, v]) => [`:${k}`, v])) },
+  }));
+}
+
+// Patient-reported new shipping address for refills. Written before checkout is created; fulfilment prefers it over the parent's shipTo.
+export async function setRefillShipTo(contactId: string, encounterId: string, shipTo: RefillShipTo): Promise<void> {
+  const now = new Date().toISOString();
+  await ddb.send(new UpdateCommand({
+    TableName: TABLE, Key: key(contactId, encounterId),
+    UpdateExpression: 'SET refillAuth.shipTo = :st, refillAuth.shipToUpdatedAt = :now, updatedAt = :now',
+    ConditionExpression: 'attribute_exists(refillAuth)',
+    ExpressionAttributeValues: { ':st': shipTo, ':now': now },
   }));
 }
 

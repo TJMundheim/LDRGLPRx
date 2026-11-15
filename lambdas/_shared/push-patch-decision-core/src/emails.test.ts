@@ -83,6 +83,11 @@ describe('refill emails', () => {
     expect(sent[0].text).toContain('2 of 4');
     expect(sent[0].text).toContain('in_123');
   });
+  it('notice mentions an updated shipping address, no address text', async () => {
+    await sendRefillNotice({ name: 'Jane Doe', blendName: 'Repair', refillNumber: 2, refillsAuthorized: 4, ref: 'in_123', shipToUpdatedAt: '2026-11-20T10:00:00.000Z' });
+    expect(sent[0].text).toContain('Shipping address updated 2026-11-20');
+    expect(sent[0].text.trim().split('\n')).toHaveLength(1);
+  });
   it('payment failed links the hosted invoice', async () => {
     await sendRefillPaymentFailed({ to: 'j@example.com', firstName: 'Jane', hostedInvoiceUrl: 'https://invoice.stripe.com/i/x' });
     expect(sent[0].text).toContain('https://invoice.stripe.com/i/x');
@@ -106,7 +111,7 @@ describe('refill reminder emails', () => {
     expect(m.subject).toBe('Time to reorder your Push Patch');
     expect(m.from).toBe('support');
     expect(m.text).toContain("Your last box shipped about 5 weeks ago, so you're about a week from running out.");
-    expect(m.text).toContain('No health questions to repeat');
+    expect(m.text).toContain("Just confirm your health and shipping address haven't changed, then check out.");
     expect(m.text).toContain(LINK);
     expect(m.html).toMatch(/<a href="[^"]+"[^>]*>Reorder in one click<\/a>/);
     expect(m.html).toContain('Prefer it automatic? Choose auto-ship on the next screen.');

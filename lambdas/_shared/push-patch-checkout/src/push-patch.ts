@@ -28,7 +28,7 @@ export function refillPriceId(skuId: string, mode: 'test' | 'live'): string | un
 }
 
 export function pushPatchEntry(skuId: string, mode: 'test' | 'live') {
-  const table = (prices as Record<string, Record<string, string> | undefined>)[mode];
+  const table = (prices as unknown as Record<string, Record<string, string> | undefined>)[mode];
   const priceId = table?.[skuId];
   if (!priceId) return null;
   return {

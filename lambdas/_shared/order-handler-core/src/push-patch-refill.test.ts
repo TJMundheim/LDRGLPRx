@@ -83,6 +83,26 @@ describe('invoice.paid', () => {
     expect(h.upsert).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ email: 'p@example.com', amountUSD: 650, stripeCustomerId: 'cus_1' }));
   });
 
+  it('ships to refillAuth.shipTo when present, records it on the child encounter, flags TJ notice', async () => {
+    const NEW = { name: 'Paul M', address: { line1: '9 New St', line2: '', city: 'Dallas', state: 'TX', postal_code: '75001' } }; // identity-mocked resolveShip
+    h.getAuth.mockResolvedValue({ auth: auth({ shipTo: NEW, shipToUpdatedAt: '2026-11-20T00:00:00.000Z' }), encounter: { shipTo: SHIP, sku: 'push-patch-glow', signedByName: 'Dr X' } });
+    await handleRefillInvoice(deps(), 'invoice.paid', invoice());
+    expect(h.sendOrder.mock.calls[0][0].ship).toEqual(NEW);
+    expect(puts.find((p) => p.table === 'PatientRecords')!.item.shipTo).toEqual(NEW);
+    expect(h.notice).toHaveBeenCalledWith(expect.objectContaining({ shipToUpdatedAt: '2026-11-20T00:00:00.000Z' }));
+  });
+  it('falls back to the parent shipTo and sends no address flag', async () => {
+    await handleRefillInvoice(deps(), 'invoice.paid', invoice());
+    expect(h.sendOrder.mock.calls[0][0].ship).toEqual(SHIP);
+    expect(h.notice.mock.calls[0][0].shipToUpdatedAt).toBeUndefined();
+  });
+  it('never logs address text', async () => {
+    const spy = vi.spyOn(console, 'log'); const err = vi.spyOn(console, 'error');
+    h.getAuth.mockResolvedValue({ auth: auth({ shipTo: { name: 'Paul M', address: { line1: '9 New St', city: 'Dallas', state: 'TX', postal_code: '75001' } }, shipToUpdatedAt: 'x' }), encounter: { shipTo: SHIP } });
+    await handleRefillInvoice(deps(), 'invoice.paid', invoice());
+    expect(JSON.stringify([...spy.mock.calls, ...err.mock.calls])).not.toMatch(/New St|75001|Dallas/);
+  });
+
   it('replay does not ship twice', async () => {
     await handleRefillInvoice(deps(), 'invoice.paid', invoice());
     await handleRefillInvoice(deps(), 'invoice.paid', invoice());
