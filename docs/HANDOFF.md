@@ -4,6 +4,10 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## ✅ 2026-11-15 — PAUL'S LIVE AUTO-SHIP TEST PASSED
+- Paul paid 20:49Z: subscription sub_1UcAMxBSbDAyoIVyKoNyMxGT is active, $650 every 6 weeks, next charge Dec 27 2026, no cancel_at. First invoice in_1UcAMxBSbDAyoIVytrA20Urx paid $650. Orders row refillStatus=shipped; child encounter pp-rf-in_1UcAMx… (refill 1) has genesisOrderSentAt 20:49:59Z; parent refillAuth 1/8, mode auto, subscriptionId set. order-handler logs: subscription-session-recorded, then shipped. No errors.
+- **Phishing flag:** Paul's firm's Barracuda flagged the email as a "targeted phishing attack" because the link pointed at execute-api.amazonaws.com. Paul released it himself. Fix in progress: reorder links move to my4mlife.com/reorder, the email link becomes plain, and the footer gets the business address.
+
 ## ⚡ 2026-11-15 — PUSH PATCH REFILLS + AUTO-SHIP DEPLOYED (TJ "Yes, deploy it"; Paul not yet granted or sent) · CPT PARTNER PAGE BUILT (not live)
 - **Refills/auto-ship (TJ priority):** plan docs/plan/push-patch-refills-autoship-2026-11-15.md. Built, reviewed and committed (6f123ba2). TJ decisions: 1 year = 8 refills per approval (physician can change), auto-ship default, same price, Paul charged + shipped now. Approved patients reorder via a signed link (no screening or health form; one "any changes?" question). One-box buyers get reminders at 35 and 42 days; a re-review email when refills run out.
 - **DEPLOYED 2026-11-15 ~20:25Z:** order-handler, stripe-events-retry, EventBridge rules (order rule = checkout.session.completed + invoice.paid + invoice.payment_failed), push-patch-refill (new; SSM HMAC key created), api-throttling, push-patch-reminder, push-patch-decision, push-patch-decide-admin. Smoke OK: bad/expired link GET+POST → 403; no Lambda errors; reminder sweep ran clean. From now on every physician approval grants 8 refills by default and schedules reminders.
