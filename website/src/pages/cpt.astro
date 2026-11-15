@@ -7,5 +7,15 @@ import { SHOW_CPT } from '../lib/siteMode';
 <PushPatchLanding
   canonical="https://www.my4mlife.com/cpt"
   robots={SHOW_CPT ? 'index,follow' : 'noindex,follow'}
-  partner={{ ref: 'CPT', name: 'Colleyville Physical Therapy' }}
+  partner={{
+    ref: 'CPT',
+    name: 'Colleyville Physical Therapy',
+    ownerName: 'Rochelle',
+    ownerTitle: 'Owner · Head Personal Trainer, 25 years',
+    location: 'Colleyville, Texas',
+    // TODO: drop files at website/public/images/partners/cpt/rochelle.jpg and logo.png, then set
+    // photo: '/images/partners/cpt/rochelle.jpg', logo: '/images/partners/cpt/logo.png'
+    photo: undefined,
+    logo: undefined,
+  }}
 />

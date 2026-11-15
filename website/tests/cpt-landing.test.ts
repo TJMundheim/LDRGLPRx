@@ -15,6 +15,13 @@ describe('/cpt page', () => {
     expect(page).toContain("name: 'Colleyville Physical Therapy'");
     expect(page).toContain('https://www.my4mlife.com/cpt');
   });
+  it('personalizes the partner with owner details (photo/logo pending)', () => {
+    expect(page).toContain("ownerName: 'Rochelle'");
+    expect(page).toContain("ownerTitle: 'Owner · Head Personal Trainer, 25 years'");
+    expect(page).toContain("location: 'Colleyville, Texas'");
+    expect(page).toContain('website/public/images/partners/cpt/rochelle.jpg');
+    expect(page).not.toMatch(/^\s*photo:\s*'/m);
+  });
   it('is noindex while not approved, gated by SHOW_CPT', () => {
     expect(mode).toMatch(/const CPT_APPROVED = false/);
     expect(mode).toContain('export const SHOW_CPT = CPT_APPROVED ||');
@@ -37,11 +44,33 @@ describe('PushPatchLanding partner mode', () => {
   });
   it('has the partner band with name and Rochelle', () => {
     expect(comp).toContain('{partner.name} <span aria-hidden="true">×</span> My4MLife');
-    expect(comp).toContain('Rochelle');
     expect(comp).toContain('Glade Road');
     expect(comp).toContain('identity and your dignity while you still have a choice.');
     expect(comp).toContain('DRAFT — Rochelle to approve');
     expect(comp).toContain('TODO: Colleyville PT logo when TJ sends it');
+  });
+  it('renders the editorial personal-recommendation hero', () => {
+    expect(comp).toContain('Reserved for clients of {partner.name}');
+    expect(comp).toContain('A personal recommendation from {partner.ownerName}');
+    expect(comp).toContain('How it works for {partner.name} clients');
+    expect(comp).toContain('Choose your blend');
+    expect(comp).toContain('A licensed physician reviews your order');
+    expect(comp).toContain('nothing ships unless it');
+    expect(comp).toContain('Great+Vibes');
+    expect(comp).toContain('{partner.ownerTitle}');
+    expect(comp).toContain('{partner.location}');
+  });
+  it('shows a photo when set and an aria-hidden monogram otherwise', () => {
+    expect(comp).toContain('partner.photo ?');
+    expect(comp).toMatch(/<img[^>]*src=\{partner\.photo\}/);
+    expect(comp).toContain('alt={`${partner.ownerName}, ${partner.name}`}');
+    expect(comp).toMatch(/class="pp-monogram"[^>]*aria-hidden="true"/);
+    expect(comp).toContain('(partner.ownerName ?? partner.name).charAt(0)');
+    expect(comp).toContain('partner.logo &&');
+  });
+  it('does not use discount or efficacy copy in the partner band', () => {
+    const band = comp.slice(comp.indexOf('<aside class="pp-partner"'), comp.indexOf('</aside>'));
+    expect(band).not.toMatch(/discount|% off|cure|guarantee/i);
   });
   it('uses the care coordinator CTA (no SMS) for both partner and non-partner', () => {
     expect(comp).toContain('Have more questions? Schedule a care coordinator call');

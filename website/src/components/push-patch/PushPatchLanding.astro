@@ -19,7 +19,7 @@ const description = 'A weekly iontophoresis patch that delivers peptide and NAD+
 interface Props {
   canonical: string;
   robots?: string;
-  partner?: { ref: string; name: string };
+  partner?: { ref: string; name: string; ownerName?: string; ownerTitle?: string; photo?: string; logo?: string; location?: string };
 }
 const { canonical, robots = 'noindex,follow', partner } = Astro.props;
 const title = partner
@@ -94,6 +94,7 @@ const SCREEN_CLIENT = {
 <BaseLayout title={title} description={description} canonical={canonical} robots={robots} hideChrome={true}>
 
 <Fragment slot="head">
+  {partner && <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet" />}
   {/* Private $2 test link (?t=<token>). Runs BEFORE the PostHog snippet: keep the token in memory + sessionStorage,
       then scrub it from the address bar so analytics/referrers never see it. Sent only in the checkout POST body. */}
   <script is:inline>
@@ -138,15 +139,35 @@ const SCREEN_CLIENT = {
 
   {partner && (
     <aside class="pp-partner" aria-label={`${partner.name} and My4MLife`}>
+      <div class="pp-wrap pp-partner-grid">
+        <div class="pp-partner-fig">
+          {partner.photo ? (
+            <img class="pp-portrait" src={partner.photo} alt={`${partner.ownerName}, ${partner.name}`} width="280" height="340" />
+          ) : (
+            <div class="pp-monogram" aria-hidden="true"><span>{(partner.ownerName ?? partner.name).charAt(0)}</span></div>
+          )}
+        </div>
+        <div class="pp-partner-body">
+          {/* TODO: Colleyville PT logo when TJ sends it */}
+          {partner.logo && <img class="pp-partner-logo" src={partner.logo} alt={`${partner.name} logo`} />}
+          <p class="pp-partner-eyebrow">Reserved for clients of {partner.name}</p>
+          <h2 class="pp-partner-h">A personal recommendation from {partner.ownerName}</h2>
+          {/* DRAFT — Rochelle to approve this note before /cpt goes public. */}
+          <blockquote class="pp-partner-note">
+            <p>For 25 years I've helped people in Colleyville train, recover and stay active. When clients ask what else they can do, I point them here: a prescription option reviewed by a licensed physician and shipped to your door. You'll answer a few health questions, a physician reviews your order, and nothing ships unless it's approved.</p>
+          </blockquote>
+          <p class="pp-partner-sign">{partner.ownerName}</p>
+          <p class="pp-partner-role">{partner.ownerTitle}{partner.ownerTitle && partner.location ? ' · ' : ''}{partner.location}</p>
+          <p class="pp-partner-mark">{partner.name} <span aria-hidden="true">×</span> My4MLife · Glade Road</p>
+        </div>
+      </div>
       <div class="pp-wrap">
-        {/* TODO: Colleyville PT logo when TJ sends it */}
-        <p class="pp-partner-mark">{partner.name} <span aria-hidden="true">×</span> My4MLife</p>
-        {/* DRAFT — Rochelle to approve this note before /cpt goes public. */}
-        <blockquote class="pp-partner-note">
-          <p>For 25 years I've helped people in Colleyville train, recover and stay active. When clients ask what else they can do, I point them here: a prescription option reviewed by a licensed physician and shipped to your door. You'll answer a few health questions, a physician reviews your order, and nothing ships unless it's approved.</p>
-          <footer>Rochelle, owner, {partner.name} — head personal trainer for 25 years</footer>
-        </blockquote>
-        <p class="pp-partner-loc">Colleyville, Texas · Glade Road</p>
+        <h3 class="pp-partner-how-h">How it works for {partner.name} clients</h3>
+        <ol class="pp-partner-how">
+          <li><b>1</b> Choose your blend</li>
+          <li><b>2</b> A licensed physician reviews your order</li>
+          <li><b>3</b> Shipped to your door — nothing ships unless it&rsquo;s approved</li>
+        </ol>
         <p class="pp-partner-tag">Don&rsquo;t lose your identity and your dignity while you still have a choice.</p>
       </div>
     </aside>
@@ -830,13 +851,37 @@ const SCREEN_CLIENT = {
 </script>
 
 <style>
-  .pp-partner { background: #0b1220; border-bottom: 1px solid rgba(255,255,255,.12); padding: 1.25rem 0; color: #e6edf7; }
-  .pp-partner-mark { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.15rem; letter-spacing: .02em; margin: 0 0 .75rem; }
-  .pp-partner-note { margin: 0 0 .75rem; padding: 0; max-width: 46rem; }
-  .pp-partner-note p { margin: 0 0 .5rem; line-height: 1.55; }
-  .pp-partner-note footer { font-size: .9rem; opacity: .8; }
-  .pp-partner-loc { margin: 0; font-size: .85rem; opacity: .7; }
-  .pp-partner-tag { margin: .5rem 0 0; font-size: .85rem; font-style: italic; opacity: .85; }
+  .pp-partner { --champ: #d9bf8c; --champ-deep: #b8975a; --ivory: #faf6ec; background: radial-gradient(120% 90% at 20% 0%, #16223b 0%, #0b1220 70%); border-bottom: 1px solid rgba(217,191,140,.35); padding: 3rem 0 2rem; color: var(--ivory); font-family: 'Inter', system-ui, sans-serif; }
+  .pp-partner-grid { display: grid; grid-template-columns: 1fr; gap: 1.75rem; justify-items: center; text-align: center; }
+  .pp-partner-fig { display: flex; justify-content: center; }
+  .pp-portrait { width: 180px; height: 220px; object-fit: cover; border-radius: 90px 90px 14px 14px; border: 2px solid var(--champ); box-shadow: 0 18px 40px rgba(0,0,0,.45); }
+  .pp-monogram { width: 180px; height: 180px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--champ); background: radial-gradient(circle at 30% 25%, #1f2f50, #101a30); box-shadow: 0 0 0 8px rgba(217,191,140,.12), 0 18px 40px rgba(0,0,0,.45); }
+  .pp-monogram span { font-family: 'Playfair Display', Georgia, serif; font-size: 5.5rem; font-weight: 600; line-height: 1; color: var(--champ); }
+  .pp-partner-logo { max-height: 44px; width: auto; margin: 0 auto 1rem; }
+  .pp-partner-eyebrow { margin: 0 0 .6rem; font-size: .72rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--champ); }
+  .pp-partner-h { margin: 0 0 1.1rem; font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(1.7rem, 6vw, 2.5rem); line-height: 1.15; letter-spacing: 0; color: #ffffff; text-wrap: balance; }
+  .pp-partner-note { position: relative; margin: 0 0 1rem; padding: 2.4rem 0 0; max-width: 40rem; }
+  .pp-partner-note::before { content: '\201C'; position: absolute; top: -.35rem; left: 50%; transform: translateX(-50%); font-family: 'Playfair Display', Georgia, serif; font-size: 5rem; line-height: 1; color: var(--champ-deep); }
+  .pp-partner-note p { margin: 0; font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.05rem, 3.4vw, 1.3rem); line-height: 1.65; color: var(--ivory); }
+  .pp-partner-sign { margin: 0; font-family: 'Great Vibes', 'Playfair Display', Georgia, cursive; font-size: 2.6rem; line-height: 1.1; color: var(--champ); }
+  .pp-partner-role { margin: .25rem 0 0; font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #cfc4ad; }
+  .pp-partner-mark { margin: .6rem 0 0; font-size: .8rem; letter-spacing: .04em; color: #b8c2d6; }
+  .pp-partner-how-h { margin: 2.25rem 0 .9rem; text-align: center; font-family: 'Playfair Display', Georgia, serif; font-weight: 500; font-size: 1.1rem; letter-spacing: 0; color: var(--champ); }
+  .pp-partner-how { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: .6rem; }
+  .pp-partner-how li { display: flex; align-items: center; gap: .75rem; padding: .8rem 1rem; border: 1px solid rgba(217,191,140,.3); border-radius: 10px; background: rgba(255,255,255,.04); font-size: .92rem; line-height: 1.4; color: var(--ivory); }
+  .pp-partner-how b { flex: none; width: 1.7rem; height: 1.7rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--champ); color: #0b1220; font-size: .85rem; }
+  .pp-partner-tag { margin: 1.5rem 0 0; text-align: center; font-size: .85rem; font-style: italic; color: #cfd8e8; }
+  @media (min-width: 760px) {
+    .pp-partner { padding: 4rem 0 2.5rem; }
+    .pp-partner-grid { grid-template-columns: 280px 1fr; gap: 3rem; justify-items: start; text-align: left; align-items: center; }
+    .pp-portrait { width: 280px; height: 340px; border-radius: 140px 140px 18px 18px; }
+    .pp-monogram { width: 280px; height: 280px; }
+    .pp-monogram span { font-size: 8.5rem; }
+    .pp-partner-logo { margin: 0 0 1rem auto; }
+    .pp-partner-note::before { left: 0; transform: none; }
+    .pp-partner-how { grid-template-columns: repeat(3, 1fr); }
+    .pp-partner-how li { flex-direction: column; text-align: center; justify-content: center; }
+  }
 /* Push Patch look (2026-09-30): clinical/tech, independent of the site theme.
    Every section sets its own background + text colour, so the page renders the
    same under light or dark system settings. One accent hue (cyan): bright tint
