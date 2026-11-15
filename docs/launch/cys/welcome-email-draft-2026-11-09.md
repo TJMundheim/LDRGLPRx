@@ -15,7 +15,7 @@ Hi [First name],
 
 Here is your free Count Log for Week 13 onward:
 
-https://my4mlife.com/downloads/count-log-week-13-on.pdf
+https://my4mlife.com/downloads/count-log.pdf
 
 The six counts, straight from the book:
 

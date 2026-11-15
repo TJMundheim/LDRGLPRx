@@ -2,13 +2,13 @@
 // Live (TJ approved 2026-11-10). Landing page for readers of Count Yourself Skinny who type the
 // address printed in the book. One CTA: email (+ optional name) -> free printable Count Log.
 // Posts to the existing /api/lead-capture endpoint (source cys-book).
-// PDF: public/downloads/count-log-week-13-on.pdf, built by docs/book-cys/free-offer/build_log.py.
+// PDF: public/downloads/count-log.pdf (count-log-week-13-on.pdf kept for old links), built by docs/book-cys/free-offer/build_log.py.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 // The sitewide medical-services disclaimer is left off this page on purpose (TJ 2026-11-10): the
 // book sells nothing. The page's own educational and disordered-eating lines stay.
 
-const title = 'Your Free Count Log, Week 13 On | Count Yourself Skinny';
-const description = 'A free printable Count Log for Week 13 onward, for readers of Count Yourself Skinny.';
+const title = 'Your Free Count Log | Count Yourself Skinny';
+const description = 'A free printable weekly Count Log for readers of Count Yourself Skinny, paperback or Kindle.';
 const canonical = 'https://www.my4mlife.com/go/count-yourself-skinny';
 ---
 <BaseLayout title={title} description={description} canonical={canonical} robots="noindex,follow" hideChrome={true}>
@@ -18,7 +18,8 @@ const canonical = 'https://www.my4mlife.com/go/count-yourself-skinny';
 
   <section class="cys-hero">
     <h1>You'll never count a calorie. You'll count to 32 instead.</h1>
-    <p class="cys-lead">Leave your email and get the free printable Count Log for Week 13 onward, so your counting keeps going after the book's first twelve weeks.</p>
+    <h2>Your Free Count Log</h2>
+    <p class="cys-lead">One printable page per week. Print as many as you need. Paperback readers: start at Week 13. Kindle readers: start at Week 1. Leave your email and it's yours.</p>
 
     <form id="cys-form" novalidate>
       <label class="cys-sr" for="cys-name">First name (optional)</label>
@@ -31,7 +32,7 @@ const canonical = 'https://www.my4mlife.com/go/count-yourself-skinny';
 
     <div class="cys-done" id="cys-done" hidden>
       <p>Thank you. Your Count Log is ready.</p>
-      <a class="cys-dl" href="/downloads/count-log-week-13-on.pdf" download onclick="window.posthog && posthog.capture('cys_book_log_download')">Download the Count Log (PDF)</a>
+      <a class="cys-dl" href="/downloads/count-log.pdf" download onclick="window.posthog && posthog.capture('cys_book_log_download')">Download the Count Log (PDF)</a>
     </div>
   </section>
 
@@ -92,6 +93,7 @@ const canonical = 'https://www.my4mlife.com/go/count-yourself-skinny';
 .cys-mark { font-weight: 800; letter-spacing: 0.08em; font-size: 0.95rem; }
 .cys-hero { max-width: 560px; margin: 0 auto; padding: 3rem 1rem; text-align: center; }
 .cys-hero h1 { font-size: clamp(1.9rem, 7vw, 2.8rem); line-height: 1.15; margin: 0 0 1rem; text-wrap: balance; }
+.cys-hero h2 { font-size: 1.35rem; line-height: 1.2; margin: 0 0 0.6rem; }
 .cys-lead { font-size: 1.05rem; line-height: 1.6; margin: 0 0 1.8rem; }
 #cys-form { display: flex; flex-direction: column; gap: 0.7rem; }
 #cys-form input { font-size: 1rem; padding: 0.9rem; border: 2px solid #1f2d3d; border-radius: 6px; }

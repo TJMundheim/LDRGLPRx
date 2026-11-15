@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build count-log-week-13-on.pdf (free printable weekly Count Log, US Letter, B&W).
+"""Build count-log.pdf (also copied to count-log-week-13-on.pdf for old links) (free printable weekly Count Log, US Letter, B&W).
 
   python3 build_log.py
 Rows mirror "Week 12" in ../draft/_MASTER.md; styling mirrors ../render.py. Needs Chrome.
@@ -9,8 +9,8 @@ import subprocess
 
 HERE = pathlib.Path(__file__).resolve().parent
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-OUT = HERE / 'count-log-week-13-on.pdf'
-HTML = HERE / 'count-log-week-13-on.html'
+OUT = HERE / 'count-log.pdf'
+HTML = HERE / 'count-log.html'
 
 FOOTER = ("Educational only, not medical advice. Talk with your clinician before changing "
           "when you eat, especially if you take medication, have diabetes, are pregnant, "
@@ -70,7 +70,7 @@ h2 { font-size: 12.5pt; margin: 14px 0 0; }
 .rem .small { margin-top: 16px; font-size: 11pt; }
 """
 
-HTML_DOC = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Count Log, Week 13 and Beyond</title>
+HTML_DOC = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Count Log</title>
 <style>{CSS}</style></head><body>
 <div class="page">
   <h1>Weekly Count Log</h1><div class="rule"></div>

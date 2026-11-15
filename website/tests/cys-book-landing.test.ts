@@ -22,8 +22,18 @@ describe('cys-book landing page', () => {
     expect(src).toMatch(/agree to get updates and offers from My4MLife/);
   });
 
-  it('success state links to the Week 13 on Count Log PDF', () => {
-    expect(src).toContain('href="/downloads/count-log-week-13-on.pdf"');
+  it('success state links to the Count Log PDF', () => {
+    expect(src).toContain('href="/downloads/count-log.pdf"');
+    expect(src).not.toContain('href="/downloads/count-log-week-13-on.pdf"');
+  });
+
+  it('presents a Free Count Log for any week, for paperback and Kindle readers', () => {
+    expect(src).not.toMatch(/week 13 on\b|week 13 onward/i);
+    expect(src).toContain("const title = 'Your Free Count Log | Count Yourself Skinny'");
+    expect(src).toContain('<h2>Your Free Count Log</h2>');
+    expect(src).toMatch(/Paperback readers: start at Week 13/);
+    expect(src).toMatch(/Kindle readers: start at Week 1\./);
+    expect(src).toMatch(/One printable page per week/);
   });
 
   it('has no forbidden content', () => {
@@ -47,6 +57,7 @@ describe('cys-book landing page', () => {
   });
 
   it('ships the free Count Log PDF in public downloads', () => {
+    expect(existsSync(new URL('../public/downloads/count-log.pdf', import.meta.url))).toBe(true);
     expect(existsSync(new URL('../public/downloads/count-log-week-13-on.pdf', import.meta.url))).toBe(true);
   });
 });
