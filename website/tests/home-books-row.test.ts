@@ -12,6 +12,7 @@ describe('home page book row', () => {
   it('links The Uninsured Decade Kindle and Count Yourself Skinny paperback', () => {
     expect(src).toContain('https://www.amazon.com/dp/B0HRS43K48');
     expect(src).toContain('https://www.amazon.com/dp/B0HRS79T35');
+    expect(src).toContain('https://www.amazon.com/dp/B0HRSDVGFT');
     expect(src).toContain("book:'uninsured-decade', format:'kindle'");
     expect(src).toContain("book:'count-yourself-skinny', format:'paperback'");
     expect(src).not.toMatch(/tag=/);

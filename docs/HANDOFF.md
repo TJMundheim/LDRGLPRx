@@ -12,7 +12,7 @@
 - **Known gaps (reviewer):** no human check of videos before codes go out (possible guard: one code per Instagram link); partner `?ref=` checkouts have no code box; after Jan 8 the start-closed message still says "you can still post your January video".
 - **WENT LIVE 2026-11-15 (TJ "Yes, go live"):** coupon nZymTl2x (SSM /my4mlife/pullup/coupon-id-live), Lambda deployed (STRIPE_MODE=live), throttle 1/3 applied, no-send smoke OK (400 / honeypot 200 / Jan window 400), PULLUP_APPROVED=true, website deployed. First real code = TJ's own test entry (not done yet).
 - **Live promo codes 2026-11-15:** NOEXCUSES now **$250** (TJ; recreated on coupon N0sEuTRq, old $150 code deactivated), TEAMCADE $200 (ends 11-30), CHRISTIAN200 $200 (1 use, unused), SHOE/JUJITSU $150 (no expiry, unlimited). Bryan Shoemaker ordered 10-30 with OCT2026, not SHOE.
-- **Home page books row LIVE 2026-11-15:** BWTEIM + The Uninsured Decade (Kindle B0HRS43K48 + free calculator) + Count Yourself Skinny (paperback B0HRS79T35 + free Count Log). TODO: add UD paperback link when live; add CYS Kindle link when TJ gives its ASIN (KDP Kindle email has no ASIN).
+- **Home page books row LIVE 2026-11-15:** BWTEIM + The Uninsured Decade (Kindle B0HRS43K48 + free calculator) + Count Yourself Skinny (paperback B0HRS79T35 + free Count Log). CYS Kindle B0HRSDVGFT added (TJ). TODO: add UD paperback link when live.
 - **Amazon/KDP now block AI agents** ("Access restricted ... unauthorized AI agent", 2026-11-15). Claude no longer drives amazon.com or KDP; TJ does KDP clicks by hand, Claude prepares files and steps.
 
 ## ⚡ 2026-11-15 — UNINSURED DECADE + COUNT YOURSELF SKINNY PAPERBACKS SUBMITTED TO KDP (In review)

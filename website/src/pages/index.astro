@@ -169,7 +169,6 @@ const treatments = [
         </div>
       </div>
 
-      <!-- TODO: add Kindle link when CYS Kindle ASIN is known -->
       <div class="hp-free-book">
         <img src="/images/books/count-yourself-skinny-cover.jpg" alt="Count Yourself Skinny book cover" class="hp-free-book-cover" loading="lazy" />
         <div class="hp-free-book-text">
@@ -177,6 +176,8 @@ const treatments = [
           <p class="hp-free-book-tagline">by Dr. TJ Mundheim</p>
           <p class="hp-free-book-copy">Chew more, eat less, and count your way thinner. A fun little book.</p>
           <p class="hp-free-book-links">
+            <a href="https://www.amazon.com/dp/B0HRSDVGFT" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {book:'count-yourself-skinny', format:'kindle'})">Kindle</a>
+            <span class="hp-free-book-sep">&middot;</span>
             <a href="https://www.amazon.com/dp/B0HRS79T35" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {book:'count-yourself-skinny', format:'paperback'})">Paperback</a>
             <span class="hp-free-book-sep">&middot;</span>
             <a href="/go/count-yourself-skinny" class="hp-free-book-minor">Free Count Log</a>
