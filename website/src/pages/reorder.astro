@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Reorder — My4MLife';
+const description = 'Opening your secure reorder page.';
+const canonical = 'https://www.my4mlife.com/reorder';
+
+// Fixed destination (never taken from the URL, so this is not an open redirect).
+// Reorder emails link here so the link domain matches the sender; the signed
+// params are forwarded unchanged to the refill lambda, which verifies them.
+const API_BASE = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+const DEST = `${API_BASE}/api/push-patch-refill`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex, nofollow" hideChrome={true}>
+  <section class="reorder">
+    <div class="container reorder-inner">
+      <p class="reorder-mark">My4MLife</p>
+      <p id="reorder-msg" class="reorder-msg">Opening your reorder page…</p>
+      <p id="reorder-continue" class="reorder-continue" hidden><a id="reorder-link" href={DEST} class="btn-reorder">Continue</a></p>
+      <p id="reorder-bad" class="reorder-msg" hidden>This link isn't valid. Reply to your last email from us or write support@my4mlife.com.</p>
+      <noscript><p>Please turn on JavaScript to continue, or write support@my4mlife.com and we will help you reorder.</p></noscript>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ DEST }}>
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var c = p.get('c') || '', e = p.get('e') || '', exp = p.get('exp') || '', sig = p.get('sig') || '';
+    var ok = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(c) &&
+      /^pp-cs_(live|test)_[A-Za-z0-9]+$/.test(e) && /^\d+$/.test(exp) && /^[0-9a-f]{64}$/.test(sig);
+    if (!ok) {
+      document.getElementById('reorder-msg').hidden = true;
+      document.getElementById('reorder-bad').hidden = false;
+      return;
+    }
+    var url = DEST + '?' + new URLSearchParams({ c: c, e: e, exp: exp, sig: sig }).toString();
+    document.getElementById('reorder-link').href = url;
+    document.getElementById('reorder-continue').hidden = false;
+    location.replace(url);
+  })();
+</script>
+
+<style>
+  .reorder { padding: 6rem 0; text-align: center; }
+  .reorder-mark { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+  .reorder-msg { margin-bottom: 1rem; }
+  .btn-reorder { display: inline-block; padding: 0.75rem 1.5rem; background: #1a1a1a; color: #fff; border-radius: 4px; text-decoration: none; border: 0; }
+</style>

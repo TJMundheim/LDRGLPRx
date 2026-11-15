@@ -11,7 +11,7 @@ test('buildLinkUrl: params, expiry and signature', () => {
   const { url, exp } = buildLinkUrl({ contactId: 'c1', encounterId: 'pp-cs_1', days: 14, key: 'k', now: 1_000_000_000_000 });
   assert.equal(exp, 1_000_000_000 + 14 * 86400);
   const u = new URL(url);
-  assert.equal(u.pathname, '/api/push-patch-refill');
+  assert.equal(u.origin + u.pathname, 'https://www.my4mlife.com/reorder');
   assert.equal(u.searchParams.get('c'), 'c1');
   assert.equal(u.searchParams.get('e'), 'pp-cs_1');
   assert.equal(u.searchParams.get('sig'), signLink('c1', 'pp-cs_1', exp, 'k'));

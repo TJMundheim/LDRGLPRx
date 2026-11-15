@@ -113,7 +113,10 @@ describe('refill reminder emails', () => {
     expect(m.text).toContain("Your last box shipped about 5 weeks ago, so you're about a week from running out.");
     expect(m.text).toContain("Just confirm your health and shipping address haven't changed, then check out.");
     expect(m.text).toContain(LINK);
-    expect(m.html).toMatch(/<a href="[^"]+"[^>]*>Reorder in one click<\/a>/);
+    const L = LINK.replace(/&/g, '&amp;');
+    expect(m.html).toContain(`<a href="${L}">${L}</a>`);
+    expect(m.html).not.toMatch(/display:inline-block/);
+    expect(m.text).toContain('1205 Hall Johnson Rd, Colleyville, TX 76034');
     expect(m.html).toContain('Prefer it automatic? Choose auto-ship on the next screen.');
   });
   it('reminder 2 subject; re-review links to /go/push-patch', async () => {

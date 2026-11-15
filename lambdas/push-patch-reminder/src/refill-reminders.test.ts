@@ -49,7 +49,7 @@ describe('sweepRefillReminders', () => {
     expect(await run()).toMatchObject({ sent: 1, failed: 0 });
     const m = mails()[0];
     expect(m).toMatchObject({ to: 'sam.private@example.com', from: 'support', subject: 'Time to reorder your Push Patch' });
-    const link = new URL(/https:\/\/\S+push-patch-refill\?\S+/.exec(m.text)![0]);
+    const link = new URL(/https:\/\/www\.my4mlife\.com\/reorder\?\S+/.exec(m.text)![0]);
     expect(link.searchParams.get('c')).toBe('c1');
     expect(link.searchParams.get('e')).toBe('pp-cs_1');
     expect(Number(link.searchParams.get('exp'))).toBe(Math.floor(NOW.getTime() / 1000) + 21 * 86400);
@@ -83,7 +83,7 @@ describe('sweepRefillReminders', () => {
     const m = mails()[0];
     expect(m.subject).toMatch(/re-review/);
     expect(m.text).toContain('https://my4mlife.com/go/push-patch');
-    expect(m.text).not.toContain('push-patch-refill?');
+    expect(m.text).not.toContain('/reorder?');
     expect(updates()[0].UpdateExpression).toMatch(/reReviewSentAt/);
   });
 

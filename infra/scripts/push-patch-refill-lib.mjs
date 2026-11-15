@@ -1,7 +1,8 @@
 // Pure helpers for push-patch-refill.mjs (tested in push-patch-refill.test.mjs).
 import { createHmac } from 'node:crypto';
 
-export const API_BASE = 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/push-patch-refill';
+// Links live on our own domain (website/src/pages/reorder.astro forwards to the API); sender-domain match keeps mail filters calm.
+export const API_BASE = 'https://www.my4mlife.com/reorder';
 
 /** Same algorithm as lambdas/push-patch-refill/src/sig.ts: HMAC-SHA256 hex over `contactId|encounterId|exp`. */
 export const signLink = (c, e, exp, key) => createHmac('sha256', key).update(`${c}|${e}|${exp}`).digest('hex');

@@ -10,8 +10,8 @@ const BRAND_LINE = `Push Patch is brought to you by My4MLife (${BRAND_URL}), whe
 const FOOTER_BODY =
   'These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.\n\n' +
   'You received this email because you placed a Push Patch order at my4mlife.com. Your health information is handled under our Privacy Policy: https://my4mlife.com/privacy';
-export const FOOTER = `My4MLife\n\n${FOOTER_BODY}`;
-const WELCOME_FOOTER = `My4MLife\n${TAGLINE}\n${BRAND_LINE}\n\n${FOOTER_BODY}`;
+export const FOOTER = `My4MLife\nMy4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034\n\n${FOOTER_BODY}`;
+const WELCOME_FOOTER = `My4MLife\nMy4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034\n${TAGLINE}\n${BRAND_LINE}\n\n${FOOTER_BODY}`;
 
 // Welcome-only card inviting the buyer to the free assessment (copy: async-visit-copy.md, "Welcome email — assessment invitation").
 const ASSESS_URL = 'https://my4mlife.com/assessment?src=push-patch-buyer';
@@ -88,9 +88,10 @@ export function sendRefillReminder(a: { to: string; firstName: string; blendName
     ? `Your last box shipped about 5 weeks ago, so you're about a week from running out.`
     : `Just a reminder: your last box shipped about 6 weeks ago, so your ${a.blendName} Push Patch set should be about used up.`;
   const tail = `Just confirm your health and shipping address haven't changed, then check out. Prefer it automatic? Choose auto-ship on the next screen.`;
-  const text = `Hi ${a.firstName},\n\n${intro}\n\nReorder in one click: ${a.link}\n\n${tail}\n\nQuestions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
-  const button = `<p><a href="${esc(a.link)}" style="display:inline-block;padding:12px 24px;background:#1a1a1a;color:#ffffff;text-decoration:none;border-radius:4px;">Reorder in one click</a></p>`;
-  const html = toHtml(text.replace(`Reorder in one click: ${a.link}\n\n`, '')).replace(`<p>${esc(tail)}`, `${button}<p>${esc(tail)}`);
+  const text = `Hi ${a.firstName},\n\n${intro}\n\nReorder here: ${a.link}\n\n${tail}\n\nQuestions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
+  // Plain text link only (visible URL = real URL), no button: keeps mail filters calm.
+  const linkP = `<p>Reorder here: <a href="${esc(a.link)}">${esc(a.link)}</a></p>`;
+  const html = toHtml(text.replace(`Reorder here: ${a.link}\n\n`, '')).replace(`<p>${esc(tail)}`, `${linkP}<p>${esc(tail)}`);
   return mail(a.to, a.n === 1 ? 'Time to reorder your Push Patch' : 'Reminder: reorder your Push Patch', text, html);
 }
 

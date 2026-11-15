@@ -3,7 +3,7 @@
 import { createHmac } from 'crypto';
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 
-export const REFILL_LINK_BASE = 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/push-patch-refill';
+export const REFILL_LINK_BASE = 'https://www.my4mlife.com/reorder';
 
 export function signRefillLink(i: { contactId: string; encounterId: string; days: number; key: string; base?: string; now?: number }): string {
   const exp = Math.floor((i.now ?? Date.now()) / 1000) + Math.round(i.days * 86400);
