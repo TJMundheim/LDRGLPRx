@@ -43,7 +43,7 @@ describe('confirm page picker (GET)', () => {
     const b = String((await handler(getEvt(tokenFor('approve'))) as any).body);
     expect(b).toContain('Signing as: Oscar Molina, MD');
     expect(b).toContain('<input type="hidden" name="provider" value="molina">');
-    expect(b).not.toContain('<select');
+    expect(b).not.toContain('<select name="provider"');
   });
 
   it('decline shows no picker and does not load the roster', async () => {
@@ -116,5 +116,30 @@ describe('POST', () => {
     await handler(postEvt(tokenFor('decline'), '&provider=nobody'));
     expect(loadRosterMock).not.toHaveBeenCalled();
     expect(decideMock.mock.calls[0][0].providerId).toBeUndefined();
+  });
+});
+
+describe('refills select', () => {
+  it('approve page renders the select 0-8, default 8, with helper text; decline has none', async () => {
+    const b = String((await handler(getEvt(tokenFor('approve'))) as any).body);
+    expect(b).toContain('Refills authorized (6-week boxes)');
+    expect(b).toMatch(/<select name="refills">/);
+    expect(b).toContain('<option value="8" selected>8</option>');
+    expect(b).toContain('<option value="0">0</option>');
+    expect(b).toContain('8 = one year. 0 = no refills; the patient comes back for review.');
+    expect(String((await handler(getEvt(tokenFor('decline'))) as any).body)).not.toContain('refills');
+  });
+  it('POST passes refills through to decide(); 0 is preserved', async () => {
+    await handler(postEvt(tokenFor('approve'), '&refills=0'));
+    expect(decideMock.mock.calls[0][0].refills).toBe(0);
+    await handler(postEvt(tokenFor('approve'), '&refills=5'));
+    expect(decideMock.mock.calls[1][0].refills).toBe(5);
+  });
+  it('absent refills leaves decide() default; invalid value is rejected without deciding', async () => {
+    await handler(postEvt(tokenFor('approve')));
+    expect('refills' in decideMock.mock.calls[0][0]).toBe(false);
+    const res: any = await handler(postEvt(tokenFor('approve'), '&refills=99'));
+    expect(res.statusCode).toBe(400);
+    expect(decideMock).toHaveBeenCalledTimes(1);
   });
 });

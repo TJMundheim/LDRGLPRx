@@ -78,6 +78,12 @@ describe('dispatch by type prefix', () => {
     expect(orderProcessEvent).toHaveBeenCalledWith({ id: 'evt_1', type: 'checkout.session.completed', livemode: false });
   });
 
+  it.each(['invoice.paid', 'invoice.payment_failed'])('routes %s to order-handler-core', async (type) => {
+    orderProcessEvent.mockResolvedValueOnce(undefined);
+    await handler(makeSqsEvent({ id: 'evt_inv', type, livemode: true, attemptCount: 0 }) as any, {} as any, vi.fn());
+    expect(orderProcessEvent).toHaveBeenCalledWith({ id: 'evt_inv', type, livemode: true });
+  });
+
   it('(c) routes charge.refunded to refund-dispute-handler-core', async () => {
     refundProcessEvent.mockResolvedValueOnce(undefined);
     await handler(makeSqsEvent({ id: 'evt_2', type: 'charge.refunded', livemode: false, attemptCount: 0 }) as any, {} as any, vi.fn());

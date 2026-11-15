@@ -69,6 +69,47 @@ describe('decide (shared by physician link + admin app)', () => {
     expect(emails()).toHaveLength(2);
   });
 
+  describe('default refills', () => {
+    // Encounter reads sent-to-provider until the claim lands, then script-written (what grantRefills needs).
+    const seedStateful = () => {
+      let claimed = false;
+      ddbSend.mockImplementation(async (cmd: any) => {
+        if (cmd.__t === 'Get') return { Item: cmd.input.Key.sk === 'record' ? { demographics: { firstName: 'Jane', lastName: 'Doe', email: 'j@example.com' } } : { ...enc(claimed ? 'script-written' : 'sent-to-provider') } };
+        if (cmd.input.ExpressionAttributeValues?.[':from'] === 'sent-to-provider') claimed = true;
+        return {};
+      });
+    };
+    const refillUpdates = () => updates().filter((u) => /refillAuth/.test(u.UpdateExpression));
+
+    it('approve grants 8 refills by default, with provider, partnerRef, and records the shipment', async () => {
+      seedStateful();
+      retrieve.mockResolvedValue({ metadata: { partnerRef: 'ACME' }, shipping_details: { name: 'Jane Doe', address: { line1: '1 A St', city: 'Austin', state: 'TX', postal_code: '78701' } } });
+      await decide({ ...ARGS, action: 'approve' });
+      expect(retrieve).toHaveBeenCalledWith('cs_1', {}); // unchanged one-time path: no expand
+      const [grant, ship] = refillUpdates();
+      expect(grant.ExpressionAttributeValues[':a']).toMatchObject({ refillsAuthorized: 8, refillsUsed: 0, sku: 'push-patch-bpc-nad-ghk', authorizedBy: 'Oscar Molina', signedByProviderId: 'molina', partnerRef: 'ACME', mode: 'on-demand', status: 'active' });
+      expect(ship.UpdateExpression).toMatch(/refillAuth.lastShippedAt/);
+      expect(ship.ExpressionAttributeValues).toMatchObject({ ':zero': 0 });
+      expect(ship.ExpressionAttributeValues[':due']).toBeTruthy();
+    });
+
+    it('refills: 3 is honored; refills: 0 writes no refillAuth at all', async () => {
+      seedStateful();
+      await decide({ ...ARGS, action: 'approve', refills: 3 });
+      expect(refillUpdates()[0].ExpressionAttributeValues[':a'].refillsAuthorized).toBe(3);
+      vi.clearAllMocks(); seedStateful(); lambdaSend.mockResolvedValue({ StatusCode: 200 });
+      retrieve.mockResolvedValue({ metadata: {}, shipping_details: { name: 'Jane Doe', address: { line1: '1 A St', city: 'Austin', state: 'TX', postal_code: '78701' } } });
+      expect(await decide({ ...ARGS, action: 'approve', refills: 0 })).toEqual({ kind: 'approved', mailOk: true });
+      expect(refillUpdates()).toHaveLength(0);
+    });
+
+    it('a failed grant never fails the approval', async () => {
+      seed('sent-to-provider'); // grantRefills sees a non-script-written encounter and throws
+      expect(await decide({ ...ARGS, action: 'approve' })).toEqual({ kind: 'approved', mailOk: true });
+      expect(refillUpdates()).toHaveLength(0);
+    });
+  });
+
   it('approve with providerId: clinician field and encounter stamp carry the chosen provider', async () => {
     seed('sent-to-provider');
     await decide({ ...ARGS, action: 'approve', providerId: 'lee' });

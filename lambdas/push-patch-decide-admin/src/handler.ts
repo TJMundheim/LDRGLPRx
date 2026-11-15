@@ -8,7 +8,7 @@ import { listProviders } from './providers';
 export interface AppSyncEvent {
   fieldName?: string; // forwarded by the resolver payload
   info?: { fieldName?: string };
-  arguments: { contactId?: string; encounterId?: string; action?: string; providerId?: string | null };
+  arguments: { contactId?: string; encounterId?: string; action?: string; providerId?: string | null; refills?: number | null };
   identity?: { groups?: string[]; username?: string; [key: string]: unknown };
 }
 
@@ -29,12 +29,12 @@ export const handler = async (event: AppSyncEvent) => {
 };
 
 const decideAdmin = async (event: AppSyncEvent): Promise<PushPatchDecisionResult> => {
-  const { action, providerId } = event.arguments;
+  const { action, providerId, refills } = event.arguments;
   const contactId = event.arguments.contactId as string;
   const encounterId = event.arguments.encounterId as string;
   if (action !== 'approve' && action !== 'decline') return { ok: false, code: 'invalid_action', error: 'action must be approve or decline' };
   try {
-    const out = await decide({ contactId, encounterId, action, decidedBy: `admin:${event.identity?.username ?? 'admin'}`, ...(providerId ? { providerId } : {}) });
+    const out = await decide({ contactId, encounterId, action, decidedBy: `admin:${event.identity?.username ?? 'admin'}`, ...(providerId ? { providerId } : {}), ...(typeof refills === 'number' ? { refills } : {}) });
     switch (out.kind) {
       case 'approved': return { ok: true, state: 'script-written', mailOk: out.mailOk };
       case 'declined': return { ok: true, state: 'declined', mailOk: out.mailOk };

@@ -5,6 +5,8 @@
 # (max 2 reminders), claims each conditionally, invokes email-sender (kind 'info', from 'support').
 # Also scans PatientRecords for declined push-patch encounters with refundStatus 'pending' for 7+
 # business days and emails TJ once (refundReminderSentAt guard).
+# Also sweeps PatientRecords parents with refillDueAt <= now: Push Patch reorder reminders (35d, 42d) or a one-time
+# re-review email when refills are used up/expired. Needs the SSM refill HMAC key (created by push-patch-refill deploy).
 # Optional (ABANDONED_CART_ENABLED=true): nudges unpaid pending-intake# rows once, 60 min to 7 days after signing.
 set -euo pipefail
 
@@ -68,6 +70,19 @@ POLICY_DOC=$(cat <<EOF
       "Effect": "Allow",
       "Action": "lambda:InvokeFunction",
       "Resource": "arn:aws:lambda:${REGION}:${ACCOUNT_ID}:function:${EMAIL_SENDER_FN}"
+    },
+    {
+      "Sid": "RefillLinkKey",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:${REGION}:${ACCOUNT_ID}:parameter/my4mlife/push-patch/refill-hmac-key"
+    },
+    {
+      "Sid": "DecryptSsmSecureString",
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "*",
+      "Condition": { "StringEquals": { "kms:ViaService": "ssm.${REGION}.amazonaws.com" } }
     },
     {
       "Sid": "CloudWatchLogs",

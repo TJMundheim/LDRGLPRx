@@ -15,7 +15,7 @@ Design: architecture review 2026-11-15, summarized here. Key fact: no Push Patch
   - "Yes" sends no checkout; the patient sees "a care coordinator will contact you", and TJ gets an email to route it to the provider.
   - The pre-renewal reminder email is Phase 2.
 - **Partner attribution carries to refills:** `refillAuth.partnerRef` comes from the original session `metadata.partnerRef`, or the partner promotion code. Refills get no client discount. Payout counting of invoices is Phase 2; no partner client is on auto-ship yet.
-- **Payments:** Stripe Billing subscriptions, with recurring prices per SKU (`interval: week`, `interval_count: 6`, lookup_key `<sku>-6w`). The subscription gets `cancel_at = refillAuth.expiresAt`.
+- **Payments:** Stripe Billing subscriptions, with recurring prices per SKU (`interval: week`, `interval_count: 6`, lookup_key `<sku>-6w`). The subscription ends via `cancel_at_period_end` when the next renewal would fall on/after `refillAuth.expiresAt`, when the last slot is used, or when a paid invoice cannot ship (review 2026-11-15: a future `cancel_at` makes Stripe prorate the period containing it, so the last box would be charged a partial amount).
 - **Fulfillment:** within authorization there is no new physician review. Each paid invoice:
   1. claims a slot (conditional update)
   2. creates a child encounter `encounter#pp-rf-<invoiceId>` (state script-written, `refillOf`, `refillNumber`)
@@ -86,7 +86,7 @@ model: sonnet
 - On `invoice.paid`:
   - write the Orders row (orderId = invoice id, partnerCode), add to LTV
   - claim a slot, create the child encounter, `sendGenesisOrder` with the parent shipTo, `stampGenesisSent`, patient + TJ emails
-  - first invoice: set the subscription `cancel_at` = `expiresAt` and store `subscriptionId`
+  - first invoice: store `subscriptionId`; any invoice whose period ends on/after `expiresAt`: `cancel_at_period_end` (not `cancel_at`, see Decisions)
 - One-box refill (`checkout.session.completed` with kind refill, mode payment): the same fulfill path.
 - Subscription-mode `checkout.session.completed` with kind refill: upsert Contact (stripeCustomerId); skip the Orders row and fulfillment, since the invoice does that.
 - `payment_failed`: email the patient the `hosted_invoice_url`, plus a TJ notice.

@@ -14,7 +14,7 @@ export const BACKOFF_LADDER = [60, 300, 1800, 7200, 43200] as const;
 type CoreFn = (e: { id: string; type: string; livemode: boolean }) => Promise<void>;
 
 function resolveCore(type: string): CoreFn {
-  if (type.startsWith('checkout.session.')) return orderProcess;
+  if (type.startsWith('checkout.session.') || type === 'invoice.paid' || type === 'invoice.payment_failed') return orderProcess;
   if (type === 'charge.refunded' || type.startsWith('charge.dispute.')) return refundProcess;
   if (type.startsWith('customer.subscription.')) return subscriptionProcess;
   throw new Error(`No core registered for event type: ${type}`);

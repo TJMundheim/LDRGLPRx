@@ -16,6 +16,8 @@ DIGITAL_BUCKET_ARN="arn:aws:s3:::my4mlife-digital-fulfillment/*"
 EMAIL_SENDER_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-email-sender"
 PROTEGE_SIGNUP_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:my4mlife-protege-signup"
 PUSH_PATCH_INTAKE_FN="my4mlife-push-patch-intake"
+PATIENT_RECORDS_ARN="arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/PatientRecords"
+GENESIS_PARAMS_ARN="arn:aws:ssm:${REGION}:${ACCOUNT}:parameter/my4mlife/genesis/*"
 PUSH_PATCH_INTAKE_ARN="arn:aws:lambda:${REGION}:${ACCOUNT}:function:${PUSH_PATCH_INTAKE_FN}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -25,7 +27,7 @@ LAMBDA_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 echo "Building bundle..."
 cd "${LAMBDA_DIR}"
 pnpm build
-cd dist && zip -q "${LAMBDA_DIR}/dist/handler.zip" handler.js && cd "${LAMBDA_DIR}"
+cd dist && rm -f "${LAMBDA_DIR}/dist/handler.zip" && zip -q "${LAMBDA_DIR}/dist/handler.zip" handler.js genesis-order-form-2026.pdf && cd "${LAMBDA_DIR}"
 
 # ── IAM role (idempotent) ─────────────────────────────────────────────────────
 TRUST='{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
@@ -44,6 +46,26 @@ POLICY=$(cat <<EOF
       "Effect": "Allow",
       "Action": ["dynamodb:PutItem", "dynamodb:UpdateItem"],
       "Resource": ["${CONTACT_ARN}", "${ORDERS_ARN}", "${TOUCHPOINTS_ARN}"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:UpdateItem"],
+      "Resource": ["${PATIENT_RECORDS_ARN}"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "dynamodb:GetItem",
+      "Resource": ["${CONTACT_ARN}"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "dynamodb:DeleteItem",
+      "Resource": ["${ORDERS_ARN}", "${TOUCHPOINTS_ARN}"]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "${GENESIS_PARAMS_ARN}"
     },
     {
       "Effect": "Allow",
@@ -94,6 +116,7 @@ if aws lambda get-function --function-name "${FUNCTION_NAME}" --region "${REGION
     --function-name "${FUNCTION_NAME}" \
     --environment "${ENV_VARS}" \
     --timeout 90 \
+    --memory-size 512 \
     --region "${REGION}" \
    
 else
@@ -106,6 +129,7 @@ else
     --zip-file "fileb://${LAMBDA_DIR}/dist/handler.zip" \
     --environment "${ENV_VARS}" \
     --timeout 90 \
+    --memory-size 512 \
     --region "${REGION}" \
    
 fi

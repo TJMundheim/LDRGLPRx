@@ -25,6 +25,12 @@ const picker = (roster: Prov[]): string => {
   return `<p><label>Signing as <select name="provider">${opts}</select></label></p>`;
 };
 
+// Refills select (approve only): 0-8 six-week boxes, default 8 (one year).
+const refillsPicker = (): string =>
+  `<p><label>Refills authorized (6-week boxes) <select name="refills">${Array.from({ length: 9 }, (_, i) => 8 - i)
+    .map((n) => `<option value="${n}"${n === 8 ? ' selected' : ''}>${n}</option>`).join('')}</select></label></p>` +
+  `<p style="font-size:14px">8 = one year. 0 = no refills; the patient comes back for review.</p>`;
+
 // Step 1 of 2: GET renders this; only the form POST acts. The token is base64url but is escaped anyway.
 const confirm = (action: 'approve' | 'decline', token: string, roster: Prov[] = []): string => {
   const t = token.replace(/[^A-Za-z0-9_-]/g, '');
@@ -33,7 +39,7 @@ const confirm = (action: 'approve' | 'decline', token: string, roster: Prov[] = 
     : ['Confirm decline', '#b00020', 'Declining queues a refund for admin approval and sends the patient the not-cleared email. Nothing is sent to the pharmacy.'];
   return page(action === 'approve' ? 'Approve this order?' : 'Decline this order?',
     `${note}</p><form method="post" action=""><input type="hidden" name="t" value="${t}">` +
-    `${action === 'approve' ? picker(roster) : ''}` +
+    `${action === 'approve' ? picker(roster) + refillsPicker() : ''}` +
     `<button type="submit" style="background:${bg}">${label}</button></form><p>`);
 };
 
@@ -45,6 +51,7 @@ export const pages = {
   declinedMailFailed: () => page('Declined', 'A refund is queued for admin approval, but the patient email failed to send. Notify the coordinator.'),
   decided: (state: string) => page('Already decided', `Current state: ${state.replace(/[^a-z-]/gi, '')}`),
   badProvider: () => page('Provider not recognized', 'Nothing was changed. Reload the link and choose a provider from the list.'),
+  badRefills: () => page('Refills not recognized', 'Nothing was changed. Reload the link and choose 0 to 8 refills.'),
   invalid: () => page('Link invalid', 'This link is not valid. Use the buttons in the original review email.'),
   error: () => page('Something went wrong', 'Nothing was changed. Try again, or contact the coordinator.'),
 };

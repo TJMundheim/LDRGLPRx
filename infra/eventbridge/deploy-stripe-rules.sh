@@ -58,7 +58,8 @@ wire_rule() {
 }
 
 # order-handler
-ORDER_PATTERN='{"detail-type":["checkout.session.completed"]}'
+# invoice.paid / invoice.payment_failed: Push Patch refills (auto-ship). Non-refill invoices are ignored by the handler.
+ORDER_PATTERN='{"detail-type":["checkout.session.completed","invoice.paid","invoice.payment_failed"]}'
 wire_rule "order-handler-live" "$LIVE_BUS" "$ORDER_PATTERN" "$ORDER_ARN"
 wire_rule "order-handler-test" "$TEST_BUS" "$ORDER_PATTERN" "$ORDER_ARN"
 

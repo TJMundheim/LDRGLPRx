@@ -63,6 +63,7 @@ export const handler = async (event: Evt): Promise<Res> => {
     const approve = claim.action === 'approve';
     if (!form) return html(200, pages.confirm(claim.action, token, approve ? ((await rosterOrUndefined()) ?? []) : []));
     let providerId: string | undefined;
+    let refills: number | undefined;
     if (approve) {
       providerId = form.get('provider') || undefined; // absent → decide() falls back to the default provider
       if (providerId) {
@@ -71,7 +72,14 @@ export const handler = async (event: Evt): Promise<Res> => {
         else if (!roster.some((p) => p.id === providerId)) return html(400, pages.badProvider());
       }
     }
-    const out = await decide({ ...claim, decidedBy: 'physician-link', ...(providerId ? { providerId } : {}) });
+    if (approve) {
+      const raw = form.get('refills'); // absent (old page) → decide() default of 8
+      if (raw !== null) {
+        if (!/^[0-8]$/.test(raw)) return html(400, pages.badRefills());
+        refills = Number(raw);
+      }
+    }
+    const out = await decide({ ...claim, decidedBy: 'physician-link', ...(providerId ? { providerId } : {}), ...(refills !== undefined ? { refills } : {}) });
     if (out.kind === 'not-found') return html(403, pages.invalid());
     if (out.kind === 'already-decided') return html(200, pages.decided(out.state));
     if (out.kind === 'approved') return html(200, out.mailOk ? pages.approved() : pages.approvedMailFailed());

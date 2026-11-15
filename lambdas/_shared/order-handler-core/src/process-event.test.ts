@@ -39,13 +39,22 @@ vi.mock('@aws-sdk/s3-request-presigner', () => ({
 const { mockUpsert } = vi.hoisted(() => ({ mockUpsert: vi.fn().mockResolvedValue(undefined) }));
 vi.mock('@my4mlife/contact-upsert', () => ({ upsertContact: mockUpsert }));
 
+const { mockRefillInvoice, mockRefillSession } = vi.hoisted(() => ({ mockRefillInvoice: vi.fn().mockResolvedValue(undefined), mockRefillSession: vi.fn().mockResolvedValue(undefined) }));
+vi.mock('./push-patch-refill.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('./push-patch-refill.js')>()),
+  handleRefillInvoice: mockRefillInvoice, handleRefillSession: mockRefillSession,
+}));
+vi.mock('@my4mlife/push-patch-decision-core', () => ({}));
+
 import { getStripeClient } from '@my4mlife/stripe-client';
 import { deriveContactId } from '@my4mlife/contact-id';
 import { processEvent } from './process-event.js';
 
 const mockSessionRetrieve = vi.fn();
 const mockEventRetrieve = vi.fn();
+const mockInvoiceRetrieve = vi.fn();
 const mockStripe = {
+  invoices: { retrieve: mockInvoiceRetrieve },
   checkout: { sessions: { retrieve: mockSessionRetrieve } },
   events: { retrieve: mockEventRetrieve },
 };
@@ -639,5 +648,44 @@ describe('processEvent', () => {
       expect(mockUpsert.mock.calls[0][1]).not.toHaveProperty('tags');
       expect(pendingItem()).not.toHaveProperty('promoCode');
     });
+  });
+});
+
+describe('push-patch refill routing', () => {
+  it('invoice.paid retrieves the invoice and hands it to the refill handler, touching nothing else', async () => {
+    mockEventRetrieve.mockResolvedValue({ data: { object: { id: 'in_1' } } });
+    mockInvoiceRetrieve.mockResolvedValue({ id: 'in_1' });
+    await processEvent({ id: 'evt_inv', type: 'invoice.paid', livemode: true });
+    expect(getStripeClient).toHaveBeenCalledWith({ livemode: true }); // live event -> live client, whatever STRIPE_MODE says
+    expect(mockInvoiceRetrieve).toHaveBeenCalledWith('in_1');
+    expect(mockRefillInvoice).toHaveBeenCalledWith(expect.objectContaining({ livemode: true }), 'invoice.paid', { id: 'in_1' });
+    expect(mockSessionRetrieve).not.toHaveBeenCalled();
+    expect(mockSend).not.toHaveBeenCalled();
+  });
+
+  it('invoice.payment_failed routes to the refill handler', async () => {
+    mockEventRetrieve.mockResolvedValue({ data: { object: { id: 'in_2' } } });
+    mockInvoiceRetrieve.mockResolvedValue({ id: 'in_2' });
+    await processEvent({ id: 'evt_inv2', type: 'invoice.payment_failed', livemode: false });
+    expect(mockRefillInvoice).toHaveBeenCalledWith(expect.anything(), 'invoice.payment_failed', { id: 'in_2' });
+  });
+
+  it('other invoice.* types are skipped without any Stripe call', async () => {
+    await processEvent({ id: 'evt_inv3', type: 'invoice.created', livemode: false });
+    expect(mockRefillInvoice).not.toHaveBeenCalled();
+    expect(mockEventRetrieve).not.toHaveBeenCalled();
+  });
+
+  it('checkout.session.completed with kind push-patch-refill goes to the refill handler only (no Orders/Contact/Touchpoints writes here)', async () => {
+    const session = { ...baseSession, mode: 'payment', metadata: { kind: 'push-patch-refill', contactId: 'c', encounterId: 'e' } };
+    mockSessionRetrieve.mockResolvedValue(session);
+    await processEvent({ id: 'evt_rf', type: 'checkout.session.completed', livemode: false });
+    expect(mockRefillSession).toHaveBeenCalledWith(expect.objectContaining({ livemode: false }), session);
+    expect(mockSend).not.toHaveBeenCalled();
+  });
+
+  it('a normal session never reaches the refill handler', async () => {
+    await processEvent({ id: 'evt_n', type: 'checkout.session.completed', livemode: false });
+    expect(mockRefillSession).not.toHaveBeenCalled();
   });
 });

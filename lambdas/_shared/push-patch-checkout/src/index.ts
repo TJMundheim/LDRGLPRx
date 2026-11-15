@@ -1,4 +1,4 @@
-export { isPushPatchSku, parseWear, pushPatchEntry } from './push-patch';
+export { isPushPatchSku, parseWear, pushPatchEntry, refillPriceId } from './push-patch';
 export type { Wear } from './push-patch';
 export { evaluateScreening } from './screening';
 export type { ScreenResult } from './screening';

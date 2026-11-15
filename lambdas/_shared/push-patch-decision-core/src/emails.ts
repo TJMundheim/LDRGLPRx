@@ -51,3 +51,51 @@ export function sendDeclined(to: string, firstName: string, sku: string): Promis
     `Thank you for trusting us with the order.\n\nThe My4MLife team\n\n${FOOTER}`;
   return mail(to, "You weren't cleared for the Push Patch. Refund within 10 business days", text);
 }
+
+// ---- Refills (Phase 1: change/cancel by replying or writing support) ----
+const TJ = 'drtj@my4mlife.com';
+const tjMail = (subject: string, text: string) => send({ to: TJ, subject, text, html: toHtml(text) });
+
+export function sendRefillShipped(a: { to: string; firstName: string; blendName: string; refillNumber: number; refillsAuthorized: number; nextChargeDate?: string }): Promise<void> {
+  const text = `Hi ${a.firstName},\n\nYour next ${a.blendName} Push Patch box is on its way. This is refill ${a.refillNumber} of ${a.refillsAuthorized} on your plan. Our pharmacy partner ships it straight to the address on your first order, and you will get a shipping confirmation email with tracking.\n\n` +
+    `Same routine as before: one patch a week for six weeks, worn for 12 hours. Follow the insert in your box.\n\n` +
+    (a.nextChargeDate ? `Your next charge is on ${a.nextChargeDate}.\n\n` : '') +
+    `Want to change or cancel? Reply to this email or write to support@my4mlife.com and we will take care of it. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
+  return mail(a.to, 'Your next Push Patch box is on its way', text);
+}
+
+export function sendRefillNotice(a: { name: string; blendName: string; refillNumber: number; refillsAuthorized: number; ref: string }): Promise<void> {
+  return tjMail(`Push Patch refill: ${a.name}`, `Refill sent: ${a.name}, ${a.blendName}, refill ${a.refillNumber} of ${a.refillsAuthorized} (${a.ref}).`);
+}
+
+export function sendRefillPaymentFailed(a: { to: string; firstName: string; hostedInvoiceUrl: string }): Promise<void> {
+  const text = `Hi ${a.firstName},\n\nWe could not process the payment for your next Push Patch box, so it has not shipped yet. You can update your card and pay here: ${a.hostedInvoiceUrl}\n\n` +
+    `Once the payment goes through, your box ships right away. Questions? Reply to this email or write to support@my4mlife.com.\n\nThe My4MLife team\n\n${FOOTER}`;
+  return mail(a.to, "We couldn't process your Push Patch payment", text);
+}
+
+// Ids only: no health detail in email. TJ routes this to the provider.
+export function sendRefillChangeReported(a: { contactId: string; encounterId: string }): Promise<void> {
+  return tjMail('Push Patch refill: patient reported a change',
+    `A patient answered "Yes, something changed" on the refill page. No refill was charged or shipped.\n\nContact: ${a.contactId}\nEncounter: ${a.encounterId}\n\nPlease route this to the provider for review.`);
+}
+
+// Reorder reminders (n = 1 about 5 weeks after shipping, n = 2 about 6 weeks). Link = signed one-click reorder link.
+// No PHI beyond first name + blend name.
+export function sendRefillReminder(a: { to: string; firstName: string; blendName: string; link: string; n: 1 | 2 }): Promise<void> {
+  const intro = a.n === 1
+    ? `Your last box shipped about 5 weeks ago, so you're about a week from running out.`
+    : `Just a reminder: your last box shipped about 6 weeks ago, so your ${a.blendName} Push Patch set should be about used up.`;
+  const tail = `No health questions to repeat. Just confirm nothing has changed and check out. Prefer it automatic? Choose auto-ship on the next screen.`;
+  const text = `Hi ${a.firstName},\n\n${intro}\n\nReorder in one click: ${a.link}\n\n${tail}\n\nQuestions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
+  const button = `<p><a href="${esc(a.link)}" style="display:inline-block;padding:12px 24px;background:#1a1a1a;color:#ffffff;text-decoration:none;border-radius:4px;">Reorder in one click</a></p>`;
+  const html = toHtml(text.replace(`Reorder in one click: ${a.link}\n\n`, '')).replace(`<p>${esc(tail)}`, `${button}<p>${esc(tail)}`);
+  return mail(a.to, a.n === 1 ? 'Time to reorder your Push Patch' : 'Reminder: reorder your Push Patch', text, html);
+}
+
+// Refills used up or expired: a quick re-review through the normal order flow. Sent once.
+export function sendRefillReReview(a: { to: string; firstName: string }): Promise<void> {
+  const text = `Hi ${a.firstName},\n\nIt's time for a quick re-review. Your current refill plan has run its course, so before your next box one of our network's physicians needs to take a fresh look. It only takes a few minutes: https://my4mlife.com/go/push-patch\n\n` +
+    `Questions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
+  return mail(a.to, 'Time for a quick re-review of your Push Patch', text);
+}

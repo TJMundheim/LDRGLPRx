@@ -9,6 +9,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { handlePushPatchOrder } from './push-patch-order.js';
 import { resolvePromo } from './promo.js';
+import { handleRefillInvoice, handleRefillSession, REFILL_KIND } from './push-patch-refill.js';
 
 const REGION = 'us-east-2';
 const DIGITAL_BUCKET = process.env['DIGITAL_FULFILLMENT_BUCKET'] ?? 'my4mlife-digital-fulfillment';
@@ -83,6 +84,21 @@ function esc(s: string): string {
 }
 
 export async function processEvent(e: { id: string; type: string; livemode: boolean }): Promise<void> {
+  // Push Patch refills route FIRST. Invoice events are only ever refill-related here; non-refill invoices are ignored.
+  if (e.type === 'invoice.paid' || e.type === 'invoice.payment_failed') {
+    const stripe = await getStripeClient({ livemode: e.livemode });
+    const evt = await stripe.events.retrieve(e.id);
+    const invoiceId = (evt.data.object as { id?: string }).id;
+    if (!invoiceId) throw new Error(`order-handler: event ${e.id} has no data.object.id`);
+    const invoice = await stripe.invoices.retrieve(invoiceId);
+    await handleRefillInvoice({ stripe, ddb: makeDdb(), lambda, emailFn: EMAIL_SENDER_FN, livemode: e.livemode }, e.type, invoice);
+    return;
+  }
+  if (e.type.startsWith('invoice.')) {
+    console.log(`order-handler: skipping ${e.type} event ${e.id}`);
+    return;
+  }
+
   // Only paid-session events are fulfillable. Other checkout.session.* types
   // (expired, async_payment_failed, ...) must not create orders or send email.
   if (
@@ -105,6 +121,11 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
   const session = await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ['line_items', 'customer'],
   });
+
+  if ((session.metadata as Record<string, string> | null)?.['kind'] === REFILL_KIND) {
+    await handleRefillSession({ stripe, ddb: makeDdb(), lambda, emailFn: EMAIL_SENDER_FN, livemode: e.livemode }, session);
+    return;
+  }
 
   const ddb = makeDdb();
   const now = new Date().toISOString();

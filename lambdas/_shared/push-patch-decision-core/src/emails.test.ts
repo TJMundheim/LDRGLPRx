@@ -54,3 +54,69 @@ describe('decline email', () => {
     }
   });
 });
+
+import { sendRefillShipped, sendRefillNotice, sendRefillPaymentFailed, sendRefillChangeReported } from './emails';
+
+describe('refill emails', () => {
+  it('shipped: blend name only, change/cancel instructions, next charge, no genesis/formula', async () => {
+    await sendRefillShipped({ to: 'j@example.com', firstName: 'Jane', blendName: 'Repair', refillNumber: 2, refillsAuthorized: 4, nextChargeDate: 'December 27, 2026' });
+    const m = sent[0];
+    expect(m.subject).toBe('Your next Push Patch box is on its way');
+    expect(m.from).toBe('support');
+    expect(m.text).toContain('Hi Jane,');
+    expect(m.text).toContain('Repair');
+    expect(m.text).toContain('2 of 4');
+    expect(m.text).toContain('December 27, 2026');
+    expect(m.text).toContain('Reply to this email or write to support@my4mlife.com');
+    expect(m.text).toContain('The My4MLife team');
+    expect(`${m.text}${m.html}`).not.toMatch(/genesis|BPC|NAD\+ \d/i);
+  });
+  it('shipped: omits next charge when absent', async () => {
+    await sendRefillShipped({ to: 'j@example.com', firstName: 'Jane', blendName: 'Repair', refillNumber: 1, refillsAuthorized: 4 });
+    expect(sent[0].text).not.toMatch(/next charge/i);
+  });
+  it('notice to TJ is one line', async () => {
+    await sendRefillNotice({ name: 'Jane Doe', blendName: 'Repair', refillNumber: 2, refillsAuthorized: 4, ref: 'in_123' });
+    expect(sent[0].to).toBe('drtj@my4mlife.com');
+    expect(sent[0].text.trim().split('\n')).toHaveLength(1);
+    expect(sent[0].text).toContain('Jane Doe');
+    expect(sent[0].text).toContain('2 of 4');
+    expect(sent[0].text).toContain('in_123');
+  });
+  it('payment failed links the hosted invoice', async () => {
+    await sendRefillPaymentFailed({ to: 'j@example.com', firstName: 'Jane', hostedInvoiceUrl: 'https://invoice.stripe.com/i/x' });
+    expect(sent[0].text).toContain('https://invoice.stripe.com/i/x');
+    expect(sent[0].to).toBe('j@example.com');
+  });
+  it('change reported: ids only', async () => {
+    await sendRefillChangeReported({ contactId: 'c1', encounterId: 'pp-cs_1' });
+    expect(sent[0].to).toBe('drtj@my4mlife.com');
+    expect(sent[0].text).toContain('c1');
+    expect(sent[0].text).toContain('pp-cs_1');
+    expect(sent[0].text).toMatch(/provider/i);
+  });
+});
+
+describe('refill reminder emails', () => {
+  const LINK = 'https://example.com/r?c=c1&e=e1&exp=1&sig=ab';
+  it('reminder 1: subject, copy, one-click button, no PHI beyond first name and blend', async () => {
+    const { sendRefillReminder } = await import('./emails');
+    await sendRefillReminder({ to: 'j@example.com', firstName: 'Jane', blendName: 'Glow', link: LINK, n: 1 });
+    const m = sent[0];
+    expect(m.subject).toBe('Time to reorder your Push Patch');
+    expect(m.from).toBe('support');
+    expect(m.text).toContain("Your last box shipped about 5 weeks ago, so you're about a week from running out.");
+    expect(m.text).toContain('No health questions to repeat');
+    expect(m.text).toContain(LINK);
+    expect(m.html).toMatch(/<a href="[^"]+"[^>]*>Reorder in one click<\/a>/);
+    expect(m.html).toContain('Prefer it automatic? Choose auto-ship on the next screen.');
+  });
+  it('reminder 2 subject; re-review links to /go/push-patch', async () => {
+    const { sendRefillReminder, sendRefillReReview } = await import('./emails');
+    await sendRefillReminder({ to: 'j@example.com', firstName: 'Jane', blendName: 'Glow', link: LINK, n: 2 });
+    expect(sent[0].subject).toBe('Reminder: reorder your Push Patch');
+    await sendRefillReReview({ to: 'j@example.com', firstName: 'Jane' });
+    expect(sent[1].subject).toMatch(/re-review/);
+    expect(sent[1].text).toContain('https://my4mlife.com/go/push-patch');
+  });
+});

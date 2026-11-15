@@ -9,6 +9,9 @@ import { sendGenesisOrder } from './genesis-order';
 import { addBusinessDays } from './business-days';
 import { pickProvider } from './signing-provider';
 import { resolveShip, type OrderInput } from './genesis-form';
+import { buildRefillAuth, grantRefills, recordShipment, partnerRefFromSession } from './refill-auth';
+
+export const DEFAULT_REFILLS = 8;
 
 export type Outcome =
   | { kind: 'approved'; mailOk: boolean }
@@ -42,7 +45,7 @@ async function transition(contactId: string, encounterId: string, to: string, ex
 
 // Stamped after the Genesis order (or the TJ-only ACTION NEEDED email) is out. The admin refund refuses
 // any encounter carrying genesisOrderSentAt (no refunds once shipped). Never set on decline.
-async function stampGenesisSent(contactId: string, encounterId: string, to: string, toGenesis: boolean): Promise<void> {
+export async function stampGenesisSent(contactId: string, encounterId: string, to: string, toGenesis: boolean): Promise<void> {
   const now = new Date().toISOString();
   await ddb.send(new UpdateCommand({
     TableName: TABLE,
@@ -56,7 +59,7 @@ const allOk = async (jobs: Promise<void>[]): Promise<boolean> =>
   (await Promise.allSettled(jobs)).every((r) => r.status === 'fulfilled');
 
 // decidedBy: 'physician-link' (emailed token) or 'admin:<username>' (admin app); recorded on the encounter.
-export type DecideArgs = { contactId: string; encounterId: string; action: 'approve' | 'decline'; decidedBy: string; providerId?: string };
+export type DecideArgs = { contactId: string; encounterId: string; action: 'approve' | 'decline'; decidedBy: string; providerId?: string; refills?: number };
 
 export async function decide(a: DecideArgs): Promise<Outcome> {
   const get = async (sk: string) => (await ddb.send(new GetCommand({ TableName: TABLE, Key: { contactId: a.contactId, sk } }))).Item;
@@ -71,11 +74,23 @@ export async function decide(a: DecideArgs): Promise<Outcome> {
     const session = await stripe.checkout.sessions.retrieve(enc.sessionId, {});
     const prov = await pickProvider(a.providerId); // before the claim: a roster failure leaves the encounter undecided
     if (!(await transition(a.contactId, a.encounterId, 'script-written', { decidedBy: a.decidedBy, ...(prov && { signedByProviderId: prov.id, signedByName: prov.name }) }))) return { kind: 'already-decided', state: 'decided' };
+    const refills = Math.min(8, Math.max(0, Math.floor(a.refills ?? DEFAULT_REFILLS)));
+    let granted = false;
+    if (refills > 0) {
+      try {
+        await grantRefills(a.contactId, a.encounterId, buildRefillAuth({ refills, sku, authorizedBy: prov?.name ?? a.decidedBy,
+          ...(prov && { signedByProviderId: prov.id }), partnerRef: await partnerRefFromSession(session, stripe), now: new Date() }));
+        granted = true;
+      } catch { console.error('[decide] refill-grant-failed'); } // approval stands; refills can be granted by the admin CLI
+    }
     const name = `${demo.firstName ?? ''} ${demo.lastName ?? ''}`.trim();
     const mailOk = await allOk([
       sendWelcome(demo.email, demo.firstName ?? '', sku),
       sendGenesisOrder({ signedAt: new Date().toISOString(), testOrder: session.metadata?.test_price === 'true', sku, sessionId: enc.sessionId, clinicianName: prov?.name, name, lastName: demo.lastName ?? '', phone: demo.phone ?? '', ship: resolveShip(enc.shipTo, session.shipping_details as OrderInput['ship']) })
-        .then((o) => stampGenesisSent(a.contactId, a.encounterId, o.to, o.toGenesis)),
+        .then(async (o) => {
+          await stampGenesisSent(a.contactId, a.encounterId, o.to, o.toGenesis);
+          if (granted) { try { await recordShipment(a.contactId, a.encounterId, new Date(), true); } catch { console.error('[decide] record-shipment-failed'); } }
+        }),
     ]);
     return { kind: 'approved', mailOk };
   }

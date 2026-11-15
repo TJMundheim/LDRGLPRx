@@ -31,6 +31,8 @@ LIMITS=(
   "GET /api/approve|1|3"
   "POST /api/approve|1|3"
   # Physician decision: GET = confirm page only; POST triggers a refund or order/email sends. HMAC-gated, still capped.
+  "GET /api/push-patch-refill|2|5"
+  "POST /api/push-patch-refill|2|5"
   "GET /api/push-patch-decision|1|3"
   "POST /api/push-patch-decision|1|3"
   # Front-door chat: each turn is a Bedrock Haiku + Titan call. 10 rps sustained

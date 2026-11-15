@@ -30,7 +30,8 @@ npx esbuild "${LAMBDA_DIR}/src/handler.ts" \
   --bundle --platform=node --target=node24 --format=cjs \
   --outfile="${LAMBDA_DIR}/dist/handler.js" \
   --external:@aws-sdk/\*
-cd "${LAMBDA_DIR}/dist" && zip -q handler.zip handler.js && cd -
+cp "${LAMBDA_DIR}/../_shared/push-patch-decision-core/assets/genesis-order-form-2026.pdf" "${LAMBDA_DIR}/dist/"
+cd "${LAMBDA_DIR}/dist" && rm -f handler.zip && zip -q handler.zip handler.js genesis-order-form-2026.pdf && cd -
 
 # ── 2. Scheduler target role (idempotent) ────────────────────────────────────
 echo "Ensuring scheduler target role ${SCHEDULER_ROLE_NAME}..."
@@ -84,7 +85,11 @@ aws iam put-role-policy \
         \"Resource\":\"${RETRY_STATE_ARN}\"},
       {\"Effect\":\"Allow\",\"Action\":[\"dynamodb:PutItem\",\"dynamodb:UpdateItem\"],
         \"Resource\":[\"${CONTACT_ARN}\",\"${ORDERS_ARN}\",\"${SUBSCRIPTIONS_ARN}\",\"${TOUCHPOINTS_ARN}\"]},
-      {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":[\"${EMAIL_SENDER_ARN}\",\"${PUSH_PATCH_INTAKE_ARN}\"]}
+      {\"Effect\":\"Allow\",\"Action\":\"lambda:InvokeFunction\",\"Resource\":[\"${EMAIL_SENDER_ARN}\",\"${PUSH_PATCH_INTAKE_ARN}\"]},
+      {\"Effect\":\"Allow\",\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"dynamodb:UpdateItem\"],\"Resource\":\"arn:aws:dynamodb:${REGION}:${ACCOUNT}:table/PatientRecords\"},
+      {\"Effect\":\"Allow\",\"Action\":\"dynamodb:GetItem\",\"Resource\":\"${CONTACT_ARN}\"},
+      {\"Effect\":\"Allow\",\"Action\":\"dynamodb:DeleteItem\",\"Resource\":[\"${ORDERS_ARN}\",\"${TOUCHPOINTS_ARN}\"]},
+      {\"Effect\":\"Allow\",\"Action\":\"ssm:GetParameter\",\"Resource\":\"arn:aws:ssm:${REGION}:${ACCOUNT}:parameter/my4mlife/genesis/*\"}
     ]
   }"
 
@@ -119,6 +124,7 @@ if [ -z "${EXISTING}" ]; then
     --zip-file "fileb://${LAMBDA_DIR}/dist/handler.zip" \
     --environment "${ENV_VARS}" \
     --timeout "${FUNCTION_TIMEOUT}" \
+    --memory-size 512 \
     --region "${REGION}"
   echo "Created Lambda"
 else
@@ -132,6 +138,7 @@ else
     --function-name "${FUNCTION_NAME}" \
     --environment "${ENV_VARS}" \
     --timeout "${FUNCTION_TIMEOUT}" \
+    --memory-size 512 \
     --region "${REGION}"
   echo "Updated Lambda"
 fi

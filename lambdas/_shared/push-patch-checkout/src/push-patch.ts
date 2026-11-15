@@ -21,6 +21,12 @@ export function parseWear(x: unknown): Wear | null {
   return x === undefined || x === null || x === '12h' ? '12h' : null;
 }
 
+// Recurring 6-week refill price id (written by stripe-push-patch-prices.mjs --refill).
+export function refillPriceId(skuId: string, mode: 'test' | 'live'): string | undefined {
+  const refill = (prices as { refill?: Record<string, Record<string, string> | undefined> }).refill;
+  return refill?.[mode]?.[skuId] || undefined;
+}
+
 export function pushPatchEntry(skuId: string, mode: 'test' | 'live') {
   const table = (prices as Record<string, Record<string, string> | undefined>)[mode];
   const priceId = table?.[skuId];

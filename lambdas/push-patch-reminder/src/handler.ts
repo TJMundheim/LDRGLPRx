@@ -2,6 +2,7 @@ import { findDue, claim, release } from './pending';
 import { sendReminder } from './email';
 import { refundSweep, type RefundResult } from './refund';
 import { sweepWaiting } from './waiting';
+import { sweepRefillReminders } from './refill-reminders';
 import { sweepAbandoned, defaultDeps, type AbandonedResult } from './abandoned';
 
 export interface SweepResult { scanned: number; sent: number; skipped: number; failed: number; refunds: RefundResult; abandoned?: AbandonedResult }
@@ -35,6 +36,8 @@ export const handler = async (): Promise<SweepResult> => {
   if (process.env['WAITING_EMAIL_ENABLED'] === 'true') {
     try { await sweepWaiting(defaultDeps()); } catch { console.error('[push-patch-reminder] waiting sweep failed'); }
   }
+  // Reorder reminders / re-review for one-box refill patients (due markers on the parent encounter).
+  try { await sweepRefillReminders(defaultDeps().ddb); } catch { console.error('[push-patch-reminder] refill sweep failed'); }
   console.log('[push-patch-reminder] sweep', res);
   return res;
 };

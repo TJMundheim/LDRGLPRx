@@ -35,6 +35,12 @@ describe('push-patch-decide-admin', () => {
     expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'pp-cs_1', action: 'approve', decidedBy: 'admin:tj-admin' });
   });
 
+  it('approve passes an optional refills count through (default is applied by decide)', async () => {
+    decide.mockResolvedValue({ kind: 'approved', mailOk: true });
+    await handler({ ...ev('approve'), arguments: { ...ev('approve').arguments, refills: 0 } });
+    expect(decide.mock.calls[0][0].refills).toBe(0);
+  });
+
   it('decline maps to declined and surfaces a failed patient email', async () => {
     decide.mockResolvedValue({ kind: 'declined', mailOk: false });
     expect(await handler(ev('decline'))).toEqual({ ok: true, state: 'declined', mailOk: false });
