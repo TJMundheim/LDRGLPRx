@@ -154,7 +154,6 @@ const treatments = [
         </div>
       </div>
 
-      <!-- TODO: add paperback link when UD paperback is live on Amazon -->
       <div class="hp-free-book">
         <img src="/images/books/uninsured-decade-cover.jpg" alt="The Uninsured Decade book cover" class="hp-free-book-cover" loading="lazy" />
         <div class="hp-free-book-text">
@@ -163,6 +162,8 @@ const treatments = [
           <p class="hp-free-book-copy">The one catastrophic risk no policy can lower, and the premium you can still pay.</p>
           <p class="hp-free-book-links">
             <a href="https://www.amazon.com/dp/B0HRS43K48" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {book:'uninsured-decade', format:'kindle'})">Kindle</a>
+            <span class="hp-free-book-sep">&middot;</span>
+            <a href="https://www.amazon.com/dp/B0HRTNDNRQ" target="_blank" rel="noopener" onclick="window.posthog && posthog.capture('hp_book_amazon_click', {book:'uninsured-decade', format:'paperback'})">Paperback</a>
             <span class="hp-free-book-sep">&middot;</span>
             <a href="/go/uninsured-decade" class="hp-free-book-minor">Free calculator</a>
           </p>
