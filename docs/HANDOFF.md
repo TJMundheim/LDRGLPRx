@@ -4,6 +4,15 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-16 — BOOK LAUNCH EMAIL SENT (TJ "send")
+- 66 individual emails from Dr. TJ via email-sender, 0 failures:
+  - 1 to Paul with Marla cc'd (foreword thanks, faster-than-author-copies tip)
+  - 49 to the earlier lists (F&F 7 + Oct-13 warm list 42)
+  - 16 to Protégés and customers, deduped; test addresses and opted-out excluded
+- All four Amazon links (UD $14.99/$4.99, CYS $12.99/$2.99), "priced just above cost; prices go up significantly on January 1". Non-family emails carry the company address + "reply unsubscribe".
+- **TJ to do on 12-31/01-01:** raise the book prices in KDP by hand (Claude can't use KDP). **Honor any "unsubscribe" replies:** set Contact.marketingConsent.status=opted_out.
+- The send script and recipient list stay local only (scratchpad + TJ's Desktop/Book-Email-Review), never committed.
+
 ## ▶ TJ INPUT QUEUE (as of 2026-11-16 evening)
 1. Calendly: call days, hours and length; TJ creates the account (Standard) + connects Google Calendar → Claude writes the intake plan A–E and builds it.
 2. Lead from 11-13 with a bad email: TJ texting; needs either a resubmit at /consult or the correct email.
