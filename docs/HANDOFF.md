@@ -4,6 +4,18 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-16 — OPEN ITEMS FROM TJ (not built yet; no patient details recorded here)
+- **Auto-send tracking (TJ):** stop requiring TJ's one-click review in push-patch-tracking. When a Novo TRACKING email matches exactly one open Push Patch encounter (Genesis sent, no tracking yet), send it to the patient automatically and give TJ an FYI. Only ask TJ when the match is ambiguous or missing. Code: lambdas/push-patch-tracking (match.ts, notify.ts) + push-patch-ship-admin.
+- **Lead alerts + scheduler (TJ, decisions pending).**
+  - Gap 1: a consult intake on 11-13 had an email with no TLD. patient-record-intake returned 400, so there was no record and no confirmation, yet the success screen still promised a call.
+  - Gap 2: a 10-11 assessment + consult produced 4 look-alike emails and no red flag.
+  - Proposed:
+    - (A) one red-flag "NEW CONSULT: call …" email per lead that merges the pre-call brief and drops the generic [Form:] emails
+    - (B) a "called?" loop: one-click Called link, a 1-business-day reminder, and an uncalled list at the top of the daily digest
+    - (C) Calendly or Cal.com embed after the intake (no PHI to the scheduler) with a webhook into the encounter
+    - (D) form email validation, plus "[ACTION NEEDED] intake not saved" if the record save fails
+  - Waiting on TJ: Calendly vs Cal.com; call hours and length.
+
 ## 2026-11-16 — Novo invoice for Paul's refill + tracking-reader false alarm fixed
 - Novo replied "Invoice link sent" on Paul's refill order thread. Bill.com invoice OPS-20261116-131130 (due 11/16) went to info@; TJ pays it by hand. The tracking reader flagged the reply as "no-name". It now returns `not-tracking` and stays silent when a supplier email has neither a TRACKING subject nor a tracking number (a493a746; push-patch-tracking deployed 2026-11-16 16:58Z on TJ's OK).
 - Suzanne (Novo) forwarded an 800# call on 11-15 ("PETERSONS", Tacoma WA, RPA for husband) to TJ + Genesis. Not acted on.
