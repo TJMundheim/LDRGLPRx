@@ -4,6 +4,10 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-16 — Novo invoice for Paul's refill + tracking-reader false alarm fixed
+- Novo replied "Invoice link sent" on Paul's refill order thread. Bill.com invoice OPS-20261116-131130 (due 11/16) went to info@; TJ pays it by hand. The tracking reader flagged the reply as "no-name". It now returns `not-tracking` and stays silent when a supplier email has neither a TRACKING subject nor a tracking number (a493a746; push-patch-tracking deployed 2026-11-16 16:58Z on TJ's OK).
+- Suzanne (Novo) forwarded an 800# call on 11-15 ("PETERSONS", Tacoma WA, RPA for husband) to TJ + Genesis. Not acted on.
+
 ## ✅ 2026-11-15 — PAUL'S LIVE AUTO-SHIP TEST PASSED
 - Paul paid 20:49Z: subscription sub_1UcAMxBSbDAyoIVyKoNyMxGT is active, $650 every 6 weeks, next charge Dec 27 2026, no cancel_at. First invoice in_1UcAMxBSbDAyoIVytrA20Urx paid $650. Orders row refillStatus=shipped; child encounter pp-rf-in_1UcAMx… (refill 1) has genesisOrderSentAt 20:49:59Z; parent refillAuth 1/8, mode auto, subscriptionId set. order-handler logs: subscription-session-recorded, then shipped. No errors.
 - **Phishing flag:** Paul's firm's Barracuda flagged the email as a "targeted phishing attack" because the link pointed at execute-api.amazonaws.com. Paul released it himself. FIXED + DEPLOYED (4d918eb5): reorder links are now https://www.my4mlife.com/reorder?… (a static page that forwards only c/e/exp/sig to the API; noindex; not in sitemap), the reminder email link is plain text, and Push Patch email footers carry "My4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034" (other lambdas pick up the footer on their next deploy). Verified live: a valid-format link forwards to the API (expired page for a fake sig); a bad link shows "This link isn't valid".
