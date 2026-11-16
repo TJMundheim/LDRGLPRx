@@ -41,8 +41,10 @@ export async function parseTrackingEmail(raw: string): Promise<TrackingResult> {
   const from = mail.from?.text ?? '';
   if (!SUPPLIER.test(from) && !SUPPLIER.test(text)) return { ok: false, reason: 'not-supplier' };
   const name = parseName(mail.subject ?? '');
-  if (!name) return { ok: false, reason: 'no-name' };
   const tracking = findTracking(text);
+  // Supplier replies that aren't tracking emails (order confirmations, "Invoice link sent") are not failures.
+  if (!name && !tracking) return { ok: false, reason: 'not-tracking' };
+  if (!name) return { ok: false, reason: 'no-name' };
   if (!tracking) return { ok: false, reason: 'no-tracking' };
   return { ok: true, ...name, ...tracking, fromSupplier: true };
 }

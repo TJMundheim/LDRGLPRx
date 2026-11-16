@@ -96,6 +96,11 @@ describe('push-patch-tracking handler', () => {
     await handler(event as any);
     expect(lamSend).not.toHaveBeenCalled(); expect(ddbSend).not.toHaveBeenCalled();
   });
+  it('supplier non-tracking reply (invoice/confirmation) -> nothing sent', async () => {
+    vi.mocked(parseTrackingEmail).mockResolvedValue({ ok: false, reason: 'not-tracking' });
+    await handler(event as any);
+    expect(lamSend).not.toHaveBeenCalled(); expect(ddbSend).not.toHaveBeenCalled();
+  });
   it('parse failure -> TJ email with subject and reason', async () => {
     vi.mocked(parseTrackingEmail).mockResolvedValue({ ok: false, reason: 'no-tracking' });
     await handler(event as any);

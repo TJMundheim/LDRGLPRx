@@ -81,4 +81,8 @@ describe('parseTrackingEmail', () => {
     const r = await parseTrackingEmail(msg({ subject: 'FW: Your order', body: bodyText() }));
     expect(r).toMatchObject({ ok: false, reason: 'no-name' });
   });
+  it('treats a supplier reply with no TRACKING subject and no tracking number as not-tracking (e.g. "Invoice link sent")', async () => {
+    const r = await parseTrackingEmail(msg({ subject: 'RE: encrypt — Push Patch order — Enhanced Glow — Mundheim', body: 'Thank you. Invoice link sent. novobioalliance.com' }));
+    expect(r).toMatchObject({ ok: false, reason: 'not-tracking' });
+  });
 });

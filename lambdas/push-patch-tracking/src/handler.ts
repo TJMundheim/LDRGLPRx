@@ -17,7 +17,7 @@ async function run(event: SesEvent): Promise<void> {
   const parsed = await parseTrackingEmail(await obj.Body!.transformToString());
   if (!parsed.ok) {
     console.log(`tracking: parse-failed ${parsed.reason}`);
-    if (parsed.reason !== 'not-supplier') await failureMail(mail.commonHeaders?.subject ?? '(no subject)', parsed.reason);
+    if (parsed.reason !== 'not-supplier' && parsed.reason !== 'not-tracking') await failureMail(mail.commonHeaders?.subject ?? '(no subject)', parsed.reason);
     return;
   }
   // Same tracking email delivered twice (e.g. Google copies for info@ and drtj@): already stamped, do nothing.
