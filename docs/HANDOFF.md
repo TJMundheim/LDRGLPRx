@@ -4,6 +4,15 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## ▶ TJ INPUT QUEUE (as of 2026-11-16 evening)
+1. Calendly: call days, hours and length; TJ creates the account (Standard) + connects Google Calendar → Claude writes the intake plan A–E and builds it.
+2. Lead from 11-13 with a bad email: TJ texting; needs either a resubmit at /consult or the correct email.
+3. Colleyville PT: Rochelle's email, website/photo, exact business name, her OK on the draft note → create the CPT code + signing link (send only on TJ's "send"). Attorney pass on PA-2026-11 first (refill commissions).
+4. Pull-up challenge page advertises 50% off; conflicts with the no-advertised-discounts rule. Keep, cap or change?
+5. Video: TJ reshoots 11 hand shots (Desktop/Push-Patch-Training/RESHOOT-SHOT-LIST.md) → Claude swaps them in + v2 fixes.
+6. Author copies of both paperbacks (by hand in KDP).
+7. Older open items: UD calculator copy questions; CYS app D-U-N-S/Apple enrollment + AirPods test; the 800# RPA lead Suzanne forwarded 11-15.
+
 ## 2026-11-16 — OPEN ITEMS FROM TJ (not built yet; no patient details recorded here)
 - **Auto-send tracking: DEPLOYED 2026-11-16 23:23Z (99306816, TJ OK).** One-patient matches (orders sent to Genesis in the last 30 days, oldest first) auto-send; TJ gets a "Tracking sent: First L." FYI; review only when the candidates span different patients or none match. A refill's tracking was moved off a legacy order with infra/scripts/push-patch-tracking-move.mjs. Original ask: stop requiring TJ's one-click review in push-patch-tracking. When a Novo TRACKING email matches exactly one open Push Patch encounter (Genesis sent, no tracking yet), send it to the patient automatically and give TJ an FYI. Only ask TJ when the match is ambiguous or missing. Code: lambdas/push-patch-tracking (match.ts, notify.ts) + push-patch-ship-admin.
 - **Lead alerts + scheduler (TJ, decisions pending).**
