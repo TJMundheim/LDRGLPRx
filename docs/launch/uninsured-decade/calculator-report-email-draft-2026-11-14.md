@@ -155,7 +155,14 @@ Math line: `{evMath}`, built exactly as the page builds it: "Unmitigated expecte
 
 ---
 
-## 5. Open questions for TJ
+## 5. Open questions for TJ: RESOLVED 2026-11-16 (TJ: "go with your recommendations")
+
+- Q1: no author name on the PDF (only the one-line disclaimer mentions Dr. TJ).
+- Q2: the PDF only uses the short disclaimer: "Dr. TJ speaks as a health-span educator and does not provide medical care through this platform." The page keeps the full disclaimer.
+- Q3: the house-fire paragraph is kept, with "Some households should own both. Ask your advisor." added (page + PDF).
+- Advisor line: "your financial advisor, or the advisor who sent you here" (page + PDF).
+
+Original questions:
 
 1. **Name on the PDF.** The branding rule says generic calculator tools carry no author name or credential, so the PDF above shows only the My4MLife mark and the email is the only place "Dr. TJ" appears (From line and sign-off). OK to keep it that way?
 2. **Medical Disclaimer in a financial PDF.** I included the site's Medical Disclaimer verbatim as requested, but it speaks of telehealth, GLP-1s, and compounded drugs, which reads oddly in an estate-planning handout an advisor will see. Keep it verbatim, or approve a shorter health-span-educator line for this PDF only ("Dr. TJ speaks as a health-span educator and does not provide medical care through this platform")?
