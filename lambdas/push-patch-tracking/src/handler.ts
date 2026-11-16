@@ -4,8 +4,8 @@ import { send } from '@my4mlife/push-patch-decision-core/mailer';
 import { blendFor } from '@my4mlife/push-patch-decision-core/blends';
 import { composeOnItsWay } from '@my4mlife/push-patch-decision-core/shipping-emails';
 import { parseTrackingEmail } from './parse';
-import { findCandidates, isKnownTracking, stampTracking, unstampTracking } from './match';
-import { failureMail, reviewMail } from './notify';
+import { findCandidates, pickAutoSend, isKnownTracking, stampTracking, unstampTracking } from './match';
+import { failureMail, reviewMail, sentMail } from './notify';
 
 const s3 = new S3Client({ region: process.env.AWS_REGION ?? 'us-east-2' });
 
@@ -23,12 +23,12 @@ async function run(event: SesEvent): Promise<void> {
   // Same tracking email delivered twice (e.g. Google copies for info@ and drtj@): already stamped, do nothing.
   if (await isKnownTracking(parsed.trackingNumber)) return void console.log('tracking: duplicate');
   const cands = await findCandidates(parsed.firstName, parsed.lastName);
-  if (cands.length !== 1) {
+  const c = pickAutoSend(cands);
+  if (!c) {
     await reviewMail(parsed, cands);
     console.log(`tracking: needs-review candidates=${cands.length}`);
     return;
   }
-  const [c] = cands;
   if (!(await stampTracking(c, parsed.trackingNumber, parsed.carrier))) return void console.log('tracking: duplicate');
   const mailBody = composeOnItsWay({ firstName: c.firstName, blendName: blendFor(c.sku).name, trackingNumber: parsed.trackingNumber, carrier: parsed.carrier });
   try {
@@ -38,6 +38,7 @@ async function run(event: SesEvent): Promise<void> {
     throw e;
   }
   console.log('tracking: shipped-email-sent');
+  try { await sentMail(c, parsed, blendFor(c.sku).name); } catch { console.log('tracking: fyi-failed'); } // patient email already went out
 }
 
 export const handler = async (event: SesEvent): Promise<void> => {

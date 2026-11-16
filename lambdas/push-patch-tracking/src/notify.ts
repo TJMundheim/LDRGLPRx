@@ -25,3 +25,9 @@ export async function reviewMail(p: { firstName: string; lastName: string; track
   const html = `<p>${esc(head).replace(/\n/g, '<br>')}</p>` + lines.map((l) => `<p><a href="${esc(l.url)}">${esc(l.label)}</a></p>`).join('');
   await tj('Tracking needs your click', text, html);
 }
+
+/** One-line FYI after an automatic patient send. Callers must not let a failure here affect the send. */
+export const sentMail = (c: { firstName: string; lastName: string; sk: string }, p: { carrier: string; trackingNumber: string }, blendName: string) => {
+  const who = `${c.firstName} ${c.lastName.charAt(0)}.`;
+  return tj(`Tracking sent: ${who}`, `${p.carrier} ${p.trackingNumber} sent to ${who} (${blendName}, order ${c.sk.replace(/^encounter#pp-/, '').slice(-8)})`);
+};

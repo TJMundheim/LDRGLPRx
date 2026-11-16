@@ -20,7 +20,8 @@ import { handler } from './handler';
 const SECRET = 'test-secret';
 const ok = { ok: true, firstName: 'Ronda', lastName: 'Christian', trackingNumber: '1Z999AA10123456784', carrier: 'UPS', fromSupplier: true };
 const event = { Records: [{ ses: { mail: { messageId: 'mid1', commonHeaders: { subject: 'FW: TRACKING - Ronda Christian' } } } }] };
-const enc = (contactId: string, extra = {}) => ({ contactId, sk: `encounter#pp-${contactId}`, state: 'script-written', sku: 'push-patch-nad-ghk', decidedAt: '2026-11-01T00:00:00Z', ...extra });
+const daysAgo = (n: number) => new Date(Date.now() - n * 86400000).toISOString();
+const enc = (contactId: string, extra = {}) => ({ contactId, sk: `encounter#pp-${contactId}`, state: 'script-written', sku: 'push-patch-nad-ghk', decidedAt: daysAgo(6), genesisOrderSentAt: daysAgo(5), ...extra });
 const rec = (first: string, last: string) => ({ demographics: { firstName: first, lastName: last, email: `${first}@x.test` } });
 const sent = () => lamSend.mock.calls.map((c) => JSON.parse(Buffer.from(c[0].input.Payload).toString()));
 
@@ -54,7 +55,7 @@ describe('push-patch-tracking handler', () => {
     expect(upd.ConditionExpression).toBe('attribute_not_exists(trackingNumber) AND #st = :s');
     expect(upd.Key).toEqual({ contactId: 'c1', sk: 'encounter#pp-c1' });
     expect(upd.ExpressionAttributeValues[':t']).toBe(ok.trackingNumber);
-    const m = sent(); expect(m).toHaveLength(1);
+    const m = sent(); expect(m).toHaveLength(2); // patient + FYI
     expect(m[0]).toMatchObject({ kind: 'info', from: 'support', to: 'ronda@x.test' });
     expect(m[0].html).toContain(ok.trackingNumber);
   });
@@ -78,7 +79,7 @@ describe('push-patch-tracking handler', () => {
     expect(m[0].text).toContain(ok.trackingNumber);
     expect(m[0].html).not.toContain('sig=');
   });
-  it('two matches -> TJ email with two verifiable signed links', async () => {
+  it('two matches (different patients) -> TJ email with two verifiable signed links', async () => {
     db([enc('c1'), enc('c2')], { c1: rec('Ronda', 'Christian'), c2: rec('Ronda', 'Christian') });
     await handler(event as any);
     const m = sent(); expect(m).toHaveLength(1);
@@ -142,5 +143,67 @@ describe('push-patch-tracking handler', () => {
     expect(upd[1].ConditionExpression).toBe('trackingNumber = :t');
     const logged = JSON.stringify((console.error as any).mock.calls);
     for (const x of ['Ronda', '1Z999', '@x.test']) expect(logged).not.toContain(x);
+  });
+  it('FYI to TJ after auto-send: short subject, carrier + tracking in body', async () => {
+    db([enc('c1')], { c1: rec('Ronda', 'Christian') });
+    await handler(event as any);
+    const m = sent(); expect(m).toHaveLength(2);
+    expect(m[1]).toMatchObject({ from: 'drtj', to: 'drtj@my4mlife.com', subject: 'Tracking sent: Ronda C.' });
+    expect(m[1].text).toContain(`UPS ${ok.trackingNumber} sent to Ronda C.`);
+  });
+  it('FYI failure does not fail the Lambda or unstamp', async () => {
+    db([enc('c1')], { c1: rec('Ronda', 'Christian') });
+    lamSend.mockResolvedValueOnce({}).mockResolvedValueOnce({ FunctionError: 'Unhandled' });
+    await handler(event as any);
+    const upd = ddbSend.mock.calls.map((c) => c[0].input).filter((i) => i.UpdateExpression);
+    expect(upd).toHaveLength(1);
+    expect(JSON.stringify((console.error as any).mock.calls)).not.toContain('Ronda');
+  });
+  it('scan requires genesisOrderSentAt within the last 30 days', async () => {
+    db([], {}); await handler(event as any);
+    const scan = ddbSend.mock.calls.map((c) => c[0].input).find((i) => String(i.FilterExpression).includes('#st'));
+    expect(scan.FilterExpression).toContain('genesisOrderSentAt');
+  });
+  it('encounters without genesisOrderSentAt or older than 30 days are excluded', async () => {
+    db([enc('c1', { genesisOrderSentAt: undefined }), enc('c1', { sk: 'encounter#pp-old', genesisOrderSentAt: daysAgo(45) })], { c1: rec('Ronda', 'Christian') });
+    await handler(event as any);
+    expect(sent()[0].subject).toContain('Tracking needs your click');
+    expect(ddbSend.mock.calls.some((c) => c[0].input.UpdateExpression)).toBe(false);
+  });
+  it('Paul-like: legacy parent (old) + refill child (recent), same patient -> auto-sends to the child', async () => {
+    const parent = enc('c1', { sk: 'encounter#pp-cs_live_old', genesisOrderSentAt: daysAgo(40) });
+    const child = enc('c1', { sk: 'encounter#pp-rf-in_new', genesisOrderSentAt: daysAgo(3) });
+    db([parent, child], { c1: rec('Ronda', 'Christian') });
+    await handler(event as any);
+    const upd = ddbSend.mock.calls.map((c) => c[0].input).find((i) => i.UpdateExpression);
+    expect(upd.Key).toEqual({ contactId: 'c1', sk: 'encounter#pp-rf-in_new' });
+    expect(sent()[0]).toMatchObject({ from: 'support', to: 'Ronda@x.test' });
+  });
+  it('same patient, two recent orders -> oldest genesisOrderSentAt first', async () => {
+    const a = enc('c1', { sk: 'encounter#pp-new', genesisOrderSentAt: daysAgo(2) });
+    const b = enc('c1', { sk: 'encounter#pp-oldest', genesisOrderSentAt: daysAgo(10) });
+    db([a, b], { c1: rec('Ronda', 'Christian') });
+    await handler(event as any);
+    const upd = ddbSend.mock.calls.map((c) => c[0].input).find((i) => i.UpdateExpression);
+    expect(upd.Key.sk).toBe('encounter#pp-oldest');
+  });
+  it('two different contactIds with the same name -> review, no stamp', async () => {
+    db([enc('c1'), enc('c2')], { c1: rec('Ronda', 'Christian'), c2: rec('Ronda', 'Christian') });
+    await handler(event as any);
+    expect(sent()).toHaveLength(1); expect(sent()[0].subject).toContain('Tracking needs your click');
+    expect(ddbSend.mock.calls.some((c) => c[0].input.UpdateExpression)).toBe(false);
+  });
+  it('same tracking email processed twice -> one stamp, one patient email', async () => {
+    const stamped: any[] = [];
+    ddbSend.mockImplementation(async (cmd: any) => {
+      const i = cmd.input;
+      if (String(i.FilterExpression).includes('trackingNumber = :t')) return { Items: stamped.map((t) => enc('c1', { trackingNumber: t })) };
+      if (i.FilterExpression !== undefined) return { Items: stamped.length ? [] : [enc('c1')] };
+      if (i.UpdateExpression) { stamped.push(i.ExpressionAttributeValues[':t']); return {}; }
+      return { Item: rec('Ronda', 'Christian') };
+    });
+    await handler(event as any); await handler(event as any);
+    expect(stamped).toHaveLength(1);
+    expect(sent().filter((m) => m.from === 'support')).toHaveLength(1);
   });
 });
