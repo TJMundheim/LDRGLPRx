@@ -1,0 +1,25 @@
+{
+  "name": "push-patch-training-video",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "audio": "node scripts/polly.mjs",
+    "music": "node scripts/music.mjs",
+    "clips": "bash scripts/clips.sh",
+    "studio": "remotion studio",
+    "render": "bash scripts/render.sh",
+    "qa": "bash scripts/qa.sh"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.539",
+    "@remotion/google-fonts": "4.0.539",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.12",
+    "typescript": "5.9.2"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "_note": "Narration per scene (SSML body, ASCII only). Source of truth: docs/launch/push-patch/training-video-script-v2.md. Breaks are deliberate: they give the caption aligner reliable pause anchors.",
+  "voice": "Ruth",
+  "main": {
+    "s02-welcome": "Welcome. <break time=\"400ms\"/> In the next two minutes, we'll walk through your Push Patch, step by step. <break time=\"350ms\"/> Set aside about ten minutes, somewhere clean and well lit.",
+    "s03-kit": "Here's what's in your kit: <break time=\"350ms\"/> the amber vial with your blend, <break time=\"250ms\"/> a sterile water dropper, <break time=\"250ms\"/> the patch itself, <break time=\"250ms\"/> an alcohol pad, <break time=\"250ms\"/> a skin-prep wipe, <break time=\"250ms\"/> and a microneedling roller.",
+    "s05-water": "First, the most important detail. <break time=\"400ms\"/> Your sterile water dropper holds about three and a half milliliters, <break time=\"200ms\"/> and you only need one and a half. <break time=\"400ms\"/> The markings are faint, so it helps to mark two lines with a marker: <break time=\"250ms\"/> the full line, <break time=\"200ms\"/> and the two-milliliter line. <break time=\"450ms\"/> Remove the tip, <break time=\"200ms\"/> then slowly squeeze the water into the amber vial, <break time=\"200ms\"/> from the full line down to the two-milliliter line. <break time=\"400ms\"/> That's one and a half milliliters. <break time=\"300ms\"/> The rest of the water isn't used.",
+    "s06-mix": "Cap the vial and mix gently, <break time=\"200ms\"/> tipping it back and forth until the powder is fully dissolved. <break time=\"400ms\"/> Don't shake it. <break time=\"300ms\"/> These are delicate molecules. <break time=\"300ms\"/> It mixes in seconds.",
+    "s08-load": "Lay the patch flat with the white pad facing up. <break time=\"400ms\"/> Slowly drip your mixed blend onto the center of the pad. <break time=\"350ms\"/> Go slowly so nothing runs off the edge. <break time=\"300ms\"/> You want it all concentrated on the pad. <break time=\"400ms\"/> Some blends turn the pad blue. <break time=\"250ms\"/> That's normal.",
+    "s10-skin": "Choose a clean, flat, hair-free area that doesn't cross a joint, <break time=\"200ms\"/> so movement won't loosen the patch. <break time=\"400ms\"/> For most people, the easiest place to apply it yourself is the back of the upper arm, <break time=\"200ms\"/> below the shoulder and above the elbow. <break time=\"450ms\"/> Wipe the area with the alcohol pad and let it dry. <break time=\"400ms\"/> Then roll the microneedling roller gently over an area just big enough for the pad to cover. <break time=\"400ms\"/> Mild redness is normal. <break time=\"300ms\"/> Don't roll over moles, cuts or irritated skin. <break time=\"400ms\"/> Finish with the skin-prep wipe so the patch seals well.",
+    "s12-apply": "Peel the backing and place the pad right over the area you prepared. <break time=\"400ms\"/> Press the edges down all the way around, so it's fully sealed. <break time=\"400ms\"/> Then pull the clear tab all the way out. <break time=\"300ms\"/> That starts your patch.",
+    "s14-wear": "Wear your patch for twelve hours. <break time=\"400ms\"/> To take it off, wet it with warm, soapy water and peel slowly. <break time=\"250ms\"/> Never pull it off dry. <break time=\"400ms\"/> Wait at least a day before using the same spot again. <break time=\"400ms\"/> One patch, once a week, for six weeks.",
+    "s15-good": "Store your kit somewhere cool and dry, below seventy-seven degrees. <break time=\"400ms\"/> If your skin stays irritated, or anything doesn't seem right, <break time=\"200ms\"/> take the patch off and reach out to us.",
+    "s16-end": "Questions? <break time=\"250ms\"/> We're here. <break time=\"350ms\"/> Email support at my four M life dot com. <break time=\"400ms\"/> Reordering is one click from the link in your email."
+  },
+  "short": {
+    "t1-title": "Your Push Patch in five steps.",
+    "t2-water": "One: <break time=\"200ms\"/> squeeze the water from the full line down to the two-milliliter line. <break time=\"250ms\"/> That's one and a half milliliters. <break time=\"200ms\"/> Mix gently.",
+    "t3-drip": "Two: <break time=\"200ms\"/> drip it slowly onto the center of the pad.",
+    "t4-skin": "Three: <break time=\"200ms\"/> clean the skin, roll gently, and wipe with the skin prep.",
+    "t5-seal": "Four: <break time=\"200ms\"/> apply, seal every edge, pull the tab.",
+    "t6-end": "Five: <break time=\"200ms\"/> wear it twelve hours. <break time=\"350ms\"/> Questions? <break time=\"200ms\"/> support at my four M life dot com."
+  },
+  "sample": "Welcome. <break time=\"400ms\"/> In the next two minutes, we'll walk through your Push Patch, step by step. <break time=\"350ms\"/> Set aside about ten minutes, somewhere clean and well lit. <break time=\"600ms\"/> First, the most important detail. <break time=\"400ms\"/> Your sterile water dropper holds about three and a half milliliters, <break time=\"200ms\"/> and you only need one and a half."
+}

@@ -1,0 +1,1994 @@
+{
+ "s02-welcome": {
+  "engine": "generative",
+  "durationMs": 9432,
+  "afinfoSeconds": 9.432,
+  "speechEndMs": 9320,
+  "tokens": [
+   {
+    "t": 80,
+    "text": "Welcome."
+   },
+   {
+    "t": 1440,
+    "text": "In"
+   },
+   {
+    "t": 1632,
+    "text": "the"
+   },
+   {
+    "t": 1679,
+    "text": "next"
+   },
+   {
+    "t": 1919,
+    "text": "two"
+   },
+   {
+    "t": 2081,
+    "text": "minutes,"
+   },
+   {
+    "t": 2541,
+    "text": "we'll"
+   },
+   {
+    "t": 2685,
+    "text": "walk"
+   },
+   {
+    "t": 2877,
+    "text": "through"
+   },
+   {
+    "t": 3068,
+    "text": "your"
+   },
+   {
+    "t": 3173,
+    "text": "Push"
+   },
+   {
+    "t": 3394,
+    "text": "Patch,"
+   },
+   {
+    "t": 3834,
+    "text": "step"
+   },
+   {
+    "t": 4122,
+    "text": "by"
+   },
+   {
+    "t": 4246,
+    "text": "step."
+   },
+   {
+    "t": 6030,
+    "text": "Set"
+   },
+   {
+    "t": 6422,
+    "text": "aside"
+   },
+   {
+    "t": 6813,
+    "text": "about"
+   },
+   {
+    "t": 7113,
+    "text": "10 minutes,"
+   },
+   {
+    "t": 7988,
+    "text": "somewhere"
+   },
+   {
+    "t": 8406,
+    "text": "clean"
+   },
+   {
+    "t": 8836,
+    "text": "and"
+   },
+   {
+    "t": 8941,
+    "text": "well"
+   },
+   {
+    "t": 9163,
+    "text": "lit."
+   }
+  ]
+ },
+ "s03-kit": {
+  "engine": "generative",
+  "durationMs": 11520,
+  "afinfoSeconds": 11.52,
+  "speechEndMs": 11410,
+  "tokens": [
+   {
+    "t": 110,
+    "text": "Here's"
+   },
+   {
+    "t": 414,
+    "text": "what's"
+   },
+   {
+    "t": 617,
+    "text": "in"
+   },
+   {
+    "t": 687,
+    "text": "your"
+   },
+   {
+    "t": 870,
+    "text": "kit:"
+   },
+   {
+    "t": 1620,
+    "text": "the"
+   },
+   {
+    "t": 1841,
+    "text": "amber"
+   },
+   {
+    "t": 2207,
+    "text": "vial"
+   },
+   {
+    "t": 2575,
+    "text": "with"
+   },
+   {
+    "t": 2736,
+    "text": "your"
+   },
+   {
+    "t": 2883,
+    "text": "blend,"
+   },
+   {
+    "t": 3710,
+    "text": "a"
+   },
+   {
+    "t": 3814,
+    "text": "sterile"
+   },
+   {
+    "t": 4366,
+    "text": "water"
+   },
+   {
+    "t": 4753,
+    "text": "dropper,"
+   },
+   {
+    "t": 5620,
+    "text": "the"
+   },
+   {
+    "t": 5789,
+    "text": "patch"
+   },
+   {
+    "t": 6057,
+    "text": "itself,"
+   },
+   {
+    "t": 7070,
+    "text": "an"
+   },
+   {
+    "t": 7204,
+    "text": "alcohol"
+   },
+   {
+    "t": 7739,
+    "text": "pad,"
+   },
+   {
+    "t": 8420,
+    "text": "a"
+   },
+   {
+    "t": 8508,
+    "text": "skin-prep"
+   },
+   {
+    "t": 9231,
+    "text": "wipe,"
+   },
+   {
+    "t": 9950,
+    "text": "and"
+   },
+   {
+    "t": 10088,
+    "text": "a"
+   },
+   {
+    "t": 10170,
+    "text": "microneedling"
+   },
+   {
+    "t": 10982,
+    "text": "roller."
+   }
+  ]
+ },
+ "s05-water": {
+  "engine": "generative",
+  "durationMs": 29712,
+  "afinfoSeconds": 29.712,
+  "speechEndMs": 29590,
+  "tokens": [
+   {
+    "t": 130,
+    "text": "First,"
+   },
+   {
+    "t": 825,
+    "text": "the"
+   },
+   {
+    "t": 998,
+    "text": "most"
+   },
+   {
+    "t": 1230,
+    "text": "important"
+   },
+   {
+    "t": 1682,
+    "text": "detail."
+   },
+   {
+    "t": 2980,
+    "text": "Your"
+   },
+   {
+    "t": 3296,
+    "text": "sterile"
+   },
+   {
+    "t": 3738,
+    "text": "water"
+   },
+   {
+    "t": 4054,
+    "text": "dropper"
+   },
+   {
+    "t": 4459,
+    "text": "holds"
+   },
+   {
+    "t": 4749,
+    "text": "about"
+   },
+   {
+    "t": 5040,
+    "text": "3.5 mL,"
+   },
+   {
+    "t": 6780,
+    "text": "and"
+   },
+   {
+    "t": 6958,
+    "text": "you"
+   },
+   {
+    "t": 7110,
+    "text": "only"
+   },
+   {
+    "t": 7441,
+    "text": "need"
+   },
+   {
+    "t": 7633,
+    "text": "1.5."
+   },
+   {
+    "t": 9320,
+    "text": "The"
+   },
+   {
+    "t": 9616,
+    "text": "markings"
+   },
+   {
+    "t": 10021,
+    "text": "are"
+   },
+   {
+    "t": 10243,
+    "text": "faint,"
+   },
+   {
+    "t": 10785,
+    "text": "so"
+   },
+   {
+    "t": 10921,
+    "text": "it"
+   },
+   {
+    "t": 11056,
+    "text": "helps"
+   },
+   {
+    "t": 11376,
+    "text": "to"
+   },
+   {
+    "t": 11524,
+    "text": "mark"
+   },
+   {
+    "t": 11745,
+    "text": "two"
+   },
+   {
+    "t": 11967,
+    "text": "lines"
+   },
+   {
+    "t": 12337,
+    "text": "with"
+   },
+   {
+    "t": 12460,
+    "text": "a"
+   },
+   {
+    "t": 12534,
+    "text": "marker:"
+   },
+   {
+    "t": 13840,
+    "text": "the"
+   },
+   {
+    "t": 13975,
+    "text": "full"
+   },
+   {
+    "t": 14273,
+    "text": "line,"
+   },
+   {
+    "t": 15060,
+    "text": "and"
+   },
+   {
+    "t": 15188,
+    "text": "the"
+   },
+   {
+    "t": 15330,
+    "text": "2 mL"
+   },
+   {
+    "t": 16144,
+    "text": "line."
+   },
+   {
+    "t": 17440,
+    "text": "Remove"
+   },
+   {
+    "t": 17934,
+    "text": "the"
+   },
+   {
+    "t": 18058,
+    "text": "tip,"
+   },
+   {
+    "t": 18600,
+    "text": "then"
+   },
+   {
+    "t": 18884,
+    "text": "slowly"
+   },
+   {
+    "t": 19381,
+    "text": "squeeze"
+   },
+   {
+    "t": 19764,
+    "text": "the"
+   },
+   {
+    "t": 19934,
+    "text": "water"
+   },
+   {
+    "t": 20246,
+    "text": "into"
+   },
+   {
+    "t": 20516,
+    "text": "the"
+   },
+   {
+    "t": 20672,
+    "text": "amber"
+   },
+   {
+    "t": 21012,
+    "text": "vial,"
+   },
+   {
+    "t": 21840,
+    "text": "from"
+   },
+   {
+    "t": 22050,
+    "text": "the"
+   },
+   {
+    "t": 22141,
+    "text": "full"
+   },
+   {
+    "t": 22455,
+    "text": "line"
+   },
+   {
+    "t": 22757,
+    "text": "down"
+   },
+   {
+    "t": 23019,
+    "text": "to"
+   },
+   {
+    "t": 23150,
+    "text": "the"
+   },
+   {
+    "t": 23308,
+    "text": "2 mL"
+   },
+   {
+    "t": 24068,
+    "text": "line."
+   },
+   {
+    "t": 25270,
+    "text": "That's"
+   },
+   {
+    "t": 25737,
+    "text": "1.5 mL."
+   },
+   {
+    "t": 27840,
+    "text": "The"
+   },
+   {
+    "t": 28158,
+    "text": "rest"
+   },
+   {
+    "t": 28424,
+    "text": "of"
+   },
+   {
+    "t": 28475,
+    "text": "the"
+   },
+   {
+    "t": 28602,
+    "text": "water"
+   },
+   {
+    "t": 28983,
+    "text": "isn't"
+   },
+   {
+    "t": 29237,
+    "text": "used."
+   }
+  ]
+ },
+ "s06-mix": {
+  "engine": "generative",
+  "durationMs": 11064,
+  "afinfoSeconds": 11.064,
+  "speechEndMs": 10950,
+  "tokens": [
+   {
+    "t": 60,
+    "text": "Cap"
+   },
+   {
+    "t": 424,
+    "text": "the"
+   },
+   {
+    "t": 606,
+    "text": "vial"
+   },
+   {
+    "t": 970,
+    "text": "and"
+   },
+   {
+    "t": 1067,
+    "text": "mix"
+   },
+   {
+    "t": 1335,
+    "text": "gently,"
+   },
+   {
+    "t": 2080,
+    "text": "tipping"
+   },
+   {
+    "t": 2409,
+    "text": "it"
+   },
+   {
+    "t": 2541,
+    "text": "back"
+   },
+   {
+    "t": 2897,
+    "text": "and"
+   },
+   {
+    "t": 3041,
+    "text": "forth"
+   },
+   {
+    "t": 3397,
+    "text": "until"
+   },
+   {
+    "t": 3594,
+    "text": "the"
+   },
+   {
+    "t": 3779,
+    "text": "powder"
+   },
+   {
+    "t": 4188,
+    "text": "is"
+   },
+   {
+    "t": 4320,
+    "text": "fully"
+   },
+   {
+    "t": 4648,
+    "text": "dissolved."
+   },
+   {
+    "t": 5940,
+    "text": "Don't"
+   },
+   {
+    "t": 6276,
+    "text": "shake"
+   },
+   {
+    "t": 6500,
+    "text": "it."
+   },
+   {
+    "t": 7390,
+    "text": "These"
+   },
+   {
+    "t": 7740,
+    "text": "are"
+   },
+   {
+    "t": 7915,
+    "text": "delicate"
+   },
+   {
+    "t": 8323,
+    "text": "molecules."
+   },
+   {
+    "t": 9690,
+    "text": "It"
+   },
+   {
+    "t": 9934,
+    "text": "mixes"
+   },
+   {
+    "t": 10360,
+    "text": "in"
+   },
+   {
+    "t": 10507,
+    "text": "seconds."
+   }
+  ]
+ },
+ "s08-load": {
+  "engine": "generative",
+  "durationMs": 16320,
+  "afinfoSeconds": 16.32,
+  "speechEndMs": 16190,
+  "tokens": [
+   {
+    "t": 70,
+    "text": "Lay"
+   },
+   {
+    "t": 443,
+    "text": "the"
+   },
+   {
+    "t": 568,
+    "text": "patch"
+   },
+   {
+    "t": 904,
+    "text": "flat"
+   },
+   {
+    "t": 1202,
+    "text": "with"
+   },
+   {
+    "t": 1315,
+    "text": "the"
+   },
+   {
+    "t": 1439,
+    "text": "white"
+   },
+   {
+    "t": 1688,
+    "text": "pad"
+   },
+   {
+    "t": 1999,
+    "text": "facing"
+   },
+   {
+    "t": 2447,
+    "text": "up."
+   },
+   {
+    "t": 3480,
+    "text": "Slowly"
+   },
+   {
+    "t": 4048,
+    "text": "drip"
+   },
+   {
+    "t": 4237,
+    "text": "your"
+   },
+   {
+    "t": 4427,
+    "text": "mixed"
+   },
+   {
+    "t": 4691,
+    "text": "blend"
+   },
+   {
+    "t": 5058,
+    "text": "onto"
+   },
+   {
+    "t": 5310,
+    "text": "the"
+   },
+   {
+    "t": 5436,
+    "text": "center"
+   },
+   {
+    "t": 5815,
+    "text": "of"
+   },
+   {
+    "t": 5890,
+    "text": "the"
+   },
+   {
+    "t": 6054,
+    "text": "pad."
+   },
+   {
+    "t": 7200,
+    "text": "Go"
+   },
+   {
+    "t": 7492,
+    "text": "slowly"
+   },
+   {
+    "t": 7899,
+    "text": "so"
+   },
+   {
+    "t": 8132,
+    "text": "nothing"
+   },
+   {
+    "t": 8481,
+    "text": "runs"
+   },
+   {
+    "t": 8760,
+    "text": "off"
+   },
+   {
+    "t": 8923,
+    "text": "the"
+   },
+   {
+    "t": 9180,
+    "text": "edge."
+   },
+   {
+    "t": 10150,
+    "text": "You"
+   },
+   {
+    "t": 10310,
+    "text": "want"
+   },
+   {
+    "t": 10469,
+    "text": "it"
+   },
+   {
+    "t": 10549,
+    "text": "all"
+   },
+   {
+    "t": 10669,
+    "text": "concentrated"
+   },
+   {
+    "t": 11188,
+    "text": "on"
+   },
+   {
+    "t": 11268,
+    "text": "the"
+   },
+   {
+    "t": 11332,
+    "text": "pad."
+   },
+   {
+    "t": 13060,
+    "text": "Some"
+   },
+   {
+    "t": 13413,
+    "text": "blends"
+   },
+   {
+    "t": 13765,
+    "text": "turn"
+   },
+   {
+    "t": 14036,
+    "text": "the"
+   },
+   {
+    "t": 14141,
+    "text": "pad"
+   },
+   {
+    "t": 14459,
+    "text": "blue."
+   },
+   {
+    "t": 15440,
+    "text": "That's"
+   },
+   {
+    "t": 15821,
+    "text": "normal."
+   }
+  ]
+ },
+ "s10-skin": {
+  "engine": "generative",
+  "durationMs": 33792,
+  "afinfoSeconds": 33.792,
+  "speechEndMs": 33630,
+  "tokens": [
+   {
+    "t": 80,
+    "text": "Choose"
+   },
+   {
+    "t": 543,
+    "text": "a"
+   },
+   {
+    "t": 609,
+    "text": "clean,"
+   },
+   {
+    "t": 1204,
+    "text": "flat,"
+   },
+   {
+    "t": 1853,
+    "text": "hair-free"
+   },
+   {
+    "t": 2395,
+    "text": "area"
+   },
+   {
+    "t": 2686,
+    "text": "that"
+   },
+   {
+    "t": 2924,
+    "text": "doesn't"
+   },
+   {
+    "t": 3256,
+    "text": "cross"
+   },
+   {
+    "t": 3586,
+    "text": "a"
+   },
+   {
+    "t": 3718,
+    "text": "joint,"
+   },
+   {
+    "t": 4400,
+    "text": "so"
+   },
+   {
+    "t": 4549,
+    "text": "movement"
+   },
+   {
+    "t": 4847,
+    "text": "won't"
+   },
+   {
+    "t": 5045,
+    "text": "loosen"
+   },
+   {
+    "t": 5254,
+    "text": "the"
+   },
+   {
+    "t": 5343,
+    "text": "patch."
+   },
+   {
+    "t": 7240,
+    "text": "For"
+   },
+   {
+    "t": 7550,
+    "text": "most"
+   },
+   {
+    "t": 7798,
+    "text": "people,"
+   },
+   {
+    "t": 8379,
+    "text": "the"
+   },
+   {
+    "t": 8664,
+    "text": "easiest"
+   },
+   {
+    "t": 9036,
+    "text": "place"
+   },
+   {
+    "t": 9345,
+    "text": "to"
+   },
+   {
+    "t": 9481,
+    "text": "apply"
+   },
+   {
+    "t": 9840,
+    "text": "it"
+   },
+   {
+    "t": 9902,
+    "text": "yourself"
+   },
+   {
+    "t": 10397,
+    "text": "is"
+   },
+   {
+    "t": 10521,
+    "text": "the"
+   },
+   {
+    "t": 10645,
+    "text": "back"
+   },
+   {
+    "t": 10942,
+    "text": "of"
+   },
+   {
+    "t": 11017,
+    "text": "the"
+   },
+   {
+    "t": 11152,
+    "text": "upper"
+   },
+   {
+    "t": 11449,
+    "text": "arm,"
+   },
+   {
+    "t": 12020,
+    "text": "below"
+   },
+   {
+    "t": 12369,
+    "text": "the"
+   },
+   {
+    "t": 12522,
+    "text": "shoulder"
+   },
+   {
+    "t": 12968,
+    "text": "and"
+   },
+   {
+    "t": 13135,
+    "text": "above"
+   },
+   {
+    "t": 13414,
+    "text": "the"
+   },
+   {
+    "t": 13624,
+    "text": "elbow."
+   },
+   {
+    "t": 14930,
+    "text": "Wipe"
+   },
+   {
+    "t": 15297,
+    "text": "the"
+   },
+   {
+    "t": 15481,
+    "text": "area"
+   },
+   {
+    "t": 15849,
+    "text": "with"
+   },
+   {
+    "t": 15947,
+    "text": "the"
+   },
+   {
+    "t": 16105,
+    "text": "alcohol"
+   },
+   {
+    "t": 16571,
+    "text": "pad"
+   },
+   {
+    "t": 16926,
+    "text": "and"
+   },
+   {
+    "t": 17073,
+    "text": "let"
+   },
+   {
+    "t": 17195,
+    "text": "it"
+   },
+   {
+    "t": 17318,
+    "text": "dry."
+   },
+   {
+    "t": 18560,
+    "text": "Then"
+   },
+   {
+    "t": 18895,
+    "text": "roll"
+   },
+   {
+    "t": 19180,
+    "text": "the"
+   },
+   {
+    "t": 19304,
+    "text": "microneedling"
+   },
+   {
+    "t": 20111,
+    "text": "roller"
+   },
+   {
+    "t": 20420,
+    "text": "gently"
+   },
+   {
+    "t": 20817,
+    "text": "over"
+   },
+   {
+    "t": 21003,
+    "text": "an"
+   },
+   {
+    "t": 21177,
+    "text": "area"
+   },
+   {
+    "t": 21536,
+    "text": "just"
+   },
+   {
+    "t": 21822,
+    "text": "big"
+   },
+   {
+    "t": 22020,
+    "text": "enough"
+   },
+   {
+    "t": 22280,
+    "text": "for"
+   },
+   {
+    "t": 22417,
+    "text": "the"
+   },
+   {
+    "t": 22528,
+    "text": "pad"
+   },
+   {
+    "t": 22789,
+    "text": "to"
+   },
+   {
+    "t": 22963,
+    "text": "cover."
+   },
+   {
+    "t": 24120,
+    "text": "Mild"
+   },
+   {
+    "t": 24599,
+    "text": "redness"
+   },
+   {
+    "t": 25019,
+    "text": "is"
+   },
+   {
+    "t": 25139,
+    "text": "normal."
+   },
+   {
+    "t": 26300,
+    "text": "Don't"
+   },
+   {
+    "t": 26665,
+    "text": "roll"
+   },
+   {
+    "t": 26858,
+    "text": "over"
+   },
+   {
+    "t": 27061,
+    "text": "moles,"
+   },
+   {
+    "t": 27507,
+    "text": "cuts"
+   },
+   {
+    "t": 27741,
+    "text": "or"
+   },
+   {
+    "t": 27893,
+    "text": "irritated"
+   },
+   {
+    "t": 28380,
+    "text": "skin."
+   },
+   {
+    "t": 30730,
+    "text": "Finish"
+   },
+   {
+    "t": 31282,
+    "text": "with"
+   },
+   {
+    "t": 31342,
+    "text": "the"
+   },
+   {
+    "t": 31449,
+    "text": "skin-prep"
+   },
+   {
+    "t": 32109,
+    "text": "wipe"
+   },
+   {
+    "t": 32409,
+    "text": "so"
+   },
+   {
+    "t": 32529,
+    "text": "the"
+   },
+   {
+    "t": 32673,
+    "text": "patch"
+   },
+   {
+    "t": 32960,
+    "text": "seals"
+   },
+   {
+    "t": 33309,
+    "text": "well."
+   }
+  ]
+ },
+ "s12-apply": {
+  "engine": "generative",
+  "durationMs": 12528,
+  "afinfoSeconds": 12.528,
+  "speechEndMs": 12430,
+  "tokens": [
+   {
+    "t": 90,
+    "text": "Peel"
+   },
+   {
+    "t": 395,
+    "text": "the"
+   },
+   {
+    "t": 497,
+    "text": "backing"
+   },
+   {
+    "t": 852,
+    "text": "and"
+   },
+   {
+    "t": 953,
+    "text": "place"
+   },
+   {
+    "t": 1208,
+    "text": "the"
+   },
+   {
+    "t": 1319,
+    "text": "pad"
+   },
+   {
+    "t": 1594,
+    "text": "right"
+   },
+   {
+    "t": 1787,
+    "text": "over"
+   },
+   {
+    "t": 1929,
+    "text": "the"
+   },
+   {
+    "t": 2071,
+    "text": "area"
+   },
+   {
+    "t": 2326,
+    "text": "you"
+   },
+   {
+    "t": 2428,
+    "text": "prepared."
+   },
+   {
+    "t": 4490,
+    "text": "Press"
+   },
+   {
+    "t": 4902,
+    "text": "the"
+   },
+   {
+    "t": 5019,
+    "text": "edges"
+   },
+   {
+    "t": 5372,
+    "text": "down"
+   },
+   {
+    "t": 5665,
+    "text": "all"
+   },
+   {
+    "t": 5841,
+    "text": "the"
+   },
+   {
+    "t": 5959,
+    "text": "way"
+   },
+   {
+    "t": 6158,
+    "text": "around,"
+   },
+   {
+    "t": 6628,
+    "text": "so"
+   },
+   {
+    "t": 6840,
+    "text": "it's"
+   },
+   {
+    "t": 6969,
+    "text": "fully"
+   },
+   {
+    "t": 7369,
+    "text": "sealed."
+   },
+   {
+    "t": 8490,
+    "text": "Then"
+   },
+   {
+    "t": 8857,
+    "text": "pull"
+   },
+   {
+    "t": 9040,
+    "text": "the"
+   },
+   {
+    "t": 9224,
+    "text": "clear"
+   },
+   {
+    "t": 9529,
+    "text": "tab"
+   },
+   {
+    "t": 9896,
+    "text": "all"
+   },
+   {
+    "t": 10018,
+    "text": "the"
+   },
+   {
+    "t": 10178,
+    "text": "way"
+   },
+   {
+    "t": 10410,
+    "text": "out."
+   },
+   {
+    "t": 11260,
+    "text": "That"
+   },
+   {
+    "t": 11580,
+    "text": "starts"
+   },
+   {
+    "t": 11899,
+    "text": "your"
+   },
+   {
+    "t": 12059,
+    "text": "patch."
+   }
+  ]
+ },
+ "s14-wear": {
+  "engine": "generative",
+  "durationMs": 16008,
+  "afinfoSeconds": 16.008,
+  "speechEndMs": 15890,
+  "tokens": [
+   {
+    "t": 50,
+    "text": "Wear"
+   },
+   {
+    "t": 252,
+    "text": "your"
+   },
+   {
+    "t": 341,
+    "text": "patch"
+   },
+   {
+    "t": 616,
+    "text": "for"
+   },
+   {
+    "t": 696,
+    "text": "12 hours."
+   },
+   {
+    "t": 2600,
+    "text": "To"
+   },
+   {
+    "t": 2867,
+    "text": "take"
+   },
+   {
+    "t": 3134,
+    "text": "it"
+   },
+   {
+    "t": 3362,
+    "text": "off,"
+   },
+   {
+    "t": 3735,
+    "text": "wet"
+   },
+   {
+    "t": 3935,
+    "text": "it"
+   },
+   {
+    "t": 4002,
+    "text": "with"
+   },
+   {
+    "t": 4216,
+    "text": "warm,"
+   },
+   {
+    "t": 4777,
+    "text": "soapy"
+   },
+   {
+    "t": 5151,
+    "text": "water"
+   },
+   {
+    "t": 5537,
+    "text": "and"
+   },
+   {
+    "t": 5751,
+    "text": "peel"
+   },
+   {
+    "t": 6032,
+    "text": "slowly."
+   },
+   {
+    "t": 7270,
+    "text": "Never"
+   },
+   {
+    "t": 7707,
+    "text": "pull"
+   },
+   {
+    "t": 7893,
+    "text": "it"
+   },
+   {
+    "t": 8003,
+    "text": "off"
+   },
+   {
+    "t": 8200,
+    "text": "dry."
+   },
+   {
+    "t": 9360,
+    "text": "Wait"
+   },
+   {
+    "t": 9714,
+    "text": "at"
+   },
+   {
+    "t": 9890,
+    "text": "least"
+   },
+   {
+    "t": 10149,
+    "text": "a"
+   },
+   {
+    "t": 10244,
+    "text": "day"
+   },
+   {
+    "t": 10492,
+    "text": "before"
+   },
+   {
+    "t": 10833,
+    "text": "using"
+   },
+   {
+    "t": 11128,
+    "text": "the"
+   },
+   {
+    "t": 11210,
+    "text": "same"
+   },
+   {
+    "t": 11506,
+    "text": "spot"
+   },
+   {
+    "t": 11836,
+    "text": "again."
+   },
+   {
+    "t": 13040,
+    "text": "One"
+   },
+   {
+    "t": 13446,
+    "text": "patch,"
+   },
+   {
+    "t": 14122,
+    "text": "once"
+   },
+   {
+    "t": 14392,
+    "text": "a"
+   },
+   {
+    "t": 14527,
+    "text": "week,"
+   },
+   {
+    "t": 15027,
+    "text": "for"
+   },
+   {
+    "t": 15243,
+    "text": "six"
+   },
+   {
+    "t": 15501,
+    "text": "weeks."
+   }
+  ]
+ },
+ "s15-good": {
+  "engine": "generative",
+  "durationMs": 10608,
+  "afinfoSeconds": 10.608,
+  "speechEndMs": 10500,
+  "tokens": [
+   {
+    "t": 90,
+    "text": "Store"
+   },
+   {
+    "t": 568,
+    "text": "your"
+   },
+   {
+    "t": 687,
+    "text": "kit"
+   },
+   {
+    "t": 1032,
+    "text": "somewhere"
+   },
+   {
+    "t": 1417,
+    "text": "cool"
+   },
+   {
+    "t": 1749,
+    "text": "and"
+   },
+   {
+    "t": 1948,
+    "text": "dry,"
+   },
+   {
+    "t": 2359,
+    "text": "below"
+   },
+   {
+    "t": 2878,
+    "text": "77°F."
+   },
+   {
+    "t": 4850,
+    "text": "If"
+   },
+   {
+    "t": 5085,
+    "text": "your"
+   },
+   {
+    "t": 5237,
+    "text": "skin"
+   },
+   {
+    "t": 5555,
+    "text": "stays"
+   },
+   {
+    "t": 5931,
+    "text": "irritated,"
+   },
+   {
+    "t": 6671,
+    "text": "or"
+   },
+   {
+    "t": 6848,
+    "text": "anything"
+   },
+   {
+    "t": 7165,
+    "text": "doesn't"
+   },
+   {
+    "t": 7471,
+    "text": "seem"
+   },
+   {
+    "t": 7789,
+    "text": "right,"
+   },
+   {
+    "t": 8410,
+    "text": "take"
+   },
+   {
+    "t": 8649,
+    "text": "the"
+   },
+   {
+    "t": 8798,
+    "text": "patch"
+   },
+   {
+    "t": 9290,
+    "text": "off"
+   },
+   {
+    "t": 9455,
+    "text": "and"
+   },
+   {
+    "t": 9678,
+    "text": "reach"
+   },
+   {
+    "t": 9977,
+    "text": "out"
+   },
+   {
+    "t": 10142,
+    "text": "to"
+   },
+   {
+    "t": 10365,
+    "text": "us."
+   }
+  ]
+ },
+ "s16-end": {
+  "engine": "generative",
+  "durationMs": 9048,
+  "afinfoSeconds": 9.048,
+  "speechEndMs": 8910,
+  "tokens": [
+   {
+    "t": 20,
+    "text": "Questions?"
+   },
+   {
+    "t": 1410,
+    "text": "We're"
+   },
+   {
+    "t": 1722,
+    "text": "here."
+   },
+   {
+    "t": 2840,
+    "text": "Email"
+   },
+   {
+    "t": 3357,
+    "text": "support@my4mlife.com."
+   },
+   {
+    "t": 6400,
+    "text": "Reordering"
+   },
+   {
+    "t": 7071,
+    "text": "is"
+   },
+   {
+    "t": 7188,
+    "text": "one"
+   },
+   {
+    "t": 7471,
+    "text": "click"
+   },
+   {
+    "t": 7694,
+    "text": "from"
+   },
+   {
+    "t": 7870,
+    "text": "the"
+   },
+   {
+    "t": 7976,
+    "text": "link"
+   },
+   {
+    "t": 8223,
+    "text": "in"
+   },
+   {
+    "t": 8364,
+    "text": "your"
+   },
+   {
+    "t": 8540,
+    "text": "email."
+   }
+  ]
+ },
+ "t1-title": {
+  "engine": "generative",
+  "durationMs": 2016,
+  "afinfoSeconds": 2.016,
+  "speechEndMs": 1900,
+  "tokens": [
+   {
+    "t": 90,
+    "text": "Your"
+   },
+   {
+    "t": 395,
+    "text": "Push"
+   },
+   {
+    "t": 640,
+    "text": "Patch"
+   },
+   {
+    "t": 1068,
+    "text": "in"
+   },
+   {
+    "t": 1215,
+    "text": "five"
+   },
+   {
+    "t": 1520,
+    "text": "steps."
+   }
+  ]
+ },
+ "t2-water": {
+  "engine": "generative",
+  "durationMs": 8208,
+  "afinfoSeconds": 8.208,
+  "speechEndMs": 8100,
+  "tokens": [
+   {
+    "t": 80,
+    "text": "One:"
+   },
+   {
+    "t": 860,
+    "text": "squeeze"
+   },
+   {
+    "t": 1302,
+    "text": "the"
+   },
+   {
+    "t": 1390,
+    "text": "water"
+   },
+   {
+    "t": 1756,
+    "text": "from"
+   },
+   {
+    "t": 1933,
+    "text": "the"
+   },
+   {
+    "t": 2085,
+    "text": "full"
+   },
+   {
+    "t": 2376,
+    "text": "line"
+   },
+   {
+    "t": 2640,
+    "text": "down"
+   },
+   {
+    "t": 2893,
+    "text": "to"
+   },
+   {
+    "t": 3007,
+    "text": "the"
+   },
+   {
+    "t": 3145,
+    "text": "2 mL"
+   },
+   {
+    "t": 3928,
+    "text": "line."
+   },
+   {
+    "t": 4950,
+    "text": "That's"
+   },
+   {
+    "t": 5390,
+    "text": "1.5 mL."
+   },
+   {
+    "t": 7380,
+    "text": "Mix"
+   },
+   {
+    "t": 7721,
+    "text": "gently."
+   }
+  ]
+ },
+ "t3-drip": {
+  "engine": "generative",
+  "durationMs": 3144,
+  "afinfoSeconds": 3.144,
+  "speechEndMs": 3000,
+  "tokens": [
+   {
+    "t": 70,
+    "text": "Two:"
+   },
+   {
+    "t": 770,
+    "text": "drip"
+   },
+   {
+    "t": 1116,
+    "text": "it"
+   },
+   {
+    "t": 1239,
+    "text": "slowly"
+   },
+   {
+    "t": 1684,
+    "text": "onto"
+   },
+   {
+    "t": 1943,
+    "text": "the"
+   },
+   {
+    "t": 2067,
+    "text": "center"
+   },
+   {
+    "t": 2437,
+    "text": "of"
+   },
+   {
+    "t": 2511,
+    "text": "the"
+   },
+   {
+    "t": 2646,
+    "text": "pad."
+   }
+  ]
+ },
+ "t4-skin": {
+  "engine": "generative",
+  "durationMs": 4440,
+  "afinfoSeconds": 4.44,
+  "speechEndMs": 4230,
+  "tokens": [
+   {
+    "t": 110,
+    "text": "Three:"
+   },
+   {
+    "t": 790,
+    "text": "clean"
+   },
+   {
+    "t": 1114,
+    "text": "the"
+   },
+   {
+    "t": 1268,
+    "text": "skin,"
+   },
+   {
+    "t": 1958,
+    "text": "roll"
+   },
+   {
+    "t": 2196,
+    "text": "gently,"
+   },
+   {
+    "t": 2858,
+    "text": "and"
+   },
+   {
+    "t": 3012,
+    "text": "wipe"
+   },
+   {
+    "t": 3308,
+    "text": "with"
+   },
+   {
+    "t": 3504,
+    "text": "the"
+   },
+   {
+    "t": 3602,
+    "text": "skin"
+   },
+   {
+    "t": 4011,
+    "text": "prep."
+   }
+  ]
+ },
+ "t5-seal": {
+  "engine": "generative",
+  "durationMs": 4056,
+  "afinfoSeconds": 4.056,
+  "speechEndMs": 3870,
+  "tokens": [
+   {
+    "t": 130,
+    "text": "Four:"
+   },
+   {
+    "t": 810,
+    "text": "apply,"
+   },
+   {
+    "t": 1794,
+    "text": "seal"
+   },
+   {
+    "t": 2143,
+    "text": "every"
+   },
+   {
+    "t": 2628,
+    "text": "edge,"
+   },
+   {
+    "t": 3097,
+    "text": "pull"
+   },
+   {
+    "t": 3339,
+    "text": "the"
+   },
+   {
+    "t": 3476,
+    "text": "tab."
+   }
+  ]
+ },
+ "t6-end": {
+  "engine": "generative",
+  "durationMs": 6576,
+  "afinfoSeconds": 6.576,
+  "speechEndMs": 6470,
+  "tokens": [
+   {
+    "t": 170,
+    "text": "Five:"
+   },
+   {
+    "t": 880,
+    "text": "wear"
+   },
+   {
+    "t": 1151,
+    "text": "it"
+   },
+   {
+    "t": 1218,
+    "text": "12 hours."
+   },
+   {
+    "t": 2800,
+    "text": "Questions?"
+   },
+   {
+    "t": 4090,
+    "text": "support@my4mlife.com."
+   }
+  ]
+ }
+}
