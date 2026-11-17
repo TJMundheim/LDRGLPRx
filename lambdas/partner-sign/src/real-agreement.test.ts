@@ -30,11 +30,11 @@ describe('real agreement PA-2026-11', () => {
     expect(render(P(d, c.slice(1)))).toBe(migrate(fx(`pa-2026-10-discount${d}.txt`)));
   });
   it('renders the no-discount partner with full price, no $0, and the metadata link', () => {
-    const t = render(P('0', '200', { code: 'CPT', business: 'Colleyville Physical Therapy', link: 'https://www.my4mlife.com/cpt' }));
+    const t = render(P('0', '200', { code: 'HERITAGE', business: 'Heritage Personal Training', link: 'https://www.my4mlife.com/heritage' }));
     expect(t).toContain('None. Your clients pay full price.');
     expect(t).toContain('There is no client discount or code to enter.');
     expect(t).toContain('Wherever this Agreement says "link or code," it means your link');
-    expect(t).toContain('https://www.my4mlife.com/cpt');
+    expect(t).toContain('https://www.my4mlife.com/heritage');
     expect(t).toContain('$200');
     expect(t).not.toContain('$0');
     expect(t).not.toContain('applied automatically');

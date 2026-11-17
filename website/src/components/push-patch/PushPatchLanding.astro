@@ -50,7 +50,7 @@ const COMPARE = [
 
 // "Prescribed version" top-of-page (SHOW_PP_V2, src/lib/siteMode.ts). Draft awaiting TJ approval.
 // Care coordinator intake. consult.astro does not record src itself; the param keeps the source visible in the URL/analytics.
-const PP_COORD_SRC = partner ? 'cpt' : 'push-patch';
+const PP_COORD_SRC = partner ? 'heritage' : 'push-patch';
 const PP_COORD_HREF = `/consult?src=${PP_COORD_SRC}`;
 const PP_COORD_LABEL = 'Have more questions? Schedule a care coordinator call';
 
@@ -148,17 +148,16 @@ const SCREEN_CLIENT = {
           )}
         </div>
         <div class="pp-partner-body">
-          {/* TODO: Colleyville PT logo when TJ sends it */}
-          {partner.logo && <img class="pp-partner-logo" src={partner.logo} alt={`${partner.name} logo`} />}
+          {partner.logo && <img class="pp-partner-logo" src={partner.logo} alt={partner.name} />}
           <p class="pp-partner-eyebrow">Reserved for clients of {partner.name}</p>
           <h2 class="pp-partner-h">A personal recommendation from {partner.ownerName}</h2>
-          {/* DRAFT — Rochelle to approve this note before /cpt goes public. */}
+          {/* DRAFT — Rachelle to approve this note before /heritage goes public. */}
           <blockquote class="pp-partner-note">
-            <p>For 25 years I've helped people in Colleyville train, recover and stay active. When clients ask what else they can do, I point them here: a prescription option reviewed by a licensed physician and shipped to your door. You'll answer a few health questions, a physician reviews your order, and nothing ships unless it's approved.</p>
+            <p>For more than 30 years I've helped people in Colleyville train, recover and stay active. When clients ask what else they can do, I point them here: a prescription option reviewed by a licensed physician and shipped to your door. You'll answer a few health questions, a physician reviews your order, and nothing ships unless it's approved.</p>
           </blockquote>
           <p class="pp-partner-sign">{partner.ownerName}</p>
           <p class="pp-partner-role">{partner.ownerTitle}{partner.ownerTitle && partner.location ? ' · ' : ''}{partner.location}</p>
-          <p class="pp-partner-mark">{partner.name} <span aria-hidden="true">×</span> My4MLife · Glade Road</p>
+          <p class="pp-partner-mark">{partner.name} <span aria-hidden="true">×</span> My4MLife</p>
         </div>
       </div>
       <div class="pp-wrap">
@@ -858,7 +857,7 @@ const SCREEN_CLIENT = {
   .pp-portrait { width: 180px; height: 220px; object-fit: cover; border-radius: 90px 90px 14px 14px; border: 2px solid var(--champ); box-shadow: 0 18px 40px rgba(0,0,0,.45); }
   .pp-monogram { width: 180px; height: 180px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--champ); background: radial-gradient(circle at 30% 25%, #1f2f50, #101a30); box-shadow: 0 0 0 8px rgba(217,191,140,.12), 0 18px 40px rgba(0,0,0,.45); }
   .pp-monogram span { font-family: 'Playfair Display', Georgia, serif; font-size: 5.5rem; font-weight: 600; line-height: 1; color: var(--champ); }
-  .pp-partner-logo { max-height: 44px; width: auto; margin: 0 auto 1rem; }
+  .pp-partner-logo { width: 180px; max-width: 70%; height: auto; margin: 0 auto 1rem; }
   .pp-partner-eyebrow { margin: 0 0 .6rem; font-size: .72rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--champ); }
   .pp-partner-h { margin: 0 0 1.1rem; font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(1.7rem, 6vw, 2.5rem); line-height: 1.15; letter-spacing: 0; color: #ffffff; text-wrap: balance; }
   .pp-partner-note { position: relative; margin: 0 0 1rem; padding: 2.4rem 0 0; max-width: 40rem; }

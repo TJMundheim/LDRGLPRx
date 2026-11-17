@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 
 // Runs against the built output when present (pnpm build), else skipped.
-const pages = ['../dist/go/push-patch/index.html', '../dist/cpt/index.html'];
+const pages = ['../dist/go/push-patch/index.html', '../dist/heritage/index.html'];
 describe.each(pages)('%s', (p) => {
   const url = new URL(p, import.meta.url);
   it.skipIf(!existsSync(url))('has coordinator CTA and no SMS', () => {

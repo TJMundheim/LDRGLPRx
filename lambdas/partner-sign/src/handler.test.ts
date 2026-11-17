@@ -92,14 +92,14 @@ describe('GET', () => {
   });
 });
 
-describe('no-discount partner (CPT)', () => {
-  const CPT = { partner: 'true', business: 'Colleyville Physical Therapy', email: EMAIL, clientDiscount: '0', commission: '200', link: 'https://www.my4mlife.com/cpt' };
+describe('no-discount partner (HERITAGE)', () => {
+  const HERITAGE = { partner: 'true', business: 'Heritage Personal Training', email: EMAIL, clientDiscount: '0', commission: '200', link: 'https://www.my4mlife.com/heritage' };
   it('says full price, never $0, and shows the metadata link', async () => {
-    promoList.mockResolvedValue({ data: [{ code: 'CPT', metadata: CPT }] });
-    const r = await handler(ev('GET', { t: makeToken('test-secret', 'CPT', EMAIL, sec + 3600) }));
+    promoList.mockResolvedValue({ data: [{ code: 'HERITAGE', metadata: HERITAGE }] });
+    const r = await handler(ev('GET', { t: makeToken('test-secret', 'HERITAGE', EMAIL, sec + 3600) }));
     expect(r.body).toContain('full price');
     expect(r.body).not.toContain('$0');
-    expect(r.body).toContain('https://www.my4mlife.com/cpt');
+    expect(r.body).toContain('https://www.my4mlife.com/heritage');
     expect(r.body).toContain('$200');
   });
   it('defaults the link for discount partners', async () => {

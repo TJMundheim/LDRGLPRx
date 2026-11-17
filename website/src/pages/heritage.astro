@@ -1,0 +1,21 @@
+---
+// Heritage Personal Training co-branded Push Patch page. Unlinked; noindex until TJ approves (HERITAGE_APPROVED in siteMode).
+// Plan: docs/plan/cpt-partner-page-2026-11-15.md
+import PushPatchLanding from '../components/push-patch/PushPatchLanding.astro';
+import { SHOW_HERITAGE } from '../lib/siteMode';
+---
+<PushPatchLanding
+  canonical="https://www.my4mlife.com/heritage"
+  robots={SHOW_HERITAGE ? 'index,follow' : 'noindex,follow'}
+  partner={{
+    ref: 'HERITAGE',
+    name: 'Heritage Personal Training',
+    ownerName: 'Rachelle',
+    // TODO: Rachelle's title (TJ asking her)
+    ownerTitle: undefined,
+    photo: '/images/partners/heritage/rachelle.jpg',
+    // TODO: Heritage Personal Training logo (TJ/Rachelle to send)
+    logo: undefined,
+    location: '707 Glade Rd, Colleyville, Texas',
+  }}
+/>

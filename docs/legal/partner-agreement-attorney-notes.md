@@ -20,7 +20,7 @@ Please confirm or advise on:
 
 ## Variant added in PA-2026-11: no-discount, flat $200 partner
 
-The first official partner under this variant is Colleyville Physical Therapy (a physical therapy clinic with a personal-training practice; high-end clientele). Clients pay full price: there is no client discount and no code to enter. The clinic earns a flat $200 per approved, paid order, and is paid as an independent contractor on Form 1099-NEC. The agreement text is otherwise identical to the discount version; only Section 2 (client offer, link and offer note) changes. Please consider:
+The first official partner under this variant is Heritage Personal Training (Colleyville, Texas; high-end clientele). Clients pay full price: there is no client discount and no code to enter. The clinic earns a flat $200 per approved, paid order, and is paid as an independent contractor on Form 1099-NEC. The agreement text is otherwise identical to the discount version; only Section 2 (client offer, link and offer note) changes. Please consider:
 
 - **Patient solicitation, fee-splitting and licensure.** A clinic with licensed staff (physical therapists, trainers) earning a flat fee per physician-approved prescription order raises the same Texas solicitation and fee-splitting questions as above, and possibly the licensing boards' own referral-fee rules (e.g. physical therapy). With no client discount the fee is the only remuneration, so please say whether a flat $200 per approved order is safer or riskier than a percentage or a per-lead fee.
 - **Refills.** The $200 is also earned on the same client's refills while the agreement is active (current text kept as the default; open for TJ). The refill-attribution question above applies with more force at $200.

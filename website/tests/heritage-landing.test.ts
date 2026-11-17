@@ -2,33 +2,36 @@ import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 
 const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
-const page = read('../src/pages/cpt.astro');
+const page = read('../src/pages/heritage.astro');
 const comp = read('../src/components/push-patch/PushPatchLanding.astro');
 const wrapper = read('../src/pages/go/push-patch.astro');
 const mode = read('../src/lib/siteMode.ts');
 const config = read('../astro.config.mjs');
 
-describe('/cpt page', () => {
-  it('renders PushPatchLanding with the CPT partner', () => {
+describe('/heritage page', () => {
+  it('renders PushPatchLanding with the Heritage partner', () => {
     expect(page).toContain('PushPatchLanding');
-    expect(page).toMatch(/ref:\s*'CPT'/);
-    expect(page).toContain("name: 'Colleyville Physical Therapy'");
-    expect(page).toContain('https://www.my4mlife.com/cpt');
+    expect(page).toMatch(/ref:\s*'HERITAGE'/);
+    expect(page).toContain("name: 'Heritage Personal Training'");
+    expect(page).toContain('https://www.my4mlife.com/heritage');
   });
-  it('personalizes the partner with owner details (photo/logo pending)', () => {
-    expect(page).toContain("ownerName: 'Rochelle'");
-    expect(page).toContain("ownerTitle: 'Owner · Head Personal Trainer, 25 years'");
-    expect(page).toContain("location: 'Colleyville, Texas'");
-    expect(page).toContain('website/public/images/partners/cpt/rochelle.jpg');
-    expect(page).not.toMatch(/^\s*photo:\s*'/m);
+  it('personalizes the partner with owner details, photo (logo pending)', () => {
+    expect(page).toContain("ownerName: 'Rachelle'");
+    expect(page).toContain('TODO: Rachelle');
+    expect(page).toContain('ownerTitle: undefined');
+    expect(page).not.toMatch(/head personal trainer|25 years/i);
+    expect(page).toContain("location: '707 Glade Rd, Colleyville, Texas'");
+    expect(page).toContain("photo: '/images/partners/heritage/rachelle.jpg'");
+    expect(page).toContain('logo: undefined');
+    expect(page).toContain('TODO: Heritage Personal Training logo');
   });
-  it('is noindex while not approved, gated by SHOW_CPT', () => {
-    expect(mode).toMatch(/const CPT_APPROVED = false/);
-    expect(mode).toContain('export const SHOW_CPT = CPT_APPROVED ||');
-    expect(mode).toContain("PUBLIC_SHOW_CPT === '1'");
-    expect(page).toContain('SHOW_CPT');
+  it('is noindex while not approved, gated by SHOW_HERITAGE', () => {
+    expect(mode).toMatch(/const HERITAGE_APPROVED = false/);
+    expect(mode).toContain('export const SHOW_HERITAGE = HERITAGE_APPROVED ||');
+    expect(mode).toContain("PUBLIC_SHOW_HERITAGE === '1'");
+    expect(page).toContain('SHOW_HERITAGE');
     expect(page).toContain('noindex');
-    expect(config).toContain('SHOW_CPT');
+    expect(config).toContain('SHOW_HERITAGE');
   });
   it('go/push-patch is a thin wrapper', () => {
     expect(wrapper).toContain('PushPatchLanding');
@@ -42,12 +45,11 @@ describe('PushPatchLanding partner mode', () => {
     expect(comp).toMatch(/define:vars=\{\{[^}]*partnerRef/);
     expect(comp).toContain('90 * 864e5');
   });
-  it('has the partner band with name and Rochelle', () => {
+  it('has the partner band with name and Rachelle', () => {
     expect(comp).toContain('{partner.name} <span aria-hidden="true">×</span> My4MLife');
-    expect(comp).toContain('Glade Road');
+    expect(comp).not.toContain('Glade Road');
     expect(comp).toContain('identity and your dignity while you still have a choice.');
-    expect(comp).toContain('DRAFT — Rochelle to approve');
-    expect(comp).toContain('TODO: Colleyville PT logo when TJ sends it');
+    expect(comp).toContain('DRAFT — Rachelle to approve');
   });
   it('renders the editorial personal-recommendation hero', () => {
     expect(comp).toContain('Reserved for clients of {partner.name}');
@@ -75,7 +77,7 @@ describe('PushPatchLanding partner mode', () => {
   it('uses the care coordinator CTA (no SMS) for both partner and non-partner', () => {
     expect(comp).toContain('Have more questions? Schedule a care coordinator call');
     expect(comp).toContain('/consult?src=${PP_COORD_SRC}');
-    expect(comp).toContain("partner ? 'cpt' : 'push-patch'");
+    expect(comp).toContain("partner ? 'heritage' : 'push-patch'");
     expect(comp).toContain('pp_coordinator_click');
     expect(comp).not.toMatch(/Text Dr\. TJ|PP_SMS|sms:/);
     expect(comp).not.toContain('PromoBanner');

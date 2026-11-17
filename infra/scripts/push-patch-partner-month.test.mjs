@@ -152,19 +152,19 @@ test('payouts --pay skips a month already transferred', async () => {
 });
 
 // --- no-discount (metadata-attributed) partner ---
-const cptP = { id: 'promo_cpt', code: 'CPT', metadata: { partner: 'true', business: 'Colleyville PT', email: 'p@cpt.test', commission: '200', clientDiscount: '0' } };
+const heritageP = { id: 'promo_heritage', code: 'HERITAGE', metadata: { partner: 'true', business: 'Heritage Personal Training', email: 'p@heritage.test', commission: '200', clientDiscount: '0' } };
 const metaS = (id, ref, extra = {}) => sess(id, Date.parse('2026-10-05T15:00:00Z') / 1000, 'push-patch-enhanced-glow', { discounts: [], metadata: { skuIds: 'push-patch-enhanced-glow', partnerRef: ref }, ...extra });
 
 test('monthRows: no-discount partner credited by metadata.partnerRef at $200; others and discount partners not', () => {
-  const rows = monthRows(cptP, [metaS('cs_aaaaaa', 'CPT'), metaS('cs_bbbbbb', 'OTHER'), metaS('cs_cccccc', 'CPT', { payment_status: 'unpaid' })], NAMES);
+  const rows = monthRows(heritageP, [metaS('cs_aaaaaa', 'HERITAGE'), metaS('cs_bbbbbb', 'OTHER'), metaS('cs_cccccc', 'HERITAGE', { payment_status: 'unpaid' })], NAMES);
   assert.deepEqual(rows.map((r) => [r.orderRef, r.cents]), [['aaaaaa', 20000]]);
   assert.deepEqual(monthRows(partner, [metaS('cs_dddddd', 'GLOWSPA')], NAMES), []);
 });
 
-test('payouts --pay: CPT transfer total from metadata sessions', async () => {
+test('payouts --pay: HERITAGE transfer total from metadata sessions', async () => {
   const s = fake({
-    promotionCodes: { list: () => list([{ ...cptP, metadata: { ...cptP.metadata, connectAccountId: 'acct_c' } }]) },
-    checkout: { sessions: { list: () => list([metaS('cs_aaaaaa', 'CPT'), metaS('cs_bbbbbb', 'CPT')]) } },
+    promotionCodes: { list: () => list([{ ...heritageP, metadata: { ...heritageP.metadata, connectAccountId: 'acct_c' } }]) },
+    checkout: { sessions: { list: () => list([metaS('cs_aaaaaa', 'HERITAGE'), metaS('cs_bbbbbb', 'HERITAGE')]) } },
   });
   await runPay(ctx(s, true, { '--month': '2026-10' }));
   assert.equal(s.calls[0][1].amount, 40000);

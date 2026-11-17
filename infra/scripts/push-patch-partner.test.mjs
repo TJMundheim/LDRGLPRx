@@ -41,15 +41,15 @@ test('coupon definitions and arg parsing', () => {
   assert.equal(parseRef('x y'), undefined);
 });
 
-const cpt = { id: 'promo_cpt', code: 'CPT', metadata: { partner: 'true', business: 'Colleyville Physical Therapy', commission: '200', clientDiscount: '0' } };
+const heritage = { id: 'promo_heritage', code: 'HERITAGE', metadata: { partner: 'true', business: 'Heritage Personal Training', commission: '200', clientDiscount: '0' } };
 const metaSess = (ref, extra = {}) => ({
   status: 'complete', payment_status: 'paid', amount_total: 25000, discounts: [], metadata: { partnerRef: ref },
   payment_intent: { latest_charge: { amount_refunded: 0 } }, ...extra,
 });
 
 test('no-discount partner: metadata-only sessions count at $200 each', () => {
-  const rows = summarizePayouts([cpt], [metaSess('CPT'), metaSess('CPT'), metaSess('OTHER')]);
-  assert.deepEqual(rows[0], { business: 'Colleyville Physical Therapy', code: 'CPT', orders: 2, gross: 50000, commission: 40000 });
+  const rows = summarizePayouts([heritage], [metaSess('HERITAGE'), metaSess('HERITAGE'), metaSess('OTHER')]);
+  assert.deepEqual(rows[0], { business: 'Heritage Personal Training', code: 'HERITAGE', orders: 2, gross: 50000, commission: 40000 });
 });
 
 test('a discount partner is NOT credited by metadata alone', () => {
@@ -58,9 +58,9 @@ test('a discount partner is NOT credited by metadata alone', () => {
 });
 
 test('no-discount partner: refunded sessions excluded; no double count with discount match', () => {
-  const rows = summarizePayouts([cpt], [
-    metaSess('CPT', { payment_intent: { latest_charge: { refunded: true, amount_refunded: 25000 } } }),
-    metaSess('CPT', { discounts: [{ promotion_code: 'promo_cpt' }] }),
+  const rows = summarizePayouts([heritage], [
+    metaSess('HERITAGE', { payment_intent: { latest_charge: { refunded: true, amount_refunded: 25000 } } }),
+    metaSess('HERITAGE', { discounts: [{ promotion_code: 'promo_heritage' }] }),
   ]);
   assert.equal(rows[0].orders, 1);
 });
@@ -73,14 +73,14 @@ test('partnerCodeParams: 50/100 params unchanged (no new keys)', () => {
 });
 
 test('partnerCodeParams: 0 discount is unredeemable, carries link, requires commission', () => {
-  const p = partnerCodeParams({ code: 'CPT', business: 'CPT Biz', email: 'a@b.c', clientDiscount: '0', commission: '200', couponId: 'co_50', link: 'https://www.my4mlife.com/cpt' });
+  const p = partnerCodeParams({ code: 'HERITAGE', business: 'HERITAGE Biz', email: 'a@b.c', clientDiscount: '0', commission: '200', couponId: 'co_50', link: 'https://www.my4mlife.com/heritage' });
   assert.deepEqual(p, {
-    coupon: 'co_50', code: 'CPT', restrictions: { minimum_amount: 99999999, minimum_amount_currency: 'usd' },
-    metadata: { partner: 'true', business: 'CPT Biz', email: 'a@b.c', commission: '200', clientDiscount: '0', link: 'https://www.my4mlife.com/cpt' },
+    coupon: 'co_50', code: 'HERITAGE', restrictions: { minimum_amount: 99999999, minimum_amount_currency: 'usd' },
+    metadata: { partner: 'true', business: 'HERITAGE Biz', email: 'a@b.c', commission: '200', clientDiscount: '0', link: 'https://www.my4mlife.com/heritage' },
   });
-  assert.equal(partnerCodeParams({ code: 'CPT', business: 'B', email: 'e', clientDiscount: '0', commission: '200', couponId: 'c' }).metadata.link, 'https://www.my4mlife.com/go/push-patch?ref=CPT');
-  assert.throws(() => partnerCodeParams({ code: 'CPT', business: 'B', email: 'e', clientDiscount: '0', couponId: 'c' }), /--commission/);
-  assert.throws(() => partnerCodeParams({ code: 'CPT', business: 'B', email: 'e', clientDiscount: '0', commission: '0', couponId: 'c' }), /--commission/);
-  assert.throws(() => partnerCodeParams({ code: 'CPT', business: 'B', email: 'e', clientDiscount: '0', commission: '2.5', couponId: 'c' }), /--commission/);
+  assert.equal(partnerCodeParams({ code: 'HERITAGE', business: 'B', email: 'e', clientDiscount: '0', commission: '200', couponId: 'c' }).metadata.link, 'https://www.my4mlife.com/go/push-patch?ref=HERITAGE');
+  assert.throws(() => partnerCodeParams({ code: 'HERITAGE', business: 'B', email: 'e', clientDiscount: '0', couponId: 'c' }), /--commission/);
+  assert.throws(() => partnerCodeParams({ code: 'HERITAGE', business: 'B', email: 'e', clientDiscount: '0', commission: '0', couponId: 'c' }), /--commission/);
+  assert.throws(() => partnerCodeParams({ code: 'HERITAGE', business: 'B', email: 'e', clientDiscount: '0', commission: '2.5', couponId: 'c' }), /--commission/);
   assert.throws(() => partnerCodeParams({ code: 'X', business: 'B', email: 'e', clientDiscount: '25', couponId: 'c' }), /client-discount/);
 });

@@ -58,8 +58,8 @@ export const SHOW_PP_V2 = PP_V2_APPROVED || import.meta.env.PUBLIC_PP_V2 === '1'
 const PULLUP_APPROVED = true;
 export const SHOW_PULLUP = PULLUP_APPROVED || import.meta.env.PUBLIC_SHOW_PULLUP === '1';
 
-// Colleyville Physical Therapy partner page (/cpt). Unlinked and noindex until TJ approves
-// (and Rochelle approves her note). While false it is excluded from the sitemap but still
-// reachable at /cpt for preview. To go live set CPT_APPROVED = true; to preview indexing: PUBLIC_SHOW_CPT=1.
-const CPT_APPROVED = false;
-export const SHOW_CPT = CPT_APPROVED || import.meta.env.PUBLIC_SHOW_CPT === '1';
+// Heritage Personal Training partner page (/heritage). Unlinked and noindex until TJ approves
+// (and Rachelle approves her note). While false it is excluded from the sitemap but still
+// reachable at /heritage for preview. To go live set HERITAGE_APPROVED = true; to preview indexing: PUBLIC_SHOW_HERITAGE=1.
+const HERITAGE_APPROVED = false;
+export const SHOW_HERITAGE = HERITAGE_APPROVED || import.meta.env.PUBLIC_SHOW_HERITAGE === '1';

@@ -131,7 +131,7 @@ describe('setRefillShipTo', () => {
 
 describe('partnerRefFromSession', () => {
   it('prefers metadata.partnerRef', async () => expect(await partnerRefFromSession({ metadata: { partnerRef: 'AB' }, discounts: [{ promotion_code: { code: 'Z', metadata: { partner: 'true' } } }] } as any)).toBe('AB'));
-  it('falls back to an expanded partner promo code (uppercased)', async () => expect(await partnerRefFromSession({ metadata: {}, discounts: [{ promotion_code: 'promo_1' }, { promotion_code: { code: 'cpt', metadata: { partner: 'true' } } }] } as any)).toBe('CPT'));
+  it('falls back to an expanded partner promo code (uppercased)', async () => expect(await partnerRefFromSession({ metadata: {}, discounts: [{ promotion_code: 'promo_1' }, { promotion_code: { code: 'heritage', metadata: { partner: 'true' } } }] } as any)).toBe('HERITAGE'));
   it('looks up a promo id via stripe when given', async () => {
     const retrieve = vi.fn().mockResolvedValue({ code: 'ACME', metadata: { partner: 'true' } });
     expect(await partnerRefFromSession({ discounts: [{ promotion_code: 'promo_1' }] }, { promotionCodes: { retrieve } })).toBe('ACME');

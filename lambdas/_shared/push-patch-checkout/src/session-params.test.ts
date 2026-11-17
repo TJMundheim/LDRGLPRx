@@ -110,17 +110,17 @@ describe('buildPushPatchSessionParams', () => {
   });
 
   it('a no-discount partner (partnerRef, no promotionCodeId) gets no discounts and no code box, even with STRIPE_PROMO_CODES on', () => {
-    const input = { ...base, partnerRef: 'CPT' };
+    const input = { ...base, partnerRef: 'HERITAGE' };
     const off = buildPushPatchSessionParams(input)!;
     expect(off).not.toHaveProperty('discounts');
     expect(off).not.toHaveProperty('allow_promotion_codes');
-    expect(off.metadata.partnerRef).toBe('CPT');
+    expect(off.metadata.partnerRef).toBe('HERITAGE');
     process.env['STRIPE_PROMO_CODES'] = 'on';
     try {
       const on = buildPushPatchSessionParams(input)!;
       expect(on).not.toHaveProperty('discounts');
       expect(on).not.toHaveProperty('allow_promotion_codes');
-      expect(on.metadata.partnerRef).toBe('CPT');
+      expect(on.metadata.partnerRef).toBe('HERITAGE');
     } finally {
       delete process.env['STRIPE_PROMO_CODES'];
     }
