@@ -16,7 +16,7 @@
 ## 2026-11-18 — DEPLOYED (TJ "deploy both when ready"): Rx manual refill lane + intake; HERITAGE live
 - Commit 614028de. Deployed: order-handler, stripe-events-retry, push-patch-reminder, website (/reorder accepts UUID encounters), push-patch-refill, push-patch-intake (no-discount partner support). No Lambda errors after deploy.
 - Live Gut-Brain Rx prices: product prod_VeW3RaEzSLvMps; once price_1UdD1bBSbDAyoIVyQG58eQC0; 30-day price_1UdD1bBSbDAyoIVySFb1bLbR ($125).
-- HERITAGE reactivated (promo_1UdCgVBSbDAyoIVy1TXeZd7I). The checkout lookup returns attribution only, with no discount.
+- HERITAGE reactivated (promo_1UdCgVBSbDAyoIVy1TXeZd7I). REVIEW200 created for TJ's consultant: one use, $200 off, expires 12-31. The checkout lookup returns attribution only, with no discount.
 - Bryan: Gut-Brain Rx refills granted (2, manual fulfillment, 30 days, authorizedBy "Pharmacy refills on file (TJ 2026-11-18)") on his care-coordinator encounter. Link checked by GET: Gut-Brain Rx · $125 every 30 days, auto-ship pre-selected, address required (none on file). SENT 2026-11-18 19:24Z on TJ's "send" (to Bryan, cc drtj@; link expires 2026-12-02). Each paid refill emails TJ "[ACTION NEEDED] Place pharmacy order".
 - Reviewer flags for TJ: the consent card labels the leaky-gut lane "Biome NS Rx" to patients (consent-request/consent-sign lanes.ts), which conflicts with the "Gut-Brain Rx" name.
 
