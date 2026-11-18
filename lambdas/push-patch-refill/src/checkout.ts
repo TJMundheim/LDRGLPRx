@@ -1,32 +1,38 @@
 import { getStripeClient } from '@my4mlife/stripe-client';
-import { pushPatchEntry, refillPriceId } from '@my4mlife/push-patch-checkout';
+import { pushPatchEntry, refillPriceId, rxRefillPriceId } from '@my4mlife/push-patch-checkout';
 
 export type Mode = 'auto' | 'one';
 export const stripeMode = (): 'test' | 'live' => (process.env.STRIPE_MODE === 'live' ? 'live' : 'test');
 const base = () => process.env.REFILL_BASE_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com/api/push-patch-refill';
-const priceFor = (sku: string, mode: Mode): string | undefined =>
-  mode === 'auto' ? refillPriceId(sku, stripeMode()) : pushPatchEntry(sku, stripeMode())?.priceId;
+const priceFor = (sku: string, mode: Mode, product?: string): string | undefined =>
+  product ? rxRefillPriceId(product, mode === 'auto' ? 'recurring' : 'once', stripeMode())
+    : mode === 'auto' ? refillPriceId(sku, stripeMode()) : pushPatchEntry(sku, stripeMode())?.priceId;
 
-export interface Input { contactId: string; encounterId: string; sku: string; email: string; partnerRef?: string; mode: Mode }
+/** True when a Stripe price is configured for this sku/product + mode in the current STRIPE_MODE. */
+export const hasPrice = (sku: string, mode: Mode, product?: string): boolean => !!priceFor(sku, mode, product);
+
+// product = manual-pharmacy Rx catalog id (e.g. gut-brain-rx); absent = Push Patch.
+export interface Input { contactId: string; encounterId: string; sku: string; email: string; partnerRef?: string; mode: Mode; product?: string }
 
 /** Stripe Checkout params. Ship-to comes from the parent encounter, so no address collection. Null if the price is not configured. */
 export function buildParams(i: Input): Record<string, unknown> | null {
-  const price = priceFor(i.sku, i.mode);
+  const price = priceFor(i.sku, i.mode, i.product);
   if (!price) return null;
   const metadata = { kind: 'push-patch-refill', contactId: i.contactId, encounterId: i.encounterId, skuIds: i.sku,
-    ...(i.partnerRef ? { partnerRef: i.partnerRef } : {}), changeAnswer: 'no', mode: i.mode };
+    ...(i.partnerRef ? { partnerRef: i.partnerRef } : {}), changeAnswer: 'no', mode: i.mode,
+    ...(i.product ? { fulfillment: 'manual', product: i.product } : {}) };
   return {
     mode: i.mode === 'auto' ? 'subscription' : 'payment',
     line_items: [{ price, quantity: 1 }],
     customer_email: i.email, metadata,
-    success_url: `${base()}?done=1`, cancel_url: `${base()}?done=0`,
+    success_url: `${base()}?done=1${i.product ? '&rx=1' : ''}`, cancel_url: `${base()}?done=0`,
     ...(i.mode === 'auto' ? { subscription_data: { metadata } } : { customer_creation: 'always', payment_intent_data: { receipt_email: i.email } }),
   };
 }
 
 /** Per-box price label like "$650", from the Stripe price amount. Undefined on any failure. */
-export async function priceLabel(sku: string, mode: Mode): Promise<string | undefined> {
-  const id = priceFor(sku, mode);
+export async function priceLabel(sku: string, mode: Mode, product?: string): Promise<string | undefined> {
+  const id = priceFor(sku, mode, product);
   if (!id) return undefined;
   try {
     const cents = (await (await getStripeClient()).prices.retrieve(id)).unit_amount;

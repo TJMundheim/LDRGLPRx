@@ -1,0 +1,14 @@
+{
+  "test": {
+    "gut-brain-rx": {
+      "once": "price_1UdCpvBSbDAyoIVymmSbo4kO",
+      "recurring": "price_1UdCpwBSbDAyoIVyOHXVDuWN"
+    }
+  },
+  "live": {
+    "gut-brain-rx": {
+      "once": "price_1UdD1bBSbDAyoIVyQG58eQC0",
+      "recurring": "price_1UdD1bBSbDAyoIVySFb1bLbR"
+    }
+  }
+}

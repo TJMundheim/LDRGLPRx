@@ -112,3 +112,54 @@ describe('sweepRefillReminders', () => {
     expect(logged).not.toContain('sam.private');
   });
 });
+
+
+describe('manual Rx product (Gut-Brain Rx, 30-day interval)', () => {
+  const rx = (auth: Record<string, unknown> = {}, over: Record<string, unknown> = {}) => row({ sku: 'gut-brain-rx', product: 'gut-brain-rx', fulfillment: 'manual', intervalDays: 30, refillsAuthorized: 2, refillsUsed: 1, lastShippedAt: ago(23), ...auth },
+    { sk: 'encounter#c3f30914-0247-4e43-a9ae-32dab894fb44', sku: 'gut-brain-rx', ...over });
+
+  it('scan covers any encounter# parent (not only pp-), still filtered on refillDueAt', async () => {
+    route([]);
+    await run();
+    const s = ddbSend.mock.calls[0][0].input;
+    expect(s.ExpressionAttributeValues[':p']).toBe('encounter#');
+    expect(s.FilterExpression).toContain('refillDueAt <= :now');
+  });
+
+  it('reminder 1 at interval-7 (23 days): Gut-Brain Rx copy, next due at +30 days', async () => {
+    route([rx()]);
+    expect(await run()).toMatchObject({ sent: 1 });
+    const m = mails()[0];
+    expect(m.subject).toBe('Time to reorder your Gut-Brain Rx');
+    expect(m.text).toContain('Gut-Brain Rx');
+    expect(m.text).not.toMatch(/Push Patch|bpc|glutamine|aloe/i);
+    expect(new URL(/https:\/\/www\.my4mlife\.com\/reorder\?\S+/.exec(m.text)![0]).searchParams.get('e')).toBe('c3f30914-0247-4e43-a9ae-32dab894fb44');
+    expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':next': 1, ':nd': new Date(Date.parse(ago(23)) + 30 * DAY).toISOString() });
+  });
+
+  it('not yet due (22 days after shipping): stale marker is skipped, nothing sent', async () => {
+    route([rx({ lastShippedAt: ago(22) })]);
+    expect(await run()).toMatchObject({ sent: 0, skipped: 1 });
+    expect(lambdaSend).not.toHaveBeenCalled();
+  });
+
+  it('reminder 2 at 30 days, then the schedule is removed', async () => {
+    route([rx({ remindersSent: 1, lastShippedAt: ago(30) })]);
+    await run();
+    expect(mails()[0].subject).toBe('Reminder: reorder your Gut-Brain Rx');
+    expect(updates()[0].UpdateExpression).toMatch(/REMOVE refillDueAt/);
+  });
+
+  it('a Push Patch row 23 days after shipping is still skipped (its interval stays 42)', async () => {
+    route([row({ lastShippedAt: ago(23) })]);
+    expect(await run()).toMatchObject({ sent: 0, skipped: 1 });
+  });
+
+  it('refills used up: Gut-Brain Rx check-in email, no push-patch link', async () => {
+    route([rx({ refillsUsed: 2, status: 'exhausted' })]);
+    expect(await run()).toMatchObject({ reReview: 1 });
+    const m = mails()[0];
+    expect(m.text).toContain('Gut-Brain Rx');
+    expect(m.text).not.toMatch(/go\/push-patch|Push Patch/);
+  });
+});

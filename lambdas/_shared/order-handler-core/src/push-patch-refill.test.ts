@@ -2,12 +2,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const h = vi.hoisted(() => ({
   claim: vi.fn(), getAuth: vi.fn(), setFields: vi.fn(), record: vi.fn(), sendOrder: vi.fn(), stamp: vi.fn(),
-  shipped: vi.fn(), notice: vi.fn(), failed: vi.fn(), upsert: vi.fn(),
+  shipped: vi.fn(), notice: vi.fn(), failed: vi.fn(), upsert: vi.fn(), preparing: vi.fn(), buildOrder: vi.fn(),
 }));
 vi.mock('@my4mlife/push-patch-decision-core', () => ({
   claimRefillSlot: h.claim, getRefillAuth: h.getAuth, setRefillAuthFields: h.setFields, recordShipment: h.record,
   sendGenesisOrder: h.sendOrder, stampGenesisSent: h.stamp, resolveShip: (s: unknown) => s,
   blendFor: () => ({ name: 'Enhanced Glow' }),
+  rxProduct: (id?: string) => (id === 'gut-brain-rx' ? { name: 'Gut-Brain Rx', intervalDays: 30, fulfillment: 'manual' } : undefined),
+  sendRefillPreparing: h.preparing, buildManualRefillOrderEmail: h.buildOrder,
   sendRefillShipped: h.shipped, sendRefillNotice: h.notice, sendRefillPaymentFailed: h.failed,
 }));
 vi.mock('@my4mlife/contact-upsert', () => ({ upsertContact: h.upsert }));
@@ -55,7 +57,8 @@ beforeEach(() => {
   h.claim.mockResolvedValue({ ok: true, refillNumber: 1, auth: auth() });
   h.sendOrder.mockResolvedValue({ to: 'g@x.com', toGenesis: true });
   h.stamp.mockResolvedValue(undefined); h.shipped.mockResolvedValue(undefined); h.notice.mockResolvedValue(undefined);
-  h.failed.mockResolvedValue(undefined); h.upsert.mockResolvedValue(undefined); h.setFields.mockResolvedValue(undefined); h.record.mockResolvedValue(undefined);
+  h.failed.mockResolvedValue(undefined); h.preparing.mockResolvedValue(undefined);
+  h.buildOrder.mockReturnValue({ subject: '[ACTION NEEDED] Place pharmacy order: Paul M., Gut-Brain Rx refill 1 of 2', text: 'ORDER TEXT\nline2', html: '<p>ORDER</p>' }); h.upsert.mockResolvedValue(undefined); h.setFields.mockResolvedValue(undefined); h.record.mockResolvedValue(undefined);
 });
 
 describe('isRefillInvoice', () => {
@@ -277,5 +280,153 @@ describe('checkout.session.completed (kind refill)', () => {
     expect(h.setFields).toHaveBeenCalledWith('c1', 'pp-cs_1', { mode: 'auto', subscriptionId: 'sub_1' });
     expect(puts.find((p) => p.table === 'Orders')).toBeUndefined();
     expect(h.sendOrder).not.toHaveBeenCalled();
+  });
+});
+
+
+describe('manual pharmacy lane (Gut-Brain Rx)', () => {
+  const RXSHIP = { name: 'Paul Mxx', line1: '1 Main', line2: '', city: 'Austin', state: 'TX', postalCode: '78701' };
+  const rxMeta = { kind: 'push-patch-refill', contactId: 'c1', encounterId: 'abc-123', skuIds: 'gut-brain-rx', mode: 'auto', fulfillment: 'manual', product: 'gut-brain-rx' };
+  const rxAuth = (o: any = {}) => ({ refillsAuthorized: 2, refillsUsed: 0, sku: 'gut-brain-rx', product: 'gut-brain-rx', fulfillment: 'manual', intervalDays: 30, expiresAt: '2027-11-15T00:00:00.000Z', mode: 'auto', status: 'active', ...o });
+  const rxInvoice = (o: any = {}) => invoice({ amount_paid: 12500, subscription_details: { metadata: rxMeta }, ...o });
+  const tjMails = () => lambdaSend.mock.calls.map((c: any) => JSON.parse(Buffer.from(c[0].input.Payload).toString()));
+  beforeEach(() => {
+    h.getAuth.mockResolvedValue({ auth: rxAuth(), encounter: { lane: 'leaky-gut', state: 'fulfilled', shipTo: RXSHIP } });
+    h.claim.mockResolvedValue({ ok: true, refillNumber: 1, auth: rxAuth({ refillsUsed: 1 }) });
+  });
+
+  it('writes rx-rf child encounter in pharmacy-order-pending, sends NO Genesis email', async () => {
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(puts.find((p) => p.table === 'Orders')!.item).toMatchObject({ orderId: 'in_1', sku: 'gut-brain-rx', kind: 'push-patch-refill', fulfillment: 'manual', amountUSD: 125 });
+    const enc = puts.find((p) => p.table === 'PatientRecords')!.item;
+    expect(enc).toMatchObject({ sk: 'encounter#rx-rf-in_1', encounterId: 'rx-rf-in_1', state: 'pharmacy-order-pending', lane: 'leaky-gut', refillOf: 'abc-123', refillNumber: 1, shipTo: RXSHIP });
+    expect(enc.sk.startsWith('encounter#pp-')).toBe(false); // Novo tracking reader ignores it
+    expect(h.sendOrder).not.toHaveBeenCalled();
+    expect(h.stamp).not.toHaveBeenCalled();
+    expect(h.shipped).not.toHaveBeenCalled();
+    expect(h.notice).not.toHaveBeenCalled();
+  });
+
+  it('emails TJ the ACTION NEEDED order (name, phone, address, product) through the email-sender lambda', async () => {
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(h.buildOrder).toHaveBeenCalledWith({ productName: 'Gut-Brain Rx', firstName: 'Paul', lastName: 'M', phone: '555', refillNumber: 1, refillsAuthorized: 2, ref: 'in_1', shipTo: RXSHIP });
+    const m = tjMails()[0];
+    expect(m).toMatchObject({ kind: 'info', to: 'drtj@my4mlife.com', subject: '[ACTION NEEDED] Place pharmacy order: Paul M., Gut-Brain Rx refill 1 of 2', text: 'ORDER TEXT\nline2', html: '<p>ORDER</p>' });
+  });
+
+  it('patient gets the "preparing" email (no tracking promised), with the next charge date on auto-ship', async () => {
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice({ lines: { data: [{ period: { end: Date.parse('2027-01-01T00:00:00Z') / 1000 } }] } }));
+    expect(h.preparing).toHaveBeenCalledWith({ to: 'p@example.com', firstName: 'Paul', productName: 'Gut-Brain Rx', refillNumber: 1, refillsAuthorized: 2, nextChargeDate: 'January 1, 2027' });
+  });
+
+  it('ships to refillAuth.shipTo when present', async () => {
+    const NEW = { name: 'P M', line1: '9 New', line2: '', city: 'Dallas', state: 'TX', postalCode: '75001' };
+    h.getAuth.mockResolvedValue({ auth: rxAuth({ shipTo: NEW, shipToUpdatedAt: 'x' }), encounter: { lane: 'leaky-gut', state: 'fulfilled' } }); // parent has no shipTo
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(h.buildOrder.mock.calls[0][0].shipTo).toEqual(NEW);
+    expect(puts.find((p) => p.table === 'PatientRecords')!.item.shipTo).toEqual(NEW);
+  });
+
+  it('no address anywhere: TJ is told (flagged), patient is not told it is being prepared', async () => {
+    h.getAuth.mockResolvedValue({ auth: rxAuth(), encounter: { lane: 'leaky-gut', state: 'fulfilled' } });
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(h.buildOrder.mock.calls[0][0].shipTo).toBeUndefined();
+    expect(tjMails()).toHaveLength(1);
+    expect(h.preparing).not.toHaveBeenCalled();
+    const upd = ddb.send.mock.calls.map((c: any) => c[0]).find((c: any) => c.constructor.name === 'UpdateCommand' && c.input.TableName === 'Orders');
+    expect(upd.input.ExpressionAttributeValues[':s']).toBe('no-ship-to');
+  });
+
+  it('records the shipment with the 30-day interval: one fill schedules reminders, auto-ship does not', async () => {
+    await handleRefillSession(deps(), { id: 'cs_9', mode: 'payment', payment_status: 'paid', amount_total: 12500, currency: 'usd', customer: 'cus_1', payment_intent: 'pi_9',
+      customer_details: { email: 'p@example.com' }, metadata: { ...rxMeta, mode: 'one' } });
+    expect(h.record).toHaveBeenCalledWith('c1', 'abc-123', expect.any(Date), true, 30);
+    h.record.mockClear();
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice({ id: 'in_2' }));
+    expect(h.record).toHaveBeenCalledWith('c1', 'abc-123', expect.any(Date), false, 30);
+  });
+
+  it('last slot cancels the subscription at period end (unchanged); renewal past expiry too', async () => {
+    h.claim.mockResolvedValue({ ok: true, refillNumber: 2, auth: rxAuth({ refillsUsed: 2, status: 'exhausted' }) });
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(subsUpdate).toHaveBeenCalledWith('sub_1', { cancel_at_period_end: true });
+    expect(h.preparing.mock.calls[0][0].nextChargeDate).toBeUndefined();
+  });
+
+  it('exhausted: routed to provider, no pharmacy order email, TJ routed notice, subscription cancelled', async () => {
+    h.claim.mockResolvedValue({ ok: false, reason: 'exhausted' });
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(h.buildOrder).not.toHaveBeenCalled();
+    expect(h.preparing).not.toHaveBeenCalled();
+    expect(puts.find((p) => p.table === 'PatientRecords')!.item).toMatchObject({ sk: 'encounter#rx-rf-in_1', state: 'sent-to-provider', refillBlockedReason: 'exhausted' });
+    expect(tjMails()[0].subject).toMatch(/^\[ACTION NEEDED\].*not shipped/);
+    expect(tjMails()[0].text).not.toMatch(/Genesis/);
+    expect(subsUpdate).toHaveBeenCalledWith('sub_1', { cancel_at_period_end: true });
+  });
+
+  it('replay does not double-order', async () => {
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(h.buildOrder).toHaveBeenCalledTimes(1);
+    expect(h.claim).toHaveBeenCalledTimes(1);
+    expect(h.preparing).toHaveBeenCalledTimes(1);
+  });
+
+  it('test mode: TJ subject is prefixed [TEST]', async () => {
+    await handleRefillInvoice({ ...deps(), livemode: false }, 'invoice.paid', rxInvoice());
+    expect(tjMails()[0].subject).toBe('[TEST] [ACTION NEEDED] Place pharmacy order: Paul M., Gut-Brain Rx refill 1 of 2');
+  });
+
+  it('a failed TJ email is recorded as an outcome, never thrown', async () => {
+    lambdaSend.mockRejectedValue(new Error('lambda down'));
+    await expect(handleRefillInvoice(deps(), 'invoice.paid', rxInvoice())).resolves.toBeUndefined();
+    const upd = ddb.send.mock.calls.map((c: any) => c[0]).find((c: any) => c.constructor.name === 'UpdateCommand' && c.input.TableName === 'Orders');
+    expect(upd.input.ExpressionAttributeValues[':s']).toBe('tj-mail-failed');
+    lambdaSend.mockResolvedValue({});
+  });
+
+  it('logs carry outcome codes only: no name, phone, address or product ingredients', async () => {
+    const log = vi.spyOn(console, 'log'); const err = vi.spyOn(console, 'error');
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(JSON.stringify([...log.mock.calls, ...err.mock.calls])).not.toMatch(/Paul|Mxx|555|Main|Austin|78701|bpc|glutamine|aloe/i);
+  });
+
+  it('child encounter category is rx-refill, never the parent category (care-coordinator lookups must not see it)', async () => {
+    h.getAuth.mockResolvedValue({ auth: rxAuth(), encounter: { lane: 'leaky-gut', category: 'care-coordinator', state: 'fulfilled', shipTo: RXSHIP } });
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(puts.find((p) => p.table === 'PatientRecords')!.item).toMatchObject({ lane: 'leaky-gut', category: 'rx-refill' });
+  });
+
+  it('no auth on the parent: metadata still routes it as rx-rf (never a pp-rf push-patch child), no Genesis', async () => {
+    h.getAuth.mockResolvedValue(null);
+    h.claim.mockResolvedValue({ ok: false, reason: 'inactive' });
+    await handleRefillInvoice(deps(), 'invoice.paid', rxInvoice());
+    expect(puts.find((p) => p.table === 'PatientRecords')!.item).toMatchObject({ sk: 'encounter#rx-rf-in_1', state: 'sent-to-provider', lane: 'rx-refill', category: 'rx-refill' });
+    expect(tjMails()[0].text).toContain('the pharmacy');
+    expect(h.sendOrder).not.toHaveBeenCalled();
+  });
+
+  it('payment failed: product-named patient email, Rx TJ notice', async () => {
+    await handleRefillInvoice(deps(), 'invoice.payment_failed', rxInvoice({ attempt_count: 1 }));
+    expect(h.failed).toHaveBeenCalledWith({ to: 'p@example.com', firstName: 'Paul', hostedInvoiceUrl: 'https://pay.example/in_1', productName: 'Gut-Brain Rx' });
+    expect(tjMails()[0].subject).toBe('Rx refill payment failed (in_1)');
+  });
+
+  it('Push Patch payment failed is unchanged (no productName, Push Patch TJ subject)', async () => {
+    await handleRefillInvoice(deps(), 'invoice.payment_failed', invoice({ attempt_count: 1 }));
+    expect(h.failed).toHaveBeenCalledWith({ to: 'p@example.com', firstName: 'Paul', hostedInvoiceUrl: 'https://pay.example/in_1' });
+    expect(tjMails()[0]).toMatchObject({ subject: 'Push Patch refill payment failed (in_1)', text: 'Refill payment failed for contact c1. The patient was emailed the invoice link. Nothing shipped.' });
+  });
+
+  it('Push Patch invoices are unchanged: pp-rf prefix, Genesis order, 4-arg recordShipment, no manual builders', async () => {
+    h.getAuth.mockResolvedValue({ auth: auth(), encounter: { shipTo: SHIP, sku: 'push-patch-glow', signedByName: 'Dr X' } });
+    h.claim.mockResolvedValue({ ok: true, refillNumber: 1, auth: auth() });
+    await handleRefillInvoice(deps(), 'invoice.paid', invoice());
+    expect(puts.find((p) => p.table === 'PatientRecords')!.item).toMatchObject({ sk: 'encounter#pp-rf-in_1', state: 'script-written', lane: 'push-patch', category: 'push-patch' });
+    expect(puts.find((p) => p.table === 'Orders')!.item.fulfillment).toBeUndefined();
+    expect(h.sendOrder).toHaveBeenCalledTimes(1);
+    expect(h.record.mock.calls[0]).toHaveLength(4);
+    expect(h.buildOrder).not.toHaveBeenCalled();
+    expect(h.preparing).not.toHaveBeenCalled();
   });
 });

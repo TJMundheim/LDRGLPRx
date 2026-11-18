@@ -11,6 +11,8 @@ const FOOTER_BODY =
   'These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.\n\n' +
   'You received this email because you placed a Push Patch order at my4mlife.com. Your health information is handled under our Privacy Policy: https://my4mlife.com/privacy';
 export const FOOTER = `My4MLife\nMy4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034\n\n${FOOTER_BODY}`;
+// Rx refill emails (non-Push-Patch products): same company block and privacy line, order sentence not tied to Push Patch.
+const RX_FOOTER = `My4MLife\nMy4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034\n\nYou received this email because you ordered a prescription refill from My4MLife. Your health information is handled under our Privacy Policy: https://my4mlife.com/privacy`;
 const WELCOME_FOOTER = `My4MLife\nMy4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034\n${TAGLINE}\n${BRAND_LINE}\n\n${FOOTER_BODY}`;
 
 // Welcome-only card inviting the buyer to the free assessment (copy: async-visit-copy.md, "Welcome email — assessment invitation").
@@ -69,7 +71,12 @@ export function sendRefillNotice(a: { name: string; blendName: string; refillNum
   return tjMail(`Push Patch refill: ${a.name}`, `Refill sent: ${a.name}, ${a.blendName}, refill ${a.refillNumber} of ${a.refillsAuthorized} (${a.ref}).${upd}`);
 }
 
-export function sendRefillPaymentFailed(a: { to: string; firstName: string; hostedInvoiceUrl: string }): Promise<void> {
+export function sendRefillPaymentFailed(a: { to: string; firstName: string; hostedInvoiceUrl: string; productName?: string }): Promise<void> {
+  if (a.productName) { // manual Rx refill (e.g. Gut-Brain Rx): no Push Patch wording, Rx footer
+    const t = `Hi ${a.firstName},\n\nWe could not process the payment for your next ${a.productName} refill, so we have not placed the order yet. You can update your card and pay here: ${a.hostedInvoiceUrl}\n\n` +
+      `Once the payment goes through, we place your order right away. Questions? Reply to this email or write to support@my4mlife.com.\n\nThe My4MLife team\n\n${RX_FOOTER}`;
+    return mail(a.to, `We couldn't process your ${a.productName} payment`, t);
+  }
   const text = `Hi ${a.firstName},\n\nWe could not process the payment for your next Push Patch box, so it has not shipped yet. You can update your card and pay here: ${a.hostedInvoiceUrl}\n\n` +
     `Once the payment goes through, your box ships right away. Questions? Reply to this email or write to support@my4mlife.com.\n\nThe My4MLife team\n\n${FOOTER}`;
   return mail(a.to, "We couldn't process your Push Patch payment", text);
@@ -83,21 +90,56 @@ export function sendRefillChangeReported(a: { contactId: string; encounterId: st
 
 // Reorder reminders (n = 1 about 5 weeks after shipping, n = 2 about 6 weeks). Link = signed one-click reorder link.
 // No PHI beyond first name + blend name.
-export function sendRefillReminder(a: { to: string; firstName: string; blendName: string; link: string; n: 1 | 2 }): Promise<void> {
-  const intro = a.n === 1
+export function sendRefillReminder(a: { to: string; firstName: string; blendName: string; link: string; n: 1 | 2; productName?: string; intervalDays?: number }): Promise<void> {
+  const rx = a.productName !== undefined;
+  const wk = (d: number) => Math.round(d / 7);
+  const intro = rx
+    ? (a.n === 1
+      ? `Your last fill went out about ${wk((a.intervalDays ?? 30) - 7)} weeks ago, so you're about a week from running out of your ${a.productName}.`
+      : `Just a reminder: your last fill went out about ${wk(a.intervalDays ?? 30)} weeks ago, so your ${a.productName} supply should be about used up.`)
+    : a.n === 1
     ? `Your last box shipped about 5 weeks ago, so you're about a week from running out.`
     : `Just a reminder: your last box shipped about 6 weeks ago, so your ${a.blendName} Push Patch set should be about used up.`;
   const tail = `Just confirm your health and shipping address haven't changed, then check out. Prefer it automatic? Choose auto-ship on the next screen.`;
-  const text = `Hi ${a.firstName},\n\n${intro}\n\nReorder here: ${a.link}\n\n${tail}\n\nQuestions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
+  const text = `Hi ${a.firstName},\n\n${intro}\n\nReorder here: ${a.link}\n\n${tail}\n\nQuestions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${rx ? RX_FOOTER : FOOTER}`;
   // Plain text link only (visible URL = real URL), no button: keeps mail filters calm.
   const linkP = `<p>Reorder here: <a href="${esc(a.link)}">${esc(a.link)}</a></p>`;
   const html = toHtml(text.replace(`Reorder here: ${a.link}\n\n`, '')).replace(`<p>${esc(tail)}`, `${linkP}<p>${esc(tail)}`);
-  return mail(a.to, a.n === 1 ? 'Time to reorder your Push Patch' : 'Reminder: reorder your Push Patch', text, html);
+  const what = rx ? a.productName : 'Push Patch';
+  return mail(a.to, a.n === 1 ? `Time to reorder your ${what}` : `Reminder: reorder your ${what}`, text, html);
 }
 
 // Refills used up or expired: a quick re-review through the normal order flow. Sent once.
-export function sendRefillReReview(a: { to: string; firstName: string }): Promise<void> {
+// Manual Rx products (productName set) have no self-serve order flow: the patient replies and we set up the next step.
+export function sendRefillReReview(a: { to: string; firstName: string; productName?: string }): Promise<void> {
+  if (a.productName) {
+    const t = `Hi ${a.firstName},\n\nYour current ${a.productName} refill plan has run its course, so before your next fill your provider needs to take a fresh look. Reply to this email or write to support@my4mlife.com and we will set it up with you.\n\n` +
+      `Questions? A real person reads every reply.\n\nThe My4MLife team\n\n${RX_FOOTER}`;
+    return mail(a.to, `Time for a quick check-in on your ${a.productName}`, t);
+  }
   const text = `Hi ${a.firstName},\n\nIt's time for a quick re-review. Your current refill plan has run its course, so before your next box one of our network's physicians needs to take a fresh look. It only takes a few minutes: https://my4mlife.com/go/push-patch\n\n` +
     `Questions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${FOOTER}`;
   return mail(a.to, 'Time for a quick re-review of your Push Patch', text);
+}
+
+// ---- Manual Rx refills (e.g. Gut-Brain Rx): TJ places the pharmacy order by hand. ----
+// Patient copy says "preparing" (never "on its way") and promises no tracking. No health answers anywhere in these emails.
+export function sendRefillPreparing(a: { to: string; firstName: string; productName: string; refillNumber: number; refillsAuthorized: number; nextChargeDate?: string }): Promise<void> {
+  const text = `Hi ${a.firstName},\n\nWe're preparing your ${a.productName} refill. This is refill ${a.refillNumber} of ${a.refillsAuthorized} on your plan. Our team is placing the order with your pharmacy now, and it goes to the shipping address you gave us.\n\n` +
+    (a.nextChargeDate ? `Your next charge is on ${a.nextChargeDate}.\n\n` : '') +
+    `Want to change or cancel, or something doesn't look right? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nThe My4MLife team\n\n${RX_FOOTER}`;
+  return mail(a.to, `We're preparing your ${a.productName} refill`, text);
+}
+
+export interface ManualShipTo { name?: string; line1?: string; line2?: string; city?: string; state?: string; postalCode?: string }
+// Internal, PHI-minimal: name, phone, address and product only. Pure builder: the order handler sends it through its email-sender lambda.
+export function buildManualRefillOrderEmail(a: { productName: string; firstName: string; lastName: string; phone: string; refillNumber: number; refillsAuthorized: number; ref: string; shipTo?: ManualShipTo }): { subject: string; text: string; html: string } {
+  const full = `${a.firstName} ${a.lastName}`.trim();
+  const initial = a.lastName ? ` ${a.lastName.trim().charAt(0).toUpperCase()}.` : '';
+  const s = a.shipTo;
+  const addr = s?.line1
+    ? [s.name || full, s.line1, s.line2, `${s.city ?? ''}, ${s.state ?? ''} ${s.postalCode ?? ''}`.trim()].filter(Boolean).join('\n')
+    : 'NO ADDRESS ON FILE: get the shipping address from the patient before ordering.';
+  const text = `Place the pharmacy order for this paid refill.\n\nProduct: ${a.productName}\nRefill: ${a.refillNumber} of ${a.refillsAuthorized}\nPatient: ${full}\nPhone: ${a.phone || '(none on file)'}\n\nShip to:\n${addr}\n\nRef: ${a.ref}\n\nThe patient has been told we are preparing the refill. No tracking is promised.`;
+  return { subject: `[ACTION NEEDED] Place pharmacy order: ${a.firstName.trim()}${initial}, ${a.productName} refill ${a.refillNumber} of ${a.refillsAuthorized}`, text, html: toHtml(text) };
 }

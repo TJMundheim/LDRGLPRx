@@ -29,7 +29,7 @@ const DEST = `${API_BASE}/api/push-patch-refill`;
     var p = new URLSearchParams(location.search);
     var c = p.get('c') || '', e = p.get('e') || '', exp = p.get('exp') || '', sig = p.get('sig') || '';
     var ok = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(c) &&
-      /^pp-cs_(live|test)_[A-Za-z0-9]+$/.test(e) && /^\d+$/.test(exp) && /^[0-9a-f]{64}$/.test(sig);
+      /^(pp-cs_(live|test)_[A-Za-z0-9]+|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.test(e) && /^\d+$/.test(exp) && /^[0-9a-f]{64}$/.test(sig);
     if (!ok) {
       document.getElementById('reorder-msg').hidden = true;
       document.getElementById('reorder-bad').hidden = false;

@@ -1,9 +1,9 @@
 // /api/push-patch-refill: patient reorders a Push Patch box from a signed link.
 // GET only renders the page (link scanners prefetch GETs); POST re-verifies the signature, then acts.
-import { getRefillAuth, setRefillShipTo, sendRefillChangeReported, blendFor } from '@my4mlife/push-patch-decision-core';
+import { getRefillAuth, setRefillShipTo, sendRefillChangeReported, blendFor, rxProduct } from '@my4mlife/push-patch-decision-core';
 import { hmacKey, verify } from './sig';
 import { loadContact } from './contact';
-import { createCheckout, priceLabel, type Mode } from './checkout';
+import { createCheckout, priceLabel, hasPrice, type Mode } from './checkout';
 import { choose, msg, EXPIRED } from './page';
 import { parseAddress, ADDR_FIELDS } from './address';
 
@@ -20,7 +20,8 @@ export const handler = async (event: Evt): Promise<Res> => {
     const raw = isPost ? (event.isBase64Encoded ? Buffer.from(event.body ?? '', 'base64').toString('utf8') : (event.body ?? '')) : '';
     const p = new URLSearchParams(isPost ? raw : ((event.queryStringParameters ?? {}) as Record<string, string>));
     if (!isPost && p.has('done') && !p.has('sig')) {
-      return html(200, p.get('done') === '1' ? msg('Thank you', 'Your payment went through. We will email you when your box ships.') : msg('No charge made', 'Nothing was charged. Use your link again whenever you are ready.'));
+      const thanks = p.get('rx') === '1' ? 'Your payment went through. We will email you once we are preparing your refill.' : 'Your payment went through. We will email you when your box ships.';
+      return html(200, p.get('done') === '1' ? msg('Thank you', thanks) : msg('No charge made', 'Nothing was charged. Use your link again whenever you are ready.'));
     }
     const link = verify(p, await hmacKey());
     if (!link) { log('bad-link'); return html(403, EXPIRED); }
@@ -28,12 +29,19 @@ export const handler = async (event: Evt): Promise<Res> => {
     if (!a || a.status !== 'active' || a.expiresAt <= new Date().toISOString() || a.refillsUsed >= a.refillsAuthorized) { log('not-available'); return unavailable(); }
     const contact = await loadContact(link.c);
     if (!contact) { log('no-contact'); return unavailable(); }
+    // Manual-pharmacy Rx product (e.g. Gut-Brain Rx): product name/interval come from the catalog; an unknown product is unavailable.
+    const rxp = a.fulfillment === 'manual' ? rxProduct(a.product) : undefined;
+    if (a.fulfillment === 'manual' && !rxp) { log('unknown-product'); return unavailable(); }
     const hasAuto = !(a.mode === 'auto' && a.subscriptionId);
-    const onFile = (a.shipTo ?? (found?.encounter as { shipTo?: { city?: string; state?: string } } | undefined)?.shipTo) ?? {};
+    // Rx price ids not in the catalog for this Stripe mode (e.g. live not created yet): friendly page before any form/checkout.
+    if (rxp && (!hasPrice(a.sku, 'one', a.product) || (hasAuto && !hasPrice(a.sku, 'auto', a.product)))) { log('no-price'); return unavailable(); }
+    const onFile = (a.shipTo ?? (found?.encounter as { shipTo?: { line1?: string; city?: string; state?: string } } | undefined)?.shipTo) ?? {};
+    const needAddr = !!rxp && !(onFile as { line1?: string }).line1; // nothing on file: the address is required
     const render = async (status: number, error?: string) => {
       const fields = { c: link.c, e: link.e, exp: String(link.exp), sig: p.get('sig')! };
       const form = isPost ? Object.fromEntries(['mode', 'change', 'addr', ...ADDR_FIELDS].map((k) => [k, p.get(k) ?? ''])) : undefined;
-      return html(status, choose({ blend: blendFor(a.sku).name, price: await priceLabel(a.sku, hasAuto ? 'auto' : 'one'), fields, hasAuto, city: onFile.city, state: onFile.state, form, error }));
+      return html(status, choose({ blend: rxp ? rxp.name : blendFor(a.sku).name, price: await priceLabel(a.sku, hasAuto ? 'auto' : 'one', rxp ? a.product : undefined), fields, hasAuto, city: onFile.city, state: onFile.state, form, error,
+        ...(rxp ? { rx: { intervalDays: rxp.intervalDays, needAddress: needAddr } } : {}) }));
     };
     if (!isPost) return render(200);
     const mode = p.get('mode') as Mode, change = p.get('change'), addr = p.get('addr');
@@ -43,14 +51,14 @@ export const handler = async (event: Evt): Promise<Res> => {
       log('change-reported');
       return html(200, msg('Thanks', 'Thanks. A care coordinator will reach out before anything ships.'));
     }
-    if (addr !== 'yes' && addr !== 'no') { log('bad-form'); return render(400, 'Please tell us whether your shipping address has changed.'); }
-    if (addr === 'yes') {
+    if (!needAddr && addr !== 'yes' && addr !== 'no') { log('bad-form'); return render(400, 'Please tell us whether your shipping address has changed.'); }
+    if (needAddr || addr === 'yes') {
       const s = parseAddress(p);
       if (!s.ok) { log('bad-address'); return render(400, 'Please check your shipping address: full name, street, city, state and a 5-digit ZIP are required.'); }
       await setRefillShipTo(link.c, link.e, s.shipTo); // before checkout: fulfilment reads it when the payment lands
       log('address-updated');
     }
-    const url = await createCheckout({ contactId: link.c, encounterId: link.e, sku: a.sku, email: contact.email, partnerRef: a.partnerRef, mode }, link.exp);
+    const url = await createCheckout({ contactId: link.c, encounterId: link.e, sku: a.sku, email: contact.email, partnerRef: a.partnerRef, mode, ...(rxp ? { product: a.product } : {}) }, link.exp);
     if (!url) { log('no-price'); return html(500, msg('Something went wrong', 'Nothing was charged. Please write support@my4mlife.com.')); }
     log(`checkout-${mode}`);
     return { statusCode: 303, headers: { location: url, ...H }, body: '' };

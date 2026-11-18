@@ -1,8 +1,10 @@
 // Refill authorization stored as a map attribute (refillAuth) on the parent push-patch encounter item.
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { rxProduct } from './rx-products';
 
-export interface RefillAuth { refillsAuthorized: number; refillsUsed: number; sku: string; intervalWeeks: 6;
+export interface RefillAuth { refillsAuthorized: number; refillsUsed: number; sku: string; intervalWeeks?: 6;
+  fulfillment?: 'genesis' | 'manual'; product?: string; intervalDays?: number; // absent = Push Patch via Genesis, every 42 days
   expiresAt: string; authorizedBy: string; signedByProviderId?: string; authorizedAt: string; partnerRef?: string;
   mode: 'auto' | 'on-demand'; subscriptionId?: string; status: 'active' | 'paused' | 'exhausted' | 'cancelled';
   lastShippedAt?: string; remindersSent?: number; reReviewSentAt?: string;
@@ -15,25 +17,37 @@ const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
 const key = (contactId: string, encounterId: string) => ({ contactId, sk: `encounter#${encounterId}` });
 const isCcf = (e: unknown) => (e as { name?: string }).name === 'ConditionalCheckFailedException';
 
-export function buildRefillAuth(i: { refills: number; sku: string; authorizedBy: string; signedByProviderId?: string; partnerRef?: string; now: Date }): RefillAuth {
+export function buildRefillAuth(i: { refills: number; sku: string; authorizedBy: string; signedByProviderId?: string; partnerRef?: string; product?: string; now: Date }): RefillAuth {
   const exp = new Date(i.now); exp.setUTCFullYear(exp.getUTCFullYear() + 1);
-  return { refillsAuthorized: i.refills, refillsUsed: 0, sku: i.sku, intervalWeeks: 6, expiresAt: exp.toISOString(),
+  const rx = i.product !== undefined ? rxProduct(i.product) : undefined;
+  if (i.product !== undefined && !rx) throw new Error('buildRefillAuth: unknown product');
+  const common = { refillsAuthorized: i.refills, refillsUsed: 0, expiresAt: exp.toISOString(),
     authorizedBy: i.authorizedBy, ...(i.signedByProviderId && { signedByProviderId: i.signedByProviderId }),
-    authorizedAt: i.now.toISOString(), ...(i.partnerRef && { partnerRef: i.partnerRef }), mode: 'on-demand', status: 'active' };
+    authorizedAt: i.now.toISOString(), ...(i.partnerRef && { partnerRef: i.partnerRef }), mode: 'on-demand' as const, status: 'active' as const };
+  if (rx) return { ...common, sku: i.product!, product: i.product, fulfillment: rx.fulfillment, intervalDays: rx.intervalDays };
+  return { ...common, sku: i.sku, intervalWeeks: 6 };
 }
 
-// Only an approved (script-written), non-refunded push-patch encounter can carry refills.
+// Push Patch: only an approved (script-written), non-refunded push-patch encounter can carry refills.
+// Manual Rx products (auth.fulfillment === 'manual'): any other lane's fulfilled/script-written, non-refunded encounter.
 export async function grantRefills(contactId: string, encounterId: string, auth: RefillAuth): Promise<void> {
   // ConsistentRead: decide() calls this right after its script-written transition.
   const enc = (await ddb.send(new GetCommand({ TableName: TABLE, Key: key(contactId, encounterId), ConsistentRead: true }))).Item;
-  if (!enc || enc.lane !== 'push-patch') throw new Error('grantRefills: not a push-patch encounter');
-  if (enc.state !== 'script-written') throw new Error(`grantRefills: encounter state is ${String(enc.state)}, not script-written`);
+  const manual = auth.fulfillment === 'manual';
+  if (manual && !rxProduct(auth.product)) throw new Error('grantRefills: unknown product');
+  if (manual) {
+    if (!enc || enc.lane === 'push-patch') throw new Error('grantRefills: not an eligible encounter for a manual product');
+    if (enc.state !== 'fulfilled' && enc.state !== 'script-written') throw new Error(`grantRefills: encounter state is ${String(enc.state)}, not fulfilled or script-written`);
+  } else {
+    if (!enc || enc.lane !== 'push-patch') throw new Error('grantRefills: not a push-patch encounter');
+    if (enc.state !== 'script-written') throw new Error(`grantRefills: encounter state is ${String(enc.state)}, not script-written`);
+  }
   if (enc.refundStatus) throw new Error(`grantRefills: encounter refund status is ${String(enc.refundStatus)}`);
   await ddb.send(new UpdateCommand({
     TableName: TABLE, Key: key(contactId, encounterId),
     UpdateExpression: 'SET refillAuth = :a, updatedAt = :now',
-    ConditionExpression: '#state = :sw', ExpressionAttributeNames: { '#state': 'state' },
-    ExpressionAttributeValues: { ':a': auth, ':sw': 'script-written', ':now': new Date().toISOString() },
+    ConditionExpression: manual ? '#state IN (:sw, :fu)' : '#state = :sw', ExpressionAttributeNames: { '#state': 'state' },
+    ExpressionAttributeValues: { ':a': auth, ':sw': 'script-written', ':now': new Date().toISOString(), ...(manual ? { ':fu': 'fulfilled' } : {}) },
   }));
 }
 
@@ -128,8 +142,9 @@ const DAY_MS = 86_400_000;
 // A box just shipped for this parent (approval or one-box refill). Records lastShippedAt and, unless the
 // patient is on auto-ship (reminders: false), schedules the reorder reminders by stamping the parent
 // encounter's top-level refillDueAt (= ship + 35 days; the reminder sweep filters on it) and remindersSent = 0.
-export async function recordShipment(contactId: string, encounterId: string, now: Date, reminders: boolean): Promise<void> {
-  const due = new Date(now.getTime() + REMINDER_1_DAYS * DAY_MS).toISOString();
+export async function recordShipment(contactId: string, encounterId: string, now: Date, reminders: boolean, intervalDays?: number): Promise<void> {
+  // First reminder one week before the next fill is due (35 of 42 days for Push Patch).
+  const due = new Date(now.getTime() + (intervalDays === undefined ? REMINDER_1_DAYS : intervalDays - 7) * DAY_MS).toISOString();
   await ddb.send(new UpdateCommand({
     TableName: TABLE, Key: key(contactId, encounterId),
     UpdateExpression: reminders

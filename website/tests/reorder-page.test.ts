@@ -22,6 +22,15 @@ describe('/reorder page', () => {
     expect(src).toContain('/^\\d+$/');
     expect(src).toContain('/^[0-9a-f]{64}$/');
   });
+  it('accepts manual Rx parent encounters (UUID ids) as well as Push Patch ids', () => {
+    const m = /\.test\(c\) &&\s*(\/\^\(pp-cs_[^\n]*?\$\/i)\.test\(e\)/.exec(src);
+    expect(m).not.toBeNull();
+    const re = new Function(`return ${m![1]}`)() as RegExp;
+    expect(re.test('pp-cs_live_a1B2')).toBe(true);
+    expect(re.test('c3f30914-0247-4e43-a9ae-32dab894fb44')).toBe(true);
+    expect(re.test('pp-rf-in_1')).toBe(false);
+    expect(re.test('x"><script>')).toBe(false);
+  });
   it('has fallback copy', () => {
     expect(src).toContain('Opening your reorder page…');
     expect(src).toContain('Continue');

@@ -14,9 +14,19 @@ export function buildLinkUrl({ contactId, encounterId, days = 14, key, now = Dat
   return { url: `${base}?${q}`, exp };
 }
 
+// Mirrors lambdas/_shared/push-patch-decision-core/src/rx-products.ts (manual-pharmacy Rx refill products); a test cross-checks it.
+export const RX_PRODUCTS = { 'gut-brain-rx': { name: 'Gut-Brain Rx', intervalDays: 30, fulfillment: 'manual' } };
+const rxOf = (id) => { const p = Object.hasOwn(RX_PRODUCTS, id) ? RX_PRODUCTS[id] : undefined; if (!p) throw new Error(`unknown product ${id}`); return p; };
+
 /** Mirrors buildRefillAuth in lambdas/_shared/push-patch-decision-core/src/refill-auth.ts (1 year, on-demand, active). */
-export function buildAuth({ refills, sku, authorizedBy, providerId, partnerRef, now = new Date() }) {
+export function buildAuth({ refills, sku, authorizedBy, providerId, partnerRef, product, expires, now = new Date() }) {
   const exp = new Date(now); exp.setUTCFullYear(exp.getUTCFullYear() + 1);
+  if (expires) { const e = new Date(`${expires}T23:59:59.000Z`); exp.setTime(e.getTime()); }
+  if (product !== undefined) {
+    const rx = rxOf(product);
+    return { refillsAuthorized: refills, refillsUsed: 0, sku: product, product, fulfillment: rx.fulfillment, intervalDays: rx.intervalDays, expiresAt: exp.toISOString(), authorizedBy,
+      ...(providerId && { signedByProviderId: providerId }), authorizedAt: now.toISOString(), ...(partnerRef && { partnerRef }), mode: 'on-demand', status: 'active' };
+  }
   return { refillsAuthorized: refills, refillsUsed: 0, sku, intervalWeeks: 6, expiresAt: exp.toISOString(), authorizedBy,
     ...(providerId && { signedByProviderId: providerId }), authorizedAt: now.toISOString(), ...(partnerRef && { partnerRef }), mode: 'on-demand', status: 'active' };
 }
@@ -33,7 +43,14 @@ export function partnerRefFromSession(session) {
 }
 
 /** Same eligibility rules as grantRefills: push-patch lane, script-written, not refunded. Returns an error string or null. */
-export function grantProblem(enc) {
+export function grantProblem(enc, product) {
+  if (product !== undefined) { // manual-pharmacy Rx product: any non-push-patch lane; shipTo is collected on the reorder page
+    try { rxOf(product); } catch (e) { return e.message; }
+    if (!enc || enc.lane === 'push-patch') return 'encounter not found or is a push-patch encounter (not an eligible encounter for a manual product)';
+    if (enc.state !== 'fulfilled' && enc.state !== 'script-written') return `encounter state is ${enc.state}, not fulfilled or script-written`;
+    if (enc.refundStatus) return `encounter refund status is ${enc.refundStatus}`;
+    return null;
+  }
   if (!enc || enc.lane !== 'push-patch') return 'not a push-patch encounter';
   if (enc.state !== 'script-written') return `encounter state is ${enc.state}, not script-written`;
   if (enc.refundStatus) return `encounter refund status is ${enc.refundStatus}`;
@@ -63,6 +80,9 @@ export function parseArgs(argv) {
     if (!Number.isInteger(r) || r < 1 || r > 52) throw new Error('--refills must be an integer 1-52');
     o.flags.refills = r;
   }
+  if (cmd !== 'grant' && o.flags.product !== undefined) throw new Error('--product only applies to grant');
+  if (cmd === 'grant' && o.flags.product !== undefined) rxOf(o.flags.product);
+  if (o.flags.expires !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(o.flags.expires)) throw new Error('--expires must be YYYY-MM-DD');
   if (o.flags.days !== undefined && !(Number(o.flags.days) > 0)) throw new Error('--days must be positive');
   return o;
 }

@@ -164,3 +164,54 @@ describe('recordShipment', () => {
     expect(u.ExpressionAttributeValues[':due']).toBeUndefined();
   });
 });
+
+describe('manual Rx refills (Gut-Brain Rx)', () => {
+  const mrx = () => buildRefillAuth({ refills: 2, sku: 'ignored', product: 'gut-brain-rx', authorizedBy: 'Dr TJ', now: NOW });
+  it('buildRefillAuth with a product: manual, 30 days, sku = product id, no intervalWeeks', () => {
+    const a = mrx();
+    expect(a).toMatchObject({ refillsAuthorized: 2, sku: 'gut-brain-rx', product: 'gut-brain-rx', fulfillment: 'manual', intervalDays: 30, mode: 'on-demand', status: 'active' });
+    expect('intervalWeeks' in a).toBe(false);
+  });
+  it('Push Patch auth has no fulfillment/product/intervalDays keys (unchanged)', () => {
+    const a = mk();
+    for (const k of ['fulfillment', 'product', 'intervalDays']) expect(k in a).toBe(false);
+    expect(a.intervalWeeks).toBe(6);
+  });
+  it('unknown product throws', () => {
+    expect(() => buildRefillAuth({ refills: 2, sku: 'x', product: 'nope', authorizedBy: 'a', now: NOW })).toThrow();
+  });
+  for (const state of ['fulfilled', 'script-written']) {
+    it(`grants on a non-push-patch encounter in state ${state}`, async () => {
+      ddbSend.mockResolvedValueOnce({ Item: { lane: 'leaky-gut', state } }).mockResolvedValueOnce({});
+      await grantRefills('c1', 'abc', mrx());
+      const u = ddbSend.mock.calls[1][0].input;
+      expect(u.ExpressionAttributeValues[':a'].fulfillment).toBe('manual');
+      expect(JSON.stringify(u.ExpressionAttributeValues)).toContain(state);
+      expect(u.ConditionExpression).toMatch(/IN/);
+    });
+  }
+  for (const [label, item] of [['wrong state', { lane: 'leaky-gut', state: 'sent-to-provider' }], ['refunded', { lane: 'leaky-gut', state: 'fulfilled', refundStatus: 'refunded' }],
+    ['push-patch lane', { lane: 'push-patch', state: 'script-written' }], ['missing', undefined]] as const) {
+    it(`manual grant refuses: ${label}`, async () => {
+      ddbSend.mockResolvedValueOnce({ Item: item });
+      await expect(grantRefills('c1', 'abc', mrx())).rejects.toThrow();
+      expect(ddbSend).toHaveBeenCalledTimes(1);
+    });
+  }
+  it('a Push Patch grant still refuses a non-push-patch lane and state fulfilled', async () => {
+    ddbSend.mockResolvedValueOnce({ Item: { lane: 'leaky-gut', state: 'fulfilled' } });
+    await expect(grantRefills('c1', 'abc', mk())).rejects.toThrow();
+    ddbSend.mockResolvedValueOnce({ Item: { lane: 'push-patch', state: 'fulfilled' } });
+    await expect(grantRefills('c1', 'abc', mk())).rejects.toThrow();
+  });
+  it('Push Patch grant condition is unchanged (state = :sw)', async () => {
+    ddbSend.mockResolvedValueOnce({ Item: { lane: 'push-patch', state: 'script-written' } }).mockResolvedValueOnce({});
+    await grantRefills('c1', 'pp-1', mk());
+    expect(ddbSend.mock.calls[1][0].input.ConditionExpression).toBe('#state = :sw');
+  });
+  it('recordShipment with intervalDays 30 schedules the first reminder at +23 days; default stays +35', async () => {
+    ddbSend.mockResolvedValue({});
+    await recordShipment('c1', 'abc', NOW, true, 30);
+    expect(ddbSend.mock.calls[0][0].input.ExpressionAttributeValues[':due']).toBe(new Date(NOW.getTime() + 23 * 86_400_000).toISOString());
+  });
+});

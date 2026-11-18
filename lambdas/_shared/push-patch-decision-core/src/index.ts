@@ -8,5 +8,6 @@ export { sendGenesisOrder, type OrderArgs, type OrderSent } from './genesis-orde
 export { resolveShip } from './genesis-form';
 export { blendFor } from './blends';
 export * from './refill-auth';
-export { sendRefillShipped, sendRefillNotice, sendRefillPaymentFailed, sendRefillChangeReported, sendRefillReminder, sendRefillReReview } from './emails';
+export * from './rx-products';
+export { sendRefillShipped, sendRefillNotice, sendRefillPaymentFailed, sendRefillChangeReported, sendRefillReminder, sendRefillReReview, sendRefillPreparing, buildManualRefillOrderEmail } from './emails';
 export { signRefillLink, refillLinkKey, REFILL_LINK_BASE } from './refill-link';

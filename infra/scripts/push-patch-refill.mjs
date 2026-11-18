@@ -2,6 +2,8 @@
 // Push Patch refills admin. Dry run by default; --apply writes. --mode test|live (default test) picks the Stripe account.
 //   node infra/scripts/push-patch-refill.mjs find  --email E
 //   node infra/scripts/push-patch-refill.mjs grant --contact ID --encounter ENC --refills 8 --authorized-by "Name" [--provider-id X] [--mode live] [--apply]
+//   node infra/scripts/push-patch-refill.mjs grant --contact ID --encounter ENC --refills 2 --product gut-brain-rx --authorized-by "Name" [--expires YYYY-MM-DD] [--mode live] [--apply]
+//     (--product = manual-pharmacy Rx refills: fulfillment 'manual', interval from the catalog; eligible: non-push-patch encounter, state fulfilled or script-written, not refunded)
 //   node infra/scripts/push-patch-refill.mjs link  --contact ID --encounter ENC [--days 14]      (prints a signed URL; sends nothing)
 // grant: eligibility = push-patch lane, state script-written, no refundStatus (same as grantRefills); writes refillAuth with a condition on state.
 // grant reads the original Checkout session (account picked from its cs_live_/cs_test_ prefix) for partner attribution.
@@ -49,24 +51,33 @@ if (o.cmd === 'find') {
 } else if (o.cmd === 'grant') {
   const f = o.flags;
   const enc = await getEnc(f.contact, f.encounter);
-  const bad = grantProblem(enc);
+  const bad = grantProblem(enc, f.product);
   if (bad) die(`Refusing: ${bad}`);
   if (enc.refillAuth) console.log(`NOTE: this encounter already has refillAuth (${enc.refillAuth.status}, ${enc.refillAuth.refillsUsed}/${enc.refillAuth.refillsAuthorized}); --apply would overwrite it.`);
-  if (!enc.sessionId) die('Refusing: encounter has no sessionId to derive partner attribution from');
-  // The original session's prefix decides the Stripe account; an explicit --mode that disagrees is refused.
-  const sessMode = enc.sessionId.startsWith('cs_live_') ? 'live' : enc.sessionId.startsWith('cs_test_') ? 'test' : o.mode;
-  if (o.flags.mode && o.flags.mode !== sessMode) die(`Refusing: --mode ${o.flags.mode} but the original session is ${sessMode} mode`);
-  o.mode = sessMode;
-  const stripe = await stripeClient();
-  const session = await stripe.checkout.sessions.retrieve(enc.sessionId);
-  for (const d of session.discounts ?? []) if (typeof d.promotion_code === 'string') d.promotion_code = await stripe.promotionCodes.retrieve(d.promotion_code);
-  const auth = buildAuth({ refills: f.refills, sku: enc.sku, authorizedBy: f['authorized-by'], providerId: f['provider-id'], partnerRef: partnerRefFromSession(session) });
+  let auth;
+  if (f.product) {
+    // Manual Rx: no original Checkout session to read; the Stripe mode is whatever --mode says (default test) and is informational here.
+    auth = buildAuth({ refills: f.refills, authorizedBy: f['authorized-by'], providerId: f['provider-id'], product: f.product, expires: f.expires });
+  } else {
+    if (!enc.sessionId) die('Refusing: encounter has no sessionId to derive partner attribution from');
+    // The original session's prefix decides the Stripe account; an explicit --mode that disagrees is refused.
+    const sessMode = enc.sessionId.startsWith('cs_live_') ? 'live' : enc.sessionId.startsWith('cs_test_') ? 'test' : o.mode;
+    if (o.flags.mode && o.flags.mode !== sessMode) die(`Refusing: --mode ${o.flags.mode} but the original session is ${sessMode} mode`);
+    o.mode = sessMode;
+    const stripe = await stripeClient();
+    const session = await stripe.checkout.sessions.retrieve(enc.sessionId);
+    for (const d of session.discounts ?? []) if (typeof d.promotion_code === 'string') d.promotion_code = await stripe.promotionCodes.retrieve(d.promotion_code);
+    auth = buildAuth({ refills: f.refills, sku: enc.sku, authorizedBy: f['authorized-by'], providerId: f['provider-id'], partnerRef: partnerRefFromSession(session), expires: f.expires });
+  }
   console.log(JSON.stringify(auth, null, 2));
   if (!o.apply) { console.log('DRY RUN: nothing written. Re-run with --apply to write.'); }
   else {
+    const manual = !!f.product;
     await ddb.send(new UpdateCommand({ TableName: TABLE, Key: { contactId: f.contact, sk: `encounter#${encId(f.encounter)}` },
-      UpdateExpression: 'SET refillAuth = :a, updatedAt = :now', ConditionExpression: '#state = :sw AND attribute_not_exists(refundStatus)',
-      ExpressionAttributeNames: { '#state': 'state' }, ExpressionAttributeValues: { ':a': auth, ':sw': 'script-written', ':now': new Date().toISOString() } }));
+      UpdateExpression: 'SET refillAuth = :a, updatedAt = :now',
+      ConditionExpression: (manual ? '#state IN (:sw, :fu)' : '#state = :sw') + ' AND attribute_not_exists(refundStatus)',
+      ExpressionAttributeNames: { '#state': 'state' },
+      ExpressionAttributeValues: { ':a': auth, ':sw': 'script-written', ':now': new Date().toISOString(), ...(manual ? { ':fu': 'fulfilled' } : {}) } }));
     console.log('Written.');
   }
 } else if (o.cmd === 'link') {

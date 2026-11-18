@@ -19,6 +19,8 @@ export interface Choice {
   blend: string; price?: string; fields: Record<string, string>; hasAuto: boolean;
   city?: string; state?: string; // city + state only of the address on file; never street/zip/name
   form?: Record<string, string>; error?: string; // POST re-render: keep the patient's answers
+  // Manual-pharmacy Rx product (e.g. Gut-Brain Rx). needAddress = nothing on file, so the address is required.
+  rx?: { intervalDays: number; needAddress: boolean };
 }
 
 const radio = (name: string, value: string, label: string, form: Record<string, string>, dflt = false) =>
@@ -26,13 +28,13 @@ const radio = (name: string, value: string, label: string, form: Record<string, 
 const input = (n: string, label: string, form: Record<string, string>, attrs = '') =>
   `<label>${label}<input name="${n}" value="${esc(form[n] ?? '')}" ${attrs} style="display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:10px;font-size:16px;border:1px solid #cfd8e0;border-radius:8px"></label>`;
 
-const addressBlock = (form: Record<string, string>): string =>
-  `<div id="addrbox"><p><small>Only fill this in if your address changed.</small></p>` +
-  input('a_name', 'Full name', form, 'autocomplete="name" maxlength="100"') + input('a_line1', 'Street address', form, 'autocomplete="address-line1" maxlength="100"') +
-  input('a_line2', 'Apt/suite (optional)', form, 'autocomplete="address-line2" maxlength="100"') + input('a_city', 'City', form, 'autocomplete="address-level2" maxlength="60"') +
-  `<label>State<select name="a_state" autocomplete="address-level1" style="display:block;width:100%;margin-top:4px;padding:10px;font-size:16px;border-radius:8px"><option value="">Select</option>` +
+const addressBlock = (form: Record<string, string>, required = false): string =>
+  `<div id="addrbox">${required ? '' : '<p><small>Only fill this in if your address changed.</small></p>'}` +
+  input('a_name', 'Full name', form, 'autocomplete="name" maxlength="100"' + (required ? ' required' : '')) + input('a_line1', 'Street address', form, 'autocomplete="address-line1" maxlength="100"' + (required ? ' required' : '')) +
+  input('a_line2', 'Apt/suite (optional)', form, 'autocomplete="address-line2" maxlength="100"') + input('a_city', 'City', form, 'autocomplete="address-level2" maxlength="60"' + (required ? ' required' : '')) +
+  `<label>State<select name="a_state"${required ? ' required' : ''} autocomplete="address-level1" style="display:block;width:100%;margin-top:4px;padding:10px;font-size:16px;border-radius:8px"><option value="">Select</option>` +
   STATES.map((s) => `<option${form['a_state'] === s ? ' selected' : ''}>${s}</option>`).join('') + `</select></label>` +
-  input('a_zip', 'ZIP code', form, 'autocomplete="postal-code" inputmode="numeric" maxlength="10"') + `</div>`;
+  input('a_zip', 'ZIP code', form, 'autocomplete="postal-code" inputmode="numeric" maxlength="10"' + (required ? ' required' : '')) + `</div>`;
 
 // Hides the address block unless "Yes" is chosen; without JS the block stays visible.
 const TOGGLE = `<script>(function(){var b=document.getElementById('addrbox'),r=document.querySelectorAll('input[name=addr]');` +
@@ -40,18 +42,30 @@ const TOGGLE = `<script>(function(){var b=document.getElementById('addrbox'),r=d
   `for(var i=0;i<r.length;i++)r[i].addEventListener('change',s);s()})()</script>`;
 
 export const choose = (a: Choice): string => {
+  const rx = a.rx;
   const price = a.price ? ` (${esc(a.price)} per box)` : '';
   const f = a.form ?? {};
   const hidden = Object.entries(a.fields).map(([k, v]) => `<input type="hidden" name="${esc(k)}" value="${esc(v)}">`).join('');
   const where = a.city && a.state ? `the address on your last order in ${esc(a.city)}, ${esc(a.state)}` : 'the address on your last order';
+  const err = a.error ? `<p role="alert" style="color:#b00020;font-weight:700">${esc(a.error)}</p>` : '';
+  const health = `<fieldset><legend>Any changes to your health or medications since your last order?</legend>` + radio('change', 'no', 'No', f) + radio('change', 'yes', 'Yes', f) + `</fieldset>`;
+  if (rx) {
+    const line = `<p>${esc(a.blend)}${a.price ? ` · ${esc(a.price)} every ${rx.intervalDays} days` : ''}</p>`;
+    const addr = rx.needAddress
+      ? `<fieldset><legend>Where should we ship it?</legend>${addressBlock(f, true)}</fieldset>`
+      : `<fieldset><legend>Has your shipping address changed since your last order?</legend>` + radio('addr', 'no', 'No', f) + `<p><small>We'll ship to ${where}.</small></p>` + radio('addr', 'yes', 'Yes', f) + addressBlock(f) + `</fieldset>`;
+    return page(`Your next ${a.blend} fill`, err + line + `<form method="post" action="">${hidden}` +
+      `<fieldset><legend>How would you like it?</legend>` +
+      (a.hasAuto ? radio('mode', 'auto', `Auto-ship every ${rx.intervalDays} days (recommended)`, f, true) : '') +
+      radio('mode', 'one', 'Just one fill', f, !a.hasAuto) + `</fieldset>` + health + addr +
+      `<button type="submit">Continue to secure checkout</button></form><p><small>Cancel anytime: reply to any email from us.</small></p>${rx.needAddress ? '' : TOGGLE}`);
+  }
   return page(`Your next ${a.blend} box`,
-    (a.error ? `<p role="alert" style="color:#b00020;font-weight:700">${esc(a.error)}</p>` : '') +
+    err +
     `<p>One six-patch box${price}.</p><form method="post" action="">${hidden}` +
     `<fieldset><legend>How would you like it?</legend>` +
     (a.hasAuto ? radio('mode', 'auto', 'Auto-ship every 6 weeks (recommended)', f, true) : '') +
-    radio('mode', 'one', 'Just one box', f, !a.hasAuto) + `</fieldset>` +
-    `<fieldset><legend>Any changes to your health or medications since your last order?</legend>` +
-    radio('change', 'no', 'No', f) + radio('change', 'yes', 'Yes', f) + `</fieldset>` +
+    radio('mode', 'one', 'Just one box', f, !a.hasAuto) + `</fieldset>` + health +
     `<fieldset><legend>Has your shipping address changed since your last order?</legend>` +
     radio('addr', 'no', 'No', f) + `<p><small>We'll ship to ${where}.</small></p>` + radio('addr', 'yes', 'Yes', f) + addressBlock(f) + `</fieldset>` +
     `<button type="submit">Continue to secure checkout</button></form><p><small>Cancel anytime: reply to any email from us.</small></p>${TOGGLE}`);

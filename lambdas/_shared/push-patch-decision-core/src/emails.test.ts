@@ -93,6 +93,20 @@ describe('refill emails', () => {
     expect(sent[0].text).toContain('https://invoice.stripe.com/i/x');
     expect(sent[0].to).toBe('j@example.com');
   });
+  it('payment failed, Push Patch copy unchanged when no productName', async () => {
+    await sendRefillPaymentFailed({ to: 'j@example.com', firstName: 'Jane', hostedInvoiceUrl: 'https://invoice.stripe.com/i/x' });
+    expect(sent[0].subject).toBe("We couldn't process your Push Patch payment");
+    expect(sent[0].text).toContain('your next Push Patch box, so it has not shipped yet');
+  });
+  it('payment failed, manual Rx: product name, Rx footer, no Push Patch/supplement wording', async () => {
+    await sendRefillPaymentFailed({ to: 'j@example.com', firstName: 'Jane', hostedInvoiceUrl: 'https://invoice.stripe.com/i/x', productName: 'Gut-Brain Rx' });
+    const m = sent[0];
+    expect(m.subject).toBe("We couldn't process your Gut-Brain Rx payment");
+    expect(m.from).toBe('support');
+    expect(m.text).toContain('https://invoice.stripe.com/i/x');
+    expect(m.text).toContain('prescription refill from My4MLife');
+    expect(m.text).not.toMatch(/Push Patch|Food and Drug|bpc|glutamine|aloe/i);
+  });
   it('change reported: ids only', async () => {
     await sendRefillChangeReported({ contactId: 'c1', encounterId: 'pp-cs_1' });
     expect(sent[0].to).toBe('drtj@my4mlife.com');
@@ -126,5 +140,50 @@ describe('refill reminder emails', () => {
     await sendRefillReReview({ to: 'j@example.com', firstName: 'Jane' });
     expect(sent[1].subject).toMatch(/re-review/);
     expect(sent[1].text).toContain('https://my4mlife.com/go/push-patch');
+  });
+});
+
+
+describe('manual Rx refill emails (Gut-Brain Rx)', () => {
+  it('patient email: preparing, not shipped, no tracking, from support, brand footer, no ingredients', async () => {
+    const { sendRefillPreparing } = await import('./emails');
+    await sendRefillPreparing({ to: 'b@example.com', firstName: 'Bryan', productName: 'Gut-Brain Rx', refillNumber: 1, refillsAuthorized: 2, nextChargeDate: 'December 20, 2026' });
+    const m = sent[sent.length - 1];
+    expect(m).toMatchObject({ to: 'b@example.com', from: 'support', subject: "We're preparing your Gut-Brain Rx refill" });
+    expect(m.text).toContain("We're preparing your Gut-Brain Rx refill");
+    expect(m.text).toContain('refill 1 of 2');
+    expect(m.text).toContain('December 20, 2026');
+    expect(m.text).toContain('1205 Hall Johnson Rd');
+    expect(m.text).not.toMatch(/on its way|tracking number|Push Patch|bpc|glutamine|aloe/i);
+  });
+  it('TJ action email: subject, full name, phone, address; no health text', async () => {
+    const { buildManualRefillOrderEmail } = await import('./emails');
+    const m = buildManualRefillOrderEmail({ productName: 'Gut-Brain Rx', firstName: 'Bryan', lastName: 'Shoemaker', phone: '555-0100', refillNumber: 1, refillsAuthorized: 2, ref: 'in_9',
+      shipTo: { name: 'Bryan Shoemaker', line1: '1 Main St', line2: 'Apt <2>', city: 'Austin', state: 'TX', postalCode: '78701' } });
+    expect(m.subject).toBe('[ACTION NEEDED] Place pharmacy order: Bryan S., Gut-Brain Rx refill 1 of 2');
+    for (const s of ['Bryan Shoemaker', '555-0100', '1 Main St', 'Austin, TX 78701', 'in_9']) expect(m.text).toContain(s);
+    expect(m.html).toContain('Apt &lt;2&gt;');
+    expect(m.text).not.toMatch(/bpc|glutamine|aloe/i);
+  });
+  it('TJ action email flags a missing address', async () => {
+    const { buildManualRefillOrderEmail } = await import('./emails');
+    const m = buildManualRefillOrderEmail({ productName: 'Gut-Brain Rx', firstName: 'Bryan', lastName: 'Shoemaker', phone: '', refillNumber: 2, refillsAuthorized: 2, ref: 'in_9' });
+    expect(m.text).toMatch(/NO ADDRESS ON FILE/);
+  });
+  it('reminders: Push Patch copy unchanged; manual copy says Gut-Brain Rx and uses weeks from days', async () => {
+    const { sendRefillReminder, sendRefillReReview } = await import('./emails');
+    await sendRefillReminder({ to: 'j@example.com', firstName: 'Jane', blendName: 'Glow', link: 'https://x/y', n: 1 });
+    expect(sent[sent.length - 1].subject).toBe('Time to reorder your Push Patch');
+    await sendRefillReminder({ to: 'b@example.com', firstName: 'Bryan', blendName: 'Gut-Brain Rx', link: 'https://x/y', n: 1, productName: 'Gut-Brain Rx', intervalDays: 30 });
+    const a = sent[sent.length - 1];
+    expect(a.subject).toBe('Time to reorder your Gut-Brain Rx');
+    expect(a.text).toContain('Gut-Brain Rx');
+    expect(a.text).not.toMatch(/Push Patch|5 weeks/);
+    await sendRefillReminder({ to: 'b@example.com', firstName: 'Bryan', blendName: 'Gut-Brain Rx', link: 'https://x/y', n: 2, productName: 'Gut-Brain Rx', intervalDays: 30 });
+    expect(sent[sent.length - 1].subject).toBe('Reminder: reorder your Gut-Brain Rx');
+    await sendRefillReReview({ to: 'b@example.com', firstName: 'Bryan', productName: 'Gut-Brain Rx' });
+    const r = sent[sent.length - 1];
+    expect(r.text).toContain('Gut-Brain Rx');
+    expect(r.text).not.toMatch(/go\/push-patch|Push Patch/);
   });
 });
