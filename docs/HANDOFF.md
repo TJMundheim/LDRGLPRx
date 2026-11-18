@@ -13,6 +13,15 @@
 - **TJ to do on 12-31/01-01:** raise the book prices in KDP by hand (Claude can't use KDP). **Honor any "unsubscribe" replies:** set Contact.marketingConsent.status=opted_out.
 - The send script and recipient list stay local only (scratchpad + TJ's Desktop/Book-Email-Review), never committed.
 
+## 2026-11-18 — HERITAGE partner code
+- Created in test (verified: lookup → attribution only; Stripe refuses it as a discount on all 7 blends) and live (promo_1UdCgVBSbDAyoIVy1TXeZd7I, placeholder email info@my4mlife.com until Cindy's arrives, commission 200, link /heritage).
+- **Live code DEACTIVATED right away:** the deployed push-patch-intake is from 2026-10-31 and predates no-discount partner support (084adac2). It would apply HERITAGE as a discount, Stripe would refuse it, and the checkout would fail.
+- To go live:
+  1. TJ OK → `lambdas/push-patch-intake/infra/deploy.sh`
+  2. Reactivate HERITAGE (promotionCodes.update active:true, or re-create the word)
+  3. Re-run the lookup check
+- partner-sign (PA-2026-11 agreement) is also undeployed: deploy before sending Cindy's signing link, and update the HERITAGE metadata.email to Cindy's first.
+
 ## ▶ TJ INPUT QUEUE (as of 2026-11-16 evening)
 1. Calendly: call days, hours and length; TJ creates the account (Standard) + connects Google Calendar → Claude writes the intake plan A–E and builds it.
 2. Lead from 11-13 with a bad email: TJ texting; needs either a resubmit at /consult or the correct email.
