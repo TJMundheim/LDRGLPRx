@@ -13,6 +13,13 @@
 - **TJ to do on 12-31/01-01:** raise the book prices in KDP by hand (Claude can't use KDP). **Honor any "unsubscribe" replies:** set Contact.marketingConsent.status=opted_out.
 - The send script and recipient list stay local only (scratchpad + TJ's Desktop/Book-Email-Review), never committed.
 
+## 2026-11-18 — DEPLOYED (TJ "deploy both when ready"): Rx manual refill lane + intake; HERITAGE live
+- Commit 614028de. Deployed: order-handler, stripe-events-retry, push-patch-reminder, website (/reorder accepts UUID encounters), push-patch-refill, push-patch-intake (no-discount partner support). No Lambda errors after deploy.
+- Live Gut-Brain Rx prices: product prod_VeW3RaEzSLvMps; once price_1UdD1bBSbDAyoIVyQG58eQC0; 30-day price_1UdD1bBSbDAyoIVySFb1bLbR ($125).
+- HERITAGE reactivated (promo_1UdCgVBSbDAyoIVy1TXeZd7I). The checkout lookup returns attribution only, with no discount.
+- Bryan: Gut-Brain Rx refills granted (2, manual fulfillment, 30 days, authorizedBy "Pharmacy refills on file (TJ 2026-11-18)") on his care-coordinator encounter. Link checked by GET: Gut-Brain Rx · $125 every 30 days, auto-ship pre-selected, address required (none on file). Email drafted, NOT SENT, waiting on TJ's "send". Each paid refill emails TJ "[ACTION NEEDED] Place pharmacy order".
+- Reviewer flags for TJ: the consent card labels the leaky-gut lane "Biome NS Rx" to patients (consent-request/consent-sign lanes.ts), which conflicts with the "Gut-Brain Rx" name.
+
 ## 2026-11-18 — HERITAGE partner code
 - Created in test (verified: lookup → attribution only; Stripe refuses it as a discount on all 7 blends) and live (promo_1UdCgVBSbDAyoIVy1TXeZd7I, placeholder email info@my4mlife.com until Cindy's arrives, commission 200, link /heritage).
 - **Live code DEACTIVATED right away:** the deployed push-patch-intake is from 2026-10-31 and predates no-discount partner support (084adac2). It would apply HERITAGE as a discount, Stripe would refuse it, and the checkout would fail.
