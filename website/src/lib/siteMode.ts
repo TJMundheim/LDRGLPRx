@@ -63,3 +63,7 @@ export const SHOW_PULLUP = PULLUP_APPROVED || import.meta.env.PUBLIC_SHOW_PULLUP
 // reachable at /heritage for preview. To go live set HERITAGE_APPROVED = true; to preview indexing: PUBLIC_SHOW_HERITAGE=1.
 const HERITAGE_APPROVED = false;
 export const SHOW_HERITAGE = HERITAGE_APPROVED || import.meta.env.PUBLIC_SHOW_HERITAGE === '1';
+
+// Monday cohort Zoom start time, e.g. '7 p.m. Central'. TJ to set before deploy.
+// website/deploy.sh refuses to deploy while this is 'TBD'.
+export const ZOOM_TIME = 'TBD';

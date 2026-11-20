@@ -24,6 +24,15 @@ if [[ -n "$MISSING" ]]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Guard: the Monday Zoom time is shown on the assessment thank-you. Never ship "TBD".
+ZOOM_TIME_VALUE="$(sed -n "s/^export const ZOOM_TIME = ['\"]\(.*\)['\"];.*/\1/p" "$SCRIPT_DIR/src/lib/siteMode.ts")"
+if [[ -z "${ZOOM_TIME_VALUE// /}" || "$(echo "$ZOOM_TIME_VALUE" | tr '[:lower:]' '[:upper:]')" == "TBD" ]]; then
+  echo ""
+  echo "ERROR: ZOOM_TIME is still 'TBD' in website/src/lib/siteMode.ts."
+  echo "Set the Monday cohort Zoom start time (e.g. '7 p.m. Central') before deploying."
+  exit 1
+fi
 DIST_DIR="$SCRIPT_DIR/dist"
 
 echo "==> Building website (domain: $DOMAIN)..."

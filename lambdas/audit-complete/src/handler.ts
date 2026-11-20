@@ -6,7 +6,8 @@ import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 import { v5 as uuidv5 } from 'uuid';
 import { buildStackCard } from './stackCard';
-import { recordAssessmentContact } from './contact';
+import { recordAssessmentContact, cleanSource } from './contact';
+import { buildEventBlock } from './eventBlock';
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const CONTACT_TABLE = process.env.CONTACT_TABLE ?? 'Contact';
@@ -264,19 +265,21 @@ function buildBreakdownCard(breakdown: BreakdownItem[], totalScore: number | nul
     }).join('');
     return `<tr><td colspan="2" style="padding:12px 8px 4px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1a3656">${safe(PILLAR_NAMES[p] || p)}</td></tr>${rows}`;
   }).join('');
+  // "Prefer not to say" items are omitted from the breakdown (20 scored items in all).
+  const skippedCount = Math.max(0, 20 - breakdown.length);
   const totalRow = totalScore != null
     ? `<p style="margin:14px 0 0;font-size:14px;color:#0a1628;text-align:right"><strong>Total: ${Math.max(0, Math.min(100, Number(totalScore) || 0))} / 100</strong>${band ? ` &middot; ${safe(band)}` : ''} <span style="color:#777;font-size:12px">(lower is better)</span></p>`
     : '';
   return `<div style="margin:20px 0;padding:22px;border:1px solid #d7dee8;border-radius:10px;background:#fff">
 <p style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:#1a3656;text-transform:uppercase;margin:0 0 8px">Your Full Results</p>
-<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">All 20 Questions, By Pillar</h2>
-<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 8px">This is your complete baseline — the number you'll retest against at the end of the 12-week program.</p>
+<h2 style="font-family:Georgia,serif;font-size:20px;color:#0a1628;margin:0 0 6px;line-height:1.2">${skippedCount > 0 ? 'Your Answers, By Pillar' : 'All 20 Questions, By Pillar'}</h2>
+<p style="color:#222;font-size:14px;line-height:1.55;margin:0 0 8px">This is your complete baseline — the number you'll retest against at the end of the 12-week program.${skippedCount > 0 ? ` You chose &ldquo;Prefer not to say&rdquo; on ${skippedCount} ${skippedCount === 1 ? 'question' : 'questions'}; ${skippedCount === 1 ? 'it is' : 'they are'} left out, and your total is scaled to the 100-point range.` : ''}</p>
 <table style="width:100%;border-collapse:collapse">${sections}</table>
 ${totalRow}
 </div>`;
 }
 
-function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: string, workbookUrl: string, breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = '', coordinatorIntake: { bestTime?: string } | null = null): string {
+function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: string, workbookUrl: string, breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = '', coordinatorIntake: { bestTime?: string } | null = null, src = ''): string {
   const safe = (s: string) => String(s ?? '').replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
   const appUrl = 'https://app.my4mlife.com';
   const rxRec = getRecommendedRx(scores, top3);
@@ -367,6 +370,7 @@ function buildResultsHtml(firstName: string, scores: any, top3: any[], bookUrl: 
   return `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#1a1a1a">
 <h1 style="font-size:24px;color:#0a1628;margin:0 0 10px">Welcome, ${safe(firstName)}.</h1>
 <p style="margin:0 0 20px;font-size:15px;line-height:1.55">You're officially a My4MLife Protégé. Four things are yours right now — your MindSpan Score, the book, the logbook, and the app. Take them in any order; they're designed to work together.</p>
+${buildEventBlock(src, process.env.ZOOM_TIME)}
 ${top3Card}
 ${breakdownCard}
 ${ctaSection}
@@ -378,7 +382,7 @@ ${buildStackCard()}
 </div>`;
 }
 
-async function sendResultsEmail(email: string, firstName: string, scores: any, top3: any[], breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = '', contactId?: string): Promise<void> {
+async function sendResultsEmail(email: string, firstName: string, scores: any, top3: any[], breakdown: BreakdownItem[] = [], totalScore: number | null = null, band = '', contactId?: string, src = ''): Promise<void> {
   let bookUrl = '';
   let workbookUrl = '';
   try { bookUrl = getBookDownloadUrl(); } catch (e) { console.warn('book URL build failed', e); }
@@ -390,7 +394,7 @@ async function sendResultsEmail(email: string, firstName: string, scores: any, t
   }
 
   const subject = `Welcome to My4MLife — your results, book, logbook, and app are ready`;
-  const html = buildResultsHtml(firstName, scores, top3, bookUrl, workbookUrl, breakdown, totalScore, band, coordinatorIntake);
+  const html = buildResultsHtml(firstName, scores, top3, bookUrl, workbookUrl, breakdown, totalScore, band, coordinatorIntake, src);
   const payload = { kind: 'info', to: email, subject, html };
   await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
@@ -475,7 +479,7 @@ export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGateway
       const breakdown: BreakdownItem[] = Array.isArray(parsed.breakdown) ? parsed.breakdown.slice(0, 24) : [];
       const totalScore: number | null = Number.isFinite(Number(parsed.totalScore)) ? Number(parsed.totalScore) : null;
       const band: string = typeof parsed.band === 'string' ? parsed.band.slice(0, 40) : '';
-      await sendResultsEmail(email, firstName, (scores && typeof scores === 'object') ? scores : {}, Array.isArray(top3) ? top3 : [], breakdown, totalScore, band, contactId);
+      await sendResultsEmail(email, firstName, (scores && typeof scores === 'object') ? scores : {}, Array.isArray(top3) ? top3 : [], breakdown, totalScore, band, contactId, cleanSource(parsed.src ?? event.queryStringParameters?.src));
     } catch (e) {
       console.warn('results email invoke failed', e);
     }

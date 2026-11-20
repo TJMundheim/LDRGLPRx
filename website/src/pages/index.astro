@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import '../styles/door.css';
 import TrustBand from '../components/TrustBand.astro';
-import { COORDINATOR_MODE, SHOW_BEASLEY_PARTNER, SHOW_COACHING, consultHref } from '../lib/siteMode';
+import { COORDINATOR_MODE, SHOW_BEASLEY_PARTNER, consultHref } from '../lib/siteMode';
 
 const title = COORDINATOR_MODE
   ? "My4MLife — Protect your mind. The right treatment, chosen with you."
@@ -207,22 +207,6 @@ const treatments = [
       </div>
       <p class="hp-fine">Randall's coaching is not medical care. Medical care through My4MLife is provided by our network's licensed physicians.</p>
     </div>
-  </div>
-</section>
-)}
-
-<!-- ===== ONE-ON-ONE WITH DR. TJ · THE CAPTAIN'S TABLE (live 2026-10-17) ===== -->
-{SHOW_COACHING && (
-<section class="hp-seats" aria-labelledby="hp-seats-heading">
-  <div class="container hp-seats-inner">
-    <div class="hp-seats-dots" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-    <p class="hp-eyebrow hp-eyebrow--gold">One-on-one with Dr. TJ &middot; The Captain&rsquo;s Table</p>
-    <h2 class="hp-seats-heading" id="hp-seats-heading">Four seats. Your home. Your whole life.</h2>
-    <p class="hp-seats-copy">I take on no more than four people at a time, and I come to you twice in your first month. First, four days in your home, Sunday through Wednesday: we test, we clear the pantry, set up your home, and build your workout and your morning routine. Then a call every day. At the end of the month I come back for three days to see what thirty days of change has done, and to deliver your regenerative therapy in person.</p>
-    <p class="hp-seats-price"><span class="hp-seats-amt">$50,000</span> for the first month. Travel included.</p>
-    <p class="hp-seats-cap">Two new seats open each month. Never more than four people at a time.</p>
-    <a href="/coaching" class="hp-btn hp-btn--accent" onclick="window.posthog && posthog.capture('hp_coaching_apply_click')">Apply for a seat</a>
-    <p class="hp-seats-note">By application only.</p>
   </div>
 </section>
 )}

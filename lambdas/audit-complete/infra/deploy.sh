@@ -14,6 +14,18 @@ COORDINATOR_BRIEF_FN="my4mlife-coordinator-brief"
 NURTURE_QUEUE_NAME="my4mlife-nurture-queue"
 PATIENT_RECORDS_TABLE="PatientRecords"
 
+# Weekly Monday Zoom time shown in the talk welcome email (e.g. "7:00 PM CT").
+# Set it here or export ZOOM_TIME before running. Deploy is refused while TBD.
+ZOOM_TIME="${ZOOM_TIME:-TBD}"
+if [[ -z "${ZOOM_TIME// /}" || "$(echo "$ZOOM_TIME" | tr '[:lower:]' '[:upper:]')" == "TBD" ]]; then
+  echo "ERROR: ZOOM_TIME is unset or TBD. Set the Monday Zoom time (e.g. ZOOM_TIME='7:00 PM CT' bash $0) before deploying." >&2
+  exit 1
+fi
+if [[ "$ZOOM_TIME" =~ [,={}\"] ]]; then
+  echo "ERROR: ZOOM_TIME must not contain , = { } or quotes (breaks Lambda env shorthand): $ZOOM_TIME" >&2
+  exit 1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AWS="aws --region $REGION"
 
@@ -105,7 +117,7 @@ ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
 # ── 3. Lambda create or update ────────────────────────────────────────────────
 log "Deploying Lambda $FUNCTION_NAME..."
 NURTURE_QUEUE_URL="https://sqs.$REGION.amazonaws.com/$AWS_ACCOUNT_ID/$NURTURE_QUEUE_NAME"
-ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=Users,COGNITO_USER_POOL_ID=us-east-2_kIpKnr17R,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,COORDINATOR_BRIEF_FN=$COORDINATOR_BRIEF_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind.pdf,PROTEGE_WORKBOOK_S3_KEY=the-logbook-month1.pdf,PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,COORDINATOR_MODE=true}"
+ENV_VARS="Variables={CONTACT_TABLE=$CONTACT_TABLE,USER_PROFILE_TABLE=Users,COGNITO_USER_POOL_ID=us-east-2_kIpKnr17R,EMAIL_SENDER_FN=$EMAIL_SENDER_FN,COORDINATOR_BRIEF_FN=$COORDINATOR_BRIEF_FN,NURTURE_QUEUE_URL=$NURTURE_QUEUE_URL,DIGITAL_FULFILLMENT_BUCKET=my4mlife-digital-fulfillment,PROTEGE_BOOK_S3_KEY=begin-with-the-end-in-mind.pdf,PROTEGE_WORKBOOK_S3_KEY=the-logbook-month1.pdf,PATIENT_RECORDS_TABLE=$PATIENT_RECORDS_TABLE,COORDINATOR_MODE=true,ZOOM_TIME=$ZOOM_TIME}"
 
 if $AWS lambda get-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1; then
   $AWS lambda update-function-code \

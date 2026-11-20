@@ -510,3 +510,85 @@ describe('audit-complete handler — COORDINATOR_MODE CTA (TJ punch list 3)', ()
     }
   });
 });
+
+// Talk/event mode: src=talk-<event> is the drawing's entry record (Contact.sources).
+describe('audit-complete handler — talk event src + welcome email', () => {
+  const welcome = () => {
+    const c = lambdaSendMock.mock.calls.find((x: any) => x[0].input.FunctionName === 'my4mlife-email-sender')![0];
+    return JSON.parse(Buffer.from(c.input.Payload).toString('utf8'));
+  };
+  const contactUpsert = () => sendMock.mock.calls.map((c: any) => c[0].input)
+    .find((i: any) => i.TableName === 'Contact' && String(i.UpdateExpression).includes('ADD'));
+
+  beforeEach(() => { process.env.ZOOM_TIME = '7:00 PM CT'; });
+
+  it('adds the lowercased talk tag to Contact.sources (string-set ADD) for a new contact, and firstSource set-once', async () => {
+    await handler(evt({ email: 'new-talk@example.com', src: 'Talk-Rotary-Dec', top3: [] }));
+    const u = contactUpsert();
+    expect(u.UpdateExpression).toMatch(/ADD [^]*#sources :sources/);
+    expect([...u.ExpressionAttributeValues[':sources']]).toEqual(['talk-rotary-dec']);
+    expect(u.UpdateExpression).toContain('#firstSource = if_not_exists(#firstSource, :firstSource)');
+  });
+
+  it('a repeat completer at a new event gets the new tag ADDed (additive, no condition, firstSource not overwritten)', async () => {
+    await handler(evt({ email: 'repeat@example.com', src: 'talk-rotary-dec', top3: [] }));
+    await handler(evt({ email: 'repeat@example.com', src: 'talk-lions-jan', top3: [] }));
+    const ups = sendMock.mock.calls.map((c: any) => c[0].input)
+      .filter((i: any) => i.TableName === 'Contact' && String(i.UpdateExpression).includes('ADD'));
+    expect(ups).toHaveLength(2);
+    expect([...ups[1].ExpressionAttributeValues[':sources']]).toEqual(['talk-lions-jan']);
+    expect(ups[1].ConditionExpression).toBeUndefined();
+    expect(ups[1].UpdateExpression).toContain('if_not_exists(#firstSource');
+    expect(ups[1].UpdateExpression).not.toMatch(/#firstSource = :firstSource/);
+  });
+
+  it('reads src from ?src= too', async () => {
+    await handler({ ...evt({ email: 'q-talk@example.com', top3: [] }), queryStringParameters: { src: 'talk-rotary-dec' } });
+    expect([...contactUpsert().ExpressionAttributeValues[':sources']]).toEqual(['talk-rotary-dec']);
+    expect(welcome().html).toContain("You're entered in tonight's signed-book drawing");
+  });
+
+  it('event email carries the event block near the top, before the Top 3 card, with the tag on the consult link', async () => {
+    await handler(evt({ email: 'ev@example.com', firstName: 'Sam', src: 'talk-rotary-dec', top3: [] }));
+    const { html } = welcome();
+    expect(html).toContain("You're entered in tonight's signed-book drawing. Winners are drawn at the end of the talk.");
+    expect(html).toContain('Join us Mondays at 7:00 PM CT on Zoom with Dr. TJ. Every session is recorded and the recording is emailed to you.');
+    expect(html).toContain('We never call unless you ask.');
+    expect(html).toContain('https://www.my4mlife.com/consult?src=talk-rotary-dec');
+    expect(html.indexOf('signed-book drawing')).toBeLessThan(html.indexOf('Your Top 3 Priorities'));
+    expect(html.indexOf('Welcome, Sam')).toBeLessThan(html.indexOf('signed-book drawing'));
+  });
+
+  it('ZOOM_TIME=TBD yields the graceful phrase', async () => {
+    process.env.ZOOM_TIME = 'TBD';
+    await handler(evt({ email: 'tbd@example.com', src: 'talk-x', top3: [] }));
+    const { html } = welcome();
+    expect(html).toContain('Join us Monday evenings on Zoom with Dr. TJ.');
+    expect(html).not.toContain('TBD');
+  });
+
+  it('breakdown: 20 answered keeps the "All 20 Questions" card; skipped items get an honest note', async () => {
+    const item = (i: number) => ({ id: `q${i}`, label: `Q${i}`, pillar: 'mind', score: 1 });
+    await handler(evt({ email: 'all@example.com', top3: [], breakdown: Array.from({ length: 20 }, (_, i) => item(i)), totalScore: 20 }));
+    let { html } = welcome();
+    expect(html).toContain('All 20 Questions, By Pillar');
+    expect(html).not.toContain('Prefer not to say');
+    lambdaSendMock.mockClear();
+    await handler(evt({ email: 'skip@example.com', top3: [], breakdown: Array.from({ length: 18 }, (_, i) => item(i)), totalScore: 20 }));
+    ({ html } = welcome());
+    expect(html).toContain('Your Answers, By Pillar');
+    expect(html).toContain('on 2 questions; they are left out, and your total is scaled to the 100-point range.');
+    expect(html).toContain('Total: 20 / 100');
+  });
+
+  it('non-event emails are unchanged: no drawing/Zoom/event consult link', async () => {
+    for (const src of [undefined, 'uninsured-decade', 'assessment']) {
+      lambdaSendMock.mockClear();
+      await handler(evt({ email: 'plain@example.com', src, top3: [] }));
+      const { html } = welcome();
+      expect(html).not.toContain('signed-book drawing');
+      expect(html).not.toContain('on Zoom with Dr. TJ. Every session');
+      expect(html).not.toContain('consult?src=');
+    }
+  });
+});

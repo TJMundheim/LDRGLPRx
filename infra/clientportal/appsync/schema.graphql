@@ -669,12 +669,28 @@ type Query {
     @aws_auth(cognito_groups: ["Admins"])
   listEventsAdmin(limit: Int): [Event!]!
     @aws_auth(cognito_groups: ["Admins"])
+  drawingEvents: [DrawingEvent!]!
+    @aws_auth(cognito_groups: ["Admins"])
+  drawingEntrants(tag: String!): [DrawingEntrant!]!
+    @aws_auth(cognito_groups: ["Admins"])
   listPatientRecordsAdmin(limit: Int): [PatientRecordAdmin!]!
     @aws_auth(cognito_groups: ["Admins"])
   listPatientRecordsAdminPage(limit: Int, nextToken: String): PatientRecordAdminPage!
     @aws_auth(cognito_groups: ["Admins"])
   getPatientRecordAdmin(contactId: ID!): PatientRecordAdmin
     @aws_auth(cognito_groups: ["Admins"])
+}
+
+# Talk book-drawing (admin only). No email/phone/health data is ever exposed here.
+type DrawingEvent {
+  tag: String!
+  entrantCount: Int!
+  lastEntryAt: AWSDateTime
+}
+
+type DrawingEntrant {
+  contactId: ID!
+  display: String!
 }
 
 type Mutation {

@@ -211,6 +211,8 @@ export class ApiStack extends cdk.Stack {
     unitResolver('UpcomingEventsResolver', 'Query', 'upcomingEvents', dsEvents, 'upcomingEvents.js');
     unitResolver('RsvpEventResolver', 'Mutation', 'rsvpEvent', dsEventRsvps, 'rsvpEvent.js');
     unitResolver('ListProtegesResolver', 'Query', 'listProteges', dsContact, 'listProteges.js');
+    unitResolver('DrawingEventsResolver', 'Query', 'drawingEvents', dsContact, 'drawingEvents.js');
+    unitResolver('DrawingEntrantsResolver', 'Query', 'drawingEntrants', dsContact, 'drawingEntrants.js');
     unitResolver('ListEventsAdminResolver', 'Query', 'listEventsAdmin', dsEvents, 'listEventsAdmin.js');
     unitResolver('UpdateEventRecordingUrlResolver', 'Mutation', 'updateEventRecordingUrl', dsEvents, 'updateEventRecordingUrl.js');
     unitResolver('RecordAdherenceResolver', 'Mutation', 'recordAdherence', dsAdherence, 'recordAdherence.js');

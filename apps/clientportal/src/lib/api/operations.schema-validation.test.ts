@@ -30,6 +30,8 @@ import {
   listPatientRecordsAdminAll,
   getPatientRecordAdmin,
   updateEncounterStateAdmin,
+  listDrawingEvents,
+  listDrawingEntrants,
 } from './operations.js';
 
 // ─── Build the schema from the real SDL + AppSync preamble ─────────────────────
@@ -108,6 +110,13 @@ describe('EMR admin operations validate against the deployed AppSync schema', ()
     );
     const errors = validate(schema, parse(query));
     expect(errors.map((e) => e.message)).toEqual([]);
+  });
+
+  it('drawing operations are valid documents', async () => {
+    for (const fn of [() => listDrawingEvents(), () => listDrawingEntrants('talk-x')]) {
+      const query = await captureQuery(fn);
+      expect(validate(schema, parse(query)).map((e) => e.message)).toEqual([]);
+    }
   });
 
   it('sanity: the validator actually rejects a known-bad document', () => {

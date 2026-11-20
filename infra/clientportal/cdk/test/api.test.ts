@@ -143,3 +143,20 @@ describe('recordAdherence allow-list (My counts)', () => {
     });
   }
 });
+
+describe('drawing admin queries schema', () => {
+  // Checked against the .ts source (committed api-stack.js is stale; cdk runs the .ts via ts-node).
+  it('are wired in api-stack.ts to the Contact data source', () => {
+    const src = readFileSync(join(__dirname, '../lib/api-stack.ts'), 'utf8');
+    expect(src).toMatch(/'Query', 'drawingEvents', dsContact, 'drawingEvents\.js'/);
+    expect(src).toMatch(/'Query', 'drawingEntrants', dsContact, 'drawingEntrants\.js'/);
+  });
+
+  it('are Admins-only and expose no email/phone fields', () => {
+    const schema = readFileSync(join(__dirname, '../../appsync/schema.graphql'), 'utf8');
+    expect(schema).toMatch(/drawingEvents: \[DrawingEvent!\]!\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
+    expect(schema).toMatch(/drawingEntrants\(tag: String!\): \[DrawingEntrant!\]!\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
+    const t = schema.match(/type DrawingEntrant \{[^}]*\}/)![0];
+    expect(t).not.toMatch(/email|phone/i);
+  });
+});

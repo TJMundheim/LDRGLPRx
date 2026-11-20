@@ -1,10 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { AUDIT_QUESTIONS, AUDIT_PILLARS, DIAGNOSED_QUESTION } from '../data/audit-questions';
-import { COORDINATOR_MODE } from '../lib/siteMode';
+import { COORDINATOR_MODE, ZOOM_TIME } from '../lib/siteMode';
 
-const title = "Get Your MindSpan Baseline — Free 20-Question 4M Assessment — My4MLife";
-const description = "Set your MindSpan baseline with the free 20-question 4M Assessment (about seven minutes). See your top 3 priorities on screen immediately — and we'll email your full results with a free copy of Begin with the End in Mind, the Logbook, and access to the Protégé app.";
+// Intimate items that get a "Prefer not to say" option in every mode.
+// Skipped = missing (excluded from score, top 3 and the email), never zero.
+const SENSITIVE_IDS = ['erectile-dysfunction', 'hormone-balance'];
+
+const title = "Get Your MindSpan Baseline — Free 20-Question MindSpan Assessment — My4MLife";
+const description = "Set your MindSpan baseline with the free 20-question MindSpan Assessment (about seven minutes). See your top 3 priorities on screen immediately — and we'll email your full results with a free copy of Begin with the End in Mind, the Logbook, and access to the Protégé app.";
 const canonical = "https://www.my4mlife.com/assessment";
 const keywords = "4M assessment, personalized health assessment, gut health quiz, hormone balance test, cognitive health assessment, My4MLife, free health quiz";
 const robots = "index, follow";
@@ -16,8 +20,8 @@ const robots = "index, follow";
   <div class="container assess-hero-inner">
     <div class="assess-badge">FREE · ABOUT 7 MINUTES · NO ACCOUNT REQUIRED</div>
     <h1>How sharp will you be at 80?</h1>
-    <p class="assess-sub">Take the free Brain Check — about 7 minutes. See your score, the three things aging your brain fastest, and what to do this week.</p>
-    <p class="assess-hero-cta"><a class="btn btn-primary btn-large" href="#questions-section">Start my Brain Check</a></p>
+    <p class="assess-sub">Take the free MindSpan Assessment — about 7 minutes. See your score, the three things aging your brain fastest, and what to do this week.</p>
+    <p class="assess-hero-cta"><a class="btn btn-primary btn-large" href="#questions-section">Start my MindSpan Assessment</a></p>
     <p class="assess-sub">Alzheimer's is a disease that shows up when you're older. It starts in midlife — which is why this baseline is worth setting now, while the things it measures can still be changed.</p>
     <p class="assess-tagline">Don't lose your identity and your dignity while you still have a choice.</p>
     <div class="assess-meta">
@@ -92,6 +96,9 @@ const robots = "index, follow";
             <span>No problem</span>
             <span>Severe</span>
           </div>
+          {SENSITIVE_IDS.includes(q.id) && (
+            <button class="skip-btn" data-skip={q.id} data-qid={q.id} aria-pressed="false" type="button">Prefer not to say</button>
+          )}
 
           <!-- Expandable scoring guide -->
           <button
@@ -204,7 +211,7 @@ const robots = "index, follow";
       <ol class="results-top3-list" id="results-top3-list"></ol>
     </div>
 
-    <div class="results-diag-banner" id="results-diag-banner" hidden>
+    <div class="results-diag-banner" id="results-diag-banner" data-rx-lane hidden>
       <h3>Because of your diagnosis, one path matters most</h3>
       <p>You told us you've already received a neurocognitive diagnosis. That makes regenerative medicine time-sensitive — it's the first conversation to have.</p>
       <a href="/regenerative-medicine" class="btn btn-primary">Explore the regenerative-medicine path &rarr;</a>
@@ -221,6 +228,13 @@ const robots = "index, follow";
       <p class="results-cm-boundary"><strong>In crisis or thinking about harming yourself?</strong> Call or text <a href="tel:988">988</a>, the Suicide &amp; Crisis Lifeline, any time, day or night.</p>
     </div>
 
+    <div class="event-thanks" id="event-thanks" hidden>
+      <h3>You're entered in tonight's signed-book drawing.</h3>
+      <p>Your book (<em>Begin with the End in Mind</em>), the 4M Logbook and the Prot&eacute;g&eacute; app are in your email.</p>
+      <p>Join us Mondays at {ZOOM_TIME} on Zoom. Recorded every week and emailed to you.</p>
+      <p class="event-thanks-quiet">Want to talk it through? A free 15-minute call with a care coordinator. We never call unless you ask. <a id="event-call-link" href="/consult">Request the call &rarr;</a></p>
+    </div>
+
     <div class="results-email-block">
       <h3>What&rsquo;s in your email</h3>
       <ul class="results-email-list">
@@ -233,14 +247,14 @@ const robots = "index, follow";
     </div>
 
     {COORDINATOR_MODE ? (
-      <div class="results-coordinator-block" id="results-coordinator-block">
+      <div class="results-coordinator-block" id="results-coordinator-block" data-rx-lane>
         <h3 id="results-coordinator-heading">Book your free care coordinator call</h3>
         <p id="results-coordinator-copy">Schedule a call with one of our care coordinators. They&rsquo;ll listen to your situation, take this baseline into the call, and connect you with the appropriate medical provider in our network.</p>
         <a href="/consult" id="results-coordinator-cta" class="btn btn-primary btn-large">Book your free care coordinator call &rarr;</a>
         <p id="results-coordinator-note" class="results-coordinator-note" hidden><a href="/consult">Add a note &rarr;</a></p>
       </div>
     ) : (
-      <div class="results-coordinator-block">
+      <div class="results-coordinator-block" data-rx-lane>
         <h3>Want to talk to a person?</h3>
         <p>Schedule a call with one of our care coordinators. They&rsquo;ll listen to your situation and connect you with the appropriate medical provider in our network for your chief complaint.</p>
         <a href="/consult" class="btn btn-primary btn-large">Schedule with a Care Coordinator &rarr;</a>
@@ -310,8 +324,22 @@ const robots = "index, follow";
 
   var LS_KEY = 'public-assessment-v2';
 
+  // ── Event mode: src starting with talk- (case-insensitive), kept for the session ──
+  function eventSrc() {
+    var v = null;
+    try { v = new URLSearchParams(location.search).get('src'); } catch (e) {}
+    try {
+      if (v) sessionStorage.setItem('my4m_src', v);
+      else v = sessionStorage.getItem('my4m_src');
+    } catch (e) {}
+    return v || '';
+  }
+  function isEvent() { return /^talk-/i.test(eventSrc()); }
+  if (isEvent()) document.documentElement.classList.add('event-mode');
+
   // ── State ──
   var scores = {}; // { [id]: 0-5 } — the 20 scored items only
+  var skipped = {}; // { [id]: true } — "Prefer not to say": missing, never zero
   var diagnosed = null; // null = unanswered, true/false once answered
   var userName = '';
   var userEmail = '';
@@ -401,6 +429,9 @@ const robots = "index, follow";
           if (typeof v === 'number' && v >= 0 && v <= 5) scores[id] = v;
         }
       }
+      if (saved.skipped) {
+        for (var sid in saved.skipped) { if (saved.skipped[sid] === true) skipped[sid] = true; }
+      }
       if (typeof saved.diagnosed === 'boolean') diagnosed = saved.diagnosed;
       if (saved.name) userName = saved.name;
       if (saved.email) userEmail = saved.email;
@@ -422,6 +453,7 @@ const robots = "index, follow";
     try {
       localStorage.setItem(LS_KEY, JSON.stringify({
         scores: scores,
+        skipped: skipped,
         diagnosed: diagnosed,
         name: userName,
         email: userEmail,
@@ -457,6 +489,7 @@ const robots = "index, follow";
       return raw > 0 ? raw + (BONUS_BY_ID[id] || 0) : raw;
     }
     return categories
+      .filter(function (c) { return !skipped[c.id]; })
       .map(function (c, i) { return { cat: c, i: i, total: adj(c.id) }; })
       .sort(function (a, b) {
         if (b.total !== a.total) return b.total - a.total;
@@ -467,9 +500,15 @@ const robots = "index, follow";
   }
 
   function totalScore() {
-    var t = 0;
-    for (var i = 0; i < QUESTIONS.length; i++) t += scores[QUESTIONS[i].id] || 0;
-    return t;
+    // Skipped items are missing, not zero: prorate the answered items to the 0-100 scale.
+    var t = 0, n = 0;
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      if (skipped[QUESTIONS[i].id]) continue;
+      t += scores[QUESTIONS[i].id] || 0;
+      n++;
+    }
+    if (n === 0) return 0;
+    return n === QUESTIONS.length ? t : Math.round(t * QUESTIONS.length / n);
   }
 
   function bandFor(total) {
@@ -480,10 +519,11 @@ const robots = "index, follow";
   }
 
   // ── Progress ──
+  function isAnswered(id) { return scores[id] !== undefined || skipped[id] === true; }
   function answeredCount() {
     var count = 0;
     for (var i = 0; i < QUESTIONS.length; i++) {
-      if (scores[QUESTIONS[i].id] !== undefined) count++;
+      if (isAnswered(QUESTIONS[i].id)) count++;
     }
     return count;
   }
@@ -535,9 +575,11 @@ const robots = "index, follow";
   // ── Apply restored scores to DOM ──
   function applyRestoredScores() {
     for (var id in scores) {
+      if (skipped[id]) continue;
       highlightButton(id, scores[id]);
       markCardAnswered(id);
     }
+    for (var sid in skipped) { highlightSkip(sid); markCardAnswered(sid); }
     updateProgress();
   }
 
@@ -557,6 +599,18 @@ const robots = "index, follow";
         btn.style.cssText = '';
       }
     });
+  }
+
+  function highlightSkip(qid) {
+    var on = skipped[qid] === true;
+    var sb = document.querySelector('.skip-btn[data-skip="' + qid + '"]');
+    if (sb) { sb.classList.toggle('skip-selected', on); sb.setAttribute('aria-pressed', String(on)); }
+    if (on) {
+      var row = document.querySelector('.likert-row[data-qid="' + qid + '"]');
+      if (row) row.querySelectorAll('.likert-btn').forEach(function (b) {
+        b.classList.remove('likert-selected'); b.setAttribute('aria-pressed', 'false'); b.style.cssText = '';
+      });
+    }
   }
 
   function getBtnStyle(val) {
@@ -581,9 +635,22 @@ const robots = "index, follow";
       var qid = btn.getAttribute('data-qid');
       var val = parseInt(btn.getAttribute('data-val'), 10);
       scores[qid] = val;
+      delete skipped[qid];
+      highlightSkip(qid);
       persist();
       highlightButton(qid, val);
       markCardAnswered(qid);
+      updateProgress();
+    });
+
+    // "Prefer not to say" (sensitive items only)
+    document.getElementById('q-list').addEventListener('click', function (e) {
+      var sb = e.target.closest('.skip-btn');
+      if (!sb) return;
+      var qid = sb.getAttribute('data-skip');
+      if (skipped[qid]) { delete skipped[qid]; delete scores[qid]; sb.classList.remove('skip-selected'); sb.setAttribute('aria-pressed', 'false'); var c = document.getElementById('card-' + qid); if (c) c.classList.remove('q-answered'); }
+      else { skipped[qid] = true; delete scores[qid]; highlightButton(qid, -1); highlightSkip(qid); markCardAnswered(qid); }
+      persist();
       updateProgress();
     });
 
@@ -722,15 +789,17 @@ const robots = "index, follow";
       var top3Payload = selectTop3(scores, QUESTIONS).map(function (q) {
         return { id: q.id, label: q.label, slug: q.solutionSlug, score: scores[q.id] || 0 };
       });
+      // selectTop3 already leaves skipped items out.
       // scores payload: 20 items + the diagnosed flag encoded as 0|5 for
       // downstream compatibility (lambda rx-rec + app factor map).
       var scoresPayload = {};
       for (var qi = 0; qi < QUESTIONS.length; qi++) {
+        if (skipped[QUESTIONS[qi].id]) continue; // missing, not 0: the lambda never sees it
         scoresPayload[QUESTIONS[qi].id] = scores[QUESTIONS[qi].id] || 0;
       }
       scoresPayload['already-diagnosed'] = diagnosed === true ? 5 : 0;
       // Full per-question breakdown for the results email (pillar-grouped table).
-      var breakdownPayload = QUESTIONS.map(function (q) {
+      var breakdownPayload = QUESTIONS.filter(function (q) { return !skipped[q.id]; }).map(function (q) {
         return { id: q.id, label: q.label, pillar: q.pillar, score: scores[q.id] || 0 };
       });
       var totalPayload = totalScore();
@@ -752,7 +821,7 @@ const robots = "index, follow";
           diagnosed: diagnosed === true,
           sex: userSex,
           consent: consentPayload,
-          src: new URLSearchParams(location.search).get('src') || undefined,
+          src: eventSrc() || undefined,
         }),
       }).then(function (r) {
         phCapture(r && r.ok ? 'assessment_submitted' : 'assessment_submit_failed');
@@ -788,6 +857,10 @@ const robots = "index, follow";
           ? 'Read about your #' + (i + 1) + ' priority &rarr;'
           : 'See the solution path &rarr;';
         var goClass = COORDINATOR_MODE ? 'top3-go top3-go--secondary' : 'top3-go';
+        if (isEvent()) {
+          return '<li><div class="top3-plain"><span class="top3-label">' + escHtml(t.label) + '</span>' +
+            '<span class="top3-score">' + t.score + ' / 5</span></div></li>';
+        }
         return '<li><a href="/solutions/' + encodeURIComponent(t.slug) + '">' +
           '<span class="top3-label">' + escHtml(t.label) + '</span>' +
           '<span class="top3-score">' + t.score + ' / 5</span>' +
@@ -815,7 +888,15 @@ const robots = "index, follow";
       } catch (_) { /* no-op */ }
     }
 
-    // Diagnosed → regenerative-medicine banner
+    // Event mode: thank-you block, with the call linked back to the talk tag.
+    if (isEvent()) {
+      var thanks = document.getElementById('event-thanks');
+      var callLink = document.getElementById('event-call-link');
+      if (callLink) callLink.href = '/consult?src=' + encodeURIComponent(eventSrc());
+      if (thanks) thanks.hidden = false;
+    }
+
+    // Diagnosed → regenerative-medicine banner (hidden by CSS in event mode)
     if (diagnosed === true) {
       var diagBanner = document.getElementById('results-diag-banner');
       if (diagBanner) diagBanner.hidden = false;
@@ -858,6 +939,29 @@ const robots = "index, follow";
   --assess-muted: #718096;
   --assess-parchment: #faf8f4;
 }
+
+/* ── Event mode (src=talk-*): no prescription-lane promotion, and no chrome that sells it ── */
+/* Fully :global — the navbar, sticky CTA and footer live in other components, so scoped selectors never match them. */
+:global(.event-mode [data-rx-lane]),
+:global(.event-mode .sticky-cta),
+:global(.event-mode .navbar),
+:global(.event-mode .footer-col:has(a[href^="/rx/"])) { display: none !important; }
+.skip-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+  background: none;
+  border: 1px solid var(--assess-border);
+  border-radius: 999px;
+  color: var(--assess-muted);
+  font-size: 0.82rem;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+.skip-btn.skip-selected { background: var(--assess-muted); border-color: var(--assess-muted); color: #fff; }
+.event-thanks { background: #fff; border: 1px solid var(--assess-border); border-radius: 12px; padding: 20px 22px; margin: 20px 0; }
+.event-thanks h3 { margin: 0 0 10px; }
+.event-thanks p { margin: 0 0 8px; }
+.event-thanks-quiet { font-size: 0.88rem; color: var(--assess-muted); }
 
 /* ── Hero ── */
 .assess-hero {
@@ -1485,8 +1589,10 @@ const robots = "index, follow";
 .results-top3-block h3 { margin: 0 0 4px; color: var(--dark, #0a1628); }
 .results-top3-sub { font-size: 0.88rem; color: var(--assess-muted); margin: 0 0 14px; }
 .results-top3-list { list-style: none; counter-reset: top3; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-.results-top3-list li { counter-increment: top3; }
-.results-top3-list li a {
+/* Top-3 items are injected via innerHTML, so these must be :global (scoped selectors never matched them). */
+:global(.results-top3-list li) { counter-increment: top3; }
+:global(.results-top3-list li a),
+:global(.results-top3-list li .top3-plain) {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -1498,18 +1604,19 @@ const robots = "index, follow";
   background: var(--assess-parchment);
   transition: border-color 0.15s;
 }
-.results-top3-list li a:hover { border-color: #d9a927; }
-.results-top3-list li a::before {
+:global(.results-top3-list li a:hover) { border-color: #d9a927; }
+:global(.results-top3-list li a::before),
+:global(.results-top3-list li .top3-plain::before) {
   content: counter(top3);
   font-size: 1.15rem;
   font-weight: 800;
   color: #d9a927;
   font-variant-numeric: tabular-nums;
 }
-.top3-label { font-weight: 700; color: var(--dark, #0a1628); }
-.top3-score { font-size: 0.82rem; font-weight: 700; color: var(--assess-muted); font-variant-numeric: tabular-nums; }
-.top3-go { margin-left: auto; font-size: 0.85rem; font-weight: 600; color: var(--assess-accent-dark); }
-.top3-go--secondary { font-weight: 500; color: var(--assess-muted); text-decoration: underline; }
+:global(.results-top3-list .top3-label) { font-weight: 700; color: var(--dark, #0a1628); }
+:global(.results-top3-list .top3-score) { font-size: 0.82rem; font-weight: 700; color: var(--assess-muted); font-variant-numeric: tabular-nums; }
+:global(.results-top3-list .top3-go) { margin-left: auto; font-size: 0.85rem; font-weight: 600; color: var(--assess-accent-dark); }
+:global(.results-top3-list .top3-go--secondary) { font-weight: 500; color: var(--assess-muted); text-decoration: underline; }
 .results-coordinator-note { margin-top: 0.75rem; font-size: 0.9rem; }
 .results-coordinator-note a { color: var(--assess-muted); text-decoration: underline; }
 

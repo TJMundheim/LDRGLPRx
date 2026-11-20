@@ -5,10 +5,11 @@
   import ProtegesPanel from './ProtegesPanel.svelte';
   import EventsAdmin from './EventsAdmin.svelte';
   import PatientsAdmin from './PatientsAdmin.svelte';
+  import DrawingPanel from './DrawingPanel.svelte';
 
   const isAdmin = $derived(currentUser.value?.groups.includes('Admins') ?? false);
 
-  let activeTab = $state<'proteges' | 'events' | 'patients'>('proteges');
+  let activeTab = $state<'proteges' | 'events' | 'patients' | 'drawing'>('proteges');
 </script>
 
 {#if !isAdmin}
@@ -31,6 +32,11 @@
       class:active={activeTab === 'patients'}
       onclick={() => (activeTab = 'patients')}
     >Patients</button>
+    <button
+      class="tab"
+      class:active={activeTab === 'drawing'}
+      onclick={() => (activeTab = 'drawing')}
+    >Drawing</button>
   </div>
 
   {#if activeTab === 'proteges'}
@@ -39,6 +45,8 @@
     <EventsAdmin />
   {:else if activeTab === 'patients'}
     <PatientsAdmin />
+  {:else if activeTab === 'drawing'}
+    <DrawingPanel />
   {/if}
 </div>
 {/if}
@@ -77,6 +85,13 @@
   .tab.active {
     color: var(--mc-good-bright);
     border-bottom-color: var(--mc-good-bright);
+  }
+
+  /* Phone (the drawing is run from TJ's phone): four equal tabs that always fit, 44px tap targets. */
+  @media (max-width: 600px) {
+    .admin-dashboard { padding: 8px 0; }
+    .tabs { gap: 0; overflow-x: auto; }
+    .tab { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 10px 4px; white-space: nowrap; }
   }
 
   .loading, .error {

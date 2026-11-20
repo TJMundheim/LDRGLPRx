@@ -690,6 +690,31 @@ export async function listPushPatchProviders(
   });
 }
 
+// ─── Talk drawing (admin) ─────────────────────────────────────────────────────
+export interface DrawingEvent { tag: string; entrantCount: number; lastEntryAt?: string | null }
+export interface DrawingEntrant { contactId: string; display: string }
+
+export async function listDrawingEvents(opts?: ClientOptions) {
+  return client(opts)<{ drawingEvents: DrawingEvent[] }>({
+    query: `
+      query DrawingEvents {
+        drawingEvents { tag entrantCount lastEntryAt }
+      }
+    `,
+  });
+}
+
+export async function listDrawingEntrants(tag: string, opts?: ClientOptions) {
+  return client(opts)<{ drawingEntrants: DrawingEntrant[] }>({
+    query: `
+      query DrawingEntrants($tag: String!) {
+        drawingEntrants(tag: $tag) { contactId display }
+      }
+    `,
+    variables: { tag },
+  });
+}
+
 // ─── ExportClinicalPacketAdmin ────────────────────────────────────────────────
 
 export type PacketResultAdmin = {

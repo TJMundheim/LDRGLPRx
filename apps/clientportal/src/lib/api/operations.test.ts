@@ -28,6 +28,8 @@ import {
   refundEncounterAdmin,
   decidePushPatchAdmin,
   listPushPatchProviders,
+  listDrawingEvents,
+  listDrawingEntrants,
 } from './operations.js';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -281,5 +283,23 @@ describe('decidePushPatchAdmin', () => {
     await listPatientRecordsAdmin().catch(() => undefined);
     const q = (mockRequest.mock.calls[0]?.[0] as { query?: string } | undefined)?.query ?? '';
     expect(q).toMatch(/genesisOrderSentAt decidedAt decidedBy testOrder/);
+  });
+});
+
+describe('drawing operations', () => {
+  it('listDrawingEvents queries drawingEvents', async () => {
+    mockRequest.mockReset();
+    mockRequest.mockResolvedValue({ drawingEvents: [] });
+    await listDrawingEvents();
+    expect(mockRequest.mock.calls[0][0].query).toContain('drawingEvents');
+  });
+  it('listDrawingEntrants passes the tag and selects only contactId + display', async () => {
+    mockRequest.mockReset();
+    mockRequest.mockResolvedValue({ drawingEntrants: [] });
+    await listDrawingEntrants('talk-x');
+    const call = mockRequest.mock.calls[0][0];
+    expect(call.variables).toEqual({ tag: 'talk-x' });
+    expect(call.query).toMatch(/drawingEntrants\(tag: \$tag\) \{ contactId display \}/);
+    expect(call.query).not.toMatch(/email|phone/i);
   });
 });
