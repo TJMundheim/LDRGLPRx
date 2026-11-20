@@ -134,3 +134,12 @@ describe('push patch resolvers forward fieldName to the shared Lambda', () => {
     expect(src).toMatch(/payload: \{[^}]*fieldName: ctx\.info\.fieldName[^}]*\}/);
   });
 });
+
+describe('recordAdherence allow-list (My counts)', () => {
+  const src = readFileSync(join(__dirname, '../resolvers/recordAdherence.js'), 'utf8');
+  for (const id of ['count-steps', 'count-chews', 'count-water', 'count-sleep', '10k-steps']) {
+    it(`allows ${id}`, () => {
+      expect(src).toContain(`'${id}': true`);
+    });
+  }
+});

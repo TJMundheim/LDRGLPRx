@@ -28,6 +28,7 @@
     programMindspanScore, weeklyPctSeries, weeklyAggregate,
   } from '../program.js';
   import { pushToast } from '../toast/toast.svelte.js';
+  import CountsCard from './CountsCard.svelte';
 
   type Props = { firstName?: string };
   const { firstName = '' }: Props = $props();
@@ -393,6 +394,8 @@
           </table>
           <p class="gridhint">Tap any day this week you completed it. Window goal is 5 of 7 (up to two off-days: breakfast with the kids or grandkids, then walk 30 minutes after).</p>
         </div>
+
+        <CountsCard {entries} {today} {weekDates} weekStart={currentWeekStart} onEntries={(next) => { entries = next as AdherenceEntry[]; }} />
 
         <h2 class="sec">Measurements <span class="secnote">log today · dashboard shows each week's average</span></h2>
         <div class="measure-entry">

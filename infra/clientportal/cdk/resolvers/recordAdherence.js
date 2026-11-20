@@ -10,6 +10,10 @@ const ALLOWED_ACTIONS = {
   'move-retake-assessment': true,
   // Numeric measurements (stored with `value`, averaged per week on the dash).
   'measure-sys': true, 'measure-dia': true, 'measure-pulse': true,
+  // My counts (Count Yourself Skinny): numeric `value`, notes = {"source":"manual"|"healthkit"|"airpods"}.
+  'count-steps': true, 'count-chews': true, 'count-water': true, 'count-sleep': true,
+  // Bonus action the app auto-logs at 10,000 steps.
+  '10k-steps': true,
   'measure-spo2': true, 'measure-weight': true, 'measure-waist': true,
 };
 
