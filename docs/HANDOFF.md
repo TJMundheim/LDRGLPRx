@@ -13,6 +13,30 @@
 - **TJ to do on 12-31/01-01:** raise the book prices in KDP by hand (Claude can't use KDP). **Honor any "unsubscribe" replies:** set Contact.marketingConsent.status=opted_out.
 - The send script and recipient list stay local only (scratchpad + TJ's Desktop/Book-Email-Review), never committed.
 
+## 2026-11-20 — TALK READINESS BUILT (971c1c0d), NOT DEPLOYED: waiting on TJ's Monday Zoom time
+- Built from TJ's talk deck v4.2 + presenter script + reviewer walkthrough. Plan: docs/plan/talk-readiness-2026-11-20.md.
+  - Assessment event mode (src=talk-*): no Rx lanes, menu or Rx footer; thank-you with drawing / book / Monday Zoom / "we never call unless you ask"; "Prefer not to say" on Hormones + Sexual function (prorated score).
+  - MindSpan naming everywhere. Home drops the $50K Captain's Table band (/coaching stays). Consult page call line.
+  - audit-complete: event block in the welcome email.
+  - Admin Drawing tab (app.my4mlife.com → Admin → Drawing), Admins-only resolvers returning "First L." only.
+- Also live separately 2026-11-20: My counts (8bc455d5), deployed.
+- Deploy order once the time is set (same text in both places, e.g. "7 p.m. Central", no commas):
+  1. siteMode ZOOM_TIME
+  2. infra/clientportal/deploy.sh (cdk diff: 2 new resolvers + schema; AuthStack auth triggers re-bundle)
+  3. `ZOOM_TIME='…' bash lambdas/audit-complete/infra/deploy.sh`
+  4. apps/clientportal/deploy.sh
+  5. website/deploy.sh (guard refuses TBD)
+  6. Smoke /assessment?src=talk-smoke without submitting
+- Open for TJ:
+  - next talk date
+  - ask entrants for a last initial? (most give a first name only, so duplicates show)
+  - move the drawing confirmation above the score?
+  - Logbook Wednesday→Monday (4 places; rebuild + S3 re-upload)
+  - app steps habit 10,000 → 2,500 floor
+  - deck slide 33 says hardcover for all three books (only BWTEIM has one)
+  - treatment starting prices
+- The AI chat index (front-door-chat) still says "4M Assessment" + Captain's Table: rebuild after the website deploy.
+
 ## 2026-11-18 — DEPLOYED (TJ "deploy both when ready"): Rx manual refill lane + intake; HERITAGE live
 - Commit 614028de. Deployed: order-handler, stripe-events-retry, push-patch-reminder, website (/reorder accepts UUID encounters), push-patch-refill, push-patch-intake (no-discount partner support). No Lambda errors after deploy.
 - Live Gut-Brain Rx prices: product prod_VeW3RaEzSLvMps; once price_1UdD1bBSbDAyoIVyQG58eQC0; 30-day price_1UdD1bBSbDAyoIVySFb1bLbR ($125).
