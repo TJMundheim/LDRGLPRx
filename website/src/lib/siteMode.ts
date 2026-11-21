@@ -66,4 +66,4 @@ export const SHOW_HERITAGE = HERITAGE_APPROVED || import.meta.env.PUBLIC_SHOW_HE
 
 // Monday cohort Zoom start time, e.g. '7 p.m. Central'. TJ to set before deploy.
 // website/deploy.sh refuses to deploy while this is 'TBD'.
-export const ZOOM_TIME = 'TBD';
+export const ZOOM_TIME = '7 p.m. Central';

@@ -16,7 +16,7 @@ PATIENT_RECORDS_TABLE="PatientRecords"
 
 # Weekly Monday Zoom time shown in the talk welcome email (e.g. "7:00 PM CT").
 # Set it here or export ZOOM_TIME before running. Deploy is refused while TBD.
-ZOOM_TIME="${ZOOM_TIME:-TBD}"
+ZOOM_TIME="${ZOOM_TIME:-7 p.m. Central}"
 if [[ -z "${ZOOM_TIME// /}" || "$(echo "$ZOOM_TIME" | tr '[:lower:]' '[:upper:]')" == "TBD" ]]; then
   echo "ERROR: ZOOM_TIME is unset or TBD. Set the Monday Zoom time (e.g. ZOOM_TIME='7:00 PM CT' bash $0) before deploying." >&2
   exit 1
