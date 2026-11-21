@@ -16,7 +16,7 @@ function cap(s) {
 export function request(ctx) {
   if (!isAdmin(ctx)) util.unauthorized();
   const tag = ctx.args.tag;
-  if (typeof tag !== 'string' || !tag.startsWith('talk-')) util.error('tag must start with talk-', 'BadRequest');
+  if (typeof tag !== 'string' || !(tag === 'talk' || tag.startsWith('talk-'))) util.error('tag must be talk or start with talk-', 'BadRequest');
   return {
     operation: 'Scan',
     limit: 1000,

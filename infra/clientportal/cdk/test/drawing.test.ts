@@ -34,7 +34,7 @@ describe('drawingEvents resolver', () => {
     expect(req.filter.expression).toContain('attribute_exists(#s)');
     expect(req.filter.expression).toContain('begins_with(#fs, :p)');
     expect(req.filter.expression).toContain('#ls <> :banned');
-    expect(req.filter.expressionValues[':p']).toEqual({ S: 'talk-' });
+    expect(req.filter.expressionValues[':p']).toEqual({ S: 'talk' });
   });
   it('groups distinct talk- tags from sources and firstSource, counts entrants, drops stale tags', () => {
     const { response } = r();
@@ -50,6 +50,16 @@ describe('drawingEvents resolver', () => {
       },
     });
     expect(out).toEqual([{ tag: 'talk-austin-1120', entrantCount: 3, lastEntryAt: '2026-11-20T01:00:00Z' }]);
+  });
+  it('groups the bare `talk` tag but not look-alikes like talking/talks-x', () => {
+    const out = r().response({
+      result: { items: [
+        { contactId: 'a', sources: ['talk'], updatedAt: '2026-11-19T00:00:00Z' },
+        { contactId: 'b', firstSource: 'talk', updatedAt: '2026-11-20T00:00:00Z' },
+        { contactId: 'c', sources: ['talking', 'talks-x'], firstSource: 'talkative', updatedAt: '2026-11-20T00:00:00Z' },
+      ] },
+    });
+    expect(out).toEqual([{ tag: 'talk', entrantCount: 2, lastEntryAt: '2026-11-20T00:00:00Z' }]);
   });
   it('keeps all entrants of a recent tag, even those older than 14 days', () => {
     const out = r().response({
@@ -68,6 +78,11 @@ describe('drawingEntrants resolver', () => {
     expect(() => r().request({ identity: { groups: [] }, args: { tag: 'talk-x' } })).toThrow('unauthorized');
     expect(() => r().request(admin({ tag: 'assessment' }))).toThrow();
     expect(() => r().request(admin({ tag: '' }))).toThrow();
+  });
+  it('accepts the bare `talk` tag and rejects look-alikes', () => {
+    expect(r().request(admin({ tag: 'talk' })).filter.expressionValues[':t']).toEqual({ S: 'talk' });
+    expect(() => r().request(admin({ tag: 'talking' }))).toThrow();
+    expect(() => r().request(admin({ tag: 'talks-x' }))).toThrow();
   });
   it('filters on contains(sources, tag) OR firstSource = tag, excluding banned', () => {
     const req = r().request(admin({ tag: 'talk-x' }));

@@ -7,7 +7,9 @@ function isAdmin(ctx) {
   return Array.isArray(groups) && groups.includes('Admins');
 }
 
-// Distinct `talk-*` event tags seen in Contact within the last 14 days, with entrant counts.
+function isTalk(s) { return s === 'talk' || s.startsWith('talk-'); }
+
+// Distinct `talk` / `talk-*` event tags seen in Contact within the last 14 days, with entrant counts.
 // Contact is ~tens of rows; a Scan is fine. Entrant = Contact whose `sources` contains the tag
 // (written by audit-complete) OR whose `firstSource` is the tag.
 export function request(ctx) {
@@ -18,7 +20,7 @@ export function request(ctx) {
     filter: {
       expression: '(attribute_exists(#s) OR begins_with(#fs, :p)) AND (attribute_not_exists(#ls) OR #ls <> :banned)',
       expressionNames: { '#s': 'sources', '#fs': 'firstSource', '#ls': 'lifecycleStage' },
-      expressionValues: { ':p': { S: 'talk-' }, ':banned': { S: 'banned' } },
+      expressionValues: { ':p': { S: 'talk' }, ':banned': { S: 'banned' } },
     },
   };
 }
@@ -32,9 +34,9 @@ export function response(ctx) {
     const tags = [];
     const src = Array.isArray(item.sources) ? item.sources : [];
     src.forEach(function(s) {
-      if (typeof s === 'string' && s.startsWith('talk-') && tags.indexOf(s) < 0) tags.push(s);
+      if (typeof s === 'string' && isTalk(s) && tags.indexOf(s) < 0) tags.push(s);
     });
-    if (typeof item.firstSource === 'string' && item.firstSource.startsWith('talk-') && tags.indexOf(item.firstSource) < 0) {
+    if (typeof item.firstSource === 'string' && isTalk(item.firstSource) && tags.indexOf(item.firstSource) < 0) {
       tags.push(item.firstSource);
     }
     const at = item.updatedAt ? item.updatedAt : '';

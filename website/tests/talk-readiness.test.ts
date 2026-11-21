@@ -19,7 +19,7 @@ function walk(dir: string, out: string[] = []): string[] {
 
 describe('assessment event mode', () => {
   it('detects talk- src case-insensitively and persists it for the session', () => {
-    expect(assess).toMatch(/\^talk-/i);
+    expect(assess).toContain('/^talk(-|$)/i');
     expect(assess).toContain("sessionStorage.setItem('my4m_src'");
     expect(assess).toContain("sessionStorage.getItem('my4m_src'");
   });

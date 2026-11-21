@@ -324,7 +324,7 @@ const robots = "index, follow";
 
   var LS_KEY = 'public-assessment-v2';
 
-  // ── Event mode: src starting with talk- (case-insensitive), kept for the session ──
+  // ── Event mode: src `talk` or starting with talk- (case-insensitive), kept for the session ──
   function eventSrc() {
     var v = null;
     try { v = new URLSearchParams(location.search).get('src'); } catch (e) {}
@@ -334,7 +334,7 @@ const robots = "index, follow";
     } catch (e) {}
     return v || '';
   }
-  function isEvent() { return /^talk-/i.test(eventSrc()); }
+  function isEvent() { return /^talk(-|$)/i.test(eventSrc()); }
   if (isEvent()) document.documentElement.classList.add('event-mode');
 
   // ── State ──

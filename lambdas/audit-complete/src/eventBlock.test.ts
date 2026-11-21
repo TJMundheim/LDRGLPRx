@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
 import { isTalkSource, buildEventBlock } from './eventBlock';
 
 describe('isTalkSource', () => {
@@ -10,7 +11,10 @@ describe('isTalkSource', () => {
     expect(isTalkSource('uninsured-decade')).toBe(false);
     expect(isTalkSource('assessment')).toBe(false);
     expect(isTalkSource(undefined)).toBe(false);
-    expect(isTalkSource('talk')).toBe(false);
+    expect(isTalkSource('talk')).toBe(true);
+    expect(isTalkSource('TALK')).toBe(true);
+    expect(isTalkSource('talking')).toBe(false);
+    expect(isTalkSource('talks-x')).toBe(false);
   });
 });
 
@@ -42,13 +46,16 @@ describe('infra/deploy.sh ZOOM_TIME guard', () => {
   it('is valid bash', () => {
     execFileSync('bash', ['-n', script]);
   });
-  it.each([undefined, '', 'TBD', 'tbd'])('refuses to deploy when ZOOM_TIME is %j (before any aws/pnpm call)', (z) => {
+  it.each(['TBD', 'tbd'])('refuses to deploy when ZOOM_TIME is %j (before any aws/pnpm call)', (z) => {
     const env: Record<string, string> = { PATH: '/usr/bin:/bin' };
     if (z !== undefined) env.ZOOM_TIME = z;
     const r = spawnSync('bash', [script], { env, encoding: 'utf8' });
     expect(r.status).not.toBe(0);
     expect(r.stderr).toContain('ZOOM_TIME');
     expect(r.stdout).not.toContain('Installing dependencies');
+  });
+  it('defaults ZOOM_TIME to 7 p.m. Central when unset or empty', () => {
+    expect(readFileSync(script, 'utf8')).toContain('ZOOM_TIME="${ZOOM_TIME:-7 p.m. Central}"');
   });
   it('refuses values that would break the Lambda env shorthand', () => {
     const r = spawnSync('bash', [script], { env: { PATH: '/usr/bin:/bin', ZOOM_TIME: '7pm,FOO=bar' }, encoding: 'utf8' });

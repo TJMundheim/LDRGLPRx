@@ -1,8 +1,8 @@
-/** Talk/event welcome block: shown only when the assessment src is a `talk-*` tag. */
+/** Talk/event welcome block: shown only when the assessment src is a `talk` or `talk-*` tag. */
 const esc = (s: string) => s.replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c] as string));
 
 export function isTalkSource(src: unknown): src is string {
-  return typeof src === 'string' && /^talk-/i.test(src.trim());
+  return typeof src === 'string' && /^talk(-|$)/i.test(src.trim());
 }
 
 export function buildEventBlock(src: unknown, zoomTime: string | undefined): string {
