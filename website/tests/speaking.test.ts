@@ -12,7 +12,7 @@ describe('/speaking page', () => {
     expect(page).toContain('Book Dr. TJ to Speak | My4MLife');
   });
   it('flag is defined and gates noindex', () => {
-    expect(siteMode).toContain('const SPEAKING_APPROVED = false;');
+    expect(siteMode).toMatch(/const SPEAKING_APPROVED = (true|false);/); // live since 2026-11-20 (TJ)
     expect(siteMode).toContain("export const SHOW_SPEAKING = SPEAKING_APPROVED || import.meta.env.PUBLIC_SHOW_SPEAKING === '1';");
     expect(page).toMatch(/SHOW_SPEAKING\s*\?\s*'index,\s*follow'\s*:\s*'noindex,\s*follow'/);
   });

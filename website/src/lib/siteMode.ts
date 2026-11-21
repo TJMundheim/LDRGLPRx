@@ -71,5 +71,5 @@ export const ZOOM_TIME = '7 p.m. Central';
 // Speaking page (/speaking). Reachable but noindex until TJ approves. While false the page is
 // still built (for preview) but robots is noindex,follow. To go live set SPEAKING_APPROVED = true;
 // to preview indexing: build with PUBLIC_SHOW_SPEAKING=1. Footer link shows only when true.
-const SPEAKING_APPROVED = false;
+const SPEAKING_APPROVED = true; // TJ approved + live 2026-11-20
 export const SHOW_SPEAKING = SPEAKING_APPROVED || import.meta.env.PUBLIC_SHOW_SPEAKING === '1';
