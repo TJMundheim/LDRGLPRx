@@ -4,6 +4,9 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — LEAD CONCEPTS = SIDE BURNER (TJ)
+- TJ met Chris Wear: willing to help, no specifics yet. Next: TJ gifts him The Uninsured Decade, then regroups for names (six questions in lead-concepts-meeting-brief.md). Tracked under "Warm leads" in docs/launch/speaking/talk-log.md (nudge by 2026-12-15) so the Monday check-in keeps it alive.
+
 ## 2026-11-20 — ADVISOR EDITIONS OF THE TALK (TJ "build both")
 - docs/talk build.js now has `--edition=main|evening|guest` + `--host=`; main deck output verified unchanged. Notes per edition: docs/talk/notes_editions.json.
 - Evening (client-appreciation, ~35 min + host's 5): 31 slides, handoff slide "The other half of the answer", drawing after the host. Guest (advisor's own dinner seminar): 10 slides, ~10 min, chew-count opener, annuity/LTC-host variant line in notes.
