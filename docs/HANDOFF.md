@@ -4,6 +4,12 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — ADVISOR EDITIONS OF THE TALK (TJ "build both")
+- docs/talk build.js now has `--edition=main|evening|guest` + `--host=`; main deck output verified unchanged. Notes per edition: docs/talk/notes_editions.json.
+- Evening (client-appreciation, ~35 min + host's 5): 31 slides, handoff slide "The other half of the answer", drawing after the host. Guest (advisor's own dinner seminar): 10 slides, ~10 min, chew-count opener, annuity/LTC-host variant line in notes.
+- Files: ~/Downloads/My4MLife_Talk_Advisor_Evening_v4_4.pptx (+ _Script_ PDF), ~/Downloads/My4MLife_Talk_Advisor_10min_v4_4.pptx (+ _Script_ PDF); copies in docs/talk/release/.
+- Open: ask each advisor (minutes, before/after their talk, book on seats + one QR, compliance review). Lead Concepts / Chris Wear meeting outcome unknown — ask TJ.
+
 ## 2026-11-20 — SPEAKING OUTREACH BATCH 1 SENT (TJ "send all ten")
 - 10 booking emails sent from Dr. TJ via email-sender (all accepted by Mailgun). Copy: docs/launch/speaking/batch-1-2026-11-20.md; tracker: docs/launch/speaking/talk-log.md (follow-ups due 2026-12-02, after Thanksgiving week). Script: infra/scripts/speaking-outreach-send.sh <batch.md> <n> [--dry-run].
 - #11 Western Fort Worth Rotary (Ridglea, Tuesdays noon; president Shellie Gardner) = TJ's neighborhood club: TJ to go as a guest / use the club site's "Send Email"; it's also the door to Ridglea CC member events.

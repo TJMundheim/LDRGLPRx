@@ -8,6 +8,17 @@ const fa = require("react-icons/fa");
 const SK = process.env.PPTX_SKILL_SCRIPTS || "/Users/thomasmundheim/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/05f0a689-b3bd-417f-9fb8-dc2d26526007/528874af-4eef-44bb-93b2-cdc75c7de2f7/skills/pptx/scripts/apply_theme.js";
 const { applyTheme } = require(SK);
 const OUT = process.argv[2] || "My4MLife_Talk_v4_4.pptx";
+// Editions (one source, three talks): main (full talk) · evening (advisor client evening, ~35 min + host's 5)
+// · guest (10-minute guest spot inside an advisor's own dinner seminar). Usage: node build.js out.pptx --edition=guest --host="Jane Smith"
+const ARG = (k) => (process.argv.find((a) => a.startsWith(`--${k}=`)) || "").slice(k.length + 3);
+const ED = ARG("edition") || "main";
+if (!["main", "evening", "guest"].includes(ED)) throw new Error("--edition must be main, evening or guest");
+const HOST = ARG("host");
+const SKIP = { main: [], evening: [10, 11, 12, 18, 19] };
+const GUEST = [3, 4, 15, 23, 24, 25, 26, 27, 29];
+let cur = 0; // main-deck slide number of the block being built (0 = edition-only slide)
+const inc = (n) => { cur = n; return ED === "guest" ? GUEST.includes(n) : !SKIP[ED].includes(n); };
+const NOTES = require("./notes_editions.json"); // per-edition speaker-note overrides, keyed by main-deck slide number
 // Speaker notes carried over from v1, keyed by v1 slide number. v2 additions are appended below.
 const N1 = require("./notes_v1.json");
 const note = (k, extra) => N1[String(k)] + (extra ? "\n\n" + extra : "");
@@ -60,7 +71,15 @@ async function icon(name, color) {
     s.addShape(pres.shapes.OVAL, { x, y, w: d, h: d, fill: { color: "1B2C5C" }, line: { color: col, width: 1.5 }, objectName: name + " circle" });
     s.addImage({ data: await icon(ic, col), x: x + d * 0.26, y: y + d * 0.26, w: d * 0.48, h: d * 0.48, objectName: name });
   };
-  const slide = (master, sec, title) => { const s = pres.addSlide({ masterName: master, sectionTitle: sec }); if (title) s.addText(title, { placeholder: "title" }); return s; };
+  const sections = new Set();
+  const slide = (master, sec, title) => {
+    if (!sections.has(sec)) { pres.addSection({ title: sec }); sections.add(sec); } // only sections that get slides
+    const s = pres.addSlide({ masterName: master, sectionTitle: sec });
+    if (title) s.addText(title, { placeholder: "title" });
+    const ov = cur && NOTES[ED] && NOTES[ED][String(cur)];
+    if (ov) { const add = s.addNotes.bind(s); s.addNotes = () => add(ov); }
+    return s;
+  };
   const qr = (s, path, x, y, d, cap, sub) => {
     s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: x - 0.15, y: y - 0.15, w: d + 0.3, h: d + 0.3 + (cap ? 1.0 : 0), rectRadius: 0.12, fill: { color: "FFFFFF" }, line: { color: K.gold, width: 2 }, shadow: shadow(), objectName: "QR card" });
     s.addImage({ path, x, y, w: d, h: d, objectName: "QR code " + (cap || "") });
@@ -81,8 +100,7 @@ async function icon(name, color) {
   };
 
   // ========== PRE-SHOW ==========
-  pres.addSection({ title: "Pre-show" });
-  {
+  if (inc(1)) {
     const s = slide("FREE_TITLE", "Pre-show");
     kicker(s, "WELCOME  ·  WHILE YOU WAIT", K.gold, 0.7);
     big(s, "How sharp will you be at 80?", { x: M + 0.2, y: 1.15, w: 8.4, h: 1.0, fontSize: 44 });
@@ -100,15 +118,14 @@ async function icon(name, color) {
   }
 
   // ========== OPENING ==========
-  pres.addSection({ title: "Opening" });
-  {
+  if (inc(2)) {
     const s = slide("FREE_TITLE", "Opening");
     await ring(s, "FaBellSlash", (W - 1.6) / 2, 1.3, 1.6, K.gold, "Silence");
     big(s, "Ringers off. Phones away.", { x: 1, y: 3.3, w: W - 2, h: 1.0, fontSize: 54, align: "center" });
     txt(s, "Now… pick up your snack.", { x: 1, y: 4.5, w: W - 2, h: 0.8, fontSize: 34, italic: true, color: K.gold, align: "center" });
     s.addNotes(note(2));
   }
-  {
+  if (inc(3)) {
     const s = slide("FREE_BODY", "Opening");
     big(s, "Take one bite.", { x: M + 0.2, y: 1.7, w: 7.2, h: 1.05, fontSize: 58 });
     big(s, "Count every chew.", { x: M + 0.2, y: 2.8, w: 7.2, h: 1.05, fontSize: 58, color: K.yellow });
@@ -120,28 +137,28 @@ async function icon(name, color) {
     txt(s, "How many did you get?", { x: 8.3, y: 4.3, w: 4.4, h: 0.6, fontSize: 24, italic: true, color: K.goldL, align: "center" });
     s.addNotes(note(3));
   }
-  {
+  if (inc(4)) {
     const s = slide("FREE_BODY", "Opening");
     txt(s, "MOST PEOPLE CHEW", { x: M + 0.2, y: 1.4, w: 5, h: 0.4, fontSize: 18, bold: true, charSpacing: 4, color: K.muted });
     big(s, "10–15", { x: M + 0.2, y: 1.95, w: 5.4, h: 1.7, fontSize: 104, color: K.muted });
     txt(s, "TONIGHT, WE COUNT TO", { x: 6.4, y: 1.4, w: 6, h: 0.4, fontSize: 18, bold: true, charSpacing: 4, color: K.yellow });
     big(s, "32", { x: 6.4, y: 1.15, w: 6, h: 3.6, fontSize: 230, color: K.yellow });
-    txt(s, "Hold on to that snack. We're coming back to it.", { x: M + 0.2, y: 5.45, w: 11, h: 0.7, fontSize: 28, italic: true, color: "FFFFFF" });
+    txt(s, ED === "guest" ? "Fork down between bites. That's the first habit." : "Hold on to that snack. We're coming back to it.", { x: M + 0.2, y: 5.45, w: 11, h: 0.7, fontSize: 28, italic: true, color: "FFFFFF" });
     s.addNotes(note(4));
   }
-  {
+  if (inc(5)) {
     const s = slide("FREE_TITLE", "Opening");
     const px = M + 0.2, py = 1.0, pw = 4.7, ph = 5.4;
     s.addImage({ path: "headshot.jpg", x: px, y: py, w: pw, h: ph, sizing: { type: "cover", w: pw, h: ph }, objectName: "Dr. TJ headshot" });
     s.addShape(pres.shapes.RECTANGLE, { x: px, y: py, w: pw, h: ph, fill: { type: "none" }, line: { color: K.gold, width: 2 }, objectName: "Headshot frame" });
-    kicker(s, "YOUR HOST TONIGHT", K.gold, 1.25, 6.0);
+    kicker(s, ED === "main" ? "YOUR HOST TONIGHT" : "YOUR SPEAKER TONIGHT", K.gold, 1.25, 6.0);
     big(s, "Dr. TJ Mundheim", { x: 6.0, y: 1.75, w: 6.7, h: 1.0, fontSize: 48 });
     const pts = ["30+ years in clinical practice", "Founder of My4MLife", "Author of three books", "Masters track & field decathlete"];
     txt(s, pts.map((p, i) => ({ text: p, options: { bullet: true, breakLine: i < pts.length - 1 } })), { x: 6.0, y: 3.0, w: 6.7, h: 2.3, fontSize: 24, color: "FFFFFF", paraSpaceAfter: 8, valign: "top" });
-    txt(s, "Doctor of Chiropractic (D.C.), NBCE-certified since 1994. Health-span educator; tonight is education, not medical advice.", { x: 6.0, y: 5.55, w: 6.5, h: 0.8, fontSize: 15, italic: true, color: K.muted, valign: "top" });
+    txt(s, ED === "evening" ? "Health-span educator. Tonight is education, not medical, financial or legal advice." : "Doctor of Chiropractic (D.C.), NBCE-certified since 1994. Health-span educator; tonight is education, not medical advice.", { x: 6.0, y: 5.55, w: 6.5, h: 0.8, fontSize: 15, italic: true, color: K.muted, valign: "top" });
     s.addNotes(note(5));
   }
-  {
+  if (inc(6)) {
     // v4.4 (TJ 2026-11-20): mission up front + the three books as a staircase, smallest step first.
     const s = slide("MAIN", "Opening", "Keep your mind. Keep who you are.");
     txt(s, "Your identity and your dignity, while you still have a choice.", { x: M + 0.2, y: 1.28, w: CW - 0.4, h: 0.5, fontSize: 22, italic: true, color: K.goldL, valign: "top" });
@@ -164,13 +181,12 @@ async function icon(name, color) {
   }
 
   // ========== BODY ==========
-  pres.addSection({ title: "Body" });
-  {
+  if (inc(7)) {
     const s = divider("FREE_BODY", "Body", "PART 1  ·  BODY", K.yellow, [["You'll never count a calorie."], ["You'll count to 32 instead.", K.yellow]],
       "From Count Yourself Skinny", K.soft, "cys_front.png", "Count Yourself Skinny");
     s.addNotes(note(7));
   }
-  {
+  if (inc(8)) {
     const s = slide("BODY", "Body", "Chew more, eat less, with no willpower required");
     s.addChart(pres.charts.BAR, [{ name: "Less food eaten", labels: ["Normal chewing", "50% more chews", "Twice the chews"], values: [0, 10, 15] }], {
       x: M, y: 1.5, w: 7.2, h: 4.55, barDir: "col", chartColors: ["7A869E", "F28A3C", K.yellow], invertedColors: ["7A869E", "F28A3C", K.yellow],
@@ -188,7 +204,7 @@ async function icon(name, color) {
     txt(s, "Iowa State University study of 45 adults. One meal, not a diet: one lever in a stack.", { x: M, y: 6.2, w: 11, h: 0.4, fontSize: 14, italic: true, color: K.muted, valign: "middle" });
     s.addNotes(note(8, "New in v2, from Begin with the End in Mind: your gut talks to your brain through fullness hormones, PYY and GLP-1 among them, and that conversation takes about twenty minutes. Protein triggers those hormones; chewing gives them the twenty minutes they need to be heard. That is the honest version of the GLP-1 line: protein makes the signal, chewing gives it time."));
   }
-  {
+  if (inc(9)) {
     const s = slide("BODY", "Body", "Six easy numbers replace the diet");
     const c = [["FaTeeth", "32", "chews per bite, fork down"], ["FaWalking", "2,500", "steps a day: the floor, not the goal"], ["FaClock", "12 → 16", "hours between dinner and breakfast"],
       ["FaSun", "10", "minutes of morning light, outside"], ["FaTint", "2", "glasses of water before noon"], ["FaBed", "7 of 7", "nights of 7+ hours of sleep"]];
@@ -202,7 +218,7 @@ async function icon(name, color) {
     }
     s.addNotes(note(9));
   }
-  {
+  if (inc(10)) {
     const s = slide("BODY", "Body", "The biggest payoff is at the bottom of the curve");
     big(s, "2,500", { x: M + 0.2, y: 1.75, w: 6.0, h: 1.8, fontSize: 118, color: K.yellow, valign: "middle" });
     txt(s, "steps a day: about 20 minutes of walking, total", { x: M + 0.2, y: 3.7, w: 5.6, h: 1.1, fontSize: 26, color: "FFFFFF", valign: "top" });
@@ -216,7 +232,7 @@ async function icon(name, color) {
     txt(s, "10,000 steps started as a 1960s Japanese marketing slogan. Pooled analysis of 17 studies, ~227,000 adults (Eur J Prev Cardiol). A link, not proof.", { x: M, y: 6.15, w: 11.6, h: 0.5, fontSize: 13, italic: true, color: K.muted, valign: "middle" });
     s.addNotes(note(10));
   }
-  {
+  if (inc(11)) {
     const s = slide("BODY", "Body", "One walk, five boxes");
     big(s, "25", { x: M + 0.2, y: 1.55, w: 3.6, h: 1.9, fontSize: 130, color: K.yellow, valign: "middle" });
     txt(s, "minutes, before breakfast, checks five boxes at once", { x: M + 0.2, y: 3.6, w: 3.5, h: 1.6, fontSize: 24, color: "FFFFFF", valign: "top" });
@@ -233,7 +249,7 @@ async function icon(name, color) {
     txt(s, [{ text: "Then eat. Protein first, ", options: { bold: true, color: K.yellow } }, { text: "one bite at a time, fork down, 32 chews." }], { x: 5.4, y: 5.7, w: 7.2, h: 0.92, fontSize: 20, color: "FFFFFF", valign: "middle" });
     s.addNotes(note(11, "New in v2: finish the walk the way the book does. Walk back in and eat your first meal protein first: eggs, fish, meat or Greek yogurt before anything else on the plate. My rule of thumb is thirty to forty grams, and you won't weigh it: four or five eggs, or a palm and a half of chicken or fish. Protein triggers your own fullness hormones, the same GLP-1 family people are paying for, and the 32 chews give them time to be heard."));
   }
-  {
+  if (inc(12)) {
     const s = slide("BODY", "Body", "The only rule that matters: never miss twice");
     card(s, M, 1.55, 5.9, 5.0, { name: "Streak card" });
     txt(s, "EVERY EVENING, ONE QUESTION", { x: M + 0.35, y: 1.8, w: 5.2, h: 0.4, fontSize: 15, bold: true, charSpacing: 3, color: K.muted });
@@ -255,7 +271,7 @@ async function icon(name, color) {
   }
 
   // ========== TURN ==========
-  {
+  if (inc(13)) {
     const s = slide("FREE_TITLE", "Body");
     big(s, "Why does any of this matter?", { x: 1, y: 2.65, w: W - 2, h: 1.1, fontSize: 52, align: "center" });
     big(s, "Because of how it ends.", { x: 1, y: 3.9, w: W - 2, h: 1.1, fontSize: 52, align: "center", color: K.gold });
@@ -263,13 +279,12 @@ async function icon(name, color) {
   }
 
   // ========== BRAIN ==========
-  pres.addSection({ title: "Brain" });
-  {
+  if (inc(14)) {
     const s = divider("FREE_BRAIN", "Brain", "PART 2  ·  BRAIN", K.goldL, [["Begin with the End in Mind"]],
       "Don't lose your identity and your dignity while you still have a choice.", K.goldL, "bwtem.png", "Begin with the End in Mind");
     s.addNotes(note(14));
   }
-  {
+  if (inc(15)) {
     const s = slide("BRAIN", "Brain", "Alzheimer's shows up late. It starts in midlife.");
     const y = 2.6, x0 = M + 1.45, x1 = W - M - 1.45;
     s.addShape(pres.shapes.LINE, { x: x0, y, w: x1 - x0, h: 0, line: { color: K.goldL, width: 3 }, objectName: "Life timeline" });
@@ -286,7 +301,7 @@ async function icon(name, color) {
     txt(s, "Source: Alzheimer's Association.", { x: M, y: 6.3, w: 6, h: 0.3, fontSize: 13, italic: true, color: K.muted });
     s.addNotes(note(15, "New in v2, a line from the book you can say out loud: the disease is written in middle age and read out loud in old age. The only place you can change the sentence is while you are still writing it."));
   }
-  {
+  if (inc(16)) {
     const s = slide("BRAIN", "Brain");
     txt(s, "ACROSS THE POPULATION, UP TO", { x: M + 0.2, y: 1.2, w: 7.5, h: 0.5, fontSize: 22, bold: true, charSpacing: 5, color: K.goldL, valign: "middle" });
     big(s, "45%", { x: M + 0.2, y: 1.6, w: 7.0, h: 2.7, fontSize: 180, color: K.gold, valign: "middle" });
@@ -299,7 +314,7 @@ async function icon(name, color) {
     txt(s, "That belief is the single biggest reason people do nothing for decades.", { x: 8.8, y: 4.05, w: 3.65, h: 2.1, fontSize: 21, color: K.goldL, valign: "top" });
     s.addNotes(note(16, "New in v2, and both books are careful about this: 45 percent is a population number. It answers: if everyone removed all fourteen risk factors across a whole lifetime, what share of cases would disappear? It is not a promise that you, personally, cut your own risk by 45 percent. In The Uninsured Decade I use a more conservative working assumption for one motivated person, about 30 percent, built on trials like US POINTER (JAMA, 2025), which showed protection from decline over two years, not prevention of dementia. The only honest sentence is: it may lower the odds."));
   }
-  {
+  if (inc(17)) {
     const s = slide("BRAIN", "Brain", "14 risk factors you can actually influence");
     const f = [["FaGraduationCap", "Less education"], ["FaDeaf", "Hearing loss"], ["FaVial", "High LDL cholesterol"], ["FaSadTear", "Depression"], ["FaUserInjured", "Head injury"], ["FaCouch", "Physical inactivity"], ["FaSyringe", "Diabetes"],
       ["FaSmoking", "Smoking"], ["FaHeartbeat", "High blood pressure"], ["FaWeight", "Obesity"], ["FaWineGlassAlt", "Excess alcohol"], ["FaUsers", "Social isolation"], ["FaSmog", "Air pollution"], ["FaEye", "Untreated vision loss"]];
@@ -319,7 +334,7 @@ async function icon(name, color) {
     txt(s, "Source: The Lancet Commission, 2024. Gum disease is not on the Commission's list; see Sources.", { x: M, y: 6.4, w: 9, h: 0.3, fontSize: 12, italic: true, color: K.muted });
     s.addNotes(note(17, "New in v2, from The Uninsured Decade: three front doors standing open. Two are on this list and nobody expects them: untreated hearing loss and untreated vision loss. The third, your teeth, is not on the Commission's list but belongs beside them: the bacteria of chronic gum disease have been found in the brain tissue of Alzheimer's patients. That is an association, not proof. All three are things you can book this month: a hearing test, an eye exam, and a periodontal probing at the dentist. Not a cleaning, a probing."));
   }
-  {
+  if (inc(18)) {
     const s = slide("BRAIN", "Brain", "The 4M System: one framework for all of it");
     s.addImage({ path: "emblem.png", x: M, y: 2.25, w: 3.5, h: 3.5, objectName: "4M emblem" });
     const m = [["FaBrain", "Mind", "The destination", "Learning, sleep, hearing and vision, mood, connection"], ["FaDumbbell", "Muscle", "The engine", "Movement, strength, a healthy weight"],
@@ -335,7 +350,7 @@ async function icon(name, color) {
     }
     s.addNotes(note(18));
   }
-  {
+  if (inc(19)) {
     const s = slide("FREE_BRAIN", "Brain");
     await ring(s, "FaMobileAlt", M + 0.2, 1.3, 1.3, K.gold, "Phone");
     kicker(s, "QUICK CHECK-IN", K.goldL, 1.75, M + 1.8);
@@ -345,7 +360,7 @@ async function icon(name, color) {
     qr(s, "qr_assess.png", 9.45, 1.55, 3.0, "Free MindSpan assessment", "my4mlife.com/assessment");
     s.addNotes(note(19));
   }
-  {
+  if (inc(20)) {
     const s = slide("FREE_BRAIN", "Brain");
     card(s, M, 1.0, CW, 5.4, { name: "Quote card", fill: "0E1A3D", tr: 12 });
     s.addImage({ data: await icon("FaQuoteLeft", K.gold), x: M + 0.5, y: 1.4, w: 0.95, h: 0.8, objectName: "Quote mark" });
@@ -354,7 +369,7 @@ async function icon(name, color) {
     s.addNotes(note(20));
   }
   // NEW in v2: the accountability target
-  {
+  if (inc(21)) {
     const s = slide("FREE_BRAIN", "Brain");
     kicker(s, "ONE QUESTION BEFORE WE TALK ABOUT MONEY", K.goldL, 1.15);
     big(s, "Who are you doing this for?", { x: M + 0.2, y: 1.7, w: CW - 0.4, h: 1.3, fontSize: 64, valign: "middle" });
@@ -369,13 +384,12 @@ async function icon(name, color) {
     s.addNotes("New in v2. This is the question both books ask before any 'why'. Not why are you doing this. Who are you doing this for?\n\nAsk the room to pick one person. Not 'my family', which is four people and therefore nobody. One face you can picture in a room: a husband or wife, a daughter, a son, a parent you are already watching, or yourself at seventy-eight, still the one people call when something has to be decided. [Pause. Give them ten seconds of silence.] Now say the name, quietly, to yourself.\n\nThen the evidence: in a long-running Rush University study of older adults, people who scored high on purpose in life were roughly two and a half times less likely to develop Alzheimer's over the follow-up than people who scored low. That's a link, not proof, but I file it under physiology, not inspiration.\n\nBridge to the Bank section: hold on to that face, because the next part is about what this costs, and the person who pays is very often not the one with the diagnosis. In my own draft of the end: the last ten years sharp, on my feet, in my own house, and the one I married spends that decade as my partner, not as my nurse.");
   }
   // ========== BANK ==========
-  pres.addSection({ title: "Bank" });
-  {
+  if (inc(22)) {
     const s = divider("FREE_BANK", "Bank", "PART 3  ·  BANK", K.cream, [["The Uninsured Decade"]],
       "The one catastrophic risk no policy can lower, and the premium you can still pay.", K.cream, "ud.jpg", "The Uninsured Decade");
     s.addNotes(note(22));
   }
-  {
+  if (inc(23)) {
     const s = slide("FREE_BANK", "Bank");
     await ring(s, "FaHandPaper", (W - 1.5) / 2, 1.2, 1.5, K.cream, "Raised hand");
     big(s, "Raise your hand if you have a retirement plan.", { x: 0.8, y: 3.1, w: W - 1.6, h: 1.0, fontSize: 38, align: "center", valign: "middle" });
@@ -383,7 +397,7 @@ async function icon(name, color) {
     s.addNotes(note(23));
   }
   // NEW in v2: the odds
-  {
+  if (inc(24)) {
     const s = slide("BANK", "Bank", "The risk you didn't insure");
     txt(s, "LIFETIME RISK OF DEMENTIA AFTER AGE 55", { x: M + 0.2, y: 1.5, w: 6.4, h: 0.4, fontSize: 16, bold: true, charSpacing: 3, color: K.cream, valign: "middle" });
     big(s, "42%", { x: M + 0.2, y: 1.85, w: 6.2, h: 2.5, fontSize: 170, color: K.gold, valign: "middle" });
@@ -402,7 +416,7 @@ async function icon(name, color) {
     txt(s, "Source: Fang et al., Nature Medicine, 2025. All dementia, including mild late-life cases.", { x: M, y: 6.35, w: 9.5, h: 0.3, fontSize: 12, italic: true, color: K.muted });
     s.addNotes("New in v2, from The Uninsured Decade. Start with how likely this is, because most people carry a number in their head that is far too low.\n\nA 2025 study in Nature Medicine followed more than 15,000 people from age 55 and put the lifetime risk of dementia after 55 at 42 percent: 35 percent for men, 48 percent for women. That is close to a coin flip, and for a woman closer still.\n\nAnd in a marriage you are not underwriting one life. For a couple, the odds that it reaches at least one of you are roughly two in three.\n\nOne honest caveat, and say it every time: that 42 percent counts all dementia, including mild late-life cases that never need a facility. It is the number for 'does this touch me', not 'does this bankrupt me'.\n\nYour house probably will not burn, and you insured it anyway, because that loss would be unrecoverable. You insured the fire. You did not insure the likelier thing. So who writes that check?");
   }
-  {
+  if (inc(25)) {
     const s = slide("BANK", "Bank", "Who writes the check?");
     const rows = [["The house burns", "Your insurance carrier"], ["A wreck, at fault", "Your insurance carrier"], ["You die early", "Your insurance carrier"], ["You can't work", "Your insurance carrier"], ["A stay in the hospital", "Your insurance carrier"], ["Ten years of dementia care", "You"]];
     const tx = M + 0.9, tw = CW - 1.8;
@@ -417,14 +431,14 @@ async function icon(name, color) {
     });
     s.addNotes(note(24));
   }
-  {
+  if (inc(26)) {
     const s = slide("FREE_BANK", "Bank");
     txt(s, "WHAT MEDICARE PAYS TOWARD CUSTODIAL CARE", { x: 1, y: 1.2, w: W - 2, h: 0.5, fontSize: 20, bold: true, charSpacing: 4, color: K.cream, align: "center", valign: "middle" });
     big(s, "$0", { x: 1, y: 1.7, w: W - 2, h: 3.2, fontSize: 220, align: "center", color: K.gold, valign: "middle" });
     txt(s, "Memory care, in-home aides, assisted living: private pay until you've spent down to Medicaid.", { x: 1.5, y: 5.1, w: W - 3, h: 1.1, fontSize: 26, align: "center", color: "FFFFFF", valign: "top" });
     s.addNotes(note(25));
   }
-  {
+  if (inc(27)) {
     const s = slide("BANK", "Bank", "The bill, one stage at a time");
     const st = [["Years 1–3  ·  Early", "Doctor visits, medications, home safety, legal planning", 0.375, "~$35–40K"], ["Years 4–6  ·  Middle", "Paid in-home caregiver plus adult day care", 1.75, "~$170–180K"], ["Years 7–10  ·  Late", "24/7 supervision: memory care or a nursing home", 3.15, "~$290–340K"]];
     const bx = 5.35, maxW = 4.75, cols = ["7A5560", "9A4353", K.burg];
@@ -440,7 +454,7 @@ async function icon(name, color) {
     big(s, "about $495,000–$560,000", { x: M + 5.0, y: 5.5, w: CW - 5.35, h: 1.05, fontSize: 38, color: K.gold, valign: "middle", align: "right" });
     s.addNotes(note(26));
   }
-  {
+  if (inc(28)) {
     const s = slide("BANK", "Bank", "This diagnosis doesn't take one life. It taxes two.");
     const st = [["$405,262", "average lifetime cost of care for one person with dementia", "Alzheimer's Association, 2024 dollars"], ["70%", "of that cost carried by the family, in money and unpaid care", "Alzheimer's Association"], ["63%", "higher 4-year death rate for strained spousal caregivers", "Schulz & Beach, JAMA"]];
     const cw = 3.85, gap = (CW - 3 * cw) / 2;
@@ -453,7 +467,7 @@ async function icon(name, color) {
     }
     s.addNotes(note(27));
   }
-  {
+  if (inc(29)) {
     const s = slide("BANK", "Bank", "The premium you can still pay");
     const cwid = 7.75;
     card(s, M, 1.5, cwid, 5.1, { name: "Premium card" });
@@ -473,8 +487,7 @@ async function icon(name, color) {
   }
 
   // ========== CLOSE ==========
-  pres.addSection({ title: "Close" });
-  {
+  if (inc(30)) {
     const s = slide("FREE_BODY", "Close");
     kicker(s, "BACK TO YOUR SNACK", K.yellow, 1.5);
     big(s, "Last bite. Fork down.", { x: M + 0.2, y: 2.05, w: 7.6, h: 1.05, fontSize: 52, valign: "middle" });
@@ -484,7 +497,7 @@ async function icon(name, color) {
     s.addNotes(note(29));
   }
   // NEW in v3: the cohort invitation
-  {
+  if (inc(31)) {
     const s = slide("MAIN", "Close", "Do it with us: the free MindSpan cohort");
     const st = [["FaClipboardCheck", "Take the MindSpan assessment", "It's free, and it's the door: it sets up your account."],
       ["FaEnvelopeOpenText", "Check your email", "The book, the 4M Logbook and the Protégé app arrive right away."],
@@ -514,7 +527,7 @@ async function icon(name, color) {
       { x: M + 0.3, y: 5.82, w: CW - 0.6, h: 0.8, fontSize: 17, color: "FFFFFF", valign: "middle" });
     s.addNotes("New in v3. This is the invitation. Everything tonight works better with other people, so do it with us.\n\nThe MindSpan assessment is free, and it is also the door: taking it sets up your account, so the book, the Logbook, the Protégé app and the weekly Zooms come with it. None of that costs anything.\n\nThe cohort meets on Zoom with me every Monday. A small group of people moving through the four M's together, each accountable to the others. If you can't make it live, every session is recorded and the recording is emailed to you, so you can watch it anytime that week.\n\nAnd bring the person you named tonight. From Count Yourself Skinny: in one study of a structured program, people who joined with friends or family and got extra support finished far more often than those who joined alone, 95 percent versus 76.\n\nWe meet Mondays at 7 p.m. Central.");
   }
-  {
+  if (inc(32)) {
     const s = slide("MAIN", "Close", "One thing to do before you go");
     const lw = 4.6, qd = 3.3, qx = M + (lw - qd) / 2;
     card(s, M, 1.5, lw, 5.1, { name: "Scan card", line: K.gold, lw: 1.5 });
@@ -540,7 +553,7 @@ async function icon(name, color) {
       { x: rx + 0.25, y: 5.55, w: rw - 0.5, h: 1.05, fontSize: 17, color: "FFFFFF", valign: "middle" });
     s.addNotes("New in v4: one ask, not several. One thing before you go: if you haven't already, take the free MindSpan assessment.\n\nHere is exactly what happens when you scan. Twenty questions, about seven minutes. Your score and your top three priorities come up on your screen right away. Then check your email: Begin with the End in Mind, the Logbook and the Protégé app are sent to you free. You're in the Monday cohort Zooms, and you're entered in tonight's drawing.\n\nTwo personal questions have a 'prefer not to say' option.\n\nHere's exactly how this works. The education is free: the assessment, the book, the Logbook, the app, the Monday Zoom. If a physician decides you need a prescription, that's paid, like any doctor visit. We also sell a few products, like the Push Patch, and I take a handful of private clients each year. That's it. Nothing tonight requires you to buy anything.\n\nFor some people the plan also includes medical tools, and those should be chosen by a licensed physician, not a website ad. That prescription care is paid. If you want to know whether any of it applies to you, ask for the free care-coordinator call: you find out exactly what you need, and nothing is charged unless it fits. [If someone asks about peptides, GLP-1s or the Push Patch, invite them to talk after the session or on the call.]\n\nIf you ask for the free call, a care coordinator calls you. We never call unless you ask.");
   }
-  {
+  const drawing = () => {
     const s = slide("FREE_TITLE", "Close");
     kicker(s, "TONIGHT'S DRAWING", K.gold, 1.0);
     big(s, "Win a signed book", { x: M + 0.2, y: 1.45, w: 6.6, h: 1.0, fontSize: 50, valign: "middle" });
@@ -557,8 +570,9 @@ async function icon(name, color) {
     txt(s, "All three books are at the table tonight, signed. Also on Amazon.", { x: 7.4, y: 4.95, w: 5.3, h: 0.9, fontSize: 19, color: "FFFFFF", valign: "top" });
     txt(s, "Not entered yet? Scan the back of your card now.", { x: M + 0.2, y: 6.45, w: 7, h: 0.4, fontSize: 18, italic: true, color: K.goldL, valign: "middle" });
     s.addNotes(note(31, "New in v4: the books moved here from the old two-things slide. Signed copies of all three are at the table tonight, and every book is on Amazon in Kindle and paperback, and Begin with the End in Mind also in hardcover."));
-  }
-  {
+  };
+  if (inc(33) && ED !== "evening") drawing();
+  if (inc(34)) {
     const s = slide("FREE_TITLE", "Close");
     s.addImage({ path: "emblem.png", x: M + 0.2, y: 1.0, w: 1.2, h: 1.2, objectName: "4M emblem" });
     big(s, "Begin with the end in mind.", { x: M + 0.2, y: 2.45, w: 8.3, h: 1.0, fontSize: 40, valign: "middle" });
@@ -568,8 +582,33 @@ async function icon(name, color) {
     qr(s, "qr_assess.png", 9.35, 1.4, 3.1, "Free MindSpan assessment", "my4mlife.com");
     s.addNotes(note(32));
   }
+  // Advisor client evening: hand the room to the host, then the drawing (keeps guests seated for the host's remarks).
+  if (ED === "evening") {
+    cur = 0;
+    const s = slide("FREE_TITLE", "Close");
+    kicker(s, "THE OTHER HALF OF THE ANSWER", K.gold, 1.5);
+    big(s, "Tonight you heard the health half.", { x: M + 0.2, y: 2.0, w: 11.5, h: 1.0, fontSize: 44, valign: "middle" });
+    big(s, "The planning half has deadlines.", { x: M + 0.2, y: 3.05, w: 11.5, h: 1.0, fontSize: 44, color: K.gold, valign: "middle" });
+    txt(s, (HOST || "Your host") + " will take it from here.", { x: M + 0.2, y: 4.35, w: 11, h: 0.7, fontSize: 28, color: "FFFFFF", valign: "middle" });
+    txt(s, "Dr. TJ speaks as a health-span educator and does not give financial, legal or investment advice.", { x: M + 0.2, y: 6.05, w: 10, h: 0.5, fontSize: 14, italic: true, color: K.muted, valign: "middle" });
+    s.addNotes(NOTES.evening.host);
+    cur = 33; drawing();
+  }
+  // Advisor dinner seminar, 10-minute guest spot: one ask, then back to the host.
+  if (ED === "guest") {
+    cur = 0;
+    const s = slide("FREE_TITLE", "Close");
+    kicker(s, "ONE THING TONIGHT", K.gold, 1.0);
+    big(s, "Know your own odds.", { x: M + 0.2, y: 1.45, w: 8.3, h: 1.0, fontSize: 46, valign: "middle" });
+    txt(s, "Take the free MindSpan assessment: 20 questions, about 7 minutes. Your score and your top three priorities, on your phone.", { x: M + 0.2, y: 2.55, w: 7.9, h: 1.2, fontSize: 22, color: "FFFFFF", valign: "top" });
+    txt(s, "Don't lose your identity and your dignity while you still have a choice.", { x: M + 0.2, y: 3.85, w: 7.9, h: 1.0, fontSize: 23, italic: true, color: K.goldL, valign: "top" });
+    big(s, HOST ? "Thank you, " + HOST + "." : "Thank you for having me.", { x: M + 0.2, y: 4.95, w: 8.3, h: 0.8, fontSize: 32, color: K.gold, valign: "middle" });
+    txt(s, "Education, not medical, financial, or legal advice.", { x: M + 0.2, y: 6.05, w: 7.8, h: 0.4, fontSize: 13, italic: true, color: K.muted, valign: "top" });
+    qr(s, "qr_assess.png", 9.35, 1.4, 3.1, "Free MindSpan assessment", "my4mlife.com/assessment");
+    s.addNotes(NOTES.guest.close);
+  }
   // Sources
-  {
+  if (inc(35)) {
     const s = slide("MAIN", "Close", "Sources");
     const r = ["Chewing: Iowa State University randomized lab study, 45 adults (Zhu & Hollis). Companion study in older adults showed slower eating, no change in intake.",
       "Steps: pooled analysis of 17 studies, ~227,000 adults, European Journal of Preventive Cardiology (2023).",

@@ -1,3 +1,5 @@
+> **2026-11-20:** this script is now the 10-minute advisor deck: `docs/talk` → `node build.js out.pptx --edition=guest --host="<name>"` (slides + timed notes, with the chew-count opener). Edit the notes in docs/talk/notes_editions.json; this file is the history.
+
 # Dinner Guest-Slot Script — "The Uninsured Decade" (Channel 0, 8 minutes)
 
 _Drafted 2026-09-08. Verbatim script for financial-services dinner seminars, delivered before the host's close. Gender-neutral throughout per locked rule in docs/book-uninsured-decade/README.md. Timed beats per docs/plan/uninsured-decade-channel-plan-2026-09-07.md Channel 0 and docs/plan/uninsured-decade-calculator-and-talk-spec-2026-09-07.md Part B._

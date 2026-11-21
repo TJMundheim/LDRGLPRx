@@ -9,6 +9,14 @@ Current version: **v4.4** (35 slides, 36-page presenter script). Edit the source
 - `render_slides.sh` - exports slide JPEGs via Keynote, `dump_text.py` - dumps slide text + notes (for diffing versions)
 - `HANDOFF_Presentations_v6.md` - history and design decisions
 
+## Editions (one source, three talks)
+- `--edition=main` (default): the full talk.
+- `--edition=evening`: advisor client evening, about 35 minutes plus the host's 5. Drops slides 10, 11, 12, 18, 19 (step curve, morning walk, never-miss-twice, 4M framework, quick check-in); "Your speaker tonight"; adds "The other half of the answer" handoff slide; drawing moves after the host's remarks.
+- `--edition=guest`: 10-minute guest spot inside an advisor's own dinner seminar (chew count, midlife, raise-your-hand, 42%, who writes the check, Medicare $0, the bill, the premium + calculator, one-QR close). Script lineage: docs/launch/uninsured-decade/dinner-guest-slot.md.
+- `--host="Jane Smith"` puts the host's name on the handoff/close slides; without it they say "Your host" / "Thank you for having me".
+- Edition speaker notes live in `notes_editions.json` (keyed by main-deck slide number; `host` and `close` for the edition-only slides).
+- Example: `node build.js ~/Downloads/My4MLife_Talk_Advisor_10min_v4_4.pptx --edition=guest --host="Jane Smith"`, then render into `slides_guest` and run script.py with that folder.
+
 ## One-time setup
 ```
 cd docs/talk
