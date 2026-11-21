@@ -34,3 +34,6 @@ Keynote renders differ slightly from PowerPoint (fonts), so images are for the p
 
 ## Ignored by git
 node_modules, *.pptx, *.pdf, slides/ (see .gitignore). The QR PNGs and images are tracked inputs; regenerate QR PNGs per event.
+
+## Latest finished files
+`release/` holds ONLY the current deck + presenter script (force-added past .gitignore). On each new version: replace both files (`git rm` the old ones, `git add -f` the new), so the repo never piles up old binaries. Git history keeps earlier versions if ever needed.
