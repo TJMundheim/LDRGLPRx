@@ -82,10 +82,12 @@ describe('one name: MindSpan Assessment', () => {
 });
 
 describe('home page', () => {
-  it('has no Captain\'s Table or $50,000 band', () => {
-    expect(index).not.toMatch(/Captain/i);
-    expect(index).not.toMatch(/\$50,000|\$50K/i);
-    expect(index).not.toContain('SHOW_COACHING');
+  // TJ 2026-11-20 (option 2): Captain's Table teaser stays on the home page WITHOUT the price; price lives on /coaching only.
+  it('shows the Captain\'s Table teaser with no price, linking to /coaching', () => {
+    expect(index).toMatch(/The Captain&rsquo;s Table/);
+    expect(index).toContain('href="/coaching"');
+    expect(index).toContain('By application');
+    expect(index).not.toMatch(/\$\s?50,?000|\$50K/i);
   });
 });
 
