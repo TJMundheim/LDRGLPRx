@@ -31,10 +31,10 @@ The logbook covers **Month 1** — the first four weeks of the My4MLife cohort p
 
 - **Part 1 — Your Why.** Before any protocol, you name the face you're doing this for and write your why. This page comes first because the protocol that you actually run beats the protocol that was theoretically better — and the protocol that you actually run is the one you run for a specific named person.
 - **Part 2 — The 4M Framework.** A two-page anchor on Mind, Muscle, Mitigate, Motivate. Refer back to this any time the work starts to feel like a pile of tasks instead of a system.
-- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a weekly Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the canaries — the ED canary for men, the perimenopause/menopause canary for women. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
+- **Parts 3–6 — The Four Weeks.** Each week has the same shape: an opening frame, daily check-ins (one page per day), a Monday Zoom prep page, an end-of-week 4M reflection, and an adherence scorecard. Week 1 builds the foundation. Week 2 adds the lift. Week 3 audits hormones and the canaries — the ED canary for men, the perimenopause/menopause canary for women. Week 4 strips the insulting behavior, synthesizes the month, and writes the 30-day plan forward.
 - **Part 7 — The Stack Reference.** One page per product. The full My4MLife stack — every OTC, every Rx tier, every dose, every pairing — in one place. Return here any time you forget why you're taking something.
 - **Part 8 — The Advanced Layer (Optional).** The peptide tier, brain training, biofeedback, sauna / cold / grounding, the annual lab panel. Read it now if you want. **Do not deploy any of it until the foundation has been locked for 90 days.** The person who layers this on a broken foundation gets the bill, not the benefit.
-- **Part 9 — Resources & Next Steps.** The 20-question MindSpan assessment as reference, the Rx consult routing table, the weekly Zoom rhythm, the 90-day plan template, and a closing letter.
+- **Part 9 — Resources & Next Steps.** The 20-question MindSpan assessment as reference, the Rx consult routing table, the Monday Zoom rhythm, the 90-day plan template, and a closing letter.
 
 ### How this logbook fits the app
 
@@ -599,7 +599,7 @@ Then you do it again. And again. The person who runs the loop longest wins.
 | **Mind** | The destination — cognitive healthspan | Every reflection · Sunday review |
 | **Muscle** | The engine — strength, nutrition, fuel | Lift days · protein-first meals |
 | **Mitigate** | Eliminate the insulting behavior | Daily stack · sleep window · gut · hormones audit |
-| **Motivate** | Sustain the work · close the loop | Weekly Zoom · accountability target · the why |
+| **Motivate** | Sustain the work · close the loop | Monday Zoom · accountability target · the why |
 
 ---
 
@@ -629,7 +629,7 @@ Here is the entire week, in plain language:
 
 Plus two touchpoints that hold the week together:
 
-- **The weekly Zoom.** It is scheduled based on demand. If your schedule does not allow you to attend, the recording is available to you. The calendar moves you to Week 2 on its own either way. The Zoom is what keeps you from running it alone.
+- **The Monday Zoom, 7 p.m. Central.** Show up live or watch the recording, which is emailed to you. The calendar moves you to Week 2 on its own either way. The Zoom is what keeps you from running it alone.
 - **The Sunday reflection.** Four pages, one per pillar, at the back of this part. Do it Sunday evening with a cup of tea, not Monday morning in a panic.
 
 There is no optional advanced layer this week. No cold plunges, no breathwork stacks, no zone-2 protocols. If you are tempted to add something, don't. The temptation to add is the same temptation that has made every previous attempt fail. *Stop hurting yourself first. Then add what works.*
@@ -914,7 +914,7 @@ _________________________________________________________________
 
 ---
 
-## 3.5 — Weekly Zoom Prep Page
+## 3.5 — Monday Zoom Prep Page
 
 > *Show up to the Zoom even on the weeks you fell off. Especially those weeks.*
 
@@ -1046,7 +1046,7 @@ _________________________________________________________________
 
 ### Motivate
 
-What sustains the work — and what closes the loop. Motivate is the pillar nobody pays enough attention to until they fall off. This week, Motivate looked like showing up to the weekly Zoom and naming the face you're doing this for. Identity and accountability are not soft skills. They are the structural enablers that determine whether you do this for seven days or fifty-two weeks.
+What sustains the work — and what closes the loop. Motivate is the pillar nobody pays enough attention to until they fall off. This week, Motivate looked like showing up to the Monday Zoom and naming the face you're doing this for. Identity and accountability are not soft skills. They are the structural enablers that determine whether you do this for seven days or fifty-two weeks.
 
 **1. Whose face did I picture this week when I didn't want to do the work?**
 
@@ -1054,7 +1054,7 @@ _________________________________________________________________
 
 _________________________________________________________________
 
-**2. Did I show up to the weekly Zoom — live or recording? If not, why?**
+**2. Did I show up to the Monday Zoom — live or recording? If not, why?**
 
 _________________________________________________________________
 
@@ -1093,7 +1093,7 @@ _________________________________________________________________
 | Magnesium L-threonate (evening) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lift session (2–3/wk) | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Weekly Zoom attended | | | ☐ | | | | |
+| Monday Zoom attended | | | ☐ | | | | |
 | Sunday reflection done | | | | | | | ☐ |
 
 **Weekly target:  _______ / 79**
@@ -1131,7 +1131,7 @@ Three sessions this week. A / B / A pattern. Compound lifts only. Leave one rep 
 
 We're also tightening sleep architecture. The 60 minutes before bed are the single highest-leverage window most people waste. You're going to install a real wind-down this week.
 
-Same daily check-in. Same weekly Zoom. Same end-of-week 4M reflection. New trackers for the lift and the wind-down.
+Same daily check-in. Same Monday Zoom. Same end-of-week 4M reflection. New trackers for the lift and the wind-down.
 
 ---
 
@@ -1318,7 +1318,7 @@ One page per day. Print seven. Lift boxes only activate on lift days.
 
 ---
 
-## 4.6 — Weekly Zoom Prep Page
+## 4.6 — Monday Zoom Prep Page
 
 Bring this filled in. Five minutes before the call.
 
@@ -2133,7 +2133,7 @@ Audit work today: ☐
 | Mag L-threonate PM | ☐ |
 | Sleep-support formula | ☐ |
 | Lights out 10:30 | ☐ |
-| **Cohort Zoom attended** | ☐ |
+| **Monday Zoom attended** | ☐ |
 
 ---
 
@@ -2209,9 +2209,9 @@ Consult booked or OTC reassessment date set: ☐
 
 ---
 
-## 5.6 — Weekly Zoom Prep Page
+## 5.6 — Monday Zoom Prep Page
 
-Bring this page to the weekly cohort Zoom. Write the answers before you log on. You do not have to read them aloud — you have to write them.
+Bring this page to the Monday cohort Zoom. Write the answers before you log on. You do not have to read them aloud — you have to write them.
 
 ---
 
@@ -2367,7 +2367,7 @@ _______________________________________________
 | Mag L-threonate PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Sleep-support formula | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | Lights out 10:30 PM | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| Cohort Zoom attended | | | ☐ | | | | |
+| Monday Zoom attended | | | ☐ | | | | |
 
 **Week 3 once-only items:**
 
@@ -2559,7 +2559,7 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 | Sleep-support formula + 10:30 PM lights out | ☐ |
 | Training OR Zone 2 | ☐ |
 | Insult avoided: ___________________ | ☐ |
-| Cohort Zoom attended | ☐ |
+| Monday Zoom attended | ☐ |
 
 **Hurt:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  **Helped:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
@@ -2630,7 +2630,7 @@ One page per day. Same format as prior weeks. Print and fill by hand.
 
 ---
 
-## 6.4 — Weekly Zoom Prep
+## 6.4 — Monday Zoom Prep
 
 Bring honest answers. Not polished ones.
 
@@ -2790,7 +2790,7 @@ This is the locked procedure. Tape it inside the logbook cover.
 
 5. **Stack until full compliance by day 13-14.** By the end of the second week you are back on the full daily floor. The people who get back here in two weeks beat the ones who tried to come back at 100% on day one and broke again by day three.
 
-6. **Show up to the weekly Zoom even when you have run zero behaviors that week.** Especially then. The face on screen matters more than the report card. The cohort sees you. You see the cohort. The loop stays closed.
+6. **Show up to the Monday Zoom even when you have run zero behaviors that week.** Especially then. The face on screen matters more than the report card. The cohort sees you. You see the cohort. The loop stays closed.
 
 > *The person who runs the loop longest wins.*
 
@@ -2906,7 +2906,7 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Resistance OR Zone 2 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 | One insult avoided | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | __ /7 |
 
-**Weekly Zoom attended:** ☐
+**Monday Zoom attended:** ☐
 
 **Week 4 score: ____ / 63**
 
@@ -2927,7 +2927,7 @@ Mind is the destination. Mind is also where the cycle starts. Four weeks ago you
 | Sleep-support formula + 10:30 lights out | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Resistance OR Zone 2 | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
 | Insult avoided | __ /7 | __ /7 | __ /7 | __ /7 | __ /28 |
-| **Weekly Zoom attended (1 pt)** | __ /1 | __ /1 | __ /1 | __ /1 | __ /4 |
+| **Monday Zoom attended (1 pt)** | __ /1 | __ /1 | __ /1 | __ /1 | __ /4 |
 
 **Month 1 total score: ____ / 256**
 
@@ -3821,11 +3821,11 @@ Every Rx path begins with a free call with the care coordinator at my4mlife.com/
 
 ---
 
-## 9.3 — The Weekly Zoom Schedule
+## 9.3 — The Monday Zoom
 
 The cohort runs on a weekly rhythm. Three touchpoints. None of them optional if you want the work to stick.
 
-- **Weekly Zoom — scheduled based on demand** — Live with Dr. TJ. Cohort Q&A, protocol updates, case discussions. When a recording is posted, it appears on your app home screen. If your schedule doesn't allow you to attend, email your question to support@my4mlife.com and watch the replay.
+- **Monday Zoom — 7:00 p.m. Central** — Live with Dr. TJ. Cohort Q&A, protocol updates, case discussions. When a recording is posted, it appears on your app home screen. If your schedule doesn't allow you to attend, email your question to support@my4mlife.com and watch the replay.
 - **Sunday Reflection — solo** — On paper, in the app, or in the logbook. Twenty minutes. The reflection prompts are at the end of each week.
 - **Weekly Adherence Scorecard** — The tear-out page at the end of each week. Tape it to your bathroom mirror or screenshot it for your phone lock-screen. Score yourself at end of week.
 
@@ -3859,7 +3859,7 @@ The people who fill this in are the ones who finish the program.
 | **The book — *Begin with the End in Mind*** | Protégé welcome gift by email, or standalone purchase at https://my4mlife.com/book |
 | **Regenerative therapies** | See my4mlife.com for the current regenerative protocol and nationwide mobile delivery details |
 | **The blog — long-form articles** | https://my4mlife.com/blog |
-| **Weekly Zoom links** | Sent by email before each call |
+| **Monday Zoom links** | Sent by email before each call |
 | **The current products** | https://my4mlife.com/stack |
 | **Rx Consult booking** | https://my4mlife.com/consult |
 
@@ -3963,7 +3963,7 @@ I don't say that as a participation trophy. I say it because most people who buy
 
 The people who finish Month 1 are not the people who started it. The person who started had a vague sense that things were sliding. The person finishing has data, a stack, a face they're doing this for, and 30 days of evidence that they can run a protocol and stick to it. That's not nothing. That's the foundation everything else is built on.
 
-You are not doing this alone. The cohort runs alongside you. I'm on the weekly Zoom. Sunday nights you reflect. The other people in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
+You are not doing this alone. The cohort runs alongside you. I'm on the Zoom every Monday night. Sunday nights you reflect. The other people in your cohort are in the same fight on the same week. When you fall off — and you will, that's not failure, that's the work — the recommit procedure is right there. One behavior. Three days. Then the next.
 
 *Begin with the end in mind.*
 
@@ -3971,7 +3971,7 @@ You are not doing this alone. The cohort runs alongside you. I'm on the weekly Z
 
 *Mind is the destination.*
 
-I'll see you on the next Zoom. Bring a question.
+I'll see you on the Zoom Monday night. Bring a question.
 
 — Dr. TJ
 

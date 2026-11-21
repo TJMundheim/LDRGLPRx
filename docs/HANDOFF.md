@@ -13,6 +13,11 @@
 - **TJ to do on 12-31/01-01:** raise the book prices in KDP by hand (Claude can't use KDP). **Honor any "unsubscribe" replies:** set Contact.marketingConsent.status=opted_out.
 - The send script and recipient list stay local only (scratchpad + TJ's Desktop/Book-Email-Review), never committed.
 
+## 2026-11-20 — LOGBOOK v13: Monday Zoom, 7 p.m. Central (TJ)
+- Source: docs/cohort-workbook/draft/_MASTER.md (the per-chapter files in draft/ are STALE and unused). Every "weekly Zoom" (and the "scheduled based on demand" lines) now says Monday / Monday Zoom; §9.3 and the intro say 7 p.m. Central. 159pp color + B&W, same as v12, so the KDP cover/spine still fit.
+- S3 my4mlife-digital-fulfillment: the-logbook-month1.pdf + cohort-workbook-month1.pdf = v13 color (2,015,226 B), verified with head-object.
+- **TJ to do in KDP:** replace the manuscript of "The My4MLife Logbook: Month 1" (224JXEPHDN0) with The-Logbook-Month-1-v13-paperback-bw.pdf (copy on his Desktop); keep the same cover.
+
 ## 2026-11-20 — TALK READINESS DEPLOYED (971c1c0d + 8a426f96; Monday Zoom 7 p.m. Central)
 - Built from TJ's talk deck v4.2 + presenter script + reviewer walkthrough. Plan: docs/plan/talk-readiness-2026-11-20.md.
   - Assessment event mode (src=talk-*): no Rx lanes, menu or Rx footer; thank-you with drawing / book / Monday Zoom / "we never call unless you ask"; "Prefer not to say" on Hormones + Sexual function (prorated score).
