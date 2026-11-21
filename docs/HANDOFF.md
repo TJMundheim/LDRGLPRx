@@ -4,6 +4,10 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — NEXT 40 DAYS PLAN (Nov 21 – Dec 31)
+- docs/plan/next-40-days-2026-11-21.md: recap, ranked "what we might be forgetting", day-by-day through Dec 31, and a Dec 31 scoreboard. The Monday check-in reads it (via 2027-plan.md).
+- Top blockers on TJ: call hours + Calendly account (lead leak); the 800-number RPA lead from Suzanne (11-15); a QR card for Ridglea Dec 1.
+
 ## 2026-11-20 — LEAD CONCEPTS = SIDE BURNER (TJ)
 - TJ met Chris Wear: willing to help, no specifics yet. Next: TJ gifts him The Uninsured Decade, then regroups for names (six questions in lead-concepts-meeting-brief.md). Tracked under "Warm leads" in docs/launch/speaking/talk-log.md (nudge by 2026-12-15) so the Monday check-in keeps it alive.
 
