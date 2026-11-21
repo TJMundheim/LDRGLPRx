@@ -17,7 +17,7 @@ QR tag per talk: `talk-<slug>` (run `python3 docs/talk/qr.py talk-<slug>` before
 | 8 | 2026-11-20 | Kiwanis Club of Southlake | Dave (club contact) | sent | 2026-12-02 |
 | 9 | 2026-11-20 | Colleyville Chamber of Commerce | chamber inbox | sent | 2026-12-02 |
 | 10 | 2026-11-20 | Keller Public Library | Joshua Cade | sent | 2026-12-02 |
-| 11 | — | Rotary Club of Western Fort Worth (Ridglea) | Shellie Gardner, president | TJ in person / club site "Send Email" | — |
+| 11 | — | Rotary Club of Western Fort Worth (Ridglea) | Shellie Gardner, president | TJ visits in person Tue 2026-12-01, 12:00–1:00, Garden Room, Ridglea Country Club (arrive ~11:45; guest pays for lunch; bring card + signed BWTEIM). Club meets 1st/3rd Tuesdays per its calendar; backup Tue 2026-12-15 (board 11:00, club 12:00) | 2026-12-01 |
 
 Copy: batch-1-2026-11-20.md. Sent via infra/scripts/speaking-outreach-send.sh (email-sender, from Dr. TJ, replies to drtj@).
 
