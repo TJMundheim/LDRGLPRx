@@ -1,0 +1,6 @@
+node_modules/
+*.pptx
+*.pdf
+slides/
+sl-*.jpg
+.DS_Store

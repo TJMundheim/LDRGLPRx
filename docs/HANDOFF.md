@@ -4,6 +4,13 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — TALK DECK v4.3 + presenter script (Claude owns the deck; TJ standing order)
+- TJ: every My4MLife talk uses this deck (tweaked per talk); any change to deck/script must be mirrored on the site/app and vice versa. Memory: project_talk_deck.
+- Source of truth: `docs/talk/` (see its README for one-time setup + rebuild). Never hand-edit the PPTX.
+- v4.3 changes vs TJ's v4.2: slide 1 notes (QR tag); slide 12 Count Log URL + "log your counts in the free Protégé app" (own lines); slide 31 "Monday · 7 p.m. Central"; slide 32 "How this stays free" box (replaces old how-this-works paragraph); slide 33 notes (drawing path; books Kindle + paperback, BWTEIM also hardcover).
+- Outputs: ~/Downloads/My4MLife_Talk_v4_3.pptx (35 slides) + My4MLife_Talk_Presenter_Script_v4_3.pdf (36 pp).
+- Per event: `python3 docs/talk/qr.py talk-<event>` then rebuild (tag must start `talk`; bare `talk` also accepted since 074bdda6).
+
 ## 2026-11-16 — BOOK LAUNCH EMAIL SENT (TJ "send")
 - 66 individual emails from Dr. TJ via email-sender, 0 failures:
   - 1 to Paul with Marla cc'd (foreword thanks, faster-than-author-copies tip)
