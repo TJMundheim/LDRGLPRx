@@ -25,7 +25,7 @@ Copy: batch-1-2026-11-20.md. Sent via infra/scripts/speaking-outreach-send.sh (e
 
 | Lead | Status | Next step (TJ) | Nudge by |
 |---|---|---|---|
-| Chris Wear, Lead Concepts (seminar mailers for advisors and estate attorneys; TJ's friend) | Met 2026-11. Willing to help; no names or specifics yet. | Give Chris a copy of *The Uninsured Decade* as a gift. After he's read it, regroup and ask the six questions in docs/launch/uninsured-decade/lead-concepts-meeting-brief.md (which advisors, which cities, guest minutes, mailer line or card, what he wants, a 3-dinner pilot). Bring the 10-minute guest deck. | 2026-12-15 |
+| Chris Wear, Lead Concepts (seminar mailers for advisors and estate attorneys; TJ's friend) | Met 2026-11. Willing to help; no names or specifics yet. | Give Chris a copy of *The Uninsured Decade* as a gift (TJ plans to take one from a family retail order the week of 2026-11-23; author copies ship slower). After he's read it, regroup and ask the six questions in docs/launch/uninsured-decade/lead-concepts-meeting-brief.md (which advisors, which cities, guest minutes, mailer line or card, what he wants, a 3-dinner pilot). Bring the 10-minute guest deck. | 2026-12-15 |
 
 ## Talks
 
