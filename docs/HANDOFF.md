@@ -13,7 +13,7 @@
 - **TJ to do on 12-31/01-01:** raise the book prices in KDP by hand (Claude can't use KDP). **Honor any "unsubscribe" replies:** set Contact.marketingConsent.status=opted_out.
 - The send script and recipient list stay local only (scratchpad + TJ's Desktop/Book-Email-Review), never committed.
 
-## 2026-11-20 — TALK READINESS BUILT (971c1c0d), NOT DEPLOYED: waiting on TJ's Monday Zoom time
+## 2026-11-20 — TALK READINESS DEPLOYED (971c1c0d + 8a426f96; Monday Zoom 7 p.m. Central)
 - Built from TJ's talk deck v4.2 + presenter script + reviewer walkthrough. Plan: docs/plan/talk-readiness-2026-11-20.md.
   - Assessment event mode (src=talk-*): no Rx lanes, menu or Rx footer; thank-you with drawing / book / Monday Zoom / "we never call unless you ask"; "Prefer not to say" on Hormones + Sexual function (prorated score).
   - MindSpan naming everywhere. Home drops the $50K Captain's Table band (/coaching stays). Consult page call line.
