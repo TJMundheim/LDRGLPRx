@@ -159,3 +159,14 @@ describe('top-3 results styling', () => {
     expect(assess).toContain(':global(.results-top3-list .top3-label)');
   });
 });
+
+describe('call promise: care coordinator, not Dr. TJ (TJ 2026-11-20)', () => {
+  it('no page promises that Dr. TJ personally calls', () => {
+    for (const t of [index, consult, assess]) {
+      expect(t).not.toMatch(/Dr\. TJ (will call|calls) you/);
+    }
+    expect(index).toContain('then a care coordinator calls you.');
+    expect(consult).toContain("'Got it. A care coordinator will call you '");
+    expect(assess).toContain("'A care coordinator will call you '");
+  });
+});

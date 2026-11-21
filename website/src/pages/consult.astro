@@ -585,7 +585,7 @@ const canonical = "https://www.my4mlife.com/consult";
       } catch (_) { /* no-op — localStorage unavailable */ }
 
       var heading = $('#q-success-heading');
-      if (heading) heading.textContent = 'Got it. Dr. TJ will call you ' + (payload.bestTime || 'soon') + '.';
+      if (heading) heading.textContent = 'Got it. A care coordinator will call you ' + (payload.bestTime || 'soon') + '.';
 
       var assessmentCta = $('#q-assessment-cta');
       if (assessmentCta) {

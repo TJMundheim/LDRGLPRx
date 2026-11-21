@@ -4,6 +4,9 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — Call promise = "care coordinator" sitewide (TJ "switch them"; DEPLOYED)
+- Home hero, /consult confirmation and assessment results no longer say "Dr. TJ calls you"; all say a care coordinator calls. Guard test in website/tests/talk-readiness.test.ts. "Dr. TJ" stays only where it is genuinely him (Captain's Table, regenerative pre-consultation).
+
 ## 2026-11-20 — TALK DECK v4.4: mission up front (TJ "build it")
 - Slide 6 replaced: "Keep your mind. Keep who you are." + "Your identity and your dignity, while you still have a choice." Three books as a staircase, smallest step first: BODY/CYS "The first step" (START HERE) → BANK/UD "The reason" → BRAIN/BWTEIM "The whole plan".
 - Notes: slide 6 = TJ's book-origin story (wrote BWTEIM first, too much → UD → CYS, small action leads further), ends on identity/dignity; no dementia numbers in the intro. Slide 5 intro trimmed to ~30 s; slides 13 + 14 now call back to the opening.
