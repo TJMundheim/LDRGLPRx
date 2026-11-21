@@ -4,6 +4,11 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — SPEAKING OUTREACH BATCH 1 SENT (TJ "send all ten")
+- 10 booking emails sent from Dr. TJ via email-sender (all accepted by Mailgun). Copy: docs/launch/speaking/batch-1-2026-11-20.md; tracker: docs/launch/speaking/talk-log.md (follow-ups due 2026-12-02, after Thanksgiving week). Script: infra/scripts/speaking-outreach-send.sh <batch.md> <n> [--dry-run].
+- #11 Western Fort Worth Rotary (Ridglea, Tuesdays noon; president Shellie Gardner) = TJ's neighborhood club: TJ to go as a guest / use the club site's "Send Email"; it's also the door to Ridglea CC member events.
+- Replies land in drtj@my4mlife.com (not the connected Gmail, which is a different account) — ask TJ to forward or tell me who replied.
+
 ## 2026-11-20 — SPEAKER PAGE /speaking LIVE (TJ "go live"; email-sender + website deployed, bot-path smoke OK, no real submission sent)
 - Fit list adds professional associations (advisors, estate attorneys, HR/benefits) + leadership retreats/CEO peer groups.
 - website/src/pages/speaking.astro (noindex while SPEAKING_APPROVED=false; now true in siteMode; footer "Speaking" link gated by SHOW_SPEAKING; sticky call bar hidden on /speaking). Form → POST /api/contact-form formId `speaking-inquiry`.
