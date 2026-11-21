@@ -67,3 +67,9 @@ export const SHOW_HERITAGE = HERITAGE_APPROVED || import.meta.env.PUBLIC_SHOW_HE
 // Monday cohort Zoom start time, e.g. '7 p.m. Central'. TJ to set before deploy.
 // website/deploy.sh refuses to deploy while this is 'TBD'.
 export const ZOOM_TIME = '7 p.m. Central';
+
+// Speaking page (/speaking). Reachable but noindex until TJ approves. While false the page is
+// still built (for preview) but robots is noindex,follow. To go live set SPEAKING_APPROVED = true;
+// to preview indexing: build with PUBLIC_SHOW_SPEAKING=1. Footer link shows only when true.
+const SPEAKING_APPROVED = false;
+export const SHOW_SPEAKING = SPEAKING_APPROVED || import.meta.env.PUBLIC_SHOW_SPEAKING === '1';

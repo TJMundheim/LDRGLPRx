@@ -1,0 +1,304 @@
+---
+// /speaking: booking page for Dr. TJ. Reachable but noindex until SPEAKING_APPROVED (siteMode).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SHOW_SPEAKING } from '../lib/siteMode';
+
+const mission = "Don't lose your identity and your dignity while you still have a choice.";
+const disclaimer = 'Dr. TJ speaks as a health-span educator and does not provide medical care through this platform.';
+const pillars = [
+  { tag: 'Body', book: 'Count Yourself Skinny', cover: '/images/books/count-yourself-skinny-cover.jpg', d: 'The first step. Count your chews and walk at least 2,500 steps a day. It starts at the next meal.' },
+  { tag: 'Brain', book: 'Begin with the End in Mind', cover: '/images/book/cover-front.png', d: "Why Alzheimer's starts in midlife, and the 4M plan to lower the odds." },
+  { tag: 'Bank', book: 'The Uninsured Decade', cover: '/images/books/uninsured-decade-cover.jpg', d: 'The one retirement risk no policy covers: what ten years of care costs a family.' },
+];
+const leaves = [
+  'A two-minute snack exercise nobody forgets',
+  'Two numbers to start tomorrow: 32 chews a bite, 2,500 steps a day',
+  'A free MindSpan assessment, with the book, the Logbook and the Protégé app sent to them free',
+  'A signed-book drawing at in-person events',
+];
+const formats = [
+  { t: '20–25 minutes', d: 'Service clubs and lunch meetings' },
+  { t: '45–60 minutes', d: 'Dinner seminars, client events, gym and clinic nights' },
+  { t: 'Live on Zoom', d: 'Anywhere' },
+];
+const fits = ['Rotary, Kiwanis and Lions clubs', 'Chambers of commerce', 'Church and community groups', 'Gyms, med spas and IV clinics (client nights)', 'Financial advisor and estate attorney client events', 'Employee lunch-and-learns', 'Conferences'];
+const fees = [
+  'Free for community groups and nonprofits.',
+  'Conferences, corporate and client-appreciation events: ask about an honorarium.',
+  'No pitch from the stage. Education first.',
+  "Dr. TJ brings the slides, signed books for the drawing and QR cards. A screen helps; it isn't required. For groups over 30, a microphone.",
+  'Based in Dallas–Fort Worth. Travels for events.',
+];
+const about = [
+  'Health-span educator · 30+ years in clinical practice',
+  'Founder of My4MLife',
+  'Author of three books: Begin with the End in Mind, Count Yourself Skinny and The Uninsured Decade',
+  'Masters track and field decathlete',
+];
+const eventTypes = ['Service club meeting', 'Chamber or business group', 'Church or community group', 'Gym, med spa or clinic client night', 'Financial advisor or attorney client event', 'Company lunch-and-learn', 'Conference', 'Other'];
+const sizes = ['Under 20', '20–50', '50–100', '100+'];
+---
+<BaseLayout
+  title="Book Dr. TJ to Speak | My4MLife"
+  description="Book Dr. TJ for your club, gym, client event or team. Body, Brain, Bank: a talk people remember. Free for community groups."
+  canonical="https://www.my4mlife.com/speaking"
+  robots={SHOW_SPEAKING ? 'index, follow' : 'noindex, follow'}
+>
+<section class="sp-hero">
+  <div class="container sp-hero-inner">
+    <div class="sp-hero-copy">
+      <p class="sp-kicker">SPEAKING</p>
+      <h1>Book Dr. TJ for your group</h1>
+      <p class="sp-sub">Body, Brain, Bank: keep your mind, keep who you are.</p>
+      <p class="sp-line">A talk people remember, for clubs, gyms, client events and teams. Free for community groups.</p>
+      <a href="#request" class="sp-btn">Request a date</a>
+    </div>
+    <img class="sp-photo" src="/images/founder/founder-tj.jpg" alt="Dr. TJ, founder of My4MLife" width="480" height="560" fetchpriority="high" />
+  </div>
+</section>
+
+<section class="sp-band"><div class="container sp-narrow"><p>{mission}</p></div></section>
+
+<section class="sp-section">
+  <div class="container">
+    <h2 class="sp-h2">The talk</h2>
+    <div class="sp-cards">
+      {pillars.map((p) => (
+        <article class="sp-card">
+          <img src={p.cover} alt={`${p.book} book cover`} loading="lazy" width="120" height="170" />
+          <div>
+            <p class="sp-tag">{p.tag}</p>
+            <h3>{p.book}</h3>
+            <p>{p.d}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sp-section sp-soft">
+  <div class="container sp-two">
+    <div>
+      <h2 class="sp-h2">Your audience leaves with</h2>
+      <ul class="sp-list">{leaves.map((l) => <li>{l}</li>)}</ul>
+    </div>
+    <div>
+      <h2 class="sp-h2">Formats</h2>
+      <ul class="sp-formats">{formats.map((f) => <li><strong>{f.t}</strong><span>{f.d}</span></li>)}</ul>
+    </div>
+  </div>
+</section>
+
+<section class="sp-section">
+  <div class="container sp-two">
+    <div>
+      <h2 class="sp-h2">A great fit for</h2>
+      <ul class="sp-list">{fits.map((f) => <li>{f}</li>)}</ul>
+    </div>
+    <div>
+      <h2 class="sp-h2">Fees and logistics</h2>
+      <ul class="sp-list">{fees.map((f) => <li>{f}</li>)}</ul>
+    </div>
+  </div>
+</section>
+
+<section class="sp-section sp-soft">
+  <div class="container sp-narrow">
+    <h2 class="sp-h2">About Dr. TJ</h2>
+    <ul class="sp-list">{about.map((a) => <li>{a}</li>)}</ul>
+  </div>
+</section>
+
+<section class="sp-section" id="request">
+  <div class="container sp-form-wrap">
+    <h2 class="sp-h2">Request a date</h2>
+    <p class="sp-intro"><span class="sp-req" aria-hidden="true">*</span> marks a required question.</p>
+    <form id="speaking-form" novalidate>
+      <div class="sp-row">
+        <div class="sp-field" data-field="sp-name"><label for="sp-name">Your name <span class="sp-req" aria-hidden="true">*</span></label><input type="text" id="sp-name" name="name" autocomplete="name" required aria-required="true" /><span class="sp-err" data-for="sp-name" role="alert"></span></div>
+        <div class="sp-field" data-field="sp-org"><label for="sp-org">Organization <span class="sp-req" aria-hidden="true">*</span></label><input type="text" id="sp-org" name="organization" autocomplete="organization" required aria-required="true" /><span class="sp-err" data-for="sp-org" role="alert"></span></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-field"><label for="sp-role">Your role</label><input type="text" id="sp-role" name="role" autocomplete="organization-title" /></div>
+        <div class="sp-field" data-field="sp-email"><label for="sp-email">Email <span class="sp-req" aria-hidden="true">*</span></label><input type="email" id="sp-email" name="email" autocomplete="email" required aria-required="true" /><span class="sp-err" data-for="sp-email" role="alert"></span></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-field"><label for="sp-phone">Phone</label><input type="tel" id="sp-phone" name="phone" autocomplete="tel" inputmode="tel" /></div>
+        <div class="sp-field" data-field="sp-type"><label for="sp-type">Event type <span class="sp-req" aria-hidden="true">*</span></label>
+          <select id="sp-type" name="eventType" required aria-required="true"><option value="">Select one</option>{eventTypes.map((t) => <option>{t}</option>)}</select><span class="sp-err" data-for="sp-type" role="alert"></span></div>
+      </div>
+      <div class="sp-row">
+        <div class="sp-field"><label for="sp-dates">Preferred dates</label><input type="text" id="sp-dates" name="preferredDates" /></div>
+        <div class="sp-field"><label for="sp-size">Expected audience</label>
+          <select id="sp-size" name="audienceSize"><option value="">Select one</option>{sizes.map((s) => <option>{s}</option>)}</select></div>
+      </div>
+      <div class="sp-field"><label for="sp-loc">City, or Zoom</label><input type="text" id="sp-loc" name="location" autocomplete="address-level2" /></div>
+      <div class="sp-field"><label for="sp-notes">Anything else we should know?</label><textarea id="sp-notes" name="notes" rows="3"></textarea></div>
+      <div class="sp-field"><label for="sp-heard">How did you hear about Dr. TJ?</label><input type="text" id="sp-heard" name="heardFrom" /></div>
+      <p class="sp-missing" id="sp-missing" role="alert"></p>
+      <button type="submit" class="sp-btn sp-submit" id="sp-submit">Request a date</button>
+      <p class="sp-form-error" id="sp-form-error" role="alert" hidden></p>
+    </form>
+    <div class="sp-success" id="sp-success" role="status" tabindex="-1" hidden>
+      <h3>Thank you. Dr. TJ reads every request himself and will reply within two business days.</h3>
+    </div>
+  </div>
+</section>
+
+<section class="sp-fine-band">
+  <div class="container sp-narrow"><p>{disclaimer}</p></div>
+</section>
+</BaseLayout>
+
+<script>
+  import { attachHoneypot, botFields, LEAD_CAPTURE_ERROR } from '../scripts/lead-capture';
+
+  const API_BASE: string =
+    (import.meta as any).env?.PUBLIC_LEAD_CAPTURE_API_URL ??
+    'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+
+  const form = document.getElementById('speaking-form') as HTMLFormElement | null;
+  if (form) {
+    attachHoneypot(form);
+    const submit = document.getElementById('sp-submit') as HTMLButtonElement;
+    const formError = document.getElementById('sp-form-error') as HTMLElement;
+    const missing = document.getElementById('sp-missing') as HTMLElement;
+    const success = document.getElementById('sp-success') as HTMLElement;
+    const val = (id: string) => (document.getElementById(id) as HTMLInputElement).value.trim();
+    const setErr = (id: string, msg: string) => {
+      const el = form.querySelector<HTMLElement>(`.sp-err[data-for="${id}"]`);
+      if (el) el.textContent = msg;
+      form.querySelector<HTMLElement>(`[data-field="${id}"]`)?.classList.toggle('sp-bad', !!msg);
+    };
+    form.addEventListener('input', () => { missing.textContent = ''; });
+    form.addEventListener('change', () => { missing.textContent = ''; });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formError.hidden = true;
+      const email = val('sp-email');
+      const checks: Array<[string, string]> = [
+        ['sp-name', val('sp-name') ? '' : 'Please enter your name.'],
+        ['sp-org', val('sp-org') ? '' : 'Please enter your organization.'],
+        ['sp-email', /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? '' : 'Please enter a valid email address.'],
+        ['sp-type', val('sp-type') ? '' : 'Please choose an event type.'],
+      ];
+      let firstBad: string | null = null;
+      for (const [id, msg] of checks) { setErr(id, msg); if (msg && !firstBad) firstBad = id; }
+      if (firstBad) {
+        missing.textContent = "A few answers are still missing. We've taken you to the first one.";
+        const box = form.querySelector<HTMLElement>(`[data-field="${firstBad}"]`);
+        box?.scrollIntoView({ block: 'center' });
+        box?.querySelector<HTMLElement>('input,select')?.focus({ preventScroll: true });
+        return;
+      }
+
+      const { hp, t } = botFields(form);
+      const fields = {
+        name: val('sp-name'),
+        organization: val('sp-org'),
+        role: val('sp-role'),
+        email,
+        phone: val('sp-phone'),
+        eventType: val('sp-type'),
+        preferredDates: val('sp-dates'),
+        audienceSize: val('sp-size'),
+        location: val('sp-loc'),
+        notes: val('sp-notes'),
+        heardFrom: val('sp-heard'),
+        hp,
+        t,
+      };
+
+      submit.disabled = true;
+      let ok = false;
+      try {
+        const res = await fetch(API_BASE + '/api/contact-form', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ kind: 'form', formId: 'speaking-inquiry', fields }),
+        });
+        ok = res.ok;
+      } catch (_) { ok = false; }
+      submit.disabled = false;
+
+      if (!ok) {
+        formError.textContent = LEAD_CAPTURE_ERROR + ' Your answers are still here.';
+        formError.hidden = false;
+        return;
+      }
+      form.hidden = true;
+      success.hidden = false;
+      success.scrollIntoView({ block: 'center' });
+      success.focus({ preventScroll: true });
+      (window as any).posthog?.capture?.('speaking_inquiry_submitted');
+    });
+  }
+</script>
+
+<style>
+.sp-hero { background: linear-gradient(160deg, #102842 0%, #0a1628 55%, #050b16 100%); padding: 7rem 0 3.5rem; }
+.sp-hero-inner { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; max-width: 1040px; }
+.sp-kicker { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; color: #d4af5a; margin: 0 0 0.9rem; }
+.sp-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.1rem, 7vw, 3.4rem); font-weight: 700; line-height: 1.12; color: #fff; margin: 0 0 1rem; text-wrap: balance; }
+.sp-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.1rem, 3vw, 1.4rem); color: #d4af5a; margin: 0 0 1rem; }
+.sp-line { font-size: clamp(1rem, 2.4vw, 1.15rem); line-height: 1.6; color: rgba(255,255,255,0.85); margin: 0 0 1.75rem; max-width: 34rem; }
+.sp-photo { width: 100%; max-width: 360px; height: auto; aspect-ratio: 6 / 7; object-fit: cover; border-radius: 18px; border: 2px solid #d4af5a; box-shadow: 0 20px 50px rgba(0,0,0,0.45); justify-self: center; }
+.sp-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 1rem 2.2rem; border-radius: 40px; font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; text-decoration: none; border: 2px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; box-shadow: 0 10px 32px rgba(0,184,148,0.35); transition: transform 0.18s ease, background 0.18s ease; }
+.sp-btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); transform: translateY(-2px); }
+.sp-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.sp-band { background: #0a1628; border-top: 1px solid rgba(212,175,90,0.4); border-bottom: 1px solid rgba(212,175,90,0.4); padding: 2.5rem 0; text-align: center; }
+.sp-band p { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.2rem, 3.8vw, 1.8rem); line-height: 1.4; color: #d4af5a; margin: 0; text-wrap: balance; }
+.sp-section { padding: 3.5rem 0; background: #fff; }
+.sp-soft { background: var(--bg-soft); }
+.sp-narrow { max-width: 720px; }
+.sp-h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2rem); color: var(--dark); margin: 0 0 1.4rem; padding-bottom: 0.5rem; border-bottom: 2px solid #d4af5a; display: inline-block; }
+.sp-cards { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+.sp-card { display: flex; gap: 1.1rem; align-items: flex-start; padding: 1.25rem; background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 14px; box-shadow: 0 6px 24px rgba(10,22,40,0.06); }
+.sp-card img { flex: 0 0 96px; width: 96px; height: auto; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+.sp-tag { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-dark); margin: 0 0 0.3rem; }
+.sp-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--dark); margin: 0 0 0.5rem; }
+.sp-card p:last-child { margin: 0; line-height: 1.6; color: var(--text); font-size: 0.95rem; }
+.sp-two { display: grid; grid-template-columns: 1fr; gap: 2.5rem; max-width: 1000px; }
+.sp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.sp-list li { position: relative; padding-left: 1.5rem; line-height: 1.6; color: var(--text); }
+.sp-list li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.sp-formats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
+.sp-formats li { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.9rem 1.1rem; background: #fff; border: 1px solid var(--border); border-left: 3px solid #d4af5a; border-radius: 8px; }
+.sp-formats strong { color: var(--dark); font-size: 1.05rem; }
+.sp-formats span { color: var(--text-light); font-size: 0.95rem; }
+.sp-form-wrap { max-width: 680px; }
+.sp-intro { color: var(--text-light); font-size: 0.95rem; margin: -0.6rem 0 1.5rem; }
+.sp-row { display: grid; grid-template-columns: 1fr; gap: 0; }
+.sp-field { margin-bottom: 1.1rem; }
+.sp-field label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--dark); margin-bottom: 0.4rem; }
+.sp-field input[type="text"], .sp-field input[type="email"], .sp-field input[type="tel"], .sp-field select, .sp-field textarea { width: 100%; min-height: 44px; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; background: #fff; color: var(--text); }
+.sp-field input:focus-visible, .sp-field select:focus-visible, .sp-field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.sp-field textarea { resize: vertical; min-height: 90px; }
+.sp-req { color: #c0392b; font-weight: 700; }
+.sp-err { display: block; color: #c0392b; font-size: 0.82rem; margin-top: 0.3rem; }
+.sp-err:empty { display: none; }
+.sp-bad input, .sp-bad select { border-color: #e74c3c; }
+.sp-missing { margin: 0 0 0.9rem; padding: 0.7rem 0.9rem; font-weight: 700; color: #c0392b; text-align: center; background: rgba(231,76,60,0.08); border: 1px solid #e74c3c; border-radius: 8px; }
+.sp-missing:empty { display: none; }
+.sp-submit { width: 100%; margin-top: 0.5rem; }
+.sp-form-error { color: #c0392b; font-size: 0.95rem; margin: 0.9rem 0 0; text-align: center; }
+.sp-success { text-align: center; padding: 2.5rem 1rem; border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 14px; background: #fff; }
+.sp-success h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; line-height: 1.5; color: var(--dark); margin: 0; }
+.sp-fine-band { background: var(--bg-soft); border-top: 1px solid var(--border); padding: 1.75rem 0; }
+.sp-fine-band p { font-size: 0.85rem; color: var(--text-light); line-height: 1.7; margin: 0; }
+@media (min-width: 640px) {
+  .sp-row { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .sp-card img { flex-basis: 120px; width: 120px; }
+}
+@media (min-width: 900px) {
+  .sp-hero { padding: 9rem 0 5rem; }
+  .sp-hero-inner { grid-template-columns: 1.3fr 1fr; gap: 3.5rem; }
+  .sp-section { padding: 5rem 0; }
+  .sp-cards { grid-template-columns: repeat(3, 1fr); }
+  .sp-card { flex-direction: column; }
+  .sp-card img { flex-basis: auto; width: 140px; }
+  .sp-two { grid-template-columns: 1fr 1fr; gap: 4rem; }
+}
+</style>

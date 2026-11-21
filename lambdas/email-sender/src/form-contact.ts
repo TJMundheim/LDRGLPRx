@@ -3,9 +3,9 @@ import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { upsertContact } from '@my4mlife/contact-upsert';
 
 // Forms whose submitter is a lead worth keeping. Questionnaire/intake forms (health data) are deliberately excluded.
-const ALLOWED = new Set(['coaching-application', 'partner-application', 'contact', 'referral', 'request-app-homepage']);
+const ALLOWED = new Set(['coaching-application', 'partner-application', 'contact', 'referral', 'request-app-homepage', 'speaking-inquiry']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const TAGS: Record<string, string[]> = { 'coaching-application': ['captains-table'], 'partner-application': ['push-patch-partner'] };
+const TAGS: Record<string, string[]> = { 'coaching-application': ['captains-table'], 'partner-application': ['push-patch-partner'], 'speaking-inquiry': ['speaking'] };
 
 type Ddb = { send(cmd: any): Promise<any> };
 let client: Ddb | undefined;

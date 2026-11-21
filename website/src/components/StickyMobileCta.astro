@@ -11,6 +11,7 @@ const isFunnelPage =
   path.startsWith('/assessment') ||
   path.startsWith('/consult') || // coordinator mode treats /consult itself as a funnel page — sticky stays hidden there
   path.startsWith('/thank-you') ||
+  path.startsWith('/speaking') || // bookers (program chairs, advisors), not patients: the page has its own "Request a date" ask
   /^\/rx\/[^/]+\/questionnaire/.test(path);
 
 const isHome = path === '/';

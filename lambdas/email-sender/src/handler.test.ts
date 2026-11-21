@@ -108,6 +108,25 @@ describe('form confirmation routing', () => {
     expect(capture).not.toHaveBeenCalled();
   });
 
+  it('speaking-inquiry: alert to TJ plus confirmation from Dr. TJ, contact captured', async () => {
+    const [relay, conf, ...rest] = await form('speaking-inquiry', { email: 'p@org.com', name: 'Pat Lee', organization: 'Org', hp: '', t: 9000 });
+    expect(rest).toHaveLength(0);
+    expect(relay.get('to')).toBe('tj@x.com');
+    expect(relay.get('subject')).toBe('[Form: speaking-inquiry] from p@org.com');
+    expect(conf.get('from')).toBe('Dr. TJ <drtj@my4mlife.com>');
+    expect(conf.get('h:Reply-To')).toBe('drtj@my4mlife.com');
+    expect(conf.get('to')).toBe('p@org.com');
+    expect(conf.get('subject')).toBe('Your speaking request');
+    expect(conf.get('text')).toContain('Org');
+    expect(capture).toHaveBeenCalledTimes(1);
+  });
+
+  it('speaking-inquiry: bot submissions send nothing and capture nothing', async () => {
+    expect(await form('speaking-inquiry', { email: 'b@bot.com', hp: 'spam', t: 9000 })).toHaveLength(0);
+    expect(await form('speaking-inquiry', { email: 'b@bot.com', hp: '', t: 500 })).toHaveLength(0);
+    expect(capture).not.toHaveBeenCalled();
+  });
+
   it('other formIds keep the generic confirmation from the info address', async () => {
     const [relay, conf] = await form('contact', { email: 'sam@x.com' });
     expect(relay.get('to')).toBe('tj@x.com');

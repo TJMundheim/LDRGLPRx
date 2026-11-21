@@ -35,6 +35,11 @@ describe('captureFormContact', () => {
     expect(upsert.mock.calls[0][1]).toEqual({ email: 'd@glow.com', source: 'form:partner-application', stage: 'lead', firstName: 'Dana', lastName: 'Reyes', tags: ['push-patch-partner'] });
   });
 
+  it('speaking-inquiry: name split, speaking tag, no organization/notes/dates fields', async () => {
+    await captureFormContact(ddb, { formId: 'speaking-inquiry', fields: { name: 'Pat Lee', email: 'Pat@Org.com', organization: 'Org', notes: 'n', preferredDates: 'May' } });
+    expect(upsert.mock.calls[0][1]).toEqual({ email: 'pat@org.com', source: 'form:speaking-inquiry', stage: 'lead', firstName: 'Pat', lastName: 'Lee', tags: ['speaking'] });
+  });
+
   it('splits a single "name" into first and last on the first space', async () => {
     await captureFormContact(ddb, { formId: 'contact', fields: { name: 'Mary Ann van Dyke', email: 'm@x.com', message: 'hi', subject: 's' } });
     expect(upsert.mock.calls[0][1]).toEqual({ email: 'm@x.com', source: 'form:contact', stage: 'lead', firstName: 'Mary', lastName: 'Ann van Dyke' });

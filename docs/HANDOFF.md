@@ -4,6 +4,12 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — SPEAKER PAGE /speaking BUILT (not deployed; awaiting TJ copy OK)
+- website/src/pages/speaking.astro (noindex while SPEAKING_APPROVED=false in siteMode; footer "Speaking" link gated by SHOW_SPEAKING; sticky call bar hidden on /speaking). Form → POST /api/contact-form formId `speaking-inquiry`.
+- lambdas/email-sender: accepts `speaking-inquiry` (Contact upsert source form:speaking-inquiry, tag speaking; honeypot/timing bot check; confirmation from Dr. TJ with identity line). Handler slimmed to 99 lines (confirmations.ts).
+- DEPLOY ORDER on TJ OK: (1) lambdas/email-sender/infra/deploy.sh, (2) set SPEAKING_APPROVED=true, (3) website/deploy.sh. Do not submit the live form before step 1 (old Lambda would send the generic confirmation).
+- TJ's Cowork advisor host sheet ("Host the talk: The Uninsured Decade", Claude Docs) edited 2026-11-20: bio → health-span educator (no DC), identity line, how-it-stays-free line, fee "No fee when you host and fill the room (20 or more guests)", booking → my4mlife.com/speaking, couple stat labelled an estimate. Open: advisor edition of the deck (35–40 min), bulk book price (TJ).
+
 ## 2026-11-20 — Call promise = "care coordinator" sitewide (TJ "switch them"; DEPLOYED)
 - Home hero, /consult confirmation and assessment results no longer say "Dr. TJ calls you"; all say a care coordinator calls. Guard test in website/tests/talk-readiness.test.ts. "Dr. TJ" stays only where it is genuinely him (Captain's Table, regenerative pre-consultation).
 
