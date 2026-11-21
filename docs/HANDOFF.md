@@ -4,6 +4,11 @@
 # (Dated changelog of prior sessions follows this block.)
 # ===================================================================
 
+## 2026-11-20 — TALK DECK v4.4: mission up front (TJ "build it")
+- Slide 6 replaced: "Keep your mind. Keep who you are." + "Your identity and your dignity, while you still have a choice." Three books as a staircase, smallest step first: BODY/CYS "The first step" (START HERE) → BANK/UD "The reason" → BRAIN/BWTEIM "The whole plan".
+- Notes: slide 6 = TJ's book-origin story (wrote BWTEIM first, too much → UD → CYS, small action leads further), ends on identity/dignity; no dementia numbers in the intro. Slide 5 intro trimmed to ~30 s; slides 13 + 14 now call back to the opening.
+- Outputs: ~/Downloads/My4MLife_Talk_v4_4.pptx + My4MLife_Talk_Presenter_Script_v4_4.pdf. No site change needed (story is talk-only).
+
 ## 2026-11-20 — TALK DECK v4.3 + presenter script (Claude owns the deck; TJ standing order)
 - TJ: every My4MLife talk uses this deck (tweaked per talk); any change to deck/script must be mirrored on the site/app and vice versa. Memory: project_talk_deck.
 - Source of truth: `docs/talk/` (see its README for one-time setup + rebuild). Never hand-edit the PPTX.

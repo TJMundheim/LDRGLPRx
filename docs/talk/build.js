@@ -7,7 +7,7 @@ const sharp = require("sharp");
 const fa = require("react-icons/fa");
 const SK = process.env.PPTX_SKILL_SCRIPTS || "/Users/thomasmundheim/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/05f0a689-b3bd-417f-9fb8-dc2d26526007/528874af-4eef-44bb-93b2-cdc75c7de2f7/skills/pptx/scripts/apply_theme.js";
 const { applyTheme } = require(SK);
-const OUT = process.argv[2] || "My4MLife_Talk_v4_3.pptx";
+const OUT = process.argv[2] || "My4MLife_Talk_v4_4.pptx";
 // Speaker notes carried over from v1, keyed by v1 slide number. v2 additions are appended below.
 const N1 = require("./notes_v1.json");
 const note = (k, extra) => N1[String(k)] + (extra ? "\n\n" + extra : "");
@@ -142,19 +142,24 @@ async function icon(name, color) {
     s.addNotes(note(5));
   }
   {
-    const s = slide("MAIN", "Opening", "Tonight: three things worth protecting");
-    const cols = [["BODY", K.red, "cys", "Count Yourself Skinny", "Small, countable habits that start at your next meal"],
-      ["BRAIN", K.blue, "bw", "Begin with the End in Mind", "Why Alzheimer's starts in midlife, and the 4M plan"],
-      ["BANK", K.burg, "ud", "The Uninsured Decade", "The one retirement risk no policy covers"]];
-    const cw = 3.85, gap = (CW - 3 * cw) / 2;
+    // v4.4 (TJ 2026-11-20): mission up front + the three books as a staircase, smallest step first.
+    const s = slide("MAIN", "Opening", "Keep your mind. Keep who you are.");
+    txt(s, "Your identity and your dignity, while you still have a choice.", { x: M + 0.2, y: 1.28, w: CW - 0.4, h: 0.5, fontSize: 22, italic: true, color: K.goldL, valign: "top" });
+    const steps = [
+      ["BODY", K.red, "cys", "Count Yourself Skinny", "The first step", "Count your chews. Walk at least 2,500 steps a day."],
+      ["BANK", K.burg, "ud", "The Uninsured Decade", "The reason", "What ten years of care costs a family, plus the 4M basics."],
+      ["BRAIN", K.blue, "bw", "Begin with the End in Mind", "The whole plan", "Everything that protects your mind, for life."]];
+    const cw = 3.85, gap = (CW - 3 * cw) / 2, bottom = 6.55, tops = [3.35, 2.7, 2.05];
     for (let i = 0; i < 3; i++) {
-      const x = M + i * (cw + gap);
-      card(s, x, 1.5, cw, 5.1, { name: cols[i][0] + " card" });
-      txt(s, cols[i][0], { x: x + 0.3, y: 1.65, w: 3.3, h: 0.55, fontSize: 28, bold: true, charSpacing: 6, color: cols[i][1], fontFace: "Cambria" });
-      book(s, covers[cols[i][2]][0], x + 0.3, 2.35, 3.0, cols[i][3]);
-      txt(s, cols[i][3], { x: x + 2.35, y: 2.4, w: 1.35, h: 2.2, fontSize: 17, bold: true, color: "FFFFFF", valign: "top" });
-      txt(s, cols[i][4], { x: x + 0.3, y: 5.5, w: cw - 0.5, h: 1.0, fontSize: 18, color: "FFFFFF", valign: "top" });
+      const x = M + i * (cw + gap), y = tops[i], st = steps[i];
+      card(s, x, y, cw, bottom - y, { name: "Step " + (i + 1) + " card", line: i === 0 ? K.gold : undefined, lw: i === 0 ? 2 : undefined });
+      txt(s, st[0], { x: x + 0.25, y: y + 0.15, w: cw - 0.5, h: 0.4, fontSize: 15, bold: true, charSpacing: 4, color: st[1] });
+      book(s, covers[st[2]][0], x + 0.25, y + 0.65, 1.95, st[3]);
+      big(s, st[4], { x: x + 1.55, y: y + 0.62, w: cw - 1.75, h: 0.5, fontSize: 22, color: "FFFFFF" });
+      txt(s, st[5], { x: x + 1.55, y: y + 1.15, w: cw - 1.75, h: 1.45, fontSize: 16, color: K.soft, valign: "top" });
     }
+    txt(s, [{ text: "START HERE", options: { bold: true, breakLine: true, charSpacing: 4 } }, { text: "Tonight: smallest step first", options: { italic: true } }],
+      { x: M + 0.1, y: 2.3, w: cw, h: 0.9, fontSize: 17, color: K.goldL, valign: "bottom" });
     s.addNotes(note(6));
   }
 

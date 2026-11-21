@@ -1,6 +1,6 @@
 # My4MLife talk deck ("Body, Brain, Bank") and presenter script
 
-Current version: **v4.3** (35 slides, 36-page presenter script). Edit the sources here and rebuild; never hand-edit the PPTX.
+Current version: **v4.4** (35 slides, 36-page presenter script). Edit the sources here and rebuild; never hand-edit the PPTX.
 
 ## Files
 - `build.js` - pptxgenjs deck generator (all slide text and most notes live here)
@@ -22,10 +22,10 @@ build.js calls the pptx skill's `apply_theme.js`. Set `PPTX_SKILL_SCRIPTS` to th
 ## Rebuild for a talk
 1. QR codes with the event tag (must be `talk-<event>`, e.g. `talk-rotary-dec`; default is `talk-general`):
    `python3 qr.py talk-rotary-dec`
-2. Deck: `node build.js ~/Downloads/My4MLife_Talk_v4_3.pptx`
-3. Slide images: `./render_slides.sh ~/Downloads/My4MLife_Talk_v4_3.pptx slides`
+2. Deck: `node build.js ~/Downloads/My4MLife_Talk_v4_4.pptx`
+3. Slide images: `./render_slides.sh ~/Downloads/My4MLife_Talk_v4_4.pptx slides`
    (opens Keynote, exports JPEGs, quits without saving; first run may ask for Automation permission for Keynote; images land in `slides/` as sl-01.jpg ...)
-4. Script PDF: `python3 script.py ~/Downloads/My4MLife_Talk_v4_3.pptx ~/Downloads/My4MLife_Talk_Presenter_Script_v4_3.pdf 4.3 slides`
+4. Script PDF: `python3 script.py ~/Downloads/My4MLife_Talk_v4_4.pptx ~/Downloads/My4MLife_Talk_Presenter_Script_v4_4.pdf 4.4 slides`
 
 Keynote renders differ slightly from PowerPoint (fonts), so images are for the presenter script and layout checks only.
 
