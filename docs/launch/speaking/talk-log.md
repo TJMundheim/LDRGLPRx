@@ -18,8 +18,23 @@ QR tag per talk: `talk-<slug>` (run `python3 docs/talk/qr.py talk-<slug>` before
 | 9 | 2026-11-20 | Colleyville Chamber of Commerce | chamber inbox | sent | 2026-12-02 |
 | 10 | 2026-11-20 | Keller Public Library | Joshua Cade | sent | 2026-12-02 |
 | 11 | — | Rotary Club of Western Fort Worth (Ridglea) | Shellie Gardner, president | TJ visits in person Tue 2026-12-01, 12:00–1:00, Garden Room, Ridglea Country Club (arrive ~11:45; guest pays for lunch; bring card + signed BWTEIM). Club meets 1st/3rd Tuesdays per its calendar; backup Tue 2026-12-15 (board 11:00, club 12:00) | 2026-12-01 |
+| B2-1 | — | Benbrook Public Library | reference desk | drafted | — |
+| B2-2 | — | Colleyville Public Library | reference desk | drafted | — |
+| B2-3 | — | Fort Worth Public Library | adult services | drafted | — |
+| B2-4 | — | Hurst Public Library | V. Patchen | drafted | — |
+| B2-5 | — | Bedford Public Library | library inbox | drafted | — |
+| B2-6 | — | Weatherford Public Library | library inbox | drafted | — |
+| B2-7 | — | Southlake Senior Activity Center | Soheila Phelps | drafted | — |
+| B2-8 | — | The Senior Center of Parker County | Kirsti Smith | drafted | — |
+| B2-9 | — | OLLI at UNT | program office | drafted | — |
+| B2-10 | — | Area Agency on Aging of Tarrant County | ADRC inbox | drafted | — |
+| B2-11 | — | Greater Keller Chamber of Commerce | chamber inbox | drafted | — |
+| B2-12 | — | Lions Club of Fort Worth Riverside | Clayton Meissner | drafted | — |
+| B2-13 | — | Weatherford Noon Lions Club | Michele Snow | drafted | — |
+| B2-14 | — | Petroleum Club of Fort Worth | Juanita Melendez (via reservations) | drafted | — |
+| B2-15 | — | Dementia Friendly Fort Worth | Pam Brandon, president (hold until Dec 9 unless Gail replies) | drafted | — |
 
-Copy: batch-1-2026-11-20.md. Sent via infra/scripts/speaking-outreach-send.sh (email-sender, from Dr. TJ, replies to drtj@).
+Copy: batch-1-2026-11-20.md (rows 1–11); batch-2-2026-11-23.md (rows B2-1 to B2-15, drafted, awaiting TJ's "send"; fill in Sent date + follow-up due = send + 12 days). Sent via infra/scripts/speaking-outreach-send.sh (email-sender, from Dr. TJ, replies to drtj@).
 
 ## Warm leads (side burner; check every Monday)
 
