@@ -202,6 +202,8 @@ export async function handleRefillInvoice(d: RefillDeps, type: string, inv: any)
     return;
   }
   if (type !== 'invoice.paid' || !(inv.amount_paid > 0)) { console.log('[refill] invoice-skipped'); return; }
+  // GLP-1 auto-ship: the first invoice pays for the order just placed (fulfilled by approval), only renewals are refills.
+  if (m['lane'] === 'glp1' && inv.billing_reason === 'subscription_create') { console.log('[refill] glp1-first-invoice-skipped'); return; }
   await fulfill(d, { id: inv.id, contactId: m['contactId'], parentId: m['encounterId'], sku: (m['skuIds'] ?? '').trim(), amountCents: inv.amount_paid,
     currency: inv.currency, partnerRef: m['partnerRef'], customerId: idOf(inv.customer), paymentIntentId: idOf(inv.payment_intent),
     subscriptionId: idOf(inv.subscription), billingReason: inv.billing_reason, periodEnd: periodEndOf(inv), email, ...manualOf(m) });

@@ -338,8 +338,8 @@ export async function processEvent(e: { id: string; type: string; livemode: bool
 
   // 4c. Genesis Push Patch: finalize (pay-last flow) or legacy pending marker.
   // A finalize failure throws so the Stripe retry chain covers it. See push-patch-order.ts.
-  if (skuId.startsWith('push-patch-')) {
-    await handlePushPatchOrder({ ddb, lambda, emailFn: EMAIL_SENDER_FN, session, contactId, skuId, email, firstName: contactFirstName, promoCode: promo?.promoCode });
+  if (skuId.startsWith('push-patch-') || skuId.startsWith('glp1-')) {
+    await handlePushPatchOrder({ stripe, ddb, lambda, emailFn: EMAIL_SENDER_FN, session, contactId, skuId, email, firstName: contactFirstName, promoCode: promo?.promoCode });
   }
 
   // 5. Protégé membership grant — idempotent across retries via its own marker

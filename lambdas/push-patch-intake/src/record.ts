@@ -3,10 +3,12 @@ import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand, DeleteCo
 import { RECORD_SK, encounterSk } from '@my4mlife/patient-record';
 import type { HealthFields } from './validate';
 import { buildRecordUpdates } from './upsert';
-import type { StoredScreening } from './screening';
 import type { ShipTo, StripeShipping } from './ship';
 
 export const CONSENT_KEY = 'consent-telehealth-push-patch-v1';
+export const GLP1_CONSENT_KEY = 'consent-telehealth-glp1-v1';
+export type IntakeLane = 'push-patch' | 'glp1';
+export const laneOf = (s: { metadata?: Record<string, string> | null }): IntakeLane => (s.metadata?.['lane'] === 'glp1' ? 'glp1' : 'push-patch');
 
 const REGION = process.env.AWS_REGION ?? 'us-east-2';
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
@@ -26,19 +28,19 @@ export interface PaidSession {
 const isConditional = (e: unknown) => (e as { name?: string })?.name === 'ConditionalCheckFailedException';
 
 /** Deterministic: `pp-${sessionId}` so a second submit collides on the conditional put. */
-export const encounterIdFor = (sessionId: string): string => `pp-${sessionId}`;
+export const encounterIdFor = (sessionId: string, lane: IntakeLane = 'push-patch'): string => `${lane === 'glp1' ? 'g1' : 'pp'}-${sessionId}`;
 
 /** Conditional put of the Encounter. Runs FIRST so a duplicate never touches the record or consent. */
 export async function createEncounter(a: {
   contactId: string; encounterId: string; sku: string; sessionId: string; paymentIntentId: string; shipTo: ShipTo; ts: string;
-  amountCents?: number | null; currency?: string | null; testOrder?: boolean;
+  amountCents?: number | null; currency?: string | null; testOrder?: boolean; lane?: IntakeLane;
 }): Promise<'created' | 'duplicate'> {
   try {
     await ddb.send(new PutCommand({
       TableName: TABLE,
       Item: {
         contactId: a.contactId, sk: encounterSk(a.encounterId), encounterId: a.encounterId,
-        lane: 'push-patch', category: 'push-patch', visitType: 'async', sku: a.sku,
+        lane: a.lane ?? 'push-patch', category: a.lane ?? 'push-patch', visitType: 'async', sku: a.sku,
         sessionId: a.sessionId, paymentIntentId: a.paymentIntentId, shipTo: a.shipTo, state: 'sent-to-provider',
         amountCents: a.amountCents, currency: a.currency,
         ...(a.testOrder ? { testOrder: true } : {}),
@@ -69,19 +71,20 @@ export async function deleteEncounter(contactId: string, encounterId: string): P
 }
 
 /** True once the Encounter for this session exists (the intake was submitted, by either path). */
-export async function encounterExists(contactId: string, sessionId: string): Promise<boolean> {
+export async function encounterExists(contactId: string, sessionId: string, lane: IntakeLane = 'push-patch'): Promise<boolean> {
   const r = await ddb.send(new GetCommand({
-    TableName: TABLE, Key: { contactId, sk: encounterSk(encounterIdFor(sessionId)) }, ConsistentRead: true,
+    TableName: TABLE, Key: { contactId, sk: encounterSk(encounterIdFor(sessionId, lane)) }, ConsistentRead: true,
   }));
   return !!r.Item;
 }
 
 /** Upsert the root PatientRecord without removing existing data: nested SETs only (see upsert.ts). */
 export async function upsertRecord(a: {
-  contactId: string; name: string; email: string; body: HealthFields; shipTo: ShipTo; screening: StoredScreening;
-  ts: string; consentAt: string;
+  contactId: string; name: string; email: string; body: HealthFields; shipTo: ShipTo; screening: unknown;
+  ts: string; consentAt: string; lane?: IntakeLane;
 }): Promise<void> {
   const { contactId, name, email, body, shipTo, screening, ts, consentAt } = a;
+  const glp1 = a.lane === 'glp1';
   const [first = '', ...rest] = name.trim().split(/\s+/);
   const updates = buildRecordUpdates({
     demographics: {
@@ -91,8 +94,9 @@ export async function upsertRecord(a: {
     },
     history: { medications: body.medications, allergies: body.allergies, conditions: body.conditions },
     screening,
-    consentKey: CONSENT_KEY,
-    consent: { version: CONSENT_KEY, agreed: true, name: body.consentName, at: consentAt },
+    screeningKey: glp1 ? 'glp1' : 'pushPatch',
+    consentKey: glp1 ? GLP1_CONSENT_KEY : CONSENT_KEY,
+    consent: { version: glp1 ? GLP1_CONSENT_KEY : CONSENT_KEY, agreed: true, name: body.consentName, at: consentAt },
     ts,
   });
   for (const u of updates) await ddb.send(new UpdateCommand({ TableName: TABLE, Key: { contactId, sk: RECORD_SK }, ...u }));

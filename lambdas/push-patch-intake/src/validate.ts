@@ -33,16 +33,16 @@ type Health = { ok: true; fields: HealthFields } | { ok: false; error: string };
 
 const MAX_LIST = 50;
 
-const str = (v: unknown, max = 200): string | null =>
+export const str = (v: unknown, max = 200): string | null =>
   typeof v === 'string' && v.trim() && v.trim().length <= max ? v.trim() : null;
 
-function list(v: unknown): string[] | null {
+export function list(v: unknown): string[] | null {
   if (!Array.isArray(v) || v.length > MAX_LIST) return null;
   const out = v.map((x) => (typeof x === 'string' ? x.trim().slice(0, 200) : null));
   return out.every((x) => x !== null) ? (out as string[]).filter(Boolean) : null;
 }
 
-function validDob(v: string): boolean {
+export function validDob(v: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
   const d = new Date(`${v}T00:00:00Z`);
   return !Number.isNaN(d.getTime()) && d.toISOString().startsWith(v) && d.getTime() < Date.now();

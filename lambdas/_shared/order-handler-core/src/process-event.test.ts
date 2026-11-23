@@ -316,6 +316,30 @@ describe('processEvent', () => {
     });
   });
 
+  describe('glp1 orders', () => {
+    const subsUpdate = vi.fn().mockResolvedValue({});
+    const glpSession = { ...baseSession, id: 'cs_test_glp1', mode: 'subscription', subscription: 'sub_g1', payment_intent: null,
+      metadata: { skuIds: 'glp1-sema', lane: 'glp1', autoShip: 'true', intakeId: 'int_g', contactId: 'c_g' } };
+    const calls = () => mockLambdaSend.mock.calls.map((c: any) => c[0].input);
+    beforeEach(() => {
+      subsUpdate.mockClear();
+      (mockStripe as any).subscriptions = { update: subsUpdate };
+      mockSessionRetrieve.mockResolvedValue(glpSession);
+      mockEventRetrieve.mockResolvedValue({ data: { object: { id: 'cs_test_glp1' } } });
+      mockLambdaSend.mockImplementation(async (c: any) => (c.input.FunctionName === 'my4mlife-push-patch-intake'
+        ? { Payload: new TextEncoder().encode(JSON.stringify({ result: 'ok' })) } : {}));
+    });
+    afterEach(() => { mockLambdaSend.mockReset().mockResolvedValue({}); delete (mockStripe as any).subscriptions; });
+
+    it('routes glp1- SKUs to the intake finalize and stamps the subscription for manual refills', async () => {
+      await processEvent({ id: 'evt_g1', type: 'checkout.session.completed', livemode: false });
+      const fin = calls().filter((i: any) => i.FunctionName === 'my4mlife-push-patch-intake');
+      expect(fin).toHaveLength(1);
+      expect(JSON.parse(fin[0].Payload.toString())).toEqual({ mode: 'finalize', sessionId: 'cs_test_glp1', intakeId: 'int_g' });
+      expect(subsUpdate).toHaveBeenCalledWith('sub_g1', { metadata: expect.objectContaining({ kind: 'push-patch-refill', encounterId: 'g1-cs_test_glp1', fulfillment: 'manual', product: 'glp1-sema' }) });
+    });
+  });
+
   describe('push-patch fulfillment email', () => {
     // Order email moved to physician approval (built elsewhere). At payment the
     // handler only writes a PUSH_PATCH_PENDING# marker for the intake flow.

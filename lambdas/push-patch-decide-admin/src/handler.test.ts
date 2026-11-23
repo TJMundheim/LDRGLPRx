@@ -138,4 +138,17 @@ describe('dispatch', () => {
     await handler({ fieldName: 'decidePushPatchAdmin', ...ev('decline') });
     expect(decide).toHaveBeenCalledTimes(1);
   });
+
+  it('approve passes dose through; omitted when absent or blank', async () => {
+    decide.mockResolvedValue({ kind: 'approved', mailOk: true });
+    await handler(ev('approve', ['Admins'], { dose: '5 mg' }));
+    expect(decide.mock.calls[0][0].dose).toBe('5 mg');
+    await handler(ev('approve', ['Admins'], { dose: '  ' }));
+    expect('dose' in decide.mock.calls[1][0]).toBe(false);
+  });
+
+  it('dose-required → ok:false code dose_required with the message', async () => {
+    decide.mockResolvedValue({ kind: 'dose-required', message: 'A dose is required to approve a GLP-1 order.' });
+    expect(await handler(ev())).toMatchObject({ ok: false, code: 'dose_required', error: 'A dose is required to approve a GLP-1 order.' });
+  });
 });

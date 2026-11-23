@@ -13,7 +13,7 @@ const EMAIL_SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 const PROVIDER_EMAIL_PARAM = process.env.PROVIDER_EMAIL_PARAM ?? '/my4mlife/provider/email';
 const HMAC_PARAM = process.env.HMAC_PARAM ?? 'push-patch-decision-hmac-key';
 // my4mlife.com is CloudFront->S3 only (no /api/* behaviour), so links must hit the HTTP API host.
-const BASE_URL = process.env.DECISION_BASE_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+export const BASE_URL = process.env.DECISION_BASE_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
 
 const lambda = new LambdaClient({ region: REGION });
 const ssm = new SSMClient({ region: REGION });
@@ -29,9 +29,9 @@ const BLEND_NAMES: Record<string, string> = {
   'push-patch-glutathione-ghk': 'Glutathione Radiance',
 };
 
-const esc = (v: string) => v.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+export const esc = (v: string) => v.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
 
-async function param(Name: string): Promise<string> {
+export async function param(Name: string): Promise<string> {
   const r = await ssm.send(new GetParameterCommand({ Name, WithDecryption: true }));
   if (!r.Parameter?.Value) throw new Error(`SSM parameter ${Name} is empty`);
   return r.Parameter.Value;
@@ -51,7 +51,7 @@ export async function generatePacket(contactId: string, encounterId: string): Pr
   return parsed.summaryUrl;
 }
 
-const button = (href: string, label: string, bg: string) =>
+export const button = (href: string, label: string, bg: string) =>
   `<a href="${esc(href)}" style="display:block;margin:14px 0;padding:20px 16px;background:${bg};color:#fff;`
   + `font:700 20px Arial,sans-serif;text-align:center;text-decoration:none;border-radius:10px">${label}</a>`;
 

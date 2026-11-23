@@ -119,3 +119,60 @@ describe('composeOrderReceived kinds', () => {
     expect(composeOrderReceived('cs_1', 'Jane').html).toContain('thank-you?session_id=cs_1');
   });
 });
+
+describe('handlePushPatchOrder: GLP-1', () => {
+  const glp = (extra: Record<string, unknown> = {}) => ({ ...base(extra), skuId: 'glp1-tirzep' });
+  const subsUpdate = vi.fn().mockResolvedValue({});
+
+  it('finalizes with the same call and sends a GLP-1 receipt (no patch / 6 weeks)', async () => {
+    lambdaSend.mockResolvedValueOnce(reply({ result: 'ok' })).mockResolvedValue({});
+    await handlePushPatchOrder(glp());
+    expect(payload(calls('my4mlife-push-patch-intake')[0])).toEqual({ mode: 'finalize', sessionId: 'cs_1', intakeId: 'int_1' });
+    expect(markers()[0].Item.skuId).toBe('glp1-tirzep');
+    const mail = payload(calls('email-fn')[0]);
+    expect(mail.subject).toBe('Your GLP-1 order is in');
+    expect(mail.html).toContain('tirzepatide');
+    expect(mail.html).toContain('1 month');
+    expect(mail.html).not.toMatch(/patch|6 weeks/i);
+  });
+
+  it('legacy finish-form email links to the GLP-1 thank-you page', async () => {
+    lambdaSend.mockResolvedValue({});
+    await handlePushPatchOrder(glp({ metadata: {} }));
+    const mail = payload(calls('email-fn')[0]);
+    expect(mail.subject).toContain('GLP-1');
+    expect(mail.html).toContain('/go/glp-1/thank-you?session_id=cs_1');
+    expect(mail.html).not.toMatch(/patch/i);
+  });
+
+  it('auto-ship subscription: stamps the subscription so renewals take the manual-refill path', async () => {
+    lambdaSend.mockResolvedValueOnce(reply({ result: 'ok' })).mockResolvedValue({});
+    await handlePushPatchOrder({ ...glp({ mode: 'subscription', subscription: 'sub_9', metadata: { intakeId: 'int_1', contactId: 'c_1', lane: 'glp1', autoShip: 'true' } }), stripe: { subscriptions: { update: subsUpdate } } } as any);
+    expect(subsUpdate).toHaveBeenCalledWith('sub_9', { metadata: expect.objectContaining({
+      kind: 'push-patch-refill', contactId: 'c_1', encounterId: 'g1-cs_1', fulfillment: 'manual', product: 'glp1-tirzep', skuIds: 'glp1-tirzep', lane: 'glp1' }) });
+  });
+
+  it('pending marker carries lane and skuId', async () => {
+    lambdaSend.mockResolvedValue({});
+    await handlePushPatchOrder(glp({ metadata: { lane: 'glp1' } }));
+    expect(markers()[0].Item).toMatchObject({ lane: 'glp1', skuId: 'glp1-tirzep' });
+    ddbSend.mockClear();
+    await handlePushPatchOrder(base({ metadata: {} }));
+    expect(markers()[0].Item).toMatchObject({ lane: 'push-patch', skuId: 'push-patch-kpv-nad-ghk' });
+  });
+
+  it('one-time glp1 order does not touch Stripe subscriptions', async () => {
+    lambdaSend.mockResolvedValueOnce(reply({ result: 'ok' })).mockResolvedValue({});
+    subsUpdate.mockClear();
+    await handlePushPatchOrder({ ...glp(), stripe: { subscriptions: { update: subsUpdate } } } as any);
+    expect(subsUpdate).not.toHaveBeenCalled();
+  });
+
+  it('finalize failure throws and does not stamp the subscription', async () => {
+    lambdaSend.mockResolvedValueOnce({ FunctionError: 'Unhandled' });
+    subsUpdate.mockClear();
+    await expect(handlePushPatchOrder({ ...glp({ mode: 'subscription', subscription: 'sub_9' }), stripe: { subscriptions: { update: subsUpdate } } } as any)).rejects.toThrow();
+    expect(subsUpdate).not.toHaveBeenCalled();
+  });
+});
+

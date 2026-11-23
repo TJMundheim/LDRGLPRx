@@ -8,7 +8,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 export interface Pending {
   contactId: string; sk: string; sessionId: string; email?: string;
-  createdAt: string; intakeDue: string; remindersSent: number;
+  createdAt: string; intakeDue: string; remindersSent: number; lane?: string; skuId?: string;
 }
 
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env['AWS_REGION'] ?? 'us-east-2' }));
@@ -29,7 +29,7 @@ export async function findDue(nowIso: string): Promise<Pending[]> {
       TableName: TABLE,
       FilterExpression: 'begins_with(sk, :p) AND attribute_not_exists(intakeSubmittedAt) AND remindersSent < :max AND intakeDue <= :now',
       ExpressionAttributeValues: { ':p': PREFIX, ':max': MAX_REMINDERS, ':now': nowIso },
-      ProjectionExpression: 'contactId, sk, sessionId, email, createdAt, intakeDue, remindersSent',
+      ProjectionExpression: 'contactId, sk, sessionId, email, createdAt, intakeDue, remindersSent, lane, skuId',
       ...(key ? { ExclusiveStartKey: key } : {}),
     }));
     out.push(...((r.Items ?? []) as Pending[]));

@@ -4,7 +4,8 @@ import { randomUUID } from 'node:crypto';
 import type { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { deriveContactId } from '@my4mlife/contact-id';
 import { getStripeClient } from '@my4mlife/stripe-client';
-import { evaluateScreening, resolveTestPrice, buildPushPatchSessionParams } from '@my4mlife/push-patch-checkout';
+import { evaluateScreening, resolveTestPrice, buildPushPatchSessionParams, parseLane } from '@my4mlife/push-patch-checkout';
+import { preIntakeGlp1 } from './pre-intake-glp1';
 import { validatePreIntake } from './validate';
 import { putPending } from './pending';
 import { captureContact } from './contact';
@@ -15,6 +16,9 @@ export async function preIntake(event: APIGatewayProxyEventV2, origin?: string):
   if (!event.body) return reply(400, { error: 'missing body' }, origin);
   let raw: unknown;
   try { raw = JSON.parse(event.body); } catch { return reply(400, { error: 'invalid json' }, origin); }
+  const lane = parseLane((raw as { lane?: unknown } | null)?.lane);
+  if (!lane) return reply(400, { error: 'unknown lane' }, origin);
+  if (lane === 'glp1') return preIntakeGlp1(event, raw, origin);
   const v = validatePreIntake(raw);
   if (!v.ok) return reply(400, { error: v.error }, origin);
   const { screening, testToken, email, firstName, lastName, skuId, ...health } = v.body;

@@ -5,7 +5,7 @@ const TABLE = process.env['PATIENT_RECORDS_TABLE'] ?? 'PatientRecords';
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env['AWS_REGION'] ?? 'us-east-2' }));
 const isCondFail = (e: unknown) => (e as { name?: string }).name === 'ConditionalCheckFailedException';
 
-export interface DeclinedEnc { contactId: string; sk: string; declinedAt?: string; refundDueBy?: string }
+export interface DeclinedEnc { contactId: string; sk: string; declinedAt?: string; refundDueBy?: string; lane?: string }
 
 /**
  * PatientRecords has no GSI on (lane, state), so this is a paginated Scan with a filter. Volume is low
@@ -18,10 +18,10 @@ export async function findDeclinedPending(): Promise<DeclinedEnc[]> {
   do {
     const r = await ddb.send(new ScanCommand({
       TableName: TABLE,
-      FilterExpression: 'begins_with(sk, :p) AND lane = :lane AND #state = :st AND refundStatus = :rs AND attribute_not_exists(refundReminderSentAt)',
+      FilterExpression: '((begins_with(sk, :p) AND lane = :lane) OR (begins_with(sk, :p2) AND lane = :lane2)) AND #state = :st AND refundStatus = :rs AND attribute_not_exists(refundReminderSentAt)',
       ExpressionAttributeNames: { '#state': 'state' },
-      ExpressionAttributeValues: { ':p': 'encounter#pp-', ':lane': 'push-patch', ':st': 'declined', ':rs': 'pending' },
-      ProjectionExpression: 'contactId, sk, declinedAt, refundDueBy',
+      ExpressionAttributeValues: { ':p': 'encounter#pp-', ':lane': 'push-patch', ':p2': 'encounter#g1-', ':lane2': 'glp1', ':st': 'declined', ':rs': 'pending' },
+      ProjectionExpression: 'contactId, sk, declinedAt, refundDueBy, lane',
       ...(key ? { ExclusiveStartKey: key } : {}),
     }));
     out.push(...((r?.Items ?? []) as DeclinedEnc[]));

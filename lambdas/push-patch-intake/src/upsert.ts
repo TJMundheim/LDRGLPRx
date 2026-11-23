@@ -1,4 +1,3 @@
-import type { StoredScreening } from './screening';
 
 type Fields = Record<string, unknown>;
 type Input = {
@@ -18,7 +17,7 @@ const present = (v: unknown) => v !== undefined && v !== null && v !== '';
  * lanes' screening answers) is ever removed.
  */
 export function buildRecordUpdates(a: {
-  demographics: Fields; history: Fields; screening: StoredScreening; consentKey: string; consent: Fields; ts: string;
+  demographics: Fields; history: Fields; screening: unknown; screeningKey?: string; consentKey: string; consent: Fields; ts: string;
 }): [Input, Input] {
   const ensure: Input = {
     UpdateExpression: 'SET demographics = if_not_exists(demographics, :e), history = if_not_exists(history, :e), '
@@ -38,7 +37,7 @@ export function buildRecordUpdates(a: {
   };
   for (const [k, v] of Object.entries(a.demographics)) if (present(v)) add('demographics', k, v);
   for (const [k, v] of Object.entries(a.history)) if (present(v)) add('history', k, v);
-  add('screeningAnswers', 'pushPatch', a.screening);
+  add('screeningAnswers', a.screeningKey ?? 'pushPatch', a.screening);
   add('consents', a.consentKey, a.consent);
   return [ensure, { UpdateExpression: `SET ${sets.join(', ')}`, ExpressionAttributeNames: names, ExpressionAttributeValues: values }];
 }

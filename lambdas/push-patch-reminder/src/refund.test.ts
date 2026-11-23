@@ -112,4 +112,21 @@ describe('refundSweep', () => {
     expect(sent().html).not.toContain('<b>');
     expect(JSON.stringify(spies.flatMap((s) => s.mock.calls))).not.toContain('Brien');
   });
+
+  it('scans g1- (glp1) encounters too', async () => {
+    ddbSend.mockResolvedValueOnce({ Items: [] });
+    await refundSweep();
+    const s = calls('ScanCommand')[0].input;
+    expect(Object.values(s.ExpressionAttributeValues)).toEqual(expect.arrayContaining(['encounter#g1-', 'glp1', 'encounter#pp-', 'push-patch']));
+  });
+
+  it('glp1 refund reminder says GLP-1, not Push Patch', async () => {
+    ddbSend.mockResolvedValueOnce({ Items: [enc({ sk: 'encounter#g1-9', lane: 'glp1' })] });
+    expect((await refundSweep()).sent).toBe(1);
+    const p = sent();
+    expect(p.subject).toBe('[Refund due] GLP-1 refund pending for 7 business days');
+    expect(p.html).toContain('g1-9');
+    expect(p.html).toContain('A declined GLP-1 order');
+    expect(p.html).not.toContain('Push Patch');
+  });
 });

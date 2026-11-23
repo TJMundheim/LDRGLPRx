@@ -3,6 +3,10 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import type { HealthFields } from './validate';
+import type { Glp1Health } from './validate-glp1';
+
+/** GLP-1 lane extras stored with the pending intake (the rest of the form maps onto HealthFields). */
+export interface Glp1Pending { health: Glp1Health; screening: { version: string; at: string } }
 
 const TABLE = process.env.PATIENT_RECORDS_TABLE ?? 'PatientRecords';
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION ?? 'us-east-2' }));
@@ -13,6 +17,7 @@ const pendingSk = (intakeId: string) => `pending-intake#${intakeId}`;
 export interface PendingIntake extends HealthFields {
   contactId: string; sk: string; intakeId: string;
   email: string; firstName: string; lastName: string; skuId: string;
+  lane?: 'glp1'; autoShip?: boolean; glp1?: Glp1Pending;
   signedAt: string; ip?: string; userAgent?: string; ttl: number;
 }
 

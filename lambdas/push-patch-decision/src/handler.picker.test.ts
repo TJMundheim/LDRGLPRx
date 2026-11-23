@@ -12,6 +12,8 @@ vi.mock('@my4mlife/push-patch-decision-core', () => ({ decide: (...a: any[]) => 
 const loadRosterMock = vi.fn();
 vi.mock('@my4mlife/provider-roster', () => ({ loadRoster: (...a: any[]) => loadRosterMock(...a) }));
 
+const skuMock = vi.fn();
+vi.mock('./glp1', async (orig) => ({ ...(await orig<any>()), lookupSku: (...a: any[]) => skuMock(...a) }));
 import { handler } from './handler';
 
 const P1 = { id: 'molina', name: 'Oscar Molina', credentials: 'MD', inbox: 'a@x.test', default: true };
@@ -141,5 +143,52 @@ describe('refills select', () => {
     const res: any = await handler(postEvt(tokenFor('approve'), '&refills=99'));
     expect(res.statusCode).toBe(400);
     expect(decideMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('glp1 dose picker', () => {
+  const g1 = (action: string) => {
+    const p = `c1.g1-s1.${action}`;
+    return Buffer.from(`${p}.${createHmac('sha256', 'k').update(p).digest('hex')}`).toString('base64url');
+  };
+  beforeEach(() => skuMock.mockResolvedValue('glp1-tirzep'));
+
+  it('approve page for a g1- encounter shows the product dose list + Other, required', async () => {
+    const b = String((await handler(getEvt(g1('approve'))) as any).body);
+    expect(b).toMatch(/<select name="dose" required>/);
+    for (const d of ['2.5 mg', '5 mg', '7.5 mg', '10 mg', '12.5 mg', '15 mg']) expect(b).toContain(`<option value="${d}">${d}</option>`);
+    expect(b).not.toContain('0.25 mg');
+    expect(b).toContain('Other (type it)');
+    expect(b).toContain('name="dose_other"');
+  });
+  it('reta and sema lists', async () => {
+    skuMock.mockResolvedValue('glp1-reta');
+    expect(String((await handler(getEvt(g1('approve'))) as any).body)).toContain('<option value="12 mg">12 mg</option>');
+    skuMock.mockResolvedValue('glp1-sema');
+    expect(String((await handler(getEvt(g1('approve'))) as any).body)).toContain('<option value="0.25 mg">0.25 mg</option>');
+  });
+  it('unknown sku falls back to all three lists; decline and push-patch pages have no dose', async () => {
+    skuMock.mockResolvedValue(undefined);
+    const b = String((await handler(getEvt(g1('approve'))) as any).body);
+    expect(b).toContain('0.25 mg'); expect(b).toContain('15 mg');
+    expect(String((await handler(getEvt(g1('decline'))) as any).body)).not.toContain('name="dose"');
+    expect(String((await handler(getEvt(tokenFor('approve'))) as any).body)).not.toContain('name="dose"');
+  });
+  it('POST passes the chosen dose; Other uses the typed text', async () => {
+    await handler(postEvt(g1('approve'), '&dose=5%20mg'));
+    expect(decideMock.mock.calls[0][0].dose).toBe('5 mg');
+    await handler(postEvt(g1('approve'), '&dose=other&dose_other=%20three%20mg%20'));
+    expect(decideMock.mock.calls[1][0].dose).toBe('three mg');
+  });
+  it('POST without a dose is refused with 400 when decide says dose-required (token still checked)', async () => {
+    decideMock.mockResolvedValue({ kind: 'dose-required', message: 'A dose is required to approve a GLP-1 order.' });
+    const res: any = await handler(postEvt(g1('approve')));
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toContain('dose');
+    expect((await handler(postEvt('bad', '&dose=5%20mg')) as any).statusCode).toBe(403);
+  });
+  it('push-patch POST sends no dose key', async () => {
+    await handler(postEvt(tokenFor('approve')));
+    expect('dose' in decideMock.mock.calls[0][0]).toBe(false);
   });
 });

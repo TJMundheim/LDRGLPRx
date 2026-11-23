@@ -7,6 +7,7 @@ import { verifyToken } from './sign';
 import { decide } from '@my4mlife/push-patch-decision-core';
 import { loadRoster } from '@my4mlife/provider-roster';
 import { pages } from './pages';
+import { dosePicker, doseFromForm, isGlp1Encounter, lookupSku } from './glp1';
 
 type Res = { statusCode: number; headers: Record<string, string>; body: string };
 type Evt = {
@@ -61,7 +62,10 @@ export const handler = async (event: Evt): Promise<Res> => {
       return html(403, pages.invalid());
     }
     const approve = claim.action === 'approve';
-    if (!form) return html(200, pages.confirm(claim.action, token, approve ? ((await rosterOrUndefined()) ?? []) : []));
+    if (!form) {
+      const dose = approve && isGlp1Encounter(claim.encounterId) ? dosePicker(await lookupSku(claim.contactId, claim.encounterId)) : '';
+      return html(200, pages.confirm(claim.action, token, approve ? ((await rosterOrUndefined()) ?? []) : [], dose));
+    }
     let providerId: string | undefined;
     let refills: number | undefined;
     if (approve) {
@@ -79,7 +83,9 @@ export const handler = async (event: Evt): Promise<Res> => {
         refills = Number(raw);
       }
     }
-    const out = await decide({ ...claim, decidedBy: 'physician-link', ...(providerId ? { providerId } : {}), ...(refills !== undefined ? { refills } : {}) });
+    const dose = approve ? doseFromForm(form) : '';
+    const out = await decide({ ...claim, decidedBy: 'physician-link', ...(providerId ? { providerId } : {}), ...(refills !== undefined ? { refills } : {}), ...(dose ? { dose } : {}) });
+    if (out.kind === 'dose-required') return html(400, pages.doseRequired());
     if (out.kind === 'not-found') return html(403, pages.invalid());
     if (out.kind === 'already-decided') return html(200, pages.decided(out.state));
     if (out.kind === 'approved') return html(200, out.mailOk ? pages.approved() : pages.approvedMailFailed());

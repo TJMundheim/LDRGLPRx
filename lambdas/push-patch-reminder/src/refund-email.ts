@@ -7,6 +7,8 @@ const lambda = new LambdaClient({ region: process.env['AWS_REGION'] ?? 'us-east-
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export const REFUND_SUBJECT = '[Refund due] Push Patch refund pending for 7 business days';
+export const GLP1_REFUND_SUBJECT = '[Refund due] GLP-1 refund pending for 7 business days';
+const isG = (e: DeclinedEnc) => e.lane === 'glp1' || e.sk.startsWith('encounter#g1-');
 
 /** Internal email: name (initial + last) is approved for internal subjects/bodies; no other PHI. */
 export function composeRefundReminder(e: DeclinedEnc, name: string): string {
@@ -17,7 +19,7 @@ export function composeRefundReminder(e: DeclinedEnc, name: string): string {
     `<li>Declined: ${esc((e.declinedAt ?? 'unknown').slice(0, 10))}</li>`,
     `<li>Refund due by: ${esc(e.refundDueBy ?? 'unknown')}</li>`,
   ].join('');
-  return `<div style="font-family:system-ui,sans-serif;line-height:1.5"><p>A declined Push Patch order still has a pending refund after 7 business days.</p><ul>${rows}</ul><p>Open the admin app → Patients → Issue refund.</p></div>`;
+  return `<div style="font-family:system-ui,sans-serif;line-height:1.5"><p>A declined ${isG(e) ? 'GLP-1' : 'Push Patch'} order still has a pending refund after 7 business days.</p><ul>${rows}</ul><p>Open the admin app → Patients → Issue refund.</p></div>`;
 }
 
 /** Synchronous invoke so a failed send is detected (and the claim released). */
@@ -25,7 +27,7 @@ export async function sendRefundReminder(e: DeclinedEnc, name: string): Promise<
   const r = await lambda.send(new InvokeCommand({
     FunctionName: EMAIL_SENDER_FN,
     InvocationType: 'RequestResponse',
-    Payload: Buffer.from(JSON.stringify({ kind: 'info', to: INTERNAL_TO, subject: REFUND_SUBJECT, html: composeRefundReminder(e, name) })),
+    Payload: Buffer.from(JSON.stringify({ kind: 'info', to: INTERNAL_TO, subject: isG(e) ? GLP1_REFUND_SUBJECT : REFUND_SUBJECT, html: composeRefundReminder(e, name) })),
   }));
   if (r.FunctionError) throw new Error('email-sender failed');
 }

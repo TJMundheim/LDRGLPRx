@@ -59,12 +59,17 @@ export const SCREENING: Record<string, LaneScreening> = {
       'Is there at least one area of clean, easy-to-reach skin with little or no hair, away from any metal implant (plate, screws, rods or a joint replacement), where you could wear the patch?',
   },
 
-  // Example for a future lane. NOT ACTIVE: uncomment, adapt, and mirror the ids on the lambda side.
-  // 'glp1': {
-  //   knockouts: [
-  //     { id: 'pancreatitis', question: 'Have you ever had pancreatitis (inflammation of the pancreas)?' },
-  //     // ...add further knockouts (MTC/MEN2 history, pregnancy, etc.) as the physician group specifies
-  //   ],
-  //   placement: [],
-  // },
+  glp1: {
+    siteNote: 'Answer honestly. These questions help the reviewing physician keep you safe.',
+    knockouts: [
+      { id: 'pancreatitis', question: 'Have you ever had pancreatitis (inflammation of the pancreas)?' },
+      { id: 'mtc-men2', question: 'Have you or any blood relative ever had medullary thyroid cancer, or do you have Multiple Endocrine Neoplasia type 2 (MEN 2)?' },
+      { id: 'pregnancy', question: 'Are you pregnant, breastfeeding, or trying to become pregnant?' },
+      { id: 'type1-diabetes', question: 'Do you have type 1 diabetes?' },
+      { id: 'under-18', question: 'Are you under 18 years old?' },
+      { id: 'gastroparesis', question: 'Do you have gastroparesis (a stomach that empties slowly)?' },
+      { id: 'eating-disorder', question: 'Do you currently have an eating disorder, such as anorexia or bulimia?' },
+    ],
+    placement: [],
+  },
 };

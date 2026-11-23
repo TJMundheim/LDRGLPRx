@@ -8,7 +8,7 @@ import { listProviders } from './providers';
 export interface AppSyncEvent {
   fieldName?: string; // forwarded by the resolver payload
   info?: { fieldName?: string };
-  arguments: { contactId?: string; encounterId?: string; action?: string; providerId?: string | null; refills?: number | null };
+  arguments: { contactId?: string; encounterId?: string; action?: string; providerId?: string | null; refills?: number | null; dose?: string | null };
   identity?: { groups?: string[]; username?: string; [key: string]: unknown };
 }
 
@@ -30,15 +30,17 @@ export const handler = async (event: AppSyncEvent) => {
 
 const decideAdmin = async (event: AppSyncEvent): Promise<PushPatchDecisionResult> => {
   const { action, providerId, refills } = event.arguments;
+  const dose = event.arguments.dose?.trim();
   const contactId = event.arguments.contactId as string;
   const encounterId = event.arguments.encounterId as string;
   if (action !== 'approve' && action !== 'decline') return { ok: false, code: 'invalid_action', error: 'action must be approve or decline' };
   try {
-    const out = await decide({ contactId, encounterId, action, decidedBy: `admin:${event.identity?.username ?? 'admin'}`, ...(providerId ? { providerId } : {}), ...(typeof refills === 'number' ? { refills } : {}) });
+    const out = await decide({ contactId, encounterId, action, decidedBy: `admin:${event.identity?.username ?? 'admin'}`, ...(providerId ? { providerId } : {}), ...(typeof refills === 'number' ? { refills } : {}), ...(action === 'approve' && dose ? { dose } : {}) });
     switch (out.kind) {
       case 'approved': return { ok: true, state: 'script-written', mailOk: out.mailOk };
       case 'declined': return { ok: true, state: 'declined', mailOk: out.mailOk };
       case 'already-decided': return { ok: false, code: 'already_decided', state: out.state, error: `Already decided: ${out.state}` };
+      case 'dose-required': return { ok: false, code: 'dose_required', error: out.message };
       default: return { ok: false, code: 'not_found', error: 'Push Patch encounter not found' };
     }
   } catch (e) {

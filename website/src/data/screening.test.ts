@@ -18,3 +18,12 @@ describe('push-patch screening config (pp-screen-v2)', () => {
     expect(c.placement[0].ifYes).toBe('No problem. Choose an area away from the wound or scar.');
   });
 });
+
+describe('glp1 screening config (glp1-screen-v1)', () => {
+  const c = SCREENING['glp1'];
+  it('knockout ids are exactly the contract list, no placement', () => {
+    expect(c.knockouts.map((k) => k.id)).toEqual(['pancreatitis', 'mtc-men2', 'pregnancy', 'type1-diabetes', 'under-18', 'gastroparesis', 'eating-disorder']);
+    expect(c.placement).toEqual([]);
+  });
+  it('push-patch screening is untouched', () => expect(SCREENING['push-patch'].knockouts).toHaveLength(3));
+});

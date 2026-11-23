@@ -19,7 +19,7 @@ export const handler = async (): Promise<SweepResult> => {
       res.failed++; console.error('[push-patch-reminder] claim failed', { sk: p.sk }); continue;
     }
     try {
-      await sendReminder(p.email, p.sessionId, p.remindersSent === 0 ? 0 : 1);
+      await sendReminder(p.email, p.sessionId, p.remindersSent === 0 ? 0 : 1, { lane: p.lane, skuId: p.skuId });
       res.sent++;
     } catch {
       res.failed++; console.error('[push-patch-reminder] send failed', { sk: p.sk });

@@ -1,5 +1,6 @@
 import type { APIGatewayProxyResultV2 } from 'aws-lambda';
 import { getStripeClient } from '@my4mlife/stripe-client';
+import { isGlp1Sku } from '@my4mlife/push-patch-checkout';
 import type { PaidSession } from './record';
 
 const ORIGINS = new Set([
@@ -21,14 +22,15 @@ export function reply(status: number, body: unknown, origin?: string): APIGatewa
   };
 }
 
-/** The Stripe session if it is paid, for a push-patch-* SKU, and has a buyer email; otherwise null. */
+/** The Stripe session if it is paid, for a push-patch-* SKU (or a GLP-1 SKU on a glp1-lane session), and has a buyer email; otherwise null. */
 export async function paidSession(sessionId: string): Promise<{ session: PaidSession; sku: string } | null> {
   try {
     const stripe = await getStripeClient();
     const session = (await stripe.checkout.sessions.retrieve(sessionId)) as unknown as PaidSession;
     const sku = (session.metadata?.['skuIds'] ?? '').split(',')[0]?.trim() ?? '';
     const email = session.customer_details?.email;
-    return session.payment_status === 'paid' && sku.startsWith('push-patch-') && email ? { session, sku } : null;
+    const skuOk = session.metadata?.['lane'] === 'glp1' ? isGlp1Sku(sku) : sku.startsWith('push-patch-');
+    return session.payment_status === 'paid' && skuOk && email ? { session, sku } : null;
   } catch {
     return null;
   }

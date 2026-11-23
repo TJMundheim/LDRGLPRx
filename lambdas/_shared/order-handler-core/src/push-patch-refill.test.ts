@@ -430,3 +430,23 @@ describe('manual pharmacy lane (Gut-Brain Rx)', () => {
     expect(h.preparing).not.toHaveBeenCalled();
   });
 });
+
+
+describe('GLP-1 subscription invoices', () => {
+  const g1meta = { kind: 'push-patch-refill', lane: 'glp1', contactId: 'c1', encounterId: 'g1-cs_1', skuIds: 'glp1-sema', fulfillment: 'manual', product: 'glp1-sema' };
+  it('subscription_create invoice (the first payment) is not a refill', async () => {
+    await handleRefillInvoice(deps(), 'invoice.paid', invoice({ billing_reason: 'subscription_create', subscription_details: { metadata: g1meta } }));
+    expect(h.claim).not.toHaveBeenCalled();
+    expect(puts.filter((p) => p.table === 'Orders')).toHaveLength(0);
+  });
+  it('renewal invoice goes down the manual rx-rf path, never Genesis', async () => {
+    h.getAuth.mockResolvedValue({ auth: auth({ sku: 'glp1-sema', product: 'glp1-sema', fulfillment: 'manual' }), encounter: { shipTo: SHIP, lane: 'glp1' } });
+    h.claim.mockResolvedValue({ ok: true, refillNumber: 1, auth: auth({ product: 'glp1-sema', fulfillment: 'manual' }) });
+    h.buildOrder.mockReturnValue({ subject: 's', text: 't', html: 'h' });
+    await handleRefillInvoice(deps(), 'invoice.paid', invoice({ subscription_details: { metadata: g1meta } }));
+    expect(h.sendOrder).not.toHaveBeenCalled();
+    const enc = puts.find((p) => p.table === 'PatientRecords')!.item;
+    expect(enc.encounterId).toBe('rx-rf-in_1');
+    expect(enc.state).toBe('pharmacy-order-pending');
+  });
+});

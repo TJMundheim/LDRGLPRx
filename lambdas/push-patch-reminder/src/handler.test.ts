@@ -144,4 +144,14 @@ describe('push-patch-reminder', () => {
     const logged = JSON.stringify(spies.flatMap((s) => s.mock.calls));
     expect(logged).not.toContain(EMAIL);
   });
+
+  it('glp1 pending reminder uses product wording and the glp1 thank-you link, no patch language', async () => {
+    ddbSend.mockResolvedValueOnce({ Items: [item({ lane: 'glp1', skuId: 'glp1-tirzep' })] });
+    await handler();
+    const p = sentEmail();
+    expect(p.subject).toBe('One step left on your GLP-2 · Tirzep order');
+    expect(p.html).toContain('/go/glp-1/thank-you?session_id=cs_live_abc');
+    expect(p.html).toContain('GLP-2 · Tirzep (tirzepatide)'.replace(' (tirzepatide)', ''));
+    expect(p.html).not.toMatch(/patch/i);
+  });
 });

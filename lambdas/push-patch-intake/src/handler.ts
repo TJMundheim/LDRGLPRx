@@ -41,6 +41,7 @@ export const handler = async (event: APIGatewayProxyEventV2 | FinalizeEvent): Pr
   const paid = await paidSession(body.sessionId);
   if (!paid) return reply(402, { error: 'payment not found for this session' }, origin);
   const { session, sku } = paid;
+  if (session.metadata?.['lane'] === 'glp1') return reply(400, { error: 'use the pre-pay flow for this order' }, origin);
   const shipTo = resolveShipTo(body.shipping, session.shipping_details);
   if (!shipTo) return reply(400, { error: 'shipping address required' }, origin);
 

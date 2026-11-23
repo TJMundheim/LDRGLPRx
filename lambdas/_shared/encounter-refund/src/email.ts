@@ -6,14 +6,15 @@ const SENDER_FN = process.env.EMAIL_SENDER_FN ?? 'my4mlife-email-sender';
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
 
-export async function sendRefundEmail(to: string, firstName: string): Promise<void> {
-  const text = `Hi ${firstName || 'there'},\n\nYour Push Patch refund has been issued. It may take 5–10 business days to appear on your statement.\n\n` +
+export async function sendRefundEmail(to: string, firstName: string, lane?: string): Promise<void> {
+  const what = lane === 'glp1' ? '' : 'Push Patch ';
+  const text = `Hi ${firstName || 'there'},\n\nYour ${what}refund has been issued. It may take 5–10 business days to appear on your statement.\n\n` +
     `Questions? Reply to this email or write to support@my4mlife.com.\n\nThe My4MLife team\n\nMy4MLife`;
   const html = text.split('\n\n').map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('');
   const res = await lambda.send(new InvokeCommand({
     FunctionName: SENDER_FN,
     InvocationType: 'RequestResponse',
-    Payload: Buffer.from(JSON.stringify({ kind: 'info', to, subject: 'Your Push Patch refund has been issued', text, html, from: 'support' })),
+    Payload: Buffer.from(JSON.stringify({ kind: 'info', to, subject: `Your ${what}refund has been issued`, text, html, from: 'support' })),
   }));
   if (res.FunctionError) throw new Error('email-sender failed');
 }

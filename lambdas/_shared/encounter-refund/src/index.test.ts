@@ -36,7 +36,8 @@ beforeEach(() => {
 describe('guards', () => {
   it.each([
     ['encounter missing', undefined, 'not_found'],
-    ['wrong lane', { ...ENC, lane: 'glp1' }, 'wrong_lane'],
+    ['wrong lane', { ...ENC, lane: 'gut-brain' }, 'wrong_lane'],
+    ['glp1 order already placed by TJ', { ...ENC, lane: 'glp1', genesisOrderSentAt: '2026-10-02T00:00:00Z' }, 'already_shipped'],
     ['not declined', { ...ENC, state: 'script-written' }, 'not_declined'],
     ['refundStatus not pending', { ...ENC, refundStatus: 'refunded' }, 'not_pending'],
     ['refundStatus missing', { ...ENC, refundStatus: undefined }, 'not_pending'],
@@ -85,6 +86,17 @@ describe('success path', () => {
   it('still succeeds (emailSent false) when the email fails', async () => {
     lambdaSend.mockRejectedValue(new Error('boom'));
     expect(await refundEncounter(ARGS)).toMatchObject({ ok: true, emailSent: false });
+  });
+});
+
+describe('glp1 lane', () => {
+  it('refunds a declined glp1 encounter with neutral email copy', async () => {
+    seed({ ...ENC, lane: 'glp1' });
+    expect(await refundEncounter({ ...ARGS, encounterId: 'g1-cs_1' })).toMatchObject({ ok: true, refundId: 're_1' });
+    const p = JSON.parse(Buffer.from(lambdaSend.mock.calls[0][0].input.Payload).toString());
+    expect(p.text).toContain('Your refund has been issued');
+    expect(p.text).not.toMatch(/Push Patch/);
+    expect(p.subject).not.toMatch(/Push Patch/);
   });
 });
 

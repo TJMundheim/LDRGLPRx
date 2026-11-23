@@ -1,18 +1,21 @@
 import { InvokeCommand } from '@aws-sdk/client-lambda';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
-import { sendOrderReceivedEmail } from './order-received-email.js';
+import { sendOrderReceivedEmail, isGlp1 } from './order-received-email.js';
+// Same value as REFILL_KIND in push-patch-refill.ts (not imported: that module pulls in decision-core).
+const REFILL_KIND = 'push-patch-refill';
 
 type Lambda = { send: (cmd: InvokeCommand) => Promise<{ FunctionError?: string; Payload?: Uint8Array }> };
 type Args = {
   ddb: { send: (cmd: PutCommand) => Promise<unknown> };
   lambda: Lambda;
   emailFn: string;
-  session: { id: string; payment_status?: string | null; payment_intent?: unknown; customer_details?: { email?: string | null } | null; metadata?: Record<string, string> | null };
+  session: { id: string; payment_status?: string | null; payment_intent?: unknown; subscription?: string | { id?: string } | null; customer_details?: { email?: string | null } | null; metadata?: Record<string, string> | null };
   contactId: string;
   skuId: string;
   email: string;
   firstName: string | undefined;
   promoCode?: string | undefined;
+  stripe?: { subscriptions: { update: (id: string, p: any) => Promise<unknown> } };
 };
 
 /** Sync-invoke push-patch-intake finalize. Returns its result; any failure throws (Stripe retry). */
@@ -44,6 +47,13 @@ export async function handlePushPatchOrder(a: Args): Promise<void> {
   const intakeId = session.metadata?.['intakeId']?.trim();
   const result = intakeId ? await finalize(a.lambda, session.id, intakeId) : 'missing';
   const finalized = result !== 'missing';
+  // GLP-1 auto-ship: renewals must take the manual-refill path (rx-rf-, pharmacy-order-pending), so stamp the subscription.
+  const subId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id;
+  if (isGlp1(a.skuId) && subId && a.stripe) {
+    await a.stripe.subscriptions.update(subId, { metadata: {
+      ...(session.metadata ?? {}), kind: REFILL_KIND, lane: 'glp1', contactId: session.metadata?.['contactId'] ?? a.contactId,
+      encounterId: `g1-${session.id}`, skuIds: a.skuId, fulfillment: 'manual', product: a.skuId } });
+  }
   try {
     const createdAt = new Date();
     await a.ddb.send(new PutCommand({
@@ -53,6 +63,7 @@ export async function handlePushPatchOrder(a: Args): Promise<void> {
         sk: `PUSH_PATCH_PENDING#${session.id}`,
         sessionId: session.id,
         skuId: a.skuId,
+        lane: session.metadata?.['lane'] === 'glp1' || isGlp1(a.skuId) ? 'glp1' : 'push-patch',
         paymentIntentId: session.payment_intent as string,
         email: session.customer_details?.email,
         createdAt: createdAt.toISOString(),
@@ -65,7 +76,7 @@ export async function handlePushPatchOrder(a: Args): Promise<void> {
     }));
     if (a.email) {
       await sendOrderReceivedEmail(a.lambda, a.emailFn, {
-        to: a.email, sessionId: session.id, firstName: a.firstName, kind: finalized ? 'receipt' : 'finish-form',
+        to: a.email, sessionId: session.id, firstName: a.firstName, kind: finalized ? 'receipt' : 'finish-form', skuId: a.skuId,
       });
     }
   } catch (err: unknown) {

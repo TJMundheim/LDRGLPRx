@@ -1,0 +1,117 @@
+---
+// GLP-1 order confirmation: Stripe success_url target (/go/glp-1/thank-you?session_id=...). Standalone (hideChrome), noindex.
+// Asks GET /api/push-patch-intake?session_id= for the order state and polls while it is being finalized.
+// The health form is taken before payment, so there is no post-payment form here.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const title = 'Order received — GLP-1 — My4MLife';
+const description = 'Your GLP-1 order has been received.';
+const canonical = 'https://www.my4mlife.com/go/glp-1/thank-you';
+const API_BASE = import.meta.env.PUBLIC_LEAD_CAPTURE_API_URL ?? 'https://v9svm8ds74.execute-api.us-east-2.amazonaws.com';
+---
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex,nofollow" hideChrome={true}>
+<div class="g1">
+  <header class="g1-top"><a class="g1-mark" href="/">My<b>4M</b>Life</a></header>
+  <main class="g1-ty">
+    <div class="g1-wrap">
+      <p class="g1-kicker">GLP-1</p>
+      <h1 id="ty-h1">Payment received.</h1>
+
+      <section id="ty-missing" hidden>
+        <p class="g1-sub">We could not find your order on this page. Open the link from your receipt email, or write to <a href="mailto:support@my4mlife.com">support@my4mlife.com</a> and we will sort it out.</p>
+      </section>
+      <section id="ty-checking" aria-live="polite"><p class="g1-sub">Checking your order.</p></section>
+      <section id="ty-processing" hidden aria-live="polite"><p class="g1-sub" id="ty-processing-msg">Finishing your order. This takes a few seconds.</p></section>
+      <section id="ty-paying" hidden aria-live="polite">
+        <p class="g1-sub">Your bank is still confirming the payment. As soon as it clears, one of our network's licensed physicians reviews your order and we email you. Nothing else is needed from you.</p>
+      </section>
+      <section id="ty-complete" hidden aria-live="polite">
+        <p class="g1-sub">One of our network's licensed physicians is reviewing your health form. Reviews happen during business hours, 9 a.m. to 5 p.m. Central, Monday to Friday. Nothing else is needed from you.</p>
+        <p class="g1-sub g1-small">If the physician approves it, they choose your dose, and we email you when your medicine is on its way. If you are not cleared, your payment is refunded in full within 10 business days.</p>
+        <p class="g1-sub g1-small">Check your inbox, and your spam folder, for a message from My4MLife.</p>
+        <p class="g1-sub g1-small" id="ty-afterhours" hidden>Submitted outside business hours? You'll hear from us within the first hour of the next business day.</p>
+      </section>
+      <section id="ty-help" hidden>
+        <p class="g1-sub">We could not load your order status just now. Your payment is safe. Check your receipt email, or write to <a href="mailto:support@my4mlife.com">support@my4mlife.com</a>.</p>
+      </section>
+    </div>
+  </main>
+  <footer class="g1-foot"><div class="g1-wrap"><p class="g1-legal"><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/">my4mlife.com</a></p></div></footer>
+</div>
+
+<script is:inline define:vars={{ API_BASE }}>
+(function () {
+  var qs = new URLSearchParams(window.location.search);
+  var sessionId = qs.get('session_id') || '';
+  var sku = qs.get('sku') || '';
+  function $(id) { return document.getElementById(id); }
+  function cap(n, p) { try { window.posthog && posthog.capture(n, p || {}); } catch (e) {} }
+  cap('lp_glp1_purchase', { sku: sku });
+
+  var afterHours = false;
+  try {
+    var wd = '', hr = 0;
+    new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'short', hour: 'numeric', hour12: false }).formatToParts(new Date())
+      .forEach(function (p) { if (p.type === 'weekday') wd = p.value; if (p.type === 'hour') hr = parseInt(p.value, 10) % 24; });
+    afterHours = wd === 'Sat' || wd === 'Sun' || hr < 9 || hr >= 17;
+  } catch (e) {}
+
+  var STATES = ['ty-missing', 'ty-checking', 'ty-processing', 'ty-paying', 'ty-complete', 'ty-help'];
+  function only(id) { STATES.forEach(function (k) { $(k).hidden = k !== id; }); }
+  if (!sessionId || !/^[A-Za-z0-9_]{8,200}$/.test(sessionId)) { only('ty-missing'); return; }
+  only('ty-checking');
+
+  var POLL_MS = 3000, POLL_MAX_MS = 60000, started = Date.now();
+  function getStatus() {
+    return fetch(API_BASE + '/api/push-patch-intake?session_id=' + encodeURIComponent(sessionId)).then(function (res) {
+      if (res.status === 402) { var p = new Error('402'); p.paying = true; throw p; }
+      if (res.status !== 200) { var e = new Error('status ' + res.status); e.retryable = res.status >= 500; throw e; }
+      return res.json();
+    }, function (err) { err.retryable = true; throw err; });
+  }
+  function late() { return Date.now() - started >= POLL_MAX_MS; }
+  function handle(d) {
+    var st = d && d.status;
+    if (st === 'complete') {
+      $('ty-h1').textContent = 'Order complete.';
+      only('ty-complete');
+      if (afterHours) $('ty-afterhours').hidden = false;
+      cap('lp_glp1_intake_submitted', { sku: sku });
+      return;
+    }
+    // processing (or anything unrecognised): keep polling for up to 60 s.
+    only('ty-processing');
+    if (late()) { $('ty-processing-msg').textContent = 'Your order is in and we are finishing it now. We will email you shortly; nothing else is needed from you.'; return; }
+    setTimeout(poll, POLL_MS);
+  }
+  function poll() {
+    getStatus().then(handle).catch(function (err) {
+      if (err && err.paying) { $('ty-h1').textContent = 'Payment processing.'; only('ty-paying'); return; }
+      if (err && err.retryable && !late()) { setTimeout(poll, POLL_MS); return; }
+      only('ty-help');
+    });
+  }
+  poll();
+})();
+</script>
+
+<style>
+.g1 { --ink:#0b1220; --line:#26344d; --on:#e6edf7; --muted:#9fb0c8; --accent:#22d3ee;
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif; color:var(--on); background:var(--ink); min-height:100vh; display:flex; flex-direction:column; -webkit-font-smoothing:antialiased; }
+:global(body) { background:#0b1220; }
+.g1-wrap { max-width:640px; margin:0 auto; padding:0 1rem; }
+.g1-top { padding:1rem; border-bottom:1px solid var(--line); }
+.g1-mark { font-weight:700; color:var(--on); text-decoration:none; }
+.g1-mark b { color:var(--accent); font-weight:800; }
+.g1-ty { flex:1; background:radial-gradient(120% 90% at 50% 0%,#15233d 0%,var(--ink) 65%); padding:4rem 0 3.5rem; }
+.g1-kicker { display:inline-block; font-size:.7rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); border:1px solid rgba(34,211,238,.4); border-radius:999px; padding:.3rem .8rem; margin:0 0 1.2rem; }
+.g1-ty h1 { font-size:clamp(2.1rem,7vw,3.4rem); font-weight:800; line-height:1.05; margin:0 0 1.3rem; color:#fff; letter-spacing:-0.02em; }
+.g1-sub { font-size:clamp(1rem,2.2vw,1.18rem); line-height:1.6; margin:0 0 1rem; }
+.g1-sub a { color:var(--accent); }
+.g1-small { font-size:.9rem; color:var(--muted); }
+.g1-foot { padding:2rem 0; text-align:center; border-top:1px solid var(--line); }
+.g1-legal { font-size:.78rem; color:var(--muted); margin:0; }
+.g1-legal a { color:var(--muted); }
+[hidden] { display:none !important; }
+</style>
+</BaseLayout>

@@ -13,7 +13,7 @@ export interface RefundResult { ok: true; refundId: string; amountCents: number;
 
 function guard(enc: Record<string, any> | undefined): asserts enc is Record<string, any> {
   if (!enc) throw new RefundError('not_found', 'Encounter not found');
-  if (enc.lane !== 'push-patch') throw new RefundError('wrong_lane', 'Only Push Patch encounters can be refunded here');
+  if (enc.lane !== 'push-patch' && enc.lane !== 'glp1') throw new RefundError('wrong_lane', 'Only Push Patch and GLP-1 encounters can be refunded here');
   if (enc.state !== 'declined') throw new RefundError('not_declined', 'Encounter is not declined');
   if (enc.refundStatus !== 'pending') throw new RefundError('not_pending', `Refund is not pending (status: ${enc.refundStatus ?? 'none'})`);
   if (enc.genesisOrderSentAt) throw new RefundError('already_shipped', 'Order was already sent to fulfillment; no refund once shipped');
@@ -46,6 +46,6 @@ export async function refundEncounter({ contactId, encounterId, actor }: RefundA
 
   const demo = (record?.demographics ?? {}) as { email?: string; firstName?: string };
   let emailSent = false;
-  if (demo.email) emailSent = await sendRefundEmail(demo.email, demo.firstName ?? '').then(() => true, () => false);
+  if (demo.email) emailSent = await sendRefundEmail(demo.email, demo.firstName ?? '', enc.lane).then(() => true, () => false);
   return { ok: true, refundId: refund.id, amountCents: refund.amount, emailSent };
 }
