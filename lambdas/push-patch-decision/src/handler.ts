@@ -4,7 +4,7 @@
 // POST t=<token>  → the confirm page's form submit performs the decision.
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import { verifyToken } from './sign';
-import { decide } from '@my4mlife/push-patch-decision-core';
+import { decide, rxProduct } from '@my4mlife/push-patch-decision-core';
 import { loadRoster } from '@my4mlife/provider-roster';
 import { pages } from './pages';
 import { dosePicker, doseFromForm, isGlp1Encounter, lookupSku } from './glp1';
@@ -63,8 +63,10 @@ export const handler = async (event: Evt): Promise<Res> => {
     }
     const approve = claim.action === 'approve';
     if (!form) {
-      const dose = approve && isGlp1Encounter(claim.encounterId) ? dosePicker(await lookupSku(claim.contactId, claim.encounterId)) : '';
-      return html(200, pages.confirm(claim.action, token, approve ? ((await rosterOrUndefined()) ?? []) : [], dose));
+      const g1 = approve && isGlp1Encounter(claim.encounterId);
+      const sku = g1 ? await lookupSku(claim.contactId, claim.encounterId) : undefined;
+      const days = g1 ? (rxProduct(sku)?.intervalDays ?? rxProduct('glp1-sema')?.intervalDays) : undefined;
+      return html(200, pages.confirm(claim.action, token, approve ? ((await rosterOrUndefined()) ?? []) : [], g1 ? dosePicker(sku) : '', days));
     }
     let providerId: string | undefined;
     let refills: number | undefined;

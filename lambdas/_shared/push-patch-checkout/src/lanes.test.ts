@@ -25,6 +25,10 @@ describe('lane registry', () => {
     expect(isGlp1Sku('push-patch-wolverine')).toBe(false);
     expect(GLP1_PRODUCT_NAMES['glp1-sema']).toMatch(/Sema/);
   });
+  it('no product display name contains retatrutide', () => {
+    for (const n of Object.values(GLP1_PRODUCT_NAMES)) expect(n).not.toMatch(/retatrutide/i);
+    expect(GLP1_PRODUCT_NAMES['glp1-reta']).toBe('GLP-3 · Reta');
+  });
   it('glp1 is dark (null) when prices are missing', () => {
     setGlp1PricesForTest(null);
     expect(glp1Entry('glp1-sema', 'test', false)).toBeNull();

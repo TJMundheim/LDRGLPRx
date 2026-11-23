@@ -57,7 +57,7 @@ import { GLP1_SKUS, rxTargets, mergeGlp1Ids } from './rx-refill-prices-lib.mjs';
 
 test('GLP-1 catalog: 3 SKUs, $375 one-time + $375 every 28 days, keys from sku id', () => {
   assert.deepEqual(GLP1_SKUS, ['glp1-sema', 'glp1-tirzep', 'glp1-reta']);
-  const names = ['GLP-1 · Sema (semaglutide), 1 month', 'GLP-2 · Tirzep (tirzepatide), 1 month', 'GLP-3 · Reta (retatrutide), 1 month'];
+  const names = ['GLP-1 · Sema (semaglutide), 1 month', 'GLP-2 · Tirzep (tirzepatide), 1 month', 'GLP-3 · Reta, 1 month'];
   GLP1_SKUS.forEach((id, i) => {
     const c = RX_PRICES[id];
     assert.equal(c.name, names[i]);

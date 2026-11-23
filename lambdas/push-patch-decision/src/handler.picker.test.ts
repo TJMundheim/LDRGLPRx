@@ -8,7 +8,7 @@ vi.mock('@aws-sdk/client-ssm', () => ({
   GetParameterCommand: class { constructor(public input: any) {} },
 }));
 const decideMock = vi.fn();
-vi.mock('@my4mlife/push-patch-decision-core', () => ({ decide: (...a: any[]) => decideMock(...a) }));
+vi.mock('@my4mlife/push-patch-decision-core', () => ({ decide: (...a: any[]) => decideMock(...a), rxProduct: (id?: string) => (id?.startsWith('glp1-') ? { intervalDays: 28 } : undefined) }));
 const loadRosterMock = vi.fn();
 vi.mock('@my4mlife/provider-roster', () => ({ loadRoster: (...a: any[]) => loadRosterMock(...a) }));
 
@@ -173,6 +173,12 @@ describe('glp1 dose picker', () => {
     expect(b).toContain('0.25 mg'); expect(b).toContain('15 mg');
     expect(String((await handler(getEvt(g1('decline'))) as any).body)).not.toContain('name="dose"');
     expect(String((await handler(getEvt(tokenFor('approve'))) as any).body)).not.toContain('name="dose"');
+  });
+  it('glp1 approve page words refills as months every 4 weeks, not Push Patch boxes; push-patch page unchanged', async () => {
+    const b = String((await handler(getEvt(g1('approve'))) as any).body);
+    expect(b).toContain('Refills authorized (one month each, every 4 weeks)');
+    expect(b).not.toMatch(/6-week|six-week|\bboxes?\b/i);
+    expect(String((await handler(getEvt(tokenFor('approve'))) as any).body)).toContain('Refills authorized (6-week boxes)');
   });
   it('POST passes the chosen dose; Other uses the typed text', async () => {
     await handler(postEvt(g1('approve'), '&dose=5%20mg'));

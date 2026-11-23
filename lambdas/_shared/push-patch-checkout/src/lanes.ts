@@ -9,7 +9,7 @@ export const GLP1_SKUS = ['glp1-sema', 'glp1-tirzep', 'glp1-reta'] as const;
 export const GLP1_PRODUCT_NAMES: Record<string, string> = {
   'glp1-sema': 'GLP-1 · Sema (semaglutide)',
   'glp1-tirzep': 'GLP-2 · Tirzep (tirzepatide)',
-  'glp1-reta': 'GLP-3 · Reta (retatrutide)',
+  'glp1-reta': 'GLP-3 · Reta',
 };
 // Shape (same as push-patch-prices.json): one-time ids at top level, 28-day recurring ids under `refill`:
 // { test: {sku: id}, live: {sku: id}, refill: { test: {sku: id}, live: {sku: id} } }

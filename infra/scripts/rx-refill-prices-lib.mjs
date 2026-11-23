@@ -5,7 +5,7 @@ export const RX_PRICES = {
 };
 export const GLP1_SKUS = ['glp1-sema', 'glp1-tirzep', 'glp1-reta'];
 // One-time $375 + $375 every 28 days per product. Written to glp1-prices.json (Push Patch shape), not rx-refill-prices.json.
-for (const [id, name] of [['glp1-sema', 'GLP-1 · Sema (semaglutide), 1 month'], ['glp1-tirzep', 'GLP-2 · Tirzep (tirzepatide), 1 month'], ['glp1-reta', 'GLP-3 · Reta (retatrutide), 1 month']]) {
+for (const [id, name] of [['glp1-sema', 'GLP-1 · Sema (semaglutide), 1 month'], ['glp1-tirzep', 'GLP-2 · Tirzep (tirzepatide), 1 month'], ['glp1-reta', 'GLP-3 · Reta, 1 month']]) {
   RX_PRICES[id] = { name, amountCents: 37500, intervalDays: 28, lookupKeys: { recurring: `${id}-28d`, once: `${id}-once` } };
 }
 /** --rx value -> product ids to ensure ('glp1' = all three). */

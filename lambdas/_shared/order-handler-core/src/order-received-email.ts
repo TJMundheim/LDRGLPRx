@@ -11,7 +11,7 @@ function esc(s: string): string {
 
 export const RECEIPT_SUBJECT = 'Your Push Patch order is in';
 // GLP-1 lane (skuId glp1-*): own subject/wording, no patch or 6-week language.
-const GLP1_NAMES: Record<string, string> = { 'glp1-sema': 'semaglutide', 'glp1-tirzep': 'tirzepatide', 'glp1-reta': 'retatrutide' };
+const GLP1_NAMES: Record<string, string> = { 'glp1-sema': 'semaglutide', 'glp1-tirzep': 'tirzepatide', 'glp1-reta': 'GLP-3 · Reta' };
 export const isGlp1 = (skuId?: string): boolean => !!skuId && skuId.startsWith('glp1-');
 export const GLP1_RECEIPT_SUBJECT = 'Your GLP-1 order is in';
 export const GLP1_FINISH_SUBJECT = 'Your GLP-1 order is in — one 2-minute step left';

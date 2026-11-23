@@ -7,9 +7,12 @@ describe('glp1 products', () => {
     expect(GLP1_PRODUCTS.map((p) => [p.skuId, p.name])).toEqual([
       ['glp1-sema', 'GLP-1 · Sema (semaglutide)'],
       ['glp1-tirzep', 'GLP-2 · Tirzep (tirzepatide)'],
-      ['glp1-reta', 'GLP-3 · Reta (retatrutide)'],
+      ['glp1-reta', 'GLP-3 · Reta'],
     ]);
     expect(GLP1_PRICE_USD).toBe(375);
+  });
+  it('no display field contains retatrutide', () => {
+    expect(JSON.stringify(GLP1_PRODUCTS)).not.toMatch(/retatrutide/i);
   });
   it('checkbox lists end with none', () => {
     for (const l of [GLP1_CONDITIONS, GLP1_SAFETY_HISTORY, GLP1_INTERACTING_MEDS]) expect(l[l.length - 1].id).toBe('none');

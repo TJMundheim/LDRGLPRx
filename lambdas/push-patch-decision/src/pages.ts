@@ -26,20 +26,21 @@ const picker = (roster: Prov[]): string => {
 };
 
 // Refills select (approve only): 0-8 six-week boxes, default 8 (one year).
-const refillsPicker = (): string =>
-  `<p><label>Refills authorized (6-week boxes) <select name="refills">${Array.from({ length: 9 }, (_, i) => 8 - i)
+// intervalDays set → monthly Rx lane (GLP-1) wording; otherwise Push Patch six-week boxes.
+const refillsPicker = (intervalDays?: number): string =>
+  `<p><label>Refills authorized (${intervalDays ? `one month each, every ${Math.round(intervalDays / 7)} weeks` : '6-week boxes'}) <select name="refills">${Array.from({ length: 9 }, (_, i) => 8 - i)
     .map((n) => `<option value="${n}"${n === 8 ? ' selected' : ''}>${n}</option>`).join('')}</select></label></p>` +
-  `<p style="font-size:14px">8 = one year. 0 = no refills; the patient comes back for review.</p>`;
+  `<p style="font-size:14px">8 = ${intervalDays ? 'eight months' : 'one year'}. 0 = no refills; the patient comes back for review.</p>`;
 
 // Step 1 of 2: GET renders this; only the form POST acts. The token is base64url but is escaped anyway.
-const confirm = (action: 'approve' | 'decline', token: string, roster: Prov[] = [], dose = ''): string => {
+const confirm = (action: 'approve' | 'decline', token: string, roster: Prov[] = [], dose = '', intervalDays?: number): string => {
   const t = token.replace(/[^A-Za-z0-9_-]/g, '');
   const [label, bg, note] = action === 'approve'
     ? ['Confirm approve', '#1b7f3b', 'Approving sends the patient the welcome email and forwards the order.']
     : ['Confirm decline', '#b00020', 'Declining queues a refund for admin approval and sends the patient the not-cleared email. Nothing is sent to the pharmacy.'];
   return page(action === 'approve' ? 'Approve this order?' : 'Decline this order?',
     `${note}</p><form method="post" action=""><input type="hidden" name="t" value="${t}">` +
-    `${action === 'approve' ? picker(roster) + dose + refillsPicker() : ''}` +
+    `${action === 'approve' ? picker(roster) + dose + refillsPicker(intervalDays) : ''}` +
     `<button type="submit" style="background:${bg}">${label}</button></form><p>`);
 };
 

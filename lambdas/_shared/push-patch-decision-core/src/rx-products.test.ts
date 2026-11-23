@@ -7,8 +7,11 @@ describe('rx product catalog', () => {
       lookupKeys: { recurring: 'gut-brain-rx-30d', once: 'gut-brain-rx-once' } });
     expect(JSON.stringify(RX_PRODUCTS)).not.toMatch(/bpc|glutamine|aloe/i);
   });
-  it.each([['glp1-sema', 'GLP-1 · Sema (semaglutide)'], ['glp1-tirzep', 'GLP-2 · Tirzep (tirzepatide)'], ['glp1-reta', 'GLP-3 · Reta (retatrutide)']])('%s: 28-day manual product', (id, name) => {
+  it.each([['glp1-sema', 'GLP-1 · Sema (semaglutide)'], ['glp1-tirzep', 'GLP-2 · Tirzep (tirzepatide)'], ['glp1-reta', 'GLP-3 · Reta']])('%s: 28-day manual product', (id, name) => {
     expect(RX_PRODUCTS[id]).toMatchObject({ name, intervalDays: 28, fulfillment: 'manual', lookupKeys: { recurring: `${id}-28d`, once: `${id}-once` } });
+  });
+  it('no display name ever contains retatrutide', () => {
+    for (const p of Object.values(RX_PRODUCTS)) expect(p.name).not.toMatch(/retatrutide/i);
   });
   it('rxProduct returns undefined for unknown / missing ids', () => {
     expect(rxProduct('gut-brain-rx')?.name).toBe('Gut-Brain Rx');

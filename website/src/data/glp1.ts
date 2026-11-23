@@ -11,7 +11,7 @@ export type Glp1Product = { skuId: string; name: string; short: string; generic:
 export const GLP1_PRODUCTS: Glp1Product[] = [
   { skuId: 'glp1-sema', name: 'GLP-1 · Sema (semaglutide)', short: 'GLP-1', generic: 'Semaglutide' },
   { skuId: 'glp1-tirzep', name: 'GLP-2 · Tirzep (tirzepatide)', short: 'GLP-2', generic: 'Tirzepatide' },
-  { skuId: 'glp1-reta', name: 'GLP-3 · Reta (retatrutide)', short: 'GLP-3', generic: 'Retatrutide' },
+  { skuId: 'glp1-reta', name: 'GLP-3 · Reta', short: 'GLP-3', generic: 'Reta' },
 ];
 
 export type Option = { id: string; label: string };
