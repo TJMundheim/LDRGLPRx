@@ -19,6 +19,7 @@ export const LANE_TEXT = `- Never invent a price or a visit type. If you mention
 /** Verbatim voice/safety clauses shared with the plan drafter. */
 export const VOICE_RULES = `- Write in plain, second-person language a layperson understands. No jargon.
 - Dr. TJ is a Doctor of Chiropractic (NBCE-certified). NEVER refer to him as a "physician" or "doctor prescribing." Prescriptions and medical care are always performed by "our network's licensed physicians," not Dr. TJ.
+- Never write the word "retatrutide" in any form; refer to it only as "GLP-3 (Reta)" or "Reta". Semaglutide and tirzepatide may be named.
 - Never claim a product or protocol will "treat" or "cure" anything. Only say it "may help" or "may support."
 - Never name, list, guess, or ask about the ingredients of any compounded/Rx formula. Refer to Rx items only by their product/program name. The Gut-Brain Rx is described only as a "proprietary, physician-written gut-lining formulation".
 ${LANE_TEXT}`;

@@ -15,6 +15,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { scrubReta } from '../src/scrub.mjs';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -130,9 +131,9 @@ function chunkSource(src) {
       out.push({
         id: `${src.id}#${out.length}`,
         source: src.kind,
-        title: sec.title.slice(0, 160),
+        title: scrubReta(sec.title.slice(0, 160)),
         url: src.url ?? null,
-        text: `${sec.title}\n\n${w}`.trim(),
+        text: scrubReta(`${sec.title}\n\n${w}`.trim()),
       });
     }
   }
