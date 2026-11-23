@@ -34,6 +34,11 @@
 
 ---
 
+## 2026-11-23 — GLP-1 direct-buy decisions (TJ) + homepage/intake changes
+- Homepage: gold "GLP-1 Weight Loss" button first in the hero (566dc372). /consult: when GLP-1 is picked, last step asks GLP-1 (Sema, semaglutide) / GLP-2 (Tirzep, tirzepatide) / GLP-3 (Reta, retatrutide) / Not sure; saved as glpChoice in the [Form: consult-intake] email + screeningAnswers (0e8d987e). Both committed, NOT deployed (website/deploy.sh on TJ's OK).
+- GLP-1 purchase = copy of Push Patch: own page /go/glp-1 selling directly (no coordinator call); GLP-1/2/3 all $375; $375 = 1 month at any dose; auto-ship option every 4 weeks; knockout screening before pay; post-pay intake; physician approve/decline (decline = refund). NO pharmacy yet: on approval, do NOT auto-send a script/order; TJ places orders by hand. Plan being written (docs/plan/glp1-direct-buy-2026-11-23.md).
+- Note for TJ: retatrutide is investigational (not FDA-approved); confirm the eventual pharmacy/physicians can fill it.
+
 ## 2026-11-23 — Handshake QR card v1 (Claude)
 - docs/talk/card.py → ~/Downloads/My4MLife_Handshake_Card_v1.pdf (2 pages, 3.5 x 2 in + 1/8 in bleed) + _front/_back.png previews. Front: emblem, "Dr. TJ Mundheim", "Health-span educator · Speaker · Author of three books", "Keep your mind. Keep who you are.", my4mlife.com/speaking. Back: QR → /assessment?src=card and QR → /speaking?src=card, identity line, educator disclaimer. No email or phone (drtj@ never on print surfaces).
 - Card QRs deliberately use src=card, NOT talk-*: a talk-* tag turns on event mode, whose welcome email says "You're entered in tonight's signed-book drawing".
