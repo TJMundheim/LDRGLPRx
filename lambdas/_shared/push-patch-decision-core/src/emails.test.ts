@@ -4,7 +4,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 const sent: any[] = [];
 vi.mock('./mailer', () => ({ send: async (m: any) => { sent.push(m); } }));
 
-import { sendWelcome, sendDeclined } from './emails';
+import { sendWelcome, sendDeclined, sendGlp1Welcome, sendGlp1Declined, buildGlp1OrderEmail } from './emails';
 
 const URL = 'https://my4mlife.com/assessment?src=push-patch-buyer';
 const SKU = 'push-patch-bpc-nad-ghk';
@@ -185,5 +185,31 @@ describe('manual Rx refill emails (Gut-Brain Rx)', () => {
     const r = sent[sent.length - 1];
     expect(r.text).toContain('Gut-Brain Rx');
     expect(r.text).not.toMatch(/go\/push-patch|Push Patch/);
+  });
+});
+
+describe('GLP-1 emails', () => {
+  it('welcome: physicians network, ships after pharmacy fills, tracking, brand; no Push Patch, no named physician, from support', async () => {
+    await sendGlp1Welcome('j@example.com', 'Jane', 'glp1-sema');
+    const m = sent[0];
+    expect(m.from).toBe('support');
+    expect(m.text).toContain("our network's licensed physicians");
+    expect(m.text).toMatch(/ships after the pharmacy fills/i);
+    expect(m.text).toMatch(/tracking/i);
+    expect(m.text).toContain('GLP-1 · Sema (semaglutide)');
+    expect(m.text).toContain('My4MLife');
+    expect(m.text).not.toMatch(/push patch|genesis|\bDr\./i);
+  });
+  it('decline: GLP-1 wording, refund within 10 business days, no Push Patch', async () => {
+    await sendGlp1Declined('j@example.com', 'Jane', 'glp1-reta');
+    expect(sent[0].subject).toMatch(/GLP-1/);
+    expect(sent[0].text).toContain('10 business days');
+    expect(sent[0].text).not.toMatch(/push patch/i);
+  });
+  it('TJ order email: subject + full details', () => {
+    const e = buildGlp1OrderEmail({ firstName: 'Jane', lastName: 'Doe', dob: '1980-01-02', productName: 'GLP-1 · Sema (semaglutide)', dose: '0.5 mg', phone: '555-1',
+      ship: { name: 'Jane Doe', address: { line1: '1 A St', city: 'Austin', state: 'TX', postal_code: '78701' } }, autoShip: true, encounterId: 'g1-cs_1' });
+    expect(e.subject).toBe('[ACTION NEEDED] Place pharmacy order: Jane D. · GLP-1 · Sema (semaglutide) · 0.5 mg');
+    for (const x of ['Jane Doe', '1980-01-02', '0.5 mg', '1 A St', 'Austin, TX 78701', '555-1', 'Auto-ship: yes', 'g1-cs_1']) expect(e.text).toContain(x);
   });
 });

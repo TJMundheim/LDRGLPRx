@@ -7,3 +7,7 @@ export type { TestPriceData } from './test-price';
 export { buildPushPatchSessionParams } from './session-params';
 export type { PushPatchSessionInput, PushPatchSessionParams } from './session-params';
 export { rxRefillPriceId } from './rx-refill';
+export { laneEntry, glp1Entry, parseLane, isGlp1Sku, GLP1_SKUS, GLP1_PRODUCT_NAMES } from './lanes';
+export type { Lane, Glp1Prices } from './lanes';
+export { buildLaneSessionParams } from './session-params';
+export type { LaneSessionInput, LaneSessionParams } from './session-params';

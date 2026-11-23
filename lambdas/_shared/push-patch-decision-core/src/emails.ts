@@ -2,6 +2,7 @@
 // Customer copy never names the pharmacy/fulfillment partner and never carries a formula, dose or reason.
 import { blendFor, esc } from './blends';
 import { send } from './mailer';
+import { rxProduct } from './rx-products';
 
 const TAGLINE = "Don't lose your identity and your dignity while you still have a choice.";
 const BRAND_URL = 'https://my4mlife.com/?utm_source=push-patch&utm_medium=email&utm_campaign=welcome';
@@ -143,3 +144,38 @@ export function buildManualRefillOrderEmail(a: { productName: string; firstName:
   const text = `Place the pharmacy order for this paid refill.\n\nProduct: ${a.productName}\nRefill: ${a.refillNumber} of ${a.refillsAuthorized}\nPatient: ${full}\nPhone: ${a.phone || '(none on file)'}\n\nShip to:\n${addr}\n\nRef: ${a.ref}\n\nThe patient has been told we are preparing the refill. No tracking is promised.`;
   return { subject: `[ACTION NEEDED] Place pharmacy order: ${a.firstName.trim()}${initial}, ${a.productName} refill ${a.refillNumber} of ${a.refillsAuthorized}`, text, html: toHtml(text) };
 }
+
+// ---- GLP-1 lane (Sema / Tirzep / Reta): approved by the physician network, TJ places the pharmacy order by hand. ----
+const GLP1_FOOTER = `My4MLife\nMy4MLIFE LLC, operating as My4MLife, 1205 Hall Johnson Rd, Colleyville, TX 76034\n\nYou received this email because you placed a GLP-1 order at my4mlife.com. Your health information is handled under our Privacy Policy: https://my4mlife.com/privacy`;
+const glp1Name = (sku: string) => rxProduct(sku)?.name ?? 'GLP-1';
+
+export function sendGlp1Welcome(to: string, firstName: string, sku: string): Promise<void> {
+  const text = `Hi ${firstName},\n\nOne of our network's licensed physicians has reviewed your answers and approved your ${glp1Name(sku)}. Your payment stands and there is nothing more to do today.\n\n` +
+    `What happens next\nYour medication ships after the pharmacy fills it. We are placing the order for you now, and it goes to the shipping address you confirmed. We'll email you tracking as soon as it ships.\n\n` +
+    `Questions? Reply to this email or write to support@my4mlife.com. A real person reads it.\n\nWelcome aboard.\n\nThe My4MLife team\n\n${GLP1_FOOTER}`;
+  return mail(to, 'Welcome: your GLP-1 is approved', text);
+}
+
+export function sendGlp1Declined(to: string, firstName: string, sku: string): Promise<void> {
+  const text = `Hi ${firstName},\n\nYou weren't cleared for the GLP-1. Your refund will be processed within 10 business days.\n\n` +
+    `One of our network's licensed physicians reviewed your ${glp1Name(sku)} order. Nothing has shipped. The refund returns to the card or wallet you paid with. Your bank may take a few more days to show it.\n\n` +
+    `This is not a judgment about you. The review is a safety check. If your health changes, you are welcome to order again.\n\n` +
+    `Questions about the refund? Reply to this email or write to support@my4mlife.com. We cannot discuss health details by email or text; if we need to, we will ask you to call.\n\nThe My4MLife team\n\n${GLP1_FOOTER}`;
+  return mail(to, "You weren't cleared for the GLP-1. Refund within 10 business days", text);
+}
+
+// TJ only: everything needed to place the pharmacy order by hand. Pure builder.
+export function buildGlp1OrderEmail(a: { firstName: string; lastName: string; dob?: string; productName: string; dose: string; phone: string; ship?: { name?: string | null; address?: Record<string, string | null> | null } | null; autoShip: boolean; encounterId: string }): { subject: string; text: string; html: string } {
+  const full = `${a.firstName} ${a.lastName}`.trim();
+  const initial = a.lastName ? ` ${a.lastName.trim().charAt(0).toUpperCase()}.` : '';
+  const ad = a.ship?.address ?? {};
+  const addr = ad['line1']
+    ? [a.ship?.name || full, ad['line1'], ad['line2'], `${ad['city'] ?? ''}, ${ad['state'] ?? ''} ${ad['postal_code'] ?? ''}`.trim()].filter(Boolean).join('\n')
+    : 'NO ADDRESS ON FILE: get the shipping address from the patient before ordering.';
+  const text = `Place the pharmacy order for this approved GLP-1 patient. Nothing has been sent to any pharmacy.\n\nPatient: ${full}\nDOB: ${a.dob || '(none on file)'}\nProduct: ${a.productName}\nDose: ${a.dose}\nPhone: ${a.phone || '(none on file)'}\nAuto-ship: ${a.autoShip ? 'yes (every 4 weeks)' : 'no'}\n\nShip to:\n${addr}\n\nEncounter: ${a.encounterId}`;
+  return { subject: `[ACTION NEEDED] Place pharmacy order: ${a.firstName.trim()}${initial} · ${a.productName} · ${a.dose}`, text, html: toHtml(text) };
+}
+export const sendGlp1OrderEmail = (a: Parameters<typeof buildGlp1OrderEmail>[0]): Promise<void> => {
+  const m = buildGlp1OrderEmail(a);
+  return send({ to: TJ, subject: m.subject, text: m.text, html: m.html });
+};

@@ -78,3 +78,15 @@ describe('resolveTestPrice', () => {
     spies.forEach((s) => s.mockRestore());
   });
 });
+
+describe('resolveTestPrice glp1', () => {
+  it('glp1 sku with a valid token -> $2.00 named for the product', async () => {
+    const r = await resolveTestPrice('glp1-tirzep', TOKEN);
+    expect(r).toEqual({ currency: 'usd', unit_amount: 200, product_data: { name: expect.stringContaining('Tirzep') } });
+    expect(r!.product_data.name).toContain('TEST $2');
+    expect(r!.product_data.name).not.toContain('Push Patch');
+  });
+  it('unknown glp1 sku -> null', async () => {
+    expect(await resolveTestPrice('glp1-nope', TOKEN)).toBeNull();
+  });
+});

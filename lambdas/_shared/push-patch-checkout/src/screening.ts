@@ -5,7 +5,7 @@ type Lane = {
   knockouts: string[]; // must be false
   required: string[]; // must be true
   placement: string[]; // informational, either answer allowed
-  area: string; // the "suitable area" id (also in `required`)
+  area?: string; // the "suitable area" id (also in `required`); absent for lanes without one
 };
 
 // Each lane lists every accepted screening version (newest first). v1 stays accepted so in-flight pages
@@ -27,6 +27,14 @@ const LANES: Record<string, Lane[]> = {
       area: 'suitableArea',
     },
   ],
+  glp1: [
+    {
+      version: 'glp1-screen-v1',
+      knockouts: ['pancreatitis', 'mtc-men2', 'pregnancy', 'type1-diabetes', 'under-18', 'gastroparesis', 'eating-disorder'],
+      required: [],
+      placement: [],
+    },
+  ],
 };
 
 export type ScreenResult =
@@ -37,7 +45,7 @@ const yn = (b: boolean) => (b ? 'yes' : 'no');
 
 export function evaluateScreening(input: unknown, lane = 'push-patch', now = new Date()): ScreenResult {
   const s = input as { version?: unknown; answers?: Record<string, unknown> } | null | undefined;
-  const cfg = LANES[lane].find((l) => l.version === s?.version);
+  const cfg = LANES[lane]?.find((l) => l.version === s?.version);
   const a = s?.answers;
   if (!s || !cfg || !a || typeof a !== 'object') return { ok: false, reason: 'screening required' };
   const ids = [...cfg.knockouts, ...cfg.required, ...cfg.placement];
@@ -52,7 +60,7 @@ export function evaluateScreening(input: unknown, lane = 'push-patch', now = new
       screen_at: now.toISOString(),
       screen_denied: cfg.knockouts.join(','), // patient denied each (all answered false)
       screen_placement: cfg.placement.map((k) => `${k}:${yn(a[k] as boolean)}`).join(','),
-      screen_area: yn(a[cfg.area] as boolean),
+      ...(cfg.area ? { screen_area: yn(a[cfg.area] as boolean) } : {}),
     },
   };
 }

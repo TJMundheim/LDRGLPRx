@@ -170,7 +170,7 @@ describe('decide (shared by physician link + admin app)', () => {
   });
 
   it('encounter of another lane is never decidable (not-found, no update, no email)', async () => {
-    seed('sent-to-provider', false, 'glp1');
+    seed('sent-to-provider', false, 'gut-brain-rx');
     expect(await decide({ ...ARGS, action: 'decline' })).toEqual({ kind: 'not-found' });
     expect(updates()).toHaveLength(0);
     expect(lambdaSend).not.toHaveBeenCalled();
@@ -179,5 +179,72 @@ describe('decide (shared by physician link + admin app)', () => {
   it('unknown encounter → not-found', async () => {
     ddbSend.mockResolvedValue({});
     expect(await decide({ ...ARGS, action: 'approve' })).toEqual({ kind: 'not-found' });
+  });
+
+  describe('glp1 lane', () => {
+    const G = { contactId: 'c1', encounterId: 'g1-cs_1', decidedBy: 'admin:tj' };
+    const SESSION = (mode = 'payment') => ({ mode, metadata: {}, shipping_details: { name: 'Jane Doe', address: { line1: '1 A St', city: 'Austin', state: 'TX', postal_code: '78701' } } });
+    const seedG = (reject = false) => {
+      let claimed = false;
+      ddbSend.mockImplementation(async (cmd: any) => {
+        if (cmd.__t === 'Get') return { Item: cmd.input.Key.sk === 'record' ? { demographics: { firstName: 'Jane', lastName: 'Doe', email: 'j@example.com', phone: '555-1', dob: '1980-01-02' } }
+          : { lane: 'glp1', state: claimed ? 'script-written' : 'sent-to-provider', sku: 'glp1-sema', sessionId: 'cs_1' } };
+        if (reject) throw Object.assign(new Error('x'), { name: 'ConditionalCheckFailedException' });
+        if (cmd.input.ExpressionAttributeValues?.[':from'] === 'sent-to-provider') claimed = true;
+        return {};
+      });
+    };
+    beforeEach(() => retrieve.mockResolvedValue(SESSION()));
+
+    it('approve without a dose: refused, nothing written or sent', async () => {
+      seedG();
+      for (const dose of [undefined, '', '  ']) {
+        const out = await decide({ ...G, action: 'approve', ...(dose !== undefined && { dose }) });
+        expect(out).toMatchObject({ kind: 'dose-required' });
+      }
+      expect(updates()).toHaveLength(0);
+      expect(lambdaSend).not.toHaveBeenCalled();
+    });
+
+    it('approve: records dose, grants 8 refills at 28 days, welcome + TJ order email only, stamps genesisOrderSentAt, nothing to Genesis/pharmacy', async () => {
+      seedG();
+      expect(await decide({ ...G, action: 'approve', dose: '0.5 mg' })).toEqual({ kind: 'approved', mailOk: true });
+      const u = updates();
+      expect(u[0].ExpressionAttributeValues).toMatchObject({ ':to': 'script-written', ':dose': '0.5 mg' });
+      const grant = u.find((x) => /refillAuth = :a/.test(x.UpdateExpression));
+      expect(grant.ExpressionAttributeValues[':a']).toMatchObject({ refillsAuthorized: 8, sku: 'glp1-sema', product: 'glp1-sema', fulfillment: 'manual', intervalDays: 28 });
+      const stamp = u.find((x) => /genesisOrderSentAt/.test(x.UpdateExpression));
+      expect(stamp.UpdateExpression).not.toMatch(/genesisOrderTo/);
+      const m = emails();
+      expect(m).toHaveLength(2);
+      expect(m.find((e) => e.to === 'j@example.com').subject).toMatch(/GLP-1/);
+      const tj = m.find((e) => e.to === 'drtj@my4mlife.com');
+      expect(tj.subject).toBe('[ACTION NEEDED] Place pharmacy order: Jane D. · GLP-1 · Sema (semaglutide) · 0.5 mg');
+      expect(tj.text).toMatch(/Auto-ship: no/);
+      expect(m.some((e) => e.attachments?.length)).toBe(false);
+      expect(JSON.stringify(m)).not.toMatch(/genesis/i);
+    });
+
+    it('auto-ship comes from the Stripe session mode (subscription = yes) and suppresses reminders', async () => {
+      seedG();
+      retrieve.mockResolvedValue(SESSION('subscription'));
+      await decide({ ...G, action: 'approve', dose: '1 mg' });
+      expect(emails().find((e) => e.to === 'drtj@my4mlife.com').text).toMatch(/Auto-ship: yes/);
+      expect(updates().find((x) => /lastShippedAt/.test(x.UpdateExpression)).UpdateExpression).toMatch(/REMOVE refillDueAt/);
+    });
+
+    it('decline: refund pending, GLP-1 decline email, no dose needed, no TJ order email, no stamp', async () => {
+      seedG();
+      expect(await decide({ ...G, action: 'decline' })).toEqual({ kind: 'declined', mailOk: true });
+      expect(updates()).toHaveLength(1);
+      expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':to': 'declined', ':refundStatus': 'pending' });
+      expect(emails()).toHaveLength(1);
+      expect(emails()[0].subject).toMatch(/GLP-1/);
+    });
+
+    it('unknown lanes are still not decidable', async () => {
+      seed('sent-to-provider', false, 'trt');
+      expect(await decide({ ...ARGS, action: 'decline' })).toEqual({ kind: 'not-found' });
+    });
   });
 });

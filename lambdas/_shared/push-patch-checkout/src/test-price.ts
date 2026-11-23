@@ -4,6 +4,7 @@
 import { timingSafeEqual } from 'node:crypto';
 import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
 import { isPushPatchSku } from './push-patch';
+import { GLP1_PRODUCT_NAMES, isGlp1Sku } from './lanes';
 
 const PARAM = '/my4mlife/push-patch/test-token';
 const TTL_MS = 60_000;
@@ -50,9 +51,12 @@ const safeEqual = (a: string, b: string): boolean => {
 };
 
 export async function resolveTestPrice(skuId: string | undefined, token: unknown): Promise<TestPriceData | null> {
-  if (!isPushPatchSku(skuId) || typeof token !== 'string' || !token) return null;
+  if (!(isPushPatchSku(skuId) || isGlp1Sku(skuId)) || typeof token !== 'string' || !token) return null;
   const stored = await load();
   if (!stored || !safeEqual(token, stored.token) || Date.now() >= stored.expiresAt) return null;
+  if (isGlp1Sku(skuId)) {
+    return { currency: 'usd', unit_amount: 200, product_data: { name: `${GLP1_PRODUCT_NAMES[skuId as string]} (TEST $2)` } };
+  }
   const name = BLEND_NAMES[skuId as string] ?? 'Blend';
   return { currency: 'usd', unit_amount: 200, product_data: { name: `Push Patch — ${name} (TEST $2)` } };
 }

@@ -37,3 +37,25 @@ describe('evaluateScreening', () => {
     expect(evaluateScreening({ version: 'pp-screen-v2', answers: { ...okV2, woundOrScar: 'no' } })).toEqual({ ok: false, reason: 'screening required' });
   });
 });
+
+describe('evaluateScreening glp1', () => {
+  const ids = ['pancreatitis', 'mtc-men2', 'pregnancy', 'type1-diabetes', 'under-18', 'gastroparesis', 'eating-disorder'];
+  const clear = Object.fromEntries(ids.map((k) => [k, false]));
+  it('passes with metadata and no area', () => {
+    const r = evaluateScreening({ version: 'glp1-screen-v1', answers: clear }, 'glp1', new Date('2026-11-23T00:00:00Z'));
+    expect(r).toMatchObject({ ok: true });
+    if (r.ok) {
+      expect(r.metadata).toMatchObject({ screen_v: 'glp1-screen-v1', screen_denied: ids.join(',') });
+      expect(r.metadata).not.toHaveProperty('screen_area');
+    }
+  });
+  it.each(ids)('%s true -> not eligible', (id) => {
+    expect(evaluateScreening({ version: 'glp1-screen-v1', answers: { ...clear, [id]: true } }, 'glp1')).toEqual({ ok: false, reason: 'not eligible' });
+  });
+  it('missing answer or wrong lane version -> screening required', () => {
+    const { pancreatitis, ...rest } = clear;
+    expect(evaluateScreening({ version: 'glp1-screen-v1', answers: rest }, 'glp1')).toEqual({ ok: false, reason: 'screening required' });
+    expect(evaluateScreening({ version: 'pp-screen-v2', answers: clear }, 'glp1')).toEqual({ ok: false, reason: 'screening required' });
+    expect(evaluateScreening({ version: 'glp1-screen-v1', answers: clear }, 'nope')).toEqual({ ok: false, reason: 'screening required' });
+  });
+});

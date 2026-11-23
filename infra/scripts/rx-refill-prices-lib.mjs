@@ -3,6 +3,13 @@
 export const RX_PRICES = {
   'gut-brain-rx': { name: 'Gut-Brain Rx', amountCents: 12500, intervalDays: 30, lookupKeys: { recurring: 'gut-brain-rx-30d', once: 'gut-brain-rx-once' } },
 };
+export const GLP1_SKUS = ['glp1-sema', 'glp1-tirzep', 'glp1-reta'];
+// One-time $375 + $375 every 28 days per product. Written to glp1-prices.json (Push Patch shape), not rx-refill-prices.json.
+for (const [id, name] of [['glp1-sema', 'GLP-1 · Sema (semaglutide), 1 month'], ['glp1-tirzep', 'GLP-2 · Tirzep (tirzepatide), 1 month'], ['glp1-reta', 'GLP-3 · Reta (retatrutide), 1 month']]) {
+  RX_PRICES[id] = { name, amountCents: 37500, intervalDays: 28, lookupKeys: { recurring: `${id}-28d`, once: `${id}-once` } };
+}
+/** --rx value -> product ids to ensure ('glp1' = all three). */
+export const rxTargets = (rx) => (rx === 'glp1' ? [...GLP1_SKUS] : [rx]);
 const need = (id) => { const p = Object.hasOwn(RX_PRICES, id) ? RX_PRICES[id] : undefined; if (!p) throw new Error(`unknown rx product ${id}`); return p; };
 const meta = (id) => ({ kind: 'rx-refill', product: id });
 
@@ -32,6 +39,14 @@ export function mergeRxIds(existing, mode, product, ids) {
   return out;
 }
 
+/** Push Patch prices-file shape: {test:{sku:once}, live:{...}, refill:{test:{sku:recurring}, live:{...}}}. */
+export function mergeGlp1Ids(existing, mode, sku, ids) {
+  const out = { test: { ...(existing.test ?? {}) }, live: { ...(existing.live ?? {}) }, refill: { test: { ...(existing.refill?.test ?? {}) }, live: { ...(existing.refill?.live ?? {}) } } };
+  if (ids.once) out[mode][sku] = ids.once;
+  if (ids.recurring) out.refill[mode][sku] = ids.recurring;
+  return out;
+}
+
 export function parseRxArgs(argv) {
   const o = { rx: undefined, apply: false, mode: 'test' };
   let dry = false;
@@ -44,7 +59,7 @@ export function parseRxArgs(argv) {
   }
   if (o.apply && dry) throw new Error('pass only one of --dry-run / --apply');
   if (!o.rx) throw new Error('--rx <product> is required');
-  need(o.rx);
+  rxTargets(o.rx).forEach(need);
   if (!['test', 'live'].includes(o.mode)) throw new Error('--mode must be test or live');
   return o;
 }

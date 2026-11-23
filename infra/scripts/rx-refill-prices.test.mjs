@@ -51,3 +51,38 @@ test('parseRxArgs: dry run default, --rx required known, mode test|live', () => 
   assert.throws(() => parseRxArgs(['--rx', 'gut-brain-rx', '--mode', 'prod']), /mode/);
   assert.throws(() => parseRxArgs(['--rx', 'gut-brain-rx', '--apply', '--dry-run']), /only one/i);
 });
+
+// ---- GLP-1 ----
+import { GLP1_SKUS, rxTargets, mergeGlp1Ids } from './rx-refill-prices-lib.mjs';
+
+test('GLP-1 catalog: 3 SKUs, $375 one-time + $375 every 28 days, keys from sku id', () => {
+  assert.deepEqual(GLP1_SKUS, ['glp1-sema', 'glp1-tirzep', 'glp1-reta']);
+  const names = ['GLP-1 · Sema (semaglutide), 1 month', 'GLP-2 · Tirzep (tirzepatide), 1 month', 'GLP-3 · Reta (retatrutide), 1 month'];
+  GLP1_SKUS.forEach((id, i) => {
+    const c = RX_PRICES[id];
+    assert.equal(c.name, names[i]);
+    assert.equal(c.amountCents, 37500);
+    assert.equal(c.intervalDays, 28);
+    assert.deepEqual(c.lookupKeys, { once: `${id}-once`, recurring: `${id}-28d` });
+    assert.deepEqual(priceParams(id, 'once', 'p').recurring, undefined);
+    assert.deepEqual(priceParams(id, 'recurring', 'p').recurring, { interval: 'day', interval_count: 28 });
+    assert.equal(priceParams(id, 'recurring', 'p').unit_amount, 37500);
+    assert.equal(planPrice(id, 'recurring', { unit_amount: 37500, recurring: { interval: 'day', interval_count: 28 } }).action, 'exists');
+  });
+});
+
+test('rxTargets: glp1 expands to 3 skus (6 prices); single ids pass through', () => {
+  assert.deepEqual(rxTargets('glp1'), GLP1_SKUS);
+  assert.deepEqual(rxTargets('gut-brain-rx'), ['gut-brain-rx']);
+  assert.equal(parseRxArgs(['--rx', 'glp1']).rx, 'glp1');
+});
+
+test('mergeGlp1Ids: Push Patch shape {test,live,refill:{test,live}}, keeps other entries', () => {
+  let m = mergeGlp1Ids({}, 'test', 'glp1-sema', { once: 'o1', recurring: 'r1' });
+  assert.deepEqual(m, { test: { 'glp1-sema': 'o1' }, live: {}, refill: { test: { 'glp1-sema': 'r1' }, live: {} } });
+  m = mergeGlp1Ids(m, 'live', 'glp1-reta', { once: 'o3', recurring: 'r3' });
+  m = mergeGlp1Ids(m, 'test', 'glp1-tirzep', { once: 'o2', recurring: 'r2' });
+  assert.deepEqual(m.test, { 'glp1-sema': 'o1', 'glp1-tirzep': 'o2' });
+  assert.deepEqual(m.refill.live, { 'glp1-reta': 'r3' });
+  assert.deepEqual(mergeGlp1Ids(m, 'test', 'glp1-sema', { once: 'o1' }).refill.test['glp1-sema'], 'r1');
+});

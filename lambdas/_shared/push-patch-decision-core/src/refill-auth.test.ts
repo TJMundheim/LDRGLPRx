@@ -28,6 +28,12 @@ describe('buildRefillAuth', () => {
   });
 });
 
+describe('buildRefillAuth: glp1', () => {
+  it('manual 28-day auth keyed to the encounter SKU', () => {
+    expect(mk({ refills: 8, sku: 'glp1-tirzep', product: 'glp1-tirzep' })).toMatchObject({ refillsAuthorized: 8, sku: 'glp1-tirzep', product: 'glp1-tirzep', fulfillment: 'manual', intervalDays: 28 });
+  });
+});
+
 describe('grantRefills', () => {
   const enc = (o: any = {}) => ({ lane: 'push-patch', state: 'script-written', ...o });
   it('writes refillAuth map on the encounter when script-written', async () => {
