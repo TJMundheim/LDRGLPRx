@@ -18,9 +18,11 @@ export const GLP1_FINISH_SUBJECT = 'Your GLP-1 order is in — one 2-minute step
 const GLP1_BASE = process.env['GLP1_INTAKE_BASE_URL'] ?? 'https://www.my4mlife.com/go/glp-1/thank-you';
 export type OrderEmailKind = 'receipt' | 'finish-form';
 
-const FOOTER = `<p style="color:#666;font-size:13px;margin-top:32px">My4MLife</p>
-<p style="color:#666;font-size:12px"><em>These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.</em></p>
+const footer = (disclaimer: string) => `<p style="color:#666;font-size:13px;margin-top:32px">My4MLife</p>
+<p style="color:#666;font-size:12px"><em>${disclaimer}</em></p>
 </div>`;
+const FOOTER = footer('These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, prevent or alleviate any condition. Results vary by person.');
+const GLP1_FOOTER = footer('Prescription medication. Prescribed only if approved by a licensed physician in our network after reviewing your health information.');
 const WRAP = '<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">';
 
 // Pay-last flow: no action link, no PHI (first name only). Copy: Appendix A of docs/plan/push-patch-pay-last-2026-10-15.md.
@@ -42,7 +44,7 @@ function composeGlp1(sessionId: string, skuId: string, firstName: string | undef
 ${body}
 <p>Questions? Reply here.</p>
 <p>The My4MLife team</p>
-${FOOTER}`;
+${GLP1_FOOTER}`;
   return { subject: kind === 'receipt' ? GLP1_RECEIPT_SUBJECT : GLP1_FINISH_SUBJECT, html };
 }
 

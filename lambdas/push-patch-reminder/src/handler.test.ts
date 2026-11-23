@@ -153,5 +153,7 @@ describe('push-patch-reminder', () => {
     expect(p.html).toContain('/go/glp-1/thank-you?session_id=cs_live_abc');
     expect(p.html).toContain('GLP-2 · Tirzep (tirzepatide)'.replace(' (tirzepatide)', ''));
     expect(p.html).not.toMatch(/patch/i);
+    expect(p.html).toContain('Prescription medication. Prescribed only if approved by a licensed physician in our network after reviewing your health information.');
+    expect(p.html).not.toContain('Food and Drug');
   });
 });

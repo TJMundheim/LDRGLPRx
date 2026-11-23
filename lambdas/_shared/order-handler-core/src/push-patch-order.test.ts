@@ -134,6 +134,8 @@ describe('handlePushPatchOrder: GLP-1', () => {
     expect(mail.html).toContain('tirzepatide');
     expect(mail.html).toContain('1 month');
     expect(mail.html).not.toMatch(/patch|6 weeks/i);
+    expect(mail.html).toContain('Prescription medication. Prescribed only if approved by a licensed physician in our network after reviewing your health information.');
+    expect(mail.html).not.toContain('Food and Drug');
   });
 
   it('legacy finish-form email links to the GLP-1 thank-you page', async () => {
@@ -143,6 +145,8 @@ describe('handlePushPatchOrder: GLP-1', () => {
     expect(mail.subject).toContain('GLP-1');
     expect(mail.html).toContain('/go/glp-1/thank-you?session_id=cs_1');
     expect(mail.html).not.toMatch(/patch/i);
+    expect(mail.html).toContain('Prescription medication. Prescribed only if approved by a licensed physician in our network after reviewing your health information.');
+    expect(mail.html).not.toContain('Food and Drug');
   });
 
   it('auto-ship subscription: stamps the subscription so renewals take the manual-refill path', async () => {
