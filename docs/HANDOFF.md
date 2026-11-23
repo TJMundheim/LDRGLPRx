@@ -20,7 +20,7 @@
 - Volunteer track: Alzheimer's Association North Central Texas Community Educator (TJ to apply), Walk to End Alzheimer's FW fall 2027, Dementia Friendly Fort Worth. See docs/launch/speaking/2027-plan.md.
 
 **Blocked on TJ (most urgent first)**
-1. Call-coordinator hours (days, times, 15 or 30 min) + create the Calendly account → Claude builds lead red flag + scheduling (plan A–E below). Must be done before the first talk.
+1. Call hours DECIDED 2026-11-23: 15-minute calls, Tue/Wed/Thu, 1:00–4:00 p.m. Central. Still on TJ: create the Calendly account (Standard) + connect Google Calendar → Claude builds lead red flag + scheduling (plan A–E below; A, B, D, E don't need Calendly). Must be done before the first talk.
 2. The 800-number Genesis RPA lead Suzanne forwarded 11-15: status unknown.
 3. QR card for handshakes: DESIGNED 2026-11-23 (~/Downloads/My4MLife_Handshake_Card_v1.pdf). TJ orders it by Tue Nov 24 for Dec 1 (local same-day print is safest).
 4. Heritage: Rachelle's OK, Cindy's email, attorney pass on PA-2026-11, then the signing link; pitch a January client-night talk.
@@ -38,6 +38,7 @@
 - docs/talk/card.py → ~/Downloads/My4MLife_Handshake_Card_v1.pdf (2 pages, 3.5 x 2 in + 1/8 in bleed) + _front/_back.png previews. Front: emblem, "Dr. TJ Mundheim", "Health-span educator · Speaker · Author of three books", "Keep your mind. Keep who you are.", my4mlife.com/speaking. Back: QR → /assessment?src=card and QR → /speaking?src=card, identity line, educator disclaimer. No email or phone (drtj@ never on print surfaces).
 - Card QRs deliberately use src=card, NOT talk-*: a talk-* tag turns on event mode, whose welcome email says "You're entered in tonight's signed-book drawing".
 - Both QRs decoded (macOS CIDetector) and both URLs return 200.
+- Call hours decided (TJ): 15 min, Tue/Wed/Thu, 1–4 p.m. Central. Calendly account not created yet.
 - Monday check-in had already run at 10:59 (batch 2: 15 drafts, NOT SENT; awaiting TJ's "send"). Call hours + Calendly still blocked on TJ.
 
 ## 2026-11-22 — Promo codes + Genesis deck v7 (TJ)
