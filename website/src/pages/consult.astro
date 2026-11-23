@@ -179,6 +179,15 @@ const canonical = "https://www.my4mlife.com/consult";
       <h2>Review and submit</h2>
       <p class="q-step-sub">Confirm everything looks right, then sign below so the physician can review your case. A care coordinator will reach out at the time you gave us.</p>
 
+      <!-- GLP choice (TJ 2026-11-23): shown only when GLP-1 weight loss was picked in step 2 -->
+      <fieldset class="q-radio-group q-glp-choice" id="q-glp-choice" hidden>
+        <legend>Which one would you like? (the physician confirms what fits you)</legend>
+        <label class="q-radio"><input type="radio" name="glpChoice" value="GLP-1 (Sema, semaglutide)"> <strong>GLP-1</strong> &nbsp;Sema <span class="q-opt">(semaglutide)</span></label>
+        <label class="q-radio"><input type="radio" name="glpChoice" value="GLP-2 (Tirzep, tirzepatide)"> <strong>GLP-2</strong> &nbsp;Tirzep <span class="q-opt">(tirzepatide)</span></label>
+        <label class="q-radio"><input type="radio" name="glpChoice" value="GLP-3 (Reta, retatrutide)"> <strong>GLP-3</strong> &nbsp;Reta <span class="q-opt">(retatrutide)</span></label>
+        <label class="q-radio"><input type="radio" name="glpChoice" value="Not sure, help me choose"> Not sure &mdash; help me choose</label>
+      </fieldset>
+
       <div id="q-review-summary" class="q-review-summary"></div>
 
       <label class="q-checkbox-row">
@@ -269,6 +278,15 @@ const canonical = "https://www.my4mlife.com/consult";
     return null;
   }
 
+  function wantsGlp() {
+    return (payload.curiosity || []).indexOf('GLP-1 weight loss') !== -1;
+  }
+  function glpChoice() {
+    if (!wantsGlp()) return '';
+    var r = document.querySelector('input[name="glpChoice"]:checked');
+    return r ? r.value : '';
+  }
+
   var _phMaxStep = 0;
   function showStep(n) {
     if (n === 'success') { phCapture('consult_submitted', { total_steps: totalSteps }); }
@@ -283,6 +301,10 @@ const canonical = "https://www.my4mlife.com/consult";
     } else {
       var target = document.querySelector('[data-step="' + n + '"]');
       if (target) target.hidden = false;
+      if (n === totalSteps) {
+        var glpBox = document.getElementById('q-glp-choice');
+        if (glpBox) glpBox.hidden = !wantsGlp();
+      }
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -452,6 +474,13 @@ const canonical = "https://www.my4mlife.com/consult";
   }
 
   async function submitIntake() {
+    if (wantsGlp() && !glpChoice()) {
+      var glpBox = $('#q-glp-choice');
+      if (glpBox) { glpBox.classList.add('q-error'); glpBox.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      alert('Please choose GLP-1, GLP-2, GLP-3, or "Not sure".');
+      return;
+    }
+    if (wantsGlp()) phCapture('consult_glp_choice', { choice: glpChoice() });
     if (!$('#q-consent').checked) {
       alert('Please confirm the consent checkbox to submit.');
       return;
@@ -499,6 +528,7 @@ const canonical = "https://www.my4mlife.com/consult";
       bestTime: payload.bestTime,
       note: payload.whyNow,
     };
+    if (glpChoice()) contactFields.glpChoice = glpChoice();
 
     var intakeBody = {
       email: payload.email,
@@ -528,6 +558,7 @@ const canonical = "https://www.my4mlife.com/consult";
         bestTime: payload.bestTime,
         whyNow: payload.whyNow,
         curiosity: payload.curiosity || [],
+        glpChoice: glpChoice() || undefined,
         refusals: payload.refusals,
         budget: payload.budget,
         supplements: payload.supplements,
