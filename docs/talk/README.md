@@ -37,6 +37,9 @@ build.js calls the pptx skill's `apply_theme.js`. Set `PPTX_SKILL_SCRIPTS` to th
 
 Keynote renders differ slightly from PowerPoint (fonts), so images are for the presenter script and layout checks only.
 
+## Handshake card
+`python3 card.py` → ~/Downloads/My4MLife_Handshake_Card_v1.pdf (+ PNG previews). QRs use src=card, never talk-* (that triggers the event-mode drawing email).
+
 ## Checking a change
 `python3 dump_text.py old.pptx > a.txt; python3 dump_text.py new.pptx > b.txt; diff a.txt b.txt`
 
