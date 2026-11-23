@@ -1,0 +1,24 @@
+{
+  "test": {
+    "glp1-sema": "price_1Uf54WBSbDAyoIVyZW805X2f",
+    "glp1-tirzep": "price_1Uf54XBSbDAyoIVy1dW7hCEU",
+    "glp1-reta": "price_1Uf54YBSbDAyoIVytAcTRrvM"
+  },
+  "live": {
+    "glp1-sema": "price_1Uf54aBSbDAyoIVyjCJMDcRp",
+    "glp1-tirzep": "price_1Uf54bBSbDAyoIVy4am665mw",
+    "glp1-reta": "price_1Uf54cBSbDAyoIVyrD6qv1za"
+  },
+  "refill": {
+    "test": {
+      "glp1-sema": "price_1Uf54WBSbDAyoIVyiHBbRNum",
+      "glp1-tirzep": "price_1Uf54XBSbDAyoIVyANWzWVzI",
+      "glp1-reta": "price_1Uf54YBSbDAyoIVyNAKHcGp1"
+    },
+    "live": {
+      "glp1-sema": "price_1Uf54aBSbDAyoIVylalhpg2E",
+      "glp1-tirzep": "price_1Uf54bBSbDAyoIVyNotVFJBg",
+      "glp1-reta": "price_1Uf54dBSbDAyoIVyTFxFZG1T"
+    }
+  }
+}

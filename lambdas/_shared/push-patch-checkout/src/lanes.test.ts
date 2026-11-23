@@ -30,7 +30,8 @@ describe('lane registry', () => {
     expect(glp1Entry('glp1-sema', 'test', false)).toBeNull();
     expect(laneEntry('glp1', 'glp1-sema', 'test', false)).toBeNull();
   });
-  it('real glp1-prices.json absent -> null', () => {
+  it('price file absent -> null (GLP-1 dark)', () => {
+    setGlp1PricesForTest(null);
     expect(glp1Entry('glp1-sema', 'test', false)).toBeNull();
   });
   it('resolves once / recurring prices', () => {
@@ -48,6 +49,7 @@ describe('lane registry', () => {
 
 describe('buildLaneSessionParams glp1', () => {
   it('null when dark', () => {
+    setGlp1PricesForTest(null);
     expect(buildLaneSessionParams(base)).toBeNull();
   });
   it('payment mode one-time', () => {
