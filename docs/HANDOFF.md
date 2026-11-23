@@ -1,8 +1,46 @@
 # ===================================================================
 # COMPLETE PROJECT HANDOFF — My4MLife (repo: LDRGLPRx)
-# Last updated: 2026-11-15 · START HERE block below, then dated changelog
-# (Dated changelog of prior sessions follows this block.)
+# Last updated: 2026-11-23 · START HERE block below, then dated changelog
 # ===================================================================
+
+## ▶ START HERE (as of 2026-11-23)
+
+**Direction (TJ, 2026-11-20):** speaking is the business engine. TJ in a room → free MindSpan assessment (QR `talk-<event>`) → Monday Zoom (7 p.m. Central) → care-coordinator call → patients and buyers. Goal from Jan 2027: 3 talks + 1 volunteer commitment a week. Don't let TJ procrastinate.
+
+**The plan to follow:** docs/plan/next-40-days-2026-11-21.md (day by day to Dec 31, ranked "what we might be forgetting", Dec 31 scoreboard). Thanksgiving break: Wed Nov 25 through the weekend (TJ's son visiting).
+
+**Automation:** scheduled task `monday-speaking-checkin` (Mondays 10:00 local, auto mode). It reads docs/launch/speaking/{talk-log.md, 2027-plan.md, targets-dfw.md, batch-*.md} + this file, drafts that week's booking emails + follow-ups into a new batch file, commits, and sends TJ a short note. It never sends outreach; sending is only on TJ's "send" via `infra/scripts/speaking-outreach-send.sh <batch.md> <n>` (each send also mails TJ a "[Copy]" since Mailgun sends never show in his Gmail Sent).
+
+**Speaking state**
+- Batch 1 (10 groups) sent + delivered 2026-11-20; follow-ups due Dec 2. Tracker: docs/launch/speaking/talk-log.md.
+- Western Fort Worth Rotary (Ridglea CC, 1st/3rd Tuesdays noon; president Shellie Gardner): TJ visits in person Tue Dec 1 (backup Dec 15).
+- Warm lead on side burner: Chris Wear, Lead Concepts. TJ gives him The Uninsured Decade (retail copy, week of Nov 23), then regroups for advisor names; nudge by Dec 15.
+- Speaker page LIVE: my4mlife.com/speaking (form → email-sender formId `speaking-inquiry`).
+- Talk deck v4.4 + editions in docs/talk (`--edition=main|evening|guest`, `--host=`); finished files in docs/talk/release/ and ~/Downloads. Advisor host sheet (TJ's Claude Doc "Host the talk: The Uninsured Decade"): https://claude.ai/artifact/GxsvKzxAzSxQ2xSb4pgbmZ
+- Volunteer track: Alzheimer's Association North Central Texas Community Educator (TJ to apply), Walk to End Alzheimer's FW fall 2027, Dementia Friendly Fort Worth. See docs/launch/speaking/2027-plan.md.
+
+**Blocked on TJ (most urgent first)**
+1. Call-coordinator hours (days, times, 15 or 30 min) + create the Calendly account → Claude builds lead red flag + scheduling (plan A–E below). Must be done before the first talk.
+2. The 800-number Genesis RPA lead Suzanne forwarded 11-15: status unknown.
+3. QR card for handshakes (Claude designs; TJ orders by Tue Nov 24 for Dec 1).
+4. Heritage: Rachelle's OK, Cindy's email, attorney pass on PA-2026-11, then the signing link; pitch a January client-night talk.
+5. Captain's Table list (20 names), Pull-Up Challenge push (day-one deadline Dec 15), Count Yourself Skinny app go/slip decision by Dec 1.
+
+**Promo codes (live, 2026-11-22):** REVIEW200 = $250 off any blend, UNLIMITED uses, no expiry, shareable (coupon N0sEuTRq); NOEXCUSES = $250 (Randall Beasley + F&F); SHOE, JUJITSU = $150; pull-up 50% codes; HERITAGE = partner attribution, no client discount. No advertised discounts (case by case). Codes don't work through partner links (?ref hides the code box).
+
+**Genesis RPA dinner deck:** v7 in ~/Documents (Genesis_RPA_Presentation_v7.pptx, _Presenter_Script_v7.pdf, _Build_Source_v7.zip; notes in Genesis_RPA_HANDOFF.md). Only the newest version is kept (TJ rule). Rebuild: unzip, `NODE_PATH=<repo>/docs/talk/node_modules node build.js out.pptx`, render with docs/talk/render_slides.sh, run gscript.py from the slide-image folder.
+
+**Standing rules:** main branch only, no worktrees · pnpm · deploy only via deploy scripts · no patient details in the repo or this file · no outreach/sends without TJ's preview + "send" · replies to drtj@my4mlife.com are NOT readable here (the connected Gmail is another account) — ask TJ to forward · never browse amazon.com/KDP with browser tools · keep only the newest version of decks/scripts on TJ's Mac.
+
+---
+
+## 2026-11-22 — Promo codes + Genesis deck v7 (TJ)
+- REVIEW200 raised $200 → $250, then opened to unlimited uses, no expiry, "on until TJ says off" (old one-use codes deactivated; new promo_1UejuFBSbDAyoIVyGrzfqGUI on coupon N0sEuTRq). NOEXCUSES confirmed $250, active, 0 redemptions.
+- Genesis RPA v7: slide 10's native chart (blank in Keynote) replaced by drawn bars: RPA 320+ vs "about 40" for PRP, Wharton's jelly, amnio, bone marrow and cord blood combined (the 40 is from the original deck's older 80+ analysis; ask Genesis for an updated figure). v6 and all older versions trashed; v7 lives in ~/Documents.
+
+## 2026-11-21 — Speaking email copies + book texts
+- All 10 batch-1 emails confirmed delivered via Mailgun (no bounces). TJ now gets a "[Copy]" of every speaking send; copies of batch 1 sent to drtj@.
+- TJ texting his phone contacts the Amazon links for The Uninsured Decade (B0HRTNDNRQ) and Count Yourself Skinny (B0HRS79T35): priced just above cost through the holidays, prices up Jan 1, order by Dec 15; plus an ask for speaking introductions. Mid-January: send a "quick Amazon review" text.
 
 ## 2026-11-20 — NEXT 40 DAYS PLAN (Nov 21 – Dec 31)
 - docs/plan/next-40-days-2026-11-21.md: recap, ranked "what we might be forgetting", day-by-day through Dec 31, and a Dec 31 scoreboard. The Monday check-in reads it (via 2027-plan.md).
