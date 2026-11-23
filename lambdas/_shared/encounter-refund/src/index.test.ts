@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const { ddbSend, lambdaSend, refundsCreate } = vi.hoisted(() => ({ ddbSend: vi.fn(), lambdaSend: vi.fn(), refundsCreate: vi.fn() }));
+const { ddbSend, lambdaSend, refundsCreate, sessionsRetrieve, invoicesRetrieve, subCancel } = vi.hoisted(() => ({
+  ddbSend: vi.fn(), lambdaSend: vi.fn(), refundsCreate: vi.fn(), sessionsRetrieve: vi.fn(), invoicesRetrieve: vi.fn(), subCancel: vi.fn() }));
 vi.mock('@aws-sdk/client-dynamodb', () => ({ DynamoDBClient: class { constructor(_: unknown) {} } }));
 vi.mock('@aws-sdk/lib-dynamodb', () => {
   const cmd = (t: string) => class { __t = t; input: any; constructor(i: any) { this.input = i; } };
@@ -10,7 +11,8 @@ vi.mock('@aws-sdk/client-lambda', () => ({
   LambdaClient: class { constructor(_: unknown) {} send = lambdaSend; },
   InvokeCommand: class { input: any; constructor(i: any) { this.input = i; } },
 }));
-vi.mock('@my4mlife/stripe-client', () => ({ getStripeClient: async () => ({ refunds: { create: refundsCreate } }) }));
+vi.mock('@my4mlife/stripe-client', () => ({ getStripeClient: async () => ({ refunds: { create: refundsCreate },
+  checkout: { sessions: { retrieve: sessionsRetrieve } }, invoices: { retrieve: invoicesRetrieve }, subscriptions: { cancel: subCancel } }) }));
 
 import { refundEncounter, RefundError } from './index';
 
@@ -97,6 +99,37 @@ describe('glp1 lane', () => {
     expect(p.text).toContain('Your refund has been issued');
     expect(p.text).not.toMatch(/Push Patch/);
     expect(p.subject).not.toMatch(/Push Patch/);
+  });
+});
+
+describe('glp1 auto-ship (subscription-mode checkout: no session payment_intent)', () => {
+  const AUTO = { ...ENC, lane: 'glp1', paymentIntentId: '' };
+  it('refunds the first invoice payment and cancels the subscription before refunding', async () => {
+    seed(AUTO);
+    sessionsRetrieve.mockResolvedValue({ id: 'cs_1', payment_intent: null, invoice: { id: 'in_1', payment_intent: 'pi_sub' }, subscription: { id: 'sub_1', status: 'active' } });
+    expect(await refundEncounter({ ...ARGS, encounterId: 'g1-cs_1' })).toMatchObject({ ok: true, refundId: 're_1' });
+    expect(sessionsRetrieve).toHaveBeenCalledWith('cs_1', { expand: ['subscription', 'invoice'] });
+    expect(subCancel).toHaveBeenCalledWith('sub_1');
+    expect(refundsCreate).toHaveBeenCalledWith({ payment_intent: 'pi_sub' }, { idempotencyKey: 'push-patch-refund-cs_1' });
+    expect(subCancel.mock.invocationCallOrder[0]).toBeLessThan(refundsCreate.mock.invocationCallOrder[0]);
+  });
+
+  it('falls back to the subscription latest invoice and skips an already-cancelled subscription', async () => {
+    seed(AUTO);
+    sessionsRetrieve.mockResolvedValue({ id: 'cs_1', invoice: null, subscription: { id: 'sub_1', status: 'canceled', latest_invoice: 'in_9' } });
+    invoicesRetrieve.mockResolvedValue({ id: 'in_9', payment_intent: { id: 'pi_9' } });
+    await refundEncounter({ ...ARGS, encounterId: 'g1-cs_1' });
+    expect(invoicesRetrieve).toHaveBeenCalledWith('in_9');
+    expect(subCancel).not.toHaveBeenCalled();
+    expect(refundsCreate).toHaveBeenCalledWith({ payment_intent: 'pi_9' }, expect.anything());
+  });
+
+  it('no payment found: rolls back to pending, refunds nothing', async () => {
+    seed(AUTO);
+    sessionsRetrieve.mockResolvedValue({ id: 'cs_1', invoice: null, subscription: null });
+    await expect(refundEncounter({ ...ARGS, encounterId: 'g1-cs_1' })).rejects.toMatchObject({ code: 'no_payment' });
+    expect(refundsCreate).not.toHaveBeenCalled();
+    expect(calls('Update')).toHaveLength(2); // claim + rollback
   });
 });
 

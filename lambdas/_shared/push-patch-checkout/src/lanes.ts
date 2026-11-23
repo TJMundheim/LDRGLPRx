@@ -49,6 +49,13 @@ export function glp1Entry(skuId: string, mode: 'test' | 'live', autoShip: boolea
   };
 }
 
+/** GLP-1 price id from glp1-prices.json: 'once' = one-time, 'recurring' = every 28 days. Undefined while absent. */
+export function glp1PriceId(skuId: string, kind: 'once' | 'recurring', mode: 'test' | 'live'): string | undefined {
+  if (!isGlp1Sku(skuId)) return undefined;
+  const p = load();
+  return (kind === 'recurring' ? p?.refill?.[mode]?.[skuId] : p?.[mode]?.[skuId]) || undefined;
+}
+
 export function laneEntry(lane: Lane, skuId: string, mode: 'test' | 'live', autoShip: boolean) {
   if (lane === 'glp1') return glp1Entry(skuId, mode, autoShip);
   const e = pushPatchEntry(skuId, mode);

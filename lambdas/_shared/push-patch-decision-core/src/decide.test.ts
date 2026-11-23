@@ -19,7 +19,8 @@ vi.mock('@aws-sdk/client-ssm', () => ({
   GetParameterCommand: class { constructor(public input: any) {} },
 }));
 const retrieve = vi.fn();
-vi.mock('@my4mlife/stripe-client', () => ({ getStripeClient: async () => ({ checkout: { sessions: { retrieve } } }) }));
+const subCancel = vi.fn();
+vi.mock('@my4mlife/stripe-client', () => ({ getStripeClient: async () => ({ checkout: { sessions: { retrieve } }, subscriptions: { cancel: subCancel } }) }));
 
 const loadRoster = vi.fn();
 vi.mock('@my4mlife/provider-roster', () => ({
@@ -183,7 +184,7 @@ describe('decide (shared by physician link + admin app)', () => {
 
   describe('glp1 lane', () => {
     const G = { contactId: 'c1', encounterId: 'g1-cs_1', decidedBy: 'admin:tj' };
-    const SESSION = (mode = 'payment') => ({ mode, metadata: {}, shipping_details: { name: 'Jane Doe', address: { line1: '1 A St', city: 'Austin', state: 'TX', postal_code: '78701' } } });
+    const SESSION = (mode = 'payment') => ({ mode, ...(mode === 'subscription' && { subscription: 'sub_1' }), metadata: {}, shipping_details: { name: 'Jane Doe', address: { line1: '1 A St', city: 'Austin', state: 'TX', postal_code: '78701' } } });
     const seedG = (reject = false) => {
       let claimed = false;
       ddbSend.mockImplementation(async (cmd: any) => {
@@ -240,6 +241,35 @@ describe('decide (shared by physician link + admin app)', () => {
       expect(updates()[0].ExpressionAttributeValues).toMatchObject({ ':to': 'declined', ':refundStatus': 'pending' });
       expect(emails()).toHaveLength(1);
       expect(emails()[0].subject).toMatch(/GLP-1/);
+    });
+
+    it('auto-ship approve: refill auth is mode auto with the subscription id (no reorder reminders, refund can find it)', async () => {
+      seedG();
+      retrieve.mockResolvedValue(SESSION('subscription'));
+      await decide({ ...G, action: 'approve', dose: '1 mg' });
+      const grant = updates().find((x) => /refillAuth = :a/.test(x.UpdateExpression));
+      expect(grant.ExpressionAttributeValues[':a']).toMatchObject({ mode: 'auto', subscriptionId: 'sub_1' });
+    });
+
+    it('auto-ship decline: cancels the subscription so no renewal bills', async () => {
+      seedG();
+      retrieve.mockResolvedValue(SESSION('subscription'));
+      subCancel.mockResolvedValue({});
+      expect(await decide({ ...G, action: 'decline' })).toEqual({ kind: 'declined', mailOk: true });
+      expect(subCancel).toHaveBeenCalledWith('sub_1');
+    });
+
+    it('auto-ship decline: a failed cancel never blocks the decline (the admin refund cancels it too)', async () => {
+      seedG();
+      retrieve.mockResolvedValue(SESSION('subscription'));
+      subCancel.mockRejectedValue(new Error('stripe down'));
+      expect(await decide({ ...G, action: 'decline' })).toEqual({ kind: 'declined', mailOk: true });
+    });
+
+    it('one-time decline: no subscription to cancel', async () => {
+      seedG();
+      await decide({ ...G, action: 'decline' });
+      expect(subCancel).not.toHaveBeenCalled();
     });
 
     it('unknown lanes are still not decidable', async () => {

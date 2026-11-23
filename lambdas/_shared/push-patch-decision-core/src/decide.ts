@@ -45,6 +45,16 @@ async function transition(contactId: string, encounterId: string, to: string, ex
   }
 }
 
+const idOf = (v: unknown): string | undefined => (typeof v === 'string' ? v : (v as { id?: string } | null)?.id) || undefined;
+
+async function cancelSubscription(sessionId: string): Promise<void> {
+  try {
+    const stripe = await getStripeClient();
+    const subId = idOf((await stripe.checkout.sessions.retrieve(sessionId, {})).subscription);
+    if (subId) await stripe.subscriptions.cancel(subId);
+  } catch { console.error('[decide] glp1-subscription-cancel-failed'); }
+}
+
 const allOk = async (jobs: Promise<void>[]): Promise<boolean> =>
   (await Promise.allSettled(jobs)).every((r) => r.status === 'fulfilled');
 
@@ -71,8 +81,11 @@ export async function decide(a: DecideArgs): Promise<Outcome> {
     let granted = false;
     if (refills > 0) {
       try {
-        await grantRefills(a.contactId, a.encounterId, buildRefillAuth({ refills, sku, ...(glp1 && { product: sku }), authorizedBy: prov?.name ?? a.decidedBy,
-          ...(prov && { signedByProviderId: prov.id }), partnerRef: await partnerRefFromSession(session, stripe), now: new Date() }));
+        const auth = buildRefillAuth({ refills, sku, ...(glp1 && { product: sku }), authorizedBy: prov?.name ?? a.decidedBy,
+          ...(prov && { signedByProviderId: prov.id }), partnerRef: await partnerRefFromSession(session, stripe), now: new Date() });
+        // GLP-1 auto-ship: the checkout itself started the subscription, so renewals are auto (no reorder reminders).
+        const subId = glp1 ? idOf(session.subscription) : undefined;
+        await grantRefills(a.contactId, a.encounterId, subId ? { ...auth, mode: 'auto', subscriptionId: subId } : auth);
         granted = true;
       } catch { console.error('[decide] refill-grant-failed'); } // approval stands; refills can be granted by the admin CLI
     }
@@ -90,6 +103,8 @@ export async function decide(a: DecideArgs): Promise<Outcome> {
     declinedAt: declinedAt.toISOString(),
     refundDueBy: addBusinessDays(declinedAt, REFUND_BUSINESS_DAYS),
   }))) return { kind: 'already-decided', state: 'decided' };
+  // GLP-1 auto-ship: end the subscription now so no renewal bills (best effort; the admin refund cancels it too).
+  if (glp1) await cancelSubscription(enc.sessionId);
   // TODO(auto-refund): when process.env.AUTO_REFUND_ON_DECLINE === 'true', call the shared refund function
   // from lambdas/_shared/encounter-refund (being written separately) here and let it flip refundStatus.
   // Default is 'false' (admin approves every refund), so this flag path is intentionally a no-op for now.

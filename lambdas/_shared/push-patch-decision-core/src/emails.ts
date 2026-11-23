@@ -134,14 +134,14 @@ export function sendRefillPreparing(a: { to: string; firstName: string; productN
 
 export interface ManualShipTo { name?: string; line1?: string; line2?: string; city?: string; state?: string; postalCode?: string }
 // Internal, PHI-minimal: name, phone, address and product only. Pure builder: the order handler sends it through its email-sender lambda.
-export function buildManualRefillOrderEmail(a: { productName: string; firstName: string; lastName: string; phone: string; refillNumber: number; refillsAuthorized: number; ref: string; shipTo?: ManualShipTo }): { subject: string; text: string; html: string } {
+export function buildManualRefillOrderEmail(a: { productName: string; firstName: string; lastName: string; phone: string; refillNumber: number; refillsAuthorized: number; ref: string; shipTo?: ManualShipTo; dose?: string }): { subject: string; text: string; html: string } {
   const full = `${a.firstName} ${a.lastName}`.trim();
   const initial = a.lastName ? ` ${a.lastName.trim().charAt(0).toUpperCase()}.` : '';
   const s = a.shipTo;
   const addr = s?.line1
     ? [s.name || full, s.line1, s.line2, `${s.city ?? ''}, ${s.state ?? ''} ${s.postalCode ?? ''}`.trim()].filter(Boolean).join('\n')
     : 'NO ADDRESS ON FILE: get the shipping address from the patient before ordering.';
-  const text = `Place the pharmacy order for this paid refill.\n\nProduct: ${a.productName}\nRefill: ${a.refillNumber} of ${a.refillsAuthorized}\nPatient: ${full}\nPhone: ${a.phone || '(none on file)'}\n\nShip to:\n${addr}\n\nRef: ${a.ref}\n\nThe patient has been told we are preparing the refill. No tracking is promised.`;
+  const text = `Place the pharmacy order for this paid refill.\n\nProduct: ${a.productName}\n${a.dose ? `Dose: ${a.dose} (as approved)\n` : ''}Refill: ${a.refillNumber} of ${a.refillsAuthorized}\nPatient: ${full}\nPhone: ${a.phone || '(none on file)'}\n\nShip to:\n${addr}\n\nRef: ${a.ref}\n\nThe patient has been told we are preparing the refill. No tracking is promised.`;
   return { subject: `[ACTION NEEDED] Place pharmacy order: ${a.firstName.trim()}${initial}, ${a.productName} refill ${a.refillNumber} of ${a.refillsAuthorized}`, text, html: toHtml(text) };
 }
 

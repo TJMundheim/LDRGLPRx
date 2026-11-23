@@ -165,6 +165,12 @@ describe('manual Rx refill emails (Gut-Brain Rx)', () => {
     expect(m.html).toContain('Apt &lt;2&gt;');
     expect(m.text).not.toMatch(/bpc|glutamine|aloe/i);
   });
+  it('TJ action email carries the approved dose when given (GLP-1 renewals); Gut-Brain copy has no dose line', async () => {
+    const { buildManualRefillOrderEmail } = await import('./emails');
+    const base = { productName: 'GLP-1 · Sema (semaglutide)', firstName: 'Bryan', lastName: 'Shoemaker', phone: '', refillNumber: 1, refillsAuthorized: 8, ref: 'in_9' };
+    expect(buildManualRefillOrderEmail({ ...base, dose: '0.5 mg' }).text).toContain('Dose: 0.5 mg');
+    expect(buildManualRefillOrderEmail(base).text).not.toMatch(/Dose:/);
+  });
   it('TJ action email flags a missing address', async () => {
     const { buildManualRefillOrderEmail } = await import('./emails');
     const m = buildManualRefillOrderEmail({ productName: 'Gut-Brain Rx', firstName: 'Bryan', lastName: 'Shoemaker', phone: '', refillNumber: 2, refillsAuthorized: 2, ref: 'in_9' });

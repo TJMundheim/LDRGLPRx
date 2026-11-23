@@ -17,7 +17,23 @@ function guard(enc: Record<string, any> | undefined): asserts enc is Record<stri
   if (enc.state !== 'declined') throw new RefundError('not_declined', 'Encounter is not declined');
   if (enc.refundStatus !== 'pending') throw new RefundError('not_pending', `Refund is not pending (status: ${enc.refundStatus ?? 'none'})`);
   if (enc.genesisOrderSentAt) throw new RefundError('already_shipped', 'Order was already sent to fulfillment; no refund once shipped');
-  if (!enc.paymentIntentId || !enc.sessionId) throw new RefundError('no_payment', 'Encounter has no payment to refund');
+  // GLP-1 auto-ship checkouts have no session payment_intent (stored as ''): resolved from the subscription below.
+  if (!enc.sessionId || (!enc.paymentIntentId && enc.lane !== 'glp1')) throw new RefundError('no_payment', 'Encounter has no payment to refund');
+}
+
+const idOf = (v: unknown): string | undefined => (typeof v === 'string' ? v : (v as { id?: string } | null)?.id) || undefined;
+
+// Subscription-mode (auto-ship) checkout: the first charge is the subscription's first invoice. End the
+// subscription first so no renewal bills, then return that invoice's payment intent.
+async function subscriptionPayment(stripe: any, sessionId: string): Promise<string> {
+  const s = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['subscription', 'invoice'] });
+  const sub = s.subscription && typeof s.subscription === 'object' ? s.subscription : undefined;
+  let inv = s.invoice ?? sub?.latest_invoice;
+  if (typeof inv === 'string') inv = await stripe.invoices.retrieve(inv);
+  const pi = idOf(inv?.payment_intent) ?? idOf(s.payment_intent);
+  if (!pi) throw new RefundError('no_payment', 'No payment found for this auto-ship order');
+  if (sub && sub.status !== 'canceled') await stripe.subscriptions.cancel(sub.id);
+  return pi;
 }
 
 export async function refundEncounter({ contactId, encounterId, actor }: RefundArgs): Promise<RefundResult> {
@@ -28,8 +44,9 @@ export async function refundEncounter({ contactId, encounterId, actor }: RefundA
   let refund;
   try {
     const stripe = await getStripeClient({ modeOverride: 'live' });
+    const paymentIntent: string = enc.paymentIntentId || (await subscriptionPayment(stripe, enc.sessionId));
     refund = await stripe.refunds.create(
-      { payment_intent: enc.paymentIntentId },
+      { payment_intent: paymentIntent },
       { idempotencyKey: `push-patch-refund-${enc.sessionId}` },
     );
   } catch (e) {

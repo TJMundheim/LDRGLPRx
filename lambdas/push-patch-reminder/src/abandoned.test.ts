@@ -165,6 +165,19 @@ describe('sweepAbandoned', () => {
   });
 });
 
+describe('sweepAbandoned: GLP-1 pending intakes (same pending-intake# rows)', () => {
+  it('never says Push Patch: generic subject/copy, links back to /go/glp-1 with its own campaign, no drug or health words', async () => {
+    route([row({ skuId: 'glp1-tirzep' })]);
+    await sweepAbandoned(deps, NOW);
+    const { subject, html } = sent();
+    expect(subject).toBe('Your My4MLife order is waiting');
+    expect(html).toContain('https://my4mlife.com/go/glp-1?utm_source=email&utm_medium=lifecycle&utm_campaign=glp1-abandoned');
+    expect(html).toContain('Hi Sam,');
+    expect(html).not.toMatch(/patch|push-patch/i);
+    expect(html).not.toMatch(/semaglutide|tirzepatide|retatrutide|weight loss|lose weight|diagnos|medication/i);
+  });
+});
+
 describe('handler gating', () => {
   const pendingScans = () => cmds('ScanCommand').filter((c) => c.input.ExpressionAttributeValues?.[':p'] === 'pending-intake#');
 

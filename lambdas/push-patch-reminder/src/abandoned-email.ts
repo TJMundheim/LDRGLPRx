@@ -13,9 +13,14 @@ export function buildLink(skuId?: string): string {
   return `${BASE}?${skuId ? `sku=${encodeURIComponent(skuId)}&` : ''}${UTM}`;
 }
 
+// GLP-1 pending intakes share the pending-intake# rows: product-neutral copy (no drug name), link back to /go/glp-1.
+export const GLP1_SUBJECT = 'Your My4MLife order is waiting';
+const GLP1_LINK = 'https://my4mlife.com/go/glp-1?utm_source=email&utm_medium=lifecycle&utm_campaign=glp1-abandoned';
+
 // Copy: docs/launch/push-patch/abandoned-cart-copy.md. Generic text only; no health data, no tagline.
 export function compose(firstName: string | undefined, skuId: string | undefined): { subject: string; html: string } {
   const name = firstName?.trim() ? esc(firstName.trim()) : 'there';
+  if (skuId?.startsWith('glp1-')) return composeGlp1(name);
   const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">
 <p>Hi ${name},</p>
 <p>You started your Push Patch order but did not get through checkout. Picking it back up takes just a few minutes, and one of our network&#39;s licensed physicians reviews your order after that.</p>
@@ -26,6 +31,19 @@ export function compose(firstName: string | undefined, skuId: string | undefined
 <p style="color:#666;font-size:13px;margin-top:32px">My4MLife</p>
 </div>`;
   return { subject: SUBJECT, html };
+}
+
+function composeGlp1(name: string): { subject: string; html: string } {
+  const html = `<div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#0a1628;line-height:1.55">
+<p>Hi ${name},</p>
+<p>You started your order but did not get through checkout. Picking it back up takes just a few minutes, and one of our network&#39;s licensed physicians reviews your order after that.</p>
+<p style="margin:24px 0"><a href="${GLP1_LINK}" style="background:#00b894;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Pick up where you left off</a></p>
+<p>Have a question first? Just reply to this email and a real person will get back to you.</p>
+<p>If you have already finished, you can ignore this note.</p>
+<p>The My4MLife team</p>
+<p style="color:#666;font-size:13px;margin-top:32px">My4MLife</p>
+</div>`;
+  return { subject: GLP1_SUBJECT, html };
 }
 
 /** Synchronous invoke so a failed send is detected (and the claim released). */

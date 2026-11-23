@@ -37,9 +37,9 @@ export function validateGlp1PreIntake(raw: unknown): Glp1Result {
   const dob = str(h.dob, 10);
   if (!dob || !validDob(dob)) return { ok: false, error: 'dob must be YYYY-MM-DD' };
   if (ageYears(dob) < 18) return { ok: false, error: 'not eligible' };
-  const heightFt = num(h.heightFt, 3, 8), heightIn = num(h.heightIn, 0, 11), weightLb = num(h.weightLb, 50, 700);
+  const heightFt = num(h.heightFt, 3, 8), heightIn = num(h.heightIn, 0, 11), weightLb = num(h.weightLb, 50, 800);
   if (heightFt === null || heightIn === null || weightLb === null) return { ok: false, error: 'height and weight required' };
-  const goalWeightLb = h.goalWeightLb === undefined ? undefined : num(h.goalWeightLb, 50, 700);
+  const goalWeightLb = h.goalWeightLb === undefined ? undefined : num(h.goalWeightLb, 50, 800);
   if (goalWeightLb === null) return { ok: false, error: 'goalWeightLb out of range' };
   const conditions = list(h.conditions), safetyHistory = list(h.safetyHistory), interactingMeds = list(h.interactingMeds);
   if (!conditions || !safetyHistory || !interactingMeds) return { ok: false, error: 'conditions, safetyHistory and interactingMeds must be lists' };

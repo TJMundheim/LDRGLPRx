@@ -148,7 +148,7 @@ async function shipManual(d: RefillDeps, r: Ref, encounterId: string, claim: { r
   const shipTo = newShipTo ?? parent?.shipTo;
   const hasShip = !!shipTo?.line1;
   const mail = buildManualRefillOrderEmail({ productName: product.name, firstName: info.firstName, lastName: info.lastName, phone: info.phone, refillNumber: claim.refillNumber,
-    refillsAuthorized: claim.auth.refillsAuthorized, ref: r.id, ...(hasShip ? { shipTo } : {}) });
+    refillsAuthorized: claim.auth.refillsAuthorized, ref: r.id, ...(hasShip ? { shipTo } : {}), ...(parent?.dose ? { dose: String(parent.dose) } : {}) }); // GLP-1: physician-approved dose
   const mailed = await tjMail(d, `${d.livemode ? '' : '[TEST] '}${mail.subject}`, mail.text, mail.html);
   const next = await afterShip(d, r, claim, subId, product.intervalDays);
   if (!hasShip) { console.error('[refill] no-ship-to'); return 'no-ship-to'; }

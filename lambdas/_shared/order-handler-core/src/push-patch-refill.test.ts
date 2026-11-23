@@ -8,7 +8,8 @@ vi.mock('@my4mlife/push-patch-decision-core', () => ({
   claimRefillSlot: h.claim, getRefillAuth: h.getAuth, setRefillAuthFields: h.setFields, recordShipment: h.record,
   sendGenesisOrder: h.sendOrder, stampGenesisSent: h.stamp, resolveShip: (s: unknown) => s,
   blendFor: () => ({ name: 'Enhanced Glow' }),
-  rxProduct: (id?: string) => (id === 'gut-brain-rx' ? { name: 'Gut-Brain Rx', intervalDays: 30, fulfillment: 'manual' } : undefined),
+  rxProduct: (id?: string) => (id === 'gut-brain-rx' ? { name: 'Gut-Brain Rx', intervalDays: 30, fulfillment: 'manual' }
+    : id === 'glp1-sema' ? { name: 'GLP-1 · Sema (semaglutide)', intervalDays: 28, fulfillment: 'manual' } : undefined),
   sendRefillPreparing: h.preparing, buildManualRefillOrderEmail: h.buildOrder,
   sendRefillShipped: h.shipped, sendRefillNotice: h.notice, sendRefillPaymentFailed: h.failed,
 }));
@@ -448,5 +449,17 @@ describe('GLP-1 subscription invoices', () => {
     const enc = puts.find((p) => p.table === 'PatientRecords')!.item;
     expect(enc.encounterId).toBe('rx-rf-in_1');
     expect(enc.state).toBe('pharmacy-order-pending');
+  });
+});
+
+describe('GLP-1 renewal: TJ order email', () => {
+  const g1meta = { kind: 'push-patch-refill', lane: 'glp1', contactId: 'c1', encounterId: 'g1-cs_1', skuIds: 'glp1-sema', fulfillment: 'manual', product: 'glp1-sema' };
+  it('carries the physician-approved dose from the parent encounter so TJ can reorder', async () => {
+    h.getAuth.mockResolvedValue({ auth: auth({ sku: 'glp1-sema', product: 'glp1-sema', fulfillment: 'manual', intervalDays: 28 }), encounter: { shipTo: SHIP, lane: 'glp1', dose: '0.5 mg' } });
+    h.claim.mockResolvedValue({ ok: true, refillNumber: 1, auth: auth({ product: 'glp1-sema', fulfillment: 'manual', intervalDays: 28 }) });
+    h.buildOrder.mockReturnValue({ subject: 's', text: 't', html: 'h' });
+    await handleRefillInvoice(deps(), 'invoice.paid', invoice({ billing_reason: 'subscription_cycle', subscription_details: { metadata: g1meta } }));
+    expect(h.buildOrder).toHaveBeenCalledWith(expect.objectContaining({ productName: 'GLP-1 · Sema (semaglutide)', dose: '0.5 mg' }));
+    expect(h.sendOrder).not.toHaveBeenCalled();
   });
 });
