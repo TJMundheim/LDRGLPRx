@@ -102,13 +102,16 @@ def front(c):
 def back(c):
     c.setFillColor(CREAM)
     c.rect(0, 0, W, H, stroke=0, fill=1)
-    size = 70
-    top = (H + size + 10 + 10 + 17.4 + 6) / 2  # QR block centred now the back has nothing else
+    # v2 (TJ 2026-11-24): venue list under "Book a free talk", in priority order.
     cols = [
-        (W * 0.29, ASSESS_URL, "Your free MindSpan", "assessment", "5 minutes, on your phone"),
-        (W * 0.71, SPEAK_URL, "Book a free talk", "for your group", "Clubs, churches, employers"),
+        (W * 0.29, ASSESS_URL, "Your free MindSpan", "assessment", ["5 minutes, on your phone"]),
+        (W * 0.71, SPEAK_URL, "Book a free talk", "for your group",
+         ["Financial advisors, estate attorneys,", "employers, civic clubs, churches,", "health clubs"]),
     ]
-    for cx, url, l1, l2, l3 in cols:
+    size, lead = 64, 7.6
+    most = max(len(sub) for *_, sub in cols)
+    top = (H + size + 10 + 10 + 17.4 + lead * (most - 1) + 6) / 2  # tallest column centred
+    for cx, url, l1, l2, sub in cols:
         y = qr(c, url, cx, top, size) - 10
         c.setFillColor(NAVY)
         c.setFont("Helvetica-Bold", 7.4)
@@ -116,7 +119,8 @@ def back(c):
         c.drawCentredString(cx, y - 8.6, l2)
         c.setFillColor(MUTED)
         c.setFont("Helvetica", 6.2)
-        c.drawCentredString(cx, y - 17.4, l3)
+        for i, line in enumerate(sub):
+            c.drawCentredString(cx, y - 17.4 - lead * i, line)
 
 
 def main():
