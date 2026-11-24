@@ -23,7 +23,7 @@
 **Blocked on TJ (most urgent first)**
 1. Call hours DECIDED 2026-11-23: 15-minute calls, Tue/Wed/Thu, 1:00–4:00 p.m. Central. Still on TJ: create the Calendly account (Standard) + connect Google Calendar → Claude builds lead red flag + scheduling (plan A–E below; A, B, D, E don't need Calendly). Must be done before the first talk.
 2. The 800-number Genesis RPA lead Suzanne forwarded 11-15: status unknown.
-3. QR card for handshakes: DESIGNED 2026-11-23 (~/Downloads/My4MLife_Handshake_Card_v1.pdf). TJ orders it by Tue Nov 24 for Dec 1 (local same-day print is safest).
+3. QR card for handshakes: v2 2026-11-24 (~/Downloads/My4MLife_Handshake_Card_v2.pdf; TJ: cell 817-995-3103 on front, 'Author', identity line on front, no disclaimer, no 'Keep your mind' line; v1 trashed). TJ orders it by Tue Nov 24 for Dec 1 (local same-day print is safest).
 4. Heritage: Rachelle's OK, Cindy's email, attorney pass on PA-2026-11, then the signing link; pitch a January client-night talk.
 5. Captain's Table list (20 names), Pull-Up Challenge push (day-one deadline Dec 15), Count Yourself Skinny app go/slip decision by Dec 1.
 

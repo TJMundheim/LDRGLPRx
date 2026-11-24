@@ -1,6 +1,6 @@
 """Handshake card (US business card, 3.5 x 2 in) for TJ: print-ready PDF with 1/8 in bleed.
 
-Usage: python3 card.py [out.pdf]   (default ~/Downloads/My4MLife_Handshake_Card_v1.pdf)
+Usage: python3 card.py [out.pdf]   (default ~/Downloads/My4MLife_Handshake_Card_v2.pdf)
 Also writes <out>_front.png / <out>_back.png previews (needs PyMuPDF).
 
 QR tags: the assessment QR uses src=card, NOT talk-*. A talk-* tag turns on event mode,
@@ -14,12 +14,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 import qrcode
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Downloads/My4MLife_Handshake_Card_v1.pdf")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Downloads/My4MLife_Handshake_Card_v2.pdf")
 
 ASSESS_URL = "https://my4mlife.com/assessment?src=card"
 SPEAK_URL = "https://my4mlife.com/speaking?src=card"
-IDENTITY = "Don't lose your identity and your dignity while you still have a choice."
-DISCLAIMER = "Dr. TJ speaks as a health-span educator and does not provide medical care through this platform."
+PHONE = "817-995-3103"  # TJ's cell, personal handshake card only (TJ 2026-11-24)
+# v2 (TJ 2026-11-24): no disclaimer on the card; identity line on the front, not repeated on the back.
 
 NAVY, GOLD, GOLD_L = HexColor("#0A1430"), HexColor("#D4A94E"), HexColor("#E9C97E")
 SOFT, MUTED, CREAM = HexColor("#D7DFEE"), HexColor("#5B6475"), HexColor("#F7F3EA")
@@ -78,17 +78,21 @@ def front(c):
 
     c.setFillColor(white)
     c.setFont("Serif-Bold", 16)
-    c.drawString(SAFE, 84, "Dr. TJ Mundheim")
+    c.drawString(SAFE, 92, "Dr. TJ Mundheim")
     c.setFillColor(SOFT)
     c.setFont("Helvetica", 7.4)
-    c.drawString(SAFE, 72, "Health-span educator  ·  Speaker  ·  Author of three books")
+    c.drawString(SAFE, 80.5, "Health-span educator  ·  Speaker  ·  Author")
+    c.setFillColor(white)
+    c.setFont("Helvetica-Bold", 8.4)
+    c.drawString(SAFE, 68.5, PHONE)
 
     c.setStrokeColor(GOLD)
     c.setLineWidth(0.8)
-    c.line(SAFE, 62, SAFE + 40, 62)
+    c.line(SAFE, 60, SAFE + 40, 60)
     c.setFillColor(GOLD_L)
-    c.setFont("Serif-Italic", 10)
-    c.drawString(SAFE, 47, "Keep your mind. Keep who you are.")
+    c.setFont("Serif-Italic", 9.6)
+    c.drawString(SAFE, 47, "Don't lose your identity and your dignity")
+    c.drawString(SAFE, 35.5, "while you still have a choice.")
 
     c.setFillColor(white)
     c.setFont("Helvetica-Bold", 7.6)
@@ -98,7 +102,8 @@ def front(c):
 def back(c):
     c.setFillColor(CREAM)
     c.rect(0, 0, W, H, stroke=0, fill=1)
-    size, top = 62, H - SAFE + 2
+    size = 70
+    top = (H + size + 10 + 10 + 17.4 + 6) / 2  # QR block centred now the back has nothing else
     cols = [
         (W * 0.29, ASSESS_URL, "Your free MindSpan", "assessment", "5 minutes, on your phone"),
         (W * 0.71, SPEAK_URL, "Book a free talk", "for your group", "Clubs, churches, employers"),
@@ -112,16 +117,6 @@ def back(c):
         c.setFillColor(MUTED)
         c.setFont("Helvetica", 6.2)
         c.drawCentredString(cx, y - 17.4, l3)
-
-    c.setStrokeColor(GOLD)
-    c.setLineWidth(0.6)
-    c.line(W / 2 - 18, 37, W / 2 + 18, 37)
-    c.setFillColor(NAVY)
-    c.setFont("Serif-Italic", 6.9)
-    c.drawCentredString(W / 2, 27.5, IDENTITY)
-    c.setFillColor(MUTED)
-    c.setFont("Helvetica", 4.6)
-    c.drawCentredString(W / 2, SAFE - 3, DISCLAIMER)
 
 
 def main():
