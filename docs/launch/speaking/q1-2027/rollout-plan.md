@@ -16,10 +16,10 @@ _Written 2026-11-24 for Dr. TJ. Built from venues-civic.md, venues-community.md 
 |---|---|
 | Weeks in the window (Jan 11 – Apr 16) | 14 |
 | Goal: 3 talks a week | **42 talks** |
-| Local civic/business groups with real dated meetings in the window | ~15 daytime + 5 early/evening ("TJ's choice") |
+| Local civic/business groups with real dated meetings in the window | ~15 daytime + 5 early/evening (now open targets) |
 | Each club books you about once | so clubs give **~12–18 talks** at best |
 | Left to fill from repeatable rooms (employers, churches, libraries, caregiver groups, your own talk) | **~25** |
-| Realistic outcome if the weekly rhythm holds | **25–32 talks**. 42 needs the fill rooms to say yes and a few early/evening slots. |
+| Realistic outcome if the weekly rhythm holds | **25–32 talks**. 42 needs the fill rooms to say yes; the 5 early/evening rooms (now open) add ~8–12 dated slots. |
 
 **What that takes each week, starting Jan 4:**
 - **15 new asks** (email or form): cold asks convert at about 1 in 5–10.
@@ -36,7 +36,7 @@ Rough check: ~170 asks between Nov 30 and Mar 19 at about 25% blended yield ≈ 
 - QR tag `talk-<slug>` (run `python3 docs/talk/qr.py talk-<slug>`) plus a talk-log row, wherever a QR is allowed.
 - The **library edition** (Fort Worth Public Library) has no QR slide and no book table, and you ask before handing out the my4mlife.com/speaking link. The City contract must be executed first. At the Benbrook library: free, non-commercial, and ask whether the QR slide is OK.
 - **Alzheimer's Association Community Educator** talks use their curriculum. No My4MLife, no QR, no books.
-- One talk a day by default, inside 10–4. Noon is ideal. 7:45 am breakfasts and 6 pm meetings are **TJ's choice**: they're flagged below, not scheduled.
+- **Scheduled talks may be at breakfast or in the evening** (TJ, 2026-11-24): the 10–4 window still governs calls, admin and anything people self-book (Calendly), but booked speaking engagements can be 7 am or after 6 pm. Noon is still ideal; one talk a day by default. Watch the Monday 7 pm Zoom (Benbrook Lions 6 pm Mondays is tight).
 
 ---
 
@@ -105,11 +105,11 @@ Editions:
 | B18 | Tarrant County Probate Bar Association | estate attorneys (gateway) | monthly luncheon | ~10 | Tarrant County Bar 817-338-4092 to find a contact | new | main (non-promotional) | talk-probate-bar |
 | B19 | TSCPA Fort Worth / NAIFA Fort Worth | CPAs, insurance agents (gateway) | chapter meetings | ~10 | fortworth@tx.cpa, 817-335-5055; NAIFA via tx.naifa.org | new | advisor evening (after Apr 15 for CPAs) | talk-<host> |
 | B20 | FW Chamber South Area Small Business group | business networking | monthly, rotating | varies | Netty Matthews nmatthews@fortworthchamber.com | new | 10-min guest | talk-fwc-south |
-| B21 | **TJ's choice** · Benbrook Lions | civic, evening | 2nd & 4th Mon **6:00 pm** (clashes with the 7 pm Monday Zoom) | ~4 | 817-350-4917 (unconfirmed) / FB | new | main | talk-lions-benbrook |
-| B22 | **TJ's choice** · Aledo Community Lions | civic, evening | 2nd Tue **6:00 pm** | ~10 | Robert Carlson robert_a_carlson@msn.com, 817-718-4902 | new | main | talk-lions-aledo |
-| B23 | **TJ's choice** · Breakfast Optimist of East FW | civic, breakfast | 2nd & 3rd Thu **7:00 am** | ~14 | Patsy Garner, 817-999-3241 | emailed Nov 20 | main | talk-optimist-east |
-| B24 | **TJ's choice** · "Good Morning, Benbrook!" (chamber) | chamber breakfast | 1st & 3rd Wed **7:45 am**, Benbrook library | ~4 | chair@gmbbdg.org; 817-249-4451 | new | 5-min intro | talk-gmb |
-| B25 | **TJ's choice** · Rotary Club of Fort Worth East | civic, evening | Tue **6:30 pm** | ~14 | via rotary5790.org | new | main | talk-rotary-fwe |
+| B21 | **Early/evening** · Benbrook Lions | civic, evening | 2nd & 4th Mon **6:00 pm** (clashes with the 7 pm Monday Zoom) | ~4 | 817-350-4917 (unconfirmed) / FB | new | main | talk-lions-benbrook |
+| B22 | **Early/evening** · Aledo Community Lions | civic, evening | 2nd Tue **6:00 pm** | ~10 | Robert Carlson robert_a_carlson@msn.com, 817-718-4902 | new | main | talk-lions-aledo |
+| B23 | **Early/evening** · Breakfast Optimist of East FW | civic, breakfast | 2nd & 3rd Thu **7:00 am** | ~14 | Patsy Garner, 817-999-3241 | emailed Nov 20 | main | talk-optimist-east |
+| B24 | **Early/evening** · "Good Morning, Benbrook!" (chamber) | chamber breakfast | 1st & 3rd Wed **7:45 am**, Benbrook library | ~4 | chair@gmbbdg.org; 817-249-4451 | new | 5-min intro | talk-gmb |
+| B25 | **Early/evening** · Rotary Club of Fort Worth East | civic, evening | Tue **6:30 pm** | ~14 | via rotary5790.org | new | main | talk-rotary-fwe |
 
 ### Tier C
 
@@ -194,7 +194,7 @@ December totals:
 |---|---|---|---|
 | **Mon Jan 4** | — | 10:00 check-in. **New Year nudge** to every unanswered ask from Nov–Dec (~35), plus **~12 new asks** (list below), on your "send" | — |
 | **Tue Jan 5** | Calls 1–7 | — | 12:00 Western FW Rotary (1st Tue), only if you need to lock the date in person |
-| **Wed Jan 6** | Calls 8–13 | — | 11:00 Dementia Friendly FW cafe, first volunteer shift (warm-up). TJ's choice: Good Morning Benbrook 7:45 |
+| **Wed Jan 6** | Calls 8–13 | — | 11:00 Dementia Friendly FW cafe, first volunteer shift (warm-up). Good Morning Benbrook 7:45 (intro) |
 | **Thu Jan 7** | Calls 14–20 | — | 11:30 **EFWBA** (1st Thu, $25): guest visit |
 | **Fri Jan 8** | Catch-up calls | — | 11:45 FW Riverside Lions (2nd Fri) or 12:00 Rotary FW: guest visit if a date isn't set |
 
@@ -224,14 +224,14 @@ December totals:
 | 20 | Woman's Club of FW | 817-335-3525 | 2027 Etta Newby dates; speaker slot |
 | 21 | Tarrant County Bar | 817-338-4092 | Probate Bar program-chair contact |
 | 22 | Sixty & Better | 817-413-4949 | One pitch for many centers (Tier C, quick yeses) |
-| 23 | Breakfast Optimist East FW: Patsy Garner | 817-999-3241 | Follow-up (TJ's choice room) |
+| 23 | Breakfast Optimist East FW: Patsy Garner | 817-999-3241 | Follow-up (early room) |
 | 24 | FW Riverside Lions: Clayton Meissner | 817-793-9312 | Follow-up to B2-12 |
 | 25 | Petroleum Club: Juanita Melendez | 817-335-7571 | Follow-up to B2-14 |
 | 26 | TCU Silver Frogs | 817-257-7132 | Follow-up (fall term if spring is full) |
-| 27 | Aledo Lions: Robert Carlson | 817-718-4902 | TJ's choice evening room |
+| 27 | Aledo Lions: Robert Carlson | 817-718-4902 | evening room |
 | 28 | TSCPA Fort Worth | 817-335-5055 | CPA hosts for client events after Apr 15 |
 | 29 | Tarrant County Precinct 1 | 817-370-4500 | When the 2027 seminar abstract call opens |
-| 30 | Benbrook Lions | 817-350-4917 (unconfirmed) | Only if you want the 6 pm room |
+| 30 | Benbrook Lions | 817-350-4917 (unconfirmed) | 6 pm Mondays: tight before the 7 pm Zoom |
 
 **No phone, no email: form, Facebook or in person.** Kiwanis FW (form) · FW Founder Lions (visit Jan 26) · Everman Lions (visit Jan 21) · Kennedale Rotary and Rotary FW East (district club pages) · Encounter Church (visit) · Fort Worth HR/SHRM (find the program chair) · Alcon (warm intro) · Texas Health SW (main line).
 
@@ -276,7 +276,7 @@ One talk a day, noon preferred.
 - **Visits:** Tue Jan 12, 12:00, Rotary FW South (River Crest) · Wed Jan 13, 11:30, Cowtown Networking (if not done Dec 9).
 - **Volunteer:** Alzheimer's Association orientation/training (whatever date they give).
 - **Fill:** Heritage client night (January = fitness month) · City of Benbrook staff lunch-and-learn · Benbrook Senior Center lunch talk.
-- **TJ's choice:** Mon Jan 11, 6 pm, Benbrook Lions (clashes with the 7 pm Zoom) · Tue Jan 12, 6 pm, Aledo Lions · Thu Jan 14, 7 am, Breakfast Optimist East FW.
+- **Early/evening targets:** Mon Jan 11, 6 pm, Benbrook Lions (clashes with the 7 pm Zoom) · Tue Jan 12, 6 pm, Aledo Lions · Thu Jan 14, 7 am, Breakfast Optimist East FW.
 - **Watch:** Rotary FW may skip Fri Jan 15 (the Friday before MLK Day).
 
 ### Week 2 · Jan 18–22 (MLK Day Mon Jan 18)
@@ -284,7 +284,7 @@ One talk a day, noon preferred.
 - **Visits:** Mon Jan 18, Stockyards Business Assn (only if it meets on the holiday) · Thu Jan 21, 12:00, Everman Lions.
 - **Volunteer:** **Wed Jan 20, 11:00–12:30, Dementia Friendly FW cafe.**
 - **Fill:** City of FW lunch-and-learn (New Year wellness) · Wedgwood Baptist class · Benbrook Library Saturday program (Sat Jan 23, inside 10–4).
-- **TJ's choice:** Wed Jan 20, 7:45, Good Morning Benbrook (ask for a 5-minute intro).
+- **Early/evening targets:** Wed Jan 20, 7:45, Good Morning Benbrook (ask for a 5-minute intro).
 - **Your own hosted talk:** the January date booked from the December plan (venue TBD).
 
 ### Week 3 · Jan 25–29
@@ -292,14 +292,14 @@ One talk a day, noon preferred.
 - **Visits:** Tue Jan 26, 12:00, FW Founder Lions (confirm venue: First UMC, 800 W 5th) · Fri Jan 29, 12:00, Rotary FW (meet Aurora, if no date yet).
 - **Volunteer:** Alzheimer's Association (shadow a session) or Dementia Friendly FW Zoom helper.
 - **Fill:** Crowley ISD staff session · Christ Chapel men's or women's class · Benbrook YMCA member talk.
-- **TJ's choice:** Mon Jan 25, 6 pm, Benbrook Lions.
+- **Early/evening targets:** Mon Jan 25, 6 pm, Benbrook Lions.
 
 ### Week 4 · Feb 1–5
 - **Talk:** Tue Feb 2, 12:00, **Western FW Rotary** · Benbrook Chamber February luncheon (date TBD; call). Plus 1 fill.
 - **Visits:** Thu Feb 4, 11:30, EFWBA ($25).
 - **Volunteer:** **Wed Feb 3, 11:00, Dementia Friendly FW cafe.**
 - **Fill:** Dementia Friendly FW or AAA caregiver session · James L. West caregiver class · TCU staff wellness.
-- **TJ's choice:** Wed Feb 3, 7:45, Good Morning Benbrook.
+- **Early/evening targets:** Wed Feb 3, 7:45, Good Morning Benbrook.
 - *alt:* Fri Feb 5, Optimist FW.
 
 ### Week 5 · Feb 8–12 (Ash Wednesday Feb 10: churches start Lent series)
@@ -307,7 +307,7 @@ One talk a day, noon preferred.
 - **Visits:** Wed Feb 10, 11:30, Benbrook Business Exchange (networking only).
 - **Volunteer:** Alzheimer's Association Community Educator session (target).
 - **Fill:** a church Lent Wednesday program (Wedgwood, Hallmark) · FW library branch (library edition, once the City contract is signed) · City of FW second site.
-- **TJ's choice:** Mon Feb 8, 6 pm, Benbrook Lions · Tue Feb 9, 6 pm, Aledo Lions · Thu Feb 11, 7 am, Breakfast Optimist.
+- **Early/evening targets:** Mon Feb 8, 6 pm, Benbrook Lions · Tue Feb 9, 6 pm, Aledo Lions · Thu Feb 11, 7 am, Breakfast Optimist.
 - **Watch:** Rotary FW may skip Fri Feb 12 (the Friday before Presidents' Day).
 
 ### Week 6 · Feb 15–19 (Presidents' Day Mon Feb 15)
@@ -315,21 +315,21 @@ One talk a day, noon preferred.
 - **Visits:** Mon Feb 15, Stockyards Business Assn (if it meets).
 - **Volunteer:** **Wed Feb 17, 11:00, Dementia Friendly FW cafe.**
 - **Fill:** Texas Health SW staff or Community Health Ministry · Alcon wellness (if an intro landed).
-- **TJ's choice:** Wed Feb 17, 7:45, Good Morning Benbrook.
+- **Early/evening targets:** Wed Feb 17, 7:45, Good Morning Benbrook.
 
 ### Week 7 · Feb 22–26
 - **Talk:** Tue Feb 23, 12:00, **Rotary FW South** (River Crest) · Fri Feb 26, 12:00, Rotary FW (*alt* Riverside Lions 11:45). Plus 1 fill.
 - **Visits:** Thu Feb 25, 12:00, Kennedale Rotary.
 - **Volunteer:** Alzheimer's Association session.
 - **Fill:** Crowley ISD second campus · Christ Chapel · Benbrook Library (2nd program, if the first drew well).
-- **TJ's choice:** Mon Feb 22, 6 pm, Benbrook Lions.
+- **Early/evening targets:** Mon Feb 22, 6 pm, Benbrook Lions.
 
 ### Week 8 · Mar 1–5
 - **Talk:** Thu Mar 4, 11:30, **EFWBA** · Fri Mar 5, 12:00, **Rotary Club of FW** (flagship). Plus 1 fill.
 - **Visits:** none planned (open for a host referral).
 - **Volunteer:** **Wed Mar 3, 11:00, Dementia Friendly FW cafe.**
 - **Fill:** advisor client evening (Chris Wear or an FPA member) · employer site · church class.
-- **TJ's choice:** Wed Mar 3, 7:45, Good Morning Benbrook.
+- **Early/evening targets:** Wed Mar 3, 7:45, Good Morning Benbrook.
 - *alt:* Tue Mar 2, Western FW Rotary.
 
 ### Week 9 · Mar 8–12 (some spring breaks start; confirm dates)
@@ -337,7 +337,7 @@ One talk a day, noon preferred.
 - **Visits:** Tue Mar 9, FPA DFW chapter meeting (networking with advisors; time and venue not posted).
 - **Volunteer:** Alzheimer's Association session.
 - **Fill:** Benbrook Senior Center or a Sixty & Better center (seniors are in town over spring break) · library daytime program.
-- **TJ's choice:** Mon Mar 8, 6 pm, Benbrook Lions · Tue Mar 9, 6 pm, Aledo Lions · Thu Mar 11, 7 am, Breakfast Optimist.
+- **Early/evening targets:** Mon Mar 8, 6 pm, Benbrook Lions · Tue Mar 9, 6 pm, Aledo Lions · Thu Mar 11, 7 am, Breakfast Optimist.
 - *alts:* Tue Mar 9, Rotary FW South · Wed Mar 10, Cowtown · Fri Mar 12, Riverside Lions.
 
 ### Week 10 · Mar 15–19 (most school districts' spring break, likely; confirm)
@@ -345,7 +345,7 @@ One talk a day, noon preferred.
 - **Visits:** none.
 - **Volunteer:** **Wed Mar 17, 11:00, Dementia Friendly FW cafe.**
 - **Fill:** employers (not schools this week) · AAA or James L. West caregiver session.
-- **TJ's choice:** Wed Mar 17, 7:45, Good Morning Benbrook.
+- **Early/evening targets:** Wed Mar 17, 7:45, Good Morning Benbrook.
 - *alts:* Thu Mar 18, Everman Lions · Fri Mar 19, Optimist FW / Dementia Friendly FW 3rd Fri.
 
 ### Week 11 · Mar 22–26 (Holy Week; Good Friday Mar 26, Easter Mar 28)
@@ -353,7 +353,7 @@ One talk a day, noon preferred.
 - **No church talks this week. Fri Mar 26 is likely dark** (Rotary FW and Riverside Lions, which meets in a church).
 - **Volunteer:** Alzheimer's Association session.
 - **Fill:** employer lunch-and-learn · library program.
-- **TJ's choice:** Mon Mar 22, 6 pm, Benbrook Lions.
+- **Early/evening targets:** Mon Mar 22, 6 pm, Benbrook Lions.
 - *alts:* Mon Mar 22, Kiwanis FW · Wed Mar 24, Cowtown.
 
 ### Week 12 · Mar 29 – Apr 2
@@ -366,13 +366,13 @@ One talk a day, noon preferred.
 - **Talk:** Tue Apr 6, 12:00, Western FW Rotary *alt*, or a second-ring Tuesday Rotary · Fri Apr 9, Riverside Lions or Rotary FW *alt*. Plus 1–2 fill.
 - **Volunteer:** **Wed Apr 7, 11:00, Dementia Friendly FW cafe.**
 - **Fill:** advisor client evening · church class · Benbrook YMCA.
-- **TJ's choice:** Wed Apr 7, 7:45, Good Morning Benbrook · Thu Apr 8, 7 am, Breakfast Optimist.
+- **Early/evening targets:** Wed Apr 7, 7:45, Good Morning Benbrook · Thu Apr 8, 7 am, Breakfast Optimist.
 
 ### Week 14 · Apr 12–16 (Tax Day Apr 15: CPAs and advisors are busy)
 - **Talk:** Tue Apr 13, 12:00, Rotary FW South *alt* · Wed Apr 14, 11:30, Cowtown *alt* · Thu Apr 15 Everman Lions or Fri Apr 16 Optimist FW *alt*.
 - **Volunteer:** Alzheimer's Association session.
 - **Fill:** employer · library · senior center.
-- **TJ's choice:** Mon Apr 12, 6 pm, Benbrook Lions · Tue Apr 13, 6 pm, Aledo Lions.
+- **Early/evening targets:** Mon Apr 12, 6 pm, Benbrook Lions · Tue Apr 13, 6 pm, Aledo Lions.
 - **Book next:** June = Alzheimer's & Brain Awareness Month. Churches, libraries and employers should already be asked by now.
 
 ### What this adds up to
@@ -381,7 +381,7 @@ One talk a day, noon preferred.
   - Western FW Rotary (Feb 2), Benbrook Chamber (Feb, TBD), Founder Lions (Feb 9), Woman's Club (Feb 16), Everman Lions (Feb 18), Rotary FW South (Feb 23);
   - EFWBA (Mar 4), Rotary FW (Mar 5), Kennedale (Mar 11), Stockyards (Mar 15), Dementia Friendly FW (3rd Fri).
 - **Backups:** ~40 *alt* dates.
-- **TJ's choice early/evening rooms:** 5.
+- **Early/evening rooms (open):** 5.
 - **Already-asked far rooms:** ~7.
 - **Fill slots:** ~27 (2 a week), and those carry the goal.
 
@@ -412,7 +412,7 @@ If the 8-week total is under 2/week, add 5 more asks and 5 more calls that week.
 
 ## 6. Open questions for TJ
 
-1. **Early and evening rooms.** Which do you want? Good Morning Benbrook (7:45), Breakfast Optimist (7 am), Benbrook Lions (6 pm Monday, which clashes with the 7 pm Zoom), Aledo Lions (6 pm), Rotary FW East (6:30 pm).
+1. ~~Early and evening rooms~~ — answered 2026-11-24: open for booked talks (only Benbrook Lions' 6 pm Monday is tight before the 7 pm Zoom).
 2. **Drive limit for a noon talk.** ~15 miles, or ~25 (the Colleyville, Keller and HEB Rotaries you already emailed)?
 3. **Alzheimer's Educator talks.** Do they count as the volunteer slot, or toward the 3 talks a week?
 4. **Two talks in one day** (noon + 2 pm), OK on busy weeks?
