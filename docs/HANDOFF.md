@@ -17,7 +17,7 @@
 - Western Fort Worth Rotary (Ridglea CC, 1st/3rd Tuesdays noon; president Shellie Gardner): TJ visits in person Tue Dec 1 (backup Dec 15).
 - Warm lead on side burner: Chris Wear, Lead Concepts. TJ gives him The Uninsured Decade (retail copy, week of Nov 23), then regroups for advisor names; nudge by Dec 15.
 - Speaker page LIVE: my4mlife.com/speaking (form → email-sender formId `speaking-inquiry`).
-- Talk deck v4.4 + editions in docs/talk (`--edition=main|evening|guest`, `--host=`); finished files in docs/talk/release/ and ~/Downloads. Advisor host sheet (TJ's Claude Doc "Host the talk: The Uninsured Decade"): https://claude.ai/artifact/GxsvKzxAzSxQ2xSb4pgbmZ
+- Talk deck v4.5 (2026-11-24, TJ: slide 6 headline = 'Don't lose your identity and your dignity / while you still have a choice.', matching the card; notes 6 + 13 updated) + editions in docs/talk (`--edition=main|evening|guest`, `--host=`); finished files in docs/talk/release/ and ~/Downloads. Advisor host sheet (TJ's Claude Doc "Host the talk: The Uninsured Decade"): https://claude.ai/artifact/GxsvKzxAzSxQ2xSb4pgbmZ
 - Volunteer track: Alzheimer's Association North Central Texas Community Educator (TJ to apply), Walk to End Alzheimer's FW fall 2027, Dementia Friendly Fort Worth. See docs/launch/speaking/2027-plan.md.
 
 **Blocked on TJ (most urgent first)**
