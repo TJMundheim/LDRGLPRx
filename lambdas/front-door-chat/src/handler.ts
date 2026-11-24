@@ -10,7 +10,7 @@ import { saveTurn } from './store';
 import { reply, validateRequest, type ChatRequest } from './validate';
 import { SAFE_FALLBACK } from './config';
 import { applyRoute } from './route';
-import { scrubReta } from './scrub.mjs';
+import { scrubReta, dropCoordinatorMentions } from './scrub.mjs';
 import { AGE_RETRY, PRICE_RETRY, ULTRA_RETRY } from './rules';
 
 const RETRY_NOTE: Record<string, string> = { price: PRICE_RETRY, age: AGE_RETRY, ultra: ULTRA_RETRY };
@@ -35,7 +35,8 @@ export async function respond(req: ChatRequest) {
     result = guard(await invokeChat(`${system}\n${notes.join('\n')}`, messages));
   }
   const routed = applyRoute(result, req.message);
-  return { ...routed, reply: scrubReta(routed.reply), links: routed.links.map((l) => ({ label: scrubReta(l.label), url: scrubReta(l.url) })) };
+  const reply = routed.exit === 'glp1' ? dropCoordinatorMentions(routed.reply) || routed.reply : routed.reply;
+  return { ...routed, reply: scrubReta(reply), links: routed.links.map((l) => ({ label: scrubReta(l.label), url: scrubReta(l.url) })) };
 }
 
 export const handler = async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
