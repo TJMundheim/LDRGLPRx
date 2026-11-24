@@ -2,7 +2,7 @@
   import { decidePushPatchAdmin, listPushPatchProviders, type EncounterAdmin, type PushPatchProvider } from '../../api/operations.js';
   import PushPatchRefund from './PushPatchRefund.svelte';
   import { isPushPatch } from './refund.js';
-  import { stateLabel, canDecide, paidLabel, decidedByLabel, when, providerLabel, CONFIRM } from './pushPatch.js';
+  import { stateLabel, canDecide, isGlp1Order, glp1Name, GLP1_DOSES, GLP1_REFILL_NOTE, paidLabel, decidedByLabel, when, providerLabel, CONFIRM } from './pushPatch.js';
 
   let { contactId, enc, name, onchanged }: {
     contactId: string; enc: EncounterAdmin; name: string; onchanged: () => void | Promise<void>;
@@ -15,6 +15,16 @@
   let providers = $state<PushPatchProvider[]>([]);
   let providerId = $state('');
   let loading: Promise<void> | null = null;
+  const glp1 = $derived(isGlp1Order(enc));
+  // Unknown sku: offer every list (the server stays the gate); known sku: only its own.
+  const doseGroups = $derived(
+    enc.skuId && GLP1_DOSES[enc.skuId] ? [[null, GLP1_DOSES[enc.skuId]!]] as [string | null, string[]][]
+      : Object.entries(GLP1_DOSES).map(([k, v]) => [glp1Name(k), v] as [string | null, string[]]),
+  );
+  let doseChoice = $state('');
+  let doseOther = $state('');
+  const dose = $derived((doseChoice === 'other' ? doseOther : doseChoice).trim().slice(0, 60));
+  const needDose = $derived(glp1 && pending === 'approve' && !dose);
 
   // Roster is best-effort: on any failure the picker is simply absent and the server default signs.
   function loadProviders(): Promise<void> {
@@ -34,7 +44,7 @@
     try {
       if (action === 'approve') await loadProviders();
       const withProvider = action === 'approve' && providerId ? { providerId } : {};
-      const r = (await decidePushPatchAdmin({ contactId, encounterId: enc.encounterId, action, ...withProvider })).decidePushPatchAdmin;
+      const r = (await decidePushPatchAdmin({ contactId, encounterId: enc.encounterId, action, ...withProvider, ...(action === 'approve' && glp1 ? { dose } : {}) })).decidePushPatchAdmin;
       if (r.ok) {
         pending = null;
         if (r.mailOk === false) notice = 'Decision recorded, but an email failed to send. Notify the patient or coordinator.';
@@ -49,8 +59,12 @@
   }
 </script>
 
-{#if isPushPatch(enc)}
+{#if isPushPatch(enc) || glp1}
   <div class="pp-panel">
+    {#if glp1}
+      <div class="pp-line"><b>{glp1Name(enc.skuId)}</b></div>
+      <div class="pp-line muted">{GLP1_REFILL_NOTE}</div>
+    {/if}
     <div class="pp-paid">{paidLabel(enc)}</div>
     <div class="pp-line">Status: <b>{stateLabel(enc.state)}</b></div>
     {#if enc.decidedAt || enc.decidedBy}
@@ -77,8 +91,23 @@
               {#each providers as p (p.id)}<option value={p.id}>{providerLabel(p)}</option>{/each}
             </select>
           {/if}
+          {#if glp1 && pending === 'approve'}
+            <label class="signing" for="pp-dose-{enc.encounterId}">Weekly dose</label>
+            <select id="pp-dose-{enc.encounterId}" class="psel" bind:value={doseChoice} disabled={busy}>
+              <option value="">Choose a dose</option>
+              {#each doseGroups as [label, list] (label ?? 'one')}
+                {#if label}<optgroup {label}>{#each list as d (d)}<option value="{d} mg">{d} mg</option>{/each}</optgroup>
+                {:else}{#each list as d (d)}<option value="{d} mg">{d} mg</option>{/each}{/if}
+              {/each}
+              <option value="other">Other (type it)</option>
+            </select>
+            {#if doseChoice === 'other'}
+              <label class="signing" for="pp-dose-other-{enc.encounterId}">Type the dose</label>
+              <input id="pp-dose-other-{enc.encounterId}" class="psel" type="text" maxlength="60" bind:value={doseOther} disabled={busy} />
+            {/if}
+          {/if}
           <div class="cacts">
-            <button class="gbtn" disabled={busy} onclick={() => decide(pending!)}>
+            <button class="gbtn" disabled={busy || needDose} onclick={() => decide(pending!)}>
               {busy ? 'Saving…' : pending === 'approve' ? 'Confirm approve' : 'Confirm decline'}
             </button>
             <button class="obtn" disabled={busy} onclick={() => (pending = null)}>Cancel</button>

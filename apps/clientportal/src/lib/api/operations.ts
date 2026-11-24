@@ -433,6 +433,8 @@ export interface EncounterAdmin {
   decidedBy?: string | null;
   /** Push Patch: placed at the $2 test price. */
   testOrder?: boolean | null;
+  /** GLP-1 product (glp1-sema | glp1-tirzep | glp1-reta); from the encounter's sku. */
+  skuId?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -485,7 +487,7 @@ function parsePatientRecord(raw: PatientRecordAdmin): PatientRecordAdmin {
   };
 }
 
-const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents providerSentTo providerSentAt packetKey amountCents refundStatus refundDueBy refundedAt genesisOrderSentAt decidedAt decidedBy testOrder createdAt updatedAt`;
+const ENCOUNTER_FIELDS = `encounterId category state visitType lane laneLabel priceCents providerSentTo providerSentAt packetKey amountCents refundStatus refundDueBy refundedAt genesisOrderSentAt decidedAt decidedBy testOrder skuId createdAt updatedAt`;
 const BRIEF_FIELDS = `encounterId json createdAt`;
 const PLAN_FIELDS = `encounterId state json createdAt sentAt`;
 
@@ -651,13 +653,13 @@ export type PushPatchDecisionResult = {
 };
 
 export async function decidePushPatchAdmin(
-  input: { contactId: string; encounterId: string; action: 'approve' | 'decline'; providerId?: string },
+  input: { contactId: string; encounterId: string; action: 'approve' | 'decline'; providerId?: string; refills?: number; dose?: string },
   opts?: ClientOptions,
 ): Promise<{ decidePushPatchAdmin: PushPatchDecisionResult }> {
   return client(opts)<{ decidePushPatchAdmin: PushPatchDecisionResult }>({
     query: `
-      mutation DecidePushPatchAdmin($contactId: ID!, $encounterId: ID!, $action: String!, $providerId: ID) {
-        decidePushPatchAdmin(contactId: $contactId, encounterId: $encounterId, action: $action, providerId: $providerId) {
+      mutation DecidePushPatchAdmin($contactId: ID!, $encounterId: ID!, $action: String!, $providerId: ID, $refills: Int, $dose: String) {
+        decidePushPatchAdmin(contactId: $contactId, encounterId: $encounterId, action: $action, providerId: $providerId, refills: $refills, dose: $dose) {
           ok state mailOk code error
         }
       }
@@ -665,6 +667,8 @@ export async function decidePushPatchAdmin(
     variables: {
       contactId: input.contactId, encounterId: input.encounterId, action: input.action,
       ...(input.providerId ? { providerId: input.providerId } : {}),
+      ...(typeof input.refills === 'number' ? { refills: input.refills } : {}),
+      ...(input.dose ? { dose: input.dose } : {}),
     },
   });
 }

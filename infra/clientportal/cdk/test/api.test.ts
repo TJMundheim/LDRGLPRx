@@ -84,16 +84,17 @@ describe('decidePushPatchAdmin wiring', () => {
 
   it('declares an Admins-only mutation + result type in the schema', () => {
     const schema = read('../../appsync/schema.graphql');
-    expect(schema).toMatch(/decidePushPatchAdmin\(contactId: ID!, encounterId: ID!, action: String!, providerId: ID\): PushPatchDecisionResult\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
+    expect(schema).toMatch(/decidePushPatchAdmin\(contactId: ID!, encounterId: ID!, action: String!, providerId: ID, refills: Int, dose: String\): PushPatchDecisionResult\s+@aws_auth\(cognito_groups: \["Admins"\]\)/);
     expect(schema).toMatch(/type PushPatchDecisionResult \{/);
   });
 
   it('exposes the decision fields on EncounterAdmin and maps them in getPatientRecordAdmin', () => {
     const schema = read('../../appsync/schema.graphql');
     const enc = schema.slice(schema.indexOf('type EncounterAdmin {'), schema.indexOf('type BriefAdmin'));
-    for (const f of ['genesisOrderSentAt: AWSDateTime', 'decidedAt: AWSDateTime', 'decidedBy: String', 'testOrder: Boolean']) expect(enc).toContain(f);
+    for (const f of ['genesisOrderSentAt: AWSDateTime', 'decidedAt: AWSDateTime', 'decidedBy: String', 'testOrder: Boolean', 'skuId: String']) expect(enc).toContain(f);
     const res = read('../resolvers/getPatientRecordAdmin.js');
     for (const f of ['genesisOrderSentAt', 'decidedAt', 'decidedBy', 'testOrder']) expect(res).toMatch(new RegExp(`${f}: item\\.${f}`));
+    expect(res).toMatch(/skuId: item\.sku \?/);
   });
 
   it('resolver rejects non-admins before invoking the Lambda', () => {

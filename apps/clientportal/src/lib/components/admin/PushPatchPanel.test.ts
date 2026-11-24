@@ -25,7 +25,7 @@ beforeEach(() => { vi.clearAllMocks(); roster(MOLINA, SMITH); });
 
 describe('PushPatchPanel', () => {
   it('renders nothing for non push-patch encounters', () => {
-    const { container } = render(PushPatchPanel, { contactId: 'c1', enc: enc({ lane: 'glp1' }), name: 'x', onchanged: vi.fn() });
+    const { container } = render(PushPatchPanel, { contactId: 'c1', enc: enc({ lane: 'rx' }), name: 'x', onchanged: vi.fn() });
     expect(container.textContent?.trim()).toBe('');
   });
 
@@ -169,5 +169,81 @@ describe('PushPatchPanel', () => {
   it('keeps the refund behaviour for declined + pending', () => {
     mount(enc({ state: 'declined', refundStatus: 'pending', refundDueBy: '2099-01-01' }));
     expect(screen.getByRole('button', { name: 'Issue refund' })).toBeTruthy();
+  });
+
+  describe('GLP-1 order (g1-)', () => {
+    const g = (sku = 'glp1-sema', o: Record<string, unknown> = {}) => enc({ encounterId: 'g1-cs_1', lane: 'glp1', category: 'glp1', skuId: sku, ...o });
+    const opts = (sel: HTMLElement) => Array.from((sel as HTMLSelectElement).options).map((o) => o.textContent?.trim());
+    const approve = async () => { await fireEvent.click(screen.getByRole('button', { name: 'Approve' })); return (await screen.findByLabelText('Weekly dose')) as HTMLSelectElement; };
+
+    it('shows the product name and the 4-week refund wording', () => {
+      mount(g('glp1-tirzep'));
+      expect(screen.getByText('GLP-2 · Tirzep (tirzepatide)')).toBeTruthy();
+      expect(screen.getByText(/one month each, every 4 weeks/)).toBeTruthy();
+      expect(screen.queryByText(/6-week/)).toBeNull();
+    });
+
+    it.each([
+      ['glp1-sema', ['Choose a dose', '0.25 mg', '0.5 mg', '1 mg', '1.7 mg', '2.4 mg', 'Other (type it)']],
+      ['glp1-tirzep', ['Choose a dose', '2.5 mg', '5 mg', '7.5 mg', '10 mg', '12.5 mg', '15 mg', 'Other (type it)']],
+      ['glp1-reta', ['Choose a dose', '2 mg', '4 mg', '8 mg', '12 mg', 'Other (type it)']],
+    ])('%s shows only its own doses', async (sku, expected) => {
+      mount(g(sku));
+      expect(opts(await approve())).toEqual(expected);
+    });
+
+    it('Push Patch shows no dose dropdown', async () => {
+      mount();
+      await fireEvent.click(screen.getByRole('button', { name: 'Approve' }));
+      await screen.findByLabelText('Signing as');
+      expect(screen.queryByLabelText('Weekly dose')).toBeNull();
+    });
+
+    it('Confirm approve is disabled until a dose is chosen, and Other needs text', async () => {
+      mount(g());
+      const sel = await approve();
+      const btn = screen.getByRole('button', { name: 'Confirm approve' }) as HTMLButtonElement;
+      expect(btn.disabled).toBe(true);
+      await fireEvent.change(sel, { target: { value: 'other' } });
+      expect(btn.disabled).toBe(true);
+      await fireEvent.input(screen.getByLabelText('Type the dose'), { target: { value: '3 mg' } });
+      expect(btn.disabled).toBe(false);
+    });
+
+    it('sends the chosen dose in the mutation', async () => {
+      decide.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'script-written', mailOk: true } });
+      const onchanged = mount(g());
+      await fireEvent.change(await approve(), { target: { value: '0.5 mg' } });
+      await fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
+      await waitFor(() => expect(onchanged).toHaveBeenCalled());
+      expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'g1-cs_1', action: 'approve', providerId: 'molina', dose: '0.5 mg' });
+    });
+
+    it('sends typed Other text as the dose', async () => {
+      decide.mockResolvedValue({ decidePushPatchAdmin: { ok: true } });
+      mount(g());
+      await fireEvent.change(await approve(), { target: { value: 'other' } });
+      await fireEvent.input(screen.getByLabelText('Type the dose'), { target: { value: ' 3 mg ' } });
+      await fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
+      await waitFor(() => expect(decide).toHaveBeenCalled());
+      expect((decide.mock.calls[0]![0] as any).dose).toBe('3 mg');
+    });
+
+    it('decline sends no dose and shows no dropdown', async () => {
+      decide.mockResolvedValue({ decidePushPatchAdmin: { ok: true } });
+      mount(g());
+      await fireEvent.click(screen.getByRole('button', { name: 'Decline' }));
+      expect(screen.queryByLabelText('Weekly dose')).toBeNull();
+      await fireEvent.click(screen.getByRole('button', { name: 'Confirm decline' }));
+      await waitFor(() => expect(decide).toHaveBeenCalledWith({ contactId: 'c1', encounterId: 'g1-cs_1', action: 'decline' }));
+    });
+
+    it('shows the dose_required error', async () => {
+      decide.mockResolvedValue({ decidePushPatchAdmin: { ok: false, code: 'dose_required', error: 'Choose a dose first.' } });
+      mount(g());
+      await fireEvent.change(await approve(), { target: { value: '1 mg' } });
+      await fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
+      await waitFor(() => expect(screen.getByText('Choose a dose first.')).toBeTruthy());
+    });
   });
 });

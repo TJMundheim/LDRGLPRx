@@ -255,7 +255,7 @@ describe('decidePushPatchAdmin', () => {
     mockRequest.mockResolvedValue({ decidePushPatchAdmin: { ok: true, state: 'script-written', mailOk: true } });
     const res = await decidePushPatchAdmin({ contactId: 'c1', encounterId: 'pp-1', action: 'approve' });
     const [{ query, variables }] = mockRequest.mock.calls[0] as [{ query: string; variables: unknown }][];
-    expect(query).toMatch(/decidePushPatchAdmin\(contactId: \$contactId, encounterId: \$encounterId, action: \$action, providerId: \$providerId\)/);
+    expect(query).toMatch(/decidePushPatchAdmin\(contactId: \$contactId, encounterId: \$encounterId, action: \$action, providerId: \$providerId, refills: \$refills, dose: \$dose\)/);
     expect(query).toMatch(/\$providerId: ID\b/);
     expect(variables).toEqual({ contactId: 'c1', encounterId: 'pp-1', action: 'approve' });
     expect(res.decidePushPatchAdmin.ok).toBe(true);
@@ -266,6 +266,15 @@ describe('decidePushPatchAdmin', () => {
     await decidePushPatchAdmin({ contactId: 'c1', encounterId: 'pp-1', action: 'approve', providerId: 'molina' });
     const { variables } = mockRequest.mock.calls[0]![0] as { variables: unknown };
     expect(variables).toEqual({ contactId: 'c1', encounterId: 'pp-1', action: 'approve', providerId: 'molina' });
+  });
+
+  it('includes dose and refills in query and variables when given', async () => {
+    mockRequest.mockResolvedValue({ decidePushPatchAdmin: { ok: true } });
+    await decidePushPatchAdmin({ contactId: 'c1', encounterId: 'g1-x', action: 'approve', dose: '0.5 mg', refills: 3 });
+    const { query, variables } = mockRequest.mock.calls[0]![0] as { query: string; variables: unknown };
+    expect(query).toMatch(/\$dose: String\b/);
+    expect(query).toMatch(/\$refills: Int\b/);
+    expect(variables).toEqual({ contactId: 'c1', encounterId: 'g1-x', action: 'approve', dose: '0.5 mg', refills: 3 });
   });
 
   it('listPushPatchProviders queries id name credentials default (never the inbox)', async () => {

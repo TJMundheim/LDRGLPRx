@@ -57,6 +57,7 @@ export function response(ctx) {
         decidedAt: item.decidedAt ? item.decidedAt : null,
         decidedBy: item.decidedBy ? item.decidedBy : null,
         testOrder: item.testOrder === true ? true : null,
+        skuId: item.sku ? item.sku : null,
         createdAt: item.createdAt ? item.createdAt : null,
         updatedAt: item.updatedAt ? item.updatedAt : null,
       };

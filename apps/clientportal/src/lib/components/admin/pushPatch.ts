@@ -7,7 +7,24 @@ export const stateLabel = (state: string): string =>
     : state === 'declined' ? 'Declined'
     : state;
 
-export const canDecide = (e: EncounterAdmin): boolean => e.lane === 'push-patch' && e.state === 'sent-to-provider';
+/** A paid GLP-1 order (encounter g1-<sessionId>, lane glp1). Legacy coordinator glp1 encounters don't match. */
+export const isGlp1Order = (e: EncounterAdmin): boolean => e.lane === 'glp1' && e.encounterId.startsWith('g1-');
+
+export const canDecide = (e: EncounterAdmin): boolean => (e.lane === 'push-patch' || isGlp1Order(e)) && e.state === 'sent-to-provider';
+
+export const GLP1_NAMES: Record<string, string> = {
+  'glp1-sema': 'GLP-1 · Sema (semaglutide)',
+  'glp1-tirzep': 'GLP-2 · Tirzep (tirzepatide)',
+  'glp1-reta': 'GLP-3 · Reta',
+};
+/** Weekly mg dose lists, same as the physician email link. */
+export const GLP1_DOSES: Record<string, string[]> = {
+  'glp1-sema': ['0.25', '0.5', '1', '1.7', '2.4'],
+  'glp1-tirzep': ['2.5', '5', '7.5', '10', '12.5', '15'],
+  'glp1-reta': ['2', '4', '8', '12'],
+};
+export const glp1Name = (sku?: string | null): string => (sku && GLP1_NAMES[sku]) || 'GLP-1';
+export const GLP1_REFILL_NOTE = 'Refills are one month each, every 4 weeks.';
 
 export function paidLabel(e: EncounterAdmin): string {
   const amt = typeof e.amountCents === 'number' && e.amountCents > 0 ? `$${(e.amountCents / 100).toFixed(2)}` : 'amount not recorded';

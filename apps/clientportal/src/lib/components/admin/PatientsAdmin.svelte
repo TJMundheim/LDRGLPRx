@@ -26,6 +26,7 @@
   } from './patientBrief.js';
   import PushPatchPanel from './PushPatchPanel.svelte';
   import { isPushPatch } from './refund.js';
+  import { isGlp1Order } from './pushPatch.js';
   import { sortEncountersNewestFirst, latestEncounter } from './encounterOrder.js';
   import { parseConsents, consentChecklist, providerReady, cardOnFileRow, consentAction, type ConsentsMap } from './consents.js';
 
@@ -827,7 +828,7 @@
 
                   <!-- Encounters -->
                   {#each sortEncountersNewestFirst(detail.encounters) as enc2 (enc2.encounterId)}
-                    {@const pp = isPushPatch(enc2)}
+                    {@const pp = isPushPatch(enc2) || isGlp1Order(enc2)}
                     {@const nexts = nextStates(enc2.state)}
                     {@const cform = getChargeForm(enc2)}
                     {@const estate = getExportState(enc2.encounterId)}

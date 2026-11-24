@@ -556,6 +556,7 @@ type EncounterAdmin {
   decidedAt: AWSDateTime
   decidedBy: String
   testOrder: Boolean
+  skuId: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }
@@ -730,7 +731,7 @@ type Mutation {
     @aws_auth(cognito_groups: ["Admins"])
   refundEncounterAdmin(contactId: ID!, encounterId: ID!): EncounterRefundResult
     @aws_auth(cognito_groups: ["Admins"])
-  decidePushPatchAdmin(contactId: ID!, encounterId: ID!, action: String!, providerId: ID): PushPatchDecisionResult
+  decidePushPatchAdmin(contactId: ID!, encounterId: ID!, action: String!, providerId: ID, refills: Int, dose: String): PushPatchDecisionResult
     @aws_auth(cognito_groups: ["Admins"])
   exportClinicalPacketAdmin(contactId: ID!, encounterId: ID!): PacketResultAdmin
     @aws_auth(cognito_groups: ["Admins"])
