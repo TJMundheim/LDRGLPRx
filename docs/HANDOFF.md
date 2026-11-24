@@ -13,6 +13,7 @@
 
 **Speaking state**
 - Batch 1 (10 groups) sent + delivered 2026-11-20; follow-ups due Dec 2. Tracker: docs/launch/speaking/talk-log.md.
+- PAUSE (TJ 2026-11-24): no speaking outreach during Thanksgiving week; resume Mon Nov 30. Batch 2 (15 drafts, NOT SENT) goes out Mon Nov 30 with batch 3, on TJ's "send".
 - Western Fort Worth Rotary (Ridglea CC, 1st/3rd Tuesdays noon; president Shellie Gardner): TJ visits in person Tue Dec 1 (backup Dec 15).
 - Warm lead on side burner: Chris Wear, Lead Concepts. TJ gives him The Uninsured Decade (retail copy, week of Nov 23), then regroups for advisor names; nudge by Dec 15.
 - Speaker page LIVE: my4mlife.com/speaking (form → email-sender formId `speaking-inquiry`).
