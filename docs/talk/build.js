@@ -7,7 +7,7 @@ const sharp = require("sharp");
 const fa = require("react-icons/fa");
 const SK = process.env.PPTX_SKILL_SCRIPTS || "/Users/thomasmundheim/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/05f0a689-b3bd-417f-9fb8-dc2d26526007/528874af-4eef-44bb-93b2-cdc75c7de2f7/skills/pptx/scripts/apply_theme.js";
 const { applyTheme } = require(SK);
-const OUT = process.argv[2] || "My4MLife_Talk_v4_4.pptx";
+const OUT = process.argv[2] || "My4MLife_Talk_v4_5.pptx";
 // Editions (one source, three talks): main (full talk) · evening (advisor client evening, ~35 min + host's 5)
 // · guest (10-minute guest spot inside an advisor's own dinner seminar). Usage: node build.js out.pptx --edition=guest --host="Jane Smith"
 const ARG = (k) => (process.argv.find((a) => a.startsWith(`--${k}=`)) || "").slice(k.length + 3);
@@ -160,8 +160,9 @@ async function icon(name, color) {
   }
   if (inc(6)) {
     // v4.4 (TJ 2026-11-20): mission up front + the three books as a staircase, smallest step first.
-    const s = slide("MAIN", "Opening", "Keep your mind. Keep who you are.");
-    txt(s, "Your identity and your dignity, while you still have a choice.", { x: M + 0.2, y: 1.28, w: CW - 0.4, h: 0.5, fontSize: 22, italic: true, color: K.goldL, valign: "top" });
+    // v4.5 (TJ 2026-11-24): headline = the brand line, same wording and break as the handshake card.
+    const s = slide("MAIN", "Opening", "Don't lose your identity and your dignity");
+    txt(s, "while you still have a choice.", { x: M + 0.2, y: 1.28, w: CW - 0.4, h: 0.5, fontSize: 22, italic: true, color: K.goldL, valign: "top", align: "center" });
     const steps = [
       ["BODY", K.red, "cys", "Count Yourself Skinny", "The first step", "Count your chews. Walk at least 2,500 steps a day."],
       ["BANK", K.burg, "ud", "The Uninsured Decade", "The reason", "What ten years of care costs a family, plus the 4M basics."],

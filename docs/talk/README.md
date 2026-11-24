@@ -15,7 +15,7 @@ Current version: **v4.4** (35 slides, 36-page presenter script). Edit the source
 - `--edition=guest`: 10-minute guest spot inside an advisor's own dinner seminar (chew count, midlife, raise-your-hand, 42%, who writes the check, Medicare $0, the bill, the premium + calculator, one-QR close). Script lineage: docs/launch/uninsured-decade/dinner-guest-slot.md.
 - `--host="Jane Smith"` puts the host's name on the handoff/close slides; without it they say "Your host" / "Thank you for having me".
 - Edition speaker notes live in `notes_editions.json` (keyed by main-deck slide number; `host` and `close` for the edition-only slides).
-- Example: `node build.js ~/Downloads/My4MLife_Talk_Advisor_10min_v4_4.pptx --edition=guest --host="Jane Smith"`, then render into `slides_guest` and run script.py with that folder.
+- Example: `node build.js ~/Downloads/My4MLife_Talk_Advisor_10min_v4_5.pptx --edition=guest --host="Jane Smith"`, then render into `slides_guest` and run script.py with that folder.
 
 ## One-time setup
 ```
@@ -30,10 +30,10 @@ build.js calls the pptx skill's `apply_theme.js`. Set `PPTX_SKILL_SCRIPTS` to th
 ## Rebuild for a talk
 1. QR codes with the event tag (must be `talk-<event>`, e.g. `talk-rotary-dec`; default is `talk-general`):
    `python3 qr.py talk-rotary-dec`
-2. Deck: `node build.js ~/Downloads/My4MLife_Talk_v4_4.pptx`
-3. Slide images: `./render_slides.sh ~/Downloads/My4MLife_Talk_v4_4.pptx slides`
+2. Deck: `node build.js ~/Downloads/My4MLife_Talk_v4_5.pptx`
+3. Slide images: `./render_slides.sh ~/Downloads/My4MLife_Talk_v4_5.pptx slides`
    (opens Keynote, exports JPEGs, quits without saving; first run may ask for Automation permission for Keynote; images land in `slides/` as sl-01.jpg ...)
-4. Script PDF: `python3 script.py ~/Downloads/My4MLife_Talk_v4_4.pptx ~/Downloads/My4MLife_Talk_Presenter_Script_v4_4.pdf 4.4 slides`
+4. Script PDF: `python3 script.py ~/Downloads/My4MLife_Talk_v4_5.pptx ~/Downloads/My4MLife_Talk_Presenter_Script_v4_5.pdf 4.5 slides`
 
 Keynote renders differ slightly from PowerPoint (fonts), so images are for the presenter script and layout checks only.
 
