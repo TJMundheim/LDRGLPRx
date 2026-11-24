@@ -106,7 +106,7 @@ def back(c):
     cols = [
         (W * 0.29, ASSESS_URL, "Your free MindSpan", "assessment", ["5 minutes, on your phone"]),
         (W * 0.71, SPEAK_URL, "Book a free talk", "for your group",
-         ["Financial advisors, estate attorneys,", "employers, civic clubs, churches,", "health clubs"]),
+         ["Financial advisors, estate attorneys,", "employers, civic clubs, churches,", "health clubs, libraries"]),
     ]
     size, lead = 64, 7.6
     most = max(len(sub) for *_, sub in cols)
