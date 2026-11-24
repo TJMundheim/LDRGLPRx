@@ -260,3 +260,55 @@ describe('guard — Rx formula (standalone BPC-157 allowed)', () => {
     expect(guard('Biome NS Rx is made with aloe vera.').blocked).toBe(true);
   });
 });
+
+import { COORDINATOR_RULE, FORMAT_RULES, GLP1_RULE } from './rules';
+import { GLP1_PATH } from './config';
+describe('glp1 exit', () => {
+  it.each([
+    'Can I get semaglutide through you?',
+    'What is GLP-3 Reta?',
+    'Tell me about Ozempic and Zepbound',
+    'Is there a weight loss shot I can take?',
+    'How much is tirzepatide?',
+  ])('routes to glp1: %s', (q) => { expect(exitFor(q)).toBe('glp1'); });
+  it('keeps gut and other questions on their old exits', () => {
+    expect(exitFor('What is in the gut program?')).toBe('consult');
+    expect(exitFor('What dose of testosterone should I take?')).toBe('consult');
+    expect(exitFor('Is this program for me?')).toBeNull();
+  });
+  it('personal details still win over glp1', () => {
+    expect(exitFor('My name is John, I take semaglutide')).toBe('assessment');
+  });
+  it('swaps in the glp1 door with the right label and url', () => {
+    const base = { reply: 'x', exit: 'consult' as const, blocked: false,
+      links: [{ label: 'a', url: 'https://my4mlife.com/consult' }] };
+    const r = applyRoute(base, 'Can I get semaglutide?');
+    expect(r.exit).toBe('glp1');
+    expect(r.links).toEqual([{ label: 'See your GLP options', url: 'https://my4mlife.com/go/glp-1' }]);
+    const blocked = { ...base, blocked: true };
+    expect(applyRoute(blocked, 'Can I get semaglutide?')).toBe(blocked);
+  });
+  it('guard keeps /go/glp-1 as the single exit with its label', () => {
+    const r = guard('Semaglutide is one of three options.\n/go/glp-1');
+    expect(GLP1_PATH).toBe('/go/glp-1');
+    expect(r.exit).toBe('glp1');
+    expect(r.blocked).toBe(false);
+    expect(r.links).toEqual([{ label: 'See your GLP options', url: 'https://my4mlife.com/go/glp-1' }]);
+    expect(r.reply).not.toContain('/go/glp-1');
+  });
+  it('guard strips non-allowlisted paths and keeps fallback on /consult', () => {
+    const r = guard('See /go/other and /go/glp-1');
+    expect(r.links.map((l) => l.url)).toEqual(['https://my4mlife.com/go/glp-1']);
+    const b = guard('You will pay $99. /go/glp-1');
+    expect(b.blocked).toBe(true);
+    expect(b.exit).toBe('consult');
+  });
+  it('rules name the exit, forbid price/buy, and contain no price', () => {
+    expect(FORMAT_RULES).toContain('/go/glp-1');
+    expect(COORDINATOR_RULE).toContain('/go/glp-1');
+    expect(GLP1_RULE).toContain('See your GLP options');
+    expect(GLP1_RULE).not.toMatch(/\$\s?\d/);
+    expect(GLP1_RULE).toMatch(/never state a price/i);
+    expect(GLP1_RULE).toMatch(/retatrutide/i);
+  });
+});

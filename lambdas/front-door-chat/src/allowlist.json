@@ -1,5 +1,5 @@
 {
-  "comment": "Allowlist of site paths the front-door chat may link to. Generated from website/src/pages; questionnaires, /go/* landing pages and 404 excluded on purpose.",
+  "comment": "Allowlist of site paths the front-door chat may link to. Generated from website/src/pages; questionnaires, other /go/* landing pages and 404 excluded on purpose.",
   "origins": [
     "https://my4mlife.com",
     "https://www.my4mlife.com"
@@ -33,6 +33,7 @@
     "/fast-start",
     "/genesis-rpa",
     "/get-the-book",
+    "/go/glp-1",
     "/links",
     "/meals",
     "/membership",

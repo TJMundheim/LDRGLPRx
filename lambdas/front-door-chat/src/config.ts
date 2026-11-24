@@ -33,9 +33,12 @@ export const MAX_HISTORY_CHARS = 4000;
 
 export const ALLOWED_ORIGINS = ['https://my4mlife.com', 'https://www.my4mlife.com'];
 
-/** The two exits. Nothing else is a destination. */
+/** The three exits. Nothing else is a destination. */
 export const ASSESSMENT_PATH = '/assessment';
 export const CONSULT_PATH = '/consult';
+/** GLP-1 medication questions exit to the direct-buy landing page (TJ 2026-11-23). */
+export const GLP1_PATH = '/go/glp-1';
+export const GLP1_LABEL = 'See your GLP options';
 
 /** Shown when the guard rejects a model reply outright. */
 export const SAFE_FALLBACK =

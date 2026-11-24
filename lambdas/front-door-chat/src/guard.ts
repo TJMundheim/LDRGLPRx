@@ -2,12 +2,12 @@
 // Three jobs: strip links that are not on the allowlist, hard-fail the reply if
 // it contains anything forbidden, and report which exit (if any) it offered.
 import allowlist from './allowlist.json';
-import { ASSESSMENT_PATH, CONSULT_PATH, SAFE_FALLBACK } from './config';
+import { ASSESSMENT_PATH, CONSULT_PATH, GLP1_LABEL, GLP1_PATH, SAFE_FALLBACK } from './config';
 
 const ALLOWED_PATHS = new Set<string>(allowlist.paths);
 const SITE = 'https://my4mlife.com';
 
-export type Exit = 'assessment' | 'consult' | null;
+export type Exit = 'assessment' | 'consult' | 'glp1' | null;
 export interface Link { label: string; url: string }
 export interface GuardResult { reply: string; links: Link[]; exit: Exit; blocked: boolean; blockedBy?: string }
 
@@ -42,6 +42,7 @@ function normalise(raw: string): string | null {
 
 function labelFor(path: string): string {
   if (path === ASSESSMENT_PATH) return 'Take the MindSpan assessment';
+  if (path === GLP1_PATH) return GLP1_LABEL;
   if (path === CONSULT_PATH) return 'Book the free care coordinator call';
   if (path === '/') return 'my4mlife.com';
   const last = path.split('/').filter(Boolean).pop() ?? '';
@@ -59,11 +60,11 @@ export function guard(raw: string): GuardResult {
   }
 
   let page: string | null = null;   // first allowed non-exit page
-  let door: string | null = null;   // first exit (/assessment or /consult)
+  let door: string | null = null;   // first exit (/assessment, /consult or /go/glp-1)
   const stripped = text.replace(URL_RE, (match) => {
     const path = normalise(match);
     if (!path) return '';            // not on the allowlist — remove it entirely
-    const isExit = path === ASSESSMENT_PATH || path === CONSULT_PATH;
+    const isExit = path === ASSESSMENT_PATH || path === CONSULT_PATH || path === GLP1_PATH;
     if (isExit && door === null) door = path;
     if (!isExit && page === null) page = path;
     return '';                       // links are surfaced as buttons, not inline
@@ -75,9 +76,9 @@ export function guard(raw: string): GuardResult {
 
   if (!reply) return { reply: SAFE_FALLBACK, links: [consultLink()], exit: 'consult', blocked: true, blockedBy: 'empty' };
 
-  // Every answer leaves through one of the two doors; the assessment is the default.
+  // Every answer leaves through one of the three doors; the assessment is the default.
   const exitPath: string = door ?? ASSESSMENT_PATH;
-  const exit: Exit = exitPath === CONSULT_PATH ? 'consult' : 'assessment';
+  const exit: Exit = exitPath === CONSULT_PATH ? 'consult' : exitPath === GLP1_PATH ? 'glp1' : 'assessment';
   const toLink = (path: string): Link => ({ label: labelFor(path), url: `${SITE}${path === '/' ? '' : path}` });
   const pagePath: string | null = page;
   const links = pagePath ? [toLink(pagePath), toLink(exitPath)] : [toLink(exitPath)];
