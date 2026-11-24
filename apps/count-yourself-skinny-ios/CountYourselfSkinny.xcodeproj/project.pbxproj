@@ -134,7 +134,7 @@
 		706811B0164105A47E385F96 /* FirstRun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRun.swift; sourceTree = "<group>"; };
 		71C576596B337925DBD96944 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78E4E4732B23D3410E9EBD21 /* MealControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealControllerTests.swift; sourceTree = "<group>"; };
-		7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7A2A44685890D248AA0C77EC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7BEFE6C14CAF26B9CD8DBE23 /* CountYourselfSkinny.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountYourselfSkinny.entitlements; sourceTree = "<group>"; };
 		7CABC28F31B6C464EB38BE29 /* ChewNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChewNumber.swift; sourceTree = "<group>"; };
 		7D077FE8A707A994777F1F1D /* ScreenAwake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAwake.swift; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		8A580DAF19BF346E06D4C251 /* CountYourselfSkinny.Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountYourselfSkinny.Debug.entitlements; sourceTree = "<group>"; };
 		8BF25C83EA8D67E7D7F4B3F5 /* CountYourselfSkinny.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CountYourselfSkinny.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CAE2675539062054646164C /* TrendsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendsCalculator.swift; sourceTree = "<group>"; };
-		8FCC12634015A4C78482C495 /* CountYourselfSkinny.storekit */ = {isa = PBXFileReference; path = CountYourselfSkinny.storekit; sourceTree = "<group>"; };
+		8FCC12634015A4C78482C495 /* CountYourselfSkinny.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = CountYourselfSkinny.storekit; sourceTree = "<group>"; };
 		900F4E0D312DE72864D4F94A /* WeighInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeighInView.swift; sourceTree = "<group>"; };
 		934BAF835CCCF7DFA450A8B0 /* CountStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountStoreTests.swift; sourceTree = "<group>"; };
 		95B4D6209FCAA0DABDFC7AB6 /* MealStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealStore.swift; sourceTree = "<group>"; };
